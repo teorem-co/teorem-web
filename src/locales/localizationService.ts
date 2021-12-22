@@ -18,7 +18,6 @@ i18n
     }
 });
 
-export const { t } = useTranslation();
 
 
 
