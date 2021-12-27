@@ -1,6 +1,6 @@
 import { getAppState } from './getAppState';
 
-export function getToken() {
+export function getUser() {
     const { auth } = getAppState();
-    return auth.token;
+    return auth.user;
 };
