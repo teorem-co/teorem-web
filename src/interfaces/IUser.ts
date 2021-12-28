@@ -2,12 +2,15 @@ import IRole from './IRole';
 
 export default interface IUser {
     id: string;
-    fullName: string;
+    firstName: string;
+    lastName: string;
     email: string;
-    resetPasswordToken: string;
-    dateCreated: string;
+    passwordResetToken: string;
     password: string;
     roleId: string;
-    companyId: string;
-    role?: IRole;
+    countryId: string;
+    dateOfBirth: string;
+    phoneNumber: string;
+    phonePrefix: string;
+    parentId?: string;
 };

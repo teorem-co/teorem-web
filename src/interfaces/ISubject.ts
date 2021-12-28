@@ -1,4 +1,4 @@
-export default interface IRole {
+export default interface ISubject {
     id: string;
     abrv: string;
     name: string;
