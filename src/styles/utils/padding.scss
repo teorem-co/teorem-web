@@ -1,0 +1,55 @@
+/*
+    utils: margins
+*/
+
+/*
+    unit
+    ---------------
+    unit - 4px
+
+    scale
+    ---------------
+    0 - 0px
+    1 - 4px
+    2 - 8px
+    3 - 12px
+    4 - 16px
+    5 - 20px
+    6 - 24px
+    8 - 32px
+    10 - 40px
+    12 - 48px
+    14 - 56px
+    18 - 72px
+    24 - 96px
+*/
+
+.p {
+    @each $modifier,$classModifier in $modifiers {
+        &#{$modifier} {
+            @each $i in $scale {
+                &-#{$i} {
+                    padding#{$classModifier}: calc(#{$unit} * #{$i});
+                }
+            }
+        }
+    }
+}
+
+@each $responsive, $width in $responsiveConfig {
+    @media (min-width: #{$responsive}) {
+        .p {
+            @each $modifier,$classModifier in $modifiers {
+                &#{$modifier} {
+                    &-#{$width} {
+                        @each $i in $scale {
+                            &-#{$i} {
+                                padding#{$classModifier}: calc(#{$unit} * #{$i});
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

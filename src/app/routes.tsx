@@ -1,7 +1,19 @@
 import { Route, Switch, Redirect } from 'react-router-dom';
+import Landing from './pages/Landing';
 import PermissionsGate from './PermissionGate';
 
-const ROUTES: any = [];
+export enum PATHS {
+    ROOT = '/'
+};
+
+const ROUTES: any = [
+    {
+        path: PATHS.ROOT,
+        key: 'ROOT',
+        exact: true,
+        component: () => <Landing />
+    }
+];
 
 export default ROUTES;
 

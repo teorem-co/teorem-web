@@ -1,0 +1,46 @@
+/*
+    components: sidebar
+*/
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow-y: auto;
+
+    &__close {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+    }
+    &__header {
+        padding: 12px;
+        padding-right: 30px;
+    }
+    &__body {
+        flex-grow: 1;
+        margin: 12px;
+    }
+    &__item {
+        display: block;
+        margin-bottom: 4px;
+        margin-left: 16px;
+        cursor: pointer;
+        color: $white;
+
+        &:hover {
+            opacity: 0.8;
+        }
+
+        &--primary {
+            display: block;
+            color: $white;
+            font-weight: 800;
+            margin-bottom: 8px;
+            
+            &:hover {
+                opacity: 0.8;
+            }
+        }
+    }
+}

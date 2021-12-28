@@ -1,0 +1,11 @@
+/*
+    components: card.scss;
+*/
+
+.card {
+    &--primary {
+        background-color: #dfdfdf;
+        padding: 12px;
+        border: 1px solid #d4d4d4;
+    }
+}

@@ -1,0 +1,21 @@
+/*
+    components: field
+*/
+
+.field {
+    position: relative;
+    margin-bottom: calc(#{$unit} * 6);
+
+    &__label {
+      display: block;
+      margin-bottom: calc(#{$unit} * 2);
+  
+      font-size: 14px;
+      color: $color-text-primary;
+    }
+  
+    &__validation {
+      color: $color-error;
+      margin-top: calc(#{$unit} * 1.5);
+    }
+}
