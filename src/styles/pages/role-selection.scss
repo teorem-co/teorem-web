@@ -28,7 +28,10 @@ $role-selection-form-width: 448px;
     }
 
     &__content {
+        display: flex;
+        flex-direction: column;
         width: 45%;
+        overflow-y: auto;
 
         @media (max-width: 1450px) {
             width: 60%;
@@ -38,7 +41,7 @@ $role-selection-form-width: 448px;
             width: 100%;
         }
 
-        padding: calc(#{$unit} * 20) calc(#{$unit} * 28);
+        padding: calc(#{$unit} * 20) calc(#{$unit} * 28) calc(#{$unit} * 10) calc(#{$unit} * 28);
 
         @media (max-width: 650px) {
             padding: calc(#{$unit} * 8) calc(#{$unit} * 8);
@@ -50,6 +53,7 @@ $role-selection-form-width: 448px;
         border-radius: $border-rounded;
         max-width: $role-selection-form-width;
         padding: calc(#{$unit} * 6);
+        margin-bottom: calc(#{$unit} * 4);
     }
 
     &__item {
