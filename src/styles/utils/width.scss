@@ -18,6 +18,9 @@
     }
     
     /* above 100 you don't need to include "px" suffix for pixels, because percentages are valid until 100 */
+    &--448 {
+        width: 448px;
+    }
     &--680 {
         width: 680px;
         
