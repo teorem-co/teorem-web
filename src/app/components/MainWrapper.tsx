@@ -23,7 +23,7 @@ const MainWrapper = (props: Props) => {
                     Theorem
                 </div>
                 <div className="sidebar__body">
-                    <a className="sidebar__item--primary">Hello world page</a>
+                    <div className="sidebar__item--primary">Hello world page</div>
                 </div>
             </div>
             <div className="layout__main">

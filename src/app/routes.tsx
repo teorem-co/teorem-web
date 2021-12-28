@@ -1,9 +1,10 @@
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import Landing from './pages/Landing';
-import PermissionsGate from './PermissionGate';
+import RoleSelection from './pages/roleSelection/RoleSelection';
 
 export enum PATHS {
-    ROOT = '/'
+    ROOT = '/',
+    ROLE_SELECTION = '/role-selection'
 };
 
 const ROUTES: any = [
@@ -12,6 +13,12 @@ const ROUTES: any = [
         key: 'ROOT',
         exact: true,
         component: () => <Landing />
+    }
+    , {
+        path: PATHS.ROLE_SELECTION,
+        key: 'ROLE_SELECTION',
+        exact: true,
+        component: () => <RoleSelection />
     }
 ];
 

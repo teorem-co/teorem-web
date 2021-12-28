@@ -1,4 +1,3 @@
-import React from 'react';
 import ROUTES, { RenderRoutes } from './app/routes';
 
 function App() {
