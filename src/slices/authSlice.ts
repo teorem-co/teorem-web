@@ -4,9 +4,9 @@ import IUser from '../interfaces/IUser';
 interface IState {
     user: IUser | null;
     token: string | null;
-};
+}
 
-const initialState = {
+const initialState: IState = {
     user: null,
     token: null
 };
@@ -19,8 +19,7 @@ export const authSlice = createSlice({
             state.user = null;
             state.token = null;
         }
-    },
-    extraReducers: (builder) => { }
+    }
 });
 
 export default authSlice.reducer;
