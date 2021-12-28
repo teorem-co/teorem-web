@@ -35,7 +35,7 @@ const RoleSelection: React.FC<Props> = (props) => {
                         }
                     </div>
                 </div>
-                <div className="flex--primary w--448">
+                <div className="flex--primary w--448--max">
                     <div>© Theorem</div>
                     <div>
                         Already have an account? <a href="/login">Log in</a>
