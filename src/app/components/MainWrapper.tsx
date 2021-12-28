@@ -20,35 +20,38 @@ const MainWrapper = (props: Props) => {
                         hamburger
                     </i>
                 </div>
-                <div
-                    className={`sidebar layout__aside ${
-                        asideActive ? 'active' : ''
-                    }`}
+                <i
+                    className="icon icon--md icon--menu icon--white"
+                    onClick={() => setAsideActive(!asideActive)}
                 >
-                    <div
-                        className="layout__aside__close sidebar__close"
-                        onClick={() => setAsideActive(!asideActive)}
-                    >
-                        <i className="icon icon--sm icon--close--white"></i>
+                    hamburger
+                </i>
+            </div>
+            <div
+                className={`sidebar layout__aside ${
+                    asideActive ? 'active' : ''
+                }`}
+            >
+                <div
+                    className="layout__aside__close sidebar__close"
+                    onClick={() => setAsideActive(!asideActive)}
+                >
+                    <i className="icon icon--sm icon--close--white"></i>
+                </div>
+                <div className="sidebar__header">Theorem</div>
+                <div className="sidebar__body">
+                    <div className="sidebar__item--primary">
+                        <NavLink
+                            className="type--color--white"
+                            to="/role-selection"
+                        >
+                            Role selection
+                        </NavLink>
                     </div>
-                    <div className="sidebar__header">Theorem</div>
-                    <div className="sidebar__body">
-                        <div className="sidebar__item--primary">
-                            <NavLink
-                                className="type--color--white"
-                                to="/role-selection"
-                            >
-                                Role selection
-                            </NavLink>
-                        </div>
-                        <div className="sidebar__item--primary">
-                            <NavLink
-                                className="type--color--white"
-                                to="/register"
-                            >
-                                Register
-                            </NavLink>
-                        </div>
+                    <div className="sidebar__item--primary">
+                        <NavLink className="type--color--white" to="/register">
+                            Register
+                        </NavLink>
                     </div>
                 </div>
                 <div className="layout__main">{props.children}</div>

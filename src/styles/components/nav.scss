@@ -1,0 +1,87 @@
+/*
+    components: nav-item
+*/
+
+.nav {
+  &__item {
+    display: block;
+    cursor: pointer;
+    color: $grey-66;
+    padding: 10px;
+
+    &__icon {
+      background-color: $grey-66;
+    }
+
+    &--calendar {
+      mask-image: url("../../assets/icons/calendar.svg");
+    }
+
+    &--chat {
+      mask-image: url("../../assets/icons/chat.svg");
+    }
+
+    &--reviews {
+      mask-image: url("../../assets/icons/reviews.svg");
+    }
+
+    &--profile {
+      mask-image: url("../../assets/icons/profile.svg");
+    }
+
+    &--notifications {
+      mask-image: url("../../assets/icons/notifications.svg");
+    }
+
+    &--completed-lessons {
+      mask-image: url("../../assets/icons/completed-lessons.svg");
+    }
+
+    &--search-tutors {
+      mask-image: url("../../assets/icons/search-tutors.svg");
+    }
+
+    &__label {
+      vertical-align: middle;
+      font-size: 14px;
+      margin-left: 18px;
+      color: $grey-66;
+    }
+
+    &.active {
+      background-color: $grey-f2;
+
+      .nav__item--calendar {
+        background-color: $purple;
+      }
+
+      .nav__item--chat {
+        background-color: $purple;
+      }
+
+      .nav__item--reviews {
+        background-color: $purple;
+      }
+
+      .nav__item--profile {
+        background-color: $purple;
+      }
+
+      .nav__item--notifications {
+        background-color: $purple;
+      }
+
+      .nav__item--completed-lessons {
+        background-color: $purple;
+      }
+
+      .nav__item--search-tutors {
+        background-color: $purple;
+      }
+
+      .nav__item__label {
+        color: $black;
+      }
+    }
+  }
+}

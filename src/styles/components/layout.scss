@@ -2,7 +2,7 @@
     components: layout
 */
 
-$sidebar-width: 300px;
+$sidebar-width: 256px;
 $mobile-height: 50px;
 
 .layout {
@@ -16,7 +16,6 @@ $mobile-height: 50px;
         z-index: 2;
         width: $sidebar-width;
         height: 100vh;
-        background-color: $color-primary;
         color: $white;
 
         &__close {
@@ -38,15 +37,15 @@ $mobile-height: 50px;
                 display: block;
             }
         }
-    }
 
-    &__main {
-        position: relative;
-        width: calc(100% - #{$sidebar-width});
-        height: 100vh;
-        @media (max-width: $responsive-md) {
-            width: 100%;
-            height: calc(100vh - #{$mobile-height});
+        &__main {
+            position: relative;
+            width: calc(100% - #{$sidebar-width});
+            height: 100vh;
+            @media (max-width: $responsive-md) {
+                width: 100%;
+                height: calc(100vh - #{$mobile-height});
+            }
         }
     }
 
