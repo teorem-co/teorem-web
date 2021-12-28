@@ -1,10 +1,8 @@
 import React from 'react';
+import ROUTES, { RenderRoutes } from './app/routes';
 
 function App() {
-  return (
-    <div>
-    </div>
-  );
+    return <RenderRoutes routes={ROUTES} />
 }
 
 export default App;

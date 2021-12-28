@@ -1,0 +1,20 @@
+/*
+    base: base-styles.scss
+*/
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    //fluid typography
+    @include fluid-type($fluid-min-width, $fluid-max-width, $type-base - $fluid-type-modifier, $type-base);
+    
+    //fixed typography
+    //font-size: $type-base;
+
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}

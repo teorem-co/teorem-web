@@ -1,0 +1,33 @@
+/*
+    utils: flex
+*/
+
+.flex {
+    display: flex;
+
+    &--primary {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &--center {
+        align-items: center;
+    }
+    
+    &--jc {
+        &--space-between {
+            justify-content: space-between;
+        }
+        &--center {
+            justify-content: center;
+        }
+        &--end {
+            justify-content: flex-end;
+        }
+    }
+    
+    &--grow {
+        flex-grow: 1;
+    }
+}

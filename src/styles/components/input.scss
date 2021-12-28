@@ -1,0 +1,101 @@
+/*
+    components: input
+*/
+
+.input {
+    width: 100%;
+    border: 1px solid $border-color;
+    border-radius: $border-rounded;
+
+    background-color: transparent;
+    transition: all 100ms ease-out;
+
+    &:focus {
+        outline: none;
+        border-color: $color-primary;
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        user-select: none;
+        cursor: not-allowed;
+    }
+
+    &::placeholder {
+        color: $color-text-placeholder;
+    }
+
+    //input sizes
+    &--base {
+        padding: calc(#{$unit} * 2.5) calc(#{$unit} * 3);
+    }
+
+    //input types
+    &--checkbox {
+        position: absolute;
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+        &:focus {
+          & + .input--checkbox__label:before {
+            border-color: $color-primary;
+          }
+        }
+    
+        &__label {
+          position: relative;
+          display: inline-block;
+          padding-left: calc(#{$unit} * 6);
+    
+          font-size: 14px;
+          font-weight: 400;
+          letter-spacing: 1px;
+          cursor: pointer;
+    
+          &:after {
+            content: "";
+            position: absolute;
+            top: 6.5px;
+            left: 4px;
+            width: 8px;
+            height: 3px;
+    
+            border-bottom: 2px solid $white;
+            border-left: 2px solid $white;
+    
+            opacity: 0;
+            transform: rotate3d(0, 0, 1, 0);
+            transition: all 200ms ease-out;
+          }
+    
+          &:before {
+            content: "";
+            position: absolute;
+            top: 1px;
+            left: 0;
+            width: 14px;
+            height: 14px;
+    
+            border: 2px solid $border-color;
+            border-radius: 2px;
+    
+            background-color: $white;
+            transition: all 200ms ease-out;
+          }
+        }
+    
+        &:checked {
+          & + .input--checkbox__label {
+            &:after {
+              opacity: 1;
+              transform: rotate3d(0, 0, 1, -45deg);
+            }
+    
+            &:before {
+              border-color: $color-primary;
+              background-color: $color-primary;
+            }
+          }
+        }
+    }
+}
