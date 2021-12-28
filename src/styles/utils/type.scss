@@ -6,45 +6,45 @@
     //sizes
     &--ty {
         //fluid
-        @include fluid-type($fluid-min-width, $fluid-max-width, $type-ty - $fluid-type-modifier, $type-ty);
+        //@include fluid-type($fluid-min-width, $fluid-max-width, $type-ty - $fluid-type-modifier, $type-ty);
         //static
-        //font-size: $type-ty
+        font-size: $type-ty
     }
     &--xs {
         //fluid
-        @include fluid-type($fluid-min-width, $fluid-max-width, $type-xs - $fluid-type-modifier, $type-xs);
+        //@include fluid-type($fluid-min-width, $fluid-max-width, $type-xs - $fluid-type-modifier, $type-xs);
         //static
-        //font-size: $type-xs
+        font-size: $type-xs
     }
     &--sm {
         //fluid
-        @include fluid-type($fluid-min-width, $fluid-max-width, $type-sm - $fluid-type-modifier, $type-sm);
+        //@include fluid-type($fluid-min-width, $fluid-max-width, $type-sm - $fluid-type-modifier, $type-sm);
         //static
-        //font-size: $type-sm
+        font-size: $type-sm
     }
     &--base {
         //fluid
-        @include fluid-type($fluid-min-width, $fluid-max-width, $type-base - $fluid-type-modifier, $type-base);
+        //@include fluid-type($fluid-min-width, $fluid-max-width, $type-base - $fluid-type-modifier, $type-base);
         //static
-        //font-size: $type-base
+        font-size: $type-base
     }
     &--md {
         //fluid
-        @include fluid-type($fluid-min-width, $fluid-max-width, $type-md - $fluid-type-modifier, $type-md);
+        //@include fluid-type($fluid-min-width, $fluid-max-width, $type-md - $fluid-type-modifier, $type-md);
         //static
-        //font-size: $type-md
+        font-size: $type-md
     }
     &--lg {
         //fluid
-        @include fluid-type($fluid-min-width, $fluid-max-width, $type-lg - $fluid-type-modifier, $type-lg);
+        //@include fluid-type($fluid-min-width, $fluid-max-width, $type-lg - $fluid-type-modifier, $type-lg);
         //static
-        //font-size: $type-lg
+        font-size: $type-lg
     }
     &--xl {
         //fluid
-        @include fluid-type($fluid-min-width, $fluid-max-width, $type-xl - $fluid-type-modifier, $type-xl);
+        //@include fluid-type($fluid-min-width, $fluid-max-width, $type-xl - $fluid-type-modifier, $type-xl);
         //static
-        //font-size: $type-xl
+        font-size: $type-xl
     }
   
     //font weight

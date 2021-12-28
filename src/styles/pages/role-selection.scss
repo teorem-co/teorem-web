@@ -1,0 +1,74 @@
+/*
+    pages: role-selection.scss;
+*/
+
+$role-selection-form-width: 448px;
+
+.role-selection {
+    display: flex;
+    height: 100vh;
+
+    &__aside {
+        width: 55%;
+        background-color: $grey-fc;
+        border-right: 1px dashed $grey-ed;
+
+        @media (max-width: 1450px) {
+            width: 40%;
+        }
+        @media (max-width: 1100px) {
+            width: 0%;
+        }
+
+        img {
+            height: 100vh;
+            width: 100%;
+            object-fit: cover;
+        }
+    }
+
+    &__content {
+        width: 45%;
+
+        @media (max-width: 1450px) {
+            width: 60%;
+        }
+
+        @media (max-width: 1100px) {
+            width: 100%;
+        }
+
+        padding: calc(#{$unit} * 20) calc(#{$unit} * 28);
+
+        @media (max-width: 650px) {
+            padding: calc(#{$unit} * 8) calc(#{$unit} * 8);
+        }
+    }
+
+    &__form { 
+        border: 1px dashed $color-primary-light;
+        border-radius: $border-rounded;
+        max-width: $role-selection-form-width;
+        padding: calc(#{$unit} * 6);
+    }
+
+    &__item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border: 1px solid $grey-ed;
+        border-radius: $border-rounded;
+        padding: calc(#{$unit} * 4);
+        margin-bottom: calc(#{$unit} * 4);
+        cursor: pointer;
+        transition: border-color 200ms ease-out;
+
+        &:hover {
+            border-color: $color-primary;
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}

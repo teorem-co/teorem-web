@@ -5,7 +5,7 @@
 // GLOBAL VARIABLES
 //---------------------------------------------------------
 $unit: 4px;
-$scale: 0,1,2,3,4,5,6,8,10,12,14,16,18,24;
+$scale: 0,1,2,3,4,5,6,8,10,12,14,16,18,22;
 
 
 
@@ -17,12 +17,14 @@ $scale: 0,1,2,3,4,5,6,8,10,12,14,16,18,24;
 */
 //grey colors
 $grey-30: #303030;
-$grey-66: #666;
+$grey-63: #636363;
 $grey-82: #828282;
 $grey-c4: #c4c4c4;
 $grey-d8: #d8d8d8;
-$grey-f2: #f2f2f2;
+$grey-ed: #ededed;
 $grey-ef: #efefef;
+$grey-f2: #f2f2f2;
+$grey-fc: #fcfcfc;
 
 //background colors
 $black: #000;
@@ -31,8 +33,9 @@ $background-color: $grey-ef;
 $background-overlay: #061129b3;
 
 //main colors
-$color-primary: #3498db;
-$color-secondary: #9b59b6;
+$color-primary: #7E6CF2; 
+$color-primary-light: #cbc3fb;
+$color-secondary: #0B8A00;
 
 $color-success: #2ecc71;
 $color-error: #e74c3c;
@@ -50,15 +53,15 @@ $border-circle: 1000px;
 //---------------------------------------------------------
 $color-text-primary: $grey-30;
 $color-text-placeholder: $grey-d8;
-$color-text-secondary: $grey-82;
+$color-text-secondary: $grey-63;
 
-$type-ty: 10px;
-$type-xs: 12px;
-$type-sm: 14px;
-$type-base: 16px;
+$type-ty: 9px;
+$type-xs: 10px;
+$type-sm: 12px;
+$type-base: 14px;
 $type-md: 18px;
-$type-lg: 20px;
-$type-xl: 24px;
+$type-lg: 24px;
+$type-xl: 32px;
 
 
 // RESPONSIVE
