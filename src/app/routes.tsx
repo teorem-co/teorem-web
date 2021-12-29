@@ -21,8 +21,7 @@ const ROUTES: any = [
         key: 'ROLE_SELECTION',
         exact: true,
         component: () => <RoleSelection />
-    }
-    , {
+    }, {
         path: PATHS.REGISTER,
         key: 'REGISTER',
         exact: true,
