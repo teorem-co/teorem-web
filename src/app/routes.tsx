@@ -1,6 +1,7 @@
 import { Route, Switch } from 'react-router-dom';
 
 import Landing from './features/Landing';
+import Login from './features/login/Login';
 import Register from './features/register/Register';
 import RoleSelection from './features/roleSelection/RoleSelection';
 
@@ -8,6 +9,7 @@ export enum PATHS {
     ROOT = '/',
     ROLE_SELECTION = '/role-selection',
     REGISTER = '/register',
+    LOGIN = '/login',
 }
 
 const ROUTES: any = [
@@ -28,6 +30,12 @@ const ROUTES: any = [
         key: 'REGISTER',
         exact: true,
         component: () => <Register />,
+    },
+    {
+        path: PATHS.LOGIN,
+        key: 'LOGIN',
+        exact: true,
+        component: () => <Login />,
     },
 ];
 
