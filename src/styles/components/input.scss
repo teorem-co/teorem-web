@@ -25,6 +25,15 @@
         color: $color-text-placeholder;
     }
 
+    &__border {
+        &--error {
+            border-color: $color-error;
+            &:focus {
+                border-color: $color-error;
+            }
+        }
+    }
+
     //input sizes
     &--base {
         padding: calc(#{$unit} * 2.5) calc(#{$unit} * 3);
@@ -97,5 +106,19 @@
             }
           }
         }
+    }
+
+    &--text {
+        &--password {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: calc(#{$unit} * 4);
+        }
+    }
+    
+    //add padding for icon
+    &--icon {
+        padding-right: calc(#{$unit} * 10);
     }
 }

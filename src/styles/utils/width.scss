@@ -16,6 +16,13 @@
     &--100 {
         width: 100%;
     }
+    &--128 {
+        width: 128px;
+        
+        &--max {
+            max-width: 128px;
+        }
+    }
     
     /* above 100 you don't need to include "px" suffix for pixels, because percentages are valid until 100 */
     &--448 {

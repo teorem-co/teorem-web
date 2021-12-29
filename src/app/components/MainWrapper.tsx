@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { NavLink } from "react-router-dom";
 
 interface Props {
     children: JSX.Element | JSX.Element[]
@@ -23,7 +24,8 @@ const MainWrapper = (props: Props) => {
                     Theorem
                 </div>
                 <div className="sidebar__body">
-                    <div className="sidebar__item--primary">Hello world page</div>
+                    <div className="sidebar__item--primary"><NavLink className="type--color--white" to="/role-selection">Role selection</NavLink></div>
+                    <div className="sidebar__item--primary"><NavLink className="type--color--white" to="/register">Register</NavLink></div>
                 </div>
             </div>
             <div className="layout__main">

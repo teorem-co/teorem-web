@@ -26,6 +26,7 @@
     //button styles
     &--primary {
         background-color: $color-primary;
+        background: linear-gradient(226.69deg, rgba(127, 95, 211, 0.9) 4.52%, #5C3EE8 94.64%);
         color: $white;
         &:hover {
             background-color: darken($color-primary, 10%);
@@ -37,6 +38,7 @@
             --box-shadow-color: #{darken($color-primary, 15%)};
         }
     }
+
     &--success {
         background-color: $color-success;
         color: $white;
@@ -49,6 +51,10 @@
         &:focus {
             --box-shadow-color: #{darken($color-success, 15%)};
         }
+    }
+
+    &--clear {
+        background-color: transparent;
     }
 
     //button sizes
