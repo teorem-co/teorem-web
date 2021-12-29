@@ -4,7 +4,7 @@
 
 .field {
     position: relative;
-    margin-bottom: calc(#{$unit} * 6);
+    margin-bottom: calc(#{$unit} * 2);
 
     &__label {
       display: block;
@@ -16,6 +16,8 @@
   
     &__validation {
       color: $color-error;
-      margin-top: calc(#{$unit} * 1.5);
+      margin-top: calc(#{$unit} * 1);
+      min-height: 15px;
+      font-size: $type-xs;
     }
 }

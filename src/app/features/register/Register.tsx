@@ -108,7 +108,7 @@ const Register: React.FC<Props> = (props: Props) => {
                                 />
                             </div>
                             <button className="btn btn--base btn--primary w--100 mb-2 mt-6" type="submit">Register</button>
-                            <div onClick={() => alert('goBack')} className="btn btn--clear btn--base w--100 type--color--brand type--wgt--bold text--center">
+                            <div onClick={() => alert('goBack')} className="btn btn--clear btn--base w--100 type--color--brand type--wgt--bold type--center">
                                 <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i> Back to selection
                             </div>
                         </Form>
