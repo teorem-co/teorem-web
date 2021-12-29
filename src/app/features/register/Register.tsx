@@ -60,7 +60,7 @@ const Register: React.FC<Props> = (props: Props) => {
             <div className="login__content">
                 <div className="flex--grow w--448--max">
                     <div className="mb-22"><img className="w--128" src={logo} alt="Theorem" /></div>
-                    <div className="type--lg type--wgt--bold mb-4">Register as Tutor</div>
+                    <div className="type--lg type--wgt--bold mb-4">Register as (role)</div>
                     <FormikProvider value={formik} >
                         <Form>
                             <div className="field">

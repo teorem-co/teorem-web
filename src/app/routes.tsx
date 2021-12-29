@@ -10,14 +10,14 @@ export enum PATHS {
 };
 
 const ROUTES: any = [
-    /*{
+    {
         path: PATHS.ROOT,
         key: 'ROOT',
         exact: true,
         component: () => <Landing />,
-    },*/
+    },
     {
-        path: PATHS.ROOT,
+        path: PATHS.ROLE_SELECTION,
         key: 'ROLE_SELECTION',
         exact: true,
         component: () => <RoleSelection />
