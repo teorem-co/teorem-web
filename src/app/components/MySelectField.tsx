@@ -6,7 +6,7 @@ export interface OptionType {
     label: string;
     value: string;
     icon?: string;
-};
+}
 
 interface CustomSelectProps extends FieldProps {
     options: any;
@@ -17,7 +17,7 @@ interface CustomSelectProps extends FieldProps {
     className?: string;
     onChangeCustom?: (e: any) => void;
     isLoading?: boolean;
-};
+}
 
 const MySelect = ({
     field,
@@ -37,39 +37,58 @@ const MySelect = ({
         form.setFieldValue(
             field.name,
             isMulti
-                ? option ? option.map((item: OptionType) => item.value) : ''
+                ? option
+                    ? option.map((item: OptionType) => item.value)
+                    : ''
                 : (option as OptionType).value
         );
 
         isMulti
-            ? onChangeCustom && onChangeCustom(option && option.map((item: OptionType) => item.value))
+            ? onChangeCustom &&
+              onChangeCustom(
+                  option && option.map((item: OptionType) => item.value)
+              )
             : onChangeCustom && onChangeCustom((option as OptionType).value);
     };
 
     const getValue = () => {
         if (options && field.value) {
             return isMulti
-                ? options.filter((option: any) => field.value.indexOf(option.value) >= 0)
-                : options.find((option: any) => option.value === (typeof field.value !== 'string' ? field.value.toString() : field.value));
+                ? options.filter(
+                      (option: any) => field.value.indexOf(option.value) >= 0
+                  )
+                : options.find(
+                      (option: any) =>
+                          option.value ===
+                          (typeof field.value !== 'string'
+                              ? field.value.toString()
+                              : field.value)
+                  );
         } else {
-            return isMulti ? [] : ("" as any);
+            return isMulti ? [] : ('' as any);
         }
     };
 
     const customSingleValue = (props: any) => {
         if (props.data.icon) {
-            return <components.SingleValue {...props} className="input-select">
-                <div className="input-select__option">
-                    <span className="input-select__icon"><img src={props.data.icon} alt="item icon" /></span>
-                    <span>{props.data.label}</span>
-                </div>
-            </components.SingleValue>
+            return (
+                <components.SingleValue {...props} className="input-select">
+                    <div className="input-select__option">
+                        <span className="input-select__icon">
+                            <img src={props.data.icon} alt="item icon" />
+                        </span>
+                        <span>{props.data.label}</span>
+                    </div>
+                </components.SingleValue>
+            );
         } else {
-            return <components.SingleValue {...props} className="input-select">
-                <div className="input-select__option">
-                    <span>{props.data.label}</span>
-                </div>
-            </components.SingleValue>
+            return (
+                <components.SingleValue {...props} className="input-select">
+                    <div className="input-select__option">
+                        <span>{props.data.label}</span>
+                    </div>
+                </components.SingleValue>
+            );
         }
     };
 
@@ -77,30 +96,38 @@ const MySelect = ({
         console.log(formikField);
         const { innerProps } = props;
         if (props.data.icon) {
-            return <components.Option {...innerProps} {...props}> <div className="input-select">
-                <div className="input-select__option">
-                    <span className="input-select__icon"><img src={props.data.icon} alt="item icon" /></span>
-                    <span>{props.data.label}</span>
-                </div>
-            </div>
-            </components.Option>
+            return (
+                <components.Option {...innerProps} {...props}>
+                    {' '}
+                    <div className="input-select">
+                        <div className="input-select__option">
+                            <span className="input-select__icon">
+                                <img src={props.data.icon} alt="item icon" />
+                            </span>
+                            <span>{props.data.label}</span>
+                        </div>
+                    </div>
+                </components.Option>
+            );
         } else {
-            return <components.Option {...props} className="input-select">
-                <div className="input-select__option">
-                    <span>{props.data.label}</span>
-                </div>
-            </components.Option>
+            return (
+                <components.Option {...props} className="input-select">
+                    <div className="input-select__option">
+                        <span>{props.data.label}</span>
+                    </div>
+                </components.Option>
+            );
         }
     };
 
     return (
         <>
             <Select
-                className={className ?? "form__type"}
+                className={className ?? 'form__type'}
                 classNamePrefix="react-select--dropdown"
                 components={{
                     SingleValue: customSingleValue,
-                    Option: customOption
+                    Option: customOption,
                 }}
                 name={field.name}
                 value={getValue()}
@@ -113,9 +140,11 @@ const MySelect = ({
                 isDisabled={isDisabled}
                 isLoading={isLoading}
             />
-            <div className="field__validation">{meta.error && meta.touched ? meta.error : ''}</div>
+            <div className="field__validation">
+                {meta.error && meta.touched ? meta.error : ''}
+            </div>
         </>
     );
 };
 
-export default MySelect
+export default MySelect;

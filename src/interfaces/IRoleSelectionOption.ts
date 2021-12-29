@@ -1,7 +1,7 @@
-import { RoleSelectionEnum } from "../app/constants/roleSelectionOptions";
+import { RoleSelectionEnum } from '../app/constants/roleSelectionOptions';
 
 export default interface IRoleSelectionOption {
     id: RoleSelectionEnum;
     title: string;
     description: string;
-};
+}

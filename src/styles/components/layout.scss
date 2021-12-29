@@ -33,13 +33,13 @@ $mobile-height: 50px;
             &.active {
                 left: 0;
             }
-            
+
             &__close {
                 display: block;
             }
         }
     }
-    
+
     &__main {
         position: relative;
         width: calc(100% - #{$sidebar-width});
@@ -51,17 +51,17 @@ $mobile-height: 50px;
     }
 
     &__mobile {
-        display: none; 
+        display: none;
         align-items: center;
         justify-content: space-between;
-        
+
         height: $mobile-height;
         padding: calc(#{$unit} * 4);
         border-bottom: 1px solid $border-color;
-        
+
         background-color: $color-primary;
         color: $white;
-        
+
         @media (max-width: $responsive-md) {
             display: flex;
         }

@@ -6,4 +6,4 @@ export default interface IBooking {
     levelId: string;
     startTime: string;
     endTime: string;
-};
+}

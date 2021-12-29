@@ -5,4 +5,4 @@ export default interface ITutor {
     levelId: string;
     aboutTutor: string;
     aboutLessons: string;
-};
+}
