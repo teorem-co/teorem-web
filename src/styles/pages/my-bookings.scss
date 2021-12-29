@@ -1,0 +1,17 @@
+/*
+    pages: my-bookings.scss
+*/
+
+.my-bookings {
+    padding: calc(#{$unit} * 6);
+    display: flex;
+
+    & > div {
+        &:first-child {
+            width: calc(100% - 300px);
+        }
+        &:last-child {
+            width: 300px;
+        }
+    }
+}
