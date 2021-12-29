@@ -42,14 +42,13 @@ const RoleSelection: React.FC = () => {
                         <div className="role-selection__form">
                             {roleSelectionOptions.map(
                                 (roleOption: IRoleSelectionOption) => {
+                                    const { id } = roleOption;
                                     return (
                                         <div
                                             className="role-selection__item"
-                                            key={roleOption.id}
+                                            key={id}
                                             onClick={() =>
-                                                handleRoleSelection(
-                                                    roleOption.id
-                                                )
+                                                handleRoleSelection(id)
                                             }
                                         >
                                             <img
@@ -58,10 +57,22 @@ const RoleSelection: React.FC = () => {
                                             />
                                             <div className="flex--grow ml-4">
                                                 <div className="mb-1">
-                                                    {roleOption.title}
+                                                    {t(
+                                                        id === 0
+                                                            ? 'ROLE_SELECTION.STUDENT_TITLE'
+                                                            : id === 1
+                                                            ? 'ROLE_SELECTION.PARENT_TITLE'
+                                                            : 'ROLE_SELECTION.TUTOR_TITLE'
+                                                    )}
                                                 </div>
                                                 <div className="type--color--secondary">
-                                                    {roleOption.description}
+                                                    {t(
+                                                        id === 0
+                                                            ? 'ROLE_SELECTION.STUDENT_DESCRIPTION'
+                                                            : id === 1
+                                                            ? 'ROLE_SELECTION.PARENT_DESCRIPTION'
+                                                            : 'ROLE_SELECTION.TUTOR_DESCRIPTION'
+                                                    )}
                                                 </div>
                                             </div>
                                             <i className="icon icon--base icon--arrow-right icon--primary"></i>
