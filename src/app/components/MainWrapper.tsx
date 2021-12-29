@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+
+import Navbar from './Navbar';
 
 interface Props {
     children: JSX.Element | JSX.Element[];
@@ -29,27 +30,10 @@ const MainWrapper = (props: Props) => {
                         className="layout__aside__close sidebar__close"
                         onClick={() => setAsideActive(!asideActive)}
                     >
-                        <i className="icon icon--sm icon--close--white"></i>
+                        <i className="icon icon--sm icon--close icon--black"></i>
                     </div>
-                    <div className="sidebar__header">Theorem</div>
-                    <div className="sidebar__body">
-                        <div className="sidebar__item--primary">
-                            <NavLink
-                                className="type--color--white"
-                                to="/role-selection"
-                            >
-                                Role selection
-                            </NavLink>
-                        </div>
-                        <div className="sidebar__item--primary">
-                            <NavLink
-                                className="type--color--white"
-                                to="/register"
-                            >
-                                Register
-                            </NavLink>
-                        </div>
-                    </div>
+
+                    <Navbar />
                 </div>
                 <div className="layout__main">{props.children}</div>
             </div>

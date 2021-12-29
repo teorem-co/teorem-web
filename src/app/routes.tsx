@@ -1,4 +1,5 @@
 import { Route, Switch } from 'react-router-dom';
+
 import Landing from './features/Landing';
 import Register from './features/register/Register';
 import RoleSelection from './features/roleSelection/RoleSelection';
@@ -38,7 +39,7 @@ function RouteWithSubRoutes(route: any) {
             key={route.key}
             path={route.path}
             exact={route.exact}
-            render={(props) => (
+            render={(props: any) => (
                 <route.component {...props} routes={route.routes} />
             )}
         />

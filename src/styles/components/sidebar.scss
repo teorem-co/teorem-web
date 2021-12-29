@@ -19,28 +19,16 @@
     }
     &__body {
         flex-grow: 1;
-        margin: 12px;
     }
-    &__item {
+
+    &--primary {
         display: block;
-        margin-bottom: 4px;
-        margin-left: 16px;
-        cursor: pointer;
         color: $white;
+        font-weight: 800;
+        margin-bottom: 8px;
 
         &:hover {
             opacity: 0.8;
-        }
-
-        &--primary {
-            display: block;
-            color: $white;
-            font-weight: 800;
-            margin-bottom: 8px;
-
-            &:hover {
-                opacity: 0.8;
-            }
         }
     }
 }
