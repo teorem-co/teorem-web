@@ -21,6 +21,9 @@ export const roleSlice = createSlice({
         setSelectedRole(state, action: PayloadAction<RoleOptions>) {
             state.selectedRole = action.payload;
         },
+        resetSelectedRole(state) {
+            state.selectedRole = null;
+        },
     },
 });
 
