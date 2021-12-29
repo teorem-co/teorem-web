@@ -14,14 +14,31 @@
     }
 
     &__item {
+        position: relative;
         display: block;
         cursor: pointer;
-        color: $grey-63;
+        color: $grey-bb;
         padding: 10px;
         margin-bottom: calc($unit * 4);
 
+        &::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+
+            opacity: 0;
+
+            width: 4px;
+            height: 40px;
+
+            background-color: $color-primary;
+            border-radius: 0 50px 50px 0;
+        }
+
         &__icon {
-            background-color: $grey-63;
+            background-color: $grey-bb;
             margin-left: 18px;
         }
 
@@ -57,52 +74,18 @@
             vertical-align: middle;
             margin-left: 18px;
             font-size: 14px;
-            color: $grey-63;
+            color: $grey-bb;
         }
 
         &.active {
-            background-color: $grey-f2;
-            position: relative;
+            background-color: $grey-ed;
+
             &::before {
-                content: '';
-                position: absolute;
-                left: 0;
-                top: 50%;
-                transform: translateY(-50%);
-
-                width: 4px;
-                height: 40px;
-
-                background-color: $purple;
-                border-radius: 0 50px 50px 0;
+                opacity: 1;
             }
 
-            .navbar__item--calendar {
-                background-color: $purple;
-            }
-
-            .navbar__item--chat {
-                background-color: $purple;
-            }
-
-            .navbar__item--reviews {
-                background-color: $purple;
-            }
-
-            .navbar__item--profile {
-                background-color: $purple;
-            }
-
-            .navbar__item--notifications {
-                background-color: $purple;
-            }
-
-            .navbar__item--completed-lessons {
-                background-color: $purple;
-            }
-
-            .navbar__item--search-tutors {
-                background-color: $purple;
+            .navbar__item__icon {
+                background-color: $color-primary;
             }
 
             .navbar__item__label {
