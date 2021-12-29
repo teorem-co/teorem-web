@@ -41,7 +41,15 @@
         mask-image: url('./../../assets/icons/chevron-right.svg');
     }
     &--menu {
-        mask-image: url('./../../assets/icons/menu.svg');
+        mask-image: url('../../assets/icons/menu.svg');
+    }
+
+    &--close {
+        mask-image: url('../../assets/icons/close.svg');
+
+        &--black {
+            background-color: $black;
+        }
     }
     &--visible {
         mask-image: url('./../../assets/icons/visible.svg');
@@ -51,7 +59,7 @@
         mask-image: url('../../assets/icons/back.svg');
 
         &--grey {
-            background-color: $grey-66;
+            background-color: $grey-63;
         }
 
         &--purple {
@@ -63,7 +71,7 @@
         mask-image: url('../../assets/icons/calendar.svg');
 
         &--grey {
-            background-color: $grey-66;
+            background-color: $grey-63;
         }
 
         &--purple {
@@ -75,7 +83,7 @@
         mask-image: url('../../assets/icons/chat.svg');
 
         &--grey {
-            background-color: $grey-66;
+            background-color: $grey-63;
         }
 
         &--purple {
@@ -87,7 +95,7 @@
         mask-image: url('../../assets/icons/check.svg');
 
         &--grey {
-            background-color: $grey-66;
+            background-color: $grey-63;
         }
 
         &--purple {
@@ -99,7 +107,7 @@
         mask-image: url('../../assets/icons/close.svg');
 
         &--grey {
-            background-color: $grey-66;
+            background-color: $grey-63;
         }
 
         &--purple {
@@ -111,7 +119,7 @@
         mask-image: url('../../assets/icons/completed-lessons.svg');
 
         &--grey {
-            background-color: $grey-66;
+            background-color: $grey-63;
         }
 
         &--purple {
@@ -123,7 +131,7 @@
         mask-image: url('../../assets/icons/down.svg');
 
         &--grey {
-            background-color: $grey-66;
+            background-color: $grey-63;
         }
 
         &--purple {
@@ -135,7 +143,7 @@
         mask-image: url('../../assets/icons/error.svg');
 
         &--grey {
-            background-color: $grey-66;
+            background-color: $grey-63;
         }
 
         &--purple {
@@ -147,7 +155,7 @@
         mask-image: url('../../assets/icons/hide.svg');
 
         &--grey {
-            background-color: $grey-66;
+            background-color: $grey-63;
         }
 
         &--purple {
@@ -159,7 +167,7 @@
         mask-image: url('../../assets/icons/logout.svg');
 
         &--grey {
-            background-color: $grey-66;
+            background-color: $grey-63;
         }
 
         &--purple {
@@ -171,7 +179,7 @@
         mask-image: url('../../assets/icons/menu.svg');
 
         &--grey {
-            background-color: $grey-66;
+            background-color: $grey-63;
         }
 
         &--purple {
@@ -183,7 +191,7 @@
         mask-image: url('../../assets/icons/more.svg');
 
         &--grey {
-            background-color: $grey-66;
+            background-color: $grey-63;
         }
 
         &--purple {
@@ -195,7 +203,7 @@
         mask-image: url('../../assets/icons/notifications.svg');
 
         &--grey {
-            background-color: $grey-66;
+            background-color: $grey-63;
         }
 
         &--purple {
@@ -207,7 +215,7 @@
         mask-image: url('../../assets/icons/profile.svg');
 
         &--grey {
-            background-color: $grey-66;
+            background-color: $grey-63;
         }
 
         &--purple {
@@ -219,7 +227,7 @@
         mask-image: url('../../assets/icons/reviews.svg');
 
         &--grey {
-            background-color: $grey-66;
+            background-color: $grey-63;
         }
 
         &--purple {
@@ -231,7 +239,7 @@
         mask-image: url('../../assets/icons/right.svg');
 
         &--grey {
-            background-color: $grey-66;
+            background-color: $grey-63;
         }
 
         &--purple {
@@ -243,7 +251,7 @@
         mask-image: url('../../assets/icons/search-tutors.svg');
 
         &--grey {
-            background-color: $grey-66;
+            background-color: $grey-63;
         }
 
         &--purple {
@@ -255,7 +263,7 @@
         mask-image: url('../../assets/icons/settings.svg');
 
         &--grey {
-            background-color: $grey-66;
+            background-color: $grey-63;
         }
 
         &--purple {
@@ -267,7 +275,7 @@
         mask-image: url('../../assets/icons/show.svg');
 
         &--grey {
-            background-color: $grey-66;
+            background-color: $grey-63;
         }
 
         &--purple {
@@ -279,7 +287,7 @@
         mask-image: url('../../assets/icons/upload.svg');
 
         &--grey {
-            background-color: $grey-66;
+            background-color: $grey-63;
         }
 
         &--purple {

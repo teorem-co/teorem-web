@@ -1,0 +1,122 @@
+/*
+    components: navbar
+*/
+
+.navbar {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: $white;
+
+    &__logo {
+        padding: 40px 100px 0 20px;
+        margin-bottom: 40px;
+    }
+
+    &__item {
+        display: block;
+        cursor: pointer;
+        color: $grey-63;
+        padding: 10px;
+        margin-bottom: calc($unit * 4);
+
+        &__icon {
+            background-color: $grey-63;
+            margin-left: 18px;
+        }
+
+        &--calendar {
+            mask-image: url('../../assets/icons/calendar.svg');
+        }
+
+        &--chat {
+            mask-image: url('../../assets/icons/chat.svg');
+        }
+
+        &--reviews {
+            mask-image: url('../../assets/icons/reviews.svg');
+        }
+
+        &--profile {
+            mask-image: url('../../assets/icons/profile.svg');
+        }
+
+        &--notifications {
+            mask-image: url('../../assets/icons/notifications.svg');
+        }
+
+        &--completed-lessons {
+            mask-image: url('../../assets/icons/completed-lessons.svg');
+        }
+
+        &--search-tutors {
+            mask-image: url('../../assets/icons/search-tutors.svg');
+        }
+
+        &__label {
+            vertical-align: middle;
+            margin-left: 18px;
+            font-size: 14px;
+            color: $grey-63;
+        }
+
+        &.active {
+            background-color: $grey-f2;
+            position: relative;
+            &::before {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 50%;
+                transform: translateY(-50%);
+
+                width: 4px;
+                height: 40px;
+
+                background-color: $purple;
+                border-radius: 0 50px 50px 0;
+            }
+
+            .navbar__item--calendar {
+                background-color: $purple;
+            }
+
+            .navbar__item--chat {
+                background-color: $purple;
+            }
+
+            .navbar__item--reviews {
+                background-color: $purple;
+            }
+
+            .navbar__item--profile {
+                background-color: $purple;
+            }
+
+            .navbar__item--notifications {
+                background-color: $purple;
+            }
+
+            .navbar__item--completed-lessons {
+                background-color: $purple;
+            }
+
+            .navbar__item--search-tutors {
+                background-color: $purple;
+            }
+
+            .navbar__item__label {
+                color: $black;
+            }
+        }
+    }
+
+    &__bottom {
+        display: flex;
+        align-items: center;
+
+        margin-bottom: 40px;
+        padding-left: calc($unit * 4);
+        padding-right: calc($unit * 6);
+    }
+}

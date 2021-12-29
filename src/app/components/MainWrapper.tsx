@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import Navbar from './Navbar';
 
 interface Props {
     children: JSX.Element | JSX.Element[];
@@ -20,39 +21,19 @@ const MainWrapper = (props: Props) => {
                         hamburger
                     </i>
                 </div>
-                <i
-                    className="icon icon--md icon--menu icon--white"
-                    onClick={() => setAsideActive(!asideActive)}
-                >
-                    hamburger
-                </i>
-            </div>
-            <div
-                className={`sidebar layout__aside ${
-                    asideActive ? 'active' : ''
-                }`}
-            >
                 <div
-                    className="layout__aside__close sidebar__close"
-                    onClick={() => setAsideActive(!asideActive)}
+                    className={`sidebar layout__aside ${
+                        asideActive ? 'active' : ''
+                    }`}
                 >
-                    <i className="icon icon--sm icon--close--white"></i>
-                </div>
-                <div className="sidebar__header">Theorem</div>
-                <div className="sidebar__body">
-                    <div className="sidebar__item--primary">
-                        <NavLink
-                            className="type--color--white"
-                            to="/role-selection"
-                        >
-                            Role selection
-                        </NavLink>
+                    <div
+                        className="layout__aside__close sidebar__close"
+                        onClick={() => setAsideActive(!asideActive)}
+                    >
+                        <i className="icon icon--sm icon--close--white"></i>
                     </div>
-                    <div className="sidebar__item--primary">
-                        <NavLink className="type--color--white" to="/register">
-                            Register
-                        </NavLink>
-                    </div>
+
+                    <Navbar />
                 </div>
                 <div className="layout__main">{props.children}</div>
             </div>
