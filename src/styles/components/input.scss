@@ -25,6 +25,15 @@
         color: $color-text-placeholder;
     }
 
+    &__border {
+        &--error {
+            border-color: $color-error;
+            &:focus {
+                border-color: $color-error;
+            }
+        }
+    }
+
     //input sizes
     &--base {
         padding: calc(#{$unit} * 2.5) calc(#{$unit} * 3);

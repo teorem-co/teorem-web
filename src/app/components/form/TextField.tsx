@@ -22,7 +22,7 @@ const TextField: React.FC<TextFieldType> = (props: any) => {
     return (
         <>
             <div className="pos--rel">
-                <input type={`${password ? 'password' : 'text'}`} {...field} {...props} className={`${props.className ?? 'input input--base input--text'}`} />
+                <input type={`${password ? 'password' : 'text'}`} {...field} {...props} className={`${props.className ?? 'input input--base input--text'} ${errorText ? 'input__border--error' : ''}`} />
                 {
                     /* toggle password visibility */
                     props.password ? <i className="icon icon--sm icon--visible input--text--password" onClick={(e: any) => visiblePassToggle(e)}></i> : ''
