@@ -47,6 +47,13 @@
         font-size: $type-xl;
     }
 
+    &--xxl {
+        //fluid
+        //@include fluid-type($fluid-min-width, $fluid-max-width, $type-xl - $fluid-type-modifier, $type-xl);
+        //static
+        font-size: $type-xxl;
+    }
+
     //font weight
     &--wgt {
         &--light {

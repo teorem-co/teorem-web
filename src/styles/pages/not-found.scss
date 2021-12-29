@@ -1,0 +1,17 @@
+/*
+    pages: not-found.scss;
+*/
+
+.not-found {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    &__logo {
+        width: 128px;
+        height: 42px;
+    }
+}
