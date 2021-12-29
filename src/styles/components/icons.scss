@@ -10,7 +10,7 @@
     mask-repeat: no-repeat;
     mask-position: 50%;
     transition: background-color 300ms ease-in-out;
-    
+
     //icon sizes
     &--ty {
         width: calc(#{$unit} * 3);
@@ -46,7 +46,7 @@
     &--visible {
         mask-image: url('./../../assets/icons/visible.svg');
     }
-    
+
     //color modifiers
     &--primary {
         background-color: $color-primary;

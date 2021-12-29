@@ -6,21 +6,21 @@ $grid-spc: 12px;
 
 .container {
     padding: 0 $grid-spc;
-    
+
     &-fluid {
         max-width: 100%;
     }
     &-sm {
-        max-width: $responsive-sm
+        max-width: $responsive-sm;
     }
     &-md {
-        max-width: $responsive-md
+        max-width: $responsive-md;
     }
     &-lg {
-        max-width: $responsive-lg
+        max-width: $responsive-lg;
     }
     &-xl {
-        max-width: $responsive-xl
+        max-width: $responsive-xl;
     }
 }
 
@@ -36,7 +36,7 @@ $grid-spc: 12px;
         padding-left: $grid-spc;
         padding-right: $grid-spc;
     }
-    
+
     &--adaptive {
         & > .col {
             display: flex;

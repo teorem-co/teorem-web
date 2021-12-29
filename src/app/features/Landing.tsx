@@ -1,15 +1,15 @@
-import MainWrapper from "../components/MainWrapper"
+import MainWrapper from '../components/MainWrapper';
 
-interface Props { }
+interface Props {}
 
 const Landing = (props: Props) => {
-    return <>
-        <MainWrapper>
-            <>
-                Hello world
-            </>
-        </MainWrapper>
-    </>
-}
+    return (
+        <>
+            <MainWrapper>
+                <>Hello world</>
+            </MainWrapper>
+        </>
+    );
+};
 
-export default Landing
+export default Landing;

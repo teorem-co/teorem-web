@@ -6,8 +6,8 @@ import RoleSelection from './features/roleSelection/RoleSelection';
 export enum PATHS {
     ROOT = '/',
     ROLE_SELECTION = '/role-selection',
-    REGISTER = '/register'
-};
+    REGISTER = '/register',
+}
 
 const ROUTES: any = [
     {
@@ -20,13 +20,14 @@ const ROUTES: any = [
         path: PATHS.ROLE_SELECTION,
         key: 'ROLE_SELECTION',
         exact: true,
-        component: () => <RoleSelection />
-    }, {
+        component: () => <RoleSelection />,
+    },
+    {
         path: PATHS.REGISTER,
         key: 'REGISTER',
         exact: true,
-        component: () => <Register />
-    }
+        component: () => <Register />,
+    },
 ];
 
 export default ROUTES;

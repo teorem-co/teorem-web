@@ -5,9 +5,7 @@
 // GLOBAL VARIABLES
 //---------------------------------------------------------
 $unit: 4px;
-$scale: 0,1,2,3,4,5,6,8,10,12,14,16,18,22;
-
-
+$scale: 0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 14, 16, 18, 22;
 
 // COLORS
 //---------------------------------------------------------
@@ -33,21 +31,19 @@ $background-color: $grey-ef;
 $background-overlay: #061129b3;
 
 //main colors
-$color-primary: #7E6CF2; 
+$color-primary: #7e6cf2;
 $color-primary-light: #cbc3fb;
-$color-secondary: #0B8A00;
+$color-secondary: #0b8a00;
 
 $color-success: #2ecc71;
 $color-error: #e74c3c;
 $color-warning: #e67e22;
-
 
 // BORDERS
 //---------------------------------------------------------
 $border-color: $grey-c4;
 $border-rounded: $unit;
 $border-circle: 1000px;
-
 
 // TYPOGRAPHY
 //---------------------------------------------------------
@@ -63,7 +59,6 @@ $type-md: 18px;
 $type-lg: 24px;
 $type-xl: 32px;
 
-
 // RESPONSIVE
 //---------------------------------------------------------
 //responsive variables
@@ -74,20 +69,19 @@ $responsive-xl: 1200px;
 
 //spacers building configs
 $modifiers: (
-    "":"",
-    "t":"-top",
-    "r":"-right",
-    "b":"-bottom",
-    "l":"-left"
+    '': '',
+    't': '-top',
+    'r': '-right',
+    'b': '-bottom',
+    'l': '-left',
 );
 
 $responsiveConfig: (
-    $responsive-sm: "sm",
-    $responsive-md: "md",
-    $responsive-lg: "lg",
-    $responsive-xl: "xl"
+    $responsive-sm: 'sm',
+    $responsive-md: 'md',
+    $responsive-lg: 'lg',
+    $responsive-xl: 'xl',
 );
-
 
 // FLUID TYPOGRAPHY
 //---------------------------------------------------------

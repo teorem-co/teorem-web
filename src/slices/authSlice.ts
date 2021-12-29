@@ -8,7 +8,7 @@ interface IState {
 
 const initialState: IState = {
     user: null,
-    token: null
+    token: null,
 };
 
 export const authSlice = createSlice({
@@ -18,8 +18,8 @@ export const authSlice = createSlice({
         logout(state) {
             state.user = null;
             state.token = null;
-        }
-    }
+        },
+    },
 });
 
 export default authSlice.reducer;

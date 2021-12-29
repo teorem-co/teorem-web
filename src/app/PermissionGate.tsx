@@ -6,10 +6,8 @@ export default function PermissionsGate(props: any) {
     const permissionGranted = true;
 
     if (!permissionGranted) {
-        return (
-            <Redirect to='/' />
-        );
+        return <Redirect to="/" />;
     }
 
-    return <>{children}</>
-};
+    return <>{children}</>;
+}

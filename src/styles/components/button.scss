@@ -2,7 +2,6 @@
     components: button.scss
 */
 
-
 .btn {
     --box-shadow-color: #{$black};
     position: relative;
@@ -26,7 +25,11 @@
     //button styles
     &--primary {
         background-color: $color-primary;
-        background: linear-gradient(226.69deg, rgba(127, 95, 211, 0.9) 4.52%, #5C3EE8 94.64%);
+        background: linear-gradient(
+            226.69deg,
+            rgba(127, 95, 211, 0.9) 4.52%,
+            #5c3ee8 94.64%
+        );
         color: $white;
         &:hover {
             background-color: darken($color-primary, 10%);

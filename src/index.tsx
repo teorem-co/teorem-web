@@ -11,7 +11,7 @@ import './styles/App.scss';
 
 ReactDOM.render(
     <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor} >
+        <PersistGate loading={null} persistor={persistor}>
             <Router
                 getUserConfirmation={() => {
                     /* Empty callback to block the default browser prompt */
