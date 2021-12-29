@@ -1,5 +1,5 @@
 const typeToFormData = (type: any) => {
-    let formData = new FormData();
+    const formData = new FormData();
 
     for (const value in type) {
         formData.append(value, type[value]);

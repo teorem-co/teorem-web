@@ -1,21 +1,21 @@
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
+import { Action,combineReducers,configureStore, ThunkAction  } from '@reduxjs/toolkit';
+import { setupListeners } from '@reduxjs/toolkit/dist/query';
 import {
-    persistStore,
-    persistReducer,
     FLUSH,
-    REHYDRATE,
     PAUSE,
     PERSIST,
+    persistReducer,
+    persistStore,
     PURGE,
     REGISTER,
+    REHYDRATE,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import { combineReducers } from '@reduxjs/toolkit';
-import { setupListeners } from '@reduxjs/toolkit/dist/query';
-import { baseService } from './baseService';
-import { rtkQueryErrorLogger } from './middleware/rtkQueryErrorLogger';
+
 import authReducer from '../slices/authSlice';
 import roleReducer from '../slices/roleSlice';
+import { baseService } from './baseService';
+import { rtkQueryErrorLogger } from './middleware/rtkQueryErrorLogger';
 
 const persistConfig = {
     key: 'root',

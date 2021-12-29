@@ -1,13 +1,15 @@
+import './locales/localizationService';
+import './styles/App.scss';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { persistor, store } from './app/store';
+import { PersistGate } from 'redux-persist/integration/react';
+
 import App from './App';
+import { persistor, store } from './app/store';
 import * as serviceWorker from './serviceWorker';
-import './locales/localizationService';
-import './styles/App.scss';
 
 ReactDOM.render(
     <Provider store={store}>

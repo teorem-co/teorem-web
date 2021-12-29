@@ -19,7 +19,6 @@ export const roleSlice = createSlice({
     initialState,
     reducers: {
         setSelectedRole(state, action: PayloadAction<RoleOptions>) {
-            debugger;
             state.selectedRole = action.payload;
         },
     },
