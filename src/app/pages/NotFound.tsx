@@ -7,14 +7,19 @@ const NotFound = () => {
 
     return (
         <div className="not-found">
-            <div className="not-found__img"></div>
+            <div className="not-found__img">
+                {/* Add image when its exported in Figma */}
+                {/* <img className="img" src={Image from import} alt="not-found" /> */}
+            </div>
             <div className="not__found__logo mb-20">
                 <img className="img" src={logo} alt="Teorem" />
             </div>
-            <h1 className="type--xxl mb-4">Page not found</h1>
-            <p className="type--base  mb-10">
-                Sorry,looks like we sent you the wrong way. <br /> Let us guide
-                you back!
+            <h1 className="type--xxl type--color--primary mb-4">
+                Page not found
+            </h1>
+            <p className="type--base type--color--secondary mb-10">
+                Sorry,looks like we sent you the wrong way. <br />
+                Let us guide you back!
             </p>
             <button
                 onClick={() => history.goBack()}
