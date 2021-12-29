@@ -1,5 +1,3 @@
-import IRole from './IRole';
-
 export default interface IUser {
     id: string;
     firstName: string;
@@ -13,4 +11,4 @@ export default interface IUser {
     phoneNumber: string;
     phonePrefix: string;
     parentId?: string;
-};
+}
