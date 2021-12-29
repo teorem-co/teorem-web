@@ -1,5 +1,6 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query';
-import axios, { AxiosRequestConfig, AxiosError } from 'axios';
+import axios, { AxiosError,AxiosRequestConfig } from 'axios';
+
 import { getToken } from './utils/getToken';
 
 export const axiosBaseQuery =
@@ -35,7 +36,7 @@ export const axiosBaseQuery =
             const result = await axios(headers ? axiosConfigAuth : axiosConfig);
             return { data: result.data };
         } catch (axiosError) {
-            let err = axiosError as AxiosError;
+            const err = axiosError as AxiosError;
             return {
                 error: {
                     status: err.response?.status,

@@ -1,12 +1,13 @@
 import {
-    MiddlewareAPI,
     isRejectedWithValue,
     Middleware,
+    MiddlewareAPI,
 } from '@reduxjs/toolkit';
+
 import toastService from '../services/toastService';
 
 export const rtkQueryErrorLogger: Middleware =
-    (api: MiddlewareAPI) => (next) => (action) => {
+    (_api: MiddlewareAPI) => (next) => (action) => {
         if (isRejectedWithValue(action)) {
             if (action.payload.data && action.payload.data.message) {
                 toastService.error(action.payload.data.message);
