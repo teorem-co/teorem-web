@@ -98,4 +98,18 @@
           }
         }
     }
+
+    &--text {
+        &--password {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: calc(#{$unit} * 4);
+        }
+    }
+    
+    //add padding for icon
+    &--icon {
+        padding-right: calc(#{$unit} * 10);
+    }
 }

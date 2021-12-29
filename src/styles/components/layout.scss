@@ -39,6 +39,7 @@ $mobile-height: 50px;
             }
         }
     }
+    
     &__main {
         position: relative;
         width: calc(100% - #{$sidebar-width});

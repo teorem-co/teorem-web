@@ -34,11 +34,17 @@
     }
 
     //icons
+    &--arrow-left {
+        mask-image: url('./../../assets/icons/arrow-left.svg');
+    }
+    &--chevron-right {
+        mask-image: url('./../../assets/icons/chevron-right.svg');
+    }
     &--menu {
         mask-image: url('./../../assets/icons/menu.svg');
     }
-    &--arrow-right {
-        mask-image: url('./../../assets/icons/arrow-right.svg');
+    &--visible {
+        mask-image: url('./../../assets/icons/visible.svg');
     }
     
     //color modifiers
