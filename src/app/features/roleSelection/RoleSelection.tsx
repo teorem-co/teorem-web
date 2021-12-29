@@ -1,12 +1,10 @@
-import logo from './../../../assets/images/logo.svg';
-import gradientCircle from './../../../assets/images/gradient-circle.svg';
-import { roleSelectionOptions } from '../../constants/roleSelectionOptions';
-import IRoleSelectionOption from '../../../interfaces/IRoleSelectionOption';
 import heroImg from '../../../assets/images/hero-img.png';
+import IRoleSelectionOption from '../../../interfaces/IRoleSelectionOption';
+import { roleSelectionOptions } from '../../constants/roleSelectionOptions';
+import gradientCircle from './../../../assets/images/gradient-circle.svg';
+import logo from './../../../assets/images/logo.svg';
 
-interface Props {}
-
-const RoleSelection: React.FC<Props> = (props) => {
+const RoleSelection: React.FC = () => {
     //const { } = props;
 
     return (
@@ -59,7 +57,7 @@ const RoleSelection: React.FC<Props> = (props) => {
                         </div>
                     </div>
                     <div className="flex--primary w--448--max">
-                        <div>© Theorem</div>
+                        <div className="type--color--tertiary">© Theorem</div>
                         <div>
                             Already have an account? <a href="/login">Log in</a>
                         </div>

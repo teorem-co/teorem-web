@@ -65,4 +65,9 @@ $mobile-height: 50px;
             display: flex;
         }
     }
+
+    &__main {
+        flex-grow: 1;
+        background-color: $background-color;
+    }
 }
