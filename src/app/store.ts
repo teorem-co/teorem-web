@@ -1,5 +1,6 @@
-import { Action,combineReducers,configureStore, ThunkAction  } from '@reduxjs/toolkit';
+import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/dist/query';
+import { combineReducers } from 'redux';
 import {
     FLUSH,
     PAUSE,
