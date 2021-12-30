@@ -11,10 +11,7 @@
     &__logo {
         display: block;
         width: 128px;
-
-        margin-top: calc($unit * 10);
-        margin-bottom: calc($unit * 10);
-        margin-left: calc($unit * 5);
+        margin: calc($unit * 10) calc($unit * 5);
     }
 
     &__item {
