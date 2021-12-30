@@ -1,4 +1,5 @@
 import { Form, FormikProvider, useFormik } from 'formik';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
@@ -20,7 +21,7 @@ const Login: React.FC = () => {
         password: '',
     };
 
-    const [login] = useLoginMutation();
+    const [login, { isSuccess, isLoading }] = useLoginMutation();
 
     const formik = useFormik({
         initialValues: initialValues,
@@ -45,6 +46,12 @@ const Login: React.FC = () => {
                 .matches(/^(?=.*[!@#%&])/, t('FORM_VALIDATION.SPECIAL_CHAR')),
         }),
     });
+
+    useEffect(() => {
+        if (isSuccess) {
+            //navigate to first app screen
+        }
+    }, [isSuccess]);
 
     return (
         <>
@@ -73,6 +80,7 @@ const Login: React.FC = () => {
                                         name="email"
                                         id="email"
                                         placeholder="Enter your email"
+                                        disabled={isLoading}
                                     />
                                 </div>
                                 <div className="field">
@@ -88,11 +96,13 @@ const Login: React.FC = () => {
                                         placeholder="Type your password"
                                         className="input input--base input--text input--icon"
                                         password={true}
+                                        disabled={isLoading}
                                     />
                                 </div>
                                 <button
                                     className="btn btn--base btn--primary w--100 mb-2 mt-6"
                                     type="submit"
+                                    disabled={isLoading}
                                 >
                                     {t('LOGIN.FORM.SUBMIT_BTN')}
                                 </button>
