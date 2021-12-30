@@ -12,6 +12,16 @@ const MyBookings: React.FC = () => {
     const localizer = momentLocalizer(moment);
     const [value, onChange] = useState(new Date());
 
+    const CustomHeader = (date: any) => {
+        const test = date;
+        debugger;
+        return (
+            <>
+                <div>test</div>
+            </>
+        );
+    };
+
     return (
         <MainWrapper>
             <div className="my-bookings">
@@ -32,6 +42,11 @@ const MyBookings: React.FC = () => {
                             style={{ height: 'calc(100% - 60px)' }}
                             startAccessor="start"
                             endAccessor="end"
+                            components={{
+                                week: {
+                                    header: (date) => CustomHeader(date),
+                                },
+                            }}
                         />
                     </div>
                 </div>
