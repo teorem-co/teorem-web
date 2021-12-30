@@ -8,10 +8,12 @@
 
     & > div {
         &:first-child {
-            width: calc(100% - 300px);
+            flex-grow: 1;
         }
         &:last-child {
+            margin-left: calc(#{$unit} * 6);
             width: 300px;
+            flex-shrink: 0;
         }
     }
 }

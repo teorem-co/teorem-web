@@ -1,13 +1,11 @@
-import 'react-big-calendar/lib/css/react-big-calendar.css';
-
 import moment from 'moment';
 import { useState } from 'react';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
+import BigCalendar, { Calendar } from 'react-big-calendar';
 
 import MainWrapper from '../../components/MainWrapper';
 
 const MyBookings: React.FC = () => {
-    const localizer = momentLocalizer(moment);
+    const localizer = BigCalendar.momentLocalizer(moment);
     const [currentMonth] = useState<string>(
         moment().startOf('month').format('MM/DD/yyyy')
     );
@@ -206,19 +204,18 @@ const MyBookings: React.FC = () => {
             <div className="my-bookings">
                 <div>
                     <div className="card card--primary">
-                        <p className="type--lg mb-6 type--wgt--bold">
-                            Calendar
-                        </p>
+                        <div className="flex--primary mb-6">
+                            <h2 className="type--lg">Calendar</h2>
+                            <div className="type--wgt--bold type--color--brand">
+                                You have 2 Lessions today!
+                            </div>
+                        </div>
                         <Calendar
                             localizer={localizer}
-                            events={myEventList}
+                            events={[]}
                             style={{ height: '80.2vh' }}
-                            toolbar={false}
-                            view="week"
-                            date={currentMonth}
-                            eventPropGetter={eventStyleGetter}
-                            popup={true}
-                            onSelectSlot={handleSelectedSlot}
+                            startAccessor="start"
+                            endAccessor="end"
                         />
                     </div>
                 </div>
