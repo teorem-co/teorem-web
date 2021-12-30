@@ -9,16 +9,18 @@
     background-color: $white;
 
     &__logo {
-        padding: 40px 100px 0 20px;
-        margin-bottom: 40px;
+        display: block;
+        width: 128px;
+        margin: calc($unit * 10) calc($unit * 5);
     }
 
     &__item {
         position: relative;
-        display: block;
+        display: flex;
+        align-items: center;
         cursor: pointer;
-        color: $grey-bb;
-        padding: 10px;
+        color: $color-text-tertiary;
+        padding: 9px 22px;
         margin-bottom: calc($unit * 4);
 
         &::before {
@@ -34,12 +36,11 @@
             height: 40px;
 
             background-color: $color-primary;
-            border-radius: 0 50px 50px 0;
+            border-radius: 0 $border-rounded $border-rounded 0;
         }
 
         &__icon {
-            background-color: $grey-bb;
-            margin-left: 18px;
+            background-color: $color-text-tertiary;
         }
 
         &--calendar {
@@ -71,10 +72,10 @@
         }
 
         &__label {
-            vertical-align: middle;
+            // vertical-align: middle;
             margin-left: 18px;
             font-size: 14px;
-            color: $grey-bb;
+            color: $color-text-tertiary;
         }
 
         &.active {
@@ -96,6 +97,7 @@
 
     &__bottom {
         display: flex;
+        flex-shrink: 0;
         align-items: center;
 
         margin-bottom: 40px;

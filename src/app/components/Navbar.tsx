@@ -5,11 +5,9 @@ import logo from '../../assets/images/logo.svg';
 const Navbar = () => {
     return (
         <div className="navbar">
-            <div className="navbar__logo">
-                <NavLink to="/">
-                    <img src={logo} alt="logo" />
-                </NavLink>
-            </div>
+            <NavLink className="d--b" to="/">
+                <img className="navbar__logo" src={logo} alt="logo" />
+            </NavLink>
             <div className="flex--grow">
                 {/* Map through app paths and render nav items like this*/}
                 <NavLink
