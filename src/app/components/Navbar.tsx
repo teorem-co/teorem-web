@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom';
 
+import avatar from '../../assets/images/avatar.svg';
 import logo from '../../assets/images/logo.svg';
 
 const Navbar = () => {
@@ -52,7 +53,23 @@ const Navbar = () => {
                 </NavLink>
             </div>
             <div className="navbar__bottom">
-                {/* Here goes logout and user avatar */}
+                {/* Hardcoded avatar source change later */}
+                <img
+                    className="navbar__bottom__img"
+                    src={avatar}
+                    alt="avatar"
+                />
+                <div className="navbar__bottom__user-info">
+                    <div className="type--size--base type--color--primary type--wgt--bold">
+                        {/* Hardcoded name change later */}
+                        Ivana Nash
+                    </div>
+                    <div className="type--size--xs type--color--secondary type--wgt--regular">
+                        {/* Hardcoded role change later */}
+                        Parent/Guardian
+                    </div>
+                </div>
+                <i className="icon icon--logout icon--sm icon--grey"></i>
             </div>
         </div>
     );

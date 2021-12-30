@@ -101,7 +101,20 @@
         align-items: center;
 
         margin-bottom: 40px;
-        padding-left: calc($unit * 4);
-        padding-right: calc($unit * 6);
+
+        &__img {
+            display: inline-block;
+            width: 49px;
+
+            margin-left: calc($unit * 5);
+
+            border: 3.5px solid $grey-ed;
+            border-radius: $border-circle;
+        }
+
+        &__user-info {
+            margin-left: calc($unit * 2);
+            margin-right: calc($unit * 12);
+        }
     }
 }
