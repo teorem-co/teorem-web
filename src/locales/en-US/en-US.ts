@@ -1,5 +1,15 @@
 export const EN_US = {
     WATERMARK: '© Theorem',
+    FORM_VALIDATION: {
+        INVALID_EMAIL: 'Invalid email',
+        TOO_SHORT: 'Too Short!',
+        TOO_LONG: 'Too Long!',
+        REQUIRED: 'This field is required',
+        LOWERCASE: 'Include at least one lowercase letter (a-z)',
+        UPPERCASE: 'Include at least one uppercase letter (A-Z)',
+        NUMBER: 'Include at least one number (0-9)',
+        SPECIAL_CHAR: 'Include at least one special character',
+    },
     ROLE_SELECTION: {
         TITLE: 'Register',
         ACTION: 'I want to register as a',
@@ -11,5 +21,16 @@ export const EN_US = {
         PARENT_DESCRIPTION: 'Here to help my child learn.',
         TUTOR_TITLE: 'Tutor',
         TUTOR_DESCRIPTION: 'Here to teach students what I know.',
+    },
+    LOGIN: {
+        TITLE: 'Log in',
+        FORM: {
+            EMAIL: 'Email',
+            PASSWORD: 'Enter your Password',
+            SUBMIT_BTN: 'Log in',
+        },
+        FORGOT_PASSWORD: 'Forgot Password?',
+        ACCOUNT: 'Dont have an account?',
+        REGISTER: 'Register',
     },
 };

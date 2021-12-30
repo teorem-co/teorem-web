@@ -1,14 +1,21 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import IUser from '../interfaces/IUser';
+import { authService } from '../services/authService';
+
+interface ILoginPayload {
+    token: string;
+    user: {
+        id: string;
+    };
+}
 
 interface IState {
-    user: IUser | null;
+    userId: string | null;
     token: string | null;
 }
 
 const initialState: IState = {
-    user: null,
+    userId: null,
     token: null,
 };
 
@@ -17,9 +24,22 @@ export const authSlice = createSlice({
     initialState,
     reducers: {
         logout(state) {
-            state.user = null;
+            state.userId = null;
             state.token = null;
         },
+    },
+    extraReducers: (builder) => {
+        builder.addMatcher(
+            authService.endpoints.login.matchFulfilled,
+            (state, action: PayloadAction<ILoginPayload>) => {
+                const {
+                    user: { id },
+                    token,
+                } = action.payload;
+                state.token = token;
+                state.userId = id;
+            }
+        );
     },
 });
 

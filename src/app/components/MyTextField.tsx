@@ -1,5 +1,5 @@
-import { FC } from 'react';
 import { FieldAttributes, useField } from 'formik';
+import { FC } from 'react';
 
 type TextFieldType = {
     className?: string;

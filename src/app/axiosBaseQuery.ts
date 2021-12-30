@@ -1,7 +1,5 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query';
-import axios, { AxiosError,AxiosRequestConfig } from 'axios';
-
-import { getToken } from './utils/getToken';
+import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 
 export const axiosBaseQuery =
     (
@@ -18,7 +16,7 @@ export const axiosBaseQuery =
     > =>
     async ({ url, method, data }) => {
         let headers = null;
-        const token = getToken();
+        const token = null;
 
         if (token) {
             headers = { authorization: `Bearer ${token}` };
