@@ -7,47 +7,23 @@ const myEventList = [
             'Tue Nov 16 2021 00:10:00 GMT+0100 (Central European Standard Time)'
         ),
         end: new Date(
-            'Tue Nov 16 2021 00:10:00 GMT+0100 (Central European Standard Time)'
+            'Tue Nov 16 2021 00:50:00 GMT+0100 (Central European Standard Time)'
         ),
         allDay: false,
         className: '',
     },
     {
-        id: 9,
-        label: 'Nekakav inflow',
+        id: 1,
+        label: 'Ured struja',
         title: '42000',
         start: new Date(
-            'Tue Nov 16 2021 00:10:00 GMT+0100 (Central European Standard Time)'
+            'Tue Dec 29 2021 10:10:00 GMT+0100 (Central European Standard Time)'
         ),
         end: new Date(
-            'Tue Nov 16 2021 00:10:00 GMT+0100 (Central European Standard Time)'
+            'Tue Dec 29 2021 12:30:00 GMT+0100 (Central European Standard Time)'
         ),
         allDay: false,
         className: '',
-    },
-    {
-        id: 2,
-        label: 'Gaming oprema',
-        title: '-42000',
-        start: new Date(
-            'Tue Nov 16 2021 00:10:00 GMT+0100 (Central European Standard Time)'
-        ),
-        end: new Date(
-            'Tue Nov 16 2021 00:10:00 GMT+0100 (Central European Standard Time)'
-        ),
-        allDay: false,
-    },
-    {
-        id: 3,
-        label: 'Hrana',
-        title: '42000',
-        start: new Date(
-            'Tue Nov 16 2021 00:10:00 GMT+0100 (Central European Standard Time)'
-        ),
-        end: new Date(
-            'Tue Nov 16 2021 00:10:00 GMT+0100 (Central European Standard Time)'
-        ),
-        allDay: false,
     },
     {
         id: 4,
@@ -118,19 +94,6 @@ const myEventList = [
         ),
         end: new Date(
             'Wed Nov 17 2021 00:10:00 GMT+0100 (Central European Standard Time)'
-        ),
-        allDay: false,
-    },
-
-    {
-        id: 5,
-        label: 'Marketing kampanja',
-        title: '-12356',
-        start: new Date(
-            'Tue Nov 16 2021 00:10:00 GMT+0100 (Central European Standard Time)'
-        ),
-        end: new Date(
-            'Tue Nov 16 2021 00:10:00 GMT+0100 (Central European Standard Time)'
         ),
         allDay: false,
     },

@@ -12,7 +12,8 @@
     },
     "rules": {
         "indent": "off",
-        "no-console": ["error", { "allow": ["error", "debug"] }],
+        "no-console": ["warn"],
+        "no-debugger": ["warn"],
         "no-irregular-whitespace": "off",
         "no-nested-ternary": "off",
         "@typescript-eslint/ban-types": "off",

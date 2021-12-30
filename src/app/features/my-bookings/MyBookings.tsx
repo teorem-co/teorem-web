@@ -13,8 +13,17 @@ const MyBookings: React.FC = () => {
     const [value, onChange] = useState(new Date());
 
     const CustomHeader = (date: any) => {
-        const test = date;
-        debugger;
+        return (
+            <>
+                <div className="mb-2">{moment(date.date).format('dddd')}</div>
+                <div className="type--color--tertiary">
+                    {moment(date.date).format('DD.MM')}
+                </div>
+            </>
+        );
+    };
+
+    const CustomEvent = () => {
         return (
             <>
                 <div>test</div>
@@ -26,8 +35,8 @@ const MyBookings: React.FC = () => {
         <MainWrapper>
             <div className="my-bookings">
                 <div>
-                    <div className="card card--primary card--calendar">
-                        <div className="flex--primary mb-6">
+                    <div className="card--calendar">
+                        <div className="flex--primary p-6">
                             <h2 className="type--lg">Calendar</h2>
                             <div className="type--wgt--bold type--color--brand">
                                 You have 2 Lessions today!
@@ -35,17 +44,21 @@ const MyBookings: React.FC = () => {
                         </div>
                         <BigCalendar
                             localizer={localizer}
+                            formats={{
+                                timeGutterFormat: 'HH:mm',
+                            }}
                             events={myEventList}
                             toolbar={false}
                             date={value}
                             view="week"
-                            style={{ height: 'calc(100% - 60px)' }}
+                            style={{ height: 'calc(100% - 84px)' }}
                             startAccessor="start"
                             endAccessor="end"
                             components={{
                                 week: {
                                     header: (date) => CustomHeader(date),
                                 },
+                                event: () => CustomEvent(),
                             }}
                         />
                     </div>

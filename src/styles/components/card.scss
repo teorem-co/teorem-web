@@ -11,6 +11,10 @@
     }
 
     &--calendar {
+        background-color: $white;
+        border: 1px solid $grey-ed;
+        border-radius: $border-rounded;
+        overflow: hidden;
         display: flex;
         flex-direction: column;
         height: 100%;
