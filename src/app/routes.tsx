@@ -4,6 +4,7 @@ import Landing from './features/Landing';
 import Login from './features/login/Login';
 import Register from './features/register/Register';
 import RoleSelection from './features/roleSelection/RoleSelection';
+import NotFound from './pages/NotFound';
 
 export enum PATHS {
     ROOT = '/',
@@ -61,6 +62,7 @@ export function RenderRoutes(routesObj: any) {
             {routes.map((route: any) => {
                 return <RouteWithSubRoutes key={route.key} {...route} />;
             })}
+            <Route component={() => <NotFound />} />
         </Switch>
     );
 }
