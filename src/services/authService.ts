@@ -14,7 +14,7 @@ export const authService = baseService.injectEndpoints({
             query: (body) => ({
                 url: `${URL}/login`,
                 method: HttpMethods.POST,
-                data: body,
+                body,
             }),
         }),
     }),
