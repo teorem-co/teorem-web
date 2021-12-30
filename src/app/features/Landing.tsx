@@ -1,8 +1,6 @@
 import MainWrapper from '../components/MainWrapper';
 
-interface Props {}
-
-const Landing = (props: Props) => {
+const Landing = () => {
     return (
         <>
             <MainWrapper>

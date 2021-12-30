@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import heroImg from '../../../assets/images/hero-img.png';
+import { useLoginMutation } from '../../../services/authService';
 import TextField from '../../components/form/TextField';
 import logo from './../../../assets/images/logo.svg';
 
@@ -17,10 +18,16 @@ const Login: React.FC = () => {
         password: '',
     };
 
+    const [login] = useLoginMutation();
+
     const formik = useFormik({
         initialValues: initialValues,
         onSubmit: (values) => {
-            alert(JSON.stringify(values, null, 2));
+            const data = {
+                email: values.email,
+                password: values.password,
+            };
+            login(data);
         },
         validationSchema: Yup.object().shape({
             email: Yup.string()
