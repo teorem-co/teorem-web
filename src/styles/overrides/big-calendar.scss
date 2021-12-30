@@ -1,0 +1,69 @@
+/*
+    overrides: big-calendar.scss
+*/
+
+$rbc-color-header: #faf9ff;
+$rbc-color-today: #eaf6ff;
+
+.rbc {
+    &-calendar {
+        .rbc-time-header {
+            &-gutter {
+                background-color: $rbc-color-header;
+                background: repeating-linear-gradient(
+                    45deg,
+                    $grey-f7,
+                    $grey-f7 10px,
+                    $grey-fc 10px,
+                    $grey-fc 20px
+                );
+            }
+            &-content {
+                background-color: $rbc-color-header;
+            }
+        }
+    }
+
+    &-header {
+        border-color: $rbc-color-header;
+        &.rbc-today {
+            border-bottom-color: $rbc-color-today;
+        }
+
+        & + .rbc-header {
+            border-left-color: $rbc-color-header;
+        }
+    }
+
+    &-time {
+        &-content > * + * > * {
+            border-color: $grey-f5;
+        }
+        &-slot {
+            border-top-color: transparent !important;
+        }
+    }
+
+    &-timeslot-group {
+        border-color: $grey-f5;
+    }
+
+    &-today {
+        background-color: $rbc-color-today;
+    }
+
+    &-day {
+        &-bg {
+            & + .rbc-day-bg {
+                border-color: $grey-f5;
+            }
+        }
+        &-slot {
+            border-top-color: transparent !important;
+        }
+    }
+
+    &-current-time-indicator {
+        background-color: $color-error;
+    }
+}

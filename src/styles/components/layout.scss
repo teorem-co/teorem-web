@@ -68,6 +68,8 @@ $mobile-height: 50px;
 
     &__main {
         flex-grow: 1;
+        height: 100vh;
+        overflow-y: auto;
         background-color: $background-color;
     }
 }

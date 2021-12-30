@@ -9,4 +9,10 @@
         border: 1px solid $grey-ed;
         border-radius: $border-rounded;
     }
+
+    &--calendar {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
 }
