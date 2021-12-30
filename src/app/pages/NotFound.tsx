@@ -1,29 +1,29 @@
 import { useHistory } from 'react-router';
 
-import logo from '../../assets/images/logo.png';
+import logo from '../../assets/images/logo.svg';
 
 const NotFound = () => {
     const history = useHistory();
 
     return (
         <div className="not-found">
-            <div className="not-found__img">
+            <div>
                 {/* Add image when its exported in Figma */}
-                {/* <img className="img" src={Image from import} alt="not-found" /> */}
+                {/* <img className="not-found__img" src={Image from import} alt="not-found" /> */}
             </div>
-            <div className="not__found__logo mb-20">
-                <img className="img" src={logo} alt="Teorem" />
+            <div>
+                <img className="not-found__logo" src={logo} alt="Teorem" />
             </div>
-            <h1 className="type--xxl type--color--primary mb-4">
+            <h1 className="not-found__title type--color--primary mb-4">
                 Page not found
             </h1>
-            <p className="type--base type--color--secondary mb-10">
-                Sorry,looks like we sent you the wrong way. <br />
-                Let us guide you back!
+            <p className="not-found__subtitle type--base type--color--secondary mb-10">
+                Sorry,looks like we sent you the wrong way. Let us guide you
+                back!
             </p>
             <button
                 onClick={() => history.goBack()}
-                className="btn btn--clear btn--clear"
+                className="btn btn--sm btn--clear type--wgt--bold"
             >
                 Back to home
             </button>
