@@ -9,8 +9,12 @@
     background-color: $white;
 
     &__logo {
-        padding: 40px 100px 0 20px;
-        margin-bottom: 40px;
+        display: block;
+        width: 128px;
+
+        margin-top: calc($unit * 10);
+        margin-bottom: calc($unit * 10);
+        margin-left: calc($unit * 5);
     }
 
     &__item {
@@ -35,7 +39,7 @@
             height: 40px;
 
             background-color: $color-primary;
-            border-radius: $border-rounded;
+            border-radius: 0 $border-rounded $border-rounded 0;
         }
 
         &__icon {

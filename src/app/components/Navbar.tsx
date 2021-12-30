@@ -5,9 +5,9 @@ import logo from '../../assets/images/logo.svg';
 const Navbar = () => {
     return (
         <div className="navbar">
-            <div className="navbar__logo">
+            <div>
                 <NavLink to="/">
-                    <img src={logo} alt="logo" />
+                    <img className="navbar__logo" src={logo} alt="logo" />
                 </NavLink>
             </div>
             <div className="flex--grow">
