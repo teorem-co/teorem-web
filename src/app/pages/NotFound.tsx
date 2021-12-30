@@ -8,16 +8,15 @@ const NotFound = () => {
     return (
         <div className="not-found">
             <div>
+                {/* Remove div if not needed */}
                 {/* Add image when its exported in Figma */}
                 {/* <img className="not-found__img" src={Image from import} alt="not-found" /> */}
             </div>
             <div>
                 <img className="not-found__logo" src={logo} alt="Teorem" />
             </div>
-            <h1 className="not-found__title type--color--primary mb-4">
-                Page not found
-            </h1>
-            <p className="not-found__subtitle type--base type--color--secondary mb-10">
+            <h1 className="not-found__title">Page not found</h1>
+            <p className="not-found__subtitle">
                 Sorry,looks like we sent you the wrong way. Let us guide you
                 back!
             </p>
