@@ -2,8 +2,18 @@ import { NavLink } from 'react-router-dom';
 
 import avatar from '../../assets/images/avatar.svg';
 import logo from '../../assets/images/logo.svg';
+import { logout } from '../../slices/authSlice';
+import { useAppDispatch } from '../hooks';
+import { persistor } from '../store';
 
 const Navbar = () => {
+    const dispatch = useAppDispatch();
+
+    const handleLogout = () => {
+        persistor.purge();
+        dispatch(logout());
+    };
+
     return (
         <div className="navbar">
             <NavLink className="d--b" to="/">
@@ -69,7 +79,9 @@ const Navbar = () => {
                         Parent/Guardian
                     </div>
                 </div>
-                <i className="icon icon--logout icon--sm icon--grey"></i>
+                <NavLink to="/" onClick={handleLogout} className="d--ib">
+                    <i className="icon icon--logout icon--sm icon--grey"></i>
+                </NavLink>
             </div>
         </div>
     );
