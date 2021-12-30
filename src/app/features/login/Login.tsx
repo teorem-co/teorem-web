@@ -7,6 +7,7 @@ import * as Yup from 'yup';
 import heroImg from '../../../assets/images/hero-img.png';
 import { useLoginMutation } from '../../../services/authService';
 import TextField from '../../components/form/TextField';
+import { PATHS } from '../../routes';
 import logo from './../../../assets/images/logo.svg';
 
 interface Values {
@@ -106,12 +107,13 @@ const Login: React.FC = () => {
                                 >
                                     {t('LOGIN.FORM.SUBMIT_BTN')}
                                 </button>
-                                <div
+                                <button
                                     onClick={() => alert('goBack')}
                                     className="btn btn--clear btn--base w--100 type--color--brand type--wgt--bold type--center"
+                                    disabled={isLoading}
                                 >
                                     {t('LOGIN.FORGOT_PASSWORD')}
-                                </div>
+                                </button>
                             </Form>
                         </FormikProvider>
                     </div>
@@ -121,7 +123,9 @@ const Login: React.FC = () => {
                         </div>
                         <div>
                             {t('LOGIN.ACCOUNT')}{' '}
-                            <Link to="/register">{t('LOGIN.REGISTER')}</Link>
+                            <Link to={!isLoading ? PATHS.REGISTER : '#'}>
+                                {t('LOGIN.REGISTER')}
+                            </Link>
                         </div>
                     </div>
                 </div>
