@@ -37,98 +37,70 @@
     &--arrow-left {
         mask-image: url('./../../assets/icons/arrow-left.svg');
     }
-    &--chevron-right {
-        mask-image: url('./../../assets/icons/chevron-right.svg');
-    }
-    &--menu {
-        mask-image: url('../../assets/icons/menu.svg');
-    }
-
-    &--close {
-        mask-image: url('../../assets/icons/close.svg');
-    }
-    &--visible {
-        mask-image: url('./../../assets/icons/visible.svg');
-    }
-
-    &--back {
-        mask-image: url('../../assets/icons/back.svg');
-    }
-
     &--calendar {
         mask-image: url('../../assets/icons/calendar.svg');
     }
-
     &--chat {
         mask-image: url('../../assets/icons/chat.svg');
     }
-
     &--check {
         mask-image: url('../../assets/icons/check.svg');
     }
-
+    &--chevron {
+        &-right {
+            mask-image: url('./../../assets/icons/chevron-right.svg');
+        }
+        &-left {
+            mask-image: url('./../../assets/icons/chevron-left.svg');
+        }
+        &-down {
+            mask-image: url('../../assets/icons/chevron-down.svg');
+        }
+    }
     &--close {
         mask-image: url('../../assets/icons/close.svg');
     }
-
     &--completed-lessons {
         mask-image: url('../../assets/icons/completed-lessons.svg');
     }
-
-    &--down {
-        mask-image: url('../../assets/icons/down.svg');
-    }
-
     &--error {
         mask-image: url('../../assets/icons/error.svg');
     }
-
     &--hide {
         mask-image: url('../../assets/icons/hide.svg');
     }
-
     &--logout {
         mask-image: url('../../assets/icons/logout.svg');
     }
-
     &--menu {
         mask-image: url('../../assets/icons/menu.svg');
     }
-
     &--more {
         mask-image: url('../../assets/icons/more.svg');
     }
-
     &--notifications {
         mask-image: url('../../assets/icons/notifications.svg');
     }
-
     &--profile {
         mask-image: url('../../assets/icons/profile.svg');
     }
-
     &--reviews {
         mask-image: url('../../assets/icons/reviews.svg');
     }
-
-    &--right {
-        mask-image: url('../../assets/icons/right.svg');
-    }
-
     &--search-tutors {
         mask-image: url('../../assets/icons/search-tutors.svg');
     }
-
     &--settings {
         mask-image: url('../../assets/icons/settings.svg');
     }
-
     &--show {
         mask-image: url('../../assets/icons/show.svg');
     }
-
     &--upload {
         mask-image: url('../../assets/icons/upload.svg');
+    }
+    &--visible {
+        mask-image: url('./../../assets/icons/visible.svg');
     }
 
     //color modifiers

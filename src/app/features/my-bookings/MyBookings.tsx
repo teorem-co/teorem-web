@@ -26,14 +26,19 @@ const MyBookings: React.FC = () => {
     const CustomEvent = (event: any) => {
         return (
             <>
-                <div>
-                    <div className="mb-2">
-                        {moment(event.event.start).format('HH:mm')}
-                    </div>
-                    <div className="type--wgt--bold">{event.event.label}</div>
+                <div className="mb-2">
+                    {moment(event.event.start).format('HH:mm')}
                 </div>
+                <div className="type--wgt--bold">{event.event.label}</div>
             </>
         );
+    };
+
+    const PrevIcon = () => {
+        return <i className="icon icon--base icon--chevron-left"></i>;
+    };
+    const NextIcon = () => {
+        return <i className="icon icon--base icon--chevron-right"></i>;
     };
 
     return (
@@ -70,7 +75,12 @@ const MyBookings: React.FC = () => {
                 </div>
                 <div>
                     <div className="card card--primary mb-4">
-                        <Calendar onChange={onChange} value={value} />
+                        <Calendar
+                            onChange={onChange}
+                            value={value}
+                            prevLabel={<PrevIcon />}
+                            nextLabel={<NextIcon />}
+                        />
                     </div>
                     <div className="upcoming-lessons">
                         <UpcomingLessons upcomingLessons={upcomingLessons} />
