@@ -111,16 +111,24 @@ $rbc-hour-height: 80px;
         }
         &-slot {
             border-top-color: transparent !important;
-        }
-    }
 
-    &-event {
-        background-color: #c9e2ff;
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
+            //style for events
+            .rbc-event {
+                background-color: #c9e2ff;
+                border-top-left-radius: 0;
+                border-top-right-radius: 0;
+                border: none;
+                border-top: 2px solid $color-status-blue;
+                padding: calc(#{$unit} * 4) calc(#{$unit} * 2);
 
-        &.rbc-selected {
-            background-color: #2f72be;
+                &-label {
+                    display: none;
+                }
+
+                &.rbc-selected {
+                    background-color: #88bfff;
+                }
+            }
         }
     }
 

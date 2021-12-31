@@ -23,10 +23,15 @@ const MyBookings: React.FC = () => {
         );
     };
 
-    const CustomEvent = () => {
+    const CustomEvent = (event: any) => {
         return (
             <>
-                <div>test</div>
+                <div>
+                    <div className="mb-2">
+                        {moment(event.event.start).format('HH:mm')}
+                    </div>
+                    <div className="type--wgt--bold">{event.event.label}</div>
+                </div>
             </>
         );
     };
@@ -58,7 +63,7 @@ const MyBookings: React.FC = () => {
                                 week: {
                                     header: (date) => CustomHeader(date),
                                 },
-                                event: () => CustomEvent(),
+                                event: (event) => CustomEvent(event),
                             }}
                         />
                     </div>
