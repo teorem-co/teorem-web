@@ -104,28 +104,18 @@
         margin-bottom: 40px;
 
         &__avatar {
-            position: relative;
+            width: 56px;
+            height: 56px;
 
-            &::before {
-                content: '';
-                position: absolute;
+            flex-shrink: 0;
 
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-
-                width: 56px;
-                height: 56px;
-
-                border-radius: $border-circle;
-                background-color: $grey-ed;
-            }
+            padding: 3.5px;
+            border-radius: $border-circle;
+            background-color: $grey-ed;
 
             img {
-                position: relative;
                 display: inline-block;
-                width: 49px;
-                flex-shrink: 0;
+                width: 100%;
             }
         }
 
