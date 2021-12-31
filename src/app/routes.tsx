@@ -2,6 +2,7 @@ import { Route, Switch } from 'react-router-dom';
 
 import Landing from './features/Landing';
 import Login from './features/login/Login';
+import MyBookings from './features/my-bookings/MyBookings';
 import Register from './features/register/Register';
 import RoleSelection from './features/roleSelection/RoleSelection';
 import NotFound from './pages/NotFound';
@@ -11,6 +12,7 @@ export enum PATHS {
     ROLE_SELECTION = '/role-selection',
     REGISTER = '/register',
     LOGIN = '/login',
+    MY_BOOKINGS = '/my-bookings',
 }
 
 const ROUTES: any = [
@@ -37,6 +39,12 @@ const ROUTES: any = [
         key: 'LOGIN',
         exact: true,
         component: () => <Login />,
+    },
+    {
+        path: PATHS.MY_BOOKINGS,
+        key: 'MY_BOOKINGS',
+        exact: true,
+        component: () => <MyBookings />,
     },
 ];
 

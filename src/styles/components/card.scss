@@ -4,8 +4,19 @@
 
 .card {
     &--primary {
-        background-color: #dfdfdf;
+        background-color: $white;
         padding: 12px;
-        border: 1px solid #d4d4d4;
+        border: 1px solid $grey-ed;
+        border-radius: $border-rounded;
+    }
+
+    &--calendar {
+        background-color: $white;
+        border: 1px solid $grey-ed;
+        border-radius: $border-rounded;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
     }
 }

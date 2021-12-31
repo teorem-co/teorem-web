@@ -1,0 +1,148 @@
+/*
+    overrides: big-calendar.scss
+*/
+
+$rbc-color-header: #faf9ff;
+$rbc-color-today: transparent;
+$rbc-hour-height: 80px;
+
+.rbc {
+    &-calendar {
+        .rbc-time-header {
+            &-gutter {
+                background-color: $rbc-color-header;
+                background: repeating-linear-gradient(
+                    45deg,
+                    $grey-f7,
+                    $grey-f7 10px,
+                    $grey-fc 10px,
+                    $grey-fc 20px
+                );
+            }
+            &-content {
+                background-color: $rbc-color-header;
+            }
+        }
+    }
+
+    &-header {
+        border-color: $rbc-color-header;
+        padding: calc(#{$unit} * 4);
+        font-weight: 400;
+
+        &.rbc-today {
+            border-bottom-color: $rbc-color-today;
+            div {
+                color: $color-primary;
+                &:first-child {
+                    font-weight: 600;
+                }
+            }
+        }
+
+        & + .rbc-header {
+            border-left-color: $rbc-color-header;
+        }
+    }
+
+    &-time {
+        &-content {
+            border-top: 1px solid $grey-f5;
+
+            & > * + * > * {
+                border-color: $grey-f5;
+            }
+        }
+
+        &-slot {
+            border-top-color: transparent !important;
+            min-height: $rbc-hour-height;
+        }
+
+        &-view {
+            border: none;
+            border-top: 1px solid $grey-f5;
+        }
+
+        &-header {
+            &-content {
+                border-color: transparent;
+            }
+            &.rbc-overflowing {
+                border: none;
+                position: relative;
+
+                &:before {
+                    content: '';
+                    position: absolute;
+                    display: block;
+                    right: calc(#{$unit} * -4);
+                    top: 0;
+                    bottom: 0;
+                    width: calc(#{$unit} * 4);
+                    background-color: $rbc-color-header;
+                }
+            }
+        }
+    }
+
+    &-timeslot-group {
+        border-color: $grey-f5;
+
+        .rbc-time-slot {
+            display: flex;
+            align-items: center;
+
+            &:last-child {
+                display: none;
+            }
+        }
+    }
+
+    &-today {
+        background-color: $rbc-color-today;
+    }
+
+    &-day {
+        &-bg {
+            & + .rbc-day-bg {
+                border-color: $grey-f5;
+            }
+        }
+        &-slot {
+            border-top-color: transparent !important;
+        }
+    }
+
+    &-event {
+        background-color: #c9e2ff;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+
+        &.rbc-selected {
+            background-color: #2f72be;
+        }
+    }
+
+    &-current-time-indicator {
+        //position: relative;
+        background-color: transparent;
+        border-bottom: 1px dashed $color-error;
+
+        &:after {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            display: block;
+            width: 8px;
+            height: 8px;
+            border-radius: $border-circle;
+            background-color: $color-error;
+        }
+    }
+
+    &-allday-cell {
+        display: none;
+    }
+}

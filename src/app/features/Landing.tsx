@@ -1,6 +1,6 @@
 import MainWrapper from '../components/MainWrapper';
 
-const Landing = () => {
+const Landing: React.FC = () => {
     return (
         <>
             <MainWrapper>

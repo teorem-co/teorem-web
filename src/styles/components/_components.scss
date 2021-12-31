@@ -3,14 +3,20 @@
 */
 
 @import 'button';
+@import 'card';
 @import 'field';
 @import 'grid';
 @import 'icons';
 @import 'input';
 @import 'layout';
-@import 'content';
-@import 'sidebar';
 @import 'navbar';
+@import 'sidebar';
+@import 'status';
+@import 'upcoming-lessons';
+
+//must load after base imports
+@import 'content';
+
 /*
     End of components imports
 */

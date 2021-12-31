@@ -1,0 +1,17 @@
+/*
+    components: upcoming-lessons.scss
+*/
+
+.upcoming-lessons {
+    overflow-y: auto;
+    flex-grow: 1;
+    height: calc(100% - 337px);
+
+    &__title {
+        position: sticky;
+        top: 0;
+        background-color: $background-color;
+        color: $color-text-secondary;
+        padding-bottom: calc(#{$unit} * 2);
+    }
+}

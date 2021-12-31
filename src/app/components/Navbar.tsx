@@ -11,7 +11,7 @@ const Navbar = () => {
             <div className="flex--grow">
                 {/* Map through app paths and render nav items like this*/}
                 <NavLink
-                    to="/"
+                    to="/my-bookings"
                     className="navbar__item"
                     activeClassName="active"
                 >

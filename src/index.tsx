@@ -1,4 +1,6 @@
 import './locales/localizationService';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+import 'react-calendar/dist/Calendar.css';
 import './styles/App.scss';
 
 import React from 'react';
