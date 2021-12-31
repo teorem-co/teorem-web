@@ -1,0 +1,74 @@
+/*
+    overrides: react-calendar.scss
+*/
+
+$rc-button-height: 48px;
+
+.react-calendar {
+    border: none;
+    font-family: 'Lato', sans-serif;
+
+    &__navigation {
+        &__prev2-button,
+        &__next2-button {
+            display: none;
+        }
+        button:enabled:hover,
+        button:enabled:focus {
+            background-color: $rbc-color-header;
+        }
+
+        &__label {
+            font-weight: 600;
+        }
+    }
+
+    &__tile {
+        &:enabled:hover,
+        &:enabled:focus {
+            background-color: $rbc-color-header;
+        }
+        &--active {
+            background-color: $color-primary !important;
+            border-radius: $border-rounded;
+            color: $white !important;
+            &:enabled:hover,
+            &:enabled:focus {
+                background-color: $color-primary;
+            }
+        }
+        &--now {
+            background: $rbc-color-header;
+            color: $color-text-primary;
+            border-radius: $border-rounded;
+        }
+    }
+
+    &__month-view {
+        &__weekdays {
+            margin-bottom: calc(#{$unit} * 3);
+
+            &__weekday {
+                font-size: 14px;
+                font-weight: 400;
+                text-transform: capitalize;
+                color: $color-text-tertiary;
+                padding: 0;
+
+                abbr {
+                    text-decoration: none;
+                }
+            }
+        }
+
+        &__days {
+            &__day--weekend {
+                color: $color-text-primary;
+            }
+
+            button {
+                height: $rc-button-height;
+            }
+        }
+    }
+}
