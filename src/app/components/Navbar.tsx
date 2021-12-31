@@ -63,20 +63,17 @@ const Navbar = () => {
                 </NavLink>
             </div>
             <div className="navbar__bottom">
-                {/* Hardcoded avatar source change later */}
-                <img
-                    className="navbar__bottom__img"
-                    src={avatar}
-                    alt="avatar"
-                />
-                <div className="navbar__bottom__user-info">
-                    <div className="type--size--base type--color--primary type--wgt--bold">
-                        {/* Hardcoded name change later */}
-                        Ivana Nash
+                <div className="flex flex--grow flex--center">
+                    <div className="navbar__bottom__avatar">
+                        <img src={avatar} alt="avatar" />
                     </div>
-                    <div className="type--size--xs type--color--secondary type--wgt--regular">
-                        {/* Hardcoded role change later */}
-                        Parent/Guardian
+                    <div className="navbar__bottom__user-info">
+                        <div className="type--color--primary type--wgt--bold type--break">
+                            Ivana Nash
+                        </div>
+                        <div className="type--xs type--color--secondary type--wgt--regular">
+                            Parent/Guardian
+                        </div>
                     </div>
                 </div>
                 <NavLink to="/" onClick={handleLogout} className="d--ib">
