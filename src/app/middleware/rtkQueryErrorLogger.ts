@@ -12,6 +12,7 @@ export const rtkQueryErrorLogger: Middleware =
             if (action.payload.data && action.payload.data.message) {
                 toastService.error(action.payload.data.message);
             } else {
+                // TODO translate
                 toastService.error('Unhandled error occured!');
             }
         }
