@@ -33,4 +33,33 @@ export const EN_US = {
         ACCOUNT: 'Dont have an account?',
         REGISTER: 'Register',
     },
+    BACKEND_ERRORS: {
+        BASE: {
+            UNAUTHORIZED: "You are not authorized.",
+            FORBIDDED: "You do not have permission.",
+            NOT_FOUND: "Resource not found",
+            CONFLICT: "Resource already exists",
+            INTERNAL_ERROR: "Server error"
+        },
+        USER: {
+            EMAIL_CONFLICT: "User with this email already exists",
+            LOGIN_WRONG_FORM_DATA: "Wrong email or password",
+            NOT_FOUND: "User not found",
+        },
+        LEVEL: {
+            NOT_FOUND: "Level not found",
+        },
+        SUBJECT: {
+            NOT_FOUND: "Subject not found",
+        },
+        TUTOR: {
+            NOT_FOUND: "Tutor not found",
+        },
+        BOOKING: {
+            NOT_FOUND: "Booking not found",
+        },
+        ROLE: {
+            NOT_FOUND: "Role not found",
+        }
+    }
 };

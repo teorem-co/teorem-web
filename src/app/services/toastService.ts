@@ -12,6 +12,7 @@ class ToastService {
     };
 
     error = (message: string): void => {
+        // TODO translate
         const globalErrorMessage = message ? message : 'Dogodila se greška.';
         toast.error(
             globalErrorMessage,
