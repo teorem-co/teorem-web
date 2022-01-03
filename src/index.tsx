@@ -1,12 +1,13 @@
 import './locales/localizationService';
+import 'react-toastify/dist/ReactToastify.css';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-calendar/dist/Calendar.css';
 import './styles/App.scss';
 
-import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import { PersistGate } from 'redux-persist/integration/react';
 
 import App from './App';
@@ -22,6 +23,7 @@ ReactDOM.render(
                 }}
             >
                 <App />
+                <ToastContainer />
             </Router>
         </PersistGate>
     </Provider>,

@@ -1,8 +1,11 @@
 import { Form, FormikProvider, useFormik } from 'formik';
+import { useEffect } from 'react';
+import { useHistory } from 'react-router';
 import * as Yup from 'yup';
 
 import heroImg from '../../../assets/images/hero-img.png';
 import TextField from '../../components/form/TextField';
+import { useAppSelector } from '../../hooks';
 import logo from './../../../assets/images/logo.svg';
 
 interface Values {
@@ -14,6 +17,9 @@ interface Values {
 }
 
 const Register: React.FC = () => {
+    const history = useHistory();
+    const roleSelection = useAppSelector((state) => state.role.selectedRole);
+
     const initialValues: Values = {
         firstName: '',
         lastName: '',
@@ -24,9 +30,7 @@ const Register: React.FC = () => {
 
     const formik = useFormik({
         initialValues: initialValues,
-        onSubmit: (values) => {
-            alert(JSON.stringify(values, null, 2));
-        },
+        onSubmit: (values) => handleSubmit(values),
         validationSchema: Yup.object().shape({
             firstName: Yup.string()
                 .min(2, 'Too Short!')
@@ -50,6 +54,21 @@ const Register: React.FC = () => {
         }),
     });
 
+    const handleSubmit = (values: Values) => {
+        alert(JSON.stringify(values, null, 2));
+    };
+
+    const handleGoBack = () => {
+        history.push('/role-selection');
+    };
+
+    useEffect(() => {
+        //if role selection is empty, redirect to role selection screen
+        if (!roleSelection) {
+            history.push('/role-selection');
+        }
+    }, []);
+
     return (
         <>
             <div className="login">
@@ -62,7 +81,7 @@ const Register: React.FC = () => {
                             <img className="w--128" src={logo} alt="Theorem" />
                         </div>
                         <div className="type--lg type--wgt--bold mb-4">
-                            Register as (role)
+                            Register as {roleSelection}
                         </div>
                         <FormikProvider value={formik}>
                             <Form>
@@ -142,7 +161,7 @@ const Register: React.FC = () => {
                                     Register
                                 </button>
                                 <div
-                                    onClick={() => alert('goBack')}
+                                    onClick={() => handleGoBack()}
                                     className="btn btn--clear btn--base w--100 type--color--brand type--wgt--bold type--center"
                                 >
                                     <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>{' '}

@@ -1,11 +1,29 @@
+import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router';
+
 import heroImg from '../../../assets/images/hero-img.png';
 import IRoleSelectionOption from '../../../interfaces/IRoleSelectionOption';
+import { RoleOptions, setSelectedRole } from '../../../slices/roleSlice';
 import { roleSelectionOptions } from '../../constants/roleSelectionOptions';
+import { useAppDispatch } from '../../hooks';
+import { PATHS } from '../../routes';
 import gradientCircle from './../../../assets/images/gradient-circle.svg';
 import logo from './../../../assets/images/logo.svg';
 
 const RoleSelection: React.FC = () => {
-    //const { } = props;
+    const history = useHistory();
+    const dispatch = useAppDispatch();
+    const { t } = useTranslation();
+
+    const handleRoleSelection = (roleId: number) => {
+        const options: { [key: number]: RoleOptions } = {
+            0: RoleOptions.Student,
+            1: RoleOptions.Parent,
+            2: RoleOptions.Tutor,
+        };
+        options[roleId] && dispatch(setSelectedRole(options[roleId]));
+        options[roleId] && history.push(PATHS.REGISTER);
+    };
 
     return (
         <>
@@ -19,22 +37,19 @@ const RoleSelection: React.FC = () => {
                             <img className="w--128" src={logo} alt="Theorem" />
                         </div>
                         <div className="type--lg type--wgt--bold mb-4">
-                            Register
+                            {t('ROLE_SELECTION.TITLE')}
                         </div>
-                        <div className="mb-2">I want to register as a</div>
+                        <div className="mb-2">{t('ROLE_SELECTION.ACTION')}</div>
                         <div className="role-selection__form">
                             {roleSelectionOptions.map(
                                 (roleOption: IRoleSelectionOption) => {
+                                    const { id } = roleOption;
                                     return (
                                         <div
                                             className="role-selection__item"
-                                            key={roleOption.id}
+                                            key={id}
                                             onClick={() =>
-                                                alert(
-                                                    roleOption.id +
-                                                        ' - ' +
-                                                        roleOption.title
-                                                )
+                                                handleRoleSelection(id)
                                             }
                                         >
                                             <img
@@ -43,10 +58,22 @@ const RoleSelection: React.FC = () => {
                                             />
                                             <div className="flex--grow ml-4">
                                                 <div className="mb-1">
-                                                    {roleOption.title}
+                                                    {t(
+                                                        id === 0
+                                                            ? 'ROLE_SELECTION.STUDENT_TITLE'
+                                                            : id === 1
+                                                            ? 'ROLE_SELECTION.PARENT_TITLE'
+                                                            : 'ROLE_SELECTION.TUTOR_TITLE'
+                                                    )}
                                                 </div>
                                                 <div className="type--color--secondary">
-                                                    {roleOption.description}
+                                                    {t(
+                                                        id === 0
+                                                            ? 'ROLE_SELECTION.STUDENT_DESCRIPTION'
+                                                            : id === 1
+                                                            ? 'ROLE_SELECTION.PARENT_DESCRIPTION'
+                                                            : 'ROLE_SELECTION.TUTOR_DESCRIPTION'
+                                                    )}
                                                 </div>
                                             </div>
                                             <i className="icon icon--base icon--chevron-right icon--primary"></i>
@@ -57,9 +84,12 @@ const RoleSelection: React.FC = () => {
                         </div>
                     </div>
                     <div className="flex--primary w--448--max">
-                        <div className="type--color--tertiary">© Theorem</div>
+                        <div className="type--color--tertiary">
+                            {t('WATERMARK')}
+                        </div>
                         <div>
-                            Already have an account? <a href="/login">Log in</a>
+                            {t('ROLE_SELECTION.ACCOUNT')}&nbsp;
+                            <a href="/login">{t('ROLE_SELECTION.LOG_IN')}</a>
                         </div>
                     </div>
                 </div>

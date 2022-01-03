@@ -84,17 +84,62 @@ $rbc-hour-height: 80px;
                 }
             }
         }
+
+        &-gutter {
+            &.rbc-time-column {
+                .rbc-timeslot-group {
+                    border-bottom-color: transparent;
+                    .rbc-time-slot {
+                        .rbc-label {
+                            margin-top: -10px;
+                        }
+                    }
+                    &:first-child {
+                        .rbc-time-slot {
+                            .rbc-label {
+                                margin-top: -20px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     &-timeslot-group {
         border-color: $grey-f5;
 
         .rbc-time-slot {
+            position: relative;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
 
             &:last-child {
                 display: none;
+            }
+
+            .rbc-label {
+                padding: 0 calc(#{$unit} * 6);
+
+                &:after {
+                    content: '';
+                    position: absolute;
+                    top: 22px;
+                    left: calc(#{$unit} * 6);
+                    width: 20px;
+                    height: 36px;
+                    border-top: 1px solid $grey-ed;
+                    border-bottom: 1px solid $grey-ed;
+                }
+                &:before {
+                    content: '';
+                    position: absolute;
+                    bottom: 40px;
+                    left: calc(#{$unit} * 6);
+                    width: 32px;
+                    height: 1px;
+                    background-color: $grey-ed;
+                }
             }
         }
     }
