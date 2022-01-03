@@ -12,6 +12,7 @@ interface Props {
 }
 
 //maybe later remove links from props and just get them inside NavBar since they will be predefined and not fetched
+//different navlinks, get role and then conditionaly render routes that are not the same
 
 const Navbar = (props: Props) => {
     const { navLinks } = props;
@@ -22,8 +23,6 @@ const Navbar = (props: Props) => {
         persistor.purge();
         dispatch(logout());
     };
-
-    console.log('render');
 
     return (
         <div className="navbar">
