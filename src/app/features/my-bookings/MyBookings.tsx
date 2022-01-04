@@ -13,6 +13,8 @@ const MyBookings: React.FC = () => {
     const [value, onChange] = useState(new Date());
     const [calChange, setCalChange] = useState<boolean>(false);
 
+    const defaultScrollTime = new Date(new Date().setHours(7, 45, 0));
+
     const CustomHeader = (date: any) => {
         setCalChange(true);
         return (
@@ -89,6 +91,7 @@ const MyBookings: React.FC = () => {
                                 },
                                 event: (event) => CustomEvent(event),
                             }}
+                            scrollToTime={defaultScrollTime}
                         />
                     </div>
                 </div>
