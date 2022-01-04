@@ -4,7 +4,8 @@ import { initReactI18next } from 'react-i18next';
 
 import { EN_US } from './en-US/en-US';
 
-i18n.use(LanguageDetector)
+export default i18n
+    .use(LanguageDetector)
     .use(initReactI18next)
     .init({
         resources: {

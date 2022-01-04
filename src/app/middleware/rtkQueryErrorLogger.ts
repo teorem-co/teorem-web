@@ -3,6 +3,7 @@ import {
     Middleware,
     MiddlewareAPI,
 } from '@reduxjs/toolkit';
+import i18next from 'i18next';
 
 import toastService from '../services/toastService';
 
@@ -12,8 +13,7 @@ export const rtkQueryErrorLogger: Middleware =
             if (action.payload.data && action.payload.data.message) {
                 toastService.error(action.payload.data.message);
             } else {
-                // TODO translate
-                toastService.error('Unhandled error occured!');
+                toastService.error(i18next.t('ERROR_HANDLING.UNHANDLED_ERROR'));
             }
         }
 

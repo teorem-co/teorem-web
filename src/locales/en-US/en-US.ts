@@ -1,6 +1,9 @@
 export const EN_US = {
     MAIN_TITLE: 'Teorem',
     WATERMARK: '© Teorem',
+    ERROR_HANDLING: {
+        UNHANDLED_ERROR: 'Unhandled error occured!',
+    },
     FORM_VALIDATION: {
         INVALID_EMAIL: 'Invalid email',
         TOO_SHORT: 'Too Short!',

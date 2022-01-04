@@ -1,3 +1,4 @@
+import i18next from 'i18next';
 import { toast } from 'react-toastify';
 
 class ToastService {
@@ -12,8 +13,9 @@ class ToastService {
     };
 
     error = (message: string): void => {
-        // TODO translate
-        const globalErrorMessage = message ? message : 'Dogodila se greška.';
+        const globalErrorMessage = message
+            ? message
+            : i18next.t('ERROR_HANDLING.UNHANDLED_ERROR');
         toast.error(
             globalErrorMessage,
             Object.assign({}, ToastService.opts, { toastId: 'errorId' })
