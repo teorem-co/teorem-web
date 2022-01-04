@@ -20,6 +20,7 @@ interface Values {
 const Login: React.FC = () => {
     const history = useHistory();
     const { t } = useTranslation();
+
     const initialValues: Values = {
         email: '',
         password: '',
@@ -72,7 +73,7 @@ const Login: React.FC = () => {
 
     useEffect(() => {
         if (isSuccessUserId) {
-            history.push('/my-bookings');
+            history.push(PATHS.MY_BOOKINGS);
         }
     }, [isSuccessUserId]);
 

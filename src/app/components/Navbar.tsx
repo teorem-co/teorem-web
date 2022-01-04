@@ -1,10 +1,12 @@
 import { NavLink } from 'react-router-dom';
 
+import ROUTES from '../../app/routes';
 import avatar from '../../assets/images/avatar.svg';
 import logo from '../../assets/images/logo.svg';
 import { INavLink } from '../../interfaces/INavLink';
 import { logout } from '../../slices/authSlice';
 import { useAppDispatch } from '../hooks';
+import { RenderMenuLinks } from '../routes';
 import { persistor } from '../store';
 
 interface Props {
@@ -30,28 +32,7 @@ const Navbar = (props: Props) => {
                 <img className="navbar__logo" src={logo} alt="logo" />
             </NavLink>
             <div className="flex--grow">
-                {navLinks.length > 0 ? (
-                    navLinks.map((link, index) => (
-                        <NavLink
-                            exact
-                            key={link.name}
-                            to={link.path}
-                            className={`navbar__item ${
-                                index === navLinks.length - 1 ? 'mb-10' : ''
-                            }`}
-                            activeClassName="active"
-                        >
-                            <i
-                                className={`icon icon--base navbar__item__icon navbar__item--${link.icon}`}
-                            ></i>
-                            <span className={`navbar__item__label`}>
-                                {link.name}
-                            </span>
-                        </NavLink>
-                    ))
-                ) : (
-                    <></>
-                )}
+                <RenderMenuLinks routes={ROUTES}></RenderMenuLinks>
             </div>
             <div className="navbar__bottom">
                 <div className="flex flex--grow flex--center">
