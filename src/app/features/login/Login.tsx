@@ -5,10 +5,10 @@ import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import heroImg from '../../../assets/images/hero-img.png';
-import { useLoginMutation } from '../../../services/authService';
 import { useLazyGetUserIdQuery } from '../../../services/userService';
 import TextField from '../../components/form/TextField';
 import { PATHS } from '../../routes';
+import { useLoginMutation } from '../../services/authService';
 import logo from './../../../assets/images/logo.svg';
 
 interface Values {

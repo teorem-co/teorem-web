@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { authService } from '../services/authService';
+import { authService } from '../app/services/authService';
 
 interface ILoginPayload {
     token: string;

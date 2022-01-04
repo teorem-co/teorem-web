@@ -7,11 +7,35 @@ import MainWrapper from '../../components/MainWrapper';
 import myEventList from '../../constants/bookingEvents';
 import upcomingLessons from '../../constants/upcomingLessons';
 import UpcomingLessons from './components/UpcomingLessons';
+import { useLazyGetBookingsQuery } from './services/bookingService';
 
 const MyBookings: React.FC = () => {
     const localizer = momentLocalizer(moment);
     const [value, onChange] = useState(new Date());
     const [calChange, setCalChange] = useState<boolean>(false);
+
+    const [getBookings, {data: bookings, isFetching, isLoading, isUninitialized: isUninitializedBookings}] = useLazyGetBookingsQuery();
+
+    const isUninitialized = isUninitializedBookings;
+
+    useEffect(() => {
+        getBookings({
+            dateFrom: moment(value).startOf('week').add(1, 'days').toISOString(), 
+            dateTo: moment(value).endOf('week').toISOString()
+    });
+    }, [value]);
+
+    const myEvents = bookings ? bookings.rows.map(x =>
+        {
+            return {
+                id: x.id,
+                label: x.subject ? x.subject.name : 'No title',
+                start: new Date(x.startTime),
+                end: new Date(x.endTime),
+                allDay: false,
+            };
+        }
+    ) : [];
 
     const defaultScrollTime = new Date(new Date().setHours(7, 45, 0));
 
@@ -78,7 +102,7 @@ const MyBookings: React.FC = () => {
                             formats={{
                                 timeGutterFormat: 'HH:mm',
                             }}
-                            events={myEventList}
+                            events={myEvents}
                             toolbar={false}
                             date={value}
                             view="week"

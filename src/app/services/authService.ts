@@ -1,5 +1,5 @@
-import { baseService } from '../app/baseService';
-import { HttpMethods } from '../app/lookups/httpMethods';
+import { baseService } from '../baseService';
+import { HttpMethods } from '../lookups/httpMethods';
 
 interface ILogin {
     email: string;
