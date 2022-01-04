@@ -12,6 +12,14 @@ interface ILoginResponse {
         id: string;
     };
 }
+interface IRegister {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+    roleAbrv: string;
+}
 
 const URL = '/membership';
 
@@ -24,7 +32,14 @@ export const authService = baseService.injectEndpoints({
                 body,
             }),
         }),
+        register: builder.mutation<void, IRegister>({
+            query: (body) => ({
+                url: `${URL}/register`,
+                method: HttpMethods.POST,
+                body,
+            }),
+        }),
     }),
 });
 
-export const { useLoginMutation } = authService;
+export const { useLoginMutation, useRegisterMutation } = authService;

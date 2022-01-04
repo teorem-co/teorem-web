@@ -5,8 +5,10 @@ import { useHistory } from 'react-router';
 import * as Yup from 'yup';
 
 import heroImg from '../../../assets/images/hero-img.png';
+import { useRegisterMutation } from '../../../services/authService';
 import TextField from '../../components/form/TextField';
 import { useAppSelector } from '../../hooks';
+import { PATHS } from '../../routes';
 import logo from './../../../assets/images/logo.svg';
 
 interface Values {
@@ -21,6 +23,8 @@ const Register: React.FC = () => {
     const { t } = useTranslation();
     const history = useHistory();
     const roleSelection = useAppSelector((state) => state.role.selectedRole);
+
+    const [register, { isSuccess, isLoading }] = useRegisterMutation();
 
     const initialValues: Values = {
         firstName: '',
@@ -49,7 +53,7 @@ const Register: React.FC = () => {
                 .min(2, t('FORM_VALIDATION.TOO_SHORT'))
                 .max(50, t('FORM_VALIDATION.TOO_LONG'))
                 .required(t('FORM_VALIDATION.REQUIRED')),
-            passwordRepeat: Yup.string()
+            confirmPassword: Yup.string()
                 .min(2, t('FORM_VALIDATION.TOO_SHORT'))
                 .max(50, t('FORM_VALIDATION.TOO_LONG'))
                 .required(t('FORM_VALIDATION.REQUIRED')),
@@ -57,17 +61,34 @@ const Register: React.FC = () => {
     });
 
     const handleSubmit = (values: Values) => {
-        alert(JSON.stringify(values, null, 2));
+        //no roleSelection is already handleded by redirecting to role selection screen
+        if (roleSelection) {
+            const registerData = {
+                firstName: values.firstName,
+                lastName: values.lastName,
+                email: values.email,
+                password: values.password,
+                confirmPassword: values.confirmPassword,
+                roleAbrv: roleSelection,
+            };
+            register(registerData);
+        }
     };
 
     const handleGoBack = () => {
-        history.push('/role-selection');
+        history.push(PATHS.ROLE_SELECTION);
     };
+
+    useEffect(() => {
+        if (isSuccess) {
+            history.push(PATHS.LOGIN);
+        }
+    }, [isSuccess]);
 
     useEffect(() => {
         //if role selection is empty, redirect to role selection screen
         if (!roleSelection) {
-            history.push('/role-selection');
+            history.push(PATHS.ROLE_SELECTION);
         }
     }, []);
 
@@ -144,13 +165,13 @@ const Register: React.FC = () => {
                                 <div className="field">
                                     <label
                                         className="field__label"
-                                        htmlFor="passwordRepeat"
+                                        htmlFor="confirmPassword"
                                     >
                                         {t('REGISTER.FORM.CONFIRM_PASSWORD')}
                                     </label>
                                     <TextField
-                                        name="passwordRepeat"
-                                        id="passwordRepeat"
+                                        name="confirmPassword"
+                                        id="confirmPassword"
                                         placeholder="Type your password"
                                         className="input input--base input--text input--icon"
                                         password={true}
@@ -159,6 +180,7 @@ const Register: React.FC = () => {
                                 <button
                                     className="btn btn--base btn--primary w--100 mb-2 mt-6"
                                     type="submit"
+                                    disabled={isLoading}
                                 >
                                     {t('REGISTER.FORM.SUBMIT_BUTTON')}
                                 </button>
