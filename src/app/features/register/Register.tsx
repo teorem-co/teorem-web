@@ -1,5 +1,5 @@
 import { Form, FormikProvider, useFormik } from 'formik';
-import { useEffect, useLayoutEffect } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import * as Yup from 'yup';
@@ -25,6 +25,7 @@ const Register: React.FC = () => {
     const { t } = useTranslation();
     const history = useHistory();
     const roleSelection = useAppSelector((state) => state.role.selectedRole);
+    const [passTooltip, setPassTooltip] = useState<boolean>(true);
 
     const [register, { isSuccess, isLoading }] = useRegisterMutation();
 
@@ -100,6 +101,60 @@ const Register: React.FC = () => {
         };
     }, []);
 
+    const handlePasswordFocus = () => {
+        setPassTooltip(true);
+    };
+
+    const handlePasswordBlur = () => {
+        //setPassTooltip(false);
+    };
+
+    const myInput = document.getElementById('password') as HTMLInputElement;
+    const letter = document.getElementById('letter');
+    const capital = document.getElementById('capital');
+    const number = document.getElementById('number');
+    const length = document.getElementById('length');
+
+    const handleKeyUp = () => {
+        const lowerCaseLetters = /[a-z]/g;
+        if (letter && myInput?.value.match(lowerCaseLetters)) {
+            letter.classList.remove('icon--grey');
+            letter.classList.add('icon--success');
+        } else {
+            letter?.classList.remove('icon--success');
+            letter?.classList.add('icon--grey');
+        }
+
+        // Validate capital letters
+        const upperCaseLetters = /[A-Z]/g;
+        if (myInput.value.match(upperCaseLetters)) {
+            capital?.classList.remove('icon--grey');
+            capital?.classList.add('icon--success');
+        } else {
+            capital?.classList.remove('icon--success');
+            capital?.classList.add('icon--grey');
+        }
+
+        // Validate numbers
+        const numbers = /[0-9]/g;
+        if (myInput.value.match(numbers)) {
+            number?.classList.remove('icon--grey');
+            number?.classList.add('icon--success');
+        } else {
+            number?.classList.remove('icon--success');
+            number?.classList.add('icon--grey');
+        }
+
+        // Validate length
+        if (myInput.value.length >= 8) {
+            length?.classList.remove('icon--grey');
+            length?.classList.add('icon--success');
+        } else {
+            length?.classList.remove('icon--success');
+            length?.classList.add('icon--grey');
+        }
+    };
+
     return (
         <>
             <div className="login">
@@ -168,7 +223,62 @@ const Register: React.FC = () => {
                                         placeholder="Type your password"
                                         className="input input--base input--text input--icon"
                                         password={true}
+                                        onFocus={handlePasswordFocus}
+                                        onBlur={handlePasswordBlur}
+                                        onKeyUp={handleKeyUp}
                                     />
+
+                                    <div
+                                        className={`tooltip--password ${
+                                            passTooltip ? 'active' : ''
+                                        }`}
+                                    >
+                                        <div className="mb-3">
+                                            Password must:
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <i
+                                                    id="length"
+                                                    className="icon icon--base icon--check icon--grey mr-3"
+                                                ></i>
+                                                <span>
+                                                    Be a minimum of 8 characters
+                                                </span>
+                                            </div>
+                                            <div>
+                                                <i
+                                                    id="letter"
+                                                    className="icon icon--base icon--check icon--grey mr-3"
+                                                ></i>
+                                                <span>
+                                                    Include at least one
+                                                    lowercase letter letter
+                                                    (a-z)
+                                                </span>
+                                            </div>
+                                            <div>
+                                                <i
+                                                    id="capital"
+                                                    className="icon icon--base icon--check icon--grey mr-3"
+                                                ></i>
+                                                <span>
+                                                    Include at least one
+                                                    uppercase letter (A-Z)
+                                                </span>
+                                            </div>
+                                            <div>
+                                                <i
+                                                    id="number"
+                                                    className="icon icon--base icon--check icon--grey mr-3"
+                                                ></i>
+                                                <span>
+                                                    Include at least one nuber
+                                                    (0-9)
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div className="field">
                                     <label
