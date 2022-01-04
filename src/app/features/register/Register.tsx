@@ -79,7 +79,7 @@ const Register: React.FC = () => {
                 lastName: values.lastName,
                 email: values.email,
                 password: values.password,
-                passwordRepeat: values.passwordRepeat,
+                confirmPassword: values.passwordRepeat,
                 roleAbrv: roleSelection,
             };
             register(registerData);
