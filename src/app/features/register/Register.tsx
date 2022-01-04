@@ -17,7 +17,7 @@ interface Values {
     lastName: string;
     email: string;
     password: string;
-    confirmPassword: string;
+    passwordRepeat: string;
 }
 
 const Register: React.FC = () => {
@@ -25,7 +25,7 @@ const Register: React.FC = () => {
     const { t } = useTranslation();
     const history = useHistory();
     const roleSelection = useAppSelector((state) => state.role.selectedRole);
-    const [passTooltip, setPassTooltip] = useState<boolean>(true);
+    const [passTooltip, setPassTooltip] = useState<boolean>(false);
 
     const [register, { isSuccess, isLoading }] = useRegisterMutation();
 
@@ -34,31 +34,39 @@ const Register: React.FC = () => {
         lastName: '',
         email: '',
         password: '',
-        confirmPassword: '',
+        passwordRepeat: '',
     };
 
     const formik = useFormik({
         initialValues: initialValues,
         onSubmit: (values) => handleSubmit(values),
+        validateOnBlur: true,
+        enableReinitialize: true,
         validationSchema: Yup.object().shape({
             firstName: Yup.string()
                 .min(2, t('FORM_VALIDATION.TOO_SHORT'))
-                .max(50, t('FORM_VALIDATION.TOO_LONG'))
+                .max(100, t('FORM_VALIDATION.TOO_LONG'))
                 .required(t('FORM_VALIDATION.REQUIRED')),
             lastName: Yup.string()
                 .min(2, t('FORM_VALIDATION.TOO_SHORT'))
-                .max(50, t('FORM_VALIDATION.TOO_LONG'))
+                .max(100, t('FORM_VALIDATION.TOO_LONG'))
                 .required(t('FORM_VALIDATION.REQUIRED')),
             email: Yup.string()
                 .email(t('FORM_VALIDATION.INVALID_EMAIL'))
                 .required(t('FORM_VALIDATION.REQUIRED')),
             password: Yup.string()
                 .min(2, t('FORM_VALIDATION.TOO_SHORT'))
-                .max(50, t('FORM_VALIDATION.TOO_LONG'))
+                .max(100, t('FORM_VALIDATION.TOO_LONG'))
+                .matches(
+                    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm,
+                    t('FORM_VALIDATION.PASSWORD_STRENGTH')
+                )
                 .required(t('FORM_VALIDATION.REQUIRED')),
-            confirmPassword: Yup.string()
-                .min(2, t('FORM_VALIDATION.TOO_SHORT'))
-                .max(50, t('FORM_VALIDATION.TOO_LONG'))
+            passwordRepeat: Yup.string()
+                .oneOf(
+                    [Yup.ref('password'), null],
+                    t('FORM_VALIDATION.PASSWORD_MATCH')
+                )
                 .required(t('FORM_VALIDATION.REQUIRED')),
         }),
     });
@@ -71,7 +79,7 @@ const Register: React.FC = () => {
                 lastName: values.lastName,
                 email: values.email,
                 password: values.password,
-                confirmPassword: values.confirmPassword,
+                passwordRepeat: values.passwordRepeat,
                 roleAbrv: roleSelection,
             };
             register(registerData);
@@ -106,7 +114,7 @@ const Register: React.FC = () => {
     };
 
     const handlePasswordBlur = () => {
-        //setPassTooltip(false);
+        setPassTooltip(false);
     };
 
     const myInput = document.getElementById('password') as HTMLInputElement;
@@ -224,7 +232,10 @@ const Register: React.FC = () => {
                                         className="input input--base input--text input--icon"
                                         password={true}
                                         onFocus={handlePasswordFocus}
-                                        onBlur={handlePasswordBlur}
+                                        onBlur={(e: any) => {
+                                            handlePasswordBlur();
+                                            formik.handleBlur(e);
+                                        }}
                                         onKeyUp={handleKeyUp}
                                     />
 
@@ -283,13 +294,13 @@ const Register: React.FC = () => {
                                 <div className="field">
                                     <label
                                         className="field__label"
-                                        htmlFor="confirmPassword"
+                                        htmlFor="passwordRepeat"
                                     >
                                         {t('REGISTER.FORM.CONFIRM_PASSWORD')}
                                     </label>
                                     <TextField
-                                        name="confirmPassword"
-                                        id="confirmPassword"
+                                        name="passwordRepeat"
+                                        id="passwordRepeat"
                                         placeholder="Type your password"
                                         className="input input--base input--text input--icon"
                                         password={true}
