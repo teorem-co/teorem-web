@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 
 import heroImg from '../../../assets/images/hero-img.png';
 import { useLoginMutation } from '../../../services/authService';
+import { useLazyGetUserIdQuery } from '../../../services/userService';
 import TextField from '../../components/form/TextField';
 import { PATHS } from '../../routes';
 import logo from './../../../assets/images/logo.svg';
@@ -22,7 +23,20 @@ const Login: React.FC = () => {
         password: '',
     };
 
-    const [login, { isSuccess, isLoading }] = useLoginMutation();
+    const [
+        getUserId,
+        { isSuccess: isSuccessUserId, isLoading: isLoadingUserId },
+    ] = useLazyGetUserIdQuery();
+    const [
+        login,
+        {
+            data: loginData,
+            isSuccess: isSuccessLogin,
+            isLoading: isLoadingLogin,
+        },
+    ] = useLoginMutation();
+
+    const isLoading = isLoadingLogin || isLoadingUserId;
 
     const formik = useFormik({
         initialValues: initialValues,
@@ -49,10 +63,16 @@ const Login: React.FC = () => {
     });
 
     useEffect(() => {
-        if (isSuccess) {
-            //navigate to first app screen
+        if (isSuccessLogin && loginData) {
+            getUserId(loginData.user.id);
         }
-    }, [isSuccess]);
+    }, [isSuccessLogin]);
+
+    useEffect(() => {
+        if (isSuccessUserId) {
+            //navigate to other screen
+        }
+    }, [isSuccessUserId]);
 
     return (
         <>

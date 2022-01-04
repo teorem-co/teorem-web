@@ -6,11 +6,18 @@ interface ILogin {
     password: string;
 }
 
+interface ILoginResponse {
+    token: string;
+    user: {
+        id: string;
+    };
+}
+
 const URL = '/membership';
 
 export const authService = baseService.injectEndpoints({
     endpoints: (builder) => ({
-        login: builder.mutation<ILogin, ILogin>({
+        login: builder.mutation<ILoginResponse, ILogin>({
             query: (body) => ({
                 url: `${URL}/login`,
                 method: HttpMethods.POST,

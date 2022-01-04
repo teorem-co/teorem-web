@@ -1,9 +1,13 @@
 import { Redirect } from 'react-router';
 
-export default function PermissionsGate(props: any) {
-    const { children, role } = props;
+import { getUserRoleAbrv } from './utils/getUserRoleAbrv';
 
-    const permissionGranted = true;
+export default function PermissionsGate(props: any) {
+    const { children, roles } = props;
+
+    const permissionGranted = roles.some(
+        (role: any) => role === getUserRoleAbrv()
+    );
 
     if (!permissionGranted) {
         return <Redirect to="/" />;
