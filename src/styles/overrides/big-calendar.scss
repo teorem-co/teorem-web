@@ -183,14 +183,17 @@ $rbc-hour-height: 80px;
         border-bottom: 1px dashed $color-error;
 
         &:after {
-            content: '';
+            content: attr(data-time);
             position: absolute;
-            top: -4px;
-            left: -4px;
+            top: -11px;
+            left: -45px;
             display: block;
-            width: 8px;
-            height: 8px;
-            border-radius: $border-circle;
+            width: 48px;
+            font-size: 10px;
+            padding: calc(#{$unit} * 1) calc(#{$unit} * 2);
+            text-align: center;
+            color: $white;
+            border-radius: $border-rounded;
             background-color: $color-error;
         }
     }

@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import Calendar from 'react-calendar';
 
@@ -11,8 +11,10 @@ import UpcomingLessons from './components/UpcomingLessons';
 const MyBookings: React.FC = () => {
     const localizer = momentLocalizer(moment);
     const [value, onChange] = useState(new Date());
+    const [calChange, setCalChange] = useState<boolean>(false);
 
     const CustomHeader = (date: any) => {
+        setCalChange(true);
         return (
             <>
                 <div className="mb-2">{moment(date.date).format('dddd')}</div>
@@ -22,6 +24,14 @@ const MyBookings: React.FC = () => {
             </>
         );
     };
+
+    useEffect(() => {
+        const indicator: any = document.getElementsByClassName(
+            'rbc-current-time-indicator'
+        );
+        indicator[0] &&
+            indicator[0].setAttribute('data-time', moment().format('HH:mm'));
+    }, [calChange]);
 
     const CustomEvent = (event: any) => {
         return (
