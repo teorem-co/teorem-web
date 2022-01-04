@@ -31,6 +31,15 @@ const MyBookings: React.FC = () => {
         );
         indicator[0] &&
             indicator[0].setAttribute('data-time', moment().format('HH:mm'));
+
+        const interval = setInterval(() => {
+            indicator[0] &&
+                indicator[0].setAttribute(
+                    'data-time',
+                    moment().format('HH:mm')
+                );
+        }, 60000);
+        return () => clearInterval(interval);
     }, [calChange]);
 
     const CustomEvent = (event: any) => {
