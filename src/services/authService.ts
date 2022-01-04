@@ -17,7 +17,7 @@ interface IRegister {
     lastName: string;
     email: string;
     password: string;
-    passwordRepeat: string;
+    confirmPassword: string;
     roleAbrv: string;
 }
 
