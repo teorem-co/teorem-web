@@ -1,0 +1,52 @@
+/*
+    components: tooltip.scss;
+*/
+
+.tooltip {
+    &--password {
+        z-index: 1;
+        position: absolute;
+        left: 0;
+        bottom: calc(100% + 12px);
+
+        width: 100%;
+        max-width: 448px;
+        padding: calc(#{$unit} * 4);
+        border: 1px solid $color-primary-light;
+        border-radius: $border-rounded;
+
+        background-color: $white;
+        opacity: 0;
+        visibility: hidden;
+
+        &.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        &:after {
+            content: '';
+            position: absolute;
+            bottom: -11px;
+            left: 30px;
+
+            width: 20px;
+            height: 20px;
+            border: 1px solid $color-primary-light;
+
+            transform: rotate3d(0, 0, 1, 45deg);
+            background-color: $white;
+        }
+        &:before {
+            z-index: 3;
+            content: '';
+            position: absolute;
+            bottom: 0px;
+            left: 20px;
+
+            width: 40px;
+            height: 17px;
+            background-color: $white;
+        }
+    }
+}
