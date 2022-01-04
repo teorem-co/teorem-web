@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 import { IUpcomingLessons } from '../../../constants/upcomingLessons';
 
 interface Props {
@@ -5,11 +7,14 @@ interface Props {
 }
 
 const UpcomingLessons: React.FC<Props> = (props: Props) => {
+    const { t } = useTranslation();
     const { upcomingLessons } = props;
 
     return (
         <>
-            <p className="upcoming-lessons__title">UPCOMING EVENTS</p>
+            <p className="upcoming-lessons__title">
+                {t('UPCOMING_LESSONS.TITLE')}
+            </p>
             {upcomingLessons.map((lesson: IUpcomingLessons) => {
                 return (
                     <div key={lesson.id} className="card card--primary mb-2">

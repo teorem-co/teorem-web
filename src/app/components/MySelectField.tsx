@@ -1,6 +1,5 @@
 import { FieldProps, useField } from 'formik';
-import { components } from 'react-select';
-import Select from 'react-select';
+import Select, { components } from 'react-select';
 
 export interface OptionType {
     label: string;
@@ -93,7 +92,6 @@ const MySelect = ({
     };
 
     const customOption = (props: any) => {
-        console.log(formikField);
         const { innerProps } = props;
         if (props.data.icon) {
             return (

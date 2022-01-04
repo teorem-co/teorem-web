@@ -1,8 +1,10 @@
+import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 
 import logo from '../../assets/images/logo.svg';
 
 const NotFound = () => {
+    const { t } = useTranslation();
     const history = useHistory();
 
     return (
@@ -15,16 +17,13 @@ const NotFound = () => {
             <div>
                 <img className="not-found__logo" src={logo} alt="Teorem" />
             </div>
-            <h1 className="not-found__title">Page not found</h1>
-            <p className="not-found__subtitle">
-                Sorry,looks like we sent you the wrong way. Let us guide you
-                back!
-            </p>
+            <h1 className="not-found__title">{t('NOT_FOUND.TITLE')}</h1>
+            <p className="not-found__subtitle">{t('NOT_FOUND.SUBTITLE')}</p>
             <button
                 onClick={() => history.goBack()}
                 className="btn btn--sm btn--clear type--wgt--bold"
             >
-                Back to home
+                {t('NOT_FOUND.BACK_BUTTON')}
             </button>
         </div>
     );

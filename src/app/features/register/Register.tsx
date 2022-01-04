@@ -1,5 +1,6 @@
 import { Form, FormikProvider, useFormik } from 'formik';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import * as Yup from 'yup';
 
@@ -13,10 +14,11 @@ interface Values {
     lastName: string;
     email: string;
     password: string;
-    passwordRepeat: string;
+    confirmPassword: string;
 }
 
 const Register: React.FC = () => {
+    const { t } = useTranslation();
     const history = useHistory();
     const roleSelection = useAppSelector((state) => state.role.selectedRole);
 
@@ -25,7 +27,7 @@ const Register: React.FC = () => {
         lastName: '',
         email: '',
         password: '',
-        passwordRepeat: '',
+        confirmPassword: '',
     };
 
     const formik = useFormik({
@@ -33,24 +35,24 @@ const Register: React.FC = () => {
         onSubmit: (values) => handleSubmit(values),
         validationSchema: Yup.object().shape({
             firstName: Yup.string()
-                .min(2, 'Too Short!')
-                .max(50, 'Too Long!')
-                .required('This field is required'),
+                .min(2, t('FORM_VALIDATION.TOO_SHORT'))
+                .max(50, t('FORM_VALIDATION.TOO_LONG'))
+                .required(t('FORM_VALIDATION.REQUIRED')),
             lastName: Yup.string()
-                .min(2, 'Too Short!')
-                .max(50, 'Too Long!')
-                .required('This field is required'),
+                .min(2, t('FORM_VALIDATION.TOO_SHORT'))
+                .max(50, t('FORM_VALIDATION.TOO_LONG'))
+                .required(t('FORM_VALIDATION.REQUIRED')),
             email: Yup.string()
-                .email('Invalid email')
-                .required('This field is required'),
+                .email(t('FORM_VALIDATION.INVALID_EMAIL'))
+                .required(t('FORM_VALIDATION.REQUIRED')),
             password: Yup.string()
-                .min(2, 'Too Short!')
-                .max(50, 'Too Long!')
-                .required('This field is required'),
+                .min(2, t('FORM_VALIDATION.TOO_SHORT'))
+                .max(50, t('FORM_VALIDATION.TOO_LONG'))
+                .required(t('FORM_VALIDATION.REQUIRED')),
             passwordRepeat: Yup.string()
-                .min(2, 'Too Short!')
-                .max(50, 'Too Long!')
-                .required('This field is required'),
+                .min(2, t('FORM_VALIDATION.TOO_SHORT'))
+                .max(50, t('FORM_VALIDATION.TOO_LONG'))
+                .required(t('FORM_VALIDATION.REQUIRED')),
         }),
     });
 
@@ -81,7 +83,7 @@ const Register: React.FC = () => {
                             <img className="w--128" src={logo} alt="Theorem" />
                         </div>
                         <div className="type--lg type--wgt--bold mb-4">
-                            Register as {roleSelection}
+                            {t('REGISTER.TITLE', { role: roleSelection })}
                         </div>
                         <FormikProvider value={formik}>
                             <Form>
@@ -90,7 +92,7 @@ const Register: React.FC = () => {
                                         htmlFor="firstName"
                                         className="field__label"
                                     >
-                                        First Name*
+                                        {t('REGISTER.FORM.FIRST_NAME')}
                                     </label>
                                     <TextField
                                         name="firstName"
@@ -103,7 +105,7 @@ const Register: React.FC = () => {
                                         htmlFor="lastName"
                                         className="field__label"
                                     >
-                                        Last name*
+                                        {t('REGISTER.FORM.LAST_NAME')}
                                     </label>
                                     <TextField
                                         name="lastName"
@@ -116,7 +118,7 @@ const Register: React.FC = () => {
                                         className="field__label"
                                         htmlFor="email"
                                     >
-                                        Email*
+                                        {t('REGISTER.FORM.EMAIL')}
                                     </label>
                                     <TextField
                                         name="email"
@@ -129,7 +131,7 @@ const Register: React.FC = () => {
                                         className="field__label"
                                         htmlFor="password"
                                     >
-                                        Choose Password*
+                                        {t('REGISTER.FORM.PASSWORD')}
                                     </label>
                                     <TextField
                                         name="password"
@@ -144,7 +146,7 @@ const Register: React.FC = () => {
                                         className="field__label"
                                         htmlFor="passwordRepeat"
                                     >
-                                        Choose Password*
+                                        {t('REGISTER.FORM.CONFIRM_PASSWORD')}
                                     </label>
                                     <TextField
                                         name="passwordRepeat"
@@ -158,20 +160,23 @@ const Register: React.FC = () => {
                                     className="btn btn--base btn--primary w--100 mb-2 mt-6"
                                     type="submit"
                                 >
-                                    Register
+                                    {t('REGISTER.FORM.SUBMIT_BUTTON')}
                                 </button>
                                 <div
                                     onClick={() => handleGoBack()}
                                     className="btn btn--clear btn--base w--100 type--color--brand type--wgt--bold type--center"
                                 >
                                     <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>{' '}
-                                    Back to selection
+                                    {t('REGISTER.BACK_BUTTON')}
                                 </div>
                             </Form>
                         </FormikProvider>
                     </div>
                     <div className="mt-8">
-                        <div className="type--color--tertiary">© Theorem</div>
+                        <div className="type--color--tertiary">
+                            {' '}
+                            {t('WATERMARK')}
+                        </div>
                     </div>
                 </div>
             </div>

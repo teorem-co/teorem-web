@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import Navbar from './Navbar';
 
@@ -7,13 +8,14 @@ interface Props {
 }
 
 const MainWrapper = (props: Props) => {
+    const { t } = useTranslation();
     const [asideActive, setAsideActive] = useState<boolean>(false);
 
     return (
         <>
             <div className="layout">
                 <div className="layout__mobile">
-                    <div>Theorem</div>
+                    <div>{t('MAIN_TITLE')}</div>
                     <i
                         className="icon icon--md icon--menu icon--white"
                         onClick={() => setAsideActive(!asideActive)}

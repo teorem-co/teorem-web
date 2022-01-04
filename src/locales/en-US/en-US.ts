@@ -1,5 +1,6 @@
 export const EN_US = {
-    WATERMARK: '© Theorem',
+    MAIN_TITLE: 'Teorem',
+    WATERMARK: '© Teorem',
     FORM_VALIDATION: {
         INVALID_EMAIL: 'Invalid email',
         TOO_SHORT: 'Too Short!',
@@ -35,31 +36,52 @@ export const EN_US = {
     },
     BACKEND_ERRORS: {
         BASE: {
-            UNAUTHORIZED: "You are not authorized.",
-            FORBIDDED: "You do not have permission.",
-            NOT_FOUND: "Resource not found",
-            CONFLICT: "Resource already exists",
-            INTERNAL_ERROR: "Server error"
+            UNAUTHORIZED: 'You are not authorized.',
+            FORBIDDED: 'You do not have permission.',
+            NOT_FOUND: 'Resource not found',
+            CONFLICT: 'Resource already exists',
+            INTERNAL_ERROR: 'Server error',
         },
         USER: {
-            EMAIL_CONFLICT: "User with this email already exists",
-            LOGIN_WRONG_FORM_DATA: "Wrong email or password",
-            NOT_FOUND: "User not found",
+            EMAIL_CONFLICT: 'User with this email already exists',
+            LOGIN_WRONG_FORM_DATA: 'Wrong email or password',
+            NOT_FOUND: 'User not found',
         },
         LEVEL: {
-            NOT_FOUND: "Level not found",
+            NOT_FOUND: 'Level not found',
         },
         SUBJECT: {
-            NOT_FOUND: "Subject not found",
+            NOT_FOUND: 'Subject not found',
         },
         TUTOR: {
-            NOT_FOUND: "Tutor not found",
+            NOT_FOUND: 'Tutor not found',
         },
         BOOKING: {
-            NOT_FOUND: "Booking not found",
+            NOT_FOUND: 'Booking not found',
         },
         ROLE: {
-            NOT_FOUND: "Role not found",
-        }
-    }
+            NOT_FOUND: 'Role not found',
+        },
+    },
+    NOT_FOUND: {
+        TITLE: 'Page not found',
+        SUBTITLE:
+            ' Sorry,looks like we sent you the wrong way. Let us guide you back!',
+        BACK_BUTTON: 'Back to home',
+    },
+    UPCOMING_LESSONS: {
+        TITLE: 'UPCOMING EVENTS',
+    },
+    REGISTER: {
+        TITLE: 'Register as {{role}}',
+        FORM: {
+            FIRST_NAME: 'First Name*',
+            LAST_NAME: 'Last Name*',
+            EMAIL: 'Email*',
+            PASSWORD: 'Choose Password*',
+            CONFIRM_PASSWORD: 'Repeat Password*',
+            SUBMIT_BUTTON: 'Register',
+        },
+        BACK_BUTTON: 'Back to selection',
+    },
 };
