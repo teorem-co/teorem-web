@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import Calendar from 'react-calendar';
 
@@ -12,6 +12,8 @@ const MyBookings: React.FC = () => {
     const localizer = momentLocalizer(moment);
     const [value, onChange] = useState(new Date());
     const [calChange, setCalChange] = useState<boolean>(false);
+
+    const defaultScrollTime = new Date(new Date().setHours(7, 45, 0));
 
     const CustomHeader = (date: any) => {
         setCalChange(true);
@@ -89,6 +91,7 @@ const MyBookings: React.FC = () => {
                                 },
                                 event: (event) => CustomEvent(event),
                             }}
+                            scrollToTime={defaultScrollTime}
                         />
                     </div>
                 </div>
