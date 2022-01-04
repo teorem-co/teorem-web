@@ -1,13 +1,14 @@
 import { Form, FormikProvider, useFormik } from 'formik';
-import { useEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import * as Yup from 'yup';
 
 import heroImg from '../../../assets/images/hero-img.png';
 import { useRegisterMutation } from '../../../services/authService';
+import { resetSelectedRole } from '../../../slices/roleSlice';
 import TextField from '../../components/form/TextField';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
 import logo from './../../../assets/images/logo.svg';
 
@@ -20,6 +21,7 @@ interface Values {
 }
 
 const Register: React.FC = () => {
+    const dispatch = useAppDispatch();
     const { t } = useTranslation();
     const history = useHistory();
     const roleSelection = useAppSelector((state) => state.role.selectedRole);
@@ -90,6 +92,12 @@ const Register: React.FC = () => {
         if (!roleSelection) {
             history.push(PATHS.ROLE_SELECTION);
         }
+    }, []);
+
+    useLayoutEffect(() => {
+        return () => {
+            dispatch(resetSelectedRole());
+        };
     }, []);
 
     return (
