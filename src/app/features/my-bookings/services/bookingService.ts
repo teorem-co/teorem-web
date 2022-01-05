@@ -1,12 +1,13 @@
-import IBooking from "../../../../interfaces/IBooking";
-import { baseService } from "../../../baseService";
-import { HttpMethods } from "../../../lookups/httpMethods";
+import IBooking from '../../../../interfaces/IBooking';
+import { baseService } from '../../../baseService';
+import { IUpcomingLessons } from '../../../constants/upcomingLessons';
+import { HttpMethods } from '../../../lookups/httpMethods';
 
 //bookings/week/:tutorId
 
-const URL = "/bookings";
+const URL = '/bookings';
 
-interface IBookingTest {
+interface IBookingItem {
     count: number;
     rows: IBooking[];
 }
@@ -17,15 +18,44 @@ interface IBookingWeek {
     userId: string;
 }
 
+interface IBookingTransformed {
+    id: string;
+    label: string;
+    start: Date;
+    end: Date;
+    allDay: boolean;
+}
+
 export const bookingService = baseService.injectEndpoints({
     endpoints: (builder) => ({
-        getBookings: builder.query<IBookingTest | null, IBookingWeek>({
+        getBookings: builder.query<IBookingTransformed[], IBookingWeek>({
             query: (data) => ({
                 url: `${URL}/week/${data.userId}?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}`,
-                method: HttpMethods.GET
+                method: HttpMethods.GET,
+            }),
+            transformResponse: (response: IBookingItem) => {
+                const bookings: IBookingTransformed[] = response.rows.map(
+                    (x) => {
+                        return {
+                            id: x.id,
+                            label: x.Subject ? x.Subject.abrv : 'No title',
+                            start: new Date(x.startTime),
+                            end: new Date(x.endTime),
+                            allDay: false,
+                        };
+                    }
+                );
+                return bookings;
+            },
+        }),
+        getUpcomingLessons: builder.query<IUpcomingLessons[], string>({
+            query: (userId) => ({
+                url: `${URL}/${userId}/upcoming`,
+                method: HttpMethods.GET,
             }),
         }),
     }),
 });
 
-export const { useLazyGetBookingsQuery } = bookingService;
+export const { useLazyGetBookingsQuery, useLazyGetUpcomingLessonsQuery } =
+    bookingService;

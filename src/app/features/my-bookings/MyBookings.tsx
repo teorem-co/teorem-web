@@ -6,40 +6,39 @@ import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import Calendar from 'react-calendar';
 
 import MainWrapper from '../../components/MainWrapper';
-import upcomingLessons from '../../constants/upcomingLessons';
 import { useAppSelector } from '../../hooks';
 import UpcomingLessons from './components/UpcomingLessons';
-import { useLazyGetBookingsQuery } from './services/bookingService';
+import {
+    useLazyGetBookingsQuery,
+    useLazyGetUpcomingLessonsQuery,
+} from './services/bookingService';
 
 const MyBookings: React.FC = () => {
     const localizer = momentLocalizer(moment);
     const [value, onChange] = useState(new Date());
     const [calChange, setCalChange] = useState<boolean>(false);
 
-    const [getBookings, {data: bookings}] = useLazyGetBookingsQuery();
-    const userId = useAppSelector(state => state.user.user?.id);
-    
+    const [getUpcomingLessons, { data: upcomingLessons }] =
+        useLazyGetUpcomingLessonsQuery();
+
+    const [getBookings, { data: bookings }] = useLazyGetBookingsQuery();
+    const userId = useAppSelector((state) => state.user.user?.id);
+
+    useEffect(() => {
+        if (userId) {
+            getUpcomingLessons(userId);
+        }
+    }, []);
+
     useEffect(() => {
         if (userId) {
             getBookings({
-                dateFrom: moment(value).startOf('isoWeek').toISOString(), 
+                dateFrom: moment(value).startOf('isoWeek').toISOString(),
                 dateTo: moment(value).endOf('isoWeek').toISOString(),
-                userId
-        }); 
+                userId,
+            });
         }
     }, [value, userId]);
-
-    const myEvents = bookings ? bookings.rows.map(x =>
-        {
-            return {
-                id: x.id,
-                label: x.Subject ? x.Subject.abrv : 'No title',
-                start: new Date(x.startTime),
-                end: new Date(x.endTime),
-                allDay: false,
-            };
-        }
-    ) : [];
 
     const defaultScrollTime = new Date(new Date().setHours(7, 45, 0));
 
@@ -98,7 +97,7 @@ const MyBookings: React.FC = () => {
                         <div className="flex--primary p-6">
                             <h2 className="type--lg">Calendar</h2>
                             <div className="type--wgt--bold type--color--brand">
-                                You have 2 Lessions today!
+                                You have 2 Lessons today!
                             </div>
                         </div>
                         <BigCalendar
@@ -106,7 +105,7 @@ const MyBookings: React.FC = () => {
                             formats={{
                                 timeGutterFormat: 'HH:mm',
                             }}
-                            events={myEvents}
+                            events={bookings ? bookings : []}
                             toolbar={false}
                             date={value}
                             view="week"
@@ -126,14 +125,21 @@ const MyBookings: React.FC = () => {
                 <div>
                     <div className="card card--primary mb-4">
                         <Calendar
-                            onChange={(e: Date) => {onChange(e); setCalChange(!calChange);}}
+                            onChange={(e: Date) => {
+                                onChange(e);
+                                setCalChange(!calChange);
+                            }}
                             value={value}
                             prevLabel={<PrevIcon />}
                             nextLabel={<NextIcon />}
                         />
                     </div>
                     <div className="upcoming-lessons">
-                        <UpcomingLessons upcomingLessons={upcomingLessons} />
+                        <UpcomingLessons
+                            upcomingLessons={
+                                upcomingLessons ? upcomingLessons : []
+                            }
+                        />
                     </div>
                 </div>
             </div>

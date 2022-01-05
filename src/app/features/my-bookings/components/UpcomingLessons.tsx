@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { useTranslation } from 'react-i18next';
 
 import { IUpcomingLessons } from '../../../constants/upcomingLessons';
@@ -20,22 +21,27 @@ const UpcomingLessons: React.FC<Props> = (props: Props) => {
                     <div key={lesson.id} className="card card--primary mb-2">
                         <div className="flex--primary mb-2">
                             <div className="flex flex--center">
-                                <i
+                                {/* <i
                                     className={`status--primary status--primary--${lesson.status} mr-2`}
+                                ></i> */}
+                                <i
+                                    className={`status--primary status--primary--blue mr-2`}
                                 ></i>
                                 <span className="type--color--secondary">
-                                    {lesson.startTime}
+                                    {moment(lesson.startTime).format('HH:mm')}
                                 </span>
                                 &nbsp;{'-'}&nbsp;
                                 <span className="type--color--secondary">
-                                    {lesson.endTime}
+                                    {moment(lesson.endTime).format('HH:mm')}
                                 </span>
                             </div>
                             <div className="type--color--tertiary">
-                                {lesson.date}
+                                {moment(lesson.startTime).format('DD/MM/YYYY')}
                             </div>
                         </div>
-                        <div>{lesson.user}</div>
+                        <div>
+                            {lesson.User.firstName} {lesson.User.lastName}
+                        </div>
                     </div>
                 );
             })}
