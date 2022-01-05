@@ -48,7 +48,7 @@ export const EN_US = {
             NOT_FOUND: 'Resource not found',
             CONFLICT: 'Resource already exists',
             INTERNAL_ERROR: 'Server error',
-            BAD_REQUEST: 'Bad request'
+            BAD_REQUEST: 'Bad request',
         },
         USER: {
             EMAIL_CONFLICT: 'User with this email already exists',
@@ -94,5 +94,10 @@ export const EN_US = {
             SUBMIT_BUTTON: 'Register',
         },
         BACK_BUTTON: 'Back to selection',
+    },
+    MY_BOOKINGS: {
+        TITLE: 'Calendar',
+        NOTIFICATION_PART_1: 'You have ',
+        NOTIFICATION_PART_2: ' Lessions today!',
     },
 };

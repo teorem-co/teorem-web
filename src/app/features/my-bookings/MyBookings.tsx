@@ -1,5 +1,6 @@
 import 'moment/locale/en-gb';
 
+import { t } from 'i18next';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
@@ -105,9 +106,13 @@ const MyBookings: React.FC = () => {
                 <div>
                     <div className="card--calendar">
                         <div className="flex--primary p-6">
-                            <h2 className="type--lg">Calendar</h2>
+                            <h2 className="type--lg">
+                                {t('MY_BOOKINGS.TITLE')}
+                            </h2>
                             <div className="type--wgt--bold type--color--brand">
-                                You have {lessonsCount ?? 0} Lessions today!
+                                {t('MY_BOOKINGS.NOTIFICATION_PART_1')}&nbsp;
+                                {lessonsCount ?? 0}
+                                &nbsp;{t('MY_BOOKINGS.NOTIFICATION_PART_2')}
                             </div>
                         </div>
                         <BigCalendar
