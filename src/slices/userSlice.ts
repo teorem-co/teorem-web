@@ -14,7 +14,11 @@ const initialState: IState = {
 export const userSlice = createSlice({
     name: 'user',
     initialState,
-    reducers: {},
+    reducers: {
+        userReset(state) {
+            state.user = initialState.user;
+        },
+    },
     extraReducers: (builder) => {
         builder.addMatcher(
             userService.endpoints.getUserId.matchFulfilled,
@@ -25,4 +29,5 @@ export const userSlice = createSlice({
     },
 });
 
+export const { userReset } = userSlice.actions;
 export default userSlice.reducer;

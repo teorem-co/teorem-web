@@ -89,6 +89,10 @@
         text-transform: uppercase;
     }
 
+    &--capitalize {
+        text-transform: capitalize;
+    }
+
     //alignment
     &--center {
         text-align: center;

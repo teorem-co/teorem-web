@@ -4,6 +4,7 @@ import ROUTES from '../../app/routes';
 import avatar from '../../assets/images/avatar.svg';
 import logo from '../../assets/images/logo.svg';
 import { logout } from '../../slices/authSlice';
+import { userReset } from '../../slices/userSlice';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { RenderMenuLinks } from '../routes';
 import { persistor } from '../store';
@@ -14,6 +15,7 @@ const Navbar = () => {
     const handleLogout = () => {
         persistor.purge();
         dispatch(logout());
+        dispatch(userReset());
     };
 
     const user = useAppSelector((state) => state.user.user);
@@ -35,7 +37,7 @@ const Navbar = () => {
                         <div className="type--color--primary type--wgt--bold type--break">
                             {user?.firstName} {user?.lastName}
                         </div>
-                        <div className="type--xs type--color--secondary type--wgt--regular">
+                        <div className="type--xs type--color--secondary type--wgt--regular type--capitalize">
                             {user?.roleAbrv}
                         </div>
                     </div>
