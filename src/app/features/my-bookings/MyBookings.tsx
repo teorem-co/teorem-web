@@ -7,6 +7,7 @@ import Calendar from 'react-calendar';
 
 import MainWrapper from '../../components/MainWrapper';
 import upcomingLessons from '../../constants/upcomingLessons';
+import { useAppSelector } from '../../hooks';
 import UpcomingLessons from './components/UpcomingLessons';
 import { useLazyGetBookingsQuery } from './services/bookingService';
 
@@ -16,13 +17,17 @@ const MyBookings: React.FC = () => {
     const [calChange, setCalChange] = useState<boolean>(false);
 
     const [getBookings, {data: bookings}] = useLazyGetBookingsQuery();
-
+    const userId = useAppSelector(state => state.user.user?.id);
+    
     useEffect(() => {
-        getBookings({
-            dateFrom: moment(value).startOf('isoWeek').toISOString(), 
-            dateTo: moment(value).endOf('isoWeek').toISOString()
-    });
-    }, [value]);
+        if (userId) {
+            getBookings({
+                dateFrom: moment(value).startOf('isoWeek').toISOString(), 
+                dateTo: moment(value).endOf('isoWeek').toISOString(),
+                userId
+        }); 
+        }
+    }, [value, userId]);
 
     const myEvents = bookings ? bookings.rows.map(x =>
         {

@@ -14,13 +14,14 @@ interface IBookingTest {
 interface IBookingWeek {
     dateFrom: string;
     dateTo: string;
+    userId: string;
 }
 
 export const bookingService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         getBookings: builder.query<IBookingTest | null, IBookingWeek>({
             query: (data) => ({
-                url: `${URL}/week/236910e8-758b-40bb-972e-2a63d0ec76ca?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}`,
+                url: `${URL}/week/${data.userId}?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}`,
                 method: HttpMethods.GET
             }),
         }),

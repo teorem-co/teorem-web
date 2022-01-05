@@ -1,6 +1,7 @@
 import { Form, FormikProvider, useFormik } from 'formik';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 
@@ -17,6 +18,7 @@ interface Values {
 }
 
 const Login: React.FC = () => {
+    const history = useHistory();
     const { t } = useTranslation();
     const initialValues: Values = {
         email: '',
@@ -70,7 +72,7 @@ const Login: React.FC = () => {
 
     useEffect(() => {
         if (isSuccessUserId) {
-            //navigate to other screen
+            history.push('/my-bookings');
         }
     }, [isSuccessUserId]);
 
