@@ -26,6 +26,11 @@ interface IBookingTransformed {
     allDay: boolean;
 }
 
+interface INotificationForLessons {
+    userId: string;
+    date: string;
+}
+
 export const bookingService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         getBookings: builder.query<IBookingTransformed[], IBookingWeek>({
@@ -54,9 +59,12 @@ export const bookingService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
-        getNotificationForLessons: builder.query<number, string>({
-            query: (userId) => ({
-                url: `${URL}/${userId}/count`,
+        getNotificationForLessons: builder.query<
+            number,
+            INotificationForLessons
+        >({
+            query: (data) => ({
+                url: `${URL}/${data.userId}/${data.date}/count`,
                 method: HttpMethods.GET,
             }),
         }),

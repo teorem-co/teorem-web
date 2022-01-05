@@ -37,6 +37,7 @@ $grid-spc: 12px;
         padding-right: $grid-spc;
     }
 
+    //if you want all cols to be same height
     &--adaptive {
         & > .col {
             display: flex;

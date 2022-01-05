@@ -41,7 +41,12 @@ const MyBookings: React.FC = () => {
                 dateTo: moment(value).endOf('isoWeek').toISOString(),
                 userId,
             });
-            getNotificationForLessons(userId);
+            getNotificationForLessons({
+                userId: userId,
+                date: moment()
+                    .set({ hour: 0, minute: 0, second: 0 })
+                    .toISOString(),
+            });
         }
     }, [value, userId]);
 
