@@ -1,16 +1,16 @@
 export default interface IBooking {
     id: string;
-    level: {
+    Level: {
         abrv: string;
         id: string;
         name: string;
     };
-    subject: {
+    Subject: {
         abrv: string;
         id: string;
         name: string;
     };
-    tutor: {
+    Tutor: {
         aboutLessons: string;
         aboutTutor: string;
         currentOccupation: string;
@@ -18,7 +18,7 @@ export default interface IBooking {
         levelId: string;
         yearsOfExperience: string;
     };
-    user: {
+    User: {
         countryId: null;
         dateOfBirth: null;
         email: string;

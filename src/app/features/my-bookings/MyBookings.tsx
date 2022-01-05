@@ -1,10 +1,11 @@
+import 'moment/locale/en-gb';
+
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import Calendar from 'react-calendar';
 
 import MainWrapper from '../../components/MainWrapper';
-import myEventList from '../../constants/bookingEvents';
 import upcomingLessons from '../../constants/upcomingLessons';
 import UpcomingLessons from './components/UpcomingLessons';
 import { useLazyGetBookingsQuery } from './services/bookingService';
@@ -14,14 +15,12 @@ const MyBookings: React.FC = () => {
     const [value, onChange] = useState(new Date());
     const [calChange, setCalChange] = useState<boolean>(false);
 
-    const [getBookings, {data: bookings, isFetching, isLoading, isUninitialized: isUninitializedBookings}] = useLazyGetBookingsQuery();
-
-    const isUninitialized = isUninitializedBookings;
+    const [getBookings, {data: bookings}] = useLazyGetBookingsQuery();
 
     useEffect(() => {
         getBookings({
-            dateFrom: moment(value).startOf('week').add(1, 'days').toISOString(), 
-            dateTo: moment(value).endOf('week').toISOString()
+            dateFrom: moment(value).startOf('isoWeek').toISOString(), 
+            dateTo: moment(value).endOf('isoWeek').toISOString()
     });
     }, [value]);
 
@@ -29,7 +28,7 @@ const MyBookings: React.FC = () => {
         {
             return {
                 id: x.id,
-                label: x.subject ? x.subject.name : 'No title',
+                label: x.Subject ? x.Subject.abrv : 'No title',
                 start: new Date(x.startTime),
                 end: new Date(x.endTime),
                 allDay: false,
@@ -122,7 +121,7 @@ const MyBookings: React.FC = () => {
                 <div>
                     <div className="card card--primary mb-4">
                         <Calendar
-                            onChange={onChange}
+                            onChange={(e: Date) => {onChange(e); setCalChange(!calChange);}}
                             value={value}
                             prevLabel={<PrevIcon />}
                             nextLabel={<NextIcon />}
