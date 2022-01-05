@@ -1,6 +1,5 @@
 import { NavLink, Route, Switch } from 'react-router-dom';
 
-import Landing from './features/Landing';
 import Login from './features/login/Login';
 import MyBookings from './features/my-bookings/MyBookings';
 import Register from './features/register/Register';
@@ -10,10 +9,9 @@ import NotFound from './pages/NotFound';
 import { getUserRoleAbrv } from './utils/getUserRoleAbrv';
 
 export enum PATHS {
-    ROOT = '/',
     ROLE_SELECTION = '/role-selection',
     REGISTER = '/register',
-    LOGIN = '/login',
+    LOGIN = '/',
     MY_BOOKINGS = '/my-bookings',
 }
 
@@ -27,14 +25,6 @@ export enum PATHS {
 // Notifications           PARENT
 
 const ROUTES: any = [
-    {
-        path: PATHS.ROOT,
-        key: 'ROOT',
-        exact: true,
-        roles: [Role.Tutor],
-        isMenu: false,
-        component: () => <Landing />,
-    },
     {
         path: PATHS.ROLE_SELECTION,
         key: 'ROLE_SELECTION',
