@@ -50,18 +50,6 @@ const MyBookings: React.FC = () => {
         }
     }, [value, userId]);
 
-    const myEvents = bookings
-        ? bookings.rows.map((x) => {
-              return {
-                  id: x.id,
-                  label: x.Subject ? x.Subject.abrv : 'No title',
-                  start: new Date(x.startTime),
-                  end: new Date(x.endTime),
-                  allDay: false,
-              };
-          })
-        : [];
-
     const defaultScrollTime = new Date(new Date().setHours(7, 45, 0));
 
     const CustomHeader = (date: any) => {
