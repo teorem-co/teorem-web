@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import heroImg from '../../../assets/images/hero-img.png';
 import IRoleSelectionOption from '../../../interfaces/IRoleSelectionOption';
@@ -89,7 +90,9 @@ const RoleSelection: React.FC = () => {
                         </div>
                         <div>
                             {t('ROLE_SELECTION.ACCOUNT')}&nbsp;
-                            <a href="/login">{t('ROLE_SELECTION.LOG_IN')}</a>
+                            <Link to={PATHS.LOGIN}>
+                                {t('ROLE_SELECTION.LOG_IN')}
+                            </Link>
                         </div>
                     </div>
                 </div>
