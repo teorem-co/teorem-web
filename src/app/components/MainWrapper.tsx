@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { INavLink } from '../../interfaces/INavLink';
 import Navbar from './Navbar';
 
 interface Props {
@@ -11,24 +10,6 @@ interface Props {
 const MainWrapper = (props: Props) => {
     const { t } = useTranslation();
     const [asideActive, setAsideActive] = useState<boolean>(false);
-
-    const testLinks: INavLink[] = [
-        {
-            path: '/my-bookings',
-            name: 'My Bookings',
-            icon: 'calendar',
-        },
-        {
-            path: '/role-selection',
-            name: 'Chat',
-            icon: 'chat',
-        },
-        {
-            path: '/',
-            name: 'Reviews',
-            icon: 'reviews',
-        },
-    ];
 
     return (
         <>
@@ -53,8 +34,7 @@ const MainWrapper = (props: Props) => {
                     >
                         <i className="icon icon--sm icon--close icon--black"></i>
                     </div>
-
-                    <Navbar navLinks={testLinks} />
+                    <Navbar />
                 </div>
                 <div className="layout__main">{props.children}</div>
             </div>

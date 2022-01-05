@@ -101,28 +101,30 @@ export function RenderRoutes(routesObj: any) {
 export function RenderMenuLinks(routesObj: any) {
     const { routes } = routesObj;
 
-    const menuItems = routes.forEach((route: any) => {
+    const menuRoutes = routes.filter((route: any) => {
         const hasPermission = route.roles.some(
             (routeRole: any) => routeRole === getUserRoleAbrv()
         );
 
-        if (hasPermission && route.isMenu) {
-            return (
-                <NavLink
-                    exact
-                    key={route.key}
-                    to={route.path}
-                    className={`navbar__item`}
-                    activeClassName="active"
-                >
-                    <i
-                        className={`icon icon--base navbar__item__icon navbar__item--${route.icon}`}
-                    ></i>
-                    <span className={`navbar__item__label`}>{route.name}</span>
-                </NavLink>
-            );
-        }
+        return hasPermission && route.isMenu;
     });
 
-    return menuItems ? menuItems : <></>;
+    if (menuRoutes.length > 0) {
+        return menuRoutes.map((menuRoute: any) => (
+            <NavLink
+                exact
+                key={menuRoute.key}
+                to={menuRoute.path}
+                className={`navbar__item`}
+                activeClassName="active"
+            >
+                <i
+                    className={`icon icon--base navbar__item__icon navbar__item--${menuRoute.icon}`}
+                ></i>
+                <span className={`navbar__item__label`}>{menuRoute.name}</span>
+            </NavLink>
+        ));
+    }
+
+    return <></>;
 }

@@ -3,22 +3,12 @@ import { NavLink } from 'react-router-dom';
 import ROUTES from '../../app/routes';
 import avatar from '../../assets/images/avatar.svg';
 import logo from '../../assets/images/logo.svg';
-import { INavLink } from '../../interfaces/INavLink';
 import { logout } from '../../slices/authSlice';
 import { useAppDispatch } from '../hooks';
 import { RenderMenuLinks } from '../routes';
 import { persistor } from '../store';
 
-interface Props {
-    navLinks: INavLink[];
-}
-
-//maybe later remove links from props and just get them inside NavBar since they will be predefined and not fetched
-//different navlinks, get role and then conditionaly render routes that are not the same
-
-const Navbar = (props: Props) => {
-    const { navLinks } = props;
-
+const Navbar = () => {
     const dispatch = useAppDispatch();
 
     const handleLogout = () => {
