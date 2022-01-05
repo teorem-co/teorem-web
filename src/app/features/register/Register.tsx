@@ -190,6 +190,7 @@ const Register: React.FC = () => {
                                         name="firstName"
                                         id="firstName"
                                         placeholder="Enter your first name"
+                                        disabled={isLoading}
                                     />
                                 </div>
                                 <div className="field">
@@ -203,6 +204,7 @@ const Register: React.FC = () => {
                                         name="lastName"
                                         id="lastName"
                                         placeholder="Enter your last name"
+                                        disabled={isLoading}
                                     />
                                 </div>
                                 <div className="field">
@@ -216,6 +218,7 @@ const Register: React.FC = () => {
                                         name="email"
                                         id="email"
                                         placeholder="Enter your email"
+                                        disabled={isLoading}
                                     />
                                 </div>
                                 <div className="field">
@@ -231,6 +234,7 @@ const Register: React.FC = () => {
                                         placeholder="Type your password"
                                         className="input input--base input--text input--icon"
                                         password={true}
+                                        disabled={isLoading}
                                         onFocus={handlePasswordFocus}
                                         onBlur={(e: any) => {
                                             handlePasswordBlur();
@@ -245,7 +249,7 @@ const Register: React.FC = () => {
                                         }`}
                                     >
                                         <div className="mb-3">
-                                            Password must:
+                                            {t('FORM_VALIDATION.PASSWORD_MUST')}
                                         </div>
                                         <div>
                                             <div>
@@ -254,7 +258,9 @@ const Register: React.FC = () => {
                                                     className="icon icon--base icon--check icon--grey mr-3"
                                                 ></i>
                                                 <span>
-                                                    Be a minimum of 8 characters
+                                                    {t(
+                                                        'FORM_VALIDATION.MIN_CHARACTERS'
+                                                    )}
                                                 </span>
                                             </div>
                                             <div>
@@ -263,9 +269,9 @@ const Register: React.FC = () => {
                                                     className="icon icon--base icon--check icon--grey mr-3"
                                                 ></i>
                                                 <span>
-                                                    Include at least one
-                                                    lowercase letter letter
-                                                    (a-z)
+                                                    {t(
+                                                        'FORM_VALIDATION.LOWERCASE'
+                                                    )}
                                                 </span>
                                             </div>
                                             <div>
@@ -274,8 +280,9 @@ const Register: React.FC = () => {
                                                     className="icon icon--base icon--check icon--grey mr-3"
                                                 ></i>
                                                 <span>
-                                                    Include at least one
-                                                    uppercase letter (A-Z)
+                                                    {t(
+                                                        'FORM_VALIDATION.UPPERCASE'
+                                                    )}
                                                 </span>
                                             </div>
                                             <div>
@@ -284,8 +291,9 @@ const Register: React.FC = () => {
                                                     className="icon icon--base icon--check icon--grey mr-3"
                                                 ></i>
                                                 <span>
-                                                    Include at least one nuber
-                                                    (0-9)
+                                                    {t(
+                                                        'FORM_VALIDATION.NUMBER'
+                                                    )}
                                                 </span>
                                             </div>
                                         </div>
@@ -302,6 +310,7 @@ const Register: React.FC = () => {
                                         name="passwordRepeat"
                                         id="passwordRepeat"
                                         placeholder="Type your password"
+                                        disabled={isLoading}
                                         className="input input--base input--text input--icon"
                                         password={true}
                                     />
