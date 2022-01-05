@@ -1,11 +1,13 @@
-import { Route, Switch } from 'react-router-dom';
+import { NavLink, Route, Switch } from 'react-router-dom';
 
 import Landing from './features/Landing';
 import Login from './features/login/Login';
 import MyBookings from './features/my-bookings/MyBookings';
 import Register from './features/register/Register';
 import RoleSelection from './features/roleSelection/RoleSelection';
+import { Role } from './lookups/role';
 import NotFound from './pages/NotFound';
+import { getUserRoleAbrv } from './utils/getUserRoleAbrv';
 
 export enum PATHS {
     ROOT = '/',
@@ -15,35 +17,56 @@ export enum PATHS {
     MY_BOOKINGS = '/my-bookings',
 }
 
+//MENU ROUTES
+// Profile                 PARENT TUTOR
+// My Bookings             PARENT TUTOR
+// Chat                    PARENT TUTOR
+// Reviews                        TUTOR
+// Search Tutors           PARENT
+// Completed Lessions      PARENT
+// Notifications           PARENT
+
 const ROUTES: any = [
     {
         path: PATHS.ROOT,
         key: 'ROOT',
         exact: true,
+        roles: [Role.Tutor],
+        isMenu: false,
         component: () => <Landing />,
     },
     {
         path: PATHS.ROLE_SELECTION,
         key: 'ROLE_SELECTION',
         exact: true,
+        roles: [Role.Tutor],
+        isMenu: false,
         component: () => <RoleSelection />,
     },
     {
         path: PATHS.REGISTER,
         key: 'REGISTER',
         exact: true,
+        roles: [Role.Tutor],
+        isMenu: false,
         component: () => <Register />,
     },
     {
         path: PATHS.LOGIN,
         key: 'LOGIN',
         exact: true,
+        roles: [Role.Tutor],
+        isMenu: false,
         component: () => <Login />,
     },
     {
         path: PATHS.MY_BOOKINGS,
         key: 'MY_BOOKINGS',
         exact: true,
+        roles: [Role.Tutor],
+        isMenu: true,
+        icon: 'calendar',
+        name: 'My Bookings',
         component: () => <MyBookings />,
     },
 ];
@@ -73,4 +96,35 @@ export function RenderRoutes(routesObj: any) {
             <Route component={() => <NotFound />} />
         </Switch>
     );
+}
+
+export function RenderMenuLinks(routesObj: any) {
+    const { routes } = routesObj;
+
+    const menuRoutes = routes.filter((route: any) => {
+        const hasPermission = route.roles.some(
+            (routeRole: any) => routeRole === getUserRoleAbrv()
+        );
+
+        return hasPermission && route.isMenu;
+    });
+
+    if (menuRoutes.length > 0) {
+        return menuRoutes.map((menuRoute: any) => (
+            <NavLink
+                exact
+                key={menuRoute.key}
+                to={menuRoute.path}
+                className={`navbar__item`}
+                activeClassName="active"
+            >
+                <i
+                    className={`icon icon--base navbar__item__icon navbar__item--${menuRoute.icon}`}
+                ></i>
+                <span className={`navbar__item__label`}>{menuRoute.name}</span>
+            </NavLink>
+        ));
+    }
+
+    return <></>;
 }

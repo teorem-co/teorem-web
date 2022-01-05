@@ -1,9 +1,11 @@
 import { NavLink } from 'react-router-dom';
 
+import ROUTES from '../../app/routes';
 import avatar from '../../assets/images/avatar.svg';
 import logo from '../../assets/images/logo.svg';
 import { logout } from '../../slices/authSlice';
 import { useAppDispatch } from '../hooks';
+import { RenderMenuLinks } from '../routes';
 import { persistor } from '../store';
 
 const Navbar = () => {
@@ -20,47 +22,7 @@ const Navbar = () => {
                 <img className="navbar__logo" src={logo} alt="logo" />
             </NavLink>
             <div className="flex--grow">
-                {/* Map through app paths and render nav items like this*/}
-                <NavLink
-                    to="/my-bookings"
-                    className="navbar__item"
-                    activeClassName="active"
-                >
-                    <i
-                        className={`icon icon--base navbar__item__icon navbar__item--calendar`}
-                    ></i>
-                    <span className={`navbar__item__label`}>My Bookings</span>
-                </NavLink>
-                <NavLink
-                    to="route"
-                    className="navbar__item"
-                    activeClassName="active"
-                >
-                    <i
-                        className={`icon icon--base navbar__item__icon navbar__item--reviews`}
-                    ></i>
-                    <span className={`navbar__item__label`}>Reviews</span>
-                </NavLink>
-                <NavLink
-                    to="/route"
-                    className="navbar__item"
-                    activeClassName="active"
-                >
-                    <i
-                        className={`icon icon--base navbar__item__icon navbar__item--chat`}
-                    ></i>
-                    <span className={`navbar__item__label`}>Chat</span>
-                </NavLink>
-                <NavLink
-                    to="/route"
-                    className="navbar__item"
-                    activeClassName="active"
-                >
-                    <i
-                        className={`icon icon--base navbar__item__icon navbar__item--search-tutors`}
-                    ></i>
-                    <span className={`navbar__item__label`}>Search Tutors</span>
-                </NavLink>
+                <RenderMenuLinks routes={ROUTES}></RenderMenuLinks>
             </div>
             <div className="navbar__bottom">
                 <div className="flex flex--grow flex--center">

@@ -34,7 +34,6 @@ const MainWrapper = (props: Props) => {
                     >
                         <i className="icon icon--sm icon--close icon--black"></i>
                     </div>
-
                     <Navbar />
                 </div>
                 <div className="layout__main">{props.children}</div>
