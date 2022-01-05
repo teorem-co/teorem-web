@@ -1,17 +1,45 @@
+import 'moment/locale/en-gb';
+
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import Calendar from 'react-calendar';
 
 import MainWrapper from '../../components/MainWrapper';
-import myEventList from '../../constants/bookingEvents';
 import upcomingLessons from '../../constants/upcomingLessons';
+import { useAppSelector } from '../../hooks';
 import UpcomingLessons from './components/UpcomingLessons';
+import { useLazyGetBookingsQuery } from './services/bookingService';
 
 const MyBookings: React.FC = () => {
     const localizer = momentLocalizer(moment);
     const [value, onChange] = useState(new Date());
     const [calChange, setCalChange] = useState<boolean>(false);
+
+    const [getBookings, {data: bookings}] = useLazyGetBookingsQuery();
+    const userId = useAppSelector(state => state.user.user?.id);
+    
+    useEffect(() => {
+        if (userId) {
+            getBookings({
+                dateFrom: moment(value).startOf('isoWeek').toISOString(), 
+                dateTo: moment(value).endOf('isoWeek').toISOString(),
+                userId
+        }); 
+        }
+    }, [value, userId]);
+
+    const myEvents = bookings ? bookings.rows.map(x =>
+        {
+            return {
+                id: x.id,
+                label: x.Subject ? x.Subject.abrv : 'No title',
+                start: new Date(x.startTime),
+                end: new Date(x.endTime),
+                allDay: false,
+            };
+        }
+    ) : [];
 
     const defaultScrollTime = new Date(new Date().setHours(7, 45, 0));
 
@@ -78,7 +106,7 @@ const MyBookings: React.FC = () => {
                             formats={{
                                 timeGutterFormat: 'HH:mm',
                             }}
-                            events={myEventList}
+                            events={myEvents}
                             toolbar={false}
                             date={value}
                             view="week"
@@ -98,7 +126,7 @@ const MyBookings: React.FC = () => {
                 <div>
                     <div className="card card--primary mb-4">
                         <Calendar
-                            onChange={onChange}
+                            onChange={(e: Date) => {onChange(e); setCalChange(!calChange);}}
                             value={value}
                             prevLabel={<PrevIcon />}
                             nextLabel={<NextIcon />}

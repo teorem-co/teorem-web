@@ -5,11 +5,11 @@ import { useHistory } from 'react-router';
 import * as Yup from 'yup';
 
 import heroImg from '../../../assets/images/hero-img.png';
-import { useRegisterMutation } from '../../../services/authService';
 import { resetSelectedRole } from '../../../slices/roleSlice';
 import TextField from '../../components/form/TextField';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
+import { useRegisterMutation } from '../../services/authService';
 import logo from './../../../assets/images/logo.svg';
 
 interface Values {
