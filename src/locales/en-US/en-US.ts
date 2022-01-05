@@ -48,6 +48,7 @@ export const EN_US = {
             NOT_FOUND: 'Resource not found',
             CONFLICT: 'Resource already exists',
             INTERNAL_ERROR: 'Server error',
+            BAD_REQUEST: 'Bad request'
         },
         USER: {
             EMAIL_CONFLICT: 'User with this email already exists',
@@ -56,6 +57,9 @@ export const EN_US = {
         },
         LEVEL: {
             NOT_FOUND: 'Level not found',
+        },
+        FILE: {
+            NOT_FOUND: 'File not found',
         },
         SUBJECT: {
             NOT_FOUND: 'Subject not found',
