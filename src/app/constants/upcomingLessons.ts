@@ -1,117 +1,24 @@
 export interface IUpcomingLessons {
     id: string;
+    tutorId: string;
+    studentId: string;
+    subjectId: string;
+    levelId: string;
     startTime: string;
     endTime: string;
-    date: string;
-    user: string;
-    status: string;
+    User: {
+        id: string;
+        email: string;
+        password: string;
+        firstName: string;
+        lastName: string;
+        passwordResetToken: string;
+        roleId: string;
+        countryId: null;
+        phoneNumber: null;
+        phonePrefix: null;
+        parentId: null;
+        dateOfbirth: null;
+    };
 }
 
-const upcomingLessons: IUpcomingLessons[] = [
-    {
-        id: 'lession-1',
-        startTime: '08:30',
-        endTime: '09:30',
-        date: '10/09/2021',
-        user: 'Elizabeth Betty',
-        status: 'purple',
-    },
-    {
-        id: 'lession-2',
-        startTime: '08:30',
-        endTime: '09:30',
-        date: '10/09/2021',
-        user: 'Jonathan Doe',
-        status: 'blue',
-    },
-    {
-        id: 'lession-3',
-        startTime: '08:30',
-        endTime: '09:30',
-        date: '10/09/2021',
-        user: 'Christopher Columbus',
-        status: 'green',
-    },
-    {
-        id: 'lession-2',
-        startTime: '08:30',
-        endTime: '09:30',
-        date: '10/09/2021',
-        user: 'Jonathan Doe',
-        status: 'blue',
-    },
-    {
-        id: 'lession-3',
-        startTime: '08:30',
-        endTime: '09:30',
-        date: '10/09/2021',
-        user: 'Christopher Columbus',
-        status: 'green',
-    },
-    {
-        id: 'lession-2',
-        startTime: '08:30',
-        endTime: '09:30',
-        date: '10/09/2021',
-        user: 'Jonathan Doe',
-        status: 'blue',
-    },
-    {
-        id: 'lession-3',
-        startTime: '08:30',
-        endTime: '09:30',
-        date: '10/09/2021',
-        user: 'Christopher Columbus',
-        status: 'green',
-    },
-    {
-        id: 'lession-2',
-        startTime: '08:30',
-        endTime: '09:30',
-        date: '10/09/2021',
-        user: 'Jonathan Doe',
-        status: 'blue',
-    },
-    {
-        id: 'lession-3',
-        startTime: '08:30',
-        endTime: '09:30',
-        date: '10/09/2021',
-        user: 'Christopher Columbus',
-        status: 'green',
-    },
-    {
-        id: 'lession-2',
-        startTime: '08:30',
-        endTime: '09:30',
-        date: '10/09/2021',
-        user: 'Jonathan Doe',
-        status: 'blue',
-    },
-    {
-        id: 'lession-3',
-        startTime: '08:30',
-        endTime: '09:30',
-        date: '10/09/2021',
-        user: 'Christopher Columbus',
-        status: 'green',
-    },
-    {
-        id: 'lession-2',
-        startTime: '08:30',
-        endTime: '09:30',
-        date: '10/09/2021',
-        user: 'Jonathan Doe',
-        status: 'blue',
-    },
-    {
-        id: 'lession-3',
-        startTime: '08:30',
-        endTime: '09:30',
-        date: '10/09/2021',
-        user: 'Christopher Columbus',
-        status: 'green',
-    },
-];
-
-export default upcomingLessons;
