@@ -10,6 +10,7 @@ import { useAppSelector } from '../../hooks';
 import UpcomingLessons from './components/UpcomingLessons';
 import {
     useLazyGetBookingsQuery,
+    useLazyGetNotificationForLessonsQuery,
     useLazyGetUpcomingLessonsQuery,
 } from './services/bookingService';
 
@@ -22,6 +23,9 @@ const MyBookings: React.FC = () => {
         useLazyGetUpcomingLessonsQuery();
 
     const [getBookings, { data: bookings }] = useLazyGetBookingsQuery();
+    const [getNotificationForLessons, { data: lessonsCount }] =
+        useLazyGetNotificationForLessonsQuery();
+
     const userId = useAppSelector((state) => state.user.user?.id);
 
     useEffect(() => {
@@ -36,6 +40,12 @@ const MyBookings: React.FC = () => {
                 dateFrom: moment(value).startOf('isoWeek').toISOString(),
                 dateTo: moment(value).endOf('isoWeek').toISOString(),
                 userId,
+            });
+            getNotificationForLessons({
+                userId: userId,
+                date: moment()
+                    .set({ hour: 0, minute: 0, second: 0 })
+                    .toISOString(),
             });
         }
     }, [value, userId]);
@@ -97,7 +107,7 @@ const MyBookings: React.FC = () => {
                         <div className="flex--primary p-6">
                             <h2 className="type--lg">Calendar</h2>
                             <div className="type--wgt--bold type--color--brand">
-                                You have 2 Lessons today!
+                                You have {lessonsCount ?? 0} Lessions today!
                             </div>
                         </div>
                         <BigCalendar
