@@ -54,8 +54,17 @@ export const bookingService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
+        getNotificationForLessons: builder.query<number, string>({
+            query: (userId) => ({
+                url: `${URL}/${userId}/count`,
+                method: HttpMethods.GET,
+            }),
+        }),
     }),
 });
 
-export const { useLazyGetBookingsQuery, useLazyGetUpcomingLessonsQuery } =
-    bookingService;
+export const {
+    useLazyGetBookingsQuery,
+    useLazyGetUpcomingLessonsQuery,
+    useLazyGetNotificationForLessonsQuery,
+} = bookingService;
