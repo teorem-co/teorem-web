@@ -10,6 +10,7 @@ import TextField from '../../components/form/TextField';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
 import { useRegisterMutation } from '../../services/authService';
+import toastService from '../../services/toastService';
 import logo from './../../../assets/images/logo.svg';
 
 interface Values {
@@ -93,6 +94,7 @@ const Register: React.FC = () => {
     useEffect(() => {
         if (isSuccess) {
             history.push(PATHS.LOGIN);
+            toastService.success('You are registered successfully.');
         }
     }, [isSuccess]);
 
@@ -172,7 +174,7 @@ const Register: React.FC = () => {
                 <div className="login__content">
                     <div className="flex--grow w--448--max">
                         <div className="mb-22">
-                            <img className="w--128" src={logo} alt="Theorem" />
+                            <img className="w--128" src={logo} alt="Teorem" />
                         </div>
                         <div className="type--lg type--wgt--bold mb-4">
                             {t('REGISTER.TITLE', { role: roleSelection })}

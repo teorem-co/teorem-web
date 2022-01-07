@@ -35,7 +35,7 @@ const RoleSelection: React.FC = () => {
                 <div className="role-selection__content">
                     <div className="flex--grow">
                         <div className="mb-22">
-                            <img className="w--128" src={logo} alt="Theorem" />
+                            <img className="w--128" src={logo} alt="Teorem" />
                         </div>
                         <div className="type--lg type--wgt--bold mb-4">
                             {t('ROLE_SELECTION.TITLE')}

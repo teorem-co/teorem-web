@@ -1,5 +1,5 @@
 import { Form, FormikProvider, useFormik } from 'formik';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -20,6 +20,7 @@ interface Values {
 const Login: React.FC = () => {
     const history = useHistory();
     const { t } = useTranslation();
+    const [loginErrorMessage, setLoginErrorMessage] = useState<string>();
 
     const initialValues: Values = {
         email: '',
@@ -36,6 +37,7 @@ const Login: React.FC = () => {
             data: loginData,
             isSuccess: isSuccessLogin,
             isLoading: isLoadingLogin,
+            error: errorLogin,
         },
     ] = useLoginMutation();
 
@@ -57,11 +59,7 @@ const Login: React.FC = () => {
             password: Yup.string()
                 .min(2, t('FORM_VALIDATION.TOO_SHORT'))
                 .max(50, t('FORM_VALIDATION.TOO_LONG'))
-                .required(t('FORM_VALIDATION.REQUIRED'))
-                .matches(/^(?=.*[a-z])/, t('FORM_VALIDATION.LOWERCASE'))
-                .matches(/^(?=.*[A-Z])/, t('FORM_VALIDATION_UPPERCASE'))
-                .matches(/^(?=.*[0-9])/, t('FORM_VALIDATION.NUMBER'))
-                .matches(/^(?=.*[!@#%&])/, t('FORM_VALIDATION.SPECIAL_CHAR')),
+                .required(t('FORM_VALIDATION.REQUIRED')),
         }),
     });
 
@@ -81,6 +79,14 @@ const Login: React.FC = () => {
         history.push(PATHS.RESET_PASSWORD);
     };
 
+    useEffect(() => {
+        const test: any = errorLogin;
+
+        if (test) {
+            setLoginErrorMessage(test.data.message);
+        }
+    }, [errorLogin]);
+
     return (
         <>
             <div className="login">
@@ -90,7 +96,7 @@ const Login: React.FC = () => {
                 <div className="login__content">
                     <div className="flex--grow w--448--max">
                         <div className="mb-22">
-                            <img className="w--128" src={logo} alt="Theorem" />
+                            <img className="w--128" src={logo} alt="Teorem" />
                         </div>
                         <div className="type--lg type--wgt--bold mb-4">
                             {t('LOGIN.TITLE')}
@@ -127,6 +133,13 @@ const Login: React.FC = () => {
                                         disabled={isLoading}
                                     />
                                 </div>
+                                {loginErrorMessage ? (
+                                    <div className="type--color--error">
+                                        {loginErrorMessage}
+                                    </div>
+                                ) : (
+                                    <></>
+                                )}
                                 <button
                                     className="btn btn--base btn--primary w--100 mb-2 mt-6"
                                     type="submit"

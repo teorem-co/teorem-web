@@ -12,10 +12,11 @@ $mobile-height: 50px;
     }
 
     &__aside {
+        z-index: 10;
         position: relative;
-        z-index: 2;
         width: $sidebar-width;
         height: 100vh;
+        flex-shrink: 0;
         color: $white;
 
         &__close {
@@ -26,7 +27,8 @@ $mobile-height: 50px;
             position: fixed;
             top: 0;
             bottom: 0;
-            left: -100%;
+            left: -100vw;
+            width: 100vw;
             transition: left 300ms ease-in-out;
 
             &.active {
@@ -35,16 +37,6 @@ $mobile-height: 50px;
 
             &__close {
                 display: block;
-            }
-        }
-
-        &__main {
-            position: relative;
-            width: calc(100% - #{$sidebar-width});
-            height: 100vh;
-            @media (max-width: $responsive-md) {
-                width: 100%;
-                height: calc(100vh - #{$mobile-height});
             }
         }
     }
@@ -67,9 +59,14 @@ $mobile-height: 50px;
     }
 
     &__main {
+        position: relative;
         flex-grow: 1;
         height: 100vh;
         overflow-y: auto;
         background-color: $background-color;
+
+        @media (max-width: $responsive-md) {
+            height: calc(100vh - #{$mobile-height});
+        }
     }
 }
