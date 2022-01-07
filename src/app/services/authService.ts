@@ -21,6 +21,10 @@ interface IRegister {
     roleAbrv: string;
 }
 
+interface IResetPassword {
+    email: string;
+}
+
 const URL = '/membership';
 
 export const authService = baseService.injectEndpoints({
@@ -28,6 +32,13 @@ export const authService = baseService.injectEndpoints({
         login: builder.mutation<ILoginResponse, ILogin>({
             query: (body) => ({
                 url: `${URL}/login`,
+                method: HttpMethods.POST,
+                body,
+            }),
+        }),
+        resetPassword: builder.mutation<void, IResetPassword>({
+            query: (body) => ({
+                url: `${URL}/reset-password`,
                 method: HttpMethods.POST,
                 body,
             }),
@@ -42,4 +53,8 @@ export const authService = baseService.injectEndpoints({
     }),
 });
 
-export const { useLoginMutation, useRegisterMutation } = authService;
+export const {
+    useLoginMutation,
+    useRegisterMutation,
+    useResetPasswordMutation,
+} = authService;

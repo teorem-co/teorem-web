@@ -30,6 +30,15 @@ export const EN_US = {
         TUTOR_TITLE: 'Tutor',
         TUTOR_DESCRIPTION: 'Here to teach students what I know.',
     },
+    RESET_PASSWORD: {
+        TITLE: 'Forgot Password',
+        FORM: {
+            EMAIL: 'Email',
+            ENTER_MAIL: 'Enter Email',
+            SUBMIT_BTN: 'Reset Password',
+        },
+        BACK_BTN: 'Back to Login',
+    },
     LOGIN: {
         TITLE: 'Log in',
         FORM: {
