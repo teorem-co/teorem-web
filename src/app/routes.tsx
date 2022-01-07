@@ -3,6 +3,7 @@ import { NavLink, Route, Switch } from 'react-router-dom';
 import Login from './features/login/Login';
 import MyBookings from './features/my-bookings/MyBookings';
 import Register from './features/register/Register';
+import ResetPassword from './features/reset-password/ResetPassword';
 import RoleSelection from './features/roleSelection/RoleSelection';
 import { Role } from './lookups/role';
 import NotFound from './pages/NotFound';
@@ -11,18 +12,10 @@ import { getUserRoleAbrv } from './utils/getUserRoleAbrv';
 export enum PATHS {
     ROLE_SELECTION = '/role-selection',
     REGISTER = '/register',
+    RESET_PASSWORD = '/reset-password',
     LOGIN = '/',
     MY_BOOKINGS = '/my-bookings',
 }
-
-//MENU ROUTES
-// Profile                 PARENT TUTOR
-// My Bookings             PARENT TUTOR
-// Chat                    PARENT TUTOR
-// Reviews                        TUTOR
-// Search Tutors           PARENT
-// Completed Lessions      PARENT
-// Notifications           PARENT
 
 const ROUTES: any = [
     {
@@ -40,6 +33,14 @@ const ROUTES: any = [
         roles: [Role.Tutor],
         isMenu: false,
         component: () => <Register />,
+    },
+    {
+        path: PATHS.RESET_PASSWORD,
+        key: 'RESET_PASSWORD',
+        exact: true,
+        roles: [Role.Tutor],
+        isMenu: false,
+        component: () => <ResetPassword />,
     },
     {
         path: PATHS.LOGIN,

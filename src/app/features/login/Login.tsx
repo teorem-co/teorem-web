@@ -77,6 +77,10 @@ const Login: React.FC = () => {
         }
     }, [isSuccessUserId]);
 
+    const handleGoBack = () => {
+        history.push(PATHS.RESET_PASSWORD);
+    };
+
     return (
         <>
             <div className="login">
@@ -131,7 +135,7 @@ const Login: React.FC = () => {
                                     {t('LOGIN.FORM.SUBMIT_BTN')}
                                 </button>
                                 <button
-                                    onClick={() => alert('goBack')}
+                                    onClick={handleGoBack}
                                     className="btn btn--clear btn--base w--100 type--color--brand type--wgt--bold type--center"
                                     disabled={isLoading}
                                 >
