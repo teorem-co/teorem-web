@@ -5,9 +5,11 @@
 $rbc-color-header: #faf9ff;
 $rbc-color-today: transparent;
 $rbc-hour-height: 80px;
+$rbc-calendar-width: 675px;
 
 .rbc {
     &-calendar {
+        min-width: $rbc-calendar-width;
         .rbc-time-header {
             &-gutter {
                 background-color: $rbc-color-header;

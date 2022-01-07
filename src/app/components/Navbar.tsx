@@ -22,7 +22,7 @@ const Navbar = () => {
 
     return (
         <div className="navbar">
-            <NavLink className="d--b" to="/">
+            <NavLink className="d--b" to="/my-bookings">
                 <img className="navbar__logo" src={logo} alt="logo" />
             </NavLink>
             <div className="flex--grow">
