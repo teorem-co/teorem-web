@@ -1,6 +1,5 @@
 import { NavLink } from 'react-router-dom';
 
-import ROUTES from '../../app/routes';
 import avatar from '../../assets/images/avatar.svg';
 import logo from '../../assets/images/logo.svg';
 import { logout } from '../../slices/authSlice';
@@ -26,7 +25,7 @@ const Navbar = () => {
                 <img className="navbar__logo" src={logo} alt="logo" />
             </NavLink>
             <div className="flex--grow">
-                <RenderMenuLinks routes={ROUTES}></RenderMenuLinks>
+                <RenderMenuLinks></RenderMenuLinks>
             </div>
             <div className="navbar__bottom">
                 <div className="flex flex--grow flex--center">
