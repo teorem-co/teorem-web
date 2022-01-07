@@ -1,4 +1,4 @@
-import { NavLink, Route, Switch } from 'react-router-dom';
+import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
 
 import Login from './features/login/Login';
 import MyBookings from './features/my-bookings/MyBookings';
@@ -8,6 +8,7 @@ import RoleSelection from './features/roleSelection/RoleSelection';
 import { Role } from './lookups/role';
 import NotFound from './pages/NotFound';
 import { getUserRoleAbrv } from './utils/getUserRoleAbrv';
+import { isAuthenticated } from './utils/isAuthenticated';
 
 export enum PATHS {
     ROLE_SELECTION = '/role-selection',
@@ -24,6 +25,7 @@ const ROUTES: any = [
         exact: true,
         roles: [Role.Tutor],
         isMenu: false,
+        isPublic: true,
         component: () => <RoleSelection />,
     },
     {
@@ -32,6 +34,7 @@ const ROUTES: any = [
         exact: true,
         roles: [Role.Tutor],
         isMenu: false,
+        isPublic: true,
         component: () => <Register />,
     },
     {
@@ -40,6 +43,7 @@ const ROUTES: any = [
         exact: true,
         roles: [Role.Tutor],
         isMenu: false,
+        isPublic: true,
         component: () => <ResetPassword />,
     },
     {
@@ -48,6 +52,7 @@ const ROUTES: any = [
         exact: true,
         roles: [Role.Tutor],
         isMenu: false,
+        isPublic: true,
         component: () => <Login />,
     },
     {
@@ -58,6 +63,7 @@ const ROUTES: any = [
         isMenu: true,
         icon: 'calendar',
         name: 'My Bookings',
+        isPublic: false,
         component: () => <MyBookings />,
     },
 ];
@@ -65,7 +71,7 @@ const ROUTES: any = [
 export default ROUTES;
 
 function RouteWithSubRoutes(route: any) {
-    return (
+    return route.isPublic || isAuthenticated() ? (
         <Route
             key={route.key}
             path={route.path}
@@ -74,6 +80,8 @@ function RouteWithSubRoutes(route: any) {
                 <route.component {...props} routes={route.routes} />
             )}
         />
+    ) : (
+        <Redirect to="/" />
     );
 }
 
