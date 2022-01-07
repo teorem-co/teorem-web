@@ -8,6 +8,7 @@ import Calendar from 'react-calendar';
 
 import MainWrapper from '../../components/MainWrapper';
 import { useAppSelector } from '../../hooks';
+import TrialPopup from '../register/TrialPopup';
 import UpcomingLessons from './components/UpcomingLessons';
 import {
     useLazyGetBookingsQuery,
