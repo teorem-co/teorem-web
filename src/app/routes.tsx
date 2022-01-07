@@ -6,7 +6,6 @@ import Register from './features/register/Register';
 import ResetPassword from './features/reset-password/ResetPassword';
 import RoleSelection from './features/roleSelection/RoleSelection';
 import SearchTutors from './features/searchTutors/SearchTutors';
-import { menuPerRole } from './lookups/menuPerRole';
 import { Role } from './lookups/role';
 import NotFound from './pages/NotFound';
 import PermissionsGate from './PermissionGate';
@@ -19,6 +18,17 @@ export enum PATHS {
     LOGIN = '/',
     MY_BOOKINGS = '/my-bookings',
     SEARCH_TUTORS = '/search-tutors',
+}
+
+interface IMenuItem {
+    name: string;
+    icon: string;
+    key: string;
+    path: string;
+}
+
+interface IMenuPerRole {
+    [key: string]: IMenuItem[];
 }
 
 const ROUTES: any = [
@@ -114,6 +124,42 @@ export function RenderRoutes(routesObj: any) {
         </Switch>
     );
 }
+
+//has to be in this file to prevent app crash when importing
+export const menuPerRole: IMenuPerRole = {
+    [Role.Tutor]: [
+        {
+            name: 'My Bookings',
+            icon: 'calendar',
+            key: 'MY_BOOKINGS',
+            path: PATHS.MY_BOOKINGS,
+        },
+    ],
+    [Role.Student]: [
+        {
+            name: 'My Bookings',
+            icon: 'calendar',
+            key: 'MY_BOOKINGS',
+            path: PATHS.MY_BOOKINGS,
+        },
+    ],
+    [Role.Parent]: [
+        {
+            name: 'My Bookings',
+            icon: 'calendar',
+            key: 'MY_BOOKINGS',
+            path: PATHS.MY_BOOKINGS,
+        },
+    ],
+    [Role.SuperAdmin]: [
+        {
+            name: 'My Bookings',
+            icon: 'calendar',
+            key: 'MY_BOOKINGS',
+            path: PATHS.MY_BOOKINGS,
+        },
+    ],
+};
 
 export function RenderMenuLinks() {
     const userRole = getUserRoleAbrv();
