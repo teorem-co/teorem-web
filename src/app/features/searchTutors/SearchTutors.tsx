@@ -21,8 +21,10 @@ const SearchTutors = () => {
                         <div className="tutor-list__item">
                             <div className="tutor-list__item__img">slika</div>
                             <div className="tutor-list__item__info">
-                                <div>Maria Diaz </div>
-                                <div>Primary School Teacher</div>
+                                <div className="type--md mb-1">Maria Diaz</div>
+                                <div className="type--color--brand mb-4">
+                                    Primary School Teacher
+                                </div>
                                 <div>
                                     Keen and enthusiastic palaeontology student
                                     looking forward to helping you with any
