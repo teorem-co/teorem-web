@@ -19,4 +19,23 @@
         flex-direction: column;
         height: 100%;
     }
+
+    &--search {
+        background-color: $white;
+        border-radius: $border-rounded;
+        margin: calc(#{$unit} * 6);
+        border: 1px solid $grey-f5;
+
+        &__head {
+            padding: calc(#{$unit} * 6);
+            border-bottom: 1px solid $grey-ed;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        &__body {
+            padding: calc(#{$unit} * 10) calc(#{$unit} * 6);
+        }
+    }
 }
