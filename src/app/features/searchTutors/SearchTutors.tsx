@@ -5,7 +5,7 @@ const SearchTutors = () => {
         <MainWrapper>
             <div className="card--search">
                 <div className="card--search__head">
-                    <div>Tutor list</div>
+                    <div className="type--lg type--wgt--bold">Tutor list</div>
                     <div>
                         <span>subjects</span>
                         <span>Level</span>
@@ -14,8 +14,11 @@ const SearchTutors = () => {
                     </div>
                 </div>
                 <div className="card--search__body">
-                    <div>
-                        Tutor Available <span>105</span>
+                    <div className="mb-10">
+                        <span className="type--uppercase type--color--tertiary">
+                            Tutor Available
+                        </span>
+                        <span className="tag--primary d--ib ml-2">105</span>
                     </div>
                     <div className="tutor-list">
                         <div className="tutor-list__item">
@@ -25,7 +28,7 @@ const SearchTutors = () => {
                                 <div className="type--color--brand mb-4">
                                     Primary School Teacher
                                 </div>
-                                <div>
+                                <div className="type--color--secondary mb-6 w--632--max">
                                     Keen and enthusiastic palaeontology student
                                     looking forward to helping you with any
                                     challenging topics in Biology and/or
@@ -42,7 +45,7 @@ const SearchTutors = () => {
                             </div>
                             <div className="tutor-list__item__details">
                                 <div className="flex--grow">
-                                    <div className="flex flex--center">
+                                    <div className="flex flex--center mb-3">
                                         <i className="icon icon--star icon--base icon--grey"></i>
                                         <span className="d--ib ml-4">
                                             4.9 rating
