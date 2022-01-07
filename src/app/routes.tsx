@@ -5,6 +5,7 @@ import MyBookings from './features/my-bookings/MyBookings';
 import Register from './features/register/Register';
 import ResetPassword from './features/reset-password/ResetPassword';
 import RoleSelection from './features/roleSelection/RoleSelection';
+import SearchTutors from './features/searchTutors/SearchTutors';
 import { Role } from './lookups/role';
 import NotFound from './pages/NotFound';
 import { getUserRoleAbrv } from './utils/getUserRoleAbrv';
@@ -16,6 +17,7 @@ export enum PATHS {
     RESET_PASSWORD = '/reset-password',
     LOGIN = '/',
     MY_BOOKINGS = '/my-bookings',
+    SEARCH_TUTORS = '/search-tutors',
 }
 
 const ROUTES: any = [
@@ -36,6 +38,15 @@ const ROUTES: any = [
         isMenu: false,
         isPublic: true,
         component: () => <Register />,
+    },
+    {
+        path: PATHS.SEARCH_TUTORS,
+        key: 'SEARCH_TUTORS',
+        exact: true,
+        roles: [Role.Tutor],
+        isMenu: false,
+        isPublic: true,
+        component: () => <SearchTutors />,
     },
     {
         path: PATHS.RESET_PASSWORD,

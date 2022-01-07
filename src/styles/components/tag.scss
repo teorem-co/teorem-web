@@ -1,0 +1,17 @@
+/*
+    components: tag.scss;
+*/
+
+.tag {
+    &--primary {
+        background-color: $color-primary-lighter;
+        color: $color-primary;
+        padding: calc(#{$unit} / 2) calc(#{$unit} * 4);
+        border-radius: $border-rounded;
+        margin-right: calc(#{$unit} * 2);
+
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+}

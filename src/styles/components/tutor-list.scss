@@ -1,0 +1,30 @@
+/*
+    components: tutor-list.scss
+*/
+
+$tutor-list-img-width: 176px;
+$tutor-list-details-width: 264px;
+
+.tutor-list {
+    &__item {
+        display: flex;
+        padding: calc(#{$unit} * 6);
+        border: 1px solid $grey-ed;
+        border-radius: $border-rounded;
+        &__img {
+            width: $tutor-list-img-width;
+            flex-shrink: 0;
+        }
+        &__info {
+            flex-grow: 1;
+        }
+        &__details {
+            display: flex;
+            flex-direction: column;
+            width: $tutor-list-details-width;
+            flex-shrink: 0;
+            border-left: 1px solid $grey-ed;
+            padding-left: calc(#{$unit} * 6);
+        }
+    }
+}
