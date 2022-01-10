@@ -124,6 +124,7 @@ const Register: React.FC = () => {
     const capital = document.getElementById('capital');
     const number = document.getElementById('number');
     const length = document.getElementById('length');
+    const special = document.getElementById('special');
 
     const handleKeyUp = () => {
         const lowerCaseLetters = /[a-z]/g;
@@ -162,6 +163,16 @@ const Register: React.FC = () => {
         } else {
             length?.classList.remove('icon--success');
             length?.classList.add('icon--grey');
+        }
+
+        // Validate special characters
+        const specialCharacters = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>?]/;
+        if (myInput.value.match(specialCharacters)) {
+            special?.classList.remove('icon--grey');
+            special?.classList.add('icon--success');
+        } else {
+            special?.classList.remove('icon--success');
+            special?.classList.add('icon--grey');
         }
     };
 
@@ -295,6 +306,17 @@ const Register: React.FC = () => {
                                                 <span>
                                                     {t(
                                                         'FORM_VALIDATION.NUMBER'
+                                                    )}
+                                                </span>
+                                            </div>
+                                            <div>
+                                                <i
+                                                    id="special"
+                                                    className="icon icon--base icon--check icon--grey mr-3"
+                                                ></i>
+                                                <span>
+                                                    {t(
+                                                        'FORM_VALIDATION.SPECIAL_CHAR'
                                                     )}
                                                 </span>
                                             </div>
