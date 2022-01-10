@@ -1,16 +1,131 @@
-import MainWrapper from '../../components/MainWrapper';
+import { Form, FormikProvider, useFormik } from 'formik';
+import { useEffect, useState } from 'react';
+import OptionsType from 'react-select';
 
+import { useLazyGetLevelsQuery } from '../../../services/levelService';
+import CustomAvailabilitySelect from '../../components/form/CustomAvailabilitySelect';
+import MainWrapper from '../../components/MainWrapper';
+import MySelect, { OptionType } from '../../components/MySelectField';
+
+interface Values {
+    subject: string;
+    level: string;
+    customAvailability: string;
+}
+
+//ADD TRANSLATIONS !!
 const SearchTutors = () => {
+    const [
+        getLevelOptions,
+        { data: levelOptions, isLoading: isLoadingLevels },
+    ] = useLazyGetLevelsQuery();
+
+    const levelDisabled = !levelOptions || isLoadingLevels;
+
+    const initialValues: Values = {
+        subject: '',
+        level: '',
+        customAvailability: '',
+    };
+
+    useEffect(() => {
+        getLevelOptions();
+    }, []);
+
+    const formik = useFormik({
+        initialValues: initialValues,
+        onSubmit: (values) => {
+            //no submit
+        },
+    });
+
+    useEffect(() => {
+        if (formik.values.level !== '') {
+            //fetch subjects with that level
+        }
+    }, [formik.values.level]);
+
+    useEffect(() => {
+        //update query with values that are not empty string
+        // console.log(formik.values);
+    }, [formik.values]);
+
+    const subjectOptions = [
+        {
+            value: 'Math',
+            label: 'Math',
+        },
+        {
+            value: 'English',
+            label: 'English',
+        },
+        {
+            value: 'Art',
+            label: 'Art',
+        },
+    ];
+
+    // const levelOptions = [
+    //     {
+    //         value: 'All',
+    //         label: 'All Levels',
+    //     },
+    //     {
+    //         value: 'A',
+    //         label: 'A Level',
+    //     },
+    //     {
+    //         value: 'GSCE',
+    //         label: 'GSCE',
+    //     },
+    // ];
+
+    const handleResetFilter = () => {
+        //add query clear when reseting filter
+        //set subject disabled
+        formik.setValues(initialValues);
+    };
+
     return (
         <MainWrapper>
             <div className="card--search">
                 <div className="card--search__head">
                     <div className="type--lg type--wgt--bold">Tutor list</div>
-                    <div>
-                        <span>subjects</span>
-                        <span>Level</span>
-                        <span>All availability</span>
-                        <span>Rest Filter</span>
+                    <div className="flex flex--center">
+                        <FormikProvider value={formik}>
+                            <Form className="flex" noValidate>
+                                <MySelect
+                                    field={formik.getFieldProps('level')}
+                                    form={formik}
+                                    meta={formik.getFieldMeta('level')}
+                                    isMulti={false}
+                                    options={levelOptions}
+                                    isDisabled={levelDisabled}
+                                    //add translations
+                                    placeholder="Level"
+                                ></MySelect>
+                                <MySelect
+                                    field={formik.getFieldProps('subject')}
+                                    form={formik}
+                                    meta={formik.getFieldMeta('subject')}
+                                    isMulti={false}
+                                    options={subjectOptions}
+                                    isDisabled={true}
+                                    className="ml-6"
+                                    //add translations
+                                    placeholder="Subject"
+                                ></MySelect>
+                                <CustomAvailabilitySelect></CustomAvailabilitySelect>
+                            </Form>
+                        </FormikProvider>
+                        <button
+                            className="btn btn--clear ml-6"
+                            onClick={handleResetFilter}
+                            //add disabled logic
+                            disabled={true}
+                        >
+                            Reset Filter
+                        </button>
                     </div>
                 </div>
                 <div className="card--search__body">

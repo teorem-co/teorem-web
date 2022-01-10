@@ -17,7 +17,7 @@ export enum PATHS {
     RESET_PASSWORD = '/reset-password',
     LOGIN = '/',
     MY_BOOKINGS = '/my-bookings',
-    SEARCH_TUTORS = '/search-tutors',
+    SEARCH_TUTORS = '/search-tutors', //parent student
 }
 
 interface IMenuItem {
@@ -125,6 +125,12 @@ export const menuPerRole: IMenuPerRole = {
             key: 'MY_BOOKINGS',
             path: PATHS.MY_BOOKINGS,
         },
+        {
+            name: 'Search tutors',
+            icon: 'search-tutors',
+            key: 'SEARCH_TUTORS',
+            path: PATHS.SEARCH_TUTORS,
+        },
     ],
     [Role.Parent]: [
         {
@@ -132,6 +138,12 @@ export const menuPerRole: IMenuPerRole = {
             icon: 'calendar',
             key: 'MY_BOOKINGS',
             path: PATHS.MY_BOOKINGS,
+        },
+        {
+            name: 'Search tutors',
+            icon: 'search-tutors',
+            key: 'SEARCH_TUTORS',
+            path: PATHS.SEARCH_TUTORS,
         },
     ],
     [Role.SuperAdmin]: [
