@@ -2,6 +2,7 @@ import { NavLink, Route, Switch } from 'react-router-dom';
 
 import Login from './features/login/Login';
 import MyBookings from './features/my-bookings/MyBookings';
+import Onboarding from './features/onboarding/Onboarding';
 import Register from './features/register/Register';
 import ResetPassword from './features/reset-password/ResetPassword';
 import RoleSelection from './features/roleSelection/RoleSelection';
@@ -18,6 +19,7 @@ export enum PATHS {
     LOGIN = '/',
     MY_BOOKINGS = '/my-bookings',
     SEARCH_TUTORS = '/search-tutors',
+    ONBOARDING = '/onboarding',
 }
 
 interface IMenuItem {
@@ -79,6 +81,14 @@ const ROUTES: any = [
                 <SearchTutors />
             </PermissionsGate>
         ),
+    },
+    {
+        path: PATHS.ONBOARDING,
+        key: 'ONBOARDING',
+        exact: true,
+        isMenu: false,
+        isPublic: true,
+        component: () => <Onboarding />,
     },
 ];
 //handle subroutes by <RenderRoutes {...props} /> inside PermissionGate if needed
