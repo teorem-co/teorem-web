@@ -133,13 +133,13 @@ const Login: React.FC = () => {
                                         disabled={isLoading}
                                     />
                                 </div>
-                                {loginErrorMessage ? (
+                                {/* {loginErrorMessage ? (
                                     <div className="type--color--error">
                                         {loginErrorMessage}
                                     </div>
                                 ) : (
                                     <></>
-                                )}
+                                )} */}
                                 <button
                                     className="btn btn--base btn--primary w--100 mb-2 mt-6"
                                     type="submit"
