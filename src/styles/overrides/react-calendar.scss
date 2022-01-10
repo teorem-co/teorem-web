@@ -65,6 +65,14 @@ $rc-button-height: 48px;
             &__day--weekend {
                 color: $color-text-primary;
             }
+            // react-calendar__month-view__days__day--weekend
+            &__day {
+                &--neighboringMonth {
+                    &.react-calendar__month-view__days__day--weekend {
+                        color: #757575;
+                    }
+                }
+            }
 
             button {
                 height: $rc-button-height;
