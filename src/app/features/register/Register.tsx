@@ -59,7 +59,7 @@ const Register: React.FC = () => {
                 .min(2, t('FORM_VALIDATION.TOO_SHORT'))
                 .max(100, t('FORM_VALIDATION.TOO_LONG'))
                 .matches(
-                    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm,
+                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/gm,
                     t('FORM_VALIDATION.PASSWORD_STRENGTH')
                 )
                 .required(t('FORM_VALIDATION.REQUIRED')),
@@ -166,7 +166,7 @@ const Register: React.FC = () => {
         }
 
         // Validate special characters
-        const specialCharacters = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>?]/;
+        const specialCharacters = /[!@#$%^&*()_/+\-=[\]{};':"\\|,.<>?]/;
         if (myInput.value.match(specialCharacters)) {
             special?.classList.remove('icon--grey');
             special?.classList.add('icon--success');
