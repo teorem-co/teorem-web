@@ -73,7 +73,7 @@ const Register: React.FC = () => {
     });
 
     const handleSubmit = (values: Values) => {
-        debugger;
+        // debugger;
         //no roleSelection is already handleded by redirecting to role selection screen
         if (roleSelection) {
             const registerData = {
@@ -94,7 +94,7 @@ const Register: React.FC = () => {
 
     useEffect(() => {
         if (isSuccess) {
-            debugger;
+            // debugger;
             history.push('/test');
             toastService.success('You are registered successfully.');
         }

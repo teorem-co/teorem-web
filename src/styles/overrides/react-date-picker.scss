@@ -3,6 +3,11 @@
 */
 
 .react-date-picker {
+    width: 100% !important;
+
     &__wrapper {
+        padding: 5px;
+        border: 1px solid $grey-c4;
+        border-radius: 4px;
     }
 }

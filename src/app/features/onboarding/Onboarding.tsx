@@ -1,5 +1,5 @@
 import { Form, FormikProvider, useFormik } from 'formik';
-import { useState } from 'react';
+import { forwardRef, LegacyRef, useState } from 'react';
 import DatePicker from 'react-date-picker';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
@@ -28,6 +28,25 @@ const Onboarding = () => {
         {
             value: 1,
             label: 'Poland',
+        },
+    ];
+
+    const phoneOptions = [
+        {
+            value: 1,
+            label: '+385',
+        },
+        {
+            value: 2,
+            label: '+98',
+        },
+        {
+            value: 3,
+            label: '+355',
+        },
+        {
+            value: 4,
+            label: '+54',
         },
     ];
 
@@ -74,6 +93,7 @@ const Onboarding = () => {
                 .required(t('FORM_VALIDATION.REQUIRED')),
         }),
     });
+
     return (
         <>
             <div className="onboarding">
@@ -154,6 +174,7 @@ const Onboarding = () => {
                                     /> */}
 
                                     <Select
+                                        classNamePrefix="onboarding-select"
                                         options={options}
                                         isSearchable={true}
                                         placeholder="Choose your country"
@@ -166,11 +187,18 @@ const Onboarding = () => {
                                     >
                                         Phone Number*
                                     </label>
-                                    <TextField
+                                    {/* <TextField
                                         name="phoneNumber"
                                         id="phoneNumber"
                                         placeholder="Enter your phone number"
                                         // disabled={isLoading}
+                                    /> */}
+
+                                    <Select
+                                        classNamePrefix="onboarding-select"
+                                        options={phoneOptions}
+                                        isSearchable={true}
+                                        placeholder="Enter your phone number"
                                     />
                                 </div>
                                 <div className="field">
@@ -183,21 +211,35 @@ const Onboarding = () => {
                                     <DatePicker
                                         onChange={onChange}
                                         value={value}
+                                        dayPlaceholder="DD"
+                                        monthPlaceholder="MM"
+                                        yearPlaceholder="YYYY"
                                     />
                                 </div>
-                                <div className="field">
+                                <div className="field field__file">
                                     <label
                                         className="field__label"
                                         htmlFor="profileImage"
                                     >
                                         Profile Image*
                                     </label>
-                                    <TextField
+                                    {/* <TextField
                                         name="profileImage"
                                         id="profileImage"
                                         placeholder="Drag and drop to upload"
                                         // disabled={isLoading}
-                                    />
+                                    /> */}
+
+                                    <div className="field__file__wrap">
+                                        <input
+                                            type="file"
+                                            className="input__file"
+                                        />
+                                        <i className="icon icon--upload icon--base icon--grey"></i>
+                                        <div className="type--color--tertiary type--wgt--regular">
+                                            Drag and drop to upload
+                                        </div>
+                                    </div>
                                 </div>
                                 <button
                                     className="btn btn--base btn--primary w--100 mb-2 mt-6"

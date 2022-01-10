@@ -86,8 +86,9 @@ const ROUTES: any = [
         path: PATHS.ONBOARDING,
         key: 'ONBOARDING',
         exact: true,
+        roles: [Role.Tutor],
         isMenu: false,
-        isPublic: true,
+        isPublic: false,
         component: () => <Onboarding />,
     },
 ];
@@ -115,7 +116,7 @@ export function RenderRoutes(routesObj: any) {
             {routes.map((route: any) => {
                 return <RouteWithSubRoutes key={route.key} {...route} />;
             })}
-            <Route component={() => <NotFound />} />
+            <Route component={() => <Onboarding />} />
         </Switch>
     );
 }
