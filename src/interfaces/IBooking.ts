@@ -9,6 +9,7 @@ export default interface IBooking {
         abrv: string;
         id: string;
         name: string;
+        levelId: string;
     };
     Tutor: {
         aboutLessons: string;
@@ -31,7 +32,7 @@ export default interface IBooking {
         phoneNumber: null;
         phonePrefix: null;
         roleId: string;
-    }
+    };
     tutorId: string;
     studentId: string;
     subjectId: string;

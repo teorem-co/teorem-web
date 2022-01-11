@@ -36,8 +36,8 @@ const Navbar = () => {
                         <div className="type--color--primary type--wgt--bold type--break">
                             {user?.firstName} {user?.lastName}
                         </div>
-                        <div className="type--xs type--color--secondary type--wgt--regular type--capitalize">
-                            {user?.roleAbrv}
+                        <div className="type--xs type--color--secondary type--wgt--regular ">
+                            {user?.role?.name}
                         </div>
                     </div>
                 </div>

@@ -7,6 +7,7 @@ import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import Calendar from 'react-calendar';
 
 import MainWrapper from '../../components/MainWrapper';
+import myEventList from '../../constants/bookingEvents';
 import { useAppSelector } from '../../hooks';
 import UpcomingLessons from './components/UpcomingLessons';
 import {
@@ -40,12 +41,11 @@ const MyBookings: React.FC = () => {
             getBookings({
                 dateFrom: moment(value).startOf('isoWeek').toISOString(),
                 dateTo: moment(value).endOf('isoWeek').toISOString(),
-                userId,
             });
             getNotificationForLessons({
                 userId: userId,
                 date: moment()
-                    .set({ hour: 0, minute: 0, second: 0 })
+                    .set({ hour: 23, minute: 59, second: 59 })
                     .toISOString(),
             });
         }

@@ -8,14 +8,7 @@ import { HttpMethods } from '../../../lookups/httpMethods';
 const URL = '/bookings';
 
 interface IBookingItem {
-    count: number;
     rows: IBooking[];
-}
-
-interface IBookingWeek {
-    dateFrom: string;
-    dateTo: string;
-    userId: string;
 }
 
 interface IBookingTransformed {
@@ -26,6 +19,11 @@ interface IBookingTransformed {
     allDay: boolean;
 }
 
+interface IDateRange {
+    dateFrom: string;
+    dateTo: string;
+}
+
 interface INotificationForLessons {
     userId: string;
     date: string;
@@ -33,23 +31,22 @@ interface INotificationForLessons {
 
 export const bookingService = baseService.injectEndpoints({
     endpoints: (builder) => ({
-        getBookings: builder.query<IBookingTransformed[], IBookingWeek>({
+        getBookings: builder.query<IBookingTransformed[], IDateRange>({
             query: (data) => ({
-                url: `${URL}/week/${data.userId}?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}`,
+                url: `${URL}/?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}`,
                 method: HttpMethods.GET,
             }),
-            transformResponse: (response: IBookingItem) => {
-                const bookings: IBookingTransformed[] = response.rows.map(
-                    (x) => {
-                        return {
-                            id: x.id,
-                            label: x.Subject ? x.Subject.abrv : 'No title',
-                            start: new Date(x.startTime),
-                            end: new Date(x.endTime),
-                            allDay: false,
-                        };
-                    }
-                );
+            transformResponse: (response: IBooking[]) => {
+                const bookings: IBookingTransformed[] = response.map((x) => {
+                    return {
+                        id: x.id,
+                        label: x.Subject ? x.Subject.name : 'No title',
+                        start: new Date(x.startTime),
+                        end: new Date(x.endTime),
+                        allDay: false,
+                    };
+                });
+
                 return bookings;
             },
         }),

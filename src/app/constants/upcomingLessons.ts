@@ -1,3 +1,11 @@
+import IUser from '../../interfaces/IUser';
+import { bookingService } from '../features/my-bookings/services/bookingService';
+
+interface ITutor {
+    User: IUser;
+    userId: string;
+}
+
 export interface IUpcomingLessons {
     id: string;
     tutorId: string;
@@ -6,19 +14,6 @@ export interface IUpcomingLessons {
     levelId: string;
     startTime: string;
     endTime: string;
-    User: {
-        id: string;
-        email: string;
-        password: string;
-        firstName: string;
-        lastName: string;
-        passwordResetToken: string;
-        roleId: string;
-        countryId: null;
-        phoneNumber: null;
-        phonePrefix: null;
-        parentId: null;
-        dateOfbirth: null;
-    };
+    User: IUser;
+    Tutor: ITutor;
 }
-
