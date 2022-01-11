@@ -117,6 +117,11 @@
         }
     }
 
+    &--textarea {
+        height: 120px;
+        resize: none;
+    }
+
     //add padding for icon
     &--icon {
         padding-right: calc(#{$unit} * 10);

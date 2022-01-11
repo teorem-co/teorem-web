@@ -47,6 +47,24 @@ const ROUTES: any = [
         component: () => <Register />,
     },
     {
+        path: PATHS.SEARCH_TUTORS,
+        key: 'SEARCH_TUTORS',
+        exact: true,
+        roles: [Role.Tutor],
+        isMenu: false,
+        isPublic: true,
+        component: () => <SearchTutors />,
+    },
+    {
+        path: PATHS.ONBOARDING,
+        key: 'ONBOARDING',
+        exact: true,
+        roles: [Role.Tutor],
+        isMenu: false,
+        isPublic: true,
+        component: () => <Onboarding />,
+    },
+    {
         path: PATHS.RESET_PASSWORD,
         key: 'RESET_PASSWORD',
         exact: true,
@@ -81,15 +99,6 @@ const ROUTES: any = [
                 <SearchTutors />
             </PermissionsGate>
         ),
-    },
-    {
-        path: PATHS.ONBOARDING,
-        key: 'ONBOARDING',
-        exact: true,
-        roles: [Role.Tutor],
-        isMenu: false,
-        isPublic: false,
-        component: () => <Onboarding />,
     },
 ];
 //handle subroutes by <RenderRoutes {...props} /> inside PermissionGate if needed

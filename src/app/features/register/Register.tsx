@@ -5,12 +5,13 @@ import { useHistory } from 'react-router';
 import * as Yup from 'yup';
 
 import heroImg from '../../../assets/images/hero-img.png';
-import { resetSelectedRole } from '../../../slices/roleSlice';
+import { resetSelectedRole, setSelectedRole } from '../../../slices/roleSlice';
 import TextField from '../../components/form/TextField';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
 import { useRegisterMutation } from '../../services/authService';
 import toastService from '../../services/toastService';
+import { getUserRoleAbrv } from '../../utils/getUserRoleAbrv';
 import logo from './../../../assets/images/logo.svg';
 
 interface Values {
@@ -76,15 +77,17 @@ const Register: React.FC = () => {
         // debugger;
         //no roleSelection is already handleded by redirecting to role selection screen
         if (roleSelection) {
-            const registerData = {
-                firstName: values.firstName,
-                lastName: values.lastName,
-                email: values.email,
-                password: values.password,
-                confirmPassword: values.passwordRepeat,
-                roleAbrv: roleSelection,
-            };
-            register(registerData);
+            // const registerData = {
+            //     firstName: values.firstName,
+            //     lastName: values.lastName,
+            //     email: values.email,
+            //     password: values.password,
+            //     confirmPassword: values.passwordRepeat,
+            //     roleAbrv: roleSelection,
+            // };
+            // register(registerData);
+            history.push(PATHS.ONBOARDING);
+            dispatch(setSelectedRole(roleSelection));
         }
     };
 
