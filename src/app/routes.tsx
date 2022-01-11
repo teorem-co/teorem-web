@@ -17,7 +17,7 @@ export enum PATHS {
     RESET_PASSWORD = '/reset-password',
     LOGIN = '/',
     MY_BOOKINGS = '/my-bookings',
-    SEARCH_TUTORS = '/search-tutors', //parent student
+    SEARCH_TUTORS = '/search-tutors',
 }
 
 interface IMenuItem {

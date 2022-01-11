@@ -1,20 +1,30 @@
 import { Form, FormikProvider, useFormik } from 'formik';
 import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
 import OptionsType from 'react-select';
 
+import IParams from '../../../interfaces/IParams';
 import { useLazyGetLevelsQuery } from '../../../services/levelService';
 import CustomAvailabilitySelect from '../../components/form/CustomAvailabilitySelect';
 import MainWrapper from '../../components/MainWrapper';
 import MySelect, { OptionType } from '../../components/MySelectField';
+import getUrlParams from '../../utils/getUrlParams';
 
 interface Values {
     subject: string;
     level: string;
-    customAvailability: string;
+    period: string[];
+    dayOfWeek: string[];
 }
 
 //ADD TRANSLATIONS !!
+//add params to tutor search service
 const SearchTutors = () => {
+    const history = useHistory();
+
+    const [params, setParams] = useState<IParams>({});
+    const [initialLoad, setInitialLoad] = useState<boolean>(true);
+
     const [
         getLevelOptions,
         { data: levelOptions, isLoading: isLoadingLevels },
@@ -25,8 +35,41 @@ const SearchTutors = () => {
     const initialValues: Values = {
         subject: '',
         level: '',
-        customAvailability: '',
+        period: [],
+        dayOfWeek: [],
     };
+
+    useEffect(() => {
+        const urlQueries = getUrlParams(
+            history.location.search.replace('?', '')
+        );
+
+        if (Object.keys(urlQueries).length > 0) {
+            setParams(urlQueries);
+        }
+
+        setInitialLoad(false);
+    }, []);
+
+    useEffect(() => {
+        if (!initialLoad) {
+            const filterParams = new URLSearchParams();
+
+            if (
+                Object.keys(params).length !== 0 &&
+                params.constructor === Object
+            ) {
+                for (const [key, value] of Object.entries(params)) {
+                    filterParams.append(key, value);
+                }
+
+                //check if this push is needed
+                history.push({ search: filterParams.toString() });
+            }
+
+            //fetch tutors here
+        }
+    }, [params]);
 
     useEffect(() => {
         getLevelOptions();
@@ -65,25 +108,14 @@ const SearchTutors = () => {
         },
     ];
 
-    // const levelOptions = [
-    //     {
-    //         value: 'All',
-    //         label: 'All Levels',
-    //     },
-    //     {
-    //         value: 'A',
-    //         label: 'A Level',
-    //     },
-    //     {
-    //         value: 'GSCE',
-    //         label: 'GSCE',
-    //     },
-    // ];
-
     const handleResetFilter = () => {
         //add query clear when reseting filter
         //set subject disabled
         formik.setValues(initialValues);
+    };
+
+    const updateParams = (updatedParams: IParams) => {
+        setParams(updatedParams);
     };
 
     return (
@@ -115,7 +147,11 @@ const SearchTutors = () => {
                                     //add translations
                                     placeholder="Subject"
                                 ></MySelect>
-                                <CustomAvailabilitySelect></CustomAvailabilitySelect>
+                                <CustomAvailabilitySelect
+                                    params={params}
+                                    updateParams={updateParams}
+                                    className="ml-6"
+                                ></CustomAvailabilitySelect>
                             </Form>
                         </FormikProvider>
                         <button
