@@ -46,6 +46,7 @@ const Login: React.FC = () => {
     const formik = useFormik({
         initialValues: initialValues,
         onSubmit: (values) => {
+            // debugger;
             const data = {
                 email: values.email,
                 password: values.password,
@@ -71,7 +72,9 @@ const Login: React.FC = () => {
 
     useEffect(() => {
         if (isSuccessUserId) {
-            history.push(PATHS.MY_BOOKINGS);
+            setTimeout(() => {
+                history.push(PATHS.MY_BOOKINGS);
+            }, 1);
         }
     }, [isSuccessUserId]);
 

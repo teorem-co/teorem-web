@@ -7,10 +7,6 @@ import { HttpMethods } from '../../../lookups/httpMethods';
 
 const URL = '/bookings';
 
-interface IBookingItem {
-    rows: IBooking[];
-}
-
 interface IBookingTransformed {
     id: string;
     label: string;

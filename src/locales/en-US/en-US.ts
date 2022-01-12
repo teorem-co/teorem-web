@@ -107,6 +107,6 @@ export const EN_US = {
     MY_BOOKINGS: {
         TITLE: 'Calendar',
         NOTIFICATION_PART_1: 'You have ',
-        NOTIFICATION_PART_2: ' Lessons today!',
+        NOTIFICATION_PART_2: ' Lesson(s) today!',
     },
 };

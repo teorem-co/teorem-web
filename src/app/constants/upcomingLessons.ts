@@ -1,5 +1,4 @@
 import IUser from '../../interfaces/IUser';
-import { bookingService } from '../features/my-bookings/services/bookingService';
 
 interface ITutor {
     User: IUser;

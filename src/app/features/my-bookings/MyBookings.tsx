@@ -7,7 +7,6 @@ import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import Calendar from 'react-calendar';
 
 import MainWrapper from '../../components/MainWrapper';
-import myEventList from '../../constants/bookingEvents';
 import { useAppSelector } from '../../hooks';
 import UpcomingLessons from './components/UpcomingLessons';
 import {

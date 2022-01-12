@@ -2,7 +2,6 @@ import moment from 'moment';
 import { useTranslation } from 'react-i18next';
 
 import { IUpcomingLessons } from '../../../constants/upcomingLessons';
-import { getUserRoleAbrv } from '../../../utils/getUserRoleAbrv';
 
 interface Props {
     upcomingLessons: IUpcomingLessons[];
@@ -10,7 +9,6 @@ interface Props {
 
 const UpcomingLessons: React.FC<Props> = (props: Props) => {
     const { t } = useTranslation();
-    const userRole = getUserRoleAbrv();
     const { upcomingLessons } = props;
 
     return (
@@ -41,15 +39,31 @@ const UpcomingLessons: React.FC<Props> = (props: Props) => {
                                 {moment(lesson.startTime).format('DD/MM/YYYY')}
                             </div>
                         </div>
-                        {lesson.User || lesson.Tutor ? (
-                            <div>
-                                {userRole === 'tutor' || userRole === 'parent'
-                                    ? `${lesson.User.firstName} ${lesson.User.lastName}`
-                                    : `${lesson.Tutor.User.firstName} ${lesson.Tutor.User.lastName}`}
-                            </div>
-                        ) : (
-                            <></>
-                        )}
+                        <>
+                            {lesson.User ? (
+                                <>
+                                    <span className="type--capitalize">
+                                        {lesson.User.firstName}
+                                    </span>
+                                    &nbsp;
+                                    <span className="type--capitalize">
+                                        {lesson.User.lastName}
+                                    </span>
+                                </>
+                            ) : lesson.Tutor ? (
+                                <>
+                                    <span className="type--capitalize">
+                                        {lesson.Tutor.User.firstName}
+                                    </span>
+                                    &nbsp;
+                                    <span className="type--capitalize">
+                                        {lesson.Tutor.User.lastName}
+                                    </span>
+                                </>
+                            ) : (
+                                ''
+                            )}
+                        </>
                     </div>
                 );
             })}
