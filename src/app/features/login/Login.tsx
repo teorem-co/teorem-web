@@ -74,7 +74,7 @@ const Login: React.FC = () => {
         if (isSuccessUserId) {
             setTimeout(() => {
                 history.push(PATHS.MY_BOOKINGS);
-            }, 1);
+            }, 100);
         }
     }, [isSuccessUserId]);
 
