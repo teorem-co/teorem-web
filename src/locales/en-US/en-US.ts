@@ -13,7 +13,8 @@ export const EN_US = {
         UPPERCASE: 'Include at least one uppercase letter (A-Z)',
         NUMBER: 'Include at least one number (0-9)',
         MIN_CHARACTERS: 'Be a minimum of 8 characters',
-        SPECIAL_CHAR: 'Include at least one special character',
+        SPECIAL_CHAR:
+            'Include at least one special character (@, $, !, %, *, ?, &)',
         PASSWORD_MUST: 'Password must',
         PASSWORD_MATCH: 'Passwords must match',
         PASSWORD_STRENGTH: 'Password must meet the conditions',

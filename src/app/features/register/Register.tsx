@@ -56,10 +56,10 @@ const Register: React.FC = () => {
                 .email(t('FORM_VALIDATION.INVALID_EMAIL'))
                 .required(t('FORM_VALIDATION.REQUIRED')),
             password: Yup.string()
-                .min(2, t('FORM_VALIDATION.TOO_SHORT'))
-                .max(100, t('FORM_VALIDATION.TOO_LONG'))
+                .min(8, t('FORM_VALIDATION.TOO_SHORT'))
+                .max(128, t('FORM_VALIDATION.TOO_LONG'))
                 .matches(
-                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/gm,
+                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,128}$/gm,
                     t('FORM_VALIDATION.PASSWORD_STRENGTH')
                 )
                 .required(t('FORM_VALIDATION.REQUIRED')),
