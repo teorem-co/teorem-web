@@ -5,7 +5,7 @@ import ISubject from '../interfaces/ISubject';
 
 const URL = 'subjects';
 
-export const levelService = baseService.injectEndpoints({
+export const subjectService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         getSubjectOptionsByLevel: builder.query<OptionType[], string>({
             query: (levelId) => ({
@@ -24,4 +24,4 @@ export const levelService = baseService.injectEndpoints({
     }),
 });
 
-export const { useLazyGetSubjectOptionsByLevelQuery } = levelService;
+export const { useLazyGetSubjectOptionsByLevelQuery } = subjectService;

@@ -6,6 +6,7 @@ import Select, { components, MenuProps } from 'react-select';
 import IParams from '../../../interfaces/IParams';
 import { useLazyGetLevelOptionsQuery } from '../../../services/levelService';
 import { useLazyGetSubjectOptionsByLevelQuery } from '../../../services/subjectService';
+import { useLazyGetAvailableTutorsQuery } from '../../../services/tutorService';
 import MainWrapper from '../../components/MainWrapper';
 import MySelect, { OptionType } from '../../components/MySelectField';
 import getUrlParams from '../../utils/getUrlParams';
@@ -23,6 +24,11 @@ const SearchTutors = () => {
 
     const [params, setParams] = useState<IParams>({});
     const [initialLoad, setInitialLoad] = useState<boolean>(true);
+
+    const [
+        getAvailableTutors,
+        { data: availableTutors, isLoading: isLoadingAvailableTutors },
+    ] = useLazyGetAvailableTutorsQuery();
 
     const [
         getLevelOptions,
@@ -45,21 +51,33 @@ const SearchTutors = () => {
     };
 
     useEffect(() => {
-        const urlQueries = getUrlParams(
+        const urlQueries: IParams = getUrlParams(
             history.location.search.replace('?', '')
         );
 
         if (Object.keys(urlQueries).length > 0) {
+            urlQueries.level &&
+                getSubjectOptionsByLevel(urlQueries.level) &&
+                formik.setFieldValue('level', urlQueries.level);
+            urlQueries.subject &&
+                formik.setFieldValue('subject', urlQueries.subject);
+            urlQueries.availability &&
+                formik.setFieldValue(
+                    'availability',
+                    urlQueries.availability.split(',')
+                );
             setParams(urlQueries);
+        } else {
+            getAvailableTutors(params);
         }
 
+        getLevelOptions();
         setInitialLoad(false);
     }, []);
 
     useEffect(() => {
         if (!initialLoad) {
             const filterParams = new URLSearchParams();
-
             if (
                 Object.keys(params).length !== 0 &&
                 params.constructor === Object
@@ -67,18 +85,12 @@ const SearchTutors = () => {
                 for (const [key, value] of Object.entries(params)) {
                     filterParams.append(key, value);
                 }
-
-                //check if this push is needed
                 history.push({ search: filterParams.toString() });
             }
 
-            //fetch tutors here
+            getAvailableTutors({ ...params });
         }
     }, [params]);
-
-    useEffect(() => {
-        getLevelOptions();
-    }, []);
 
     const formik = useFormik({
         initialValues: initialValues,
@@ -89,23 +101,34 @@ const SearchTutors = () => {
 
     useEffect(() => {
         if (formik.values.level !== '') {
+            //this line causes problem on initial load, handle it later
+            //it sets subject to empty even if it exists
             formik.setFieldValue('subject', '');
             getSubjectOptionsByLevel(formik.values.level);
+            const paramsObj = { ...params };
+            delete paramsObj.subject;
+            setParams({ ...paramsObj, level: formik.values.level });
         }
     }, [formik.values.level]);
 
     const handleResetFilter = () => {
         //add query clear when reseting filter
         //set subject disabled
+        //clear query (params object) set params to empty object
         formik.setValues(initialValues);
     };
 
     useEffect(() => {
-        console.log(formik.values);
-    }, [formik.values]);
+        if (formik.values.level !== '' && formik.values.subject !== '') {
+            setParams({ ...params, subject: formik.values.subject });
+        }
+    }, [formik.values.subject]);
 
-    const updateParams = (updatedParams: IParams) => {
-        setParams(updatedParams);
+    const handleMenuClose = () => {
+        if (formik.values.availability.length !== 0) {
+            const availabilityString = formik.values.availability.toString();
+            setParams({ ...params, availability: availabilityString });
+        }
     };
 
     const CustomMenu = (props: MenuProps) => {
@@ -245,6 +268,7 @@ const SearchTutors = () => {
                                     }}
                                     className="ml-6"
                                     classNamePrefix="tutorSearch"
+                                    onMenuClose={handleMenuClose}
                                 ></Select>
                             </Form>
                         </FormikProvider>
@@ -263,7 +287,9 @@ const SearchTutors = () => {
                         <span className="type--uppercase type--color--tertiary">
                             Tutor Available
                         </span>
-                        <span className="tag--primary d--ib ml-2">105</span>
+                        <span className="tag--primary d--ib ml-2">
+                            {availableTutors ? availableTutors.count : '0'}
+                        </span>
                     </div>
                     <div className="tutor-list">
                         <div className="tutor-list__item">

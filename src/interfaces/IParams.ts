@@ -1,8 +1,7 @@
 interface IParams {
     subject?: string;
     level?: string;
-    period?: string;
-    dayOfWeek?: string;
+    availability?: string;
 }
 
 export default IParams;
