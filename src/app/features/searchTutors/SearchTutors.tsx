@@ -42,8 +42,6 @@ const SearchTutors = () => {
 
     const levelDisabled = !levelOptions || isLoadingLevels;
 
-    // const resetFilterDisabled
-
     const initialValues: Values = {
         subject: '',
         level: '',
@@ -51,14 +49,13 @@ const SearchTutors = () => {
     };
 
     useEffect(() => {
+        getLevelOptions();
         const urlQueries: IParams = getUrlParams(
             history.location.search.replace('?', '')
         );
 
         if (Object.keys(urlQueries).length > 0) {
-            urlQueries.level &&
-                getSubjectOptionsByLevel(urlQueries.level) &&
-                formik.setFieldValue('level', urlQueries.level);
+            urlQueries.level && formik.setFieldValue('level', urlQueries.level);
             urlQueries.subject &&
                 formik.setFieldValue('subject', urlQueries.subject);
             urlQueries.availability &&
@@ -71,7 +68,6 @@ const SearchTutors = () => {
             getAvailableTutors(params);
         }
 
-        getLevelOptions();
         setInitialLoad(false);
     }, []);
 
@@ -99,11 +95,17 @@ const SearchTutors = () => {
         },
     });
 
+    const resetFilterDisabled =
+        formik.values.level == '' &&
+        formik.values.subject == '' &&
+        formik.values.availability.length == 0;
+
     useEffect(() => {
         if (formik.values.level !== '') {
             //this line causes problem on initial load, handle it later
-            //it sets subject to empty even if it exists
-            formik.setFieldValue('subject', '');
+            //it sets subject to empty even if it exists after initial load
+
+            // formik.setFieldValue('subject', '');
             getSubjectOptionsByLevel(formik.values.level);
             const paramsObj = { ...params };
             delete paramsObj.subject;
@@ -112,10 +114,12 @@ const SearchTutors = () => {
     }, [formik.values.level]);
 
     const handleResetFilter = () => {
-        //add query clear when reseting filter
-        //set subject disabled
-        //clear query (params object) set params to empty object
-        formik.setValues(initialValues);
+        // setParams({});
+        // //add query clear when reseting filter
+        // //set subject disabled
+        // //clear query (params object) set params to empty object
+        // formik.setValues(initialValues);
+        // window.location.reload();
     };
 
     useEffect(() => {
@@ -258,6 +262,9 @@ const SearchTutors = () => {
                                         levelDisabled || isLoadingSubjects
                                     }
                                     className="ml-6"
+                                    noOptionsMessage={() =>
+                                        'Please select level first'
+                                    }
                                     //add translations
                                     placeholder="Subject"
                                 ></MySelect>
@@ -275,8 +282,7 @@ const SearchTutors = () => {
                         <button
                             className="btn btn--clear ml-6"
                             onClick={handleResetFilter}
-                            //add disabled logic
-                            disabled={true}
+                            disabled={resetFilterDisabled}
                         >
                             Reset Filter
                         </button>

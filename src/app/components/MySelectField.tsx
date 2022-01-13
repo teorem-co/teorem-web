@@ -19,6 +19,7 @@ interface CustomSelectProps extends FieldProps {
     classNamePrefix?: string;
     customInputField?: (props: any) => JSX.Element;
     customOption?: (props: any) => JSX.Element;
+    noOptionsMessage?: () => string;
 }
 
 const MySelect = ({
@@ -35,6 +36,7 @@ const MySelect = ({
     classNamePrefix,
     customInputField,
     customOption,
+    noOptionsMessage,
 }: CustomSelectProps) => {
     const [formikField, meta] = useField(form.getFieldProps(field.name));
 
@@ -143,6 +145,7 @@ const MySelect = ({
                 closeMenuOnSelect={closeMenuOnSelect}
                 isDisabled={isDisabled}
                 isLoading={isLoading}
+                noOptionsMessage={noOptionsMessage}
             />
             <div className="field__validation">
                 {meta.error && meta.touched ? meta.error : ''}
