@@ -78,6 +78,25 @@ const ROUTES: any = [
             </PermissionsGate>
         ),
     },
+    // {
+    //     path: '',
+    //     key: 'SEARCH',
+    //     component: (props: any) => (
+    //         <PermissionsGate
+    //             roles={[Role.Tutor, Role.Parent, Role.Student, Role.SuperAdmin]}
+    //         >
+    //             <RenderRoutes {...props} />
+    //         </PermissionsGate>
+    //     ),
+    //     routes: [
+    //         {
+    //             key: 'SEARCH_TUTORS',
+    //             path: PATHS.SEARCH_TUTORS,
+    //             exact: true,
+    //             component: () => <SearchTutors />,
+    //         },
+    //     ],
+    // },
 ];
 //handle subroutes by <RenderRoutes {...props} /> inside PermissionGate if needed
 

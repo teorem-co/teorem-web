@@ -1,11 +1,11 @@
-import { Form, FormikProvider, useFormik } from 'formik';
+import { Field, Form, FormikProvider, useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
-import OptionsType from 'react-select';
+import Select, { components, MenuProps } from 'react-select';
 
 import IParams from '../../../interfaces/IParams';
-import { useLazyGetLevelsQuery } from '../../../services/levelService';
-import CustomAvailabilitySelect from '../../components/form/CustomAvailabilitySelect';
+import { useLazyGetLevelOptionsQuery } from '../../../services/levelService';
+import { useLazyGetSubjectOptionsByLevelQuery } from '../../../services/subjectService';
 import MainWrapper from '../../components/MainWrapper';
 import MySelect, { OptionType } from '../../components/MySelectField';
 import getUrlParams from '../../utils/getUrlParams';
@@ -13,8 +13,7 @@ import getUrlParams from '../../utils/getUrlParams';
 interface Values {
     subject: string;
     level: string;
-    period: string[];
-    dayOfWeek: string[];
+    availability: string[];
 }
 
 //ADD TRANSLATIONS !!
@@ -28,15 +27,21 @@ const SearchTutors = () => {
     const [
         getLevelOptions,
         { data: levelOptions, isLoading: isLoadingLevels },
-    ] = useLazyGetLevelsQuery();
+    ] = useLazyGetLevelOptionsQuery();
+
+    const [
+        getSubjectOptionsByLevel,
+        { data: subjectOptions, isLoading: isLoadingSubjects },
+    ] = useLazyGetSubjectOptionsByLevelQuery();
 
     const levelDisabled = !levelOptions || isLoadingLevels;
+
+    // const resetFilterDisabled
 
     const initialValues: Values = {
         subject: '',
         level: '',
-        period: [],
-        dayOfWeek: [],
+        availability: [],
     };
 
     useEffect(() => {
@@ -84,29 +89,10 @@ const SearchTutors = () => {
 
     useEffect(() => {
         if (formik.values.level !== '') {
-            //fetch subjects with that level
+            formik.setFieldValue('subject', '');
+            getSubjectOptionsByLevel(formik.values.level);
         }
     }, [formik.values.level]);
-
-    useEffect(() => {
-        //update query with values that are not empty string
-        // console.log(formik.values);
-    }, [formik.values]);
-
-    const subjectOptions = [
-        {
-            value: 'Math',
-            label: 'Math',
-        },
-        {
-            value: 'English',
-            label: 'English',
-        },
-        {
-            value: 'Art',
-            label: 'Art',
-        },
-    ];
 
     const handleResetFilter = () => {
         //add query clear when reseting filter
@@ -114,8 +100,111 @@ const SearchTutors = () => {
         formik.setValues(initialValues);
     };
 
+    useEffect(() => {
+        console.log(formik.values);
+    }, [formik.values]);
+
     const updateParams = (updatedParams: IParams) => {
         setParams(updatedParams);
+    };
+
+    const CustomMenu = (props: MenuProps) => {
+        return (
+            <div>
+                <components.Menu {...props}>
+                    <FormikProvider value={formik}>
+                        <Form style={{ height: '150px' }}>
+                            <div>TIME OF DAY</div>
+                            <div role="group" aria-labelledby="checkbox-group">
+                                <label>
+                                    <Field
+                                        type="checkbox"
+                                        name="availability"
+                                        value="beforeNoon"
+                                    />
+                                    PRE 12 PM
+                                </label>
+                                <label>
+                                    <Field
+                                        type="checkbox"
+                                        name="availability"
+                                        value="noonToFive"
+                                    />
+                                    12 - 5 PM
+                                </label>
+                                <label>
+                                    <Field
+                                        type="checkbox"
+                                        name="availability"
+                                        value="afterFive"
+                                    />
+                                    AFTER 5 PM
+                                </label>
+                            </div>
+                            <div>DAY OF WEEK</div>
+                            <div role="group" aria-labelledby="checkbox-group">
+                                <label>
+                                    <Field
+                                        type="checkbox"
+                                        name="availability"
+                                        value="mon"
+                                    />
+                                    MON
+                                </label>
+                                <label>
+                                    <Field
+                                        type="checkbox"
+                                        name="availability"
+                                        value="tue"
+                                    />
+                                    TUE
+                                </label>
+                                <label>
+                                    <Field
+                                        type="checkbox"
+                                        name="availability"
+                                        value="wed"
+                                    />
+                                    WED
+                                </label>
+                                <label>
+                                    <Field
+                                        type="checkbox"
+                                        name="availability"
+                                        value="thu"
+                                    />
+                                    THU
+                                </label>
+                                <label>
+                                    <Field
+                                        type="checkbox"
+                                        name="availability"
+                                        value="fri "
+                                    />
+                                    FRI
+                                </label>
+                                <label>
+                                    <Field
+                                        type="checkbox"
+                                        name="availability"
+                                        value="sat"
+                                    />
+                                    SAT
+                                </label>
+                                <label>
+                                    <Field
+                                        type="checkbox"
+                                        name="availability"
+                                        value="sun"
+                                    />
+                                    SUN
+                                </label>
+                            </div>
+                        </Form>
+                    </FormikProvider>
+                </components.Menu>
+            </div>
+        );
     };
 
     return (
@@ -142,16 +231,21 @@ const SearchTutors = () => {
                                     meta={formik.getFieldMeta('subject')}
                                     isMulti={false}
                                     options={subjectOptions}
-                                    isDisabled={true}
+                                    isDisabled={
+                                        levelDisabled || isLoadingSubjects
+                                    }
                                     className="ml-6"
                                     //add translations
                                     placeholder="Subject"
                                 ></MySelect>
-                                <CustomAvailabilitySelect
-                                    params={params}
-                                    updateParams={updateParams}
+                                <Select
+                                    placeholder="Custom availability"
+                                    components={{
+                                        Menu: CustomMenu,
+                                    }}
                                     className="ml-6"
-                                ></CustomAvailabilitySelect>
+                                    classNamePrefix="tutorSearch"
+                                ></Select>
                             </Form>
                         </FormikProvider>
                         <button

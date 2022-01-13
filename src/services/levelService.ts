@@ -3,19 +3,24 @@ import { OptionType } from '../app/components/MySelectField';
 import { HttpMethods } from '../app/lookups/httpMethods';
 import ILevel from '../interfaces/ILevel';
 
-const URL = 'level';
+const URL = 'levels';
 
 export const levelService = baseService.injectEndpoints({
     endpoints: (builder) => ({
-        getLevels: builder.query<OptionType[], void>({
+        // getLevels: builder.query<ILevel[], void>({
+        //     query: () => ({
+        //         url: `${URL}`,
+        //         method: HttpMethods.GET,
+        //     }),
+        // }),
+        getLevelOptions: builder.query<OptionType[], void>({
             query: () => ({
-                //update url later if needed
                 url: `${URL}`,
                 method: HttpMethods.GET,
             }),
             transformResponse: (response: ILevel[]) => {
                 const levelOptions: OptionType[] = response.map((level) => ({
-                    value: level.abrv,
+                    value: level.id,
                     label: level.name,
                 }));
 
@@ -25,4 +30,4 @@ export const levelService = baseService.injectEndpoints({
     }),
 });
 
-export const { useLazyGetLevelsQuery } = levelService;
+export const { useLazyGetLevelOptionsQuery } = levelService;
