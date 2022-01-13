@@ -77,6 +77,10 @@ export const EN_US = {
         TUTOR: {
             NOT_FOUND: 'Tutor not found',
         },
+        TUTOR_AVAILABILITY: {
+            CONFLICT: 'Tutor availability has already been set',
+            NOT_FOUND: 'Tutor availability not found',
+        },
         BOOKING: {
             NOT_FOUND: 'Booking not found',
         },
