@@ -29,7 +29,11 @@ const Login: React.FC = () => {
 
     const [
         getUserId,
-        { isSuccess: isSuccessUserId, isLoading: isLoadingUserId },
+        {
+            data: userId,
+            isSuccess: isSuccessUserId,
+            isLoading: isLoadingUserId,
+        },
     ] = useLazyGetUserIdQuery();
     const [
         login,
@@ -71,10 +75,8 @@ const Login: React.FC = () => {
     }, [isSuccessLogin]);
 
     useEffect(() => {
-        if (isSuccessUserId) {
-            setTimeout(() => {
-                history.push(PATHS.MY_BOOKINGS);
-            }, 100);
+        if (isSuccessUserId && userId) {
+            history.push(PATHS.MY_BOOKINGS);
         }
     }, [isSuccessUserId]);
 
