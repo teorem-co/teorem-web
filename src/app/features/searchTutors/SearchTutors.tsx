@@ -48,6 +48,7 @@ const SearchTutors = () => {
             data: subjectsData,
             isLoading: isLoadingSubjects,
             isSuccess: isSuccessSubjects,
+            isFetching: isFetchingSubjects,
         },
     ] = useLazyGetSubjectOptionsByLevelQuery();
 
@@ -124,8 +125,6 @@ const SearchTutors = () => {
 
     useEffect(() => {
         if (formik.values.level !== '') {
-            //this line causes problem on initial load, handle it later
-            //it sets subject to empty even if it exists after initial load
             getSubjectOptionsByLevel(formik.values.level);
 
             if (isInitialSubject) {
@@ -149,7 +148,7 @@ const SearchTutors = () => {
         if (subjectsData && isSuccessSubjects) {
             setSubjectOptions(subjectsData);
         }
-    }, [subjectsData]);
+    }, [subjectsData, subjectOptions]);
 
     useEffect(() => {
         if (formik.values.level !== '' && formik.values.subject !== '') {
