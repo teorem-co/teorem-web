@@ -14,17 +14,24 @@ import getUrlParams from '../../utils/getUrlParams';
 interface Values {
     subject: string;
     level: string;
-    availability: string[];
+    dayOfWeek: string[];
+    timeOfDay: string[];
 }
 
 //ADD TRANSLATIONS !!
-//add params to tutor search service
 const SearchTutors = () => {
     const history = useHistory();
 
     const [params, setParams] = useState<IParams>({});
     const [initialLoad, setInitialLoad] = useState<boolean>(true);
 
+    //initialSubject is not reset on initial level change
+    const [isInitialSubject, setIsInitialSubject] = useState<boolean>(false);
+
+    //storing subjects in state so it can reset on Reset Filter
+    const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
+
+    //use isLoadingAvailableTutors to show loader
     const [
         getAvailableTutors,
         { data: availableTutors, isLoading: isLoadingAvailableTutors },
@@ -37,7 +44,11 @@ const SearchTutors = () => {
 
     const [
         getSubjectOptionsByLevel,
-        { data: subjectOptions, isLoading: isLoadingSubjects },
+        {
+            data: subjectsData,
+            isLoading: isLoadingSubjects,
+            isSuccess: isSuccessSubjects,
+        },
     ] = useLazyGetSubjectOptionsByLevelQuery();
 
     const levelDisabled = !levelOptions || isLoadingLevels;
@@ -45,7 +56,8 @@ const SearchTutors = () => {
     const initialValues: Values = {
         subject: '',
         level: '',
-        availability: [],
+        dayOfWeek: [],
+        timeOfDay: [],
     };
 
     useEffect(() => {
@@ -55,14 +67,21 @@ const SearchTutors = () => {
         );
 
         if (Object.keys(urlQueries).length > 0) {
-            urlQueries.level && formik.setFieldValue('level', urlQueries.level);
             urlQueries.subject &&
-                formik.setFieldValue('subject', urlQueries.subject);
-            urlQueries.availability &&
+                formik.setFieldValue('subject', urlQueries.subject) &&
+                setIsInitialSubject(true);
+            urlQueries.level && formik.setFieldValue('level', urlQueries.level);
+            urlQueries.dayOfWeek &&
                 formik.setFieldValue(
-                    'availability',
-                    urlQueries.availability.split(',')
+                    'dayOfWeek',
+                    urlQueries.dayOfWeek.split(',')
                 );
+            urlQueries.timeOfDay &&
+                formik.setFieldValue(
+                    'timeOfDay',
+                    urlQueries.timeOfDay.split(',')
+                );
+
             setParams(urlQueries);
         } else {
             getAvailableTutors(params);
@@ -82,6 +101,8 @@ const SearchTutors = () => {
                     filterParams.append(key, value);
                 }
                 history.push({ search: filterParams.toString() });
+            } else {
+                history.push({ search: filterParams.toString() });
             }
 
             getAvailableTutors({ ...params });
@@ -98,29 +119,37 @@ const SearchTutors = () => {
     const resetFilterDisabled =
         formik.values.level == '' &&
         formik.values.subject == '' &&
-        formik.values.availability.length == 0;
+        formik.values.dayOfWeek.length == 0 &&
+        formik.values.timeOfDay.length == 0;
 
     useEffect(() => {
         if (formik.values.level !== '') {
             //this line causes problem on initial load, handle it later
             //it sets subject to empty even if it exists after initial load
-
-            // formik.setFieldValue('subject', '');
             getSubjectOptionsByLevel(formik.values.level);
-            const paramsObj = { ...params };
-            delete paramsObj.subject;
-            setParams({ ...paramsObj, level: formik.values.level });
+
+            if (isInitialSubject) {
+                setIsInitialSubject(false);
+            } else {
+                formik.setFieldValue('subject', '');
+                const paramsObj = { ...params };
+                delete paramsObj.subject;
+                setParams({ ...paramsObj, level: formik.values.level });
+            }
         }
     }, [formik.values.level]);
 
     const handleResetFilter = () => {
-        // setParams({});
-        // //add query clear when reseting filter
-        // //set subject disabled
-        // //clear query (params object) set params to empty object
-        // formik.setValues(initialValues);
-        // window.location.reload();
+        setParams({});
+        setSubjectOptions([]);
+        formik.setValues(initialValues);
     };
+
+    useEffect(() => {
+        if (subjectsData && isSuccessSubjects) {
+            setSubjectOptions(subjectsData);
+        }
+    }, [subjectsData]);
 
     useEffect(() => {
         if (formik.values.level !== '' && formik.values.subject !== '') {
@@ -129,10 +158,16 @@ const SearchTutors = () => {
     }, [formik.values.subject]);
 
     const handleMenuClose = () => {
-        if (formik.values.availability.length !== 0) {
-            const availabilityString = formik.values.availability.toString();
-            setParams({ ...params, availability: availabilityString });
+        const paramsObj: IParams = { ...params };
+        if (formik.values.dayOfWeek.length !== 0) {
+            const dayOfWeekString = formik.values.dayOfWeek.toString();
+            paramsObj.dayOfWeek = dayOfWeekString;
         }
+        if (formik.values.timeOfDay.length !== 0) {
+            const timeOfDayString = formik.values.timeOfDay.toString();
+            paramsObj.timeOfDay = timeOfDayString;
+        }
+        setParams(paramsObj);
     };
 
     const CustomMenu = (props: MenuProps) => {
@@ -146,7 +181,7 @@ const SearchTutors = () => {
                                 <label>
                                     <Field
                                         type="checkbox"
-                                        name="availability"
+                                        name="timeOfDay"
                                         value="beforeNoon"
                                     />
                                     PRE 12 PM
@@ -154,7 +189,7 @@ const SearchTutors = () => {
                                 <label>
                                     <Field
                                         type="checkbox"
-                                        name="availability"
+                                        name="timeOfDay"
                                         value="noonToFive"
                                     />
                                     12 - 5 PM
@@ -162,7 +197,7 @@ const SearchTutors = () => {
                                 <label>
                                     <Field
                                         type="checkbox"
-                                        name="availability"
+                                        name="timeOfDay"
                                         value="afterFive"
                                     />
                                     AFTER 5 PM
@@ -173,7 +208,7 @@ const SearchTutors = () => {
                                 <label>
                                     <Field
                                         type="checkbox"
-                                        name="availability"
+                                        name="dayOfWeek"
                                         value="mon"
                                     />
                                     MON
@@ -181,7 +216,7 @@ const SearchTutors = () => {
                                 <label>
                                     <Field
                                         type="checkbox"
-                                        name="availability"
+                                        name="dayOfWeek"
                                         value="tue"
                                     />
                                     TUE
@@ -189,7 +224,7 @@ const SearchTutors = () => {
                                 <label>
                                     <Field
                                         type="checkbox"
-                                        name="availability"
+                                        name="dayOfWeek"
                                         value="wed"
                                     />
                                     WED
@@ -197,7 +232,7 @@ const SearchTutors = () => {
                                 <label>
                                     <Field
                                         type="checkbox"
-                                        name="availability"
+                                        name="dayOfWeek"
                                         value="thu"
                                     />
                                     THU
@@ -205,15 +240,15 @@ const SearchTutors = () => {
                                 <label>
                                     <Field
                                         type="checkbox"
-                                        name="availability"
-                                        value="fri "
+                                        name="dayOfWeek"
+                                        value="fri"
                                     />
                                     FRI
                                 </label>
                                 <label>
                                     <Field
                                         type="checkbox"
-                                        name="availability"
+                                        name="dayOfWeek"
                                         value="sat"
                                     />
                                     SAT
@@ -221,7 +256,7 @@ const SearchTutors = () => {
                                 <label>
                                     <Field
                                         type="checkbox"
-                                        name="availability"
+                                        name="dayOfWeek"
                                         value="sun"
                                     />
                                     SUN
@@ -298,50 +333,73 @@ const SearchTutors = () => {
                         </span>
                     </div>
                     <div className="tutor-list">
-                        <div className="tutor-list__item">
-                            <div className="tutor-list__item__img">slika</div>
-                            <div className="tutor-list__item__info">
-                                <div className="type--md mb-1">Maria Diaz</div>
-                                <div className="type--color--brand mb-4">
-                                    Primary School Teacher
-                                </div>
-                                <div className="type--color--secondary mb-6 w--632--max">
-                                    Keen and enthusiastic palaeontology student
-                                    looking forward to helping you with any
-                                    challenging topics in Biology and/or
-                                    Geology!
-                                </div>
-                                <div>
-                                    <span className="tag--primary">
-                                        Geology
-                                    </span>
-                                    <span className="tag--primary">
-                                        Biology
-                                    </span>
-                                </div>
-                            </div>
-                            <div className="tutor-list__item__details">
-                                <div className="flex--grow">
-                                    <div className="flex flex--center mb-3">
-                                        <i className="icon icon--star icon--base icon--grey"></i>
-                                        <span className="d--ib ml-4">
-                                            4.9 rating
-                                        </span>
+                        {isLoadingAvailableTutors ? (
+                            // Here goes loader
+                            <div>Loading tutors....</div>
+                        ) : availableTutors && availableTutors.count !== 0 ? (
+                            availableTutors.rows.map((tutor) => (
+                                <div className="tutor-list__item">
+                                    <div className="tutor-list__item__img">
+                                        Slika
                                     </div>
-                                    <div className="flex flex--center">
-                                        <i className="icon icon--completed-lessons icon--base icon--grey"></i>
-                                        <span className="d--ib ml-4">
-                                            15 completed lessions
-                                        </span>
+                                    <div className="tutor-list__item__info">
+                                        <div className="type--md mb-1">
+                                            {tutor.User.firstName &&
+                                            tutor.User.lastName
+                                                ? `${tutor.User.firstName} ${tutor.User.lastName}`
+                                                : ''}
+                                        </div>
+                                        <div className="type--color--brand mb-4">
+                                            {tutor.currentOccupation
+                                                ? tutor.currentOccupation
+                                                : ''}
+                                        </div>
+                                        <div className="type--color--secondary mb-6 w--632--max">
+                                            {tutor.aboutTutor
+                                                ? tutor.aboutTutor
+                                                : ''}
+                                        </div>
+                                        <div>
+                                            {tutor.Subjects
+                                                ? tutor.Subjects.map(
+                                                      (subject) => (
+                                                          <span>
+                                                              {subject.name}
+                                                          </span>
+                                                      )
+                                                  )
+                                                : ''}
+                                        </div>
+                                    </div>
+                                    <div className="tutor-list__item__details">
+                                        <div className="flex--grow">
+                                            <div className="flex flex--center mb-3">
+                                                <i className="icon icon--star icon--base icon--grey"></i>
+                                                <span className="d--ib ml-4">
+                                                    {/* Add later */}
+                                                    4.9
+                                                </span>
+                                            </div>
+                                            <div className="flex flex--center">
+                                                <i className="icon icon--completed-lessons icon--base icon--grey"></i>
+                                                <span className="d--ib ml-4">
+                                                    {/* Add later */}
+                                                    15 completed lessions
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <button className="btn btn--primary btn--base w--100">
+                                                {/* Add on click later */}
+                                                View profile
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                                <div>
-                                    <button className="btn btn--primary btn--base w--100">
-                                        View profile
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                            ))
+                        ) : (
+                            <div>No results</div>
+                        )}
                     </div>
                 </div>
             </div>

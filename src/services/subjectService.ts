@@ -17,7 +17,6 @@ export const subjectService = baseService.injectEndpoints({
                     value: level.id,
                     label: level.name,
                 }));
-
                 return subjectOptions;
             },
         }),
