@@ -42,7 +42,7 @@ export const EN_US = {
         PLACEHOLDER: {
             LEVEL: 'Level',
             SUBJECT: 'Subject',
-            AVAILABILITY: 'Custom availability',
+            AVAILABILITY: 'All availability',
         },
         NO_OPTIONS_MESSAGE: 'Please select level first',
         TUTOR_LIST: 'Tutor list',

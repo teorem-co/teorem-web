@@ -112,7 +112,7 @@ const SearchTutors = () => {
 
     const formik = useFormik({
         initialValues: initialValues,
-        onSubmit: (values) => {
+        onSubmit: () => {
             //no submit
         },
     });
@@ -314,6 +314,7 @@ const SearchTutors = () => {
                                     field={formik.getFieldProps('level')}
                                     form={formik}
                                     meta={formik.getFieldMeta('level')}
+                                    classNamePrefix="search_tutor-select"
                                     isMulti={false}
                                     options={levelOptions}
                                     isDisabled={levelDisabled}
@@ -326,11 +327,12 @@ const SearchTutors = () => {
                                     form={formik}
                                     meta={formik.getFieldMeta('subject')}
                                     isMulti={false}
+                                    className="ml-6"
+                                    classNamePrefix="search_tutor-select"
                                     options={subjectOptions}
                                     isDisabled={
                                         levelDisabled || isLoadingSubjects
                                     }
-                                    className="ml-6"
                                     noOptionsMessage={() =>
                                         t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')
                                     }
@@ -346,7 +348,6 @@ const SearchTutors = () => {
                                         Menu: CustomMenu,
                                     }}
                                     className="ml-6"
-                                    classNamePrefix="tutorSearch"
                                     onMenuClose={handleMenuClose}
                                 ></Select>
                             </Form>
