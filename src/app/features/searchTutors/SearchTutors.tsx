@@ -1,5 +1,6 @@
 import { Field, Form, FormikProvider, useFormik } from 'formik';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import Select, { components, MenuProps } from 'react-select';
 
@@ -18,9 +19,10 @@ interface Values {
     timeOfDay: string[];
 }
 
-//ADD TRANSLATIONS !!
 const SearchTutors = () => {
     const history = useHistory();
+
+    const { t } = useTranslation();
 
     const [params, setParams] = useState<IParams>({});
     const [initialLoad, setInitialLoad] = useState<boolean>(true);
@@ -31,7 +33,6 @@ const SearchTutors = () => {
     //storing subjects in state so it can reset on Reset Filter
     const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
 
-    //use isLoadingAvailableTutors to show loader
     const [
         getAvailableTutors,
         { data: availableTutors, isLoading: isLoadingAvailableTutors },
@@ -48,7 +49,6 @@ const SearchTutors = () => {
             data: subjectsData,
             isLoading: isLoadingSubjects,
             isSuccess: isSuccessSubjects,
-            isFetching: isFetchingSubjects,
         },
     ] = useLazyGetSubjectOptionsByLevelQuery();
 
@@ -161,10 +161,14 @@ const SearchTutors = () => {
         if (formik.values.dayOfWeek.length !== 0) {
             const dayOfWeekString = formik.values.dayOfWeek.toString();
             paramsObj.dayOfWeek = dayOfWeekString;
+        } else {
+            delete paramsObj.dayOfWeek;
         }
         if (formik.values.timeOfDay.length !== 0) {
             const timeOfDayString = formik.values.timeOfDay.toString();
             paramsObj.timeOfDay = timeOfDayString;
+        } else {
+            delete paramsObj.timeOfDay;
         }
         setParams(paramsObj);
     };
@@ -175,7 +179,11 @@ const SearchTutors = () => {
                 <components.Menu {...props}>
                     <FormikProvider value={formik}>
                         <Form style={{ height: '150px' }}>
-                            <div>TIME OF DAY</div>
+                            <div>
+                                {t(
+                                    'SEARCH_TUTORS.AVAILABILITY.TIME_OF_DAY.LABEL'
+                                )}
+                            </div>
                             <div role="group" aria-labelledby="checkbox-group">
                                 <label>
                                     <Field
@@ -183,7 +191,9 @@ const SearchTutors = () => {
                                         name="timeOfDay"
                                         value="beforeNoon"
                                     />
-                                    PRE 12 PM
+                                    {t(
+                                        'SEARCH_TUTORS.AVAILABILITY.TIME_OF_DAY.BEFORE_NOON'
+                                    )}
                                 </label>
                                 <label>
                                     <Field
@@ -191,7 +201,9 @@ const SearchTutors = () => {
                                         name="timeOfDay"
                                         value="noonToFive"
                                     />
-                                    12 - 5 PM
+                                    {t(
+                                        'SEARCH_TUTORS.AVAILABILITY.TIME_OF_DAY.NOON_TO_FIVE'
+                                    )}
                                 </label>
                                 <label>
                                     <Field
@@ -199,10 +211,16 @@ const SearchTutors = () => {
                                         name="timeOfDay"
                                         value="afterFive"
                                     />
-                                    AFTER 5 PM
+                                    {t(
+                                        'SEARCH_TUTORS.AVAILABILITY.TIME_OF_DAY.AFTER_FIVE'
+                                    )}
                                 </label>
                             </div>
-                            <div>DAY OF WEEK</div>
+                            <div>
+                                {t(
+                                    'SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.LABEL'
+                                )}
+                            </div>
                             <div role="group" aria-labelledby="checkbox-group">
                                 <label>
                                     <Field
@@ -210,7 +228,9 @@ const SearchTutors = () => {
                                         name="dayOfWeek"
                                         value="mon"
                                     />
-                                    MON
+                                    {t(
+                                        'SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.MON'
+                                    )}
                                 </label>
                                 <label>
                                     <Field
@@ -218,7 +238,9 @@ const SearchTutors = () => {
                                         name="dayOfWeek"
                                         value="tue"
                                     />
-                                    TUE
+                                    {t(
+                                        'SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.TUE'
+                                    )}
                                 </label>
                                 <label>
                                     <Field
@@ -226,7 +248,9 @@ const SearchTutors = () => {
                                         name="dayOfWeek"
                                         value="wed"
                                     />
-                                    WED
+                                    {t(
+                                        'SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.WED'
+                                    )}
                                 </label>
                                 <label>
                                     <Field
@@ -234,7 +258,9 @@ const SearchTutors = () => {
                                         name="dayOfWeek"
                                         value="thu"
                                     />
-                                    THU
+                                    {t(
+                                        'SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.THU'
+                                    )}
                                 </label>
                                 <label>
                                     <Field
@@ -242,7 +268,9 @@ const SearchTutors = () => {
                                         name="dayOfWeek"
                                         value="fri"
                                     />
-                                    FRI
+                                    {t(
+                                        'SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.FRI'
+                                    )}
                                 </label>
                                 <label>
                                     <Field
@@ -250,7 +278,9 @@ const SearchTutors = () => {
                                         name="dayOfWeek"
                                         value="sat"
                                     />
-                                    SAT
+                                    {t(
+                                        'SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.SAT'
+                                    )}
                                 </label>
                                 <label>
                                     <Field
@@ -258,7 +288,9 @@ const SearchTutors = () => {
                                         name="dayOfWeek"
                                         value="sun"
                                     />
-                                    SUN
+                                    {t(
+                                        'SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.SUN'
+                                    )}
                                 </label>
                             </div>
                         </Form>
@@ -272,7 +304,9 @@ const SearchTutors = () => {
         <MainWrapper>
             <div className="card--search">
                 <div className="card--search__head">
-                    <div className="type--lg type--wgt--bold">Tutor list</div>
+                    <div className="type--lg type--wgt--bold">
+                        {t('SEARCH_TUTORS.TUTOR_LIST')}
+                    </div>
                     <div className="flex flex--center">
                         <FormikProvider value={formik}>
                             <Form className="flex" noValidate>
@@ -283,8 +317,9 @@ const SearchTutors = () => {
                                     isMulti={false}
                                     options={levelOptions}
                                     isDisabled={levelDisabled}
-                                    //add translations
-                                    placeholder="Level"
+                                    placeholder={t(
+                                        'SEARCH_TUTORS.PLACEHOLDER.LEVEL'
+                                    )}
                                 ></MySelect>
                                 <MySelect
                                     field={formik.getFieldProps('subject')}
@@ -297,13 +332,16 @@ const SearchTutors = () => {
                                     }
                                     className="ml-6"
                                     noOptionsMessage={() =>
-                                        'Please select level first'
+                                        t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')
                                     }
-                                    //add translations
-                                    placeholder="Subject"
+                                    placeholder={t(
+                                        'SEARCH_TUTORS.PLACEHOLDER.SUBJECT'
+                                    )}
                                 ></MySelect>
                                 <Select
-                                    placeholder="Custom availability"
+                                    placeholder={t(
+                                        'SEARCH_TUTORS.PLACEHOLDER.AVAILABILITY'
+                                    )}
                                     components={{
                                         Menu: CustomMenu,
                                     }}
@@ -318,14 +356,14 @@ const SearchTutors = () => {
                             onClick={handleResetFilter}
                             disabled={resetFilterDisabled}
                         >
-                            Reset Filter
+                            {t('SEARCH_TUTORS.RESET_FILTER')}
                         </button>
                     </div>
                 </div>
                 <div className="card--search__body">
                     <div className="mb-10">
                         <span className="type--uppercase type--color--tertiary">
-                            Tutor Available
+                            {t('SEARCH_TUTORS.TUTOR_AVAILABLE')}
                         </span>
                         <span className="tag--primary d--ib ml-2">
                             {availableTutors ? availableTutors.count : '0'}
