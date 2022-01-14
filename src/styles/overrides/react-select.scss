@@ -1,0 +1,69 @@
+/*
+    overrides: react-select.scss
+*/
+
+.onboarding-select {
+    &__indicator-separator {
+        display: none;
+    }
+
+    &__control--menu-is-open {
+        background-color: $color-primary;
+
+        .onboarding-select__single-value {
+            color: $white !important;
+        }
+
+        .onboarding-select__placeholder {
+            color: $white;
+        }
+
+        &.onboarding-select__input-container {
+            color: $white;
+        }
+
+        &.onboarding-select__control {
+            background-color: $color-primary;
+        }
+        svg {
+            fill: $white !important;
+            transform: rotate(180deg);
+            transition: all 250ms ease-in-out;
+        }
+    }
+
+    &__dropdown-indicator {
+        svg {
+            fill: $black;
+            transition: all 250ms ease-in-out;
+
+            &:hover {
+                // fill: $white;
+                transform: rotate(180deg);
+                transition: all 250ms ease-in-out;
+            }
+        }
+    }
+
+    &__menu-list {
+        padding-top: 24px !important;
+        padding-bottom: 24px !important;
+        border: 1px solid rgba(124, 106, 244, 0.5) !important;
+        border-radius: 5px !important;
+    }
+
+    &__option {
+        padding: 8px 24px !important;
+        color: $black;
+        opacity: 0.7;
+        &--is-selected {
+            background-color: #7c6af411 !important;
+            color: $color-primary !important;
+        }
+        &--is-focused {
+            background-color: #bdbdbd11 !important;
+            color: $black !important;
+            opacity: 1;
+        }
+    }
+}

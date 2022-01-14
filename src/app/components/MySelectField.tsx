@@ -16,6 +16,9 @@ interface CustomSelectProps extends FieldProps {
     className?: string;
     onChangeCustom?: (e: any) => void;
     isLoading?: boolean;
+    classNamePrefix?: string;
+    customInputField?: (props: any) => JSX.Element;
+    customOption?: (props: any) => JSX.Element;
 }
 
 const MySelect = ({
@@ -29,6 +32,9 @@ const MySelect = ({
     className,
     onChangeCustom,
     isLoading,
+    classNamePrefix,
+    customInputField,
+    customOption,
 }: CustomSelectProps) => {
     const [formikField, meta] = useField(form.getFieldProps(field.name));
 
@@ -68,63 +74,63 @@ const MySelect = ({
         }
     };
 
-    const customSingleValue = (props: any) => {
-        if (props.data.icon) {
-            return (
-                <components.SingleValue {...props} className="input-select">
-                    <div className="input-select__option">
-                        <span className="input-select__icon">
-                            <img src={props.data.icon} alt="item icon" />
-                        </span>
-                        <span>{props.data.label}</span>
-                    </div>
-                </components.SingleValue>
-            );
-        } else {
-            return (
-                <components.SingleValue {...props} className="input-select">
-                    <div className="input-select__option">
-                        <span>{props.data.label}</span>
-                    </div>
-                </components.SingleValue>
-            );
-        }
-    };
+    // const customSingleValue = (props: any) => {
+    //     if (props.data.icon) {
+    //         return (
+    //             <components.SingleValue {...props} className="input-select">
+    //                 <div className="input-select__option">
+    //                     <span className="input-select__icon">
+    //                         <img src={props.data.icon} alt="item icon" />
+    //                     </span>
+    //                     <span>{props.data.label}</span>
+    //                 </div>
+    //             </components.SingleValue>
+    //         );
+    //     } else {
+    //         return (
+    //             <components.SingleValue {...props} className="input-select">
+    //                 <div className="input-select__option">
+    //                     <span>{props.data.label}</span>
+    //                 </div>
+    //             </components.SingleValue>
+    //         );
+    //     }
+    // };
 
-    const customOption = (props: any) => {
-        const { innerProps } = props;
-        if (props.data.icon) {
-            return (
-                <components.Option {...innerProps} {...props}>
-                    {' '}
-                    <div className="input-select">
-                        <div className="input-select__option">
-                            <span className="input-select__icon">
-                                <img src={props.data.icon} alt="item icon" />
-                            </span>
-                            <span>{props.data.label}</span>
-                        </div>
-                    </div>
-                </components.Option>
-            );
-        } else {
-            return (
-                <components.Option {...props} className="input-select">
-                    <div className="input-select__option">
-                        <span>{props.data.label}</span>
-                    </div>
-                </components.Option>
-            );
-        }
-    };
+    // const customOption = (props: any) => {
+    //     const { innerProps } = props;
+    //     if (props.data.icon) {
+    //         return (
+    //             <components.Option {...innerProps} {...props}>
+    //                 {' '}
+    //                 <div className="input-select">
+    //                     <div className="input-select__option">
+    //                         <span className="input-select__icon">
+    //                             <img src={props.data.icon} alt="item icon" />
+    //                         </span>
+    //                         <span>{props.data.label}</span>
+    //                     </div>
+    //                 </div>
+    //             </components.Option>
+    //         );
+    //     } else {
+    //         return (
+    //             <components.Option {...props} className="input-select">
+    //                 <div className="input-select__option">
+    //                     <span>{props.data.label}</span>
+    //                 </div>
+    //             </components.Option>
+    //         );
+    //     }
+    // };
 
     return (
         <>
             <Select
                 className={className ?? 'form__type'}
-                classNamePrefix="react-select--dropdown"
+                classNamePrefix={classNamePrefix}
                 components={{
-                    SingleValue: customSingleValue,
+                    SingleValue: customInputField,
                     Option: customOption,
                 }}
                 name={field.name}
