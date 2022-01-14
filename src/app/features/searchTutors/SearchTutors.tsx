@@ -316,7 +316,7 @@ const SearchTutors = () => {
                                     meta={formik.getFieldMeta('level')}
                                     classNamePrefix="search_tutor-select"
                                     isMulti={false}
-                                    options={levelOptions}
+                                    options={levelOptions ? levelOptions : []}
                                     isDisabled={levelDisabled}
                                     placeholder={t(
                                         'SEARCH_TUTORS.PLACEHOLDER.LEVEL'
