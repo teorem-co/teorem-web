@@ -87,8 +87,8 @@ const Register: React.FC = () => {
             //     roleAbrv: roleSelection,
             // };
             // register(registerData);
-            history.push(PATHS.ONBOARDING);
             dispatch(setSelectedRole(roleSelection));
+            history.push(PATHS.ONBOARDING);
         }
     };
 

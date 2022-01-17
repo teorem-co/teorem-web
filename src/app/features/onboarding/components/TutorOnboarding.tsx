@@ -9,11 +9,10 @@ import MySelect from '../../../components/form/MySelectField';
 import TextField from '../../../components/form/TextField';
 
 interface Values {
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-    passwordRepeat: string;
+    country: string;
+    phoneNumber: string;
+    dateOfBirth: string;
+    profileImage: string;
 }
 
 interface IProps {
@@ -90,15 +89,10 @@ const TutorOnboarding: React.FC<IProps> = ({
     ];
 
     const initialValues: Values = {
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: '',
-        passwordRepeat: '',
-    };
-
-    const handleSubmit = (values: any) => {
-        console.log(values);
+        country: '',
+        phoneNumber: '',
+        dateOfBirth: '',
+        profileImage: '',
     };
 
     const formikStepOne = useFormik({
@@ -137,6 +131,10 @@ const TutorOnboarding: React.FC<IProps> = ({
             zipCode: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
         }),
     });
+
+    const handleSubmit = (values: any) => {
+        handleNextStep();
+    };
 
     const countryInput = (props: any) => {
         if (props.data.icon) {
@@ -300,7 +298,6 @@ const TutorOnboarding: React.FC<IProps> = ({
                     <button
                         className="btn btn--base btn--primary w--100 mb-2 mt-6"
                         type="submit"
-                        // disabled={isLoading}
                         onClick={() => handleNextStep()}
                     >
                         Next
