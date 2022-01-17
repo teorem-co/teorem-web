@@ -188,21 +188,21 @@ const SearchTutors = () => {
                     </div>
                     <div>
                         <CustomCheckbox
-                            id="pre12"
+                            id="beforeNoon"
                             customChecks={timeOfDayArray}
-                            label="Pre 12"
+                            label="Pre 12 PM"
                             handleCustomCheck={handleCustomTimeOfDay}
                         />
                         <CustomCheckbox
                             customChecks={timeOfDayArray}
-                            id="12"
-                            label="12 - 5"
+                            id="noonToFive"
+                            label="12 - 5PM"
                             handleCustomCheck={handleCustomTimeOfDay}
                         />
                         <CustomCheckbox
                             customChecks={timeOfDayArray}
-                            id="pos12"
-                            label="post 5"
+                            id="afterFive"
+                            label="After 5PM"
                             handleCustomCheck={handleCustomTimeOfDay}
                         />
                     </div>
@@ -307,7 +307,6 @@ const SearchTutors = () => {
     return (
         <MainWrapper>
             <div className="card--search">
-                {JSON.stringify(formik.values, null, 2)}
                 <div className="card--search__head">
                     <div className="type--lg type--wgt--bold">
                         {t('SEARCH_TUTORS.TUTOR_LIST')}
