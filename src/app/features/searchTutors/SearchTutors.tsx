@@ -8,6 +8,8 @@ import IParams from '../../../interfaces/IParams';
 import { useLazyGetLevelOptionsQuery } from '../../../services/levelService';
 import { useLazyGetSubjectOptionsByLevelQuery } from '../../../services/subjectService';
 import { useLazyGetAvailableTutorsQuery } from '../../../services/tutorService';
+import CheckboxField from '../../components/form/CheckboxField';
+import CustomCheckbox from '../../components/form/CustomCheckbox';
 import MainWrapper from '../../components/MainWrapper';
 import MySelect, { OptionType } from '../../components/MySelectField';
 import getUrlParams from '../../utils/getUrlParams';
@@ -26,6 +28,8 @@ const SearchTutors = () => {
 
     const [params, setParams] = useState<IParams>({});
     const [initialLoad, setInitialLoad] = useState<boolean>(true);
+    const [dayOfWeekArray, setDayOfWeekArray] = useState<string[]>([]);
+    const [timeOfDayArray, setTimeOfDayArray] = useState<string[]>([]);
 
     //initialSubject is not reset on initial level change
     const [isInitialSubject, setIsInitialSubject] = useState<boolean>(false);
@@ -141,6 +145,8 @@ const SearchTutors = () => {
     const handleResetFilter = () => {
         setParams({});
         setSubjectOptions([]);
+        setDayOfWeekArray([]);
+        setTimeOfDayArray([]);
         formik.setValues(initialValues);
     };
 
@@ -176,137 +182,132 @@ const SearchTutors = () => {
     const CustomMenu = (props: MenuProps) => {
         return (
             <components.Menu className="react-select--availability" {...props}>
-                <FormikProvider value={formik}>
-                    <div>
-                        <Form>
-                            <div className="type--uppercase type--color--tertiary mb-4">
-                                {t(
-                                    'SEARCH_TUTORS.AVAILABILITY.TIME_OF_DAY.LABEL'
-                                )}
-                            </div>
-                            <div
-                                className="mb-6"
-                                role="group"
-                                aria-labelledby="checkbox-group"
-                            >
-                                <label>
-                                    <Field
-                                        type="checkbox"
-                                        name="timeOfDay"
-                                        value="beforeNoon"
-                                    />
-                                    {t(
-                                        'SEARCH_TUTORS.AVAILABILITY.TIME_OF_DAY.BEFORE_NOON'
-                                    )}
-                                </label>
-                                <label>
-                                    <Field
-                                        type="checkbox"
-                                        name="timeOfDay"
-                                        value="noonToFive"
-                                    />
-                                    {t(
-                                        'SEARCH_TUTORS.AVAILABILITY.TIME_OF_DAY.NOON_TO_FIVE'
-                                    )}
-                                </label>
-                                <label>
-                                    <Field
-                                        type="checkbox"
-                                        name="timeOfDay"
-                                        value="afterFive"
-                                    />
-                                    {t(
-                                        'SEARCH_TUTORS.AVAILABILITY.TIME_OF_DAY.AFTER_FIVE'
-                                    )}
-                                </label>
-                            </div>
-                            <div className="type--uppercase type--color--tertiary mb-4">
-                                {t(
-                                    'SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.LABEL'
-                                )}
-                            </div>
-                            <div role="group" aria-labelledby="checkbox-group">
-                                <label>
-                                    <Field
-                                        type="checkbox"
-                                        name="dayOfWeek"
-                                        value="mon"
-                                    />
-                                    {t(
-                                        'SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.MON'
-                                    )}
-                                </label>
-                                <label>
-                                    <Field
-                                        type="checkbox"
-                                        name="dayOfWeek"
-                                        value="tue"
-                                    />
-                                    {t(
-                                        'SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.TUE'
-                                    )}
-                                </label>
-                                <label>
-                                    <Field
-                                        type="checkbox"
-                                        name="dayOfWeek"
-                                        value="wed"
-                                    />
-                                    {t(
-                                        'SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.WED'
-                                    )}
-                                </label>
-                                <label>
-                                    <Field
-                                        type="checkbox"
-                                        name="dayOfWeek"
-                                        value="thu"
-                                    />
-                                    {t(
-                                        'SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.THU'
-                                    )}
-                                </label>
-                                <label>
-                                    <Field
-                                        type="checkbox"
-                                        name="dayOfWeek"
-                                        value="fri"
-                                    />
-                                    {t(
-                                        'SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.FRI'
-                                    )}
-                                </label>
-                                <label>
-                                    <Field
-                                        type="checkbox"
-                                        name="dayOfWeek"
-                                        value="sat"
-                                    />
-                                    {t(
-                                        'SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.SAT'
-                                    )}
-                                </label>
-                                <label>
-                                    <Field
-                                        type="checkbox"
-                                        name="dayOfWeek"
-                                        value="sun"
-                                    />
-                                    {t(
-                                        'SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.SUN'
-                                    )}
-                                </label>
-                            </div>
-                        </Form>
+                <div>
+                    <div className="type--uppercase type--color--tertiary mb-4">
+                        {t('SEARCH_TUTORS.TUTOR_AVAILABLE')}
                     </div>
-                </FormikProvider>
+                    <div>
+                        <CustomCheckbox
+                            id="pre12"
+                            customChecks={timeOfDayArray}
+                            label="Pre 12"
+                            handleCustomCheck={handleCustomTimeOfDay}
+                        />
+                        <CustomCheckbox
+                            customChecks={timeOfDayArray}
+                            id="12"
+                            label="12 - 5"
+                            handleCustomCheck={handleCustomTimeOfDay}
+                        />
+                        <CustomCheckbox
+                            customChecks={timeOfDayArray}
+                            id="pos12"
+                            label="post 5"
+                            handleCustomCheck={handleCustomTimeOfDay}
+                        />
+                    </div>
+                </div>
+                <div className="mt-6">
+                    <div className="type--uppercase type--color--tertiary mb-4">
+                        {t('SEARCH_TUTORS.TUTOR_AVAILABLE')}
+                    </div>
+                    <div>
+                        <CustomCheckbox
+                            id="mon"
+                            customChecks={dayOfWeekArray}
+                            label="Mon"
+                            handleCustomCheck={(id: string) => {
+                                handleCustomDayOfWeek(id);
+                            }}
+                        />
+                        <CustomCheckbox
+                            customChecks={dayOfWeekArray}
+                            id="tue"
+                            label="Tue"
+                            handleCustomCheck={(id: string) => {
+                                handleCustomDayOfWeek(id);
+                            }}
+                        />
+                        <CustomCheckbox
+                            customChecks={dayOfWeekArray}
+                            id="wed"
+                            label="Wed"
+                            handleCustomCheck={(id: string) => {
+                                handleCustomDayOfWeek(id);
+                            }}
+                        />
+                        <CustomCheckbox
+                            customChecks={dayOfWeekArray}
+                            id="thu"
+                            label="Thu"
+                            handleCustomCheck={(id: string) => {
+                                handleCustomDayOfWeek(id);
+                            }}
+                        />
+                        <CustomCheckbox
+                            customChecks={dayOfWeekArray}
+                            id="fri"
+                            label="Fri"
+                            handleCustomCheck={(id: string) => {
+                                handleCustomDayOfWeek(id);
+                            }}
+                        />
+                        <CustomCheckbox
+                            customChecks={dayOfWeekArray}
+                            id="sat"
+                            label="Sat"
+                            handleCustomCheck={(id: string) => {
+                                handleCustomDayOfWeek(id);
+                            }}
+                        />
+                        <CustomCheckbox
+                            customChecks={dayOfWeekArray}
+                            id="sun"
+                            label="Sun"
+                            handleCustomCheck={(id: string) => {
+                                handleCustomDayOfWeek(id);
+                            }}
+                        />
+                    </div>
+                </div>
             </components.Menu>
         );
     };
 
+    const handleCustomDayOfWeek = (id: string) => {
+        const ifExist = dayOfWeekArray.find((item) => item === id);
+
+        if (ifExist) {
+            const filteredList = dayOfWeekArray.filter((item) => item !== id);
+            setDayOfWeekArray(filteredList);
+        } else {
+            setDayOfWeekArray([...dayOfWeekArray, id]);
+        }
+    };
+
+    const handleCustomTimeOfDay = (id: string) => {
+        const ifExist = timeOfDayArray.find((item) => item === id);
+
+        if (ifExist) {
+            const filteredList = timeOfDayArray.filter((item) => item !== id);
+            setTimeOfDayArray(filteredList);
+        } else {
+            setTimeOfDayArray([...timeOfDayArray, id]);
+        }
+    };
+
+    useEffect(() => {
+        formik.setFieldValue('dayOfWeek', dayOfWeekArray);
+    }, [dayOfWeekArray]);
+
+    useEffect(() => {
+        formik.setFieldValue('timeOfDay', timeOfDayArray);
+    }, [timeOfDayArray]);
+
     return (
         <MainWrapper>
             <div className="card--search">
+                {JSON.stringify(formik.values, null, 2)}
                 <div className="card--search__head">
                     <div className="type--lg type--wgt--bold">
                         {t('SEARCH_TUTORS.TUTOR_LIST')}
