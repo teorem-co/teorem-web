@@ -13,6 +13,7 @@ import { useRegisterMutation } from '../../services/authService';
 import toastService from '../../services/toastService';
 import { getUserRoleAbrv } from '../../utils/getUserRoleAbrv';
 import logo from './../../../assets/images/logo.svg';
+import TooltipPassword from './TooltipPassword';
 
 interface Values {
     firstName: string;
@@ -60,7 +61,7 @@ const Register: React.FC = () => {
                 .min(8, t('FORM_VALIDATION.TOO_SHORT'))
                 .max(128, t('FORM_VALIDATION.TOO_LONG'))
                 .matches(
-                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,128}$/gm,
+                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_/+\-=[\]{};':"\\|,.<>?])[A-Za-z\d!@#$%^&*()_/+\-=[\]{};':"\\|,.<>?]{8,128}$/gm,
                     t('FORM_VALIDATION.PASSWORD_STRENGTH')
                 )
                 .required(t('FORM_VALIDATION.REQUIRED')),
@@ -261,72 +262,9 @@ const Register: React.FC = () => {
                                         onKeyUp={handleKeyUp}
                                     />
 
-                                    <div
-                                        className={`tooltip--password ${
-                                            passTooltip ? 'active' : ''
-                                        }`}
-                                    >
-                                        <div className="mb-3">
-                                            {t('FORM_VALIDATION.PASSWORD_MUST')}
-                                        </div>
-                                        <div>
-                                            <div>
-                                                <i
-                                                    id="length"
-                                                    className="icon icon--base icon--check icon--grey mr-3"
-                                                ></i>
-                                                <span>
-                                                    {t(
-                                                        'FORM_VALIDATION.MIN_CHARACTERS'
-                                                    )}
-                                                </span>
-                                            </div>
-                                            <div>
-                                                <i
-                                                    id="letter"
-                                                    className="icon icon--base icon--check icon--grey mr-3"
-                                                ></i>
-                                                <span>
-                                                    {t(
-                                                        'FORM_VALIDATION.LOWERCASE'
-                                                    )}
-                                                </span>
-                                            </div>
-                                            <div>
-                                                <i
-                                                    id="capital"
-                                                    className="icon icon--base icon--check icon--grey mr-3"
-                                                ></i>
-                                                <span>
-                                                    {t(
-                                                        'FORM_VALIDATION.UPPERCASE'
-                                                    )}
-                                                </span>
-                                            </div>
-                                            <div>
-                                                <i
-                                                    id="number"
-                                                    className="icon icon--base icon--check icon--grey mr-3"
-                                                ></i>
-                                                <span>
-                                                    {t(
-                                                        'FORM_VALIDATION.NUMBER'
-                                                    )}
-                                                </span>
-                                            </div>
-                                            <div>
-                                                <i
-                                                    id="special"
-                                                    className="icon icon--base icon--check icon--grey mr-3"
-                                                ></i>
-                                                <span>
-                                                    {t(
-                                                        'FORM_VALIDATION.SPECIAL_CHAR'
-                                                    )}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <TooltipPassword
+                                        passTooltip={passTooltip}
+                                    />
                                 </div>
                                 <div className="field">
                                     <label
