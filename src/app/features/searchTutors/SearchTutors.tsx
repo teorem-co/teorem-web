@@ -319,7 +319,6 @@ const SearchTutors = () => {
                                     form={formik}
                                     meta={formik.getFieldMeta('level')}
                                     classNamePrefix="search-tutor"
-                                    menuIsOpen={true}
                                     isMulti={false}
                                     options={levelOptions ? levelOptions : []}
                                     isDisabled={levelDisabled}

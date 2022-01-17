@@ -77,24 +77,61 @@
 }
 
 .search-tutor {
+    //select stays in focus after option is selected
+    //handle longer test inside select
+    //increase font-weight ?
+    //remove default border on focus
+
+    &__placeholder {
+        color: $black !important;
+        transition: color 0.5s;
+    }
+
     &__control {
-        border-radius: $border-rounded !important;
         width: 100px !important;
 
+        border-radius: $border-rounded !important;
+
         .search-tutor__dropdown-indicator {
-            transition: transform 0.5s;
-            color: $black;
+            transition: transform 0.5s !important;
+            color: $black !important;
         }
 
         &--is-focused {
             background-color: $color-primary !important;
-            border: none !important;
 
             .search-tutor__dropdown-indicator {
-                transform: rotate(180deg);
-                color: $white;
+                transform: rotate(180deg) !important;
+                color: $white !important;
+            }
+            .search-tutor__placeholder {
+                color: $white !important;
+            }
+
+            .search-tutor__value-container {
+                color: $white !important;
+            }
+
+            .input-select__option {
+                color: $white !important;
             }
         }
+    }
+
+    &__option {
+        color: $color-text-primary !important;
+
+        &--is-selected {
+            color: $color-primary !important;
+            background-color: $color-primary-lighter !important;
+        }
+    }
+
+    &__menu {
+        width: 250px !important;
+
+        border: 1px solid $color-primary-light;
+        border-radius: $border-rounded !important;
     }
 
     &__indicator-separator {
