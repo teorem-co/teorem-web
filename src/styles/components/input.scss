@@ -9,6 +9,14 @@
 
     background-color: transparent;
     transition: all 100ms ease-out;
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    &[type='number'] {
+        -moz-appearance: textfield;
+    }
 
     &:focus {
         outline: none;
@@ -45,6 +53,7 @@
         width: 0.1px;
         height: 0.1px;
         opacity: 0;
+
         &:focus {
             & + .input--checkbox__label:before {
                 border-color: $color-primary;

@@ -1,28 +1,17 @@
-import { Form, FormikProvider, useFormik } from 'formik';
-import { forwardRef, LegacyRef, useState } from 'react';
-import DatePicker from 'react-date-picker';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
-import Select, { components } from 'react-select';
-import * as Yup from 'yup';
 
 import { RoleOptions } from '../../../slices/roleSlice';
-import TextField from '../../components/form/TextField';
-import MySelect from '../../components/MySelectField';
 import { useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
 import TrialPopup from '../register/TrialPopup';
 import logo from './../../../assets/images/logo.svg';
-import StepOneParent from './components/StepOneParent';
-import StepOneStudent from './components/StepOneStudent';
-import StepOneTutor from './components/StepOneTutor';
-import StepThreeTutor from './components/StepThreeTutor';
-import StepTwoParent from './components/StepTwoParent';
-import StepTwoTutor from './components/StepTwoTutor';
+import ParentOnboarding from './components/ParentOnboarding';
+import StudentOnboarding from './components/StudentOnboarding';
+import TutorOnboarding from './components/TutorOnboarding';
 
 const Onboarding = () => {
-    // const [passTooltip, setPassTooltip] = useState<boolean>(false);
-    const [value, onChange] = useState(new Date());
     const [step, setStep] = useState<number>(1);
     const [trial, setTrial] = useState<boolean>(false);
     const roleSelection = useAppSelector((state) => state.role.selectedRole);
@@ -226,44 +215,22 @@ const Onboarding = () => {
                             </div>
                             {roleSelection === RoleOptions.Tutor ? (
                                 <>
-                                    {step === 1 ? (
-                                        <StepOneTutor
-                                            step={step}
-                                            handleNextStep={handleNextStep}
-                                            handleGoBack={handleGoBack}
-                                        />
-                                    ) : step === 2 ? (
-                                        <StepTwoTutor
-                                            step={step}
-                                            handleNextStep={handleNextStep}
-                                            handleGoBack={handleGoBack}
-                                        />
-                                    ) : (
-                                        <StepThreeTutor
-                                            step={step}
-                                            handleNextStep={handleNextStep}
-                                            handleGoBack={handleGoBack}
-                                        />
-                                    )}
+                                    <TutorOnboarding
+                                        step={step}
+                                        handleNextStep={handleNextStep}
+                                        handleGoBack={handleGoBack}
+                                    />
                                 </>
                             ) : roleSelection === RoleOptions.Parent ? (
                                 <>
-                                    {step === 1 ? (
-                                        <StepOneParent
-                                            step={step}
-                                            handleNextStep={handleNextStep}
-                                            handleGoBack={handleGoBack}
-                                        />
-                                    ) : (
-                                        <StepTwoParent
-                                            step={step}
-                                            handleNextStep={handleNextStep}
-                                            handleGoBack={handleGoBack}
-                                        />
-                                    )}
+                                    <ParentOnboarding
+                                        step={step}
+                                        handleNextStep={handleNextStep}
+                                        handleGoBack={handleGoBack}
+                                    />
                                 </>
                             ) : (
-                                <StepOneStudent
+                                <StudentOnboarding
                                     step={step}
                                     handleNextStep={handleNextStep}
                                     handleGoBack={handleGoBack}

@@ -4,6 +4,13 @@
 
 $rc-button-height: 48px;
 
+.onboarding-calendar {
+    .react-calendar {
+        &__navigation {
+        }
+    }
+}
+
 .react-calendar {
     border: none;
     font-family: 'Lato', sans-serif;
