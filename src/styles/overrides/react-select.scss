@@ -2,6 +2,14 @@
     overrides: react-select.scss
 */
 
+.react-select {
+    &--availability {
+        width: 500px !important;
+        right: 0;
+        padding: calc(#{$unit} * 6);
+    }
+}
+
 .onboarding-select {
     &__indicator-separator {
         display: none;

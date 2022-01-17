@@ -175,16 +175,20 @@ const SearchTutors = () => {
 
     const CustomMenu = (props: MenuProps) => {
         return (
-            <div>
-                <components.Menu {...props}>
-                    <FormikProvider value={formik}>
-                        <Form style={{ height: '150px' }}>
-                            <div>
+            <components.Menu className="react-select--availability" {...props}>
+                <FormikProvider value={formik}>
+                    <div>
+                        <Form>
+                            <div className="type--uppercase type--color--tertiary mb-4">
                                 {t(
                                     'SEARCH_TUTORS.AVAILABILITY.TIME_OF_DAY.LABEL'
                                 )}
                             </div>
-                            <div role="group" aria-labelledby="checkbox-group">
+                            <div
+                                className="mb-6"
+                                role="group"
+                                aria-labelledby="checkbox-group"
+                            >
                                 <label>
                                     <Field
                                         type="checkbox"
@@ -216,7 +220,7 @@ const SearchTutors = () => {
                                     )}
                                 </label>
                             </div>
-                            <div>
+                            <div className="type--uppercase type--color--tertiary mb-4">
                                 {t(
                                     'SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.LABEL'
                                 )}
@@ -294,9 +298,9 @@ const SearchTutors = () => {
                                 </label>
                             </div>
                         </Form>
-                    </FormikProvider>
-                </components.Menu>
-            </div>
+                    </div>
+                </FormikProvider>
+            </components.Menu>
         );
     };
 
