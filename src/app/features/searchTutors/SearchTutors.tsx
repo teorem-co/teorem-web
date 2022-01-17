@@ -151,10 +151,10 @@ const SearchTutors = () => {
     };
 
     useEffect(() => {
-        if (subjectsData && isSuccessSubjects) {
+        if (subjectsData && isSuccessSubjects && formik.values.level !== '') {
             setSubjectOptions(subjectsData);
         }
-    }, [subjectsData, subjectOptions]);
+    }, [subjectsData]);
 
     useEffect(() => {
         if (formik.values.level !== '' && formik.values.subject !== '') {
@@ -319,7 +319,7 @@ const SearchTutors = () => {
                                     field={formik.getFieldProps('level')}
                                     form={formik}
                                     meta={formik.getFieldMeta('level')}
-                                    classNamePrefix="search-tutor"
+                                    classNamePrefix="react-select--search-tutor"
                                     isMulti={false}
                                     options={levelOptions ? levelOptions : []}
                                     isDisabled={levelDisabled}
@@ -333,7 +333,7 @@ const SearchTutors = () => {
                                     meta={formik.getFieldMeta('subject')}
                                     isMulti={false}
                                     className="ml-6"
-                                    classNamePrefix="search-tutor"
+                                    classNamePrefix="react-select--search-tutor"
                                     options={subjectOptions}
                                     isDisabled={
                                         levelDisabled || isLoadingSubjects
