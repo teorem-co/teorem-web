@@ -379,7 +379,10 @@ const SearchTutors = () => {
                             availableTutors.rows.map((tutor) => (
                                 <div className="tutor-list__item">
                                     <div className="tutor-list__item__img">
-                                        Slika
+                                        <img
+                                            src="https://source.unsplash.com/random/300×300/?face"
+                                            alt="tutor-list"
+                                        />
                                     </div>
                                     <div className="tutor-list__item__info">
                                         <div className="type--md mb-1">
@@ -393,7 +396,13 @@ const SearchTutors = () => {
                                                 ? tutor.currentOccupation
                                                 : ''}
                                         </div>
-                                        <div className="type--color--secondary mb-6 w--632--max">
+                                        <div
+                                            className={`type--color--secondary ${
+                                                tutor.Subjects.length > 0
+                                                    ? 'mb-6'
+                                                    : ''
+                                            } w--632--max`}
+                                        >
                                             {tutor.aboutTutor
                                                 ? tutor.aboutTutor
                                                 : ''}
@@ -402,7 +411,7 @@ const SearchTutors = () => {
                                             {tutor.Subjects
                                                 ? tutor.Subjects.map(
                                                       (subject) => (
-                                                          <span>
+                                                          <span className="tag tag--primary">
                                                               {subject.name}
                                                           </span>
                                                       )
@@ -411,7 +420,7 @@ const SearchTutors = () => {
                                         </div>
                                     </div>
                                     <div className="tutor-list__item__details">
-                                        <div className="flex--grow">
+                                        <div className="flex--grow mb-6">
                                             <div className="flex flex--center mb-3">
                                                 <i className="icon icon--star icon--base icon--grey"></i>
                                                 <span className="d--ib ml-4">
