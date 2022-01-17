@@ -6,7 +6,7 @@ import { useHistory } from 'react-router';
 import Select, { components } from 'react-select';
 import * as Yup from 'yup';
 
-import MySelect from '../../../components/MySelectField';
+import MySelect from '../../../components/form/MySelectField';
 import { PATHS } from '../../../routes';
 
 interface Values {
@@ -26,7 +26,6 @@ interface IProps {
 const StudentOnboarding: React.FC<IProps> = ({
     handleGoBack,
     handleNextStep,
-    step,
 }) => {
     const [date, setDate] = useState<Date>();
     const { t } = useTranslation();

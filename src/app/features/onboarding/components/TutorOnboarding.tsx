@@ -1,14 +1,12 @@
 import { Form, FormikProvider, useFormik } from 'formik';
-import { forwardRef, LegacyRef, useState } from 'react';
+import { useState } from 'react';
 import DatePicker from 'react-date-picker';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router';
-import Select, { components } from 'react-select';
+import { components } from 'react-select';
 import * as Yup from 'yup';
 
+import MySelect from '../../../components/form/MySelectField';
 import TextField from '../../../components/form/TextField';
-import MySelect from '../../../components/MySelectField';
-import TextArea from '../../../components/MyTextArea';
 
 interface Values {
     firstName: string;
@@ -22,11 +20,6 @@ interface IProps {
     handleGoBack: () => void;
     handleNextStep: () => void;
     step: number;
-}
-
-interface ISelection {
-    numberPre: string;
-    number: string;
 }
 
 const TutorOnboarding: React.FC<IProps> = ({
@@ -96,33 +89,6 @@ const TutorOnboarding: React.FC<IProps> = ({
         },
     ];
 
-    const levels = [
-        {
-            value: 1,
-            label: 'All levels',
-        },
-        {
-            value: 2,
-            label: 'A Level',
-        },
-        {
-            value: 3,
-            label: 'GSCE',
-        },
-        {
-            value: 4,
-            label: 'IB',
-        },
-        {
-            value: 5,
-            label: 'KS2',
-        },
-        {
-            value: 6,
-            label: 'KS3',
-        },
-    ];
-
     const initialValues: Values = {
         firstName: '',
         lastName: '',
@@ -135,31 +101,40 @@ const TutorOnboarding: React.FC<IProps> = ({
         console.log(values);
     };
 
-    const formik = useFormik({
+    const formikStepOne = useFormik({
         initialValues: initialValues,
         onSubmit: (values) => handleSubmit(values),
         validateOnBlur: true,
         enableReinitialize: true,
         validationSchema: Yup.object().shape({
-            country: Yup.string()
+            country: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            phoneNumber: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            dateOfBirth: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            profileImage: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+        }),
+    });
+
+    const formikStepTwo = useFormik({
+        initialValues: initialValues,
+        onSubmit: (values) => handleSubmit(values),
+        validateOnBlur: true,
+        enableReinitialize: true,
+        validationSchema: Yup.object().shape({
+            firstName: Yup.string()
                 // .min(2, t('FORM_VALIDATION.TOO_SHORT'))
                 .max(100, t('FORM_VALIDATION.TOO_LONG'))
                 .required(t('FORM_VALIDATION.REQUIRED')),
-            phoneNumber: Yup.string()
+            lastName: Yup.string()
                 // .min(2, t('FORM_VALIDATION.TOO_SHORT'))
                 .max(100, t('FORM_VALIDATION.TOO_LONG'))
                 .required(t('FORM_VALIDATION.REQUIRED')),
-            dateOfBirth: Yup.string()
-                .email(t('FORM_VALIDATION.INVALID_EMAIL'))
+            cardNumber: Yup.string()
+                .min(16, t('FORM_VALIDATION.TOO_SHORT'))
+                .max(16, t('FORM_VALIDATION.TOO_LONG'))
                 .required(t('FORM_VALIDATION.REQUIRED')),
-            profileImage: Yup.string()
-                .min(2, t('FORM_VALIDATION.TOO_SHORT'))
-                .max(100, t('FORM_VALIDATION.TOO_LONG'))
-                .matches(
-                    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm,
-                    t('FORM_VALIDATION.PASSWORD_STRENGTH')
-                )
-                .required(t('FORM_VALIDATION.REQUIRED')),
+            expiryDate: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            cvv: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            zipCode: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
         }),
     });
 
@@ -244,320 +219,188 @@ const TutorOnboarding: React.FC<IProps> = ({
         );
     };
 
-    const customMultiInput = (props: any) => {
+    const stepOne = () => {
         return (
-            <components.SingleValue {...props} className="input-select">
-                <div className="input-select__option">
-                    <span>{props.data.label}</span>
-                </div>
-            </components.SingleValue>
-        );
-    };
-
-    const customMultiDropdown = (props: any) => {
-        const { innerProps } = props;
-        return (
-            <components.Option {...innerProps} {...props}>
-                {' '}
-                <div className="input-select">
-                    <div className="input-select__option flex flex--center">
-                        {/* Checkbox */}
-                        <div
-                            className="field"
-                            onClick={(e) => e.preventDefault()}
-                        >
-                            <input
-                                type="checkbox"
-                                className="input input--checkbox"
-                                id="input-check"
-                            />
-                            <label
-                                className="input--checkbox__label"
-                                htmlFor="input-check"
-                            >
-                                {props.data.label}
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </components.Option>
-        );
-    };
-
-    const PrevIcon = () => {
-        return <i className="icon icon--base icon--chevron-left"></i>;
-    };
-    const NextIcon = () => {
-        return <i className="icon icon--base icon--chevron-right"></i>;
-    };
-
-    return (
-        <>
-            <FormikProvider value={formik}>
+            <FormikProvider value={formikStepOne}>
                 <Form>
                     <div className="field">
-                        {step === 1 ? (
-                            <>
-                                <label
-                                    htmlFor="country"
-                                    className="field__label"
-                                >
-                                    Country*
-                                </label>
+                        <label htmlFor="country" className="field__label">
+                            Country*
+                        </label>
 
-                                <MySelect
-                                    form={formik}
-                                    field={formik.getFieldProps('country')}
-                                    meta={formik.getFieldMeta('country')}
-                                    isMulti={false}
-                                    classNamePrefix="onboarding-select"
-                                    options={options}
-                                    placeholder="Choose your country"
-                                    customInputField={countryInput}
-                                    customOption={countryOption}
-                                />
-                            </>
-                        ) : step === 2 ? (
-                            <>
-                                <label
-                                    htmlFor="occupation"
-                                    className="field__label"
-                                >
-                                    Your current occupation*
-                                </label>
-                                <TextField
-                                    name="occupation"
-                                    id="occupation"
-                                    placeholder="What's your current occupation"
-                                    // disabled={isLoading}
-                                />
-                            </>
-                        ) : (
-                            <>
-                                <label
-                                    htmlFor="firstName"
-                                    className="field__label"
-                                >
-                                    First Name*
-                                </label>
-                                <TextField
-                                    name="firstName"
-                                    id="firstName"
-                                    placeholder="Enter First Name"
-                                    // disabled={isLoading}
-                                />
-                            </>
-                        )}
+                        <MySelect
+                            form={formikStepOne}
+                            field={formikStepOne.getFieldProps('country')}
+                            meta={formikStepOne.getFieldMeta('country')}
+                            isMulti={false}
+                            classNamePrefix="onboarding-select"
+                            options={options}
+                            placeholder="Choose your country"
+                            customInputField={countryInput}
+                            customOption={countryOption}
+                        />
                     </div>
                     <div className="field">
-                        {step === 1 ? (
-                            <>
-                                <label
-                                    htmlFor="phoneNumber"
-                                    className="field__label"
-                                >
-                                    Phone Number*
-                                </label>
-                                <MySelect
-                                    form={formik}
-                                    field={formik.getFieldProps('phoneNumber')}
-                                    meta={formik.getFieldMeta('phoneNumber')}
-                                    isMulti={false}
-                                    classNamePrefix="onboarding-select"
-                                    options={phoneOptions}
-                                    placeholder="Enter your phone number"
-                                    customInputField={phoneNumberInput}
-                                    customOption={phoneNumberOption}
-                                />
-                            </>
-                        ) : step === 2 ? (
-                            <>
-                                <label
-                                    htmlFor="yearsOfExperience"
-                                    className="field__label"
-                                >
-                                    Years of professional experience (optional)
-                                </label>
-                                <TextField
-                                    name="yearsOfExperience"
-                                    id="yearsOfExperience"
-                                    placeholder="How many years of professional experience you have"
-                                    // disabled={isLoading}
-                                />
-                            </>
-                        ) : (
-                            <>
-                                <label
-                                    htmlFor="lastName"
-                                    className="field__label"
-                                >
-                                    Last Name*
-                                </label>
-                                <TextField
-                                    name="lastName"
-                                    id="lastName"
-                                    placeholder="Enter Last Name"
-                                    // disabled={isLoading}
-                                />
-                            </>
-                        )}
+                        <label htmlFor="phoneNumber" className="field__label">
+                            Phone Number*
+                        </label>
+                        <MySelect
+                            form={formikStepOne}
+                            field={formikStepOne.getFieldProps('phoneNumber')}
+                            meta={formikStepOne.getFieldMeta('phoneNumber')}
+                            isMulti={false}
+                            classNamePrefix="onboarding-select"
+                            options={phoneOptions}
+                            placeholder="Enter your phone number"
+                            customInputField={phoneNumberInput}
+                            customOption={phoneNumberOption}
+                        />
                     </div>
                     <div className="field">
-                        {step === 1 ? (
-                            <>
-                                <label
-                                    className="field__label"
-                                    htmlFor="dateOfBirth"
-                                >
-                                    Date of Birth*
-                                </label>
-                                <DatePicker
-                                    onChange={(e: Date) => handleDateChange(e)}
-                                    value={date}
-                                    dayPlaceholder="DD"
-                                    monthPlaceholder="MM"
-                                    yearPlaceholder="YYYY"
-                                    calendarClassName={'onboarding-calendar'}
-                                    clearIcon={null}
-                                    disableCalendar
-                                />
-                            </>
-                        ) : step === 2 ? (
-                            <>
-                                <label
-                                    className="field__label"
-                                    htmlFor="dateOfBirth"
-                                >
-                                    Select level that you're able to teach*
-                                </label>
-                                <Select
-                                    classNamePrefix="onboarding-select"
-                                    options={levels}
-                                    isSearchable={true}
-                                    placeholder="Select"
-                                    isMulti={true}
-                                    components={{
-                                        SingleValue: customMultiInput,
-                                        Option: customMultiDropdown,
-                                    }}
-                                    closeMenuOnSelect={false}
-                                    hideSelectedOptions={false}
-                                />
-                            </>
-                        ) : (
-                            <>
-                                <label
-                                    htmlFor="cardNumber"
-                                    className="field__label"
-                                >
-                                    Card Number*
-                                </label>
-                                <TextField
-                                    type="number"
-                                    name="cardNumber"
-                                    id="cardNumber"
-                                    placeholder="**** **** **** ****"
-                                    // disabled={isLoading}
-                                />
-                            </>
-                        )}
+                        <label className="field__label" htmlFor="dateOfBirth">
+                            Date of Birth*
+                        </label>
+                        <DatePicker
+                            onChange={(e: Date) => handleDateChange(e)}
+                            value={date}
+                            dayPlaceholder="DD"
+                            monthPlaceholder="MM"
+                            yearPlaceholder="YYYY"
+                            calendarClassName={'onboarding-calendar'}
+                            clearIcon={null}
+                            disableCalendar
+                        />
                     </div>
                     <div className="field field__file">
-                        {step === 1 ? (
-                            <>
-                                <label
-                                    className="field__label"
-                                    htmlFor="profileImage"
-                                >
-                                    Profile Image*
-                                </label>
+                        <label className="field__label" htmlFor="profileImage">
+                            Profile Image*
+                        </label>
 
-                                <div className="field__file__wrap">
-                                    <input
-                                        type="file"
-                                        className="input__file"
-                                    />
-                                    <i className="icon icon--upload icon--base icon--grey"></i>
-                                    <div className="type--color--tertiary type--wgt--regular">
-                                        Drag and drop to upload
-                                    </div>
-                                </div>
-                            </>
-                        ) : step === 2 ? (
-                            <>
-                                <label
-                                    className="field__label"
-                                    htmlFor="profileImage"
-                                >
-                                    Select subjects you teach*
-                                </label>
-
-                                <Select
-                                    classNamePrefix="onboarding-select"
-                                    options={phoneOptions}
-                                    isSearchable={true}
-                                    placeholder="Select"
-                                />
-                            </>
-                        ) : (
-                            <div className="flex">
-                                <div className="field w--100 mr-6">
-                                    <label
-                                        htmlFor="expiryDate"
-                                        className="field__label"
-                                    >
-                                        Expirty date*
-                                    </label>
-                                    <TextField
-                                        type="number"
-                                        name="expiryDate"
-                                        id="expiryDate"
-                                        placeholder="MM / YY"
-                                        // disabled={isLoading}
-                                    />
-                                </div>
-
-                                <div className="field w--100">
-                                    <label
-                                        htmlFor="cvv"
-                                        className="field__label"
-                                    >
-                                        CVV*
-                                    </label>
-                                    <TextField
-                                        max={999}
-                                        maxLength={999}
-                                        type="number"
-                                        name="cvv"
-                                        id="cvv"
-                                        placeholder="***"
-                                        // disabled={isLoading}
-                                    />
-                                </div>
+                        <div className="field__file__wrap">
+                            <input type="file" className="input__file" />
+                            <i className="icon icon--upload icon--base icon--grey"></i>
+                            <div className="type--color--tertiary type--wgt--regular">
+                                Drag and drop to upload
                             </div>
-                        )}
+                        </div>
                     </div>
+                    {/* <UploadFile
+                        setFieldValue={formikStepOne.setFieldValue}
+                        uploadedFile={(file: any) => {
+                            formikStepOne.setFieldValue('imageFood', file);
+                            dispatch(setImagePreview(''));
+                        }}
+                        id="imageFood"
+                        name="imageFood"
+                        imagePreview={imagePreview}
+                        disabled={isSubmitting}
+                        clearImagePreview={clearImagePreview}
+                    /> */}
 
+                    <button
+                        className="btn btn--base btn--primary w--100 mb-2 mt-6"
+                        type="submit"
+                        // disabled={isLoading}
+                        onClick={() => handleNextStep()}
+                    >
+                        Next
+                    </button>
+                    <div
+                        onClick={() => handleGoBack()}
+                        className="btn btn--clear btn--base w--100 type--color--brand type--wgt--bold type--center"
+                    >
+                        <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>{' '}
+                        Back to register
+                    </div>
+                </Form>
+            </FormikProvider>
+        );
+    };
+
+    const stepTwo = () => {
+        return (
+            <FormikProvider value={formikStepTwo}>
+                <Form>
                     <div className="field">
-                        {step < 3 ? (
-                            <></>
-                        ) : (
-                            <>
+                        <label htmlFor="firstName" className="field__label">
+                            First Name*
+                        </label>
+                        <TextField
+                            name="firstName"
+                            id="firstName"
+                            placeholder="Enter First Name"
+                            // disabled={isLoading}
+                        />
+                    </div>
+                    <div className="field">
+                        <label htmlFor="lastName" className="field__label">
+                            Last Name*
+                        </label>
+                        <TextField
+                            name="lastName"
+                            id="lastName"
+                            placeholder="Enter Last Name"
+                            // disabled={isLoading}
+                        />
+                    </div>
+                    <div className="field">
+                        <label htmlFor="cardNumber" className="field__label">
+                            Card Number*
+                        </label>
+                        <TextField
+                            type="number"
+                            name="cardNumber"
+                            id="cardNumber"
+                            placeholder="**** **** **** ****"
+                            // disabled={isLoading}
+                        />
+                    </div>
+                    <div className="field field__file">
+                        <div className="flex">
+                            <div className="field w--100 mr-6">
                                 <label
-                                    htmlFor="zipCode"
+                                    htmlFor="expiryDate"
                                     className="field__label"
                                 >
-                                    ZIP / Postal Code*
+                                    Expiry date*
                                 </label>
                                 <TextField
                                     type="number"
-                                    name="zipCode"
-                                    id="zipCode"
-                                    placeholder="Enter ZIP / Postal Code"
+                                    name="expiryDate"
+                                    id="expiryDate"
+                                    placeholder="MM / YY"
                                     // disabled={isLoading}
                                 />
-                            </>
-                        )}
+                            </div>
+
+                            <div className="field w--100">
+                                <label htmlFor="cvv" className="field__label">
+                                    CVV*
+                                </label>
+                                <TextField
+                                    max={999}
+                                    maxLength={999}
+                                    type="number"
+                                    name="cvv"
+                                    id="cvv"
+                                    placeholder="***"
+                                    // disabled={isLoading}
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="field">
+                        <label htmlFor="zipCode" className="field__label">
+                            ZIP / Postal Code*
+                        </label>
+                        <TextField
+                            type="number"
+                            name="zipCode"
+                            id="zipCode"
+                            placeholder="Enter ZIP / Postal Code"
+                            // disabled={isLoading}
+                        />
                     </div>
                     <button
                         className="btn btn--base btn--primary w--100 mb-2 mt-6"
@@ -565,23 +408,21 @@ const TutorOnboarding: React.FC<IProps> = ({
                         // disabled={isLoading}
                         onClick={() => handleNextStep()}
                     >
-                        {step < 3 ? 'Next' : 'Finish'}
+                        Finish
                     </button>
                     <div
                         onClick={() => handleGoBack()}
                         className="btn btn--clear btn--base w--100 type--color--brand type--wgt--bold type--center"
                     >
                         <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>{' '}
-                        {step === 1
-                            ? 'Back to register'
-                            : step === 2
-                            ? 'Back to step 1'
-                            : 'Back to step 2'}
+                        Back to step 2
                     </div>
                 </Form>
             </FormikProvider>
-        </>
-    );
+        );
+    };
+
+    return <>{step === 1 ? stepOne() : step === 2 ? stepTwo() : <></>}</>;
 };
 
 export default TutorOnboarding;

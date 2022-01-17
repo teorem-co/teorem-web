@@ -18,6 +18,7 @@ import roleReducer from '../slices/roleSlice';
 import userReducer from '../slices/userSlice';
 import { baseService } from './baseService';
 import { rtkQueryErrorLogger } from './middleware/rtkQueryErrorLogger';
+import uploadFileReducer from './slices/uploadFileSlice';
 
 const persistConfig = {
     key: 'root',
@@ -31,6 +32,7 @@ const rootReducer = combineReducers({
     auth: authReducer,
     role: roleReducer,
     user: userReducer,
+    uploadFile: uploadFileReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -7,6 +7,9 @@ import { useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
 import TrialPopup from '../register/TrialPopup';
 import logo from './../../../assets/images/logo.svg';
+import NavigationParent from './components/NavigationParent';
+import NavigationStudent from './components/NavigationStudent';
+import NavigationTutor from './components/NavigationTutor';
 import ParentOnboarding from './components/ParentOnboarding';
 import StudentOnboarding from './components/StudentOnboarding';
 import TutorOnboarding from './components/TutorOnboarding';
@@ -29,11 +32,15 @@ const Onboarding = () => {
     };
 
     const handleNextStep = () => {
-        if (step < 3) {
+        if (step < 2) {
             setStep(step + 1);
-        } else if (step === 3) {
+        } else if (step === 2) {
             setTrial(true);
         }
+    };
+
+    const handleNextStepStudent = () => {
+        setTrial(true);
     };
 
     return (
@@ -53,146 +60,11 @@ const Onboarding = () => {
                             </div>
                             <div className="steps">
                                 {roleSelection === RoleOptions.Tutor ? (
-                                    <>
-                                        <div className="steps__item steps__item__line mb-10">
-                                            <div
-                                                className={`steps__item--left active ${
-                                                    step === 2 || step === 3
-                                                        ? 'steps__item--left--completed'
-                                                        : ''
-                                                } mr-2`}
-                                            >
-                                                {step === 2 || step === 3 ? (
-                                                    <i className="icon icon--check icon--base icon--white"></i>
-                                                ) : (
-                                                    1
-                                                )}
-                                            </div>
-                                            <div className="steps__item--right">
-                                                <div className="steps__title steps__title--primary">
-                                                    Personal information
-                                                </div>
-                                                <div className="steps__title steps__title--secondary">
-                                                    Let us get to know you a
-                                                    little bit better
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className="steps__item mb-10">
-                                            <div
-                                                className={`steps__item--left ${
-                                                    step === 3
-                                                        ? 'steps__item--left--completed active'
-                                                        : step === 2
-                                                        ? 'active'
-                                                        : ''
-                                                } mr-2`}
-                                            >
-                                                {step === 3 ? (
-                                                    <i className="icon icon--check icon--base icon--white"></i>
-                                                ) : (
-                                                    2
-                                                )}
-                                            </div>
-                                            <div className="steps__item--right">
-                                                <div className="steps__title steps__title--primary">
-                                                    My Teachings
-                                                </div>
-                                                <div className="steps__title steps__title--secondary">
-                                                    Share your professional
-                                                    background
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className="steps__item">
-                                            <div
-                                                className={`steps__item--left ${
-                                                    step === 3 ? 'active' : ''
-                                                } mr-2`}
-                                            >
-                                                3
-                                            </div>
-                                            <div className="steps__item--right">
-                                                <div className="steps__title steps__title--primary">
-                                                    Additional information
-                                                </div>
-                                                <div className="steps__title steps__title--secondary">
-                                                    It’s never too much
-                                                    informations
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </>
+                                    <NavigationTutor step={step} />
                                 ) : roleSelection === RoleOptions.Parent ? (
-                                    <>
-                                        <div className="steps__item steps__item__line--sm mb-10">
-                                            <div
-                                                className={`steps__item--left active ${
-                                                    step === 2 || step === 3
-                                                        ? 'steps__item--left--completed'
-                                                        : ''
-                                                } mr-2`}
-                                            >
-                                                {step === 2 || step === 3 ? (
-                                                    <i className="icon icon--check icon--base icon--white"></i>
-                                                ) : (
-                                                    1
-                                                )}
-                                            </div>
-                                            <div className="steps__item--right">
-                                                <div className="steps__title steps__title--primary">
-                                                    Personal information
-                                                </div>
-                                                <div className="steps__title steps__title--secondary">
-                                                    Let us get to know you a
-                                                    little bit better
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className="steps__item mb-10">
-                                            <div
-                                                className={`steps__item--left ${
-                                                    step === 3
-                                                        ? 'steps__item--left--completed active'
-                                                        : step === 2
-                                                        ? 'active'
-                                                        : ''
-                                                } mr-2`}
-                                            >
-                                                {step === 3 ? (
-                                                    <i className="icon icon--check icon--base icon--white"></i>
-                                                ) : (
-                                                    2
-                                                )}
-                                            </div>
-                                            <div className="steps__item--right">
-                                                <div className="steps__title steps__title--primary">
-                                                    Child's List
-                                                </div>
-                                                <div className="steps__title steps__title--secondary">
-                                                    Lorem ipsum dolor sit
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </>
+                                    <NavigationParent step={step} />
                                 ) : (
-                                    <div className="steps__item">
-                                        <div className="steps__item--left active mr-2">
-                                            1
-                                        </div>
-                                        <div className="steps__item--right">
-                                            <div className="steps__title steps__title--primary">
-                                                Personal information
-                                            </div>
-                                            <div className="steps__title steps__title--secondary">
-                                                Let us get to know you a little
-                                                bit better
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <NavigationStudent />
                                 )}
                             </div>
                         </div>
@@ -229,12 +101,14 @@ const Onboarding = () => {
                                         handleGoBack={handleGoBack}
                                     />
                                 </>
-                            ) : (
+                            ) : roleSelection === RoleOptions.Student ? (
                                 <StudentOnboarding
                                     step={step}
-                                    handleNextStep={handleNextStep}
+                                    handleNextStep={handleNextStepStudent}
                                     handleGoBack={handleGoBack}
                                 />
+                            ) : (
+                                history.push('/')
                             )}
                         </div>
                         <div className="mt-8">

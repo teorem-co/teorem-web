@@ -8,7 +8,7 @@ import * as Yup from 'yup';
 
 import gradientCircle from '../../../../assets/images/gradient-circle.svg';
 import IRoleSelectionOption from '../../../../interfaces/IRoleSelectionOption';
-import MySelect from '../../../components/MySelectField';
+import MySelect from '../../../components/form/MySelectField';
 import { roleSelectionOptions } from '../../../constants/roleSelectionOptions';
 import { PATHS } from '../../../routes';
 
@@ -107,7 +107,35 @@ const ParentOnboarding: React.FC<IProps> = ({
         console.log(values);
     };
 
-    const formik = useFormik({
+    const formikStepOne = useFormik({
+        initialValues: initialValues,
+        onSubmit: (values) => handleSubmit(values),
+        validateOnBlur: true,
+        enableReinitialize: true,
+        validationSchema: Yup.object().shape({
+            country: Yup.string()
+                .min(2, t('FORM_VALIDATION.TOO_SHORT'))
+                .max(100, t('FORM_VALIDATION.TOO_LONG'))
+                .required(t('FORM_VALIDATION.REQUIRED')),
+            phoneNumber: Yup.string()
+                .min(2, t('FORM_VALIDATION.TOO_SHORT'))
+                .max(100, t('FORM_VALIDATION.TOO_LONG'))
+                .required(t('FORM_VALIDATION.REQUIRED')),
+            dateOfBirth: Yup.string()
+                .email(t('FORM_VALIDATION.INVALID_EMAIL'))
+                .required(t('FORM_VALIDATION.REQUIRED')),
+            profileImage: Yup.string()
+                .min(2, t('FORM_VALIDATION.TOO_SHORT'))
+                .max(100, t('FORM_VALIDATION.TOO_LONG'))
+                .matches(
+                    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm,
+                    t('FORM_VALIDATION.PASSWORD_STRENGTH')
+                )
+                .required(t('FORM_VALIDATION.REQUIRED')),
+        }),
+    });
+
+    const formikStepTwo = useFormik({
         initialValues: initialValues,
         onSubmit: (values) => handleSubmit(values),
         validateOnBlur: true,
@@ -216,115 +244,56 @@ const ParentOnboarding: React.FC<IProps> = ({
         );
     };
 
-    return (
-        <>
-            <FormikProvider value={formik}>
+    const stepOne = () => {
+        return (
+            <FormikProvider value={formikStepOne}>
                 <Form>
-                    {step === 1 ? (
-                        <div className="field">
-                            <label htmlFor="country" className="field__label">
-                                Country*
-                            </label>
-                            <MySelect
-                                form={formik}
-                                field={formik.getFieldProps('country')}
-                                meta={formik.getFieldMeta('country')}
-                                isMulti={false}
-                                classNamePrefix="onboarding-select"
-                                options={options}
-                                placeholder="Choose your country"
-                                customInputField={countryInput}
-                                customOption={countryOption}
-                            />
-                        </div>
-                    ) : (
-                        <div className="role-selection__form">
-                            {roleSelectionOptions.map((x) => {
-                                return (
-                                    <div
-                                        className="role-selection__item"
-                                        key={x.id}
-                                    >
-                                        <img
-                                            src={gradientCircle}
-                                            alt="gradient circle"
-                                        />
-                                        <div className="flex--grow ml-4">
-                                            <div className="mb-1">
-                                                {t(
-                                                    x.id === 0
-                                                        ? 'ROLE_SELECTION.STUDENT_TITLE'
-                                                        : x.id === 1
-                                                        ? 'ROLE_SELECTION.PARENT_TITLE'
-                                                        : 'ROLE_SELECTION.TUTOR_TITLE'
-                                                )}
-                                            </div>
-                                            <div className="type--color--secondary">
-                                                {t(
-                                                    x.id === 0
-                                                        ? 'ROLE_SELECTION.STUDENT_DESCRIPTION'
-                                                        : x.id === 1
-                                                        ? 'ROLE_SELECTION.PARENT_DESCRIPTION'
-                                                        : 'ROLE_SELECTION.TUTOR_DESCRIPTION'
-                                                )}
-                                            </div>
-                                        </div>
-                                        <i className="icon icon--base icon--chevron-right icon--primary"></i>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    )}
-
                     <div className="field">
-                        {step === 1 ? (
-                            <>
-                                <label
-                                    htmlFor="phoneNumber"
-                                    className="field__label"
-                                >
-                                    Phone Number*
-                                </label>
-
-                                <MySelect
-                                    form={formik}
-                                    field={formik.getFieldProps('phoneNumber')}
-                                    meta={formik.getFieldMeta('phoneNumber')}
-                                    isMulti={false}
-                                    classNamePrefix="onboarding-select"
-                                    options={phoneOptions}
-                                    placeholder="Enter your phone number"
-                                    customInputField={phoneNumberInput}
-                                    customOption={phoneNumberOption}
-                                />
-                            </>
-                        ) : (
-                            <></>
-                        )}
+                        <label htmlFor="country" className="field__label">
+                            Country*
+                        </label>
+                        <MySelect
+                            form={formikStepOne}
+                            field={formikStepOne.getFieldProps('country')}
+                            meta={formikStepOne.getFieldMeta('country')}
+                            isMulti={false}
+                            classNamePrefix="onboarding-select"
+                            options={options}
+                            placeholder="Choose your country"
+                            customInputField={countryInput}
+                            customOption={countryOption}
+                        />
                     </div>
                     <div className="field">
-                        {step === 1 ? (
-                            <>
-                                <label
-                                    className="field__label"
-                                    htmlFor="dateOfBirth"
-                                >
-                                    Date of Birth*
-                                </label>
-                                <DatePicker
-                                    onChange={(e: Date) => handleDateChange(e)}
-                                    value={date}
-                                    dayPlaceholder="DD"
-                                    monthPlaceholder="MM"
-                                    yearPlaceholder="YYYY"
-                                    calendarClassName={'onboarding-calendar'}
-                                    clearIcon={null}
-                                    disableCalendar
-                                />
-                            </>
-                        ) : (
-                            <></>
-                        )}
+                        <label htmlFor="phoneNumber" className="field__label">
+                            Phone Number*
+                        </label>
+                        <MySelect
+                            form={formikStepOne}
+                            field={formikStepOne.getFieldProps('phoneNumber')}
+                            meta={formikStepOne.getFieldMeta('phoneNumber')}
+                            isMulti={false}
+                            classNamePrefix="onboarding-select"
+                            options={phoneOptions}
+                            placeholder="Enter your phone number"
+                            customInputField={phoneNumberInput}
+                            customOption={phoneNumberOption}
+                        />
+                    </div>
+                    <div className="field">
+                        <label className="field__label" htmlFor="dateOfBirth">
+                            Date of Birth*
+                        </label>
+                        <DatePicker
+                            onChange={(e: Date) => handleDateChange(e)}
+                            value={date}
+                            dayPlaceholder="DD"
+                            monthPlaceholder="MM"
+                            yearPlaceholder="YYYY"
+                            calendarClassName={'onboarding-calendar'}
+                            clearIcon={null}
+                            disableCalendar
+                        />
                     </div>
                     <button
                         className="btn btn--base btn--primary w--100 mb-2 mt-6"
@@ -332,23 +301,81 @@ const ParentOnboarding: React.FC<IProps> = ({
                         // disabled={isLoading}
                         onClick={() => handleNextStep()}
                     >
-                        {step < 2 ? 'Next' : 'Finish'}
+                        Next
                     </button>
                     <div
                         onClick={() => handleGoBack()}
                         className="btn btn--clear btn--base w--100 type--color--brand type--wgt--bold type--center"
                     >
                         <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>{' '}
-                        {step === 1
-                            ? 'Back to register'
-                            : step === 2
-                            ? 'Back to step 1'
-                            : ''}
+                        Back to register
                     </div>
                 </Form>
             </FormikProvider>
-        </>
-    );
+        );
+    };
+
+    const stepTwo = () => {
+        return (
+            <FormikProvider value={formikStepTwo}>
+                <Form>
+                    <div className="role-selection__form">
+                        {roleSelectionOptions.map((x) => {
+                            return (
+                                <div
+                                    className="role-selection__item"
+                                    key={x.id}
+                                >
+                                    <img
+                                        src={gradientCircle}
+                                        alt="gradient circle"
+                                    />
+                                    <div className="flex--grow ml-4">
+                                        <div className="mb-1">
+                                            {t(
+                                                x.id === 0
+                                                    ? 'ROLE_SELECTION.STUDENT_TITLE'
+                                                    : x.id === 1
+                                                    ? 'ROLE_SELECTION.PARENT_TITLE'
+                                                    : 'ROLE_SELECTION.TUTOR_TITLE'
+                                            )}
+                                        </div>
+                                        <div className="type--color--secondary">
+                                            {t(
+                                                x.id === 0
+                                                    ? 'ROLE_SELECTION.STUDENT_DESCRIPTION'
+                                                    : x.id === 1
+                                                    ? 'ROLE_SELECTION.PARENT_DESCRIPTION'
+                                                    : 'ROLE_SELECTION.TUTOR_DESCRIPTION'
+                                            )}
+                                        </div>
+                                    </div>
+                                    <i className="icon icon--base icon--chevron-right icon--primary"></i>
+                                </div>
+                            );
+                        })}
+                    </div>
+                    <button
+                        className="btn btn--base btn--primary w--100 mb-2 mt-6"
+                        type="submit"
+                        // disabled={isLoading}
+                        onClick={() => handleNextStep()}
+                    >
+                        Finish
+                    </button>
+                    <div
+                        onClick={() => handleGoBack()}
+                        className="btn btn--clear btn--base w--100 type--color--brand type--wgt--bold type--center"
+                    >
+                        <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>{' '}
+                        Back to step 1
+                    </div>
+                </Form>
+            </FormikProvider>
+        );
+    };
+
+    return <>{step === 1 ? stepOne() : stepTwo()}</>;
 };
 
 export default ParentOnboarding;
