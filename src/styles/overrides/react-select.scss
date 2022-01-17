@@ -67,3 +67,29 @@
         }
     }
 }
+
+.search-tutor {
+    &__control {
+        border-radius: $border-rounded !important;
+        width: 100px !important;
+
+        .search-tutor__dropdown-indicator {
+            transition: transform 0.5s;
+            color: $black;
+        }
+
+        &--is-focused {
+            background-color: $color-primary !important;
+            border: none !important;
+
+            .search-tutor__dropdown-indicator {
+                transform: rotate(180deg);
+                color: $white;
+            }
+        }
+    }
+
+    &__indicator-separator {
+        display: none !important;
+    }
+}

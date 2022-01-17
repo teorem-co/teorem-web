@@ -314,7 +314,8 @@ const SearchTutors = () => {
                                     field={formik.getFieldProps('level')}
                                     form={formik}
                                     meta={formik.getFieldMeta('level')}
-                                    classNamePrefix="search_tutor-select"
+                                    classNamePrefix="search-tutor"
+                                    menuIsOpen={true}
                                     isMulti={false}
                                     options={levelOptions ? levelOptions : []}
                                     isDisabled={levelDisabled}
@@ -328,7 +329,7 @@ const SearchTutors = () => {
                                     meta={formik.getFieldMeta('subject')}
                                     isMulti={false}
                                     className="ml-6"
-                                    classNamePrefix="search_tutor-select"
+                                    classNamePrefix="search-tutor"
                                     options={subjectOptions}
                                     isDisabled={
                                         levelDisabled || isLoadingSubjects
