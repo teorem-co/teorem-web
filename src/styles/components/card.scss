@@ -40,4 +40,23 @@
             padding: calc(#{$unit} * 10) calc(#{$unit} * 6);
         }
     }
+
+    &--profile {
+        height: calc(100% - 48px);
+
+        margin: calc(#{$unit} * 6);
+        padding: calc(#{$unit} * 6);
+
+        border-radius: $border-rounded;
+        border: 1px solid $grey-f5;
+
+        overflow-y: auto;
+
+        background-color: $white;
+
+        &__section {
+            border-bottom: 1px solid $grey-ed;
+            margin-bottom: 40px;
+        }
+    }
 }

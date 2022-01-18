@@ -118,6 +118,38 @@ const ROUTES: any = [
             </PermissionsGate>
         ),
     },
+    {
+        path: PATHS.MY_PROFILE,
+        key: 'MY_PROFILE',
+        component: (props: any) => {
+            return (
+                <PermissionsGate
+                    roles={[
+                        Role.Tutor,
+                        Role.Parent,
+                        Role.Student,
+                        Role.SuperAdmin,
+                    ]}
+                >
+                    <RenderRoutes {...props} />
+                </PermissionsGate>
+            );
+        },
+        routes: [
+            {
+                path: PATHS.MY_PROFILE_INFO,
+                key: 'MY_PROFILE_INFO',
+                exact: true,
+                component: () => <ProfileInformation />,
+            },
+            {
+                path: PATHS.MY_PROFILE_ACCOUNT,
+                key: 'MY_PROFILE_ACCOUNT',
+                exact: true,
+                component: () => <ProfileAccount />,
+            },
+        ],
+    },
 ];
 //handle subroutes by <RenderRoutes {...props} /> inside PermissionGate if needed
 
@@ -177,6 +209,12 @@ export const menuPerRole: IMenuPerRole = {
             key: 'SEARCH_TUTORS',
             path: PATHS.SEARCH_TUTORS,
         },
+        {
+            name: 'My Profile',
+            icon: 'profile',
+            key: 'MY_PROFILE_INFO',
+            path: PATHS.MY_PROFILE_INFO,
+        },
     ],
     [Role.Parent]: [
         {
@@ -191,6 +229,12 @@ export const menuPerRole: IMenuPerRole = {
             key: 'SEARCH_TUTORS',
             path: PATHS.SEARCH_TUTORS,
         },
+        {
+            name: 'My Profile',
+            icon: 'profile',
+            key: 'MY_PROFILE_INFO',
+            path: PATHS.MY_PROFILE_INFO,
+        },
     ],
     [Role.SuperAdmin]: [
         {
@@ -204,6 +248,12 @@ export const menuPerRole: IMenuPerRole = {
             icon: 'search-tutors',
             key: 'SEARCH_TUTORS',
             path: PATHS.SEARCH_TUTORS,
+        },
+        {
+            name: 'My Profile',
+            icon: 'profile',
+            key: 'MY_PROFILE_INFO',
+            path: PATHS.MY_PROFILE_INFO,
         },
     ],
 };
