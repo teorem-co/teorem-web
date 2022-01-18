@@ -454,7 +454,22 @@ const SearchTutors = () => {
                                 </div>
                             ))
                         ) : (
-                            <div>No results</div>
+                            <div className="tutor-list__no-results">
+                                <h1 className="tutor-list__no-results__title">
+                                    No results
+                                </h1>
+                                <p className="tutor-list__no-results__subtitle">
+                                    Hmm, looks like there is no tutors for this
+                                    specific search.
+                                </p>
+                                <button
+                                    className="btn btn--clear ml-6 type--wgt--bold"
+                                    onClick={handleResetFilter}
+                                    disabled={resetFilterDisabled}
+                                >
+                                    {t('SEARCH_TUTORS.RESET_FILTER')}
+                                </button>
+                            </div>
                         )}
                     </div>
                 </div>
