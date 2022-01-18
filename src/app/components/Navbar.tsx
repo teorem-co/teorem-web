@@ -1,6 +1,5 @@
 import { NavLink } from 'react-router-dom';
 
-import avatar from '../../assets/images/avatar.svg';
 import logo from '../../assets/images/logo.svg';
 import { logout } from '../../slices/authSlice';
 import { userReset } from '../../slices/userSlice';

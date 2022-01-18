@@ -1,0 +1,32 @@
+/*
+    components: reviews-list.scss;
+*/
+
+.reviews-list {
+    &__item {
+        display: flex;
+        padding: calc(#{$unit} * 12) 0;
+        border-bottom: 1px solid $grey-ed;
+
+        @media (max-width: $responsive-xl) {
+            flex-direction: column;
+        }
+
+        & > div:nth-child(1) {
+            width: 232px;
+            flex-shrink: 0;
+            margin-bottom: calc(#{$unit} * 4);
+        }
+        & > div:nth-child(2) {
+            flex-grow: 1;
+        }
+
+        &:first-child {
+            padding-top: 0;
+        }
+        &:last-child {
+            padding-bottom: 0;
+            border: none;
+        }
+    }
+}

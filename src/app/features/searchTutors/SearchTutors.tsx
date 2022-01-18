@@ -1,4 +1,4 @@
-import { Field, Form, FormikProvider, useFormik } from 'formik';
+import { Form, FormikProvider, useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
@@ -8,7 +8,6 @@ import IParams from '../../../interfaces/IParams';
 import { useLazyGetLevelOptionsQuery } from '../../../services/levelService';
 import { useLazyGetSubjectOptionsByLevelQuery } from '../../../services/subjectService';
 import { useLazyGetAvailableTutorsQuery } from '../../../services/tutorService';
-import CheckboxField from '../../components/form/CheckboxField';
 import CustomCheckbox from '../../components/form/CustomCheckbox';
 import MySelect, { OptionType } from '../../components/form/MySelectField';
 import Loader from '../../components/Loader';

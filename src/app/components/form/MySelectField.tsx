@@ -36,8 +36,6 @@ const MySelect = ({
     onChangeCustom,
     isLoading,
     classNamePrefix,
-    customInputField,
-    customOption,
     noOptionsMessage,
     menuIsOpen,
     isSearchable,
