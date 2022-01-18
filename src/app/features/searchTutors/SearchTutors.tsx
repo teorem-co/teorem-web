@@ -354,6 +354,7 @@ const SearchTutors = () => {
                                     }}
                                     className="ml-6"
                                     onMenuClose={handleMenuClose}
+                                    isSearchable={false}
                                 ></Select>
                             </Form>
                         </FormikProvider>
