@@ -19,6 +19,36 @@ export const EN_US = {
         PASSWORD_MATCH: 'Passwords must match',
         PASSWORD_STRENGTH: 'Password must meet the conditions',
     },
+    //add seatch tutors translations
+    SEARCH_TUTORS: {
+        AVAILABILITY: {
+            TIME_OF_DAY: {
+                LABEL: 'Time of day',
+                BEFORE_NOON: 'Pre 12 pm',
+                NOON_TO_FIVE: '12 - 5 pm',
+                AFTER_FIVE: 'After 5 pm',
+            },
+            DAY_OF_WEEK: {
+                LABEL: 'Day of week',
+                MON: 'mon',
+                TUE: 'tue',
+                WED: 'wed',
+                THU: 'thu',
+                FRI: 'fri',
+                SAT: 'sat',
+                SUN: 'sun',
+            },
+        },
+        PLACEHOLDER: {
+            LEVEL: 'Level',
+            SUBJECT: 'Subject',
+            AVAILABILITY: 'All availability',
+        },
+        NO_OPTIONS_MESSAGE: 'Please select level first',
+        TUTOR_LIST: 'Tutor list',
+        RESET_FILTER: 'Reset filter',
+        TUTOR_AVAILABLE: 'Tutor Available',
+    },
     ROLE_SELECTION: {
         TITLE: 'Register',
         ACTION: 'I want to register as a',

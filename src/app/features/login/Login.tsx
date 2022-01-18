@@ -50,7 +50,6 @@ const Login: React.FC = () => {
     const formik = useFormik({
         initialValues: initialValues,
         onSubmit: (values) => {
-            // debugger;
             const data = {
                 email: values.email,
                 password: values.password,
