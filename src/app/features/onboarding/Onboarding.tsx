@@ -52,7 +52,7 @@ const Onboarding = () => {
                     <div className="onboarding__aside">
                         <div className="onboarding__steps">
                             <div className="type--lg type--wgt--bold mb-2">
-                                Welcome to Theorem!
+                                Welcome to Teorem!
                             </div>
                             <div className="w--350--max mb-10 type--wgt--regular type--color--secondary">
                                 Please follow the onboarding process to finish
@@ -78,13 +78,27 @@ const Onboarding = () => {
                                     alt="Teorem"
                                 />
                             </div>
-                            <div className="type--lg type--wgt--bold mb-4">
-                                {step === 1
-                                    ? 'Personal information'
-                                    : step === 2
-                                    ? 'My Teachings'
-                                    : 'Additional information'}
-                            </div>
+                            {roleSelection === RoleOptions.Tutor ? (
+                                <div className="type--lg type--wgt--bold mb-4">
+                                    {step === 1
+                                        ? 'Personal information'
+                                        : step === 2
+                                        ? 'Card Details'
+                                        : ''}
+                                </div>
+                            ) : roleSelection === RoleOptions.Parent ? (
+                                <div className="type--lg type--wgt--bold mb-4">
+                                    {step === 1
+                                        ? 'Personal information'
+                                        : step === 2
+                                        ? "Child's List"
+                                        : ''}
+                                </div>
+                            ) : (
+                                <div className="type--lg type--wgt--bold mb-4">
+                                    {step === 1 ? 'Personal information' : ''}
+                                </div>
+                            )}
                             {roleSelection === RoleOptions.Tutor ? (
                                 <>
                                     <TutorOnboarding

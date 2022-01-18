@@ -10,9 +10,9 @@ import { useLazyGetSubjectOptionsByLevelQuery } from '../../../services/subjectS
 import { useLazyGetAvailableTutorsQuery } from '../../../services/tutorService';
 import CheckboxField from '../../components/form/CheckboxField';
 import CustomCheckbox from '../../components/form/CustomCheckbox';
+import MySelect, { OptionType } from '../../components/form/MySelectField';
 import Loader from '../../components/Loader';
 import MainWrapper from '../../components/MainWrapper';
-import MySelect, { OptionType } from '../../components/MySelectField';
 import getUrlParams from '../../utils/getUrlParams';
 
 interface Values {
