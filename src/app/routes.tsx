@@ -36,67 +36,50 @@ const ROUTES: any = [
         path: PATHS.ROLE_SELECTION,
         key: 'ROLE_SELECTION',
         exact: true,
-        roles: [Role.Tutor],
-        isMenu: false,
-        isPublic: true,
         component: () => <RoleSelection />,
     },
     {
         path: PATHS.REGISTER,
         key: 'REGISTER',
         exact: true,
-        roles: [Role.Tutor],
-        isMenu: false,
-        isPublic: true,
         component: () => <Register />,
-    },
-    {
-        path: PATHS.SEARCH_TUTORS,
-        key: 'SEARCH_TUTORS',
-        exact: true,
-        roles: [Role.Tutor],
-        isMenu: false,
-        isPublic: true,
-        component: () => <SearchTutors />,
     },
     {
         path: PATHS.RESET_PASSWORD,
         key: 'RESET_PASSWORD',
         exact: true,
-        roles: [Role.Tutor],
-        isMenu: false,
-        isPublic: true,
         component: () => <ResetPassword />,
     },
     {
         path: PATHS.LOGIN,
         key: 'LOGIN',
         exact: true,
-        roles: [Role.Tutor],
-        isMenu: false,
-        isPublic: true,
         component: () => <Login />,
     },
     {
-        path: '',
-        key: 'BOOKING',
+        path: PATHS.MY_BOOKINGS,
+        key: 'MY_BOOKINGS',
+        exact: true,
         component: (props: any) => (
             <PermissionsGate
                 roles={[Role.Tutor, Role.Parent, Role.Student, Role.SuperAdmin]}
             >
-                <RenderRoutes {...props} />
+                <MyBookings />
             </PermissionsGate>
         ),
-        routes: [
-            {
-                key: 'MY_BOOKINGS',
-                path: PATHS.MY_BOOKINGS,
-                exact: true,
-                component: () => <MyBookings />,
-            },
-        ],
+    },
+    {
+        path: PATHS.SEARCH_TUTORS,
+        key: 'SEARCH_TUTORS',
+        exact: true,
+        component: (props: any) => (
+            <PermissionsGate roles={[Role.Parent, Role.SuperAdmin]}>
+                <SearchTutors />
+            </PermissionsGate>
+        ),
     },
 ];
+//handle subroutes by <RenderRoutes {...props} /> inside PermissionGate if needed
 
 export default ROUTES;
 
