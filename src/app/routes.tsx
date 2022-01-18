@@ -140,7 +140,14 @@ const ROUTES: any = [
         key: 'MY_PROFILE',
         component: (props: any) => {
             return (
-                <PermissionsGate roles={[Role.Tutor]}>
+                <PermissionsGate
+                    roles={[
+                        Role.Tutor,
+                        Role.Parent,
+                        Role.Student,
+                        Role.SuperAdmin,
+                    ]}
+                >
                     <RenderRoutes {...props} />
                 </PermissionsGate>
             );
@@ -251,6 +258,12 @@ export const menuPerRole: IMenuPerRole = {
             key: 'SEARCH_TUTORS',
             path: PATHS.SEARCH_TUTORS,
         },
+        {
+            name: 'My Profile',
+            icon: 'profile',
+            key: 'MY_PROFILE_INFO',
+            path: PROFILE_PATHS.MY_PROFILE_INFO,
+        },
     ],
     [Role.Parent]: [
         {
@@ -264,6 +277,12 @@ export const menuPerRole: IMenuPerRole = {
             icon: 'search-tutors',
             key: 'SEARCH_TUTORS',
             path: PATHS.SEARCH_TUTORS,
+        },
+        {
+            name: 'My Profile',
+            icon: 'profile',
+            key: 'MY_PROFILE_INFO',
+            path: PROFILE_PATHS.MY_PROFILE_INFO,
         },
     ],
     [Role.SuperAdmin]: [

@@ -8,7 +8,7 @@ import MainWrapper from '../../components/MainWrapper';
 import ProfileHeader from './components/ProfileHeader';
 import ProfileTabs from './components/ProfileTabs';
 
-interface Values {
+interface Va lues {
     currentPassword: string;
     newPassword: string;
     confirmPassword: string;
