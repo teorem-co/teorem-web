@@ -30,7 +30,12 @@ const Navbar = () => {
             <div className="navbar__bottom">
                 <div className="flex flex--grow flex--center">
                     <div className="navbar__bottom__avatar">
-                        <img src={avatar} alt="avatar" />
+                        <img
+                            src={
+                                'https://source.unsplash.com/random/300×300/?parent'
+                            }
+                            alt="avatar"
+                        />
                     </div>
                     <div className="navbar__bottom__user-info">
                         <div className="type--color--primary type--wgt--bold type--break">
