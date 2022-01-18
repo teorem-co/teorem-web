@@ -73,30 +73,13 @@ const ROUTES: any = [
         key: 'SEARCH_TUTORS',
         exact: true,
         component: (props: any) => (
-            <PermissionsGate roles={[Role.Parent, Role.SuperAdmin]}>
+            <PermissionsGate
+                roles={[Role.Parent, Role.Student, Role.SuperAdmin]}
+            >
                 <SearchTutors />
             </PermissionsGate>
         ),
     },
-    // {
-    //     path: '',
-    //     key: 'SEARCH',
-    //     component: (props: any) => (
-    //         <PermissionsGate
-    //             roles={[Role.Tutor, Role.Parent, Role.Student, Role.SuperAdmin]}
-    //         >
-    //             <RenderRoutes {...props} />
-    //         </PermissionsGate>
-    //     ),
-    //     routes: [
-    //         {
-    //             key: 'SEARCH_TUTORS',
-    //             path: PATHS.SEARCH_TUTORS,
-    //             exact: true,
-    //             component: () => <SearchTutors />,
-    //         },
-    //     ],
-    // },
 ];
 //handle subroutes by <RenderRoutes {...props} /> inside PermissionGate if needed
 
@@ -143,6 +126,12 @@ export const menuPerRole: IMenuPerRole = {
             icon: 'calendar',
             key: 'MY_BOOKINGS',
             path: PATHS.MY_BOOKINGS,
+        },
+        {
+            name: 'Search tutors',
+            icon: 'search-tutors',
+            key: 'SEARCH_TUTORS',
+            path: PATHS.SEARCH_TUTORS,
         },
     ],
     [Role.Parent]: [
