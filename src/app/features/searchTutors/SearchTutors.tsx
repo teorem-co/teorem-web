@@ -10,6 +10,7 @@ import { useLazyGetSubjectOptionsByLevelQuery } from '../../../services/subjectS
 import { useLazyGetAvailableTutorsQuery } from '../../../services/tutorService';
 import CheckboxField from '../../components/form/CheckboxField';
 import CustomCheckbox from '../../components/form/CustomCheckbox';
+import Loader from '../../components/Loader';
 import MainWrapper from '../../components/MainWrapper';
 import MySelect, { OptionType } from '../../components/MySelectField';
 import getUrlParams from '../../utils/getUrlParams';
@@ -377,7 +378,11 @@ const SearchTutors = () => {
                     <div className="tutor-list">
                         {isLoadingAvailableTutors ? (
                             // Here goes loader
-                            <div>Loading tutors....</div>
+                            <div className="loader--sceleton">
+                                <Loader />
+                                <Loader />
+                                <Loader />
+                            </div>
                         ) : availableTutors && availableTutors.count !== 0 ? (
                             availableTutors.rows.map((tutor) => (
                                 <div className="tutor-list__item">
