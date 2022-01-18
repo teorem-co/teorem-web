@@ -1,18 +1,30 @@
 import { Form, FormikProvider, useFormik } from 'formik';
-import { useState } from 'react';
-import DatePicker from 'react-date-picker';
 import { useTranslation } from 'react-i18next';
 import { components } from 'react-select';
 import * as Yup from 'yup';
 
+import { setStepOne, setStepTwo } from '../../../../slices/tutorRegisterSlice';
+import MyDatePicker from '../../../components/form/MyDatePicker';
 import MySelect from '../../../components/form/MySelectField';
+import UploadFile from '../../../components/form/MyUploadField';
 import TextField from '../../../components/form/TextField';
+import { useAppDispatch } from '../../../hooks';
 
-interface Values {
+interface StepOneValues {
     country: string;
+    prefix: string;
     phoneNumber: string;
     dateOfBirth: string;
     profileImage: string;
+}
+
+interface StepTwoValues {
+    cardFirstName: string;
+    cardLastName: string;
+    cardNumber: string;
+    expiryDate: string;
+    cvv: string;
+    zipCode: string;
 }
 
 interface IProps {
@@ -26,11 +38,8 @@ const TutorOnboarding: React.FC<IProps> = ({
     handleNextStep,
     step,
 }) => {
-    const [date, setDate] = useState<Date>();
+    const dispatch = useAppDispatch();
     const { t } = useTranslation();
-    const handleDateChange = (e: Date) => {
-        setDate(e);
-    };
     const options = [
         {
             value: 1,
@@ -75,33 +84,44 @@ const TutorOnboarding: React.FC<IProps> = ({
             icon: <i className="icon icon--au"></i>,
         },
         {
-            value: 4,
+            value: 5,
             number: '+55',
             country: 'Brazil',
             icon: <i className="icon icon--br"></i>,
         },
         {
-            value: 4,
+            value: 6,
             number: '+1',
             country: 'Canda',
             icon: <i className="icon icon--ca"></i>,
         },
     ];
 
-    const initialValues: Values = {
+    const initialValuesOne: StepOneValues = {
         country: '',
+        prefix: '',
         phoneNumber: '',
         dateOfBirth: '',
         profileImage: '',
     };
 
+    const initialValuesTwo: StepTwoValues = {
+        cardFirstName: '',
+        cardLastName: '',
+        cardNumber: '',
+        expiryDate: '',
+        cvv: '',
+        zipCode: '',
+    };
+
     const formikStepOne = useFormik({
-        initialValues: initialValues,
-        onSubmit: (values) => handleSubmit(values),
+        initialValues: initialValuesOne,
+        onSubmit: (values) => handleSubmitStepOne(values),
         validateOnBlur: true,
         enableReinitialize: true,
         validationSchema: Yup.object().shape({
             country: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            prefix: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             phoneNumber: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             dateOfBirth: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             profileImage: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
@@ -109,8 +129,8 @@ const TutorOnboarding: React.FC<IProps> = ({
     });
 
     const formikStepTwo = useFormik({
-        initialValues: initialValues,
-        onSubmit: (values) => handleSubmit(values),
+        initialValues: initialValuesTwo,
+        onSubmit: (values) => handleSubmitStepTwo(values),
         validateOnBlur: true,
         enableReinitialize: true,
         validationSchema: Yup.object().shape({
@@ -132,7 +152,30 @@ const TutorOnboarding: React.FC<IProps> = ({
         }),
     });
 
-    const handleSubmit = (values: any) => {
+    const handleSubmitStepOne = (values: StepOneValues) => {
+        dispatch(
+            setStepOne({
+                country: values.country,
+                prefix: values.prefix,
+                phoneNumber: values.phoneNumber,
+                dateOfBirth: values.dateOfBirth,
+                profileImage: values.profileImage,
+            })
+        );
+        handleNextStep();
+    };
+
+    const handleSubmitStepTwo = (values: StepTwoValues) => {
+        dispatch(
+            setStepTwo({
+                cardFirstName: values.cardFirstName,
+                cardLastName: values.cardLastName,
+                cardNumber: values.cardNumber,
+                expiryDate: values.expiryDate,
+                cvv: values.cvv,
+                zipCode: values.zipCode,
+            })
+        );
         handleNextStep();
     };
 
@@ -221,6 +264,7 @@ const TutorOnboarding: React.FC<IProps> = ({
         return (
             <FormikProvider value={formikStepOne}>
                 <Form>
+                    {/* <div>{JSON.stringify(formikStepOne.values, null, 2)}</div> */}
                     <div className="field">
                         <label htmlFor="country" className="field__label">
                             Country*
@@ -242,63 +286,58 @@ const TutorOnboarding: React.FC<IProps> = ({
                         <label htmlFor="phoneNumber" className="field__label">
                             Phone Number*
                         </label>
-                        <MySelect
-                            form={formikStepOne}
-                            field={formikStepOne.getFieldProps('phoneNumber')}
-                            meta={formikStepOne.getFieldMeta('phoneNumber')}
-                            isMulti={false}
-                            classNamePrefix="onboarding-select"
-                            options={phoneOptions}
-                            placeholder="Enter your phone number"
-                            customInputField={phoneNumberInput}
-                            customOption={phoneNumberOption}
-                        />
+                        <div className="flex flex--center pos--rel">
+                            <MySelect
+                                form={formikStepOne}
+                                field={formikStepOne.getFieldProps('prefix')}
+                                meta={formikStepOne.getFieldMeta('prefix')}
+                                isMulti={false}
+                                classNamePrefix="prefix-select"
+                                className="phoneNumber-select"
+                                options={phoneOptions}
+                                placeholder="Select pre"
+                                customInputField={phoneNumberInput}
+                                customOption={phoneNumberOption}
+                                isSearchable={false}
+                            />
+                            <TextField
+                                wrapperClassName="flex--grow"
+                                name="phoneNumber"
+                                placeholder="Enter your phone number"
+                                className="input input--base input--phone-number"
+                            />
+                        </div>
                     </div>
                     <div className="field">
                         <label className="field__label" htmlFor="dateOfBirth">
                             Date of Birth*
                         </label>
-                        <DatePicker
-                            onChange={(e: Date) => handleDateChange(e)}
-                            value={date}
-                            dayPlaceholder="DD"
-                            monthPlaceholder="MM"
-                            yearPlaceholder="YYYY"
-                            calendarClassName={'onboarding-calendar'}
-                            clearIcon={null}
-                            disableCalendar
+                        <MyDatePicker
+                            form={formikStepOne}
+                            field={formikStepOne.getFieldProps('dateOfBirth')}
+                            meta={formikStepOne.getFieldMeta('dateOfBirth')}
                         />
                     </div>
                     <div className="field field__file">
                         <label className="field__label" htmlFor="profileImage">
                             Profile Image*
                         </label>
-
-                        <div className="field__file__wrap">
-                            <input type="file" className="input__file" />
-                            <i className="icon icon--upload icon--base icon--grey"></i>
-                            <div className="type--color--tertiary type--wgt--regular">
-                                Drag and drop to upload
-                            </div>
-                        </div>
+                        <UploadFile
+                            setFieldValue={formikStepOne.setFieldValue}
+                            uploadedFile={(file: any) => {
+                                formikStepOne.setFieldValue(
+                                    'profileImage',
+                                    file
+                                );
+                            }}
+                            id="profileImage"
+                            name="profileImage"
+                        />
                     </div>
-                    {/* <UploadFile
-                        setFieldValue={formikStepOne.setFieldValue}
-                        uploadedFile={(file: any) => {
-                            formikStepOne.setFieldValue('imageFood', file);
-                            dispatch(setImagePreview(''));
-                        }}
-                        id="imageFood"
-                        name="imageFood"
-                        imagePreview={imagePreview}
-                        disabled={isSubmitting}
-                        clearImagePreview={clearImagePreview}
-                    /> */}
 
                     <button
                         className="btn btn--base btn--primary w--100 mb-2 mt-6"
                         type="submit"
-                        onClick={() => handleNextStep()}
                     >
                         Next
                     </button>
@@ -318,6 +357,7 @@ const TutorOnboarding: React.FC<IProps> = ({
         return (
             <FormikProvider value={formikStepTwo}>
                 <Form>
+                    {/* <div>{JSON.stringify(formikStepTwo.values, null, 2)}</div> */}
                     <div className="field">
                         <label htmlFor="firstName" className="field__label">
                             First Name*
@@ -402,8 +442,6 @@ const TutorOnboarding: React.FC<IProps> = ({
                     <button
                         className="btn btn--base btn--primary w--100 mb-2 mt-6"
                         type="submit"
-                        // disabled={isLoading}
-                        onClick={() => handleNextStep()}
                     >
                         Finish
                     </button>

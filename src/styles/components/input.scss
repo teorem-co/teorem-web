@@ -117,6 +117,12 @@
         }
     }
 
+    &--phone-number {
+        border-left: none;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
     &--text {
         &--password {
             position: absolute;

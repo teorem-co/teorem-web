@@ -11,7 +11,7 @@ type UploadFileType = {
     uploadedFile: (file: any) => void;
     filePreview?: (preview: any) => void;
     imagePreview?: string;
-    setFieldValue: (field: string, value: any) => void;
+    setFieldValue?: (field: string, value: any) => void;
     clearImagePreview?: () => void;
 } & FieldAttributes<{}>;
 
@@ -34,7 +34,6 @@ const mappedFiles = (files: FileType[], filePreview: any) => {
 };
 
 const UploadFile: FC<UploadFileType> = ({
-    imagePreview,
     uploadedFile,
     filePreview,
     id,
@@ -53,100 +52,65 @@ const UploadFile: FC<UploadFileType> = ({
         accept: 'image/*',
         maxFiles: 1,
         onDrop: (acceptedFiles: any) => {
-            dispatch(
-                setFiles(
-                    acceptedFiles.map((file: any, i: any) => {
-                        // sending values to parent component
-                        uploadedFile(file);
-                        return Object.assign(file, {
-                            preview: URL.createObjectURL(file),
-                            index: i,
-                        });
-                    })
-                )
-            );
+            dispatch(setFiles(acceptedFiles[0]));
+            uploadedFile(acceptedFiles[0]);
         },
     });
 
-    const handleDelete = (e: any) => {
-        if (setFieldValue) {
-            setFieldValue(id ? id : '', '');
-        }
-        if (isEdit && clearImagePreview) {
-            clearImagePreview();
-        }
-        const newFiles = [...files];
-        newFiles.splice(e, 1);
-        dispatch(setFiles(newFiles));
-        filePreview ? filePreview('') : <></>;
-    };
-
-    useEffect(
-        () => () => {
-            // Make sure to revoke the data uris to avoid memory leaks
-            if (!filePreview) {
-                files.forEach((file: any) => URL.revokeObjectURL(file.preview));
-            }
-        },
-        [files]
-    );
-
-    useEffect(() => {
-        dispatch(setFiles([]));
-    }, []);
+    // useEffect(
+    //     () => () => {
+    //         // Make sure to revoke the data uris to avoid memory leaks
+    //         if (!filePreview) {
+    //             files.forEach((file: any) => URL.revokeObjectURL(file.preview));
+    //         }
+    //     },
+    //     [files]
+    // );
 
     return (
         <>
             <section>
-                <div className="flex">
-                    <div {...getRootProps({ className: 'upload' })}>
-                        {isDragActive ? (
-                            <div className="upload__drag-overlay"></div>
-                        ) : (
-                            ''
-                        )}
+                {/* <div {...getRootProps({ className: "upload" })}>
+                        {isDragActive ? <div className="upload__drag-overlay">
+
+                        </div> : ''}
                         <input {...getInputProps()} />
                         <div className="upload__text" role="presentation">
-                            {files.length > 0 ? (
-                                <></>
-                            ) : imagePreview ? (
-                                <></>
-                            ) : (
-                                <i className="icon icon--group"></i>
-                            )}
+                            {
+                                files.length > 0
+                                    ? <></>
+                                    : imagePreview
+                                        ? <></>
+                                        : <i className="icon icon--group"></i>
+                            }
 
-                            {imagePreview ? (
-                                <aside className="upload__images">
-                                    <img alt="profile" src={imagePreview} />
-                                    <div className="upload__images__edit">
-                                        <i className="icon icon--edit-black"></i>
-                                    </div>
-                                </aside>
-                            ) : (
-                                <></>
-                            )}
-                            {mappedFiles(files, filePreview)}
+                            {
+                                imagePreview
+                                    ? <aside className="upload__images">
+                                        <img
+                                            alt="profile"
+                                            src={imagePreview}
+                                        />
+                                        <div className="upload__images__edit">
+                                            <i className="icon icon--edit-black"></i>
+                                        </div>
+                                    </aside>
+                                    : <></>
+                            }
+                            {
+                                mappedFiles(files, filePreview)
+                            }
                         </div>
-                    </div>
-                    <div>
-                        {infoText ? (
-                            <div className="type--color--faded m--left-10 m--bottom-24">
-                                *Ovako će izgledati slika na kartici
-                            </div>
-                        ) : (
-                            <></>
-                        )}
-
-                        {files.length > 0 || isEdit ? (
-                            <div
-                                onClick={() => handleDelete(0)}
-                                className="upload__images__remove m--left-16"
-                            >
-                                Remove
-                            </div>
-                        ) : (
-                            <></>
-                        )}
+                    </div> */}
+                <div {...getRootProps({ className: 'field__file__wrap' })}>
+                    <input
+                        type="file"
+                        className="input__file"
+                        {...getInputProps()}
+                    />
+                    <i className="icon icon--upload icon--base icon--grey"></i>
+                    <div className="type--color--tertiary type--wgt--regular">
+                        Drag and drop to upload
                     </div>
                 </div>
                 <div className="field__validation">

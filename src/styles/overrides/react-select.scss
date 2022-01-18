@@ -1,51 +1,213 @@
 /*
     overrides: react-select.scss
 */
-
-.react-select {
-    &--availability {
-        width: 600px !important;
-        right: 0;
-        padding: calc(#{$unit} * 6);
+.phoneNumber-select {
+    position: static !important;
+}
+.prefix-select {
+    &__indicators {
+        position: absolute !important;
+        right: 0 !important;
     }
 
-    &--search-tutor {
+    &__control {
+        width: 90px !important;
+        position: static !important;
+        border-right: none !important;
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+    }
+
+    &__indicator-separator {
+        display: none;
+    }
+
+    .react-select {
+        &--availability {
+            width: 600px !important;
+            right: 0;
+            padding: calc(#{$unit} * 6);
+        }
+
+        &--search-tutor {
+            &__placeholder {
+                color: $black !important;
+                transition: color 0.5s;
+            }
+
+            &__control {
+                width: 150px !important;
+                border-radius: $border-rounded !important;
+
+                &:hover {
+                    cursor: pointer;
+                }
+
+                .react-select--search-tutor__dropdown-indicator {
+                    transition: transform 0.5s !important;
+                    color: $black !important;
+                }
+
+                &--is-focused {
+                    background-color: $color-primary !important;
+                    box-shadow: 0 0 0 1px $color-primary !important;
+                    border-color: $color-primary !important;
+
+                    .react-select--search-tutor__dropdown-indicator {
+                        transform: rotate(180deg) !important;
+                        color: $white !important;
+                    }
+                    .react-select--search-tutor__placeholder {
+                        color: $white !important;
+                    }
+
+                    .react-select--search-tutor__value-container {
+                        color: $white !important;
+                    }
+
+                    .react-select--search-tutor__input {
+                        color: $white !important;
+                    }
+
+                    .input-select__option {
+                        color: $white !important;
+                    }
+                }
+            }
+
+            &__menu-notice {
+                color: $color-primary !important;
+            }
+
+            &__option {
+                color: $color-text-primary !important;
+
+                &:hover {
+                    cursor: pointer;
+                }
+
+                &--is-selected {
+                    color: $color-primary !important;
+                    background-color: $color-primary-lighter !important;
+                }
+            }
+
+            &__menu {
+                width: 250px !important;
+
+                border: 1px solid $color-primary-light;
+                border-radius: $border-rounded !important;
+            }
+
+            &__indicator-separator {
+                display: none !important;
+            }
+        }
+    }
+
+    .onboarding-select {
+        &__indicator-separator {
+            display: none;
+        }
+
+        &__control--menu-is-open {
+            background-color: $color-primary;
+
+            .onboarding-select__single-value {
+                color: $white !important;
+            }
+
+            .onboarding-select__placeholder {
+                color: $white;
+            }
+
+            &.onboarding-select__input-container {
+                color: $white;
+            }
+
+            &.onboarding-select__control {
+                background-color: $color-primary;
+            }
+            svg {
+                fill: $white !important;
+                transform: rotate(180deg);
+                transition: all 250ms ease-in-out;
+            }
+        }
+
+        &__dropdown-indicator {
+            svg {
+                fill: $black;
+                transition: all 250ms ease-in-out;
+
+                &:hover {
+                    // fill: $white;
+                    transform: rotate(180deg);
+                    transition: all 250ms ease-in-out;
+                }
+            }
+        }
+
+        &__menu {
+            width: 300px !important;
+        }
+
+        &__menu-list {
+            padding-top: 24px !important;
+            padding-bottom: 24px !important;
+            border: 1px solid rgba(124, 106, 244, 0.5) !important;
+            border-radius: 5px !important;
+        }
+
+        &__option {
+            padding: 8px 24px !important;
+            color: $black;
+            opacity: 0.7;
+            &--is-selected {
+                background-color: #7c6af411 !important;
+                color: $color-primary !important;
+            }
+            &--is-focused {
+                background-color: #bdbdbd11 !important;
+                color: $black !important;
+                opacity: 1;
+            }
+        }
+    }
+
+    .search-tutor {
+        //select stays in focus after option is selected
+        //handle longer test inside select
+        //increase font-weight ?
+        //remove default border on focus
+
         &__placeholder {
             color: $black !important;
             transition: color 0.5s;
         }
 
         &__control {
-            width: 150px !important;
+            width: 100px !important;
+
             border-radius: $border-rounded !important;
 
-            &:hover {
-                cursor: pointer;
-            }
-
-            .react-select--search-tutor__dropdown-indicator {
+            .search-tutor__dropdown-indicator {
                 transition: transform 0.5s !important;
                 color: $black !important;
             }
 
             &--is-focused {
                 background-color: $color-primary !important;
-                box-shadow: 0 0 0 1px $color-primary !important;
-                border-color: $color-primary !important;
 
-                .react-select--search-tutor__dropdown-indicator {
+                .search-tutor__dropdown-indicator {
                     transform: rotate(180deg) !important;
                     color: $white !important;
                 }
-                .react-select--search-tutor__placeholder {
+                .search-tutor__placeholder {
                     color: $white !important;
                 }
 
-                .react-select--search-tutor__value-container {
-                    color: $white !important;
-                }
-
-                .react-select--search-tutor__input {
+                .search-tutor__value-container {
                     color: $white !important;
                 }
 
@@ -55,16 +217,8 @@
             }
         }
 
-        &__menu-notice {
-            color: $color-primary !important;
-        }
-
         &__option {
             color: $color-text-primary !important;
-
-            &:hover {
-                cursor: pointer;
-            }
 
             &--is-selected {
                 color: $color-primary !important;
@@ -83,171 +237,42 @@
             display: none !important;
         }
     }
-}
 
-.onboarding-select {
-    &__indicator-separator {
-        display: none;
-    }
+    .test {
+        &__checkbox {
+            position: relative;
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            background-color: $white;
+            border: 1px solid $color-primary-lighter;
+            border-radius: $border-rounded;
+            margin-right: calc(#{$unit} * 2);
+            &.checked {
+                background-color: $color-primary;
 
-    &__control--menu-is-open {
-        background-color: $color-primary;
-
-        .onboarding-select__single-value {
-            color: $white !important;
-        }
-
-        .onboarding-select__placeholder {
-            color: $white;
-        }
-
-        &.onboarding-select__input-container {
-            color: $white;
-        }
-
-        &.onboarding-select__control {
-            background-color: $color-primary;
-        }
-        svg {
-            fill: $white !important;
-            transform: rotate(180deg);
-            transition: all 250ms ease-in-out;
-        }
-    }
-
-    &__dropdown-indicator {
-        svg {
-            fill: $black;
-            transition: all 250ms ease-in-out;
-
-            &:hover {
-                // fill: $white;
-                transform: rotate(180deg);
-                transition: all 250ms ease-in-out;
+                &:after {
+                    content: '';
+                    position: absolute;
+                    top: 4px;
+                    left: 3px;
+                    width: 8px;
+                    height: 4px;
+                    border-left: 2px solid $white;
+                    border-bottom: 2px solid $white;
+                    transform: rotate(-45deg);
+                }
             }
         }
-    }
-
-    &__menu-list {
-        padding-top: 24px !important;
-        padding-bottom: 24px !important;
-        border: 1px solid rgba(124, 106, 244, 0.5) !important;
-        border-radius: 5px !important;
-    }
-
-    &__option {
-        padding: 8px 24px !important;
-        color: $black;
-        opacity: 0.7;
-        &--is-selected {
-            background-color: #7c6af411 !important;
-            color: $color-primary !important;
+        &__field {
+            display: inline-flex;
+            align-items: center;
+            margin-right: calc(#{$unit} * 6);
+            cursor: pointer;
         }
-        &--is-focused {
-            background-color: #bdbdbd11 !important;
-            color: $black !important;
-            opacity: 1;
+        &__label {
+            text-transform: uppercase;
+            user-select: none;
         }
-    }
-}
-
-.search-tutor {
-    //select stays in focus after option is selected
-    //handle longer test inside select
-    //increase font-weight ?
-    //remove default border on focus
-
-    &__placeholder {
-        color: $black !important;
-        transition: color 0.5s;
-    }
-
-    &__control {
-        width: 100px !important;
-
-        border-radius: $border-rounded !important;
-
-        .search-tutor__dropdown-indicator {
-            transition: transform 0.5s !important;
-            color: $black !important;
-        }
-
-        &--is-focused {
-            background-color: $color-primary !important;
-
-            .search-tutor__dropdown-indicator {
-                transform: rotate(180deg) !important;
-                color: $white !important;
-            }
-            .search-tutor__placeholder {
-                color: $white !important;
-            }
-
-            .search-tutor__value-container {
-                color: $white !important;
-            }
-
-            .input-select__option {
-                color: $white !important;
-            }
-        }
-    }
-
-    &__option {
-        color: $color-text-primary !important;
-
-        &--is-selected {
-            color: $color-primary !important;
-            background-color: $color-primary-lighter !important;
-        }
-    }
-
-    &__menu {
-        width: 250px !important;
-
-        border: 1px solid $color-primary-light;
-        border-radius: $border-rounded !important;
-    }
-
-    &__indicator-separator {
-        display: none !important;
-    }
-}
-
-.test {
-    &__checkbox {
-        position: relative;
-        display: inline-block;
-        width: 18px;
-        height: 18px;
-        background-color: $white;
-        border: 1px solid $color-primary-lighter;
-        border-radius: $border-rounded;
-        margin-right: calc(#{$unit} * 2);
-        &.checked {
-            background-color: $color-primary;
-
-            &:after {
-                content: '';
-                position: absolute;
-                top: 4px;
-                left: 3px;
-                width: 8px;
-                height: 4px;
-                border-left: 2px solid $white;
-                border-bottom: 2px solid $white;
-                transform: rotate(-45deg);
-            }
-        }
-    }
-    &__field {
-        display: inline-flex;
-        align-items: center;
-        margin-right: calc(#{$unit} * 6);
-        cursor: pointer;
-    }
-    &__label {
-        text-transform: uppercase;
-        user-select: none;
     }
 }

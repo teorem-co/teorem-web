@@ -5,6 +5,7 @@ type TextFieldType = {
     min?: number;
     password?: boolean;
     className?: string;
+    wrapperClassName?: string;
 } & FieldAttributes<{}>;
 
 //const TextField: React.FC<TextFieldType> = ( { type, placeholder, id, disabled, min, onChange, ...props } ) =>
@@ -23,7 +24,7 @@ const TextField: React.FC<TextFieldType> = (props: any) => {
 
     return (
         <>
-            <div className="pos--rel">
+            <div className={`pos--rel ${props.wrapperClassName}`}>
                 <input
                     type={`${password ? 'password' : 'text'}`}
                     {...field}

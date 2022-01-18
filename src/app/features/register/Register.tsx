@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 
 import heroImg from '../../../assets/images/hero-img.png';
 import { resetSelectedRole, setSelectedRole } from '../../../slices/roleSlice';
+import { setRegister } from '../../../slices/tutorRegisterSlice';
 import TextField from '../../components/form/TextField';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
@@ -27,6 +28,8 @@ const Register: React.FC = () => {
     const dispatch = useAppDispatch();
     const { t } = useTranslation();
     const history = useHistory();
+    const state = useAppSelector((state) => state.tutorRegister);
+    const { firstName, lastName, email, password, passwordRepeat } = state;
     const roleSelection = useAppSelector((state) => state.role.selectedRole);
     const [passTooltip, setPassTooltip] = useState<boolean>(false);
 
@@ -78,15 +81,17 @@ const Register: React.FC = () => {
         // debugger;
         //no roleSelection is already handleded by redirecting to role selection screen
         if (roleSelection) {
-            // const registerData = {
-            //     firstName: values.firstName,
-            //     lastName: values.lastName,
-            //     email: values.email,
-            //     password: values.password,
-            //     confirmPassword: values.passwordRepeat,
-            //     roleAbrv: roleSelection,
-            // };
-            // register(registerData);
+            dispatch(
+                setRegister({
+                    firstName: values.firstName,
+                    lastName: values.lastName,
+                    email: values.lastName,
+                    password: values.password,
+                    passwordRepeat: values.passwordRepeat,
+                    roleSelection: roleSelection,
+                })
+            );
+            console.log(firstName, lastName, email, password, passwordRepeat);
             dispatch(setSelectedRole(roleSelection));
             history.push(PATHS.ONBOARDING);
         }
@@ -111,11 +116,11 @@ const Register: React.FC = () => {
         }
     }, []);
 
-    useLayoutEffect(() => {
-        return () => {
-            dispatch(resetSelectedRole());
-        };
-    }, []);
+    // useLayoutEffect(() => {
+    //     return () => {
+    //         dispatch(resetSelectedRole());
+    //     };
+    // }, []);
 
     const handlePasswordFocus = () => {
         setPassTooltip(true);
