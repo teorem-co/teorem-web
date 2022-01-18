@@ -167,7 +167,7 @@ const Login: React.FC = () => {
                         </div>
                         <div>
                             {t('LOGIN.ACCOUNT')}{' '}
-                            <Link to={!isLoading ? PATHS.REGISTER : '#'}>
+                            <Link to={!isLoading ? PATHS.ROLE_SELECTION : '#'}>
                                 {t('LOGIN.REGISTER')}
                             </Link>
                         </div>
