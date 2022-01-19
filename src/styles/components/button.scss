@@ -76,4 +76,9 @@
         font-size: 16px;
         padding: calc(#{$unit} * 5) calc(#{$unit} * 5);
     }
+
+    &--lg {
+        font-size: 14px;
+        padding: calc(#{$unit} * 3) calc(#{$unit} * 20);
+    }
 }

@@ -129,6 +129,9 @@
     &--al {
         content: url(/assets/icons/AL.svg);
     }
+    &--edit {
+        mask-image: url('./../../assets/icons/edit.svg');
+    }
 
     //color modifiers
     &--primary {

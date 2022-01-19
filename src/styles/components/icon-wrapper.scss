@@ -1,0 +1,28 @@
+/*
+    components: icon-wrapper.scss
+*/
+
+.icon-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+
+    &--circle {
+        border-radius: 1000px;
+    }
+
+    //colors
+    &--primary {
+        background-color: $color-primary;
+
+        &--lighter {
+            background-color: $color-primary-lighter;
+        }
+    }
+
+    &--grey {
+        background-color: $grey-bb;
+    }
+}

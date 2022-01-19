@@ -25,6 +25,9 @@ const ProfileInformation = () => {
         },
     });
 
+    //change to state later
+    const PROGRESS = 40;
+
     return (
         <MainWrapper>
             <div className="card--profile">
@@ -35,8 +38,12 @@ const ProfileInformation = () => {
                             My Profile
                         </div>
                         <div>
-                            <button>Preview Profile</button>
-                            <button>Save</button>
+                            <button className="btn btn--clear btn--base type--wgt--bold">
+                                Preview Profile
+                            </button>
+                            <button className="btn btn--primary btn--lg">
+                                Save
+                            </button>
                         </div>
                     </div>
                     <div>
@@ -54,26 +61,73 @@ const ProfileInformation = () => {
                     </div>
                 </div>
                 {/* PROGRESS */}
-                <div className="card--profile__section flex--primary">
+                <div className="card--profile__section card--profile__progress flex--primary p-6">
                     <div className="flex">
-                        <div>Progress bar</div>
-                        <div>Complete my profile</div>
+                        {/* Maybe change later to use custom component instead of library component */}
+                        <div className="flex flex--center flex--shrink w--105">
+                            {/* PROGRESS BAR */}
+                            Progress
+                        </div>
+                        <div className="flex flex--col flex--jc--center ml-6">
+                            <div className="type--color--primary type--md">
+                                Complete my profile
+                            </div>
+                            <div className="type--color--secondary w--200--max">
+                                FIll out the missing information to make your
+                                profile complete
+                            </div>
+                        </div>
                     </div>
-                    <div className="flex">
-                        <div>Personal information</div>
-                        <div>Profile Picture</div>
-                        <div>General Availability</div>
-                        <div>My teachings</div>
-                        <div>Aditional Information</div>
+                    <div className="flex flex--grow flex--jc--space-evenly flex--center">
+                        <div className="flex flex--col flex--center">
+                            <div className="icon-wrapper icon-wrapper--circle icon-wrapper--primary">
+                                <i className="icon icon--base icon--check icon--white"></i>
+                            </div>
+                            <div className="type--center mt-4 p-2">
+                                Personal Information
+                            </div>
+                        </div>
+                        <div className="flex flex--col flex--center">
+                            <div className="icon-wrapper icon-wrapper--circle icon-wrapper--primary">
+                                <i className="icon icon--base icon--check icon--white"></i>
+                            </div>
+                            <div className="type--center mt-4 p-2">
+                                Profile Picture
+                            </div>
+                        </div>
+                        <div className="flex flex--col flex--center">
+                            <div className="icon-wrapper icon-wrapper--circle  icon-wrapper--primary--lighter">
+                                <i className="icon icon--base icon--edit icon--primary"></i>
+                            </div>
+                            <div className="type--center mt-4 p-2">
+                                General Availability
+                            </div>
+                        </div>
+                        <div className="flex flex--col flex--center">
+                            <div className="icon-wrapper icon-wrapper--circle  icon-wrapper--primary--lighter">
+                                <i className="icon icon--base icon--edit icon--primary"></i>
+                            </div>
+                            <div className="type--center mt-4 p-2">
+                                My teachings
+                            </div>
+                        </div>
+                        <div className="flex flex--col flex--center">
+                            <div className="icon-wrapper icon-wrapper--circle  icon-wrapper--primary--lighter">
+                                <i className="icon icon--base icon--edit icon--primary"></i>
+                            </div>
+                            <div className="type--center mt-4 p-2">
+                                Aditional Information
+                            </div>
+                        </div>
                     </div>
                 </div>
                 {/* PERSONAL INFO */}
                 <div className="flex">
-                    <div className="flex--grow">
+                    <div className="flex flex--col">
                         <div className="mb-2 type--wgt--bold">
                             Personal Information
                         </div>
-                        <div className="type--color--secondary">
+                        <div className="type--color--secondary w--200--max">
                             Edit and update your personal information
                         </div>
                     </div>
