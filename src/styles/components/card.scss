@@ -126,7 +126,19 @@
 
             @media (max-width: $responsive-xl) {
                 flex-direction: column;
-                height: 250px;
+            }
+
+            //select first childs in section card and set their styles
+            & > div {
+                &:first-child {
+                    flex-shrink: 0;
+                    @media (max-width: $responsive-xl) {
+                        margin-bottom: calc(#{$unit} * 10);
+                    }
+                }
+                &:last-child {
+                    flex-grow: 1;
+                }
             }
         }
     }
