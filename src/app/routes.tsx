@@ -82,7 +82,7 @@ const ROUTES: any = [
         path: PATHS.MY_BOOKINGS,
         key: 'MY_BOOKINGS',
         exact: true,
-        component: () => (
+        component: (props: any) => (
             <PermissionsGate
                 roles={[Role.Tutor, Role.Parent, Role.Student, Role.SuperAdmin]}
             >
@@ -94,7 +94,7 @@ const ROUTES: any = [
         path: PATHS.MY_REVIEWS,
         key: 'MY_REVIEWS',
         exact: true,
-        component: () => (
+        component: (props: any) => (
             <PermissionsGate roles={[Role.Tutor, Role.SuperAdmin]}>
                 <MyReviews />
             </PermissionsGate>
@@ -104,7 +104,7 @@ const ROUTES: any = [
         path: PATHS.SEARCH_TUTORS,
         key: 'SEARCH_TUTORS',
         exact: true,
-        component: () => (
+        component: (props: any) => (
             <PermissionsGate
                 roles={[Role.Parent, Role.Student, Role.SuperAdmin]}
             >
