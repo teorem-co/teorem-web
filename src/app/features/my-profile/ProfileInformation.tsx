@@ -25,6 +25,40 @@ const ProfileInformation = () => {
         },
     });
 
+    const availabilityTable = [
+        ['', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        [
+            'Pre 12 pm',
+            <i className="icon icon--base icon--check"></i>,
+            <i className="icon icon--base icon--check"></i>,
+            <i className="icon icon--base icon--check"></i>,
+            <i className="icon icon--base icon--check"></i>,
+            <i className="icon icon--base icon--close"></i>,
+            <i className="icon icon--base icon--check"></i>,
+            <i className="icon icon--base icon--check"></i>,
+        ],
+        [
+            '12 - 5 pm',
+            <i className="icon icon--base icon--check"></i>,
+            <i className="icon icon--base icon--check"></i>,
+            <i className="icon icon--base icon--check"></i>,
+            <i className="icon icon--base icon--close"></i>,
+            <i className="icon icon--base icon--check"></i>,
+            <i className="icon icon--base icon--check"></i>,
+            <i className="icon icon--base icon--check"></i>,
+        ],
+        [
+            'After 5 pm',
+            <i className="icon icon--base icon--check"></i>,
+            <i className="icon icon--base icon--check"></i>,
+            <i className="icon icon--base icon--check"></i>,
+            <i className="icon icon--base icon--check"></i>,
+            <i className="icon icon--base icon--check"></i>,
+            <i className="icon icon--base icon--check"></i>,
+            <i className="icon icon--base icon--check"></i>,
+        ],
+    ];
+
     return (
         <MainWrapper>
             <div className="card--profile">
@@ -178,7 +212,19 @@ const ProfileInformation = () => {
                             Edit and update your availability information
                         </div>
                     </div>
-                    <div>TABLE</div>
+                    <div>
+                        <table>
+                            {availabilityTable.map((row: any) => {
+                                return (
+                                    <tr>
+                                        {row.map((column: number) => {
+                                            return <td>{column}</td>;
+                                        })}
+                                    </tr>
+                                );
+                            })}
+                        </table>
+                    </div>
                 </div>
 
                 {/* MY TEACHINGS */}
@@ -203,8 +249,32 @@ const ProfileInformation = () => {
                         </div>
                     </div>
                     <div>
-                        <div>TEXT BOX 1</div>
-                        <div>TEXT BOX 2</div>
+                        <div className="field">
+                            <label
+                                className="field__label"
+                                htmlFor="about-input"
+                            >
+                                Tell us more about yourself*
+                            </label>
+                            <textarea
+                                placeholder="What describes you best, what are your hobbies, approach..."
+                                className="input input--base input--textarea"
+                                id="about-input"
+                            />
+                        </div>
+                        <div className="field">
+                            <label
+                                className="field__label"
+                                htmlFor="about-lession-input"
+                            >
+                                Tell us more about your lessons**
+                            </label>
+                            <textarea
+                                placeholder="Describe your lessons, approach, way of teaching..."
+                                className="input input--base input--textarea"
+                                id="about-lession-input"
+                            />
+                        </div>
                     </div>
                 </div>
             </div>

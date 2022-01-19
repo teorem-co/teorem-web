@@ -133,8 +133,12 @@
     }
 
     &--textarea {
+        min-height: 50px;
         height: 120px;
-        resize: none;
+        max-height: 250px;
+        width: 100%;
+        min-width: 100%;
+        max-width: 100%;
     }
 
     //add padding for icon
