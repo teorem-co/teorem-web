@@ -1,6 +1,31 @@
 /*
     overrides: react-select.scss
 */
+.phoneNumber-select {
+    position: static !important;
+}
+.prefix-select {
+    &__indicators {
+        position: absolute !important;
+        right: 0 !important;
+    }
+
+    &__control {
+        width: 80px !important;
+        position: static !important;
+        border-right: none !important;
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+    }
+
+    &__indicator-separator {
+        display: none;
+    }
+
+    &__value-container {
+        padding-right: 0 !important;
+    }
+}
 
 .react-select {
     &--availability {
@@ -126,6 +151,10 @@
                 transition: all 250ms ease-in-out;
             }
         }
+    }
+
+    &__menu {
+        width: 300px !important;
     }
 
     &__menu-list {

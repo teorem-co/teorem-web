@@ -1,0 +1,470 @@
+import { Form, FormikProvider, useFormik } from 'formik';
+import { useTranslation } from 'react-i18next';
+import { components } from 'react-select';
+import * as Yup from 'yup';
+
+import { setStepOne, setStepTwo } from '../../../../slices/tutorRegisterSlice';
+import MyDatePicker from '../../../components/form/MyDatePicker';
+import MySelect from '../../../components/form/MySelectField';
+import UploadFile from '../../../components/form/MyUploadField';
+import TextField from '../../../components/form/TextField';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+
+interface StepOneValues {
+    country: string;
+    prefix: string;
+    phoneNumber: string;
+    dateOfBirth: string;
+    profileImage: string;
+}
+
+interface StepTwoValues {
+    cardFirstName: string;
+    cardLastName: string;
+    cardNumber: string;
+    expiryDate: string;
+    cvv: string;
+    zipCode: string;
+}
+
+interface IProps {
+    handleGoBack: () => void;
+    handleNextStep: () => void;
+    step: number;
+}
+
+const TutorOnboarding: React.FC<IProps> = ({
+    handleGoBack,
+    handleNextStep,
+    step,
+}) => {
+    const dispatch = useAppDispatch();
+    const state = useAppSelector((state) => state.tutorRegister);
+    const { firstName, lastName, email, password, passwordRepeat } = state;
+    const profileImage = useAppSelector(
+        (state) => state.tutorRegister.profileImage
+    );
+    const { t } = useTranslation();
+    const options = [
+        {
+            value: 1,
+            text: 'Poland',
+            icon: <i className="icon icon--pl"></i>,
+        },
+        {
+            value: 2,
+            text: 'Afghanistan',
+            icon: <i className="icon icon--af"></i>,
+        },
+        {
+            value: 3,
+            text: 'Canada',
+            icon: <i className="icon icon--ca"></i>,
+        },
+    ];
+
+    const phoneOptions = [
+        {
+            value: 1,
+            number: '+98',
+            country: 'Afghanistan',
+            icon: <i className="icon icon--af"></i>,
+        },
+        {
+            value: 2,
+            number: '+355',
+            country: 'Albania',
+            icon: <i className="icon icon--al"></i>,
+        },
+        {
+            value: 3,
+            number: '+54',
+            country: 'Argentina',
+            icon: <i className="icon icon--ar"></i>,
+        },
+        {
+            value: 4,
+            number: '+61',
+            country: 'Australia',
+            icon: <i className="icon icon--au"></i>,
+        },
+        {
+            value: 5,
+            number: '+55',
+            country: 'Brazil',
+            icon: <i className="icon icon--br"></i>,
+        },
+        {
+            value: 6,
+            number: '+1',
+            country: 'Canda',
+            icon: <i className="icon icon--ca"></i>,
+        },
+    ];
+
+    const initialValuesOne: StepOneValues = {
+        country: '',
+        prefix: '',
+        phoneNumber: '',
+        dateOfBirth: '',
+        profileImage: '',
+    };
+
+    const initialValuesTwo: StepTwoValues = {
+        cardFirstName: '',
+        cardLastName: '',
+        cardNumber: '',
+        expiryDate: '',
+        cvv: '',
+        zipCode: '',
+    };
+
+    const formikStepOne = useFormik({
+        initialValues: initialValuesOne,
+        onSubmit: (values) => handleSubmitStepOne(values),
+        validateOnBlur: true,
+        enableReinitialize: true,
+        validationSchema: Yup.object().shape({
+            country: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            prefix: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            phoneNumber: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            dateOfBirth: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            profileImage: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+        }),
+    });
+
+    const formikStepTwo = useFormik({
+        initialValues: initialValuesTwo,
+        onSubmit: (values) => handleSubmitStepTwo(values),
+        validateOnBlur: true,
+        enableReinitialize: true,
+        validationSchema: Yup.object().shape({
+            firstName: Yup.string()
+                // .min(2, t('FORM_VALIDATION.TOO_SHORT'))
+                .max(100, t('FORM_VALIDATION.TOO_LONG'))
+                .required(t('FORM_VALIDATION.REQUIRED')),
+            lastName: Yup.string()
+                // .min(2, t('FORM_VALIDATION.TOO_SHORT'))
+                .max(100, t('FORM_VALIDATION.TOO_LONG'))
+                .required(t('FORM_VALIDATION.REQUIRED')),
+            cardNumber: Yup.string()
+                .min(16, t('FORM_VALIDATION.TOO_SHORT'))
+                .max(16, t('FORM_VALIDATION.TOO_LONG'))
+                .required(t('FORM_VALIDATION.REQUIRED')),
+            expiryDate: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            cvv: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            zipCode: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+        }),
+    });
+
+    const handleSubmitStepOne = (values: StepOneValues) => {
+        dispatch(
+            setStepOne({
+                country: values.country,
+                prefix: values.prefix,
+                phoneNumber: values.phoneNumber,
+                dateOfBirth: values.dateOfBirth,
+                profileImage: values.profileImage,
+            })
+        );
+        handleNextStep();
+    };
+
+    const handleSubmitStepTwo = (values: StepTwoValues) => {
+        dispatch(
+            setStepTwo({
+                cardFirstName: values.cardFirstName,
+                cardLastName: values.cardLastName,
+                cardNumber: values.cardNumber,
+                expiryDate: values.expiryDate,
+                cvv: values.cvv,
+                zipCode: values.zipCode,
+            })
+        );
+        handleNextStep();
+    };
+
+    const countryInput = (props: any) => {
+        if (props.data.icon) {
+            return (
+                <components.SingleValue {...props} className="input-select">
+                    <div className="input-select__option">
+                        <span className="input-select__icon mr-2">
+                            {props.data.icon}
+                        </span>
+                        <span>{props.data.text}</span>
+                    </div>
+                </components.SingleValue>
+            );
+        } else {
+            return (
+                <components.SingleValue {...props} className="input-select">
+                    <div className="input-select__option">
+                        <span>{props.data.text}</span>
+                    </div>
+                </components.SingleValue>
+            );
+        }
+    };
+
+    const phoneNumberInput = (props: any) => {
+        if (props.data.icon) {
+            return (
+                <components.SingleValue {...props} className="input-select">
+                    <div className="input-select__option">
+                        <span className="input-select__icon mr-2">
+                            {props.data.icon}
+                        </span>
+                        <span>{props.data.number}</span>
+                    </div>
+                </components.SingleValue>
+            );
+        } else {
+            return (
+                <components.SingleValue {...props} className="input-select">
+                    <div className="input-select__option">
+                        <span>{props.data.number}</span>
+                    </div>
+                </components.SingleValue>
+            );
+        }
+    };
+
+    const countryOption = (props: any) => {
+        const { innerProps } = props;
+        return (
+            <components.Option {...innerProps} {...props}>
+                {' '}
+                <div className="input-select">
+                    <div className="input-select__option">
+                        <span className="mr-2">{props.data.icon}</span>
+                        <span>{props.data.text}</span>
+                    </div>
+                </div>
+            </components.Option>
+        );
+    };
+
+    const phoneNumberOption = (props: any) => {
+        const { innerProps } = props;
+        return (
+            <components.Option {...innerProps} {...props}>
+                {' '}
+                <div className="input-select">
+                    <div className="input-select__option flex flex--center">
+                        {/* <span className="input-select__icon"> */}
+                        <span className="mr-2">{props.data.icon}</span>
+                        {/* </span> */}
+                        <span className="mr-6" style={{ width: '40px' }}>
+                            {props.data.number}
+                        </span>
+                        <span>{props.data.country}</span>
+                    </div>
+                </div>
+            </components.Option>
+        );
+    };
+    // console.log(firstName, lastName, email, password, passwordRepeat);
+
+    const stepOne = () => {
+        return (
+            <FormikProvider value={formikStepOne}>
+                <Form>
+                    {/* <div>{JSON.stringify(formikStepOne.values, null, 2)}</div> */}
+                    <div className="field">
+                        <label htmlFor="country" className="field__label">
+                            Country*
+                        </label>
+
+                        <MySelect
+                            form={formikStepOne}
+                            field={formikStepOne.getFieldProps('country')}
+                            meta={formikStepOne.getFieldMeta('country')}
+                            isMulti={false}
+                            classNamePrefix="onboarding-select"
+                            options={options}
+                            placeholder="Choose your country"
+                            customInputField={countryInput}
+                            customOption={countryOption}
+                        />
+                    </div>
+                    <div className="field">
+                        <label htmlFor="phoneNumber" className="field__label">
+                            Phone Number*
+                        </label>
+                        <div className="flex flex--center pos--rel">
+                            <MySelect
+                                form={formikStepOne}
+                                field={formikStepOne.getFieldProps('prefix')}
+                                meta={formikStepOne.getFieldMeta('prefix')}
+                                isMulti={false}
+                                classNamePrefix="prefix-select"
+                                className="phoneNumber-select"
+                                options={phoneOptions}
+                                placeholder="Select pre"
+                                customInputField={phoneNumberInput}
+                                customOption={phoneNumberOption}
+                                isSearchable={false}
+                            />
+                            <TextField
+                                wrapperClassName="flex--grow"
+                                name="phoneNumber"
+                                placeholder="Enter your phone number"
+                                className="input input--base input--phone-number pl-0"
+                            />
+                        </div>
+                    </div>
+                    <div className="field">
+                        <label className="field__label" htmlFor="dateOfBirth">
+                            Date of Birth*
+                        </label>
+                        <MyDatePicker
+                            form={formikStepOne}
+                            field={formikStepOne.getFieldProps('dateOfBirth')}
+                            meta={formikStepOne.getFieldMeta('dateOfBirth')}
+                        />
+                    </div>
+                    <div className="field field__file">
+                        <label className="field__label" htmlFor="profileImage">
+                            Profile Image*
+                        </label>
+                        <UploadFile
+                            setFieldValue={formikStepOne.setFieldValue}
+                            uploadedFile={(file: any) => {
+                                formikStepOne.setFieldValue(
+                                    'profileImage',
+                                    file
+                                );
+                            }}
+                            id="profileImage"
+                            name="profileImage"
+                            imagePreview={profileImage}
+                        />
+                    </div>
+
+                    <button
+                        className="btn btn--base btn--primary w--100 mb-2 mt-6"
+                        type="submit"
+                    >
+                        Next
+                    </button>
+                    <div
+                        onClick={() => handleGoBack()}
+                        className="btn btn--clear btn--base w--100 type--color--brand type--wgt--bold type--center"
+                    >
+                        <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>{' '}
+                        Back to register
+                    </div>
+                </Form>
+            </FormikProvider>
+        );
+    };
+
+    const stepTwo = () => {
+        return (
+            <FormikProvider value={formikStepTwo}>
+                <Form>
+                    {/* <div>{JSON.stringify(formikStepTwo.values, null, 2)}</div> */}
+                    <div className="field">
+                        <label htmlFor="firstName" className="field__label">
+                            First Name*
+                        </label>
+                        <TextField
+                            name="firstName"
+                            id="firstName"
+                            placeholder="Enter First Name"
+                            // disabled={isLoading}
+                        />
+                    </div>
+                    <div className="field">
+                        <label htmlFor="lastName" className="field__label">
+                            Last Name*
+                        </label>
+                        <TextField
+                            name="lastName"
+                            id="lastName"
+                            placeholder="Enter Last Name"
+                            // disabled={isLoading}
+                        />
+                    </div>
+                    <div className="field">
+                        <label htmlFor="cardNumber" className="field__label">
+                            Card Number*
+                        </label>
+                        <TextField
+                            type="number"
+                            name="cardNumber"
+                            id="cardNumber"
+                            placeholder="**** **** **** ****"
+                            // disabled={isLoading}
+                        />
+                    </div>
+                    <div className="field field__file">
+                        <div className="flex">
+                            <div className="field w--100 mr-6">
+                                <label
+                                    htmlFor="expiryDate"
+                                    className="field__label"
+                                >
+                                    Expiry date*
+                                </label>
+                                <TextField
+                                    type="number"
+                                    name="expiryDate"
+                                    id="expiryDate"
+                                    placeholder="MM / YY"
+                                    // disabled={isLoading}
+                                />
+                            </div>
+
+                            <div className="field w--100">
+                                <label htmlFor="cvv" className="field__label">
+                                    CVV*
+                                </label>
+                                <TextField
+                                    max={999}
+                                    maxLength={999}
+                                    type="number"
+                                    name="cvv"
+                                    id="cvv"
+                                    placeholder="***"
+                                    // disabled={isLoading}
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="field">
+                        <label htmlFor="zipCode" className="field__label">
+                            ZIP / Postal Code*
+                        </label>
+                        <TextField
+                            type="number"
+                            name="zipCode"
+                            id="zipCode"
+                            placeholder="Enter ZIP / Postal Code"
+                            // disabled={isLoading}
+                        />
+                    </div>
+                    <button
+                        className="btn btn--base btn--primary w--100 mb-2 mt-6"
+                        type="submit"
+                    >
+                        Finish
+                    </button>
+                    <div
+                        onClick={() => handleGoBack()}
+                        className="btn btn--clear btn--base w--100 type--color--brand type--wgt--bold type--center"
+                    >
+                        <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>{' '}
+                        Back to step 2
+                    </div>
+                </Form>
+            </FormikProvider>
+        );
+    };
+
+    return <>{step === 1 ? stepOne() : step === 2 ? stepTwo() : <></>}</>;
+};
+
+export default TutorOnboarding;

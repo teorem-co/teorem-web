@@ -4,7 +4,6 @@ import { getUserRoleAbrv } from './utils/getUserRoleAbrv';
 
 export default function PermissionsGate(props: any) {
     const { children, roles } = props;
-
     const permissionGranted = roles.some(
         (role: any) => role === getUserRoleAbrv()
     );

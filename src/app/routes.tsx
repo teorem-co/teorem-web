@@ -2,6 +2,7 @@ import { NavLink, Route, Switch } from 'react-router-dom';
 
 import Login from './features/login/Login';
 import MyBookings from './features/my-bookings/MyBookings';
+import Onboarding from './features/onboarding/Onboarding';
 import Register from './features/register/Register';
 import ResetPassword from './features/reset-password/ResetPassword';
 import RoleSelection from './features/roleSelection/RoleSelection';
@@ -18,6 +19,7 @@ export enum PATHS {
     LOGIN = '/',
     MY_BOOKINGS = '/my-bookings',
     SEARCH_TUTORS = '/search-tutors',
+    ONBOARDING = '/onboarding',
 }
 
 interface IMenuItem {
@@ -43,6 +45,24 @@ const ROUTES: any = [
         key: 'REGISTER',
         exact: true,
         component: () => <Register />,
+    },
+    {
+        path: PATHS.SEARCH_TUTORS,
+        key: 'SEARCH_TUTORS',
+        exact: true,
+        roles: [Role.Tutor],
+        isMenu: false,
+        isPublic: true,
+        component: () => <SearchTutors />,
+    },
+    {
+        path: PATHS.ONBOARDING,
+        key: 'ONBOARDING',
+        exact: true,
+        roles: [Role.Tutor],
+        isMenu: false,
+        isPublic: true,
+        component: () => <Onboarding />,
     },
     {
         path: PATHS.RESET_PASSWORD,
@@ -105,7 +125,7 @@ export function RenderRoutes(routesObj: any) {
             {routes.map((route: any) => {
                 return <RouteWithSubRoutes key={route.key} {...route} />;
             })}
-            <Route component={() => <NotFound />} />
+            <Route component={() => <Onboarding />} />
         </Switch>
     );
 }

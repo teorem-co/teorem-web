@@ -14,10 +14,14 @@ import {
 import storage from 'redux-persist/lib/storage';
 
 import authReducer from '../slices/authSlice';
+import parentRegisterReducer from '../slices/parentRegisterSlice';
 import roleReducer from '../slices/roleSlice';
+import studentRegisterReducer from '../slices/studentRegisterSlice';
+import tutorRegisterReducer from '../slices/tutorRegisterSlice';
 import userReducer from '../slices/userSlice';
 import { baseService } from './baseService';
 import { rtkQueryErrorLogger } from './middleware/rtkQueryErrorLogger';
+import uploadFileReducer from './slices/uploadFileSlice';
 
 const persistConfig = {
     key: 'root',
@@ -31,6 +35,10 @@ const rootReducer = combineReducers({
     auth: authReducer,
     role: roleReducer,
     user: userReducer,
+    uploadFile: uploadFileReducer,
+    tutorRegister: tutorRegisterReducer,
+    studentRegister: studentRegisterReducer,
+    parentRegister: parentRegisterReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

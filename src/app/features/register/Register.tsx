@@ -5,13 +5,16 @@ import { useHistory } from 'react-router';
 import * as Yup from 'yup';
 
 import heroImg from '../../../assets/images/hero-img.png';
-import { resetSelectedRole } from '../../../slices/roleSlice';
+import { resetSelectedRole, setSelectedRole } from '../../../slices/roleSlice';
+import { setRegister } from '../../../slices/tutorRegisterSlice';
 import TextField from '../../components/form/TextField';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
 import { useRegisterMutation } from '../../services/authService';
 import toastService from '../../services/toastService';
+import { getUserRoleAbrv } from '../../utils/getUserRoleAbrv';
 import logo from './../../../assets/images/logo.svg';
+import TooltipPassword from './TooltipPassword';
 
 interface Values {
     firstName: string;
@@ -25,6 +28,8 @@ const Register: React.FC = () => {
     const dispatch = useAppDispatch();
     const { t } = useTranslation();
     const history = useHistory();
+    const state = useAppSelector((state) => state.tutorRegister);
+    const { firstName, lastName, email, password, passwordRepeat } = state;
     const roleSelection = useAppSelector((state) => state.role.selectedRole);
     const [passTooltip, setPassTooltip] = useState<boolean>(false);
 
@@ -59,7 +64,7 @@ const Register: React.FC = () => {
                 .min(8, t('FORM_VALIDATION.TOO_SHORT'))
                 .max(128, t('FORM_VALIDATION.TOO_LONG'))
                 .matches(
-                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,128}$/gm,
+                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_/+\-=[\]{};':"\\|,.<>?])[A-Za-z\d!@#$%^&*()_/+\-=[\]{};':"\\|,.<>?]{8,128}$/gm,
                     t('FORM_VALIDATION.PASSWORD_STRENGTH')
                 )
                 .required(t('FORM_VALIDATION.REQUIRED')),
@@ -73,17 +78,21 @@ const Register: React.FC = () => {
     });
 
     const handleSubmit = (values: Values) => {
+        // debugger;
         //no roleSelection is already handleded by redirecting to role selection screen
         if (roleSelection) {
-            const registerData = {
-                firstName: values.firstName,
-                lastName: values.lastName,
-                email: values.email,
-                password: values.password,
-                confirmPassword: values.passwordRepeat,
-                roleAbrv: roleSelection,
-            };
-            register(registerData);
+            dispatch(
+                setRegister({
+                    firstName: values.firstName,
+                    lastName: values.lastName,
+                    email: values.email,
+                    password: values.password,
+                    passwordRepeat: values.passwordRepeat,
+                    roleSelection: roleSelection,
+                })
+            );
+            dispatch(setSelectedRole(roleSelection));
+            history.push(PATHS.ONBOARDING);
         }
     };
 
@@ -93,7 +102,8 @@ const Register: React.FC = () => {
 
     useEffect(() => {
         if (isSuccess) {
-            history.push(PATHS.LOGIN);
+            // debugger;
+            history.push('/test');
             toastService.success('You are registered successfully.');
         }
     }, [isSuccess]);
@@ -105,11 +115,11 @@ const Register: React.FC = () => {
         }
     }, []);
 
-    useLayoutEffect(() => {
-        return () => {
-            dispatch(resetSelectedRole());
-        };
-    }, []);
+    // useLayoutEffect(() => {
+    //     return () => {
+    //         dispatch(resetSelectedRole());
+    //     };
+    // }, []);
 
     const handlePasswordFocus = () => {
         setPassTooltip(true);
@@ -256,72 +266,9 @@ const Register: React.FC = () => {
                                         onKeyUp={handleKeyUp}
                                     />
 
-                                    <div
-                                        className={`tooltip--password ${
-                                            passTooltip ? 'active' : ''
-                                        }`}
-                                    >
-                                        <div className="mb-3">
-                                            {t('FORM_VALIDATION.PASSWORD_MUST')}
-                                        </div>
-                                        <div>
-                                            <div>
-                                                <i
-                                                    id="length"
-                                                    className="icon icon--base icon--check icon--grey mr-3"
-                                                ></i>
-                                                <span>
-                                                    {t(
-                                                        'FORM_VALIDATION.MIN_CHARACTERS'
-                                                    )}
-                                                </span>
-                                            </div>
-                                            <div>
-                                                <i
-                                                    id="letter"
-                                                    className="icon icon--base icon--check icon--grey mr-3"
-                                                ></i>
-                                                <span>
-                                                    {t(
-                                                        'FORM_VALIDATION.LOWERCASE'
-                                                    )}
-                                                </span>
-                                            </div>
-                                            <div>
-                                                <i
-                                                    id="capital"
-                                                    className="icon icon--base icon--check icon--grey mr-3"
-                                                ></i>
-                                                <span>
-                                                    {t(
-                                                        'FORM_VALIDATION.UPPERCASE'
-                                                    )}
-                                                </span>
-                                            </div>
-                                            <div>
-                                                <i
-                                                    id="number"
-                                                    className="icon icon--base icon--check icon--grey mr-3"
-                                                ></i>
-                                                <span>
-                                                    {t(
-                                                        'FORM_VALIDATION.NUMBER'
-                                                    )}
-                                                </span>
-                                            </div>
-                                            <div>
-                                                <i
-                                                    id="special"
-                                                    className="icon icon--base icon--check icon--grey mr-3"
-                                                ></i>
-                                                <span>
-                                                    {t(
-                                                        'FORM_VALIDATION.SPECIAL_CHAR'
-                                                    )}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <TooltipPassword
+                                        passTooltip={passTooltip}
+                                    />
                                 </div>
                                 <div className="field">
                                     <label

@@ -1,5 +1,5 @@
 import { baseService } from '../app/baseService';
-import { OptionType } from '../app/components/MySelectField';
+import { OptionType } from '../app/components/form/MySelectField';
 import { HttpMethods } from '../app/lookups/httpMethods';
 import ILevel from '../interfaces/ILevel';
 

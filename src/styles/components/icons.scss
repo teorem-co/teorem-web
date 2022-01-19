@@ -105,6 +105,27 @@
     &--visible {
         mask-image: url('./../../assets/icons/visible.svg');
     }
+    &--pl {
+        content: url(/assets/icons/MC.svg);
+    }
+    &--af {
+        content: url(/assets/icons/AF.svg);
+    }
+    &--ca {
+        content: url(/assets/icons/CA.svg);
+    }
+    &--br {
+        content: url(/assets/icons/BR.svg);
+    }
+    &--au {
+        content: url(/assets/icons/AU.svg);
+    }
+    &--ar {
+        content: url(/assets/icons/AR.svg);
+    }
+    &--al {
+        content: url(/assets/icons/AL.svg);
+    }
 
     //color modifiers
     &--primary {

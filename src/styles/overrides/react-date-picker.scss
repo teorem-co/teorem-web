@@ -1,0 +1,54 @@
+/*
+    overrides: react-date-picker.scss
+*/
+
+.react-date-picker {
+    width: 100% !important;
+
+    &--open {
+        .icon {
+            &--calendar {
+                background-color: $white;
+            }
+        }
+        .react-date-picker {
+            &__inputGroup {
+                font-size: 14px !important;
+                font-weight: 400 !important;
+
+                input::placeholder {
+                    font-size: 14px !important;
+                    font-weight: 400 !important;
+                }
+
+                &__divider {
+                    margin: 0 4px;
+                }
+
+                &__input::placeholder {
+                    font-size: 14px !important;
+                    font-weight: 400 !important;
+                }
+            }
+        }
+    }
+
+    &__wrapper {
+        padding: 8px;
+        border: 1px solid $grey-c4;
+        border-radius: 4px;
+    }
+    &__inputGroup {
+        &__divider {
+            margin: 0 4px;
+        }
+
+        &__input:invalid {
+            background-color: transparent;
+        }
+
+        &__input:focus-visible {
+            outline: none;
+        }
+    }
+}

@@ -5,11 +5,10 @@ type TextFieldType = {
     min?: number;
     password?: boolean;
     className?: string;
-    wrapperClassName?: string;
 } & FieldAttributes<{}>;
 
 //const TextField: React.FC<TextFieldType> = ( { type, placeholder, id, disabled, min, onChange, ...props } ) =>
-const TextField: React.FC<TextFieldType> = (props: any) => {
+const TextArea: React.FC<TextFieldType> = (props: any) => {
     const { password } = props;
     const [field, meta] = useField(props);
     const errorText = meta.error && meta.touched ? meta.error : '';
@@ -24,13 +23,14 @@ const TextField: React.FC<TextFieldType> = (props: any) => {
 
     return (
         <>
-            <div className={`pos--rel ${props.wrapperClassName}`}>
-                <input
-                    type={`${password ? 'password' : 'text'}`}
+            <div className="pos--rel">
+                <textarea
+                    type={`${password ? 'password' : 'textarea'}`}
                     {...field}
                     {...props}
                     className={`${
-                        props.className ?? 'input input--base input--text'
+                        props.className ??
+                        'input input--base input--text input--textarea'
                     } ${errorText ? 'input__border--error' : ''}`}
                 />
                 {
@@ -53,4 +53,4 @@ const TextField: React.FC<TextFieldType> = (props: any) => {
     );
 };
 
-export default TextField;
+export default TextArea;

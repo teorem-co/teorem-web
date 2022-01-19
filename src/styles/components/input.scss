@@ -9,6 +9,14 @@
 
     background-color: transparent;
     transition: all 100ms ease-out;
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    &[type='number'] {
+        -moz-appearance: textfield;
+    }
 
     &:focus {
         outline: none;
@@ -45,6 +53,7 @@
         width: 0.1px;
         height: 0.1px;
         opacity: 0;
+
         &:focus {
             & + .input--checkbox__label:before {
                 border-color: $color-primary;
@@ -108,6 +117,12 @@
         }
     }
 
+    &--phone-number {
+        border-left: none;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
     &--text {
         &--password {
             position: absolute;
@@ -115,6 +130,11 @@
             transform: translateY(-50%);
             right: calc(#{$unit} * 4);
         }
+    }
+
+    &--textarea {
+        height: 120px;
+        resize: none;
     }
 
     //add padding for icon
