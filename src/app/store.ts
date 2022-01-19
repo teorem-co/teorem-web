@@ -14,7 +14,9 @@ import {
 import storage from 'redux-persist/lib/storage';
 
 import authReducer from '../slices/authSlice';
+import parentRegisterReducer from '../slices/parentRegisterSlice';
 import roleReducer from '../slices/roleSlice';
+import studentRegisterReducer from '../slices/studentRegisterSlice';
 import tutorRegisterReducer from '../slices/tutorRegisterSlice';
 import userReducer from '../slices/userSlice';
 import { baseService } from './baseService';
@@ -35,6 +37,8 @@ const rootReducer = combineReducers({
     user: userReducer,
     uploadFile: uploadFileReducer,
     tutorRegister: tutorRegisterReducer,
+    studentRegister: studentRegisterReducer,
+    parentRegister: parentRegisterReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

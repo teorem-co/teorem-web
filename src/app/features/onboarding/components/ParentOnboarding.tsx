@@ -2,22 +2,29 @@ import { Form, FormikProvider, useFormik } from 'formik';
 import { useState } from 'react';
 import DatePicker from 'react-date-picker';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router';
-import Select, { components } from 'react-select';
+import { components } from 'react-select';
 import * as Yup from 'yup';
 
 import gradientCircle from '../../../../assets/images/gradient-circle.svg';
-import IRoleSelectionOption from '../../../../interfaces/IRoleSelectionOption';
+import { setStepOne, setStepTwo } from '../../../../slices/parentRegisterSlice';
+import MyDatePicker from '../../../components/form/MyDatePicker';
 import MySelect from '../../../components/form/MySelectField';
+import TextField from '../../../components/form/TextField';
+import { childListOptions } from '../../../constants/childListOptions';
 import { roleSelectionOptions } from '../../../constants/roleSelectionOptions';
-import { PATHS } from '../../../routes';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 
-interface Values {
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-    passwordRepeat: string;
+interface StepOneValues {
+    country: string;
+    phoneNumber: string;
+    prefix: string;
+    dateOfBirth: string;
+}
+
+interface DetailsValues {
+    childFirstName: string;
+    childLastName: string;
+    childDateOfBirth: string;
 }
 
 interface IProps {
@@ -32,6 +39,10 @@ const ParentOnboarding: React.FC<IProps> = ({
     step,
 }) => {
     const [date, setDate] = useState<Date>();
+    const [detailsOpen, setDetailsOpen] = useState<boolean>(false);
+    const dispatch = useAppDispatch();
+    const state = useAppSelector((state) => state.parentRegister);
+    const { childFirstName, childLastName, childDateOfBirth } = state;
     const { t } = useTranslation();
 
     const handleDateChange = (e: Date) => {
@@ -95,12 +106,16 @@ const ParentOnboarding: React.FC<IProps> = ({
         },
     ];
 
-    const initialValues: Values = {
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: '',
-        passwordRepeat: '',
+    const initialValuesOne: StepOneValues = {
+        country: '',
+        phoneNumber: '',
+        prefix: '',
+        dateOfBirth: '',
+    };
+    const initialValuesTwo: DetailsValues = {
+        childFirstName: '',
+        childLastName: '',
+        childDateOfBirth: '',
     };
 
     const handleSubmit = (values: any) => {
@@ -108,8 +123,8 @@ const ParentOnboarding: React.FC<IProps> = ({
     };
 
     const formikStepOne = useFormik({
-        initialValues: initialValues,
-        onSubmit: (values) => handleSubmit(values),
+        initialValues: initialValuesOne,
+        onSubmit: (values) => submitStepOne(values),
         validateOnBlur: true,
         enableReinitialize: true,
         validationSchema: Yup.object().shape({
@@ -136,32 +151,59 @@ const ParentOnboarding: React.FC<IProps> = ({
     });
 
     const formikStepTwo = useFormik({
-        initialValues: initialValues,
+        initialValues: initialValuesTwo,
         onSubmit: (values) => handleSubmit(values),
         validateOnBlur: true,
         enableReinitialize: true,
         validationSchema: Yup.object().shape({
-            country: Yup.string()
-                .min(2, t('FORM_VALIDATION.TOO_SHORT'))
-                .max(100, t('FORM_VALIDATION.TOO_LONG'))
-                .required(t('FORM_VALIDATION.REQUIRED')),
-            phoneNumber: Yup.string()
-                .min(2, t('FORM_VALIDATION.TOO_SHORT'))
-                .max(100, t('FORM_VALIDATION.TOO_LONG'))
-                .required(t('FORM_VALIDATION.REQUIRED')),
-            dateOfBirth: Yup.string()
-                .email(t('FORM_VALIDATION.INVALID_EMAIL'))
-                .required(t('FORM_VALIDATION.REQUIRED')),
-            profileImage: Yup.string()
-                .min(2, t('FORM_VALIDATION.TOO_SHORT'))
-                .max(100, t('FORM_VALIDATION.TOO_LONG'))
-                .matches(
-                    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm,
-                    t('FORM_VALIDATION.PASSWORD_STRENGTH')
-                )
-                .required(t('FORM_VALIDATION.REQUIRED')),
+            country: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            phoneNumber: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            dateOfBirth: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            profileImage: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
         }),
     });
+
+    const formikStepThree = useFormik({
+        initialValues: initialValuesTwo,
+        onSubmit: (values) => submitDetails(values),
+        validateOnBlur: true,
+        enableReinitialize: true,
+        validationSchema: Yup.object().shape({
+            childFirstName: Yup.string().required(
+                t('FORM_VALIDATION.REQUIRED')
+            ),
+            childLastName: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            childDateOfBirth: Yup.string().required(
+                t('FORM_VALIDATION.REQUIRED')
+            ),
+        }),
+    });
+
+    const submitStepOne = (values: StepOneValues) => {
+        dispatch(
+            setStepOne({
+                country: values.country,
+                phoneNumber: values.phoneNumber,
+                prefix: values.prefix,
+                dateOfBirth: values.dateOfBirth,
+            })
+        );
+    };
+
+    const submitDetails = (values: DetailsValues) => {
+        dispatch(
+            setStepTwo({
+                childFirstName: values.childFirstName,
+                childLastName: values.childLastName,
+                childDateOfBirth: values.childDateOfBirth,
+            })
+        );
+        childListOptions.push({
+            name: `${values.childFirstName} ${values.childLastName}`,
+            description: 'Select to see details',
+        });
+        setDetailsOpen(false);
+    };
 
     const countryInput = (props: any) => {
         if (props.data.icon) {
@@ -315,39 +357,29 @@ const ParentOnboarding: React.FC<IProps> = ({
         );
     };
 
+    const openChildDetails = () => {
+        setDetailsOpen(true);
+    };
+
     const stepTwo = () => {
         return (
             <FormikProvider value={formikStepTwo}>
                 <Form>
-                    <div className="role-selection__form">
-                        {roleSelectionOptions.map((x) => {
+                    <div className="role-selection__form w--100">
+                        {childListOptions.map((x) => {
                             return (
                                 <div
                                     className="role-selection__item"
-                                    key={x.id}
+                                    onClick={() => openChildDetails()}
                                 >
                                     <img
                                         src={gradientCircle}
                                         alt="gradient circle"
                                     />
                                     <div className="flex--grow ml-4">
-                                        <div className="mb-1">
-                                            {t(
-                                                x.id === 0
-                                                    ? 'ROLE_SELECTION.STUDENT_TITLE'
-                                                    : x.id === 1
-                                                    ? 'ROLE_SELECTION.PARENT_TITLE'
-                                                    : 'ROLE_SELECTION.TUTOR_TITLE'
-                                            )}
-                                        </div>
+                                        <div className="mb-1">{x.name}</div>
                                         <div className="type--color--secondary">
-                                            {t(
-                                                x.id === 0
-                                                    ? 'ROLE_SELECTION.STUDENT_DESCRIPTION'
-                                                    : x.id === 1
-                                                    ? 'ROLE_SELECTION.PARENT_DESCRIPTION'
-                                                    : 'ROLE_SELECTION.TUTOR_DESCRIPTION'
-                                            )}
+                                            {x.description}
                                         </div>
                                     </div>
                                     <i className="icon icon--base icon--chevron-right icon--primary"></i>
@@ -375,7 +407,82 @@ const ParentOnboarding: React.FC<IProps> = ({
         );
     };
 
-    return <>{step === 1 ? stepOne() : stepTwo()}</>;
+    const childDetails = () => {
+        return (
+            <FormikProvider value={formikStepThree}>
+                <Form>
+                    <div className="field">
+                        <label
+                            htmlFor="childFirstName"
+                            className="field__label"
+                        >
+                            Child's Name*
+                        </label>
+                        <TextField
+                            name="childFirstName"
+                            id="childFirstName"
+                            placeholder="Enter your first name"
+                        />
+                    </div>
+                    <div className="field">
+                        <label htmlFor="childLastName" className="field__label">
+                            Child's Last Name*
+                        </label>
+                        <TextField
+                            name="childLastName"
+                            id="childLastName"
+                            placeholder="Enter your first name"
+                        />
+                    </div>
+                    <div className="field">
+                        <label
+                            className="field__label"
+                            htmlFor="childDateOfBirth"
+                        >
+                            Child's Date of Birth*
+                        </label>
+                        <MyDatePicker
+                            form={formikStepThree}
+                            field={formikStepThree.getFieldProps(
+                                'childDateOfBirth'
+                            )}
+                            meta={formikStepThree.getFieldMeta(
+                                'childDateOfBirth'
+                            )}
+                        />
+                    </div>
+                    <button
+                        className="btn btn--base btn--primary w--100 mb-2 mt-6"
+                        type="submit"
+                        // disabled={isLoading}
+                    >
+                        Save
+                    </button>
+                    <div
+                        onClick={() => setDetailsOpen(false)}
+                        className="btn btn--clear btn--base w--100 type--color--brand type--wgt--bold type--center"
+                    >
+                        <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>{' '}
+                        Back to list
+                    </div>
+                </Form>
+            </FormikProvider>
+        );
+    };
+
+    return (
+        <>
+            {step === 1 ? (
+                stepOne()
+            ) : step === 2 && detailsOpen === false ? (
+                stepTwo()
+            ) : detailsOpen && step === 2 ? (
+                childDetails()
+            ) : (
+                <></>
+            )}
+        </>
+    );
 };
 
 export default ParentOnboarding;

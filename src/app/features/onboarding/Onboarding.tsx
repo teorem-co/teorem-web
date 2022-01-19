@@ -87,13 +87,29 @@ const Onboarding = () => {
                                         : ''}
                                 </div>
                             ) : roleSelection === RoleOptions.Parent ? (
-                                <div className="type--lg type--wgt--bold mb-4">
-                                    {step === 1
-                                        ? 'Personal information'
-                                        : step === 2
-                                        ? "Child's List"
-                                        : ''}
-                                </div>
+                                <>
+                                    <div className="type--lg type--wgt--bold mb-4">
+                                        {step === 1
+                                            ? 'Personal information'
+                                            : step === 2
+                                            ? "Child's List"
+                                            : ''}
+                                    </div>
+                                    {step === 1 ? (
+                                        <></>
+                                    ) : step === 2 ? (
+                                        <div className="flex--primary mb-2">
+                                            <div className="type--wgt--regular">
+                                                Edit child's details
+                                            </div>
+                                            <div className="type--color--brand type--wgt--regular cur--pointer">
+                                                Add another child
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <></>
+                                    )}
+                                </>
                             ) : (
                                 <div className="type--lg type--wgt--bold mb-4">
                                     {step === 1 ? 'Personal information' : ''}

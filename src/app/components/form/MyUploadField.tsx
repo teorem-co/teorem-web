@@ -11,7 +11,7 @@ type UploadFileType = {
     uploadedFile: (file: any) => void;
     filePreview?: (preview: any) => void;
     imagePreview?: string;
-    setFieldValue?: (field: string, value: any) => void;
+    setFieldValue: (field: string, value: any) => void;
     clearImagePreview?: () => void;
 } & FieldAttributes<{}>;
 
@@ -34,6 +34,7 @@ const mappedFiles = (files: FileType[], filePreview: any) => {
 };
 
 const UploadFile: FC<UploadFileType> = ({
+    imagePreview,
     uploadedFile,
     filePreview,
     id,
@@ -51,72 +52,71 @@ const UploadFile: FC<UploadFileType> = ({
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         accept: 'image/*',
         maxFiles: 1,
-        onDrop: (acceptedFiles: any) => {
-            dispatch(setFiles(acceptedFiles[0]));
-            uploadedFile(acceptedFiles[0]);
+        onDrop: (acceptedFiles) => {
+            dispatch(
+                setFiles(
+                    acceptedFiles.map((file, i) => {
+                        // sending values to parent component
+                        uploadedFile(file);
+                        return Object.assign(file, {
+                            preview: URL.createObjectURL(file),
+                            index: i,
+                        });
+                    })
+                )
+            );
         },
     });
 
-    // useEffect(
-    //     () => () => {
-    //         // Make sure to revoke the data uris to avoid memory leaks
-    //         if (!filePreview) {
-    //             files.forEach((file: any) => URL.revokeObjectURL(file.preview));
-    //         }
-    //     },
-    //     [files]
-    // );
+    useEffect(
+        () => () => {
+            // Make sure to revoke the data uris to avoid memory leaks
+            if (!filePreview) {
+                files.forEach((file) => URL.revokeObjectURL(file.preview));
+            }
+        },
+        [files]
+    );
+
+    useEffect(() => {
+        dispatch(setFiles([]));
+    }, []);
 
     return (
         <>
-            <section>
-                {/* <div {...getRootProps({ className: "upload" })}>
-                        {isDragActive ? <div className="upload__drag-overlay">
-
-                        </div> : ''}
-                        <input {...getInputProps()} />
-                        <div className="upload__text" role="presentation">
-                            {
-                                files.length > 0
-                                    ? <></>
-                                    : imagePreview
-                                        ? <></>
-                                        : <i className="icon icon--group"></i>
-                            }
-
-                            {
-                                imagePreview
-                                    ? <aside className="upload__images">
-                                        <img
-                                            alt="profile"
-                                            src={imagePreview}
-                                        />
-                                        <div className="upload__images__edit">
-                                            <i className="icon icon--edit-black"></i>
-                                        </div>
-                                    </aside>
-                                    : <></>
-                            }
-                            {
-                                mappedFiles(files, filePreview)
-                            }
-                        </div>
-                    </div> */}
-                <div {...getRootProps({ className: 'field__file__wrap' })}>
-                    <input
-                        type="file"
-                        className="input__file"
-                        {...getInputProps()}
-                    />
-                    <i className="icon icon--upload icon--base icon--grey"></i>
-                    <div className="type--color--tertiary type--wgt--regular">
-                        Drag and drop to upload
+            <div className="flex">
+                <div {...getRootProps({ className: 'upload' })}>
+                    {isDragActive ? (
+                        <div className="upload__drag-overlay"></div>
+                    ) : (
+                        ''
+                    )}
+                    <input {...getInputProps()} />
+                    <div className="upload__text" role="presentation">
+                        {imagePreview ? (
+                            <aside className="upload__images">
+                                <img alt="profile" src={imagePreview} />
+                            </aside>
+                        ) : (
+                            <></>
+                        )}
+                        {mappedFiles(files, filePreview)}
+                        {files.length <= 0 ? (
+                            <div className="flex--primary flex--col">
+                                <i className="icon icon--base icon--upload icon--grey"></i>
+                                <div className="type--color--tertiary type--wgt--regular">
+                                    Drag and drop to upload
+                                </div>
+                            </div>
+                        ) : (
+                            <></>
+                        )}
                     </div>
                 </div>
-                <div className="field__validation">
-                    {errorText ? errorText : ''}
-                </div>
-            </section>
+            </div>
+            <div className="field__validation">
+                {errorText ? errorText : ''}
+            </div>
         </>
     );
 };

@@ -136,8 +136,10 @@ const MySelect = ({
                 className={className ?? 'form__type'}
                 classNamePrefix={classNamePrefix}
                 components={{
-                    SingleValue: customSingleValue,
-                    Option: customOptions,
+                    SingleValue: customInputField
+                        ? customInputField
+                        : customSingleValue,
+                    Option: customOption ? customOption : customOptions,
                 }}
                 name={field.name}
                 value={getValue()}

@@ -85,13 +85,12 @@ const Register: React.FC = () => {
                 setRegister({
                     firstName: values.firstName,
                     lastName: values.lastName,
-                    email: values.lastName,
+                    email: values.email,
                     password: values.password,
                     passwordRepeat: values.passwordRepeat,
                     roleSelection: roleSelection,
                 })
             );
-            console.log(firstName, lastName, email, password, passwordRepeat);
             dispatch(setSelectedRole(roleSelection));
             history.push(PATHS.ONBOARDING);
         }

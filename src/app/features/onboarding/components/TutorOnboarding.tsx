@@ -8,7 +8,7 @@ import MyDatePicker from '../../../components/form/MyDatePicker';
 import MySelect from '../../../components/form/MySelectField';
 import UploadFile from '../../../components/form/MyUploadField';
 import TextField from '../../../components/form/TextField';
-import { useAppDispatch } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 
 interface StepOneValues {
     country: string;
@@ -39,6 +39,11 @@ const TutorOnboarding: React.FC<IProps> = ({
     step,
 }) => {
     const dispatch = useAppDispatch();
+    const state = useAppSelector((state) => state.tutorRegister);
+    const { firstName, lastName, email, password, passwordRepeat } = state;
+    const profileImage = useAppSelector(
+        (state) => state.tutorRegister.profileImage
+    );
     const { t } = useTranslation();
     const options = [
         {
@@ -259,6 +264,7 @@ const TutorOnboarding: React.FC<IProps> = ({
             </components.Option>
         );
     };
+    // console.log(firstName, lastName, email, password, passwordRepeat);
 
     const stepOne = () => {
         return (
@@ -304,7 +310,7 @@ const TutorOnboarding: React.FC<IProps> = ({
                                 wrapperClassName="flex--grow"
                                 name="phoneNumber"
                                 placeholder="Enter your phone number"
-                                className="input input--base input--phone-number"
+                                className="input input--base input--phone-number pl-0"
                             />
                         </div>
                     </div>
@@ -332,6 +338,7 @@ const TutorOnboarding: React.FC<IProps> = ({
                             }}
                             id="profileImage"
                             name="profileImage"
+                            imagePreview={profileImage}
                         />
                     </div>
 
