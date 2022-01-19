@@ -120,5 +120,14 @@
                 }
             }
         }
+
+        &__progress {
+            box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.05);
+
+            @media (max-width: $responsive-xl) {
+                flex-direction: column;
+                height: 250px;
+            }
+        }
     }
 }
