@@ -1,0 +1,36 @@
+/*
+    components: tab.scss;
+*/
+
+.tab {
+    &--primary {
+        margin-right: calc(#{$unit} * -6);
+        margin-left: calc(#{$unit} * -6);
+        margin-bottom: calc(#{$unit} * 10);
+        padding: 0 calc(#{$unit} * 6);
+        padding-bottom: calc(#{$unit} * 2);
+        border-bottom: 1px solid $grey-ed;
+
+        &__item {
+            position: relative;
+            text-transform: uppercase;
+            color: $color-primary;
+            margin-right: calc(#{$unit} * 8);
+            padding-bottom: calc(#{$unit} * 2);
+
+            &::after {
+                content: '';
+                position: absolute;
+                display: block;
+                bottom: -$unit;
+                height: 2px;
+                width: 100%;
+                background-color: $color-primary;
+            }
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }
+}

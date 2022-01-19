@@ -8,6 +8,7 @@
 @import 'field';
 @import 'grid';
 @import 'icons';
+@import 'icon-wrapper';
 @import 'input';
 @import 'layout';
 @import 'loader';
@@ -15,17 +16,18 @@
 @import 'navbar';
 @import 'rating';
 @import 'reviews-list';
+@import 'onboarding';
+@import 'progress';
+@import 'steps';
 @import 'sidebar';
 @import 'status';
+@import 'tab';
 @import 'tag';
 @import 'tooltip';
 @import 'trial';
 @import 'tutor-list';
 @import 'upcoming-lessons';
-@import 'onboarding';
-@import 'steps';
 @import 'upload';
-@import 'icon-wrapper';
 
 //must load after base imports
 @import 'content';

@@ -43,6 +43,7 @@
 
     &--profile {
         height: calc(100% - 48px);
+        max-width: 1280px;
 
         margin: calc(#{$unit} * 6);
         padding: calc(#{$unit} * 6);
@@ -55,8 +56,37 @@
         background-color: $white;
 
         &__section {
+            display: flex;
             border-bottom: 1px solid $grey-ed;
-            margin-bottom: 40px;
+            padding-bottom: calc(#{$unit} * 10);
+            margin-bottom: calc(#{$unit} * 10);
+
+            @media (max-width: $responsive-lg) {
+                flex-direction: column;
+            }
+
+            &:last-child {
+                border-bottom: none;
+                padding-bottom: 0;
+                margin-bottom: 0;
+            }
+
+            //select first childs in section card and set their styles
+            & > div {
+                &:first-child {
+                    width: 320px;
+                    flex-shrink: 0;
+                    padding-right: calc(#{$unit} * 6);
+
+                    @media (max-width: $responsive-lg) {
+                        margin-bottom: calc(#{$unit} * 6);
+                        padding-right: 0;
+                    }
+                }
+                &:last-child {
+                    flex-grow: 1;
+                }
+            }
         }
 
         &__progress {
@@ -64,7 +94,19 @@
 
             @media (max-width: $responsive-xl) {
                 flex-direction: column;
-                height: 250px;
+            }
+
+            //select first childs in section card and set their styles
+            & > div {
+                &:first-child {
+                    flex-shrink: 0;
+                    @media (max-width: $responsive-xl) {
+                        margin-bottom: calc(#{$unit} * 10);
+                    }
+                }
+                &:last-child {
+                    flex-grow: 1;
+                }
             }
         }
     }

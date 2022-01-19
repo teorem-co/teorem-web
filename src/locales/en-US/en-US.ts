@@ -100,7 +100,7 @@ export const EN_US = {
     BACKEND_ERRORS: {
         BASE: {
             UNAUTHORIZED: 'You are not authorized.',
-            FORBIDDED: 'You do not have permission.',
+            FORBIDDEN: 'You do not have permission.',
             NOT_FOUND: 'Resource not found',
             CONFLICT: 'Resource already exists',
             INTERNAL_ERROR: 'Server error',
