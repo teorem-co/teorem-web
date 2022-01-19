@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import { RoleOptions } from '../../../slices/roleSlice';
 import { useAppSelector } from '../../hooks';
@@ -98,13 +99,8 @@ const Onboarding = () => {
                                     {step === 1 ? (
                                         <></>
                                     ) : step === 2 ? (
-                                        <div className="flex--primary mb-2">
-                                            <div className="type--wgt--regular">
-                                                Edit child's details
-                                            </div>
-                                            <div className="type--color--brand type--wgt--regular cur--pointer">
-                                                Add another child
-                                            </div>
+                                        <div className="type--wgt--regular mb-2">
+                                            Edit child's details
                                         </div>
                                     ) : (
                                         <></>
@@ -141,11 +137,23 @@ const Onboarding = () => {
                                 history.push('/')
                             )}
                         </div>
-                        <div className="mt-8">
+                        <div className="flex--primary mt-8 w--448--max">
                             <div className="type--color--tertiary">
-                                {' '}
                                 {t('WATERMARK')}
                             </div>
+                            {roleSelection === RoleOptions.Parent &&
+                            step === 2 ? (
+                                <div>
+                                    {/* {t('LOGIN.ACCOUNT')}{' '} */}
+                                    You can add this later.{' '}
+                                    {/* <Link to={!isLoading ? PATHS.ROLE_SELECTION : '#'}>
+                        {t('LOGIN.REGISTER')}
+                    </Link> */}
+                                    <Link to={'/'}>Skip step</Link>
+                                </div>
+                            ) : (
+                                <></>
+                            )}
                         </div>
                     </div>
                 </div>

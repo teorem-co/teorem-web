@@ -1,4 +1,5 @@
 import { Form, FormikProvider, useFormik } from 'formik';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { components } from 'react-select';
 import * as Yup from 'yup';
@@ -9,6 +10,7 @@ import MySelect from '../../../components/form/MySelectField';
 import UploadFile from '../../../components/form/MyUploadField';
 import TextField from '../../../components/form/TextField';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useLazyGetCountriesQuery } from '../services/countryService';
 
 interface StepOneValues {
     country: string;
@@ -40,11 +42,15 @@ const TutorOnboarding: React.FC<IProps> = ({
 }) => {
     const dispatch = useAppDispatch();
     const state = useAppSelector((state) => state.tutorRegister);
-    const { firstName, lastName, email, password, passwordRepeat } = state;
+    const [getCountries, { data: countries }] = useLazyGetCountriesQuery();
     const profileImage = useAppSelector(
         (state) => state.tutorRegister.profileImage
     );
     const { t } = useTranslation();
+
+    useEffect(() => {
+        getCountries();
+    }, []);
     const options = [
         {
             value: 1,
