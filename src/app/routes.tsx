@@ -261,8 +261,9 @@ export const menuPerRole: IMenuPerRole = {
         {
             name: 'My Profile',
             icon: 'profile',
-            key: 'MY_PROFILE_INFO',
-            path: PROFILE_PATHS.MY_PROFILE_INFO,
+            key: 'MY_PROFILE_INFO_PERSONAL',
+            rootPath: PROFILE_PATHS.MY_PROFILE,
+            path: PROFILE_PATHS.MY_PROFILE_INFO_PERSONAL,
         },
     ],
     [Role.Parent]: [
@@ -281,8 +282,9 @@ export const menuPerRole: IMenuPerRole = {
         {
             name: 'My Profile',
             icon: 'profile',
-            key: 'MY_PROFILE_INFO',
-            path: PROFILE_PATHS.MY_PROFILE_INFO,
+            key: 'MY_PROFILE_INFO_PERSONAL',
+            rootPath: PROFILE_PATHS.MY_PROFILE,
+            path: PROFILE_PATHS.MY_PROFILE_INFO_PERSONAL,
         },
     ],
     [Role.SuperAdmin]: [

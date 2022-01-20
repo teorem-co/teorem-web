@@ -1,7 +1,9 @@
 import { Form, FormikProvider, useFormik } from 'formik';
 
+import UploadFile from '../../components/form/MyUploadField';
 import TextField from '../../components/form/TextField';
 import MainWrapper from '../../components/MainWrapper';
+import { useAppSelector } from '../../hooks';
 import ProfileCompletion from './components/ProfileCompletion';
 import ProfileHeader from './components/ProfileHeader';
 import ProfileTabs from './components/ProfileTabs';
@@ -24,6 +26,10 @@ const ProfileInformation = () => {
             //
         },
     });
+
+    // const profileImage = useAppSelector(
+    //     (state) => state.user.user.
+    // );
 
     const availabilityTable = [
         ['', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
@@ -196,9 +202,14 @@ const ProfileInformation = () => {
                             Upload or remove a new profile picture (PNG or JPG)
                         </div>
                     </div>
-                    <div>
-                        <div>Image</div>
-                        <div>Drag and drop</div>
+                    <div className="flex flex--center">
+                        <div className="tutor-list__item__img">
+                            <img
+                                src="https://source.unsplash.com/random/300×300/?face"
+                                alt="tutor-list"
+                            />
+                        </div>
+                        <div>{/* <UploadFile /> */}</div>
                     </div>
                 </div>
 

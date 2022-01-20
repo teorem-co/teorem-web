@@ -23,7 +23,7 @@ const ProfileTabs = () => {
                     return false;
                 }}
             >
-                <span>PERSONAL INFORMATION</span>
+                <span>INFORMATION</span>
             </NavLink>
             <NavLink
                 className="tab--primary__item"
