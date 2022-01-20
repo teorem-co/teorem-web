@@ -6,6 +6,7 @@ type TextFieldType = {
     password?: boolean;
     className?: string;
     wrapperClassName?: string;
+    withoutErr?: boolean;
 } & FieldAttributes<{}>;
 
 //const TextField: React.FC<TextFieldType> = ( { type, placeholder, id, disabled, min, onChange, ...props } ) =>
@@ -45,10 +46,13 @@ const TextField: React.FC<TextFieldType> = (props: any) => {
                     )
                 }
             </div>
-
-            <div className="field__validation">
-                {errorText ? errorText : ''}
-            </div>
+            {!props.withoutErr ? (
+                <></>
+            ) : (
+                <div className="field__validation">
+                    {errorText ? errorText : ''}
+                </div>
+            )}
         </>
     );
 };

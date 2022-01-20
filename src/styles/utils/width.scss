@@ -16,6 +16,14 @@
     &--100 {
         width: 100%;
     }
+
+    &--120 {
+        width: 120px;
+
+        &--max {
+            max-width: 120px;
+        }
+    }
     &--128 {
         width: 128px;
 

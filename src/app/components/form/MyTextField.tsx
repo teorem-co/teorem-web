@@ -20,9 +20,6 @@ const MyTextField: FC<TextFieldType> = (props: any) => {
                     props.className ?? 'input input--base input--text'
                 }`}
             />
-            <div className="field__validation">
-                {errorText ? errorText : ''}
-            </div>
         </>
     );
 };
