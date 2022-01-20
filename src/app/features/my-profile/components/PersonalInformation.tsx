@@ -1,13 +1,19 @@
 import { Form, FormikProvider, useFormik } from 'formik';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { components } from 'react-select';
 import * as Yup from 'yup';
 
+import MyCountrySelect from '../../../components/form/MyCountrySelect';
 import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyPhoneSelect from '../../../components/form/MyPhoneSelect';
+import UploadFile from '../../../components/form/MyUploadField';
 import TextField from '../../../components/form/TextField';
 import MainWrapper from '../../../components/MainWrapper';
+import { countryInput } from '../../../constants/countryInput';
+import { countryOption } from '../../../constants/countryOption';
+import { phoneNumberInput } from '../../../constants/phoneNumberInput';
+import { phoneNumberOption } from '../../../constants/phoneNumberOption';
+import { useAppSelector } from '../../../hooks';
 import { useLazyGetCountriesQuery } from '../../onboarding/services/countryService';
 import ProfileCompletion from './ProfileCompletion';
 import ProfileHeader from './ProfileHeader';
@@ -19,16 +25,19 @@ interface Values {
     prefix: string;
     phoneNumber: string;
     dateOfBirth: string;
+    countryId: string;
+    profileImage: string;
 }
 
 const PersonalInformation = () => {
     const [getCountries, { data: countries }] = useLazyGetCountriesQuery();
 
-    const { t } = useTranslation();
+    //change later to fetch image from user service
+    const profileImage = useAppSelector(
+        (state) => state.tutorRegister.profileImage
+    );
 
-    useEffect(() => {
-        getCountries();
-    }, []);
+    const { t } = useTranslation();
 
     const initialValues: Values = {
         firstName: '',
@@ -36,6 +45,8 @@ const PersonalInformation = () => {
         prefix: '',
         phoneNumber: '',
         dateOfBirth: '',
+        countryId: '',
+        profileImage: '',
     };
 
     const handleSubmit = (values: Values) => {
@@ -53,6 +64,7 @@ const PersonalInformation = () => {
             prefix: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             phoneNumber: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             dateOfBirth: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            countryId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
         }),
     });
 
@@ -60,69 +72,9 @@ const PersonalInformation = () => {
         console.log(formik.values);
     }, [formik.values]);
 
-    const phoneNumberOption = (props: any) => {
-        const { innerProps } = props;
-        return (
-            <components.Option {...innerProps} {...props}>
-                {' '}
-                <div className="input-select">
-                    <div className="input-select__option flex flex--center">
-                        {/* <span className="input-select__icon"> */}
-                        {/* <span className="mr-2">{props.data.icon}</span> */}
-                        {/* </span> */}
-                        <div
-                            style={{
-                                width: '20px',
-                                height: '10px',
-                                backgroundColor: 'blue',
-                            }}
-                            className="mr-2"
-                        ></div>
-                        <span className="mr-6" style={{ width: '40px' }}>
-                            {props.data.phonePrefix}
-                        </span>
-                        <span>{props.data.name}</span>
-                    </div>
-                </div>
-            </components.Option>
-        );
-    };
-
-    const phoneNumberInput = (props: any) => {
-        if (props.data.icon) {
-            return (
-                <components.SingleValue {...props} className="input-select">
-                    <div className="input-select__option flex flex--center">
-                        <div
-                            style={{
-                                width: '20px',
-                                height: '10px',
-                                backgroundColor: 'blue',
-                            }}
-                            className="mr-2"
-                        ></div>
-                        <span>{props.data.phonePrefix}</span>
-                    </div>
-                </components.SingleValue>
-            );
-        } else {
-            return (
-                <components.SingleValue {...props} className="input-select">
-                    <div className="input-select__option flex flex--center">
-                        <div
-                            style={{
-                                width: '20px',
-                                height: '10px',
-                                backgroundColor: 'blue',
-                            }}
-                            className="mr-2"
-                        ></div>
-                        <span>{props.data.phonePrefix}</span>
-                    </div>
-                </components.SingleValue>
-            );
-        }
-    };
+    useEffect(() => {
+        getCountries();
+    }, []);
 
     return (
         <MainWrapper>
@@ -197,10 +149,10 @@ const PersonalInformation = () => {
                                                         'prefix'
                                                     )}
                                                     isMulti={false}
-                                                    classNamePrefix="prefix-select"
-                                                    className="phoneNumber-select"
                                                     options={countries}
-                                                    placeholder="Select pre"
+                                                    classNamePrefix="onboarding-select"
+                                                    className="w--120"
+                                                    placeholder="+00"
                                                     customInputField={
                                                         phoneNumberInput
                                                     }
@@ -208,29 +160,79 @@ const PersonalInformation = () => {
                                                         phoneNumberOption
                                                     }
                                                     isSearchable={false}
+                                                    withoutErr={
+                                                        formik.errors.prefix &&
+                                                        formik.touched.prefix
+                                                            ? false
+                                                            : true
+                                                    }
                                                 />
+                                                <div className="ml-4"></div>
                                                 <TextField
                                                     wrapperClassName="flex--grow"
                                                     name="phoneNumber"
                                                     placeholder="Enter your phone number"
-                                                    className="input input--base input--phone-number"
+                                                    className="input input--base"
+                                                    withoutErr={
+                                                        formik.errors
+                                                            .phoneNumber &&
+                                                        formik.touched
+                                                            .phoneNumber
+                                                            ? false
+                                                            : true
+                                                    }
                                                 />
+                                            </div>
+                                            <div className="flex flex--center">
+                                                {formik.errors.prefix &&
+                                                formik.touched.prefix ? (
+                                                    <div className="field__validation mr-4">
+                                                        {formik.errors.prefix
+                                                            ? formik.errors
+                                                                  .prefix
+                                                            : ''}
+                                                    </div>
+                                                ) : (
+                                                    <></>
+                                                )}
+                                                {formik.errors.phoneNumber &&
+                                                formik.touched.phoneNumber ? (
+                                                    <div className="field__validation">
+                                                        {formik.errors
+                                                            .phoneNumber
+                                                            ? formik.errors
+                                                                  .phoneNumber
+                                                            : ''}
+                                                    </div>
+                                                ) : (
+                                                    <></>
+                                                )}
                                             </div>
                                         </div>
                                     </div>
                                     <div className="col col-12 col-xl-6">
                                         <div className="field">
                                             <label
-                                                htmlFor="country"
+                                                htmlFor="countryId"
                                                 className="field__label"
                                             >
-                                                Select country
+                                                Country*
                                             </label>
-                                            <TextField
-                                                name="country"
-                                                id="country"
-                                                placeholder="Enter your country name"
-                                                disabled={true}
+
+                                            <MyCountrySelect
+                                                form={formik}
+                                                field={formik.getFieldProps(
+                                                    'countryId'
+                                                )}
+                                                meta={formik.getFieldMeta(
+                                                    'countryId'
+                                                )}
+                                                isMulti={false}
+                                                classNamePrefix="onboarding-select"
+                                                options={countries}
+                                                placeholder="Choose your country"
+                                                customInputField={countryInput}
+                                                customOption={countryOption}
                                             />
                                         </div>
                                     </div>
@@ -254,6 +256,49 @@ const PersonalInformation = () => {
                                         </div>
                                     </div>
                                 </div>
+                                {/* PICTURE */}
+                                <div className="flex mt-4">
+                                    <div>
+                                        <div className="mb-2 type--wgt--bold">
+                                            Profile Picture
+                                        </div>
+                                        <div className="type--color--tertiary w--200--max">
+                                            Upload or remove a new profile
+                                            picture (PNG or JPG)
+                                        </div>
+                                    </div>
+                                    <div className="flex flex--center flex--grow">
+                                        <div className="tutor-list__item__img">
+                                            <img
+                                                src="https://source.unsplash.com/random/300×300/?face"
+                                                alt="tutor-list"
+                                            />
+                                        </div>
+                                        <div className="field field__file">
+                                            <label
+                                                className="field__label"
+                                                htmlFor="profileImage"
+                                            >
+                                                Profile Image*
+                                            </label>
+                                            <UploadFile
+                                                setFieldValue={
+                                                    formik.setFieldValue
+                                                }
+                                                uploadedFile={(file: any) => {
+                                                    formik.setFieldValue(
+                                                        'profileImage',
+                                                        file
+                                                    );
+                                                }}
+                                                id="profileImage"
+                                                name="profileImage"
+                                                imagePreview={profileImage}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <button
                                     className="btn btn--primary btn--lg"
                                     type="submit"
