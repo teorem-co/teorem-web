@@ -29,6 +29,7 @@ const MyDatePicker = ({ field, form }: CustomSelectProps) => {
                 calendarClassName={'onboarding-calendar'}
                 clearIcon={null}
                 disableCalendar
+                // onBlur={() => form.setFieldTouched(field.name)}
             />
 
             <div className="field__validation">

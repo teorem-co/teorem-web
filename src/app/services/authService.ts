@@ -1,5 +1,6 @@
 import { baseService } from '../baseService';
 import { HttpMethods } from '../lookups/httpMethods';
+import typeToFormData from '../utils/typeToFormData';
 
 interface ILogin {
     email: string;
@@ -12,13 +13,44 @@ interface ILoginResponse {
         id: string;
     };
 }
-interface IRegister {
+interface IRegisterTutor {
     firstName: string;
     lastName: string;
     email: string;
     password: string;
     confirmPassword: string;
     roleAbrv: string;
+    countryId: string;
+    phonePrefix: string;
+    phoneNumber: string;
+    dateOfBirth: string;
+    profileImage: string;
+}
+
+interface IRegisterParent {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+    roleAbrv: string;
+    countryId: string;
+    phonePrefix: string;
+    phoneNumber: string;
+    dateOfBirth: string;
+}
+
+interface IRegisterStudent {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+    roleAbrv: string;
+    countryId: string;
+    phonePrefix: string;
+    phoneNumber: string;
+    dateOfBirth: string;
 }
 
 interface IResetPassword {
@@ -26,7 +58,6 @@ interface IResetPassword {
 }
 
 const URL = '/membership';
-
 export const authService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         login: builder.mutation<ILoginResponse, ILogin>({
@@ -43,11 +74,25 @@ export const authService = baseService.injectEndpoints({
                 body,
             }),
         }),
-        register: builder.mutation<void, IRegister>({
+        registerTutor: builder.mutation<void, IRegisterTutor>({
             query: (body) => ({
                 url: `${URL}/register`,
                 method: HttpMethods.POST,
-                body,
+                body: typeToFormData(body),
+            }),
+        }),
+        registerParent: builder.mutation<void, IRegisterParent>({
+            query: (body) => ({
+                url: `${URL}/register`,
+                method: HttpMethods.POST,
+                body: typeToFormData(body),
+            }),
+        }),
+        registerStudent: builder.mutation<void, IRegisterStudent>({
+            query: (body) => ({
+                url: `${URL}/register`,
+                method: HttpMethods.POST,
+                body: typeToFormData(body),
             }),
         }),
     }),
@@ -55,6 +100,8 @@ export const authService = baseService.injectEndpoints({
 
 export const {
     useLoginMutation,
-    useRegisterMutation,
+    useRegisterTutorMutation,
+    useRegisterParentMutation,
+    useRegisterStudentMutation,
     useResetPasswordMutation,
 } = authService;

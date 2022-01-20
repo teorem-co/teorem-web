@@ -1,17 +1,22 @@
 import { Form, FormikProvider, useFormik } from 'formik';
-import { useState } from 'react';
+import moment from 'moment';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { components } from 'react-select';
 import * as Yup from 'yup';
 
 import { setStepOne } from '../../../../slices/studentRegisterSlice';
+import MyCountrySelect from '../../../components/form/MyCountrySelect';
 import MyDatePicker from '../../../components/form/MyDatePicker';
+import MyPhoneSelect from '../../../components/form/MyPhoneSelect';
 import MySelect from '../../../components/form/MySelectField';
 import TextField from '../../../components/form/TextField';
-import { useAppDispatch } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useRegisterStudentMutation } from '../../../services/authService';
+import { useLazyGetCountriesQuery } from '../services/countryService';
 
 interface StepOneValues {
-    country: string;
+    countryId: string;
     prefix: string;
     phoneNumber: string;
     dateOfBirth: string;
@@ -27,68 +32,30 @@ const StudentOnboarding: React.FC<IProps> = ({
     handleGoBack,
     handleNextStep,
 }) => {
+    const [registerStudent, { isSuccess }] = useRegisterStudentMutation();
+    const state = useAppSelector((state) => state.studentRegister);
+    const roleAbrv = useAppSelector((state) => state.role.selectedRole);
+    const {
+        firstName,
+        lastName,
+        password,
+        passwordRepeat,
+        countryId,
+        prefix,
+        phoneNumber,
+        dateOfBirth,
+        email,
+    } = state;
     const dispatch = useAppDispatch();
     const { t } = useTranslation();
+    const [getCountries, { data: countries }] = useLazyGetCountriesQuery();
 
-    const options = [
-        {
-            value: 1,
-            text: 'Poland',
-            icon: <i className="icon icon--pl"></i>,
-        },
-        {
-            value: 2,
-            text: 'Afghanistan',
-            icon: <i className="icon icon--af"></i>,
-        },
-        {
-            value: 3,
-            text: 'Canada',
-            icon: <i className="icon icon--ca"></i>,
-        },
-    ];
-
-    const phoneOptions = [
-        {
-            value: 1,
-            number: '+98',
-            country: 'Afghanistan',
-            icon: <i className="icon icon--af"></i>,
-        },
-        {
-            value: 2,
-            number: '+355',
-            country: 'Albania',
-            icon: <i className="icon icon--al"></i>,
-        },
-        {
-            value: 3,
-            number: '+54',
-            country: 'Argentina',
-            icon: <i className="icon icon--ar"></i>,
-        },
-        {
-            value: 4,
-            number: '+61',
-            country: 'Australia',
-            icon: <i className="icon icon--au"></i>,
-        },
-        {
-            value: 4,
-            number: '+55',
-            country: 'Brazil',
-            icon: <i className="icon icon--br"></i>,
-        },
-        {
-            value: 4,
-            number: '+1',
-            country: 'Canda',
-            icon: <i className="icon icon--ca"></i>,
-        },
-    ];
+    useEffect(() => {
+        getCountries();
+    }, []);
 
     const initialValuesOne: StepOneValues = {
-        country: '',
+        countryId: '',
         prefix: '',
         phoneNumber: '',
         dateOfBirth: '',
@@ -100,7 +67,7 @@ const StudentOnboarding: React.FC<IProps> = ({
         validateOnBlur: true,
         enableReinitialize: true,
         validationSchema: Yup.object().shape({
-            country: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            countryId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             prefix: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             phoneNumber: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             dateOfBirth: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
@@ -108,26 +75,36 @@ const StudentOnboarding: React.FC<IProps> = ({
     });
 
     const handleSubmit = (values: StepOneValues) => {
-        dispatch(
-            setStepOne({
-                country: values.country,
-                prefix: values.prefix,
-                phoneNumber: values.phoneNumber,
-                dateOfBirth: values.dateOfBirth,
-            })
-        );
-        handleNextStep();
+        registerStudent({
+            firstName: firstName,
+            lastName: lastName,
+            password: password,
+            confirmPassword: passwordRepeat,
+            roleAbrv: roleAbrv ? roleAbrv : '',
+            countryId: values.countryId,
+            phonePrefix: values.prefix,
+            phoneNumber: values.phoneNumber,
+            dateOfBirth: moment(values.dateOfBirth).toISOString(),
+            email: email,
+        });
+        debugger;
     };
+
+    useEffect(() => {
+        if (isSuccess) {
+            handleNextStep();
+        }
+    });
 
     const countryInput = (props: any) => {
         if (props.data.icon) {
             return (
                 <components.SingleValue {...props} className="input-select">
                     <div className="input-select__option">
-                        <span className="input-select__icon mr-2">
+                        {/* <span className="input-select__icon mr-2">
                             {props.data.icon}
-                        </span>
-                        <span>{props.data.text}</span>
+                        </span> */}
+                        <span>{props.data.name}</span>
                     </div>
                 </components.SingleValue>
             );
@@ -135,7 +112,7 @@ const StudentOnboarding: React.FC<IProps> = ({
             return (
                 <components.SingleValue {...props} className="input-select">
                     <div className="input-select__option">
-                        <span>{props.data.text}</span>
+                        <span>{props.data.name}</span>
                     </div>
                 </components.SingleValue>
             );
@@ -146,19 +123,32 @@ const StudentOnboarding: React.FC<IProps> = ({
         if (props.data.icon) {
             return (
                 <components.SingleValue {...props} className="input-select">
-                    <div className="input-select__option">
-                        <span className="input-select__icon mr-2">
-                            {props.data.icon}
-                        </span>
-                        <span>{props.data.number}</span>
+                    <div className="input-select__option flex flex--center">
+                        <div
+                            style={{
+                                width: '20px',
+                                height: '10px',
+                                backgroundColor: 'blue',
+                            }}
+                            className="mr-2"
+                        ></div>
+                        <span>{props.data.phonePrefix}</span>
                     </div>
                 </components.SingleValue>
             );
         } else {
             return (
                 <components.SingleValue {...props} className="input-select">
-                    <div className="input-select__option">
-                        <span>{props.data.number}</span>
+                    <div className="input-select__option flex flex--center">
+                        <div
+                            style={{
+                                width: '20px',
+                                height: '10px',
+                                backgroundColor: 'blue',
+                            }}
+                            className="mr-2"
+                        ></div>
+                        <span>{props.data.phonePrefix}</span>
                     </div>
                 </components.SingleValue>
             );
@@ -172,8 +162,8 @@ const StudentOnboarding: React.FC<IProps> = ({
                 {' '}
                 <div className="input-select">
                     <div className="input-select__option">
-                        <span className="mr-2">{props.data.icon}</span>
-                        <span>{props.data.text}</span>
+                        {/* <span className="mr-2">{props.data.icon}</span> */}
+                        <span>{props.data.name}</span>
                     </div>
                 </div>
             </components.Option>
@@ -188,12 +178,20 @@ const StudentOnboarding: React.FC<IProps> = ({
                 <div className="input-select">
                     <div className="input-select__option flex flex--center">
                         {/* <span className="input-select__icon"> */}
-                        <span className="mr-2">{props.data.icon}</span>
+                        {/* <span className="mr-2">{props.data.icon}</span> */}
                         {/* </span> */}
+                        <div
+                            style={{
+                                width: '20px',
+                                height: '10px',
+                                backgroundColor: 'blue',
+                            }}
+                            className="mr-2"
+                        ></div>
                         <span className="mr-6" style={{ width: '40px' }}>
-                            {props.data.number}
+                            {props.data.phonePrefix}
                         </span>
-                        <span>{props.data.country}</span>
+                        <span>{props.data.name}</span>
                     </div>
                 </div>
             </components.Option>
@@ -203,19 +201,19 @@ const StudentOnboarding: React.FC<IProps> = ({
         <>
             <FormikProvider value={formik}>
                 <Form>
-                    <div>{JSON.stringify(formik.errors, null, 2)}</div>
+                    <div>{JSON.stringify(formik.values, null, 2)}</div>
                     <div className="field">
-                        <label htmlFor="country" className="field__label">
+                        <label htmlFor="countryId" className="field__label">
                             Country*
                         </label>
 
-                        <MySelect
+                        <MyCountrySelect
                             form={formik}
-                            field={formik.getFieldProps('country')}
-                            meta={formik.getFieldMeta('country')}
+                            field={formik.getFieldProps('countryId')}
+                            meta={formik.getFieldMeta('countryId')}
                             isMulti={false}
                             classNamePrefix="onboarding-select"
-                            options={options}
+                            options={countries}
                             placeholder="Choose your country"
                             customInputField={countryInput}
                             customOption={countryOption}
@@ -226,14 +224,14 @@ const StudentOnboarding: React.FC<IProps> = ({
                             Phone Number*
                         </label>
                         <div className="flex flex--center pos--rel">
-                            <MySelect
+                            <MyPhoneSelect
                                 form={formik}
                                 field={formik.getFieldProps('prefix')}
                                 meta={formik.getFieldMeta('prefix')}
                                 isMulti={false}
                                 classNamePrefix="prefix-select"
                                 className="phoneNumber-select"
-                                options={phoneOptions}
+                                options={countries}
                                 placeholder="Select pre"
                                 customInputField={phoneNumberInput}
                                 customOption={phoneNumberOption}

@@ -53,8 +53,10 @@ $role-selection-form-width: 448px;
         border: 1px dashed $color-primary-light;
         border-radius: $border-rounded;
         max-width: $role-selection-form-width;
+        max-height: 425px;
         padding: calc(#{$unit} * 6);
         margin-bottom: calc(#{$unit} * 4);
+        overflow-y: scroll;
     }
 
     &__item {

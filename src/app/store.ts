@@ -14,6 +14,7 @@ import {
 import storage from 'redux-persist/lib/storage';
 
 import authReducer from '../slices/authSlice';
+import childrenReducer from '../slices/childrenSlice';
 import parentRegisterReducer from '../slices/parentRegisterSlice';
 import roleReducer from '../slices/roleSlice';
 import studentRegisterReducer from '../slices/studentRegisterSlice';
@@ -39,6 +40,7 @@ const rootReducer = combineReducers({
     tutorRegister: tutorRegisterReducer,
     studentRegister: studentRegisterReducer,
     parentRegister: parentRegisterReducer,
+    children: childrenReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

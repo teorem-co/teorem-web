@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 
+import { resetParentRegister } from '../../../slices/parentRegisterSlice';
 import { RoleOptions } from '../../../slices/roleSlice';
-import { useAppSelector } from '../../hooks';
+import { resetStudentRegister } from '../../../slices/studentRegisterSlice';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
 import TrialPopup from '../register/TrialPopup';
 import logo from './../../../assets/images/logo.svg';
@@ -17,6 +20,7 @@ import TutorOnboarding from './components/TutorOnboarding';
 const Onboarding = () => {
     const [step, setStep] = useState<number>(1);
     const [trial, setTrial] = useState<boolean>(false);
+    const dispatch = useAppDispatch();
     const roleSelection = useAppSelector((state) => state.role.selectedRole);
     const history = useHistory();
     const { t } = useTranslation();
@@ -31,16 +35,25 @@ const Onboarding = () => {
         }
     };
 
-    const handleNextStep = () => {
+    const handleNextStepTutor = () => {
         if (step < 2) {
             setStep(step + 1);
         } else if (step === 2) {
             setTrial(true);
         }
     };
+    const handleNextStepParent = () => {
+        if (step < 2) {
+            setStep(step + 1);
+        } else if (step === 2) {
+            dispatch(resetParentRegister());
+            history.push('/');
+        }
+    };
 
     const handleNextStepStudent = () => {
-        setTrial(true);
+        dispatch(resetStudentRegister());
+        history.push('/');
     };
 
     return (
@@ -98,13 +111,8 @@ const Onboarding = () => {
                                     {step === 1 ? (
                                         <></>
                                     ) : step === 2 ? (
-                                        <div className="flex--primary mb-2">
-                                            <div className="type--wgt--regular">
-                                                Edit child's details
-                                            </div>
-                                            <div className="type--color--brand type--wgt--regular cur--pointer">
-                                                Add another child
-                                            </div>
+                                        <div className="type--wgt--regular mb-2">
+                                            Edit child's details
                                         </div>
                                     ) : (
                                         <></>
@@ -119,7 +127,7 @@ const Onboarding = () => {
                                 <>
                                     <TutorOnboarding
                                         step={step}
-                                        handleNextStep={handleNextStep}
+                                        handleNextStep={handleNextStepTutor}
                                         handleGoBack={handleGoBack}
                                     />
                                 </>
@@ -127,7 +135,7 @@ const Onboarding = () => {
                                 <>
                                     <ParentOnboarding
                                         step={step}
-                                        handleNextStep={handleNextStep}
+                                        handleNextStep={handleNextStepParent}
                                         handleGoBack={handleGoBack}
                                     />
                                 </>
@@ -141,11 +149,23 @@ const Onboarding = () => {
                                 history.push('/')
                             )}
                         </div>
-                        <div className="mt-8">
+                        <div className="flex--primary mt-8 w--448--max">
                             <div className="type--color--tertiary">
-                                {' '}
                                 {t('WATERMARK')}
                             </div>
+                            {roleSelection === RoleOptions.Parent &&
+                            step === 2 ? (
+                                <div>
+                                    {/* {t('LOGIN.ACCOUNT')}{' '} */}
+                                    You can add this later.{' '}
+                                    {/* <Link to={!isLoading ? PATHS.ROLE_SELECTION : '#'}>
+                        {t('LOGIN.REGISTER')}
+                    </Link> */}
+                                    <Link to={'/'}>Skip step</Link>
+                                </div>
+                            ) : (
+                                <></>
+                            )}
                         </div>
                     </div>
                 </div>

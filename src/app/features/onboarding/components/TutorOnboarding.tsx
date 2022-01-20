@@ -1,17 +1,27 @@
 import { Form, FormikProvider, useFormik } from 'formik';
+import moment from 'moment';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { components } from 'react-select';
 import * as Yup from 'yup';
 
-import { setStepOne, setStepTwo } from '../../../../slices/tutorRegisterSlice';
+import {
+    resetTutorRegister,
+    setStepOne,
+    setStepTwo,
+} from '../../../../slices/tutorRegisterSlice';
+import MyCountrySelect from '../../../components/form/MyCountrySelect';
 import MyDatePicker from '../../../components/form/MyDatePicker';
+import MyPhoneSelect from '../../../components/form/MyPhoneSelect';
 import MySelect from '../../../components/form/MySelectField';
 import UploadFile from '../../../components/form/MyUploadField';
 import TextField from '../../../components/form/TextField';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useRegisterTutorMutation } from '../../../services/authService';
+import { useLazyGetCountriesQuery } from '../services/countryService';
 
 interface StepOneValues {
-    country: string;
+    countryId: string;
     prefix: string;
     phoneNumber: string;
     dateOfBirth: string;
@@ -40,70 +50,32 @@ const TutorOnboarding: React.FC<IProps> = ({
 }) => {
     const dispatch = useAppDispatch();
     const state = useAppSelector((state) => state.tutorRegister);
-    const { firstName, lastName, email, password, passwordRepeat } = state;
+    const {
+        firstName,
+        lastName,
+        email,
+        password,
+        passwordRepeat,
+        countryId,
+        prefix,
+        phoneNumber,
+        dateOfBirth,
+    } = state;
+    const roleAbrv = useAppSelector((state) => state.role.selectedRole);
+    const [getCountries, { data: countries }] = useLazyGetCountriesQuery();
+    const [registerTutor, { isSuccess, isLoading }] =
+        useRegisterTutorMutation();
     const profileImage = useAppSelector(
         (state) => state.tutorRegister.profileImage
     );
     const { t } = useTranslation();
-    const options = [
-        {
-            value: 1,
-            text: 'Poland',
-            icon: <i className="icon icon--pl"></i>,
-        },
-        {
-            value: 2,
-            text: 'Afghanistan',
-            icon: <i className="icon icon--af"></i>,
-        },
-        {
-            value: 3,
-            text: 'Canada',
-            icon: <i className="icon icon--ca"></i>,
-        },
-    ];
 
-    const phoneOptions = [
-        {
-            value: 1,
-            number: '+98',
-            country: 'Afghanistan',
-            icon: <i className="icon icon--af"></i>,
-        },
-        {
-            value: 2,
-            number: '+355',
-            country: 'Albania',
-            icon: <i className="icon icon--al"></i>,
-        },
-        {
-            value: 3,
-            number: '+54',
-            country: 'Argentina',
-            icon: <i className="icon icon--ar"></i>,
-        },
-        {
-            value: 4,
-            number: '+61',
-            country: 'Australia',
-            icon: <i className="icon icon--au"></i>,
-        },
-        {
-            value: 5,
-            number: '+55',
-            country: 'Brazil',
-            icon: <i className="icon icon--br"></i>,
-        },
-        {
-            value: 6,
-            number: '+1',
-            country: 'Canda',
-            icon: <i className="icon icon--ca"></i>,
-        },
-    ];
+    useEffect(() => {
+        getCountries();
+    }, []);
 
     const initialValuesOne: StepOneValues = {
-        country: '',
+        countryId: '',
         prefix: '',
         phoneNumber: '',
         dateOfBirth: '',
@@ -125,11 +97,11 @@ const TutorOnboarding: React.FC<IProps> = ({
         validateOnBlur: true,
         enableReinitialize: true,
         validationSchema: Yup.object().shape({
-            country: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            countryId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             prefix: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             phoneNumber: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             dateOfBirth: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            profileImage: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            profileImage: Yup.string(),
         }),
     });
 
@@ -139,28 +111,35 @@ const TutorOnboarding: React.FC<IProps> = ({
         validateOnBlur: true,
         enableReinitialize: true,
         validationSchema: Yup.object().shape({
-            firstName: Yup.string()
-                // .min(2, t('FORM_VALIDATION.TOO_SHORT'))
-                .max(100, t('FORM_VALIDATION.TOO_LONG'))
-                .required(t('FORM_VALIDATION.REQUIRED')),
-            lastName: Yup.string()
-                // .min(2, t('FORM_VALIDATION.TOO_SHORT'))
-                .max(100, t('FORM_VALIDATION.TOO_LONG'))
-                .required(t('FORM_VALIDATION.REQUIRED')),
-            cardNumber: Yup.string()
-                .min(16, t('FORM_VALIDATION.TOO_SHORT'))
-                .max(16, t('FORM_VALIDATION.TOO_LONG'))
-                .required(t('FORM_VALIDATION.REQUIRED')),
-            expiryDate: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            cvv: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            zipCode: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            firstName: Yup.string(),
+            // .min(2, t('FORM_VALIDATION.TOO_SHORT'))
+            // .max(100, t('FORM_VALIDATION.TOO_LONG'))
+            // .required(t('FORM_VALIDATION.REQUIRED')),
+            // lastName: Yup.string()
+            // .min(2, t('FORM_VALIDATION.TOO_SHORT'))
+            // .max(100, t('FORM_VALIDATION.TOO_LONG'))
+            // // .required(t('FORM_VALIDATION.REQUIRED')),
+            // cardNumber: Yup.string()
+            // .min(16, t('FORM_VALIDATION.TOO_SHORT'))
+            // .max(16, t('FORM_VALIDATION.TOO_LONG'))
+            // // .required(t('FORM_VALIDATION.REQUIRED')),
+            // // expiryDate: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            // // cvv: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            // // zipCode: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
         }),
     });
 
     const handleSubmitStepOne = (values: StepOneValues) => {
+        const test = {
+            countryId: values.countryId,
+            prefix: values.prefix,
+            phoneNumber: values.phoneNumber,
+            dateOfBirth: values.dateOfBirth,
+            profileImage: values.profileImage,
+        };
         dispatch(
             setStepOne({
-                country: values.country,
+                countryId: values.countryId,
                 prefix: values.prefix,
                 phoneNumber: values.phoneNumber,
                 dateOfBirth: values.dateOfBirth,
@@ -181,18 +160,37 @@ const TutorOnboarding: React.FC<IProps> = ({
                 zipCode: values.zipCode,
             })
         );
-        handleNextStep();
+        registerTutor({
+            firstName: firstName,
+            lastName: lastName,
+            password: password,
+            confirmPassword: passwordRepeat,
+            roleAbrv: roleAbrv ? roleAbrv : '',
+            countryId: countryId,
+            phonePrefix: prefix,
+            phoneNumber: phoneNumber,
+            dateOfBirth: moment(dateOfBirth).toISOString(),
+            email: email,
+            profileImage: profileImage,
+        });
     };
+
+    useEffect(() => {
+        if (isSuccess) {
+            resetTutorRegister();
+            handleNextStep();
+        }
+    }, [isSuccess]);
 
     const countryInput = (props: any) => {
         if (props.data.icon) {
             return (
                 <components.SingleValue {...props} className="input-select">
                     <div className="input-select__option">
-                        <span className="input-select__icon mr-2">
+                        {/* <span className="input-select__icon mr-2">
                             {props.data.icon}
-                        </span>
-                        <span>{props.data.text}</span>
+                        </span> */}
+                        <span>{props.data.name}</span>
                     </div>
                 </components.SingleValue>
             );
@@ -200,7 +198,7 @@ const TutorOnboarding: React.FC<IProps> = ({
             return (
                 <components.SingleValue {...props} className="input-select">
                     <div className="input-select__option">
-                        <span>{props.data.text}</span>
+                        <span>{props.data.name}</span>
                     </div>
                 </components.SingleValue>
             );
@@ -211,19 +209,32 @@ const TutorOnboarding: React.FC<IProps> = ({
         if (props.data.icon) {
             return (
                 <components.SingleValue {...props} className="input-select">
-                    <div className="input-select__option">
-                        <span className="input-select__icon mr-2">
-                            {props.data.icon}
-                        </span>
-                        <span>{props.data.number}</span>
+                    <div className="input-select__option flex flex--center">
+                        <div
+                            style={{
+                                width: '20px',
+                                height: '10px',
+                                backgroundColor: 'blue',
+                            }}
+                            className="mr-2"
+                        ></div>
+                        <span>{props.data.phonePrefix}</span>
                     </div>
                 </components.SingleValue>
             );
         } else {
             return (
                 <components.SingleValue {...props} className="input-select">
-                    <div className="input-select__option">
-                        <span>{props.data.number}</span>
+                    <div className="input-select__option flex flex--center">
+                        <div
+                            style={{
+                                width: '20px',
+                                height: '10px',
+                                backgroundColor: 'blue',
+                            }}
+                            className="mr-2"
+                        ></div>
+                        <span>{props.data.phonePrefix}</span>
                     </div>
                 </components.SingleValue>
             );
@@ -237,8 +248,8 @@ const TutorOnboarding: React.FC<IProps> = ({
                 {' '}
                 <div className="input-select">
                     <div className="input-select__option">
-                        <span className="mr-2">{props.data.icon}</span>
-                        <span>{props.data.text}</span>
+                        {/* <span className="mr-2">{props.data.icon}</span> */}
+                        <span>{props.data.name}</span>
                     </div>
                 </div>
             </components.Option>
@@ -253,12 +264,20 @@ const TutorOnboarding: React.FC<IProps> = ({
                 <div className="input-select">
                     <div className="input-select__option flex flex--center">
                         {/* <span className="input-select__icon"> */}
-                        <span className="mr-2">{props.data.icon}</span>
+                        {/* <span className="mr-2">{props.data.icon}</span> */}
                         {/* </span> */}
+                        <div
+                            style={{
+                                width: '20px',
+                                height: '10px',
+                                backgroundColor: 'blue',
+                            }}
+                            className="mr-2"
+                        ></div>
                         <span className="mr-6" style={{ width: '40px' }}>
-                            {props.data.number}
+                            {props.data.phonePrefix}
                         </span>
-                        <span>{props.data.country}</span>
+                        <span>{props.data.name}</span>
                     </div>
                 </div>
             </components.Option>
@@ -270,19 +289,19 @@ const TutorOnboarding: React.FC<IProps> = ({
         return (
             <FormikProvider value={formikStepOne}>
                 <Form>
-                    {/* <div>{JSON.stringify(formikStepOne.values, null, 2)}</div> */}
+                    <div>{JSON.stringify(formikStepOne.values, null, 2)}</div>
                     <div className="field">
-                        <label htmlFor="country" className="field__label">
+                        <label htmlFor="countryId" className="field__label">
                             Country*
                         </label>
 
-                        <MySelect
+                        <MyCountrySelect
                             form={formikStepOne}
-                            field={formikStepOne.getFieldProps('country')}
-                            meta={formikStepOne.getFieldMeta('country')}
+                            field={formikStepOne.getFieldProps('countryId')}
+                            meta={formikStepOne.getFieldMeta('countryId')}
                             isMulti={false}
                             classNamePrefix="onboarding-select"
-                            options={options}
+                            options={countries}
                             placeholder="Choose your country"
                             customInputField={countryInput}
                             customOption={countryOption}
@@ -293,14 +312,14 @@ const TutorOnboarding: React.FC<IProps> = ({
                             Phone Number*
                         </label>
                         <div className="flex flex--center pos--rel">
-                            <MySelect
+                            <MyPhoneSelect
                                 form={formikStepOne}
                                 field={formikStepOne.getFieldProps('prefix')}
                                 meta={formikStepOne.getFieldMeta('prefix')}
                                 isMulti={false}
                                 classNamePrefix="prefix-select"
                                 className="phoneNumber-select"
-                                options={phoneOptions}
+                                options={countries}
                                 placeholder="Select pre"
                                 customInputField={phoneNumberInput}
                                 customOption={phoneNumberOption}

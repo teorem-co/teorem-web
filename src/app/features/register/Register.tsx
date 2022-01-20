@@ -10,7 +10,7 @@ import { setRegister } from '../../../slices/tutorRegisterSlice';
 import TextField from '../../components/form/TextField';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
-import { useRegisterMutation } from '../../services/authService';
+import { useRegisterTutorMutation } from '../../services/authService';
 import toastService from '../../services/toastService';
 import { getUserRoleAbrv } from '../../utils/getUserRoleAbrv';
 import logo from './../../../assets/images/logo.svg';
@@ -33,7 +33,7 @@ const Register: React.FC = () => {
     const roleSelection = useAppSelector((state) => state.role.selectedRole);
     const [passTooltip, setPassTooltip] = useState<boolean>(false);
 
-    const [register, { isSuccess, isLoading }] = useRegisterMutation();
+    const [register, { isSuccess, isLoading }] = useRegisterTutorMutation();
 
     const initialValues: Values = {
         firstName: '',
@@ -78,7 +78,6 @@ const Register: React.FC = () => {
     });
 
     const handleSubmit = (values: Values) => {
-        // debugger;
         //no roleSelection is already handleded by redirecting to role selection screen
         if (roleSelection) {
             dispatch(
@@ -100,13 +99,13 @@ const Register: React.FC = () => {
         history.push(PATHS.ROLE_SELECTION);
     };
 
-    useEffect(() => {
-        if (isSuccess) {
-            // debugger;
-            history.push('/test');
-            toastService.success('You are registered successfully.');
-        }
-    }, [isSuccess]);
+    // useEffect(() => {
+    //     if (isSuccess) {
+    //         // debugger;
+    //         history.push('/test');
+    //         toastService.success('You are registered successfully.');
+    //     }
+    // }, [isSuccess]);
 
     useEffect(() => {
         //if role selection is empty, redirect to role selection screen

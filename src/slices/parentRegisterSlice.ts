@@ -1,5 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import IChildListOption from '../interfaces/IChildListOption';
+
 interface IRegister {
     firstName: string;
     lastName: string;
@@ -36,6 +38,7 @@ interface IState {
     childFirstName: string;
     childLastName: string;
     childDateOfBirth: string;
+    child: IChildListOption[] | [];
 }
 
 const initialState: IState = {
@@ -52,6 +55,7 @@ const initialState: IState = {
     childLastName: '',
     childDateOfBirth: '',
     roleSelection: '',
+    child: [],
 };
 
 export const parentRegisterSlice = createSlice({
@@ -89,6 +93,9 @@ export const parentRegisterSlice = createSlice({
             state.childLastName = childLastName;
             state.childDateOfBirth = childDateOfBirth;
         },
+        setChildList(state, action: PayloadAction<IChildListOption[]>) {
+            state.child = action.payload;
+        },
         resetParentRegister(state) {
             state.firstName = '';
             state.lastName = '';
@@ -106,7 +113,12 @@ export const parentRegisterSlice = createSlice({
     },
 });
 
-export const { setRegister, setStepOne, setStepTwo, resetParentRegister } =
-    parentRegisterSlice.actions;
+export const {
+    setRegister,
+    setStepOne,
+    setStepTwo,
+    resetParentRegister,
+    setChildList,
+} = parentRegisterSlice.actions;
 
 export default parentRegisterSlice.reducer;
