@@ -1,0 +1,17 @@
+/*
+    components: my-reviews.scss;
+*/
+
+.my-reviews {
+    &__wrapper {
+        display: flex;
+    }
+    &__aside {
+        flex-shrink: 0;
+        width: 300px;
+    }
+    &__main {
+        flex-grow: 1;
+        padding-right: calc(#{$unit} * 12);
+    }
+}

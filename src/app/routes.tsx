@@ -2,6 +2,7 @@ import { NavLink, Route, Switch } from 'react-router-dom';
 
 import Login from './features/login/Login';
 import MyBookings from './features/my-bookings/MyBookings';
+import MyReviews from './features/myReviews/MyReviews';
 import Onboarding from './features/onboarding/Onboarding';
 import Register from './features/register/Register';
 import ResetPassword from './features/reset-password/ResetPassword';
@@ -20,6 +21,7 @@ export enum PATHS {
     MY_BOOKINGS = '/my-bookings',
     SEARCH_TUTORS = '/search-tutors',
     ONBOARDING = '/onboarding',
+    MY_REVIEWS = '/my-reviews',
 }
 
 interface IMenuItem {
@@ -80,7 +82,7 @@ const ROUTES: any = [
         path: PATHS.MY_BOOKINGS,
         key: 'MY_BOOKINGS',
         exact: true,
-        component: (props: any) => (
+        component: () => (
             <PermissionsGate
                 roles={[Role.Tutor, Role.Parent, Role.Student, Role.SuperAdmin]}
             >
@@ -89,10 +91,20 @@ const ROUTES: any = [
         ),
     },
     {
+        path: PATHS.MY_REVIEWS,
+        key: 'MY_REVIEWS',
+        exact: true,
+        component: () => (
+            <PermissionsGate roles={[Role.Tutor, Role.SuperAdmin]}>
+                <MyReviews />
+            </PermissionsGate>
+        ),
+    },
+    {
         path: PATHS.SEARCH_TUTORS,
         key: 'SEARCH_TUTORS',
         exact: true,
-        component: (props: any) => (
+        component: () => (
             <PermissionsGate
                 roles={[Role.Parent, Role.Student, Role.SuperAdmin]}
             >
@@ -138,6 +150,12 @@ export const menuPerRole: IMenuPerRole = {
             icon: 'calendar',
             key: 'MY_BOOKINGS',
             path: PATHS.MY_BOOKINGS,
+        },
+        {
+            name: 'My Reviews',
+            icon: 'reviews',
+            key: 'MY_REVIEWS',
+            path: PATHS.MY_REVIEWS,
         },
     ],
     [Role.Student]: [
