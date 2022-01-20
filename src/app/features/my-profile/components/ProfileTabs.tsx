@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 
-import { PATHS } from '../../../routes';
+import { PROFILE_PATHS } from '../../../routes';
 
 const ProfileTabs = () => {
     return (
@@ -9,14 +9,14 @@ const ProfileTabs = () => {
             <NavLink
                 className="tab--primary__item"
                 exact
-                to={PATHS.MY_PROFILE_INFO}
+                to={PROFILE_PATHS.MY_PROFILE_INFO_PERSONAL}
             >
-                <span>PERSONAL INFORMATION</span>
+                <span>INFORMATION</span>
             </NavLink>
             <NavLink
                 className="tab--primary__item"
                 exact
-                to={PATHS.MY_PROFILE_ACCOUNT}
+                to={PROFILE_PATHS.MY_PROFILE_ACCOUNT}
             >
                 <span>ACCOUNT</span>
             </NavLink>

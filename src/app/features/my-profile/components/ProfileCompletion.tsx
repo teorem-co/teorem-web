@@ -1,3 +1,6 @@
+import { NavLink } from 'react-router-dom';
+
+import { PROFILE_PATHS } from '../../../routes';
 import CircularProgress from './CircularProgress';
 
 const ProfileCompletion = () => {
@@ -18,46 +21,46 @@ const ProfileCompletion = () => {
                 </div>
             </div>
             <div className="flex flex--grow flex--jc--space-evenly flex--center">
-                <div className="flex flex--col flex--center">
-                    <div className="icon-wrapper icon-wrapper--circle icon-wrapper--primary">
-                        <i className="icon icon--base icon--check icon--white"></i>
+                <NavLink exact to={PROFILE_PATHS.MY_PROFILE_INFO_PERSONAL}>
+                    <div className="flex flex--col flex--center">
+                        <div className="icon-wrapper icon-wrapper--circle icon-wrapper--primary">
+                            <i className="icon icon--base icon--check icon--white"></i>
+                        </div>
+                        <div className="type--center mt-4 pl-2 pr-2">
+                            Personal Information
+                        </div>
                     </div>
-                    <div className="type--center mt-4 pl-2 pr-2">
-                        Personal Information
+                </NavLink>
+                <NavLink exact to={PROFILE_PATHS.MY_PROFILE_INFO_AVAILABILITY}>
+                    <div className="flex flex--col flex--center">
+                        <div className="icon-wrapper icon-wrapper--circle icon-wrapper--primary">
+                            <i className="icon icon--base icon--check icon--white"></i>
+                        </div>
+                        <div className="type--center mt-4 pl-2 pr-2">
+                            General Availability
+                        </div>
                     </div>
-                </div>
-                <div className="flex flex--col flex--center">
-                    <div className="icon-wrapper icon-wrapper--circle icon-wrapper--primary">
-                        <i className="icon icon--base icon--check icon--white"></i>
+                </NavLink>
+                <NavLink exact to={PROFILE_PATHS.MY_PROFILE_INFO_TEACHINGS}>
+                    <div className="flex flex--col flex--center">
+                        <div className="icon-wrapper icon-wrapper--circle icon-wrapper--primary">
+                            <i className="icon icon--base icon--check icon--white"></i>
+                        </div>
+                        <div className="type--center mt-4 pl-2 pr-2">
+                            My Teachings
+                        </div>
                     </div>
-                    <div className="type--center mt-4 pl-2 pr-2">
-                        Profile Picture
+                </NavLink>
+                <NavLink exact to={PROFILE_PATHS.MY_PROFILE_INFO_ADDITIONAL}>
+                    <div className="flex flex--col flex--center">
+                        <div className="icon-wrapper icon-wrapper--circle icon-wrapper--primary">
+                            <i className="icon icon--base icon--check icon--white"></i>
+                        </div>
+                        <div className="type--center mt-4 pl-2 pr-2">
+                            Additional Information
+                        </div>
                     </div>
-                </div>
-                <div className="flex flex--col flex--center">
-                    <div className="icon-wrapper icon-wrapper--circle  icon-wrapper--primary--lighter">
-                        <i className="icon icon--base icon--edit icon--primary"></i>
-                    </div>
-                    <div className="type--center mt-4 pl-2 pr-2">
-                        General Availability
-                    </div>
-                </div>
-                <div className="flex flex--col flex--center">
-                    <div className="icon-wrapper icon-wrapper--circle  icon-wrapper--primary--lighter">
-                        <i className="icon icon--base icon--edit icon--primary"></i>
-                    </div>
-                    <div className="type--center mt-4 pl-2 pr-2">
-                        My teachings
-                    </div>
-                </div>
-                <div className="flex flex--col flex--center">
-                    <div className="icon-wrapper icon-wrapper--circle  icon-wrapper--primary--lighter">
-                        <i className="icon icon--base icon--edit icon--primary"></i>
-                    </div>
-                    <div className="type--center mt-4 pl-2 pr-2">
-                        Aditional Information
-                    </div>
-                </div>
+                </NavLink>
             </div>
         </div>
     );
