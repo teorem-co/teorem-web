@@ -16,7 +16,6 @@ const ProfileHeader: FC<Props> = (props: Props) => {
                 <button className="btn btn--clear btn--base type--wgt--bold">
                     Preview Profile
                 </button>
-                <button className="btn btn--primary btn--lg">Save</button>
             </div>
         </div>
     );
