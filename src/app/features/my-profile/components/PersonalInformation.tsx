@@ -324,7 +324,6 @@ const PersonalInformation = () => {
                                         </div>
                                     </div>
                                 </div>
-
                                 <button
                                     className="btn btn--primary btn--lg"
                                     type="submit"
