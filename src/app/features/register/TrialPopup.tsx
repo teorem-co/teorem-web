@@ -3,6 +3,7 @@ import { useHistory } from 'react-router';
 
 import logo from '../../../assets/images/logo.svg';
 import { resetSelectedRole } from '../../../slices/roleSlice';
+import { resetTutorRegister } from '../../../slices/tutorRegisterSlice';
 import { useAppDispatch } from '../../hooks';
 
 const TrialPopup = () => {
@@ -16,6 +17,7 @@ const TrialPopup = () => {
     useEffect(() => {
         return () => {
             dispatch(resetSelectedRole());
+            dispatch(resetTutorRegister());
         };
     }, []);
     return (
