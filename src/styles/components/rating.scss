@@ -26,4 +26,19 @@
             height: 6px;
         }
     }
+    &__stars {
+        position: relative;
+        display: block;
+        mask-image: url('./../../assets/icons/rating.svg');
+        width: 150px;
+        height: 24px;
+        background-color: $grey-ed;
+        &__fill {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            background-color: $color-primary;
+        }
+    }
 }

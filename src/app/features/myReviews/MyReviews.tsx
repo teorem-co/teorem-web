@@ -25,16 +25,16 @@ const MyReviews = () => {
                                     Reviews
                                 </span>
                                 <span className="tag--primary d--ib ml-2">
-                                    15
+                                    {MyReviewsList.length}
                                 </span>
                             </div>
                             <div>
-                                <span>Sort by</span>
+                                {/* <span>Sort by</span>
                                 &nbsp;
                                 <span className="type--color--brand">
                                     Most relevant
                                 </span>
-                                <i className="icon icon--base icon--chevron-down icon--primary"></i>
+                                <i className="icon icon--base icon--chevron-down icon--primary"></i> */}
                             </div>
                         </div>
                         <div className="reviews-list">
@@ -54,7 +54,19 @@ const MyReviews = () => {
                                         </div>
                                         <div>
                                             <div className="flex--primary mb-2">
-                                                <div>zvjezdice</div>
+                                                <div>
+                                                    <div className="rating__stars">
+                                                        <div
+                                                            className="rating__stars__fill"
+                                                            style={{
+                                                                width: `${
+                                                                    item.rating *
+                                                                    20
+                                                                }%`,
+                                                            }}
+                                                        ></div>
+                                                    </div>
+                                                </div>
                                                 <div className="tag--primary">
                                                     {item.subject}
                                                 </div>
