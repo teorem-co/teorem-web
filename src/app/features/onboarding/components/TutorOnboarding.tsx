@@ -16,6 +16,10 @@ import MyPhoneSelect from '../../../components/form/MyPhoneSelect';
 import MySelect from '../../../components/form/MySelectField';
 import UploadFile from '../../../components/form/MyUploadField';
 import TextField from '../../../components/form/TextField';
+import { countryInput } from '../../../constants/countryInput';
+import { countryOption } from '../../../constants/countryOption';
+import { phoneNumberInput } from '../../../constants/phoneNumberInput';
+import { phoneNumberOption } from '../../../constants/phoneNumberOption';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { useRegisterTutorMutation } from '../../../services/authService';
 import { useLazyGetCountriesQuery } from '../services/countryService';
@@ -181,108 +185,6 @@ const TutorOnboarding: React.FC<IProps> = ({
             handleNextStep();
         }
     }, [isSuccess]);
-
-    const countryInput = (props: any) => {
-        if (props.data.icon) {
-            return (
-                <components.SingleValue {...props} className="input-select">
-                    <div className="input-select__option">
-                        {/* <span className="input-select__icon mr-2">
-                            {props.data.icon}
-                        </span> */}
-                        <span>{props.data.name}</span>
-                    </div>
-                </components.SingleValue>
-            );
-        } else {
-            return (
-                <components.SingleValue {...props} className="input-select">
-                    <div className="input-select__option">
-                        <span>{props.data.name}</span>
-                    </div>
-                </components.SingleValue>
-            );
-        }
-    };
-
-    const phoneNumberInput = (props: any) => {
-        if (props.data.icon) {
-            return (
-                <components.SingleValue {...props} className="input-select">
-                    <div className="input-select__option flex flex--center">
-                        <div
-                            style={{
-                                width: '20px',
-                                height: '10px',
-                                backgroundColor: 'blue',
-                            }}
-                            className="mr-2"
-                        ></div>
-                        <span>{props.data.phonePrefix}</span>
-                    </div>
-                </components.SingleValue>
-            );
-        } else {
-            return (
-                <components.SingleValue {...props} className="input-select">
-                    <div className="input-select__option flex flex--center">
-                        <div
-                            style={{
-                                width: '20px',
-                                height: '10px',
-                                backgroundColor: 'blue',
-                            }}
-                            className="mr-2"
-                        ></div>
-                        <span>{props.data.phonePrefix}</span>
-                    </div>
-                </components.SingleValue>
-            );
-        }
-    };
-
-    const countryOption = (props: any) => {
-        const { innerProps } = props;
-        return (
-            <components.Option {...innerProps} {...props}>
-                {' '}
-                <div className="input-select">
-                    <div className="input-select__option">
-                        {/* <span className="mr-2">{props.data.icon}</span> */}
-                        <span>{props.data.name}</span>
-                    </div>
-                </div>
-            </components.Option>
-        );
-    };
-
-    const phoneNumberOption = (props: any) => {
-        const { innerProps } = props;
-        return (
-            <components.Option {...innerProps} {...props}>
-                {' '}
-                <div className="input-select">
-                    <div className="input-select__option flex flex--center">
-                        {/* <span className="input-select__icon"> */}
-                        {/* <span className="mr-2">{props.data.icon}</span> */}
-                        {/* </span> */}
-                        <div
-                            style={{
-                                width: '20px',
-                                height: '10px',
-                                backgroundColor: 'blue',
-                            }}
-                            className="mr-2"
-                        ></div>
-                        <span className="mr-6" style={{ width: '40px' }}>
-                            {props.data.phonePrefix}
-                        </span>
-                        <span>{props.data.name}</span>
-                    </div>
-                </div>
-            </components.Option>
-        );
-    };
     // console.log(firstName, lastName, email, password, passwordRepeat);
 
     const stepOne = () => {
@@ -317,20 +219,55 @@ const TutorOnboarding: React.FC<IProps> = ({
                                 field={formikStepOne.getFieldProps('prefix')}
                                 meta={formikStepOne.getFieldMeta('prefix')}
                                 isMulti={false}
-                                classNamePrefix="prefix-select"
-                                className="phoneNumber-select"
                                 options={countries}
-                                placeholder="Select pre"
+                                classNamePrefix="onboarding-select"
+                                className="w--120"
+                                placeholder="+00"
                                 customInputField={phoneNumberInput}
                                 customOption={phoneNumberOption}
                                 isSearchable={false}
+                                withoutErr={
+                                    formikStepOne.errors.prefix &&
+                                    formikStepOne.touched.prefix
+                                        ? false
+                                        : true
+                                }
                             />
+                            <div className="ml-4"></div>
                             <TextField
                                 wrapperClassName="flex--grow"
                                 name="phoneNumber"
                                 placeholder="Enter your phone number"
-                                className="input input--base input--phone-number pl-0"
+                                className="input input--base"
+                                withoutErr={
+                                    formikStepOne.errors.phoneNumber &&
+                                    formikStepOne.touched.phoneNumber
+                                        ? false
+                                        : true
+                                }
                             />
+                        </div>
+                        <div className="flex flex--center">
+                            {formikStepOne.errors.prefix &&
+                            formikStepOne.touched.prefix ? (
+                                <div className="field__validation mr-4">
+                                    {formikStepOne.errors.prefix
+                                        ? formikStepOne.errors.prefix
+                                        : ''}
+                                </div>
+                            ) : (
+                                <></>
+                            )}
+                            {formikStepOne.errors.phoneNumber &&
+                            formikStepOne.touched.phoneNumber ? (
+                                <div className="field__validation">
+                                    {formikStepOne.errors.phoneNumber
+                                        ? formikStepOne.errors.phoneNumber
+                                        : ''}
+                                </div>
+                            ) : (
+                                <></>
+                            )}
                         </div>
                     </div>
                     <div className="field">

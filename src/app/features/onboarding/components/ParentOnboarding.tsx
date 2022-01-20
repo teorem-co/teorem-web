@@ -1,7 +1,7 @@
 import { Form, FormikProvider, useFormik, useFormikContext } from 'formik';
 import _ from 'lodash';
 import moment from 'moment';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import DatePicker from 'react-date-picker';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
@@ -17,9 +17,15 @@ import {
     setStepTwo,
 } from '../../../../slices/parentRegisterSlice';
 import MyDatePicker from '../../../components/form/MyDatePicker';
+import MyPhoneSelect from '../../../components/form/MyPhoneSelect';
 import MySelect from '../../../components/form/MySelectField';
 import TextField from '../../../components/form/TextField';
+import { countryInput } from '../../../constants/countryInput';
+import { countryOption } from '../../../constants/countryOption';
+import { phoneNumberInput } from '../../../constants/phoneNumberInput';
+import { phoneNumberOption } from '../../../constants/phoneNumberOption';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useLazyGetCountriesQuery } from '../services/countryService';
 
 interface StepOneValues {
     country: string;
@@ -51,6 +57,12 @@ const ParentOnboarding: React.FC<IProps> = ({
     const childDetail = useAppSelector((state) => state.parentRegister);
     const { childFirstName, childLastName, childDateOfBirth } = childDetail;
     const [childId, setChildId] = useState<string>('');
+    const [getCountries, { data: countries }] = useLazyGetCountriesQuery();
+
+    useEffect(() => {
+        getCountries();
+    }, []);
+
     const [initialValuesOne, setInitialValuesOne] = useState<StepOneValues>({
         country: '',
         phoneNumber: '',
@@ -65,63 +77,6 @@ const ParentOnboarding: React.FC<IProps> = ({
     const id = _.uniqueId();
     const { child } = state;
     const { t } = useTranslation();
-
-    const options = [
-        {
-            value: 1,
-            text: 'Poland',
-            icon: <i className="icon icon--pl"></i>,
-        },
-        {
-            value: 2,
-            text: 'Afghanistan',
-            icon: <i className="icon icon--af"></i>,
-        },
-        {
-            value: 3,
-            text: 'Canada',
-            icon: <i className="icon icon--ca"></i>,
-        },
-    ];
-
-    const phoneOptions = [
-        {
-            value: 1,
-            number: '+98',
-            country: 'Afghanistan',
-            icon: <i className="icon icon--af"></i>,
-        },
-        {
-            value: 2,
-            number: '+355',
-            country: 'Albania',
-            icon: <i className="icon icon--al"></i>,
-        },
-        {
-            value: 3,
-            number: '+54',
-            country: 'Argentina',
-            icon: <i className="icon icon--ar"></i>,
-        },
-        {
-            value: 4,
-            number: '+61',
-            country: 'Australia',
-            icon: <i className="icon icon--au"></i>,
-        },
-        {
-            value: 4,
-            number: '+55',
-            country: 'Brazil',
-            icon: <i className="icon icon--br"></i>,
-        },
-        {
-            value: 4,
-            number: '+1',
-            country: 'Canda',
-            icon: <i className="icon icon--ca"></i>,
-        },
-    ];
 
     const handleSubmit = (values: any) => {
         console.log(values);
@@ -222,87 +177,6 @@ const ParentOnboarding: React.FC<IProps> = ({
         }
     };
 
-    const countryInput = (props: any) => {
-        if (props.data.icon) {
-            return (
-                <components.SingleValue {...props} className="input-select">
-                    <div className="input-select__option">
-                        <span className="input-select__icon mr-2">
-                            {props.data.icon}
-                        </span>
-                        <span>{props.data.text}</span>
-                    </div>
-                </components.SingleValue>
-            );
-        } else {
-            return (
-                <components.SingleValue {...props} className="input-select">
-                    <div className="input-select__option">
-                        <span>{props.data.text}</span>
-                    </div>
-                </components.SingleValue>
-            );
-        }
-    };
-
-    const phoneNumberInput = (props: any) => {
-        if (props.data.icon) {
-            return (
-                <components.SingleValue {...props} className="input-select">
-                    <div className="input-select__option">
-                        <span className="input-select__icon mr-2">
-                            {props.data.icon}
-                        </span>
-                        <span>{props.data.number}</span>
-                    </div>
-                </components.SingleValue>
-            );
-        } else {
-            return (
-                <components.SingleValue {...props} className="input-select">
-                    <div className="input-select__option">
-                        <span>{props.data.number}</span>
-                    </div>
-                </components.SingleValue>
-            );
-        }
-    };
-
-    const countryOption = (props: any) => {
-        const { innerProps } = props;
-        return (
-            <components.Option {...innerProps} {...props}>
-                {' '}
-                <div className="input-select">
-                    <div className="input-select__option">
-                        <span className="mr-2">{props.data.icon}</span>
-                        <span>{props.data.text}</span>
-                    </div>
-                </div>
-            </components.Option>
-        );
-    };
-
-    const phoneNumberOption = (props: any) => {
-        const { innerProps } = props;
-        return (
-            <components.Option {...innerProps} {...props}>
-                {' '}
-                <div className="input-select">
-                    <div className="input-select__option flex flex--center">
-                        {/* <span className="input-select__icon"> */}
-                        <span className="mr-2">{props.data.icon}</span>
-                        {/* </span> */}
-                        <span className="mr-6" style={{ width: '40px' }}>
-                            {props.data.number}
-                        </span>
-                        <span>{props.data.country}</span>
-                    </div>
-                </div>
-            </components.Option>
-        );
-    };
-
     const stepOne = () => {
         return (
             <FormikProvider value={formikStepOne}>
@@ -317,7 +191,7 @@ const ParentOnboarding: React.FC<IProps> = ({
                             meta={formikStepOne.getFieldMeta('country')}
                             isMulti={false}
                             classNamePrefix="onboarding-select"
-                            options={options}
+                            options={countries}
                             placeholder="Choose your country"
                             customInputField={countryInput}
                             customOption={countryOption}
@@ -327,26 +201,62 @@ const ParentOnboarding: React.FC<IProps> = ({
                         <label htmlFor="phoneNumber" className="field__label">
                             Phone Number*
                         </label>
+
                         <div className="flex flex--center pos--rel">
-                            <MySelect
+                            <MyPhoneSelect
                                 form={formikStepOne}
                                 field={formikStepOne.getFieldProps('prefix')}
                                 meta={formikStepOne.getFieldMeta('prefix')}
                                 isMulti={false}
-                                classNamePrefix="prefix-select"
-                                className="phoneNumber-select"
-                                options={phoneOptions}
-                                placeholder="Select pre"
+                                options={countries}
+                                classNamePrefix="onboarding-select"
+                                className="w--120"
+                                placeholder="+00"
                                 customInputField={phoneNumberInput}
                                 customOption={phoneNumberOption}
                                 isSearchable={false}
+                                withoutErr={
+                                    formikStepOne.errors.prefix &&
+                                    formikStepOne.touched.prefix
+                                        ? false
+                                        : true
+                                }
                             />
+                            <div className="ml-4"></div>
                             <TextField
                                 wrapperClassName="flex--grow"
                                 name="phoneNumber"
                                 placeholder="Enter your phone number"
-                                className="input input--base input--phone-number pl-0"
+                                className="input input--base"
+                                withoutErr={
+                                    formikStepOne.errors.phoneNumber &&
+                                    formikStepOne.touched.phoneNumber
+                                        ? false
+                                        : true
+                                }
                             />
+                        </div>
+                        <div className="flex flex--center">
+                            {formikStepOne.errors.prefix &&
+                            formikStepOne.touched.prefix ? (
+                                <div className="field__validation mr-4">
+                                    {formikStepOne.errors.prefix
+                                        ? formikStepOne.errors.prefix
+                                        : ''}
+                                </div>
+                            ) : (
+                                <></>
+                            )}
+                            {formikStepOne.errors.phoneNumber &&
+                            formikStepOne.touched.phoneNumber ? (
+                                <div className="field__validation">
+                                    {formikStepOne.errors.phoneNumber
+                                        ? formikStepOne.errors.phoneNumber
+                                        : ''}
+                                </div>
+                            ) : (
+                                <></>
+                            )}
                         </div>
                     </div>
                     <div className="field">

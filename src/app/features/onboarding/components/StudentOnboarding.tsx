@@ -11,6 +11,10 @@ import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyPhoneSelect from '../../../components/form/MyPhoneSelect';
 import MySelect from '../../../components/form/MySelectField';
 import TextField from '../../../components/form/TextField';
+import { countryInput } from '../../../constants/countryInput';
+import { countryOption } from '../../../constants/countryOption';
+import { phoneNumberInput } from '../../../constants/phoneNumberInput';
+import { phoneNumberOption } from '../../../constants/phoneNumberOption';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { useRegisterStudentMutation } from '../../../services/authService';
 import { useLazyGetCountriesQuery } from '../services/countryService';
@@ -95,107 +99,6 @@ const StudentOnboarding: React.FC<IProps> = ({
         }
     });
 
-    const countryInput = (props: any) => {
-        if (props.data.icon) {
-            return (
-                <components.SingleValue {...props} className="input-select">
-                    <div className="input-select__option">
-                        {/* <span className="input-select__icon mr-2">
-                            {props.data.icon}
-                        </span> */}
-                        <span>{props.data.name}</span>
-                    </div>
-                </components.SingleValue>
-            );
-        } else {
-            return (
-                <components.SingleValue {...props} className="input-select">
-                    <div className="input-select__option">
-                        <span>{props.data.name}</span>
-                    </div>
-                </components.SingleValue>
-            );
-        }
-    };
-
-    const phoneNumberInput = (props: any) => {
-        if (props.data.icon) {
-            return (
-                <components.SingleValue {...props} className="input-select">
-                    <div className="input-select__option flex flex--center">
-                        <div
-                            style={{
-                                width: '20px',
-                                height: '10px',
-                                backgroundColor: 'blue',
-                            }}
-                            className="mr-2"
-                        ></div>
-                        <span>{props.data.phonePrefix}</span>
-                    </div>
-                </components.SingleValue>
-            );
-        } else {
-            return (
-                <components.SingleValue {...props} className="input-select">
-                    <div className="input-select__option flex flex--center">
-                        <div
-                            style={{
-                                width: '20px',
-                                height: '10px',
-                                backgroundColor: 'blue',
-                            }}
-                            className="mr-2"
-                        ></div>
-                        <span>{props.data.phonePrefix}</span>
-                    </div>
-                </components.SingleValue>
-            );
-        }
-    };
-
-    const countryOption = (props: any) => {
-        const { innerProps } = props;
-        return (
-            <components.Option {...innerProps} {...props}>
-                {' '}
-                <div className="input-select">
-                    <div className="input-select__option">
-                        {/* <span className="mr-2">{props.data.icon}</span> */}
-                        <span>{props.data.name}</span>
-                    </div>
-                </div>
-            </components.Option>
-        );
-    };
-
-    const phoneNumberOption = (props: any) => {
-        const { innerProps } = props;
-        return (
-            <components.Option {...innerProps} {...props}>
-                {' '}
-                <div className="input-select">
-                    <div className="input-select__option flex flex--center">
-                        {/* <span className="input-select__icon"> */}
-                        {/* <span className="mr-2">{props.data.icon}</span> */}
-                        {/* </span> */}
-                        <div
-                            style={{
-                                width: '20px',
-                                height: '10px',
-                                backgroundColor: 'blue',
-                            }}
-                            className="mr-2"
-                        ></div>
-                        <span className="mr-6" style={{ width: '40px' }}>
-                            {props.data.phonePrefix}
-                        </span>
-                        <span>{props.data.name}</span>
-                    </div>
-                </div>
-            </components.Option>
-        );
-    };
     return (
         <>
             <FormikProvider value={formik}>
@@ -228,20 +131,54 @@ const StudentOnboarding: React.FC<IProps> = ({
                                 field={formik.getFieldProps('prefix')}
                                 meta={formik.getFieldMeta('prefix')}
                                 isMulti={false}
-                                classNamePrefix="prefix-select"
-                                className="phoneNumber-select"
                                 options={countries}
-                                placeholder="Select pre"
+                                classNamePrefix="onboarding-select"
+                                className="w--120"
+                                placeholder="+00"
                                 customInputField={phoneNumberInput}
                                 customOption={phoneNumberOption}
                                 isSearchable={false}
+                                withoutErr={
+                                    formik.errors.prefix &&
+                                    formik.touched.prefix
+                                        ? false
+                                        : true
+                                }
                             />
+                            <div className="ml-4"></div>
                             <TextField
                                 wrapperClassName="flex--grow"
                                 name="phoneNumber"
                                 placeholder="Enter your phone number"
-                                className="input input--base input--phone-number"
+                                className="input input--base"
+                                withoutErr={
+                                    formik.errors.phoneNumber &&
+                                    formik.touched.phoneNumber
+                                        ? false
+                                        : true
+                                }
                             />
+                        </div>
+                        <div className="flex flex--center">
+                            {formik.errors.prefix && formik.touched.prefix ? (
+                                <div className="field__validation mr-4">
+                                    {formik.errors.prefix
+                                        ? formik.errors.prefix
+                                        : ''}
+                                </div>
+                            ) : (
+                                <></>
+                            )}
+                            {formik.errors.phoneNumber &&
+                            formik.touched.phoneNumber ? (
+                                <div className="field__validation">
+                                    {formik.errors.phoneNumber
+                                        ? formik.errors.phoneNumber
+                                        : ''}
+                                </div>
+                            ) : (
+                                <></>
+                            )}
                         </div>
                     </div>
                     <div className="field">

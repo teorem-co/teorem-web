@@ -22,6 +22,7 @@ interface CustomSelectProps extends FieldProps {
     customOption?: (props: any) => JSX.Element;
     noOptionsMessage?: () => string;
     isSearchable?: boolean;
+    withoutErr?: boolean;
 }
 
 const MyPhoneSelect = ({
@@ -41,6 +42,7 @@ const MyPhoneSelect = ({
     noOptionsMessage,
     menuIsOpen,
     isSearchable,
+    withoutErr,
 }: CustomSelectProps) => {
     const [formikField, meta] = useField(form.getFieldProps(field.name));
 
@@ -161,9 +163,13 @@ const MyPhoneSelect = ({
                 noOptionsMessage={noOptionsMessage}
                 isSearchable={isSearchable}
             />
-            <div className="field__validation">
-                {meta.error && meta.touched ? meta.error : ''}
-            </div>
+            {!withoutErr ? (
+                <></>
+            ) : (
+                <div className="field__validation">
+                    {meta.error && meta.touched ? meta.error : ''}
+                </div>
+            )}
         </>
     );
 };
