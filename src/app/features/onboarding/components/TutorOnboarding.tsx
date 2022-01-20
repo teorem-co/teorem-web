@@ -289,7 +289,7 @@ const TutorOnboarding: React.FC<IProps> = ({
         return (
             <FormikProvider value={formikStepOne}>
                 <Form>
-                    <div>{JSON.stringify(formikStepOne.values, null, 2)}</div>
+                    {/* <div>{JSON.stringify(formikStepOne.values, null, 2)}</div> */}
                     <div className="field">
                         <label htmlFor="countryId" className="field__label">
                             Country*

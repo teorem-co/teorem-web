@@ -87,7 +87,6 @@ const StudentOnboarding: React.FC<IProps> = ({
             dateOfBirth: moment(values.dateOfBirth).toISOString(),
             email: email,
         });
-        debugger;
     };
 
     useEffect(() => {
@@ -201,7 +200,7 @@ const StudentOnboarding: React.FC<IProps> = ({
         <>
             <FormikProvider value={formik}>
                 <Form>
-                    <div>{JSON.stringify(formik.values, null, 2)}</div>
+                    {/* <div>{JSON.stringify(formik.values, null, 2)}</div> */}
                     <div className="field">
                         <label htmlFor="countryId" className="field__label">
                             Country*
