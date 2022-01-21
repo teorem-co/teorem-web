@@ -1,34 +1,28 @@
-import { IRatings } from '../../../constants/ratings';
+import ITutorStatisticsResult from '../interfaces/ITutorStatisticsResult';
 
 interface Props {
-    ratings: IRatings[];
+    ratings: ITutorStatisticsResult[];
 }
 const Ratings = (props: Props) => {
     const { ratings } = props;
-    let totalRatings: number = 0;
-
-    ratings.forEach((item) => {
-        totalRatings += item.ratings;
-    });
 
     return (
         <div>
-            {ratings.map((item: IRatings) => {
+            {ratings.map((item: ITutorStatisticsResult, index: number) => {
                 return (
-                    <div key={item.id} className="rating__item">
-                        <div className="mr-3">{item.label}</div>
+                    <div key={index} className="rating__item">
+                        <div className="mr-3">{item.mark}&nbsp;stars</div>
                         <div className="rating__progress">
                             <span
                                 className="rating__progress__bar"
                                 style={{
-                                    right: `${
-                                        100 -
-                                        (item.ratings / totalRatings) * 100
-                                    }%`,
+                                    right: `${100 -
+                                        (item.perCent) * 100
+                                        }%`,
                                 }}
                             ></span>
                         </div>
-                        <div className="ml-3">({item.ratings})</div>
+                        <div className="ml-3">({item.count})</div>
                     </div>
                 );
             })}

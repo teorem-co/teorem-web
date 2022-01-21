@@ -1,15 +1,34 @@
+import { useEffect } from 'react';
+
+import Loader from '../../components/Loader';
 import MainWrapper from '../../components/MainWrapper';
-import MyReviewsList, { IMyReviews } from '../../constants/myReviews';
+import MyReviewsList from '../../constants/myReviews';
 import ratingsMock from '../../constants/ratings';
+import { useAppSelector } from '../../hooks';
 import Ratings from './components/Ratings';
+import IMyReview from './interfaces/IMyReview';
+import { useLazyGetMyReviewsQuery, useLazyGetStatisticsQuery } from './services/myReviewsService';
 
 const MyReviews = () => {
+
+    const [getMyReviews, { data: myReviews, isLoading: myReviewsLoading }] = useLazyGetMyReviewsQuery();
+    const [getStatistics, { data: tutorStatistics, isLoading: statisticsLoading }] = useLazyGetStatisticsQuery();
+
+    const tutorId = useAppSelector((state) => state.user.user?.id);
+
     const handleAvgRatings = () => {
         let totalRatings: number = 0;
         MyReviewsList.forEach((item) => (totalRatings += item.rating));
 
         return totalRatings / ratingsMock.length;
     };
+
+    useEffect(() => {
+        if (tutorId) {
+            getMyReviews(tutorId);
+            getStatistics(tutorId);
+        }
+    }, []);
 
     return (
         <MainWrapper>
@@ -37,52 +56,60 @@ const MyReviews = () => {
                                 <i className="icon icon--base icon--chevron-down icon--primary"></i> */}
                             </div>
                         </div>
-                        <div className="reviews-list">
-                            {MyReviewsList.map((item: IMyReviews) => {
-                                return (
-                                    <div
-                                        key={item.id}
-                                        className="reviews-list__item"
-                                    >
-                                        <div>
-                                            <h4 className="type--md type--wgt--normal mb-1">
-                                                {item.name}
-                                            </h4>
-                                            <p className="type--color--brand-light">
-                                                {item.reviewerRole}
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <div className="flex--primary mb-2">
-                                                <div>
-                                                    <div className="rating__stars">
-                                                        <div
-                                                            className="rating__stars__fill"
-                                                            style={{
-                                                                width: `${
-                                                                    item.rating *
-                                                                    20
-                                                                }%`,
-                                                            }}
-                                                        ></div>
+                        {
+                            myReviewsLoading
+                                ? <div>
+                                    <Loader />
+                                    <Loader />
+                                    <Loader />
+                                </div>
+                                : <div className="reviews-list">
+                                    {myReviews && myReviews.rows.map((item: IMyReview) => (
+                                        <div
+                                            key={item.id}
+                                            className="reviews-list__item"
+                                        >
+                                            <div>
+                                                <h4 className="type--md type--wgt--normal mb-1">
+                                                    {item.Booking.User.firstName}&nbsp;
+                                                    {item.Booking.User.lastName}
+                                                </h4>
+                                                <p className="type--color--brand-light">
+                                                    {item.Booking.User.Role.name}
+                                                </p>
+                                            </div>
+                                            <div>
+                                                <div className="flex--primary mb-2">
+                                                    <div>
+                                                        <div className="rating__stars">
+                                                            <div
+                                                                className="rating__stars__fill"
+                                                                style={{
+                                                                    width: `${item.mark *
+                                                                        20
+                                                                        }%`,
+                                                                }}
+                                                            ></div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="tag--primary">
+                                                        {item.Booking.Subject.name}
                                                     </div>
                                                 </div>
-                                                <div className="tag--primary">
-                                                    {item.subject}
-                                                </div>
+                                                <p className="type--md mb-4">
+                                                    {item.title}
+                                                </p>
+                                                <p className="mb-2">{item.comment}</p>
+                                                <p className="type--color--tertiary">
+                                                    Published {item.createdAt}
+                                                </p>
                                             </div>
-                                            <p className="type--md mb-4">
-                                                {item.title}
-                                            </p>
-                                            <p className="mb-2">{item.desc}</p>
-                                            <p className="type--color--tertiary">
-                                                Published {item.datePublished}
-                                            </p>
                                         </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
+                                    ))
+                                    }
+                                </div>
+                        }
+
                     </div>
                     <div className="my-reviews__aside">
                         <div className="mb-10">
@@ -93,7 +120,7 @@ const MyReviews = () => {
                                 {handleAvgRatings()}
                             </span>
                         </div>
-                        <Ratings ratings={ratingsMock} />
+                        <Ratings ratings={tutorStatistics ? tutorStatistics.result : []} />
                     </div>
                 </div>
             </div>
