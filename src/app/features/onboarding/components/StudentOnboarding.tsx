@@ -5,11 +5,19 @@ import { useTranslation } from 'react-i18next';
 import { components } from 'react-select';
 import * as Yup from 'yup';
 
-import { setStepOne } from '../../../../slices/studentRegisterSlice';
+import { resetParentRegister } from '../../../../slices/parentRegisterSlice';
+import {
+    resetStudentRegister,
+    setStepOne,
+} from '../../../../slices/studentRegisterSlice';
+import { resetTutorRegister } from '../../../../slices/tutorRegisterSlice';
 import MyCountrySelect from '../../../components/form/MyCountrySelect';
 import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyPhoneSelect from '../../../components/form/MyPhoneSelect';
-import MySelect from '../../../components/form/MySelectField';
+import MySelect, {
+    OptionType,
+    PhoneOptionType,
+} from '../../../components/form/MySelectField';
 import TextField from '../../../components/form/TextField';
 import { countryInput } from '../../../constants/countryInput';
 import { countryOption } from '../../../constants/countryOption';
@@ -17,7 +25,8 @@ import { phoneNumberInput } from '../../../constants/phoneNumberInput';
 import { phoneNumberOption } from '../../../constants/phoneNumberOption';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { useRegisterStudentMutation } from '../../../services/authService';
-import { useLazyGetCountriesQuery } from '../services/countryService';
+import toastService from '../../../services/toastService';
+import { ICountry, useLazyGetCountriesQuery } from '../services/countryService';
 
 interface StepOneValues {
     countryId: string;
@@ -37,19 +46,11 @@ const StudentOnboarding: React.FC<IProps> = ({
     handleNextStep,
 }) => {
     const [registerStudent, { isSuccess }] = useRegisterStudentMutation();
+    const [countryOptions, setCountryOptions] = useState<OptionType[]>([]);
+    const [phoneOptions, setPhoneOptions] = useState<OptionType[]>([]);
     const state = useAppSelector((state) => state.studentRegister);
     const roleAbrv = useAppSelector((state) => state.role.selectedRole);
-    const {
-        firstName,
-        lastName,
-        password,
-        passwordRepeat,
-        countryId,
-        prefix,
-        phoneNumber,
-        dateOfBirth,
-        email,
-    } = state;
+    const { firstName, lastName, password, passwordRepeat, email } = state;
     const dispatch = useAppDispatch();
     const { t } = useTranslation();
     const [getCountries, { data: countries }] = useLazyGetCountriesQuery();
@@ -57,6 +58,28 @@ const StudentOnboarding: React.FC<IProps> = ({
     useEffect(() => {
         getCountries();
     }, []);
+
+    useEffect(() => {
+        const currentCountries: OptionType[] = countries
+            ? countries.map((x: ICountry) => {
+                  return {
+                      label: x.name,
+                      value: x.id,
+                  };
+              })
+            : [];
+        setCountryOptions(currentCountries);
+        const currentPhone: PhoneOptionType[] = countries
+            ? countries.map((x: ICountry) => {
+                  return {
+                      label: x.name,
+                      prefix: x.phonePrefix,
+                      value: x.phonePrefix,
+                  };
+              })
+            : [];
+        setPhoneOptions(currentPhone);
+    }, [countries]);
 
     const initialValuesOne: StepOneValues = {
         countryId: '',
@@ -95,7 +118,11 @@ const StudentOnboarding: React.FC<IProps> = ({
 
     useEffect(() => {
         if (isSuccess) {
+            dispatch(resetTutorRegister());
+            dispatch(resetParentRegister());
+            dispatch(resetStudentRegister());
             handleNextStep();
+            toastService.success('You are registered successfully.');
         }
     });
 
@@ -109,13 +136,13 @@ const StudentOnboarding: React.FC<IProps> = ({
                             Country*
                         </label>
 
-                        <MyCountrySelect
+                        <MySelect
                             form={formik}
                             field={formik.getFieldProps('countryId')}
                             meta={formik.getFieldMeta('countryId')}
                             isMulti={false}
                             classNamePrefix="onboarding-select"
-                            options={countries}
+                            options={countryOptions}
                             placeholder="Choose your country"
                             customInputField={countryInput}
                             customOption={countryOption}
@@ -126,12 +153,12 @@ const StudentOnboarding: React.FC<IProps> = ({
                             Phone Number*
                         </label>
                         <div className="flex flex--center pos--rel">
-                            <MyPhoneSelect
+                            <MySelect
                                 form={formik}
                                 field={formik.getFieldProps('prefix')}
                                 meta={formik.getFieldMeta('prefix')}
                                 isMulti={false}
-                                options={countries}
+                                options={phoneOptions}
                                 classNamePrefix="onboarding-select"
                                 className="w--120"
                                 placeholder="+00"
@@ -141,8 +168,8 @@ const StudentOnboarding: React.FC<IProps> = ({
                                 withoutErr={
                                     formik.errors.prefix &&
                                     formik.touched.prefix
-                                        ? false
-                                        : true
+                                        ? true
+                                        : false
                                 }
                             />
                             <div className="ml-4"></div>
@@ -154,8 +181,8 @@ const StudentOnboarding: React.FC<IProps> = ({
                                 withoutErr={
                                     formik.errors.phoneNumber &&
                                     formik.touched.phoneNumber
-                                        ? false
-                                        : true
+                                        ? true
+                                        : false
                                 }
                             />
                         </div>

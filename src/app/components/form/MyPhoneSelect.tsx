@@ -51,21 +51,15 @@ const MyPhoneSelect = ({
             field.name,
             isMulti
                 ? option
-                    ? option.map(
-                          (item: OptionType) => item.phonePrefix || item.id
-                      )
+                    ? option.map((item: OptionType) => item.phonePrefix)
                     : ''
-                : (option as OptionType).phonePrefix ||
-                      (option as OptionType).id
+                : (option as OptionType).phonePrefix
         );
 
         isMulti
             ? onChangeCustom &&
               onChangeCustom(
-                  option &&
-                      option.map(
-                          (item: OptionType) => item.phonePrefix || item.id
-                      )
+                  option && option.map((item: OptionType) => item.phonePrefix)
               )
             : onChangeCustom && onChangeCustom(option as OptionType);
     };
@@ -163,7 +157,7 @@ const MyPhoneSelect = ({
                 noOptionsMessage={noOptionsMessage}
                 isSearchable={isSearchable}
             />
-            {!withoutErr ? (
+            {withoutErr ? (
                 <></>
             ) : (
                 <div className="field__validation">

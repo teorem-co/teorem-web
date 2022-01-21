@@ -16,7 +16,7 @@ export const countryOption = (props: any) => {
                         }}
                         className="mr-2"
                     ></div>
-                    <span>{props.data.name}</span>
+                    <span>{props.data.label}</span>
                 </div>
             </div>
         </components.Option>

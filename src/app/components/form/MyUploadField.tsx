@@ -84,7 +84,47 @@ const UploadFile: FC<UploadFileType> = ({
 
     return (
         <>
-            <div className="flex">
+            <div className="flex flex--center">
+                <div
+                    style={{
+                        width: '80px',
+                        height: '80px',
+                        backgroundColor: 'hsla(248, 86%, 69%, 0.1)',
+                        borderRadius: '1000px',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }}
+                    className="mr-6"
+                >
+                    {files.length > 0 ? (
+                        <div
+                            style={{
+                                width: '70px',
+                                height: '70px',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}
+                        >
+                            {mappedFiles(files, filePreview)}
+                        </div>
+                    ) : (
+                        <div
+                            style={{
+                                width: '70px',
+                                height: '70px',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                backgroundColor: 'white',
+                                borderRadius: '1000px',
+                            }}
+                        >
+                            <i className="icon icon--base icon--profile icon--grey"></i>
+                        </div>
+                    )}
+                </div>
                 <div {...getRootProps({ className: 'upload' })}>
                     {isDragActive ? (
                         <div className="upload__drag-overlay"></div>
@@ -100,17 +140,13 @@ const UploadFile: FC<UploadFileType> = ({
                         ) : (
                             <></>
                         )}
-                        {mappedFiles(files, filePreview)}
-                        {files.length <= 0 ? (
-                            <div className="flex--primary flex--col">
-                                <i className="icon icon--base icon--upload icon--grey"></i>
-                                <div className="type--color--tertiary type--wgt--regular">
-                                    Drag and drop to upload
-                                </div>
+
+                        <div className="flex--primary flex--col">
+                            <i className="icon icon--base icon--upload icon--grey"></i>
+                            <div className="type--color--tertiary type--wgt--regular">
+                                Drag and drop to upload
                             </div>
-                        ) : (
-                            <></>
-                        )}
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,18 +1,16 @@
 import { Form, FormikProvider, useFormik } from 'formik';
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import * as Yup from 'yup';
 
 import heroImg from '../../../assets/images/hero-img.png';
-import { resetSelectedRole, setSelectedRole } from '../../../slices/roleSlice';
+import { setSelectedRole } from '../../../slices/roleSlice';
 import { setRegister } from '../../../slices/tutorRegisterSlice';
 import TextField from '../../components/form/TextField';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
 import { useRegisterTutorMutation } from '../../services/authService';
-import toastService from '../../services/toastService';
-import { getUserRoleAbrv } from '../../utils/getUserRoleAbrv';
 import logo from './../../../assets/images/logo.svg';
 import TooltipPassword from './TooltipPassword';
 
@@ -42,9 +40,20 @@ const Register: React.FC = () => {
         password: '',
         passwordRepeat: '',
     };
+    const editRegister = () => {
+        const test = {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            password: password,
+            passwordRepeat: password,
+        };
+        const test2 = firstName ? test : initialValues;
+        return test2;
+    };
 
     const formik = useFormik({
-        initialValues: initialValues,
+        initialValues: editRegister(),
         onSubmit: (values) => handleSubmit(values),
         validateOnBlur: true,
         enableReinitialize: true,

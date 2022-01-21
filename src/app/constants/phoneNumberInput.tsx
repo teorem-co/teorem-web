@@ -13,7 +13,7 @@ export const phoneNumberInput = (props: any) => {
                         }}
                         className="mr-2"
                     ></div>
-                    <span>{props.data.phonePrefix}</span>
+                    <span>{props.data.prefix}</span>
                 </div>
             </components.SingleValue>
         );
@@ -29,7 +29,7 @@ export const phoneNumberInput = (props: any) => {
                         }}
                         className="mr-2"
                     ></div>
-                    <span>{props.data.phonePrefix}</span>
+                    <span>{props.data.prefix}</span>
                 </div>
             </components.SingleValue>
         );

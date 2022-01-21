@@ -16,19 +16,23 @@ import {
     setStepOne,
     setStepTwo,
 } from '../../../../slices/parentRegisterSlice';
+import MyCountrySelect from '../../../components/form/MyCountrySelect';
 import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyPhoneSelect from '../../../components/form/MyPhoneSelect';
-import MySelect from '../../../components/form/MySelectField';
+import MySelect, {
+    OptionType,
+    PhoneOptionType,
+} from '../../../components/form/MySelectField';
 import TextField from '../../../components/form/TextField';
 import { countryInput } from '../../../constants/countryInput';
 import { countryOption } from '../../../constants/countryOption';
 import { phoneNumberInput } from '../../../constants/phoneNumberInput';
 import { phoneNumberOption } from '../../../constants/phoneNumberOption';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { useLazyGetCountriesQuery } from '../services/countryService';
+import { ICountry, useLazyGetCountriesQuery } from '../services/countryService';
 
 interface StepOneValues {
-    country: string;
+    countryId: string;
     phoneNumber: string;
     prefix: string;
     dateOfBirth: string;
@@ -58,17 +62,41 @@ const ParentOnboarding: React.FC<IProps> = ({
     const { childFirstName, childLastName, childDateOfBirth } = childDetail;
     const [childId, setChildId] = useState<string>('');
     const [getCountries, { data: countries }] = useLazyGetCountriesQuery();
+    const [countryOptions, setCountryOptions] = useState<OptionType[]>([]);
+    const [phoneOptions, setPhoneOptions] = useState<OptionType[]>([]);
 
     useEffect(() => {
         getCountries();
     }, []);
 
-    const [initialValuesOne, setInitialValuesOne] = useState<StepOneValues>({
-        country: '',
-        phoneNumber: '',
+    useEffect(() => {
+        const currentCountries: OptionType[] = countries
+            ? countries.map((x: ICountry) => {
+                  return {
+                      label: x.name,
+                      value: x.id,
+                  };
+              })
+            : [];
+        setCountryOptions(currentCountries);
+        const currentPhone: PhoneOptionType[] = countries
+            ? countries.map((x: ICountry) => {
+                  return {
+                      label: x.name,
+                      prefix: x.phonePrefix,
+                      value: x.phonePrefix,
+                  };
+              })
+            : [];
+        setPhoneOptions(currentPhone);
+    }, [countries]);
+
+    const initialValuesOne: StepOneValues = {
+        countryId: '',
         prefix: '',
+        phoneNumber: '',
         dateOfBirth: '',
-    });
+    };
     const [initialValuesTwo, setInitialValuesTwo] = useState<DetailsValues>({
         childFirstName: '',
         childLastName: '',
@@ -88,7 +116,7 @@ const ParentOnboarding: React.FC<IProps> = ({
         validateOnBlur: true,
         enableReinitialize: true,
         validationSchema: Yup.object().shape({
-            country: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            countryId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             prefix: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             phoneNumber: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             dateOfBirth: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
@@ -126,13 +154,14 @@ const ParentOnboarding: React.FC<IProps> = ({
     const submitStepOne = (values: StepOneValues) => {
         dispatch(
             setStepOne({
-                country: values.country,
+                countryId: values.countryId,
                 phoneNumber: values.phoneNumber,
                 prefix: values.prefix,
                 dateOfBirth: values.dateOfBirth,
             })
         );
         handleNextStep();
+        debugger;
     };
 
     const submitDetails = (values: DetailsValues) => {
@@ -182,16 +211,16 @@ const ParentOnboarding: React.FC<IProps> = ({
             <FormikProvider value={formikStepOne}>
                 <Form>
                     <div className="field">
-                        <label htmlFor="country" className="field__label">
+                        <label htmlFor="countryId" className="field__label">
                             Country*
                         </label>
                         <MySelect
                             form={formikStepOne}
-                            field={formikStepOne.getFieldProps('country')}
-                            meta={formikStepOne.getFieldMeta('country')}
+                            field={formikStepOne.getFieldProps('countryId')}
+                            meta={formikStepOne.getFieldMeta('countryId')}
                             isMulti={false}
                             classNamePrefix="onboarding-select"
-                            options={countries}
+                            options={countryOptions}
                             placeholder="Choose your country"
                             customInputField={countryInput}
                             customOption={countryOption}
@@ -203,12 +232,12 @@ const ParentOnboarding: React.FC<IProps> = ({
                         </label>
 
                         <div className="flex flex--center pos--rel">
-                            <MyPhoneSelect
+                            <MySelect
                                 form={formikStepOne}
                                 field={formikStepOne.getFieldProps('prefix')}
                                 meta={formikStepOne.getFieldMeta('prefix')}
                                 isMulti={false}
-                                options={countries}
+                                options={phoneOptions}
                                 classNamePrefix="onboarding-select"
                                 className="w--120"
                                 placeholder="+00"
@@ -218,8 +247,8 @@ const ParentOnboarding: React.FC<IProps> = ({
                                 withoutErr={
                                     formikStepOne.errors.prefix &&
                                     formikStepOne.touched.prefix
-                                        ? false
-                                        : true
+                                        ? true
+                                        : false
                                 }
                             />
                             <div className="ml-4"></div>
@@ -231,8 +260,8 @@ const ParentOnboarding: React.FC<IProps> = ({
                                 withoutErr={
                                     formikStepOne.errors.phoneNumber &&
                                     formikStepOne.touched.phoneNumber
-                                        ? false
-                                        : true
+                                        ? true
+                                        : false
                                 }
                             />
                         </div>

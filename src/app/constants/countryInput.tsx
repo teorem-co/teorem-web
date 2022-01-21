@@ -8,15 +8,25 @@ export const countryInput = (props: any) => {
                     {/* <span className="input-select__icon mr-2">
                         {props.data.icon}
                     </span> */}
-                    <div
-                        style={{
-                            width: '20px',
-                            height: '10px',
-                            backgroundColor: 'blue',
-                        }}
-                        className="mr-2"
-                    ></div>
-                    <span>{props.data.name}</span>
+                    <div className="flex--col flex flex--center">
+                        <div
+                            style={{
+                                width: '20px',
+                                height: '10px',
+                                backgroundColor: 'blue',
+                            }}
+                            className="mr-2"
+                        ></div>
+                        <div
+                            style={{
+                                width: '20px',
+                                height: '10px',
+                                backgroundColor: 'redlue',
+                            }}
+                            className="mr-2"
+                        ></div>
+                    </div>
+                    <span>{props.data.label}</span>
                 </div>
             </components.SingleValue>
         );
@@ -32,7 +42,7 @@ export const countryInput = (props: any) => {
                         }}
                         className="mr-2"
                     ></div>
-                    <span>{props.data.name}</span>
+                    <span>{props.data.label}</span>
                 </div>
             </components.SingleValue>
         );

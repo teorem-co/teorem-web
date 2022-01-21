@@ -1,10 +1,11 @@
 import { Form, FormikProvider, useFormik } from 'formik';
 import moment from 'moment';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { components } from 'react-select';
 import * as Yup from 'yup';
 
+import { resetParentRegister } from '../../../../slices/parentRegisterSlice';
+import { resetStudentRegister } from '../../../../slices/studentRegisterSlice';
 import {
     resetTutorRegister,
     setStepOne,
@@ -13,7 +14,10 @@ import {
 import MyCountrySelect from '../../../components/form/MyCountrySelect';
 import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyPhoneSelect from '../../../components/form/MyPhoneSelect';
-import MySelect from '../../../components/form/MySelectField';
+import MySelect, {
+    OptionType,
+    PhoneOptionType,
+} from '../../../components/form/MySelectField';
 import UploadFile from '../../../components/form/MyUploadField';
 import TextField from '../../../components/form/TextField';
 import { countryInput } from '../../../constants/countryInput';
@@ -22,7 +26,8 @@ import { phoneNumberInput } from '../../../constants/phoneNumberInput';
 import { phoneNumberOption } from '../../../constants/phoneNumberOption';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { useRegisterTutorMutation } from '../../../services/authService';
-import { useLazyGetCountriesQuery } from '../services/countryService';
+import toastService from '../../../services/toastService';
+import { ICountry, useLazyGetCountriesQuery } from '../services/countryService';
 
 interface StepOneValues {
     countryId: string;
@@ -67,8 +72,9 @@ const TutorOnboarding: React.FC<IProps> = ({
     } = state;
     const roleAbrv = useAppSelector((state) => state.role.selectedRole);
     const [getCountries, { data: countries }] = useLazyGetCountriesQuery();
-    const [registerTutor, { isSuccess, isLoading }] =
-        useRegisterTutorMutation();
+    const [registerTutor, { isSuccess }] = useRegisterTutorMutation();
+    const [countryOptions, setCountryOptions] = useState<OptionType[]>([]);
+    const [phoneOptions, setPhoneOptions] = useState<OptionType[]>([]);
     const profileImage = useAppSelector(
         (state) => state.tutorRegister.profileImage
     );
@@ -77,6 +83,28 @@ const TutorOnboarding: React.FC<IProps> = ({
     useEffect(() => {
         getCountries();
     }, []);
+
+    useEffect(() => {
+        const currentCountries: OptionType[] = countries
+            ? countries.map((x: ICountry) => {
+                  return {
+                      label: x.name,
+                      value: x.id,
+                  };
+              })
+            : [];
+        setCountryOptions(currentCountries);
+        const currentPhone: PhoneOptionType[] = countries
+            ? countries.map((x: ICountry) => {
+                  return {
+                      label: x.name,
+                      prefix: x.phonePrefix,
+                      value: x.phonePrefix,
+                  };
+              })
+            : [];
+        setPhoneOptions(currentPhone);
+    }, [countries]);
 
     const initialValuesOne: StepOneValues = {
         countryId: '',
@@ -95,17 +123,34 @@ const TutorOnboarding: React.FC<IProps> = ({
         zipCode: '',
     };
 
+    const editStepOne = () => {
+        const test = {
+            countryId: countryId,
+            prefix: prefix,
+            phoneNumber: phoneNumber,
+            dateOfBirth: dateOfBirth,
+            profileImage: profileImage,
+        };
+        const test2 = countryId ? test : initialValuesOne;
+        return test2;
+    };
+
     const formikStepOne = useFormik({
-        initialValues: initialValuesOne,
+        initialValues: editStepOne(),
         onSubmit: (values) => handleSubmitStepOne(values),
         validateOnBlur: true,
         enableReinitialize: true,
         validationSchema: Yup.object().shape({
             countryId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             prefix: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            phoneNumber: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            phoneNumber: Yup.string()
+                .required(t('FORM_VALIDATION.REQUIRED'))
+                .matches(
+                    /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/gm,
+                    'Invalid Phone Number'
+                ),
             dateOfBirth: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            profileImage: Yup.string(),
+            profileImage: Yup.string().required('Image Required'),
         }),
     });
 
@@ -134,13 +179,6 @@ const TutorOnboarding: React.FC<IProps> = ({
     });
 
     const handleSubmitStepOne = (values: StepOneValues) => {
-        const test = {
-            countryId: values.countryId,
-            prefix: values.prefix,
-            phoneNumber: values.phoneNumber,
-            dateOfBirth: values.dateOfBirth,
-            profileImage: values.profileImage,
-        };
         dispatch(
             setStepOne({
                 countryId: values.countryId,
@@ -181,8 +219,11 @@ const TutorOnboarding: React.FC<IProps> = ({
 
     useEffect(() => {
         if (isSuccess) {
-            resetTutorRegister();
+            dispatch(resetTutorRegister());
+            dispatch(resetParentRegister());
+            dispatch(resetStudentRegister());
             handleNextStep();
+            toastService.success('You are registered successfully.');
         }
     }, [isSuccess]);
     // console.log(firstName, lastName, email, password, passwordRepeat);
@@ -197,13 +238,13 @@ const TutorOnboarding: React.FC<IProps> = ({
                             Country*
                         </label>
 
-                        <MyCountrySelect
+                        <MySelect
                             form={formikStepOne}
                             field={formikStepOne.getFieldProps('countryId')}
                             meta={formikStepOne.getFieldMeta('countryId')}
                             isMulti={false}
                             classNamePrefix="onboarding-select"
-                            options={countries}
+                            options={countryOptions}
                             placeholder="Choose your country"
                             customInputField={countryInput}
                             customOption={countryOption}
@@ -214,12 +255,12 @@ const TutorOnboarding: React.FC<IProps> = ({
                             Phone Number*
                         </label>
                         <div className="flex flex--center pos--rel">
-                            <MyPhoneSelect
+                            <MySelect
                                 form={formikStepOne}
                                 field={formikStepOne.getFieldProps('prefix')}
                                 meta={formikStepOne.getFieldMeta('prefix')}
                                 isMulti={false}
-                                options={countries}
+                                options={phoneOptions}
                                 classNamePrefix="onboarding-select"
                                 className="w--120"
                                 placeholder="+00"
@@ -229,8 +270,8 @@ const TutorOnboarding: React.FC<IProps> = ({
                                 withoutErr={
                                     formikStepOne.errors.prefix &&
                                     formikStepOne.touched.prefix
-                                        ? false
-                                        : true
+                                        ? true
+                                        : false
                                 }
                             />
                             <div className="ml-4"></div>
@@ -242,8 +283,8 @@ const TutorOnboarding: React.FC<IProps> = ({
                                 withoutErr={
                                     formikStepOne.errors.phoneNumber &&
                                     formikStepOne.touched.phoneNumber
-                                        ? false
-                                        : true
+                                        ? true
+                                        : false
                                 }
                             />
                         </div>

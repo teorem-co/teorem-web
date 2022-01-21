@@ -7,6 +7,13 @@ export interface OptionType {
     icon?: string;
 }
 
+export interface PhoneOptionType {
+    label: string;
+    prefix: string;
+    value: string;
+    icon?: string;
+}
+
 interface CustomSelectProps extends FieldProps {
     options: any;
     isMulti?: boolean;
@@ -22,6 +29,7 @@ interface CustomSelectProps extends FieldProps {
     customOption?: (props: any) => JSX.Element;
     noOptionsMessage?: () => string;
     isSearchable?: boolean;
+    withoutErr?: boolean;
 }
 
 const MySelect = ({
@@ -41,6 +49,7 @@ const MySelect = ({
     customOption,
     menuIsOpen,
     isSearchable,
+    withoutErr,
 }: CustomSelectProps) => {
     const [formikField, meta] = useField(form.getFieldProps(field.name));
 
@@ -49,17 +58,23 @@ const MySelect = ({
             field.name,
             isMulti
                 ? option
-                    ? option.map((item: OptionType) => item.value)
+                    ? option.map(
+                          (item: OptionType | PhoneOptionType) => item.value
+                      )
                     : ''
-                : (option as OptionType).value
+                : (option as OptionType | PhoneOptionType).value
         );
 
         isMulti
             ? onChangeCustom &&
               onChangeCustom(
-                  option && option.map((item: OptionType) => item.value)
+                  option &&
+                      option.map(
+                          (item: OptionType | PhoneOptionType) => item.value
+                      )
               )
-            : onChangeCustom && onChangeCustom((option as OptionType).value);
+            : onChangeCustom &&
+              onChangeCustom((option as OptionType | PhoneOptionType).value);
     };
 
     const getValue = () => {
@@ -155,9 +170,13 @@ const MySelect = ({
                 noOptionsMessage={noOptionsMessage}
                 isSearchable={isSearchable}
             />
-            <div className="field__validation">
-                {meta.error && meta.touched ? meta.error : ''}
-            </div>
+            {withoutErr ? (
+                <></>
+            ) : (
+                <div className="field__validation">
+                    {meta.error && meta.touched ? meta.error : ''}
+                </div>
+            )}
         </>
     );
 };

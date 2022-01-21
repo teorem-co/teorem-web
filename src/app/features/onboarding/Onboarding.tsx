@@ -52,7 +52,6 @@ const Onboarding = () => {
     };
 
     const handleNextStepStudent = () => {
-        dispatch(resetStudentRegister());
         history.push('/');
     };
 
