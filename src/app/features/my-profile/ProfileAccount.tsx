@@ -169,7 +169,7 @@ const ProfileAccount = () => {
                                         <div>Select to add new Card</div>
                                     </div>
                                     <div>
-                                        <i className="icon icon--base icon--plus"></i>
+                                        <i className="icon icon--base icon--plus icon--primary"></i>
                                     </div>
                                 </div>
                             </div>
