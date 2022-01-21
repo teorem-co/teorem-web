@@ -140,14 +140,7 @@ const ROUTES: any = [
         key: 'MY_PROFILE',
         component: (props: any) => {
             return (
-                <PermissionsGate
-                    roles={[
-                        Role.Tutor,
-                        Role.Parent,
-                        Role.Student,
-                        Role.SuperAdmin,
-                    ]}
-                >
+                <PermissionsGate roles={[Role.Tutor]}>
                     <RenderRoutes {...props} />
                 </PermissionsGate>
             );
@@ -258,13 +251,6 @@ export const menuPerRole: IMenuPerRole = {
             key: 'SEARCH_TUTORS',
             path: PATHS.SEARCH_TUTORS,
         },
-        {
-            name: 'My Profile',
-            icon: 'profile',
-            key: 'MY_PROFILE_INFO_PERSONAL',
-            rootPath: PROFILE_PATHS.MY_PROFILE,
-            path: PROFILE_PATHS.MY_PROFILE_INFO_PERSONAL,
-        },
     ],
     [Role.Parent]: [
         {
@@ -278,13 +264,6 @@ export const menuPerRole: IMenuPerRole = {
             icon: 'search-tutors',
             key: 'SEARCH_TUTORS',
             path: PATHS.SEARCH_TUTORS,
-        },
-        {
-            name: 'My Profile',
-            icon: 'profile',
-            key: 'MY_PROFILE_INFO_PERSONAL',
-            rootPath: PROFILE_PATHS.MY_PROFILE,
-            path: PROFILE_PATHS.MY_PROFILE_INFO_PERSONAL,
         },
     ],
     [Role.SuperAdmin]: [
@@ -325,7 +304,7 @@ export function RenderMenuLinks() {
                         to={route.path}
                         className={`navbar__item`}
                         activeClassName="active"
-                        isActive={(match: Match, location: Location) => {
+                        isActive={(match: any, location: Location) => {
                             //format nicer later
                             if (route.rootPath) {
                                 if (

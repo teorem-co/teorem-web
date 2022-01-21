@@ -1,0 +1,40 @@
+/*
+    components: nav-links.scss;
+*/
+
+.nav-link {
+    &--profile {
+        &__wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 1000px;
+            //change background color when active
+            background-color: $color-primary-lighter;
+        }
+
+        &__label {
+            color: $color-primary-light;
+        }
+
+        &__icon {
+            background-color: $color-primary;
+        }
+
+        &.active {
+            .nav-link--profile__wrapper {
+                background-color: $color-primary;
+            }
+
+            .nav-link--profile__label {
+                color: $color-primary;
+            }
+
+            .nav-link--profile__icon {
+                background-color: $white;
+            }
+        }
+    }
+}

@@ -9,7 +9,6 @@
         margin-bottom: calc(#{$unit} * 10);
         padding: 0 calc(#{$unit} * 6);
         padding-bottom: calc(#{$unit} * 2);
-        border-bottom: 1px solid $grey-ed;
 
         &__item {
             position: relative;
@@ -23,13 +22,21 @@
                 position: absolute;
                 display: block;
                 bottom: -$unit;
+                left: 0;
                 height: 2px;
                 width: 100%;
                 background-color: $color-primary;
+                opacity: 0;
             }
 
             &:last-child {
                 margin-right: 0;
+            }
+
+            &.active {
+                &.tab--primary__item::after {
+                    opacity: 1;
+                }
             }
         }
     }

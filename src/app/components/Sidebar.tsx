@@ -22,9 +22,10 @@ const Sidebar = (props: Props) => {
     return (
         <div>
             <div
-                className={`sidebar__overlay ${
+                className={`cur--pointer sidebar__overlay ${
                     !sideBarIsOpen ? 'sidebar__overlay--close' : ''
                 }`}
+                onClick={closeSidebar}
             ></div>
 
             <div

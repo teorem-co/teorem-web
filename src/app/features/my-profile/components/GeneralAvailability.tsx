@@ -1,9 +1,12 @@
+import { useGetProfileProgressQuery } from '../../../../services/tutorService';
 import MainWrapper from '../../../components/MainWrapper';
 import ProfileCompletion from './ProfileCompletion';
 import ProfileHeader from './ProfileHeader';
 import ProfileTabs from './ProfileTabs';
 
 const GeneralAvailability = () => {
+    const { data: profileProgress } = useGetProfileProgressQuery();
+
     const availabilityTable = [
         ['', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
         [
@@ -47,7 +50,7 @@ const GeneralAvailability = () => {
                 <ProfileTabs />
 
                 {/* PROGRESS */}
-                <ProfileCompletion />
+                <ProfileCompletion percentage={profileProgress?.percentage} />
 
                 {/* AVAILABILITY */}
                 <div className="card--profile__section">

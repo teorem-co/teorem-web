@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
+import { useGetProfileProgressQuery } from '../../../../services/tutorService';
 import MyTextArea from '../../../components/form/MyTextArea';
 import MainWrapper from '../../../components/MainWrapper';
 import ProfileCompletion from './ProfileCompletion';
@@ -15,6 +16,8 @@ interface Values {
 }
 
 const AdditionalInformation = () => {
+    const { data: profileProgress } = useGetProfileProgressQuery();
+
     const initialValues: Values = {
         aboutUser: '',
         aboutLessons: '',
@@ -46,7 +49,7 @@ const AdditionalInformation = () => {
                 <ProfileTabs />
 
                 {/* PROGRESS */}
-                <ProfileCompletion />
+                <ProfileCompletion percentage={profileProgress?.percentage} />
 
                 {/* ADDITIONAL INFO */}
                 <div className="card--profile__section">
@@ -69,6 +72,7 @@ const AdditionalInformation = () => {
                                         Tell us more about yourself*
                                     </label>
                                     <MyTextArea
+                                        maxLength={2500}
                                         name="aboutUser"
                                         placeholder="What describes you best, what are your hobbies, approach..."
                                         id="aboutUser"
@@ -82,6 +86,7 @@ const AdditionalInformation = () => {
                                         Tell us more about your lessons**
                                     </label>
                                     <MyTextArea
+                                        maxLength={2500}
                                         name="aboutLessons"
                                         placeholder="Describe your lessons, approach, way of teaching..."
                                         id="aboutLessons"

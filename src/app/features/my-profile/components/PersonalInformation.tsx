@@ -3,6 +3,10 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
+import {
+    useGetProfileProgressQuery,
+    useLazyGetTutorProfileDataQuery,
+} from '../../../../services/tutorService';
 import MyCountrySelect from '../../../components/form/MyCountrySelect';
 import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyPhoneSelect from '../../../components/form/MyPhoneSelect';
@@ -14,6 +18,7 @@ import { countryOption } from '../../../constants/countryOption';
 import { phoneNumberInput } from '../../../constants/phoneNumberInput';
 import { phoneNumberOption } from '../../../constants/phoneNumberOption';
 import { useAppSelector } from '../../../hooks';
+import { getUserId } from '../../../utils/getUserId';
 import { useLazyGetCountriesQuery } from '../../onboarding/services/countryService';
 import ProfileCompletion from './ProfileCompletion';
 import ProfileHeader from './ProfileHeader';
@@ -31,6 +36,27 @@ interface Values {
 
 const PersonalInformation = () => {
     const [getCountries, { data: countries }] = useLazyGetCountriesQuery();
+
+    const userId = getUserId();
+
+    const { data: profileProgress } = useGetProfileProgressQuery();
+
+    // const [
+    //     getTutorProfileData,
+    //     { data: tutorProfileData, isSuccess: isSuccessTutorData },
+    // ] = useLazyGetTutorProfileDataQuery();
+
+    // useEffect(() => {
+    //     if (userId) {
+    //         getTutorProfileData(userId);
+    //     }
+    // }, []);
+
+    // useEffect(() => {
+    //     if (isSuccessTutorData && tutorProfileData) {
+    //         console.log(tutorProfileData);
+    //     }
+    // }, [isSuccessTutorData]);
 
     //change later to fetch image from user service
     const profileImage = useAppSelector(
@@ -85,7 +111,7 @@ const PersonalInformation = () => {
                 <ProfileTabs />
 
                 {/* PROGRESS */}
-                <ProfileCompletion />
+                <ProfileCompletion percentage={profileProgress?.percentage} />
 
                 {/* PERSONAL INFO */}
                 <div className="card--profile__section">
@@ -97,7 +123,7 @@ const PersonalInformation = () => {
                             Edit and update your personal information
                         </div>
                     </div>
-                    <div>
+                    <div className="w--800--max">
                         <FormikProvider value={formik}>
                             <Form>
                                 <div className="row">

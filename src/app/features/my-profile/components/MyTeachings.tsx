@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
+import { useGetProfileProgressQuery } from '../../../../services/tutorService';
 import MyTextField from '../../../components/form/MyTextField';
 import TextField from '../../../components/form/TextField';
 import MainWrapper from '../../../components/MainWrapper';
@@ -19,6 +20,8 @@ interface Values {
 const MyTeachings = () => {
     const [addSidebarOpen, setAddSidebarOpen] = useState(false);
     const [editSidebarOpen, setEditSidebarOpen] = useState(false);
+
+    const { data: profileProgress } = useGetProfileProgressQuery();
 
     const initialValues: Values = {
         occupation: '',
@@ -70,7 +73,7 @@ const MyTeachings = () => {
                 <ProfileTabs />
 
                 {/* PROGRESS */}
-                <ProfileCompletion />
+                <ProfileCompletion percentage={profileProgress?.percentage} />
 
                 {/* MY TEACHINGS */}
                 <div className="card--profile__section">

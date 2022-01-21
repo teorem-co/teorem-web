@@ -1,6 +1,7 @@
 import { baseService } from '../app/baseService';
 import { HttpMethods } from '../app/lookups/httpMethods';
 import IParams from '../interfaces/IParams';
+import IProgressProfile from '../interfaces/IProgressProfile';
 import ITutor from '../interfaces/ITutor';
 
 interface ITutorAvailable {
@@ -15,27 +16,40 @@ export const tutorService = baseService.injectEndpoints({
         getAvailableTutors: builder.query<ITutorAvailable, IParams>({
             query: (params) => {
                 const queryData = {
-                    url: `${URL}/available-tutors?${
-                        params.subject
+                    url: `${URL}/available-tutors?${params.subject
                             ? 'subjectId=' + params.subject + '&'
                             : ''
-                    }${params.level ? 'levelId=' + params.level + '&' : ''}${
-                        params.dayOfWeek
+                        }${params.level ? 'levelId=' + params.level + '&' : ''}${params.dayOfWeek
                             ? 'dayOfWeek=' + params.dayOfWeek + '&'
                             : ''
-                    }${
-                        params.timeOfDay
+                        }${params.timeOfDay
                             ? 'timeOfDay=' + params.timeOfDay + '&'
                             : ''
-                    }`,
+                        }`,
                     method: HttpMethods.GET,
                 };
 
                 return queryData;
             },
         }),
+        getProfileProgress: builder.query<IProgressProfile, void>({
+            query: () => ({
+                url: `${URL}/profile-progress`,
+                method: HttpMethods.GET,
+            }),
+        }),
+        getTutorProfileData: builder.query<any, string>({
+            query: (userId) => ({
+                url: `${URL}/${userId}`,
+                method: HttpMethods.GET,
+            }),
+        }),
     }),
 });
 
-export const { useLazyGetAvailableTutorsQuery, useGetAvailableTutorsQuery } =
-    tutorService;
+export const {
+    useLazyGetAvailableTutorsQuery,
+    useGetAvailableTutorsQuery,
+    useGetProfileProgressQuery,
+    useLazyGetTutorProfileDataQuery,
+} = tutorService;
