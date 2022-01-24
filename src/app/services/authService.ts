@@ -1,3 +1,4 @@
+import { IChild } from '../../interfaces/IChild';
 import { baseService } from '../baseService';
 import { HttpMethods } from '../lookups/httpMethods';
 import typeToFormData from '../utils/typeToFormData';
@@ -38,6 +39,7 @@ interface IRegisterParent {
     phonePrefix: string;
     phoneNumber: string;
     dateOfBirth: string;
+    children: string;
 }
 
 interface IRegisterStudent {
@@ -54,6 +56,9 @@ interface IRegisterStudent {
 }
 
 interface IResetPassword {
+    email: string;
+}
+interface ICheckMail {
     email: string;
 }
 
@@ -95,6 +100,13 @@ export const authService = baseService.injectEndpoints({
                 body: typeToFormData(body),
             }),
         }),
+        checkMail: builder.mutation<void, ICheckMail>({
+            query: (body) => ({
+                url: `${URL}/check-email`,
+                method: HttpMethods.POST,
+                body: body,
+            }),
+        }),
     }),
 });
 
@@ -104,4 +116,5 @@ export const {
     useRegisterParentMutation,
     useRegisterStudentMutation,
     useResetPasswordMutation,
+    useCheckMailMutation,
 } = authService;

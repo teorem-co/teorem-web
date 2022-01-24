@@ -4,6 +4,11 @@ export const EN_US = {
     ERROR_HANDLING: {
         UNHANDLED_ERROR: 'Unhandled error occured!',
     },
+    ONBOARDING: {
+        NAVIGATION: {
+            TITLE: 'Welcome to Teorem!',
+        },
+    },
     FORM_VALIDATION: {
         INVALID_EMAIL: 'Invalid email',
         TOO_SHORT: 'Too Short!',
@@ -158,8 +163,34 @@ export const EN_US = {
             PASSWORD: 'Choose Password*',
             CONFIRM_PASSWORD: 'Repeat Password*',
             SUBMIT_BUTTON: 'Register',
+            COUNTRY: 'Country*',
+            PHONE_NUMBER: 'Phone Number*',
+            DATE_OF_BIRTH: 'Date of Birth*',
+            PROFILE_IMAGE: 'Profile Image*',
+            CHILD_NAME: "Child's Name",
+            CHILD_DATE_OF_BIRTH: "Child's Date of Birth*",
+            USERNAME: 'Username*',
+        },
+        CARD_DETAILS: {
+            FIRST_NAME: 'First Name*',
+            LAST_NAME: 'Last Name*',
+            CARD_NUMBER: 'Card Number*',
+            EXPIRY_DATE: 'Expiry date*',
+            CVV: 'CVV*',
+            ZIP_CODE: 'ZIP / Postal Code*',
         },
         BACK_BUTTON: 'Back to selection',
+        NEXT_BUTTON: 'Next',
+        BACK_TO_REGISTER: 'Back to register',
+        FINISH: 'Finish',
+        BACK_TO_STEP_ONE: 'Back to step 1',
+        BACK_TO_STEP_TWO: 'Back to step ',
+        SAVE_BUTTON: 'Save',
+        BACK_TO_LIST: 'Back to list',
+    },
+    ADD_CHILD: {
+        TITLE: 'Add new Child',
+        DESCRIPTION: 'Select to Add new Child',
     },
     MY_BOOKINGS: {
         TITLE: 'Calendar',

@@ -10,7 +10,7 @@ import { setRegister } from '../../../slices/tutorRegisterSlice';
 import TextField from '../../components/form/TextField';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
-import { useRegisterTutorMutation } from '../../services/authService';
+import { useCheckMailMutation } from '../../services/authService';
 import logo from './../../../assets/images/logo.svg';
 import TooltipPassword from './TooltipPassword';
 
@@ -27,11 +27,11 @@ const Register: React.FC = () => {
     const { t } = useTranslation();
     const history = useHistory();
     const state = useAppSelector((state) => state.tutorRegister);
-    const { firstName, lastName, email, password, passwordRepeat } = state;
+    const { firstName, lastName, email, password } = state;
     const roleSelection = useAppSelector((state) => state.role.selectedRole);
     const [passTooltip, setPassTooltip] = useState<boolean>(false);
 
-    const [register, { isSuccess, isLoading }] = useRegisterTutorMutation();
+    const [checkMail, { isSuccess, isLoading }] = useCheckMailMutation();
 
     const initialValues: Values = {
         firstName: '',
@@ -99,8 +99,8 @@ const Register: React.FC = () => {
                     roleSelection: roleSelection,
                 })
             );
+            checkMail({ email: values.email });
             dispatch(setSelectedRole(roleSelection));
-            history.push(PATHS.ONBOARDING);
         }
     };
 
@@ -122,6 +122,12 @@ const Register: React.FC = () => {
             history.push(PATHS.ROLE_SELECTION);
         }
     }, []);
+
+    useEffect(() => {
+        if (isSuccess) {
+            history.push(PATHS.ONBOARDING);
+        }
+    }, [isSuccess]);
 
     // useLayoutEffect(() => {
     //     return () => {

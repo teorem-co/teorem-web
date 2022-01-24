@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import { IChild } from '../interfaces/IChild';
 import IChildListOption from '../interfaces/IChildListOption';
 
 interface IRegister {
@@ -22,6 +23,8 @@ interface IStepTwo {
     childFirstName: string;
     childLastName: string;
     childDateOfBirth: string;
+    username: string;
+    childPassword: string;
 }
 
 interface IState {
@@ -38,7 +41,9 @@ interface IState {
     childFirstName: string;
     childLastName: string;
     childDateOfBirth: string;
-    child: IChildListOption[] | [];
+    username: string;
+    childPassword: string;
+    child: IChild[];
 }
 
 const initialState: IState = {
@@ -54,6 +59,8 @@ const initialState: IState = {
     childFirstName: '',
     childLastName: '',
     childDateOfBirth: '',
+    username: '',
+    childPassword: '',
     roleSelection: '',
     child: [],
 };
@@ -87,13 +94,20 @@ export const parentRegisterSlice = createSlice({
             state.dateOfBirth = dateOfBirth;
         },
         setStepTwo(state, action: PayloadAction<IStepTwo>) {
-            const { childFirstName, childLastName, childDateOfBirth } =
-                action.payload;
+            const {
+                childFirstName,
+                childLastName,
+                childDateOfBirth,
+                username,
+                childPassword,
+            } = action.payload;
             state.childFirstName = childFirstName;
             state.childLastName = childLastName;
             state.childDateOfBirth = childDateOfBirth;
+            state.username = username;
+            state.childPassword = childPassword;
         },
-        setChildList(state, action: PayloadAction<IChildListOption[]>) {
+        setChildList(state, action: PayloadAction<IChild[]>) {
             state.child = action.payload;
         },
         resetParentRegister(state) {
@@ -109,6 +123,8 @@ export const parentRegisterSlice = createSlice({
             state.childFirstName = '';
             state.childLastName = '';
             state.childDateOfBirth = '';
+            state.username = '';
+            state.childPassword = '';
         },
     },
 });

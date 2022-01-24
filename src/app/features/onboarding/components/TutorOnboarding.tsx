@@ -11,9 +11,7 @@ import {
     setStepOne,
     setStepTwo,
 } from '../../../../slices/tutorRegisterSlice';
-import MyCountrySelect from '../../../components/form/MyCountrySelect';
 import MyDatePicker from '../../../components/form/MyDatePicker';
-import MyPhoneSelect from '../../../components/form/MyPhoneSelect';
 import MySelect, {
     OptionType,
     PhoneOptionType,
@@ -235,7 +233,7 @@ const TutorOnboarding: React.FC<IProps> = ({
                     {/* <div>{JSON.stringify(formikStepOne.values, null, 2)}</div> */}
                     <div className="field">
                         <label htmlFor="countryId" className="field__label">
-                            Country*
+                            {t('REGISTER.FORM.COUNTRY')}
                         </label>
 
                         <MySelect
@@ -252,7 +250,7 @@ const TutorOnboarding: React.FC<IProps> = ({
                     </div>
                     <div className="field">
                         <label htmlFor="phoneNumber" className="field__label">
-                            Phone Number*
+                            {t('REGISTER.FORM.PHONE_NUMBER')}
                         </label>
                         <div className="flex flex--center pos--rel">
                             <MySelect
@@ -313,7 +311,7 @@ const TutorOnboarding: React.FC<IProps> = ({
                     </div>
                     <div className="field">
                         <label className="field__label" htmlFor="dateOfBirth">
-                            Date of Birth*
+                            {t('REGISTER.FORM.DATE_OF_BIRTH')}
                         </label>
                         <MyDatePicker
                             form={formikStepOne}
@@ -323,7 +321,7 @@ const TutorOnboarding: React.FC<IProps> = ({
                     </div>
                     <div className="field field__file">
                         <label className="field__label" htmlFor="profileImage">
-                            Profile Image*
+                            {t('REGISTER.FORM.PROFILE_IMAGE')}
                         </label>
                         <UploadFile
                             setFieldValue={formikStepOne.setFieldValue}
@@ -343,14 +341,14 @@ const TutorOnboarding: React.FC<IProps> = ({
                         className="btn btn--base btn--primary w--100 mb-2 mt-6"
                         type="submit"
                     >
-                        Next
+                        {t('REGISTER.NEXT_BUTTON')}
                     </button>
                     <div
                         onClick={() => handleGoBack()}
                         className="btn btn--clear btn--base w--100 type--color--brand type--wgt--bold type--center"
                     >
                         <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>{' '}
-                        Back to register
+                        {t('REGISTER.BACK_TO_REGISTER')}
                     </div>
                 </Form>
             </FormikProvider>
@@ -364,7 +362,7 @@ const TutorOnboarding: React.FC<IProps> = ({
                     {/* <div>{JSON.stringify(formikStepTwo.values, null, 2)}</div> */}
                     <div className="field">
                         <label htmlFor="firstName" className="field__label">
-                            First Name*
+                            {t('REGISTER.CARD_DETAILS.FIRST_NAME')}
                         </label>
                         <TextField
                             name="firstName"
@@ -375,7 +373,7 @@ const TutorOnboarding: React.FC<IProps> = ({
                     </div>
                     <div className="field">
                         <label htmlFor="lastName" className="field__label">
-                            Last Name*
+                            {t('REGISTER.CARD_DETAILS.LAST_NAME')}
                         </label>
                         <TextField
                             name="lastName"
@@ -386,7 +384,7 @@ const TutorOnboarding: React.FC<IProps> = ({
                     </div>
                     <div className="field">
                         <label htmlFor="cardNumber" className="field__label">
-                            Card Number*
+                            {t('REGISTER.CARD_DETAILS.CARD_NUMBER')}
                         </label>
                         <TextField
                             type="number"
@@ -403,7 +401,7 @@ const TutorOnboarding: React.FC<IProps> = ({
                                     htmlFor="expiryDate"
                                     className="field__label"
                                 >
-                                    Expiry date*
+                                    {t('REGISTER.CARD_DETAILS.EXPIRY_DATE')}
                                 </label>
                                 <TextField
                                     type="number"
@@ -416,7 +414,7 @@ const TutorOnboarding: React.FC<IProps> = ({
 
                             <div className="field w--100">
                                 <label htmlFor="cvv" className="field__label">
-                                    CVV*
+                                    {t('REGISTER.CARD_DETAILS.CVV')}
                                 </label>
                                 <TextField
                                     max={999}
@@ -433,7 +431,7 @@ const TutorOnboarding: React.FC<IProps> = ({
 
                     <div className="field">
                         <label htmlFor="zipCode" className="field__label">
-                            ZIP / Postal Code*
+                            {t('REGISTER.CARD_DETAILS.ZIP_CODE')}
                         </label>
                         <TextField
                             type="number"
@@ -447,14 +445,14 @@ const TutorOnboarding: React.FC<IProps> = ({
                         className="btn btn--base btn--primary w--100 mb-2 mt-6"
                         type="submit"
                     >
-                        Finish
+                        {t('REGISTER.FINISH')}
                     </button>
                     <div
                         onClick={() => handleGoBack()}
                         className="btn btn--clear btn--base w--100 type--color--brand type--wgt--bold type--center"
                     >
                         <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>{' '}
-                        Back to step 2
+                        {t('REGISTER.BACK_TO_STEP_TWO')}
                     </div>
                 </Form>
             </FormikProvider>

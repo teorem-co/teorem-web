@@ -37,17 +37,17 @@ const UploadFile: FC<UploadFileType> = ({
     imagePreview,
     uploadedFile,
     filePreview,
-    id,
-    setFieldValue,
-    clearImagePreview,
-    infoText,
+    // id,
+    // setFieldValue,
+    // clearImagePreview,
+    // infoText,
     ...props
 }) => {
     const dispatch = useAppDispatch();
     const [field, meta] = useField<{}>(props);
     const errorText = meta.error && meta.touched ? meta.error : '';
     const files = useAppSelector((state: RootState) => state.uploadFile.files);
-    const isEdit = id === 'imageFood';
+    // const isEdit = id === 'imageFood';
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         accept: 'image/*',

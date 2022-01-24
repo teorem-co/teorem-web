@@ -2,18 +2,12 @@ import { Form, FormikProvider, useFormik } from 'formik';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { components } from 'react-select';
 import * as Yup from 'yup';
 
 import { resetParentRegister } from '../../../../slices/parentRegisterSlice';
-import {
-    resetStudentRegister,
-    setStepOne,
-} from '../../../../slices/studentRegisterSlice';
+import { resetStudentRegister } from '../../../../slices/studentRegisterSlice';
 import { resetTutorRegister } from '../../../../slices/tutorRegisterSlice';
-import MyCountrySelect from '../../../components/form/MyCountrySelect';
 import MyDatePicker from '../../../components/form/MyDatePicker';
-import MyPhoneSelect from '../../../components/form/MyPhoneSelect';
 import MySelect, {
     OptionType,
     PhoneOptionType,
@@ -133,7 +127,7 @@ const StudentOnboarding: React.FC<IProps> = ({
                     {/* <div>{JSON.stringify(formik.values, null, 2)}</div> */}
                     <div className="field">
                         <label htmlFor="countryId" className="field__label">
-                            Country*
+                            {t('REGISTER.FORM.COUNTRY')}
                         </label>
 
                         <MySelect
@@ -150,7 +144,7 @@ const StudentOnboarding: React.FC<IProps> = ({
                     </div>
                     <div className="field">
                         <label htmlFor="phoneNumber" className="field__label">
-                            Phone Number*
+                            {t('REGISTER.FORM.PHONE_NUMBER')}
                         </label>
                         <div className="flex flex--center pos--rel">
                             <MySelect
@@ -210,7 +204,7 @@ const StudentOnboarding: React.FC<IProps> = ({
                     </div>
                     <div className="field">
                         <label className="field__label" htmlFor="dateOfBirth">
-                            Date of Birth*
+                            {t('REGISTER.FORM.DATE_OF_BIRTH')}
                         </label>
                         <MyDatePicker
                             form={formik}
@@ -222,14 +216,14 @@ const StudentOnboarding: React.FC<IProps> = ({
                         className="btn btn--base btn--primary w--100 mb-2 mt-6"
                         type="submit"
                     >
-                        Finish
+                        {t('REGISTER.FINISH')}
                     </button>
                     <div
                         onClick={() => handleGoBack()}
                         className="btn btn--clear btn--base w--100 type--color--brand type--wgt--bold type--center"
                     >
                         <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>{' '}
-                        Back to register
+                        {t('REGISTER.BACK_TO_REGISTER')}
                     </div>
                 </Form>
             </FormikProvider>

@@ -1,5 +1,7 @@
 export interface IChild {
-    childFirstName: string;
-    childLastName: string;
-    childDateOfBirth: string;
+    firstName: string;
+    lastName: string;
+    dateOfBirth: string;
+    username: string;
+    password: string;
 }
