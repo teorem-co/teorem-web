@@ -21,7 +21,7 @@ const MyReviewsList: IMyReviews[] = [
         subject: 'Mathematics',
     },
     {
-        id: 'my-reviews-1',
+        id: 'my-reviews-2',
         name: 'Ime Prezime',
         reviewerRole: 'Parent',
         rating: 4,
@@ -31,7 +31,7 @@ const MyReviewsList: IMyReviews[] = [
         subject: 'Mathematics',
     },
     {
-        id: 'my-reviews-1',
+        id: 'my-reviews-3',
         name: 'Ime Prezime',
         reviewerRole: 'Parent',
         rating: 5,
@@ -41,7 +41,7 @@ const MyReviewsList: IMyReviews[] = [
         subject: 'Mathematics',
     },
     {
-        id: 'my-reviews-1',
+        id: 'my-reviews-4',
         name: 'Ime Prezime',
         reviewerRole: 'Parent',
         rating: 3,
@@ -51,7 +51,7 @@ const MyReviewsList: IMyReviews[] = [
         subject: 'Mathematics',
     },
     {
-        id: 'my-reviews-1',
+        id: 'my-reviews-5',
         name: 'Ime Prezime',
         reviewerRole: 'Parent',
         rating: 4,
