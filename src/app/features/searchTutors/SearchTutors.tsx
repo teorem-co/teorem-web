@@ -1,7 +1,8 @@
 import { Form, FormikProvider, useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router';
+import { Route, Switch, useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 import Select, { components, MenuProps } from 'react-select';
 
 import IParams from '../../../interfaces/IParams';
@@ -12,7 +13,9 @@ import CustomCheckbox from '../../components/form/CustomCheckbox';
 import MySelect, { OptionType } from '../../components/form/MySelectField';
 import LoaderTutor from '../../components/Loaders/LoaderTutor';
 import MainWrapper from '../../components/MainWrapper';
+import { PATHS } from '../../routes';
 import getUrlParams from '../../utils/getUrlParams';
+import TutorProfile from './TutorProfile';
 
 interface Values {
     subject: string;
@@ -395,7 +398,7 @@ const SearchTutors = () => {
                                     <div className="tutor-list__item__info">
                                         <div className="type--md mb-1">
                                             {tutor.User.firstName &&
-                                                tutor.User.lastName
+                                            tutor.User.lastName
                                                 ? `${tutor.User.firstName} ${tutor.User.lastName}`
                                                 : ''}
                                         </div>
@@ -405,10 +408,11 @@ const SearchTutors = () => {
                                                 : ''}
                                         </div>
                                         <div
-                                            className={`type--color--secondary ${tutor.Subjects.length > 0
+                                            className={`type--color--secondary ${
+                                                tutor.Subjects.length > 0
                                                     ? 'mb-6'
                                                     : ''
-                                                } w--632--max`}
+                                            } w--632--max`}
                                         >
                                             {tutor.aboutTutor
                                                 ? tutor.aboutTutor
@@ -417,12 +421,12 @@ const SearchTutors = () => {
                                         <div>
                                             {tutor.Subjects
                                                 ? tutor.Subjects.map(
-                                                    (subject) => (
-                                                        <span className="tag tag--primary">
-                                                            {subject.name}
-                                                        </span>
-                                                    )
-                                                )
+                                                      (subject) => (
+                                                          <span className="tag tag--primary">
+                                                              {subject.name}
+                                                          </span>
+                                                      )
+                                                  )
                                                 : ''}
                                         </div>
                                     </div>
@@ -444,10 +448,12 @@ const SearchTutors = () => {
                                             </div>
                                         </div>
                                         <div>
-                                            <button className="btn btn--primary btn--base w--100">
-                                                {/* Add on click later */}
+                                            <Link
+                                                className="btn btn--primary btn--base w--100"
+                                                to={`${PATHS.SEARCH_TUTORS}/${tutor.userId}`}
+                                            >
                                                 View profile
-                                            </button>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>
@@ -473,6 +479,12 @@ const SearchTutors = () => {
                     </div>
                 </div>
             </div>
+
+            <Switch>
+                <Route path={`${PATHS.SEARCH_TUTORS}/:tutorId`}>
+                    <TutorProfile />
+                </Route>
+            </Switch>
         </MainWrapper>
     );
 };
