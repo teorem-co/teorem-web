@@ -11,5 +11,5 @@ export default interface IUser {
     phoneNumber: string;
     phonePrefix: string;
     parentId?: string;
-    role?: IRole;
+    Role?: IRole;
 }

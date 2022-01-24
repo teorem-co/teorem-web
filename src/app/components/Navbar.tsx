@@ -41,7 +41,7 @@ const Navbar = () => {
                             {user?.firstName} {user?.lastName}
                         </div>
                         <div className="type--xs type--color--secondary type--wgt--regular ">
-                            {user?.role?.name}
+                            {user?.Role?.name}
                         </div>
                     </div>
                 </div>
