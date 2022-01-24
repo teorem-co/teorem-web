@@ -1,6 +1,7 @@
 import { Form, FormikProvider, useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { useGetProfileProgressQuery } from '../../../../services/tutorService';
@@ -8,6 +9,7 @@ import TextField from '../../../components/form/TextField';
 import MainWrapper from '../../../components/MainWrapper';
 import Sidebar from '../../../components/Sidebar';
 import AddSubjectSidebar from '../components/AddSubjectSidebar';
+import EditSubjectSidebar from '../components/EditSubjectSidebar';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
 import ProfileTabs from '../components/ProfileTabs';
@@ -22,6 +24,8 @@ const MyTeachings = () => {
     const [editSidebarOpen, setEditSidebarOpen] = useState(false);
 
     const { data: profileProgress } = useGetProfileProgressQuery();
+
+    const history = useHistory();
 
     const initialValues: Values = {
         occupation: '',
@@ -172,6 +176,53 @@ const MyTeachings = () => {
                                             </div>
                                         </div>
                                         {/* Map through subjects here */}
+                                        {/* Test fields */}
+                                        <div className="dash-wrapper__item">
+                                            <div
+                                                className="dash-wrapper__item__element"
+                                                onClick={() => {
+                                                    history.push(
+                                                        '?level=d696d5b3-ffec-4b76-91d7-6413ca217e84&subject=5d205fc3-0d05-4a1e-81d5-4dd216dd6204&price=312'
+                                                    );
+                                                    setEditSidebarOpen(true);
+                                                }}
+                                            >
+                                                <div className="flex--primary cur--pointer">
+                                                    <div>
+                                                        <div className="type--wgt--bold">
+                                                            English
+                                                        </div>
+                                                        <div>A level, IB</div>
+                                                    </div>
+                                                    <div>
+                                                        <i className="icon icon--base icon--edit icon--primary"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="dash-wrapper__item">
+                                            <div
+                                                className="dash-wrapper__item__element"
+                                                onClick={() => {
+                                                    history.push(
+                                                        '?level=xsdsadsadsadsada&subject=42342432432&price=22222'
+                                                    );
+                                                    setEditSidebarOpen(true);
+                                                }}
+                                            >
+                                                <div className="flex--primary cur--pointer">
+                                                    <div>
+                                                        <div className="type--wgt--bold">
+                                                            History
+                                                        </div>
+                                                        <div>University</div>
+                                                    </div>
+                                                    <div>
+                                                        <i className="icon icon--base icon--edit icon--primary"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <button
@@ -185,16 +236,10 @@ const MyTeachings = () => {
                     </div>
                 </div>
             </div>
-            <Sidebar
-                cancelLabel="Delete"
-                submitLabel="Save information"
+            <EditSubjectSidebar
                 sideBarIsOpen={editSidebarOpen}
                 closeSidebar={closeEditSubjectSidebar}
-                onSubmit={handleEditSubject}
-                title="EDIT SUBJECT DETAILS"
-            >
-                <div>TESSSTTTT</div>
-            </Sidebar>
+            />
             <AddSubjectSidebar
                 sideBarIsOpen={addSidebarOpen}
                 closeSidebar={closeAddSubjectSidebar}

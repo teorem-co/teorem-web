@@ -1,10 +1,11 @@
 import { Form, FormikProvider, useFormik } from 'formik';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
 import TextField from '../../../components/form/TextField';
 import MainWrapper from '../../../components/MainWrapper';
+import AddCreditCard from '../components/AddCreditCard';
 import ProfileHeader from '../components/ProfileHeader';
 import ProfileTabs from '../components/ProfileTabs';
 
@@ -16,6 +17,9 @@ interface Values {
 
 const ProfileAccount = () => {
     const { t } = useTranslation();
+
+    const [addSidebarOpen, setAddSidebarOpen] = useState(false);
+    const [editSidebarOpen, setEditSidebarOpen] = useState(false);
 
     const initialValues: Values = {
         currentPassword: '',
@@ -42,6 +46,14 @@ const ProfileAccount = () => {
             ),
         }),
     });
+
+    const closeAddCardSidebar = () => {
+        setAddSidebarOpen(false);
+    };
+
+    const closeEditCardSidebar = () => {
+        setEditSidebarOpen(false);
+    };
 
     useEffect(() => {
         console.log(formik.values);
@@ -160,7 +172,10 @@ const ProfileAccount = () => {
                     </div>
                     <div className="dash-wrapper">
                         <div className="dash-wrapper__item">
-                            <div className="dash-wrapper__item__element">
+                            <div
+                                className="dash-wrapper__item__element"
+                                onClick={() => setAddSidebarOpen(true)}
+                            >
                                 <div className="flex--primary cur--pointer">
                                     <div>
                                         <div className="type--wgt--bold">
@@ -178,6 +193,10 @@ const ProfileAccount = () => {
                     </div>
                 </div>
             </div>
+            <AddCreditCard
+                closeSidebar={closeAddCardSidebar}
+                sideBarIsOpen={addSidebarOpen}
+            />
         </MainWrapper>
     );
 };

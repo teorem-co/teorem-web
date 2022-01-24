@@ -3,6 +3,7 @@ interface IParams {
     level?: string;
     dayOfWeek?: string;
     timeOfDay?: string;
+    price?: string;
 }
 
 export default IParams;

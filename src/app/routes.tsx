@@ -140,9 +140,9 @@ const ROUTES: any = [
         key: 'MY_PROFILE',
         component: (props: any) => {
             return (
-                // <PermissionsGate roles={[Role.Tutor]}>
-                <RenderRoutes {...props} />
-                // </PermissionsGate>
+                <PermissionsGate roles={[Role.Tutor]}>
+                    <RenderRoutes {...props} />
+                </PermissionsGate>
             );
         },
         routes: [

@@ -1,18 +1,16 @@
 import { Form, FormikProvider, useFormik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router';
+import { useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 
-import { useGetLevelOptionsQuery } from '../../../../services/levelService';
+import IParams from '../../../../interfaces/IParams';
+import { useLazyGetLevelOptionsQuery } from '../../../../services/levelService';
 import { useLazyGetSubjectOptionsByLevelQuery } from '../../../../services/subjectService';
-import MySelect, { OptionType } from '../../../components/form/MySelectField';
+import MySelect from '../../../components/form/MySelectField';
 import TextField from '../../../components/form/TextField';
-
-interface Props {
-    sideBarIsOpen: boolean;
-    closeSidebar: () => void;
-}
+import getUrlParams from '../../../utils/getUrlParams';
 
 interface Values {
     level: string;
@@ -20,40 +18,59 @@ interface Values {
     price: string;
 }
 
-const AddSubjectSidebar = (props: Props) => {
+interface Props {
+    sideBarIsOpen: boolean;
+    closeSidebar: () => void;
+}
+
+const EditSubjectSidebar = (props: Props) => {
     const { closeSidebar, sideBarIsOpen } = props;
 
+    //get level and subject name from user subject with mapping
     const history = useHistory();
 
-    const { data: levelOptions, isLoading: isLoadingLevels } =
-        useGetLevelOptionsQuery();
-
-    const [
-        getSubjectOptionsByLevel,
-        {
-            data: subjectsData,
-            isLoading: isLoadingSubjects,
-            isSuccess: isSuccessSubjects,
-        },
-    ] = useLazyGetSubjectOptionsByLevelQuery();
-
-    const levelDisabled = !levelOptions || isLoadingLevels;
-
-    const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
+    const [params, setParams] = useState<IParams>({});
 
     useEffect(() => {
-        if (subjectsData && isSuccessSubjects && formik.values.level !== '') {
-            setSubjectOptions(subjectsData);
-        }
-    }, [subjectsData]);
+        if (sideBarIsOpen) {
+            const urlQueries: IParams = getUrlParams(
+                history.location.search.replace('?', '')
+            );
 
-    const { t } = useTranslation();
+            if (Object.keys(urlQueries).length > 0) {
+                setParams(urlQueries);
+                if (urlQueries.level) {
+                    formik.setFieldValue('level', urlQueries.level);
+                }
+                urlQueries.subject &&
+                    formik.setFieldValue('subject', urlQueries.subject);
+                urlQueries.price &&
+                    formik.setFieldValue('price', urlQueries.price);
+            }
+        } else {
+            setParams({});
+        }
+    }, [sideBarIsOpen]);
+
+    useEffect(() => {
+        const filterParams = new URLSearchParams();
+        if (Object.keys(params).length !== 0 && params.constructor === Object) {
+            for (const [key, value] of Object.entries(params)) {
+                filterParams.append(key, value);
+            }
+            history.push({ search: filterParams.toString() });
+        } else {
+            history.push({ search: filterParams.toString() });
+        }
+    }, [params]);
 
     const initialValues: Values = {
         level: '',
         subject: '',
         price: '',
     };
+
+    const { t } = useTranslation();
 
     const handleSubmit = (values: Values) => {
         const test = values;
@@ -64,22 +81,9 @@ const AddSubjectSidebar = (props: Props) => {
         initialValues: initialValues,
         onSubmit: handleSubmit,
         validationSchema: Yup.object().shape({
-            level: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            subject: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             price: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
         }),
     });
-
-    useEffect(() => {
-        formik.setFieldValue('subject', '');
-        if (formik.values.level !== '') {
-            getSubjectOptionsByLevel(formik.values.level);
-        }
-    }, [formik.values.level]);
-
-    useEffect(() => {
-        console.log(formik.values);
-    }, [formik.values]);
 
     return (
         <div>
@@ -97,7 +101,7 @@ const AddSubjectSidebar = (props: Props) => {
             >
                 <div className="flex--primary flex--shrink">
                     <div className="type--color--secondary">
-                        ADD NEW SUBJECT
+                        EDIT SUBJECT DETAILS
                     </div>
                     <div>
                         <i
@@ -118,8 +122,8 @@ const AddSubjectSidebar = (props: Props) => {
                                     form={formik}
                                     meta={formik.getFieldMeta('level')}
                                     isMulti={false}
-                                    options={levelOptions ? levelOptions : []}
-                                    isDisabled={levelDisabled}
+                                    options={[]}
+                                    isDisabled={true}
                                     placeholder={t(
                                         'SEARCH_TUTORS.PLACEHOLDER.LEVEL'
                                     )}
@@ -134,10 +138,8 @@ const AddSubjectSidebar = (props: Props) => {
                                     form={formik}
                                     meta={formik.getFieldMeta('subject')}
                                     isMulti={false}
-                                    options={subjectOptions}
-                                    isDisabled={
-                                        levelDisabled || isLoadingSubjects
-                                    }
+                                    options={[]}
+                                    isDisabled={true}
                                     noOptionsMessage={() =>
                                         t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')
                                     }
@@ -174,7 +176,7 @@ const AddSubjectSidebar = (props: Props) => {
                             Save information
                         </button>
                         <button className="btn btn--clear type--color--error type--wgt--bold">
-                            Cancel
+                            Delete
                         </button>
                     </div>
                 </div>
@@ -183,4 +185,4 @@ const AddSubjectSidebar = (props: Props) => {
     );
 };
 
-export default AddSubjectSidebar;
+export default EditSubjectSidebar;
