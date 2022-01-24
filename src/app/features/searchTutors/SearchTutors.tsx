@@ -479,12 +479,6 @@ const SearchTutors = () => {
                     </div>
                 </div>
             </div>
-
-            <Switch>
-                <Route path={`${PATHS.SEARCH_TUTORS}/:tutorId`}>
-                    <TutorProfile />
-                </Route>
-            </Switch>
         </MainWrapper>
     );
 };
