@@ -4,11 +4,11 @@ import { NavLink, Route, Switch } from 'react-router-dom';
 
 import Login from './features/login/Login';
 import MyBookings from './features/my-bookings/MyBookings';
-import AdditionalInformation from './features/my-profile/components/AdditionalInformation';
-import GeneralAvailability from './features/my-profile/components/GeneralAvailability';
-import MyTeachings from './features/my-profile/components/MyTeachings';
-import PersonalInformation from './features/my-profile/components/PersonalInformation';
-import ProfileAccount from './features/my-profile/ProfileAccount';
+import AdditionalInformation from './features/my-profile/pages/AdditionalInformation';
+import GeneralAvailability from './features/my-profile/pages/GeneralAvailability';
+import MyTeachings from './features/my-profile/pages/MyTeachings';
+import PersonalInformation from './features/my-profile/pages/PersonalInformation';
+import ProfileAccount from './features/my-profile/pages/ProfileAccount';
 import MyReviews from './features/myReviews/MyReviews';
 import Onboarding from './features/onboarding/Onboarding';
 import Register from './features/register/Register';
@@ -140,9 +140,9 @@ const ROUTES: any = [
         key: 'MY_PROFILE',
         component: (props: any) => {
             return (
-                <PermissionsGate roles={[Role.Tutor]}>
-                    <RenderRoutes {...props} />
-                </PermissionsGate>
+                // <PermissionsGate roles={[Role.Tutor]}>
+                <RenderRoutes {...props} />
+                // </PermissionsGate>
             );
         },
         routes: [

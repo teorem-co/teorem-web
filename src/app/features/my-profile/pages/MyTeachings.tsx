@@ -4,13 +4,13 @@ import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
 import { useGetProfileProgressQuery } from '../../../../services/tutorService';
-import MyTextField from '../../../components/form/MyTextField';
 import TextField from '../../../components/form/TextField';
 import MainWrapper from '../../../components/MainWrapper';
 import Sidebar from '../../../components/Sidebar';
-import ProfileCompletion from './ProfileCompletion';
-import ProfileHeader from './ProfileHeader';
-import ProfileTabs from './ProfileTabs';
+import AddSubjectSidebar from '../components/AddSubjectSidebar';
+import ProfileCompletion from '../components/ProfileCompletion';
+import ProfileHeader from '../components/ProfileHeader';
+import ProfileTabs from '../components/ProfileTabs';
 
 interface Values {
     occupation: string;
@@ -149,7 +149,12 @@ const MyTeachings = () => {
                                     </div>
                                     <div className="dash-wrapper flex--grow">
                                         <div className="dash-wrapper__item">
-                                            <div className="dash-wrapper__item__element">
+                                            <div
+                                                className="dash-wrapper__item__element"
+                                                onClick={() =>
+                                                    setAddSidebarOpen(true)
+                                                }
+                                            >
                                                 <div className="flex--primary cur--pointer">
                                                     <div>
                                                         <div className="type--wgt--bold">
@@ -179,23 +184,7 @@ const MyTeachings = () => {
                         </FormikProvider>
                     </div>
                 </div>
-                <button onClick={() => setAddSidebarOpen(true)}>
-                    Add subject
-                </button>
-                <button onClick={() => setEditSidebarOpen(true)}>
-                    Edit subject
-                </button>
             </div>
-            <Sidebar
-                cancelLabel="Delete"
-                submitLabel="Save information"
-                sideBarIsOpen={addSidebarOpen}
-                closeSidebar={closeAddSubjectSidebar}
-                onSubmit={handleAddSubject}
-                title="ADD NEW SUBJECT"
-            >
-                <div>TESSSTTTT</div>
-            </Sidebar>
             <Sidebar
                 cancelLabel="Delete"
                 submitLabel="Save information"
@@ -206,6 +195,10 @@ const MyTeachings = () => {
             >
                 <div>TESSSTTTT</div>
             </Sidebar>
+            <AddSubjectSidebar
+                sideBarIsOpen={addSidebarOpen}
+                closeSidebar={closeAddSubjectSidebar}
+            />
         </MainWrapper>
     );
 };

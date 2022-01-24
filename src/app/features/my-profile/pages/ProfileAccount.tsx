@@ -3,10 +3,10 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
-import TextField from '../../components/form/TextField';
-import MainWrapper from '../../components/MainWrapper';
-import ProfileHeader from './components/ProfileHeader';
-import ProfileTabs from './components/ProfileTabs';
+import TextField from '../../../components/form/TextField';
+import MainWrapper from '../../../components/MainWrapper';
+import ProfileHeader from '../components/ProfileHeader';
+import ProfileTabs from '../components/ProfileTabs';
 
 interface Values {
     currentPassword: string;

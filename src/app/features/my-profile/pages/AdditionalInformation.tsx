@@ -6,9 +6,9 @@ import * as Yup from 'yup';
 import { useGetProfileProgressQuery } from '../../../../services/tutorService';
 import MyTextArea from '../../../components/form/MyTextArea';
 import MainWrapper from '../../../components/MainWrapper';
-import ProfileCompletion from './ProfileCompletion';
-import ProfileHeader from './ProfileHeader';
-import ProfileTabs from './ProfileTabs';
+import ProfileCompletion from '../components/ProfileCompletion';
+import ProfileHeader from '../components/ProfileHeader';
+import ProfileTabs from '../components/ProfileTabs';
 
 interface Values {
     aboutUser: string;

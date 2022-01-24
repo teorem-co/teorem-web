@@ -30,4 +30,5 @@ export const levelService = baseService.injectEndpoints({
     }),
 });
 
-export const { useLazyGetLevelOptionsQuery } = levelService;
+export const { useLazyGetLevelOptionsQuery, useGetLevelOptionsQuery } =
+    levelService;

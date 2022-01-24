@@ -1,8 +1,8 @@
 import { useGetProfileProgressQuery } from '../../../../services/tutorService';
 import MainWrapper from '../../../components/MainWrapper';
-import ProfileCompletion from './ProfileCompletion';
-import ProfileHeader from './ProfileHeader';
-import ProfileTabs from './ProfileTabs';
+import ProfileCompletion from '../components/ProfileCompletion';
+import ProfileHeader from '../components/ProfileHeader';
+import ProfileTabs from '../components/ProfileTabs';
 
 const GeneralAvailability = () => {
     const { data: profileProgress } = useGetProfileProgressQuery();

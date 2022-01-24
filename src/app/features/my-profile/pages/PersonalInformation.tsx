@@ -20,9 +20,9 @@ import { phoneNumberOption } from '../../../constants/phoneNumberOption';
 import { useAppSelector } from '../../../hooks';
 import { getUserId } from '../../../utils/getUserId';
 import { useLazyGetCountriesQuery } from '../../onboarding/services/countryService';
-import ProfileCompletion from './ProfileCompletion';
-import ProfileHeader from './ProfileHeader';
-import ProfileTabs from './ProfileTabs';
+import ProfileCompletion from '../components/ProfileCompletion';
+import ProfileHeader from '../components/ProfileHeader';
+import ProfileTabs from '../components/ProfileTabs';
 
 interface Values {
     firstName: string;
@@ -297,7 +297,7 @@ const PersonalInformation = () => {
                                         <div className="tutor-list__item__img">
                                             <img
                                                 src="https://source.unsplash.com/random/300×300/?face"
-                                                alt="tutor-list"
+                                                alt="tutor-pic"
                                             />
                                         </div>
                                         <div className="field field__file">

@@ -1,3 +1,5 @@
+import { useCallback, useEffect } from 'react';
+
 interface Props {
     children: JSX.Element | JSX.Element[];
     sideBarIsOpen: boolean;
@@ -18,6 +20,21 @@ const Sidebar = (props: Props) => {
         submitLabel,
         cancelLabel,
     } = props;
+
+    const escFunction = useCallback((event) => {
+        if (event.keyCode === 27) {
+            //Do whatever when esc is pressed
+            closeSidebar();
+        }
+    }, []);
+
+    useEffect(() => {
+        document.addEventListener('keydown', escFunction, false);
+
+        return () => {
+            document.removeEventListener('keydown', escFunction, false);
+        };
+    }, []);
 
     return (
         <div>
