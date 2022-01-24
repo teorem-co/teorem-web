@@ -95,37 +95,33 @@ const PersonalInformation = () => {
     });
 
     useEffect(() => {
-        console.log(formik.values);
-    }, [formik.values]);
-
-    useEffect(() => {
         getCountries();
     }, []);
 
     return (
         <MainWrapper>
             <div className="card--profile">
-                {/* HEADER */}
-                <ProfileHeader className="mb-8" />
+                <FormikProvider value={formik}>
+                    <Form>
+                        {/* HEADER */}
+                        <ProfileHeader className="mb-8" />
 
-                <ProfileTabs />
+                        <ProfileTabs />
 
-                {/* PROGRESS */}
-                <ProfileCompletion percentage={profileProgress?.percentage} />
+                        {/* PROGRESS */}
+                        <ProfileCompletion percentage={profileProgress?.percentage} />
 
-                {/* PERSONAL INFO */}
-                <div className="card--profile__section">
-                    <div>
-                        <div className="mb-2 type--wgt--bold">
-                            Personal Information
-                        </div>
-                        <div className="type--color--tertiary w--200--max">
-                            Edit and update your personal information
-                        </div>
-                    </div>
-                    <div className="w--800--max">
-                        <FormikProvider value={formik}>
-                            <Form>
+                        {/* PERSONAL INFO */}
+                        <div className="card--profile__section">
+                            <div>
+                                <div className="mb-2 type--wgt--bold">
+                                    Personal Information
+                                </div>
+                                <div className="type--color--tertiary w--200--max">
+                                    Edit and update your personal information
+                                </div>
+                            </div>
+                            <div className="w--800--max">
                                 <div className="row">
                                     <div className="col col-12 col-xl-6">
                                         <div className="field">
@@ -188,7 +184,7 @@ const PersonalInformation = () => {
                                                     isSearchable={false}
                                                     withoutErr={
                                                         formik.errors.prefix &&
-                                                        formik.touched.prefix
+                                                            formik.touched.prefix
                                                             ? false
                                                             : true
                                                     }
@@ -202,8 +198,8 @@ const PersonalInformation = () => {
                                                     withoutErr={
                                                         formik.errors
                                                             .phoneNumber &&
-                                                        formik.touched
-                                                            .phoneNumber
+                                                            formik.touched
+                                                                .phoneNumber
                                                             ? false
                                                             : true
                                                     }
@@ -211,23 +207,23 @@ const PersonalInformation = () => {
                                             </div>
                                             <div className="flex flex--center">
                                                 {formik.errors.prefix &&
-                                                formik.touched.prefix ? (
+                                                    formik.touched.prefix ? (
                                                     <div className="field__validation mr-4">
                                                         {formik.errors.prefix
                                                             ? formik.errors
-                                                                  .prefix
+                                                                .prefix
                                                             : ''}
                                                     </div>
                                                 ) : (
                                                     <></>
                                                 )}
                                                 {formik.errors.phoneNumber &&
-                                                formik.touched.phoneNumber ? (
+                                                    formik.touched.phoneNumber ? (
                                                     <div className="field__validation">
                                                         {formik.errors
                                                             .phoneNumber
                                                             ? formik.errors
-                                                                  .phoneNumber
+                                                                .phoneNumber
                                                             : ''}
                                                     </div>
                                                 ) : (
@@ -282,46 +278,49 @@ const PersonalInformation = () => {
                                         </div>
                                     </div>
                                 </div>
-                                {/* PICTURE */}
-                                <div className="flex mt-4">
-                                    <div>
-                                        <div className="mb-2 type--wgt--bold">
-                                            Profile Picture
-                                        </div>
-                                        <div className="type--color--tertiary w--200--max">
-                                            Upload or remove a new profile
-                                            picture (PNG or JPG)
-                                        </div>
+
+                            </div>
+                        </div>
+                        {/* IMAGE */}
+                        <div className="card--profile__section">
+                            <div>
+                                <div className="mb-2 type--wgt--bold">
+                                    Profile Picture
+                                </div>
+                                <div className="type--color--tertiary w--200--max">
+                                    Upload or remove a new profile
+                                    picture (PNG or JPG)
+                                </div>
+                            </div>
+                            <div className="w--800--max">
+                                <div className="flex flex--center flex--grow">
+                                    <div className="tutor-list__item__img">
+                                        <img
+                                            src="https://source.unsplash.com/random/300×300/?face"
+                                            alt="tutor-pic"
+                                        />
                                     </div>
-                                    <div className="flex flex--center flex--grow">
-                                        <div className="tutor-list__item__img">
-                                            <img
-                                                src="https://source.unsplash.com/random/300×300/?face"
-                                                alt="tutor-pic"
-                                            />
-                                        </div>
-                                        <div className="field field__file">
-                                            <label
-                                                className="field__label"
-                                                htmlFor="profileImage"
-                                            >
-                                                Profile Image*
-                                            </label>
-                                            <UploadFile
-                                                setFieldValue={
-                                                    formik.setFieldValue
-                                                }
-                                                uploadedFile={(file: any) => {
-                                                    formik.setFieldValue(
-                                                        'profileImage',
-                                                        file
-                                                    );
-                                                }}
-                                                id="profileImage"
-                                                name="profileImage"
-                                                imagePreview={profileImage}
-                                            />
-                                        </div>
+                                    <div className="field field__file">
+                                        <label
+                                            className="field__label"
+                                            htmlFor="profileImage"
+                                        >
+                                            Profile Image*
+                                        </label>
+                                        <UploadFile
+                                            setFieldValue={
+                                                formik.setFieldValue
+                                            }
+                                            uploadedFile={(file: any) => {
+                                                formik.setFieldValue(
+                                                    'profileImage',
+                                                    file
+                                                );
+                                            }}
+                                            id="profileImage"
+                                            name="profileImage"
+                                            imagePreview={profileImage}
+                                        />
                                     </div>
                                 </div>
                                 <button
@@ -330,10 +329,10 @@ const PersonalInformation = () => {
                                 >
                                     Save
                                 </button>
-                            </Form>
-                        </FormikProvider>
-                    </div>
-                </div>
+                            </div>
+                        </div>
+                    </Form>
+                </FormikProvider>
             </div>
         </MainWrapper>
     );

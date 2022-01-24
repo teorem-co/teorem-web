@@ -3,6 +3,7 @@ import MainWrapper from '../../../components/MainWrapper';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
 import ProfileTabs from '../components/ProfileTabs';
+import IAvailabilityItem from '../interfaces/IAvailabilityItem';
 
 const GeneralAvailability = () => {
     const { data: profileProgress } = useGetProfileProgressQuery();
@@ -11,35 +12,91 @@ const GeneralAvailability = () => {
         ['', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
         [
             'Pre 12 pm',
-            <i className="icon icon--base icon--check"></i>,
-            <i className="icon icon--base icon--check"></i>,
-            <i className="icon icon--base icon--check"></i>,
-            <i className="icon icon--base icon--check"></i>,
-            <i className="icon icon--base icon--close"></i>,
-            <i className="icon icon--base icon--check"></i>,
-            <i className="icon icon--base icon--check"></i>,
+            {
+                check: true,
+                id: 'id'
+            },
+            {
+                check: true,
+                id: 'id'
+            }, {
+                check: false,
+                id: 'id'
+            }, {
+                check: true,
+                id: 'id'
+            }, {
+                check: true,
+                id: 'id'
+            }, {
+                check: true,
+                id: 'id'
+            }, {
+                check: false,
+                id: 'id'
+            },
         ],
         [
             '12 - 5 pm',
-            <i className="icon icon--base icon--check"></i>,
-            <i className="icon icon--base icon--check"></i>,
-            <i className="icon icon--base icon--check"></i>,
-            <i className="icon icon--base icon--close"></i>,
-            <i className="icon icon--base icon--check"></i>,
-            <i className="icon icon--base icon--check"></i>,
-            <i className="icon icon--base icon--check"></i>,
+            {
+                check: true,
+                id: 'id'
+            }, {
+                check: true,
+                id: 'id'
+            }, {
+                check: true,
+                id: 'id'
+            }, {
+                check: true,
+                id: 'id'
+            }, {
+                check: true,
+                id: 'id'
+            }, {
+                check: true,
+                id: 'id'
+            }, {
+                check: true,
+                id: 'id'
+            },
         ],
         [
             'After 5 pm',
-            <i className="icon icon--base icon--check"></i>,
-            <i className="icon icon--base icon--check"></i>,
-            <i className="icon icon--base icon--check"></i>,
-            <i className="icon icon--base icon--check"></i>,
-            <i className="icon icon--base icon--check"></i>,
-            <i className="icon icon--base icon--check"></i>,
-            <i className="icon icon--base icon--check"></i>,
+            {
+                check: true,
+                id: 'id'
+            }, {
+                check: true,
+                id: 'id'
+            }, {
+                check: true,
+                id: 'id'
+            }, {
+                check: false,
+                id: 'id'
+            }, {
+                check: true,
+                id: 'id'
+            }, {
+                check: true,
+                id: 'id'
+            }, {
+                check: true,
+                id: 'id'
+            },
         ],
     ];
+
+    const renderTableCells = (column: string | IAvailabilityItem) => {
+        if (typeof column === 'object') {
+            return <td className={`${column.check ? 'table--availability--check' : 'table--availability--close'}`}>{column.check
+                ? <i className="icon icon--base icon--check icon--primary"></i>
+                : <i className="icon icon--base icon--close icon--grey"></i>}</td>;
+        } else {
+            return <td>{column}</td>;
+        }
+    };
 
     return (
         <MainWrapper>
@@ -63,13 +120,13 @@ const GeneralAvailability = () => {
                         </div>
                     </div>
                     <div>
-                        <table>
-                            {availabilityTable.map((row: any) => {
+                        <table className="table table--availability">
+                            {availabilityTable.map((row: (string | IAvailabilityItem)[]) => {
                                 return (
                                     <tr>
-                                        {row.map((column: number) => {
-                                            return <td>{column}</td>;
-                                        })}
+                                        {
+                                            row.map((column: string | IAvailabilityItem) => renderTableCells(column))
+                                        }
                                     </tr>
                                 );
                             })}

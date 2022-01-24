@@ -1,0 +1,34 @@
+/*
+    components: table;
+*/
+
+.table {
+    border-collapse: collapse;
+    width: 100%;
+    overflow-x: scroll;
+    white-space: nowrap;
+
+    &--availability {
+        max-width: 720px;
+        border: 1px solid $grey-ed;
+
+        td {
+            position: relative;
+            padding: calc(#{$unit} * 4);
+            border: 1px solid $grey-ed;
+            
+            font-weight: bold;
+            text-align: center;
+            vertical-align: middle;
+            cursor: pointer;
+        }
+
+        &--check {
+            background-color: $color-primary-bright;
+        }
+
+        &--close {
+            background-color: $grey-fb;
+        }
+    }
+}
