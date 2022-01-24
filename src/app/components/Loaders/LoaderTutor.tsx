@@ -1,7 +1,7 @@
 import React from 'react';
 import ContentLoader from 'react-content-loader';
 
-const Loader = () => (
+const LoaderTutor = () => (
     <div className="flex--primary p-6">
         <ContentLoader
             className="mr-6"
@@ -35,4 +35,4 @@ const Loader = () => (
     </div>
 );
 
-export default Loader;
+export default LoaderTutor;

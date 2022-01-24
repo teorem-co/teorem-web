@@ -1,3 +1,4 @@
+import { t } from 'i18next';
 import { FC, useEffect, useState } from 'react';
 
 import ITutorStatisticsResult from '../interfaces/ITutorStatisticsResult';
@@ -38,7 +39,7 @@ const Ratings: FC<Props> = (props: Props) => {
             {statisticsPlaceholder.length > 0 ? statisticsPlaceholder.map((item: ITutorStatisticsResult, index: number) => {
                 return (
                     <div key={index} className="rating__item">
-                        <div className="mr-3">{item.mark}&nbsp;stars</div>
+                        <div className="mr-3">{item.mark}&nbsp;{t('MY_REVIEWS.STAR')}</div>
                         <div className="rating__progress">
                             <span
                                 className="rating__progress__bar"

@@ -144,4 +144,15 @@ export const EN_US = {
         NOTIFICATION_PART_1: 'You have ',
         NOTIFICATION_PART_2: ' Lesson(s) today!',
     },
+    MY_REVIEWS: {
+        TITLE: 'My Reviews',
+        COUNT_TITLE: 'REVIEWS',
+        AVG_SCORE: 'Review score',
+        PUBLISHED: 'Published',
+        STAR: 'Star',
+        NO_RESULT: {
+            TITLE: 'No results',
+            DESC: 'You don`t have any reviews yet.'
+        }
+    }
 };

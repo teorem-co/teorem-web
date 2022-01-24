@@ -10,7 +10,7 @@ import { useLazyGetSubjectOptionsByLevelQuery } from '../../../services/subjectS
 import { useLazyGetAvailableTutorsQuery } from '../../../services/tutorService';
 import CustomCheckbox from '../../components/form/CustomCheckbox';
 import MySelect, { OptionType } from '../../components/form/MySelectField';
-import Loader from '../../components/Loader';
+import LoaderTutor from '../../components/Loaders/LoaderTutor';
 import MainWrapper from '../../components/MainWrapper';
 import getUrlParams from '../../utils/getUrlParams';
 
@@ -379,9 +379,9 @@ const SearchTutors = () => {
                         {isLoadingAvailableTutors ? (
                             // Here goes loader
                             <div className="loader--sceleton">
-                                <Loader />
-                                <Loader />
-                                <Loader />
+                                <LoaderTutor />
+                                <LoaderTutor />
+                                <LoaderTutor />
                             </div>
                         ) : availableTutors && availableTutors.count !== 0 ? (
                             availableTutors.rows.map((tutor) => (
@@ -395,7 +395,7 @@ const SearchTutors = () => {
                                     <div className="tutor-list__item__info">
                                         <div className="type--md mb-1">
                                             {tutor.User.firstName &&
-                                            tutor.User.lastName
+                                                tutor.User.lastName
                                                 ? `${tutor.User.firstName} ${tutor.User.lastName}`
                                                 : ''}
                                         </div>
@@ -405,11 +405,10 @@ const SearchTutors = () => {
                                                 : ''}
                                         </div>
                                         <div
-                                            className={`type--color--secondary ${
-                                                tutor.Subjects.length > 0
+                                            className={`type--color--secondary ${tutor.Subjects.length > 0
                                                     ? 'mb-6'
                                                     : ''
-                                            } w--632--max`}
+                                                } w--632--max`}
                                         >
                                             {tutor.aboutTutor
                                                 ? tutor.aboutTutor
@@ -418,12 +417,12 @@ const SearchTutors = () => {
                                         <div>
                                             {tutor.Subjects
                                                 ? tutor.Subjects.map(
-                                                      (subject) => (
-                                                          <span className="tag tag--primary">
-                                                              {subject.name}
-                                                          </span>
-                                                      )
-                                                  )
+                                                    (subject) => (
+                                                        <span className="tag tag--primary">
+                                                            {subject.name}
+                                                        </span>
+                                                    )
+                                                )
                                                 : ''}
                                         </div>
                                     </div>
