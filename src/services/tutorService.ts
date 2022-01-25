@@ -37,4 +37,5 @@ export const tutorService = baseService.injectEndpoints({
     }),
 });
 
-export const { useLazyGetAvailableTutorsQuery } = tutorService;
+export const { useLazyGetAvailableTutorsQuery, useGetAvailableTutorsQuery } =
+    tutorService;

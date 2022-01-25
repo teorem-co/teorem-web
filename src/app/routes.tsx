@@ -8,6 +8,7 @@ import Register from './features/register/Register';
 import ResetPassword from './features/reset-password/ResetPassword';
 import RoleSelection from './features/roleSelection/RoleSelection';
 import SearchTutors from './features/searchTutors/SearchTutors';
+import TutorProfile from './features/searchTutors/TutorProfile';
 import { Role } from './lookups/role';
 import NotFound from './pages/NotFound';
 import PermissionsGate from './PermissionGate';
@@ -20,6 +21,7 @@ export enum PATHS {
     LOGIN = '/',
     MY_BOOKINGS = '/my-bookings',
     SEARCH_TUTORS = '/search-tutors',
+    SEARCH_TUTORS_TUTOR_PROFILE = '/search-tutors/:tutorId',
     ONBOARDING = '/onboarding',
     MY_REVIEWS = '/my-reviews',
 }
@@ -47,15 +49,6 @@ const ROUTES: any = [
         key: 'REGISTER',
         exact: true,
         component: () => <Register />,
-    },
-    {
-        path: PATHS.SEARCH_TUTORS,
-        key: 'SEARCH_TUTORS',
-        exact: true,
-        roles: [Role.Tutor],
-        isMenu: false,
-        isPublic: true,
-        component: () => <SearchTutors />,
     },
     {
         path: PATHS.ONBOARDING,
@@ -109,6 +102,18 @@ const ROUTES: any = [
                 roles={[Role.Parent, Role.Student, Role.SuperAdmin]}
             >
                 <SearchTutors />
+            </PermissionsGate>
+        ),
+    },
+    {
+        path: PATHS.SEARCH_TUTORS_TUTOR_PROFILE,
+        key: 'SEARCH_TUTORS_TUTOR_PROFILE',
+        exact: true,
+        component: () => (
+            <PermissionsGate
+                roles={[Role.Parent, Role.Student, Role.SuperAdmin]}
+            >
+                <TutorProfile />
             </PermissionsGate>
         ),
     },
