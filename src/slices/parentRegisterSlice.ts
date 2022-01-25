@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { IChild } from '../interfaces/IChild';
-import IChildListOption from '../interfaces/IChildListOption';
 
 interface IRegister {
     firstName: string;
@@ -125,6 +124,7 @@ export const parentRegisterSlice = createSlice({
             state.childDateOfBirth = '';
             state.username = '';
             state.childPassword = '';
+            state.child = [];
         },
     },
 });

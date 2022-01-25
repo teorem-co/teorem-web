@@ -58,8 +58,13 @@ interface IRegisterStudent {
 interface IResetPassword {
     email: string;
 }
+
 interface ICheckMail {
     email: string;
+}
+
+interface ICheckUsername {
+    username: string;
 }
 
 const URL = '/membership';
@@ -107,6 +112,13 @@ export const authService = baseService.injectEndpoints({
                 body: body,
             }),
         }),
+        checkUsername: builder.mutation<boolean, ICheckUsername>({
+            query: (body) => ({
+                url: `${URL}/check-username`,
+                method: HttpMethods.POST,
+                body: body,
+            }),
+        }),
     }),
 });
 
@@ -117,4 +129,5 @@ export const {
     useRegisterStudentMutation,
     useResetPasswordMutation,
     useCheckMailMutation,
+    useCheckUsernameMutation,
 } = authService;

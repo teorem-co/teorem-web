@@ -57,9 +57,7 @@ const Login: React.FC = () => {
             login(data);
         },
         validationSchema: Yup.object().shape({
-            email: Yup.string()
-                .email(t('FORM_VALIDATION.INVALID_EMAIL'))
-                .required(t('FORM_VALIDATION.REQUIRED')),
+            email: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             password: Yup.string()
                 .min(2, t('FORM_VALIDATION.TOO_SHORT'))
                 .max(50, t('FORM_VALIDATION.TOO_LONG'))

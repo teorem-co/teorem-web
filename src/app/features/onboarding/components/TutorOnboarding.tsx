@@ -78,49 +78,7 @@ const TutorOnboarding: React.FC<IProps> = ({
     );
     const { t } = useTranslation();
 
-    useEffect(() => {
-        getCountries();
-    }, []);
-
-    useEffect(() => {
-        const currentCountries: OptionType[] = countries
-            ? countries.map((x: ICountry) => {
-                  return {
-                      label: x.name,
-                      value: x.id,
-                  };
-              })
-            : [];
-        setCountryOptions(currentCountries);
-        const currentPhone: PhoneOptionType[] = countries
-            ? countries.map((x: ICountry) => {
-                  return {
-                      label: x.name,
-                      prefix: x.phonePrefix,
-                      value: x.phonePrefix,
-                  };
-              })
-            : [];
-        setPhoneOptions(currentPhone);
-    }, [countries]);
-
-    const initialValuesOne: StepOneValues = {
-        countryId: '',
-        prefix: '',
-        phoneNumber: '',
-        dateOfBirth: '',
-        profileImage: '',
-    };
-
-    const initialValuesTwo: StepTwoValues = {
-        cardFirstName: '',
-        cardLastName: '',
-        cardNumber: '',
-        expiryDate: '',
-        cvv: '',
-        zipCode: '',
-    };
-
+    // step one
     const editStepOne = () => {
         const test = {
             countryId: countryId,
@@ -131,6 +89,14 @@ const TutorOnboarding: React.FC<IProps> = ({
         };
         const test2 = countryId ? test : initialValuesOne;
         return test2;
+    };
+
+    const initialValuesOne: StepOneValues = {
+        countryId: '',
+        prefix: '',
+        phoneNumber: '',
+        dateOfBirth: '',
+        profileImage: '',
     };
 
     const formikStepOne = useFormik({
@@ -152,30 +118,6 @@ const TutorOnboarding: React.FC<IProps> = ({
         }),
     });
 
-    const formikStepTwo = useFormik({
-        initialValues: initialValuesTwo,
-        onSubmit: (values) => handleSubmitStepTwo(values),
-        validateOnBlur: true,
-        enableReinitialize: true,
-        validationSchema: Yup.object().shape({
-            firstName: Yup.string(),
-            // .min(2, t('FORM_VALIDATION.TOO_SHORT'))
-            // .max(100, t('FORM_VALIDATION.TOO_LONG'))
-            // .required(t('FORM_VALIDATION.REQUIRED')),
-            // lastName: Yup.string()
-            // .min(2, t('FORM_VALIDATION.TOO_SHORT'))
-            // .max(100, t('FORM_VALIDATION.TOO_LONG'))
-            // // .required(t('FORM_VALIDATION.REQUIRED')),
-            // cardNumber: Yup.string()
-            // .min(16, t('FORM_VALIDATION.TOO_SHORT'))
-            // .max(16, t('FORM_VALIDATION.TOO_LONG'))
-            // // .required(t('FORM_VALIDATION.REQUIRED')),
-            // // expiryDate: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            // // cvv: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            // // zipCode: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-        }),
-    });
-
     const handleSubmitStepOne = (values: StepOneValues) => {
         dispatch(
             setStepOne({
@@ -188,43 +130,6 @@ const TutorOnboarding: React.FC<IProps> = ({
         );
         handleNextStep();
     };
-
-    const handleSubmitStepTwo = (values: StepTwoValues) => {
-        dispatch(
-            setStepTwo({
-                cardFirstName: values.cardFirstName,
-                cardLastName: values.cardLastName,
-                cardNumber: values.cardNumber,
-                expiryDate: values.expiryDate,
-                cvv: values.cvv,
-                zipCode: values.zipCode,
-            })
-        );
-        registerTutor({
-            firstName: firstName,
-            lastName: lastName,
-            password: password,
-            confirmPassword: passwordRepeat,
-            roleAbrv: roleAbrv ? roleAbrv : '',
-            countryId: countryId,
-            phonePrefix: prefix,
-            phoneNumber: phoneNumber,
-            dateOfBirth: moment(dateOfBirth).toISOString(),
-            email: email,
-            profileImage: profileImage,
-        });
-    };
-
-    useEffect(() => {
-        if (isSuccess) {
-            dispatch(resetTutorRegister());
-            dispatch(resetParentRegister());
-            dispatch(resetStudentRegister());
-            handleNextStep();
-            toastService.success('You are registered successfully.');
-        }
-    }, [isSuccess]);
-    // console.log(firstName, lastName, email, password, passwordRepeat);
 
     const stepOne = () => {
         return (
@@ -337,12 +242,12 @@ const TutorOnboarding: React.FC<IProps> = ({
                         />
                     </div>
 
-                    <button
-                        className="btn btn--base btn--primary w--100 mb-2 mt-6"
-                        type="submit"
+                    <div
+                        className="btn btn--base btn--primary type--center w--100 mb-2 mt-6"
+                        onClick={() => formikStepOne.handleSubmit()}
                     >
                         {t('REGISTER.NEXT_BUTTON')}
-                    </button>
+                    </div>
                     <div
                         onClick={() => handleGoBack()}
                         className="btn btn--clear btn--base w--100 type--color--brand type--wgt--bold type--center"
@@ -353,6 +258,68 @@ const TutorOnboarding: React.FC<IProps> = ({
                 </Form>
             </FormikProvider>
         );
+    };
+
+    // step two
+
+    const initialValuesTwo: StepTwoValues = {
+        cardFirstName: '',
+        cardLastName: '',
+        cardNumber: '',
+        expiryDate: '',
+        cvv: '',
+        zipCode: '',
+    };
+
+    const formikStepTwo = useFormik({
+        initialValues: initialValuesTwo,
+        onSubmit: (values) => handleSubmitStepTwo(values),
+        validateOnBlur: true,
+        enableReinitialize: true,
+        validationSchema: Yup.object().shape({
+            // firstName: Yup.string(),
+            // .min(2, t('FORM_VALIDATION.TOO_SHORT'))
+            // .max(100, t('FORM_VALIDATION.TOO_LONG'))
+            // .required(t('FORM_VALIDATION.REQUIRED')),
+            // lastName: Yup.string()
+            // .min(2, t('FORM_VALIDATION.TOO_SHORT'))
+            // .max(100, t('FORM_VALIDATION.TOO_LONG'))
+            // // .required(t('FORM_VALIDATION.REQUIRED')),
+            // cardNumber: Yup.string()
+            // .min(16, t('FORM_VALIDATION.TOO_SHORT'))
+            // .max(16, t('FORM_VALIDATION.TOO_LONG'))
+            // // .required(t('FORM_VALIDATION.REQUIRED')),
+            // // expiryDate: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            // // cvv: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            // // zipCode: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+        }),
+    });
+
+    const handleSubmitStepTwo = (values: StepTwoValues) => {
+        debugger;
+        dispatch(
+            setStepTwo({
+                cardFirstName: values.cardFirstName,
+                cardLastName: values.cardLastName,
+                cardNumber: values.cardNumber,
+                expiryDate: values.expiryDate,
+                cvv: values.cvv,
+                zipCode: values.zipCode,
+            })
+        );
+        registerTutor({
+            firstName: firstName,
+            lastName: lastName,
+            password: password,
+            confirmPassword: passwordRepeat,
+            roleAbrv: roleAbrv ? roleAbrv : '',
+            countryId: countryId,
+            phonePrefix: prefix,
+            phoneNumber: phoneNumber,
+            dateOfBirth: moment(dateOfBirth).toISOString(),
+            email: email,
+            profileImage: profileImage,
+        });
     };
 
     const stepTwo = () => {
@@ -441,12 +408,12 @@ const TutorOnboarding: React.FC<IProps> = ({
                             // disabled={isLoading}
                         />
                     </div>
-                    <button
-                        className="btn btn--base btn--primary w--100 mb-2 mt-6"
-                        type="submit"
+                    <div
+                        className="btn btn--base btn--primary type--center w--100 mb-2 mt-6"
+                        onClick={() => formikStepTwo.handleSubmit()}
                     >
                         {t('REGISTER.FINISH')}
-                    </button>
+                    </div>
                     <div
                         onClick={() => handleGoBack()}
                         className="btn btn--clear btn--base w--100 type--color--brand type--wgt--bold type--center"
@@ -458,6 +425,44 @@ const TutorOnboarding: React.FC<IProps> = ({
             </FormikProvider>
         );
     };
+
+    // end of steps
+
+    useEffect(() => {
+        getCountries();
+    }, []);
+
+    useEffect(() => {
+        const currentCountries: OptionType[] = countries
+            ? countries.map((x: ICountry) => {
+                  return {
+                      label: x.name,
+                      value: x.id,
+                  };
+              })
+            : [];
+        setCountryOptions(currentCountries);
+        const currentPhone: PhoneOptionType[] = countries
+            ? countries.map((x: ICountry) => {
+                  return {
+                      label: x.name,
+                      prefix: x.phonePrefix,
+                      value: x.phonePrefix,
+                  };
+              })
+            : [];
+        setPhoneOptions(currentPhone);
+    }, [countries]);
+
+    useEffect(() => {
+        if (isSuccess) {
+            dispatch(resetTutorRegister());
+            dispatch(resetParentRegister());
+            dispatch(resetStudentRegister());
+            handleNextStep();
+            toastService.success('You are registered successfully.');
+        }
+    }, [isSuccess]);
 
     return <>{step === 1 ? stepOne() : step === 2 ? stepTwo() : <></>}</>;
 };

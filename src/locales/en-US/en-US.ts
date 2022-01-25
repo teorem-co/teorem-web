@@ -94,7 +94,7 @@ export const EN_US = {
     LOGIN: {
         TITLE: 'Log in',
         FORM: {
-            EMAIL: 'Email',
+            EMAIL: 'Email or Username',
             PASSWORD: 'Enter your Password',
             SUBMIT_BTN: 'Log in',
         },

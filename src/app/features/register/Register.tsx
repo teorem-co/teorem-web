@@ -10,7 +10,10 @@ import { setRegister } from '../../../slices/tutorRegisterSlice';
 import TextField from '../../components/form/TextField';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
-import { useCheckMailMutation } from '../../services/authService';
+import {
+    useCheckMailMutation,
+    useCheckUsernameMutation,
+} from '../../services/authService';
 import logo from './../../../assets/images/logo.svg';
 import TooltipPassword from './TooltipPassword';
 
@@ -99,8 +102,8 @@ const Register: React.FC = () => {
                     roleSelection: roleSelection,
                 })
             );
-            checkMail({ email: values.email });
             dispatch(setSelectedRole(roleSelection));
+            history.push(PATHS.ONBOARDING);
         }
     };
 
@@ -123,11 +126,11 @@ const Register: React.FC = () => {
         }
     }, []);
 
-    useEffect(() => {
-        if (isSuccess) {
-            history.push(PATHS.ONBOARDING);
-        }
-    }, [isSuccess]);
+    // useEffect(() => {
+    //     if (isSuccess) {
+    //         history.push(PATHS.ONBOARDING);
+    //     }
+    // }, [isSuccess]);
 
     // useLayoutEffect(() => {
     //     return () => {
@@ -252,6 +255,11 @@ const Register: React.FC = () => {
                                         {t('REGISTER.FORM.EMAIL')}
                                     </label>
                                     <TextField
+                                        onBlur={() =>
+                                            checkMail({
+                                                email: formik.values.email,
+                                            })
+                                        }
                                         name="email"
                                         id="email"
                                         placeholder="Enter your email"
@@ -300,13 +308,13 @@ const Register: React.FC = () => {
                                         password={true}
                                     />
                                 </div>
-                                <button
-                                    className="btn btn--base btn--primary w--100 mb-2 mt-6"
-                                    type="submit"
-                                    disabled={isLoading}
+                                <div
+                                    className="btn btn--base btn--primary w--100 type--center mb-2 mt-6"
+                                    // type="submit"
+                                    onClick={() => formik.handleSubmit()}
                                 >
                                     {t('REGISTER.FORM.SUBMIT_BUTTON')}
-                                </button>
+                                </div>
                                 <div
                                     onClick={() => handleGoBack()}
                                     className="btn btn--clear btn--base w--100 type--color--brand type--wgt--bold type--center"
