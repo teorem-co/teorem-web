@@ -7,7 +7,6 @@ import * as Yup from 'yup';
 import { useGetProfileProgressQuery } from '../../../../services/tutorService';
 import TextField from '../../../components/form/TextField';
 import MainWrapper from '../../../components/MainWrapper';
-import Sidebar from '../../../components/Sidebar';
 import AddSubjectSidebar from '../components/AddSubjectSidebar';
 import EditSubjectSidebar from '../components/EditSubjectSidebar';
 import ProfileCompletion from '../components/ProfileCompletion';
@@ -74,167 +73,174 @@ const MyTeachings = () => {
     return (
         <MainWrapper>
             <div className="card--profile">
-                {/* HEADER */}
-                <ProfileHeader className="mb-8" />
+                <FormikProvider value={formik}>
+                    <Form>
+                        {/* HEADER */}
+                        <ProfileHeader className="mb-8" />
 
-                <ProfileTabs />
+                        <ProfileTabs />
 
-                {/* PROGRESS */}
-                <ProfileCompletion percentage={profileProgress?.percentage} />
+                        {/* PROGRESS */}
+                        <ProfileCompletion percentage={profileProgress?.percentage} />
 
-                {/* MY TEACHINGS */}
-                <div className="card--profile__section">
-                    <div>
-                        <div className="mb-2 type--wgt--bold">My teachings</div>
-                        <div className="type--color--tertiary w--200--max">
-                            Edit and update your teaching information
-                        </div>
-                    </div>
-                    <div>
-                        <FormikProvider value={formik}>
-                            <Form>
+                        {/* MY TEACHINGS */}
+                        <div className="card--profile__section">
+                            <div>
+                                <div className="mb-2 type--wgt--bold">My teachings</div>
+                                <div className="type--color--tertiary w--200--max">
+                                    Edit and update your teaching information
+                                </div>
+                            </div>
+                            <div>
                                 {/* Text Fields */}
-                                <div className="flex">
-                                    <div className="field">
-                                        <label
-                                            className="field__label"
-                                            htmlFor="occupation"
-                                        >
-                                            Your current occupation*
-                                        </label>
-                                        <TextField
-                                            id="occupation"
-                                            wrapperClassName="flex--grow"
-                                            name="occupation"
-                                            placeholder="What’s your current occupation"
-                                            className="input input--base"
-                                            withoutErr={
-                                                formik.errors.occupation &&
-                                                formik.touched.occupation
-                                                    ? false
-                                                    : true
-                                            }
-                                        />
+                                <div className="row">
+                                    <div className="col col-12 col-xl-6">
+                                        <div className="field">
+                                            <label
+                                                className="field__label"
+                                                htmlFor="occupation"
+                                            >
+                                                Your current occupation*
+                                            </label>
+                                            <TextField
+                                                id="occupation"
+                                                wrapperClassName="flex--grow"
+                                                name="occupation"
+                                                placeholder="What’s your current occupation"
+                                                className="input input--base"
+                                                withoutErr={
+                                                    formik.errors.occupation &&
+                                                        formik.touched.occupation
+                                                        ? false
+                                                        : true
+                                                }
+                                            />
+                                        </div>
                                     </div>
-                                    <div className="field">
-                                        <label
-                                            className="field__label"
-                                            htmlFor="yearsOfExperience"
-                                        >
-                                            Years of professional experience
-                                            (optional)
-                                        </label>
-                                        <TextField
-                                            id="yearsOfExperience"
-                                            wrapperClassName="flex--grow"
-                                            name="yearsOfExperience"
-                                            placeholder="How many years of professional experience you have"
-                                            className="input input--base"
-                                            withoutErr={
-                                                formik.errors
-                                                    .yearsOfExperience &&
-                                                formik.touched.yearsOfExperience
-                                                    ? false
-                                                    : true
-                                            }
-                                        />
+                                    <div className="col col-12 col-xl-6">
+                                        <div className="field">
+                                            <label
+                                                className="field__label"
+                                                htmlFor="yearsOfExperience"
+                                            >
+                                                Years of professional experience
+                                                (optional)
+                                            </label>
+                                            <TextField
+                                                id="yearsOfExperience"
+                                                wrapperClassName="flex--grow"
+                                                name="yearsOfExperience"
+                                                placeholder="How many years of professional experience you have"
+                                                className="input input--base"
+                                                withoutErr={
+                                                    formik.errors
+                                                        .yearsOfExperience &&
+                                                        formik.touched.yearsOfExperience
+                                                        ? false
+                                                        : true
+                                                }
+                                            />
+                                        </div>
                                     </div>
                                 </div>
-                                {/* Add subject */}
-                                <div className="flex">
-                                    <div>
-                                        <div className="mb-2 type--wgt--bold">
-                                            Card details
-                                        </div>
-                                        <div className="type--color--tertiary w--200--max">
-                                            Select default payment method or add
-                                            new one.
+                            </div>
+                        </div>
+                        <div className="card--profile__section">
+                            {/* Add subject */}
+                            <div>
+                                <div className="mb-2 type--wgt--bold">
+                                    Card details
+                                </div>
+                                <div className="type--color--tertiary w--200--max">
+                                    Select default payment method or add
+                                    new one.
+                                </div>
+                            </div>
+                            <div>
+                                <div className="dash-wrapper flex--grow">
+                                    <div className="dash-wrapper__item">
+                                        <div
+                                            className="dash-wrapper__item__element"
+                                            onClick={() =>
+                                                setAddSidebarOpen(true)
+                                            }
+                                        >
+                                            <div className="flex--primary cur--pointer">
+                                                <div>
+                                                    <div className="type--wgt--bold">
+                                                        Add new Subject
+                                                    </div>
+                                                    <div>
+                                                        Select to add new
+                                                        Subject
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <i className="icon icon--base icon--plus icon--primary"></i>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div className="dash-wrapper flex--grow">
-                                        <div className="dash-wrapper__item">
-                                            <div
-                                                className="dash-wrapper__item__element"
-                                                onClick={() =>
-                                                    setAddSidebarOpen(true)
-                                                }
-                                            >
-                                                <div className="flex--primary cur--pointer">
-                                                    <div>
-                                                        <div className="type--wgt--bold">
-                                                            Add new Subject
-                                                        </div>
-                                                        <div>
-                                                            Select to add new
-                                                            Subject
-                                                        </div>
+                                    {/* Map through subjects here */}
+                                    {/* Test fields */}
+                                    <div className="dash-wrapper__item">
+                                        <div
+                                            className="dash-wrapper__item__element"
+                                            onClick={() => {
+                                                history.push(
+                                                    '?level=d696d5b3-ffec-4b76-91d7-6413ca217e84&subject=5d205fc3-0d05-4a1e-81d5-4dd216dd6204&price=312'
+                                                );
+                                                setEditSidebarOpen(true);
+                                            }}
+                                        >
+                                            <div className="flex--primary cur--pointer">
+                                                <div>
+                                                    <div className="type--wgt--bold">
+                                                        English
                                                     </div>
-                                                    <div>
-                                                        <i className="icon icon--base icon--plus icon--primary"></i>
-                                                    </div>
+                                                    <div>A level, IB</div>
+                                                </div>
+                                                <div>
+                                                    <i className="icon icon--base icon--edit icon--primary"></i>
                                                 </div>
                                             </div>
                                         </div>
-                                        {/* Map through subjects here */}
-                                        {/* Test fields */}
-                                        <div className="dash-wrapper__item">
-                                            <div
-                                                className="dash-wrapper__item__element"
-                                                onClick={() => {
-                                                    history.push(
-                                                        '?level=d696d5b3-ffec-4b76-91d7-6413ca217e84&subject=5d205fc3-0d05-4a1e-81d5-4dd216dd6204&price=312'
-                                                    );
-                                                    setEditSidebarOpen(true);
-                                                }}
-                                            >
-                                                <div className="flex--primary cur--pointer">
-                                                    <div>
-                                                        <div className="type--wgt--bold">
-                                                            English
-                                                        </div>
-                                                        <div>A level, IB</div>
+                                    </div>
+                                    <div className="dash-wrapper__item">
+                                        <div
+                                            className="dash-wrapper__item__element"
+                                            onClick={() => {
+                                                history.push(
+                                                    '?level=xsdsadsadsadsada&subject=42342432432&price=22222'
+                                                );
+                                                setEditSidebarOpen(true);
+                                            }}
+                                        >
+                                            <div className="flex--primary cur--pointer">
+                                                <div>
+                                                    <div className="type--wgt--bold">
+                                                        History
                                                     </div>
-                                                    <div>
-                                                        <i className="icon icon--base icon--edit icon--primary"></i>
-                                                    </div>
+                                                    <div>University</div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div className="dash-wrapper__item">
-                                            <div
-                                                className="dash-wrapper__item__element"
-                                                onClick={() => {
-                                                    history.push(
-                                                        '?level=xsdsadsadsadsada&subject=42342432432&price=22222'
-                                                    );
-                                                    setEditSidebarOpen(true);
-                                                }}
-                                            >
-                                                <div className="flex--primary cur--pointer">
-                                                    <div>
-                                                        <div className="type--wgt--bold">
-                                                            History
-                                                        </div>
-                                                        <div>University</div>
-                                                    </div>
-                                                    <div>
-                                                        <i className="icon icon--base icon--edit icon--primary"></i>
-                                                    </div>
+                                                <div>
+                                                    <i className="icon icon--base icon--edit icon--primary"></i>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <button
-                                    className="btn btn--primary btn--lg"
+                                    className="btn btn--primary btn--lg mt-6"
                                     type="submit"
                                 >
                                     Save
                                 </button>
-                            </Form>
-                        </FormikProvider>
-                    </div>
-                </div>
+
+                            </div>
+                        </div>
+                    </Form>
+                </FormikProvider>
             </div>
             <EditSubjectSidebar
                 sideBarIsOpen={editSidebarOpen}

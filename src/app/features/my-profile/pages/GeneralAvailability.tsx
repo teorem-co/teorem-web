@@ -1,5 +1,6 @@
 import { useGetProfileProgressQuery } from '../../../../services/tutorService';
 import MainWrapper from '../../../components/MainWrapper';
+import availabilityTable from '../../../constants/availabilityTable';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
 import ProfileTabs from '../components/ProfileTabs';
@@ -7,86 +8,6 @@ import IAvailabilityItem from '../interfaces/IAvailabilityItem';
 
 const GeneralAvailability = () => {
     const { data: profileProgress } = useGetProfileProgressQuery();
-
-    const availabilityTable = [
-        ['', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-        [
-            'Pre 12 pm',
-            {
-                check: true,
-                id: 'id'
-            },
-            {
-                check: true,
-                id: 'id'
-            }, {
-                check: false,
-                id: 'id'
-            }, {
-                check: true,
-                id: 'id'
-            }, {
-                check: true,
-                id: 'id'
-            }, {
-                check: true,
-                id: 'id'
-            }, {
-                check: false,
-                id: 'id'
-            },
-        ],
-        [
-            '12 - 5 pm',
-            {
-                check: true,
-                id: 'id'
-            }, {
-                check: true,
-                id: 'id'
-            }, {
-                check: true,
-                id: 'id'
-            }, {
-                check: true,
-                id: 'id'
-            }, {
-                check: true,
-                id: 'id'
-            }, {
-                check: true,
-                id: 'id'
-            }, {
-                check: true,
-                id: 'id'
-            },
-        ],
-        [
-            'After 5 pm',
-            {
-                check: true,
-                id: 'id'
-            }, {
-                check: true,
-                id: 'id'
-            }, {
-                check: true,
-                id: 'id'
-            }, {
-                check: false,
-                id: 'id'
-            }, {
-                check: true,
-                id: 'id'
-            }, {
-                check: true,
-                id: 'id'
-            }, {
-                check: true,
-                id: 'id'
-            },
-        ],
-    ];
 
     const renderTableCells = (column: string | IAvailabilityItem) => {
         if (typeof column === 'object') {
