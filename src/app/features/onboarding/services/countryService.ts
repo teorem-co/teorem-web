@@ -13,6 +13,7 @@ export interface ICountry {
     currencyCode: string;
     currentcyName: string;
     isEuMember: boolean;
+    flag: string;
 }
 
 // interface ICountryTransformed {

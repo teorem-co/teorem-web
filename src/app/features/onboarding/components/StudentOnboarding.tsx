@@ -59,6 +59,7 @@ const StudentOnboarding: React.FC<IProps> = ({
                   return {
                       label: x.name,
                       value: x.id,
+                      icon: x.flag,
                   };
               })
             : [];
@@ -180,26 +181,31 @@ const StudentOnboarding: React.FC<IProps> = ({
                                 }
                             />
                         </div>
-                        <div className="flex flex--center">
-                            {formik.errors.prefix && formik.touched.prefix ? (
-                                <div className="field__validation mr-4">
-                                    {formik.errors.prefix
-                                        ? formik.errors.prefix
-                                        : ''}
-                                </div>
-                            ) : (
-                                <></>
-                            )}
-                            {formik.errors.phoneNumber &&
-                            formik.touched.phoneNumber ? (
-                                <div className="field__validation">
-                                    {formik.errors.phoneNumber
-                                        ? formik.errors.phoneNumber
-                                        : ''}
-                                </div>
-                            ) : (
-                                <></>
-                            )}
+                        <div className="flex">
+                            <div className="w--136">
+                                {formik.errors.prefix &&
+                                formik.touched.prefix ? (
+                                    <div className="field__validation mr-4">
+                                        {formik.errors.prefix
+                                            ? formik.errors.prefix
+                                            : ''}
+                                    </div>
+                                ) : (
+                                    <></>
+                                )}
+                            </div>
+                            <div>
+                                {formik.errors.phoneNumber &&
+                                formik.touched.phoneNumber ? (
+                                    <div className="field__validation">
+                                        {formik.errors.phoneNumber
+                                            ? formik.errors.phoneNumber
+                                            : ''}
+                                    </div>
+                                ) : (
+                                    <></>
+                                )}
+                            </div>
                         </div>
                     </div>
                     <div className="field">

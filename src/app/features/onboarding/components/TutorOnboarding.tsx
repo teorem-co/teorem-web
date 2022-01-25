@@ -191,27 +191,31 @@ const TutorOnboarding: React.FC<IProps> = ({
                                 }
                             />
                         </div>
-                        <div className="flex flex--center">
-                            {formikStepOne.errors.prefix &&
-                            formikStepOne.touched.prefix ? (
-                                <div className="field__validation mr-4">
-                                    {formikStepOne.errors.prefix
-                                        ? formikStepOne.errors.prefix
-                                        : ''}
-                                </div>
-                            ) : (
-                                <></>
-                            )}
-                            {formikStepOne.errors.phoneNumber &&
-                            formikStepOne.touched.phoneNumber ? (
-                                <div className="field__validation">
-                                    {formikStepOne.errors.phoneNumber
-                                        ? formikStepOne.errors.phoneNumber
-                                        : ''}
-                                </div>
-                            ) : (
-                                <></>
-                            )}
+                        <div className="flex">
+                            <div className="w--136">
+                                {formikStepOne.errors.prefix &&
+                                formikStepOne.touched.prefix ? (
+                                    <div className="field__validation mr-4">
+                                        {formikStepOne.errors.prefix
+                                            ? formikStepOne.errors.prefix
+                                            : ''}
+                                    </div>
+                                ) : (
+                                    <></>
+                                )}
+                            </div>
+                            <div>
+                                {formikStepOne.errors.phoneNumber &&
+                                formikStepOne.touched.phoneNumber ? (
+                                    <div className="field__validation">
+                                        {formikStepOne.errors.phoneNumber
+                                            ? formikStepOne.errors.phoneNumber
+                                            : ''}
+                                    </div>
+                                ) : (
+                                    <></>
+                                )}
+                            </div>
                         </div>
                     </div>
                     <div className="field">
@@ -277,21 +281,21 @@ const TutorOnboarding: React.FC<IProps> = ({
         validateOnBlur: true,
         enableReinitialize: true,
         validationSchema: Yup.object().shape({
-            // firstName: Yup.string(),
-            // .min(2, t('FORM_VALIDATION.TOO_SHORT'))
-            // .max(100, t('FORM_VALIDATION.TOO_LONG'))
-            // .required(t('FORM_VALIDATION.REQUIRED')),
-            // lastName: Yup.string()
-            // .min(2, t('FORM_VALIDATION.TOO_SHORT'))
-            // .max(100, t('FORM_VALIDATION.TOO_LONG'))
-            // // .required(t('FORM_VALIDATION.REQUIRED')),
-            // cardNumber: Yup.string()
-            // .min(16, t('FORM_VALIDATION.TOO_SHORT'))
-            // .max(16, t('FORM_VALIDATION.TOO_LONG'))
-            // // .required(t('FORM_VALIDATION.REQUIRED')),
-            // // expiryDate: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            // // cvv: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            // // zipCode: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            cardFirstName: Yup.string()
+                .min(2, t('FORM_VALIDATION.TOO_SHORT'))
+                .max(100, t('FORM_VALIDATION.TOO_LONG'))
+                .required(t('FORM_VALIDATION.REQUIRED')),
+            cardLastName: Yup.string()
+                .min(2, t('FORM_VALIDATION.TOO_SHORT'))
+                .max(100, t('FORM_VALIDATION.TOO_LONG'))
+                .required(t('FORM_VALIDATION.REQUIRED')),
+            cardNumber: Yup.number()
+                .min(16, t('FORM_VALIDATION.TOO_SHORT'))
+                .max(16, t('FORM_VALIDATION.TOO_LONG'))
+                .required(t('FORM_VALIDATION.REQUIRED')),
+            expiryDate: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            cvv: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            zipCode: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
         }),
     });
 
@@ -328,23 +332,23 @@ const TutorOnboarding: React.FC<IProps> = ({
                 <Form>
                     {/* <div>{JSON.stringify(formikStepTwo.values, null, 2)}</div> */}
                     <div className="field">
-                        <label htmlFor="firstName" className="field__label">
+                        <label htmlFor="cardFirstName" className="field__label">
                             {t('REGISTER.CARD_DETAILS.FIRST_NAME')}
                         </label>
                         <TextField
-                            name="firstName"
-                            id="firstName"
+                            name="cardFirstName"
+                            id="cardFirstName"
                             placeholder="Enter First Name"
                             // disabled={isLoading}
                         />
                     </div>
                     <div className="field">
-                        <label htmlFor="lastName" className="field__label">
+                        <label htmlFor="cardLastName" className="field__label">
                             {t('REGISTER.CARD_DETAILS.LAST_NAME')}
                         </label>
                         <TextField
-                            name="lastName"
-                            id="lastName"
+                            name="cardLastName"
+                            id="cardLastName"
                             placeholder="Enter Last Name"
                             // disabled={isLoading}
                         />

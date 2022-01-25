@@ -1,6 +1,7 @@
 import { Form, FormikProvider, useFormik } from 'formik';
 import _ from 'lodash';
 import moment from 'moment';
+import { stringify } from 'querystring';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
@@ -254,27 +255,31 @@ const ParentOnboarding: React.FC<IProps> = ({
                                 }
                             />
                         </div>
-                        <div className="flex flex--center">
-                            {formikStepOne.errors.prefix &&
-                            formikStepOne.touched.prefix ? (
-                                <div className="field__validation mr-4">
-                                    {formikStepOne.errors.prefix
-                                        ? formikStepOne.errors.prefix
-                                        : ''}
-                                </div>
-                            ) : (
-                                <></>
-                            )}
-                            {formikStepOne.errors.phoneNumber &&
-                            formikStepOne.touched.phoneNumber ? (
-                                <div className="field__validation">
-                                    {formikStepOne.errors.phoneNumber
-                                        ? formikStepOne.errors.phoneNumber
-                                        : ''}
-                                </div>
-                            ) : (
-                                <></>
-                            )}
+                        <div className="flex">
+                            <div className="w--136">
+                                {formikStepOne.errors.prefix &&
+                                formikStepOne.touched.prefix ? (
+                                    <div className="field__validation mr-4">
+                                        {formikStepOne.errors.prefix
+                                            ? formikStepOne.errors.prefix
+                                            : ''}
+                                    </div>
+                                ) : (
+                                    <></>
+                                )}
+                            </div>
+                            <div>
+                                {formikStepOne.errors.phoneNumber &&
+                                formikStepOne.touched.phoneNumber ? (
+                                    <div className="field__validation">
+                                        {formikStepOne.errors.phoneNumber
+                                            ? formikStepOne.errors.phoneNumber
+                                            : ''}
+                                    </div>
+                                ) : (
+                                    <></>
+                                )}
+                            </div>
                         </div>
                     </div>
                     <div className="field">
@@ -287,6 +292,7 @@ const ParentOnboarding: React.FC<IProps> = ({
                             meta={formikStepOne.getFieldMeta('dateOfBirth')}
                         />
                     </div>
+                    {formikStepOne.errors}
                     <div
                         className="btn btn--base btn--primary type--center w--100 mb-2 mt-6"
                         // type="submit"
