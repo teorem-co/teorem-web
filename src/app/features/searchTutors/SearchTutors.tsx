@@ -1,4 +1,5 @@
 import { Form, FormikProvider, useFormik } from 'formik';
+import { uniqBy } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Route, Switch, useHistory } from 'react-router';
@@ -15,6 +16,7 @@ import LoaderTutor from '../../components/Loaders/LoaderTutor';
 import MainWrapper from '../../components/MainWrapper';
 import { PATHS } from '../../routes';
 import getUrlParams from '../../utils/getUrlParams';
+import CustomSubjectList from './components/CustomSubjectList';
 import TutorProfile from './TutorProfile';
 
 interface Values {
@@ -26,6 +28,8 @@ interface Values {
 
 const SearchTutors = () => {
     const history = useHistory();
+
+    const [showTooltip, setShowTooltip] = useState(false);
 
     const { t } = useTranslation();
 
@@ -418,17 +422,16 @@ const SearchTutors = () => {
                                                 ? tutor.aboutTutor
                                                 : ''}
                                         </div>
-                                        <div>
-                                            {tutor.Subjects
-                                                ? tutor.Subjects.map(
-                                                      (subject) => (
-                                                          <span className="tag tag--primary">
-                                                              {subject.name}
-                                                          </span>
-                                                      )
-                                                  )
-                                                : ''}
-                                        </div>
+                                        {tutor.Subjects ? (
+                                            <CustomSubjectList
+                                                subjects={uniqBy(
+                                                    tutor.Subjects,
+                                                    'name'
+                                                )}
+                                            />
+                                        ) : (
+                                            <></>
+                                        )}
                                     </div>
                                     <div className="tutor-list__item__details">
                                         <div className="flex--grow mb-6">
