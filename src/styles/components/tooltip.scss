@@ -49,4 +49,34 @@
             background-color: $white;
         }
     }
+
+    &--text {
+        z-index: 1;
+        position: absolute;
+        right: -100px;
+        bottom: 40px;
+
+        overflow-y: auto;
+
+        height: 100px;
+        width: 250px;
+
+        color: $color-text-primary;
+        padding: calc(#{$unit} * 4);
+        border-radius: $border-rounded;
+
+        //some background colors hide scrollbar !!!
+        background-color: $color-primary;
+        opacity: 0;
+        visibility: hidden;
+
+        span {
+            display: inline-block;
+        }
+
+        &.active {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
 }
