@@ -105,7 +105,7 @@ export const authService = baseService.injectEndpoints({
                 body: typeToFormData(body),
             }),
         }),
-        checkMail: builder.mutation<void, ICheckMail>({
+        checkMail: builder.mutation<boolean, ICheckMail>({
             query: (body) => ({
                 url: `${URL}/check-email`,
                 method: HttpMethods.POST,

@@ -72,6 +72,19 @@ const Register: React.FC = () => {
             email: Yup.string()
                 .email(t('FORM_VALIDATION.INVALID_EMAIL'))
                 .required(t('FORM_VALIDATION.REQUIRED')),
+            // .test(
+            //     'email',
+            //     'This email already exists',
+            //     async (value: any) => {
+            //         if (value) {
+            //             const isValid = await checkMail({
+            //                 email: value,
+            //             }).unwrap();
+            //             return !isValid;
+            //         }
+            //         return true;
+            //     }
+            // ),
             password: Yup.string()
                 .min(8, t('FORM_VALIDATION.TOO_SHORT'))
                 .max(128, t('FORM_VALIDATION.TOO_LONG'))

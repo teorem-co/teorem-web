@@ -67,9 +67,12 @@ const ParentOnboarding: React.FC<IProps> = ({
     const dispatch = useAppDispatch();
     const state = useAppSelector((state) => state.children);
     const [childId, setChildId] = useState<string>('');
+    const [currentChildUserName, setCurrentChildUsername] =
+        useState<string>('');
     const [getCountries, { data: countries }] = useLazyGetCountriesQuery();
     const [countryOptions, setCountryOptions] = useState<OptionType[]>([]);
     const [phoneOptions, setPhoneOptions] = useState<OptionType[]>([]);
+    const [passTooltip, setPassTooltip] = useState<boolean>(false);
     const [registerParent, { isSuccess }] = useRegisterParentMutation();
     const [checkUsername, { isSuccess: isSuccessUsername }] =
         useCheckUsernameMutation();
@@ -95,6 +98,68 @@ const ParentOnboarding: React.FC<IProps> = ({
         username: '',
         childPassword: '',
     });
+    const handlePasswordFocus = () => {
+        setPassTooltip(true);
+    };
+
+    const handlePasswordBlur = () => {
+        setPassTooltip(false);
+    };
+
+    const myInput = document.getElementById(
+        'childPassword'
+    ) as HTMLInputElement;
+    const letter = document.getElementById('letter');
+    const capital = document.getElementById('capital');
+    const number = document.getElementById('number');
+    const length = document.getElementById('length');
+    const special = document.getElementById('special');
+
+    const handleKeyUp = () => {
+        const lowerCaseLetters = /[a-z]/g;
+        if (letter && myInput?.value.match(lowerCaseLetters)) {
+            letter.classList.remove('icon--grey');
+            letter.classList.add('icon--success');
+        } else {
+            letter?.classList.remove('icon--success');
+            letter?.classList.add('icon--grey');
+        }
+        // Validate capital letters
+        const upperCaseLetters = /[A-Z]/g;
+        if (myInput.value.match(upperCaseLetters)) {
+            capital?.classList.remove('icon--grey');
+            capital?.classList.add('icon--success');
+        } else {
+            capital?.classList.remove('icon--success');
+            capital?.classList.add('icon--grey');
+        }
+        // Validate numbers
+        const numbers = /[0-9]/g;
+        if (myInput.value.match(numbers)) {
+            number?.classList.remove('icon--grey');
+            number?.classList.add('icon--success');
+        } else {
+            number?.classList.remove('icon--success');
+            number?.classList.add('icon--grey');
+        }
+        // Validate length
+        if (myInput.value.length >= 8) {
+            length?.classList.remove('icon--grey');
+            length?.classList.add('icon--success');
+        } else {
+            length?.classList.remove('icon--success');
+            length?.classList.add('icon--grey');
+        }
+        // Validate special characters
+        const specialCharacters = /[!@#$%^&*()_/+\-=[\]{};':"\\|,.<>?]/;
+        if (myInput.value.match(specialCharacters)) {
+            special?.classList.remove('icon--grey');
+            special?.classList.add('icon--success');
+        } else {
+            special?.classList.remove('icon--success');
+            special?.classList.add('icon--grey');
+        }
+    };
 
     // Step one
 
@@ -298,9 +363,12 @@ const ParentOnboarding: React.FC<IProps> = ({
                                         <div
                                             className="role-selection__item"
                                             key={x.id}
-                                            onClick={() =>
-                                                handleFindId(x.username)
-                                            }
+                                            onClick={() => {
+                                                handleFindId(x.username);
+                                                setCurrentChildUsername(
+                                                    x.username
+                                                );
+                                            }}
                                         >
                                             <img
                                                 src={gradientCircle}
@@ -313,7 +381,7 @@ const ParentOnboarding: React.FC<IProps> = ({
                                                 <div className="type--color--secondary">
                                                     {moment(
                                                         x.description
-                                                    ).format('MM / DD / YYYY')}
+                                                    ).format('MM/DD/YYYY')}
                                                 </div>
                                             </div>
                                             <i className="icon icon--base icon--edit icon--primary"></i>
@@ -356,16 +424,21 @@ const ParentOnboarding: React.FC<IProps> = ({
             childDateOfBirth: Yup.string().required(
                 t('FORM_VALIDATION.REQUIRED')
             ),
-            username: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            // .test(
-            //     'user_exists',
-            //     'Username already exists',
-            //     // (value: string) => {
-            //     //     if (value) {
-            //     //         return checkUsername({username: value});
-            //     //     }
-            //     // }
-            // ),
+            username: Yup.string()
+                .required(t('FORM_VALIDATION.REQUIRED'))
+                .test(
+                    'username',
+                    'Username already exists',
+                    async (value: any) => {
+                        if (value) {
+                            const isValid = await checkUsername({
+                                username: value,
+                            }).unwrap();
+                            return !isValid;
+                        }
+                        return true;
+                    }
+                ),
             childPassword: Yup.string()
                 .min(8, t('FORM_VALIDATION.TOO_SHORT'))
                 .max(128, t('FORM_VALIDATION.TOO_LONG'))
@@ -382,13 +455,24 @@ const ParentOnboarding: React.FC<IProps> = ({
         newArr = [...child];
         const currentChild = {
             firstName: values.childFirstName,
-            dateOfBirth: moment(values.childDateOfBirth).toISOString(),
+            dateOfBirth: values.childDateOfBirth,
             username: values.username,
             password: values.childPassword,
         };
-        newArr.push(currentChild);
-        dispatch(setChildList(newArr));
-        setDetailsOpen(false);
+        if (childId === currentChildUserName) {
+            const currentItem = newArr.findIndex((x) => {
+                return x.username === currentChildUserName;
+            });
+            newArr.splice(currentItem);
+            newArr.push(currentChild);
+            setChildId('');
+            dispatch(setChildList(newArr));
+            setDetailsOpen(false);
+        } else {
+            newArr.push(currentChild);
+            dispatch(setChildList(newArr));
+            setDetailsOpen(false);
+        }
     };
 
     const stepThree = () => {
@@ -451,9 +535,14 @@ const ParentOnboarding: React.FC<IProps> = ({
                             className="input input--base input--text input--icon"
                             password={true}
                             onBlur={(e: any) => {
+                                handlePasswordBlur();
                                 formikStepThree.handleBlur(e);
                             }}
+                            onFocus={handlePasswordFocus}
+                            onKeyUp={handleKeyUp}
                         />
+
+                        <TooltipPassword passTooltip={passTooltip} />
                     </div>
                     <div
                         className="btn btn--base btn--primary type--center w--100 mb-2 mt-6"
@@ -499,6 +588,7 @@ const ParentOnboarding: React.FC<IProps> = ({
     };
 
     const handleAddNewchild = () => {
+        formikStepThree.resetForm();
         setInitialValuesTwo({
             childFirstName: '',
             childLastName: '',
@@ -511,6 +601,7 @@ const ParentOnboarding: React.FC<IProps> = ({
 
     const handleResetForm = () => {
         formikStepThree.resetForm();
+        setChildId('');
         setDetailsOpen(false);
     };
 
@@ -550,6 +641,7 @@ const ParentOnboarding: React.FC<IProps> = ({
         }
     }, [isSuccess]);
 
+    console.log(child);
     return (
         <>
             {step === 1 ? (
