@@ -70,6 +70,21 @@
         }
     }
 
+    &--ghost {
+        background-color: transparent;
+        color: $color-primary;
+        border: 1px solid $color-primary;
+        &--error {
+            border-color: $color-error;
+            color: $color-error;
+        }
+
+        &--success {
+            border-color: $color-success;
+            color: $color-success;
+        }
+    }
+
     &--clear {
         background-color: transparent;
         color: $color-primary;

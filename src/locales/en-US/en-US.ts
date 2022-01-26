@@ -7,7 +7,27 @@ export const EN_US = {
     ONBOARDING: {
         NAVIGATION: {
             TITLE: 'Welcome to Teorem!',
+            DESCRIPTION:
+                "Please follow the onboarding process to finish up your profile. It'll take only few minutes.",
+            STEP_ONE: {
+                TITLE: 'Personal information',
+                DESCRIPTION: 'Let us get to know you a little bit better',
+            },
+            TUTOR: {
+                STEP_TWO: {
+                    TITLE: 'Card Details',
+                    DESCRIPTION: "It's never too much information",
+                },
+            },
+            PARENT: {
+                STEP_TWO: {
+                    TITLE: "Child's List",
+                    DESCRIPTION:
+                        'Fill in information for your child and set his/her login credentials.',
+                },
+            },
         },
+        EDIT_CHILD_DETAILS: "Edit child's details",
     },
     FORM_VALIDATION: {
         INVALID_EMAIL: 'Invalid email',

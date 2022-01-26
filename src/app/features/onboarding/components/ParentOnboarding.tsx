@@ -569,7 +569,7 @@ const ParentOnboarding: React.FC<IProps> = ({
                     </div>
                     {childUsername ? (
                         <div
-                            className="btn btn--base btn--error type--center w--100 mb-2 mt-6"
+                            className="btn btn--base btn--ghost btn--ghost--error type--center w--100 mb-2 mt-2"
                             onClick={() => handleDeleteChild()}
                             // disabled={isLoading}
                         >

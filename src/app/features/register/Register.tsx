@@ -44,15 +44,15 @@ const Register: React.FC = () => {
         passwordRepeat: '',
     };
     const editRegister = () => {
-        const test = {
+        const registerValues = {
             firstName: firstName,
             lastName: lastName,
             email: email,
             password: password,
             passwordRepeat: password,
         };
-        const test2 = firstName ? test : initialValues;
-        return test2;
+        const newRegisterValues = firstName ? registerValues : initialValues;
+        return newRegisterValues;
     };
 
     const formik = useFormik({

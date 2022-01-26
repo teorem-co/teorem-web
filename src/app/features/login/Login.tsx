@@ -82,10 +82,10 @@ const Login: React.FC = () => {
     };
 
     useEffect(() => {
-        const test: any = errorLogin;
+        const loginError: any = errorLogin;
 
-        if (test) {
-            setLoginErrorMessage(test.data.message);
+        if (loginError) {
+            setLoginErrorMessage(loginError.data.message);
         }
     }, [errorLogin]);
 

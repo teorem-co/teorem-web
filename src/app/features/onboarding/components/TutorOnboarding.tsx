@@ -81,15 +81,15 @@ const TutorOnboarding: React.FC<IProps> = ({
 
     // step one
     const editStepOne = () => {
-        const test = {
+        const stepOneValues = {
             countryId: countryId,
             prefix: prefix,
             phoneNumber: phoneNumber,
             dateOfBirth: dateOfBirth,
             profileImage: profileImage,
         };
-        const test2 = countryId ? test : initialValuesOne;
-        return test2;
+        const newStepOneValues = countryId ? stepOneValues : initialValuesOne;
+        return newStepOneValues;
     };
 
     const initialValuesOne: StepOneValues = {
