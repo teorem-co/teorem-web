@@ -292,7 +292,6 @@ const ParentOnboarding: React.FC<IProps> = ({
                             meta={formikStepOne.getFieldMeta('dateOfBirth')}
                         />
                     </div>
-                    {formikStepOne.errors}
                     <div
                         className="btn btn--base btn--primary type--center w--100 mb-2 mt-6"
                         // type="submit"
@@ -621,6 +620,7 @@ const ParentOnboarding: React.FC<IProps> = ({
                   return {
                       label: x.name,
                       value: x.id,
+                      icon: x.flag,
                   };
               })
             : [];
@@ -647,7 +647,6 @@ const ParentOnboarding: React.FC<IProps> = ({
         }
     }, [isSuccess]);
 
-    console.log(child);
     return (
         <>
             {step === 1 ? (

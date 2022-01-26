@@ -34,7 +34,7 @@ const Register: React.FC = () => {
     const roleSelection = useAppSelector((state) => state.role.selectedRole);
     const [passTooltip, setPassTooltip] = useState<boolean>(false);
 
-    const [checkMail, { isSuccess, isLoading }] = useCheckMailMutation();
+    const [checkMail, { isSuccess }] = useCheckMailMutation();
 
     const initialValues: Values = {
         firstName: '',
@@ -71,20 +71,20 @@ const Register: React.FC = () => {
                 .required(t('FORM_VALIDATION.REQUIRED')),
             email: Yup.string()
                 .email(t('FORM_VALIDATION.INVALID_EMAIL'))
-                .required(t('FORM_VALIDATION.REQUIRED')),
-            // .test(
-            //     'email',
-            //     'This email already exists',
-            //     async (value: any) => {
-            //         if (value) {
-            //             const isValid = await checkMail({
-            //                 email: value,
-            //             }).unwrap();
-            //             return !isValid;
-            //         }
-            //         return true;
-            //     }
-            // ),
+                .required(t('FORM_VALIDATION.REQUIRED'))
+                .test(
+                    'email',
+                    'This email already exists',
+                    async (value: any) => {
+                        if (value && value.includes('@')) {
+                            const isValid = await checkMail({
+                                email: value,
+                            }).unwrap();
+                            return !isValid;
+                        }
+                        return true;
+                    }
+                ),
             password: Yup.string()
                 .min(8, t('FORM_VALIDATION.TOO_SHORT'))
                 .max(128, t('FORM_VALIDATION.TOO_LONG'))
@@ -243,7 +243,7 @@ const Register: React.FC = () => {
                                         name="firstName"
                                         id="firstName"
                                         placeholder="Enter your first name"
-                                        disabled={isLoading}
+                                        // disabled={isLoading}
                                     />
                                 </div>
                                 <div className="field">
@@ -257,7 +257,7 @@ const Register: React.FC = () => {
                                         name="lastName"
                                         id="lastName"
                                         placeholder="Enter your last name"
-                                        disabled={isLoading}
+                                        // disabled={isLoading}
                                     />
                                 </div>
                                 <div className="field">
@@ -268,15 +268,15 @@ const Register: React.FC = () => {
                                         {t('REGISTER.FORM.EMAIL')}
                                     </label>
                                     <TextField
-                                        onBlur={() =>
-                                            checkMail({
-                                                email: formik.values.email,
-                                            })
-                                        }
+                                        // onBlur={() =>
+                                        //     checkMail({
+                                        //         email: formik.values.email,
+                                        //     })
+                                        // }
                                         name="email"
                                         id="email"
                                         placeholder="Enter your email"
-                                        disabled={isLoading}
+                                        // disabled={isLoading}
                                     />
                                 </div>
                                 <div className="field">
@@ -292,7 +292,7 @@ const Register: React.FC = () => {
                                         placeholder="Type your password"
                                         className="input input--base input--text input--icon"
                                         password={true}
-                                        disabled={isLoading}
+                                        // disabled={isLoading}
                                         onFocus={handlePasswordFocus}
                                         onBlur={(e: any) => {
                                             handlePasswordBlur();
@@ -316,7 +316,7 @@ const Register: React.FC = () => {
                                         name="passwordRepeat"
                                         id="passwordRepeat"
                                         placeholder="Type your password"
-                                        disabled={isLoading}
+                                        // disabled={isLoading}
                                         className="input input--base input--text input--icon"
                                         password={true}
                                     />

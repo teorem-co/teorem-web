@@ -8,23 +8,12 @@ export const countryInput = (props: any) => {
                     {/* <span className="input-select__icon mr-2">
                         {props.data.icon}
                     </span> */}
-                    <div className="flex--col flex flex--center">
-                        <div
-                            style={{
-                                width: '20px',
-                                height: '10px',
-                                backgroundColor: 'blue',
-                            }}
-                            className="mr-2"
-                        ></div>
-                        <div
-                            style={{
-                                width: '20px',
-                                height: '10px',
-                                backgroundColor: 'redlue',
-                            }}
-                            className="mr-2"
-                        ></div>
+                    <div className="mr-2">
+                        {props.flag ? (
+                            <img src={props.flag} alt="country flag" />
+                        ) : (
+                            <></>
+                        )}
                     </div>
                     <span>{props.data.label}</span>
                 </div>
@@ -34,14 +23,14 @@ export const countryInput = (props: any) => {
         return (
             <components.SingleValue {...props} className="input-select">
                 <div className="input-select__option flex flex--center">
-                    <div
-                        style={{
-                            width: '20px',
-                            height: '10px',
-                            backgroundColor: 'blue',
-                        }}
-                        className="mr-2"
-                    ></div>
+                    {/* <div
+                    style={{
+                        width: '20px',
+                        height: '10px',
+                        backgroundColor: 'blue',
+                    }}
+                    className="mr-2"
+                ></div> */}
                     <span>{props.data.label}</span>
                 </div>
             </components.SingleValue>

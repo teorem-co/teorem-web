@@ -442,6 +442,7 @@ const TutorOnboarding: React.FC<IProps> = ({
                   return {
                       label: x.name,
                       value: x.id,
+                      icon: x.flag,
                   };
               })
             : [];
