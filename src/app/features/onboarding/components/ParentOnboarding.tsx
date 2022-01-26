@@ -458,7 +458,6 @@ const ParentOnboarding: React.FC<IProps> = ({
                     'username',
                     'Username already exists',
                     async (value: any) => {
-                        debugger;
                         if (value) {
                             //filter all without selected child(on edit)
                             const filteredArray = child.filter(

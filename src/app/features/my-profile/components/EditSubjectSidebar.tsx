@@ -74,7 +74,6 @@ const EditSubjectSidebar = (props: Props) => {
 
     const handleSubmit = (values: Values) => {
         const test = values;
-        debugger;
     };
 
     const formik = useFormik({

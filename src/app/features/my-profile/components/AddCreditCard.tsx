@@ -33,7 +33,6 @@ const AddCreditCard = (props: Props) => {
 
     const handleSubmit = (values: Values) => {
         const test = values;
-        debugger;
     };
 
     const { t } = useTranslation();
@@ -46,7 +45,9 @@ const AddCreditCard = (props: Props) => {
             cardLastName: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             cardNumber: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             expiryDate: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            cvv: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            cvv: Yup.string()
+                .max(3, t('FORM_VALIDATION.TOO_LONG'))
+                .required(t('FORM_VALIDATION.REQUIRED')),
             zipCode: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
         }),
     });
@@ -154,8 +155,8 @@ const AddCreditCard = (props: Props) => {
                                             CVV*
                                         </label>
                                         <TextField
-                                            max={999}
-                                            maxLength={999}
+                                            max={3}
+                                            maxLength={3}
                                             type="number"
                                             name="cvv"
                                             id="cvv"

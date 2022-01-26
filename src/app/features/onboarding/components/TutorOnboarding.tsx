@@ -305,7 +305,9 @@ const TutorOnboarding: React.FC<IProps> = ({
                 .max(16, t('FORM_VALIDATION.TOO_LONG'))
                 .required(t('FORM_VALIDATION.REQUIRED')),
             expiryDate: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            cvv: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            cvv: Yup.string()
+                .max(3, t('FORM_VALIDATION.TOO_LONG'))
+                .required(t('FORM_VALIDATION.REQUIRED')),
             zipCode: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
         }),
     });
@@ -398,8 +400,8 @@ const TutorOnboarding: React.FC<IProps> = ({
                                     {t('REGISTER.CARD_DETAILS.CVV')}
                                 </label>
                                 <TextField
-                                    max={999}
-                                    maxLength={999}
+                                    max={3}
+                                    maxLength={3}
                                     type="number"
                                     name="cvv"
                                     id="cvv"
