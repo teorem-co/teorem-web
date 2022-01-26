@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import ISubject from '../../../../interfaces/ISubject';
 
@@ -9,6 +10,7 @@ interface Props {
 const CustomSubjectList = (props: Props) => {
     const { subjects } = props;
 
+    const { t } = useTranslation();
     const [showTooltip, setShowTooltip] = useState(false);
 
     return (
@@ -25,7 +27,9 @@ const CustomSubjectList = (props: Props) => {
                         className="type--color--brand cur--pointer"
                         onClick={() => setShowTooltip(!showTooltip)}
                     >
-                        {`+ ${subjects.length - 3} more`}{' '}
+                        {`+ ${subjects.length - 3} ${t(
+                            'SEARCH_TUTORS.SUBJECT_LIST.MORE'
+                        )}`}{' '}
                     </span>
                     <div
                         className={`tooltip--text ${
