@@ -22,7 +22,6 @@ interface IRegisterTutor {
     confirmPassword: string;
     roleAbrv: string;
     countryId: string;
-    phonePrefix: string;
     phoneNumber: string;
     dateOfBirth: string;
     profileImage: string;
@@ -36,7 +35,6 @@ interface IRegisterParent {
     confirmPassword: string;
     roleAbrv: string;
     countryId: string;
-    phonePrefix: string;
     phoneNumber: string;
     dateOfBirth: string;
     children?: string;
@@ -50,7 +48,6 @@ interface IRegisterStudent {
     confirmPassword: string;
     roleAbrv: string;
     countryId: string;
-    phonePrefix: string;
     phoneNumber: string;
     dateOfBirth: string;
 }

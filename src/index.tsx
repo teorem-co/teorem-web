@@ -3,6 +3,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-calendar/dist/Calendar.css';
 import 'react-date-picker/dist/DatePicker.css';
+import 'react-phone-input-2/lib/style.css';
 import './styles/App.scss';
 
 import ReactDOM from 'react-dom';

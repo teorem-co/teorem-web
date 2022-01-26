@@ -52,6 +52,7 @@ export const EN_US = {
         PASSWORD_MATCH: 'Passwords must match',
         PASSWORD_STRENGTH: 'Password must meet the conditions',
         FUTURE_DATE: 'Date can`t be in the future',
+        PHONE_NUMBER: 'Invalid phone number',
     },
     NAVIGATION: {
         MY_BOOKINGS: 'My Bookings',

@@ -13,9 +13,8 @@ interface IRegister {
 
 interface IStepOne {
     countryId: string;
-    phoneNumber: string;
-    prefix: string;
     dateOfBirth: string;
+    phoneNumber: string;
 }
 
 interface IStepTwo {
@@ -34,7 +33,6 @@ interface IState {
     passwordRepeat: string;
     countryId: string;
     phoneNumber: string;
-    prefix: string;
     dateOfBirth: string;
     roleSelection: string;
     childFirstName: string;
@@ -54,7 +52,6 @@ const initialState: IState = {
     passwordRepeat: '',
     countryId: '',
     phoneNumber: '',
-    prefix: '',
     dateOfBirth: '',
     childFirstName: '',
     childLastName: '',
@@ -90,12 +87,10 @@ export const parentRegisterSlice = createSlice({
             state.skip = action.payload;
         },
         setStepOne(state, action: PayloadAction<IStepOne>) {
-            const { countryId, prefix, phoneNumber, dateOfBirth } =
-                action.payload;
+            const { countryId, dateOfBirth, phoneNumber } = action.payload;
             state.countryId = countryId;
-            state.prefix = prefix;
-            state.phoneNumber = phoneNumber;
             state.dateOfBirth = dateOfBirth;
+            state.phoneNumber = phoneNumber;
         },
         setStepTwo(state, action: PayloadAction<IStepTwo>) {
             const {
@@ -122,7 +117,6 @@ export const parentRegisterSlice = createSlice({
             state.passwordRepeat = '';
             state.countryId = '';
             state.phoneNumber = '';
-            state.prefix = '';
             state.dateOfBirth = '';
             state.childFirstName = '';
             state.childLastName = '';
