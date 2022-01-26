@@ -4,7 +4,10 @@ import { Link } from 'react-router-dom';
 
 import heroImg from '../../../assets/images/hero-img.png';
 import IRoleSelectionOption from '../../../interfaces/IRoleSelectionOption';
+import { resetParentRegister } from '../../../slices/parentRegisterSlice';
 import { RoleOptions, setSelectedRole } from '../../../slices/roleSlice';
+import { resetStudentRegister } from '../../../slices/studentRegisterSlice';
+import { resetTutorRegister } from '../../../slices/tutorRegisterSlice';
 import { roleSelectionOptions } from '../../constants/roleSelectionOptions';
 import { useAppDispatch } from '../../hooks';
 import { PATHS } from '../../routes';
@@ -24,6 +27,12 @@ const RoleSelection: React.FC = () => {
         };
         options[roleId] && dispatch(setSelectedRole(options[roleId]));
         options[roleId] && history.push(PATHS.REGISTER);
+    };
+
+    const handleResetForm = () => {
+        dispatch(resetParentRegister());
+        dispatch(resetStudentRegister());
+        dispatch(resetTutorRegister());
     };
 
     return (
@@ -90,7 +99,10 @@ const RoleSelection: React.FC = () => {
                         </div>
                         <div>
                             {t('ROLE_SELECTION.ACCOUNT')}&nbsp;
-                            <Link to={PATHS.LOGIN}>
+                            <Link
+                                to={PATHS.LOGIN}
+                                onClick={() => handleResetForm()}
+                            >
                                 {t('ROLE_SELECTION.LOG_IN')}
                             </Link>
                         </div>

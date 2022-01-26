@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import IChildListOption from '../interfaces/IChildListOption';
+import { IChild } from '../interfaces/IChild';
 
 interface IRegister {
     firstName: string;
@@ -12,7 +12,7 @@ interface IRegister {
 }
 
 interface IStepOne {
-    country: string;
+    countryId: string;
     phoneNumber: string;
     prefix: string;
     dateOfBirth: string;
@@ -22,6 +22,8 @@ interface IStepTwo {
     childFirstName: string;
     childLastName: string;
     childDateOfBirth: string;
+    username: string;
+    childPassword: string;
 }
 
 interface IState {
@@ -30,7 +32,7 @@ interface IState {
     email: string;
     password: string;
     passwordRepeat: string;
-    country: string;
+    countryId: string;
     phoneNumber: string;
     prefix: string;
     dateOfBirth: string;
@@ -38,7 +40,9 @@ interface IState {
     childFirstName: string;
     childLastName: string;
     childDateOfBirth: string;
-    child: IChildListOption[] | [];
+    username: string;
+    childPassword: string;
+    child: IChild[];
 }
 
 const initialState: IState = {
@@ -47,13 +51,15 @@ const initialState: IState = {
     email: '',
     password: '',
     passwordRepeat: '',
-    country: '',
+    countryId: '',
     phoneNumber: '',
     prefix: '',
     dateOfBirth: '',
     childFirstName: '',
     childLastName: '',
     childDateOfBirth: '',
+    username: '',
+    childPassword: '',
     roleSelection: '',
     child: [],
 };
@@ -79,21 +85,28 @@ export const parentRegisterSlice = createSlice({
             state.roleSelection = roleSelection;
         },
         setStepOne(state, action: PayloadAction<IStepOne>) {
-            const { country, prefix, phoneNumber, dateOfBirth } =
+            const { countryId, prefix, phoneNumber, dateOfBirth } =
                 action.payload;
-            state.country = country;
+            state.countryId = countryId;
             state.prefix = prefix;
             state.phoneNumber = phoneNumber;
             state.dateOfBirth = dateOfBirth;
         },
         setStepTwo(state, action: PayloadAction<IStepTwo>) {
-            const { childFirstName, childLastName, childDateOfBirth } =
-                action.payload;
+            const {
+                childFirstName,
+                childLastName,
+                childDateOfBirth,
+                username,
+                childPassword,
+            } = action.payload;
             state.childFirstName = childFirstName;
             state.childLastName = childLastName;
             state.childDateOfBirth = childDateOfBirth;
+            state.username = username;
+            state.childPassword = childPassword;
         },
-        setChildList(state, action: PayloadAction<IChildListOption[]>) {
+        setChildList(state, action: PayloadAction<IChild[]>) {
             state.child = action.payload;
         },
         resetParentRegister(state) {
@@ -102,13 +115,16 @@ export const parentRegisterSlice = createSlice({
             state.email = '';
             state.password = '';
             state.passwordRepeat = '';
-            state.country = '';
+            state.countryId = '';
             state.phoneNumber = '';
             state.prefix = '';
             state.dateOfBirth = '';
             state.childFirstName = '';
             state.childLastName = '';
             state.childDateOfBirth = '';
+            state.username = '';
+            state.childPassword = '';
+            state.child = [];
         },
     },
 });

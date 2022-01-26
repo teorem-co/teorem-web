@@ -52,7 +52,6 @@ const Onboarding = () => {
     };
 
     const handleNextStepStudent = () => {
-        dispatch(resetStudentRegister());
         history.push('/');
     };
 
@@ -161,7 +160,7 @@ const Onboarding = () => {
                                     {/* <Link to={!isLoading ? PATHS.ROLE_SELECTION : '#'}>
                         {t('LOGIN.REGISTER')}
                     </Link> */}
-                                    <Link to={'/'}>Skip step</Link>
+                                    {/* <button form="formSubmit">Skip step</button> */}
                                 </div>
                             ) : (
                                 <></>

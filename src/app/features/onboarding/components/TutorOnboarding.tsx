@@ -1,19 +1,22 @@
 import { Form, FormikProvider, useFormik } from 'formik';
 import moment from 'moment';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { components } from 'react-select';
 import * as Yup from 'yup';
 
+import { resetParentRegister } from '../../../../slices/parentRegisterSlice';
+import { resetStudentRegister } from '../../../../slices/studentRegisterSlice';
 import {
     resetTutorRegister,
     setStepOne,
     setStepTwo,
 } from '../../../../slices/tutorRegisterSlice';
-import MyCountrySelect from '../../../components/form/MyCountrySelect';
+import ExpDateField from '../../../components/form/ExpDateField';
 import MyDatePicker from '../../../components/form/MyDatePicker';
-import MyPhoneSelect from '../../../components/form/MyPhoneSelect';
-import MySelect from '../../../components/form/MySelectField';
+import MySelect, {
+    OptionType,
+    PhoneOptionType,
+} from '../../../components/form/MySelectField';
 import UploadFile from '../../../components/form/MyUploadField';
 import TextField from '../../../components/form/TextField';
 import { countryInput } from '../../../constants/countryInput';
@@ -22,7 +25,8 @@ import { phoneNumberInput } from '../../../constants/phoneNumberInput';
 import { phoneNumberOption } from '../../../constants/phoneNumberOption';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { useRegisterTutorMutation } from '../../../services/authService';
-import { useLazyGetCountriesQuery } from '../services/countryService';
+import toastService from '../../../services/toastService';
+import { ICountry, useLazyGetCountriesQuery } from '../services/countryService';
 
 interface StepOneValues {
     countryId: string;
@@ -67,16 +71,26 @@ const TutorOnboarding: React.FC<IProps> = ({
     } = state;
     const roleAbrv = useAppSelector((state) => state.role.selectedRole);
     const [getCountries, { data: countries }] = useLazyGetCountriesQuery();
-    const [registerTutor, { isSuccess, isLoading }] =
-        useRegisterTutorMutation();
+    const [registerTutor, { isSuccess }] = useRegisterTutorMutation();
+    const [countryOptions, setCountryOptions] = useState<OptionType[]>([]);
+    const [phoneOptions, setPhoneOptions] = useState<OptionType[]>([]);
     const profileImage = useAppSelector(
         (state) => state.tutorRegister.profileImage
     );
     const { t } = useTranslation();
 
-    useEffect(() => {
-        getCountries();
-    }, []);
+    // step one
+    const editStepOne = () => {
+        const stepOneValues = {
+            countryId: countryId,
+            prefix: prefix,
+            phoneNumber: phoneNumber,
+            dateOfBirth: dateOfBirth,
+            profileImage: profileImage,
+        };
+        const newStepOneValues = countryId ? stepOneValues : initialValuesOne;
+        return newStepOneValues;
+    };
 
     const initialValuesOne: StepOneValues = {
         countryId: '',
@@ -86,61 +100,26 @@ const TutorOnboarding: React.FC<IProps> = ({
         profileImage: '',
     };
 
-    const initialValuesTwo: StepTwoValues = {
-        cardFirstName: '',
-        cardLastName: '',
-        cardNumber: '',
-        expiryDate: '',
-        cvv: '',
-        zipCode: '',
-    };
-
     const formikStepOne = useFormik({
-        initialValues: initialValuesOne,
+        initialValues: editStepOne(),
         onSubmit: (values) => handleSubmitStepOne(values),
         validateOnBlur: true,
         enableReinitialize: true,
         validationSchema: Yup.object().shape({
             countryId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             prefix: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            phoneNumber: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            phoneNumber: Yup.string()
+                .required(t('FORM_VALIDATION.REQUIRED'))
+                .matches(
+                    /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/gm,
+                    'Invalid Phone Number'
+                ),
             dateOfBirth: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            profileImage: Yup.string(),
-        }),
-    });
-
-    const formikStepTwo = useFormik({
-        initialValues: initialValuesTwo,
-        onSubmit: (values) => handleSubmitStepTwo(values),
-        validateOnBlur: true,
-        enableReinitialize: true,
-        validationSchema: Yup.object().shape({
-            firstName: Yup.string(),
-            // .min(2, t('FORM_VALIDATION.TOO_SHORT'))
-            // .max(100, t('FORM_VALIDATION.TOO_LONG'))
-            // .required(t('FORM_VALIDATION.REQUIRED')),
-            // lastName: Yup.string()
-            // .min(2, t('FORM_VALIDATION.TOO_SHORT'))
-            // .max(100, t('FORM_VALIDATION.TOO_LONG'))
-            // // .required(t('FORM_VALIDATION.REQUIRED')),
-            // cardNumber: Yup.string()
-            // .min(16, t('FORM_VALIDATION.TOO_SHORT'))
-            // .max(16, t('FORM_VALIDATION.TOO_LONG'))
-            // // .required(t('FORM_VALIDATION.REQUIRED')),
-            // // expiryDate: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            // // cvv: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            // // zipCode: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            profileImage: Yup.string().required('Image Required'),
         }),
     });
 
     const handleSubmitStepOne = (values: StepOneValues) => {
-        const test = {
-            countryId: values.countryId,
-            prefix: values.prefix,
-            phoneNumber: values.phoneNumber,
-            dateOfBirth: values.dateOfBirth,
-            profileImage: values.profileImage,
-        };
         dispatch(
             setStepOne({
                 countryId: values.countryId,
@@ -152,6 +131,174 @@ const TutorOnboarding: React.FC<IProps> = ({
         );
         handleNextStep();
     };
+
+    const stepOne = () => {
+        return (
+            <FormikProvider value={formikStepOne}>
+                <Form>
+                    {/* <div>{JSON.stringify(formikStepOne.values, null, 2)}</div> */}
+                    <div className="field">
+                        <label htmlFor="countryId" className="field__label">
+                            {t('REGISTER.FORM.COUNTRY')}
+                        </label>
+
+                        <MySelect
+                            form={formikStepOne}
+                            field={formikStepOne.getFieldProps('countryId')}
+                            meta={formikStepOne.getFieldMeta('countryId')}
+                            isMulti={false}
+                            classNamePrefix="onboarding-select"
+                            options={countryOptions}
+                            placeholder="Choose your country"
+                            customInputField={countryInput}
+                            customOption={countryOption}
+                        />
+                    </div>
+                    <div className="field">
+                        <label htmlFor="phoneNumber" className="field__label">
+                            {t('REGISTER.FORM.PHONE_NUMBER')}
+                        </label>
+                        <div className="flex flex--center pos--rel">
+                            <MySelect
+                                form={formikStepOne}
+                                field={formikStepOne.getFieldProps('prefix')}
+                                meta={formikStepOne.getFieldMeta('prefix')}
+                                isMulti={false}
+                                options={phoneOptions}
+                                classNamePrefix="onboarding-select"
+                                className="w--120"
+                                placeholder="+00"
+                                customInputField={phoneNumberInput}
+                                customOption={phoneNumberOption}
+                                isSearchable={false}
+                                withoutErr={
+                                    formikStepOne.errors.prefix &&
+                                    formikStepOne.touched.prefix
+                                        ? true
+                                        : false
+                                }
+                            />
+                            <div className="ml-4"></div>
+                            <TextField
+                                wrapperClassName="flex--grow"
+                                name="phoneNumber"
+                                placeholder="Enter your phone number"
+                                className="input input--base"
+                                withoutErr={
+                                    formikStepOne.errors.phoneNumber &&
+                                    formikStepOne.touched.phoneNumber
+                                        ? true
+                                        : false
+                                }
+                            />
+                        </div>
+                        <div className="flex field__validation">
+                            <div className="w--136">
+                                {formikStepOne.errors.prefix &&
+                                formikStepOne.touched.prefix ? (
+                                    <div className="mr-4">
+                                        {formikStepOne.errors.prefix
+                                            ? formikStepOne.errors.prefix
+                                            : ''}
+                                    </div>
+                                ) : (
+                                    <></>
+                                )}
+                            </div>
+                            <div>
+                                {formikStepOne.errors.phoneNumber &&
+                                formikStepOne.touched.phoneNumber ? (
+                                    <div>
+                                        {formikStepOne.errors.phoneNumber
+                                            ? formikStepOne.errors.phoneNumber
+                                            : ''}
+                                    </div>
+                                ) : (
+                                    <></>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                    <div className="field">
+                        <label className="field__label" htmlFor="dateOfBirth">
+                            {t('REGISTER.FORM.DATE_OF_BIRTH')}
+                        </label>
+                        <MyDatePicker
+                            form={formikStepOne}
+                            field={formikStepOne.getFieldProps('dateOfBirth')}
+                            meta={formikStepOne.getFieldMeta('dateOfBirth')}
+                        />
+                    </div>
+                    <div className="field field__file">
+                        <label className="field__label" htmlFor="profileImage">
+                            {t('REGISTER.FORM.PROFILE_IMAGE')}
+                        </label>
+                        <UploadFile
+                            setFieldValue={formikStepOne.setFieldValue}
+                            uploadedFile={(file: any) => {
+                                formikStepOne.setFieldValue(
+                                    'profileImage',
+                                    file
+                                );
+                            }}
+                            id="profileImage"
+                            name="profileImage"
+                            imagePreview={profileImage}
+                        />
+                    </div>
+
+                    <div
+                        className="btn btn--base btn--primary type--center w--100 mb-2 mt-6"
+                        onClick={() => formikStepOne.handleSubmit()}
+                    >
+                        {t('REGISTER.NEXT_BUTTON')}
+                    </div>
+                    <div
+                        onClick={() => handleGoBack()}
+                        className="btn btn--clear btn--base w--100 type--color--brand type--wgt--bold type--center"
+                    >
+                        <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>{' '}
+                        {t('REGISTER.BACK_TO_REGISTER')}
+                    </div>
+                </Form>
+            </FormikProvider>
+        );
+    };
+
+    // step two
+
+    const initialValuesTwo: StepTwoValues = {
+        cardFirstName: '',
+        cardLastName: '',
+        cardNumber: '',
+        expiryDate: '',
+        cvv: '',
+        zipCode: '',
+    };
+
+    const formikStepTwo = useFormik({
+        initialValues: initialValuesTwo,
+        onSubmit: (values) => handleSubmitStepTwo(values),
+        validateOnBlur: true,
+        enableReinitialize: true,
+        validationSchema: Yup.object().shape({
+            cardFirstName: Yup.string()
+                .min(2, t('FORM_VALIDATION.TOO_SHORT'))
+                .max(100, t('FORM_VALIDATION.TOO_LONG'))
+                .required(t('FORM_VALIDATION.REQUIRED')),
+            cardLastName: Yup.string()
+                .min(2, t('FORM_VALIDATION.TOO_SHORT'))
+                .max(100, t('FORM_VALIDATION.TOO_LONG'))
+                .required(t('FORM_VALIDATION.REQUIRED')),
+            cardNumber: Yup.string()
+                .min(16, t('FORM_VALIDATION.TOO_SHORT'))
+                .max(16, t('FORM_VALIDATION.TOO_LONG'))
+                .required(t('FORM_VALIDATION.REQUIRED')),
+            expiryDate: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            cvv: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            zipCode: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+        }),
+    });
 
     const handleSubmitStepTwo = (values: StepTwoValues) => {
         dispatch(
@@ -179,173 +326,36 @@ const TutorOnboarding: React.FC<IProps> = ({
         });
     };
 
-    useEffect(() => {
-        if (isSuccess) {
-            resetTutorRegister();
-            handleNextStep();
-        }
-    }, [isSuccess]);
-    // console.log(firstName, lastName, email, password, passwordRepeat);
-
-    const stepOne = () => {
-        return (
-            <FormikProvider value={formikStepOne}>
-                <Form>
-                    {/* <div>{JSON.stringify(formikStepOne.values, null, 2)}</div> */}
-                    <div className="field">
-                        <label htmlFor="countryId" className="field__label">
-                            Country*
-                        </label>
-
-                        <MyCountrySelect
-                            form={formikStepOne}
-                            field={formikStepOne.getFieldProps('countryId')}
-                            meta={formikStepOne.getFieldMeta('countryId')}
-                            isMulti={false}
-                            classNamePrefix="onboarding-select"
-                            options={countries}
-                            placeholder="Choose your country"
-                            customInputField={countryInput}
-                            customOption={countryOption}
-                        />
-                    </div>
-                    <div className="field">
-                        <label htmlFor="phoneNumber" className="field__label">
-                            Phone Number*
-                        </label>
-                        <div className="flex flex--center pos--rel">
-                            <MyPhoneSelect
-                                form={formikStepOne}
-                                field={formikStepOne.getFieldProps('prefix')}
-                                meta={formikStepOne.getFieldMeta('prefix')}
-                                isMulti={false}
-                                options={countries}
-                                classNamePrefix="onboarding-select"
-                                className="w--120"
-                                placeholder="+00"
-                                customInputField={phoneNumberInput}
-                                customOption={phoneNumberOption}
-                                isSearchable={false}
-                                withoutErr={
-                                    formikStepOne.errors.prefix &&
-                                    formikStepOne.touched.prefix
-                                        ? false
-                                        : true
-                                }
-                            />
-                            <div className="ml-4"></div>
-                            <TextField
-                                wrapperClassName="flex--grow"
-                                name="phoneNumber"
-                                placeholder="Enter your phone number"
-                                className="input input--base"
-                                withoutErr={
-                                    formikStepOne.errors.phoneNumber &&
-                                    formikStepOne.touched.phoneNumber
-                                        ? false
-                                        : true
-                                }
-                            />
-                        </div>
-                        <div className="flex flex--center">
-                            {formikStepOne.errors.prefix &&
-                            formikStepOne.touched.prefix ? (
-                                <div className="field__validation mr-4">
-                                    {formikStepOne.errors.prefix
-                                        ? formikStepOne.errors.prefix
-                                        : ''}
-                                </div>
-                            ) : (
-                                <></>
-                            )}
-                            {formikStepOne.errors.phoneNumber &&
-                            formikStepOne.touched.phoneNumber ? (
-                                <div className="field__validation">
-                                    {formikStepOne.errors.phoneNumber
-                                        ? formikStepOne.errors.phoneNumber
-                                        : ''}
-                                </div>
-                            ) : (
-                                <></>
-                            )}
-                        </div>
-                    </div>
-                    <div className="field">
-                        <label className="field__label" htmlFor="dateOfBirth">
-                            Date of Birth*
-                        </label>
-                        <MyDatePicker
-                            form={formikStepOne}
-                            field={formikStepOne.getFieldProps('dateOfBirth')}
-                            meta={formikStepOne.getFieldMeta('dateOfBirth')}
-                        />
-                    </div>
-                    <div className="field field__file">
-                        <label className="field__label" htmlFor="profileImage">
-                            Profile Image*
-                        </label>
-                        <UploadFile
-                            setFieldValue={formikStepOne.setFieldValue}
-                            uploadedFile={(file: any) => {
-                                formikStepOne.setFieldValue(
-                                    'profileImage',
-                                    file
-                                );
-                            }}
-                            id="profileImage"
-                            name="profileImage"
-                            imagePreview={profileImage}
-                        />
-                    </div>
-
-                    <button
-                        className="btn btn--base btn--primary w--100 mb-2 mt-6"
-                        type="submit"
-                    >
-                        Next
-                    </button>
-                    <div
-                        onClick={() => handleGoBack()}
-                        className="btn btn--clear btn--base w--100 type--color--brand type--wgt--bold type--center"
-                    >
-                        <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>{' '}
-                        Back to register
-                    </div>
-                </Form>
-            </FormikProvider>
-        );
-    };
-
     const stepTwo = () => {
         return (
             <FormikProvider value={formikStepTwo}>
                 <Form>
                     {/* <div>{JSON.stringify(formikStepTwo.values, null, 2)}</div> */}
                     <div className="field">
-                        <label htmlFor="firstName" className="field__label">
-                            First Name*
+                        <label htmlFor="cardFirstName" className="field__label">
+                            {t('REGISTER.CARD_DETAILS.FIRST_NAME')}
                         </label>
                         <TextField
-                            name="firstName"
-                            id="firstName"
+                            name="cardFirstName"
+                            id="cardFirstName"
                             placeholder="Enter First Name"
                             // disabled={isLoading}
                         />
                     </div>
                     <div className="field">
-                        <label htmlFor="lastName" className="field__label">
-                            Last Name*
+                        <label htmlFor="cardLastName" className="field__label">
+                            {t('REGISTER.CARD_DETAILS.LAST_NAME')}
                         </label>
                         <TextField
-                            name="lastName"
-                            id="lastName"
+                            name="cardLastName"
+                            id="cardLastName"
                             placeholder="Enter Last Name"
                             // disabled={isLoading}
                         />
                     </div>
                     <div className="field">
                         <label htmlFor="cardNumber" className="field__label">
-                            Card Number*
+                            {t('REGISTER.CARD_DETAILS.CARD_NUMBER')}
                         </label>
                         <TextField
                             type="number"
@@ -362,10 +372,9 @@ const TutorOnboarding: React.FC<IProps> = ({
                                     htmlFor="expiryDate"
                                     className="field__label"
                                 >
-                                    Expiry date*
+                                    {t('REGISTER.CARD_DETAILS.EXPIRY_DATE')}
                                 </label>
-                                <TextField
-                                    type="number"
+                                <ExpDateField
                                     name="expiryDate"
                                     id="expiryDate"
                                     placeholder="MM / YY"
@@ -375,7 +384,7 @@ const TutorOnboarding: React.FC<IProps> = ({
 
                             <div className="field w--100">
                                 <label htmlFor="cvv" className="field__label">
-                                    CVV*
+                                    {t('REGISTER.CARD_DETAILS.CVV')}
                                 </label>
                                 <TextField
                                     max={999}
@@ -392,7 +401,7 @@ const TutorOnboarding: React.FC<IProps> = ({
 
                     <div className="field">
                         <label htmlFor="zipCode" className="field__label">
-                            ZIP / Postal Code*
+                            {t('REGISTER.CARD_DETAILS.ZIP_CODE')}
                         </label>
                         <TextField
                             type="number"
@@ -402,23 +411,62 @@ const TutorOnboarding: React.FC<IProps> = ({
                             // disabled={isLoading}
                         />
                     </div>
-                    <button
-                        className="btn btn--base btn--primary w--100 mb-2 mt-6"
-                        type="submit"
+                    <div
+                        className="btn btn--base btn--primary type--center w--100 mb-2 mt-6"
+                        onClick={() => formikStepTwo.handleSubmit()}
                     >
-                        Finish
-                    </button>
+                        {t('REGISTER.FINISH')}
+                    </div>
                     <div
                         onClick={() => handleGoBack()}
                         className="btn btn--clear btn--base w--100 type--color--brand type--wgt--bold type--center"
                     >
                         <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>{' '}
-                        Back to step 2
+                        {t('REGISTER.BACK_TO_STEP_TWO')}
                     </div>
                 </Form>
             </FormikProvider>
         );
     };
+
+    // end of steps
+
+    useEffect(() => {
+        getCountries();
+    }, []);
+
+    useEffect(() => {
+        const currentCountries: OptionType[] = countries
+            ? countries.map((x: ICountry) => {
+                  return {
+                      label: x.name,
+                      value: x.id,
+                      icon: x.flag,
+                  };
+              })
+            : [];
+        setCountryOptions(currentCountries);
+        const currentPhone: PhoneOptionType[] = countries
+            ? countries.map((x: ICountry) => {
+                  return {
+                      label: x.name,
+                      prefix: x.phonePrefix,
+                      value: x.phonePrefix,
+                  };
+              })
+            : [];
+        setPhoneOptions(currentPhone);
+    }, [countries]);
+
+    useEffect(() => {
+        if (isSuccess) {
+            dispatch(resetTutorRegister());
+            dispatch(resetParentRegister());
+            dispatch(resetStudentRegister());
+            handleNextStep();
+            toastService.success('You are registered successfully.');
+        }
+    }, [isSuccess]);
 
     return <>{step === 1 ? stepOne() : step === 2 ? stepTwo() : <></>}</>;
 };

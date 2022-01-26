@@ -2,14 +2,16 @@ import { Form, FormikProvider, useFormik } from 'formik';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { components } from 'react-select';
 import * as Yup from 'yup';
 
-import { setStepOne } from '../../../../slices/studentRegisterSlice';
-import MyCountrySelect from '../../../components/form/MyCountrySelect';
+import { resetParentRegister } from '../../../../slices/parentRegisterSlice';
+import { resetStudentRegister } from '../../../../slices/studentRegisterSlice';
+import { resetTutorRegister } from '../../../../slices/tutorRegisterSlice';
 import MyDatePicker from '../../../components/form/MyDatePicker';
-import MyPhoneSelect from '../../../components/form/MyPhoneSelect';
-import MySelect from '../../../components/form/MySelectField';
+import MySelect, {
+    OptionType,
+    PhoneOptionType,
+} from '../../../components/form/MySelectField';
 import TextField from '../../../components/form/TextField';
 import { countryInput } from '../../../constants/countryInput';
 import { countryOption } from '../../../constants/countryOption';
@@ -17,7 +19,8 @@ import { phoneNumberInput } from '../../../constants/phoneNumberInput';
 import { phoneNumberOption } from '../../../constants/phoneNumberOption';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { useRegisterStudentMutation } from '../../../services/authService';
-import { useLazyGetCountriesQuery } from '../services/countryService';
+import toastService from '../../../services/toastService';
+import { ICountry, useLazyGetCountriesQuery } from '../services/countryService';
 
 interface StepOneValues {
     countryId: string;
@@ -37,19 +40,11 @@ const StudentOnboarding: React.FC<IProps> = ({
     handleNextStep,
 }) => {
     const [registerStudent, { isSuccess }] = useRegisterStudentMutation();
+    const [countryOptions, setCountryOptions] = useState<OptionType[]>([]);
+    const [phoneOptions, setPhoneOptions] = useState<OptionType[]>([]);
     const state = useAppSelector((state) => state.studentRegister);
     const roleAbrv = useAppSelector((state) => state.role.selectedRole);
-    const {
-        firstName,
-        lastName,
-        password,
-        passwordRepeat,
-        countryId,
-        prefix,
-        phoneNumber,
-        dateOfBirth,
-        email,
-    } = state;
+    const { firstName, lastName, password, passwordRepeat, email } = state;
     const dispatch = useAppDispatch();
     const { t } = useTranslation();
     const [getCountries, { data: countries }] = useLazyGetCountriesQuery();
@@ -57,6 +52,29 @@ const StudentOnboarding: React.FC<IProps> = ({
     useEffect(() => {
         getCountries();
     }, []);
+
+    useEffect(() => {
+        const currentCountries: OptionType[] = countries
+            ? countries.map((x: ICountry) => {
+                  return {
+                      label: x.name,
+                      value: x.id,
+                      icon: x.flag,
+                  };
+              })
+            : [];
+        setCountryOptions(currentCountries);
+        const currentPhone: PhoneOptionType[] = countries
+            ? countries.map((x: ICountry) => {
+                  return {
+                      label: x.name,
+                      prefix: x.phonePrefix,
+                      value: x.phonePrefix,
+                  };
+              })
+            : [];
+        setPhoneOptions(currentPhone);
+    }, [countries]);
 
     const initialValuesOne: StepOneValues = {
         countryId: '',
@@ -95,7 +113,11 @@ const StudentOnboarding: React.FC<IProps> = ({
 
     useEffect(() => {
         if (isSuccess) {
+            dispatch(resetTutorRegister());
+            dispatch(resetParentRegister());
+            dispatch(resetStudentRegister());
             handleNextStep();
+            toastService.success('You are registered successfully.');
         }
     });
 
@@ -106,16 +128,16 @@ const StudentOnboarding: React.FC<IProps> = ({
                     {/* <div>{JSON.stringify(formik.values, null, 2)}</div> */}
                     <div className="field">
                         <label htmlFor="countryId" className="field__label">
-                            Country*
+                            {t('REGISTER.FORM.COUNTRY')}
                         </label>
 
-                        <MyCountrySelect
+                        <MySelect
                             form={formik}
                             field={formik.getFieldProps('countryId')}
                             meta={formik.getFieldMeta('countryId')}
                             isMulti={false}
                             classNamePrefix="onboarding-select"
-                            options={countries}
+                            options={countryOptions}
                             placeholder="Choose your country"
                             customInputField={countryInput}
                             customOption={countryOption}
@@ -123,15 +145,15 @@ const StudentOnboarding: React.FC<IProps> = ({
                     </div>
                     <div className="field">
                         <label htmlFor="phoneNumber" className="field__label">
-                            Phone Number*
+                            {t('REGISTER.FORM.PHONE_NUMBER')}
                         </label>
                         <div className="flex flex--center pos--rel">
-                            <MyPhoneSelect
+                            <MySelect
                                 form={formik}
                                 field={formik.getFieldProps('prefix')}
                                 meta={formik.getFieldMeta('prefix')}
                                 isMulti={false}
-                                options={countries}
+                                options={phoneOptions}
                                 classNamePrefix="onboarding-select"
                                 className="w--120"
                                 placeholder="+00"
@@ -141,8 +163,8 @@ const StudentOnboarding: React.FC<IProps> = ({
                                 withoutErr={
                                     formik.errors.prefix &&
                                     formik.touched.prefix
-                                        ? false
-                                        : true
+                                        ? true
+                                        : false
                                 }
                             />
                             <div className="ml-4"></div>
@@ -154,36 +176,41 @@ const StudentOnboarding: React.FC<IProps> = ({
                                 withoutErr={
                                     formik.errors.phoneNumber &&
                                     formik.touched.phoneNumber
-                                        ? false
-                                        : true
+                                        ? true
+                                        : false
                                 }
                             />
                         </div>
-                        <div className="flex flex--center">
-                            {formik.errors.prefix && formik.touched.prefix ? (
-                                <div className="field__validation mr-4">
-                                    {formik.errors.prefix
-                                        ? formik.errors.prefix
-                                        : ''}
-                                </div>
-                            ) : (
-                                <></>
-                            )}
-                            {formik.errors.phoneNumber &&
-                            formik.touched.phoneNumber ? (
-                                <div className="field__validation">
-                                    {formik.errors.phoneNumber
-                                        ? formik.errors.phoneNumber
-                                        : ''}
-                                </div>
-                            ) : (
-                                <></>
-                            )}
+                        <div className="field__validation flex">
+                            <div className="w--136">
+                                {formik.errors.prefix &&
+                                formik.touched.prefix ? (
+                                    <div className="mr-4">
+                                        {formik.errors.prefix
+                                            ? formik.errors.prefix
+                                            : ''}
+                                    </div>
+                                ) : (
+                                    <></>
+                                )}
+                            </div>
+                            <div>
+                                {formik.errors.phoneNumber &&
+                                formik.touched.phoneNumber ? (
+                                    <div>
+                                        {formik.errors.phoneNumber
+                                            ? formik.errors.phoneNumber
+                                            : ''}
+                                    </div>
+                                ) : (
+                                    <></>
+                                )}
+                            </div>
                         </div>
                     </div>
                     <div className="field">
                         <label className="field__label" htmlFor="dateOfBirth">
-                            Date of Birth*
+                            {t('REGISTER.FORM.DATE_OF_BIRTH')}
                         </label>
                         <MyDatePicker
                             form={formik}
@@ -191,18 +218,18 @@ const StudentOnboarding: React.FC<IProps> = ({
                             meta={formik.getFieldMeta('dateOfBirth')}
                         />
                     </div>
-                    <button
-                        className="btn btn--base btn--primary w--100 mb-2 mt-6"
-                        type="submit"
+                    <div
+                        className="btn btn--base btn--primary type--center w--100 mb-2 mt-6"
+                        onClick={() => formik.handleSubmit()}
                     >
-                        Finish
-                    </button>
+                        {t('REGISTER.FINISH')}
+                    </div>
                     <div
                         onClick={() => handleGoBack()}
                         className="btn btn--clear btn--base w--100 type--color--brand type--wgt--bold type--center"
                     >
                         <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>{' '}
-                        Back to register
+                        {t('REGISTER.BACK_TO_REGISTER')}
                     </div>
                 </Form>
             </FormikProvider>

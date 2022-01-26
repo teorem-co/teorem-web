@@ -5,7 +5,7 @@ export const phoneNumberOption = (props: any) => {
     return (
         <components.Option {...innerProps} {...props}>
             {' '}
-            <div className="input-select">
+            <div className="input-select" key={props.data.id}>
                 <div className="input-select__option flex flex--center">
                     {/* <span className="input-select__icon"> */}
                     {/* <span className="mr-2">{props.data.icon}</span> */}
@@ -19,9 +19,9 @@ export const phoneNumberOption = (props: any) => {
                         className="mr-2"
                     ></div>
                     <span className="mr-6" style={{ width: '40px' }}>
-                        {props.data.phonePrefix}
+                        {props.data.prefix}
                     </span>
-                    <span>{props.data.name}</span>
+                    <span>{props.data.label}</span>
                 </div>
             </div>
         </components.Option>

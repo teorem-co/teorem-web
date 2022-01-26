@@ -2,7 +2,9 @@ import { useEffect } from 'react';
 import { useHistory } from 'react-router';
 
 import logo from '../../../assets/images/logo.svg';
+import { resetParentRegister } from '../../../slices/parentRegisterSlice';
 import { resetSelectedRole } from '../../../slices/roleSlice';
+import { resetStudentRegister } from '../../../slices/studentRegisterSlice';
 import { resetTutorRegister } from '../../../slices/tutorRegisterSlice';
 import { useAppDispatch } from '../../hooks';
 
@@ -17,6 +19,8 @@ const TrialPopup = () => {
     useEffect(() => {
         return () => {
             dispatch(resetSelectedRole());
+            dispatch(resetParentRegister());
+            dispatch(resetStudentRegister());
             dispatch(resetTutorRegister());
         };
     }, []);

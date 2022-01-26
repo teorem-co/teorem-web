@@ -109,6 +109,11 @@
             display: none !important;
         }
     }
+
+    &__flag {
+        width: 20px;
+        border: 1px solid $grey-c4;
+    }
 }
 
 .onboarding-select {

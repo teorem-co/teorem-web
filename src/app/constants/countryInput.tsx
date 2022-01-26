@@ -8,15 +8,18 @@ export const countryInput = (props: any) => {
                     {/* <span className="input-select__icon mr-2">
                         {props.data.icon}
                     </span> */}
-                    <div
-                        style={{
-                            width: '20px',
-                            height: '10px',
-                            backgroundColor: 'blue',
-                        }}
-                        className="mr-2"
-                    ></div>
-                    <span>{props.data.name}</span>
+                    <div className="mr-2 flex">
+                        {props.data.icon ? (
+                            <img
+                                className="react-select__flag"
+                                src={props.data.icon}
+                                alt="country flag"
+                            />
+                        ) : (
+                            <></>
+                        )}
+                    </div>
+                    <span>{props.data.label}</span>
                 </div>
             </components.SingleValue>
         );
@@ -24,15 +27,15 @@ export const countryInput = (props: any) => {
         return (
             <components.SingleValue {...props} className="input-select">
                 <div className="input-select__option flex flex--center">
-                    <div
-                        style={{
-                            width: '20px',
-                            height: '10px',
-                            backgroundColor: 'blue',
-                        }}
-                        className="mr-2"
-                    ></div>
-                    <span>{props.data.name}</span>
+                    {/* <div
+                    style={{
+                        width: '20px',
+                        height: '10px',
+                        backgroundColor: 'blue',
+                    }}
+                    className="mr-2"
+                ></div> */}
+                    <span>{props.data.label}</span>
                 </div>
             </components.SingleValue>
         );

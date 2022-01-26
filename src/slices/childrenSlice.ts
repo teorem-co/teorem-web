@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import { IChild } from '../interfaces/IChild';
 import IChildListOption from '../interfaces/IChildListOption';
 
 interface IState {
-    child: IChildListOption[] | [];
+    child: IChild[] | [];
 }
 
 const initialState: IState = {
@@ -14,7 +15,7 @@ export const childrenSlice = createSlice({
     name: 'children',
     initialState,
     reducers: {
-        setchildren(state, action: PayloadAction<IChildListOption[]>) {
+        setchildren(state, action: PayloadAction<IChild[]>) {
             state.child = action.payload;
         },
     },

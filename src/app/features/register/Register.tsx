@@ -1,18 +1,19 @@
 import { Form, FormikProvider, useFormik } from 'formik';
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import * as Yup from 'yup';
 
 import heroImg from '../../../assets/images/hero-img.png';
-import { resetSelectedRole, setSelectedRole } from '../../../slices/roleSlice';
+import { setSelectedRole } from '../../../slices/roleSlice';
 import { setRegister } from '../../../slices/tutorRegisterSlice';
 import TextField from '../../components/form/TextField';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
-import { useRegisterTutorMutation } from '../../services/authService';
-import toastService from '../../services/toastService';
-import { getUserRoleAbrv } from '../../utils/getUserRoleAbrv';
+import {
+    useCheckMailMutation,
+    useCheckUsernameMutation,
+} from '../../services/authService';
 import logo from './../../../assets/images/logo.svg';
 import TooltipPassword from './TooltipPassword';
 
@@ -29,11 +30,11 @@ const Register: React.FC = () => {
     const { t } = useTranslation();
     const history = useHistory();
     const state = useAppSelector((state) => state.tutorRegister);
-    const { firstName, lastName, email, password, passwordRepeat } = state;
+    const { firstName, lastName, email, password } = state;
     const roleSelection = useAppSelector((state) => state.role.selectedRole);
     const [passTooltip, setPassTooltip] = useState<boolean>(false);
 
-    const [register, { isSuccess, isLoading }] = useRegisterTutorMutation();
+    const [checkMail, { isSuccess }] = useCheckMailMutation();
 
     const initialValues: Values = {
         firstName: '',
@@ -42,9 +43,20 @@ const Register: React.FC = () => {
         password: '',
         passwordRepeat: '',
     };
+    const editRegister = () => {
+        const registerValues = {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            password: password,
+            passwordRepeat: password,
+        };
+        const newRegisterValues = firstName ? registerValues : initialValues;
+        return newRegisterValues;
+    };
 
     const formik = useFormik({
-        initialValues: initialValues,
+        initialValues: editRegister(),
         onSubmit: (values) => handleSubmit(values),
         validateOnBlur: true,
         enableReinitialize: true,
@@ -59,7 +71,20 @@ const Register: React.FC = () => {
                 .required(t('FORM_VALIDATION.REQUIRED')),
             email: Yup.string()
                 .email(t('FORM_VALIDATION.INVALID_EMAIL'))
-                .required(t('FORM_VALIDATION.REQUIRED')),
+                .required(t('FORM_VALIDATION.REQUIRED'))
+                .test(
+                    'email',
+                    'This email already exists',
+                    async (value: any) => {
+                        if (value && value.includes('@')) {
+                            const isValid = await checkMail({
+                                email: value,
+                            }).unwrap();
+                            return !isValid;
+                        }
+                        return true;
+                    }
+                ),
             password: Yup.string()
                 .min(8, t('FORM_VALIDATION.TOO_SHORT'))
                 .max(128, t('FORM_VALIDATION.TOO_LONG'))
@@ -113,6 +138,12 @@ const Register: React.FC = () => {
             history.push(PATHS.ROLE_SELECTION);
         }
     }, []);
+
+    // useEffect(() => {
+    //     if (isSuccess) {
+    //         history.push(PATHS.ONBOARDING);
+    //     }
+    // }, [isSuccess]);
 
     // useLayoutEffect(() => {
     //     return () => {
@@ -212,7 +243,7 @@ const Register: React.FC = () => {
                                         name="firstName"
                                         id="firstName"
                                         placeholder="Enter your first name"
-                                        disabled={isLoading}
+                                        // disabled={isLoading}
                                     />
                                 </div>
                                 <div className="field">
@@ -226,7 +257,7 @@ const Register: React.FC = () => {
                                         name="lastName"
                                         id="lastName"
                                         placeholder="Enter your last name"
-                                        disabled={isLoading}
+                                        // disabled={isLoading}
                                     />
                                 </div>
                                 <div className="field">
@@ -237,10 +268,15 @@ const Register: React.FC = () => {
                                         {t('REGISTER.FORM.EMAIL')}
                                     </label>
                                     <TextField
+                                        // onBlur={() =>
+                                        //     checkMail({
+                                        //         email: formik.values.email,
+                                        //     })
+                                        // }
                                         name="email"
                                         id="email"
                                         placeholder="Enter your email"
-                                        disabled={isLoading}
+                                        // disabled={isLoading}
                                     />
                                 </div>
                                 <div className="field">
@@ -256,7 +292,7 @@ const Register: React.FC = () => {
                                         placeholder="Type your password"
                                         className="input input--base input--text input--icon"
                                         password={true}
-                                        disabled={isLoading}
+                                        // disabled={isLoading}
                                         onFocus={handlePasswordFocus}
                                         onBlur={(e: any) => {
                                             handlePasswordBlur();
@@ -280,18 +316,18 @@ const Register: React.FC = () => {
                                         name="passwordRepeat"
                                         id="passwordRepeat"
                                         placeholder="Type your password"
-                                        disabled={isLoading}
+                                        // disabled={isLoading}
                                         className="input input--base input--text input--icon"
                                         password={true}
                                     />
                                 </div>
-                                <button
-                                    className="btn btn--base btn--primary w--100 mb-2 mt-6"
-                                    type="submit"
-                                    disabled={isLoading}
+                                <div
+                                    className="btn btn--base btn--primary w--100 type--center mb-2 mt-6"
+                                    // type="submit"
+                                    onClick={() => formik.handleSubmit()}
                                 >
                                     {t('REGISTER.FORM.SUBMIT_BUTTON')}
-                                </button>
+                                </div>
                                 <div
                                     onClick={() => handleGoBack()}
                                     className="btn btn--clear btn--base w--100 type--color--brand type--wgt--bold type--center"
