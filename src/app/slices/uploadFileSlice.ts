@@ -5,22 +5,23 @@ export type FileType = {
 };
 
 interface IState {
-    files: FileType[] | [];
+    file: File | null;
 }
 
 const initialState: IState = {
-    files: [],
+    file: null,
 };
 
+//RESET STATE AFTER SUCCESFUL LOGIN
 const uploadFileSlice = createSlice({
     name: 'uploadFile',
     initialState,
     reducers: {
-        setFiles(state, action: PayloadAction<FileType[]>) {
-            state.files = action.payload;
+        setFile(state, action: PayloadAction<File | null>) {
+            state.file = action.payload;
         },
     },
 });
 
-export const { setFiles } = uploadFileSlice.actions;
+export const { setFile } = uploadFileSlice.actions;
 export default uploadFileSlice.reducer;

@@ -1,130 +1,50 @@
 import { FieldAttributes, useField } from 'formik';
-import { FC, Fragment, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { FileType, setFiles } from '../../slices/uploadFileSlice';
-import { RootState } from '../../store';
+import { setFile } from '../../slices/uploadFileSlice';
+
+interface PreviewFileType {
+    preview: string | null;
+}
 
 type UploadFileType = {
-    infoText?: boolean;
-    uploadedFile: (file: any) => void;
-    filePreview?: (preview: any) => void;
-    imagePreview?: string;
     setFieldValue: (field: string, value: any) => void;
-    clearImagePreview?: () => void;
 } & FieldAttributes<{}>;
 
-const mappedFiles = (files: FileType[], filePreview: any) => {
-    return files.map((file, index) => {
-        if (file.preview) {
-            filePreview ? filePreview(file.preview) : <></>;
-        }
-        return (
-            <Fragment key={index}>
-                <aside className="upload__images">
-                    <img alt="profile" src={file.preview} />
-                    <div className="upload__images__edit">
-                        <i className="icon icon--edit"></i>
-                    </div>
-                </aside>
-            </Fragment>
-        );
-    });
-};
-
-const UploadFile: FC<UploadFileType> = ({
-    imagePreview,
-    uploadedFile,
-    filePreview,
-    // id,
-    // setFieldValue,
-    // clearImagePreview,
-    // infoText,
-    ...props
-}) => {
+const UploadFile: FC<UploadFileType> = ({ setFieldValue, ...props }) => {
     const dispatch = useAppDispatch();
+
     const [field, meta] = useField<{}>(props);
     const errorText = meta.error && meta.touched ? meta.error : '';
-    const files = useAppSelector((state: RootState) => state.uploadFile.files);
-    // const isEdit = id === 'imageFood';
 
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({
-        accept: 'image/*',
-        maxFiles: 1,
-        onDrop: (acceptedFiles) => {
-            dispatch(
-                setFiles(
-                    acceptedFiles.map((file, i) => {
-                        // sending values to parent component
-                        uploadedFile(file);
-                        return Object.assign(file, {
-                            preview: URL.createObjectURL(file),
-                            index: i,
-                        });
-                    })
-                )
-            );
-        },
+    const { file } = useAppSelector((state) => state.uploadFile);
+
+    const [preview, setImagePreview] = useState<PreviewFileType>({
+        preview: null,
     });
 
-    useEffect(
-        () => () => {
-            // Make sure to revoke the data uris to avoid memory leaks
-            if (!filePreview) {
-                files.forEach((file) => URL.revokeObjectURL(file.preview));
-            }
-        },
-        [files]
-    );
-
     useEffect(() => {
-        dispatch(setFiles([]));
-    }, []);
+        if (file) {
+            setImagePreview(
+                Object.assign(file, { preview: URL.createObjectURL(file) })
+            );
+            setFieldValue('profileImage', file);
+        }
+    }, [file]);
+
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+        maxFiles: 1,
+        accept: 'image/*',
+        onDropAccepted: (acceptedFiles: File[]) => {
+            dispatch(setFile(acceptedFiles[0]));
+        },
+    });
 
     return (
         <>
-            <div className="flex flex--center">
-                <div
-                    style={{
-                        width: '80px',
-                        height: '80px',
-                        backgroundColor: 'hsla(248, 86%, 69%, 0.1)',
-                        borderRadius: '1000px',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                    }}
-                    className="mr-6"
-                >
-                    {files.length > 0 ? (
-                        <div
-                            style={{
-                                width: '70px',
-                                height: '70px',
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                            }}
-                        >
-                            {mappedFiles(files, filePreview)}
-                        </div>
-                    ) : (
-                        <div
-                            style={{
-                                width: '70px',
-                                height: '70px',
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                backgroundColor: 'white',
-                                borderRadius: '1000px',
-                            }}
-                        >
-                            <i className="icon icon--base icon--profile icon--grey"></i>
-                        </div>
-                    )}
-                </div>
+            <div className="flex">
                 <div {...getRootProps({ className: 'upload' })}>
                     {isDragActive ? (
                         <div className="upload__drag-overlay"></div>
@@ -133,20 +53,23 @@ const UploadFile: FC<UploadFileType> = ({
                     )}
                     <input {...getInputProps()} />
                     <div className="upload__text" role="presentation">
-                        {imagePreview ? (
+                        {preview.preview ? (
                             <aside className="upload__images">
-                                <img alt="profile" src={imagePreview} />
+                                <img alt="profile" src={preview.preview} />
                             </aside>
                         ) : (
                             <></>
                         )}
-
-                        <div className="flex--primary flex--col">
-                            <i className="icon icon--base icon--upload icon--grey"></i>
-                            <div className="type--color--tertiary type--wgt--regular">
-                                Drag and drop to upload
+                        {preview ? (
+                            <div className="flex--primary flex--col">
+                                <i className="icon icon--base icon--upload icon--grey"></i>
+                                <div className="type--color--tertiary type--wgt--regular">
+                                    Drag and drop to upload
+                                </div>
                             </div>
-                        </div>
+                        ) : (
+                            <></>
+                        )}
                     </div>
                 </div>
             </div>
@@ -158,3 +81,19 @@ const UploadFile: FC<UploadFileType> = ({
 };
 
 export default UploadFile;
+
+// <div className="flex">
+//     <div>
+//         {preview.preview ? (
+//             <aside className="upload__images">
+//                 <img alt="profile" src={preview.preview} />
+//             </aside>
+//         ) : (
+//             <></>
+//         )}
+//     </div>
+//     <div {...getRootProps({ className: 'upload' })}>
+//         <input {...getInputProps()} />
+//         <p>Drag 'n' drop some files here, or click to select files</p>
+//     </div>
+// </div>

@@ -235,15 +235,8 @@ const TutorOnboarding: React.FC<IProps> = ({
                         </label>
                         <UploadFile
                             setFieldValue={formikStepOne.setFieldValue}
-                            uploadedFile={(file: any) => {
-                                formikStepOne.setFieldValue(
-                                    'profileImage',
-                                    file
-                                );
-                            }}
                             id="profileImage"
                             name="profileImage"
-                            imagePreview={profileImage}
                         />
                     </div>
 

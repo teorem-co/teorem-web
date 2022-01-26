@@ -230,7 +230,7 @@ export const menuPerRole: IMenuPerRole = {
             path: PATHS.MY_REVIEWS,
         },
         {
-            name: 'My Profile',
+            name: 'MY_PROFILE',
             icon: 'profile',
             key: 'MY_PROFILE_INFO_PERSONAL',
             rootPath: PROFILE_PATHS.MY_PROFILE,
@@ -279,7 +279,7 @@ export const menuPerRole: IMenuPerRole = {
             path: PATHS.SEARCH_TUTORS,
         },
         {
-            name: 'My Profile',
+            name: 'MY_PROFILE',
             icon: 'profile',
             key: 'MY_PROFILE_INFO_PERSONAL',
             rootPath: PROFILE_PATHS.MY_PROFILE,

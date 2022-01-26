@@ -48,6 +48,7 @@ export const EN_US = {
         MY_BOOKINGS: 'My Bookings',
         MY_REVIEWS: 'My reviews',
         SEARCH_TUTORS: 'Search tutors',
+        MY_PROFILE: 'My Profile',
     },
     SEARCH_TUTORS: {
         AVAILABILITY: {

@@ -109,7 +109,9 @@ const PersonalInformation = () => {
                         <ProfileTabs />
 
                         {/* PROGRESS */}
-                        <ProfileCompletion percentage={profileProgress?.percentage} />
+                        <ProfileCompletion
+                            percentage={profileProgress?.percentage}
+                        />
 
                         {/* PERSONAL INFO */}
                         <div className="card--profile__section">
@@ -184,7 +186,7 @@ const PersonalInformation = () => {
                                                     isSearchable={false}
                                                     withoutErr={
                                                         formik.errors.prefix &&
-                                                            formik.touched.prefix
+                                                        formik.touched.prefix
                                                             ? false
                                                             : true
                                                     }
@@ -198,8 +200,8 @@ const PersonalInformation = () => {
                                                     withoutErr={
                                                         formik.errors
                                                             .phoneNumber &&
-                                                            formik.touched
-                                                                .phoneNumber
+                                                        formik.touched
+                                                            .phoneNumber
                                                             ? false
                                                             : true
                                                     }
@@ -207,23 +209,23 @@ const PersonalInformation = () => {
                                             </div>
                                             <div className="flex flex--center">
                                                 {formik.errors.prefix &&
-                                                    formik.touched.prefix ? (
+                                                formik.touched.prefix ? (
                                                     <div className="field__validation mr-4">
                                                         {formik.errors.prefix
                                                             ? formik.errors
-                                                                .prefix
+                                                                  .prefix
                                                             : ''}
                                                     </div>
                                                 ) : (
                                                     <></>
                                                 )}
                                                 {formik.errors.phoneNumber &&
-                                                    formik.touched.phoneNumber ? (
+                                                formik.touched.phoneNumber ? (
                                                     <div className="field__validation">
                                                         {formik.errors
                                                             .phoneNumber
                                                             ? formik.errors
-                                                                .phoneNumber
+                                                                  .phoneNumber
                                                             : ''}
                                                     </div>
                                                 ) : (
@@ -278,7 +280,6 @@ const PersonalInformation = () => {
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                         {/* IMAGE */}
@@ -288,8 +289,8 @@ const PersonalInformation = () => {
                                     Profile Picture
                                 </div>
                                 <div className="type--color--tertiary w--200--max">
-                                    Upload or remove a new profile
-                                    picture (PNG or JPG)
+                                    Upload or remove a new profile picture (PNG
+                                    or JPG)
                                 </div>
                             </div>
                             <div className="w--800--max">
@@ -307,7 +308,7 @@ const PersonalInformation = () => {
                                         >
                                             Profile Image*
                                         </label>
-                                        <UploadFile
+                                        {/* <UploadFile
                                             setFieldValue={
                                                 formik.setFieldValue
                                             }
@@ -320,7 +321,7 @@ const PersonalInformation = () => {
                                             id="profileImage"
                                             name="profileImage"
                                             imagePreview={profileImage}
-                                        />
+                                        /> */}
                                     </div>
                                 </div>
                                 <button
