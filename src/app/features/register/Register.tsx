@@ -59,6 +59,7 @@ const Register: React.FC = () => {
         initialValues: editRegister(),
         onSubmit: (values) => handleSubmit(values),
         validateOnBlur: true,
+        validateOnChange: false,
         enableReinitialize: true,
         validationSchema: Yup.object().shape({
             firstName: Yup.string()

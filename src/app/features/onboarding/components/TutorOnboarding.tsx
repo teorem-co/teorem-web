@@ -105,6 +105,7 @@ const TutorOnboarding: React.FC<IProps> = ({
         initialValues: editStepOne(),
         onSubmit: (values) => handleSubmitStepOne(values),
         validateOnBlur: true,
+        validateOnChange: false,
         enableReinitialize: true,
         validationSchema: Yup.object().shape({
             countryId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
@@ -288,6 +289,7 @@ const TutorOnboarding: React.FC<IProps> = ({
         initialValues: initialValuesTwo,
         onSubmit: (values) => handleSubmitStepTwo(values),
         validateOnBlur: true,
+        validateOnChange: false,
         enableReinitialize: true,
         validationSchema: Yup.object().shape({
             cardFirstName: Yup.string()

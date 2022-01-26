@@ -30,6 +30,7 @@ const ResetPassword = () => {
         initialValues: initialValues,
         onSubmit: (values) => handleSubmit(values),
         validateOnBlur: true,
+        validateOnChange: false,
         enableReinitialize: true,
         validationSchema: Yup.object().shape({
             email: Yup.string()

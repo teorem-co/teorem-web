@@ -33,6 +33,7 @@ const AdditionalInformation = () => {
         initialValues: initialValues,
         onSubmit: handleSubmit,
         validateOnBlur: true,
+        validateOnChange: false,
         enableReinitialize: true,
         validationSchema: Yup.object().shape({
             aboutUser: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),

@@ -170,6 +170,7 @@ const ParentOnboarding: React.FC<IProps> = ({
         initialValues: initialValuesOne,
         onSubmit: (values) => submitStepOne(values),
         validateOnBlur: true,
+        validateOnChange: false,
         enableReinitialize: true,
         validationSchema: Yup.object().shape({
             countryId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
@@ -327,6 +328,7 @@ const ParentOnboarding: React.FC<IProps> = ({
         initialValues: initialValuesTwo,
         onSubmit: (values) => submitStepTwo(values),
         validateOnBlur: true,
+        validateOnChange: false,
         enableReinitialize: true,
         validationSchema: Yup.object().shape({}),
     });
@@ -429,6 +431,7 @@ const ParentOnboarding: React.FC<IProps> = ({
         initialValues: initialValuesTwo,
         onSubmit: (values) => submitStepThree(values),
         validateOnBlur: true,
+        validateOnChange: false,
         enableReinitialize: true,
         validationSchema: Yup.object().shape({
             childFirstName: Yup.string().required(
@@ -455,6 +458,7 @@ const ParentOnboarding: React.FC<IProps> = ({
                     'username',
                     'Username already exists',
                     async (value: any) => {
+                        debugger;
                         if (value) {
                             //filter all without selected child(on edit)
                             const filteredArray = child.filter(

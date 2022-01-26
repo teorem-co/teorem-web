@@ -84,6 +84,7 @@ const PersonalInformation = () => {
         initialValues: initialValues,
         onSubmit: handleSubmit,
         validateOnBlur: true,
+        validateOnChange: false,
         enableReinitialize: true,
         validationSchema: Yup.object().shape({
             firstName: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),

@@ -87,6 +87,7 @@ const StudentOnboarding: React.FC<IProps> = ({
         initialValues: initialValuesOne,
         onSubmit: (values) => handleSubmit(values),
         validateOnBlur: true,
+        validateOnChange: false,
         enableReinitialize: true,
         validationSchema: Yup.object().shape({
             countryId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),

@@ -35,6 +35,7 @@ const ProfileAccount = () => {
         initialValues: initialValues,
         onSubmit: handleSubmit,
         validateOnBlur: true,
+        validateOnChange: false,
         enableReinitialize: true,
         validationSchema: Yup.object().shape({
             currentPassword: Yup.string().required(

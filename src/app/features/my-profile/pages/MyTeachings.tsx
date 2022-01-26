@@ -41,6 +41,7 @@ const MyTeachings = () => {
         initialValues: initialValues,
         onSubmit: handleSubmit,
         validateOnBlur: true,
+        validateOnChange: false,
         enableReinitialize: true,
         validationSchema: Yup.object().shape({
             occupation: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
@@ -81,12 +82,16 @@ const MyTeachings = () => {
                         <ProfileTabs />
 
                         {/* PROGRESS */}
-                        <ProfileCompletion percentage={profileProgress?.percentage} />
+                        <ProfileCompletion
+                            percentage={profileProgress?.percentage}
+                        />
 
                         {/* MY TEACHINGS */}
                         <div className="card--profile__section">
                             <div>
-                                <div className="mb-2 type--wgt--bold">My teachings</div>
+                                <div className="mb-2 type--wgt--bold">
+                                    My teachings
+                                </div>
                                 <div className="type--color--tertiary w--200--max">
                                     Edit and update your teaching information
                                 </div>
@@ -110,7 +115,7 @@ const MyTeachings = () => {
                                                 className="input input--base"
                                                 withoutErr={
                                                     formik.errors.occupation &&
-                                                        formik.touched.occupation
+                                                    formik.touched.occupation
                                                         ? false
                                                         : true
                                                 }
@@ -135,7 +140,8 @@ const MyTeachings = () => {
                                                 withoutErr={
                                                     formik.errors
                                                         .yearsOfExperience &&
-                                                        formik.touched.yearsOfExperience
+                                                    formik.touched
+                                                        .yearsOfExperience
                                                         ? false
                                                         : true
                                                 }
@@ -152,8 +158,8 @@ const MyTeachings = () => {
                                     Card details
                                 </div>
                                 <div className="type--color--tertiary w--200--max">
-                                    Select default payment method or add
-                                    new one.
+                                    Select default payment method or add new
+                                    one.
                                 </div>
                             </div>
                             <div>
@@ -236,7 +242,6 @@ const MyTeachings = () => {
                                 >
                                     Save
                                 </button>
-
                             </div>
                         </div>
                     </Form>
