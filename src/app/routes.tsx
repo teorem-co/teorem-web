@@ -1,4 +1,3 @@
-import { Match } from '@testing-library/react';
 import { useTranslation } from 'react-i18next';
 import { NavLink, Route, Switch } from 'react-router-dom';
 
