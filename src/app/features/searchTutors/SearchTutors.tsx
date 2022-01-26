@@ -12,6 +12,7 @@ import { useLazyGetSubjectOptionsByLevelQuery } from '../../../services/subjectS
 import { useLazyGetAvailableTutorsQuery } from '../../../services/tutorService';
 import CustomCheckbox from '../../components/form/CustomCheckbox';
 import MySelect, { OptionType } from '../../components/form/MySelectField';
+import ImageCircle from '../../components/ImageCircle';
 import LoaderTutor from '../../components/Loaders/LoaderTutor';
 import MainWrapper from '../../components/MainWrapper';
 import { PATHS } from '../../routes';
@@ -414,10 +415,32 @@ const SearchTutors = () => {
                             availableTutors.rows.map((tutor) => (
                                 <div className="tutor-list__item">
                                     <div className="tutor-list__item__img">
-                                        <img
-                                            src="https://source.unsplash.com/random/300×300/?face"
-                                            alt="tutor-list"
-                                        />
+                                        {tutor.User.File?.path ? (
+                                            <img
+                                                src={
+                                                    tutor.User.File &&
+                                                    tutor.User.File.path
+                                                }
+                                                alt="tutor-list"
+                                            />
+                                        ) : (
+                                            <ImageCircle
+                                                initials={`${
+                                                    tutor.User.firstName
+                                                        ? tutor.User.firstName.charAt(
+                                                              0
+                                                          )
+                                                        : ''
+                                                }${
+                                                    tutor.User.lastName
+                                                        ? tutor.User.lastName.charAt(
+                                                              0
+                                                          )
+                                                        : ''
+                                                }`}
+                                                imageBig={true}
+                                            />
+                                        )}
                                     </div>
                                     <div className="tutor-list__item__info">
                                         <div className="type--md mb-1">

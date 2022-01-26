@@ -1,0 +1,30 @@
+/*
+    components: image.scss
+*/
+
+.image {
+    width: 48px;
+    height: 48px;
+    background-image: url(/assets/images/gradient-circle.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    border: 1000px;
+
+    &--big {
+        width: 154px;
+        height: 154px;
+        border: 11px solid $color-primary-lighter;
+        border-radius: 1000px;
+
+        .image__initial {
+            font-size: 48px;
+        }
+    }
+
+    &__initial {
+        font-weight: 600;
+        font-size: 24px;
+        color: $white;
+    }
+}
