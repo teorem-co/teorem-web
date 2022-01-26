@@ -428,13 +428,25 @@ const ParentOnboarding: React.FC<IProps> = ({
                     'Username already exists',
                     async (value: any) => {
                         if (value) {
-                            const test = child.find(
-                                (item) => item.username === value
+                            //filter all without selected child(on edit)
+                            const filteredArray = child.filter(
+                                (x) => x.username !== childUsername
                             );
+
+                            //check backend usernames
                             const isValid = await checkUsername({
                                 username: value,
                             }).unwrap();
-                            return !isValid;
+
+                            //check local usernames
+                            const checkCurrent = filteredArray.find(
+                                (x) => x.username === value
+                            );
+                            //set validation boolean
+                            const finalValid =
+                                isValid || checkCurrent ? true : false;
+
+                            return !finalValid;
                         }
                         return true;
                     }
