@@ -11,6 +11,7 @@ import {
     setStepOne,
     setStepTwo,
 } from '../../../../slices/tutorRegisterSlice';
+import ExpDateField from '../../../components/form/ExpDateField';
 import MyDatePicker from '../../../components/form/MyDatePicker';
 import MySelect, {
     OptionType,
@@ -289,7 +290,7 @@ const TutorOnboarding: React.FC<IProps> = ({
                 .min(2, t('FORM_VALIDATION.TOO_SHORT'))
                 .max(100, t('FORM_VALIDATION.TOO_LONG'))
                 .required(t('FORM_VALIDATION.REQUIRED')),
-            cardNumber: Yup.number()
+            cardNumber: Yup.string()
                 .min(16, t('FORM_VALIDATION.TOO_SHORT'))
                 .max(16, t('FORM_VALIDATION.TOO_LONG'))
                 .required(t('FORM_VALIDATION.REQUIRED')),
@@ -373,8 +374,7 @@ const TutorOnboarding: React.FC<IProps> = ({
                                 >
                                     {t('REGISTER.CARD_DETAILS.EXPIRY_DATE')}
                                 </label>
-                                <TextField
-                                    type="number"
+                                <ExpDateField
                                     name="expiryDate"
                                     id="expiryDate"
                                     placeholder="MM / YY"
