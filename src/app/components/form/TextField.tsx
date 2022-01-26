@@ -46,7 +46,7 @@ const TextField: React.FC<TextFieldType> = (props: any) => {
                     )
                 }
             </div>
-            {!props.withoutErr ? (
+            {props.withoutErr ? (
                 <></>
             ) : (
                 <div className="field__validation">

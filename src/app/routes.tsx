@@ -1,8 +1,14 @@
+import { Match } from '@testing-library/react';
 import { useTranslation } from 'react-i18next';
 import { NavLink, Route, Switch } from 'react-router-dom';
 
 import Login from './features/login/Login';
 import MyBookings from './features/my-bookings/MyBookings';
+import AdditionalInformation from './features/my-profile/pages/AdditionalInformation';
+import GeneralAvailability from './features/my-profile/pages/GeneralAvailability';
+import MyTeachings from './features/my-profile/pages/MyTeachings';
+import PersonalInformation from './features/my-profile/pages/PersonalInformation';
+import ProfileAccount from './features/my-profile/pages/ProfileAccount';
 import MyReviews from './features/myReviews/MyReviews';
 import Onboarding from './features/onboarding/Onboarding';
 import Register from './features/register/Register';
@@ -27,11 +33,22 @@ export enum PATHS {
     MY_REVIEWS = '/my-reviews',
 }
 
+export enum PROFILE_PATHS {
+    MY_PROFILE = '/my-profile',
+    MY_PROFILE_INFO = '/my-profile/info',
+    MY_PROFILE_INFO_PERSONAL = '/my-profile/info/personal',
+    MY_PROFILE_INFO_AVAILABILITY = '/my-profile/info/availability',
+    MY_PROFILE_INFO_TEACHINGS = '/my-profile/info/teachings',
+    MY_PROFILE_INFO_ADDITIONAL = '/my-profile/info/additional',
+    MY_PROFILE_ACCOUNT = '/my-profile/account',
+}
+
 interface IMenuItem {
     name: string;
     icon: string;
     key: string;
     path: string;
+    rootPath?: string;
 }
 
 interface IMenuPerRole {
@@ -118,6 +135,56 @@ const ROUTES: any = [
             </PermissionsGate>
         ),
     },
+    {
+        path: PROFILE_PATHS.MY_PROFILE,
+        key: 'MY_PROFILE',
+        component: (props: any) => {
+            return (
+                <PermissionsGate roles={[Role.Tutor]}>
+                    <RenderRoutes {...props} />
+                </PermissionsGate>
+            );
+        },
+        routes: [
+            {
+                path: PROFILE_PATHS.MY_PROFILE_INFO,
+                key: 'MY_PROFILE_INFO',
+                component: (props: any) => <RenderRoutes {...props} />,
+                routes: [
+                    {
+                        path: PROFILE_PATHS.MY_PROFILE_INFO_PERSONAL,
+                        key: 'MY_PROFILE_INFO_PERSONAL',
+                        exact: true,
+                        component: () => <PersonalInformation />,
+                    },
+                    {
+                        path: PROFILE_PATHS.MY_PROFILE_INFO_AVAILABILITY,
+                        key: 'MY_PROFILE_INFO_AVAILABILITY',
+                        exact: true,
+                        component: () => <GeneralAvailability />,
+                    },
+                    {
+                        path: PROFILE_PATHS.MY_PROFILE_INFO_TEACHINGS,
+                        key: 'MY_PROFILE_INFO_TEACHINGS',
+                        exact: true,
+                        component: () => <MyTeachings />,
+                    },
+                    {
+                        path: PROFILE_PATHS.MY_PROFILE_INFO_ADDITIONAL,
+                        key: 'MY_PROFILE_INFO_ADDITIONAL',
+                        exact: true,
+                        component: () => <AdditionalInformation />,
+                    },
+                ],
+            },
+            {
+                path: PROFILE_PATHS.MY_PROFILE_ACCOUNT,
+                key: 'MY_PROFILE_ACCOUNT',
+                exact: true,
+                component: () => <ProfileAccount />,
+            },
+        ],
+    },
 ];
 //handle subroutes by <RenderRoutes {...props} /> inside PermissionGate if needed
 
@@ -143,7 +210,7 @@ export function RenderRoutes(routesObj: any) {
             {routes.map((route: any) => {
                 return <RouteWithSubRoutes key={route.key} {...route} />;
             })}
-            <Route component={() => <Onboarding />} />
+            <Route component={() => <NotFound />} />
         </Switch>
     );
 }
@@ -162,6 +229,13 @@ export const menuPerRole: IMenuPerRole = {
             icon: 'reviews',
             key: 'MY_REVIEWS',
             path: PATHS.MY_REVIEWS,
+        },
+        {
+            name: 'My Profile',
+            icon: 'profile',
+            key: 'MY_PROFILE_INFO_PERSONAL',
+            rootPath: PROFILE_PATHS.MY_PROFILE,
+            path: PROFILE_PATHS.MY_PROFILE_INFO_PERSONAL,
         },
     ],
     [Role.Student]: [
@@ -205,6 +279,13 @@ export const menuPerRole: IMenuPerRole = {
             key: 'SEARCH_TUTORS',
             path: PATHS.SEARCH_TUTORS,
         },
+        {
+            name: 'My Profile',
+            icon: 'profile',
+            key: 'MY_PROFILE_INFO_PERSONAL',
+            rootPath: PROFILE_PATHS.MY_PROFILE,
+            path: PROFILE_PATHS.MY_PROFILE_INFO_PERSONAL,
+        },
     ],
 };
 
@@ -223,6 +304,24 @@ export function RenderMenuLinks() {
                         to={route.path}
                         className={`navbar__item`}
                         activeClassName="active"
+                        isActive={(match: any, location: Location) => {
+                            //format nicer later
+                            if (route.rootPath) {
+                                if (
+                                    location.pathname.startsWith(route.rootPath)
+                                ) {
+                                    return true;
+                                } else {
+                                    return false;
+                                }
+                            } else {
+                                if (!match) {
+                                    return false;
+                                }
+                            }
+
+                            return true;
+                        }}
                     >
                         <i
                             className={`icon icon--base navbar__item__icon navbar__item--${route.icon}`}

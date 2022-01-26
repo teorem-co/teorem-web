@@ -1,0 +1,33 @@
+/*
+    components: progress.scss;
+*/
+
+.progress {
+    &--circular {
+        width: 100px;
+        height: 100px;
+
+        &__track {
+            fill: rgba(0, 0, 0, 0);
+            stroke-width: 8;
+            stroke: $color-primary-lighter;
+            transform: rotate(90deg) translate(0px, -80px);
+        }
+        &__fill {
+            fill: rgba(0, 0, 0, 0);
+            stroke-width: 8;
+            transform: rotate(90deg) translate(0px, -80px);
+            stroke: $color-primary;
+            stroke-dasharray: 260px;
+            stroke-dashoffset: 300px;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1s;
+        }
+        &__value {
+            font-family: 'Lato', sans-serif;
+            fill: $color-primary;
+            text-anchor: middle;
+            font-size: 22px;
+        }
+    }
+}

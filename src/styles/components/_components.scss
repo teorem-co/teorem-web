@@ -5,25 +5,31 @@
 @import 'availability';
 @import 'button';
 @import 'card';
+@import 'dash-wrapper';
 @import 'field';
 @import 'grid';
 @import 'icons';
+@import 'icon-wrapper';
 @import 'input';
 @import 'layout';
 @import 'loader';
 @import 'my-reviews';
+@import 'nav-link';
 @import 'navbar';
 @import 'rating';
 @import 'reviews-list';
+@import 'onboarding';
+@import 'progress';
+@import 'steps';
 @import 'sidebar';
 @import 'status';
+@import 'tab';
+@import 'table';
 @import 'tag';
 @import 'tooltip';
 @import 'trial';
 @import 'tutor-list';
 @import 'upcoming-lessons';
-@import 'onboarding';
-@import 'steps';
 @import 'upload';
 
 //must load after base imports

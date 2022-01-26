@@ -5,7 +5,7 @@
 // GLOBAL VARIABLES
 //---------------------------------------------------------
 $unit: 4px;
-$scale: 0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 14, 16, 18, 22;
+$scale: 0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 14, 16, 18, 20, 22;
 
 // COLORS
 //---------------------------------------------------------
@@ -23,6 +23,7 @@ $grey-d8: #d8d8d8;
 $grey-ed: #ededed;
 $grey-f5: #f5f5f5;
 $grey-f7: #f7f7f7;
+$grey-fb: #fbfbfb;
 $grey-fc: #fcfcfc;
 
 //background colors
@@ -30,11 +31,13 @@ $black: #000;
 $white: #fff;
 $background-color: #f8f7fa;
 $background-overlay: #061129b3;
+$sidebar-overlay: #8f8f8f;
 
 //main colors
 $color-primary: #7e6cf2;
 $color-primary-light: #cbc3fb;
 $color-primary-lighter: #f2f1fe;
+$color-primary-bright: #f8f7fe;
 $color-secondary: #0b8a00;
 
 $color-success: #2ecc71;

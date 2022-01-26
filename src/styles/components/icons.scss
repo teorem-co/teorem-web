@@ -99,6 +99,15 @@
     &--star {
         mask-image: url('../../assets/icons/star.svg');
     }
+    &--time {
+        mask-image: url('../../assets/icons/time.svg');
+    }
+    &--info {
+        mask-image: url('../../assets/icons/info.svg');
+    }
+    &--subject {
+        mask-image: url('../../assets/icons/subject.svg');
+    }
     &--upload {
         mask-image: url('../../assets/icons/upload.svg');
     }
@@ -128,6 +137,9 @@
     }
     &--al {
         content: url(/assets/icons/AL.svg);
+    }
+    &--edit {
+        mask-image: url('./../../assets/icons/edit.svg');
     }
 
     //color modifiers

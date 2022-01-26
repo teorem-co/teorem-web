@@ -7,6 +7,7 @@
     flex-direction: column;
     height: 100vh;
     overflow-y: auto;
+    transition: all 0.5s;
 
     &__close {
         position: absolute;
@@ -29,6 +30,41 @@
 
         &:hover {
             opacity: 0.8;
+        }
+    }
+
+    &__overlay {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 9;
+        background-color: $sidebar-overlay;
+        opacity: 0.5;
+
+        &--close {
+            display: none;
+        }
+    }
+
+    //change style later, remove border
+    &--secondary {
+        width: 500px;
+        background-color: $white;
+        position: fixed;
+        top: 0;
+        right: 0;
+        padding: calc($unit * 10) calc($unit * 6);
+        z-index: 100;
+
+        &--close {
+            right: -500px;
+        }
+
+        &__bottom {
+            border-radius: $border-rounded;
+            border-top: 1px solid $grey-f5;
         }
     }
 }

@@ -40,4 +40,106 @@
             padding: calc(#{$unit} * 10) calc(#{$unit} * 6);
         }
     }
+
+    &--profile {
+        height: calc(100% - 48px);
+        // max-width: 1280px;
+
+        margin: calc(#{$unit} * 6);
+        padding: calc(#{$unit} * 6);
+
+        border-radius: $border-rounded;
+        border: 1px solid $grey-f5;
+
+        overflow-y: auto;
+
+        background-color: $white;
+
+        &__section {
+            display: flex;
+            border-bottom: 1px solid $grey-ed;
+            padding-bottom: calc(#{$unit} * 10);
+            margin-bottom: calc(#{$unit} * 10);
+
+            @media (max-width: $responsive-lg) {
+                flex-direction: column;
+            }
+
+            &:last-child {
+                border-bottom: none;
+                padding-bottom: 0;
+                margin-bottom: 0;
+            }
+
+            //select first childs in section card and set their styles
+            & > div {
+                &:first-child {
+                    width: 320px;
+                    flex-shrink: 0;
+                    padding-right: calc(#{$unit} * 6);
+
+                    @media (max-width: $responsive-lg) {
+                        margin-bottom: calc(#{$unit} * 6);
+                        padding-right: 0;
+                    }
+                }
+                &:last-child {
+                    flex-grow: 1;
+                }
+            }
+        }
+
+        &__progress {
+            box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.05);
+
+            @media (max-width: $responsive-xl) {
+                flex-direction: column;
+            }
+
+            &__links {
+                display: flex;
+                flex-grow: 1;
+                justify-content: space-evenly;
+                align-items: center;
+
+                width: 100%;
+
+                overflow-x: auto;
+            }
+
+            //select first childs in section card and set their styles
+            & > div {
+                &:first-child {
+                    flex-shrink: 0;
+                    @media (max-width: $responsive-xl) {
+                        margin-bottom: calc(#{$unit} * 10);
+                    }
+                }
+                &:last-child {
+                    flex-grow: 1;
+                }
+            }
+        }
+
+        &__progress {
+            box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.05);
+
+            @media (max-width: $responsive-xl) {
+                flex-direction: column;
+            }
+
+            //select first childs in section card and set their styles
+            & > div {
+                &:first-child {
+                    flex-shrink: 0;
+                    @media (max-width: $responsive-xl) {
+                        margin-bottom: calc(#{$unit} * 10);
+                    }
+                }
+                &:last-child {
+                    flex-grow: 1;
+                }
+            }
+        }
+    }
 }
