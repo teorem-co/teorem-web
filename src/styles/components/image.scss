@@ -14,6 +14,12 @@
     &--big {
         width: 154px;
         height: 154px;
+        border: 11px solid $color-primary-lighter;
+        border-radius: 1000px;
+
+        .image__initial {
+            font-size: 48px;
+        }
     }
 
     &__initial {
