@@ -186,6 +186,7 @@ export const EN_US = {
         BACK_TO_STEP_ONE: 'Back to step 1',
         BACK_TO_STEP_TWO: 'Back to step ',
         SAVE_BUTTON: 'Save',
+        DELETE_BUTTON: 'Delete',
         BACK_TO_LIST: 'Back to list',
     },
     ADD_CHILD: {

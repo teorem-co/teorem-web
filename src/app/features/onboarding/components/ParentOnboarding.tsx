@@ -1,20 +1,16 @@
 import { Form, FormikProvider, useFormik } from 'formik';
-import _ from 'lodash';
+import { cloneDeep } from 'lodash';
 import moment from 'moment';
-import { stringify } from 'querystring';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
 import gradientCircle from '../../../../assets/images/gradient-circle.svg';
 import { IChild } from '../../../../interfaces/IChild';
-import IChildListOption from '../../../../interfaces/IChildListOption';
-import { setchildren } from '../../../../slices/childrenSlice';
 import {
     resetParentRegister,
     setChildList,
     setStepOne,
-    setStepTwo,
 } from '../../../../slices/parentRegisterSlice';
 import { resetStudentRegister } from '../../../../slices/studentRegisterSlice';
 import { resetTutorRegister } from '../../../../slices/tutorRegisterSlice';
@@ -46,7 +42,6 @@ interface StepOneValues {
 
 interface DetailsValues {
     childFirstName: string;
-    childLastName: string;
     childDateOfBirth: string;
     username: string;
     childPassword: string;
@@ -67,7 +62,7 @@ const ParentOnboarding: React.FC<IProps> = ({
     const [detailsOpen, setDetailsOpen] = useState<boolean>(false);
     const dispatch = useAppDispatch();
     const state = useAppSelector((state) => state.children);
-    const [childId, setChildId] = useState<string>('');
+    const [childUsername, setChildUsername] = useState<string>('');
     const [currentChildUserName, setCurrentChildUsername] =
         useState<string>('');
     const [getCountries, { data: countries }] = useLazyGetCountriesQuery();
@@ -94,7 +89,6 @@ const ParentOnboarding: React.FC<IProps> = ({
 
     const [initialValuesTwo, setInitialValuesTwo] = useState<DetailsValues>({
         childFirstName: '',
-        childLastName: '',
         childDateOfBirth: '',
         username: '',
         childPassword: '',
@@ -336,8 +330,6 @@ const ParentOnboarding: React.FC<IProps> = ({
             phonePrefix: prefix,
             roleAbrv: roleAbrv ? roleAbrv : '',
         });
-
-        debugger;
     };
 
     const stepTwo = () => {
@@ -363,13 +355,13 @@ const ParentOnboarding: React.FC<IProps> = ({
                                 <i className="icon icon--base icon--plus icon--primary"></i>
                             </div>
                             {child.length > 0 &&
-                                child.map((x: any) => {
+                                child.map((x: IChild) => {
                                     return (
                                         <div
                                             className="role-selection__item"
-                                            key={x.id}
+                                            key={x.username}
                                             onClick={() => {
-                                                handleFindId(x.username);
+                                                handleEditChild(x);
                                                 setCurrentChildUsername(
                                                     x.username
                                                 );
@@ -385,7 +377,7 @@ const ParentOnboarding: React.FC<IProps> = ({
                                                 </div>
                                                 <div className="type--color--secondary">
                                                     {moment(
-                                                        x.description
+                                                        x.dateOfBirth
                                                     ).format('MM/DD/YYYY')}
                                                 </div>
                                             </div>
@@ -436,6 +428,9 @@ const ParentOnboarding: React.FC<IProps> = ({
                     'Username already exists',
                     async (value: any) => {
                         if (value) {
+                            const test = child.find(
+                                (item) => item.username === value
+                            );
                             const isValid = await checkUsername({
                                 username: value,
                             }).unwrap();
@@ -456,21 +451,25 @@ const ParentOnboarding: React.FC<IProps> = ({
     });
 
     const submitStepThree = (values: DetailsValues) => {
-        let newArr = child;
-        newArr = [...child];
+        let newArr: IChild[] = [];
+        newArr = cloneDeep(child);
+
         const currentChild = {
             firstName: values.childFirstName,
-            dateOfBirth: values.childDateOfBirth,
+            dateOfBirth: moment(values.childDateOfBirth).toISOString(),
             username: values.username,
             password: values.childPassword,
         };
-        if (childId === currentChildUserName) {
+
+        if (childUsername) {
             const currentItem = newArr.findIndex((x) => {
-                return x.username === currentChildUserName;
+                return x.username === childUsername;
             });
-            newArr.splice(currentItem);
+
+            newArr.splice(currentItem, 1);
             newArr.push(currentChild);
-            setChildId('');
+
+            setChildUsername('');
             dispatch(setChildList(newArr));
             setDetailsOpen(false);
         } else {
@@ -478,6 +477,18 @@ const ParentOnboarding: React.FC<IProps> = ({
             dispatch(setChildList(newArr));
             setDetailsOpen(false);
         }
+    };
+
+    const handleDeleteChild = () => {
+        let newArr: IChild[] = [];
+        newArr = cloneDeep(child);
+        const currentItem = newArr.findIndex((x) => {
+            return x.username === childUsername;
+        });
+        newArr.splice(currentItem, 1);
+        dispatch(setChildList(newArr));
+        setChildUsername('');
+        setDetailsOpen(false);
     };
 
     const stepThree = () => {
@@ -556,6 +567,18 @@ const ParentOnboarding: React.FC<IProps> = ({
                     >
                         {t('REGISTER.SAVE_BUTTON')}
                     </div>
+                    {childUsername ? (
+                        <div
+                            className="btn btn--base btn--error type--center w--100 mb-2 mt-6"
+                            onClick={() => handleDeleteChild()}
+                            // disabled={isLoading}
+                        >
+                            {t('REGISTER.DELETE_BUTTON')}
+                        </div>
+                    ) : (
+                        <></>
+                    )}
+
                     <div
                         onClick={() => {
                             handleResetForm();
@@ -572,23 +595,26 @@ const ParentOnboarding: React.FC<IProps> = ({
 
     // end of steps
 
-    const handleFindId = (username: string) => {
-        const test: IChild | undefined = child.find(
-            (x) => x.username === username
-        );
-        if (test?.username === username) {
-            setInitialValuesTwo({
-                childFirstName: test.firstName,
-                childLastName: test.firstName,
-                childDateOfBirth: test.dateOfBirth,
-                username: test.username,
-                childPassword: test.password,
-            });
-            formikStepThree.setFieldValue('childFirstName', test.firstName);
-            formikStepThree.setFieldValue('childLastName', test.firstName);
-            formikStepThree.setFieldValue('childDateOfBirth', test.dateOfBirth);
+    const handleEditChild = (currentChild: IChild) => {
+        if (currentChild) {
+            formikStepThree.setFieldValue(
+                'childFirstName',
+                currentChild.firstName
+            );
+            formikStepThree.setFieldValue(
+                'childDateOfBirth',
+                currentChild.dateOfBirth
+            );
+            formikStepThree.setFieldValue('username', currentChild.username);
+            formikStepThree.setFieldValue(
+                'childPassword',
+                currentChild.password
+            );
+
             setDetailsOpen(true);
-            setChildId(test.username);
+            setChildUsername(currentChild.username);
+        } else {
+            toastService.error('There is no child with that username');
         }
     };
 
@@ -596,7 +622,6 @@ const ParentOnboarding: React.FC<IProps> = ({
         formikStepThree.resetForm();
         setInitialValuesTwo({
             childFirstName: '',
-            childLastName: '',
             childDateOfBirth: '',
             username: '',
             childPassword: '',
@@ -606,7 +631,7 @@ const ParentOnboarding: React.FC<IProps> = ({
 
     const handleResetForm = () => {
         formikStepThree.resetForm();
-        setChildId('');
+        setChildUsername('');
         setDetailsOpen(false);
     };
 

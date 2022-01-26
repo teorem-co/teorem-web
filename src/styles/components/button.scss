@@ -56,6 +56,20 @@
         }
     }
 
+    &--error {
+        background-color: $color-error;
+        color: $white;
+        &:hover {
+            background-color: darken($color-error, 10%);
+        }
+        &:active {
+            background-color: darken($color-error, 15%);
+        }
+        &:focus {
+            --box-shadow-color: #{darken($color-error, 15%)};
+        }
+    }
+
     &--clear {
         background-color: transparent;
         color: $color-primary;

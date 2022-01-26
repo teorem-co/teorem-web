@@ -300,7 +300,6 @@ const TutorOnboarding: React.FC<IProps> = ({
     });
 
     const handleSubmitStepTwo = (values: StepTwoValues) => {
-        debugger;
         dispatch(
             setStepTwo({
                 cardFirstName: values.cardFirstName,
