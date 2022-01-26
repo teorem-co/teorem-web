@@ -115,7 +115,21 @@ const TutorOnboarding: React.FC<IProps> = ({
                     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/gm,
                     'Invalid Phone Number'
                 ),
-            dateOfBirth: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            dateOfBirth: Yup.string()
+                .test(
+                    'dateOfBirth',
+                    t('FORM_VALIDATION.FUTURE_DATE'),
+                    (value) => {
+                        const test = moment(value).diff(moment(), 'days');
+
+                        if (test < 0) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                )
+                .required(t('FORM_VALIDATION.REQUIRED')),
             profileImage: Yup.string().required('Image Required'),
         }),
     });

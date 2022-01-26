@@ -43,6 +43,7 @@ export const EN_US = {
         PASSWORD_MUST: 'Password must',
         PASSWORD_MATCH: 'Passwords must match',
         PASSWORD_STRENGTH: 'Password must meet the conditions',
+        FUTURE_DATE: 'Date can`t be in the future',
     },
     NAVIGATION: {
         MY_BOOKINGS: 'My Bookings',

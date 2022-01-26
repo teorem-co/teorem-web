@@ -1,4 +1,5 @@
 import { FieldProps, useField } from 'formik';
+import moment from 'moment';
 import DatePicker from 'react-date-picker';
 
 interface CustomSelectProps extends FieldProps {
@@ -29,7 +30,7 @@ const MyDatePicker = ({ field, form }: CustomSelectProps) => {
                 calendarClassName={'onboarding-calendar'}
                 clearIcon={null}
                 disableCalendar
-                // onBlur={() => form.setFieldTouched(field.name)}
+                onCalendarClose={() => form.setFieldTouched(field.name)}
             />
 
             <div className="field__validation">

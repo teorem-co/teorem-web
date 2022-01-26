@@ -1,4 +1,5 @@
 import { Form, FormikProvider, useFormik } from 'formik';
+import moment from 'moment';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
@@ -89,7 +90,21 @@ const PersonalInformation = () => {
             lastName: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             prefix: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             phoneNumber: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            dateOfBirth: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            dateOfBirth: Yup.string()
+                .test(
+                    'dateOfBirth',
+                    t('FORM_VALIDATION.FUTURE_DATE'),
+                    (value) => {
+                        const test = moment(value).diff(moment(), 'days');
+
+                        if (test < 0) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                )
+                .required(t('FORM_VALIDATION.REQUIRED')),
             countryId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
         }),
     });

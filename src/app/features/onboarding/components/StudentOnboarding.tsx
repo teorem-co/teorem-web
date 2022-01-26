@@ -92,7 +92,21 @@ const StudentOnboarding: React.FC<IProps> = ({
             countryId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             prefix: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             phoneNumber: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            dateOfBirth: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            dateOfBirth: Yup.string()
+                .test(
+                    'dateOfBirth',
+                    t('FORM_VALIDATION.FUTURE_DATE'),
+                    (value) => {
+                        const test = moment(value).diff(moment(), 'days');
+
+                        if (test < 0) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                )
+                .required(t('FORM_VALIDATION.REQUIRED')),
         }),
     });
 
