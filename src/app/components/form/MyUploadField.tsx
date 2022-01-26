@@ -3,7 +3,7 @@ import { FC, useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { setFile } from '../../slices/uploadFileSlice';
+import { setFile } from '../../slices/tutorImageUploadSlice';
 
 interface PreviewFileType {
     preview: string | null;
@@ -81,19 +81,3 @@ const UploadFile: FC<UploadFileType> = ({ setFieldValue, ...props }) => {
 };
 
 export default UploadFile;
-
-// <div className="flex">
-//     <div>
-//         {preview.preview ? (
-//             <aside className="upload__images">
-//                 <img alt="profile" src={preview.preview} />
-//             </aside>
-//         ) : (
-//             <></>
-//         )}
-//     </div>
-//     <div {...getRootProps({ className: 'upload' })}>
-//         <input {...getInputProps()} />
-//         <p>Drag 'n' drop some files here, or click to select files</p>
-//     </div>
-// </div>

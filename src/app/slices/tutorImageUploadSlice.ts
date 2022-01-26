@@ -12,7 +12,7 @@ const initialState: IState = {
     file: null,
 };
 
-//RESET STATE AFTER SUCCESFUL LOGIN
+//RESET STATE AFTER SUCCESFUL LOGIN/REGISTER
 const uploadFileSlice = createSlice({
     name: 'uploadFile',
     initialState,
@@ -20,8 +20,11 @@ const uploadFileSlice = createSlice({
         setFile(state, action: PayloadAction<File | null>) {
             state.file = action.payload;
         },
+        resetTutorImageUploadState(state) {
+            state.file = null;
+        },
     },
 });
 
-export const { setFile } = uploadFileSlice.actions;
+export const { setFile, resetTutorImageUploadState } = uploadFileSlice.actions;
 export default uploadFileSlice.reducer;

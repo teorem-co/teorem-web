@@ -23,7 +23,7 @@ import userReducer from '../slices/userSlice';
 import { baseService } from './baseService';
 import myReviewsReducer from './features/myReviews/slices/MyReviewsSlice';
 import { rtkQueryErrorLogger } from './middleware/rtkQueryErrorLogger';
-import uploadFileReducer from './slices/uploadFileSlice';
+import uploadFileReducer from './slices/tutorImageUploadSlice';
 
 const persistConfig = {
     key: 'root',

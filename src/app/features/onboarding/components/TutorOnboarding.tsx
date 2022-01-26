@@ -26,6 +26,7 @@ import { phoneNumberOption } from '../../../constants/phoneNumberOption';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { useRegisterTutorMutation } from '../../../services/authService';
 import toastService from '../../../services/toastService';
+import { resetTutorImageUploadState } from '../../../slices/tutorImageUploadSlice';
 import { ICountry, useLazyGetCountriesQuery } from '../services/countryService';
 
 interface StepOneValues {
@@ -317,6 +318,7 @@ const TutorOnboarding: React.FC<IProps> = ({
             email: email,
             profileImage: profileImage,
         });
+        dispatch(resetTutorImageUploadState());
     };
 
     const stepTwo = () => {
