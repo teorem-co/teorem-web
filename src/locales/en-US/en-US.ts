@@ -19,7 +19,11 @@ export const EN_US = {
         PASSWORD_MATCH: 'Passwords must match',
         PASSWORD_STRENGTH: 'Password must meet the conditions',
     },
-    //add seatch tutors translations
+    NAVIGATION: {
+        MY_BOOKINGS: 'My Bookings',
+        MY_REVIEWS: 'My reviews',
+        SEARCH_TUTORS: 'Search tutors',
+    },
     SEARCH_TUTORS: {
         AVAILABILITY: {
             TIME_OF_DAY: {
@@ -46,8 +50,20 @@ export const EN_US = {
         },
         NO_OPTIONS_MESSAGE: 'Please select level first',
         TUTOR_LIST: 'Tutor list',
+        VIEW_PROFILE: 'View profile',
         RESET_FILTER: 'Reset filter',
         TUTOR_AVAILABLE: 'Tutor Available',
+        SUBJECT_LIST: {
+            MORE: 'more',
+        },
+        NO_RESULT: {
+            TITLE: 'No results',
+            DESC: ' Hmm, looks like there is no tutors for this specific search.',
+        },
+        TUTOR_PROFILE: {
+            ABOUT_ME: 'About me',
+            ABOUT_TEACHINGS: 'About my teachings',
+        },
     },
     ROLE_SELECTION: {
         TITLE: 'Register',
@@ -94,6 +110,7 @@ export const EN_US = {
             EMAIL_CONFLICT: 'User with this email already exists',
             LOGIN_WRONG_FORM_DATA: 'Wrong email or password',
             NOT_FOUND: 'User not found',
+            USERNAME_CONFLICT: 'Username already exists',
         },
         LEVEL: {
             NOT_FOUND: 'Level not found',
@@ -117,6 +134,11 @@ export const EN_US = {
         ROLE: {
             NOT_FOUND: 'Role not found',
         },
+        REVIEW: {
+            CONFLICT: 'You have already written a review',
+        },
+        INPUT_FAILED: 'Wrong input data',
+        INVALID_IMAGE: 'Invalid image',
     },
     NOT_FOUND: {
         TITLE: 'Page not found',
@@ -152,7 +174,7 @@ export const EN_US = {
         STAR: 'Star',
         NO_RESULT: {
             TITLE: 'No results',
-            DESC: 'You don`t have any reviews yet.'
-        }
-    }
+            DESC: 'You don`t have any reviews yet.',
+        },
+    },
 };

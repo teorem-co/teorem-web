@@ -81,7 +81,8 @@
         }
 
         &__menu-notice {
-            color: $color-primary !important;
+            color: $color-error !important;
+            font-weight: 600 !important;
         }
 
         &__option {
@@ -181,11 +182,6 @@
 }
 
 .search-tutor {
-    //select stays in focus after option is selected
-    //handle longer test inside select
-    //increase font-weight ?
-    //remove default border on focus
-
     &__placeholder {
         color: $black !important;
         transition: color 0.5s;

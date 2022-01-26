@@ -197,19 +197,25 @@ const SearchTutors = () => {
                         <CustomCheckbox
                             id="beforeNoon"
                             customChecks={timeOfDayArray}
-                            label="Pre 12 PM"
+                            label={t(
+                                'SEARCH_TUTORS.AVAILABILITY.TIME_OF_DAY.BEFORE_NOON'
+                            )}
                             handleCustomCheck={handleCustomTimeOfDay}
                         />
                         <CustomCheckbox
                             customChecks={timeOfDayArray}
                             id="noonToFive"
-                            label="12 - 5PM"
+                            label={t(
+                                'SEARCH_TUTORS.AVAILABILITY.TIME_OF_DAY.NOON_TO_FIVE'
+                            )}
                             handleCustomCheck={handleCustomTimeOfDay}
                         />
                         <CustomCheckbox
                             customChecks={timeOfDayArray}
                             id="afterFive"
-                            label="After 5PM"
+                            label={t(
+                                'SEARCH_TUTORS.AVAILABILITY.TIME_OF_DAY.AFTER_FIVE'
+                            )}
                             handleCustomCheck={handleCustomTimeOfDay}
                         />
                     </div>
@@ -222,7 +228,9 @@ const SearchTutors = () => {
                         <CustomCheckbox
                             id="mon"
                             customChecks={dayOfWeekArray}
-                            label="Mon"
+                            label={t(
+                                'SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.MON'
+                            )}
                             handleCustomCheck={(id: string) => {
                                 handleCustomDayOfWeek(id);
                             }}
@@ -230,7 +238,9 @@ const SearchTutors = () => {
                         <CustomCheckbox
                             customChecks={dayOfWeekArray}
                             id="tue"
-                            label="Tue"
+                            label={t(
+                                'SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.TUE'
+                            )}
                             handleCustomCheck={(id: string) => {
                                 handleCustomDayOfWeek(id);
                             }}
@@ -238,7 +248,9 @@ const SearchTutors = () => {
                         <CustomCheckbox
                             customChecks={dayOfWeekArray}
                             id="wed"
-                            label="Wed"
+                            label={t(
+                                'SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.WED'
+                            )}
                             handleCustomCheck={(id: string) => {
                                 handleCustomDayOfWeek(id);
                             }}
@@ -246,7 +258,9 @@ const SearchTutors = () => {
                         <CustomCheckbox
                             customChecks={dayOfWeekArray}
                             id="thu"
-                            label="Thu"
+                            label={t(
+                                'SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.THU'
+                            )}
                             handleCustomCheck={(id: string) => {
                                 handleCustomDayOfWeek(id);
                             }}
@@ -254,7 +268,9 @@ const SearchTutors = () => {
                         <CustomCheckbox
                             customChecks={dayOfWeekArray}
                             id="fri"
-                            label="Fri"
+                            label={t(
+                                'SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.FRI'
+                            )}
                             handleCustomCheck={(id: string) => {
                                 handleCustomDayOfWeek(id);
                             }}
@@ -262,7 +278,9 @@ const SearchTutors = () => {
                         <CustomCheckbox
                             customChecks={dayOfWeekArray}
                             id="sat"
-                            label="Sat"
+                            label={t(
+                                'SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.SAT'
+                            )}
                             handleCustomCheck={(id: string) => {
                                 handleCustomDayOfWeek(id);
                             }}
@@ -270,7 +288,9 @@ const SearchTutors = () => {
                         <CustomCheckbox
                             customChecks={dayOfWeekArray}
                             id="sun"
-                            label="Sun"
+                            label={t(
+                                'SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.SUN'
+                            )}
                             handleCustomCheck={(id: string) => {
                                 handleCustomDayOfWeek(id);
                             }}
@@ -455,7 +475,9 @@ const SearchTutors = () => {
                                                 className="btn btn--primary btn--base w--100"
                                                 to={`${PATHS.SEARCH_TUTORS}/${tutor.userId}`}
                                             >
-                                                View profile
+                                                {t(
+                                                    'SEARCH_TUTORS.VIEW_PROFILE'
+                                                )}
                                             </Link>
                                         </div>
                                     </div>
@@ -464,11 +486,10 @@ const SearchTutors = () => {
                         ) : (
                             <div className="tutor-list__no-results">
                                 <h1 className="tutor-list__no-results__title">
-                                    No results
+                                    {t('SEARCH_TUTORS.NO_RESULT.TITLE')}
                                 </h1>
                                 <p className="tutor-list__no-results__subtitle">
-                                    Hmm, looks like there is no tutors for this
-                                    specific search.
+                                    {t('SEARCH_TUTORS.NO_RESULT.DESC')}
                                 </p>
                                 <button
                                     className="btn btn--clear ml-6 type--wgt--bold"

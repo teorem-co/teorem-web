@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { NavLink, Route, Switch } from 'react-router-dom';
 
 import Login from './features/login/Login';
@@ -151,13 +152,13 @@ export function RenderRoutes(routesObj: any) {
 export const menuPerRole: IMenuPerRole = {
     [Role.Tutor]: [
         {
-            name: 'My Bookings',
+            name: 'MY_BOOKINGS',
             icon: 'calendar',
             key: 'MY_BOOKINGS',
             path: PATHS.MY_BOOKINGS,
         },
         {
-            name: 'My Reviews',
+            name: 'MY_REVIEWS',
             icon: 'reviews',
             key: 'MY_REVIEWS',
             path: PATHS.MY_REVIEWS,
@@ -165,13 +166,13 @@ export const menuPerRole: IMenuPerRole = {
     ],
     [Role.Student]: [
         {
-            name: 'My Bookings',
+            name: 'MY_BOOKINGS',
             icon: 'calendar',
             key: 'MY_BOOKINGS',
             path: PATHS.MY_BOOKINGS,
         },
         {
-            name: 'Search tutors',
+            name: 'SEARCH_TUTORS',
             icon: 'search-tutors',
             key: 'SEARCH_TUTORS',
             path: PATHS.SEARCH_TUTORS,
@@ -179,13 +180,13 @@ export const menuPerRole: IMenuPerRole = {
     ],
     [Role.Parent]: [
         {
-            name: 'My Bookings',
+            name: 'MY_BOOKINGS',
             icon: 'calendar',
             key: 'MY_BOOKINGS',
             path: PATHS.MY_BOOKINGS,
         },
         {
-            name: 'Search tutors',
+            name: 'SEARCH_TUTORS',
             icon: 'search-tutors',
             key: 'SEARCH_TUTORS',
             path: PATHS.SEARCH_TUTORS,
@@ -193,13 +194,13 @@ export const menuPerRole: IMenuPerRole = {
     ],
     [Role.SuperAdmin]: [
         {
-            name: 'My Bookings',
+            name: 'MY_BOOKINGS',
             icon: 'calendar',
             key: 'MY_BOOKINGS',
             path: PATHS.MY_BOOKINGS,
         },
         {
-            name: 'Search tutors',
+            name: 'SEARCH_TUTORS',
             icon: 'search-tutors',
             key: 'SEARCH_TUTORS',
             path: PATHS.SEARCH_TUTORS,
@@ -209,6 +210,8 @@ export const menuPerRole: IMenuPerRole = {
 
 export function RenderMenuLinks() {
     const userRole = getUserRoleAbrv();
+
+    const { t } = useTranslation();
 
     if (userRole) {
         return (
@@ -225,7 +228,7 @@ export function RenderMenuLinks() {
                             className={`icon icon--base navbar__item__icon navbar__item--${route.icon}`}
                         ></i>
                         <span className={`navbar__item__label`}>
-                            {route.name}
+                            {t(`NAVIGATION.${route.name}`)}
                         </span>
                     </NavLink>
                 ))}

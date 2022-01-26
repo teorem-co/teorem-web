@@ -78,14 +78,16 @@ const TutorProfile = () => {
                         </div>
                     </div>
                     <div className="mb-10 mt-10">
-                        <div className="type--wgt--bold">About me</div>
+                        <div className="type--wgt--bold">
+                            {t('SEARCH_TUTORS.TUTOR_PROFILE.ABOUT_ME')}
+                        </div>
                         <div className="type--color--secondary">
                             {tutorData ? tutorData.aboutTutor : ''}
                         </div>
                     </div>
                     <div>
                         <div className="type--wgt--bold">
-                            About my teachings
+                            {t('SEARCH_TUTORS.TUTOR_PROFILE.ABOUT_TEACHINGS')}
                         </div>
                         <div className="type--color--secondary">
                             {tutorData ? tutorData.aboutLessons : ''}
