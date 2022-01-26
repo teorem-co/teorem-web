@@ -20,6 +20,7 @@ import MySelect, {
     PhoneOptionType,
 } from '../../../components/form/MySelectField';
 import TextField from '../../../components/form/TextField';
+import ImageCircle from '../../../components/ImageCircle';
 import { countryInput } from '../../../constants/countryInput';
 import { countryOption } from '../../../constants/countryOption';
 import { phoneNumberInput } from '../../../constants/phoneNumberInput';
@@ -367,9 +368,10 @@ const ParentOnboarding: React.FC<IProps> = ({
                                                 );
                                             }}
                                         >
-                                            <img
-                                                src={gradientCircle}
-                                                alt="gradient circle"
+                                            <ImageCircle
+                                                initials={`${x.firstName.charAt(
+                                                    0
+                                                )}`}
                                             />
                                             <div className="flex--grow ml-4">
                                                 <div className="mb-1">

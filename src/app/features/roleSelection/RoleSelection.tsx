@@ -8,6 +8,7 @@ import { resetParentRegister } from '../../../slices/parentRegisterSlice';
 import { RoleOptions, setSelectedRole } from '../../../slices/roleSlice';
 import { resetStudentRegister } from '../../../slices/studentRegisterSlice';
 import { resetTutorRegister } from '../../../slices/tutorRegisterSlice';
+import ImageCircle from '../../components/ImageCircle';
 import { roleSelectionOptions } from '../../constants/roleSelectionOptions';
 import { useAppDispatch } from '../../hooks';
 import { PATHS } from '../../routes';
@@ -62,9 +63,10 @@ const RoleSelection: React.FC = () => {
                                                 handleRoleSelection(id)
                                             }
                                         >
-                                            <img
-                                                src={gradientCircle}
-                                                alt="gradient circle"
+                                            <ImageCircle
+                                                initials={`${roleOption.title.charAt(
+                                                    0
+                                                )}`}
                                             />
                                             <div className="flex--grow ml-4">
                                                 <div className="mb-1">

@@ -2,10 +2,12 @@ import { NavLink } from 'react-router-dom';
 
 import logo from '../../assets/images/logo.svg';
 import { logout } from '../../slices/authSlice';
+import { RoleOptions } from '../../slices/roleSlice';
 import { userReset } from '../../slices/userSlice';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { RenderMenuLinks } from '../routes';
 import { persistor } from '../store';
+import ImageCircle from './ImageCircle';
 
 const Navbar = () => {
     const dispatch = useAppDispatch();
@@ -29,12 +31,22 @@ const Navbar = () => {
             <div className="navbar__bottom">
                 <div className="flex flex--grow flex--center">
                     <div className="navbar__bottom__avatar">
-                        <img
-                            src={
-                                'https://source.unsplash.com/random/300×300/?parent'
-                            }
-                            alt="avatar"
-                        />
+                        {user?.Role?.abrv === RoleOptions.Tutor ? (
+                            <img
+                                src={
+                                    user?.File?.path
+                                        ? user.File?.path
+                                        : 'https://source.unsplash.com/random/300×300/?parent'
+                                }
+                                alt="avatar"
+                            />
+                        ) : (
+                            <ImageCircle
+                                initials={`${user?.firstName.charAt(
+                                    0
+                                )}${user?.lastName.charAt(0)}`}
+                            />
+                        )}
                     </div>
                     <div className="navbar__bottom__user-info">
                         <div className="type--color--primary type--wgt--bold type--break">
