@@ -249,11 +249,11 @@ const ParentOnboarding: React.FC<IProps> = ({
                                 }
                             />
                         </div>
-                        <div className="flex">
+                        <div className="field__validation flex">
                             <div className="w--136">
                                 {formikStepOne.errors.prefix &&
                                 formikStepOne.touched.prefix ? (
-                                    <div className="field__validation mr-4">
+                                    <div className="mr-4">
                                         {formikStepOne.errors.prefix
                                             ? formikStepOne.errors.prefix
                                             : ''}
@@ -265,7 +265,7 @@ const ParentOnboarding: React.FC<IProps> = ({
                             <div>
                                 {formikStepOne.errors.phoneNumber &&
                                 formikStepOne.touched.phoneNumber ? (
-                                    <div className="field__validation">
+                                    <div>
                                         {formikStepOne.errors.phoneNumber
                                             ? formikStepOne.errors.phoneNumber
                                             : ''}

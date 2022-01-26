@@ -8,9 +8,13 @@ export const countryInput = (props: any) => {
                     {/* <span className="input-select__icon mr-2">
                         {props.data.icon}
                     </span> */}
-                    <div className="mr-2">
-                        {props.flag ? (
-                            <img src={props.flag} alt="country flag" />
+                    <div className="mr-2 flex">
+                        {props.data.icon ? (
+                            <img
+                                className="react-select__flag"
+                                src={props.data.icon}
+                                alt="country flag"
+                            />
                         ) : (
                             <></>
                         )}
