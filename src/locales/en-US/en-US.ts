@@ -4,6 +4,14 @@ export const EN_US = {
     ERROR_HANDLING: {
         UNHANDLED_ERROR: 'Unhandled error occured!',
     },
+    TRIAL_POPUP: {
+        WELCOME: 'Welcome to Teorem',
+        DESCRIPTION:
+            'Your profile is now ready to use. Fill out the agenda, sit back and relax, wait for students to reach out to you!',
+        EXPIRATION: 'Your free trial will expire in 30 days!',
+        REMIND: 'Don’t worry, we’ll remind you on time.',
+        CONFIRM_BUTTON: 'Got it',
+    },
     ONBOARDING: {
         NAVIGATION: {
             TITLE: 'Welcome to Teorem!',

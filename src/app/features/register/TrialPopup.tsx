@@ -1,3 +1,4 @@
+import { t } from 'i18next';
 import { useEffect } from 'react';
 import { useHistory } from 'react-router';
 
@@ -35,23 +36,22 @@ const TrialPopup = () => {
                     />
                 </div>
                 <div className="type--lg type--wgt--bold mb-4">
-                    Welcome to Teorem
+                    {t('TRIAL_POPUP.WELCOME')}
                 </div>
                 <div className="type--color--secondary mb-16 w--448--max">
-                    Your profile is now ready to use. Fill out the agenda, sit
-                    back and realx, wait for students to reach out to you!
+                    {t('TRIAL_POPUP.DESCRIPTION')}
                 </div>
                 <div
                     className="btn btn--primary trial__btn mb-4"
                     onClick={() => backToLogin()}
                 >
-                    <div className="mb-2">
-                        Your free trial will expire in 30 days!
-                    </div>
-                    <div>Don’t worry, we’ll remind you on time.</div>
+                    <div className="mb-2">{t('TRIAL_POPUP.EXPIRATION')}</div>
+                    <div>{t('TRIAL_POPUP.REMIND')}</div>
                 </div>
                 <div onClick={() => backToLogin()}>
-                    <button className="btn btn--base btn--clear">Got it</button>
+                    <button className="btn btn--base btn--clear">
+                        {t('TRIAL_POPUP.CONFIRM_BUTTON')}
+                    </button>
                 </div>
             </div>
             <div className="trial__overlay"></div>
