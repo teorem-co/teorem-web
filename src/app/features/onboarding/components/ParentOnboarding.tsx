@@ -443,8 +443,6 @@ const ParentOnboarding: React.FC<IProps> = ({
         let newArr: IChild[] = [];
         newArr = cloneDeep(child);
 
-        debugger;
-
         const currentChild = {
             firstName: values.childFirstName,
             dateOfBirth: moment(values.childDateOfBirth).toISOString(),
