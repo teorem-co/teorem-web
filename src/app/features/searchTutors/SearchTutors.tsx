@@ -58,6 +58,7 @@ const SearchTutors = () => {
             data: subjectsData,
             isLoading: isLoadingSubjects,
             isSuccess: isSuccessSubjects,
+            isFetching: isFetchingSubjects,
         },
     ] = useLazyGetSubjectOptionsByLevelQuery();
 
@@ -156,10 +157,15 @@ const SearchTutors = () => {
     };
 
     useEffect(() => {
-        if (subjectsData && isSuccessSubjects && formik.values.level !== '') {
+        if (
+            subjectsData &&
+            isSuccessSubjects &&
+            formik.values.level !== '' &&
+            !isFetchingSubjects
+        ) {
             setSubjectOptions(subjectsData);
         }
-    }, [subjectsData]);
+    }, [subjectsData, isFetchingSubjects]);
 
     useEffect(() => {
         if (formik.values.level !== '' && formik.values.subject !== '') {
