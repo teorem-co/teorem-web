@@ -181,9 +181,9 @@ const ParentOnboarding: React.FC<IProps> = ({
                     'dateOfBirth',
                     t('FORM_VALIDATION.FUTURE_DATE'),
                     (value) => {
-                        const test = moment(value).diff(moment(), 'days');
+                        const dateDiff = moment(value).diff(moment(), 'days');
 
-                        if (test < 0) {
+                        if (dateDiff < 0) {
                             return true;
                         } else {
                             return false;
