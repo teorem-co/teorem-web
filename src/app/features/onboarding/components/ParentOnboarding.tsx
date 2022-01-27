@@ -85,6 +85,7 @@ const ParentOnboarding: React.FC<IProps> = ({
         prefix,
         countryId,
         child,
+        skip,
     } = parentCreds;
     const roleAbrv = useAppSelector((state) => state.role.selectedRole);
 
@@ -334,19 +335,32 @@ const ParentOnboarding: React.FC<IProps> = ({
     });
 
     const submitStepTwo = (values: any) => {
-        registerParent({
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            password: password,
-            confirmPassword: passwordRepeat,
-            dateOfBirth: moment(dateOfBirth).toISOString(),
-            phoneNumber: phoneNumber,
-            countryId: countryId,
-            children: JSON.stringify(child),
-            phonePrefix: prefix,
-            roleAbrv: roleAbrv ? roleAbrv : '',
-        });
+        skip
+            ? registerParent({
+                  firstName: firstName,
+                  lastName: lastName,
+                  email: email,
+                  password: password,
+                  confirmPassword: passwordRepeat,
+                  dateOfBirth: moment(dateOfBirth).toISOString(),
+                  phoneNumber: phoneNumber,
+                  countryId: countryId,
+                  phonePrefix: prefix,
+                  roleAbrv: roleAbrv ? roleAbrv : '',
+              })
+            : registerParent({
+                  firstName: firstName,
+                  lastName: lastName,
+                  email: email,
+                  password: password,
+                  confirmPassword: passwordRepeat,
+                  dateOfBirth: moment(dateOfBirth).toISOString(),
+                  phoneNumber: phoneNumber,
+                  countryId: countryId,
+                  children: JSON.stringify(child),
+                  phonePrefix: prefix,
+                  roleAbrv: roleAbrv ? roleAbrv : '',
+              });
     };
 
     const stepTwo = () => {

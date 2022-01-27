@@ -94,7 +94,13 @@ const ROUTES: any = [
         exact: true,
         component: () => (
             <PermissionsGate
-                roles={[Role.Tutor, Role.Parent, Role.Student, Role.SuperAdmin]}
+                roles={[
+                    Role.Tutor,
+                    Role.Parent,
+                    Role.Student,
+                    Role.SuperAdmin,
+                    Role.Child,
+                ]}
             >
                 <MyBookings />
             </PermissionsGate>
@@ -284,6 +290,14 @@ export const menuPerRole: IMenuPerRole = {
             key: 'MY_PROFILE_INFO_PERSONAL',
             rootPath: PROFILE_PATHS.MY_PROFILE,
             path: PROFILE_PATHS.MY_PROFILE_INFO_PERSONAL,
+        },
+    ],
+    [Role.Child]: [
+        {
+            name: 'MY_BOOKINGS',
+            icon: 'calendar',
+            key: 'MY_BOOKINGS',
+            path: PATHS.MY_BOOKINGS,
         },
     ],
 };

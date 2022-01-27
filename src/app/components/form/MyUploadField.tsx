@@ -44,7 +44,18 @@ const UploadFile: FC<UploadFileType> = ({ setFieldValue, ...props }) => {
 
     return (
         <>
-            <div className="flex">
+            <div className="flex flex--center">
+                {preview.preview ? (
+                    <aside className="upload__images mr-6">
+                        <img alt="profile" src={preview.preview} />
+                    </aside>
+                ) : (
+                    <div className="upload__placeholder">
+                        <div className="upload__placeholder--background">
+                            <i className="icon icon--base icon--profile icon--grey"></i>
+                        </div>
+                    </div>
+                )}
                 <div {...getRootProps({ className: 'upload' })}>
                     {isDragActive ? (
                         <div className="upload__drag-overlay"></div>
@@ -53,13 +64,6 @@ const UploadFile: FC<UploadFileType> = ({ setFieldValue, ...props }) => {
                     )}
                     <input {...getInputProps()} />
                     <div className="upload__text" role="presentation">
-                        {preview.preview ? (
-                            <aside className="upload__images">
-                                <img alt="profile" src={preview.preview} />
-                            </aside>
-                        ) : (
-                            <></>
-                        )}
                         {preview ? (
                             <div className="flex--primary flex--col">
                                 <i className="icon icon--base icon--upload icon--grey"></i>
