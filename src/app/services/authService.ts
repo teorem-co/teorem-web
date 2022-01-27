@@ -1,4 +1,3 @@
-import { IChild } from '../../interfaces/IChild';
 import { baseService } from '../baseService';
 import { HttpMethods } from '../lookups/httpMethods';
 import typeToFormData from '../utils/typeToFormData';

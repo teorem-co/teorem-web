@@ -2,7 +2,7 @@ import { Form, FormikProvider, useFormik } from 'formik';
 import { uniqBy } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Route, Switch, useHistory } from 'react-router';
+import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import Select, { components, MenuProps } from 'react-select';
 
@@ -18,7 +18,6 @@ import MainWrapper from '../../components/MainWrapper';
 import { PATHS } from '../../routes';
 import getUrlParams from '../../utils/getUrlParams';
 import CustomSubjectList from './components/CustomSubjectList';
-import TutorProfile from './TutorProfile';
 
 interface Values {
     subject: string;
@@ -29,8 +28,6 @@ interface Values {
 
 const SearchTutors = () => {
     const history = useHistory();
-
-    const [showTooltip, setShowTooltip] = useState(false);
 
     const { t } = useTranslation();
 
@@ -61,6 +58,7 @@ const SearchTutors = () => {
             data: subjectsData,
             isLoading: isLoadingSubjects,
             isSuccess: isSuccessSubjects,
+            isFetching: isFetchingSubjects,
         },
     ] = useLazyGetSubjectOptionsByLevelQuery();
 
@@ -159,10 +157,15 @@ const SearchTutors = () => {
     };
 
     useEffect(() => {
-        if (subjectsData && isSuccessSubjects && formik.values.level !== '') {
+        if (
+            subjectsData &&
+            isSuccessSubjects &&
+            formik.values.level !== '' &&
+            !isFetchingSubjects
+        ) {
             setSubjectOptions(subjectsData);
         }
-    }, [subjectsData]);
+    }, [subjectsData, isFetchingSubjects]);
 
     useEffect(() => {
         if (formik.values.level !== '' && formik.values.subject !== '') {

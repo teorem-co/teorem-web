@@ -9,15 +9,9 @@ import { resetStudentRegister } from '../../../../slices/studentRegisterSlice';
 import { resetTutorRegister } from '../../../../slices/tutorRegisterSlice';
 import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyPhoneInput from '../../../components/form/MyPhoneInput';
-import MySelect, {
-    OptionType,
-    PhoneOptionType,
-} from '../../../components/form/MySelectField';
-import TextField from '../../../components/form/TextField';
+import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import { countryInput } from '../../../constants/countryInput';
 import { countryOption } from '../../../constants/countryOption';
-import { phoneNumberInput } from '../../../constants/phoneNumberInput';
-import { phoneNumberOption } from '../../../constants/phoneNumberOption';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { useRegisterStudentMutation } from '../../../services/authService';
 import toastService from '../../../services/toastService';
@@ -41,7 +35,6 @@ const StudentOnboarding: React.FC<IProps> = ({
 }) => {
     const [registerStudent, { isSuccess }] = useRegisterStudentMutation();
     const [countryOptions, setCountryOptions] = useState<OptionType[]>([]);
-    const [phoneOptions, setPhoneOptions] = useState<OptionType[]>([]);
     const state = useAppSelector((state) => state.studentRegister);
     const roleAbrv = useAppSelector((state) => state.role.selectedRole);
     const { firstName, lastName, password, passwordRepeat, email } = state;

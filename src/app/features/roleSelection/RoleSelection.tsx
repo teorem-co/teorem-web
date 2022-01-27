@@ -12,7 +12,6 @@ import ImageCircle from '../../components/ImageCircle';
 import { roleSelectionOptions } from '../../constants/roleSelectionOptions';
 import { useAppDispatch } from '../../hooks';
 import { PATHS } from '../../routes';
-import gradientCircle from './../../../assets/images/gradient-circle.svg';
 import logo from './../../../assets/images/logo.svg';
 
 const RoleSelection: React.FC = () => {

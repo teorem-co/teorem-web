@@ -1,14 +1,12 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
-import { Link } from 'react-router-dom';
 
 import {
     resetParentRegister,
     setSkip,
 } from '../../../slices/parentRegisterSlice';
 import { RoleOptions } from '../../../slices/roleSlice';
-import { resetStudentRegister } from '../../../slices/studentRegisterSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
 import TrialPopup from '../register/TrialPopup';

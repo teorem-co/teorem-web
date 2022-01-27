@@ -10,10 +10,7 @@ import { setRegister } from '../../../slices/tutorRegisterSlice';
 import TextField from '../../components/form/TextField';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
-import {
-    useCheckMailMutation,
-    useCheckUsernameMutation,
-} from '../../services/authService';
+import { useCheckMailMutation } from '../../services/authService';
 import logo from './../../../assets/images/logo.svg';
 import TooltipPassword from './TooltipPassword';
 
@@ -34,7 +31,7 @@ const Register: React.FC = () => {
     const roleSelection = useAppSelector((state) => state.role.selectedRole);
     const [passTooltip, setPassTooltip] = useState<boolean>(false);
 
-    const [checkMail, { isSuccess }] = useCheckMailMutation();
+    const [checkMail] = useCheckMailMutation();
 
     const initialValues: Values = {
         firstName: '',

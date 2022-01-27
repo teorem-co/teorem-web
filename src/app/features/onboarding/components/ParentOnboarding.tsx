@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
-import gradientCircle from '../../../../assets/images/gradient-circle.svg';
 import { IChild } from '../../../../interfaces/IChild';
 import {
     resetParentRegister,
@@ -16,16 +15,11 @@ import { resetStudentRegister } from '../../../../slices/studentRegisterSlice';
 import { resetTutorRegister } from '../../../../slices/tutorRegisterSlice';
 import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyPhoneInput from '../../../components/form/MyPhoneInput';
-import MySelect, {
-    OptionType,
-    PhoneOptionType,
-} from '../../../components/form/MySelectField';
+import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import TextField from '../../../components/form/TextField';
 import ImageCircle from '../../../components/ImageCircle';
 import { countryInput } from '../../../constants/countryInput';
 import { countryOption } from '../../../constants/countryOption';
-import { phoneNumberInput } from '../../../constants/phoneNumberInput';
-import { phoneNumberOption } from '../../../constants/phoneNumberOption';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import {
     useCheckUsernameMutation,
@@ -62,16 +56,12 @@ const ParentOnboarding: React.FC<IProps> = ({
     const { t } = useTranslation();
     const [detailsOpen, setDetailsOpen] = useState<boolean>(false);
     const dispatch = useAppDispatch();
-    const state = useAppSelector((state) => state.children);
     const [childUsername, setChildUsername] = useState<string>('');
-    const [currentChildUserName, setCurrentChildUsername] =
-        useState<string>('');
     const [getCountries, { data: countries }] = useLazyGetCountriesQuery();
     const [countryOptions, setCountryOptions] = useState<OptionType[]>([]);
     const [passTooltip, setPassTooltip] = useState<boolean>(false);
     const [registerParent, { isSuccess }] = useRegisterParentMutation();
-    const [checkUsername, { isSuccess: isSuccessUsername }] =
-        useCheckUsernameMutation();
+    const [checkUsername] = useCheckUsernameMutation();
     const parentCreds = useAppSelector((state) => state.parentRegister);
     const {
         firstName,
@@ -272,14 +262,14 @@ const ParentOnboarding: React.FC<IProps> = ({
 
     const formikStepTwo = useFormik({
         initialValues: initialValuesTwo,
-        onSubmit: (values) => submitStepTwo(values),
+        onSubmit: () => submitStepTwo(),
         validateOnBlur: true,
         validateOnChange: false,
         enableReinitialize: true,
         validationSchema: Yup.object().shape({}),
     });
 
-    const submitStepTwo = (values: any) => {
+    const submitStepTwo = () => {
         skip
             ? registerParent({
                   firstName: firstName,
@@ -334,12 +324,7 @@ const ParentOnboarding: React.FC<IProps> = ({
                                         <div
                                             className="role-selection__item"
                                             key={x.username}
-                                            onClick={() => {
-                                                handleEditChild(x);
-                                                setCurrentChildUsername(
-                                                    x.username
-                                                );
-                                            }}
+                                            onClick={() => handleEditChild(x)}
                                         >
                                             <ImageCircle
                                                 initials={`${x.firstName.charAt(
