@@ -8,6 +8,7 @@ import { resetParentRegister } from '../../../../slices/parentRegisterSlice';
 import { resetStudentRegister } from '../../../../slices/studentRegisterSlice';
 import { resetTutorRegister } from '../../../../slices/tutorRegisterSlice';
 import MyDatePicker from '../../../components/form/MyDatePicker';
+import MyPhoneInput from '../../../components/form/MyPhoneInput';
 import MySelect, {
     OptionType,
     PhoneOptionType,
@@ -24,7 +25,6 @@ import { ICountry, useLazyGetCountriesQuery } from '../services/countryService';
 
 interface StepOneValues {
     countryId: string;
-    prefix: string;
     phoneNumber: string;
     dateOfBirth: string;
 }
@@ -64,21 +64,10 @@ const StudentOnboarding: React.FC<IProps> = ({
               })
             : [];
         setCountryOptions(currentCountries);
-        const currentPhone: PhoneOptionType[] = countries
-            ? countries.map((x: ICountry) => {
-                  return {
-                      label: x.name,
-                      prefix: x.phonePrefix,
-                      value: x.phonePrefix,
-                  };
-              })
-            : [];
-        setPhoneOptions(currentPhone);
     }, [countries]);
 
     const initialValuesOne: StepOneValues = {
         countryId: '',
-        prefix: '',
         phoneNumber: '',
         dateOfBirth: '',
     };
@@ -91,8 +80,9 @@ const StudentOnboarding: React.FC<IProps> = ({
         enableReinitialize: true,
         validationSchema: Yup.object().shape({
             countryId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            prefix: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            phoneNumber: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            phoneNumber: Yup.string()
+                .min(6, t('FORM_VALIDATION.TOO_SHORT'))
+                .required(t('FORM_VALIDATION.REQUIRED')),
             dateOfBirth: Yup.string()
                 .test(
                     'dateOfBirth',
@@ -119,7 +109,6 @@ const StudentOnboarding: React.FC<IProps> = ({
             confirmPassword: passwordRepeat,
             roleAbrv: roleAbrv ? roleAbrv : '',
             countryId: values.countryId,
-            phonePrefix: values.prefix,
             phoneNumber: values.phoneNumber,
             dateOfBirth: moment(values.dateOfBirth).toISOString(),
             email: email,
@@ -162,66 +151,12 @@ const StudentOnboarding: React.FC<IProps> = ({
                         <label htmlFor="phoneNumber" className="field__label">
                             {t('REGISTER.FORM.PHONE_NUMBER')}
                         </label>
-                        <div className="flex flex--center pos--rel">
-                            <MySelect
-                                form={formik}
-                                field={formik.getFieldProps('prefix')}
-                                meta={formik.getFieldMeta('prefix')}
-                                isMulti={false}
-                                options={phoneOptions}
-                                classNamePrefix="onboarding-select"
-                                className="w--120"
-                                placeholder="+00"
-                                customInputField={phoneNumberInput}
-                                customOption={phoneNumberOption}
-                                isSearchable={false}
-                                withoutErr={
-                                    formik.errors.prefix &&
-                                    formik.touched.prefix
-                                        ? true
-                                        : false
-                                }
-                            />
-                            <div className="ml-4"></div>
-                            <TextField
-                                wrapperClassName="flex--grow"
-                                name="phoneNumber"
-                                placeholder="Enter your phone number"
-                                className="input input--base"
-                                withoutErr={
-                                    formik.errors.phoneNumber &&
-                                    formik.touched.phoneNumber
-                                        ? true
-                                        : false
-                                }
-                            />
-                        </div>
-                        <div className="field__validation flex">
-                            <div className="w--136">
-                                {formik.errors.prefix &&
-                                formik.touched.prefix ? (
-                                    <div className="mr-4">
-                                        {formik.errors.prefix
-                                            ? formik.errors.prefix
-                                            : ''}
-                                    </div>
-                                ) : (
-                                    <></>
-                                )}
-                            </div>
-                            <div>
-                                {formik.errors.phoneNumber &&
-                                formik.touched.phoneNumber ? (
-                                    <div>
-                                        {formik.errors.phoneNumber
-                                            ? formik.errors.phoneNumber
-                                            : ''}
-                                    </div>
-                                ) : (
-                                    <></>
-                                )}
-                            </div>
-                        </div>
+                        <MyPhoneInput
+                            form={formik}
+                            name="phoneNumber"
+                            field={formik.getFieldProps('phoneNumber')}
+                            meta={formik.getFieldMeta('phoneNumber')}
+                        />
                     </div>
                     <div className="field">
                         <label className="field__label" htmlFor="dateOfBirth">

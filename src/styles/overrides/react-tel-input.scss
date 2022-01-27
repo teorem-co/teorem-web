@@ -1,0 +1,27 @@
+/*
+    overrirdes: react-tel-input.scss;
+*/
+
+.react-tel-input {
+    .form-control {
+        width: 100%;
+        padding: 6px;
+        padding-left: 48px;
+        font-family: 'Lato', sans-serif;
+        height: auto;
+    }
+    .flag-dropdown {
+        background-color: transparent;
+        border-right-color: transparent;
+
+        .selected-flag {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+        .arrow {
+            display: none;
+        }
+    }
+}

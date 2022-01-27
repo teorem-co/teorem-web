@@ -10,14 +10,11 @@ import {
 } from '../../../../services/tutorService';
 import MyCountrySelect from '../../../components/form/MyCountrySelect';
 import MyDatePicker from '../../../components/form/MyDatePicker';
-import MyPhoneSelect from '../../../components/form/MyPhoneSelect';
-import UploadFile from '../../../components/form/MyUploadField';
+import MyPhoneInput from '../../../components/form/MyPhoneInput';
 import TextField from '../../../components/form/TextField';
 import MainWrapper from '../../../components/MainWrapper';
 import { countryInput } from '../../../constants/countryInput';
 import { countryOption } from '../../../constants/countryOption';
-import { phoneNumberInput } from '../../../constants/phoneNumberInput';
-import { phoneNumberOption } from '../../../constants/phoneNumberOption';
 import { useAppSelector } from '../../../hooks';
 import { getUserId } from '../../../utils/getUserId';
 import { useLazyGetCountriesQuery } from '../../onboarding/services/countryService';
@@ -28,7 +25,6 @@ import ProfileTabs from '../components/ProfileTabs';
 interface Values {
     firstName: string;
     lastName: string;
-    prefix: string;
     phoneNumber: string;
     dateOfBirth: string;
     countryId: string;
@@ -69,7 +65,6 @@ const PersonalInformation = () => {
     const initialValues: Values = {
         firstName: '',
         lastName: '',
-        prefix: '',
         phoneNumber: '',
         dateOfBirth: '',
         countryId: '',
@@ -89,16 +84,17 @@ const PersonalInformation = () => {
         validationSchema: Yup.object().shape({
             firstName: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             lastName: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            prefix: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            phoneNumber: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            phoneNumber: Yup.string()
+                .min(6, t('FORM_VALIDATION.TOO_SHORT'))
+                .required(t('FORM_VALIDATION.REQUIRED')),
             dateOfBirth: Yup.string()
                 .test(
                     'dateOfBirth',
                     t('FORM_VALIDATION.FUTURE_DATE'),
                     (value) => {
-                        const test = moment(value).diff(moment(), 'days');
+                        const dateDiff = moment(value).diff(moment(), 'days');
 
-                        if (test < 0) {
+                        if (dateDiff < 0) {
                             return true;
                         } else {
                             return false;
@@ -177,77 +173,20 @@ const PersonalInformation = () => {
                                                 htmlFor="phoneNumber"
                                                 className="field__label"
                                             >
-                                                Phone Number*
+                                                {t(
+                                                    'REGISTER.FORM.PHONE_NUMBER'
+                                                )}
                                             </label>
-                                            <div className="flex flex--center pos--rel">
-                                                <MyPhoneSelect
-                                                    form={formik}
-                                                    field={formik.getFieldProps(
-                                                        'prefix'
-                                                    )}
-                                                    meta={formik.getFieldMeta(
-                                                        'prefix'
-                                                    )}
-                                                    isMulti={false}
-                                                    options={countries}
-                                                    classNamePrefix="onboarding-select"
-                                                    className="w--120"
-                                                    placeholder="+00"
-                                                    customInputField={
-                                                        phoneNumberInput
-                                                    }
-                                                    customOption={
-                                                        phoneNumberOption
-                                                    }
-                                                    isSearchable={false}
-                                                    withoutErr={
-                                                        formik.errors.prefix &&
-                                                        formik.touched.prefix
-                                                            ? false
-                                                            : true
-                                                    }
-                                                />
-                                                <div className="ml-4"></div>
-                                                <TextField
-                                                    wrapperClassName="flex--grow"
-                                                    name="phoneNumber"
-                                                    placeholder="Enter your phone number"
-                                                    className="input input--base"
-                                                    withoutErr={
-                                                        formik.errors
-                                                            .phoneNumber &&
-                                                        formik.touched
-                                                            .phoneNumber
-                                                            ? false
-                                                            : true
-                                                    }
-                                                />
-                                            </div>
-                                            <div className="flex flex--center">
-                                                {formik.errors.prefix &&
-                                                formik.touched.prefix ? (
-                                                    <div className="field__validation mr-4">
-                                                        {formik.errors.prefix
-                                                            ? formik.errors
-                                                                  .prefix
-                                                            : ''}
-                                                    </div>
-                                                ) : (
-                                                    <></>
+                                            <MyPhoneInput
+                                                form={formik}
+                                                name="phoneNumber"
+                                                field={formik.getFieldProps(
+                                                    'phoneNumber'
                                                 )}
-                                                {formik.errors.phoneNumber &&
-                                                formik.touched.phoneNumber ? (
-                                                    <div className="field__validation">
-                                                        {formik.errors
-                                                            .phoneNumber
-                                                            ? formik.errors
-                                                                  .phoneNumber
-                                                            : ''}
-                                                    </div>
-                                                ) : (
-                                                    <></>
+                                                meta={formik.getFieldMeta(
+                                                    'phoneNumber'
                                                 )}
-                                            </div>
+                                            />
                                         </div>
                                     </div>
                                     <div className="col col-12 col-xl-6">

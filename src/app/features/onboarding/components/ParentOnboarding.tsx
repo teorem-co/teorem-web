@@ -15,6 +15,7 @@ import {
 import { resetStudentRegister } from '../../../../slices/studentRegisterSlice';
 import { resetTutorRegister } from '../../../../slices/tutorRegisterSlice';
 import MyDatePicker from '../../../components/form/MyDatePicker';
+import MyPhoneInput from '../../../components/form/MyPhoneInput';
 import MySelect, {
     OptionType,
     PhoneOptionType,
@@ -37,7 +38,6 @@ import { ICountry, useLazyGetCountriesQuery } from '../services/countryService';
 interface StepOneValues {
     countryId: string;
     phoneNumber: string;
-    prefix: string;
     dateOfBirth: string;
 }
 
@@ -68,7 +68,6 @@ const ParentOnboarding: React.FC<IProps> = ({
         useState<string>('');
     const [getCountries, { data: countries }] = useLazyGetCountriesQuery();
     const [countryOptions, setCountryOptions] = useState<OptionType[]>([]);
-    const [phoneOptions, setPhoneOptions] = useState<OptionType[]>([]);
     const [passTooltip, setPassTooltip] = useState<boolean>(false);
     const [registerParent, { isSuccess }] = useRegisterParentMutation();
     const [checkUsername, { isSuccess: isSuccessUsername }] =
@@ -82,11 +81,11 @@ const ParentOnboarding: React.FC<IProps> = ({
         email,
         dateOfBirth,
         phoneNumber,
-        prefix,
         countryId,
         child,
         skip,
     } = parentCreds;
+
     const roleAbrv = useAppSelector((state) => state.role.selectedRole);
 
     const [initialValuesTwo, setInitialValuesTwo] = useState<DetailsValues>({
@@ -162,7 +161,6 @@ const ParentOnboarding: React.FC<IProps> = ({
 
     const initialValuesOne: StepOneValues = {
         countryId: '',
-        prefix: '',
         phoneNumber: '',
         dateOfBirth: '',
     };
@@ -175,16 +173,17 @@ const ParentOnboarding: React.FC<IProps> = ({
         enableReinitialize: true,
         validationSchema: Yup.object().shape({
             countryId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            prefix: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            phoneNumber: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            phoneNumber: Yup.string()
+                .min(6, t('FORM_VALIDATION.TOO_SHORT'))
+                .required(t('FORM_VALIDATION.REQUIRED')),
             dateOfBirth: Yup.string()
                 .test(
                     'dateOfBirth',
                     t('FORM_VALIDATION.FUTURE_DATE'),
                     (value) => {
-                        const test = moment(value).diff(moment(), 'days');
+                        const dateDiff = moment(value).diff(moment(), 'days');
 
-                        if (test < 0) {
+                        if (dateDiff < 0) {
                             return true;
                         } else {
                             return false;
@@ -200,7 +199,6 @@ const ParentOnboarding: React.FC<IProps> = ({
             setStepOne({
                 countryId: values.countryId,
                 phoneNumber: values.phoneNumber,
-                prefix: values.prefix,
                 dateOfBirth: values.dateOfBirth,
             })
         );
@@ -231,67 +229,12 @@ const ParentOnboarding: React.FC<IProps> = ({
                         <label htmlFor="phoneNumber" className="field__label">
                             {t('REGISTER.FORM.PHONE_NUMBER')}
                         </label>
-
-                        <div className="flex flex--center pos--rel">
-                            <MySelect
-                                form={formikStepOne}
-                                field={formikStepOne.getFieldProps('prefix')}
-                                meta={formikStepOne.getFieldMeta('prefix')}
-                                isMulti={false}
-                                options={phoneOptions}
-                                classNamePrefix="onboarding-select"
-                                className="w--120"
-                                placeholder="+00"
-                                customInputField={phoneNumberInput}
-                                customOption={phoneNumberOption}
-                                isSearchable={false}
-                                withoutErr={
-                                    formikStepOne.errors.prefix &&
-                                    formikStepOne.touched.prefix
-                                        ? true
-                                        : false
-                                }
-                            />
-                            <div className="ml-4"></div>
-                            <TextField
-                                wrapperClassName="flex--grow"
-                                name="phoneNumber"
-                                placeholder="Enter your phone number"
-                                className="input input--base"
-                                withoutErr={
-                                    formikStepOne.errors.phoneNumber &&
-                                    formikStepOne.touched.phoneNumber
-                                        ? true
-                                        : false
-                                }
-                            />
-                        </div>
-                        <div className="field__validation flex">
-                            <div className="w--136">
-                                {formikStepOne.errors.prefix &&
-                                formikStepOne.touched.prefix ? (
-                                    <div className="mr-4">
-                                        {formikStepOne.errors.prefix
-                                            ? formikStepOne.errors.prefix
-                                            : ''}
-                                    </div>
-                                ) : (
-                                    <></>
-                                )}
-                            </div>
-                            <div>
-                                {formikStepOne.errors.phoneNumber &&
-                                formikStepOne.touched.phoneNumber ? (
-                                    <div>
-                                        {formikStepOne.errors.phoneNumber
-                                            ? formikStepOne.errors.phoneNumber
-                                            : ''}
-                                    </div>
-                                ) : (
-                                    <></>
-                                )}
-                            </div>
-                        </div>
+                        <MyPhoneInput
+                            form={formikStepOne}
+                            name="phoneNumber"
+                            field={formikStepOne.getFieldProps('phoneNumber')}
+                            meta={formikStepOne.getFieldMeta('phoneNumber')}
+                        />
                     </div>
                     <div className="field">
                         <label className="field__label" htmlFor="dateOfBirth">
@@ -345,7 +288,6 @@ const ParentOnboarding: React.FC<IProps> = ({
                   dateOfBirth: moment(dateOfBirth).toISOString(),
                   phoneNumber: phoneNumber,
                   countryId: countryId,
-                  phonePrefix: prefix,
                   roleAbrv: roleAbrv ? roleAbrv : '',
               })
             : registerParent({
@@ -358,7 +300,6 @@ const ParentOnboarding: React.FC<IProps> = ({
                   phoneNumber: phoneNumber,
                   countryId: countryId,
                   children: JSON.stringify(child),
-                  phonePrefix: prefix,
                   roleAbrv: roleAbrv ? roleAbrv : '',
               });
     };
@@ -707,16 +648,6 @@ const ParentOnboarding: React.FC<IProps> = ({
               })
             : [];
         setCountryOptions(currentCountries);
-        const currentPhone: PhoneOptionType[] = countries
-            ? countries.map((x: ICountry) => {
-                  return {
-                      label: x.name,
-                      prefix: x.phonePrefix,
-                      value: x.phonePrefix,
-                  };
-              })
-            : [];
-        setPhoneOptions(currentPhone);
     }, [countries]);
 
     useEffect(() => {

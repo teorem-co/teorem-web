@@ -12,7 +12,6 @@ interface IRegister {
 interface IStepOne {
     countryId: string;
     phoneNumber: string;
-    prefix: string;
     dateOfBirth: string;
 }
 
@@ -24,7 +23,6 @@ interface IState {
     passwordRepeat: string;
     countryId: string;
     phoneNumber: string;
-    prefix: string;
     dateOfBirth: string;
     roleSelection: string;
 }
@@ -37,7 +35,6 @@ const initialState: IState = {
     passwordRepeat: '',
     countryId: '',
     phoneNumber: '',
-    prefix: '',
     dateOfBirth: '',
     roleSelection: '',
 };
@@ -63,10 +60,8 @@ export const studentRegisterSlice = createSlice({
             state.roleSelection = roleSelection;
         },
         setStepOne(state, action: PayloadAction<IStepOne>) {
-            const { countryId, prefix, phoneNumber, dateOfBirth } =
-                action.payload;
+            const { countryId, phoneNumber, dateOfBirth } = action.payload;
             state.countryId = countryId;
-            state.prefix = prefix;
             state.phoneNumber = phoneNumber;
             state.dateOfBirth = dateOfBirth;
         },
@@ -78,7 +73,6 @@ export const studentRegisterSlice = createSlice({
             state.passwordRepeat = '';
             state.countryId = '';
             state.phoneNumber = '';
-            state.prefix = '';
             state.dateOfBirth = '';
             state.roleSelection = '';
         },
