@@ -53,7 +53,7 @@ const TutorProfile = () => {
                             <div className="type--color--brand mb-4">
                                 {tutorData
                                     ? tutorData.currentOccupation
-                                    : 'This information is not filled out yet'}
+                                    : t('SEARCH_TUTORS.NOT_FILLED')}
                             </div>
                         </div>
                         <div className="tutor-list__item__details">
@@ -80,12 +80,13 @@ const TutorProfile = () => {
                             {t('SEARCH_TUTORS.TUTOR_PROFILE.ABOUT_ME')}
                         </div>
                         <div className="type--color--secondary">
-                            {tutorData ? (
+                            {tutorData && tutorData.aboutTutor ? (
                                 tutorData.aboutTutor
                             ) : (
                                 <>
-                                    This tutor has not filled out about me
-                                    section
+                                    {t(
+                                        'SEARCH_TUTORS.TUTOR_PROFILE.EMPTY_STATE_ABOUT'
+                                    )}
                                 </>
                             )}
                         </div>
@@ -95,12 +96,13 @@ const TutorProfile = () => {
                             {t('SEARCH_TUTORS.TUTOR_PROFILE.ABOUT_TEACHINGS')}
                         </div>
                         <div className="type--color--secondary">
-                            {tutorData ? (
+                            {tutorData && tutorData.aboutLessons ? (
                                 tutorData.aboutLessons
                             ) : (
                                 <>
-                                    This tutor has not filled out his profile
-                                    about teachings
+                                    {t(
+                                        'SEARCH_TUTORS.TUTOR_PROFILE.EMPTY_STATE_LESSON'
+                                    )}
                                 </>
                             )}
                         </div>

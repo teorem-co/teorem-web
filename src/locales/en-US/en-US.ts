@@ -99,9 +99,13 @@ export const EN_US = {
             TITLE: 'No results',
             DESC: ' Hmm, looks like there is no tutors for this specific search.',
         },
+        NOT_FILLED: 'This information is not filled out yet',
         TUTOR_PROFILE: {
             ABOUT_ME: 'About me',
             ABOUT_TEACHINGS: 'About my teachings',
+            EMPTY_STATE_ABOUT: 'This tutor has not filled out about me section',
+            EMPTY_STATE_LESSON:
+                'This tutor has not filled out his profile about teachings',
         },
     },
     ROLE_SELECTION: {

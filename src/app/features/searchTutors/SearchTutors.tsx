@@ -455,7 +455,7 @@ const SearchTutors = () => {
                                         <div className="type--color--brand mb-4">
                                             {tutor.currentOccupation
                                                 ? tutor.currentOccupation
-                                                : 'This information is not filled out yet'}
+                                                : t('SEARCH_TUTORS.NOT_FILLED')}
                                         </div>
                                         <div
                                             className={`type--color--secondary ${
@@ -466,7 +466,7 @@ const SearchTutors = () => {
                                         >
                                             {tutor.aboutTutor
                                                 ? tutor.aboutTutor
-                                                : 'This information is not filled out yet'}
+                                                : t('SEARCH_TUTORS.NOT_FILLED')}
                                         </div>
                                         {tutor.Subjects ? (
                                             <CustomSubjectList
