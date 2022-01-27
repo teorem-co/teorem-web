@@ -1,6 +1,6 @@
 import { getAppState } from './getAppState';
 
 export function getUserRoleAbrv() {
-    const { user } = getAppState();
-    return user.user?.Role?.abrv;
+    const { auth } = getAppState();
+    return auth.user?.Role?.abrv;
 }

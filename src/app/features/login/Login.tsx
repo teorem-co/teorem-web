@@ -6,8 +6,8 @@ import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import heroImg from '../../../assets/images/hero-img.png';
-import { useLazyGetUserIdQuery } from '../../../services/userService';
 import TextField from '../../components/form/TextField';
+import { useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
 import { useLoginMutation } from '../../services/authService';
 import logo from './../../../assets/images/logo.svg';
@@ -22,19 +22,13 @@ const Login: React.FC = () => {
     const { t } = useTranslation();
     const [loginErrorMessage, setLoginErrorMessage] = useState<string>();
 
+    const userRoleAbrv = useAppSelector((state) => state.auth.user?.Role?.abrv);
+
     const initialValues: Values = {
         email: '',
         password: '',
     };
 
-    const [
-        getUserId,
-        {
-            data: userId,
-            isSuccess: isSuccessUserId,
-            isLoading: isLoadingUserId,
-        },
-    ] = useLazyGetUserIdQuery();
     const [
         login,
         {
@@ -44,8 +38,6 @@ const Login: React.FC = () => {
             error: errorLogin,
         },
     ] = useLoginMutation();
-
-    const isLoading = isLoadingLogin || isLoadingUserId;
 
     const formik = useFormik({
         initialValues: initialValues,
@@ -66,16 +58,10 @@ const Login: React.FC = () => {
     });
 
     useEffect(() => {
-        if (isSuccessLogin && loginData) {
-            getUserId(loginData.user.id);
-        }
-    }, [isSuccessLogin]);
-
-    useEffect(() => {
-        if (isSuccessUserId && userId) {
+        if (isSuccessLogin && loginData && userRoleAbrv) {
             history.push(PATHS.MY_BOOKINGS);
         }
-    }, [isSuccessUserId]);
+    }, [userRoleAbrv]);
 
     const handleGoBack = () => {
         history.push(PATHS.RESET_PASSWORD);
@@ -116,7 +102,7 @@ const Login: React.FC = () => {
                                         name="email"
                                         id="email"
                                         placeholder="Enter your email"
-                                        disabled={isLoading}
+                                        disabled={isLoadingLogin}
                                     />
                                 </div>
                                 <div className="field">
@@ -132,7 +118,7 @@ const Login: React.FC = () => {
                                         placeholder="Type your password"
                                         className="input input--base input--text input--icon"
                                         password={true}
-                                        disabled={isLoading}
+                                        disabled={isLoadingLogin}
                                     />
                                 </div>
                                 {loginErrorMessage ? (
@@ -145,14 +131,14 @@ const Login: React.FC = () => {
                                 <button
                                     className="btn btn--base btn--primary w--100 mb-2 mt-6"
                                     type="submit"
-                                    disabled={isLoading}
+                                    disabled={isLoadingLogin}
                                 >
                                     {t('LOGIN.FORM.SUBMIT_BTN')}
                                 </button>
                                 <button
                                     onClick={handleGoBack}
                                     className="btn btn--clear btn--base type--color--brand type--wgt--bold align--center d--b"
-                                    disabled={isLoading}
+                                    disabled={isLoadingLogin}
                                 >
                                     {t('LOGIN.FORGOT_PASSWORD')}
                                 </button>
@@ -165,7 +151,11 @@ const Login: React.FC = () => {
                         </div>
                         <div>
                             {t('LOGIN.ACCOUNT')}{' '}
-                            <Link to={!isLoading ? PATHS.ROLE_SELECTION : '#'}>
+                            <Link
+                                to={
+                                    !isLoadingLogin ? PATHS.ROLE_SELECTION : '#'
+                                }
+                            >
                                 {t('LOGIN.REGISTER')}
                             </Link>
                         </div>

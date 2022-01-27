@@ -1,22 +1,21 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { authService } from '../app/services/authService';
+import IUser from '../interfaces/IUser';
 
 interface ILoginPayload {
     token: string;
-    user: {
-        id: string;
-    };
+    user: IUser;
 }
 
 interface IState {
-    userId: string | null;
     token: string | null;
+    user: IUser | null;
 }
 
 const initialState: IState = {
-    userId: null,
     token: null,
+    user: null,
 };
 
 export const authSlice = createSlice({
@@ -24,20 +23,17 @@ export const authSlice = createSlice({
     initialState,
     reducers: {
         logout(state) {
-            state.userId = null;
             state.token = null;
+            state.user = null;
         },
     },
     extraReducers: (builder) => {
         builder.addMatcher(
             authService.endpoints.login.matchFulfilled,
             (state, action: PayloadAction<ILoginPayload>) => {
-                const {
-                    user: { id },
-                    token,
-                } = action.payload;
+                const { user, token } = action.payload;
                 state.token = token;
-                state.userId = id;
+                state.user = user;
             }
         );
     },

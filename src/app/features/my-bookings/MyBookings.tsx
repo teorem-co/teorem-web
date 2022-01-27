@@ -27,7 +27,7 @@ const MyBookings: React.FC = () => {
     const [getNotificationForLessons, { data: lessonsCount }] =
         useLazyGetNotificationForLessonsQuery();
 
-    const userId = useAppSelector((state) => state.user.user?.id);
+    const userId = useAppSelector((state) => state.auth.user?.id);
 
     useEffect(() => {
         if (userId) {

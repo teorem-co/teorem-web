@@ -11,6 +11,7 @@ interface ILoginResponse {
     token: string;
     user: {
         id: string;
+        role: string;
     };
 }
 interface IRegisterTutor {
