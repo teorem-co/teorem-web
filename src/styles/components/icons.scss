@@ -120,6 +120,9 @@
     &--edit {
         mask-image: url('./../../assets/icons/edit.svg');
     }
+    &--edit {
+        mask-image: url('./../../assets/icons/edit.svg');
+    }
     &--pl {
         content: url(/assets/icons/MC.svg);
     }
@@ -140,9 +143,6 @@
     }
     &--al {
         content: url(/assets/icons/AL.svg);
-    }
-    &--edit {
-        mask-image: url('./../../assets/icons/edit.svg');
     }
 
     //color modifiers

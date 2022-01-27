@@ -3,7 +3,10 @@ import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 
-import { resetParentRegister } from '../../../slices/parentRegisterSlice';
+import {
+    resetParentRegister,
+    setSkip,
+} from '../../../slices/parentRegisterSlice';
 import { RoleOptions } from '../../../slices/roleSlice';
 import { resetStudentRegister } from '../../../slices/studentRegisterSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -64,11 +67,10 @@ const Onboarding = () => {
                     <div className="onboarding__aside">
                         <div className="onboarding__steps">
                             <div className="type--lg type--wgt--bold mb-2">
-                                Welcome to Teorem!
+                                {t('ONBOARDING.NAVIGATION.TITLE')}
                             </div>
                             <div className="w--350--max mb-10 type--wgt--regular type--color--secondary">
-                                Please follow the onboarding process to finish
-                                up your profile. It'll take only few minutes.
+                                {t('ONBOARDING.NAVIGATION.DESCRIPTION')}
                             </div>
                             <div className="steps">
                                 {roleSelection === RoleOptions.Tutor ? (
@@ -160,7 +162,13 @@ const Onboarding = () => {
                                     {/* <Link to={!isLoading ? PATHS.ROLE_SELECTION : '#'}>
                         {t('LOGIN.REGISTER')}
                     </Link> */}
-                                    {/* <button form="formSubmit">Skip step</button> */}
+                                    <button
+                                        className="btn btn--clear type--wgt--regular"
+                                        form="formSubmit"
+                                        onClick={() => dispatch(setSkip(true))}
+                                    >
+                                        Skip step
+                                    </button>
                                 </div>
                             ) : (
                                 <></>

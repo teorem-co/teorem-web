@@ -80,6 +80,7 @@ export const studentRegisterSlice = createSlice({
             state.phoneNumber = '';
             state.prefix = '';
             state.dateOfBirth = '';
+            state.roleSelection = '';
         },
     },
 });

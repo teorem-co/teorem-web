@@ -39,7 +39,7 @@ interface IRegisterParent {
     phonePrefix: string;
     phoneNumber: string;
     dateOfBirth: string;
-    children: string;
+    children?: string;
 }
 
 interface IRegisterStudent {

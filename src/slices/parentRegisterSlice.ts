@@ -43,6 +43,7 @@ interface IState {
     username: string;
     childPassword: string;
     child: IChild[];
+    skip: boolean;
 }
 
 const initialState: IState = {
@@ -62,6 +63,7 @@ const initialState: IState = {
     childPassword: '',
     roleSelection: '',
     child: [],
+    skip: false,
 };
 
 export const parentRegisterSlice = createSlice({
@@ -83,6 +85,9 @@ export const parentRegisterSlice = createSlice({
             state.password = password;
             state.passwordRepeat = passwordRepeat;
             state.roleSelection = roleSelection;
+        },
+        setSkip(state, action: PayloadAction<boolean>) {
+            state.skip = action.payload;
         },
         setStepOne(state, action: PayloadAction<IStepOne>) {
             const { countryId, prefix, phoneNumber, dateOfBirth } =
@@ -125,6 +130,8 @@ export const parentRegisterSlice = createSlice({
             state.username = '';
             state.childPassword = '';
             state.child = [];
+            state.skip = false;
+            state.roleSelection = '';
         },
     },
 });
@@ -135,6 +142,7 @@ export const {
     setStepTwo,
     resetParentRegister,
     setChildList,
+    setSkip,
 } = parentRegisterSlice.actions;
 
 export default parentRegisterSlice.reducer;
