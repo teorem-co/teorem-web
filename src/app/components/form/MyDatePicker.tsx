@@ -1,5 +1,4 @@
 import { FieldProps, useField } from 'formik';
-import moment from 'moment';
 import DatePicker from 'react-date-picker';
 
 interface CustomSelectProps extends FieldProps {

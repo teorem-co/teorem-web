@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom';
 
+import gradientCircle from '../../assets/images/gradient-circle.svg';
 import logo from '../../assets/images/logo.svg';
 import { logout } from '../../slices/authSlice';
 import { RoleOptions } from '../../slices/roleSlice';
@@ -35,8 +36,8 @@ const Navbar = () => {
                             <img
                                 src={
                                     user?.File?.path
-                                        ? user.File?.path
-                                        : 'https://source.unsplash.com/random/300×300/?parent'
+                                        ? user?.File?.path
+                                        : gradientCircle
                                 }
                                 alt="avatar"
                             />

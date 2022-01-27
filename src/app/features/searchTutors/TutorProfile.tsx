@@ -1,6 +1,4 @@
-import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
 
 import { useGetAvailableTutorsQuery } from '../../../services/tutorService';
@@ -9,8 +7,6 @@ import { PATHS } from '../../routes';
 
 const TutorProfile = () => {
     const { t } = useTranslation();
-
-    const history = useHistory();
 
     const { tutorId } = useParams();
 

@@ -14,16 +14,11 @@ import {
 import ExpDateField from '../../../components/form/ExpDateField';
 import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyPhoneInput from '../../../components/form/MyPhoneInput';
-import MySelect, {
-    OptionType,
-    PhoneOptionType,
-} from '../../../components/form/MySelectField';
+import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import UploadFile from '../../../components/form/MyUploadField';
 import TextField from '../../../components/form/TextField';
 import { countryInput } from '../../../constants/countryInput';
 import { countryOption } from '../../../constants/countryOption';
-import { phoneNumberInput } from '../../../constants/phoneNumberInput';
-import { phoneNumberOption } from '../../../constants/phoneNumberOption';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { useRegisterTutorMutation } from '../../../services/authService';
 import toastService from '../../../services/toastService';
