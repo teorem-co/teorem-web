@@ -77,6 +77,7 @@ const StudentOnboarding: React.FC<IProps> = ({
                 .min(6, t('FORM_VALIDATION.TOO_SHORT'))
                 .required(t('FORM_VALIDATION.REQUIRED')),
             dateOfBirth: Yup.string()
+                .required(t('FORM_VALIDATION.REQUIRED'))
                 .test(
                     'dateOfBirth',
                     t('FORM_VALIDATION.FUTURE_DATE'),
@@ -89,8 +90,7 @@ const StudentOnboarding: React.FC<IProps> = ({
                             return false;
                         }
                     }
-                )
-                .required(t('FORM_VALIDATION.REQUIRED')),
+                ),
         }),
     });
 

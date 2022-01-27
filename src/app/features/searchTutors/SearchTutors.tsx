@@ -455,7 +455,7 @@ const SearchTutors = () => {
                                         <div className="type--color--brand mb-4">
                                             {tutor.currentOccupation
                                                 ? tutor.currentOccupation
-                                                : ''}
+                                                : 'This information is not filled out yet'}
                                         </div>
                                         <div
                                             className={`type--color--secondary ${
@@ -466,7 +466,7 @@ const SearchTutors = () => {
                                         >
                                             {tutor.aboutTutor
                                                 ? tutor.aboutTutor
-                                                : ''}
+                                                : 'This information is not filled out yet'}
                                         </div>
                                         {tutor.Subjects ? (
                                             <CustomSubjectList
@@ -492,7 +492,7 @@ const SearchTutors = () => {
                                                 <i className="icon icon--completed-lessons icon--base icon--grey"></i>
                                                 <span className="d--ib ml-4">
                                                     {/* Add later */}
-                                                    15 completed lessions
+                                                    15 completed lessons
                                                 </span>
                                             </div>
                                         </div>

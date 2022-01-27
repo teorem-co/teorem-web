@@ -21,7 +21,7 @@ const MyDatePicker = ({ field, form }: CustomSelectProps) => {
         <>
             <DatePicker
                 {...field}
-                onChange={(value: any) => onChange(value)}
+                onChange={(value: any) => onChange(value ?? '')}
                 name={field.name}
                 dayPlaceholder="DD"
                 monthPlaceholder="MM"

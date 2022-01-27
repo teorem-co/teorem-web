@@ -169,6 +169,7 @@ const ParentOnboarding: React.FC<IProps> = ({
                 .min(6, t('FORM_VALIDATION.TOO_SHORT'))
                 .required(t('FORM_VALIDATION.REQUIRED')),
             dateOfBirth: Yup.string()
+                .required(t('FORM_VALIDATION.REQUIRED'))
                 .test(
                     'dateOfBirth',
                     t('FORM_VALIDATION.FUTURE_DATE'),
@@ -181,8 +182,7 @@ const ParentOnboarding: React.FC<IProps> = ({
                             return false;
                         }
                     }
-                )
-                .required(t('FORM_VALIDATION.REQUIRED')),
+                ),
         }),
     });
 
@@ -384,6 +384,7 @@ const ParentOnboarding: React.FC<IProps> = ({
                 t('FORM_VALIDATION.REQUIRED')
             ),
             childDateOfBirth: Yup.string()
+                .required(t('FORM_VALIDATION.REQUIRED'))
                 .test(
                     'dateOfBirth',
                     t('FORM_VALIDATION.FUTURE_DATE'),
@@ -396,10 +397,8 @@ const ParentOnboarding: React.FC<IProps> = ({
                             return false;
                         }
                     }
-                )
-                .required(t('FORM_VALIDATION.REQUIRED')),
+                ),
             username: Yup.string()
-                .required(t('FORM_VALIDATION.REQUIRED'))
                 .test(
                     'username',
                     'Username already exists',
@@ -427,7 +426,8 @@ const ParentOnboarding: React.FC<IProps> = ({
                         }
                         return true;
                     }
-                ),
+                )
+                .required(t('FORM_VALIDATION.REQUIRED')),
             childPassword: Yup.string()
                 .min(8, t('FORM_VALIDATION.TOO_SHORT'))
                 .max(128, t('FORM_VALIDATION.TOO_LONG'))

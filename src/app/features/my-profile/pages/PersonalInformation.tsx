@@ -88,6 +88,7 @@ const PersonalInformation = () => {
                 .min(6, t('FORM_VALIDATION.TOO_SHORT'))
                 .required(t('FORM_VALIDATION.REQUIRED')),
             dateOfBirth: Yup.string()
+                .required(t('FORM_VALIDATION.REQUIRED'))
                 .test(
                     'dateOfBirth',
                     t('FORM_VALIDATION.FUTURE_DATE'),
@@ -100,8 +101,7 @@ const PersonalInformation = () => {
                             return false;
                         }
                     }
-                )
-                .required(t('FORM_VALIDATION.REQUIRED')),
+                ),
             countryId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
         }),
     });

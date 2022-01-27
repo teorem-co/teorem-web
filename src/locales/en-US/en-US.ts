@@ -53,6 +53,7 @@ export const EN_US = {
         PASSWORD_STRENGTH: 'Password must meet the conditions',
         FUTURE_DATE: 'Date can`t be in the future',
         PHONE_NUMBER: 'Invalid phone number',
+        TUTOR_AGE: 'Tutor must have more than 18 years old',
     },
     NAVIGATION: {
         MY_BOOKINGS: 'My Bookings',

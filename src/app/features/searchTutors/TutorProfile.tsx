@@ -51,7 +51,9 @@ const TutorProfile = () => {
                                     : ''}
                             </div>
                             <div className="type--color--brand mb-4">
-                                {tutorData ? tutorData.currentOccupation : ''}
+                                {tutorData
+                                    ? tutorData.currentOccupation
+                                    : 'This information is not filled out yet'}
                             </div>
                         </div>
                         <div className="tutor-list__item__details">
@@ -67,7 +69,7 @@ const TutorProfile = () => {
                                     <i className="icon icon--completed-lessons icon--base icon--grey"></i>
                                     <span className="d--ib ml-4">
                                         {/* Add later */}
-                                        15 completed lessions
+                                        15 completed lessons
                                     </span>
                                 </div>
                             </div>
@@ -78,7 +80,14 @@ const TutorProfile = () => {
                             {t('SEARCH_TUTORS.TUTOR_PROFILE.ABOUT_ME')}
                         </div>
                         <div className="type--color--secondary">
-                            {tutorData ? tutorData.aboutTutor : ''}
+                            {tutorData ? (
+                                tutorData.aboutTutor
+                            ) : (
+                                <>
+                                    This tutor has not filled out about me
+                                    section
+                                </>
+                            )}
                         </div>
                     </div>
                     <div>
@@ -86,7 +95,14 @@ const TutorProfile = () => {
                             {t('SEARCH_TUTORS.TUTOR_PROFILE.ABOUT_TEACHINGS')}
                         </div>
                         <div className="type--color--secondary">
-                            {tutorData ? tutorData.aboutLessons : ''}
+                            {tutorData ? (
+                                tutorData.aboutLessons
+                            ) : (
+                                <>
+                                    This tutor has not filled out his profile
+                                    about teachings
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>
