@@ -11,7 +11,6 @@ const TooltipPassword: FC<Props> = (props: Props) => {
     return (
         <>
             <div className={`tooltip--password ${passTooltip ? 'active' : ''}`}>
-                <div>{passTooltip ? 'active' : 'notactive'}</div>
                 <div className="mb-3">{t('FORM_VALIDATION.PASSWORD_MUST')}</div>
                 <div>
                     <div>
