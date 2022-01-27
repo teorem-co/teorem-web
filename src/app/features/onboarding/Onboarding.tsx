@@ -21,6 +21,7 @@ import TutorOnboarding from './components/TutorOnboarding';
 const Onboarding = () => {
     const [step, setStep] = useState<number>(1);
     const [trial, setTrial] = useState<boolean>(false);
+    const [show, setShow] = useState<boolean>(false);
     const dispatch = useAppDispatch();
     const roleSelection = useAppSelector((state) => state.role.selectedRole);
     const history = useHistory();
@@ -54,6 +55,9 @@ const Onboarding = () => {
 
     const handleNextStepStudent = () => {
         history.push('/');
+    };
+    const showDesc = (data: boolean) => {
+        setShow(data);
     };
 
     return (
@@ -109,7 +113,7 @@ const Onboarding = () => {
                                     </div>
                                     {step === 1 ? (
                                         <></>
-                                    ) : step === 2 ? (
+                                    ) : step === 2 && show ? (
                                         <div className="type--wgt--regular mb-2">
                                             Edit child's details
                                         </div>
@@ -133,6 +137,7 @@ const Onboarding = () => {
                             ) : roleSelection === RoleOptions.Parent ? (
                                 <>
                                     <ParentOnboarding
+                                        showDesc={(data) => showDesc(data)}
                                         step={step}
                                         handleNextStep={handleNextStepParent}
                                         handleGoBack={handleGoBack}
@@ -153,7 +158,8 @@ const Onboarding = () => {
                                 {t('WATERMARK')}
                             </div>
                             {roleSelection === RoleOptions.Parent &&
-                            step === 2 ? (
+                            step === 2 &&
+                            show ? (
                                 <div>
                                     {/* {t('LOGIN.ACCOUNT')}{' '} */}
                                     You can add this later.{' '}

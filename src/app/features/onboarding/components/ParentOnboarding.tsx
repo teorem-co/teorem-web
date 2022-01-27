@@ -46,12 +46,14 @@ interface IProps {
     handleGoBack: () => void;
     handleNextStep: () => void;
     step: number;
+    showDesc: (data: boolean) => void;
 }
 
 const ParentOnboarding: React.FC<IProps> = ({
     handleGoBack,
     handleNextStep,
     step,
+    showDesc,
 }) => {
     const { t } = useTranslation();
     const [detailsOpen, setDetailsOpen] = useState<boolean>(false);
@@ -461,10 +463,12 @@ const ParentOnboarding: React.FC<IProps> = ({
             setChildUsername('');
             dispatch(setChildList(newArr));
             setDetailsOpen(false);
+            showDesc(detailsOpen);
         } else {
             newArr.push(currentChild);
             dispatch(setChildList(newArr));
             setDetailsOpen(false);
+            showDesc(detailsOpen);
         }
     };
 
@@ -478,6 +482,7 @@ const ParentOnboarding: React.FC<IProps> = ({
         dispatch(setChildList(newArr));
         setChildUsername('');
         setDetailsOpen(false);
+        showDesc(detailsOpen);
     };
 
     const stepThree = () => {
@@ -602,6 +607,7 @@ const ParentOnboarding: React.FC<IProps> = ({
             );
 
             setDetailsOpen(true);
+            showDesc(detailsOpen);
             setChildUsername(currentChild.username);
         } else {
             toastService.error('There is no child with that username');
@@ -617,12 +623,14 @@ const ParentOnboarding: React.FC<IProps> = ({
             childPassword: '',
         });
         setDetailsOpen(true);
+        showDesc(detailsOpen);
     };
 
     const handleResetForm = () => {
         formikStepThree.resetForm();
         setChildUsername('');
         setDetailsOpen(false);
+        showDesc(detailsOpen);
     };
 
     useEffect(() => {
