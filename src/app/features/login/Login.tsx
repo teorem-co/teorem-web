@@ -23,6 +23,7 @@ const Login: React.FC = () => {
     const [loginErrorMessage, setLoginErrorMessage] = useState<string>();
 
     const userRoleAbrv = useAppSelector((state) => state.auth.user?.Role?.abrv);
+    const userToken = useAppSelector((state) => state.auth.token);
 
     const initialValues: Values = {
         email: '',
@@ -56,6 +57,12 @@ const Login: React.FC = () => {
                 .required(t('FORM_VALIDATION.REQUIRED')),
         }),
     });
+
+    useEffect(() => {
+        if (userToken) {
+            history.push(PATHS.MY_BOOKINGS);
+        }
+    }, []);
 
     useEffect(() => {
         if (isSuccessLogin && loginData && userRoleAbrv) {
