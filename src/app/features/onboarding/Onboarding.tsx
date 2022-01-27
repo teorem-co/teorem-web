@@ -21,7 +21,7 @@ import TutorOnboarding from './components/TutorOnboarding';
 const Onboarding = () => {
     const [step, setStep] = useState<number>(1);
     const [trial, setTrial] = useState<boolean>(false);
-    const [show, setShow] = useState<boolean>(false);
+    const [show, setShow] = useState<boolean>(true);
     const dispatch = useAppDispatch();
     const roleSelection = useAppSelector((state) => state.role.selectedRole);
     const history = useHistory();
