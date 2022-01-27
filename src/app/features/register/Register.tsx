@@ -329,12 +329,14 @@ const Register: React.FC = () => {
                                 >
                                     {t('REGISTER.FORM.SUBMIT_BUTTON')}
                                 </div>
-                                <div
-                                    onClick={() => handleGoBack()}
-                                    className="btn btn--clear btn--base w--100 type--color--brand type--wgt--bold type--center"
-                                >
-                                    <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>{' '}
-                                    {t('REGISTER.BACK_BUTTON')}
+                                <div className="flex flex--jc--center">
+                                    <div
+                                        onClick={() => handleGoBack()}
+                                        className="btn btn--clear btn--base type--color--brand type--wgt--bold"
+                                    >
+                                        <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>{' '}
+                                        {t('REGISTER.BACK_BUTTON')}
+                                    </div>
                                 </div>
                             </Form>
                         </FormikProvider>

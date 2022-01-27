@@ -254,12 +254,14 @@ const ParentOnboarding: React.FC<IProps> = ({
                     >
                         {t('REGISTER.NEXT_BUTTON')}
                     </div>
-                    <div
-                        onClick={() => handleGoBack()}
-                        className="btn btn--clear btn--base w--100 type--color--brand type--wgt--bold type--center"
-                    >
-                        <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>{' '}
-                        {t('REGISTER.BACK_TO_REGISTER')}
+                    <div className="flex flex--jc--center">
+                        <div
+                            onClick={() => handleGoBack()}
+                            className="btn btn--clear btn--base type--color--brand type--wgt--bold"
+                        >
+                            <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>
+                            {t('REGISTER.BACK_TO_REGISTER')}
+                        </div>
                     </div>
                 </Form>
             </FormikProvider>
@@ -367,12 +369,14 @@ const ParentOnboarding: React.FC<IProps> = ({
                         >
                             {t('REGISTER.FINISH')}
                         </div>
-                        <div
-                            onClick={() => handleGoBack()}
-                            className="btn btn--clear btn--base w--100 type--color--brand type--wgt--bold type--center"
-                        >
-                            <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>{' '}
-                            {t('REGISTER.BACK_TO_STEP_ONE')}
+                        <div className="flex flex--jc--center">
+                            <div
+                                onClick={() => handleGoBack()}
+                                className="btn btn--clear btn--base type--color--brand type--wgt--bold"
+                            >
+                                <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>{' '}
+                                {t('REGISTER.BACK_TO_STEP_ONE')}
+                            </div>
                         </div>
                     </Form>
                 </FormikProvider>
@@ -576,15 +580,16 @@ const ParentOnboarding: React.FC<IProps> = ({
                     ) : (
                         <></>
                     )}
-
-                    <div
-                        onClick={() => {
-                            handleResetForm();
-                        }}
-                        className="btn btn--clear btn--base w--100 type--color--brand type--wgt--bold type--center"
-                    >
-                        <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>{' '}
-                        {t('REGISTER.BACK_TO_LIST')}
+                    <div className="flex flex--jc--center">
+                        <div
+                            onClick={() => {
+                                handleResetForm();
+                            }}
+                            className="btn btn--clear btn--base type--color--brand type--wgt--bold"
+                        >
+                            <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>{' '}
+                            {t('REGISTER.BACK_TO_LIST')}
+                        </div>
                     </div>
                 </Form>
             </FormikProvider>

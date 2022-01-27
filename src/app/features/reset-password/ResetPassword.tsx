@@ -93,12 +93,14 @@ const ResetPassword = () => {
                                 >
                                     {t('RESET_PASSWORD.FORM.SUBMIT_BTN')}
                                 </button>
-                                <div
-                                    onClick={() => handleGoBack()}
-                                    className="btn btn--clear btn--base w--100 type--color--brand type--wgt--bold type--center"
-                                >
-                                    <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>{' '}
-                                    {t('RESET_PASSWORD.BACK_BTN')}
+                                <div className="flex flex--jc--center">
+                                    <div
+                                        onClick={() => handleGoBack()}
+                                        className="btn btn--clear btn--base type--color--brand type--wgt--bold"
+                                    >
+                                        <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>{' '}
+                                        {t('RESET_PASSWORD.BACK_BTN')}
+                                    </div>
                                 </div>
                             </Form>
                         </FormikProvider>

@@ -151,7 +151,7 @@ const Login: React.FC = () => {
                                 </button>
                                 <button
                                     onClick={handleGoBack}
-                                    className="btn btn--clear btn--base w--100 type--color--brand type--wgt--bold type--center"
+                                    className="btn btn--clear btn--base type--color--brand type--wgt--bold align--center d--b"
                                     disabled={isLoading}
                                 >
                                     {t('LOGIN.FORGOT_PASSWORD')}
