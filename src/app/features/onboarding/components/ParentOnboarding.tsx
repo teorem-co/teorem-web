@@ -441,6 +441,8 @@ const ParentOnboarding: React.FC<IProps> = ({
         let newArr: IChild[] = [];
         newArr = cloneDeep(child);
 
+        debugger;
+
         const currentChild = {
             firstName: values.childFirstName,
             dateOfBirth: moment(values.childDateOfBirth).toISOString(),
@@ -453,8 +455,8 @@ const ParentOnboarding: React.FC<IProps> = ({
                 return x.username === childUsername;
             });
 
-            newArr.splice(currentItem, 1);
-            newArr.push(currentChild);
+            newArr.splice(currentItem, 1, currentChild);
+            //newArr.push(currentChild);
 
             setChildUsername('');
             dispatch(setChildList(newArr));
