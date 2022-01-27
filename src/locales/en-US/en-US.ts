@@ -39,6 +39,8 @@ export const EN_US = {
     },
     FORM_VALIDATION: {
         INVALID_EMAIL: 'Invalid email',
+        INVALID_IMAGE:
+            'Image has to be either jpg,png,jpeg or svg and less than 2MB in size.',
         TOO_SHORT: 'Too Short!',
         TOO_LONG: 'Too Long!',
         REQUIRED: 'This field is required',

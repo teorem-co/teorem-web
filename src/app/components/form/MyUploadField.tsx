@@ -36,7 +36,8 @@ const UploadFile: FC<UploadFileType> = ({ setFieldValue, ...props }) => {
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         maxFiles: 1,
-        accept: 'image/*',
+        accept: 'image/jpg,image/png,image/jpeg,image/svg',
+        maxSize: 2000000,
         onDropAccepted: (acceptedFiles: File[]) => {
             dispatch(setFile(acceptedFiles[0]));
         },
