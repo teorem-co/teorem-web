@@ -3,11 +3,16 @@ import 'moment/locale/en-gb';
 import { t } from 'i18next';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
-import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
+import {
+    Calendar as BigCalendar,
+    momentLocalizer,
+    SlotInfo,
+} from 'react-big-calendar';
 import Calendar from 'react-calendar';
 
 import MainWrapper from '../../components/MainWrapper';
 import { useAppSelector } from '../../hooks';
+import ParentCalendarSlots from './components/ParentCalendarSlots';
 import UpcomingLessons from './components/UpcomingLessons';
 import {
     useLazyGetBookingsQuery,
@@ -19,6 +24,9 @@ const MyBookings: React.FC = () => {
     const localizer = momentLocalizer(moment);
     const [value, onChange] = useState(new Date());
     const [calChange, setCalChange] = useState<boolean>(false);
+    const [openSlot, setOpenSlot] = useState<boolean>(false);
+    const [selectedStart, setSelectedStart] = useState<string>('');
+    const [selectedEnd, setSelectedEnd] = useState<string>('');
 
     const [getUpcomingLessons, { data: upcomingLessons }] =
         useLazyGetUpcomingLessonsQuery();
@@ -98,6 +106,12 @@ const MyBookings: React.FC = () => {
     const NextIcon = () => {
         return <i className="icon icon--base icon--chevron-right"></i>;
     };
+    const slotSelect = (e: SlotInfo) => {
+        setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
+        setSelectedEnd(moment(e.end).format('HH:mm'));
+        setOpenSlot(!openSlot);
+    };
+    console.log(openSlot);
 
     return (
         <MainWrapper>
@@ -126,6 +140,7 @@ const MyBookings: React.FC = () => {
                             style={{ height: 'calc(100% - 84px)' }}
                             startAccessor="start"
                             endAccessor="end"
+                            selectable={true}
                             components={{
                                 week: {
                                     header: (date) => CustomHeader(date),
@@ -134,8 +149,18 @@ const MyBookings: React.FC = () => {
                             }}
                             scrollToTime={defaultScrollTime}
                             showMultiDayTimes={true}
+                            onSelectSlot={(e) => slotSelect(e)}
                         />
                     </div>
+                    {openSlot ? (
+                        <ParentCalendarSlots
+                            start={`${selectedStart}`}
+                            end={`${selectedEnd}`}
+                            handleClose={(e) => setOpenSlot(e)}
+                        />
+                    ) : (
+                        <></>
+                    )}
                 </div>
                 <div>
                     <div className="card card--primary mb-4">
