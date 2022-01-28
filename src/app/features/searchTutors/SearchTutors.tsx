@@ -84,15 +84,9 @@ const SearchTutors = () => {
                 setIsInitialSubject(true);
             urlQueries.level && formik.setFieldValue('level', urlQueries.level);
             urlQueries.dayOfWeek &&
-                formik.setFieldValue(
-                    'dayOfWeek',
-                    urlQueries.dayOfWeek.split(',')
-                );
+                setDayOfWeekArray(urlQueries.dayOfWeek.split(','));
             urlQueries.timeOfDay &&
-                formik.setFieldValue(
-                    'timeOfDay',
-                    urlQueries.timeOfDay.split(',')
-                );
+                setTimeOfDayArray(urlQueries.timeOfDay.split(','));
 
             setParams(urlQueries);
         } else {
@@ -399,13 +393,22 @@ const SearchTutors = () => {
                     </div>
                 </div>
                 <div className="card--search__body">
-                    <div className="mb-10">
-                        <span className="type--uppercase type--color--tertiary">
-                            {t('SEARCH_TUTORS.TUTOR_AVAILABLE')}
-                        </span>
-                        <span className="tag--primary d--ib ml-2">
-                            {availableTutors ? availableTutors.count : '0'}
-                        </span>
+                    <div className="mb-10 flex--primary">
+                        <div>
+                            <span className="type--uppercase type--color--tertiary">
+                                {t('SEARCH_TUTORS.TUTOR_AVAILABLE')}
+                            </span>
+                            <span className="tag--primary d--ib ml-2">
+                                {availableTutors ? availableTutors.count : '0'}
+                            </span>
+                        </div>
+                        <div>
+                            <span>Sort by pricing</span>&nbsp;&nbsp;
+                            <span className="type--color--brand">
+                                High&nbsp;
+                                <i className="icon icon--base icon--chevron-down icon--primary"></i>
+                            </span>
+                        </div>
                     </div>
                     <div className="tutor-list">
                         {isLoadingAvailableTutors ? (
