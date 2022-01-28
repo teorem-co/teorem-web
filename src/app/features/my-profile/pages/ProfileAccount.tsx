@@ -95,14 +95,6 @@ const ProfileAccount = () => {
                                                 id="currentPassword"
                                                 placeholder="Enter Current Password"
                                                 password={true}
-                                                withoutErr={
-                                                    formik.errors
-                                                        .currentPassword &&
-                                                    formik.touched
-                                                        .currentPassword
-                                                        ? false
-                                                        : true
-                                                }
                                             />
                                         </div>
                                     </div>
@@ -119,12 +111,6 @@ const ProfileAccount = () => {
                                                 id="newPassword"
                                                 placeholder="Enter New Password"
                                                 password={true}
-                                                withoutErr={
-                                                    formik.errors.newPassword &&
-                                                    formik.touched.newPassword
-                                                        ? false
-                                                        : true
-                                                }
                                             />
                                         </div>
                                     </div>
@@ -141,21 +127,13 @@ const ProfileAccount = () => {
                                                 id="confirmPassword"
                                                 placeholder="Enter New Password"
                                                 password={true}
-                                                withoutErr={
-                                                    formik.errors
-                                                        .confirmPassword &&
-                                                    formik.touched
-                                                        .confirmPassword
-                                                        ? false
-                                                        : true
-                                                }
                                             />
                                         </div>
                                     </div>
                                 </div>
 
                                 <button
-                                    className="btn btn--primary btn--lg"
+                                    className="btn btn--primary btn--lg mt-2"
                                     type="submit"
                                 >
                                     Save

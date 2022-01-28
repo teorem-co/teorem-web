@@ -298,7 +298,7 @@ const PersonalInformation = () => {
                                     </div>
                                 </div>
                                 <button
-                                    className="btn btn--primary btn--lg"
+                                    className="btn btn--primary btn--lg mt-6"
                                     type="submit"
                                 >
                                     Save

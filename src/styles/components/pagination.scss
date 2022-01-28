@@ -1,0 +1,89 @@
+/*
+    components: pagination.scss;
+*/
+
+$paginationItemWidth: 32px;
+$paginationWidth: 100%;
+
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+
+    width: $paginationWidth;
+    margin-top: calc(#{$unit} * 6);
+
+    &__item {
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+
+        width: $paginationItemWidth;
+        height: $paginationItemWidth;
+        margin: 0 $unit;
+        border-radius: $border-rounded;
+        border: 1px solid $grey-ed;
+
+        cursor: pointer;
+        line-height: 1;
+        font-weight: 600;
+        user-select: none;
+
+        &:hover {
+            border-color: $color-primary;
+            color: $color-primary;
+            transition: 300ms ease-in-out;
+        }
+    }
+
+    &__arrow {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: $paginationItemWidth;
+        height: $paginationItemWidth;
+
+        border-radius: $border-rounded;
+        border: 1px solid $grey-ed;
+
+        cursor: pointer;
+        transition: all 250ms ease-in-out;
+
+        &__icon {
+            pointer-events: none;
+            background-color: $grey-bb;
+            transition: all 250ms ease-in-out;
+        }
+
+        &:hover {
+            border-color: $color-primary;
+
+            .pagination__arrow__icon {
+                background-color: $color-primary;
+            }
+        }
+
+        &.disabled {
+            background-color: $grey-ed;
+            cursor: not-allowed;
+
+            .pagination__arrow__icon {
+                background-color: $white;
+            }
+            &:hover {
+                border-color: $grey-ed;
+
+                .pagination__arrow__icon {
+                    background-color: $white;
+                }
+            }
+        }
+    }
+
+    &--active {
+        border-color: $color-primary;
+        color: $color-primary;
+    }
+}
