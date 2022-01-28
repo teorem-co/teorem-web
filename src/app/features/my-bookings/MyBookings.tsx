@@ -150,6 +150,8 @@ const MyBookings: React.FC = () => {
                             scrollToTime={defaultScrollTime}
                             showMultiDayTimes={true}
                             onSelectSlot={(e) => slotSelect(e)}
+                            step={50}
+                            // timeslots={1}
                         />
                     </div>
                     {openSlot ? (
