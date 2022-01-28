@@ -12,6 +12,7 @@ import MyCountrySelect from '../../../components/form/MyCountrySelect';
 import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyPhoneInput from '../../../components/form/MyPhoneInput';
 import TextField from '../../../components/form/TextField';
+import ImageCircle from '../../../components/ImageCircle';
 import MainWrapper from '../../../components/MainWrapper';
 import { countryInput } from '../../../constants/countryInput';
 import { countryOption } from '../../../constants/countryOption';
@@ -56,9 +57,7 @@ const PersonalInformation = () => {
     // }, [isSuccessTutorData]);
 
     //change later to fetch image from user service
-    const profileImage = useAppSelector(
-        (state) => state.tutorRegister.profileImage
-    );
+    const tutor = useAppSelector((state) => state.auth.user);
 
     const { t } = useTranslation();
 
@@ -251,10 +250,29 @@ const PersonalInformation = () => {
                             <div className="w--800--max">
                                 <div className="flex flex--center flex--grow">
                                     <div className="tutor-list__item__img">
-                                        <img
-                                            src="https://source.unsplash.com/random/300×300/?face"
-                                            alt="tutor-pic"
-                                        />
+                                        {tutor?.File?.path ? (
+                                            <img
+                                                src={tutor.File.path}
+                                                alt="tutor-list"
+                                            />
+                                        ) : (
+                                            <ImageCircle
+                                                initials={`${
+                                                    tutor?.firstName
+                                                        ? tutor.firstName.charAt(
+                                                              0
+                                                          )
+                                                        : ''
+                                                }${
+                                                    tutor?.lastName
+                                                        ? tutor.lastName.charAt(
+                                                              0
+                                                          )
+                                                        : ''
+                                                }`}
+                                                imageBig={true}
+                                            />
+                                        )}
                                     </div>
                                     <div className="field field__file">
                                         <label
