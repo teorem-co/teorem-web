@@ -88,6 +88,13 @@ const TutorProfile = () => {
                             <div className="tutor-list__item__details">
                                 <div className="flex--grow mb-6">
                                     <div className="flex flex--center mb-3">
+                                        <i className="icon icon--pricing icon--base icon--grey"></i>
+                                        <span className="d--ib ml-4">
+                                            {/* Add later */}
+                                            $44 - $45 /hr
+                                        </span>
+                                    </div>
+                                    <div className="flex flex--center mb-3">
                                         <i className="icon icon--star icon--base icon--grey"></i>
                                         <span className="d--ib ml-4">
                                             {/* Add later */}
