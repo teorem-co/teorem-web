@@ -58,20 +58,25 @@
 
         overflow-y: auto;
 
-        height: 100px;
+        max-height: 100px;
         width: 250px;
 
-        color: $color-text-primary;
-        padding: calc(#{$unit} * 4);
+        color: $color-primary;
+        padding: 16px 16px 0 16px;
+        border: 1px solid $color-primary;
         border-radius: $border-rounded;
 
         //some background colors hide scrollbar !!!
-        background-color: $color-primary;
+        background-color: $white;
         opacity: 0;
         visibility: hidden;
 
         span {
             display: inline-block;
+            background-color: hsla(248, 86%, 69%, 0.1);
+            padding: 4px 16px;
+            border-radius: 5px;
+            margin: 0 8px 16px 0;
         }
 
         &.active {

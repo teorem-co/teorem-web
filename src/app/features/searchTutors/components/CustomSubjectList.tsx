@@ -38,7 +38,7 @@ const CustomSubjectList = (props: Props) => {
                     >
                         {subjects.slice(3).map((subject) => (
                             <span
-                                className="type--color--white p-1"
+                                className="type--color--brand"
                                 key={subject.id}
                             >
                                 {subject.name}
