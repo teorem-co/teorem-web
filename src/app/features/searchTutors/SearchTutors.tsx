@@ -18,6 +18,7 @@ import MainWrapper from '../../components/MainWrapper';
 import { PATHS } from '../../routes';
 import getUrlParams from '../../utils/getUrlParams';
 import CustomSubjectList from './components/CustomSubjectList';
+import TutorItem from './components/TutorItem';
 
 interface Values {
     subject: string;
@@ -416,105 +417,7 @@ const SearchTutors = () => {
                             </div>
                         ) : availableTutors && availableTutors.count !== 0 ? (
                             availableTutors.rows.map((tutor) => (
-                                <div className="tutor-list__item">
-                                    <div className="tutor-list__item__img">
-                                        {tutor.User.File?.path ? (
-                                            <img
-                                                src={
-                                                    tutor.User.File &&
-                                                    tutor.User.File.path
-                                                }
-                                                alt="tutor-list"
-                                            />
-                                        ) : (
-                                            <ImageCircle
-                                                initials={`${
-                                                    tutor.User.firstName
-                                                        ? tutor.User.firstName.charAt(
-                                                              0
-                                                          )
-                                                        : ''
-                                                }${
-                                                    tutor.User.lastName
-                                                        ? tutor.User.lastName.charAt(
-                                                              0
-                                                          )
-                                                        : ''
-                                                }`}
-                                                imageBig={true}
-                                            />
-                                        )}
-                                    </div>
-                                    <div className="tutor-list__item__info">
-                                        <div className="type--md mb-1">
-                                            {tutor.User.firstName &&
-                                            tutor.User.lastName
-                                                ? `${tutor.User.firstName} ${tutor.User.lastName}`
-                                                : ''}
-                                        </div>
-                                        <div className="type--color--brand mb-4">
-                                            {tutor.currentOccupation
-                                                ? tutor.currentOccupation
-                                                : t('SEARCH_TUTORS.NOT_FILLED')}
-                                        </div>
-                                        <div
-                                            className={`type--color--secondary ${
-                                                tutor.Subjects.length > 0
-                                                    ? 'mb-6'
-                                                    : ''
-                                            } w--632--max`}
-                                        >
-                                            {tutor.aboutTutor
-                                                ? tutor.aboutTutor
-                                                : t('SEARCH_TUTORS.NOT_FILLED')}
-                                        </div>
-                                        {tutor.Subjects ? (
-                                            <CustomSubjectList
-                                                subjects={uniqBy(
-                                                    tutor.Subjects,
-                                                    'name'
-                                                )}
-                                            />
-                                        ) : (
-                                            <></>
-                                        )}
-                                    </div>
-                                    <div className="tutor-list__item__details">
-                                        <div className="flex--grow mb-6">
-                                            <div className="flex flex--center mb-3">
-                                                <i className="icon icon--pricing icon--base icon--grey"></i>
-                                                <span className="d--ib ml-4">
-                                                    {/* Add later */}
-                                                    $44 - $45 /hr
-                                                </span>
-                                            </div>
-                                            <div className="flex flex--center mb-3">
-                                                <i className="icon icon--star icon--base icon--grey"></i>
-                                                <span className="d--ib ml-4">
-                                                    {/* Add later */}
-                                                    4.9
-                                                </span>
-                                            </div>
-                                            <div className="flex flex--center">
-                                                <i className="icon icon--completed-lessons icon--base icon--grey"></i>
-                                                <span className="d--ib ml-4">
-                                                    {/* Add later */}
-                                                    15 completed lessons
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <Link
-                                                className="btn btn--primary btn--base w--100"
-                                                to={`${PATHS.SEARCH_TUTORS}/${tutor.userId}`}
-                                            >
-                                                {t(
-                                                    'SEARCH_TUTORS.VIEW_PROFILE'
-                                                )}
-                                            </Link>
-                                        </div>
-                                    </div>
-                                </div>
+                                <TutorItem tutor={tutor} />
                             ))
                         ) : (
                             <div className="tutor-list__no-results">
