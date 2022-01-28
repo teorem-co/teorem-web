@@ -48,6 +48,44 @@
         }
     }
 
+    &--lessons {
+        height: calc(100% - 48px);
+        overflow-y: auto;
+        background-color: $white;
+        border-radius: $border-rounded;
+        margin: calc(#{$unit} * 6);
+        border: 1px solid $grey-f5;
+
+        &__head {
+            z-index: 9;
+            position: sticky;
+            top: 0;
+            height: 85px;
+
+            padding: calc(#{$unit} * 6);
+            border-bottom: 1px solid $grey-ed;
+
+            font-size: 24px;
+            font-weight: 600;
+            backdrop-filter: blur(20px);
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        &__body {
+            display: flex;
+            height: calc(100% - 85px);
+
+            &__aside {
+                width: 360px;
+                flex-shrink: 0;
+                border-right: 1px solid $grey-ed;
+            }
+            &__main {
+                flex-grow: 1;
+            }
+        }
+    }
+
     &--profile {
         height: calc(100% - 48px);
         // max-width: 1280px;

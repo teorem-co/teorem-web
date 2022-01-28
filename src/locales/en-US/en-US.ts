@@ -62,6 +62,7 @@ export const EN_US = {
         MY_REVIEWS: 'My reviews',
         SEARCH_TUTORS: 'Search tutors',
         MY_PROFILE: 'My Profile',
+        COMPLETED_LESSONS: 'Completed lessons',
     },
     SEARCH_TUTORS: {
         AVAILABILITY: {
