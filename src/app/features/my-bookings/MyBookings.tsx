@@ -157,6 +157,8 @@ const MyBookings: React.FC = () => {
         setSidebarOpen(false);
     };
 
+    const newBookings = union(bookings, emptyBookings);
+
     return (
         <MainWrapper>
             <div className="layout--primary">
@@ -177,9 +179,7 @@ const MyBookings: React.FC = () => {
                             formats={{
                                 timeGutterFormat: 'HH:mm',
                             }}
-                            events={
-                                bookings ? union(bookings, emptyBookings) : []
-                            }
+                            events={bookings ? newBookings : []}
                             toolbar={false}
                             date={value}
                             view="week"
@@ -196,7 +196,7 @@ const MyBookings: React.FC = () => {
                             scrollToTime={defaultScrollTime}
                             showMultiDayTimes={true}
                             onSelectSlot={(e) => slotSelect(e)}
-                            step={15}
+                            step={60}
                             timeslots={1}
                             longPressThreshold={10}
                         />
