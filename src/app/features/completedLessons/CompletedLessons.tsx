@@ -6,12 +6,14 @@ import completedLessonsList, {
     IVideoLesson,
 } from '../../constants/completedLessonsList';
 import CompletedLessonsItem from './components/CompletedLessonsItem';
+import ReviewModal from './components/ReviewModal';
 import VideoLessonItem from './components/VideoLessonItem';
 
 const CompletedLessons = () => {
     const [activeLesson, setActiveLesson] = useState<ICompletedLesson | null>(
         completedLessonsList[0] ? completedLessonsList[0] : null
     );
+    const [activeReviewModal, setActiveReviewModal] = useState<boolean>(false);
 
     const handleActiveLessons = (lessonId: string) => {
         const currentlyActiveLesson = completedLessonsList.find(
@@ -20,6 +22,7 @@ const CompletedLessons = () => {
         );
         setActiveLesson(currentlyActiveLesson ? currentlyActiveLesson : null);
     };
+
     return (
         <>
             <MainWrapper>
@@ -80,7 +83,14 @@ const CompletedLessons = () => {
                                                 </div>
                                             </div>
                                             <div>
-                                                <button className="btn btn--base btn--clear">
+                                                <button
+                                                    onClick={() =>
+                                                        setActiveReviewModal(
+                                                            true
+                                                        )
+                                                    }
+                                                    className="btn btn--base btn--clear mr-4"
+                                                >
                                                     Leave review
                                                 </button>
                                                 <button className="btn btn--base btn--primary">
@@ -114,6 +124,14 @@ const CompletedLessons = () => {
                         </div>
                     </div>
                 </div>
+                {activeReviewModal ? (
+                    <ReviewModal
+                        tutorId="asd"
+                        handleClose={() => setActiveReviewModal(false)}
+                    />
+                ) : (
+                    <></>
+                )}
             </MainWrapper>
         </>
     );

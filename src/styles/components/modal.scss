@@ -1,0 +1,44 @@
+/*
+    components: modal.scss
+*/
+
+.modal {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 500px;
+
+    transform: translate(-50%, -50%);
+    background-color: $white;
+    padding: calc(#{$unit} * 6);
+
+    &__head {
+        position: relative;
+    }
+
+    &__footer {
+        margin-top: calc(#{$unit} * 6);
+    }
+
+    &__close {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+    &__separator {
+        border-bottom: 1px solid $grey-ed;
+        margin: calc(#{$unit} * 6) calc(#{$unit} * -6);
+    }
+
+    &__overlay {
+        z-index: 10;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+
+        background-color: $background-overlay;
+    }
+}
