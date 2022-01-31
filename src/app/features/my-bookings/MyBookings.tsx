@@ -1,6 +1,8 @@
 import 'moment/locale/en-gb';
 
+import { Form, FormikProvider, useFormik } from 'formik';
 import { t } from 'i18next';
+import { merge, union } from 'lodash';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import {
@@ -9,8 +11,12 @@ import {
     SlotInfo,
 } from 'react-big-calendar';
 import Calendar from 'react-calendar';
+import * as Yup from 'yup';
 
+import ExpDateField from '../../components/form/ExpDateField';
+import TextField from '../../components/form/TextField';
 import MainWrapper from '../../components/MainWrapper';
+import Sidebar from '../../components/Sidebar';
 import { useAppSelector } from '../../hooks';
 import ParentCalendarSlots from './components/ParentCalendarSlots';
 import UpcomingLessons from './components/UpcomingLessons';
@@ -20,6 +26,14 @@ import {
     useLazyGetUpcomingLessonsQuery,
 } from './services/bookingService';
 
+interface IBookingTransformed {
+    id?: string;
+    label: string;
+    start: Date;
+    end: Date;
+    allDay: boolean;
+}
+
 const MyBookings: React.FC = () => {
     const localizer = momentLocalizer(moment);
     const [value, onChange] = useState(new Date());
@@ -27,6 +41,10 @@ const MyBookings: React.FC = () => {
     const [openSlot, setOpenSlot] = useState<boolean>(false);
     const [selectedStart, setSelectedStart] = useState<string>('');
     const [selectedEnd, setSelectedEnd] = useState<string>('');
+    const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
+    const [emptyBookings, setEmptybookings] = useState<IBookingTransformed[]>(
+        []
+    );
 
     const [getUpcomingLessons, { data: upcomingLessons }] =
         useLazyGetUpcomingLessonsQuery();
@@ -71,7 +89,6 @@ const MyBookings: React.FC = () => {
             </>
         );
     };
-
     useEffect(() => {
         const indicator: any = document.getElementsByClassName(
             'rbc-current-time-indicator'
@@ -109,9 +126,36 @@ const MyBookings: React.FC = () => {
     const slotSelect = (e: SlotInfo) => {
         setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
         setSelectedEnd(moment(e.end).format('HH:mm'));
-        setOpenSlot(!openSlot);
+        setOpenSlot(true);
+
+        setEmptybookings([
+            {
+                start: moment(e.start).toDate(),
+                end: moment(e.end).toDate(),
+                label: 'Book event',
+                allDay: false,
+            },
+        ]);
+        return CustomEvent(e.slots);
     };
-    console.log(openSlot);
+    const positionClass = moment(selectedStart).format('dddd');
+
+    const initialValues = {
+        test: '',
+    };
+
+    const formik = useFormik({
+        initialValues: initialValues,
+        onSubmit: (values) => handleSubmit(values),
+        validateOnBlur: true,
+        validateOnChange: false,
+        enableReinitialize: true,
+        validationSchema: Yup.object(),
+    });
+
+    const handleSubmit = (values: any) => {
+        setSidebarOpen(false);
+    };
 
     return (
         <MainWrapper>
@@ -133,7 +177,9 @@ const MyBookings: React.FC = () => {
                             formats={{
                                 timeGutterFormat: 'HH:mm',
                             }}
-                            events={bookings ? bookings : []}
+                            events={
+                                bookings ? union(bookings, emptyBookings) : []
+                            }
                             toolbar={false}
                             date={value}
                             view="week"
@@ -150,15 +196,32 @@ const MyBookings: React.FC = () => {
                             scrollToTime={defaultScrollTime}
                             showMultiDayTimes={true}
                             onSelectSlot={(e) => slotSelect(e)}
-                            step={50}
-                            // timeslots={1}
+                            step={15}
+                            timeslots={1}
+                            longPressThreshold={10}
                         />
                     </div>
                     {openSlot ? (
                         <ParentCalendarSlots
+                            setSidebarOpen={(e) => setSidebarOpen(e)}
                             start={`${selectedStart}`}
                             end={`${selectedEnd}`}
                             handleClose={(e) => setOpenSlot(e)}
+                            positionClass={`${
+                                positionClass === 'Monday'
+                                    ? 'modal--parent--monday'
+                                    : positionClass === 'Tuesday'
+                                    ? 'modal--parent--tuesday'
+                                    : positionClass === 'Wednesday'
+                                    ? 'modal--parent--wednesday'
+                                    : positionClass === 'Thursday'
+                                    ? 'modal--parent--thursday'
+                                    : positionClass === 'Friday'
+                                    ? 'modal--parent--friday'
+                                    : positionClass === 'Saturday'
+                                    ? 'modal--parent--saturday'
+                                    : 'modal--parent--sunday'
+                            }`}
                         />
                     ) : (
                         <></>
@@ -184,6 +247,132 @@ const MyBookings: React.FC = () => {
                         />
                     </div>
                 </div>
+                {sidebarOpen ? (
+                    <Sidebar
+                        sideBarIsOpen={sidebarOpen}
+                        title="ADD NEW CARD"
+                        onSubmit={formik.handleSubmit}
+                        closeSidebar={() => setSidebarOpen(false)}
+                        cancelLabel="Cancel"
+                        submitLabel="Add New Card"
+                        children={
+                            <FormikProvider value={formik}>
+                                <Form>
+                                    {/* <div>{JSON.stringify(formikStepTwo.values, null, 2)}</div> */}
+                                    <div className="field">
+                                        <label
+                                            htmlFor="cardFirstName"
+                                            className="field__label"
+                                        >
+                                            {t(
+                                                'REGISTER.CARD_DETAILS.FIRST_NAME'
+                                            )}
+                                        </label>
+                                        <TextField
+                                            name="cardFirstName"
+                                            id="cardFirstName"
+                                            placeholder="Enter First Name"
+                                            // disabled={isLoading}
+                                        />
+                                    </div>
+                                    <div className="field">
+                                        <label
+                                            htmlFor="cardLastName"
+                                            className="field__label"
+                                        >
+                                            {t(
+                                                'REGISTER.CARD_DETAILS.LAST_NAME'
+                                            )}
+                                        </label>
+                                        <TextField
+                                            name="cardLastName"
+                                            id="cardLastName"
+                                            placeholder="Enter Last Name"
+                                            // disabled={isLoading}
+                                        />
+                                    </div>
+                                    <div className="field">
+                                        <label
+                                            htmlFor="cardNumber"
+                                            className="field__label"
+                                        >
+                                            {t(
+                                                'REGISTER.CARD_DETAILS.CARD_NUMBER'
+                                            )}
+                                        </label>
+                                        <TextField
+                                            type="number"
+                                            name="cardNumber"
+                                            id="cardNumber"
+                                            placeholder="**** **** **** ****"
+                                            // disabled={isLoading}
+                                        />
+                                    </div>
+                                    <div className="field field__file">
+                                        <div className="flex">
+                                            <div className="field w--100 mr-6">
+                                                <label
+                                                    htmlFor="expiryDate"
+                                                    className="field__label"
+                                                >
+                                                    {t(
+                                                        'REGISTER.CARD_DETAILS.EXPIRY_DATE'
+                                                    )}
+                                                </label>
+                                                <ExpDateField
+                                                    name="expiryDate"
+                                                    id="expiryDate"
+                                                    placeholder="MM / YY"
+                                                    // disabled={isLoading}
+                                                />
+                                            </div>
+
+                                            <div className="field w--100">
+                                                <label
+                                                    htmlFor="cvv"
+                                                    className="field__label"
+                                                >
+                                                    {t(
+                                                        'REGISTER.CARD_DETAILS.CVV'
+                                                    )}
+                                                </label>
+                                                <TextField
+                                                    max={3}
+                                                    maxLength={3}
+                                                    type="number"
+                                                    name="cvv"
+                                                    id="cvv"
+                                                    placeholder="***"
+                                                    // disabled={isLoading}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="field">
+                                        <label
+                                            htmlFor="zipCode"
+                                            className="field__label"
+                                        >
+                                            {t(
+                                                'REGISTER.CARD_DETAILS.ZIP_CODE'
+                                            )}
+                                        </label>
+                                        <TextField
+                                            type="number"
+                                            name="zipCode"
+                                            id="zipCode"
+                                            placeholder="Enter ZIP / Postal Code"
+                                            // disabled={isLoading}
+                                        />
+                                    </div>
+                                </Form>
+                            </FormikProvider>
+                        }
+                    />
+                ) : (
+                    <></>
+                )}
             </div>
         </MainWrapper>
     );
