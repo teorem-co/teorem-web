@@ -1,0 +1,34 @@
+/*
+    components: lessons-list.scss
+*/
+
+.lessons-list {
+    margin-right: calc(#{$unit} * 8);
+    margin-left: calc(#{$unit} * 6);
+
+    &__item {
+        display: flex;
+        align-items: center;
+        border: 1px solid $grey-ed;
+        border-radius: $border-rounded;
+
+        margin-bottom: calc(#{$unit} * 4);
+        padding: calc(#{$unit} * 4);
+        box-shadow: 2px 4px 16px 0 rgba(0, 0, 0, 0.05);
+
+        &__img {
+            flex-shrink: 0;
+            display: block;
+            width: 52px;
+            height: 52px;
+            border-radius: $border-circle;
+            border: 3px solid rgb(124, 106, 244, 10%);
+            object-fit: cover;
+        }
+
+        &__info {
+            flex-grow: 1;
+            margin: 0 calc(#{$unit} * 2);
+        }
+    }
+}

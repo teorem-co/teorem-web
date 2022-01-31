@@ -49,13 +49,13 @@ const MyReviews = () => {
 
     return (
         <MainWrapper>
-            <div className="card--search">
-                <div className="card--search__head">
+            <div className="card--secondary">
+                <div className="card--secondary__head">
                     <h2 className="type--wgt--bold type--lg">
                         {t('MY_REVIEWS.TITLE')}
                     </h2>
                 </div>
-                <div className="card--search__body my-reviews__wrapper">
+                <div className="card--secondary__body my-reviews__wrapper">
                     <div className="my-reviews__main">
                         <div className="mb-10 flex--primary">
                             <div>

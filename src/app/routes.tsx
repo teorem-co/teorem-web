@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { NavLink, Route, Switch } from 'react-router-dom';
 
+import CompletedLessons from './features/completedLessons/CompletedLessons';
 import Login from './features/login/Login';
 import MyBookings from './features/my-bookings/MyBookings';
 import AdditionalInformation from './features/my-profile/pages/AdditionalInformation';
@@ -30,6 +31,7 @@ export enum PATHS {
     SEARCH_TUTORS_TUTOR_PROFILE = '/search-tutors/:tutorId',
     ONBOARDING = '/onboarding',
     MY_REVIEWS = '/my-reviews',
+    COMPLETED_LESSONS = '/completed-lessons',
 }
 
 export enum PROFILE_PATHS {
@@ -137,6 +139,18 @@ const ROUTES: any = [
                 roles={[Role.Parent, Role.Student, Role.SuperAdmin]}
             >
                 <TutorProfile />
+            </PermissionsGate>
+        ),
+    },
+    {
+        path: PATHS.COMPLETED_LESSONS,
+        key: 'COMPLETED_LESSONS',
+        exact: true,
+        component: () => (
+            <PermissionsGate
+                roles={[Role.Parent, Role.Student, Role.SuperAdmin]}
+            >
+                <CompletedLessons />
             </PermissionsGate>
         ),
     },
@@ -256,6 +270,12 @@ export const menuPerRole: IMenuPerRole = {
             key: 'SEARCH_TUTORS',
             path: PATHS.SEARCH_TUTORS,
         },
+        {
+            name: 'COMPLETED_LESSONS',
+            icon: 'completed-lessons',
+            key: 'COMPLETED_LESSONS',
+            path: PATHS.COMPLETED_LESSONS,
+        },
     ],
     [Role.Parent]: [
         {
@@ -269,6 +289,12 @@ export const menuPerRole: IMenuPerRole = {
             icon: 'search-tutors',
             key: 'SEARCH_TUTORS',
             path: PATHS.SEARCH_TUTORS,
+        },
+        {
+            name: 'COMPLETED_LESSONS',
+            icon: 'completed-lessons',
+            key: 'COMPLETED_LESSONS',
+            path: PATHS.COMPLETED_LESSONS,
         },
     ],
     [Role.SuperAdmin]: [
@@ -291,6 +317,12 @@ export const menuPerRole: IMenuPerRole = {
             rootPath: PROFILE_PATHS.MY_PROFILE,
             path: PROFILE_PATHS.MY_PROFILE_INFO_PERSONAL,
         },
+        {
+            name: 'COMPLETED_LESSONS',
+            icon: 'completed-lessons',
+            key: 'COMPLETED_LESSONS',
+            path: PATHS.COMPLETED_LESSONS,
+        },
     ],
     [Role.Child]: [
         {
@@ -298,6 +330,12 @@ export const menuPerRole: IMenuPerRole = {
             icon: 'calendar',
             key: 'MY_BOOKINGS',
             path: PATHS.MY_BOOKINGS,
+        },
+        {
+            name: 'COMPLETED_LESSONS',
+            icon: 'completed-lessons',
+            key: 'COMPLETED_LESSONS',
+            path: PATHS.COMPLETED_LESSONS,
         },
     ],
 };

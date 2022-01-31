@@ -101,7 +101,7 @@ const MyBookings: React.FC = () => {
 
     return (
         <MainWrapper>
-            <div className="my-bookings">
+            <div className="layout--primary">
                 <div>
                     <div className="card--calendar">
                         <div className="flex--primary p-6">
