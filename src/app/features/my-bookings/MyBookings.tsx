@@ -133,6 +133,7 @@ const MyBookings: React.FC = () => {
                                 event: (event) => CustomEvent(event),
                             }}
                             scrollToTime={defaultScrollTime}
+                            showMultiDayTimes={true}
                         />
                     </div>
                 </div>
