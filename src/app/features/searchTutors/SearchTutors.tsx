@@ -332,8 +332,8 @@ const SearchTutors = () => {
 
     return (
         <MainWrapper>
-            <div className="card--search">
-                <div className="card--search__head">
+            <div className="card--secondary">
+                <div className="card--secondary__head">
                     <div className="type--lg type--wgt--bold">
                         {t('SEARCH_TUTORS.TUTOR_LIST')}
                     </div>
@@ -392,7 +392,7 @@ const SearchTutors = () => {
                         </button>
                     </div>
                 </div>
-                <div className="card--search__body">
+                <div className="card--secondary__body">
                     <div className="mb-10 flex--primary">
                         <div>
                             <span className="type--uppercase type--color--tertiary">

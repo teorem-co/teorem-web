@@ -2,12 +2,18 @@ import { ICompletedLesson } from '../../../constants/completedLessonsList';
 
 interface Props {
     lesson: ICompletedLesson;
+    handleActiveLessons: (lessonId: string) => void;
 }
+
 const CompletedLessonsItem = (props: Props) => {
-    const { lesson } = props;
+    const { lesson, handleActiveLessons } = props;
 
     return (
-        <div key={lesson.id} className="lessons-list__item">
+        <div
+            key={lesson.id}
+            className="lessons-list__item"
+            onClick={() => handleActiveLessons(lesson.id)}
+        >
             <img
                 className="lessons-list__item__img"
                 src={lesson.tutorImg}

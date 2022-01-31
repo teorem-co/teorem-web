@@ -27,4 +27,23 @@
         font-size: 24px;
         color: $white;
     }
+
+    &__profile {
+        flex-shrink: 0;
+        display: block;
+        border-radius: $border-circle;
+        border: 3px solid rgb(124, 106, 244, 10%);
+        object-fit: cover;
+
+        &--sm {
+            width: 52px;
+            height: 52px;
+        }
+
+        &--md {
+            width: 80px;
+            height: 80px;
+            border-width: 5px;
+        }
+    }
 }

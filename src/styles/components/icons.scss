@@ -32,6 +32,10 @@
         width: calc(#{$unit} * 8);
         height: calc(#{$unit} * 8);
     }
+    &--lg {
+        width: calc(#{$unit} * 10);
+        height: calc(#{$unit} * 10);
+    }
 
     //icons
     &--arrow-left {
@@ -62,6 +66,9 @@
     }
     &--completed-lessons {
         mask-image: url('../../assets/icons/completed-lessons.svg');
+    }
+    &--download {
+        mask-image: url('../../assets/icons/download.svg');
     }
     &--error {
         mask-image: url('../../assets/icons/error.svg');
@@ -107,6 +114,9 @@
     }
     &--info {
         mask-image: url('../../assets/icons/info.svg');
+    }
+    &--play {
+        mask-image: url('../../assets/icons/play.svg');
     }
     &--subject {
         mask-image: url('../../assets/icons/subject.svg');

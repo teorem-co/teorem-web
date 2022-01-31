@@ -10,17 +10,7 @@
         border-radius: $border-rounded;
     }
 
-    &--calendar {
-        background-color: $white;
-        border: 1px solid $grey-ed;
-        border-radius: $border-rounded;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-    }
-
-    &--search {
+    &--secondary {
         height: calc(100% - 48px);
         overflow-y: auto;
         background-color: $white;
@@ -46,6 +36,21 @@
         &__body {
             padding: calc(#{$unit} * 10) calc(#{$unit} * 6);
         }
+
+        &--alt {
+            margin: 0;
+            height: 100%;
+        }
+    }
+
+    &--calendar {
+        background-color: $white;
+        border: 1px solid $grey-ed;
+        border-radius: $border-rounded;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
     }
 
     &--lessons {
@@ -79,9 +84,11 @@
                 width: 360px;
                 flex-shrink: 0;
                 border-right: 1px solid $grey-ed;
+                overflow-y: auto;
             }
             &__main {
                 flex-grow: 1;
+                padding: calc(#{$unit} * 10) calc(#{$unit} * 14);
             }
         }
     }
