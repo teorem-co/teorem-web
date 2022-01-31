@@ -6,6 +6,7 @@ import completedLessonsList, {
     IVideoLesson,
 } from '../../constants/completedLessonsList';
 import CompletedLessonsItem from './components/CompletedLessonsItem';
+import VideoLessonItem from './components/VideoLessonItem';
 
 const CompletedLessons = () => {
     const [activeLesson, setActiveLesson] = useState<ICompletedLesson | null>(
@@ -44,6 +45,11 @@ const CompletedLessons = () => {
                                         return (
                                             <CompletedLessonsItem
                                                 lesson={lesson}
+                                                activeLesson={
+                                                    activeLesson
+                                                        ? activeLesson.id
+                                                        : ''
+                                                }
                                                 handleActiveLessons={
                                                     handleActiveLessons
                                                 }
@@ -91,31 +97,11 @@ const CompletedLessons = () => {
                                             {activeLesson.lessons.map(
                                                 (videoLesson: IVideoLesson) => {
                                                     return (
-                                                        <div
-                                                            key={videoLesson.id}
-                                                            className="dash-wrapper__item"
-                                                        >
-                                                            <div className="dash-wrapper__item__element flex--primary">
-                                                                <div className="flex flex--center">
-                                                                    <i className="icon icon--lg icon--play icon--primary"></i>
-                                                                    <div className="ml-4">
-                                                                        <div className="type--wgt--bold">
-                                                                            {
-                                                                                videoLesson.name
-                                                                            }
-                                                                        </div>
-                                                                        <div className="type--color--secondary">
-                                                                            {
-                                                                                videoLesson.date
-                                                                            }
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div>
-                                                                    <i className="icon icon--base icon--download icon--primary"></i>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                        <VideoLessonItem
+                                                            videoLesson={
+                                                                videoLesson
+                                                            }
+                                                        />
                                                     );
                                                 }
                                             )}

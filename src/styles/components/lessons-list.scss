@@ -16,6 +16,19 @@
         padding: calc(#{$unit} * 4);
         box-shadow: 2px 4px 16px 0 rgba(0, 0, 0, 0.05);
 
+        &.active {
+            background-color: $color-primary;
+            color: $white;
+
+            .type--color--brand {
+                color: $color-primary-light;
+            }
+
+            .lessons-list__item__img {
+                border-color: rgba(255, 255, 255, 0.2);
+            }
+        }
+
         &__img {
             flex-shrink: 0;
             display: block;
