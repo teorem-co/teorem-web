@@ -1,7 +1,7 @@
-import IBooking from '../../../../interfaces/IBooking';
 import { baseService } from '../../../baseService';
 import { IUpcomingLessons } from '../../../constants/upcomingLessons';
 import { HttpMethods } from '../../../lookups/httpMethods';
+import IBooking from '../interfaces/IBooking';
 
 //bookings/week/:tutorId
 

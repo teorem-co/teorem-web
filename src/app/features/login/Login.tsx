@@ -8,6 +8,7 @@ import * as Yup from 'yup';
 import heroImg from '../../../assets/images/hero-img.png';
 import TextField from '../../components/form/TextField';
 import { useAppSelector } from '../../hooks';
+import { Role } from '../../lookups/role';
 import { PATHS } from '../../routes';
 import { useLoginMutation } from '../../services/authService';
 import logo from './../../../assets/images/logo.svg';
@@ -59,14 +60,22 @@ const Login: React.FC = () => {
     });
 
     useEffect(() => {
-        if (userToken) {
-            history.push(PATHS.MY_BOOKINGS);
+        if (userToken && userRoleAbrv) {
+            if (userRoleAbrv === Role.Tutor || userRoleAbrv === Role.Child) {
+                history.push(PATHS.MY_BOOKINGS);
+            } else {
+                history.push(PATHS.SEARCH_TUTORS);
+            }
         }
     }, []);
 
     useEffect(() => {
         if (isSuccessLogin && loginData && userRoleAbrv) {
-            history.push(PATHS.MY_BOOKINGS);
+            if (userRoleAbrv === Role.Tutor || userRoleAbrv === Role.Child) {
+                history.push(PATHS.MY_BOOKINGS);
+            } else {
+                history.push(PATHS.SEARCH_TUTORS);
+            }
         }
     }, [userRoleAbrv]);
 
