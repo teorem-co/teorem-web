@@ -135,7 +135,7 @@ const TutorItem: FC<Props> = (props: Props) => {
                     </div>
                     <div>
                         <Link
-                            className="btn btn--primary btn--base w--100"
+                            className="btn btn--primary btn--base w--100 type--center"
                             to={`${PATHS.SEARCH_TUTORS}/${tutor.userId}`}
                         >
                             {t('SEARCH_TUTORS.VIEW_PROFILE')}
