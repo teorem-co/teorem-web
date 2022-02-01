@@ -110,7 +110,8 @@ export const EN_US = {
             ADDITIONAL_INFORMATION_TITLE: 'Additional information',
             ADDITIONAL_INFORMATION_DESC:
                 'Edit and update your additional information',
-            UPDATE_SUCCESS_TOAST: 'Additional information updated!',
+            UPDATE_ADDITIONAL_INFO_SUCCESS: 'Additional information updated!',
+            UPDATE_TEACHINGS_SUCCESS: 'My teachings updated!',
             FORM: {
                 ABOUT_TUTOR_LABEL: 'Tell us more about yourself*',
                 ABOUT_TUTOR_PLACEHOLDER:

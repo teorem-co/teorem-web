@@ -9,9 +9,14 @@ interface ITutorAvailable {
     rows: ITutor[];
 }
 
-interface ITutorAdditionalInfo {
+interface IUpdateAdditionalInfo {
     aboutTutor: string;
     aboutLessons: string;
+}
+
+interface IUpdateMyTeachings {
+    currentOccupation: string;
+    yearsOfExperience: string;
 }
 
 const URL = 'tutors';
@@ -46,10 +51,19 @@ export const tutorService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
-        updateAditionalInfo: builder.mutation<void, ITutorAdditionalInfo>({
+        updateAditionalInfo: builder.mutation<void, IUpdateAdditionalInfo>({
             query(body) {
                 return {
                     url: `${URL}/aditional-information`,
+                    method: 'PUT',
+                    body,
+                };
+            },
+        }),
+        updateMyTeachings: builder.mutation<void, IUpdateMyTeachings>({
+            query(body) {
+                return {
+                    url: `${URL}/my-teachings`,
                     method: 'PUT',
                     body,
                 };
@@ -71,4 +85,5 @@ export const {
     useLazyGetTutorProfileDataQuery,
     useUpdateAditionalInfoMutation,
     useGetTutorProfileDataQuery,
+    useUpdateMyTeachingsMutation,
 } = tutorService;

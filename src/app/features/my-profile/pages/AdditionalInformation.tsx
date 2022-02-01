@@ -86,7 +86,7 @@ const AdditionalInformation = () => {
                 getProfileData(tutorId);
             }
             toastService.success(
-                t('SEARCH_TUTORS.TUTOR_PROFILE.UPDATE_SUCCESS_TOAST')
+                t('SEARCH_TUTORS.TUTOR_PROFILE.UPDATE_ADDITIONAL_INFO_SUCCESS')
             );
         }
     }, [isSuccessUpdateInfo]);

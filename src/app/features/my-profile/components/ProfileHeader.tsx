@@ -13,9 +13,10 @@ const ProfileHeader: FC<Props> = (props: Props) => {
                 My Profile
             </div>
             <div>
-                <button className="btn btn--clear btn--base type--wgt--bold">
+                {/* Preview profile has to be div, because of formik validation bug */}
+                <div className="btn btn--clear btn--base type--wgt--bold">
                     Preview Profile
-                </button>
+                </div>
             </div>
         </div>
     );

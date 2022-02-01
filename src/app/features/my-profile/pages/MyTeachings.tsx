@@ -4,9 +4,15 @@ import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 
-import { useGetProfileProgressQuery } from '../../../../services/tutorService';
+import {
+    useGetProfileProgressQuery,
+    useLazyGetTutorProfileDataQuery,
+    useUpdateMyTeachingsMutation,
+} from '../../../../services/tutorService';
 import TextField from '../../../components/form/TextField';
 import MainWrapper from '../../../components/MainWrapper';
+import toastService from '../../../services/toastService';
+import { getUserId } from '../../../utils/getUserId';
 import AddSubjectSidebar from '../components/AddSubjectSidebar';
 import EditSubjectSidebar from '../components/EditSubjectSidebar';
 import ProfileCompletion from '../components/ProfileCompletion';
@@ -24,17 +30,81 @@ const MyTeachings = () => {
 
     const { data: profileProgress } = useGetProfileProgressQuery();
 
-    const history = useHistory();
-
-    const initialValues: Values = {
-        occupation: '',
-        yearsOfExperience: '',
-    };
+    const tutorId = getUserId();
 
     const { t } = useTranslation();
 
+    const [
+        getProfileData,
+        {
+            data: myTeachingsData,
+            isSuccess: isSuccessMyTeachings,
+            isLoading: isLoadingMyTeachings,
+        },
+    ] = useLazyGetTutorProfileDataQuery({
+        selectFromResult: ({ data, isSuccess, isLoading }) => ({
+            data: {
+                occupation: data?.currentOccupation,
+                yearsOfExperience: data?.yearsOfExperience,
+                tutorSubjects: data?.TutorSubjects,
+            },
+            isSuccess,
+            isLoading,
+        }),
+    });
+
+    const [
+        updateMyTeachings,
+        {
+            isSuccess: isSuccessUpdateMyTeachings,
+            isLoading: isUpdatingMyTeachings,
+        },
+    ] = useUpdateMyTeachingsMutation();
+
+    useEffect(() => {
+        if (tutorId) {
+            getProfileData(tutorId);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (
+            isSuccessMyTeachings &&
+            myTeachingsData.occupation &&
+            myTeachingsData.yearsOfExperience
+        ) {
+            const values = {
+                occupation: myTeachingsData.occupation,
+                yearsOfExperience: myTeachingsData.yearsOfExperience,
+            };
+            setInitialValues(values);
+        }
+    }, [isSuccessMyTeachings]);
+
+    useEffect(() => {
+        if (isSuccessUpdateMyTeachings) {
+            if (tutorId) {
+                getProfileData(tutorId);
+            }
+            toastService.success(
+                t('SEARCH_TUTORS.TUTOR_PROFILE.UPDATE_TEACHINGS_SUCCESS')
+            );
+        }
+    }, [isSuccessUpdateMyTeachings]);
+
+    const history = useHistory();
+
+    const [initialValues, setInitialValues] = useState<Values>({
+        occupation: '',
+        yearsOfExperience: '',
+    });
+
     const handleSubmit = (values: Values) => {
-        const test = values;
+        const updateValues = {
+            currentOccupation: values.occupation,
+            yearsOfExperience: values.yearsOfExperience,
+        };
+        updateMyTeachings(updateValues);
     };
 
     const formik = useFormik({
@@ -51,9 +121,7 @@ const MyTeachings = () => {
         }),
     });
 
-    useEffect(() => {
-        console.log(formik.values);
-    }, [formik.values]);
+    const isLoading = isLoadingMyTeachings || isUpdatingMyTeachings;
 
     const handleAddSubject = () => {
         //add subject submit
@@ -119,6 +187,7 @@ const MyTeachings = () => {
                                                         ? false
                                                         : true
                                                 }
+                                                disabled={isLoading}
                                             />
                                         </div>
                                     </div>
@@ -145,6 +214,7 @@ const MyTeachings = () => {
                                                         ? false
                                                         : true
                                                 }
+                                                disabled={isLoading}
                                             />
                                         </div>
                                     </div>
@@ -188,56 +258,54 @@ const MyTeachings = () => {
                                     </div>
                                     {/* Map through subjects here */}
                                     {/* Test fields */}
-                                    <div className="dash-wrapper__item">
-                                        <div
-                                            className="dash-wrapper__item__element"
-                                            onClick={() => {
-                                                history.push(
-                                                    '?level=d696d5b3-ffec-4b76-91d7-6413ca217e84&subject=5d205fc3-0d05-4a1e-81d5-4dd216dd6204&price=312'
-                                                );
-                                                setEditSidebarOpen(true);
-                                            }}
-                                        >
-                                            <div className="flex--primary cur--pointer">
-                                                <div>
-                                                    <div className="type--wgt--bold">
-                                                        English
+                                    {myTeachingsData.tutorSubjects ? (
+                                        myTeachingsData.tutorSubjects.map(
+                                            (subject) => (
+                                                <div className="dash-wrapper__item">
+                                                    <div
+                                                        className="dash-wrapper__item__element"
+                                                        onClick={() => {
+                                                            history.push(
+                                                                `?level=${subject.Level.id}&subject=${subject.Subject.id}&price=${subject.price}`
+                                                            );
+                                                            setEditSidebarOpen(
+                                                                true
+                                                            );
+                                                        }}
+                                                    >
+                                                        <div className="flex--primary cur--pointer">
+                                                            <div>
+                                                                <div className="type--wgt--bold">
+                                                                    {
+                                                                        subject
+                                                                            .Subject
+                                                                            .name
+                                                                    }
+                                                                </div>
+                                                                <div>
+                                                                    {
+                                                                        subject
+                                                                            .Level
+                                                                            .name
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                            <div>
+                                                                <i className="icon icon--base icon--edit icon--primary"></i>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div>A level, IB</div>
                                                 </div>
-                                                <div>
-                                                    <i className="icon icon--base icon--edit icon--primary"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="dash-wrapper__item">
-                                        <div
-                                            className="dash-wrapper__item__element"
-                                            onClick={() => {
-                                                history.push(
-                                                    '?level=xsdsadsadsadsada&subject=42342432432&price=22222'
-                                                );
-                                                setEditSidebarOpen(true);
-                                            }}
-                                        >
-                                            <div className="flex--primary cur--pointer">
-                                                <div>
-                                                    <div className="type--wgt--bold">
-                                                        History
-                                                    </div>
-                                                    <div>University</div>
-                                                </div>
-                                                <div>
-                                                    <i className="icon icon--base icon--edit icon--primary"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                            )
+                                        )
+                                    ) : (
+                                        <></>
+                                    )}
                                 </div>
                                 <button
                                     className="btn btn--primary btn--lg mt-6"
                                     type="submit"
+                                    disabled={isLoading}
                                 >
                                     Save
                                 </button>
