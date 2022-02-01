@@ -1,9 +1,5 @@
-import IUser from '../../interfaces/IUser';
-
-interface ITutor {
-    User: IUser;
-    userId: string;
-}
+import ITutor from '../../../../interfaces/ITutor';
+import IUser from '../../../../interfaces/IUser';
 
 export interface IUpcomingLessons {
     id: string;
@@ -16,3 +12,5 @@ export interface IUpcomingLessons {
     User: IUser;
     Tutor: ITutor;
 }
+
+export default IUpcomingLessons;
