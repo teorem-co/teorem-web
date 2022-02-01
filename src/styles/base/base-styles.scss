@@ -22,3 +22,31 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
+.star {
+    &--1 {
+        path:nth-child(1) {
+            fill: $color-primary;
+        }
+    }
+    &--2 {
+        path:nth-child(-n + 2) {
+            fill: $color-primary;
+        }
+    }
+    &--3 {
+        path:nth-child(-n + 3) {
+            fill: $color-primary;
+        }
+    }
+    &--4 {
+        path:nth-child(-n + 4) {
+            fill: $color-primary;
+        }
+    }
+    &--5 {
+        path:nth-child(-n + 5) {
+            fill: $color-primary;
+        }
+    }
+}

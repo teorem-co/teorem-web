@@ -1,8 +1,10 @@
 import { Form, FormikProvider, useFormik } from 'formik';
+import { t } from 'i18next';
 import { FC, useState } from 'react';
 import * as Yup from 'yup';
 
 import TextArea from '../../../components/form/MyTextArea';
+import RatingField from '../../../components/form/RatingField';
 import TextField from '../../../components/form/TextField';
 
 interface Props {
@@ -12,7 +14,7 @@ interface Props {
 
 interface InitialValues {
     title: string;
-    rating: number;
+    rating: string;
     review: string;
 }
 
@@ -21,7 +23,7 @@ const ReviewModal: FC<Props> = (props: Props) => {
 
     const [initialValues, setInitialValues] = useState<InitialValues>({
         title: '',
-        rating: 0,
+        rating: '',
         review: '',
     });
 
@@ -32,9 +34,9 @@ const ReviewModal: FC<Props> = (props: Props) => {
         validateOnChange: false,
         enableReinitialize: true,
         validationSchema: Yup.object().shape({
-            title: Yup.string().required('required'),
-            rating: Yup.string().required('required'),
-            review: Yup.string().required('required'),
+            title: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            rating: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            review: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
         }),
     });
 
@@ -82,10 +84,10 @@ const ReviewModal: FC<Props> = (props: Props) => {
                                     >
                                         Rating*
                                     </label>
-                                    <TextField
-                                        name="rating"
-                                        id="rating"
-                                        placeholder="rating"
+                                    <RatingField
+                                        form={formik}
+                                        field={formik.getFieldProps('rating')}
+                                        meta={formik.getFieldMeta('rating')}
                                     />
                                 </div>
                                 <div className="field">

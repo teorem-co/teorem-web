@@ -8,6 +8,10 @@
     top: 50%;
     width: 500px;
 
+    //handle if modal is higher than view height
+    max-height: 90vh;
+    overflow-y: auto;
+
     transform: translate(-50%, -50%);
     background-color: $white;
     padding: calc(#{$unit} * 6);
