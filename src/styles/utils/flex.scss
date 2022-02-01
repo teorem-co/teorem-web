@@ -5,6 +5,10 @@
 .flex {
     display: flex;
 
+    &--inline {
+        display: inline-flex;
+    }
+
     &--primary {
         display: flex;
         align-items: center;

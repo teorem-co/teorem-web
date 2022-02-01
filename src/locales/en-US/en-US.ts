@@ -121,6 +121,10 @@ export const EN_US = {
                 SUBMIT_BTN: 'Save',
             },
         },
+        PRICE_SORT: 'Sort by pricing',
+        SORT_LOW: 'Low',
+        SORT_HIGH: 'High',
+        SORT_NONE: 'Click to sort',
     },
     ROLE_SELECTION: {
         TITLE: 'Register',
