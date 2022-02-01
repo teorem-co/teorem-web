@@ -1,9 +1,11 @@
 import { t } from 'i18next';
 import { uniqBy } from 'lodash';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import ISubject from '../../../../interfaces/ISubject';
 import ITutor from '../../../../interfaces/ITutor';
+import ITutorSubject from '../../../../interfaces/ITutorSubject';
 import ImageCircle from '../../../components/ImageCircle';
 import { PATHS } from '../../../routes';
 import CustomSubjectList from './CustomSubjectList';
@@ -16,6 +18,19 @@ const TutorItem: FC<Props> = (props: Props) => {
     const { tutor } = props;
 
     const [showMore, setShowMore] = useState<boolean>(false);
+    const [uniqueSubjects, setUniqueSubjects] = useState<ISubject[]>([]);
+
+    useEffect(() => {
+        if (tutor.TutorSubjects.length > 0) {
+            const tutorNames: ISubject[] = tutor.TutorSubjects.map(
+                (item: ITutorSubject) => {
+                    const test = item.Subject;
+                    return test;
+                }
+            );
+            setUniqueSubjects(tutorNames);
+        }
+    }, [tutor]);
 
     const handleLongText = (text: string) => {
         let showText: string = '';
@@ -75,7 +90,7 @@ const TutorItem: FC<Props> = (props: Props) => {
                     </div>
                     <div
                         className={`type--color--secondary ${
-                            tutor.Subjects.length > 0 ? 'mb-6' : ''
+                            tutor.TutorSubjects.length > 0 ? 'mb-6' : ''
                         } w--632--max`}
                     >
                         {tutor.aboutTutor
@@ -86,9 +101,9 @@ const TutorItem: FC<Props> = (props: Props) => {
                                 : ''
                             : t('SEARCH_TUTORS.NOT_FILLED')}
                     </div>
-                    {tutor.Subjects ? (
+                    {tutor.TutorSubjects.length > 0 ? (
                         <CustomSubjectList
-                            subjects={uniqBy(tutor.Subjects, 'name')}
+                            subjects={uniqBy(uniqueSubjects, 'name')}
                         />
                     ) : (
                         <></>

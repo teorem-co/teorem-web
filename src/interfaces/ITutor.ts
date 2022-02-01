@@ -1,5 +1,4 @@
-import ILevel from './ILevel';
-import ISubject from './ISubject';
+import ITutorSubject from './ITutorSubject';
 import IUser from './IUser';
 
 export default interface ITutor {
@@ -9,6 +8,5 @@ export default interface ITutor {
     aboutTutor: string;
     aboutLessons: string;
     User: IUser;
-    Levels: ILevel[];
-    Subjects: ISubject[];
+    TutorSubjects: ITutorSubject[];
 }

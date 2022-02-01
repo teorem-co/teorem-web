@@ -1,5 +1,9 @@
+import ILevel from './ILevel';
+import ISubject from './ISubject';
+
 export default interface ITutorSubject {
     id: string;
-    userId: string;
-    subjectId: string;
+    Subject: ISubject;
+    Level: ILevel;
+    price: number;
 }
