@@ -83,14 +83,23 @@ const MyReviews = () => {
                             </div>
                         ) : (
                             <>
-                                <div className="reviews-list">
-                                    {myReviews && myReviews.rows.length > 0 ? (
-                                        myReviews.rows.map(
-                                            (item: IMyReview) => (
-                                                <ReviewItem reviewItem={item} />
-                                            )
-                                        )
-                                    ) : (
+                                {myReviews && myReviews.rows.length > 0 ? (
+                                    myReviews.rows.map((item: IMyReview) => (
+                                        <div className="reviews-list">
+                                            <ReviewItem reviewItem={item} />
+                                            <Pagination
+                                                activePageClass={
+                                                    'pagination--active'
+                                                }
+                                                currPage={params.page}
+                                                itemsPerPage={params.rpp}
+                                                totalItems={1000}
+                                                paginate={paginate}
+                                            />
+                                        </div>
+                                    ))
+                                ) : (
+                                    <div className="reviews-list">
                                         <div className="type--center mt-22">
                                             <h1 className="type--xxl">
                                                 {t(
@@ -101,15 +110,8 @@ const MyReviews = () => {
                                                 {t('MY_REVIEWS.NO_RESULT.DESC')}
                                             </p>
                                         </div>
-                                    )}
-                                </div>
-                                <Pagination
-                                    activePageClass={'pagination--active'}
-                                    currPage={params.page}
-                                    itemsPerPage={params.rpp}
-                                    totalItems={1000}
-                                    paginate={paginate}
-                                />
+                                    </div>
+                                )}
                             </>
                         )}
                     </div>
