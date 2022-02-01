@@ -193,5 +193,15 @@
                 }
             }
         }
+
+        &__savebtn {
+            opacity: 1;
+
+            &:disabled {
+                opacity: 0;
+                pointer-events: none;
+                user-select: none;
+            }
+        }
     }
 }

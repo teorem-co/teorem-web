@@ -1,4 +1,5 @@
 import { Form, FormikProvider, useFormik } from 'formik';
+import { isEqual } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
@@ -27,6 +28,7 @@ interface Values {
 const MyTeachings = () => {
     const [addSidebarOpen, setAddSidebarOpen] = useState(false);
     const [editSidebarOpen, setEditSidebarOpen] = useState(false);
+    const [saveBtnActive, setSaveBtnActive] = useState(false);
 
     const { data: profileProgress } = useGetProfileProgressQuery();
 
@@ -107,6 +109,14 @@ const MyTeachings = () => {
         updateMyTeachings(updateValues);
     };
 
+    const handleBlur = () => {
+        if (!isEqual(initialValues, formik.values)) {
+            setSaveBtnActive(true);
+        } else {
+            setSaveBtnActive(false);
+        }
+    };
+
     const formik = useFormik({
         initialValues: initialValues,
         onSubmit: handleSubmit,
@@ -163,8 +173,15 @@ const MyTeachings = () => {
                                 <div className="type--color--tertiary w--200--max">
                                     Edit and update your teaching information
                                 </div>
+                                <button
+                                    className={`btn btn--primary btn--lg mt-6 card--profile__savebtn`}
+                                    type="submit"
+                                    disabled={isLoading || !saveBtnActive}
+                                >
+                                    Save
+                                </button>
                             </div>
-                            <div>
+                            <div className="w--800--max">
                                 {/* Text Fields */}
                                 <div className="row">
                                     <div className="col col-12 col-xl-6">
@@ -181,6 +198,7 @@ const MyTeachings = () => {
                                                 name="occupation"
                                                 placeholder="What’s your current occupation"
                                                 className="input input--base"
+                                                onBlur={handleBlur}
                                                 withoutErr={
                                                     formik.errors.occupation &&
                                                     formik.touched.occupation
@@ -206,6 +224,7 @@ const MyTeachings = () => {
                                                 name="yearsOfExperience"
                                                 placeholder="How many years of professional experience you have"
                                                 className="input input--base"
+                                                onBlur={handleBlur}
                                                 withoutErr={
                                                     formik.errors
                                                         .yearsOfExperience &&
@@ -302,13 +321,6 @@ const MyTeachings = () => {
                                         <></>
                                     )}
                                 </div>
-                                <button
-                                    className="btn btn--primary btn--lg mt-6"
-                                    type="submit"
-                                    disabled={isLoading}
-                                >
-                                    Save
-                                </button>
                             </div>
                         </div>
                     </Form>
