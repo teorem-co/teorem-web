@@ -155,11 +155,10 @@ const MyTeachings = () => {
                             {/* Add subject */}
                             <div>
                                 <div className="mb-2 type--wgt--bold">
-                                    Card details
+                                    My Subjects
                                 </div>
                                 <div className="type--color--tertiary w--200--max">
-                                    Select default payment method or add new
-                                    one.
+                                    Edit and update your subjects information
                                 </div>
                             </div>
                             <div>

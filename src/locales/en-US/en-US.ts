@@ -107,6 +107,19 @@ export const EN_US = {
             EMPTY_STATE_ABOUT: 'This tutor has not filled out about me section',
             EMPTY_STATE_LESSON:
                 'This tutor has not filled out his profile about teachings',
+            ADDITIONAL_INFORMATION_TITLE: 'Additional information',
+            ADDITIONAL_INFORMATION_DESC:
+                'Edit and update your additional information',
+            UPDATE_SUCCESS_TOAST: 'Additional information updated!',
+            FORM: {
+                ABOUT_TUTOR_LABEL: 'Tell us more about yourself*',
+                ABOUT_TUTOR_PLACEHOLDER:
+                    'What describes you best, what are your hobbies, approach...',
+                ABOUT_LESSONS_LABEL: 'Tell us more about your lessons*',
+                ABOUT_LESSONS_PLACEHOLDER:
+                    'Describe your lessons, approach, way of teaching...',
+                SUBMIT_BTN: 'Save',
+            },
         },
     },
     ROLE_SELECTION: {

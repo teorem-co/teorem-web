@@ -9,6 +9,11 @@ interface ITutorAvailable {
     rows: ITutor[];
 }
 
+interface ITutorAdditionalInfo {
+    aboutTutor: string;
+    aboutLessons: string;
+}
+
 const URL = 'tutors';
 
 export const tutorService = baseService.injectEndpoints({
@@ -41,7 +46,16 @@ export const tutorService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
-        getTutorProfileData: builder.query<any, string>({
+        updateAditionalInfo: builder.mutation<void, ITutorAdditionalInfo>({
+            query(body) {
+                return {
+                    url: `${URL}/aditional-information`,
+                    method: 'PUT',
+                    body,
+                };
+            },
+        }),
+        getTutorProfileData: builder.query<ITutor, string | undefined>({
             query: (userId) => ({
                 url: `${URL}/${userId}`,
                 method: HttpMethods.GET,
@@ -55,4 +69,6 @@ export const {
     useGetAvailableTutorsQuery,
     useGetProfileProgressQuery,
     useLazyGetTutorProfileDataQuery,
+    useUpdateAditionalInfoMutation,
+    useGetTutorProfileDataQuery,
 } = tutorService;
