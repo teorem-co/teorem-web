@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
 
-import { IUpcomingLessons } from '../../../constants/upcomingLessons';
+import IUpcomingLessons from '../interfaces/IUpcomingLessons';
 
 interface Props {
     upcomingLessons: IUpcomingLessons[];

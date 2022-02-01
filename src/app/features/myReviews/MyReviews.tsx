@@ -5,7 +5,6 @@ import LoaderMyReviews from '../../components/Loaders/LoaderMyReviews';
 import LoaderStatistics from '../../components/Loaders/LoaderStatistics';
 import MainWrapper from '../../components/MainWrapper';
 import Pagination from '../../components/Pagination';
-import ratingsMock from '../../constants/ratings';
 import { useAppSelector } from '../../hooks';
 import Ratings from './components/Ratings';
 import ReviewItem from './components/ReviewItem';
@@ -29,10 +28,14 @@ const MyReviews = () => {
 
     const handleAvgRatings = () => {
         let totalRatings: number = 0;
-        myReviews &&
-            myReviews.rows.forEach((item) => (totalRatings += item.mark));
+        let myReviewsLength: number = 1;
 
-        return totalRatings / ratingsMock.length;
+        if (myReviews && myReviews.count > 0) {
+            myReviews.rows.forEach((item) => (totalRatings += item.mark));
+            myReviewsLength = totalRatings / myReviews.count;
+        }
+
+        return myReviewsLength;
     };
 
     useEffect(() => {
