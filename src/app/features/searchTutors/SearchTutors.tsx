@@ -18,6 +18,7 @@ import MainWrapper from '../../components/MainWrapper';
 import { PATHS } from '../../routes';
 import getUrlParams from '../../utils/getUrlParams';
 import CustomSubjectList from './components/CustomSubjectList';
+import PriceSort from './components/PriceSort';
 import TutorItem from './components/TutorItem';
 
 interface Values {
@@ -36,6 +37,7 @@ const SearchTutors = () => {
     const [initialLoad, setInitialLoad] = useState<boolean>(true);
     const [dayOfWeekArray, setDayOfWeekArray] = useState<string[]>([]);
     const [timeOfDayArray, setTimeOfDayArray] = useState<string[]>([]);
+    const [priceSortDirection, setPriceSortDirection] = useState<string>('');
 
     //initialSubject is not reset on initial level change
     const [isInitialSubject, setIsInitialSubject] = useState<boolean>(false);
@@ -402,13 +404,12 @@ const SearchTutors = () => {
                                 {availableTutors ? availableTutors.count : '0'}
                             </span>
                         </div>
-                        <div>
-                            <span>Sort by pricing</span>&nbsp;&nbsp;
-                            <span className="type--color--brand">
-                                High&nbsp;
-                                <i className="icon icon--base icon--chevron-down icon--primary"></i>
-                            </span>
-                        </div>
+                        <PriceSort
+                            sortDirection={priceSortDirection}
+                            handleActiveSort={(sortDirection: string) =>
+                                setPriceSortDirection(sortDirection)
+                            }
+                        />
                     </div>
                     <div className="tutor-list">
                         {isLoadingAvailableTutors ? (
