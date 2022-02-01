@@ -83,6 +83,11 @@
             border-color: $color-success;
             color: $color-success;
         }
+
+        &--bordered {
+            border: 1px solid $color-primary;
+            border-radius: $border-rounded;
+        }
     }
 
     &--clear {
