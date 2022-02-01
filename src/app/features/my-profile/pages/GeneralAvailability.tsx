@@ -6,14 +6,56 @@ import ProfileHeader from '../components/ProfileHeader';
 import ProfileTabs from '../components/ProfileTabs';
 import IAvailabilityItem from '../interfaces/IAvailabilityItem';
 
+interface IAvailabilityIndex {
+    row: number;
+    column: number;
+}
+
 const GeneralAvailability = () => {
     const { data: profileProgress } = useGetProfileProgressQuery();
 
-    const renderTableCells = (column: string | IAvailabilityItem) => {
+    const renderTableCells = (
+        column: string | IAvailabilityItem,
+        availabilityIndex: IAvailabilityIndex
+    ) => {
         if (typeof column === 'object') {
-            return <td className={`${column.check ? 'table--availability--check' : 'table--availability--close'}`}>{column.check
-                ? <i className="icon icon--base icon--check icon--primary"></i>
-                : <i className="icon icon--base icon--close icon--grey"></i>}</td>;
+            return (
+                <td
+                    className={`${
+                        column.check
+                            ? 'table--availability--check'
+                            : 'table--availability--close'
+                    }`}
+                >
+                    {column.check ? (
+                        <i
+                            className="icon icon--base icon--check icon--primary"
+                            onClick={() =>
+                                alert(
+                                    availabilityIndex.column +
+                                        ',' +
+                                        availabilityIndex.row +
+                                        ',' +
+                                        'false'
+                                )
+                            }
+                        ></i>
+                    ) : (
+                        <i
+                            className="icon icon--base icon--close icon--grey"
+                            onClick={() =>
+                                alert(
+                                    availabilityIndex.column +
+                                        ',' +
+                                        availabilityIndex.row +
+                                        ',' +
+                                        'true'
+                                )
+                            }
+                        ></i>
+                    )}
+                </td>
+            );
         } else {
             return <td>{column}</td>;
         }
@@ -42,15 +84,35 @@ const GeneralAvailability = () => {
                     </div>
                     <div>
                         <table className="table table--availability">
-                            {availabilityTable.map((row: (string | IAvailabilityItem)[]) => {
-                                return (
-                                    <tr>
-                                        {
-                                            row.map((column: string | IAvailabilityItem) => renderTableCells(column))
-                                        }
-                                    </tr>
-                                );
-                            })}
+                            {availabilityTable.map(
+                                (
+                                    row: (string | IAvailabilityItem)[],
+                                    rowIndex: number
+                                ) => {
+                                    return (
+                                        <tr>
+                                            {row.map(
+                                                (
+                                                    column:
+                                                        | string
+                                                        | IAvailabilityItem,
+                                                    columnIndex: number
+                                                ) => {
+                                                    const availabilityIndex: IAvailabilityIndex =
+                                                        {
+                                                            row: rowIndex,
+                                                            column: columnIndex,
+                                                        };
+                                                    return renderTableCells(
+                                                        column,
+                                                        availabilityIndex
+                                                    );
+                                                }
+                                            )}
+                                        </tr>
+                                    );
+                                }
+                            )}
                         </table>
                     </div>
                 </div>

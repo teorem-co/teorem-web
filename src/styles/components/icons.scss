@@ -70,11 +70,17 @@
     &--download {
         mask-image: url('../../assets/icons/download.svg');
     }
+    &--edit {
+        mask-image: url('./../../assets/icons/edit.svg');
+    }
     &--error {
         mask-image: url('../../assets/icons/error.svg');
     }
     &--hide {
         mask-image: url('../../assets/icons/hide.svg');
+    }
+    &--info {
+        mask-image: url('../../assets/icons/info.svg');
     }
     &--logout {
         mask-image: url('../../assets/icons/logout.svg');
@@ -88,11 +94,20 @@
     &--notifications {
         mask-image: url('../../assets/icons/notifications.svg');
     }
+    &--play {
+        mask-image: url('../../assets/icons/play.svg');
+    }
+    &--plus {
+        mask-image: url('./../../assets/icons/plus.svg');
+    }
     &--pricing {
         mask-image: url('../../assets/icons/pricing.svg');
     }
     &--profile {
         mask-image: url('../../assets/icons/profile.svg');
+    }
+    &--rating-star {
+        mask-image: url('../../assets/icons/rating-star.svg');
     }
     &--reviews {
         mask-image: url('../../assets/icons/reviews.svg');
@@ -109,17 +124,11 @@
     &--star {
         mask-image: url('../../assets/icons/star.svg');
     }
-    &--time {
-        mask-image: url('../../assets/icons/time.svg');
-    }
-    &--info {
-        mask-image: url('../../assets/icons/info.svg');
-    }
-    &--play {
-        mask-image: url('../../assets/icons/play.svg');
-    }
     &--subject {
         mask-image: url('../../assets/icons/subject.svg');
+    }
+    &--time {
+        mask-image: url('../../assets/icons/time.svg');
     }
     &--upload {
         mask-image: url('../../assets/icons/upload.svg');
@@ -127,35 +136,28 @@
     &--visible {
         mask-image: url('./../../assets/icons/visible.svg');
     }
-    &--plus {
-        mask-image: url('./../../assets/icons/plus.svg');
-    }
-    &--edit {
-        mask-image: url('./../../assets/icons/edit.svg');
-    }
-    &--edit {
-        mask-image: url('./../../assets/icons/edit.svg');
-    }
-    &--pl {
-        content: url(/assets/icons/MC.svg);
-    }
+
+    //flags
     &--af {
         content: url(/assets/icons/AF.svg);
     }
-    &--ca {
-        content: url(/assets/icons/CA.svg);
-    }
-    &--br {
-        content: url(/assets/icons/BR.svg);
-    }
-    &--au {
-        content: url(/assets/icons/AU.svg);
+    &--al {
+        content: url(/assets/icons/AL.svg);
     }
     &--ar {
         content: url(/assets/icons/AR.svg);
     }
-    &--al {
-        content: url(/assets/icons/AL.svg);
+    &--au {
+        content: url(/assets/icons/AU.svg);
+    }
+    &--br {
+        content: url(/assets/icons/BR.svg);
+    }
+    &--ca {
+        content: url(/assets/icons/CA.svg);
+    }
+    &--pl {
+        content: url(/assets/icons/MC.svg);
     }
 
     //color modifiers
