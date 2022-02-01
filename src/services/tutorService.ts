@@ -69,7 +69,7 @@ export const tutorService = baseService.injectEndpoints({
                 };
             },
         }),
-        getTutorProfileData: builder.query<ITutor, string | undefined>({
+        getTutorProfileData: builder.query<ITutor, string>({
             query: (userId) => ({
                 url: `${URL}/${userId}`,
                 method: HttpMethods.GET,

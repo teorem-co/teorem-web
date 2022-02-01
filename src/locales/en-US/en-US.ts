@@ -91,6 +91,7 @@ export const EN_US = {
         NO_OPTIONS_MESSAGE: 'Please select level first',
         TUTOR_LIST: 'Tutor list',
         VIEW_PROFILE: 'View profile',
+        BOOK_LESSON: 'Book a lesson',
         RESET_FILTER: 'Reset filter',
         TUTOR_AVAILABLE: 'Tutor Available',
         SUBJECT_LIST: {

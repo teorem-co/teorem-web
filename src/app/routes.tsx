@@ -16,6 +16,7 @@ import ResetPassword from './features/reset-password/ResetPassword';
 import RoleSelection from './features/roleSelection/RoleSelection';
 import SearchTutors from './features/searchTutors/SearchTutors';
 import TutorProfile from './features/searchTutors/TutorProfile';
+import TutorBookings from './features/tutor-bookings/TutorBookings';
 import { Role } from './lookups/role';
 import NotFound from './pages/NotFound';
 import PermissionsGate from './PermissionGate';
@@ -28,7 +29,8 @@ export enum PATHS {
     LOGIN = '/',
     MY_BOOKINGS = '/my-bookings',
     SEARCH_TUTORS = '/search-tutors',
-    SEARCH_TUTORS_TUTOR_PROFILE = '/search-tutors/:tutorId',
+    SEARCH_TUTORS_TUTOR_PROFILE = '/search-tutors/profile/:tutorId',
+    SEARCH_TUTORS_TUTOR_BOOKINGS = '/search-tutors/bookings/:tutorId',
     ONBOARDING = '/onboarding',
     MY_REVIEWS = '/my-reviews',
     COMPLETED_LESSONS = '/completed-lessons',
@@ -139,6 +141,18 @@ const ROUTES: any = [
                 roles={[Role.Parent, Role.Student, Role.SuperAdmin]}
             >
                 <TutorProfile />
+            </PermissionsGate>
+        ),
+    },
+    {
+        path: PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS,
+        key: 'SEARCH_TUTORS_TUTOR_BOOKINGS',
+        exact: true,
+        component: () => (
+            <PermissionsGate
+                roles={[Role.Parent, Role.Student, Role.SuperAdmin]}
+            >
+                <TutorBookings />
             </PermissionsGate>
         ),
     },

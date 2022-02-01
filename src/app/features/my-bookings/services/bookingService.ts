@@ -25,11 +25,40 @@ interface INotificationForLessons {
     date: string;
 }
 
+interface IBookingsByIdPayload {
+    dateFrom: string;
+    dateTo: string;
+    tutorId: string;
+}
+
 export const bookingService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         getBookings: builder.query<IBookingTransformed[], IDateRange>({
             query: (data) => ({
                 url: `${URL}/?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}`,
+                method: HttpMethods.GET,
+            }),
+            transformResponse: (response: IBooking[]) => {
+                const bookings: IBookingTransformed[] = response.map((x) => {
+                    return {
+                        id: x.id,
+                        label: x.Subject ? x.Subject.name : 'No title',
+                        start: new Date(x.startTime),
+                        end: new Date(x.endTime),
+                        allDay: false,
+                    };
+                });
+
+                return bookings;
+            },
+        }),
+        //maybe change return object to have additional properties to handle unavailable events
+        getBookingsById: builder.query<
+            IBookingTransformed[],
+            IBookingsByIdPayload
+        >({
+            query: (data) => ({
+                url: `${URL}/${data.tutorId}?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}`,
                 method: HttpMethods.GET,
             }),
             transformResponse: (response: IBooking[]) => {
@@ -68,4 +97,5 @@ export const {
     useLazyGetBookingsQuery,
     useLazyGetUpcomingLessonsQuery,
     useLazyGetNotificationForLessonsQuery,
+    useLazyGetBookingsByIdQuery,
 } = bookingService;
