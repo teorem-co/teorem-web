@@ -1,6 +1,7 @@
 import { t } from 'i18next';
 import { FC } from 'react';
 
+import { getDateAgoLabel } from '../../../utils/getDateAgoLabel';
 import IMyReview from '../interfaces/IMyReview';
 
 interface Props {
@@ -42,7 +43,7 @@ const ReviewItem: FC<Props> = (props: Props) => {
                     <p className="mb-2">{reviewItem.comment}</p>
                     <p className="type--color--tertiary">
                         {t('MY_REVIEWS.PUBLISHED')}
-                        &nbsp; {reviewItem.createdAt}
+                        &nbsp; {getDateAgoLabel(reviewItem.createdAt)}
                     </p>
                 </div>
             </div>
