@@ -127,7 +127,7 @@ const MyBookings: React.FC = () => {
                             style={{ height: 'calc(100% - 84px)' }}
                             startAccessor="start"
                             endAccessor="end"
-                            selectable={true}
+                            // selectable={true}
                             components={{
                                 week: {
                                     header: (date) => CustomHeader(date),
