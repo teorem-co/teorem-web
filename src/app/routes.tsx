@@ -2,6 +2,9 @@ import { useTranslation } from 'react-i18next';
 import { NavLink, Route, Switch } from 'react-router-dom';
 
 import CompletedLessons from './features/completedLessons/CompletedLessons';
+import BecomeTutor from './features/landing/pages/BecomeTutor';
+import HowItWorks from './features/landing/pages/HowItWorks';
+import Pricing from './features/landing/pages/Pricing';
 import Login from './features/login/Login';
 import MyBookings from './features/my-bookings/MyBookings';
 import AdditionalInformation from './features/my-profile/pages/AdditionalInformation';
@@ -34,6 +37,12 @@ export enum PATHS {
     ONBOARDING = '/onboarding',
     MY_REVIEWS = '/my-reviews',
     COMPLETED_LESSONS = '/completed-lessons',
+}
+
+export enum LANDING_PATHS {
+    HOW_IT_WORKS = '/how-it-works',
+    BECOME_TUTOR = '/become-tutor',
+    PRICING = '/pricing',
 }
 
 export enum PROFILE_PATHS {
@@ -70,6 +79,24 @@ const ROUTES: any = [
         key: 'REGISTER',
         exact: true,
         component: () => <Register />,
+    },
+    {
+        path: LANDING_PATHS.HOW_IT_WORKS,
+        key: 'HOW_IT_WORKS',
+        exact: true,
+        component: () => <HowItWorks />,
+    },
+    {
+        path: LANDING_PATHS.BECOME_TUTOR,
+        key: 'BECOME_TUTOR',
+        exact: true,
+        component: () => <BecomeTutor />,
+    },
+    {
+        path: LANDING_PATHS.PRICING,
+        key: 'PRICING',
+        exact: true,
+        component: () => <Pricing />,
     },
     {
         path: PATHS.ONBOARDING,
