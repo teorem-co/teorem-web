@@ -139,6 +139,15 @@
     &--visible {
         mask-image: url('./../../assets/icons/visible.svg');
     }
+    &--tutor {
+        mask-image: url('./../../assets/icons/tutor.svg');
+    }
+    &--child {
+        mask-image: url('./../../assets/icons/child.svg');
+    }
+    &--delete {
+        mask-image: url('./../../assets/icons/delete.svg');
+    }
 
     //flags
     &--af {

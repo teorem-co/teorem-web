@@ -37,7 +37,7 @@ const Sidebar = (props: Props) => {
     }, []);
 
     return (
-        <div>
+        <div className="pos--abs">
             <div
                 className={`cur--pointer sidebar__overlay ${
                     !sideBarIsOpen ? 'sidebar__overlay--close' : ''
@@ -65,7 +65,10 @@ const Sidebar = (props: Props) => {
                         <button className="btn btn--clear type--wgt--bold">
                             {submitLabel}
                         </button>
-                        <button className="btn btn--clear type--color--error type--wgt--bold">
+                        <button
+                            className="btn btn--clear type--color--error type--wgt--bold"
+                            onClick={closeSidebar}
+                        >
                             {cancelLabel}
                         </button>
                     </div>

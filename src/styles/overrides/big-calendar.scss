@@ -59,6 +59,7 @@ $rbc-calendar-width: 675px;
         &-slot {
             border-top-color: transparent !important;
             min-height: $rbc-hour-height;
+            display: block !important;
         }
 
         &-view {
@@ -202,5 +203,9 @@ $rbc-calendar-width: 675px;
 
     &-allday-cell {
         display: none;
+    }
+
+    &-slot-selection {
+        // display: none !important;
     }
 }

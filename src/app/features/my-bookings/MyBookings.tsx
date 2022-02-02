@@ -63,7 +63,6 @@ const MyBookings: React.FC = () => {
             </>
         );
     };
-
     useEffect(() => {
         const indicator: any = document.getElementsByClassName(
             'rbc-current-time-indicator'
@@ -99,6 +98,8 @@ const MyBookings: React.FC = () => {
         return <i className="icon icon--base icon--chevron-right"></i>;
     };
 
+    // const newBookings = union(bookings, emptyBookings);
+
     return (
         <MainWrapper>
             <div className="layout--primary">
@@ -126,6 +127,7 @@ const MyBookings: React.FC = () => {
                             style={{ height: 'calc(100% - 84px)' }}
                             startAccessor="start"
                             endAccessor="end"
+                            // selectable={true}
                             components={{
                                 week: {
                                     header: (date) => CustomHeader(date),
@@ -134,6 +136,9 @@ const MyBookings: React.FC = () => {
                             }}
                             scrollToTime={defaultScrollTime}
                             showMultiDayTimes={true}
+                            step={60}
+                            timeslots={1}
+                            longPressThreshold={10}
                         />
                     </div>
                 </div>
