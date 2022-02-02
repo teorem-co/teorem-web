@@ -1,0 +1,9 @@
+/*
+    components: divider.scss
+*/
+
+.divider {
+    &--primary {
+        border-bottom: 1px solid $grey-ed;
+    }
+}
