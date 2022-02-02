@@ -267,4 +267,21 @@ export const EN_US = {
             DESC: 'You don`t have any reviews yet.',
         },
     },
+    COMPLETED_LESSONS: {
+        TITLE: 'Completed Lessons',
+        TUTORS_AVAILABLE: 'Tutors Available',
+        EMPTY_LESSONS_LIST: 'There is no completed lessons available',
+        LEAVE_REVIEW: 'Leave review',
+        VIEW_CALENDAR: 'View Calendar',
+        VIDEOS_TITLE: 'Play / Download Lessons',
+        EMPTY_VIDEOS: 'There is no video lessons to download',
+    },
+    WRITE_REVIEW: {
+        SECTION_TITLE: 'Write a review',
+        TITLE: 'Title',
+        RATING: 'Rating',
+        REVIEW: 'Review',
+        SUBMIT: 'Post',
+        CANCEL: 'Cancel',
+    },
 };

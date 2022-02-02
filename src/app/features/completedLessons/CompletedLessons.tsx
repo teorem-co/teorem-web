@@ -1,5 +1,8 @@
+import { t } from 'i18next';
 import { useState } from 'react';
 
+import LoaderAvailableLessons from '../../components/Loaders/LoaderAvailableLessons';
+import LoaderLessonCard from '../../components/Loaders/LoaderLessonCard';
 import MainWrapper from '../../components/MainWrapper';
 import completedLessonsList, {
     ICompletedLesson,
@@ -28,13 +31,13 @@ const CompletedLessons = () => {
             <MainWrapper>
                 <div className="card--lessons">
                     <div className="card--lessons__head">
-                        <div>Completed Lessons</div>
+                        <div>{t('COMPLETED_LESSONS.TITLE')}</div>
                     </div>
                     <div className="card--lessons__body">
                         <div className="card--lessons__body__aside">
                             <div className="mt-10 mb-10 ml-6 mr-6">
                                 <span className="type--uppercase type--color--tertiary">
-                                    Tutor Available
+                                    {t('COMPLETED_LESSONS.TUTORS_AVAILABLE')}
                                 </span>
                                 <span className="tag--primary d--ib ml-2">
                                     {completedLessonsList.length
@@ -43,23 +46,37 @@ const CompletedLessons = () => {
                                 </span>
                             </div>
                             <div className="lessons-list">
-                                {completedLessonsList.map(
-                                    (lesson: ICompletedLesson) => {
-                                        return (
-                                            <CompletedLessonsItem
-                                                lesson={lesson}
-                                                activeLesson={
-                                                    activeLesson
-                                                        ? activeLesson.id
-                                                        : ''
-                                                }
-                                                handleActiveLessons={
-                                                    handleActiveLessons
-                                                }
-                                            />
-                                        );
-                                    }
+                                {completedLessonsList.length > 0 ? (
+                                    completedLessonsList.map(
+                                        (lesson: ICompletedLesson) => {
+                                            return (
+                                                <CompletedLessonsItem
+                                                    lesson={lesson}
+                                                    activeLesson={
+                                                        activeLesson
+                                                            ? activeLesson.id
+                                                            : ''
+                                                    }
+                                                    handleActiveLessons={
+                                                        handleActiveLessons
+                                                    }
+                                                />
+                                            );
+                                        }
+                                    )
+                                ) : (
+                                    <>
+                                        {t(
+                                            'COMPLETED_LESSONS.EMPTY_LESSONS_LIST'
+                                        )}
+                                    </>
                                 )}
+                                {
+                                    //loader for available lessons
+                                    //-------------------------------------
+                                    //<LoaderAvailableLessons /> - add this when backend is finished
+                                    //-------------------------------------
+                                }
                             </div>
                         </div>
                         <div className="card--lessons__body__main">
@@ -91,17 +108,23 @@ const CompletedLessons = () => {
                                                     }
                                                     className="btn btn--base btn--clear mr-4"
                                                 >
-                                                    Leave review
+                                                    {t(
+                                                        'COMPLETED_LESSONS.LEAVE_REVIEW'
+                                                    )}
                                                 </button>
                                                 <button className="btn btn--base btn--primary">
-                                                    View Calendar
+                                                    {t(
+                                                        'COMPLETED_LESSONS.VIEW_CALENDAR'
+                                                    )}
                                                 </button>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="mt-10">
                                         <div className="mb-2">
-                                            Play / Download Lessons
+                                            {t(
+                                                'COMPLETED_LESSONS.VIDEOS_TITLE'
+                                            )}
                                         </div>
                                         <div className="dash-wrapper">
                                             {activeLesson.lessons.map(
@@ -119,8 +142,14 @@ const CompletedLessons = () => {
                                     </div>
                                 </>
                             ) : (
-                                <>There is no completed lessons</>
+                                <>{t('COMPLETED_LESSONS.EMPTY_VIDEOS')}</>
                             )}
+                            {
+                                //loader for selected lesson card
+                                //-------------------------------------
+                                //<LoaderLessonCard />
+                                //-------------------------------------
+                            }
                         </div>
                     </div>
                 </div>

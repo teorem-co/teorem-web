@@ -1,43 +1,45 @@
 import { t } from 'i18next';
 import { FC } from 'react';
 
+import { SortDirection } from '../../../lookups/sortDirection';
+
 interface Props {
-    sortDirection: string;
-    handleActiveSort: (sortDirection: string) => void;
+    sortDirection: SortDirection;
+    handleActiveSort: (sortDirection: SortDirection) => void;
 }
 
 const PriceSort: FC<Props> = (props: Props) => {
     const { sortDirection, handleActiveSort } = props;
 
-    const handleSort = (sort: string) => {
+    const handleSort = (sort: SortDirection) => {
         switch (sort) {
-            case '':
-                handleActiveSort('asc');
+            case SortDirection.None:
+                handleActiveSort(SortDirection.Asc);
                 break;
-            case 'asc':
-                handleActiveSort('desc');
+            case SortDirection.Asc:
+                handleActiveSort(SortDirection.Desc);
                 break;
-            case 'desc':
-                handleActiveSort('');
+            case SortDirection.Desc:
+                handleActiveSort(SortDirection.None);
                 break;
             default:
-                handleActiveSort('');
+                handleActiveSort(SortDirection.None);
                 break;
         }
     };
 
-    const renderIndicator = (sortDirection: string) => {
+    const renderIndicator = (sortDirection: SortDirection) => {
         switch (sortDirection) {
-            case '':
+            case SortDirection.None:
                 return <>{t('SEARCH_TUTORS.SORT_NONE')}</>;
-            case 'asc':
+            case SortDirection.Asc:
                 return (
                     <>
                         {t('SEARCH_TUTORS.SORT_LOW')}&nbsp;
                         <i className="icon icon--base icon--chevron-up icon--primary"></i>
                     </>
                 );
-            case 'desc':
+            case SortDirection.Desc:
                 return (
                     <>
                         {t('SEARCH_TUTORS.SORT_HIGH')}&nbsp;
@@ -45,7 +47,7 @@ const PriceSort: FC<Props> = (props: Props) => {
                     </>
                 );
             default:
-                <>Click to sort</>;
+                <>{t('SEARCH_TUTORS.SORT_NONE')}</>;
         }
     };
 

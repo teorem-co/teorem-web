@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import ISubject from '../../../../interfaces/ISubject';
+import useOutsideAlerter from '../../../utils/useOutsideAlerter';
 
 interface Props {
     subjects: ISubject[];
@@ -13,8 +14,16 @@ const CustomSubjectList = (props: Props) => {
     const { t } = useTranslation();
     const [showTooltip, setShowTooltip] = useState(false);
 
+    const rangeSetterRef = useRef<HTMLDivElement>(null);
+
+    const hideTooltip = () => {
+        setShowTooltip(false);
+    };
+
+    useOutsideAlerter(rangeSetterRef, hideTooltip);
+
     return (
-        <div className="flex">
+        <div ref={rangeSetterRef} className="flex">
             {subjects.slice(0, 3).map((subject) => (
                 <span className="tag tag--primary" key={subject.id}>
                     {subject.name}
