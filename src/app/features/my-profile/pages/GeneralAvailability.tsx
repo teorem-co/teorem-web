@@ -4,12 +4,8 @@ import availabilityTable from '../../../constants/availabilityTable';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
 import ProfileTabs from '../components/ProfileTabs';
+import IAvailabilityIndex from '../interfaces/IAvailabilityIndex';
 import IAvailabilityItem from '../interfaces/IAvailabilityItem';
-
-interface IAvailabilityIndex {
-    row: number;
-    column: number;
-}
 
 const GeneralAvailability = () => {
     const { data: profileProgress } = useGetProfileProgressQuery();

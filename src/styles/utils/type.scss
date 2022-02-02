@@ -52,6 +52,12 @@
         //static
         font-size: $type-xxl;
     }
+    &--huge {
+        //fluid
+        //@include fluid-type($fluid-min-width, $fluid-max-width, $type-xl - $fluid-type-modifier, $type-xl);
+        //static
+        font-size: $type-huge;
+    }
 
     //font weight
     &--wgt {

@@ -8,6 +8,10 @@
     overflow-x: scroll;
     white-space: nowrap;
 
+    th {
+        text-align: left;
+    }
+
     &--availability {
         max-width: 720px;
         border: 1px solid $grey-ed;
@@ -29,6 +33,21 @@
 
         &--close {
             background-color: $grey-fb;
+        }
+    }
+
+    &--primary {
+        border: 1px solid $grey-ed;
+
+        td,
+        th {
+            border: 1px solid $grey-ed;
+        }
+        th {
+            padding: calc(#{$unit} * 6);
+        }
+        td {
+            padding: calc(#{$unit} * 4) calc(#{$unit} * 6);
         }
     }
 }
