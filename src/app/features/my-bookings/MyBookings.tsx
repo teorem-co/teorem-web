@@ -19,6 +19,7 @@ import MainWrapper from '../../components/MainWrapper';
 import Sidebar from '../../components/Sidebar';
 import { useAppSelector } from '../../hooks';
 import ParentCalendarSlots from './components/ParentCalendarSlots';
+import ParentEventModal from './components/ParentEventModal';
 import UpcomingLessons from './components/UpcomingLessons';
 import {
     useLazyGetBookingsQuery,
@@ -34,6 +35,14 @@ interface IBookingTransformed {
     allDay: boolean;
 }
 
+interface IEvent {
+    id?: string;
+    label: string;
+    start: string;
+    end: string;
+    allDay: boolean;
+}
+
 const MyBookings: React.FC = () => {
     const localizer = momentLocalizer(moment);
     const [value, onChange] = useState(new Date());
@@ -45,6 +54,8 @@ const MyBookings: React.FC = () => {
     const [emptyBookings, setEmptybookings] = useState<IBookingTransformed[]>(
         []
     );
+    const [eventDetails, setEventDetails] = useState<IEvent>();
+    const [openEventDetails, setOpenEventDetails] = useState<boolean>(false);
 
     const [getUpcomingLessons, { data: upcomingLessons }] =
         useLazyGetUpcomingLessonsQuery();
@@ -127,6 +138,7 @@ const MyBookings: React.FC = () => {
         setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
         setSelectedEnd(moment(e.end).format('HH:mm'));
         setOpenSlot(true);
+        setOpenEventDetails(false);
 
         setEmptybookings([
             {
@@ -155,6 +167,19 @@ const MyBookings: React.FC = () => {
 
     const handleSubmit = (values: any) => {
         setSidebarOpen(false);
+    };
+
+    const handleSelectedEvent = (e: IBookingTransformed) => {
+        setOpenSlot(false);
+        setOpenEventDetails(true);
+        setEventDetails({
+            start: moment(e.start).format('DD/MMMM/YYYY, HH:mm'),
+            end: moment(e.end).format('HH:mm'),
+            allDay: e.allDay,
+            label: e.label,
+        });
+        setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
+        setSelectedEnd(moment(e.end).format('HH:mm'));
     };
 
     const newBookings = union(bookings, emptyBookings);
@@ -199,6 +224,7 @@ const MyBookings: React.FC = () => {
                             step={60}
                             timeslots={1}
                             longPressThreshold={10}
+                            onSelectEvent={(e) => handleSelectedEvent(e)}
                         />
                     </div>
                     {openSlot ? (
@@ -209,18 +235,38 @@ const MyBookings: React.FC = () => {
                             handleClose={(e) => setOpenSlot(e)}
                             positionClass={`${
                                 positionClass === 'Monday'
-                                    ? 'modal--parent--monday'
+                                    ? 'monday'
                                     : positionClass === 'Tuesday'
-                                    ? 'modal--parent--tuesday'
+                                    ? 'tuesday'
                                     : positionClass === 'Wednesday'
-                                    ? 'modal--parent--wednesday'
+                                    ? 'wednesday'
                                     : positionClass === 'Thursday'
-                                    ? 'modal--parent--thursday'
+                                    ? 'thursday'
                                     : positionClass === 'Friday'
-                                    ? 'modal--parent--friday'
+                                    ? 'friday'
                                     : positionClass === 'Saturday'
-                                    ? 'modal--parent--saturday'
-                                    : 'modal--parent--sunday'
+                                    ? 'saturday'
+                                    : 'sunday'
+                            }`}
+                        />
+                    ) : openEventDetails ? (
+                        <ParentEventModal
+                            event={eventDetails ? eventDetails : null}
+                            handleClose={(e) => setOpenEventDetails(e)}
+                            positionClass={`${
+                                positionClass === 'Monday'
+                                    ? 'monday'
+                                    : positionClass === 'Tuesday'
+                                    ? 'tuesday'
+                                    : positionClass === 'Wednesday'
+                                    ? 'wednesday'
+                                    : positionClass === 'Thursday'
+                                    ? 'thursday'
+                                    : positionClass === 'Friday'
+                                    ? 'friday'
+                                    : positionClass === 'Saturday'
+                                    ? 'saturday'
+                                    : 'sunday'
                             }`}
                         />
                     ) : (

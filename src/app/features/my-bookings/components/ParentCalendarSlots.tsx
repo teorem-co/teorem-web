@@ -191,7 +191,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     const levelDisabled = !levelOptions || isLoadingLevels;
 
     return (
-        <div className={`modal modal--parent ${positionClass}`}>
+        <div className={`modal--parent modal--parent--${positionClass}`}>
             <div className="modal--parent__header">
                 <div className="flex flex--primary">
                     <div>
@@ -203,7 +203,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                         </div>
                     </div>
                     <i
-                        className="icon icon--base icon--close icon--grey"
+                        className="icon icon--base icon--grey icon--close mb-6"
                         onClick={() => {
                             handleClose ? handleClose(false) : false;
                         }}
