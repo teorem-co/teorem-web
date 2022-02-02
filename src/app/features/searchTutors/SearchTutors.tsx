@@ -424,7 +424,7 @@ const SearchTutors = () => {
                             </div>
                         ) : availableTutors && availableTutors.count !== 0 ? (
                             availableTutors.rows.map((tutor) => (
-                                <TutorItem tutor={tutor} />
+                                <TutorItem key={tutor.userId} tutor={tutor} />
                             ))
                         ) : (
                             <div className="tutor-list__no-results">

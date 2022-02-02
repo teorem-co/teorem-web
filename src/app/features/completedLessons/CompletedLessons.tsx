@@ -51,6 +51,7 @@ const CompletedLessons = () => {
                                         (lesson: ICompletedLesson) => {
                                             return (
                                                 <CompletedLessonsItem
+                                                    key={lesson.id}
                                                     lesson={lesson}
                                                     activeLesson={
                                                         activeLesson
@@ -131,6 +132,7 @@ const CompletedLessons = () => {
                                                 (videoLesson: IVideoLesson) => {
                                                     return (
                                                         <VideoLessonItem
+                                                            key={videoLesson.id}
                                                             videoLesson={
                                                                 videoLesson
                                                             }
