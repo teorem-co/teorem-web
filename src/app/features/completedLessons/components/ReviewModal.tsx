@@ -50,7 +50,7 @@ const ReviewModal: FC<Props> = (props: Props) => {
                 <div className="modal">
                     <div className="modal__head">
                         <div className="type--md type--wgt--bold">
-                            Write a review
+                            {t('WRITE_REVIEW.SECTION_TITLE')}
                         </div>
                         <div className="type--color--secondary">
                             Maria Diaz, Mathematics, A level
@@ -69,7 +69,7 @@ const ReviewModal: FC<Props> = (props: Props) => {
                                         htmlFor="title"
                                         className="field__label"
                                     >
-                                        Title*
+                                        {t('WRITE_REVIEW.TITLE')}*
                                     </label>
                                     <TextField
                                         name="title"
@@ -82,7 +82,7 @@ const ReviewModal: FC<Props> = (props: Props) => {
                                         htmlFor="rating"
                                         className="field__label"
                                     >
-                                        Rating*
+                                        {t('WRITE_REVIEW.RATING')}*
                                     </label>
                                     <RatingField
                                         form={formik}
@@ -95,7 +95,7 @@ const ReviewModal: FC<Props> = (props: Props) => {
                                         htmlFor="review"
                                         className="field__label"
                                     >
-                                        Review*
+                                        {t('WRITE_REVIEW.REVIEW')}*
                                     </label>
                                     <TextArea
                                         name="review"
@@ -112,13 +112,13 @@ const ReviewModal: FC<Props> = (props: Props) => {
                             type="submit"
                             className="btn btn--base btn--primary w--100 mb-4"
                         >
-                            Post
+                            {t('WRITE_REVIEW.SUBMIT')}
                         </button>
                         <button
                             onClick={handleClose}
                             className="btn btn--base btn--clear w--100"
                         >
-                            Cancel
+                            {t('WRITE_REVIEW.CANCEL')}
                         </button>
                     </div>
                 </div>

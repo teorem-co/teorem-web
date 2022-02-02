@@ -8,4 +8,11 @@
             height: 100%;
         }
     }
+
+    &--lesson-card {
+        max-width: 900px;
+        border: 2px dashed $grey-ed;
+        border-radius: $border-rounded;
+        padding: calc(#{$unit} * 6);
+    }
 }

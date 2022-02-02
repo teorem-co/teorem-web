@@ -85,6 +85,13 @@
             max-width: 800px;
         }
     }
+
+    &--900 {
+        &--max {
+            max-width: 900px;
+        }
+    }
+
     &--1200 {
         width: 1200px;
     }

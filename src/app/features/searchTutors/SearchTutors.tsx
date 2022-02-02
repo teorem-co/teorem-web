@@ -15,6 +15,7 @@ import MySelect, { OptionType } from '../../components/form/MySelectField';
 import ImageCircle from '../../components/ImageCircle';
 import LoaderTutor from '../../components/Loaders/LoaderTutor';
 import MainWrapper from '../../components/MainWrapper';
+import { SortDirection } from '../../lookups/sortDirection';
 import { PATHS } from '../../routes';
 import getUrlParams from '../../utils/getUrlParams';
 import CustomSubjectList from './components/CustomSubjectList';
@@ -37,7 +38,9 @@ const SearchTutors = () => {
     const [initialLoad, setInitialLoad] = useState<boolean>(true);
     const [dayOfWeekArray, setDayOfWeekArray] = useState<string[]>([]);
     const [timeOfDayArray, setTimeOfDayArray] = useState<string[]>([]);
-    const [priceSortDirection, setPriceSortDirection] = useState<string>('');
+    const [priceSortDirection, setPriceSortDirection] = useState<SortDirection>(
+        SortDirection.None
+    );
 
     //initialSubject is not reset on initial level change
     const [isInitialSubject, setIsInitialSubject] = useState<boolean>(false);
@@ -406,7 +409,7 @@ const SearchTutors = () => {
                         </div>
                         <PriceSort
                             sortDirection={priceSortDirection}
-                            handleActiveSort={(sortDirection: string) =>
+                            handleActiveSort={(sortDirection: SortDirection) =>
                                 setPriceSortDirection(sortDirection)
                             }
                         />
