@@ -11,9 +11,56 @@
 
     &__img {
         width: 100%;
-        max-width: 1100px;
         display: block;
+        box-shadow: 8px 6px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width: 1100px;
         margin: 0 auto;
+
+        & > div {
+            margin-top: 144px;
+        }
+    }
+
+    //fix stripe image not displaying in scroll on smaller screens
+    &__cards {
+        overflow-x: auto;
+        padding: calc($unit * 3) calc($unit * 2);
+        white-space: nowrap;
+        text-align: center;
+        margin-left: calc(-100vw / 2 + 1100px / 2);
+        margin-right: calc(-100vw / 2 + 1100px / 2);
+
+        @media (max-width: $responsive-xl) {
+            width: 100%;
+        }
+
+        &__item {
+            padding: calc($unit * 2) calc($unit * 3);
+            margin-right: calc($unit * 4);
+            display: inline-block;
+            text-align: center;
+
+            width: 156px;
+            background: $white;
+            /* offset-x | offset-y | blur-radius | color */
+            box-shadow: 8px 6px 12px rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+
+            &:last-child {
+                margin-right: 0px;
+            }
+
+            @media (min-width: $responsive-xl) {
+                width: 206px;
+                padding: calc($unit * 3) 0;
+            }
+        }
     }
 
     &__text-card {
@@ -47,9 +94,9 @@
     }
 
     &__review-card {
-        margin: 0 auto;
         display: flex;
         flex-direction: column;
+        margin: 0 auto;
         // background-color: $color-primary;
         //change later
         background: linear-gradient(
@@ -59,37 +106,53 @@
         );
         align-items: center;
         text-align: left;
-        max-width: 320px;
         // border-radius: $border-rounded;
         border-radius: 24px;
+        max-width: 300px;
+        width: 100%;
+        position: relative;
 
-        @media (min-width: $responsive-xl) {
-            max-width: 1100px;
-            justify-content: center;
-            flex-direction: row-reverse;
-        }
-
-        &__img {
-            width: 140px;
+        img {
+            top: 20px;
+            width: 110px;
             object-fit: cover;
             flex-shrink: 0;
             display: block;
         }
 
+        @media (min-width: $responsive-xl) {
+            max-width: 100%;
+            justify-content: center;
+            flex-direction: row-reverse;
+
+            img {
+                width: 140px;
+            }
+        }
+
         &__description {
             max-width: 280px;
             padding-top: calc($unit * 10);
+            font-weight: 700;
+            // font-size: 18px;
+            text-align: center;
+            // overflow-y: auto;
+            height: 100%;
+            display: flex;
+            align-items: center;
 
             @media (min-width: $responsive-xl) {
                 max-width: 635px;
                 padding-right: 80px;
                 padding-top: 0;
+                // font-size: 24px;
             }
         }
     }
 
     &__navigation {
         position: fixed;
+        top: 0;
         width: 100%;
         height: 100vh;
         z-index: 9;
@@ -103,6 +166,7 @@
         }
 
         &__hamburger {
+            z-index: 20;
             @media (min-width: $responsive-xl) {
                 display: none;
             }
@@ -127,10 +191,57 @@
         }
     }
 
+    &__faq {
+        width: 100%;
+        max-width: 730px;
+        border: 1px solid $border-color;
+        border-style: dashed;
+
+        font-size: 16px;
+
+        @media (min-width: $responsive-xl) {
+            font-size: 24px;
+        }
+
+        & > div {
+            border-bottom: 1px solid $border-color;
+        }
+
+        :last-child {
+            border-bottom: none;
+        }
+    }
+
+    &__features {
+        width: 100%;
+        display: none;
+
+        @media (min-width: $responsive-xl) {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        &__description {
+            text-align: left;
+            max-width: 448px;
+            margin: 0 auto;
+        }
+
+        &__img {
+            flex-shrink: 0;
+
+            img {
+                width: 400px;
+                display: block;
+            }
+        }
+    }
+
     &__footer {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
+        margin-top: 140px;
+        //change to use variables
         background: linear-gradient(
             226.69deg,
             rgba(127, 95, 211, 0.9) 4.52%,
@@ -138,30 +249,44 @@
         );
 
         &__content {
-            padding: calc($unit * 4);
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            padding-left: calc($unit * 4);
 
-            @media (min-width: $responsive-lg) {
-                max-width: 500px;
-                margin-left: 140px;
+            @media (min-width: $responsive-xl) {
+                padding-left: 80px;
             }
         }
 
         &__img {
-            display: none;
-            width: 350px;
+            position: relative;
+            img {
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                display: none;
 
-            @media (min-width: $responsive-lg) {
-                display: block;
+                @media (min-width: $responsive-md) {
+                    display: block;
+                    width: 250px;
+                }
+
+                @media (min-width: $responsive-xl) {
+                    width: 320px;
+                }
             }
-        }
-
-        &__logo {
-            width: 128px;
         }
     }
 
-    //keep at bottom because of overriding
-    &__section {
-        margin-top: 144px;
+    //Fluid typography
+    &--fluid {
+        &--sm {
+            @include fluid-type($fluid-min-width, $fluid-max-width, 14px, 18px);
+        }
+
+        &--md {
+            @include fluid-type($fluid-min-width, $fluid-max-width, 18px, 24px);
+        }
     }
 }

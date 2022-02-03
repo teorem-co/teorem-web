@@ -37,4 +37,13 @@
             }
         }
     }
+
+    &--landing {
+        font-size: 16px;
+        color: $color-text-secondary;
+
+        &.active {
+            color: $black;
+        }
+    }
 }

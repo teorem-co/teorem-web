@@ -24,24 +24,41 @@ const Navigation = () => {
                 </div>
                 {/* WEB SIZE NAV */}
                 <div className="landing__navigation__items">
-                    <div className="flex">
-                        <NavLink to={LANDING_PATHS.HOW_IT_WORKS}>
-                            <div className="type--md">How it works</div>
+                    <div className="flex flex--grow flex--jc--center">
+                        <NavLink
+                            to={LANDING_PATHS.HOW_IT_WORKS}
+                            className="nav-link--landing"
+                        >
+                            <div>How it works</div>
                         </NavLink>
-                        <NavLink to={LANDING_PATHS.PRICING}>
-                            <div className="type--md pl-10">Pricing</div>
+                        <NavLink
+                            to={LANDING_PATHS.PRICING}
+                            className="nav-link--landing pl-10"
+                        >
+                            <div>Pricing</div>
                         </NavLink>
-                        <NavLink to={LANDING_PATHS.BECOME_TUTOR}>
-                            <div className="type--md pl-10">Become a tutor</div>
+                        <NavLink
+                            to={LANDING_PATHS.BECOME_TUTOR}
+                            className="nav-link--landing pl-10"
+                        >
+                            <div>Become a tutor</div>
                         </NavLink>
                     </div>
-                    <div>
-                        <button className="btn btn--primary btn--base">
-                            Sign in
-                        </button>
-                        <button className="btn btn--primary ml-4 btn--base">
-                            Get started
-                        </button>
+                    <div className="flex--primary flex--grow">
+                        <div>
+                            <button className="btn btn--ghost  btn--base type--color--black">
+                                Sign in
+                            </button>
+                            <button className="btn btn--primary ml-4 btn--base">
+                                Get started
+                            </button>
+                        </div>
+                        <div>
+                            <i className="icon icon--sm icon--language icon--grey"></i>
+                            <span className="type--color--secondary ml-1">
+                                EN
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -49,7 +66,7 @@ const Navigation = () => {
                 className={`landing__navigation ${showSidebar ? 'active' : ''}`}
             >
                 <NavLink to={LANDING_PATHS.HOW_IT_WORKS}>
-                    <div>How it works</div>
+                    <div className="type--color--black">How it works</div>
                 </NavLink>
                 <NavLink to={LANDING_PATHS.PRICING}>
                     <div>Pricing</div>

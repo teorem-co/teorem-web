@@ -17,8 +17,10 @@ const LandingWrapper = (props: Props) => {
                 {/* NAVIGATION */}
                 <Navigation />
                 {/* HERO  */}
-                <HeroSection />
-                {children}
+                <div className="landing__content">
+                    <HeroSection />
+                    {children}
+                </div>
             </div>
             {/* FOOTER */}
             <Footer />

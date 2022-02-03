@@ -59,6 +59,10 @@
         font-size: $type-huge;
     }
 
+    &--fluid {
+        @include fluid-type($fluid-min-width, $fluid-max-width, 18px, 24px);
+    }
+
     //font weight
     &--wgt {
         &--light {
@@ -96,6 +100,9 @@
         }
         &--success {
             color: $color-success;
+        }
+        &--black {
+            color: $black;
         }
     }
 
