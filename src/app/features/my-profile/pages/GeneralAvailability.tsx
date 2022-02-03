@@ -96,11 +96,10 @@ const GeneralAvailability = () => {
             obj.afterFive = currentAvailabilities[3][i];
             toSend.push(obj);
         }
-
         if (tutorAvailability && tutorAvailability.length > 0) {
-            updateTutorAvailability(toSend);
+            updateTutorAvailability({ tutorAvailability: toSend });
         } else {
-            createTutorAvailability(toSend);
+            createTutorAvailability({ tutorAvailability: toSend });
         }
     };
 

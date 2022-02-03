@@ -3,6 +3,10 @@ import { HttpMethods } from '../../../lookups/httpMethods';
 
 const URL = '/tutor-availabilities';
 
+export interface ITutorAvailabilityToSend {
+    tutorAvailability: ITutorAvailability[];
+}
+
 export interface ITutorAvailability {
     id?: string;
     tutorId?: string;
@@ -59,14 +63,20 @@ export const tutorAvailabilityService = baseService.injectEndpoints({
                 return availabilityTableData;
             },
         }),
-        updateTutorAvailability: builder.mutation<void, ITutorAvailability[]>({
+        updateTutorAvailability: builder.mutation<
+            void,
+            ITutorAvailabilityToSend
+        >({
             query: (body) => ({
                 url: `${URL}`,
                 method: HttpMethods.PUT,
                 body: body,
             }),
         }),
-        createTutorAvailability: builder.mutation<void, ITutorAvailability[]>({
+        createTutorAvailability: builder.mutation<
+            void,
+            ITutorAvailabilityToSend
+        >({
             query: (body) => ({
                 url: `${URL}`,
                 method: HttpMethods.POST,
