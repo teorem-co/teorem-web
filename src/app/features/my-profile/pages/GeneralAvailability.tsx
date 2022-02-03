@@ -1,61 +1,120 @@
+import { cloneDeep } from 'lodash';
+import { useEffect, useState } from 'react';
+
 import { useGetProfileProgressQuery } from '../../../../services/tutorService';
 import MainWrapper from '../../../components/MainWrapper';
-import availabilityTable from '../../../constants/availabilityTable';
+import { useAppSelector } from '../../../hooks';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
 import ProfileTabs from '../components/ProfileTabs';
 import IAvailabilityIndex from '../interfaces/IAvailabilityIndex';
 import IAvailabilityItem from '../interfaces/IAvailabilityItem';
+import {
+    ITutorAvailability,
+    useCreateTutorAvailabilityMutation,
+    useLazyGetTutorAvailabilityQuery,
+    useUpdateTutorAvailabilityMutation,
+} from '../services/tutorAvailabilityService';
 
 const GeneralAvailability = () => {
+    const userId = useAppSelector((state) => state.auth.user?.id);
+
     const { data: profileProgress } = useGetProfileProgressQuery();
 
+    const [getTutorAvailability, { data: tutorAvailability }] =
+        useLazyGetTutorAvailabilityQuery();
+
+    const [updateTutorAvailability, { isSuccess: updateSuccess }] =
+        useUpdateTutorAvailabilityMutation();
+    const [createTutorAvailability, { isSuccess: createSuccess }] =
+        useCreateTutorAvailabilityMutation();
+
+    const [currentAvailabilities, setCurrentAvailabilities] = useState<
+        (string | boolean)[][]
+    >([]);
+
     const renderTableCells = (
-        column: string | IAvailabilityItem,
+        column: string | boolean,
         availabilityIndex: IAvailabilityIndex
     ) => {
-        if (typeof column === 'object') {
+        if (typeof column === 'boolean') {
             return (
                 <td
+                    onClick={() =>
+                        handleAvailabilityClick(
+                            availabilityIndex.column,
+                            availabilityIndex.row,
+                            column
+                        )
+                    }
                     className={`${
-                        column.check
+                        column
                             ? 'table--availability--check'
                             : 'table--availability--close'
                     }`}
                 >
-                    {column.check ? (
-                        <i
-                            className="icon icon--base icon--check icon--primary"
-                            onClick={() =>
-                                alert(
-                                    availabilityIndex.column +
-                                        ',' +
-                                        availabilityIndex.row +
-                                        ',' +
-                                        'false'
-                                )
-                            }
-                        ></i>
-                    ) : (
-                        <i
-                            className="icon icon--base icon--close icon--grey"
-                            onClick={() =>
-                                alert(
-                                    availabilityIndex.column +
-                                        ',' +
-                                        availabilityIndex.row +
-                                        ',' +
-                                        'true'
-                                )
-                            }
-                        ></i>
-                    )}
+                    <i
+                        className={`icon icon--base ${
+                            column
+                                ? 'icon--check icon--primary'
+                                : 'icon--close icon--grey'
+                        }`}
+                    ></i>
                 </td>
             );
         } else {
             return <td>{column}</td>;
         }
     };
+
+    const handleAvailabilityClick = (
+        column: number,
+        row: number,
+        value: boolean
+    ) => {
+        const cloneState = cloneDeep(currentAvailabilities);
+
+        cloneState[row][column] = !value;
+
+        setCurrentAvailabilities(cloneState);
+    };
+
+    const handleSubmit = () => {
+        const toSend: ITutorAvailability[] = [];
+
+        for (let i = 1; i < 8; i++) {
+            const obj: any = {};
+            const currentDayOfWeek = currentAvailabilities[0][i];
+            let lowerCaseDayOfWeek = '';
+            if (typeof currentDayOfWeek === 'string') {
+                lowerCaseDayOfWeek = currentDayOfWeek.toLowerCase();
+            }
+
+            obj.dayOfWeek = lowerCaseDayOfWeek;
+            obj.beforeNoon = currentAvailabilities[1][i];
+            obj.noonToFive = currentAvailabilities[2][i];
+            obj.afterFive = currentAvailabilities[3][i];
+            toSend.push(obj);
+        }
+
+        if (tutorAvailability && tutorAvailability.length > 0) {
+            updateTutorAvailability(toSend);
+        } else {
+            createTutorAvailability(toSend);
+        }
+    };
+
+    useEffect(() => {
+        if (userId) {
+            getTutorAvailability(userId);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (tutorAvailability) {
+            setCurrentAvailabilities(tutorAvailability);
+        }
+    }, [tutorAvailability]);
 
     return (
         <MainWrapper>
@@ -77,37 +136,48 @@ const GeneralAvailability = () => {
                         <div className="type--color--tertiary w--200--max">
                             Edit and update your availability information
                         </div>
+                        <button
+                            onClick={() => handleSubmit()}
+                            className="btn btn--base btn--primary mt-4"
+                        >
+                            Save
+                        </button>
                     </div>
                     <div>
+                        <table className="table table--availability">{}</table>
                         <table className="table table--availability">
-                            {availabilityTable.map(
-                                (
-                                    row: (string | IAvailabilityItem)[],
-                                    rowIndex: number
-                                ) => {
-                                    return (
-                                        <tr>
-                                            {row.map(
-                                                (
-                                                    column:
-                                                        | string
-                                                        | IAvailabilityItem,
-                                                    columnIndex: number
-                                                ) => {
-                                                    const availabilityIndex: IAvailabilityIndex =
-                                                        {
-                                                            row: rowIndex,
-                                                            column: columnIndex,
-                                                        };
-                                                    return renderTableCells(
-                                                        column,
-                                                        availabilityIndex
-                                                    );
-                                                }
-                                            )}
-                                        </tr>
-                                    );
-                                }
+                            {currentAvailabilities.length > 0 ? (
+                                currentAvailabilities.map(
+                                    (
+                                        row: (string | boolean)[],
+                                        rowIndex: number
+                                    ) => {
+                                        return (
+                                            <tr>
+                                                {row.map(
+                                                    (
+                                                        column:
+                                                            | string
+                                                            | boolean,
+                                                        columnIndex: number
+                                                    ) => {
+                                                        const availabilityIndex: IAvailabilityIndex =
+                                                            {
+                                                                row: rowIndex,
+                                                                column: columnIndex,
+                                                            };
+                                                        return renderTableCells(
+                                                            column,
+                                                            availabilityIndex
+                                                        );
+                                                    }
+                                                )}
+                                            </tr>
+                                        );
+                                    }
+                                )
+                            ) : (
+                                <>No results</>
                             )}
                         </table>
                     </div>
