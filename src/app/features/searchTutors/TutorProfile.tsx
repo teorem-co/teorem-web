@@ -10,6 +10,7 @@ import ImageCircle from '../../components/ImageCircle';
 import MainWrapper from '../../components/MainWrapper';
 import availabilityTable from '../../constants/availabilityTable';
 import { PATHS } from '../../routes';
+import getAvgRating from '../../utils/getAvgRating';
 import IAvailabilityIndex from '../my-profile/interfaces/IAvailabilityIndex';
 import IAvailabilityItem from '../my-profile/interfaces/IAvailabilityItem';
 import Ratings from '../myReviews/components/Ratings';
@@ -52,18 +53,6 @@ const TutorProfile = () => {
         getStatistics(tutorId);
     }, []);
 
-    const handleAvgRatings = () => {
-        let totalRatings: number = 0;
-        let myReviewsLength: number = 1;
-
-        if (myReviews && myReviews.count > 0) {
-            myReviews.rows.forEach((item) => (totalRatings += item.mark));
-            myReviewsLength = totalRatings / myReviews.count;
-        }
-
-        return myReviewsLength;
-    };
-
     const renderTableCells = (column: string | IAvailabilityItem) => {
         if (typeof column === 'object') {
             return (
@@ -97,10 +86,10 @@ const TutorProfile = () => {
                                     <div className="flex flex--center">
                                         <Link to={PATHS.SEARCH_TUTORS}>
                                             <div>
-                                                <i className="icon icon--base icon--arrow-left icon--black"></i>
+                                                <i className="icon icon--base icon--chevron-left icon--black"></i>
                                             </div>
                                         </Link>
-                                        <div className="type--lg type--wgt--bold ml-6">
+                                        <div className="type--lg type--wgt--bold ml-4">
                                             {tutorData
                                                 ? `${tutorData.User.firstName} ${tutorData.User.lastName}`
                                                 : 'Go back'}
@@ -209,15 +198,16 @@ const TutorProfile = () => {
                                         <div className="flex flex--jc--space-between">
                                             <div>
                                                 <div className="type--huge">
-                                                    {handleAvgRatings()}
+                                                    {getAvgRating(myReviews)}
                                                 </div>
                                                 <div className="rating__stars mb-4">
                                                     <div
                                                         className="rating__stars__fill"
                                                         style={{
                                                             width: `${
-                                                                handleAvgRatings() *
-                                                                20
+                                                                getAvgRating(
+                                                                    myReviews
+                                                                ) * 20
                                                             }%`,
                                                         }}
                                                     ></div>

@@ -6,10 +6,12 @@ import LoaderStatistics from '../../components/Loaders/LoaderStatistics';
 import MainWrapper from '../../components/MainWrapper';
 import Pagination from '../../components/Pagination';
 import { useAppSelector } from '../../hooks';
+import getAvgRating from '../../utils/getAvgRating';
 import Ratings from './components/Ratings';
 import ReviewItem from './components/ReviewItem';
 import IMyReview from './interfaces/IMyReview';
 import IMyReviewParams from './interfaces/IMyReviewParams';
+import IMyReviews from './interfaces/IMyReviews';
 import {
     useLazyGetMyReviewsQuery,
     useLazyGetStatisticsQuery,
@@ -25,18 +27,6 @@ const MyReviews = () => {
     ] = useLazyGetStatisticsQuery();
 
     const tutorId = useAppSelector((state) => state.auth.user?.id);
-
-    const handleAvgRatings = () => {
-        let totalRatings: number = 0;
-        let myReviewsLength: number = 1;
-
-        if (myReviews && myReviews.count > 0) {
-            myReviews.rows.forEach((item) => (totalRatings += item.mark));
-            myReviewsLength = totalRatings / myReviews.count;
-        }
-
-        return myReviewsLength;
-    };
 
     useEffect(() => {
         if (tutorId) {
@@ -124,7 +114,7 @@ const MyReviews = () => {
                                 {t('MY_REVIEWS.AVG_SCORE')}
                             </span>
                             <span className="tag--primary d--ib ml-2">
-                                {handleAvgRatings()}
+                                {getAvgRating(myReviews)}
                             </span>
                         </div>
                         {statisticsLoading ? (
