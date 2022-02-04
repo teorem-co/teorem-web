@@ -94,6 +94,11 @@ const SearchTutors = () => {
                 setTimeOfDayArray(urlQueries.timeOfDay.split(','));
 
             setParams(urlQueries);
+
+            //set sort direction if params.price is already in URL
+            if (urlQueries.price) {
+                setPriceSortDirection(urlQueries.price as SortDirection);
+            }
         } else {
             getAvailableTutors(params);
         }
@@ -148,8 +153,31 @@ const SearchTutors = () => {
         }
     }, [formik.values.level]);
 
+    useEffect(() => {
+        if (priceSortDirection === SortDirection.None) {
+            const paramsObj = { ...params };
+            delete paramsObj.price;
+            setParams({ ...paramsObj });
+        } else {
+            if (params.price) {
+                const paramsObj = { ...params };
+                delete paramsObj.price;
+                setParams({ ...paramsObj, price: priceSortDirection });
+            } else {
+                setParams({ ...params, price: priceSortDirection });
+            }
+        }
+    }, [priceSortDirection]);
+
     const handleResetFilter = () => {
-        setParams({});
+        //can't delete all params because reset button couldn't affect price sort
+        const paramsObj = { ...params };
+        delete paramsObj.dayOfWeek;
+        delete paramsObj.level;
+        delete paramsObj.subject;
+        delete paramsObj.timeOfDay;
+        setParams(paramsObj);
+
         setSubjectOptions([]);
         setDayOfWeekArray([]);
         setTimeOfDayArray([]);

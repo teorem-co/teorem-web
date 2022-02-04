@@ -1,4 +1,3 @@
-
 import { baseService } from '../../../baseService';
 import { HttpMethods } from '../../../lookups/httpMethods';
 import IMyReviews from '../interfaces/IMyReviews';
@@ -10,7 +9,7 @@ export const myReviewsService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         getMyReviews: builder.query<IMyReviews, string>({
             query: (tutorId) => ({
-                url: `${URL}/${tutorId}`,
+                url: `${URL}/${tutorId}?page=1&rpp=10`,
                 method: HttpMethods.GET,
             }),
             transformResponse: (response: IMyReviews) => {
@@ -29,4 +28,5 @@ export const myReviewsService = baseService.injectEndpoints({
     }),
 });
 
-export const { useLazyGetMyReviewsQuery, useLazyGetStatisticsQuery } = myReviewsService;
+export const { useLazyGetMyReviewsQuery, useLazyGetStatisticsQuery } =
+    myReviewsService;
