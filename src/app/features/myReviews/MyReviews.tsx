@@ -17,10 +17,18 @@ import {
     useLazyGetStatisticsQuery,
 } from './services/myReviewsService';
 
+export interface IGetMyReviews {
+    rpp: number;
+    page: number;
+    tutorId: string;
+}
+
 const MyReviews = () => {
     const [params, setParams] = useState<IMyReviewParams>({ page: 1, rpp: 10 });
+
     const [getMyReviews, { data: myReviews, isLoading: myReviewsLoading }] =
         useLazyGetMyReviewsQuery();
+
     const [
         getStatistics,
         { data: tutorStatistics, isLoading: statisticsLoading },
@@ -30,7 +38,13 @@ const MyReviews = () => {
 
     useEffect(() => {
         if (tutorId) {
-            getMyReviews(tutorId);
+            const obj: IGetMyReviews = {
+                tutorId: tutorId,
+                page: params.page,
+                rpp: params.rpp,
+            };
+
+            getMyReviews(obj);
             getStatistics(tutorId);
         }
     }, []);
