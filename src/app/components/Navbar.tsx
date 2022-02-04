@@ -35,8 +35,8 @@ const Navbar = () => {
                         {user?.Role?.abrv === RoleOptions.Tutor ? (
                             <img
                                 src={
-                                    user?.File?.path
-                                        ? user?.File?.path
+                                    user?.profileImage
+                                        ? user?.profileImage
                                         : gradientCircle
                                 }
                                 alt="avatar"
