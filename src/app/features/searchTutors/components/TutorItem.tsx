@@ -57,11 +57,8 @@ const TutorItem: FC<Props> = (props: Props) => {
         <>
             <div className="tutor-list__item">
                 <div className="tutor-list__item__img">
-                    {tutor.User.File?.path ? (
-                        <img
-                            src={tutor.User.File && tutor.User.File.path}
-                            alt="tutor-list"
-                        />
+                    {tutor.User.profileImage ? (
+                        <img src={tutor.User.profileImage} alt="tutor-list" />
                     ) : (
                         <ImageCircle
                             initials={`${

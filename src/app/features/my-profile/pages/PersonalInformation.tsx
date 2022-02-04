@@ -250,9 +250,9 @@ const PersonalInformation = () => {
                             <div className="w--800--max">
                                 <div className="flex flex--center flex--grow">
                                     <div className="tutor-list__item__img">
-                                        {tutor?.File?.path ? (
+                                        {tutor?.profileImage ? (
                                             <img
-                                                src={tutor.File.path}
+                                                src={tutor.profileImage}
                                                 alt="tutor-list"
                                             />
                                         ) : (

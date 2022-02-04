@@ -295,10 +295,7 @@ const TutorProfile = () => {
                                 <div className="tutor-list__item__img align--center">
                                     <img
                                         className="align--center d--b mb-4"
-                                        src={
-                                            tutorData.User.File &&
-                                            tutorData.User.File.path
-                                        }
+                                        src={tutorData.User.profileImage}
                                         alt="tutor-profile-pic"
                                     />
                                 </div>
