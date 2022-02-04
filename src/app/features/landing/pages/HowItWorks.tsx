@@ -13,13 +13,13 @@ const HowItWorks = () => {
     return (
         <LandingWrapper>
             {/* Content */}
-            <ReviewCard />
 
             <div className=" landing__section">
                 <img src={calendar} alt="calendar" className="landing__img" />
             </div>
 
             <TextCard />
+            <ReviewCard />
             <CardsGroup />
             <FAQGroup />
             <FeaturesCard />

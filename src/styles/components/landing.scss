@@ -27,6 +27,105 @@
         }
     }
 
+    &__hero {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        position: relative;
+        margin-bottom: 60px;
+        // background-color: blue;
+
+        &__title {
+            margin-bottom: calc($unit * 3);
+            line-height: 50px;
+            font-weight: bold;
+            max-width: 730px;
+
+            @media (min-width: $responsive-sm) {
+                line-height: 75px;
+                margin-bottom: calc($unit * 6);
+            }
+        }
+
+        &__subtitle {
+            max-width: 540px;
+        }
+    }
+
+    &__avatar {
+        position: absolute;
+        width: 90px;
+        border-radius: $border-rounded;
+        object-fit: cover;
+        display: inline-block;
+
+        @media (max-width: $responsive-md) {
+            width: 48px;
+        }
+
+        &--first {
+            left: 20%;
+            top: calc(-48px - 40px);
+
+            //fix this
+            &::after {
+                content: '';
+                display: inline-block;
+                width: 68px;
+                height: 68px;
+                border-radius: $border-circle;
+                background: red;
+                border-color: $color-primary;
+                border-style: dashed;
+                position: absolute;
+                left: 100px;
+            }
+
+            @media (min-width: $responsive-xl) {
+                left: -70px;
+                top: calc(-48px - 20px);
+            }
+        }
+
+        &--second {
+            top: calc(-48px - 60px);
+            right: 20%;
+
+            @media (min-width: $responsive-xl) {
+                right: -80px;
+            }
+        }
+
+        &--third {
+            bottom: calc(-48px - 40px);
+            right: 0;
+            @media (min-width: $responsive-xl) {
+                right: -140px;
+                bottom: calc(48px + 20px);
+            }
+        }
+
+        &--fourth {
+            bottom: calc(-48px - 80px);
+            right: 40%;
+
+            @media (min-width: $responsive-xl) {
+                right: -60px;
+            }
+        }
+
+        &--fifth {
+            bottom: calc(-48px - 70px);
+            left: 10%;
+
+            @media (min-width: $responsive-xl) {
+                bottom: calc(-48px - 20px);
+                left: -80px;
+            }
+        }
+    }
+
     //fix stripe image not displaying in scroll on smaller screens
     &__cards {
         overflow-x: auto;
@@ -287,6 +386,10 @@
 
         &--md {
             @include fluid-type($fluid-min-width, $fluid-max-width, 18px, 24px);
+        }
+
+        &--title {
+            @include fluid-type($fluid-min-width, $fluid-max-width, 32px, 64px);
         }
     }
 }
