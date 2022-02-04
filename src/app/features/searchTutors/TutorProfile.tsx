@@ -2,17 +2,12 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 
-import {
-    useGetAvailableTutorsQuery,
-    useLazyGetTutorProfileDataQuery,
-} from '../../../services/tutorService';
-import ImageCircle from '../../components/ImageCircle';
+import ITutorSubject from '../../../interfaces/ITutorSubject';
+import { useLazyGetTutorProfileDataQuery } from '../../../services/tutorService';
 import MainWrapper from '../../components/MainWrapper';
-import availabilityTable from '../../constants/availabilityTable';
 import { PATHS } from '../../routes';
 import getAvgRating from '../../utils/getAvgRating';
-import IAvailabilityIndex from '../my-profile/interfaces/IAvailabilityIndex';
-import IAvailabilityItem from '../my-profile/interfaces/IAvailabilityItem';
+import { useLazyGetTutorAvailabilityQuery } from '../my-profile/services/tutorAvailabilityService';
 import Ratings from '../myReviews/components/Ratings';
 import ReviewItem from '../myReviews/components/ReviewItem';
 import IMyReview from '../myReviews/interfaces/IMyReview';
@@ -47,27 +42,33 @@ const TutorProfile = () => {
         { data: tutorStatistics, isLoading: statisticsLoading },
     ] = useLazyGetStatisticsQuery();
 
+    const [getTutorAvailability, { data: tutorAvailability }] =
+        useLazyGetTutorAvailabilityQuery();
+
     useEffect(() => {
         getTutorProfileData(tutorId);
         getMyReviews(tutorId);
         getStatistics(tutorId);
+        getTutorAvailability(tutorId);
     }, []);
 
-    const renderTableCells = (column: string | IAvailabilityItem) => {
-        if (typeof column === 'object') {
+    const renderTableCells = (column: string | boolean) => {
+        if (typeof column === 'boolean') {
             return (
                 <td
                     className={`${
-                        column.check
+                        column
                             ? 'table--availability--check'
                             : 'table--availability--close'
                     }`}
                 >
-                    {column.check ? (
-                        <i className="icon icon--base icon--check icon--primary"></i>
-                    ) : (
-                        <i className="icon icon--base icon--close icon--grey"></i>
-                    )}
+                    <i
+                        className={`icon icon--base ${
+                            column
+                                ? 'icon--check icon--primary'
+                                : 'icon--close icon--grey'
+                        } `}
+                    ></i>
                 </td>
             );
         } else {
@@ -138,32 +139,41 @@ const TutorProfile = () => {
                                         <div className="type--wgt--bold mb-2">
                                             General Availability
                                         </div>
-                                        <table className="table table--availability">
-                                            {availabilityTable.map(
-                                                (
-                                                    row: (
-                                                        | string
-                                                        | IAvailabilityItem
-                                                    )[]
-                                                ) => {
-                                                    return (
-                                                        <tr>
-                                                            {row.map(
-                                                                (
-                                                                    column:
-                                                                        | string
-                                                                        | IAvailabilityItem
-                                                                ) => {
-                                                                    return renderTableCells(
-                                                                        column
-                                                                    );
-                                                                }
-                                                            )}
-                                                        </tr>
-                                                    );
-                                                }
-                                            )}
-                                        </table>
+
+                                        {tutorAvailability &&
+                                        tutorAvailability[1].length > 1 ? (
+                                            <table className="table table--availability">
+                                                {tutorAvailability.map(
+                                                    (
+                                                        row: (
+                                                            | string
+                                                            | boolean
+                                                        )[]
+                                                    ) => {
+                                                        return (
+                                                            <tr>
+                                                                {row.map(
+                                                                    (
+                                                                        column:
+                                                                            | string
+                                                                            | boolean
+                                                                    ) => {
+                                                                        return renderTableCells(
+                                                                            column
+                                                                        );
+                                                                    }
+                                                                )}
+                                                            </tr>
+                                                        );
+                                                    }
+                                                )}
+                                            </table>
+                                        ) : (
+                                            <>
+                                                Tutor did not fill out the
+                                                availability table
+                                            </>
+                                        )}
                                     </div>
                                     <div className="mb-10">
                                         <div className="type--wgt--bold mb-2">
@@ -178,16 +188,35 @@ const TutorProfile = () => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>Biology</td>
-                                                    <td>A Level</td>
-                                                    <td>
-                                                        $33
-                                                        <span className="type--color--tertiary">
-                                                            /hr
-                                                        </span>
-                                                    </td>
-                                                </tr>
+                                                {tutorData.TutorSubjects.map(
+                                                    (item: ITutorSubject) => {
+                                                        return (
+                                                            <tr>
+                                                                <td>
+                                                                    {
+                                                                        item
+                                                                            .Subject
+                                                                            .name
+                                                                    }
+                                                                </td>
+                                                                <td>
+                                                                    {
+                                                                        item
+                                                                            .Level
+                                                                            .name
+                                                                    }
+                                                                </td>
+                                                                <td>
+                                                                    $
+                                                                    {item.price}
+                                                                    <span className="type--color--tertiary">
+                                                                        /hr
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                        );
+                                                    }
+                                                )}
                                             </tbody>
                                         </table>
                                     </div>

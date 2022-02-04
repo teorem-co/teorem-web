@@ -1,24 +1,12 @@
 import { baseService } from '../../../baseService';
 import { HttpMethods } from '../../../lookups/httpMethods';
+import IPartOfDayOption from '../interfaces/IPartOfDayOption';
+import ITutorAvailability from '../interfaces/ITutorAvailability';
 
 const URL = '/tutor-availabilities';
 
 export interface ITutorAvailabilityToSend {
     tutorAvailability: ITutorAvailability[];
-}
-
-export interface ITutorAvailability {
-    id?: string;
-    tutorId?: string;
-    beforeNoon: boolean;
-    noonToFive: boolean;
-    afterFive: boolean;
-    dayOfWeek: string;
-}
-
-interface IPartOfDayOption {
-    value: string;
-    label: string;
 }
 
 export const tutorAvailabilityService = baseService.injectEndpoints({

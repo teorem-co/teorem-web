@@ -1,83 +1,8 @@
-import IAvailabilityItem from "../features/my-profile/interfaces/IAvailabilityItem";
-
-const availabilityTable: (string | IAvailabilityItem)[][] = [
+const availabilityTable: (string | boolean)[][] = [
     ['', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-    [
-        'Pre 12 pm',
-        {
-            check: true,
-            id: 'id'
-        },
-        {
-            check: true,
-            id: 'id'
-        }, {
-            check: false,
-            id: 'id'
-        }, {
-            check: true,
-            id: 'id'
-        }, {
-            check: true,
-            id: 'id'
-        }, {
-            check: true,
-            id: 'id'
-        }, {
-            check: false,
-            id: 'id'
-        },
-    ],
-    [
-        '12 - 5 pm',
-        {
-            check: true,
-            id: 'id'
-        }, {
-            check: true,
-            id: 'id'
-        }, {
-            check: true,
-            id: 'id'
-        }, {
-            check: true,
-            id: 'id'
-        }, {
-            check: true,
-            id: 'id'
-        }, {
-            check: true,
-            id: 'id'
-        }, {
-            check: true,
-            id: 'id'
-        },
-    ],
-    [
-        'After 5 pm',
-        {
-            check: true,
-            id: 'id'
-        }, {
-            check: true,
-            id: 'id'
-        }, {
-            check: true,
-            id: 'id'
-        }, {
-            check: false,
-            id: 'id'
-        }, {
-            check: true,
-            id: 'id'
-        }, {
-            check: true,
-            id: 'id'
-        }, {
-            check: true,
-            id: 'id'
-        },
-    ],
+    ['Pre 12 pm', false, false, false, false, false, false, false],
+    ['12 - 5 pm', false, false, false, false, false, false, false],
+    ['After 5 pm', false, false, false, false, false, false, false],
 ];
 
 export default availabilityTable;

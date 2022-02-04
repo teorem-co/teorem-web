@@ -3,14 +3,14 @@ import { useEffect, useState } from 'react';
 
 import { useGetProfileProgressQuery } from '../../../../services/tutorService';
 import MainWrapper from '../../../components/MainWrapper';
+import availabilityTable from '../../../constants/availabilityTable';
 import { useAppSelector } from '../../../hooks';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
 import ProfileTabs from '../components/ProfileTabs';
 import IAvailabilityIndex from '../interfaces/IAvailabilityIndex';
-import IAvailabilityItem from '../interfaces/IAvailabilityItem';
+import ITutorAvailability from '../interfaces/ITutorAvailability';
 import {
-    ITutorAvailability,
     useCreateTutorAvailabilityMutation,
     useLazyGetTutorAvailabilityQuery,
     useUpdateTutorAvailabilityMutation,
@@ -67,12 +67,48 @@ const GeneralAvailability = () => {
         }
     };
 
+    const renderAvailabilityTable = () => {
+        const update: boolean =
+            currentAvailabilities.length > 0 &&
+            currentAvailabilities[1].length > 1;
+
+        const availabilityToMap = update
+            ? currentAvailabilities
+            : availabilityTable;
+
+        return availabilityToMap.map(
+            (row: (string | boolean)[], rowIndex: number) => {
+                return (
+                    <tr>
+                        {row.map(
+                            (column: string | boolean, columnIndex: number) => {
+                                const availabilityIndex: IAvailabilityIndex = {
+                                    row: rowIndex,
+                                    column: columnIndex,
+                                };
+                                return renderTableCells(
+                                    column,
+                                    availabilityIndex
+                                );
+                            }
+                        )}
+                    </tr>
+                );
+            }
+        );
+    };
+
     const handleAvailabilityClick = (
         column: number,
         row: number,
         value: boolean
     ) => {
-        const cloneState = cloneDeep(currentAvailabilities);
+        let cloneState;
+        if (currentAvailabilities && currentAvailabilities[1].length > 1) {
+            cloneState = cloneDeep(currentAvailabilities);
+        } else {
+            cloneState = cloneDeep(availabilityTable);
+        }
 
         cloneState[row][column] = !value;
 
@@ -96,7 +132,8 @@ const GeneralAvailability = () => {
             obj.afterFive = currentAvailabilities[3][i];
             toSend.push(obj);
         }
-        if (tutorAvailability && tutorAvailability.length > 0) {
+
+        if (tutorAvailability && tutorAvailability[1].length > 1) {
             updateTutorAvailability({ tutorAvailability: toSend });
         } else {
             createTutorAvailability({ tutorAvailability: toSend });
@@ -143,41 +180,8 @@ const GeneralAvailability = () => {
                         </button>
                     </div>
                     <div>
-                        <table className="table table--availability">{}</table>
                         <table className="table table--availability">
-                            {currentAvailabilities.length > 0 ? (
-                                currentAvailabilities.map(
-                                    (
-                                        row: (string | boolean)[],
-                                        rowIndex: number
-                                    ) => {
-                                        return (
-                                            <tr>
-                                                {row.map(
-                                                    (
-                                                        column:
-                                                            | string
-                                                            | boolean,
-                                                        columnIndex: number
-                                                    ) => {
-                                                        const availabilityIndex: IAvailabilityIndex =
-                                                            {
-                                                                row: rowIndex,
-                                                                column: columnIndex,
-                                                            };
-                                                        return renderTableCells(
-                                                            column,
-                                                            availabilityIndex
-                                                        );
-                                                    }
-                                                )}
-                                            </tr>
-                                        );
-                                    }
-                                )
-                            ) : (
-                                <>No results</>
-                            )}
+                            {renderAvailabilityTable()}
                         </table>
                     </div>
                 </div>
