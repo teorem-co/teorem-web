@@ -29,6 +29,10 @@
         }
     }
 
+    &__slider {
+        transform: rotate(5deg);
+    }
+
     &__hero {
         display: flex;
         flex-direction: column;

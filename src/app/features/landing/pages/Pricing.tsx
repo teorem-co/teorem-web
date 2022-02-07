@@ -21,7 +21,6 @@ const Pricing = () => {
                 desc=" Simple, flexible and cost-effective."
                 showBtn
             />
-            <div>IMAGE SLIDER</div>
             <TextCard
                 title="How much does online tutoring cost?"
                 desc="The price of tutoring varies between £??.?? and £??.?? per lesson, depending on the type and duration of the learning plan. For example, the cost of maths tutoring will be lower if you purchase a package with several lessons included."

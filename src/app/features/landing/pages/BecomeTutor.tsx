@@ -6,6 +6,7 @@ import note from '../../../../assets/images/note.png';
 import FAQGroup from '../components/FAQGroup';
 import FeaturesCard from '../components/FeaturesCard';
 import HeroSection from '../components/HeroSection';
+import ImageSlider from '../components/ImageSlider';
 import LandingWrapper from '../components/LandingWrapper';
 import ReviewCard from '../components/ReviewCard';
 import TextCard from '../components/TextCard';
@@ -20,7 +21,7 @@ const BecomeTutor = () => {
                 desc="Simple, flexible and cost-effective. "
                 showBtn
             />
-            <div>IMAGE SLIDER</div>
+            <ImageSlider />
             <TextCard
                 title="How much does online tutoring cost?"
                 desc="The price of tutoring varies between £??.?? and £??.?? per lesson, depending on the type and duration of the learning plan. For example, the cost of maths tutoring will be lower if you purchase a package with several lessons included."
