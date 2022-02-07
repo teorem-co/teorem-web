@@ -11,6 +11,6 @@ export default interface IUser {
     phoneNumber: string;
     phonePrefix: string;
     parentId?: string;
-    Role?: IRole;
-    profileImage?: string;
+    Role: IRole;
+    profileImage: string;
 }

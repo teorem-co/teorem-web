@@ -1,6 +1,7 @@
 import { Form, FormikProvider, useFormik } from 'formik';
+import { debounce, isEqual } from 'lodash';
 import moment from 'moment';
-import { useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
@@ -11,17 +12,27 @@ import {
 import MyCountrySelect from '../../../components/form/MyCountrySelect';
 import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyPhoneInput from '../../../components/form/MyPhoneInput';
+import MySelect, { OptionType } from '../../../components/form/MySelectField';
+import UploadFile from '../../../components/form/MyUploadField';
 import TextField from '../../../components/form/TextField';
 import ImageCircle from '../../../components/ImageCircle';
 import MainWrapper from '../../../components/MainWrapper';
 import { countryInput } from '../../../constants/countryInput';
 import { countryOption } from '../../../constants/countryOption';
 import { useAppSelector } from '../../../hooks';
+import toastService from '../../../services/toastService';
 import { getUserId } from '../../../utils/getUserId';
-import { useLazyGetCountriesQuery } from '../../onboarding/services/countryService';
+import {
+    ICountry,
+    useLazyGetCountriesQuery,
+} from '../../onboarding/services/countryService';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
 import ProfileTabs from '../components/ProfileTabs';
+import {
+    useLazyGetUserQuery,
+    useUpdateUserInformationMutation,
+} from '../services/userService';
 
 interface Values {
     firstName: string;
@@ -34,10 +45,38 @@ interface Values {
 
 const PersonalInformation = () => {
     const [getCountries, { data: countries }] = useLazyGetCountriesQuery();
+    const [countryOptions, setCountryOptions] = useState<OptionType[]>([]);
+    const [saveBtnActive, setSaveBtnActive] = useState(false);
+    const user = useAppSelector((state) => state.auth.user);
 
     const userId = getUserId();
 
     const { data: profileProgress } = useGetProfileProgressQuery();
+    const [
+        updateUserInformation,
+        { isLoading: isLoadingUserUpdate, isSuccess: isSuccessUserUpdate },
+    ] = useUpdateUserInformationMutation();
+    const [
+        getUser,
+        {
+            data: userInformation,
+            isLoading: isLoadingUser,
+            isSuccess: isSuccessUser,
+        },
+    ] = useLazyGetUserQuery();
+
+    useEffect(() => {
+        const currentCountries: OptionType[] = countries
+            ? countries.map((x: ICountry) => {
+                  return {
+                      label: x.name,
+                      value: x.id,
+                      icon: x.flag,
+                  };
+              })
+            : [];
+        setCountryOptions(currentCountries);
+    }, [countries]);
 
     // const [
     //     getTutorProfileData,
@@ -61,18 +100,59 @@ const PersonalInformation = () => {
 
     const { t } = useTranslation();
 
-    const initialValues: Values = {
+    useEffect(() => {
+        if (
+            isSuccessUser &&
+            userInformation?.firstName &&
+            userInformation.lastName &&
+            userInformation.phoneNumber &&
+            userInformation.countryId &&
+            userInformation.dateOfBirth &&
+            userInformation.profileImage
+        ) {
+            const values = {
+                firstName: userInformation.firstName,
+                lastName: userInformation.lastName,
+                phoneNumber: userInformation.phoneNumber,
+                countryId: userInformation.countryId,
+                dateOfBirth: userInformation.dateOfBirth,
+                profileImage: userInformation.profileImage,
+            };
+            setInitialvalues(values);
+        }
+    }, [isSuccessUser]);
+
+    const [initialValues, setInitialvalues] = useState<Values>({
         firstName: '',
         lastName: '',
         phoneNumber: '',
         dateOfBirth: '',
         countryId: '',
         profileImage: '',
-    };
+    });
 
     const handleSubmit = (values: Values) => {
-        const test = values;
+        updateUserInformation({
+            firstName: values.firstName,
+            lastName: values.lastName,
+            phoneNumber: values.phoneNumber,
+            countryId: values.countryId,
+            dateOfBirth: moment(values.dateOfBirth).toISOString(),
+            profileImage: values.profileImage,
+        });
     };
+
+    useEffect(() => {
+        if (isSuccessUserUpdate) {
+            if (user) {
+                getUser(user.id);
+            }
+            setSaveBtnActive(false);
+            toastService.success(
+                t('SEARCH_TUTORS.TUTOR_PROFILE.UPDATE_ADDITIONAL_INFO_SUCCESS')
+            );
+        }
+    }, [isSuccessUserUpdate]);
 
     const formik = useFormik({
         initialValues: initialValues,
@@ -105,8 +185,25 @@ const PersonalInformation = () => {
         }),
     });
 
+    const isLoading = isLoadingUser || isLoadingUserUpdate;
+
+    const handleBlur = () => {
+        if (!isEqual(initialValues, formik.values)) {
+            setSaveBtnActive(true);
+        } else {
+            setSaveBtnActive(false);
+        }
+    };
+
+    useEffect(() => {
+        handleBlur();
+    }, [formik.values]);
+
     useEffect(() => {
         getCountries();
+        if (user) {
+            getUser(user.id);
+        }
     }, []);
 
     return (
@@ -133,6 +230,14 @@ const PersonalInformation = () => {
                                 <div className="type--color--tertiary w--200--max">
                                     Edit and update your personal information
                                 </div>
+                                <button
+                                    className={`btn btn--primary btn--lg mt-6 card--profile__savebtn`}
+                                    type="submit"
+                                    // disabled={isLoading || !saveBtnActive}
+                                    disabled={isLoading || !saveBtnActive}
+                                >
+                                    Save
+                                </button>
                             </div>
                             <div className="w--800--max">
                                 <div className="row">
@@ -148,6 +253,7 @@ const PersonalInformation = () => {
                                                 name="firstName"
                                                 id="firstName"
                                                 placeholder="Enter your first name"
+                                                disabled={isLoading}
                                             />
                                         </div>
                                     </div>
@@ -163,6 +269,7 @@ const PersonalInformation = () => {
                                                 name="lastName"
                                                 id="lastName"
                                                 placeholder="Enter your first name"
+                                                disabled={isLoading}
                                             />
                                         </div>
                                     </div>
@@ -185,6 +292,7 @@ const PersonalInformation = () => {
                                                 meta={formik.getFieldMeta(
                                                     'phoneNumber'
                                                 )}
+                                                disabled={isLoading}
                                             />
                                         </div>
                                     </div>
@@ -197,7 +305,7 @@ const PersonalInformation = () => {
                                                 Country*
                                             </label>
 
-                                            <MyCountrySelect
+                                            <MySelect
                                                 form={formik}
                                                 field={formik.getFieldProps(
                                                     'countryId'
@@ -207,10 +315,11 @@ const PersonalInformation = () => {
                                                 )}
                                                 isMulti={false}
                                                 classNamePrefix="onboarding-select"
-                                                options={countries}
+                                                options={countryOptions}
                                                 placeholder="Choose your country"
                                                 customInputField={countryInput}
                                                 customOption={countryOption}
+                                                isDisabled={isLoading}
                                             />
                                         </div>
                                     </div>
@@ -230,14 +339,48 @@ const PersonalInformation = () => {
                                                 meta={formik.getFieldMeta(
                                                     'dateOfBirth'
                                                 )}
+                                                isDisabled={isLoading}
                                             />
                                         </div>
                                     </div>
                                 </div>
+                                <div className="field field__file">
+                                    <label
+                                        className="field__label"
+                                        htmlFor="profileImage"
+                                    >
+                                        Profile Image*
+                                    </label>
+                                    <UploadFile
+                                        setFieldValue={formik.setFieldValue}
+                                        id="profileImage"
+                                        name="profileImage"
+                                        value={
+                                            user?.profileImage
+                                                ? user.profileImage
+                                                : ''
+                                        }
+                                        disabled={isLoading}
+                                    />
+                                    {/* <UploadFile
+                                            setFieldValue={
+                                                formik.setFieldValue
+                                            }
+                                            uploadedFile={(file: any) => {
+                                                formik.setFieldValue(
+                                                    'profileImage',
+                                                    file
+                                                );
+                                            }}
+                                            id="profileImage"
+                                            name="profileImage"
+                                            imagePreview={profileImage}
+                                        /> */}
+                                </div>
                             </div>
                         </div>
                         {/* IMAGE */}
-                        <div className="card--profile__section">
+                        {/* <div className="card--profile__section">
                             <div>
                                 <div className="mb-2 type--wgt--bold">
                                     Profile Picture
@@ -274,37 +417,9 @@ const PersonalInformation = () => {
                                             />
                                         )}
                                     </div>
-                                    <div className="field field__file">
-                                        <label
-                                            className="field__label"
-                                            htmlFor="profileImage"
-                                        >
-                                            Profile Image*
-                                        </label>
-                                        {/* <UploadFile
-                                            setFieldValue={
-                                                formik.setFieldValue
-                                            }
-                                            uploadedFile={(file: any) => {
-                                                formik.setFieldValue(
-                                                    'profileImage',
-                                                    file
-                                                );
-                                            }}
-                                            id="profileImage"
-                                            name="profileImage"
-                                            imagePreview={profileImage}
-                                        /> */}
-                                    </div>
                                 </div>
-                                <button
-                                    className="btn btn--primary btn--lg mt-6"
-                                    type="submit"
-                                >
-                                    Save
-                                </button>
                             </div>
-                        </div>
+                        </div> */}
                     </Form>
                 </FormikProvider>
             </div>
