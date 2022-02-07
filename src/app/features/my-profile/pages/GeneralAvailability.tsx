@@ -1,4 +1,4 @@
-import { cloneDeep } from 'lodash';
+import { cloneDeep, isEqual } from 'lodash';
 import { useEffect, useState } from 'react';
 
 import { useGetProfileProgressQuery } from '../../../../services/tutorService';
@@ -23,7 +23,6 @@ const GeneralAvailability = () => {
 
     const [getTutorAvailability, { data: tutorAvailability }] =
         useLazyGetTutorAvailabilityQuery();
-
     const [updateTutorAvailability, { isSuccess: updateSuccess }] =
         useUpdateTutorAvailabilityMutation();
     const [createTutorAvailability, { isSuccess: createSuccess }] =
@@ -32,6 +31,7 @@ const GeneralAvailability = () => {
     const [currentAvailabilities, setCurrentAvailabilities] = useState<
         (string | boolean)[][]
     >([]);
+    const [saveBtnActive, setSaveBtnActive] = useState(false);
 
     const renderTableCells = (
         column: string | boolean,
@@ -144,6 +144,12 @@ const GeneralAvailability = () => {
         if (userId) {
             getTutorAvailability(userId);
         }
+    }, [updateSuccess, createSuccess]);
+
+    useEffect(() => {
+        if (userId) {
+            getTutorAvailability(userId);
+        }
     }, []);
 
     useEffect(() => {
@@ -151,6 +157,23 @@ const GeneralAvailability = () => {
             setCurrentAvailabilities(tutorAvailability);
         }
     }, [tutorAvailability]);
+
+    useEffect(() => {
+        const isLoaded: boolean =
+            tutorAvailability &&
+            tutorAvailability.length > 0 &&
+            currentAvailabilities.length > 0
+                ? true
+                : false;
+
+        if (isLoaded) {
+            if (isEqual(tutorAvailability, currentAvailabilities)) {
+                setSaveBtnActive(false);
+            } else {
+                setSaveBtnActive(true);
+            }
+        }
+    }, [currentAvailabilities]);
 
     return (
         <MainWrapper>
@@ -172,12 +195,16 @@ const GeneralAvailability = () => {
                         <div className="type--color--tertiary w--200--max">
                             Edit and update your availability information
                         </div>
-                        <button
-                            onClick={() => handleSubmit()}
-                            className="btn btn--base btn--primary mt-4"
-                        >
-                            Save
-                        </button>
+                        {saveBtnActive ? (
+                            <button
+                                onClick={() => handleSubmit()}
+                                className="btn btn--base btn--primary mt-4"
+                            >
+                                Save
+                            </button>
+                        ) : (
+                            <></>
+                        )}
                     </div>
                     <div>
                         <table className="table table--availability">

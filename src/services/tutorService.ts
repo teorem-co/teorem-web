@@ -38,7 +38,7 @@ export const tutorService = baseService.injectEndpoints({
                         params.timeOfDay
                             ? 'timeOfDay=' + params.timeOfDay + '&'
                             : ''
-                    }`,
+                    }${params.price ? 'price=' + params.price + '&' : ''}`,
                     method: HttpMethods.GET,
                 };
 

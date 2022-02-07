@@ -73,7 +73,11 @@ const Pagination: React.FC<IProps> = ({
 
     return (
         <>
-            <div className={`pagination ${footerActiveClassName}`}>
+            <div
+                className={`pagination ${
+                    footerActiveClassName ? footerActiveClassName : ''
+                }`}
+            >
                 <div
                     onClick={() =>
                         currPage === 1 ? undefined : paginate(currPage - 1)

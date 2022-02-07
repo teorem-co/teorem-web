@@ -1,4 +1,5 @@
-import { useEffect } from 'react';
+import { cloneDeep } from 'lodash';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 
@@ -11,6 +12,8 @@ import { useLazyGetTutorAvailabilityQuery } from '../my-profile/services/tutorAv
 import Ratings from '../myReviews/components/Ratings';
 import ReviewItem from '../myReviews/components/ReviewItem';
 import IMyReview from '../myReviews/interfaces/IMyReview';
+import IMyReviewParams from '../myReviews/interfaces/IMyReviewParams';
+import { IGetMyReviews } from '../myReviews/MyReviews';
 import {
     useLazyGetMyReviewsQuery,
     useLazyGetStatisticsQuery,
@@ -20,6 +23,8 @@ const TutorProfile = () => {
     const { t } = useTranslation();
 
     const { tutorId } = useParams();
+    const [params, setParams] = useState<IMyReviewParams>({ page: 1, rpp: 3 });
+    const [loadedMyReviews, setLoadedMyReviews] = useState<IMyReview[]>([]);
 
     // const { tutorData } = useGetTutorProfileDataQuery(
     //     (tutorId),
@@ -29,33 +34,55 @@ const TutorProfile = () => {
     //         }),
     //     }
     // );
+
     const [
         getTutorProfileData,
         { data: tutorData, isLoading: tutorDataLoading },
     ] = useLazyGetTutorProfileDataQuery();
-
     const [getMyReviews, { data: myReviews, isLoading: myReviewsLoading }] =
         useLazyGetMyReviewsQuery();
-
     const [
         getStatistics,
         { data: tutorStatistics, isLoading: statisticsLoading },
     ] = useLazyGetStatisticsQuery();
-
     const [getTutorAvailability, { data: tutorAvailability }] =
         useLazyGetTutorAvailabilityQuery();
 
     useEffect(() => {
+        const myReviewsGetObj: IGetMyReviews = {
+            tutorId: tutorId,
+            page: params.page,
+            rpp: params.rpp,
+        };
+
         getTutorProfileData(tutorId);
-        getMyReviews(tutorId);
+        getMyReviews(myReviewsGetObj);
         getStatistics(tutorId);
         getTutorAvailability(tutorId);
     }, []);
 
-    const renderTableCells = (column: string | boolean) => {
+    useEffect(() => {
+        const currentReviews = cloneDeep(loadedMyReviews);
+
+        if (myReviews) {
+            setLoadedMyReviews(currentReviews.concat(myReviews.rows));
+        }
+    }, [myReviews]);
+
+    useEffect(() => {
+        const myReviewsGetObj: IGetMyReviews = {
+            tutorId: tutorId,
+            page: params.page,
+            rpp: params.rpp,
+        };
+        getMyReviews(myReviewsGetObj);
+    }, [params]);
+
+    const renderTableCells = (column: string | boolean, index: number) => {
         if (typeof column === 'boolean') {
             return (
                 <td
+                    key={index}
                     className={`${
                         column
                             ? 'table--availability--check'
@@ -72,8 +99,29 @@ const TutorProfile = () => {
                 </td>
             );
         } else {
-            return <td>{column}</td>;
+            return <td key={index}>{column}</td>;
         }
+    };
+
+    const handleLoadMore = () => {
+        let newParams = { ...params };
+        newParams = {
+            page: params.page + 1,
+            rpp: params.rpp,
+        };
+
+        setParams(newParams);
+    };
+
+    const hideLoadMore = () => {
+        let returnValue: boolean = false;
+        if (myReviews) {
+            const totalPages = Math.ceil(myReviews.count / params.rpp);
+
+            if (params.page === totalPages) returnValue = true;
+        }
+
+        return returnValue;
     };
 
     return (
@@ -143,30 +191,35 @@ const TutorProfile = () => {
                                         {tutorAvailability &&
                                         tutorAvailability[1].length > 1 ? (
                                             <table className="table table--availability">
-                                                {tutorAvailability.map(
-                                                    (
-                                                        row: (
-                                                            | string
-                                                            | boolean
-                                                        )[]
-                                                    ) => {
-                                                        return (
-                                                            <tr>
-                                                                {row.map(
-                                                                    (
-                                                                        column:
-                                                                            | string
-                                                                            | boolean
-                                                                    ) => {
-                                                                        return renderTableCells(
-                                                                            column
-                                                                        );
-                                                                    }
-                                                                )}
-                                                            </tr>
-                                                        );
-                                                    }
-                                                )}
+                                                <tbody>
+                                                    {tutorAvailability.map(
+                                                        (
+                                                            row: (
+                                                                | string
+                                                                | boolean
+                                                            )[],
+                                                            index: number
+                                                        ) => {
+                                                            return (
+                                                                <tr key={index}>
+                                                                    {row.map(
+                                                                        (
+                                                                            column:
+                                                                                | string
+                                                                                | boolean,
+                                                                            index: number
+                                                                        ) => {
+                                                                            return renderTableCells(
+                                                                                column,
+                                                                                index
+                                                                            );
+                                                                        }
+                                                                    )}
+                                                                </tr>
+                                                            );
+                                                        }
+                                                    )}
+                                                </tbody>
                                             </table>
                                         ) : (
                                             <>
@@ -188,34 +241,52 @@ const TutorProfile = () => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {tutorData.TutorSubjects.map(
-                                                    (item: ITutorSubject) => {
-                                                        return (
-                                                            <tr>
-                                                                <td>
-                                                                    {
-                                                                        item
-                                                                            .Subject
-                                                                            .name
+                                                {tutorData.TutorSubjects
+                                                    .length > 0 ? (
+                                                    tutorData.TutorSubjects.map(
+                                                        (
+                                                            item: ITutorSubject
+                                                        ) => {
+                                                            return (
+                                                                <tr
+                                                                    key={
+                                                                        item.id
                                                                     }
-                                                                </td>
-                                                                <td>
-                                                                    {
-                                                                        item
-                                                                            .Level
-                                                                            .name
-                                                                    }
-                                                                </td>
-                                                                <td>
-                                                                    $
-                                                                    {item.price}
-                                                                    <span className="type--color--tertiary">
-                                                                        /hr
-                                                                    </span>
-                                                                </td>
-                                                            </tr>
-                                                        );
-                                                    }
+                                                                >
+                                                                    <td>
+                                                                        {
+                                                                            item
+                                                                                .Subject
+                                                                                .name
+                                                                        }
+                                                                    </td>
+                                                                    <td>
+                                                                        {
+                                                                            item
+                                                                                .Level
+                                                                                .name
+                                                                        }
+                                                                    </td>
+                                                                    <td>
+                                                                        $
+                                                                        {
+                                                                            item.price
+                                                                        }
+                                                                        <span className="type--color--tertiary">
+                                                                            /hr
+                                                                        </span>
+                                                                    </td>
+                                                                </tr>
+                                                            );
+                                                        }
+                                                    )
+                                                ) : (
+                                                    <tr>
+                                                        <td colSpan={3}>
+                                                            There are no
+                                                            subjects offered
+                                                        </td>
+                                                    </tr>
                                                 )}
                                             </tbody>
                                         </table>
@@ -227,16 +298,18 @@ const TutorProfile = () => {
                                         <div className="flex flex--jc--space-between">
                                             <div>
                                                 <div className="type--huge">
-                                                    {getAvgRating(myReviews)}
+                                                    {tutorStatistics
+                                                        ? tutorStatistics.statistic
+                                                        : 0}
                                                 </div>
                                                 <div className="rating__stars mb-4">
                                                     <div
                                                         className="rating__stars__fill"
                                                         style={{
                                                             width: `${
-                                                                getAvgRating(
-                                                                    myReviews
-                                                                ) * 20
+                                                                (tutorStatistics
+                                                                    ? tutorStatistics.statistic
+                                                                    : 0) * 20
                                                             }%`,
                                                         }}
                                                     ></div>
@@ -261,15 +334,37 @@ const TutorProfile = () => {
                                     <div>
                                         {myReviews &&
                                         myReviews.rows.length > 0 ? (
-                                            myReviews.rows.map(
-                                                (item: IMyReview) => (
-                                                    <div className="reviews-list">
-                                                        <ReviewItem
-                                                            reviewItem={item}
-                                                        />
-                                                    </div>
-                                                )
-                                            )
+                                            <>
+                                                <div className="reviews-list">
+                                                    {loadedMyReviews &&
+                                                        loadedMyReviews.map(
+                                                            (
+                                                                item: IMyReview
+                                                            ) => (
+                                                                <ReviewItem
+                                                                    key={
+                                                                        item.id
+                                                                    }
+                                                                    reviewItem={
+                                                                        item
+                                                                    }
+                                                                />
+                                                            )
+                                                        )}
+                                                </div>
+                                                {hideLoadMore() ? (
+                                                    <></>
+                                                ) : (
+                                                    <button
+                                                        onClick={() =>
+                                                            handleLoadMore()
+                                                        }
+                                                        className="btn btn--base btn--clear d--b align--center mt-6"
+                                                    >
+                                                        Load more
+                                                    </button>
+                                                )}
+                                            </>
                                         ) : (
                                             <div className="reviews-list">
                                                 <div className="type--center mt-22">

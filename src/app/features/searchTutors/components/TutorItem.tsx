@@ -110,23 +110,31 @@ const TutorItem: FC<Props> = (props: Props) => {
                     <div className="flex--grow mb-6">
                         <div className="flex flex--center mb-3">
                             <i className="icon icon--pricing icon--base icon--grey"></i>
-                            <span className="d--ib ml-4">
-                                {/* Add later */}
-                                $44 - $45 /hr
-                            </span>
+                            {tutor.minimumPrice ? (
+                                <span className="d--ib ml-4">
+                                    ${tutor.minimumPrice}
+                                    &nbsp;-&nbsp;$
+                                    {tutor.maximumPrice}&nbsp;/hr
+                                </span>
+                            ) : (
+                                <span className="d--ib ml-4">
+                                    There is no price
+                                </span>
+                            )}
                         </div>
+
                         <div className="flex flex--center mb-3">
                             <i className="icon icon--star icon--base icon--grey"></i>
                             <span className="d--ib ml-4">
                                 {/* Add later */}
-                                4.9
+                                {tutor.averageGrade}
                             </span>
                         </div>
                         <div className="flex flex--center">
                             <i className="icon icon--completed-lessons icon--base icon--grey"></i>
                             <span className="d--ib ml-4">
                                 {/* Add later */}
-                                15 completed lessons
+                                {tutor.completedLessons} completed lessons
                             </span>
                         </div>
                     </div>
