@@ -6,16 +6,30 @@ import thirdAvatar from '../../../../assets/images/user-avatar-3.png';
 import fourthAvatar from '../../../../assets/images/user-avatar-4.png';
 import fifthAvatar from '../../../../assets/images/user-avatar-5.png';
 
-const HeroSection = () => {
+interface Props {
+    title: string;
+    desc: string;
+    showBtn: boolean;
+}
+
+const HeroSection = (props: Props) => {
+    const { title, desc, showBtn } = props;
+
     return (
         <div className="landing__hero">
             <div className="landing__hero__title landing--fluid--title">
-                Online tutoring that releases potential
+                {title}
             </div>
             <div className="landing__hero__subtitle landing--fluid--sm type--color--secondary">
-                Private One-on-One 50-minute online lessons uniquely tailored
-                for each student. All school subjects and age groups covered.
+                {desc}
             </div>
+            {showBtn ? (
+                <button className="btn btn--primary btn--lg mt-10">
+                    Try for free
+                </button>
+            ) : (
+                <></>
+            )}
             <img
                 src={firstAvatar}
                 alt="user-1"

@@ -1,7 +1,6 @@
 import React from 'react';
 
 import Footer from './Footer';
-import HeroSection from './HeroSection';
 import Navigation from './Navigation';
 
 interface Props {
@@ -16,11 +15,7 @@ const LandingWrapper = (props: Props) => {
             <div className="landing">
                 {/* NAVIGATION */}
                 <Navigation />
-                {/* HERO  */}
-                <div className="landing__content">
-                    <HeroSection />
-                    {children}
-                </div>
+                <div className="landing__content">{children}</div>
             </div>
             {/* FOOTER */}
             <Footer />

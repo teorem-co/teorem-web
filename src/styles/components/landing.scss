@@ -4,6 +4,7 @@
 
 .landing {
     padding: calc($unit * 3) calc($unit * 4) 0;
+    overflow-x: hidden;
 
     @media (min-width: $responsive-xl) {
         padding: calc($unit * 8) 165px 0;
@@ -13,6 +14,7 @@
         width: 100%;
         display: block;
         box-shadow: 8px 6px 12px rgba(0, 0, 0, 0.05);
+        object-fit: cover;
     }
 
     &__content {
@@ -126,7 +128,6 @@
         }
     }
 
-    //fix stripe image not displaying in scroll on smaller screens
     &__cards {
         overflow-x: auto;
         padding: calc($unit * 3) calc($unit * 2);
@@ -143,13 +144,17 @@
             padding: calc($unit * 2) calc($unit * 3);
             margin-right: calc($unit * 4);
             display: inline-block;
-            text-align: center;
 
             width: 156px;
+
             background: $white;
-            /* offset-x | offset-y | blur-radius | color */
             box-shadow: 8px 6px 12px rgba(0, 0, 0, 0.05);
             border-radius: 10px;
+
+            img {
+                display: inline-block;
+                max-width: 100%;
+            }
 
             &:last-child {
                 margin-right: 0px;
@@ -295,6 +300,7 @@
         max-width: 730px;
         border: 1px solid $border-color;
         border-style: dashed;
+        position: relative;
 
         font-size: 16px;
 
@@ -314,6 +320,10 @@
     &__features {
         width: 100%;
         display: none;
+
+        &--reverse {
+            flex-direction: row-reverse;
+        }
 
         @media (min-width: $responsive-xl) {
             display: flex;
@@ -346,6 +356,7 @@
             rgba(127, 95, 211, 0.9) 4.52%,
             #5c3ee8 94.64%
         );
+        overflow-y: hidden;
 
         &__content {
             flex-grow: 1;
@@ -372,7 +383,7 @@
                 }
 
                 @media (min-width: $responsive-xl) {
-                    width: 320px;
+                    width: 350px;
                 }
             }
         }
