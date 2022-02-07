@@ -24,7 +24,7 @@ export interface IGetMyReviews {
 }
 
 const MyReviews = () => {
-    const [params, setParams] = useState<IMyReviewParams>({ page: 1, rpp: 10 });
+    const [params, setParams] = useState<IMyReviewParams>({ page: 0, rpp: 10 });
 
     const [getMyReviews, { data: myReviews, isLoading: myReviewsLoading }] =
         useLazyGetMyReviewsQuery();
