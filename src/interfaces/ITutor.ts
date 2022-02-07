@@ -9,4 +9,8 @@ export default interface ITutor {
     aboutLessons: string;
     User: IUser;
     TutorSubjects: ITutorSubject[];
+    minimumPrice: number;
+    maximumPrice: number;
+    averageGrade: number;
+    completedLessons: number;
 }

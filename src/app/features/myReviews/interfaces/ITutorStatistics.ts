@@ -1,8 +1,8 @@
-import ITutorStatisticsResult from "./ITutorStatisticsResult";
+import ITutorStatisticsResult from './ITutorStatisticsResult';
 
 interface ITutorStatistics {
     result: ITutorStatisticsResult[];
-    statistics: number;
+    statistic: number;
 }
 
 export default ITutorStatistics;

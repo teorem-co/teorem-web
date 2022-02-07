@@ -24,7 +24,7 @@ export interface IGetMyReviews {
 }
 
 const MyReviews = () => {
-    const [params, setParams] = useState<IMyReviewParams>({ page: 0, rpp: 10 });
+    const [params, setParams] = useState<IMyReviewParams>({ page: 1, rpp: 10 });
 
     const [getMyReviews, { data: myReviews, isLoading: myReviewsLoading }] =
         useLazyGetMyReviewsQuery();
@@ -48,6 +48,17 @@ const MyReviews = () => {
             getStatistics(tutorId);
         }
     }, []);
+
+    useEffect(() => {
+        if (tutorId) {
+            const obj: IGetMyReviews = {
+                tutorId: tutorId,
+                page: params.page,
+                rpp: params.rpp,
+            };
+            getMyReviews(obj);
+        }
+    }, [params]);
 
     // change paginated number
     const paginate = (pageNumber: number) => {
@@ -91,20 +102,26 @@ const MyReviews = () => {
                         ) : (
                             <>
                                 {myReviews && myReviews.rows.length > 0 ? (
-                                    myReviews.rows.map((item: IMyReview) => (
+                                    <>
                                         <div className="reviews-list">
-                                            <ReviewItem reviewItem={item} />
-                                            <Pagination
-                                                activePageClass={
-                                                    'pagination--active'
-                                                }
-                                                currPage={params.page}
-                                                itemsPerPage={params.rpp}
-                                                totalItems={1000}
-                                                paginate={paginate}
-                                            />
+                                            {myReviews.rows.map(
+                                                (item: IMyReview) => (
+                                                    <ReviewItem
+                                                        reviewItem={item}
+                                                    />
+                                                )
+                                            )}
                                         </div>
-                                    ))
+                                        <Pagination
+                                            activePageClass={
+                                                'pagination--active'
+                                            }
+                                            currPage={params.page}
+                                            itemsPerPage={params.rpp}
+                                            totalItems={myReviews.count}
+                                            paginate={paginate}
+                                        />
+                                    </>
                                 ) : (
                                     <div className="reviews-list">
                                         <div className="type--center mt-22">
