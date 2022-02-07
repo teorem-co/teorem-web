@@ -8,7 +8,7 @@ const Navigation = () => {
     const [showSidebar, setShowSidebar] = useState(false);
 
     return (
-        <div>
+        <div className="layout__header--landing">
             <div className="flex--primary">
                 <NavLink
                     className="landing__navigation__logo d--b flex--shrink"
@@ -22,9 +22,10 @@ const Navigation = () => {
                         onClick={() => setShowSidebar(!showSidebar)}
                     ></i>
                 </div>
+
                 {/* WEB SIZE NAV */}
                 <div className="landing__navigation__items">
-                    <div className="flex flex--grow flex--jc--center">
+                    <div className="flex flex--grow flex--jc--end mr-6 mr-md-30">
                         <NavLink
                             to={LANDING_PATHS.HOW_IT_WORKS}
                             className="nav-link--landing"
@@ -44,7 +45,7 @@ const Navigation = () => {
                             <div>Become a tutor</div>
                         </NavLink>
                     </div>
-                    <div className="flex--primary flex--grow">
+                    <div className="flex--primary">
                         <div>
                             <button className="btn btn--ghost  btn--base type--color--black">
                                 Sign in
@@ -53,12 +54,10 @@ const Navigation = () => {
                                 Get started
                             </button>
                         </div>
-                        <div>
-                            <i className="icon icon--sm icon--language icon--grey"></i>
-                            <span className="type--color--secondary ml-1">
-                                EN
-                            </span>
-                        </div>
+                    </div>
+                    <div className="landing__navigation__language">
+                        <i className="icon icon--sm icon--language icon--grey"></i>
+                        <span className="type--color--secondary ml-1">EN</span>
                     </div>
                 </div>
             </div>

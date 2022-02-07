@@ -30,31 +30,21 @@ const HeroSection = (props: Props) => {
             ) : (
                 <></>
             )}
-            <img
-                src={firstAvatar}
-                alt="user-1"
-                className="landing__avatar landing__avatar--first"
-            />
-            <img
-                src={secondAvatar}
-                alt="user-2"
-                className="landing__avatar landing__avatar--second"
-            />
-            <img
-                src={thirdAvatar}
-                alt="user-3"
-                className="landing__avatar landing__avatar--third"
-            />
-            <img
-                src={fourthAvatar}
-                alt="user-4"
-                className="landing__avatar landing__avatar--fourth"
-            />
-            <img
-                src={fifthAvatar}
-                alt="user-5"
-                className="landing__avatar landing__avatar--fifth"
-            />
+            <div className="landing__avatar landing__avatar--first">
+                <img src={firstAvatar} alt="user-1" />
+            </div>
+            <div className="landing__avatar landing__avatar--second">
+                <img src={secondAvatar} alt="user-2" />
+            </div>
+            <div className="landing__avatar landing__avatar--third">
+                <img src={thirdAvatar} alt="user-3" />
+            </div>
+            <div className="landing__avatar landing__avatar--fourth">
+                <img src={fourthAvatar} alt="user-4" />
+            </div>
+            <div className="landing__avatar landing__avatar--fifth">
+                <img src={fifthAvatar} alt="user-5" />
+            </div>
         </div>
     );
 };

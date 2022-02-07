@@ -1,5 +1,3 @@
-import React from 'react';
-
 import calendar from '../../../../assets/images/landing_calendar.jpg';
 import tutorList from '../../../../assets/images/landing_tutor_list.jpg';
 import CardsGroup from '../components/CardsGroup';

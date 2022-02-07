@@ -70,6 +70,13 @@ $mobile-height: 50px;
         }
     }
 
+    &__header {
+        &--landing {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+    }
+
     &--primary {
         padding: calc(#{$unit} * 6);
         display: flex;

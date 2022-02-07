@@ -13,7 +13,7 @@
     &__img {
         width: 100%;
         display: block;
-        box-shadow: 8px 6px 12px rgba(0, 0, 0, 0.05);
+        box-shadow: 4px 3px 21px 5px rgba(0, 0, 0, 0.05);
         object-fit: cover;
     }
 
@@ -61,31 +61,39 @@
 
     &__avatar {
         position: absolute;
-        width: 90px;
-        border-radius: $border-rounded;
-        object-fit: cover;
-        display: inline-block;
+
+        img {
+            position: relative;
+            width: 90px;
+            border-radius: $border-rounded;
+            object-fit: cover;
+            display: inline-block;
+        }
 
         @media (max-width: $responsive-md) {
             width: 48px;
+        }
+
+        &:before {
+            content: '';
+            position: absolute;
+
+            display: inline-block;
+            width: 68px;
+            height: 68px;
+
+            border: 2px dashed $color-primary;
+            border-radius: $border-circle;
+            background: transparent;
         }
 
         &--first {
             left: 20%;
             top: calc(-48px - 40px);
 
-            //fix this
-            &::after {
-                content: '';
-                display: inline-block;
-                width: 68px;
-                height: 68px;
-                border-radius: $border-circle;
-                background: red;
-                border-color: $color-primary;
-                border-style: dashed;
-                position: absolute;
-                left: 100px;
+            &::before {
+                top: 33px;
+                left: -18px;
             }
 
             @media (min-width: $responsive-xl) {
@@ -98,6 +106,11 @@
             top: calc(-48px - 60px);
             right: 20%;
 
+            &::before {
+                top: 4px;
+                left: -9px;
+            }
+
             @media (min-width: $responsive-xl) {
                 right: -80px;
             }
@@ -106,6 +119,12 @@
         &--third {
             bottom: calc(-48px - 40px);
             right: 0;
+
+            &::before {
+                bottom: 0px;
+                right: -10px;
+            }
+
             @media (min-width: $responsive-xl) {
                 right: -140px;
                 bottom: calc(48px + 20px);
@@ -116,6 +135,11 @@
             bottom: calc(-48px - 80px);
             right: 40%;
 
+            &::before {
+                top: -12px;
+                left: 0;
+            }
+
             @media (min-width: $responsive-xl) {
                 right: -60px;
             }
@@ -124,6 +148,11 @@
         &--fifth {
             bottom: calc(-48px - 70px);
             left: 10%;
+
+            &::before {
+                top: 6px;
+                right: -20px;
+            }
 
             @media (min-width: $responsive-xl) {
                 bottom: calc(-48px - 20px);
@@ -194,6 +223,8 @@
 
         &__description {
             font-size: 14px;
+            max-width: 480px;
+            margin: 0 auto;
 
             @media (min-width: $responsive-xl) {
                 font-size: 18px;
@@ -202,23 +233,27 @@
     }
 
     &__review-card {
+        position: relative;
         display: flex;
         flex-direction: column;
+
+        max-width: 300px;
+        width: 100%;
         margin: 0 auto;
+        padding: 40px;
+
         // background-color: $color-primary;
         //change later
+        align-items: center;
+        text-align: left;
+        // border-radius: $border-rounded;
+        border-radius: 24px;
+
         background: linear-gradient(
             226.69deg,
             rgba(127, 95, 211, 0.9) 4.52%,
             #5c3ee8 94.64%
         );
-        align-items: center;
-        text-align: left;
-        // border-radius: $border-rounded;
-        border-radius: 24px;
-        max-width: 300px;
-        width: 100%;
-        position: relative;
 
         img {
             top: 20px;
@@ -230,7 +265,7 @@
 
         @media (min-width: $responsive-xl) {
             max-width: 100%;
-            justify-content: center;
+            justify-content: space-around;
             flex-direction: row-reverse;
 
             img {
@@ -281,12 +316,27 @@
         }
 
         &__items {
+            position: relative;
             justify-content: space-evenly;
             display: flex;
             align-items: center;
             flex-grow: 1;
             @media (max-width: $responsive-xl) {
                 display: none;
+            }
+        }
+
+        &__language {
+            position: absolute;
+            top: 2px;
+            right: -100px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: 250ms ease-in-out;
+
+            &:hover {
+                background-color: $grey-f5;
             }
         }
 

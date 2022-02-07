@@ -1,6 +1,6 @@
 import React from 'react';
 
-import avatar from '../../../../assets/images/avatar.svg';
+import avatar from '../../../../assets/images/gradient-circle.svg';
 
 interface Props {
     role: string;
@@ -10,7 +10,7 @@ interface Props {
 
 const ReviewCard = () => {
     return (
-        <div className="landing__review-card p-4">
+        <div className="landing__review-card">
             {/* User data */}
             <div>
                 <div className=" flex--shrink">
