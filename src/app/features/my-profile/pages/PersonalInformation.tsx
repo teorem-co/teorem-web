@@ -55,11 +55,7 @@ const PersonalInformation = () => {
     const [
         updateUserInformation,
 
-        {
-            isLoading: isLoadingUserUpdate,
-            isSuccess: isSuccessUserUpdate,
-            data: testData,
-        },
+        { isLoading: isLoadingUserUpdate, isSuccess: isSuccessUserUpdate },
     ] = useUpdateUserInformationMutation();
     const [
         getUser,
@@ -69,11 +65,6 @@ const PersonalInformation = () => {
             isSuccess: isSuccessUser,
         },
     ] = useLazyGetUserQuery();
-
-    useEffect(() => {
-        const test = testData;
-        debugger;
-    }, [testData]);
 
     useEffect(() => {
         const currentCountries: OptionType[] = countries
@@ -87,12 +78,6 @@ const PersonalInformation = () => {
             : [];
         setCountryOptions(currentCountries);
     }, [countries]);
-
-    useEffect(() => {
-        if (isSuccessUserUpdate) {
-            //fetch user by id
-        }
-    }, [isSuccessUserUpdate]);
 
     // const [
     //     getTutorProfileData,
@@ -160,8 +145,8 @@ const PersonalInformation = () => {
 
     useEffect(() => {
         if (isSuccessUserUpdate) {
-            if (user) {
-                getUser(user.id);
+            if (userId) {
+                getUser(userId);
             }
             setSaveBtnActive(false);
             toastService.success(

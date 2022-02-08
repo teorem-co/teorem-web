@@ -37,12 +37,6 @@ export const authSlice = createSlice({
                 state.user = user;
             }
         );
-        builder.addMatcher(
-            userService.endpoints.updateUserInformation.matchFulfilled,
-            (state, action: PayloadAction<IUser>) => {
-                state.user = action.payload;
-            }
-        );
     },
 });
 
