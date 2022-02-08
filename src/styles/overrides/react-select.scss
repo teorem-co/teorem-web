@@ -108,6 +108,12 @@
         &__indicator-separator {
             display: none !important;
         }
+
+        &--wider {
+            .react-select--search-tutor__menu {
+                width: 600px !important;
+            }
+        }
     }
 
     &__flag {

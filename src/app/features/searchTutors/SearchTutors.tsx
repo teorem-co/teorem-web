@@ -86,7 +86,6 @@ const SearchTutors = () => {
         const urlQueries: IParams = getUrlParams(
             history.location.search.replace('?', '')
         );
-
         if (Object.keys(urlQueries).length > 0) {
             urlQueries.subject &&
                 formik.setFieldValue('subject', urlQueries.subject) &&
@@ -159,9 +158,11 @@ const SearchTutors = () => {
 
     useEffect(() => {
         if (priceSortDirection === SortDirection.None) {
-            const paramsObj = { ...params };
-            delete paramsObj.price;
-            setParams({ ...paramsObj });
+            if (Object.keys(params).length > 0) {
+                const paramsObj = { ...params };
+                delete paramsObj.price;
+                setParams({ ...paramsObj });
+            }
         } else {
             if (params.price) {
                 const paramsObj = { ...params };
@@ -414,7 +415,8 @@ const SearchTutors = () => {
                                     components={{
                                         Menu: CustomMenu,
                                     }}
-                                    className="ml-6"
+                                    className="ml-6 react-select--search-tutor--wider"
+                                    classNamePrefix="react-select--search-tutor"
                                     onMenuClose={handleMenuClose}
                                     isSearchable={false}
                                 ></Select>
