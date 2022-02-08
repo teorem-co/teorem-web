@@ -5,13 +5,19 @@ import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { useGetLevelOptionsQuery } from '../../../../services/levelService';
-import { useLazyGetSubjectOptionsByLevelQuery } from '../../../../services/subjectService';
+import {
+    useCreateSubjectMutation,
+    useLazyGetSubjectOptionsByLevelQuery,
+    useLazyGetSubjectsByLevelAndSubjectQuery,
+} from '../../../../services/subjectService';
 import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import TextField from '../../../components/form/TextField';
+import toastService from '../../../services/toastService';
 
 interface Props {
     sideBarIsOpen: boolean;
     closeSidebar: () => void;
+    handleGetData: () => void;
 }
 
 interface Values {
@@ -21,12 +27,15 @@ interface Values {
 }
 
 const AddSubjectSidebar = (props: Props) => {
-    const { closeSidebar, sideBarIsOpen } = props;
+    const { closeSidebar, sideBarIsOpen, handleGetData } = props;
 
     const history = useHistory();
 
     const { data: levelOptions, isLoading: isLoadingLevels } =
         useGetLevelOptionsQuery();
+
+    const [createSubject, { isSuccess: isSuccessCreateSubject }] =
+        useCreateSubjectMutation();
 
     const [
         getSubjectOptionsByLevel,
@@ -35,7 +44,7 @@ const AddSubjectSidebar = (props: Props) => {
             isLoading: isLoadingSubjects,
             isSuccess: isSuccessSubjects,
         },
-    ] = useLazyGetSubjectOptionsByLevelQuery();
+    ] = useLazyGetSubjectsByLevelAndSubjectQuery();
 
     const levelDisabled = !levelOptions || isLoadingLevels;
 
@@ -56,7 +65,10 @@ const AddSubjectSidebar = (props: Props) => {
     };
 
     const handleSubmit = (values: Values) => {
-        const test = values;
+        createSubject({
+            subjectId: values.subject,
+            price: Number(values.price),
+        });
     };
 
     const formik = useFormik({
@@ -72,13 +84,20 @@ const AddSubjectSidebar = (props: Props) => {
     useEffect(() => {
         formik.setFieldValue('subject', '');
         if (formik.values.level !== '') {
-            getSubjectOptionsByLevel(formik.values.level);
+            getSubjectOptionsByLevel({
+                levelId: formik.values.level,
+            });
         }
     }, [formik.values.level]);
 
     useEffect(() => {
-        console.log(formik.values);
-    }, [formik.values]);
+        if (isSuccessCreateSubject) {
+            toastService.success('Subject created');
+            closeSidebar();
+            handleGetData();
+            formik.resetForm();
+        }
+    }, [isSuccessCreateSubject]);
 
     return (
         <div>

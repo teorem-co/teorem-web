@@ -50,7 +50,11 @@ const SearchTutors = () => {
 
     const [
         getAvailableTutors,
-        { data: availableTutors, isLoading: isLoadingAvailableTutors },
+        {
+            data: availableTutors,
+            isLoading: isLoadingAvailableTutors,
+            isFetching: isFetchingAvailableTutors,
+        },
     ] = useLazyGetAvailableTutorsQuery();
 
     const [
@@ -443,7 +447,8 @@ const SearchTutors = () => {
                         />
                     </div>
                     <div className="tutor-list">
-                        {isLoadingAvailableTutors ? (
+                        {isLoadingAvailableTutors ||
+                        isFetchingAvailableTutors ? (
                             // Here goes loader
                             <div className="loader--sceleton">
                                 <LoaderTutor />

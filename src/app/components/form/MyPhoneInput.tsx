@@ -6,6 +6,7 @@ interface TextFieldType extends FieldProps {
     className?: string;
     inputType?: string;
     name: string;
+    disabled?: boolean;
 }
 
 const MyPhoneInput: FC<TextFieldType> = (props: any) => {
@@ -26,6 +27,7 @@ const MyPhoneInput: FC<TextFieldType> = (props: any) => {
                 className={`${className ?? 'input input--base input--text'}`}
                 onChange={(phone) => form.setFieldValue('phoneNumber', phone)}
                 onBlur={() => form.setFieldTouched(field.name)}
+                disabled={props.disabled}
             />
             <div className="field__validation">{errorText}</div>
         </>

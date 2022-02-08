@@ -6,10 +6,21 @@ import { useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import IParams from '../../../../interfaces/IParams';
-import { useLazyGetLevelOptionsQuery } from '../../../../services/levelService';
-import { useLazyGetSubjectOptionsByLevelQuery } from '../../../../services/subjectService';
-import MySelect from '../../../components/form/MySelectField';
+import {
+    useGetLevelOptionsQuery,
+    useLazyGetLevelOptionsQuery,
+} from '../../../../services/levelService';
+import {
+    useDeleteSubjectMutation,
+    useLazyGetSubjectOptionsByLevelQuery,
+    useLazyGetSubjectsByLevelAndSubjectQuery,
+    useUpdateSubjectMutation,
+} from '../../../../services/subjectService';
+import { useLazyGetTutorProfileDataQuery } from '../../../../services/tutorService';
+import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import TextField from '../../../components/form/TextField';
+import { useAppSelector } from '../../../hooks';
+import toastService from '../../../services/toastService';
 import getUrlParams from '../../../utils/getUrlParams';
 
 interface Values {
@@ -21,48 +32,109 @@ interface Values {
 interface Props {
     sideBarIsOpen: boolean;
     closeSidebar: () => void;
+    handleGetData: () => void;
 }
 
 const EditSubjectSidebar = (props: Props) => {
-    const { closeSidebar, sideBarIsOpen } = props;
+    const { closeSidebar, sideBarIsOpen, handleGetData } = props;
 
     //get level and subject name from user subject with mapping
     const history = useHistory();
+    const tutorId = useAppSelector((state) => state.auth.user?.id);
 
-    const [params, setParams] = useState<IParams>({});
+    const { data: levelOptions, isLoading: isLoadingLevels } =
+        useGetLevelOptionsQuery();
+
+    const [
+        deleteSubject,
+        {
+            isLoading: isLoadingDeleteSubject,
+            isSuccess: isSuccessDeleteSubject,
+        },
+    ] = useDeleteSubjectMutation();
+
+    const [
+        getProfileData,
+        {
+            data: myTeachingsData,
+            isSuccess: isSuccessMyTeachings,
+            isLoading: isLoadingMyTeachings,
+        },
+    ] = useLazyGetTutorProfileDataQuery({
+        selectFromResult: ({ data, isSuccess, isLoading }) => ({
+            data: {
+                occupation: data?.currentOccupation,
+                yearsOfExperience: data?.yearsOfExperience,
+                tutorSubjects: data?.TutorSubjects,
+            },
+            isSuccess,
+            isLoading,
+        }),
+    });
+
+    const [updateSubject, { isSuccess: isSuccessUpdateSubject }] =
+        useUpdateSubjectMutation();
+
+    useEffect(() => {
+        getProfileData(tutorId ? tutorId : '');
+    }, []);
+
+    const urlQueries = getUrlParams(history.location.search.replace('?', ''));
+
+    const selectedSubject =
+        myTeachingsData.tutorSubjects &&
+        myTeachingsData.tutorSubjects.find(
+            (x) => x.subjectId === urlQueries.subjectId
+        );
+
+    const [
+        getSubjectOptionsByLevel,
+        {
+            data: subjectsData,
+            isLoading: isLoadingSubjects,
+            isSuccess: isSuccessSubjects,
+        },
+    ] = useLazyGetSubjectsByLevelAndSubjectQuery();
+
+    const levelDisabled = !levelOptions || isLoadingLevels;
+
+    const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
+
+    const handleDeleteSubject = (objectId: string) => {
+        deleteSubject(objectId);
+    };
+
+    useEffect(() => {
+        if (subjectsData && isSuccessSubjects && formik.values.level !== '') {
+            setSubjectOptions(subjectsData);
+        }
+    }, [subjectsData]);
 
     useEffect(() => {
         if (sideBarIsOpen) {
-            const urlQueries: IParams = getUrlParams(
-                history.location.search.replace('?', '')
-            );
-
-            if (Object.keys(urlQueries).length > 0) {
-                setParams(urlQueries);
-                if (urlQueries.level) {
-                    formik.setFieldValue('level', urlQueries.level);
-                }
-                urlQueries.subject &&
-                    formik.setFieldValue('subject', urlQueries.subject);
-                urlQueries.price &&
-                    formik.setFieldValue('price', urlQueries.price);
+            if (
+                selectedSubject?.levelId &&
+                selectedSubject.subjectId &&
+                selectedSubject.price
+            ) {
+                formik.setFieldValue('level', selectedSubject.levelId);
+                formik.setFieldValue('subject', selectedSubject.subjectId);
+                formik.setFieldValue('price', selectedSubject.price);
             }
-        } else {
-            setParams({});
         }
     }, [sideBarIsOpen]);
 
-    useEffect(() => {
-        const filterParams = new URLSearchParams();
-        if (Object.keys(params).length !== 0 && params.constructor === Object) {
-            for (const [key, value] of Object.entries(params)) {
-                filterParams.append(key, value);
-            }
-            history.push({ search: filterParams.toString() });
-        } else {
-            history.push({ search: filterParams.toString() });
-        }
-    }, [params]);
+    // useEffect(() => {
+    //     const filterParams = new URLSearchParams();
+    //     if (Object.keys(params).length !== 0 && params.constructor === Object) {
+    //         for (const [key, value] of Object.entries(params)) {
+    //             filterParams.append(key, value);
+    //         }
+    //         history.push({ search: filterParams.toString() });
+    //     } else {
+    //         history.push({ search: filterParams.toString() });
+    //     }
+    // }, [params]);
 
     const initialValues: Values = {
         level: '',
@@ -73,7 +145,11 @@ const EditSubjectSidebar = (props: Props) => {
     const { t } = useTranslation();
 
     const handleSubmit = (values: Values) => {
-        const test = values;
+        updateSubject({
+            subjectId: values.subject,
+            price: Number(values.price),
+            objectId: selectedSubject?.id,
+        });
     };
 
     const formik = useFormik({
@@ -83,6 +159,31 @@ const EditSubjectSidebar = (props: Props) => {
             price: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
         }),
     });
+
+    useEffect(() => {
+        if (selectedSubject?.levelId && selectedSubject.subjectId) {
+            getSubjectOptionsByLevel({
+                levelId: selectedSubject.levelId,
+                subjectId: selectedSubject.subjectId,
+            });
+        }
+    }, [selectedSubject?.levelId]);
+
+    useEffect(() => {
+        if (isSuccessUpdateSubject) {
+            toastService.success('Subject updated');
+            closeSidebar();
+            handleGetData();
+        }
+    }, [isSuccessUpdateSubject]);
+
+    useEffect(() => {
+        if (isSuccessDeleteSubject) {
+            toastService.success('Subject deleted');
+            closeSidebar();
+            handleGetData();
+        }
+    }, [isSuccessDeleteSubject]);
 
     return (
         <div>
@@ -121,8 +222,7 @@ const EditSubjectSidebar = (props: Props) => {
                                     form={formik}
                                     meta={formik.getFieldMeta('level')}
                                     isMulti={false}
-                                    options={[]}
-                                    isDisabled={true}
+                                    options={levelOptions}
                                     placeholder={t(
                                         'SEARCH_TUTORS.PLACEHOLDER.LEVEL'
                                     )}
@@ -137,8 +237,7 @@ const EditSubjectSidebar = (props: Props) => {
                                     form={formik}
                                     meta={formik.getFieldMeta('subject')}
                                     isMulti={false}
-                                    options={[]}
-                                    isDisabled={true}
+                                    options={subjectOptions}
                                     noOptionsMessage={() =>
                                         t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')
                                     }
@@ -174,7 +273,14 @@ const EditSubjectSidebar = (props: Props) => {
                         >
                             Save information
                         </button>
-                        <button className="btn btn--clear type--color--error type--wgt--bold">
+                        <button
+                            className="btn btn--clear type--color--error type--wgt--bold"
+                            onClick={() =>
+                                handleDeleteSubject(
+                                    selectedSubject ? selectedSubject.id : ''
+                                )
+                            }
+                        >
                             Delete
                         </button>
                     </div>

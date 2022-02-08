@@ -5,6 +5,25 @@ import ISubject from '../interfaces/ISubject';
 
 const URL = 'subjects';
 
+const mutationURL = 'tutor-subjects';
+
+interface IGetSubject {
+    id: string;
+    abrv: string;
+    name: string;
+    levelId: string;
+}
+interface IId {
+    levelId: string;
+    subjectId?: string;
+}
+
+interface ICreateSubject {
+    subjectId: string;
+    price: number;
+    objectId?: string;
+}
+
 export const subjectService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         getSubjectOptionsByLevel: builder.query<OptionType[], string>({
@@ -20,7 +39,54 @@ export const subjectService = baseService.injectEndpoints({
                 return subjectOptions;
             },
         }),
+        getSubjectsByLevelAndSubject: builder.query<OptionType[], IId>({
+            query: (ids) => ({
+                url: `${URL}/filter/${ids.levelId}/?subjectId=${
+                    ids.subjectId ? ids.subjectId : ''
+                }`,
+                method: HttpMethods.GET,
+            }),
+            transformResponse: (response: IGetSubject[]) => {
+                const subjectOptions: OptionType[] = response.map((level) => ({
+                    value: level.id,
+                    label: level.name,
+                }));
+                return subjectOptions;
+            },
+        }),
+        updateSubject: builder.mutation<void, ICreateSubject>({
+            query(body) {
+                return {
+                    url: `${mutationURL}/${body.objectId}`,
+                    method: 'PUT',
+                    body,
+                };
+            },
+        }),
+        createSubject: builder.mutation<void, ICreateSubject>({
+            query(body) {
+                return {
+                    url: `${mutationURL}/`,
+                    method: 'POST',
+                    body,
+                };
+            },
+        }),
+        deleteSubject: builder.mutation<void, string>({
+            query(objectId) {
+                return {
+                    url: `${mutationURL}/${objectId}`,
+                    method: HttpMethods.DELETE,
+                };
+            },
+        }),
     }),
 });
 
-export const { useLazyGetSubjectOptionsByLevelQuery } = subjectService;
+export const {
+    useLazyGetSubjectOptionsByLevelQuery,
+    useLazyGetSubjectsByLevelAndSubjectQuery,
+    useUpdateSubjectMutation,
+    useCreateSubjectMutation,
+    useDeleteSubjectMutation,
+} = subjectService;

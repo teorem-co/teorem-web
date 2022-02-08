@@ -11,6 +11,7 @@ interface PreviewFileType {
 
 type UploadFileType = {
     setFieldValue: (field: string, value: any) => void;
+    imagePreview?: string;
 } & FieldAttributes<{}>;
 
 const UploadFile: FC<UploadFileType> = ({ setFieldValue, ...props }) => {
@@ -46,9 +47,12 @@ const UploadFile: FC<UploadFileType> = ({ setFieldValue, ...props }) => {
     return (
         <>
             <div className="flex flex--center">
-                {preview.preview ? (
+                {preview.preview || props.imagePreview ? (
                     <aside className="upload__images mr-6">
-                        <img alt="profile" src={preview.preview} />
+                        <img
+                            alt="profile"
+                            src={preview.preview || props.imagePreview}
+                        />
                     </aside>
                 ) : (
                     <div className="upload__placeholder">

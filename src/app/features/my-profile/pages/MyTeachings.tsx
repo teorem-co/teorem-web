@@ -19,6 +19,7 @@ import EditSubjectSidebar from '../components/EditSubjectSidebar';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
 import ProfileTabs from '../components/ProfileTabs';
+import SubjectList from '../components/SubjectList';
 
 interface Values {
     occupation: string;
@@ -29,6 +30,7 @@ const MyTeachings = () => {
     const [addSidebarOpen, setAddSidebarOpen] = useState(false);
     const [editSidebarOpen, setEditSidebarOpen] = useState(false);
     const [saveBtnActive, setSaveBtnActive] = useState(false);
+    const [rerender, setRerender] = useState<boolean>(false);
 
     const { data: profileProgress } = useGetProfileProgressQuery();
 
@@ -152,6 +154,14 @@ const MyTeachings = () => {
     const closeEditSubjectSidebar = () => {
         setEditSidebarOpen(false);
     };
+
+    const handleSendId = (subjectId: string) => {
+        history.push(`?subjectId=${subjectId}`);
+        setEditSidebarOpen(true);
+    };
+    useEffect(() => {
+        console.log(myTeachingsData.tutorSubjects?.length);
+    }, [myTeachingsData.tutorSubjects?.length]);
 
     return (
         <MainWrapper>
@@ -279,49 +289,18 @@ const MyTeachings = () => {
                                     </div>
                                     {/* Map through subjects here */}
                                     {/* Test fields */}
-                                    {myTeachingsData.tutorSubjects ? (
-                                        myTeachingsData.tutorSubjects.map(
-                                            (subject) => (
-                                                <div className="dash-wrapper__item">
-                                                    <div
-                                                        className="dash-wrapper__item__element"
-                                                        onClick={() => {
-                                                            history.push(
-                                                                `?level=${subject.Level.id}&subject=${subject.Subject.id}&price=${subject.price}`
-                                                            );
-                                                            setEditSidebarOpen(
-                                                                true
-                                                            );
-                                                        }}
-                                                    >
-                                                        <div className="flex--primary cur--pointer">
-                                                            <div>
-                                                                <div className="type--wgt--bold">
-                                                                    {
-                                                                        subject
-                                                                            .Subject
-                                                                            .name
-                                                                    }
-                                                                </div>
-                                                                <div>
-                                                                    {
-                                                                        subject
-                                                                            .Level
-                                                                            .name
-                                                                    }
-                                                                </div>
-                                                            </div>
-                                                            <div>
-                                                                <i className="icon icon--base icon--edit icon--primary"></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            )
-                                        )
-                                    ) : (
-                                        <></>
-                                    )}
+                                    <SubjectList
+                                        handleSendId={handleSendId}
+                                        tutorSubjects={
+                                            myTeachingsData.tutorSubjects
+                                                ? myTeachingsData.tutorSubjects
+                                                : []
+                                        }
+                                        key={
+                                            myTeachingsData.tutorSubjects
+                                                ?.length
+                                        }
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -331,10 +310,12 @@ const MyTeachings = () => {
             <EditSubjectSidebar
                 sideBarIsOpen={editSidebarOpen}
                 closeSidebar={closeEditSubjectSidebar}
+                handleGetData={() => getProfileData(tutorId ? tutorId : '')}
             />
             <AddSubjectSidebar
                 sideBarIsOpen={addSidebarOpen}
                 closeSidebar={closeAddSubjectSidebar}
+                handleGetData={() => getProfileData(tutorId ? tutorId : '')}
             />
         </MainWrapper>
     );
