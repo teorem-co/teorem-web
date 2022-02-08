@@ -1,4 +1,5 @@
 import { Form, FormikProvider, useFormik } from 'formik';
+import { initial, isEqual } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
@@ -136,11 +137,37 @@ const EditSubjectSidebar = (props: Props) => {
     //     }
     // }, [params]);
 
-    const initialValues: Values = {
+    // const initialValues: Values = {
+    //     level: '',
+    //     subject: '',
+    //     price: '',
+    // };
+
+    const [initialValues, setInitialValues] = useState<Values>({
         level: '',
         subject: '',
         price: '',
-    };
+    });
+
+    useEffect(() => {
+        if (sideBarIsOpen) {
+            if (
+                selectedSubject?.levelId &&
+                selectedSubject.subjectId &&
+                selectedSubject.price
+            ) {
+                const values: Values = {
+                    level: selectedSubject.levelId,
+                    subject: selectedSubject.subjectId,
+                    price: selectedSubject.price.toString(),
+                };
+                setInitialValues(values);
+                // initialValues.level = selectedSubject.levelId;
+                // initialValues.subject = selectedSubject.subjectId;
+                // initialValues.price = selectedSubject.price.toString();
+            }
+        }
+    }, [sideBarIsOpen]);
 
     const { t } = useTranslation();
 
@@ -161,8 +188,10 @@ const EditSubjectSidebar = (props: Props) => {
     });
 
     useEffect(() => {
-        if (formik.values.level !== initialValues.level) {
-            initialValues.level = '';
+        if (!isEqual(formik.values.level, initialValues.level)) {
+            formik.setFieldValue('subject', '');
+        } else {
+            formik.setFieldValue('subject', selectedSubject?.subjectId);
         }
         if (selectedSubject?.subjectId) {
             getSubjectOptionsByLevel({
@@ -265,6 +294,7 @@ const EditSubjectSidebar = (props: Props) => {
                                             ? false
                                             : true
                                     }
+                                    type="number"
                                 />
                             </div>
                         </Form>
