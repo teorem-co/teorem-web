@@ -416,8 +416,10 @@ const TutorProfile = () => {
                                             </span>
                                         </div>
                                         <span className="d--ib ml-4">
-                                            {/* Add later */}
-                                            $44 - $45 /hr
+                                            {/* Add later */}$
+                                            {tutorData.minimumPrice}
+                                            &nbsp;-&nbsp;$
+                                            {tutorData.maximumPrice}&nbsp;/hr
                                         </span>
                                     </div>
                                     <div className="flex--primary mb-3">
@@ -430,7 +432,7 @@ const TutorProfile = () => {
 
                                         <span className="d--ib ml-4">
                                             {/* Add later */}
-                                            4.9
+                                            {tutorData.averageGrade}
                                         </span>
                                     </div>
                                     <div className="flex--primary">
@@ -442,7 +444,7 @@ const TutorProfile = () => {
                                         </div>
                                         <span className="d--ib ml-4">
                                             {/* Add later */}
-                                            15
+                                            {tutorData.completedLessons}
                                         </span>
                                     </div>
                                 </div>
