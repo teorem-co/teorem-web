@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { authService } from '../app/services/authService';
 import IUser from '../interfaces/IUser';
+import { authService } from '../services/authService';
+import { userService } from '../services/userService';
 
 interface ILoginPayload {
     token: string;
@@ -34,6 +35,12 @@ export const authSlice = createSlice({
                 const { user, token } = action.payload;
                 state.token = token;
                 state.user = user;
+            }
+        );
+        builder.addMatcher(
+            userService.endpoints.updateUserInformation.matchFulfilled,
+            (state, action: PayloadAction<IUser>) => {
+                state.user = action.payload;
             }
         );
     },

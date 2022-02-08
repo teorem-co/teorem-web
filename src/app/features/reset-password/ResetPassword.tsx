@@ -5,9 +5,9 @@ import { useHistory } from 'react-router';
 import * as Yup from 'yup';
 
 import heroImg from '../../../assets/images/hero-img.png';
+import { useResetPasswordMutation } from '../../../services/authService';
 import TextField from '../../components/form/TextField';
 import { PATHS } from '../../routes';
-import { useResetPasswordMutation } from '../../services/authService';
 import logo from './../../../assets/images/logo.svg';
 
 interface Values {

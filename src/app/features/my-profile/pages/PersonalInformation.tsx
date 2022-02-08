@@ -9,6 +9,10 @@ import {
     useGetProfileProgressQuery,
     useLazyGetTutorProfileDataQuery,
 } from '../../../../services/tutorService';
+import {
+    useLazyGetUserQuery,
+    useUpdateUserInformationMutation,
+} from '../../../../services/userService';
 import MyCountrySelect from '../../../components/form/MyCountrySelect';
 import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyPhoneInput from '../../../components/form/MyPhoneInput';
@@ -29,10 +33,6 @@ import {
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
 import ProfileTabs from '../components/ProfileTabs';
-import {
-    useLazyGetUserQuery,
-    useUpdateUserInformationMutation,
-} from '../services/userService';
 
 interface Values {
     firstName: string;
@@ -54,7 +54,12 @@ const PersonalInformation = () => {
     const { data: profileProgress } = useGetProfileProgressQuery();
     const [
         updateUserInformation,
-        { isLoading: isLoadingUserUpdate, isSuccess: isSuccessUserUpdate },
+
+        {
+            isLoading: isLoadingUserUpdate,
+            isSuccess: isSuccessUserUpdate,
+            data: testData,
+        },
     ] = useUpdateUserInformationMutation();
     const [
         getUser,
@@ -64,6 +69,11 @@ const PersonalInformation = () => {
             isSuccess: isSuccessUser,
         },
     ] = useLazyGetUserQuery();
+
+    useEffect(() => {
+        const test = testData;
+        debugger;
+    }, [testData]);
 
     useEffect(() => {
         const currentCountries: OptionType[] = countries
@@ -77,6 +87,12 @@ const PersonalInformation = () => {
             : [];
         setCountryOptions(currentCountries);
     }, [countries]);
+
+    useEffect(() => {
+        if (isSuccessUserUpdate) {
+            //fetch user by id
+        }
+    }, [isSuccessUserUpdate]);
 
     // const [
     //     getTutorProfileData,
