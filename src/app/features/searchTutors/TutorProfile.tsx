@@ -5,9 +5,9 @@ import { Link, useParams } from 'react-router-dom';
 
 import ITutorSubject from '../../../interfaces/ITutorSubject';
 import { useLazyGetTutorProfileDataQuery } from '../../../services/tutorService';
+import LoaderTutorProfile from '../../components/loaders/LoaderTutorProfile';
 import MainWrapper from '../../components/MainWrapper';
 import { PATHS } from '../../routes';
-import getAvgRating from '../../utils/getAvgRating';
 import { useLazyGetTutorAvailabilityQuery } from '../my-profile/services/tutorAvailabilityService';
 import Ratings from '../myReviews/components/Ratings';
 import ReviewItem from '../myReviews/components/ReviewItem';
@@ -131,7 +131,9 @@ const TutorProfile = () => {
     return (
         <MainWrapper>
             <div className="layout--primary">
-                {tutorData ? (
+                {tutorDataLoading ? (
+                    <LoaderTutorProfile />
+                ) : tutorData ? (
                     <>
                         <div>
                             <div className="card--secondary card--secondary--alt">

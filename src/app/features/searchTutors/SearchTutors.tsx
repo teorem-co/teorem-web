@@ -1,9 +1,7 @@
 import { Form, FormikProvider, useFormik } from 'formik';
-import { uniqBy } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
-import { Link } from 'react-router-dom';
 import Select, { components, MenuProps } from 'react-select';
 
 import IParams from '../../../interfaces/IParams';
@@ -12,13 +10,10 @@ import { useLazyGetSubjectOptionsByLevelQuery } from '../../../services/subjectS
 import { useLazyGetAvailableTutorsQuery } from '../../../services/tutorService';
 import CustomCheckbox from '../../components/form/CustomCheckbox';
 import MySelect, { OptionType } from '../../components/form/MySelectField';
-import ImageCircle from '../../components/ImageCircle';
 import LoaderTutor from '../../components/loaders/LoaderTutor';
 import MainWrapper from '../../components/MainWrapper';
 import { SortDirection } from '../../lookups/sortDirection';
-import { PATHS } from '../../routes';
 import getUrlParams from '../../utils/getUrlParams';
-import CustomSubjectList from './components/CustomSubjectList';
 import PriceSort from './components/PriceSort';
 import TutorItem from './components/TutorItem';
 
