@@ -361,6 +361,9 @@ const PersonalInformation = () => {
                                                 : ''
                                         }
                                         disabled={isLoading}
+                                        imagePreview={
+                                            formik.values.profileImage
+                                        }
                                     />
                                     {/* <UploadFile
                                             setFieldValue={
