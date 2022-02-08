@@ -1,8 +1,8 @@
 import { t } from 'i18next';
 import { useState } from 'react';
 
-import LoaderAvailableLessons from '../../components/Loaders/LoaderAvailableLessons';
-import LoaderLessonCard from '../../components/Loaders/LoaderLessonCard';
+import LoaderAvailableLessons from '../../components/loaders/LoaderAvailableLessons';
+import LoaderLessonCard from '../../components/loaders/LoaderLessonCard';
 import MainWrapper from '../../components/MainWrapper';
 import completedLessonsList, {
     ICompletedLesson,

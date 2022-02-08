@@ -13,7 +13,7 @@ import { useLazyGetAvailableTutorsQuery } from '../../../services/tutorService';
 import CustomCheckbox from '../../components/form/CustomCheckbox';
 import MySelect, { OptionType } from '../../components/form/MySelectField';
 import ImageCircle from '../../components/ImageCircle';
-import LoaderTutor from '../../components/Loaders/LoaderTutor';
+import LoaderTutor from '../../components/loaders/LoaderTutor';
 import MainWrapper from '../../components/MainWrapper';
 import { SortDirection } from '../../lookups/sortDirection';
 import { PATHS } from '../../routes';

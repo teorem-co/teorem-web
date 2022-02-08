@@ -1,8 +1,8 @@
 import { t } from 'i18next';
 import { useEffect, useState } from 'react';
 
-import LoaderMyReviews from '../../components/Loaders/LoaderMyReviews';
-import LoaderStatistics from '../../components/Loaders/LoaderStatistics';
+import LoaderMyReviews from '../../components/loaders/LoaderMyReviews';
+import LoaderStatistics from '../../components/loaders/LoaderStatistics';
 import MainWrapper from '../../components/MainWrapper';
 import Pagination from '../../components/Pagination';
 import { useAppSelector } from '../../hooks';
