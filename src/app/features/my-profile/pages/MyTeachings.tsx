@@ -128,10 +128,13 @@ const MyTeachings = () => {
         validateOnChange: false,
         enableReinitialize: true,
         validationSchema: Yup.object().shape({
-            occupation: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            yearsOfExperience: Yup.string().required(
-                t('FORM_VALIDATION.REQUIRED')
-            ),
+            occupation: Yup.string()
+                .min(2, t('FORM_VALIDATION.TOO_SHORT'))
+                .max(50, t('FORM_VALIDATION.TOO_LONG'))
+                .required(t('FORM_VALIDATION.REQUIRED')),
+            yearsOfExperience: Yup.number()
+                .min(0, 'Can`t be a negative number')
+                .max(100, 'number is too big'),
         }),
     });
 
@@ -234,6 +237,7 @@ const MyTeachings = () => {
                                                 name="yearsOfExperience"
                                                 placeholder="How many years of professional experience you have"
                                                 className="input input--base"
+                                                type={'number'}
                                                 withoutErr={
                                                     formik.errors
                                                         .yearsOfExperience &&

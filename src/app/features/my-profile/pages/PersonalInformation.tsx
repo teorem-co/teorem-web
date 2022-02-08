@@ -182,6 +182,35 @@ const PersonalInformation = () => {
                     }
                 ),
             countryId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            profileImage: Yup.mixed()
+                .required('Image Required')
+                .test(
+                    'profileImage',
+                    'Image has to be either jpg,png,jpeg or svg',
+                    (value) => {
+                        if (
+                            value.type === 'image/jpg' ||
+                            value.type === 'image/jpeg' ||
+                            value.type === 'image/png' ||
+                            value.type === 'image/svg'
+                        ) {
+                            return true;
+                        }
+
+                        return false;
+                    }
+                )
+                .test(
+                    'profileImage',
+                    'Image has to be less than 2MB in size.',
+                    (value) => {
+                        if (value.size > 2000000) {
+                            return false;
+                        }
+
+                        return true;
+                    }
+                ),
         }),
     });
 

@@ -1,4 +1,4 @@
-import { FieldAttributes, useField } from 'formik';
+import { FieldAttributes, FieldInputProps, useField } from 'formik';
 import { FC, useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
@@ -17,7 +17,7 @@ type UploadFileType = {
 const UploadFile: FC<UploadFileType> = ({ setFieldValue, ...props }) => {
     const dispatch = useAppDispatch();
 
-    const [field, meta] = useField<{}>(props);
+    const [field, meta, helper] = useField<{}>(props);
     const errorText = meta.error && meta.touched ? meta.error : '';
 
     const { file } = useAppSelector((state) => state.uploadFile);
@@ -31,16 +31,18 @@ const UploadFile: FC<UploadFileType> = ({ setFieldValue, ...props }) => {
             setImagePreview(
                 Object.assign(file, { preview: URL.createObjectURL(file) })
             );
-            setFieldValue('profileImage', file);
+            setFieldValue(field.name, file);
         }
     }, [file]);
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         maxFiles: 1,
         accept: 'image/jpg,image/png,image/jpeg,image/svg',
-        maxSize: 2000000,
+        //maxSize: 2000000,
         onDropAccepted: (acceptedFiles: File[]) => {
+            setFieldValue(field.name, acceptedFiles[0]);
             dispatch(setFile(acceptedFiles[0]));
+            helper.setTouched(true);
         },
     });
 
