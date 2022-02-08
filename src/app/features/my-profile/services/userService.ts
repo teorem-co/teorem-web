@@ -2,6 +2,7 @@ import IUser from '../../../../interfaces/IUser';
 import { baseService } from '../../../baseService';
 import { HttpMethods } from '../../../lookups/httpMethods';
 import typeToFormData from '../../../utils/typeToFormData';
+import IChangePassword from '../interfaces/IChangePassword';
 import IPartOfDayOption from '../interfaces/IPartOfDayOption';
 import ITutorAvailability from '../interfaces/ITutorAvailability';
 
@@ -25,6 +26,13 @@ export const updateUserInformation = baseService.injectEndpoints({
                 body: typeToFormData(body),
             }),
         }),
+        changePassword: builder.mutation<void, IChangePassword>({
+            query: (body) => ({
+                url: `${URL}/change-password`,
+                method: HttpMethods.PUT,
+                body: body,
+            }),
+        }),
         getUser: builder.query<IUser, string>({
             query: (userId) => ({
                 url: `${URL}/${userId}`,
@@ -35,5 +43,8 @@ export const updateUserInformation = baseService.injectEndpoints({
     }),
 });
 
-export const { useUpdateUserInformationMutation, useLazyGetUserQuery } =
-    updateUserInformation;
+export const {
+    useUpdateUserInformationMutation,
+    useChangePasswordMutation,
+    useLazyGetUserQuery,
+} = updateUserInformation;

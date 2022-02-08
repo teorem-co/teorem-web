@@ -48,6 +48,21 @@
             height: 17px;
             background-color: $white;
         }
+        &--pos-top {
+            &.tooltip--password {
+                width: 410px;
+                bottom: unset;
+                top: calc(100% + 12px);
+                &::after {
+                    bottom: unset;
+                    top: -11px;
+                }
+                &::before {
+                    bottom: unset;
+                    top: 0px;
+                }
+            }
+        }
     }
 
     &--text {
