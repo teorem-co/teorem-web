@@ -19,6 +19,8 @@ interface IUpdateMyTeachings {
     yearsOfExperience: string;
 }
 
+// interface ICreateTutorSubject {}
+
 const URL = 'tutors';
 
 export const tutorService = baseService.injectEndpoints({
@@ -75,6 +77,7 @@ export const tutorService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
+        // postTutorsubject: builder.mutation<void, >
     }),
 });
 
