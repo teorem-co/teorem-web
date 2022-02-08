@@ -16,11 +16,16 @@ const Navigation = () => {
                 >
                     <img src={logo} alt="logo" />
                 </NavLink>
-                <div className="landing__navigation__hamburger">
-                    <i
-                        className="icon icon--md icon--menu icon--black"
-                        onClick={() => setShowSidebar(!showSidebar)}
-                    ></i>
+                <div
+                    className={`landing__navigation__hamburger ${
+                        showSidebar ? 'active' : ''
+                    }`}
+                    onClick={() => setShowSidebar(!showSidebar)}
+                >
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
                 </div>
 
                 {/* WEB SIZE NAV */}
@@ -55,10 +60,10 @@ const Navigation = () => {
                             </button>
                         </div>
                     </div>
-                    <div className="landing__navigation__language">
+                    {/* <div className="landing__navigation__language">
                         <i className="icon icon--sm icon--language icon--grey"></i>
                         <span className="type--color--secondary ml-1">EN</span>
-                    </div>
+                    </div> */}
                 </div>
             </div>
             <div

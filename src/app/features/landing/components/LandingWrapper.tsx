@@ -12,9 +12,9 @@ const LandingWrapper = (props: Props) => {
 
     return (
         <>
+            {/* NAVIGATION */}
+            <Navigation />
             <div className="landing">
-                {/* NAVIGATION */}
-                <Navigation />
                 <div className="landing__content">{children}</div>
             </div>
             {/* FOOTER */}
