@@ -3,14 +3,19 @@ import { FC } from 'react';
 
 interface Props {
     passTooltip: boolean;
+    positionTop?: boolean;
 }
 
 const TooltipPassword: FC<Props> = (props: Props) => {
-    const { passTooltip } = props;
+    const { passTooltip, positionTop } = props;
 
     return (
         <>
-            <div className={`tooltip--password ${passTooltip ? 'active' : ''}`}>
+            <div
+                className={`tooltip--password ${passTooltip ? 'active' : ''} ${
+                    positionTop ? 'tooltip--password--pos-top' : ''
+                }`}
+            >
                 <div className="mb-3">{t('FORM_VALIDATION.PASSWORD_MUST')}</div>
                 <div>
                     <div>
