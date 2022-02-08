@@ -161,13 +161,16 @@ const EditSubjectSidebar = (props: Props) => {
     });
 
     useEffect(() => {
-        if (selectedSubject?.levelId && selectedSubject.subjectId) {
+        if (formik.values.level !== initialValues.level) {
+            initialValues.level = '';
+        }
+        if (selectedSubject?.subjectId) {
             getSubjectOptionsByLevel({
-                levelId: selectedSubject.levelId,
-                subjectId: selectedSubject.subjectId,
+                levelId: formik.values.level,
+                subjectId: selectedSubject?.subjectId,
             });
         }
-    }, [selectedSubject?.levelId]);
+    }, [formik.values.level]);
 
     useEffect(() => {
         if (isSuccessUpdateSubject) {
@@ -226,6 +229,7 @@ const EditSubjectSidebar = (props: Props) => {
                                     placeholder={t(
                                         'SEARCH_TUTORS.PLACEHOLDER.LEVEL'
                                     )}
+                                    classNamePrefix="onboarding-select"
                                 />
                             </div>
                             <div>
@@ -237,13 +241,14 @@ const EditSubjectSidebar = (props: Props) => {
                                     form={formik}
                                     meta={formik.getFieldMeta('subject')}
                                     isMulti={false}
-                                    options={subjectOptions}
+                                    options={subjectsData}
                                     noOptionsMessage={() =>
                                         t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')
                                     }
                                     placeholder={t(
                                         'SEARCH_TUTORS.PLACEHOLDER.SUBJECT'
                                     )}
+                                    classNamePrefix="onboarding-select"
                                 />
                             </div>
                             <div className="field">

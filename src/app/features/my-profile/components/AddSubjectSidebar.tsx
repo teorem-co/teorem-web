@@ -141,6 +141,7 @@ const AddSubjectSidebar = (props: Props) => {
                                     placeholder={t(
                                         'SEARCH_TUTORS.PLACEHOLDER.LEVEL'
                                     )}
+                                    classNamePrefix="onboarding-select"
                                 />
                             </div>
                             <div>
@@ -162,6 +163,7 @@ const AddSubjectSidebar = (props: Props) => {
                                     placeholder={t(
                                         'SEARCH_TUTORS.PLACEHOLDER.SUBJECT'
                                     )}
+                                    classNamePrefix="onboarding-select"
                                 />
                             </div>
                             <div className="field">
@@ -191,7 +193,10 @@ const AddSubjectSidebar = (props: Props) => {
                         >
                             Save information
                         </button>
-                        <button className="btn btn--clear type--color--error type--wgt--bold">
+                        <button
+                            className="btn btn--clear type--color--error type--wgt--bold"
+                            onClick={closeSidebar}
+                        >
                             Cancel
                         </button>
                     </div>
