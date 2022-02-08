@@ -1,11 +1,15 @@
 import { FC } from 'react';
 
+import { getUserId } from '../../../utils/getUserId';
+
 interface Props {
     className?: string;
 }
 
 const ProfileHeader: FC<Props> = (props: Props) => {
     const { className } = props;
+
+    const tutorId = getUserId();
 
     return (
         <div className={`flex--primary ${className}`}>
@@ -14,9 +18,11 @@ const ProfileHeader: FC<Props> = (props: Props) => {
             </div>
             <div>
                 {/* Preview profile has to be div, because of formik validation bug */}
-                <div className="btn btn--clear btn--base type--wgt--bold">
-                    Preview Profile
-                </div>
+                <a href={`/search-tutors/profile/${tutorId}`}>
+                    <div className="btn btn--clear btn--base type--wgt--bold">
+                        Preview Profile
+                    </div>
+                </a>
             </div>
         </div>
     );

@@ -63,6 +63,8 @@ const MyTeachings = () => {
         },
     ] = useUpdateMyTeachingsMutation();
 
+    const isLoading = isLoadingMyTeachings || isUpdatingMyTeachings;
+
     useEffect(() => {
         if (tutorId) {
             getProfileData(tutorId);
@@ -109,7 +111,7 @@ const MyTeachings = () => {
         updateMyTeachings(updateValues);
     };
 
-    const handleBlur = () => {
+    const handleChangeForSave = () => {
         if (!isEqual(initialValues, formik.values)) {
             setSaveBtnActive(true);
         } else {
@@ -131,7 +133,9 @@ const MyTeachings = () => {
         }),
     });
 
-    const isLoading = isLoadingMyTeachings || isUpdatingMyTeachings;
+    useEffect(() => {
+        handleChangeForSave();
+    }, [formik.values]);
 
     const handleAddSubject = () => {
         //add subject submit
@@ -198,7 +202,6 @@ const MyTeachings = () => {
                                                 name="occupation"
                                                 placeholder="What’s your current occupation"
                                                 className="input input--base"
-                                                onBlur={handleBlur}
                                                 withoutErr={
                                                     formik.errors.occupation &&
                                                     formik.touched.occupation
@@ -224,7 +227,6 @@ const MyTeachings = () => {
                                                 name="yearsOfExperience"
                                                 placeholder="How many years of professional experience you have"
                                                 className="input input--base"
-                                                onBlur={handleBlur}
                                                 withoutErr={
                                                     formik.errors
                                                         .yearsOfExperience &&

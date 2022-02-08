@@ -138,7 +138,7 @@ const ROUTES: any = [
         exact: true,
         component: () => (
             <PermissionsGate
-                roles={[Role.Parent, Role.Student, Role.SuperAdmin]}
+                roles={[Role.Parent, Role.Student, Role.Tutor, Role.SuperAdmin]}
             >
                 <TutorProfile />
             </PermissionsGate>

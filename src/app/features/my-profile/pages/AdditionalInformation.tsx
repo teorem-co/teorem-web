@@ -1,4 +1,5 @@
 import { Form, FormikProvider, useFormik } from 'formik';
+import { isEqual } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
@@ -50,6 +51,7 @@ const AdditionalInformation = () => {
         aboutTutor: '',
         aboutLessons: '',
     });
+    const [saveBtnActive, setSaveBtnActive] = useState(false);
 
     const [
         updateAditionalInfo,
@@ -58,6 +60,7 @@ const AdditionalInformation = () => {
 
     const handleSubmit = (values: Values) => {
         updateAditionalInfo(values);
+        setSaveBtnActive(false);
     };
 
     useEffect(() => {
@@ -103,6 +106,18 @@ const AdditionalInformation = () => {
         }),
     });
 
+    const handleChangeForSave = () => {
+        if (!isEqual(initialValues, formik.values)) {
+            setSaveBtnActive(true);
+        } else {
+            setSaveBtnActive(false);
+        }
+    };
+
+    useEffect(() => {
+        handleChangeForSave();
+    }, [formik.values]);
+
     const isLoading = isLoadingGetInfo || isUpdatingInfo;
 
     return (
@@ -117,22 +132,35 @@ const AdditionalInformation = () => {
                 <ProfileCompletion percentage={profileProgress?.percentage} />
 
                 {/* ADDITIONAL INFO */}
-                <div className="card--profile__section">
-                    <div>
-                        <div className="mb-2 type--wgt--bold">
-                            {t(
-                                'SEARCH_TUTORS.TUTOR_PROFILE.ADDITIONAL_INFORMATION_TITLE'
-                            )}
-                        </div>
-                        <div className="type--color--tertiary w--200--max">
-                            {t(
-                                'SEARCH_TUTORS.TUTOR_PROFILE.ADDITIONAL_INFORMATION_DESC'
-                            )}
-                        </div>
-                    </div>
-                    <div>
-                        <FormikProvider value={formik}>
-                            <Form>
+                <FormikProvider value={formik}>
+                    <Form>
+                        <div className="card--profile__section">
+                            <div>
+                                <div className="mb-2 type--wgt--bold">
+                                    {t(
+                                        'SEARCH_TUTORS.TUTOR_PROFILE.ADDITIONAL_INFORMATION_TITLE'
+                                    )}
+                                </div>
+                                <div className="type--color--tertiary w--200--max">
+                                    {t(
+                                        'SEARCH_TUTORS.TUTOR_PROFILE.ADDITIONAL_INFORMATION_DESC'
+                                    )}
+                                </div>
+                                {saveBtnActive ? (
+                                    <button
+                                        className="btn btn--primary btn--lg mt-6"
+                                        type="submit"
+                                        disabled={isLoading}
+                                    >
+                                        {t(
+                                            'SEARCH_TUTORS.TUTOR_PROFILE.FORM.SUBMIT_BTN'
+                                        )}
+                                    </button>
+                                ) : (
+                                    <></>
+                                )}
+                            </div>
+                            <div className="w--800--max">
                                 <div className="field">
                                     <label
                                         className="field__label"
@@ -171,19 +199,10 @@ const AdditionalInformation = () => {
                                         disabled={isLoading}
                                     />
                                 </div>
-                                <button
-                                    className="btn btn--primary btn--lg"
-                                    type="submit"
-                                    disabled={isLoading}
-                                >
-                                    {t(
-                                        'SEARCH_TUTORS.TUTOR_PROFILE.FORM.SUBMIT_BTN'
-                                    )}
-                                </button>
-                            </Form>
-                        </FormikProvider>
-                    </div>
-                </div>
+                            </div>
+                        </div>
+                    </Form>
+                </FormikProvider>
             </div>
         </MainWrapper>
     );

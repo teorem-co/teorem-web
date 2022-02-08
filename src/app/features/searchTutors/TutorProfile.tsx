@@ -37,7 +37,11 @@ const TutorProfile = () => {
 
     const [
         getTutorProfileData,
-        { data: tutorData, isLoading: tutorDataLoading },
+        {
+            data: tutorData,
+            isLoading: tutorDataLoading,
+            isSuccess: tutorDataSuccess,
+        },
     ] = useLazyGetTutorProfileDataQuery();
     const [getMyReviews, { data: myReviews, isLoading: myReviewsLoading }] =
         useLazyGetMyReviewsQuery();

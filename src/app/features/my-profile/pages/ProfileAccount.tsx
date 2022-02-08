@@ -56,10 +56,6 @@ const ProfileAccount = () => {
         setEditSidebarOpen(false);
     };
 
-    useEffect(() => {
-        console.log(formik.values);
-    }, [formik.values]);
-
     return (
         <MainWrapper>
             <div className="card--profile">
