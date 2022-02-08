@@ -1,5 +1,5 @@
 import { FieldAttributes, useField } from 'formik';
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 type TextFieldType = {
     min?: number;
@@ -11,6 +11,8 @@ type TextFieldType = {
 const TextArea: React.FC<TextFieldType> = (props: any) => {
     const { password } = props;
     const [field, meta] = useField(props);
+    const [characterCount, setCharacterCount] = useState<number>(0);
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
     const errorText = meta.error && meta.touched ? meta.error : '';
 
     const visiblePassToggle = (e: any) => {
@@ -21,18 +23,38 @@ const TextArea: React.FC<TextFieldType> = (props: any) => {
             : (currentInput.type = 'password');
     };
 
+    useEffect(() => {
+        if (textareaRef.current) {
+            const textareaElement = textareaRef.current as HTMLTextAreaElement;
+            setCharacterCount(textareaElement.value.length);
+        }
+    }, [field.value]);
+
+    const handleCharacterCount = (
+        e: React.KeyboardEvent<HTMLTextAreaElement>
+    ) => {
+        if (e.currentTarget.textContent) {
+            const textareaLength = e.currentTarget.textContent.length;
+            setCharacterCount(textareaLength);
+        }
+    };
     return (
         <>
             <div className="pos--rel">
                 <textarea
+                    ref={textareaRef}
                     type={`${password ? 'password' : 'textarea'}`}
                     {...field}
                     {...props}
+                    onKeyUp={(e) => handleCharacterCount(e)}
                     className={`${
                         props.className ??
                         'input input--base input--text input--textarea'
                     } ${errorText ? 'input__border--error' : ''}`}
                 />
+                <div className="input--textarea__counter">
+                    {characterCount}/2500
+                </div>
                 {
                     /* toggle password visibility */
                     props.password ? (
