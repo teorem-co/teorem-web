@@ -159,9 +159,6 @@ const MyTeachings = () => {
         history.push(`?subjectId=${subjectId}`);
         setEditSidebarOpen(true);
     };
-    useEffect(() => {
-        console.log(myTeachingsData.tutorSubjects?.length);
-    }, [myTeachingsData.tutorSubjects?.length]);
 
     return (
         <MainWrapper>
