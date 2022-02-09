@@ -1,10 +1,10 @@
 import { t } from 'i18next';
 import { useEffect, useState } from 'react';
 
-import LoaderMyReviews from '../../components/loaders/LoaderMyReviews';
-import LoaderStatistics from '../../components/loaders/LoaderStatistics';
 import MainWrapper from '../../components/MainWrapper';
 import Pagination from '../../components/Pagination';
+import LoaderMyReviews from '../../components/skeleton-loaders/LoaderMyReviews';
+import LoaderStatistics from '../../components/skeleton-loaders/LoaderStatistics';
 import { useAppSelector } from '../../hooks';
 import getAvgRating from '../../utils/getAvgRating';
 import Ratings from './components/Ratings';

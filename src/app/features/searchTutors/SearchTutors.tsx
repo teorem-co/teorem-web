@@ -10,8 +10,8 @@ import { useLazyGetSubjectOptionsByLevelQuery } from '../../../services/subjectS
 import { useLazyGetAvailableTutorsQuery } from '../../../services/tutorService';
 import CustomCheckbox from '../../components/form/CustomCheckbox';
 import MySelect, { OptionType } from '../../components/form/MySelectField';
-import LoaderTutor from '../../components/loaders/LoaderTutor';
 import MainWrapper from '../../components/MainWrapper';
+import LoaderTutor from '../../components/skeleton-loaders/LoaderTutor';
 import { SortDirection } from '../../lookups/sortDirection';
 import getUrlParams from '../../utils/getUrlParams';
 import PriceSort from './components/PriceSort';
