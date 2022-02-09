@@ -101,6 +101,7 @@ const ReviewModal: FC<Props> = (props: Props) => {
                                         name="review"
                                         id="review"
                                         placeholder="Describe your overall expirience with this lesson"
+                                        maxLength={2500}
                                     />
                                 </div>
                             </Form>
