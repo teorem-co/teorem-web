@@ -77,14 +77,14 @@ const MyTeachings = () => {
     }, []);
 
     useEffect(() => {
-        if (
-            isSuccessMyTeachings &&
-            myTeachingsData.occupation &&
-            myTeachingsData.yearsOfExperience
-        ) {
+        if (isSuccessMyTeachings && myTeachingsData) {
             const values = {
-                occupation: myTeachingsData.occupation,
-                yearsOfExperience: myTeachingsData.yearsOfExperience,
+                occupation: myTeachingsData.occupation
+                    ? myTeachingsData.occupation
+                    : '',
+                yearsOfExperience: myTeachingsData.yearsOfExperience
+                    ? myTeachingsData.yearsOfExperience
+                    : '',
             };
             setInitialValues(values);
         }
@@ -123,7 +123,8 @@ const MyTeachings = () => {
 
     const handleSubmit = (values: Values) => {
         let updateValues: any = {};
-        if (!myTeachingsData.yearsOfExperience) {
+        debugger;
+        if (myTeachingsData.yearsOfExperience) {
             updateValues = {
                 currentOccupation: values.occupation,
             };
