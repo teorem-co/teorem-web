@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import logo from '../../../../assets/images/logo.svg';
@@ -6,6 +6,14 @@ import { LANDING_PATHS } from '../../../routes';
 
 const Navigation = () => {
     const [showSidebar, setShowSidebar] = useState(false);
+
+    useEffect(() => {
+        if (showSidebar) {
+            document.getElementsByTagName('html')[0].style.overflow = 'hidden';
+        } else {
+            document.getElementsByTagName('html')[0].style.overflow = 'auto';
+        }
+    }, [showSidebar]);
 
     return (
         <div className="layout__header--landing">

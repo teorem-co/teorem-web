@@ -23,7 +23,7 @@ const HowItWorks = () => {
             <div className="landing__section">
                 <img src={calendar} alt="calendar" className="landing__img" />
             </div>
-            <div className="type--wgt--bold type--xl">
+            <div className="type--wgt--bold type--xl type--center">
                 As featured around the world
             </div>
             <CardsGroup showCreditCards={false} />
