@@ -127,7 +127,9 @@ const TutorItem: FC<Props> = (props: Props) => {
                             <i className="icon icon--star icon--base icon--grey"></i>
                             <span className="d--ib ml-4">
                                 {/* Add later */}
-                                {tutor.averageGrade}
+                                {tutor.averageGrade
+                                    ? tutor.averageGrade.toFixed(2)
+                                    : 0}
                             </span>
                         </div>
                         <div className="flex flex--center">
