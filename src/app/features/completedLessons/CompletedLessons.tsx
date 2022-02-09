@@ -1,9 +1,9 @@
 import { t } from 'i18next';
 import { useState } from 'react';
 
-import LoaderAvailableLessons from '../../components/loaders/LoaderAvailableLessons';
-import LoaderLessonCard from '../../components/loaders/LoaderLessonCard';
 import MainWrapper from '../../components/MainWrapper';
+import LoaderAvailableLessons from '../../components/skeleton-loaders/LoaderAvailableLessons';
+import LoaderLessonCard from '../../components/skeleton-loaders/LoaderLessonCard';
 import completedLessonsList, {
     ICompletedLesson,
     IVideoLesson,

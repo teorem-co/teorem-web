@@ -5,8 +5,8 @@ import { Link, useParams } from 'react-router-dom';
 
 import ITutorSubject from '../../../interfaces/ITutorSubject';
 import { useLazyGetTutorProfileDataQuery } from '../../../services/tutorService';
-import LoaderTutorProfile from '../../components/loaders/LoaderTutorProfile';
 import MainWrapper from '../../components/MainWrapper';
+import LoaderTutorProfile from '../../components/skeleton-loaders/LoaderTutorProfile';
 import { PATHS } from '../../routes';
 import { useLazyGetTutorAvailabilityQuery } from '../my-profile/services/tutorAvailabilityService';
 import Ratings from '../myReviews/components/Ratings';
