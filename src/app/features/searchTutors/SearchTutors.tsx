@@ -95,8 +95,8 @@ const SearchTutors = () => {
             setParams(urlQueries);
 
             //set sort direction if params.price is already in URL
-            if (urlQueries.price) {
-                setPriceSortDirection(urlQueries.price as SortDirection);
+            if (urlQueries.sort) {
+                setPriceSortDirection(urlQueries.sort as SortDirection);
             }
         } else {
             getAvailableTutors(params);
@@ -156,16 +156,16 @@ const SearchTutors = () => {
         if (priceSortDirection === SortDirection.None) {
             if (Object.keys(params).length > 0) {
                 const paramsObj = { ...params };
-                delete paramsObj.price;
+                delete paramsObj.sort;
                 setParams({ ...paramsObj });
             }
         } else {
-            if (params.price) {
+            if (params.sort) {
                 const paramsObj = { ...params };
-                delete paramsObj.price;
-                setParams({ ...paramsObj, price: priceSortDirection });
+                delete paramsObj.sort;
+                setParams({ ...paramsObj, sort: priceSortDirection });
             } else {
-                setParams({ ...params, price: priceSortDirection });
+                setParams({ ...params, sort: priceSortDirection });
             }
         }
     }, [priceSortDirection]);
