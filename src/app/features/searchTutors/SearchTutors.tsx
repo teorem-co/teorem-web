@@ -400,7 +400,9 @@ const SearchTutors = () => {
                                     classNamePrefix="react-select--search-tutor"
                                     options={subjectOptions}
                                     isDisabled={
-                                        levelDisabled || isLoadingSubjects
+                                        levelDisabled ||
+                                        isLoadingSubjects ||
+                                        isFetchingSubjects
                                     }
                                     noOptionsMessage={() =>
                                         t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')
