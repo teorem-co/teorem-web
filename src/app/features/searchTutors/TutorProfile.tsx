@@ -305,7 +305,9 @@ const TutorProfile = () => {
                                             <div>
                                                 <div className="type--huge">
                                                     {tutorStatistics
-                                                        ? tutorStatistics.statistic
+                                                        ? tutorStatistics.statistic.toFixed(
+                                                              2
+                                                          )
                                                         : 0}
                                                 </div>
                                                 <div className="rating__stars mb-4">

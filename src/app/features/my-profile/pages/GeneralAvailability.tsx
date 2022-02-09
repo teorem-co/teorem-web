@@ -9,6 +9,7 @@ import {
 import MainWrapper from '../../../components/MainWrapper';
 import availabilityTable from '../../../constants/availabilityTable';
 import { useAppSelector } from '../../../hooks';
+import toastService from '../../../services/toastService';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
 import ProfileTabs from '../components/ProfileTabs';
@@ -151,6 +152,11 @@ const GeneralAvailability = () => {
     useEffect(() => {
         if (userId) {
             getTutorAvailability(userId);
+        }
+        if (createSuccess) {
+            toastService.success('Availability created');
+        } else if (updateSuccess) {
+            toastService.success('Availability updated');
         }
     }, [updateSuccess, createSuccess]);
 
