@@ -1,4 +1,5 @@
 import { Form, FormikProvider, useFormik } from 'formik';
+import { isEqual } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
@@ -137,7 +138,7 @@ const SearchTutors = () => {
         formik.values.timeOfDay.length == 0;
 
     useEffect(() => {
-        if (formik.values.level !== '') {
+        if (formik.values.level) {
             getSubjectOptionsByLevel(formik.values.level);
 
             if (isInitialSubject) {
@@ -188,7 +189,7 @@ const SearchTutors = () => {
         if (
             subjectsData &&
             isSuccessSubjects &&
-            formik.values.level !== '' &&
+            formik.values.level &&
             !isFetchingSubjects
         ) {
             setSubjectOptions(subjectsData);
@@ -196,13 +197,15 @@ const SearchTutors = () => {
     }, [subjectsData, isFetchingSubjects]);
 
     useEffect(() => {
-        if (formik.values.level !== '' && formik.values.subject !== '') {
+        if (formik.values.level && formik.values.subject) {
             setParams({ ...params, subject: formik.values.subject });
         }
     }, [formik.values.subject]);
 
     const handleMenuClose = () => {
+        const initialParamsObj: IParams = { ...params };
         const paramsObj: IParams = { ...params };
+
         if (formik.values.dayOfWeek.length !== 0) {
             const dayOfWeekString = formik.values.dayOfWeek.toString();
             paramsObj.dayOfWeek = dayOfWeekString;
@@ -215,7 +218,10 @@ const SearchTutors = () => {
         } else {
             delete paramsObj.timeOfDay;
         }
-        setParams(paramsObj);
+
+        if (!isEqual(initialParamsObj, paramsObj)) {
+            setParams(paramsObj);
+        }
     };
 
     const CustomMenu = (props: MenuProps) => {
