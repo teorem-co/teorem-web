@@ -112,7 +112,7 @@ const MyTeachings = () => {
         ) {
             getProfileProgress();
         }
-    }, [myTeachingsStatus]);
+    }, [myTeachingsStatus, myTeachingsData.tutorSubjects?.length]);
 
     const history = useHistory();
 
@@ -123,7 +123,6 @@ const MyTeachings = () => {
 
     const handleSubmit = (values: Values) => {
         let updateValues: any = {};
-        debugger;
         if (myTeachingsData.yearsOfExperience) {
             updateValues = {
                 currentOccupation: values.occupation,
