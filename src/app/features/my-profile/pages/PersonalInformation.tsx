@@ -1,4 +1,4 @@
-import { Form, FormikProvider, useFormik } from 'formik';
+import { Form, FormikProvider, setIn, useFormik } from 'formik';
 import { debounce, isEqual } from 'lodash';
 import moment from 'moment';
 import { useCallback, useEffect, useState } from 'react';
@@ -141,6 +141,7 @@ const PersonalInformation = () => {
             dateOfBirth: moment(values.dateOfBirth).toISOString(),
             profileImage: values.profileImage,
         });
+        setInitialvalues(values);
     };
 
     useEffect(() => {
