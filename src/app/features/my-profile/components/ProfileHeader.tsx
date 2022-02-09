@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { Link } from 'react-router-dom';
 
 import { getUserId } from '../../../utils/getUserId';
 
@@ -18,11 +19,12 @@ const ProfileHeader: FC<Props> = (props: Props) => {
             </div>
             <div>
                 {/* Preview profile has to be div, because of formik validation bug */}
-                <a href={`/search-tutors/profile/${tutorId}`}>
-                    <div className="btn btn--clear btn--base type--wgt--bold">
-                        Preview Profile
-                    </div>
-                </a>
+                <Link
+                    to={`/search-tutors/profile/${tutorId}`}
+                    className="btn btn--clear btn--base type--wgt--bold"
+                >
+                    Preview Profile
+                </Link>
             </div>
         </div>
     );
