@@ -1,4 +1,5 @@
 import { t } from 'i18next';
+import { reverse } from 'lodash';
 import { FC, useEffect, useState } from 'react';
 
 import ITutorStatisticsResult from '../interfaces/ITutorStatisticsResult';
@@ -32,7 +33,7 @@ const Ratings: FC<Props> = (props: Props) => {
                 placeholderArray.push(currentObj);
             }
         }
-        setStatisticsPlaceholder(placeholderArray);
+        setStatisticsPlaceholder(reverse(placeholderArray));
     }, [ratings]);
 
     return (
