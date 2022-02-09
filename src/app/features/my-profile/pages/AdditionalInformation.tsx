@@ -1,3 +1,4 @@
+import { QueryStatus } from '@reduxjs/toolkit/dist/query';
 import { Form, FormikProvider, useFormik } from 'formik';
 import { isEqual } from 'lodash';
 import { useEffect, useState } from 'react';
@@ -6,6 +7,7 @@ import * as Yup from 'yup';
 
 import {
     useGetProfileProgressQuery,
+    useLazyGetProfileProgressQuery,
     useLazyGetTutorProfileDataQuery,
     useUpdateAditionalInfoMutation,
 } from '../../../../services/tutorService';
@@ -23,7 +25,8 @@ interface Values {
 }
 
 const AdditionalInformation = () => {
-    const { data: profileProgress } = useGetProfileProgressQuery();
+    const [getProfileProgress, { data: profileProgress }] =
+        useLazyGetProfileProgressQuery();
 
     const { t } = useTranslation();
 
@@ -55,7 +58,11 @@ const AdditionalInformation = () => {
 
     const [
         updateAditionalInfo,
-        { isLoading: isUpdatingInfo, isSuccess: isSuccessUpdateInfo },
+        {
+            isLoading: isUpdatingInfo,
+            isSuccess: isSuccessUpdateInfo,
+            status: updateStatus,
+        },
     ] = useUpdateAditionalInfoMutation();
 
     const handleSubmit = (values: Values) => {
@@ -66,8 +73,15 @@ const AdditionalInformation = () => {
     useEffect(() => {
         if (tutorId) {
             getProfileData(tutorId);
+            getProfileProgress();
         }
     }, []);
+
+    useEffect(() => {
+        if (updateStatus === QueryStatus.fulfilled) {
+            getProfileProgress();
+        }
+    }, [updateStatus]);
 
     useEffect(() => {
         if (

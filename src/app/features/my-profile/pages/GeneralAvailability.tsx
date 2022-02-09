@@ -1,7 +1,11 @@
+import { QueryStatus } from '@reduxjs/toolkit/dist/query';
 import { cloneDeep, isEqual } from 'lodash';
 import { useEffect, useState } from 'react';
 
-import { useGetProfileProgressQuery } from '../../../../services/tutorService';
+import {
+    useGetProfileProgressQuery,
+    useLazyGetProfileProgressQuery,
+} from '../../../../services/tutorService';
 import MainWrapper from '../../../components/MainWrapper';
 import availabilityTable from '../../../constants/availabilityTable';
 import { useAppSelector } from '../../../hooks';
@@ -19,14 +23,18 @@ import {
 const GeneralAvailability = () => {
     const userId = useAppSelector((state) => state.auth.user?.id);
 
-    const { data: profileProgress } = useGetProfileProgressQuery();
+    //const { data: profileProgress } = useGetProfileProgressQuery();
+    const [getProfileProgress, { data: profileProgress }] =
+        useLazyGetProfileProgressQuery();
 
     const [getTutorAvailability, { data: tutorAvailability }] =
         useLazyGetTutorAvailabilityQuery();
     const [updateTutorAvailability, { isSuccess: updateSuccess }] =
         useUpdateTutorAvailabilityMutation();
-    const [createTutorAvailability, { isSuccess: createSuccess }] =
-        useCreateTutorAvailabilityMutation();
+    const [
+        createTutorAvailability,
+        { isSuccess: createSuccess, status: createStatus },
+    ] = useCreateTutorAvailabilityMutation();
 
     const [currentAvailabilities, setCurrentAvailabilities] = useState<
         (string | boolean)[][]
@@ -149,6 +157,7 @@ const GeneralAvailability = () => {
     useEffect(() => {
         if (userId) {
             getTutorAvailability(userId);
+            getProfileProgress();
         }
     }, []);
 
@@ -174,6 +183,12 @@ const GeneralAvailability = () => {
             }
         }
     }, [currentAvailabilities]);
+
+    useEffect(() => {
+        if (createStatus === QueryStatus.fulfilled) {
+            getProfileProgress();
+        }
+    }, [createStatus]);
 
     return (
         <MainWrapper>

@@ -16,7 +16,7 @@ interface IUpdateAdditionalInfo {
 
 interface IUpdateMyTeachings {
     currentOccupation: string;
-    yearsOfExperience: string;
+    yearsOfExperience?: string;
 }
 
 // interface ICreateTutorSubject {}
@@ -85,6 +85,7 @@ export const {
     useLazyGetAvailableTutorsQuery,
     useGetAvailableTutorsQuery,
     useGetProfileProgressQuery,
+    useLazyGetProfileProgressQuery,
     useLazyGetTutorProfileDataQuery,
     useUpdateAditionalInfoMutation,
     useGetTutorProfileDataQuery,

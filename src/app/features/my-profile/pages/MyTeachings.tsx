@@ -7,6 +7,7 @@ import * as Yup from 'yup';
 
 import {
     useGetProfileProgressQuery,
+    useLazyGetProfileProgressQuery,
     useLazyGetTutorProfileDataQuery,
     useUpdateMyTeachingsMutation,
 } from '../../../../services/tutorService';
@@ -23,16 +24,16 @@ import SubjectList from '../components/SubjectList';
 
 interface Values {
     occupation: string;
-    yearsOfExperience: string;
+    yearsOfExperience?: string;
 }
 
 const MyTeachings = () => {
     const [addSidebarOpen, setAddSidebarOpen] = useState(false);
     const [editSidebarOpen, setEditSidebarOpen] = useState(false);
     const [saveBtnActive, setSaveBtnActive] = useState(false);
-    const [rerender, setRerender] = useState<boolean>(false);
 
-    const { data: profileProgress } = useGetProfileProgressQuery();
+    const [getProfileProgress, { data: profileProgress }] =
+        useLazyGetProfileProgressQuery();
 
     const tutorId = getUserId();
 
@@ -62,6 +63,7 @@ const MyTeachings = () => {
         {
             isSuccess: isSuccessUpdateMyTeachings,
             isLoading: isUpdatingMyTeachings,
+            status: myTeachingsStatus,
         },
     ] = useUpdateMyTeachingsMutation();
 
@@ -70,6 +72,7 @@ const MyTeachings = () => {
     useEffect(() => {
         if (tutorId) {
             getProfileData(tutorId);
+            getProfileProgress();
         }
     }, []);
 
@@ -95,8 +98,21 @@ const MyTeachings = () => {
             toastService.success(
                 t('SEARCH_TUTORS.TUTOR_PROFILE.UPDATE_TEACHINGS_SUCCESS')
             );
+            setSaveBtnActive(false);
         }
     }, [isSuccessUpdateMyTeachings]);
+
+    useEffect(() => {
+        if (
+            myTeachingsData.occupation &&
+            myTeachingsData.tutorSubjects &&
+            myTeachingsData.tutorSubjects.length > 0 &&
+            profileProgress &&
+            profileProgress.percentage < 100
+        ) {
+            getProfileProgress();
+        }
+    }, [myTeachingsStatus]);
 
     const history = useHistory();
 
@@ -106,10 +122,17 @@ const MyTeachings = () => {
     });
 
     const handleSubmit = (values: Values) => {
-        const updateValues = {
-            currentOccupation: values.occupation,
-            yearsOfExperience: values.yearsOfExperience,
-        };
+        let updateValues: any = {};
+        if (!myTeachingsData.yearsOfExperience) {
+            updateValues = {
+                currentOccupation: values.occupation,
+            };
+        } else {
+            updateValues = {
+                currentOccupation: values.occupation,
+                yearsOfExperience: Number(values.yearsOfExperience),
+            };
+        }
         updateMyTeachings(updateValues);
     };
 
