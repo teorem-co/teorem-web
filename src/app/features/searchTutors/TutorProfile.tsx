@@ -304,7 +304,7 @@ const TutorProfile = () => {
                                         <div className="flex flex--jc--space-between">
                                             <div>
                                                 <div className="type--huge">
-                                                    {tutorStatistics
+                                                    {tutorStatistics?.statistic
                                                         ? tutorStatistics.statistic.toFixed(
                                                               2
                                                           )
@@ -434,7 +434,11 @@ const TutorProfile = () => {
 
                                         <span className="d--ib ml-4">
                                             {/* Add later */}
-                                            {tutorData.averageGrade}
+                                            {tutorData.averageGrade
+                                                ? tutorData.averageGrade.toFixed(
+                                                      2
+                                                  )
+                                                : 0}
                                         </span>
                                     </div>
                                     <div className="flex--primary">
