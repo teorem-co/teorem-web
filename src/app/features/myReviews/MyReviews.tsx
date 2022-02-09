@@ -145,7 +145,9 @@ const MyReviews = () => {
                                 {t('MY_REVIEWS.AVG_SCORE')}
                             </span>
                             <span className="tag--primary d--ib ml-2">
-                                {getAvgRating(myReviews)}
+                                {getAvgRating(myReviews)
+                                    ? getAvgRating(myReviews).toFixed(2)
+                                    : 0}
                             </span>
                         </div>
                         {statisticsLoading ? (
