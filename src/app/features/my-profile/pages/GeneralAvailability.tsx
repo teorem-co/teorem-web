@@ -153,9 +153,7 @@ const GeneralAvailability = () => {
         if (userId) {
             getTutorAvailability(userId);
         }
-        if (createSuccess) {
-            toastService.success('Availability created');
-        } else if (updateSuccess) {
+        if (createSuccess || updateSuccess) {
             toastService.success('Availability updated');
         }
     }, [updateSuccess, createSuccess]);
