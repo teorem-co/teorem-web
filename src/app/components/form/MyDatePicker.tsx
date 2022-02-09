@@ -29,6 +29,7 @@ const MyDatePicker = ({ field, form }: CustomSelectProps) => {
                 calendarClassName={'onboarding-calendar'}
                 clearIcon={null}
                 disableCalendar
+                format="d/M/y"
                 onCalendarClose={() => form.setFieldTouched(field.name)}
             />
 

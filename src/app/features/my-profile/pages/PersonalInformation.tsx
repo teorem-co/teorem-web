@@ -188,27 +188,35 @@ const PersonalInformation = () => {
                     'profileImage',
                     'Image has to be either jpg,png,jpeg or svg',
                     (value) => {
-                        if (
-                            value.type === 'image/jpg' ||
-                            value.type === 'image/jpeg' ||
-                            value.type === 'image/png' ||
-                            value.type === 'image/svg'
-                        ) {
+                        if (typeof value === 'string') {
                             return true;
-                        }
+                        } else {
+                            if (
+                                value.type === 'image/jpg' ||
+                                value.type === 'image/jpeg' ||
+                                value.type === 'image/png' ||
+                                value.type === 'image/svg'
+                            ) {
+                                return true;
+                            }
 
-                        return false;
+                            return false;
+                        }
                     }
                 )
                 .test(
                     'profileImage',
                     'Image has to be less than 2MB in size.',
                     (value) => {
-                        if (value.size > 2000000) {
-                            return false;
-                        }
+                        if (typeof value === 'string') {
+                            return true;
+                        } else {
+                            if (value.size > 2000000) {
+                                return false;
+                            }
 
-                        return true;
+                            return true;
+                        }
                     }
                 ),
         }),
