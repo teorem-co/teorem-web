@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
+import { useRegisterStudentMutation } from '../../../../services/authService';
 import { resetParentRegister } from '../../../../slices/parentRegisterSlice';
 import { resetStudentRegister } from '../../../../slices/studentRegisterSlice';
 import { resetTutorRegister } from '../../../../slices/tutorRegisterSlice';
@@ -13,7 +14,6 @@ import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import { countryInput } from '../../../constants/countryInput';
 import { countryOption } from '../../../constants/countryOption';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { useRegisterStudentMutation } from '../../../services/authService';
 import toastService from '../../../services/toastService';
 import { ICountry, useLazyGetCountriesQuery } from '../services/countryService';
 

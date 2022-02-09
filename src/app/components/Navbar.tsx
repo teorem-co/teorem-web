@@ -5,6 +5,7 @@ import gradientCircle from '../../assets/images/gradient-circle.svg';
 import logo from '../../assets/images/logo.svg';
 import { logout } from '../../slices/authSlice';
 import { RoleOptions } from '../../slices/roleSlice';
+import { logoutUser } from '../../slices/userSlice';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { RenderMenuLinks } from '../routes';
 import { persistor } from '../store';
@@ -16,10 +17,10 @@ const Navbar = () => {
     const handleLogout = () => {
         persistor.purge();
         dispatch(logout());
+        dispatch(logoutUser());
     };
 
-    //iz autha
-    const user = useAppSelector((state) => state.auth.user);
+    const user = useAppSelector((state) => state.user.user);
 
     return (
         <div className="navbar">

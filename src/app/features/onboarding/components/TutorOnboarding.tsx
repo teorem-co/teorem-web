@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
+import { useRegisterTutorMutation } from '../../../../services/authService';
 import { resetParentRegister } from '../../../../slices/parentRegisterSlice';
 import { resetStudentRegister } from '../../../../slices/studentRegisterSlice';
 import {
@@ -20,7 +21,6 @@ import TextField from '../../../components/form/TextField';
 import { countryInput } from '../../../constants/countryInput';
 import { countryOption } from '../../../constants/countryOption';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { useRegisterTutorMutation } from '../../../services/authService';
 import toastService from '../../../services/toastService';
 import { resetTutorImageUploadState } from '../../../slices/tutorImageUploadSlice';
 import { ICountry, useLazyGetCountriesQuery } from '../services/countryService';

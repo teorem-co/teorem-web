@@ -19,6 +19,7 @@ import parentRegisterReducer from '../slices/parentRegisterSlice';
 import roleReducer from '../slices/roleSlice';
 import studentRegisterReducer from '../slices/studentRegisterSlice';
 import tutorRegisterReducer from '../slices/tutorRegisterSlice';
+import userReducer from '../slices/userSlice';
 import { baseService } from './baseService';
 import myReviewsReducer from './features/myReviews/slices/MyReviewsSlice';
 import { rtkQueryErrorLogger } from './middleware/rtkQueryErrorLogger';
@@ -30,6 +31,7 @@ const persistConfig = {
     storage,
     whitelist: [
         'auth',
+        'user',
         'role',
         'user',
         'myReviews',
@@ -42,6 +44,7 @@ const rootReducer = combineReducers({
     [baseService.reducerPath]: baseService.reducer,
     auth: authReducer,
     role: roleReducer,
+    user: userReducer,
     myReviews: myReviewsReducer,
     uploadFile: uploadFileReducer,
     tutorRegister: tutorRegisterReducer,

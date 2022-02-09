@@ -1,6 +1,6 @@
-import { baseService } from '../baseService';
-import { HttpMethods } from '../lookups/httpMethods';
-import typeToFormData from '../utils/typeToFormData';
+import { baseService } from '../app/baseService';
+import { HttpMethods } from '../app/lookups/httpMethods';
+import typeToFormData from '../app/utils/typeToFormData';
 
 interface ILogin {
     email: string;

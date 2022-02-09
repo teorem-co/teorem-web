@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
+import { useChangePasswordMutation } from '../../../../services/userService';
 import TextField from '../../../components/form/TextField';
 import MainWrapper from '../../../components/MainWrapper';
 import toastService from '../../../services/toastService';
@@ -13,7 +14,6 @@ import AddCreditCard from '../components/AddCreditCard';
 import ProfileHeader from '../components/ProfileHeader';
 import ProfileTabs from '../components/ProfileTabs';
 import IChangePassword from '../interfaces/IChangePassword';
-import { useChangePasswordMutation } from '../services/userService';
 
 interface Values {
     currentPassword: string;

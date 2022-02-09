@@ -7,6 +7,10 @@ import * as Yup from 'yup';
 
 import { IChild } from '../../../../interfaces/IChild';
 import {
+    useCheckUsernameMutation,
+    useRegisterParentMutation,
+} from '../../../../services/authService';
+import {
     resetParentRegister,
     setChildList,
     setStepOne,
@@ -21,10 +25,6 @@ import ImageCircle from '../../../components/ImageCircle';
 import { countryInput } from '../../../constants/countryInput';
 import { countryOption } from '../../../constants/countryOption';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import {
-    useCheckUsernameMutation,
-    useRegisterParentMutation,
-} from '../../../services/authService';
 import toastService from '../../../services/toastService';
 import TooltipPassword from '../../register/TooltipPassword';
 import { ICountry, useLazyGetCountriesQuery } from '../services/countryService';

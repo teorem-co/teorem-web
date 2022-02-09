@@ -9,6 +9,10 @@ import {
     useGetProfileProgressQuery,
     useLazyGetTutorProfileDataQuery,
 } from '../../../../services/tutorService';
+import {
+    useLazyGetUserQuery,
+    useUpdateUserInformationMutation,
+} from '../../../../services/userService';
 import MyCountrySelect from '../../../components/form/MyCountrySelect';
 import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyPhoneInput from '../../../components/form/MyPhoneInput';
@@ -29,10 +33,6 @@ import {
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
 import ProfileTabs from '../components/ProfileTabs';
-import {
-    useLazyGetUserQuery,
-    useUpdateUserInformationMutation,
-} from '../services/userService';
 
 interface Values {
     firstName: string;
@@ -54,6 +54,7 @@ const PersonalInformation = () => {
     const { data: profileProgress } = useGetProfileProgressQuery();
     const [
         updateUserInformation,
+
         { isLoading: isLoadingUserUpdate, isSuccess: isSuccessUserUpdate },
     ] = useUpdateUserInformationMutation();
     const [
@@ -144,8 +145,8 @@ const PersonalInformation = () => {
 
     useEffect(() => {
         if (isSuccessUserUpdate) {
-            if (user) {
-                getUser(user.id);
+            if (userId) {
+                getUser(userId);
             }
             setSaveBtnActive(false);
             toastService.success(

@@ -1,10 +1,10 @@
-import IUser from '../../../../interfaces/IUser';
-import { baseService } from '../../../baseService';
-import { HttpMethods } from '../../../lookups/httpMethods';
-import typeToFormData from '../../../utils/typeToFormData';
-import IChangePassword from '../interfaces/IChangePassword';
-import IPartOfDayOption from '../interfaces/IPartOfDayOption';
-import ITutorAvailability from '../interfaces/ITutorAvailability';
+import { baseService } from '../app/baseService';
+import IChangePassword from '../app/features/my-profile/interfaces/IChangePassword';
+import IPartOfDayOption from '../app/features/my-profile/interfaces/IPartOfDayOption';
+import ITutorAvailability from '../app/features/my-profile/interfaces/ITutorAvailability';
+import { HttpMethods } from '../app/lookups/httpMethods';
+import typeToFormData from '../app/utils/typeToFormData';
+import IUser from '../interfaces/IUser';
 
 const URL = '/users';
 
@@ -17,9 +17,9 @@ export interface IUpdateUserInformation {
     profileImage: string;
 }
 
-export const updateUserInformation = baseService.injectEndpoints({
+export const userService = baseService.injectEndpoints({
     endpoints: (builder) => ({
-        updateUserInformation: builder.mutation<void, IUpdateUserInformation>({
+        updateUserInformation: builder.mutation<IUser, IUpdateUserInformation>({
             query: (body) => ({
                 url: `${URL}`,
                 method: HttpMethods.PUT,
@@ -38,7 +38,6 @@ export const updateUserInformation = baseService.injectEndpoints({
                 url: `${URL}/${userId}`,
                 method: HttpMethods.GET,
             }),
-            // providesTags: ['User'],
         }),
     }),
 });
@@ -47,4 +46,4 @@ export const {
     useUpdateUserInformationMutation,
     useChangePasswordMutation,
     useLazyGetUserQuery,
-} = updateUserInformation;
+} = userService;

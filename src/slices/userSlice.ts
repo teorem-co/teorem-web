@@ -4,27 +4,27 @@ import IUser from '../interfaces/IUser';
 import { authService } from '../services/authService';
 import { userService } from '../services/userService';
 
+interface IState {
+    user: IUser | null;
+}
+
 interface ILoginPayload {
     token: string;
     user: IUser;
 }
 
-interface IState {
-    token: string | null;
-    user: IUser | null;
-}
-
 const initialState: IState = {
-    token: null,
     user: null,
 };
 
-export const authSlice = createSlice({
-    name: 'auth',
+//test to see if user slice is cleared properly
+//refactor other components to use user from userSlice not from authSlice so they get up to date info about user
+//handle user clear on logout
+export const userSlice = createSlice({
+    name: 'user',
     initialState,
     reducers: {
-        logout(state) {
-            state.token = null;
+        logoutUser(state) {
             state.user = null;
         },
     },
@@ -32,13 +32,18 @@ export const authSlice = createSlice({
         builder.addMatcher(
             authService.endpoints.login.matchFulfilled,
             (state, action: PayloadAction<ILoginPayload>) => {
-                const { user, token } = action.payload;
-                state.token = token;
+                const { user } = action.payload;
                 state.user = user;
+            }
+        );
+        builder.addMatcher(
+            userService.endpoints.getUser.matchFulfilled,
+            (state, action: PayloadAction<IUser>) => {
+                state.user = action.payload;
             }
         );
     },
 });
 
-export const { logout } = authSlice.actions;
-export default authSlice.reducer;
+export const { logoutUser } = userSlice.actions;
+export default userSlice.reducer;

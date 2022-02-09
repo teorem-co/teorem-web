@@ -5,12 +5,12 @@ import { useHistory } from 'react-router';
 import * as Yup from 'yup';
 
 import heroImg from '../../../assets/images/hero-img.png';
+import { useCheckMailMutation } from '../../../services/authService';
 import { setSelectedRole } from '../../../slices/roleSlice';
 import { setRegister } from '../../../slices/tutorRegisterSlice';
 import TextField from '../../components/form/TextField';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
-import { useCheckMailMutation } from '../../services/authService';
 import logo from './../../../assets/images/logo.svg';
 import TooltipPassword from './TooltipPassword';
 
