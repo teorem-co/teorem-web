@@ -43,31 +43,45 @@ const UpcomingLessons: React.FC<Props> = (props: Props) => {
                                 </div>
                                 <div className="type--color--tertiary">
                                     {moment(lesson.startTime).format(
-                                        'DD/MM/YYYY'
+                                        'DD/MMM/YYYY'
                                     )}
                                 </div>
                             </div>
                             <>
                                 {lesson.User ? (
-                                    <>
-                                        <span className="type--capitalize">
-                                            {lesson.User.firstName}
-                                        </span>
-                                        &nbsp;
-                                        <span className="type--capitalize">
-                                            {lesson.User.lastName}
-                                        </span>
-                                    </>
+                                    <div className="flex--primary">
+                                        <div className="flex flex--center">
+                                            <span className="type--capitalize">
+                                                {lesson.User.firstName}
+                                            </span>
+                                            &nbsp;
+                                            <span className="type--capitalize">
+                                                {lesson.User.lastName}
+                                            </span>
+                                        </div>
+                                        <div className="flex flex--center">
+                                            <span className="type--capitalize">
+                                                subject
+                                            </span>
+                                        </div>
+                                    </div>
                                 ) : lesson.Tutor ? (
-                                    <>
-                                        <span className="type--capitalize">
-                                            {lesson.Tutor.User.firstName}
-                                        </span>
-                                        &nbsp;
-                                        <span className="type--capitalize">
-                                            {lesson.Tutor.User.lastName}
-                                        </span>
-                                    </>
+                                    <div className="flex--primary">
+                                        <div className="flex flex--center">
+                                            <span className="type--capitalize">
+                                                {lesson.Tutor.User.firstName}
+                                            </span>
+                                            &nbsp;
+                                            <span className="type--capitalize">
+                                                {lesson.Tutor.User.lastName}
+                                            </span>
+                                        </div>
+                                        <div className="flex flex--center">
+                                            <span className="type--capitalize">
+                                                subject
+                                            </span>
+                                        </div>
+                                    </div>
                                 ) : (
                                     ''
                                 )}
