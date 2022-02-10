@@ -16,6 +16,7 @@ export const tutorAvailabilityService = baseService.injectEndpoints({
                 url: `${URL}/${tutorId}`,
                 method: HttpMethods.GET,
             }),
+            providesTags: ['userAvailability'],
             transformResponse: (response: ITutorAvailability[]) => {
                 const partsOfDay = [
                     { value: 'beforeNoon', label: 'Pre 12 pm' },
@@ -60,6 +61,7 @@ export const tutorAvailabilityService = baseService.injectEndpoints({
                 method: HttpMethods.PUT,
                 body: body,
             }),
+            invalidatesTags: ['userAvailability'],
         }),
         createTutorAvailability: builder.mutation<
             void,
@@ -70,6 +72,7 @@ export const tutorAvailabilityService = baseService.injectEndpoints({
                 method: HttpMethods.POST,
                 body: body,
             }),
+            invalidatesTags: ['userAvailability'],
         }),
     }),
 });
