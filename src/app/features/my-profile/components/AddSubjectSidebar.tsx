@@ -180,6 +180,7 @@ const AddSubjectSidebar = (props: Props) => {
                                             ? false
                                             : true
                                     }
+                                    type="number"
                                 />
                             </div>
                         </Form>
