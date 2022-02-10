@@ -37,4 +37,14 @@
             }
         }
     }
+
+    &--landing {
+        font-size: 16px;
+        color: $grey-7f;
+        display: block;
+
+        &.active {
+            color: $black;
+        }
+    }
 }
