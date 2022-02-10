@@ -181,6 +181,8 @@ const MyTeachings = () => {
     };
 
     const closeEditSubjectSidebar = () => {
+        // history.location.search = '';
+        history.push('/my-profile/info/teachings');
         setEditSidebarOpen(false);
     };
 
