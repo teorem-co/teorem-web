@@ -84,19 +84,19 @@ const Register: React.FC = () => {
                     }
                 ),
             password: Yup.string()
+                .required(t('FORM_VALIDATION.REQUIRED'))
                 .min(8, t('FORM_VALIDATION.TOO_SHORT'))
                 .max(128, t('FORM_VALIDATION.TOO_LONG'))
                 .matches(
                     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_/+\-=[\]{};':"\\|,.<>?])[A-Za-z\d!@#$%^&*()_/+\-=[\]{};':"\\|,.<>?]{8,128}$/gm,
                     t('FORM_VALIDATION.PASSWORD_STRENGTH')
-                )
-                .required(t('FORM_VALIDATION.REQUIRED')),
+                ),
             passwordRepeat: Yup.string()
+                .required(t('FORM_VALIDATION.REQUIRED'))
                 .oneOf(
                     [Yup.ref('password'), null],
                     t('FORM_VALIDATION.PASSWORD_MATCH')
-                )
-                .required(t('FORM_VALIDATION.REQUIRED')),
+                ),
         }),
     });
 
