@@ -149,16 +149,16 @@ const GeneralAvailability = () => {
         }
     };
 
-    // useEffect(() => {
-    //     if (userId) {
-    //         setTimeout(() => {
-    //             getTutorAvailability(userId);
-    //         }, 2000);
-    //     }
-    //     if (createSuccess || updateSuccess) {
-    //         toastService.success('Availability updated');
-    //     }
-    // }, [updateSuccess, createSuccess]);
+    useEffect(() => {
+        //  if (userId) {
+        //      setTimeout(() => {
+        //          getTutorAvailability(userId);
+        //      }, 2000);
+        //  }
+        if (createSuccess || updateSuccess) {
+            toastService.success('Availability updated');
+        }
+    }, [updateSuccess, createSuccess]);
 
     useEffect(() => {
         if (userId) {
