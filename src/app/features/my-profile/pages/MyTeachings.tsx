@@ -1,5 +1,5 @@
 import { Form, FormikProvider, useFormik } from 'formik';
-import { isEqual } from 'lodash';
+import { initial, isEqual } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
@@ -112,7 +112,11 @@ const MyTeachings = () => {
         ) {
             getProfileProgress();
         }
-    }, [myTeachingsStatus, myTeachingsData.tutorSubjects?.length]);
+    }, [
+        myTeachingsStatus,
+        myTeachingsData.tutorSubjects?.length,
+        myTeachingsData.occupation,
+    ]);
 
     const history = useHistory();
 
@@ -121,19 +125,18 @@ const MyTeachings = () => {
         yearsOfExperience: '',
     });
 
+    console.log(initialValues);
+
     const handleSubmit = (values: Values) => {
         let updateValues: any = {};
-        if (myTeachingsData.yearsOfExperience) {
-            updateValues = {
-                currentOccupation: values.occupation,
-            };
-        } else {
-            updateValues = {
-                currentOccupation: values.occupation,
-                yearsOfExperience: Number(values.yearsOfExperience),
-            };
-        }
+        updateValues = {
+            currentOccupation: values.occupation,
+            yearsOfExperience: values.yearsOfExperience
+                ? Number(values.yearsOfExperience)
+                : 0,
+        };
         updateMyTeachings(updateValues);
+        setInitialValues(values);
     };
 
     const handleChangeForSave = () => {

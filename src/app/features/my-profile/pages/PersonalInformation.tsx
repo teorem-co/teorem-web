@@ -132,6 +132,8 @@ const PersonalInformation = () => {
         profileImage: '',
     });
 
+    console.log(initialValues);
+
     const handleSubmit = (values: Values) => {
         updateUserInformation({
             firstName: values.firstName,

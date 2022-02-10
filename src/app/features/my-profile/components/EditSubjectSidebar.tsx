@@ -199,7 +199,7 @@ const EditSubjectSidebar = (props: Props) => {
                 subjectId: selectedSubject?.subjectId,
             });
         }
-    }, [formik.values.level]);
+    }, [formik.values.level, initialValues.subject]);
 
     useEffect(() => {
         if (isSuccessUpdateSubject) {
