@@ -1,0 +1,75 @@
+import React from 'react';
+
+import MainWrapper from '../../../components/MainWrapper';
+import ConversationAside from '../components/ConversationAside';
+import LoggedUserMessage from '../components/LoggedUserMessage';
+import OtherUserMessage from '../components/OtherUserMessage';
+
+const Chat = () => {
+    return (
+        <MainWrapper>
+            <div className="card--chat">
+                <div className="card--chat__aside">
+                    <div className="p-4">
+                        <div className="type--wgt--bold type--lg">Chat</div>
+                        <input
+                            type="text"
+                            placeholder="Search in chat"
+                            className="input p-3 mt-6"
+                        />
+                    </div>
+                    <div className="chat__messages-wrapper">
+                        <ConversationAside />
+                        <ConversationAside />
+                        <ConversationAside />
+                        <ConversationAside />
+                        <ConversationAside />
+                        <ConversationAside />
+                        <ConversationAside />
+                        <ConversationAside />
+                        <ConversationAside />
+                        <ConversationAside />
+                        <ConversationAside />
+                        <ConversationAside />
+                        <ConversationAside />
+                        <ConversationAside />
+                        <ConversationAside />
+                    </div>
+                </div>
+                {/* Active chat */}
+                <div className="content">
+                    <div className="content__header content__header--chat">
+                        <div className="flex flex--center">
+                            <div className="chat__conversation__avatar"></div>
+                            <div className="ml-3 type--wgt--bold">John doe</div>
+                        </div>
+                        <button className="btn btn--primary btn--base">
+                            Book a session
+                        </button>
+                    </div>
+                    {/* Messages */}
+                    <div className="content__main">
+                        <LoggedUserMessage />
+                        <OtherUserMessage />
+                        <OtherUserMessage />
+                        <LoggedUserMessage />
+                        <LoggedUserMessage />
+                        <LoggedUserMessage />
+                        <LoggedUserMessage />
+                        <LoggedUserMessage />
+                        <LoggedUserMessage />
+                        <LoggedUserMessage />
+                    </div>
+                    <div className="content__footer content__footer--chat">
+                        <div className="flex--shrink">
+                            <i className="icon icon--base icon--attachment icon--black"></i>
+                        </div>
+                        <input type="text" className="input ml-5 p-2" />
+                    </div>
+                </div>
+            </div>
+        </MainWrapper>
+    );
+};
+
+export default Chat;

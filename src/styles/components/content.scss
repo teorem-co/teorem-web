@@ -16,6 +16,15 @@ $footer-height: 72px;
         border-bottom: 1px solid $border-color;
         background-color: $white;
         flex-shrink: 0;
+
+        &--chat {
+            height: unset;
+            padding: calc($unit * 4);
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
     }
     &__main {
         display: flex;
@@ -46,5 +55,9 @@ $footer-height: 72px;
         padding: 0 calc(#{$unit} * 6);
         border-top: 1px solid $border-color;
         background-color: $white;
+
+        &--chat {
+            flex-direction: row;
+        }
     }
 }

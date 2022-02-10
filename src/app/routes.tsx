@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { NavLink, Route, Switch } from 'react-router-dom';
 
+import Chat from './features/chat/pages/Chat';
 import CompletedLessons from './features/completedLessons/CompletedLessons';
 import BecomeTutor from './features/landing/pages/BecomeTutor';
 import HowItWorks from './features/landing/pages/HowItWorks';
@@ -37,6 +38,7 @@ export enum PATHS {
     ONBOARDING = '/onboarding',
     MY_REVIEWS = '/my-reviews',
     COMPLETED_LESSONS = '/completed-lessons',
+    CHAT = '/chat',
 }
 
 export enum LANDING_PATHS {
@@ -134,6 +136,24 @@ const ROUTES: any = [
                 ]}
             >
                 <MyBookings />
+            </PermissionsGate>
+        ),
+    },
+    {
+        path: PATHS.CHAT,
+        key: 'CHAT',
+        exact: true,
+        component: () => (
+            <PermissionsGate
+                roles={[
+                    Role.Tutor,
+                    Role.Parent,
+                    Role.Student,
+                    Role.SuperAdmin,
+                    Role.Child,
+                ]}
+            >
+                <Chat />
             </PermissionsGate>
         ),
     },
@@ -290,13 +310,19 @@ export const menuPerRole: IMenuPerRole = {
             key: 'MY_REVIEWS',
             path: PATHS.MY_REVIEWS,
         },
-        // {
-        //     name: 'MY_PROFILE',
-        //     icon: 'profile',
-        //     key: 'MY_PROFILE_INFO_PERSONAL',
-        //     rootPath: PROFILE_PATHS.MY_PROFILE,
-        //     path: PROFILE_PATHS.MY_PROFILE_INFO_PERSONAL,
-        // },
+        {
+            name: 'MY_PROFILE',
+            icon: 'profile',
+            key: 'MY_PROFILE_INFO_PERSONAL',
+            rootPath: PROFILE_PATHS.MY_PROFILE,
+            path: PROFILE_PATHS.MY_PROFILE_INFO_PERSONAL,
+        },
+        {
+            name: 'CHAT',
+            icon: 'chat',
+            key: 'CHAT',
+            path: PATHS.CHAT,
+        },
     ],
     [Role.Student]: [
         {
@@ -317,6 +343,12 @@ export const menuPerRole: IMenuPerRole = {
             key: 'COMPLETED_LESSONS',
             path: PATHS.COMPLETED_LESSONS,
         },
+        {
+            name: 'CHAT',
+            icon: 'chat',
+            key: 'CHAT',
+            path: PATHS.CHAT,
+        },
     ],
     [Role.Parent]: [
         {
@@ -336,6 +368,12 @@ export const menuPerRole: IMenuPerRole = {
             icon: 'completed-lessons',
             key: 'COMPLETED_LESSONS',
             path: PATHS.COMPLETED_LESSONS,
+        },
+        {
+            name: 'CHAT',
+            icon: 'chat',
+            key: 'CHAT',
+            path: PATHS.CHAT,
         },
     ],
     [Role.SuperAdmin]: [
@@ -363,6 +401,12 @@ export const menuPerRole: IMenuPerRole = {
             icon: 'completed-lessons',
             key: 'COMPLETED_LESSONS',
             path: PATHS.COMPLETED_LESSONS,
+        },
+        {
+            name: 'CHAT',
+            icon: 'chat',
+            key: 'CHAT',
+            path: PATHS.CHAT,
         },
     ],
     [Role.Child]: [

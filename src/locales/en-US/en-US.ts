@@ -63,6 +63,7 @@ export const EN_US = {
         SEARCH_TUTORS: 'Search tutors',
         MY_PROFILE: 'My Profile',
         COMPLETED_LESSONS: 'Completed lessons',
+        CHAT: 'Chat',
     },
     SEARCH_TUTORS: {
         AVAILABILITY: {
