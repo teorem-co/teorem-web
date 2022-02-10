@@ -77,13 +77,22 @@ const Navigation = () => {
             <div
                 className={`landing__navigation ${showSidebar ? 'active' : ''}`}
             >
-                <NavLink to={LANDING_PATHS.HOW_IT_WORKS}>
-                    <div className="type--color--black">How it works</div>
+                <NavLink
+                    to={LANDING_PATHS.HOW_IT_WORKS}
+                    className="d--b type--color--white mt-20"
+                >
+                    <div>How it works</div>
                 </NavLink>
-                <NavLink to={LANDING_PATHS.PRICING}>
+                <NavLink
+                    to={LANDING_PATHS.PRICING}
+                    className="d--b type--color--white"
+                >
                     <div>Pricing</div>
                 </NavLink>
-                <NavLink to={LANDING_PATHS.BECOME_TUTOR}>
+                <NavLink
+                    to={LANDING_PATHS.BECOME_TUTOR}
+                    className="d--b type--color--white"
+                >
                     <div>Become a tutor</div>
                 </NavLink>
             </div>
