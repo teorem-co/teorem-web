@@ -5,7 +5,6 @@
 .upcoming-lessons {
     overflow-y: auto;
     flex-grow: 1;
-    height: calc(100% - 337px);
 
     &__title {
         position: sticky;

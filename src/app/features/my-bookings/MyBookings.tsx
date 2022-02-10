@@ -130,8 +130,22 @@ const MyBookings: React.FC = () => {
         }
     };
 
+    const tileRef = useRef<HTMLDivElement>(null);
+    const tileElement = tileRef.current as HTMLDivElement;
+
+    const hideShowHighlight = (date: Date) => {
+        if (tileElement) {
+            if (moment(date).isSame(value, 'month')) {
+                tileElement.style.display = 'block';
+            } else {
+                tileElement.style.display = 'none';
+            }
+        }
+    };
+
     useEffect(() => {
         calcPosition();
+        hideShowHighlight(value);
     }, [value]);
 
     return (
@@ -182,6 +196,9 @@ const MyBookings: React.FC = () => {
                         className="card card--mini-calendar mb-4 pos--rel"
                     >
                         <Calendar
+                            onActiveStartDateChange={(e) => {
+                                hideShowHighlight(e.activeStartDate);
+                            }}
                             onChange={(e: Date) => {
                                 onChange(e);
                                 setCalChange(!calChange);
@@ -191,6 +208,7 @@ const MyBookings: React.FC = () => {
                             nextLabel={<NextIcon />}
                         />
                         <div
+                            ref={tileRef}
                             style={{
                                 top: `${highlightCoords.y}px`,
                                 left: `${highlightCoords.x}px`,
