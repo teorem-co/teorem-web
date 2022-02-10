@@ -2,9 +2,10 @@ import 'moment/locale/en-gb';
 
 import { t } from 'i18next';
 import moment from 'moment';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import Calendar from 'react-calendar';
+import ReactDOM from 'react-dom';
 
 import MainWrapper from '../../components/MainWrapper';
 import { useAppSelector } from '../../hooks';
@@ -15,10 +16,19 @@ import {
     useLazyGetUpcomingLessonsQuery,
 } from './services/bookingService';
 
+interface ICoords {
+    x: number;
+    y: number;
+}
+
 const MyBookings: React.FC = () => {
     const localizer = momentLocalizer(moment);
     const [value, onChange] = useState(new Date());
     const [calChange, setCalChange] = useState<boolean>(false);
+    const [highlightCoords, setHighlightCoords] = useState<ICoords>({
+        x: 0,
+        y: 0,
+    });
 
     const [getUpcomingLessons, { data: upcomingLessons }] =
         useLazyGetUpcomingLessonsQuery();
@@ -58,7 +68,7 @@ const MyBookings: React.FC = () => {
             <>
                 <div className="mb-2">{moment(date.date).format('dddd')}</div>
                 <div className="type--color--tertiary">
-                    {moment(date.date).format('DD.MM')}
+                    {moment(date.date).format('DD/MMM')}
                 </div>
             </>
         );
@@ -99,6 +109,30 @@ const MyBookings: React.FC = () => {
     };
 
     // const newBookings = union(bookings, emptyBookings);
+
+    // const rect = ReactDOM.findDOMNode(test) as Element;
+    // console.log(rect);
+
+    const highlightRef = useRef<HTMLDivElement>(null);
+    const calcPosition = () => {
+        const childElement = document.querySelector(
+            '.react-calendar__tile--active'
+        );
+        const rectParent =
+            highlightRef.current &&
+            highlightRef.current.getBoundingClientRect();
+        const rectChild = childElement && childElement.getBoundingClientRect();
+
+        if (rectParent && rectChild) {
+            const finalX = rectParent.x - rectChild.x;
+            const finalY = rectChild.y - rectParent.y;
+            setHighlightCoords({ x: finalX, y: finalY });
+        }
+    };
+
+    useEffect(() => {
+        calcPosition();
+    }, [value]);
 
     return (
         <MainWrapper>
@@ -143,7 +177,10 @@ const MyBookings: React.FC = () => {
                     </div>
                 </div>
                 <div>
-                    <div className="card card--primary mb-4">
+                    <div
+                        ref={highlightRef}
+                        className="card card--mini-calendar mb-4 pos--rel"
+                    >
                         <Calendar
                             onChange={(e: Date) => {
                                 onChange(e);
@@ -153,6 +190,13 @@ const MyBookings: React.FC = () => {
                             prevLabel={<PrevIcon />}
                             nextLabel={<NextIcon />}
                         />
+                        <div
+                            style={{
+                                top: `${highlightCoords.y}px`,
+                                left: `${highlightCoords.x}px`,
+                            }}
+                            className="tile--row"
+                        ></div>
                     </div>
                     <div className="upcoming-lessons">
                         <UpcomingLessons

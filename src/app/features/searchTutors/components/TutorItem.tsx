@@ -17,7 +17,7 @@ interface Props {
 const TutorItem: FC<Props> = (props: Props) => {
     const { tutor } = props;
 
-    const [showMore, setShowMore] = useState<boolean>(false);
+    // const [showMore, setShowMore] = useState<boolean>(false);
     const [uniqueSubjects, setUniqueSubjects] = useState<ISubject[]>([]);
 
     useEffect(() => {
@@ -34,21 +34,21 @@ const TutorItem: FC<Props> = (props: Props) => {
 
     const handleLongText = (text: string) => {
         let showText: string = '';
-        if (showMore) {
-            showText = text;
-        } else {
-            showText = text.slice(0, 300) + '...';
-        }
+        // if (showMore) {
+        //     showText = text;
+        // } else {
+        showText = text.slice(0, 300) + '...';
+        // }
 
         return (
             <div>
                 <div>{showText}</div>
-                <p
+                {/* <p
                     onClick={() => setShowMore(!showMore)}
                     className="type--color--brand mt-2 cur--pointer"
                 >
                     show {showMore ? 'less' : 'more'}
-                </p>
+                </p> */}
             </div>
         );
     };

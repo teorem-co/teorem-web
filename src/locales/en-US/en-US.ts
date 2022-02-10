@@ -92,7 +92,7 @@ export const EN_US = {
         TUTOR_LIST: 'Tutor list',
         VIEW_PROFILE: 'View profile',
         BOOK_LESSON: 'Book a lesson',
-        RESET_FILTER: 'Reset filter',
+        RESET_FILTER: 'Reset search',
         TUTOR_AVAILABLE: 'Tutor Available',
         SUBJECT_LIST: {
             MORE: 'more',

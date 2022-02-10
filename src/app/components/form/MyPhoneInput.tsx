@@ -7,6 +7,7 @@ interface TextFieldType extends FieldProps {
     inputType?: string;
     name: string;
     disabled?: boolean;
+    openTooltip?: () => void;
 }
 
 const MyPhoneInput: FC<TextFieldType> = (props: any) => {
@@ -28,6 +29,7 @@ const MyPhoneInput: FC<TextFieldType> = (props: any) => {
                 onChange={(phone) => form.setFieldValue('phoneNumber', phone)}
                 onBlur={() => form.setFieldTouched(field.name)}
                 disabled={props.disabled}
+                onClick={() => props.openTooltip()}
             />
             <div className="field__validation">{errorText}</div>
         </>

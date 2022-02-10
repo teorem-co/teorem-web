@@ -1,0 +1,20 @@
+/*
+    overrides: react-phone-input.scss
+*/
+
+.country-list {
+    padding: 24px !important;
+    border: 1px solid $color-primary;
+    border-radius: 5px !important;
+}
+
+.country {
+    &.highlight {
+        background-color: #7e6cf227 !important;
+        border-radius: 5px;
+    }
+
+    &:hover {
+        border-radius: 5px;
+    }
+}

@@ -31,11 +31,13 @@ $rc-button-height: 48px;
     }
 
     &__tile {
+        z-index: 1;
         &:enabled:hover,
         &:enabled:focus {
             background-color: $rbc-color-header;
         }
         &--active {
+            position: relative;
             background-color: $color-primary !important;
             border-radius: $border-rounded;
             color: $white !important;
@@ -43,6 +45,16 @@ $rc-button-height: 48px;
             &:enabled:focus {
                 background-color: $color-primary;
             }
+            // &::before {
+            //     content: '';
+            //     position: absolute;
+            //     top: 0;
+            //     bottom: 0;
+            //     left: -300px;
+            //     width: 600px;
+            //     background-color: $color-primary-lighter;
+            //     z-index: 0 !important;
+            // }
         }
         &--now {
             background: $rbc-color-header;
@@ -86,4 +98,12 @@ $rc-button-height: 48px;
             }
         }
     }
+}
+
+.tile--row {
+    background: $color-primary-lighter;
+    width: 600px;
+    height: 47px;
+    position: absolute;
+    z-index: 0;
 }

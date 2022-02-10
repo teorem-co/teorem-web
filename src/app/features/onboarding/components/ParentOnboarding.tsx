@@ -1,7 +1,7 @@
 import { Form, FormikProvider, useFormik } from 'formik';
 import { cloneDeep } from 'lodash';
 import moment from 'moment';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
@@ -26,6 +26,7 @@ import { countryInput } from '../../../constants/countryInput';
 import { countryOption } from '../../../constants/countryOption';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
+import useOutsideAlerter from '../../../utils/useOutsideAlerter';
 import TooltipPassword from '../../register/TooltipPassword';
 import { ICountry, useLazyGetCountriesQuery } from '../services/countryService';
 
@@ -62,6 +63,7 @@ const ParentOnboarding: React.FC<IProps> = ({
     const [getCountries, { data: countries }] = useLazyGetCountriesQuery();
     const [countryOptions, setCountryOptions] = useState<OptionType[]>([]);
     const [passTooltip, setPassTooltip] = useState<boolean>(false);
+    const [phoneTooltip, setPhoneTooltip] = useState<boolean>(false);
     const [registerParent, { isSuccess }] = useRegisterParentMutation();
     const [checkUsername] = useCheckUsernameMutation();
     const parentCreds = useAppSelector((state) => state.parentRegister);
@@ -149,6 +151,14 @@ const ParentOnboarding: React.FC<IProps> = ({
         }
     };
 
+    const rangeSetterRef = useRef<HTMLDivElement>(null);
+
+    const hideTooltip = () => {
+        setPhoneTooltip(false);
+    };
+
+    useOutsideAlerter(rangeSetterRef, hideTooltip);
+
     // Step one
 
     const initialValuesOne: StepOneValues = {
@@ -217,7 +227,7 @@ const ParentOnboarding: React.FC<IProps> = ({
                             customOption={countryOption}
                         />
                     </div>
-                    <div className="field">
+                    <div className="field" ref={rangeSetterRef}>
                         <label htmlFor="phoneNumber" className="field__label">
                             {t('REGISTER.FORM.PHONE_NUMBER')}
                         </label>
@@ -226,7 +236,18 @@ const ParentOnboarding: React.FC<IProps> = ({
                             name="phoneNumber"
                             field={formikStepOne.getFieldProps('phoneNumber')}
                             meta={formikStepOne.getFieldMeta('phoneNumber')}
+                            openTooltip={() => setPhoneTooltip(true)}
                         />
+                        <div
+                            className={`tooltip--phone ${
+                                phoneTooltip ? 'active' : ''
+                            }`}
+                        >
+                            <div className="">
+                                Your phone number will not be visible to the
+                                public, we use it in case of support.
+                            </div>
+                        </div>
                     </div>
                     <div className="field">
                         <label className="field__label" htmlFor="dateOfBirth">
