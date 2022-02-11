@@ -343,133 +343,134 @@ const TutorBookings = () => {
                             }
                         /> */}
                     </div>
-                </div>
-                {sidebarOpen ? (
-                    <Sidebar
-                        sideBarIsOpen={sidebarOpen}
-                        title="ADD NEW CARD"
-                        onSubmit={formik.handleSubmit}
-                        closeSidebar={() => setSidebarOpen(false)}
-                        cancelLabel="Cancel"
-                        submitLabel="Add New Card"
-                        children={
-                            <FormikProvider value={formik}>
-                                <Form>
-                                    {/* <div>{JSON.stringify(formikStepTwo.values, null, 2)}</div> */}
-                                    <div className="field">
-                                        <label
-                                            htmlFor="cardFirstName"
-                                            className="field__label"
-                                        >
-                                            {t(
-                                                'REGISTER.CARD_DETAILS.FIRST_NAME'
-                                            )}
-                                        </label>
-                                        <TextField
-                                            name="cardFirstName"
-                                            id="cardFirstName"
-                                            placeholder="Enter First Name"
-                                            // disabled={isLoading}
-                                        />
-                                    </div>
-                                    <div className="field">
-                                        <label
-                                            htmlFor="cardLastName"
-                                            className="field__label"
-                                        >
-                                            {t(
-                                                'REGISTER.CARD_DETAILS.LAST_NAME'
-                                            )}
-                                        </label>
-                                        <TextField
-                                            name="cardLastName"
-                                            id="cardLastName"
-                                            placeholder="Enter Last Name"
-                                            // disabled={isLoading}
-                                        />
-                                    </div>
-                                    <div className="field">
-                                        <label
-                                            htmlFor="cardNumber"
-                                            className="field__label"
-                                        >
-                                            {t(
-                                                'REGISTER.CARD_DETAILS.CARD_NUMBER'
-                                            )}
-                                        </label>
-                                        <TextField
-                                            type="number"
-                                            name="cardNumber"
-                                            id="cardNumber"
-                                            placeholder="**** **** **** ****"
-                                            // disabled={isLoading}
-                                        />
-                                    </div>
-                                    <div className="field field__file">
-                                        <div className="flex">
-                                            <div className="field w--100 mr-6">
-                                                <label
-                                                    htmlFor="expiryDate"
-                                                    className="field__label"
-                                                >
-                                                    {t(
-                                                        'REGISTER.CARD_DETAILS.EXPIRY_DATE'
-                                                    )}
-                                                </label>
-                                                <ExpDateField
-                                                    name="expiryDate"
-                                                    id="expiryDate"
-                                                    placeholder="MM / YY"
-                                                    // disabled={isLoading}
-                                                />
-                                            </div>
+                    {/* needs to be in this place because layout have nth-child selector */}
+                    {sidebarOpen ? (
+                        <Sidebar
+                            sideBarIsOpen={sidebarOpen}
+                            title="ADD NEW CARD"
+                            onSubmit={formik.handleSubmit}
+                            closeSidebar={() => setSidebarOpen(false)}
+                            cancelLabel="Cancel"
+                            submitLabel="Add New Card"
+                            children={
+                                <FormikProvider value={formik}>
+                                    <Form>
+                                        {/* <div>{JSON.stringify(formikStepTwo.values, null, 2)}</div> */}
+                                        <div className="field">
+                                            <label
+                                                htmlFor="cardFirstName"
+                                                className="field__label"
+                                            >
+                                                {t(
+                                                    'REGISTER.CARD_DETAILS.FIRST_NAME'
+                                                )}
+                                            </label>
+                                            <TextField
+                                                name="cardFirstName"
+                                                id="cardFirstName"
+                                                placeholder="Enter First Name"
+                                                // disabled={isLoading}
+                                            />
+                                        </div>
+                                        <div className="field">
+                                            <label
+                                                htmlFor="cardLastName"
+                                                className="field__label"
+                                            >
+                                                {t(
+                                                    'REGISTER.CARD_DETAILS.LAST_NAME'
+                                                )}
+                                            </label>
+                                            <TextField
+                                                name="cardLastName"
+                                                id="cardLastName"
+                                                placeholder="Enter Last Name"
+                                                // disabled={isLoading}
+                                            />
+                                        </div>
+                                        <div className="field">
+                                            <label
+                                                htmlFor="cardNumber"
+                                                className="field__label"
+                                            >
+                                                {t(
+                                                    'REGISTER.CARD_DETAILS.CARD_NUMBER'
+                                                )}
+                                            </label>
+                                            <TextField
+                                                type="number"
+                                                name="cardNumber"
+                                                id="cardNumber"
+                                                placeholder="**** **** **** ****"
+                                                // disabled={isLoading}
+                                            />
+                                        </div>
+                                        <div className="field field__file">
+                                            <div className="flex">
+                                                <div className="field w--100 mr-6">
+                                                    <label
+                                                        htmlFor="expiryDate"
+                                                        className="field__label"
+                                                    >
+                                                        {t(
+                                                            'REGISTER.CARD_DETAILS.EXPIRY_DATE'
+                                                        )}
+                                                    </label>
+                                                    <ExpDateField
+                                                        name="expiryDate"
+                                                        id="expiryDate"
+                                                        placeholder="MM / YY"
+                                                        // disabled={isLoading}
+                                                    />
+                                                </div>
 
-                                            <div className="field w--100">
-                                                <label
-                                                    htmlFor="cvv"
-                                                    className="field__label"
-                                                >
-                                                    {t(
-                                                        'REGISTER.CARD_DETAILS.CVV'
-                                                    )}
-                                                </label>
-                                                <TextField
-                                                    max={3}
-                                                    maxLength={3}
-                                                    type="number"
-                                                    name="cvv"
-                                                    id="cvv"
-                                                    placeholder="***"
-                                                    // disabled={isLoading}
-                                                />
+                                                <div className="field w--100">
+                                                    <label
+                                                        htmlFor="cvv"
+                                                        className="field__label"
+                                                    >
+                                                        {t(
+                                                            'REGISTER.CARD_DETAILS.CVV'
+                                                        )}
+                                                    </label>
+                                                    <TextField
+                                                        max={3}
+                                                        maxLength={3}
+                                                        type="number"
+                                                        name="cvv"
+                                                        id="cvv"
+                                                        placeholder="***"
+                                                        // disabled={isLoading}
+                                                    />
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div className="field">
-                                        <label
-                                            htmlFor="zipCode"
-                                            className="field__label"
-                                        >
-                                            {t(
-                                                'REGISTER.CARD_DETAILS.ZIP_CODE'
-                                            )}
-                                        </label>
-                                        <TextField
-                                            type="number"
-                                            name="zipCode"
-                                            id="zipCode"
-                                            placeholder="Enter ZIP / Postal Code"
-                                            // disabled={isLoading}
-                                        />
-                                    </div>
-                                </Form>
-                            </FormikProvider>
-                        }
-                    />
-                ) : (
-                    <></>
-                )}
+                                        <div className="field">
+                                            <label
+                                                htmlFor="zipCode"
+                                                className="field__label"
+                                            >
+                                                {t(
+                                                    'REGISTER.CARD_DETAILS.ZIP_CODE'
+                                                )}
+                                            </label>
+                                            <TextField
+                                                type="number"
+                                                name="zipCode"
+                                                id="zipCode"
+                                                placeholder="Enter ZIP / Postal Code"
+                                                // disabled={isLoading}
+                                            />
+                                        </div>
+                                    </Form>
+                                </FormikProvider>
+                            }
+                        />
+                    ) : (
+                        <></>
+                    )}
+                </div>
             </div>
         </MainWrapper>
     );
