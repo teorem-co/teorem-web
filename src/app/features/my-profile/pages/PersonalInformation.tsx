@@ -1,25 +1,20 @@
-import { Form, FormikProvider, setIn, useFormik } from 'formik';
-import { debounce, isEqual } from 'lodash';
+import { Form, FormikProvider, useFormik } from 'formik';
+import { isEqual } from 'lodash';
 import moment from 'moment';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
-import {
-    useGetProfileProgressQuery,
-    useLazyGetTutorProfileDataQuery,
-} from '../../../../services/tutorService';
+import { useLazyGetProfileProgressQuery } from '../../../../services/tutorService';
 import {
     useLazyGetUserQuery,
     useUpdateUserInformationMutation,
 } from '../../../../services/userService';
-import MyCountrySelect from '../../../components/form/MyCountrySelect';
 import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyPhoneInput from '../../../components/form/MyPhoneInput';
 import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import UploadFile from '../../../components/form/MyUploadField';
 import TextField from '../../../components/form/TextField';
-import ImageCircle from '../../../components/ImageCircle';
 import MainWrapper from '../../../components/MainWrapper';
 import { countryInput } from '../../../constants/countryInput';
 import { countryOption } from '../../../constants/countryOption';
@@ -51,7 +46,8 @@ const PersonalInformation = () => {
 
     const userId = getUserId();
 
-    const { data: profileProgress } = useGetProfileProgressQuery();
+    const [getProfileProgress, { data: profileProgress }] =
+        useLazyGetProfileProgressQuery();
     const [
         updateUserInformation,
 
@@ -78,23 +74,6 @@ const PersonalInformation = () => {
             : [];
         setCountryOptions(currentCountries);
     }, [countries]);
-
-    // const [
-    //     getTutorProfileData,
-    //     { data: tutorProfileData, isSuccess: isSuccessTutorData },
-    // ] = useLazyGetTutorProfileDataQuery();
-
-    // useEffect(() => {
-    //     if (userId) {
-    //         getTutorProfileData(userId);
-    //     }
-    // }, []);
-
-    // useEffect(() => {
-    //     if (isSuccessTutorData && tutorProfileData) {
-    //         console.log(tutorProfileData);
-    //     }
-    // }, [isSuccessTutorData]);
 
     //change later to fetch image from user service
     const tutor = useAppSelector((state) => state.auth.user);
@@ -132,8 +111,6 @@ const PersonalInformation = () => {
         profileImage: '',
     });
 
-    console.log(initialValues);
-
     const handleSubmit = (values: Values) => {
         updateUserInformation({
             firstName: values.firstName,
@@ -150,6 +127,7 @@ const PersonalInformation = () => {
         if (isSuccessUserUpdate) {
             if (userId) {
                 getUser(userId);
+                getProfileProgress();
             }
             setSaveBtnActive(false);
             toastService.success(
@@ -244,6 +222,7 @@ const PersonalInformation = () => {
         getCountries();
         if (user) {
             getUser(user.id);
+            getProfileProgress();
         }
     }, []);
 
