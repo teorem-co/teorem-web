@@ -12,6 +12,7 @@ import {
     setStepOne,
     setStepTwo,
 } from '../../../../slices/tutorRegisterSlice';
+import CreditCardfield from '../../../components/CreditCardField';
 import ExpDateField from '../../../components/form/ExpDateField';
 import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyPhoneInput from '../../../components/form/MyPhoneInput';
@@ -293,8 +294,8 @@ const TutorOnboarding: React.FC<IProps> = ({
                 .max(100, t('FORM_VALIDATION.TOO_LONG'))
                 .required(t('FORM_VALIDATION.REQUIRED')),
             cardNumber: Yup.string()
-                .min(16, t('FORM_VALIDATION.TOO_SHORT'))
-                .max(16, t('FORM_VALIDATION.TOO_LONG'))
+                .min(19, t('FORM_VALIDATION.TOO_SHORT'))
+                .max(19, t('FORM_VALIDATION.TOO_LONG'))
                 .required(t('FORM_VALIDATION.REQUIRED')),
             expiryDate: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             cvv: Yup.string()
@@ -361,8 +362,7 @@ const TutorOnboarding: React.FC<IProps> = ({
                         <label htmlFor="cardNumber" className="field__label">
                             {t('REGISTER.CARD_DETAILS.CARD_NUMBER')}
                         </label>
-                        <TextField
-                            type="number"
+                        <CreditCardfield
                             name="cardNumber"
                             id="cardNumber"
                             placeholder="**** **** **** ****"

@@ -7,7 +7,7 @@ type TextFieldType = {
 } & FieldAttributes<{}>;
 
 //const TextField: React.FC<TextFieldType> = ( { type, placeholder, id, disabled, min, onChange, ...props } ) =>
-const ExpDateField: React.FC<TextFieldType> = (props: any) => {
+const CreditCardfield: React.FC<TextFieldType> = (props: any) => {
     const [field, meta] = useField(props);
     const errorText = meta.error && meta.touched ? meta.error : '';
 
@@ -16,15 +16,18 @@ const ExpDateField: React.FC<TextFieldType> = (props: any) => {
     const handleFormat = (e: React.KeyboardEvent<HTMLInputElement>) => {
         const currentValue = e.currentTarget.value;
         const currentTarget = inputRef.current as HTMLInputElement;
-
         if (
             String.fromCharCode(e.which ? e.which : e.keyCode).match(/[^0-9]/g)
         ) {
             e.currentTarget.value = '';
         } else {
-            const formatedString = currentValue + '/';
+            const formatedString = currentValue + '-';
 
-            if (currentValue.length === 2) {
+            if (currentValue.length === 4) {
+                currentTarget.value = formatedString;
+            } else if (currentValue.length === 9) {
+                currentTarget.value = formatedString;
+            } else if (currentValue.length === 14) {
                 currentTarget.value = formatedString;
             }
         }
@@ -34,7 +37,7 @@ const ExpDateField: React.FC<TextFieldType> = (props: any) => {
         <>
             <div className={`pos--rel ${props.wrapperClassName}`}>
                 <input
-                    maxlength={5}
+                    maxlength={19}
                     ref={inputRef}
                     onKeyUp={(e) => handleFormat(e)}
                     type={`text`}
@@ -52,4 +55,4 @@ const ExpDateField: React.FC<TextFieldType> = (props: any) => {
     );
 };
 
-export default ExpDateField;
+export default CreditCardfield;
