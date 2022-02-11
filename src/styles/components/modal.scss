@@ -59,6 +59,7 @@
         z-index: 10;
     }
     &--parent {
+        z-index: 9;
         position: absolute;
         transform: translate(-50%, -50%);
         top: 50%;

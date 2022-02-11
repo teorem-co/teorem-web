@@ -54,6 +54,13 @@ $rbc-calendar-width: 675px;
             & > * + * > * {
                 border-color: $grey-f5;
             }
+            //calendar event selection (hide slot selection)
+            .rbc-day-slot.rbc-slot-selecting {
+                cursor: default;
+                .rbc-slot-selection {
+                    display: none;
+                }
+            }
         }
 
         &-slot {
