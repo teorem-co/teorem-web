@@ -43,7 +43,7 @@
         &__control {
             width: 150px !important;
             border-radius: $border-rounded !important;
-
+            transition: all 300ms ease-out;
             &:hover {
                 cursor: pointer;
             }
@@ -58,10 +58,10 @@
                 box-shadow: 0 0 0 1px $color-primary !important;
                 border-color: $color-primary !important;
 
-                .react-select--search-tutor__dropdown-indicator {
-                    transform: rotate(180deg) !important;
-                    color: $white !important;
+                svg {
+                    fill: $white !important;
                 }
+
                 .react-select--search-tutor__placeholder {
                     color: $white !important;
                 }
@@ -77,6 +77,21 @@
                 .input-select__option {
                     color: $white !important;
                 }
+            }
+
+            &--menu-is-open {
+                svg {
+                    transition: all 300ms ease-out;
+                    transform: rotate(180deg) !important;
+                    color: $white !important;
+                }
+            }
+        }
+
+        &__dropdown-indicator {
+            svg {
+                // fill: $black;
+                transition: all 250ms ease-in-out;
             }
         }
 
@@ -125,6 +140,34 @@
 .onboarding-select {
     &__indicator-separator {
         display: none;
+    }
+
+    &__control {
+        &--is-focused {
+            background-color: $color-primary !important;
+            box-shadow: 0 0 0 1px $color-primary !important;
+            border-color: $color-primary !important;
+
+            svg {
+                fill: $white !important;
+            }
+
+            .onboarding-select__placeholder {
+                color: $white !important;
+            }
+
+            .onboarding-select__value-container {
+                color: $white !important;
+            }
+
+            .onboarding-select__input {
+                color: $white !important;
+            }
+
+            .input-select__option {
+                color: $white !important;
+            }
+        }
     }
 
     &__control--menu-is-open {
