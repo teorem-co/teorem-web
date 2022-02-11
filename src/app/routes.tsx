@@ -372,12 +372,12 @@ export const menuPerRole: IMenuPerRole = {
             key: 'MY_BOOKINGS',
             path: PATHS.MY_BOOKINGS,
         },
-        {
-            name: 'COMPLETED_LESSONS',
-            icon: 'completed-lessons',
-            key: 'COMPLETED_LESSONS',
-            path: PATHS.COMPLETED_LESSONS,
-        },
+        // {
+        //     name: 'COMPLETED_LESSONS',
+        //     icon: 'completed-lessons',
+        //     key: 'COMPLETED_LESSONS',
+        //     path: PATHS.COMPLETED_LESSONS,
+        // },
     ],
 };
 
