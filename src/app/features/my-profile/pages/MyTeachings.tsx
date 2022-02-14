@@ -22,11 +22,6 @@ import ProfileHeader from '../components/ProfileHeader';
 import ProfileTabs from '../components/ProfileTabs';
 import SubjectList from '../components/SubjectList';
 
-interface Values {
-    occupation: string;
-    yearsOfExperience?: string;
-}
-
 const MyTeachings = () => {
     const [addSidebarOpen, setAddSidebarOpen] = useState(false);
     const [editSidebarOpen, setEditSidebarOpen] = useState(false);
@@ -58,16 +53,7 @@ const MyTeachings = () => {
         }),
     });
 
-    const [
-        updateMyTeachings,
-        {
-            isSuccess: isSuccessUpdateMyTeachings,
-            isLoading: isUpdatingMyTeachings,
-            status: myTeachingsStatus,
-        },
-    ] = useUpdateMyTeachingsMutation();
-
-    const isLoading = isLoadingMyTeachings || isUpdatingMyTeachings;
+    const isLoading = isLoadingMyTeachings;
 
     useEffect(() => {
         if (tutorId) {
@@ -77,34 +63,7 @@ const MyTeachings = () => {
     }, []);
 
     useEffect(() => {
-        if (isSuccessMyTeachings && myTeachingsData) {
-            const values = {
-                occupation: myTeachingsData.occupation
-                    ? myTeachingsData.occupation
-                    : '',
-                yearsOfExperience: myTeachingsData.yearsOfExperience
-                    ? myTeachingsData.yearsOfExperience
-                    : '',
-            };
-            setInitialValues(values);
-        }
-    }, [isSuccessMyTeachings]);
-
-    useEffect(() => {
-        if (isSuccessUpdateMyTeachings) {
-            if (tutorId) {
-                getProfileData(tutorId);
-            }
-            toastService.success(
-                t('SEARCH_TUTORS.TUTOR_PROFILE.UPDATE_TEACHINGS_SUCCESS')
-            );
-            setSaveBtnActive(false);
-        }
-    }, [isSuccessUpdateMyTeachings]);
-
-    useEffect(() => {
         if (
-            myTeachingsData.occupation &&
             myTeachingsData.tutorSubjects &&
             myTeachingsData.tutorSubjects.length > 0 &&
             profileProgress &&
@@ -112,72 +71,12 @@ const MyTeachings = () => {
         ) {
             getProfileProgress();
         }
-    }, [
-        myTeachingsStatus,
-        myTeachingsData.tutorSubjects?.length,
-        myTeachingsData.occupation,
-    ]);
+    }, [myTeachingsData.tutorSubjects?.length]);
 
     const history = useHistory();
 
-    const [initialValues, setInitialValues] = useState<Values>({
-        occupation: '',
-        yearsOfExperience: '',
-    });
-
-    console.log(initialValues);
-
-    const handleSubmit = (values: Values) => {
-        let updateValues: any = {};
-        updateValues = {
-            currentOccupation: values.occupation,
-            yearsOfExperience: values.yearsOfExperience
-                ? Number(values.yearsOfExperience)
-                : 0,
-        };
-        updateMyTeachings(updateValues);
-        setInitialValues(values);
-    };
-
-    const handleChangeForSave = () => {
-        if (!isEqual(initialValues, formik.values)) {
-            setSaveBtnActive(true);
-        } else {
-            setSaveBtnActive(false);
-        }
-    };
-
-    const formik = useFormik({
-        initialValues: initialValues,
-        onSubmit: handleSubmit,
-        validateOnBlur: true,
-        validateOnChange: false,
-        enableReinitialize: true,
-        validationSchema: Yup.object().shape({
-            occupation: Yup.string()
-                .min(2, t('FORM_VALIDATION.TOO_SHORT'))
-                .max(50, t('FORM_VALIDATION.TOO_LONG'))
-                .required(t('FORM_VALIDATION.REQUIRED')),
-            yearsOfExperience: Yup.number()
-                .min(0, 'Can`t be a negative number')
-                .max(100, 'number is too big'),
-        }),
-    });
-
-    useEffect(() => {
-        handleChangeForSave();
-    }, [formik.values]);
-
-    const handleAddSubject = () => {
-        //add subject submit
-    };
-
     const closeAddSubjectSidebar = () => {
         setAddSidebarOpen(false);
-    };
-
-    const handleEditSubject = () => {
-        //add subject submit
     };
 
     const closeEditSubjectSidebar = () => {
@@ -194,152 +93,62 @@ const MyTeachings = () => {
     return (
         <MainWrapper>
             <div className="card--profile">
-                <FormikProvider value={formik}>
-                    <Form>
-                        {/* HEADER */}
-                        <ProfileHeader className="mb-8" />
+                {/* HEADER */}
+                <ProfileHeader className="mb-8" />
 
-                        {/* PROGRESS */}
-                        <ProfileCompletion
-                            generalAvailability={
-                                profileProgress?.generalAvailability
-                            }
-                            aditionalInformation={
-                                profileProgress?.additionalInformation
-                            }
-                            myTeachings={profileProgress?.myTeachings}
-                            percentage={profileProgress?.percentage}
-                        />
+                {/* PROGRESS */}
+                <ProfileCompletion
+                    generalAvailability={profileProgress?.generalAvailability}
+                    aditionalInformation={
+                        profileProgress?.additionalInformation
+                    }
+                    myTeachings={profileProgress?.myTeachings}
+                    percentage={profileProgress?.percentage}
+                />
 
-                        {/* MY TEACHINGS */}
-                        <div className="card--profile__section">
-                            <div>
-                                <div className="mb-2 type--wgt--bold">
-                                    My teachings
-                                </div>
-                                <div className="type--color--tertiary w--200--max">
-                                    Edit and update your teaching information
-                                </div>
-                                <button
-                                    className={`btn btn--primary btn--lg mt-6 card--profile__savebtn`}
-                                    type="submit"
-                                    disabled={isLoading || !saveBtnActive}
+                {/* MY TEACHINGS */}
+                <div className="card--profile__section">
+                    {/* Add subject */}
+                    <div>
+                        <div className="mb-2 type--wgt--bold">My Subjects</div>
+                        <div className="type--color--tertiary w--200--max">
+                            Edit and update your subjects information
+                        </div>
+                    </div>
+                    <div>
+                        <div className="dash-wrapper flex--grow">
+                            <div className="dash-wrapper__item">
+                                <div
+                                    className="dash-wrapper__item__element"
+                                    onClick={() => setAddSidebarOpen(true)}
                                 >
-                                    Save
-                                </button>
-                            </div>
-                            <div className="w--800--max">
-                                {/* Text Fields */}
-                                <div className="row">
-                                    <div className="col col-12 col-xl-6">
-                                        <div className="field">
-                                            <label
-                                                className="field__label"
-                                                htmlFor="occupation"
-                                            >
-                                                Your current occupation*
-                                            </label>
-                                            <TextField
-                                                id="occupation"
-                                                wrapperClassName="flex--grow"
-                                                name="occupation"
-                                                placeholder="What’s your current occupation"
-                                                className="input input--base"
-                                                withoutErr={
-                                                    formik.errors.occupation &&
-                                                    formik.touched.occupation
-                                                        ? false
-                                                        : true
-                                                }
-                                                disabled={isLoading}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="col col-12 col-xl-6">
-                                        <div className="field">
-                                            <label
-                                                className="field__label"
-                                                htmlFor="yearsOfExperience"
-                                            >
-                                                Years of professional experience
-                                                (optional)
-                                            </label>
-                                            <TextField
-                                                id="yearsOfExperience"
-                                                wrapperClassName="flex--grow"
-                                                name="yearsOfExperience"
-                                                placeholder="How many years of professional experience you have"
-                                                className="input input--base"
-                                                type={'number'}
-                                                withoutErr={
-                                                    formik.errors
-                                                        .yearsOfExperience &&
-                                                    formik.touched
-                                                        .yearsOfExperience
-                                                        ? false
-                                                        : true
-                                                }
-                                                disabled={isLoading}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="card--profile__section">
-                            {/* Add subject */}
-                            <div>
-                                <div className="mb-2 type--wgt--bold">
-                                    My Subjects
-                                </div>
-                                <div className="type--color--tertiary w--200--max">
-                                    Edit and update your subjects information
-                                </div>
-                            </div>
-                            <div>
-                                <div className="dash-wrapper flex--grow">
-                                    <div className="dash-wrapper__item">
-                                        <div
-                                            className="dash-wrapper__item__element"
-                                            onClick={() =>
-                                                setAddSidebarOpen(true)
-                                            }
-                                        >
-                                            <div className="flex--primary cur--pointer">
-                                                <div>
-                                                    <div className="type--wgt--bold">
-                                                        Add new Subject
-                                                    </div>
-                                                    <div>
-                                                        Select to add new
-                                                        Subject
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <i className="icon icon--base icon--plus icon--primary"></i>
-                                                </div>
+                                    <div className="flex--primary cur--pointer">
+                                        <div>
+                                            <div className="type--wgt--bold">
+                                                Add new Subject
                                             </div>
+                                            <div>Select to add new Subject</div>
+                                        </div>
+                                        <div>
+                                            <i className="icon icon--base icon--plus icon--primary"></i>
                                         </div>
                                     </div>
-                                    {/* Map through subjects here */}
-                                    {/* Test fields */}
-                                    <SubjectList
-                                        handleSendId={handleSendId}
-                                        tutorSubjects={
-                                            myTeachingsData.tutorSubjects
-                                                ? myTeachingsData.tutorSubjects
-                                                : []
-                                        }
-                                        key={
-                                            myTeachingsData.tutorSubjects
-                                                ?.length
-                                        }
-                                    />
                                 </div>
                             </div>
+                            {/* Map through subjects here */}
+                            {/* Test fields */}
+                            <SubjectList
+                                handleSendId={handleSendId}
+                                tutorSubjects={
+                                    myTeachingsData.tutorSubjects
+                                        ? myTeachingsData.tutorSubjects
+                                        : []
+                                }
+                                key={myTeachingsData.tutorSubjects?.length}
+                            />
                         </div>
-                    </Form>
-                </FormikProvider>
+                    </div>
+                </div>
             </div>
             <EditSubjectSidebar
                 sideBarIsOpen={editSidebarOpen}
