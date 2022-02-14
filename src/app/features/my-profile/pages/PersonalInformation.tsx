@@ -227,14 +227,23 @@ const PersonalInformation = () => {
         }
     }, []);
 
+    const handleUpdateOnRouteChange = () => {
+        updateUserInformation({
+            firstName: formik.values.firstName,
+            lastName: formik.values.lastName,
+            phoneNumber: formik.values.phoneNumber,
+            countryId: formik.values.countryId,
+            dateOfBirth: moment(formik.values.dateOfBirth).toISOString(),
+            profileImage: formik.values.profileImage,
+        });
+        return true;
+    };
+
     return (
         <>
             <RouterPrompt
                 when={saveBtnActive}
-                onOK={() => {
-                    formik.handleSubmit();
-                    return true;
-                }}
+                onOK={handleUpdateOnRouteChange}
                 onCancel={() => {
                     //if you pass "false" router will be blocked and you will stay on the current page
                     return true;
