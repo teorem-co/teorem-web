@@ -37,8 +37,7 @@ const SearchTutors = () => {
     const [priceSortDirection, setPriceSortDirection] = useState<SortDirection>(
         SortDirection.None
     );
-    const cardRef = useRef<HTMLDivElement>(null);
-    const cardElement = cardRef.current as HTMLDivElement;
+    const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
 
     //initialSubject is not reset on initial level change
     const [isInitialSubject, setIsInitialSubject] = useState<boolean>(false);
@@ -107,20 +106,12 @@ const SearchTutors = () => {
         setInitialLoad(false);
     }, []);
 
-    //scroll to bottom alerter
-    useEffect(() => {
-        if (cardElement) {
-            cardElement.addEventListener('scroll', () => loadMore());
-            return cardElement.removeEventListener('scroll', () => loadMore());
-        }
-    }, [cardElement]);
-
-    const loadMore = () => {
-        const innerHeight = cardElement.scrollHeight;
-        const scrollPosition = cardElement.scrollTop + cardElement.clientHeight;
+    const handleScroll = (e: HTMLDivElement) => {
+        const innerHeight = e.scrollHeight;
+        const scrollPosition = e.scrollTop + e.clientHeight;
 
         if (innerHeight === scrollPosition) {
-            alert('dosao sam dolje');
+            alert('load more');
             //action to do on scroll to bottom
         }
     };
@@ -391,7 +382,10 @@ const SearchTutors = () => {
 
     return (
         <MainWrapper>
-            <div ref={cardRef} className="card--secondary">
+            <div
+                onScroll={(e) => debouncedScrollHandler(e.target)}
+                className="card--secondary"
+            >
                 <div className="card--secondary__head">
                     <div className="type--lg type--wgt--bold">
                         {t('SEARCH_TUTORS.TUTOR_LIST')}
