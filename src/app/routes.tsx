@@ -311,12 +311,12 @@ export const menuPerRole: IMenuPerRole = {
             key: 'SEARCH_TUTORS',
             path: PATHS.SEARCH_TUTORS,
         },
-        {
-            name: 'COMPLETED_LESSONS',
-            icon: 'completed-lessons',
-            key: 'COMPLETED_LESSONS',
-            path: PATHS.COMPLETED_LESSONS,
-        },
+        // {
+        //     name: 'COMPLETED_LESSONS',
+        //     icon: 'completed-lessons',
+        //     key: 'COMPLETED_LESSONS',
+        //     path: PATHS.COMPLETED_LESSONS,
+        // },
     ],
     [Role.Parent]: [
         {
@@ -331,12 +331,12 @@ export const menuPerRole: IMenuPerRole = {
             key: 'SEARCH_TUTORS',
             path: PATHS.SEARCH_TUTORS,
         },
-        {
-            name: 'COMPLETED_LESSONS',
-            icon: 'completed-lessons',
-            key: 'COMPLETED_LESSONS',
-            path: PATHS.COMPLETED_LESSONS,
-        },
+        // {
+        //     name: 'COMPLETED_LESSONS',
+        //     icon: 'completed-lessons',
+        //     key: 'COMPLETED_LESSONS',
+        //     path: PATHS.COMPLETED_LESSONS,
+        // },
     ],
     [Role.SuperAdmin]: [
         {
@@ -358,12 +358,12 @@ export const menuPerRole: IMenuPerRole = {
             rootPath: PROFILE_PATHS.MY_PROFILE,
             path: PROFILE_PATHS.MY_PROFILE_INFO_PERSONAL,
         },
-        {
-            name: 'COMPLETED_LESSONS',
-            icon: 'completed-lessons',
-            key: 'COMPLETED_LESSONS',
-            path: PATHS.COMPLETED_LESSONS,
-        },
+        // {
+        //     name: 'COMPLETED_LESSONS',
+        //     icon: 'completed-lessons',
+        //     key: 'COMPLETED_LESSONS',
+        //     path: PATHS.COMPLETED_LESSONS,
+        // },
     ],
     [Role.Child]: [
         {
@@ -372,12 +372,12 @@ export const menuPerRole: IMenuPerRole = {
             key: 'MY_BOOKINGS',
             path: PATHS.MY_BOOKINGS,
         },
-        {
-            name: 'COMPLETED_LESSONS',
-            icon: 'completed-lessons',
-            key: 'COMPLETED_LESSONS',
-            path: PATHS.COMPLETED_LESSONS,
-        },
+        // {
+        //     name: 'COMPLETED_LESSONS',
+        //     icon: 'completed-lessons',
+        //     key: 'COMPLETED_LESSONS',
+        //     path: PATHS.COMPLETED_LESSONS,
+        // },
     ],
 };
 

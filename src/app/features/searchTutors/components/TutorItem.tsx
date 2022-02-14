@@ -128,7 +128,7 @@ const TutorItem: FC<Props> = (props: Props) => {
                             <span className="d--ib ml-4">
                                 {/* Add later */}
                                 {tutor.averageGrade
-                                    ? tutor.averageGrade.toFixed(2)
+                                    ? tutor.averageGrade.toFixed(1)
                                     : 0}
                             </span>
                         </div>

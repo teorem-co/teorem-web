@@ -192,10 +192,10 @@ const MyReviews = () => {
                             </span>
                             <span className="tag--primary d--ib ml-2">
                                 {/* {getAvgRating(myReviews)
-                                    ? getAvgRating(myReviews).toFixed(2)
+                                    ? getAvgRating(myReviews).toFixed(1)
                                     : 0} */}
                                 {tutorStatistics?.statistic
-                                    ? tutorStatistics?.statistic.toFixed(2)
+                                    ? tutorStatistics?.statistic.toFixed(1)
                                     : 0}
                             </span>
                         </div>

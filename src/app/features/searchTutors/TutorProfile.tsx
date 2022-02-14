@@ -326,7 +326,7 @@ const TutorProfile = () => {
                                                 <div className="type--huge">
                                                     {tutorStatistics?.statistic
                                                         ? tutorStatistics.statistic.toFixed(
-                                                              2
+                                                              1
                                                           )
                                                         : 0}
                                                 </div>
@@ -455,7 +455,7 @@ const TutorProfile = () => {
                                             {/* Add later */}
                                             {tutorData.averageGrade
                                                 ? tutorData.averageGrade.toFixed(
-                                                      2
+                                                      1
                                                   )
                                                 : 0}
                                         </span>
