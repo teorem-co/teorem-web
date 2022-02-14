@@ -21,7 +21,7 @@ const ProfileCompletion = (props: Props) => {
 
     return (
         <div className="card--profile__progress flex--primary p-6 mb-20">
-            {percentage !== 100 && (
+            {percentage && percentage !== 100 && (
                 <div className="flex">
                     {/* Maybe change later to use custom component instead of library component */}
                     <div className="flex flex--center flex--shrink w--105">
