@@ -109,7 +109,7 @@ const ProfileCompletion = (props: Props) => {
                             ></i>
                         </div>
                         <div className="nav-link--profile__label type--center mt-4 pl-2 pr-2">
-                            Aditional information
+                            About me
                         </div>
                     </div>
                 </NavLink>
