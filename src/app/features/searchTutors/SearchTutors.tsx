@@ -1,6 +1,6 @@
 import { Form, FormikProvider, useFormik } from 'formik';
-import { isEqual } from 'lodash';
-import { useEffect, useState } from 'react';
+import { debounce, isEqual, throttle } from 'lodash';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import Select, { components, MenuProps } from 'react-select';
@@ -37,6 +37,8 @@ const SearchTutors = () => {
     const [priceSortDirection, setPriceSortDirection] = useState<SortDirection>(
         SortDirection.None
     );
+    const cardRef = useRef<HTMLDivElement>(null);
+    const cardElement = cardRef.current as HTMLDivElement;
 
     //initialSubject is not reset on initial level change
     const [isInitialSubject, setIsInitialSubject] = useState<boolean>(false);
@@ -104,6 +106,24 @@ const SearchTutors = () => {
 
         setInitialLoad(false);
     }, []);
+
+    //scroll to bottom alerter
+    useEffect(() => {
+        if (cardElement) {
+            cardElement.addEventListener('scroll', () => loadMore());
+            return cardElement.removeEventListener('scroll', () => loadMore());
+        }
+    }, [cardElement]);
+
+    const loadMore = () => {
+        const innerHeight = cardElement.scrollHeight;
+        const scrollPosition = cardElement.scrollTop + cardElement.clientHeight;
+
+        if (innerHeight === scrollPosition) {
+            alert('dosao sam dolje');
+            //action to do on scroll to bottom
+        }
+    };
 
     useEffect(() => {
         if (!initialLoad) {
@@ -371,7 +391,7 @@ const SearchTutors = () => {
 
     return (
         <MainWrapper>
-            <div className="card--secondary">
+            <div ref={cardRef} className="card--secondary">
                 <div className="card--secondary__head">
                     <div className="type--lg type--wgt--bold">
                         {t('SEARCH_TUTORS.TUTOR_LIST')}

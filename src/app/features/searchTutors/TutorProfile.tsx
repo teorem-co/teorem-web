@@ -1,5 +1,5 @@
-import { cloneDeep } from 'lodash';
-import { useEffect, useState } from 'react';
+import { cloneDeep, debounce } from 'lodash';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 
@@ -43,7 +43,7 @@ const TutorProfile = () => {
             isSuccess: tutorDataSuccess,
         },
     ] = useLazyGetTutorProfileDataQuery();
-    const [getMyReviews, { data: myReviews, isLoading: myReviewsLoading }] =
+    const [getMyReviews, { data: myReviews, isFetching: myReviewsLoading }] =
         useLazyGetMyReviewsQuery();
     const [
         getStatistics,
@@ -67,7 +67,6 @@ const TutorProfile = () => {
 
     useEffect(() => {
         const currentReviews = cloneDeep(loadedMyReviews);
-
         if (myReviews) {
             setLoadedMyReviews(currentReviews.concat(myReviews.rows));
         }
@@ -128,6 +127,22 @@ const TutorProfile = () => {
         return returnValue;
     };
 
+    //scroll to bottom alerter
+    const handleScroll = (e: HTMLDivElement) => {
+        const innerHeight = e.scrollHeight;
+        const scrollPosition = e.scrollTop + e.clientHeight;
+
+        if (!hideLoadMore() && innerHeight === scrollPosition) {
+            handleLoadMore();
+        }
+        // if (innerHeight === scrollPosition) {
+        //     //action to do on scroll to bottom
+        //
+        // }
+    };
+
+    const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
+
     return (
         <MainWrapper>
             <div className="layout--primary">
@@ -136,7 +151,12 @@ const TutorProfile = () => {
                 ) : tutorData ? (
                     <>
                         <div>
-                            <div className="card--secondary card--secondary--alt">
+                            <div
+                                onScroll={(e: any) =>
+                                    debouncedScrollHandler(e.target)
+                                }
+                                className="card--secondary card--secondary--alt"
+                            >
                                 <div className="card--secondary__head">
                                     <div className="flex flex--center">
                                         <Link to={PATHS.SEARCH_TUTORS}>
@@ -347,12 +367,11 @@ const TutorProfile = () => {
                                                     {loadedMyReviews &&
                                                         loadedMyReviews.map(
                                                             (
-                                                                item: IMyReview
+                                                                item: IMyReview,
+                                                                index: number
                                                             ) => (
                                                                 <ReviewItem
-                                                                    key={
-                                                                        item.id
-                                                                    }
+                                                                    key={index}
                                                                     reviewItem={
                                                                         item
                                                                     }
@@ -360,7 +379,7 @@ const TutorProfile = () => {
                                                             )
                                                         )}
                                                 </div>
-                                                {hideLoadMore() ? (
+                                                {/* {hideLoadMore() ? (
                                                     <></>
                                                 ) : (
                                                     <button
@@ -371,7 +390,7 @@ const TutorProfile = () => {
                                                     >
                                                         Load more
                                                     </button>
-                                                )}
+                                                )} */}
                                             </>
                                         ) : (
                                             <div className="reviews-list">

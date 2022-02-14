@@ -1,17 +1,15 @@
 import { t } from 'i18next';
+import { cloneDeep, debounce } from 'lodash';
 import { useEffect, useState } from 'react';
 
 import MainWrapper from '../../components/MainWrapper';
-import Pagination from '../../components/Pagination';
 import LoaderMyReviews from '../../components/skeleton-loaders/LoaderMyReviews';
 import LoaderStatistics from '../../components/skeleton-loaders/LoaderStatistics';
 import { useAppSelector } from '../../hooks';
-import getAvgRating from '../../utils/getAvgRating';
 import Ratings from './components/Ratings';
 import ReviewItem from './components/ReviewItem';
 import IMyReview from './interfaces/IMyReview';
 import IMyReviewParams from './interfaces/IMyReviewParams';
-import IMyReviews from './interfaces/IMyReviews';
 import {
     useLazyGetMyReviewsQuery,
     useLazyGetStatisticsQuery,
@@ -28,6 +26,8 @@ const MyReviews = () => {
 
     const [getMyReviews, { data: myReviews, isLoading: myReviewsLoading }] =
         useLazyGetMyReviewsQuery();
+
+    const [loadedReviews, setLoadedReviews] = useState<IMyReview[]>([]);
 
     const [
         getStatistics,
@@ -50,6 +50,13 @@ const MyReviews = () => {
     }, []);
 
     useEffect(() => {
+        const currentReviews = cloneDeep(loadedReviews);
+        if (myReviews) {
+            setLoadedReviews(currentReviews.concat(myReviews.rows));
+        }
+    }, [myReviews]);
+
+    useEffect(() => {
         if (tutorId) {
             const obj: IGetMyReviews = {
                 tutorId: tutorId,
@@ -61,13 +68,52 @@ const MyReviews = () => {
     }, [params]);
 
     // change paginated number
-    const paginate = (pageNumber: number) => {
-        setParams({ page: pageNumber, rpp: params.rpp });
+    // const paginate = (pageNumber: number) => {
+    //     setParams({ page: pageNumber, rpp: params.rpp });
+    // };
+
+    const handleLoadMore = () => {
+        let newParams = { ...params };
+        newParams = {
+            page: params.page + 1,
+            rpp: params.rpp,
+        };
+
+        setParams(newParams);
+    };
+
+    const hideLoadMore = () => {
+        let returnValue: boolean = false;
+        if (myReviews) {
+            const totalPages = Math.ceil(myReviews.count / params.rpp);
+
+            if (params.page === totalPages) returnValue = true;
+        }
+
+        return returnValue;
+    };
+
+    const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
+
+    const handleScroll = (e: HTMLDivElement) => {
+        const innerHeight = e.scrollHeight;
+        const scrollPosition = e.scrollTop + e.clientHeight;
+
+        if (!hideLoadMore() && innerHeight === scrollPosition) {
+            handleLoadMore();
+        }
+        // if (innerHeight === scrollPosition) {
+        //     //action to do on scroll to bottom
+        //
+        // }
     };
 
     return (
         <MainWrapper>
-            <div className="card--secondary">
+            <div
+                onScroll={(e: any) => debouncedScrollHandler(e.target)}
+                className="card--secondary"
+            >
                 <div className="card--secondary__head">
                     <h2 className="type--wgt--bold type--lg">
                         {t('MY_REVIEWS.TITLE')}
@@ -101,10 +147,10 @@ const MyReviews = () => {
                             </div>
                         ) : (
                             <>
-                                {myReviews && myReviews.rows.length > 0 ? (
+                                {loadedReviews && loadedReviews.length > 0 ? (
                                     <>
                                         <div className="reviews-list">
-                                            {myReviews.rows.map(
+                                            {loadedReviews.map(
                                                 (item: IMyReview) => (
                                                     <ReviewItem
                                                         reviewItem={item}
@@ -112,7 +158,7 @@ const MyReviews = () => {
                                                 )
                                             )}
                                         </div>
-                                        <Pagination
+                                        {/* <Pagination
                                             activePageClass={
                                                 'pagination--active'
                                             }
@@ -120,7 +166,7 @@ const MyReviews = () => {
                                             itemsPerPage={params.rpp}
                                             totalItems={myReviews.count}
                                             paginate={paginate}
-                                        />
+                                        /> */}
                                     </>
                                 ) : (
                                     <div className="reviews-list">
