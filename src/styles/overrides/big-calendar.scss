@@ -4,7 +4,7 @@
 
 $rbc-color-header: #faf9ff;
 $rbc-color-today: transparent;
-$rbc-hour-height: 80px;
+$rbc-hour-height: 20px;
 $rbc-calendar-width: 675px;
 
 .rbc {
@@ -214,5 +214,23 @@ $rbc-calendar-width: 675px;
 
     &-slot-selection {
         // display: none !important;
+    }
+
+    &-event::after {
+        position: absolute;
+        content: '';
+        border: 1px solid $grey-ed;
+        border-top: none;
+        width: 160px;
+        height: 15%;
+        background: repeating-linear-gradient(
+            45deg,
+            $white,
+            $white 5px,
+            $grey-ed 5px,
+            $grey-ed 10px
+        );
+        bottom: 0;
+        left: 0;
     }
 }

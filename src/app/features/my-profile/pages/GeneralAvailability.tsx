@@ -202,10 +202,15 @@ const GeneralAvailability = () => {
                 {/* HEADER */}
                 <ProfileHeader className="mb-8" />
 
-                <ProfileTabs />
-
                 {/* PROGRESS */}
-                <ProfileCompletion percentage={profileProgress?.percentage} />
+                <ProfileCompletion
+                    generalAvailability={profileProgress?.generalAvailability}
+                    aditionalInformation={
+                        profileProgress?.additionalInformation
+                    }
+                    myTeachings={profileProgress?.myTeachings}
+                    percentage={profileProgress?.percentage}
+                />
 
                 {/* AVAILABILITY */}
                 <div className="card--profile__section">

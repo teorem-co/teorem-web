@@ -184,8 +184,9 @@ const MyBookings: React.FC = () => {
                             }}
                             scrollToTime={defaultScrollTime}
                             showMultiDayTimes={true}
-                            step={60}
-                            timeslots={1}
+                            selectable={true}
+                            step={10}
+                            timeslots={6}
                             longPressThreshold={10}
                         />
                     </div>

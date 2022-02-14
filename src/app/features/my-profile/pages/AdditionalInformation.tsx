@@ -140,10 +140,15 @@ const AdditionalInformation = () => {
                 {/* HEADER */}
                 <ProfileHeader className="mb-8" />
 
-                <ProfileTabs />
-
                 {/* PROGRESS */}
-                <ProfileCompletion percentage={profileProgress?.percentage} />
+                <ProfileCompletion
+                    generalAvailability={profileProgress?.generalAvailability}
+                    aditionalInformation={
+                        profileProgress?.additionalInformation
+                    }
+                    myTeachings={profileProgress?.myTeachings}
+                    percentage={profileProgress?.percentage}
+                />
 
                 {/* ADDITIONAL INFO */}
                 <FormikProvider value={formik}>

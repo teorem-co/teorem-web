@@ -1,32 +1,45 @@
 import { NavLink } from 'react-router-dom';
 
 import { PROFILE_PATHS } from '../../../routes';
+import IProgressProfile from '../interfaces/IProgressProfile';
 import CircularProgress from './CircularProgress';
 
 interface Props {
     percentage: number | undefined;
+    generalAvailability: boolean | undefined;
+    myTeachings: boolean | undefined;
+    aditionalInformation: boolean | undefined;
 }
 
 const ProfileCompletion = (props: Props) => {
-    const { percentage } = props;
+    const {
+        percentage,
+        generalAvailability,
+        myTeachings,
+        aditionalInformation,
+    } = props;
+
     return (
         <div className="card--profile__progress flex--primary p-6 mb-20">
-            <div className="flex">
-                {/* Maybe change later to use custom component instead of library component */}
-                <div className="flex flex--center flex--shrink w--105">
-                    {/* PROGRESS BAR */}
-                    <CircularProgress
-                        progressNumber={percentage ? percentage : 0}
-                    />
-                </div>
-                <div className="flex flex--col flex--jc--center ml-6">
-                    <div className="type--md mb-2">Complete my profile</div>
-                    <div className="type--color--tertiary w--200--max">
-                        FIll out the missing information to make your profile
-                        complete
+            {percentage !== 100 && (
+                <div className="flex">
+                    {/* Maybe change later to use custom component instead of library component */}
+                    <div className="flex flex--center flex--shrink w--105">
+                        {/* PROGRESS BAR */}
+                        <CircularProgress
+                            progressNumber={percentage ? percentage : 0}
+                        />
+                    </div>
+                    <div className="flex flex--col flex--jc--center ml-6">
+                        <div className="type--md mb-2">Complete my profile</div>
+                        <div className="type--color--tertiary w--200--max">
+                            FIll out the missing information to make your
+                            profile complete
+                        </div>
                     </div>
                 </div>
-            </div>
+            )}
+
             <div className="card--profile__progress__links">
                 <NavLink
                     exact
@@ -36,7 +49,7 @@ const ProfileCompletion = (props: Props) => {
                 >
                     <div className="flex flex--col flex--center">
                         <div className="nav-link--profile__wrapper">
-                            <i className="icon icon--base icon--profile nav-link--profile__icon"></i>
+                            <i className="icon icon--base icon--check nav-link--profile__icon"></i>
                         </div>
                         <div className="nav-link--profile__label type--center mt-4 pl-2 pr-2">
                             Profile Settings
@@ -51,7 +64,11 @@ const ProfileCompletion = (props: Props) => {
                 >
                     <div className="flex flex--col flex--center">
                         <div className="nav-link--profile__wrapper">
-                            <i className="icon icon--base icon--time nav-link--profile__icon"></i>
+                            <i
+                                className={`icon icon--base icon--${
+                                    generalAvailability ? 'check' : 'edit'
+                                } nav-link--profile__icon`}
+                            ></i>
                         </div>
                         <div className="nav-link--profile__label type--center mt-4 pl-2 pr-2">
                             General Availability
@@ -66,7 +83,11 @@ const ProfileCompletion = (props: Props) => {
                 >
                     <div className="flex flex--col flex--center">
                         <div className="nav-link--profile__wrapper">
-                            <i className="icon icon--base icon--subject nav-link--profile__icon"></i>
+                            <i
+                                className={`icon icon--base icon--${
+                                    myTeachings ? 'check' : 'edit'
+                                } nav-link--profile__icon`}
+                            ></i>
                         </div>
                         <div className="nav-link--profile__label type--center mt-4 pl-2 pr-2">
                             My Teachings
@@ -81,10 +102,29 @@ const ProfileCompletion = (props: Props) => {
                 >
                     <div className="flex flex--col flex--center">
                         <div className="nav-link--profile__wrapper">
-                            <i className="icon icon--base icon--info nav-link--profile__icon"></i>
+                            <i
+                                className={`icon icon--base icon--${
+                                    aditionalInformation ? 'check' : 'edit'
+                                } nav-link--profile__icon`}
+                            ></i>
                         </div>
                         <div className="nav-link--profile__label type--center mt-4 pl-2 pr-2">
                             Aditional information
+                        </div>
+                    </div>
+                </NavLink>
+                <NavLink
+                    exact
+                    to={PROFILE_PATHS.MY_PROFILE_ACCOUNT}
+                    className="nav-link--profile"
+                    activeClassName="active"
+                >
+                    <div className="flex flex--col flex--center">
+                        <div className="nav-link--profile__wrapper">
+                            <i className="icon icon--base icon--check nav-link--profile__icon"></i>
+                        </div>
+                        <div className="nav-link--profile__label type--center mt-4 pl-2 pr-2">
+                            Account
                         </div>
                     </div>
                 </NavLink>

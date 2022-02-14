@@ -174,14 +174,14 @@ const TutorBookings = () => {
 
     const slotSelect = (e: SlotInfo) => {
         setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
-        setSelectedEnd(moment(e.end).format('HH:mm'));
+        setSelectedEnd(moment(e.start).add(1, 'hours').format('HH:mm'));
         setOpenSlot(true);
         setOpenEventDetails(false);
 
         setEmptybookings([
             {
                 start: moment(e.start).toDate(),
-                end: moment(e.end).toDate(),
+                end: moment(e.start).add(1, 'hours').toDate(),
                 label: 'Book event',
                 allDay: false,
             },
@@ -248,7 +248,7 @@ const TutorBookings = () => {
                             events={emptyBookings}
                             toolbar={false}
                             date={value}
-                            selectable={true}
+                            selectable={'ignoreEvents'}
                             view="week"
                             style={{ height: 'calc(100% - 84px)' }}
                             startAccessor="start"
@@ -261,8 +261,8 @@ const TutorBookings = () => {
                             }}
                             scrollToTime={defaultScrollTime}
                             showMultiDayTimes={true}
-                            step={60}
-                            timeslots={1}
+                            step={10}
+                            timeslots={6}
                             longPressThreshold={10}
                             onSelectSlot={(e) =>
                                 userRole === RoleOptions.Parent ||
@@ -276,6 +276,7 @@ const TutorBookings = () => {
                                     ? handleSelectedEvent(e)
                                     : null
                             }
+                            // onSelecting={(range: { start: ; end: 'test'; }) => false}
                         />
                         {openSlot ? (
                             <ParentCalendarSlots
