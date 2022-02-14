@@ -5,12 +5,14 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
+import { useLazyGetProfileProgressQuery } from '../../../../services/tutorService';
 import { useChangePasswordMutation } from '../../../../services/userService';
 import TextField from '../../../components/form/TextField';
 import MainWrapper from '../../../components/MainWrapper';
 import toastService from '../../../services/toastService';
 import TooltipPassword from '../../register/TooltipPassword';
 import AddCreditCard from '../components/AddCreditCard';
+import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
 import ProfileTabs from '../components/ProfileTabs';
 import IChangePassword from '../interfaces/IChangePassword';
@@ -28,6 +30,8 @@ const ProfileAccount = () => {
     const [editSidebarOpen, setEditSidebarOpen] = useState(false);
     const [saveBtnActive, setSaveBtnActive] = useState(false);
     const [passTooltip, setPassTooltip] = useState<boolean>(false);
+    const [getProfileProgress, { data: profileProgress }] =
+        useLazyGetProfileProgressQuery();
 
     const [changePassword, { status: changePasswordStatus }] =
         useChangePasswordMutation();
@@ -166,13 +170,25 @@ const ProfileAccount = () => {
         setEditSidebarOpen(false);
     };
 
+    useEffect(() => {
+        getProfileProgress();
+    }, []);
+
     return (
         <MainWrapper>
             <div className="card--profile">
                 {/* HEADER */}
                 <ProfileHeader className="mb-8" />
 
-                <ProfileTabs />
+                {/* PROGRESS */}
+                <ProfileCompletion
+                    generalAvailability={profileProgress?.generalAvailability}
+                    aditionalInformation={
+                        profileProgress?.additionalInformation
+                    }
+                    myTeachings={profileProgress?.myTeachings}
+                    percentage={profileProgress?.percentage}
+                />
 
                 {/* PERSONAL INFO */}
                 <FormikProvider value={formik}>

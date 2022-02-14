@@ -290,13 +290,13 @@ export const menuPerRole: IMenuPerRole = {
             key: 'MY_REVIEWS',
             path: PATHS.MY_REVIEWS,
         },
-        {
-            name: 'MY_PROFILE',
-            icon: 'profile',
-            key: 'MY_PROFILE_INFO_PERSONAL',
-            rootPath: PROFILE_PATHS.MY_PROFILE,
-            path: PROFILE_PATHS.MY_PROFILE_INFO_PERSONAL,
-        },
+        // {
+        //     name: 'MY_PROFILE',
+        //     icon: 'profile',
+        //     key: 'MY_PROFILE_INFO_PERSONAL',
+        //     rootPath: PROFILE_PATHS.MY_PROFILE,
+        //     path: PROFILE_PATHS.MY_PROFILE_INFO_PERSONAL,
+        // },
     ],
     [Role.Student]: [
         {

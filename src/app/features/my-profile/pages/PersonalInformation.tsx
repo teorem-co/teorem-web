@@ -234,10 +234,15 @@ const PersonalInformation = () => {
                         {/* HEADER */}
                         <ProfileHeader className="mb-8" />
 
-                        <ProfileTabs />
-
                         {/* PROGRESS */}
                         <ProfileCompletion
+                            generalAvailability={
+                                profileProgress?.generalAvailability
+                            }
+                            aditionalInformation={
+                                profileProgress?.additionalInformation
+                            }
+                            myTeachings={profileProgress?.myTeachings}
                             percentage={profileProgress?.percentage}
                         />
 

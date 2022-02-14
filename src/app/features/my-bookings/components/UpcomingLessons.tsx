@@ -61,7 +61,7 @@ const UpcomingLessons: React.FC<Props> = (props: Props) => {
                                         </div>
                                         <div className="flex flex--center">
                                             <span className="type--capitalize">
-                                                subject
+                                                {lesson.Subject.name}
                                             </span>
                                         </div>
                                     </div>
@@ -78,7 +78,7 @@ const UpcomingLessons: React.FC<Props> = (props: Props) => {
                                         </div>
                                         <div className="flex flex--center">
                                             <span className="type--capitalize">
-                                                subject
+                                                {lesson.Subject.name}
                                             </span>
                                         </div>
                                     </div>
