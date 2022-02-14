@@ -16,6 +16,7 @@ import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import UploadFile from '../../../components/form/MyUploadField';
 import TextField from '../../../components/form/TextField';
 import MainWrapper from '../../../components/MainWrapper';
+import RouterPrompt from '../../../components/RouterPrompt';
 import { countryInput } from '../../../constants/countryInput';
 import { countryOption } from '../../../constants/countryOption';
 import { useAppSelector } from '../../../hooks';
@@ -227,168 +228,183 @@ const PersonalInformation = () => {
     }, []);
 
     return (
-        <MainWrapper>
-            <div className="card--profile">
-                <FormikProvider value={formik}>
-                    <Form>
-                        {/* HEADER */}
-                        <ProfileHeader className="mb-8" />
+        <>
+            <RouterPrompt
+                when={saveBtnActive}
+                onOK={() => {
+                    formik.handleSubmit();
+                    return true;
+                }}
+                onCancel={() => {
+                    //if you pass "false" router will be blocked and you will stay on the current page
+                    return true;
+                }}
+            />
+            <MainWrapper>
+                <div className="card--profile">
+                    <FormikProvider value={formik}>
+                        <Form>
+                            {/* HEADER */}
+                            <ProfileHeader className="mb-8" />
 
-                        {/* PROGRESS */}
-                        <ProfileCompletion
-                            generalAvailability={
-                                profileProgress?.generalAvailability
-                            }
-                            aditionalInformation={profileProgress?.aboutMe}
-                            myTeachings={profileProgress?.myTeachings}
-                            percentage={profileProgress?.percentage}
-                        />
+                            {/* PROGRESS */}
+                            <ProfileCompletion
+                                generalAvailability={
+                                    profileProgress?.generalAvailability
+                                }
+                                aditionalInformation={profileProgress?.aboutMe}
+                                myTeachings={profileProgress?.myTeachings}
+                                percentage={profileProgress?.percentage}
+                            />
 
-                        {/* PERSONAL INFO */}
-                        <div className="card--profile__section">
-                            <div>
-                                <div className="mb-2 type--wgt--bold">
-                                    Personal Information
-                                </div>
-                                <div className="type--color--tertiary w--200--max">
-                                    Edit and update your personal information
-                                </div>
-                                <button
-                                    className={`btn btn--primary btn--lg mt-6 card--profile__savebtn`}
-                                    type="submit"
-                                    // disabled={isLoading || !saveBtnActive}
-                                    disabled={isLoading || !saveBtnActive}
-                                >
-                                    Save
-                                </button>
-                            </div>
-                            <div className="w--800--max">
-                                <div className="row">
-                                    <div className="col col-12 col-xl-6">
-                                        <div className="field">
-                                            <label
-                                                htmlFor="firstName"
-                                                className="field__label"
-                                            >
-                                                First Name
-                                            </label>
-                                            <TextField
-                                                name="firstName"
-                                                id="firstName"
-                                                placeholder="Enter your first name"
-                                                disabled={isLoading}
-                                            />
-                                        </div>
+                            {/* PERSONAL INFO */}
+                            <div className="card--profile__section">
+                                <div>
+                                    <div className="mb-2 type--wgt--bold">
+                                        Personal Information
                                     </div>
-                                    <div className="col col-12 col-xl-6">
-                                        <div className="field">
-                                            <label
-                                                htmlFor="lastName"
-                                                className="field__label"
-                                            >
-                                                Last Name
-                                            </label>
-                                            <TextField
-                                                name="lastName"
-                                                id="lastName"
-                                                placeholder="Enter your first name"
-                                                disabled={isLoading}
-                                            />
-                                        </div>
+                                    <div className="type--color--tertiary w--200--max">
+                                        Edit and update your personal
+                                        information
                                     </div>
-                                    <div className="col col-12 col-xl-6">
-                                        <div className="field">
-                                            <label
-                                                htmlFor="phoneNumber"
-                                                className="field__label"
-                                            >
-                                                {t(
-                                                    'REGISTER.FORM.PHONE_NUMBER'
-                                                )}
-                                            </label>
-                                            <MyPhoneInput
-                                                form={formik}
-                                                name="phoneNumber"
-                                                field={formik.getFieldProps(
-                                                    'phoneNumber'
-                                                )}
-                                                meta={formik.getFieldMeta(
-                                                    'phoneNumber'
-                                                )}
-                                                disabled={isLoading}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="col col-12 col-xl-6">
-                                        <div className="field">
-                                            <label
-                                                htmlFor="countryId"
-                                                className="field__label"
-                                            >
-                                                Country*
-                                            </label>
-
-                                            <MySelect
-                                                form={formik}
-                                                field={formik.getFieldProps(
-                                                    'countryId'
-                                                )}
-                                                meta={formik.getFieldMeta(
-                                                    'countryId'
-                                                )}
-                                                isMulti={false}
-                                                classNamePrefix="onboarding-select"
-                                                options={countryOptions}
-                                                placeholder="Choose your country"
-                                                customInputField={countryInput}
-                                                customOption={countryOption}
-                                                isDisabled={isLoading}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="col col-12 col-xl-6">
-                                        <div className="field">
-                                            <label
-                                                className="field__label"
-                                                htmlFor="dateOfBirth"
-                                            >
-                                                Date of Birth*
-                                            </label>
-                                            <MyDatePicker
-                                                form={formik}
-                                                field={formik.getFieldProps(
-                                                    'dateOfBirth'
-                                                )}
-                                                meta={formik.getFieldMeta(
-                                                    'dateOfBirth'
-                                                )}
-                                                isDisabled={isLoading}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="field field__file">
-                                    <label
-                                        className="field__label"
-                                        htmlFor="profileImage"
+                                    <button
+                                        className={`btn btn--primary btn--lg mt-6 card--profile__savebtn`}
+                                        type="submit"
+                                        // disabled={isLoading || !saveBtnActive}
+                                        disabled={isLoading || !saveBtnActive}
                                     >
-                                        Profile Image*
-                                    </label>
-                                    <UploadFile
-                                        setFieldValue={formik.setFieldValue}
-                                        id="profileImage"
-                                        name="profileImage"
-                                        value={
-                                            user?.profileImage
-                                                ? user.profileImage
-                                                : ''
-                                        }
-                                        disabled={isLoading}
-                                        imagePreview={
-                                            formik.values.profileImage
-                                        }
-                                    />
-                                    {/* <UploadFile
+                                        Save
+                                    </button>
+                                </div>
+                                <div className="w--800--max">
+                                    <div className="row">
+                                        <div className="col col-12 col-xl-6">
+                                            <div className="field">
+                                                <label
+                                                    htmlFor="firstName"
+                                                    className="field__label"
+                                                >
+                                                    First Name
+                                                </label>
+                                                <TextField
+                                                    name="firstName"
+                                                    id="firstName"
+                                                    placeholder="Enter your first name"
+                                                    disabled={isLoading}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="col col-12 col-xl-6">
+                                            <div className="field">
+                                                <label
+                                                    htmlFor="lastName"
+                                                    className="field__label"
+                                                >
+                                                    Last Name
+                                                </label>
+                                                <TextField
+                                                    name="lastName"
+                                                    id="lastName"
+                                                    placeholder="Enter your first name"
+                                                    disabled={isLoading}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="col col-12 col-xl-6">
+                                            <div className="field">
+                                                <label
+                                                    htmlFor="phoneNumber"
+                                                    className="field__label"
+                                                >
+                                                    {t(
+                                                        'REGISTER.FORM.PHONE_NUMBER'
+                                                    )}
+                                                </label>
+                                                <MyPhoneInput
+                                                    form={formik}
+                                                    name="phoneNumber"
+                                                    field={formik.getFieldProps(
+                                                        'phoneNumber'
+                                                    )}
+                                                    meta={formik.getFieldMeta(
+                                                        'phoneNumber'
+                                                    )}
+                                                    disabled={isLoading}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="col col-12 col-xl-6">
+                                            <div className="field">
+                                                <label
+                                                    htmlFor="countryId"
+                                                    className="field__label"
+                                                >
+                                                    Country*
+                                                </label>
+
+                                                <MySelect
+                                                    form={formik}
+                                                    field={formik.getFieldProps(
+                                                        'countryId'
+                                                    )}
+                                                    meta={formik.getFieldMeta(
+                                                        'countryId'
+                                                    )}
+                                                    isMulti={false}
+                                                    classNamePrefix="onboarding-select"
+                                                    options={countryOptions}
+                                                    placeholder="Choose your country"
+                                                    customInputField={
+                                                        countryInput
+                                                    }
+                                                    customOption={countryOption}
+                                                    isDisabled={isLoading}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="col col-12 col-xl-6">
+                                            <div className="field">
+                                                <label
+                                                    className="field__label"
+                                                    htmlFor="dateOfBirth"
+                                                >
+                                                    Date of Birth*
+                                                </label>
+                                                <MyDatePicker
+                                                    form={formik}
+                                                    field={formik.getFieldProps(
+                                                        'dateOfBirth'
+                                                    )}
+                                                    meta={formik.getFieldMeta(
+                                                        'dateOfBirth'
+                                                    )}
+                                                    isDisabled={isLoading}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="field field__file">
+                                        <label
+                                            className="field__label"
+                                            htmlFor="profileImage"
+                                        >
+                                            Profile Image*
+                                        </label>
+                                        <UploadFile
+                                            setFieldValue={formik.setFieldValue}
+                                            id="profileImage"
+                                            name="profileImage"
+                                            value={
+                                                user?.profileImage
+                                                    ? user.profileImage
+                                                    : ''
+                                            }
+                                            disabled={isLoading}
+                                            imagePreview={
+                                                formik.values.profileImage
+                                            }
+                                        />
+                                        {/* <UploadFile
                                             setFieldValue={
                                                 formik.setFieldValue
                                             }
@@ -402,11 +418,11 @@ const PersonalInformation = () => {
                                             name="profileImage"
                                             imagePreview={profileImage}
                                         /> */}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        {/* IMAGE */}
-                        {/* <div className="card--profile__section">
+                            {/* IMAGE */}
+                            {/* <div className="card--profile__section">
                             <div>
                                 <div className="mb-2 type--wgt--bold">
                                     Profile Picture
@@ -446,10 +462,11 @@ const PersonalInformation = () => {
                                 </div>
                             </div>
                         </div> */}
-                    </Form>
-                </FormikProvider>
-            </div>
-        </MainWrapper>
+                        </Form>
+                    </FormikProvider>
+                </div>
+            </MainWrapper>
+        </>
     );
 };
 
