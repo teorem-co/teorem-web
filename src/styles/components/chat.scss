@@ -1,0 +1,81 @@
+/*
+    components:chat
+*/
+
+.chat {
+    //Conversation aside
+    &__conversation {
+        display: flex;
+        padding: calc($unit * 3) calc($unit * 4);
+
+        &__avatar {
+            flex-shrink: 0;
+            border-radius: $border-circle;
+            width: 60px;
+            height: 60px;
+            background-color: lightskyblue;
+
+            &--small {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        &__dot {
+            width: 8px;
+            height: 8px;
+            border-radius: $border-circle;
+            background-color: $black;
+            margin: 0 auto;
+        }
+    }
+
+    &__spacer {
+        height: 1px;
+        background-color: $grey-ed;
+        margin-top: calc($unit * 3);
+        //add negative margins
+    }
+
+    &__messages-wrapper {
+        overflow-y: auto;
+    }
+
+    &__message {
+        display: flex;
+        margin-top: calc($unit * 6);
+
+        &--other {
+            flex-direction: row;
+        }
+
+        &--logged {
+            flex-direction: row-reverse;
+        }
+
+        &__item {
+            border-radius: 50px;
+            padding: calc($unit * 2) calc($unit * 3);
+            margin-top: 6px;
+            display: inline-block;
+
+            &--other {
+                color: $black;
+                background-color: $grey-ed;
+                margin-left: calc($unit * 4);
+            }
+
+            &--logged {
+                background-color: $color-primary;
+                color: $white;
+                margin-right: calc($unit * 4);
+            }
+        }
+    }
+
+    &__input {
+        display: flex;
+        align-items: center;
+        padding: calc($unit * 5) calc($unit * 6);
+    }
+}
