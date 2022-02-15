@@ -16,6 +16,7 @@ import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import UploadFile from '../../../components/form/MyUploadField';
 import TextField from '../../../components/form/TextField';
 import MainWrapper from '../../../components/MainWrapper';
+import RouterPrompt from '../../../components/RouterPrompt';
 import { countryInput } from '../../../constants/countryInput';
 import { countryOption } from '../../../constants/countryOption';
 import { useAppSelector } from '../../../hooks';
@@ -53,6 +54,7 @@ const PersonalInformation = () => {
 
         { isLoading: isLoadingUserUpdate, isSuccess: isSuccessUserUpdate },
     ] = useUpdateUserInformationMutation();
+
     const [
         getUser,
         {
@@ -80,28 +82,6 @@ const PersonalInformation = () => {
 
     const { t } = useTranslation();
 
-    useEffect(() => {
-        if (
-            isSuccessUser &&
-            userInformation?.firstName &&
-            userInformation.lastName &&
-            userInformation.phoneNumber &&
-            userInformation.countryId &&
-            userInformation.dateOfBirth &&
-            userInformation.profileImage
-        ) {
-            const values = {
-                firstName: userInformation.firstName,
-                lastName: userInformation.lastName,
-                phoneNumber: userInformation.phoneNumber,
-                countryId: userInformation.countryId,
-                dateOfBirth: userInformation.dateOfBirth,
-                profileImage: userInformation.profileImage,
-            };
-            setInitialvalues(values);
-        }
-    }, [isSuccessUser]);
-
     const [initialValues, setInitialvalues] = useState<Values>({
         firstName: '',
         lastName: '',
@@ -111,8 +91,8 @@ const PersonalInformation = () => {
         profileImage: '',
     });
 
-    const handleSubmit = (values: Values) => {
-        updateUserInformation({
+    const handleSubmit = async (values: Values) => {
+        await updateUserInformation({
             firstName: values.firstName,
             lastName: values.lastName,
             phoneNumber: values.phoneNumber,
@@ -218,238 +198,226 @@ const PersonalInformation = () => {
         handleBlur();
     }, [formik.values]);
 
-    useEffect(() => {
+    const fetchData = async () => {
         getCountries();
+
         if (user) {
-            getUser(user.id);
+            const userResponse = await getUser(user.id).unwrap();
+
+            if (userResponse) {
+                const values = {
+                    firstName: userResponse.firstName,
+                    lastName: userResponse.lastName,
+                    phoneNumber: userResponse.phoneNumber,
+                    countryId: userResponse.countryId,
+                    dateOfBirth: userResponse.dateOfBirth,
+                    profileImage: userResponse.profileImage,
+                };
+                //set formik values
+                setInitialvalues(values);
+            }
             getProfileProgress();
         }
+    };
+
+    useEffect(() => {
+        fetchData();
     }, []);
 
+    const handleUpdateOnRouteChange = () => {
+        updateUserInformation({
+            firstName: formik.values.firstName,
+            lastName: formik.values.lastName,
+            phoneNumber: formik.values.phoneNumber,
+            countryId: formik.values.countryId,
+            dateOfBirth: moment(formik.values.dateOfBirth).toISOString(),
+            profileImage: formik.values.profileImage,
+        });
+        return true;
+    };
+
     return (
-        <MainWrapper>
-            <div className="card--profile">
-                <FormikProvider value={formik}>
-                    <Form>
-                        {/* HEADER */}
-                        <ProfileHeader className="mb-8" />
+        <>
+            <RouterPrompt
+                when={saveBtnActive}
+                onOK={handleUpdateOnRouteChange}
+                onCancel={() => {
+                    //if you pass "false" router will be blocked and you will stay on the current page
+                    return true;
+                }}
+            />
+            <MainWrapper>
+                <div className="card--profile">
+                    <FormikProvider value={formik}>
+                        <Form>
+                            {/* HEADER */}
+                            <ProfileHeader className="mb-8" />
 
-                        {/* PROGRESS */}
-                        <ProfileCompletion
-                            generalAvailability={
-                                profileProgress?.generalAvailability
-                            }
-                            aditionalInformation={profileProgress?.aboutMe}
-                            myTeachings={profileProgress?.myTeachings}
-                            percentage={profileProgress?.percentage}
-                        />
+                            {/* PROGRESS */}
+                            <ProfileCompletion
+                                generalAvailability={
+                                    profileProgress?.generalAvailability
+                                }
+                                aditionalInformation={profileProgress?.aboutMe}
+                                myTeachings={profileProgress?.myTeachings}
+                                percentage={profileProgress?.percentage}
+                            />
 
-                        {/* PERSONAL INFO */}
-                        <div className="card--profile__section">
-                            <div>
-                                <div className="mb-2 type--wgt--bold">
-                                    Personal Information
-                                </div>
-                                <div className="type--color--tertiary w--200--max">
-                                    Edit and update your personal information
-                                </div>
-                                <button
-                                    className={`btn btn--primary btn--lg mt-6 card--profile__savebtn`}
-                                    type="submit"
-                                    // disabled={isLoading || !saveBtnActive}
-                                    disabled={isLoading || !saveBtnActive}
-                                >
-                                    Save
-                                </button>
-                            </div>
-                            <div className="w--800--max">
-                                <div className="row">
-                                    <div className="col col-12 col-xl-6">
-                                        <div className="field">
-                                            <label
-                                                htmlFor="firstName"
-                                                className="field__label"
-                                            >
-                                                First Name
-                                            </label>
-                                            <TextField
-                                                name="firstName"
-                                                id="firstName"
-                                                placeholder="Enter your first name"
-                                                disabled={isLoading}
-                                            />
-                                        </div>
+                            {/* PERSONAL INFO */}
+                            <div className="card--profile__section">
+                                <div>
+                                    <div className="mb-2 type--wgt--bold">
+                                        Personal Information
                                     </div>
-                                    <div className="col col-12 col-xl-6">
-                                        <div className="field">
-                                            <label
-                                                htmlFor="lastName"
-                                                className="field__label"
-                                            >
-                                                Last Name
-                                            </label>
-                                            <TextField
-                                                name="lastName"
-                                                id="lastName"
-                                                placeholder="Enter your first name"
-                                                disabled={isLoading}
-                                            />
-                                        </div>
+                                    <div className="type--color--tertiary w--200--max">
+                                        Edit and update your personal
+                                        information
                                     </div>
-                                    <div className="col col-12 col-xl-6">
-                                        <div className="field">
-                                            <label
-                                                htmlFor="phoneNumber"
-                                                className="field__label"
-                                            >
-                                                {t(
-                                                    'REGISTER.FORM.PHONE_NUMBER'
-                                                )}
-                                            </label>
-                                            <MyPhoneInput
-                                                form={formik}
-                                                name="phoneNumber"
-                                                field={formik.getFieldProps(
-                                                    'phoneNumber'
-                                                )}
-                                                meta={formik.getFieldMeta(
-                                                    'phoneNumber'
-                                                )}
-                                                disabled={isLoading}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="col col-12 col-xl-6">
-                                        <div className="field">
-                                            <label
-                                                htmlFor="countryId"
-                                                className="field__label"
-                                            >
-                                                Country*
-                                            </label>
-
-                                            <MySelect
-                                                form={formik}
-                                                field={formik.getFieldProps(
-                                                    'countryId'
-                                                )}
-                                                meta={formik.getFieldMeta(
-                                                    'countryId'
-                                                )}
-                                                isMulti={false}
-                                                classNamePrefix="onboarding-select"
-                                                options={countryOptions}
-                                                placeholder="Choose your country"
-                                                customInputField={countryInput}
-                                                customOption={countryOption}
-                                                isDisabled={isLoading}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="col col-12 col-xl-6">
-                                        <div className="field">
-                                            <label
-                                                className="field__label"
-                                                htmlFor="dateOfBirth"
-                                            >
-                                                Date of Birth*
-                                            </label>
-                                            <MyDatePicker
-                                                form={formik}
-                                                field={formik.getFieldProps(
-                                                    'dateOfBirth'
-                                                )}
-                                                meta={formik.getFieldMeta(
-                                                    'dateOfBirth'
-                                                )}
-                                                isDisabled={isLoading}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="field field__file">
-                                    <label
-                                        className="field__label"
-                                        htmlFor="profileImage"
+                                    <button
+                                        className={`btn btn--primary btn--lg mt-6 card--profile__savebtn`}
+                                        type="submit"
+                                        // disabled={isLoading || !saveBtnActive}
+                                        disabled={isLoading || !saveBtnActive}
                                     >
-                                        Profile Image*
-                                    </label>
-                                    <UploadFile
-                                        setFieldValue={formik.setFieldValue}
-                                        id="profileImage"
-                                        name="profileImage"
-                                        value={
-                                            user?.profileImage
-                                                ? user.profileImage
-                                                : ''
-                                        }
-                                        disabled={isLoading}
-                                        imagePreview={
-                                            formik.values.profileImage
-                                        }
-                                    />
-                                    {/* <UploadFile
-                                            setFieldValue={
-                                                formik.setFieldValue
-                                            }
-                                            uploadedFile={(file: any) => {
-                                                formik.setFieldValue(
-                                                    'profileImage',
-                                                    file
-                                                );
-                                            }}
+                                        Save
+                                    </button>
+                                </div>
+                                <div className="w--800--max">
+                                    <div className="row">
+                                        <div className="col col-12 col-xl-6">
+                                            <div className="field">
+                                                <label
+                                                    htmlFor="firstName"
+                                                    className="field__label"
+                                                >
+                                                    First Name
+                                                </label>
+                                                <TextField
+                                                    name="firstName"
+                                                    id="firstName"
+                                                    placeholder="Enter your first name"
+                                                    disabled={isLoading}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="col col-12 col-xl-6">
+                                            <div className="field">
+                                                <label
+                                                    htmlFor="lastName"
+                                                    className="field__label"
+                                                >
+                                                    Last Name
+                                                </label>
+                                                <TextField
+                                                    name="lastName"
+                                                    id="lastName"
+                                                    placeholder="Enter your first name"
+                                                    disabled={isLoading}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="col col-12 col-xl-6">
+                                            <div className="field">
+                                                <label
+                                                    htmlFor="phoneNumber"
+                                                    className="field__label"
+                                                >
+                                                    {t(
+                                                        'REGISTER.FORM.PHONE_NUMBER'
+                                                    )}
+                                                </label>
+                                                <MyPhoneInput
+                                                    form={formik}
+                                                    name="phoneNumber"
+                                                    field={formik.getFieldProps(
+                                                        'phoneNumber'
+                                                    )}
+                                                    meta={formik.getFieldMeta(
+                                                        'phoneNumber'
+                                                    )}
+                                                    disabled={isLoading}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="col col-12 col-xl-6">
+                                            <div className="field">
+                                                <label
+                                                    htmlFor="countryId"
+                                                    className="field__label"
+                                                >
+                                                    Country*
+                                                </label>
+
+                                                <MySelect
+                                                    form={formik}
+                                                    field={formik.getFieldProps(
+                                                        'countryId'
+                                                    )}
+                                                    meta={formik.getFieldMeta(
+                                                        'countryId'
+                                                    )}
+                                                    isMulti={false}
+                                                    classNamePrefix="onboarding-select"
+                                                    options={countryOptions}
+                                                    placeholder="Choose your country"
+                                                    customInputField={
+                                                        countryInput
+                                                    }
+                                                    customOption={countryOption}
+                                                    isDisabled={isLoading}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="col col-12 col-xl-6">
+                                            <div className="field">
+                                                <label
+                                                    className="field__label"
+                                                    htmlFor="dateOfBirth"
+                                                >
+                                                    Date of Birth*
+                                                </label>
+                                                <MyDatePicker
+                                                    form={formik}
+                                                    field={formik.getFieldProps(
+                                                        'dateOfBirth'
+                                                    )}
+                                                    meta={formik.getFieldMeta(
+                                                        'dateOfBirth'
+                                                    )}
+                                                    isDisabled={isLoading}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="field field__file">
+                                        <label
+                                            className="field__label"
+                                            htmlFor="profileImage"
+                                        >
+                                            Profile Image*
+                                        </label>
+                                        <UploadFile
+                                            setFieldValue={formik.setFieldValue}
                                             id="profileImage"
                                             name="profileImage"
-                                            imagePreview={profileImage}
-                                        /> */}
-                                </div>
-                            </div>
-                        </div>
-                        {/* IMAGE */}
-                        {/* <div className="card--profile__section">
-                            <div>
-                                <div className="mb-2 type--wgt--bold">
-                                    Profile Picture
-                                </div>
-                                <div className="type--color--tertiary w--200--max">
-                                    Upload or remove a new profile picture (PNG
-                                    or JPG)
-                                </div>
-                            </div>
-                            <div className="w--800--max">
-                                <div className="flex flex--center flex--grow">
-                                    <div className="tutor-list__item__img">
-                                        {tutor?.profileImage ? (
-                                            <img
-                                                src={tutor.profileImage}
-                                                alt="tutor-list"
-                                            />
-                                        ) : (
-                                            <ImageCircle
-                                                initials={`${
-                                                    tutor?.firstName
-                                                        ? tutor.firstName.charAt(
-                                                              0
-                                                          )
-                                                        : ''
-                                                }${
-                                                    tutor?.lastName
-                                                        ? tutor.lastName.charAt(
-                                                              0
-                                                          )
-                                                        : ''
-                                                }`}
-                                                imageBig={true}
-                                            />
-                                        )}
+                                            value={
+                                                user?.profileImage
+                                                    ? user.profileImage
+                                                    : ''
+                                            }
+                                            disabled={isLoading}
+                                            imagePreview={
+                                                formik.values.profileImage
+                                            }
+                                        />
                                     </div>
                                 </div>
                             </div>
-                        </div> */}
-                    </Form>
-                </FormikProvider>
-            </div>
-        </MainWrapper>
+                        </Form>
+                    </FormikProvider>
+                </div>
+            </MainWrapper>
+        </>
     );
 };
 

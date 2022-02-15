@@ -2,17 +2,14 @@ import { QueryStatus } from '@reduxjs/toolkit/dist/query';
 import { cloneDeep, isEqual } from 'lodash';
 import { useEffect, useState } from 'react';
 
-import {
-    useGetProfileProgressQuery,
-    useLazyGetProfileProgressQuery,
-} from '../../../../services/tutorService';
+import { useLazyGetProfileProgressQuery } from '../../../../services/tutorService';
 import MainWrapper from '../../../components/MainWrapper';
+import RouterPrompt from '../../../components/RouterPrompt';
 import availabilityTable from '../../../constants/availabilityTable';
 import { useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
-import ProfileTabs from '../components/ProfileTabs';
 import IAvailabilityIndex from '../interfaces/IAvailabilityIndex';
 import ITutorAvailability from '../interfaces/ITutorAvailability';
 import {
@@ -124,7 +121,7 @@ const GeneralAvailability = () => {
         setCurrentAvailabilities(cloneState);
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         const toSend: ITutorAvailability[] = [];
 
         for (let i = 1; i < 8; i++) {
@@ -143,9 +140,9 @@ const GeneralAvailability = () => {
         }
 
         if (tutorAvailability && tutorAvailability[1].length > 1) {
-            updateTutorAvailability({ tutorAvailability: toSend });
+            await updateTutorAvailability({ tutorAvailability: toSend });
         } else {
-            createTutorAvailability({ tutorAvailability: toSend });
+            await createTutorAvailability({ tutorAvailability: toSend });
         }
     };
 
@@ -196,8 +193,21 @@ const GeneralAvailability = () => {
         }
     }, [createStatus]);
 
+    const handleUpdateOnRouteChange = () => {
+        handleSubmit();
+        return true;
+    };
+
     return (
         <MainWrapper>
+            <RouterPrompt
+                when={saveBtnActive}
+                onOK={handleUpdateOnRouteChange}
+                onCancel={() => {
+                    //if you pass "false" router will be blocked and you will stay on the current page
+                    return true;
+                }}
+            />
             <div className="card--profile">
                 {/* HEADER */}
                 <ProfileHeader className="mb-8" />

@@ -13,6 +13,7 @@ import {
 import MyTextArea from '../../../components/form/MyTextArea';
 import TextField from '../../../components/form/TextField';
 import MainWrapper from '../../../components/MainWrapper';
+import RouterPrompt from '../../../components/RouterPrompt';
 import toastService from '../../../services/toastService';
 import { getUserId } from '../../../utils/getUserId';
 import ProfileCompletion from '../components/ProfileCompletion';
@@ -54,16 +55,31 @@ const AdditionalInformation = () => {
         },
     ] = useUpdateAditionalInfoMutation();
 
-    const handleSubmit = (values: IUpdateAdditionalInfo) => {
-        updateAditionalInfo(values);
+    const handleSubmit = async (values: IUpdateAdditionalInfo) => {
+        await updateAditionalInfo(values);
         setSaveBtnActive(false);
     };
 
-    useEffect(() => {
+    const fetchData = async () => {
         if (tutorId) {
-            getProfileData(tutorId);
+            const profileDataResponse = await getProfileData(tutorId).unwrap();
+
+            if (profileDataResponse) {
+                const values = {
+                    aboutTutor: profileDataResponse.aboutTutor,
+                    aboutLessons: profileDataResponse.aboutLessons,
+                    yearsOfExperience: profileDataResponse.yearsOfExperience,
+                    currentOccupation: profileDataResponse.currentOccupation,
+                };
+                setInitialValues(values);
+            }
+
             getProfileProgress();
         }
+    };
+
+    useEffect(() => {
+        fetchData();
     }, []);
 
     useEffect(() => {
@@ -71,18 +87,6 @@ const AdditionalInformation = () => {
             getProfileProgress();
         }
     }, [updateStatus]);
-
-    useEffect(() => {
-        if (isSuccessGetInfo && additionalInfoData) {
-            const values = {
-                aboutTutor: additionalInfoData.aboutTutor,
-                aboutLessons: additionalInfoData.aboutLessons,
-                yearsOfExperience: additionalInfoData.yearsOfExperience,
-                currentOccupation: additionalInfoData.currentOccupation,
-            };
-            setInitialValues(values);
-        }
-    }, [isSuccessGetInfo]);
 
     useEffect(() => {
         if (isSuccessUpdateInfo) {
@@ -128,8 +132,21 @@ const AdditionalInformation = () => {
 
     const isLoading = isLoadingGetInfo || isUpdatingInfo;
 
+    const handleUpdateOnRouteChange = () => {
+        handleSubmit(formik.values);
+        return true;
+    };
+
     return (
         <MainWrapper>
+            <RouterPrompt
+                when={saveBtnActive}
+                onOK={handleUpdateOnRouteChange}
+                onCancel={() => {
+                    //if you pass "false" router will be blocked and you will stay on the current page
+                    return true;
+                }}
+            />
             <div className="card--profile">
                 {/* HEADER */}
                 <ProfileHeader className="mb-8" />
