@@ -6,23 +6,19 @@ import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
 import {
-    useGetProfileProgressQuery,
     useLazyGetProfileProgressQuery,
     useLazyGetTutorProfileDataQuery,
     useUpdateAditionalInfoMutation,
 } from '../../../../services/tutorService';
 import MyTextArea from '../../../components/form/MyTextArea';
+import TextField from '../../../components/form/TextField';
 import MainWrapper from '../../../components/MainWrapper';
 import toastService from '../../../services/toastService';
 import { getUserId } from '../../../utils/getUserId';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
 import ProfileTabs from '../components/ProfileTabs';
-
-interface Values {
-    aboutTutor: string;
-    aboutLessons: string;
-}
+import IUpdateAdditionalInfo from '../interfaces/IUpdateAdditionalInfo';
 
 const AdditionalInformation = () => {
     const [getProfileProgress, { data: profileProgress }] =
@@ -39,20 +35,13 @@ const AdditionalInformation = () => {
             isSuccess: isSuccessGetInfo,
             isLoading: isLoadingGetInfo,
         },
-    ] = useLazyGetTutorProfileDataQuery({
-        selectFromResult: ({ data, isSuccess, isLoading }) => ({
-            data: {
-                aboutTutor: data?.aboutTutor,
-                aboutLessons: data?.aboutLessons,
-            },
-            isSuccess,
-            isLoading,
-        }),
-    });
+    ] = useLazyGetTutorProfileDataQuery();
 
-    const [initialValues, setInitialValues] = useState<Values>({
+    const [initialValues, setInitialValues] = useState<IUpdateAdditionalInfo>({
         aboutTutor: '',
         aboutLessons: '',
+        yearsOfExperience: '',
+        currentOccupation: '',
     });
     const [saveBtnActive, setSaveBtnActive] = useState(false);
 
@@ -65,7 +54,7 @@ const AdditionalInformation = () => {
         },
     ] = useUpdateAditionalInfoMutation();
 
-    const handleSubmit = (values: Values) => {
+    const handleSubmit = (values: IUpdateAdditionalInfo) => {
         updateAditionalInfo(values);
         setSaveBtnActive(false);
     };
@@ -84,14 +73,12 @@ const AdditionalInformation = () => {
     }, [updateStatus]);
 
     useEffect(() => {
-        if (
-            isSuccessGetInfo &&
-            additionalInfoData.aboutLessons &&
-            additionalInfoData.aboutTutor
-        ) {
+        if (isSuccessGetInfo && additionalInfoData) {
             const values = {
                 aboutTutor: additionalInfoData.aboutTutor,
                 aboutLessons: additionalInfoData.aboutLessons,
+                yearsOfExperience: additionalInfoData.yearsOfExperience,
+                currentOccupation: additionalInfoData.currentOccupation,
             };
             setInitialValues(values);
         }
@@ -117,6 +104,13 @@ const AdditionalInformation = () => {
         validationSchema: Yup.object().shape({
             aboutTutor: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             aboutLessons: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            currentOccupation: Yup.string()
+                .min(2, t('FORM_VALIDATION.TOO_SHORT'))
+                .max(50, t('FORM_VALIDATION.TOO_LONG'))
+                .required(t('FORM_VALIDATION.REQUIRED')),
+            yearsOfExperience: Yup.number()
+                .min(0, 'Can`t be a negative number')
+                .max(100, 'number is too big'),
         }),
     });
 
@@ -143,9 +137,7 @@ const AdditionalInformation = () => {
                 {/* PROGRESS */}
                 <ProfileCompletion
                     generalAvailability={profileProgress?.generalAvailability}
-                    aditionalInformation={
-                        profileProgress?.additionalInformation
-                    }
+                    aditionalInformation={profileProgress?.aboutMe}
                     myTeachings={profileProgress?.myTeachings}
                     percentage={profileProgress?.percentage}
                 />
@@ -180,43 +172,87 @@ const AdditionalInformation = () => {
                                 )}
                             </div>
                             <div className="w--800--max">
-                                <div className="field">
-                                    <label
-                                        className="field__label"
-                                        htmlFor="aboutTutor"
-                                    >
-                                        {t(
-                                            'SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_LABEL'
-                                        )}
-                                    </label>
-                                    <MyTextArea
-                                        maxLength={2500}
-                                        name="aboutTutor"
-                                        placeholder={t(
-                                            'SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_PLACEHOLDER'
-                                        )}
-                                        id="aboutTutor"
-                                        disabled={isLoading}
-                                    />
-                                </div>
-                                <div className="field">
-                                    <label
-                                        className="field__label"
-                                        htmlFor="aboutLessons"
-                                    >
-                                        {t(
-                                            'SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_LABEL'
-                                        )}
-                                    </label>
-                                    <MyTextArea
-                                        maxLength={2500}
-                                        name="aboutLessons"
-                                        placeholder={t(
-                                            'SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_PLACEHOLDER'
-                                        )}
-                                        id="aboutLessons"
-                                        disabled={isLoading}
-                                    />
+                                <div className="row">
+                                    <div className="col col-12 col-xl-6">
+                                        <div className="field">
+                                            <label
+                                                className="field__label"
+                                                htmlFor="currentOccupation"
+                                            >
+                                                Your current Occupation*
+                                            </label>
+                                            <TextField
+                                                id="currentOccupation"
+                                                wrapperClassName="flex--grow"
+                                                name="currentOccupation"
+                                                placeholder="What’s your current Occupation"
+                                                className="input input--base"
+                                                disabled={isLoading}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="col col-12 col-xl-6">
+                                        <div className="field">
+                                            <label
+                                                className="field__label"
+                                                htmlFor="yearsOfExperience"
+                                            >
+                                                Years of professional experience
+                                                (optional)
+                                            </label>
+                                            <TextField
+                                                id="yearsOfExperience"
+                                                wrapperClassName="flex--grow"
+                                                name="yearsOfExperience"
+                                                placeholder="How many years of professional experience you have"
+                                                className="input input--base"
+                                                type={'number'}
+                                                disabled={isLoading}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="col col-12 col-xl-6">
+                                        <div className="field">
+                                            <label
+                                                className="field__label"
+                                                htmlFor="aboutTutor"
+                                            >
+                                                {t(
+                                                    'SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_LABEL'
+                                                )}
+                                            </label>
+                                            <MyTextArea
+                                                maxLength={2500}
+                                                name="aboutTutor"
+                                                placeholder={t(
+                                                    'SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_PLACEHOLDER'
+                                                )}
+                                                id="aboutTutor"
+                                                disabled={isLoading}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="col col-12 col-xl-6">
+                                        <div className="field">
+                                            <label
+                                                className="field__label"
+                                                htmlFor="aboutLessons"
+                                            >
+                                                {t(
+                                                    'SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_LABEL'
+                                                )}
+                                            </label>
+                                            <MyTextArea
+                                                maxLength={2500}
+                                                name="aboutLessons"
+                                                placeholder={t(
+                                                    'SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_PLACEHOLDER'
+                                                )}
+                                                id="aboutLessons"
+                                                disabled={isLoading}
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

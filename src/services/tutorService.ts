@@ -1,5 +1,6 @@
 import { baseService } from '../app/baseService';
 import IProgressProfile from '../app/features/my-profile/interfaces/IProgressProfile';
+import IUpdateAdditionalInfo from '../app/features/my-profile/interfaces/IUpdateAdditionalInfo';
 import { HttpMethods } from '../app/lookups/httpMethods';
 import IParams from '../interfaces/IParams';
 import ITutor from '../interfaces/ITutor';
@@ -7,16 +8,6 @@ import ITutor from '../interfaces/ITutor';
 interface ITutorAvailable {
     count: number;
     rows: ITutor[];
-}
-
-interface IUpdateAdditionalInfo {
-    aboutTutor: string;
-    aboutLessons: string;
-}
-
-interface IUpdateMyTeachings {
-    currentOccupation: string;
-    yearsOfExperience?: string;
 }
 
 // interface ICreateTutorSubject {}
@@ -56,21 +47,21 @@ export const tutorService = baseService.injectEndpoints({
         updateAditionalInfo: builder.mutation<void, IUpdateAdditionalInfo>({
             query(body) {
                 return {
-                    url: `${URL}/aditional-information`,
+                    url: `${URL}`,
                     method: 'PUT',
                     body,
                 };
             },
         }),
-        updateMyTeachings: builder.mutation<void, IUpdateMyTeachings>({
-            query(body) {
-                return {
-                    url: `${URL}/my-teachings`,
-                    method: 'PUT',
-                    body,
-                };
-            },
-        }),
+        // updateMyTeachings: builder.mutation<void, IUpdateMyTeachings>({
+        //     query(body) {
+        //         return {
+        //             url: `${URL}/my-teachings`,
+        //             method: 'PUT',
+        //             body,
+        //         };
+        //     },
+        // }),
         getTutorProfileData: builder.query<ITutor, string>({
             query: (userId) => ({
                 url: `${URL}/${userId}`,
@@ -89,5 +80,4 @@ export const {
     useLazyGetTutorProfileDataQuery,
     useUpdateAditionalInfoMutation,
     useGetTutorProfileDataQuery,
-    useUpdateMyTeachingsMutation,
 } = tutorService;

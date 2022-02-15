@@ -108,9 +108,9 @@ export const EN_US = {
             EMPTY_STATE_ABOUT: 'This tutor has not filled out about me section',
             EMPTY_STATE_LESSON:
                 'This tutor has not filled out his profile about teachings',
-            ADDITIONAL_INFORMATION_TITLE: 'Additional information',
+            ADDITIONAL_INFORMATION_TITLE: 'About me',
             ADDITIONAL_INFORMATION_DESC:
-                'Edit and update your additional information',
+                'Edit and update your about me section of the profile.',
             UPDATE_ADDITIONAL_INFO_SUCCESS: 'Additional information updated!',
             UPDATE_TEACHINGS_SUCCESS: 'My teachings updated!',
             FORM: {
