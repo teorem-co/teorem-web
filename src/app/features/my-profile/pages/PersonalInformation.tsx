@@ -54,6 +54,7 @@ const PersonalInformation = () => {
 
         { isLoading: isLoadingUserUpdate, isSuccess: isSuccessUserUpdate },
     ] = useUpdateUserInformationMutation();
+
     const [
         getUser,
         {
@@ -81,28 +82,6 @@ const PersonalInformation = () => {
 
     const { t } = useTranslation();
 
-    useEffect(() => {
-        if (
-            isSuccessUser &&
-            userInformation?.firstName &&
-            userInformation.lastName &&
-            userInformation.phoneNumber &&
-            userInformation.countryId &&
-            userInformation.dateOfBirth &&
-            userInformation.profileImage
-        ) {
-            const values = {
-                firstName: userInformation.firstName,
-                lastName: userInformation.lastName,
-                phoneNumber: userInformation.phoneNumber,
-                countryId: userInformation.countryId,
-                dateOfBirth: userInformation.dateOfBirth,
-                profileImage: userInformation.profileImage,
-            };
-            setInitialvalues(values);
-        }
-    }, [isSuccessUser]);
-
     const [initialValues, setInitialvalues] = useState<Values>({
         firstName: '',
         lastName: '',
@@ -112,8 +91,8 @@ const PersonalInformation = () => {
         profileImage: '',
     });
 
-    const handleSubmit = (values: Values) => {
-        updateUserInformation({
+    const handleSubmit = async (values: Values) => {
+        await updateUserInformation({
             firstName: values.firstName,
             lastName: values.lastName,
             phoneNumber: values.phoneNumber,
@@ -219,12 +198,30 @@ const PersonalInformation = () => {
         handleBlur();
     }, [formik.values]);
 
-    useEffect(() => {
+    const fetchData = async () => {
         getCountries();
+
         if (user) {
-            getUser(user.id);
+            const userResponse = await getUser(user.id).unwrap();
+
+            if (userResponse) {
+                const values = {
+                    firstName: userResponse.firstName,
+                    lastName: userResponse.lastName,
+                    phoneNumber: userResponse.phoneNumber,
+                    countryId: userResponse.countryId,
+                    dateOfBirth: userResponse.dateOfBirth,
+                    profileImage: userResponse.profileImage,
+                };
+                //set formik values
+                setInitialvalues(values);
+            }
             getProfileProgress();
         }
+    };
+
+    useEffect(() => {
+        fetchData();
     }, []);
 
     const handleUpdateOnRouteChange = () => {
@@ -413,64 +410,9 @@ const PersonalInformation = () => {
                                                 formik.values.profileImage
                                             }
                                         />
-                                        {/* <UploadFile
-                                            setFieldValue={
-                                                formik.setFieldValue
-                                            }
-                                            uploadedFile={(file: any) => {
-                                                formik.setFieldValue(
-                                                    'profileImage',
-                                                    file
-                                                );
-                                            }}
-                                            id="profileImage"
-                                            name="profileImage"
-                                            imagePreview={profileImage}
-                                        /> */}
                                     </div>
                                 </div>
                             </div>
-                            {/* IMAGE */}
-                            {/* <div className="card--profile__section">
-                            <div>
-                                <div className="mb-2 type--wgt--bold">
-                                    Profile Picture
-                                </div>
-                                <div className="type--color--tertiary w--200--max">
-                                    Upload or remove a new profile picture (PNG
-                                    or JPG)
-                                </div>
-                            </div>
-                            <div className="w--800--max">
-                                <div className="flex flex--center flex--grow">
-                                    <div className="tutor-list__item__img">
-                                        {tutor?.profileImage ? (
-                                            <img
-                                                src={tutor.profileImage}
-                                                alt="tutor-list"
-                                            />
-                                        ) : (
-                                            <ImageCircle
-                                                initials={`${
-                                                    tutor?.firstName
-                                                        ? tutor.firstName.charAt(
-                                                              0
-                                                          )
-                                                        : ''
-                                                }${
-                                                    tutor?.lastName
-                                                        ? tutor.lastName.charAt(
-                                                              0
-                                                          )
-                                                        : ''
-                                                }`}
-                                                imageBig={true}
-                                            />
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                        </div> */}
                         </Form>
                     </FormikProvider>
                 </div>

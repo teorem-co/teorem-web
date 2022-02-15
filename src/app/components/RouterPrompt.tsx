@@ -65,34 +65,39 @@ const RouterPrompt = (props: Props) => {
         <>
             <div className={'w--100 h-100 b--shadow b--shadow-mobile active'}>
                 <div className="modal">
-                    <div className="type--wgt--semibold">Warning</div>
-                    <div className="">You have unsaved changes</div>
-                    <div className="">
-                        <button
-                            onClick={() => {
-                                handleCancel();
-                                //onCancel();
-                            }}
-                            type="button"
-                            className="btn btn--primary"
-                        >
-                            No
-                        </button>
+                    <div className="modal__head">
+                        <div className="type--md mb-4">Save changes?</div>
+                        <i
+                            onClick={() => setShowPrompt(false)}
+                            className="icon icon--close icon--base modal__close"
+                        ></i>
+                    </div>
+                    <div className="modal__body">
+                        Do you want to save your changes before leaving the
+                        page?
+                    </div>
+                    <div className="modal__footer">
                         <button
                             onClick={() => {
                                 handleOK();
                                 //onOK();
                             }}
                             type="button"
-                            className="btn btn--primary"
+                            className="btn btn--primary btn--base mr-4"
                         >
                             Save
                         </button>
+                        <button
+                            onClick={() => {
+                                handleCancel();
+                                //onCancel();
+                            }}
+                            type="button"
+                            className="btn btn--secondary btn--base"
+                        >
+                            No
+                        </button>
                     </div>
-                    <i
-                        onClick={() => setShowPrompt(false)}
-                        className="icon icon--close icon--base"
-                    ></i>
                 </div>
             </div>
         </>

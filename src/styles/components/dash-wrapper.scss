@@ -13,6 +13,10 @@
     overflow-y: auto;
     padding: calc($unit * 4);
 
+    &--adaptive {
+        max-height: unset;
+    }
+
     &__item {
         width: 50%;
         padding: calc($unit * 4);

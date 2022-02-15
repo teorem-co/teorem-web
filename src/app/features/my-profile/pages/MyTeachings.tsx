@@ -10,6 +10,7 @@ import {
     useLazyGetTutorProfileDataQuery,
 } from '../../../../services/tutorService';
 import MainWrapper from '../../../components/MainWrapper';
+import RouterPrompt from '../../../components/RouterPrompt';
 import { getUserId } from '../../../utils/getUserId';
 import AddSubjectSidebar from '../components/AddSubjectSidebar';
 import EditSubjectSidebar from '../components/EditSubjectSidebar';
@@ -104,7 +105,7 @@ const MyTeachings = () => {
                         </div>
                     </div>
                     <div>
-                        <div className="dash-wrapper flex--grow">
+                        <div className="dash-wrapper dash-wrapper--adaptive flex--grow">
                             <div className="dash-wrapper__item">
                                 <div
                                     className="dash-wrapper__item__element"
