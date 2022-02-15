@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
 import {
-    useGetProfileProgressQuery,
     useLazyGetProfileProgressQuery,
     useLazyGetTutorProfileDataQuery,
     useUpdateAditionalInfoMutation,
@@ -19,13 +18,7 @@ import { getUserId } from '../../../utils/getUserId';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
 import ProfileTabs from '../components/ProfileTabs';
-
-interface Values {
-    aboutTutor: string;
-    aboutLessons: string;
-    yearsOfExperience: string;
-    occupation: string;
-}
+import IUpdateAdditionalInfo from '../interfaces/IUpdateAdditionalInfo';
 
 const AdditionalInformation = () => {
     const [getProfileProgress, { data: profileProgress }] =
@@ -42,22 +35,13 @@ const AdditionalInformation = () => {
             isSuccess: isSuccessGetInfo,
             isLoading: isLoadingGetInfo,
         },
-    ] = useLazyGetTutorProfileDataQuery({
-        selectFromResult: ({ data, isSuccess, isLoading }) => ({
-            data: {
-                aboutTutor: data?.aboutTutor,
-                aboutLessons: data?.aboutLessons,
-            },
-            isSuccess,
-            isLoading,
-        }),
-    });
+    ] = useLazyGetTutorProfileDataQuery();
 
-    const [initialValues, setInitialValues] = useState<Values>({
+    const [initialValues, setInitialValues] = useState<IUpdateAdditionalInfo>({
         aboutTutor: '',
         aboutLessons: '',
         yearsOfExperience: '',
-        occupation: '',
+        currentOccupation: '',
     });
     const [saveBtnActive, setSaveBtnActive] = useState(false);
 
@@ -70,7 +54,8 @@ const AdditionalInformation = () => {
         },
     ] = useUpdateAditionalInfoMutation();
 
-    const handleSubmit = (values: Values) => {
+    const handleSubmit = (values: IUpdateAdditionalInfo) => {
+        debugger;
         updateAditionalInfo(values);
         setSaveBtnActive(false);
     };
@@ -89,16 +74,12 @@ const AdditionalInformation = () => {
     }, [updateStatus]);
 
     useEffect(() => {
-        if (
-            isSuccessGetInfo &&
-            additionalInfoData.aboutLessons &&
-            additionalInfoData.aboutTutor
-        ) {
+        if (isSuccessGetInfo && additionalInfoData) {
             const values = {
                 aboutTutor: additionalInfoData.aboutTutor,
                 aboutLessons: additionalInfoData.aboutLessons,
-                yearsOfExperience: '',
-                occupation: '',
+                yearsOfExperience: additionalInfoData.yearsOfExperience,
+                currentOccupation: additionalInfoData.currentOccupation,
             };
             setInitialValues(values);
         }
@@ -124,7 +105,7 @@ const AdditionalInformation = () => {
         validationSchema: Yup.object().shape({
             aboutTutor: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             aboutLessons: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            occupation: Yup.string()
+            currentOccupation: Yup.string()
                 .min(2, t('FORM_VALIDATION.TOO_SHORT'))
                 .max(50, t('FORM_VALIDATION.TOO_LONG'))
                 .required(t('FORM_VALIDATION.REQUIRED')),
@@ -199,15 +180,15 @@ const AdditionalInformation = () => {
                                         <div className="field">
                                             <label
                                                 className="field__label"
-                                                htmlFor="occupation"
+                                                htmlFor="currentOccupation"
                                             >
-                                                Your current occupation*
+                                                Your current Occupation*
                                             </label>
                                             <TextField
-                                                id="occupation"
+                                                id="currentOccupation"
                                                 wrapperClassName="flex--grow"
-                                                name="occupation"
-                                                placeholder="What’s your current occupation"
+                                                name="currentOccupation"
+                                                placeholder="What’s your current Occupation"
                                                 className="input input--base"
                                                 disabled={isLoading}
                                             />

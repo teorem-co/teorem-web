@@ -6,26 +6,20 @@ import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import {
-    useGetProfileProgressQuery,
     useLazyGetProfileProgressQuery,
     useLazyGetTutorProfileDataQuery,
-    useUpdateMyTeachingsMutation,
 } from '../../../../services/tutorService';
-import TextField from '../../../components/form/TextField';
 import MainWrapper from '../../../components/MainWrapper';
-import toastService from '../../../services/toastService';
 import { getUserId } from '../../../utils/getUserId';
 import AddSubjectSidebar from '../components/AddSubjectSidebar';
 import EditSubjectSidebar from '../components/EditSubjectSidebar';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
-import ProfileTabs from '../components/ProfileTabs';
 import SubjectList from '../components/SubjectList';
 
 const MyTeachings = () => {
     const [addSidebarOpen, setAddSidebarOpen] = useState(false);
     const [editSidebarOpen, setEditSidebarOpen] = useState(false);
-    const [saveBtnActive, setSaveBtnActive] = useState(false);
 
     const [getProfileProgress, { data: profileProgress }] =
         useLazyGetProfileProgressQuery();
@@ -36,11 +30,7 @@ const MyTeachings = () => {
 
     const [
         getProfileData,
-        {
-            data: myTeachingsData,
-            isSuccess: isSuccessMyTeachings,
-            isLoading: isLoadingMyTeachings,
-        },
+        { data: myTeachingsData, isLoading: isLoadingMyTeachings },
     ] = useLazyGetTutorProfileDataQuery({
         selectFromResult: ({ data, isSuccess, isLoading }) => ({
             data: {
