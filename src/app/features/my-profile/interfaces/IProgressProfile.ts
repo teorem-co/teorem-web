@@ -1,6 +1,6 @@
 export default interface IProgressProfile {
     generalAvailability: boolean;
     myTeachings: boolean;
-    additionalInformation: boolean;
+    aboutMe: boolean;
     percentage: number;
 }

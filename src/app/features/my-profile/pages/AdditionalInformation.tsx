@@ -55,7 +55,6 @@ const AdditionalInformation = () => {
     ] = useUpdateAditionalInfoMutation();
 
     const handleSubmit = (values: IUpdateAdditionalInfo) => {
-        debugger;
         updateAditionalInfo(values);
         setSaveBtnActive(false);
     };
@@ -138,9 +137,7 @@ const AdditionalInformation = () => {
                 {/* PROGRESS */}
                 <ProfileCompletion
                     generalAvailability={profileProgress?.generalAvailability}
-                    aditionalInformation={
-                        profileProgress?.additionalInformation
-                    }
+                    aditionalInformation={profileProgress?.aboutMe}
                     myTeachings={profileProgress?.myTeachings}
                     percentage={profileProgress?.percentage}
                 />

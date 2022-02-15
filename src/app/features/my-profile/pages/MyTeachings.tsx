@@ -89,9 +89,7 @@ const MyTeachings = () => {
                 {/* PROGRESS */}
                 <ProfileCompletion
                     generalAvailability={profileProgress?.generalAvailability}
-                    aditionalInformation={
-                        profileProgress?.additionalInformation
-                    }
+                    aditionalInformation={profileProgress?.aboutMe}
                     myTeachings={profileProgress?.myTeachings}
                     percentage={profileProgress?.percentage}
                 />
