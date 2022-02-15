@@ -31,7 +31,10 @@ const Navbar = () => {
                 <RenderMenuLinks></RenderMenuLinks>
             </div>
             <div className="navbar__bottom">
-                <div className="flex flex--grow flex--center cur--pointer">
+                <NavLink
+                    to="/my-profile/info/personal"
+                    className="flex flex--grow flex--center cur--pointer navbar__bottom--border"
+                >
                     <div className="navbar__bottom__avatar pos--rel">
                         {user?.Role?.abrv === RoleOptions.Tutor ? (
                             <img
@@ -50,12 +53,9 @@ const Navbar = () => {
                             />
                         )}
                         {user?.Role.abrv === RoleOptions.Tutor ? (
-                            <NavLink
-                                to="/my-profile/info/personal"
-                                className="navbar__bottom--settings"
-                            >
+                            <div className="navbar__bottom--settings">
                                 <i className="icon icon--base icon--white icon--settings"></i>
-                            </NavLink>
+                            </div>
                         ) : (
                             <></>
                         )}
@@ -68,7 +68,7 @@ const Navbar = () => {
                             {user?.Role?.name}
                         </div>
                     </div>
-                </div>
+                </NavLink>
                 <NavLink to="/" onClick={handleLogout} className="d--ib">
                     <i className="icon icon--logout icon--sm icon--grey"></i>
                 </NavLink>
