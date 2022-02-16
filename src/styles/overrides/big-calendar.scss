@@ -45,6 +45,10 @@ $rbc-calendar-width: 675px;
         & + .rbc-header {
             border-left-color: $rbc-color-header;
         }
+
+        a {
+            cursor: default;
+        }
     }
 
     &-time {
