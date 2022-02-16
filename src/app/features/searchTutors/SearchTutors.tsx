@@ -6,6 +6,7 @@ import { useHistory } from 'react-router';
 import Select, { components, MenuProps } from 'react-select';
 
 import IParams from '../../../interfaces/IParams';
+import ITutor from '../../../interfaces/ITutor';
 import { useLazyGetLevelOptionsQuery } from '../../../services/levelService';
 import { useLazyGetSubjectOptionsByLevelQuery } from '../../../services/subjectService';
 import { useLazyGetAvailableTutorsQuery } from '../../../services/tutorService';
@@ -30,14 +31,18 @@ const SearchTutors = () => {
 
     const { t } = useTranslation();
 
-    const [params, setParams] = useState<IParams>({});
+    const [params, setParams] = useState<IParams>({ rpp: 10, page: 1 });
     const [initialLoad, setInitialLoad] = useState<boolean>(true);
     const [dayOfWeekArray, setDayOfWeekArray] = useState<string[]>([]);
     const [timeOfDayArray, setTimeOfDayArray] = useState<string[]>([]);
+    const [loadedTutorItems, setLoadedTutorItems] = useState<ITutor[]>([]);
     const [priceSortDirection, setPriceSortDirection] = useState<SortDirection>(
         SortDirection.None
     );
+    const [scrollTopOffset, setScrollTopOffset] = useState<number | null>(null);
     const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
+    const cardRef = useRef<HTMLDivElement>(null);
+    const cardElement = cardRef.current as HTMLDivElement;
 
     //initialSubject is not reset on initial level change
     const [isInitialSubject, setIsInitialSubject] = useState<boolean>(false);
@@ -79,10 +84,29 @@ const SearchTutors = () => {
     };
 
     useEffect(() => {
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        setScrollTopOffset(null);
+        if (!initialLoad) {
+            fetchFilteredData();
+        }
+    }, [params]);
+
+    useEffect(() => {
+        if (cardElement && scrollTopOffset) {
+            cardElement.scrollTop = scrollTopOffset;
+        }
+    }, [loadedTutorItems]);
+
+    const fetchData = async () => {
         getLevelOptions();
+
         const urlQueries: IParams = getUrlParams(
             history.location.search.replace('?', '')
         );
+
         if (Object.keys(urlQueries).length > 0) {
             urlQueries.subject &&
                 formik.setFieldValue('subject', urlQueries.subject) &&
@@ -100,40 +124,51 @@ const SearchTutors = () => {
                 setPriceSortDirection(urlQueries.sort as SortDirection);
             }
         } else {
-            getAvailableTutors(params);
+            const tutorResponse = await getAvailableTutors(params).unwrap();
+            setLoadedTutorItems(tutorResponse.rows);
         }
 
         setInitialLoad(false);
-    }, []);
-
-    const handleScroll = (e: HTMLDivElement) => {
-        const innerHeight = e.scrollHeight;
-        const scrollPosition = e.scrollTop + e.clientHeight;
-
-        if (innerHeight === scrollPosition) {
-            alert('load more');
-            //action to do on scroll to bottom
-        }
     };
 
-    useEffect(() => {
-        if (!initialLoad) {
-            const filterParams = new URLSearchParams();
-            if (
-                Object.keys(params).length !== 0 &&
-                params.constructor === Object
-            ) {
-                for (const [key, value] of Object.entries(params)) {
-                    filterParams.append(key, value);
-                }
-                history.push({ search: filterParams.toString() });
-            } else {
-                history.push({ search: filterParams.toString() });
+    const fetchFilteredData = async () => {
+        const filterParams = new URLSearchParams();
+        if (
+            Object.keys(params).length !== 0 &&
+            params.constructor === Object
+        ) {
+            for (const [key, value] of Object.entries(params)) {
+                filterParams.append(key, value);
             }
-
-            getAvailableTutors({ ...params });
+            history.push({ search: filterParams.toString() });
+        } else {
+            history.push({ search: filterParams.toString() });
         }
-    }, [params]);
+
+        const tutorResponse = await getAvailableTutors({ ...params }).unwrap();
+        setLoadedTutorItems(tutorResponse.rows);
+
+    };
+
+    const handleScroll = async (e: HTMLDivElement) => {
+
+        if (loadedTutorItems.length !== availableTutors?.count) {
+            const innerHeight = e.scrollHeight;
+            const scrollPosition = e.scrollTop + e.clientHeight;
+
+            if (innerHeight === scrollPosition) {
+                //action to do on scroll to bottom
+                const newParams = { ...params };
+                newParams.page++;
+
+                const test = cardElement.scrollTop;
+                setScrollTopOffset(test);
+
+                const tutorResponse = await getAvailableTutors({ ...newParams }).unwrap();
+                setLoadedTutorItems(loadedTutorItems.concat(tutorResponse.rows));
+            }
+        }
+    };
 
     const formik = useFormik({
         initialValues: initialValues,
@@ -385,6 +420,7 @@ const SearchTutors = () => {
             <div
                 onScroll={(e) => debouncedScrollHandler(e.target)}
                 className="card--secondary"
+                ref={cardRef}
             >
                 <div className="card--secondary__head">
                     <div className="type--lg type--wgt--bold">
@@ -467,15 +503,15 @@ const SearchTutors = () => {
                     </div>
                     <div className="tutor-list">
                         {isLoadingAvailableTutors ||
-                        isFetchingAvailableTutors ? (
+                            isFetchingAvailableTutors ? (
                             // Here goes loader
                             <div className="loader--sceleton">
                                 <LoaderTutor />
                                 <LoaderTutor />
                                 <LoaderTutor />
                             </div>
-                        ) : availableTutors && availableTutors.count !== 0 ? (
-                            availableTutors.rows.map((tutor) => (
+                        ) : loadedTutorItems.length > 0 ? (
+                            loadedTutorItems.map((tutor) => (
                                 <TutorItem key={tutor.userId} tutor={tutor} />
                             ))
                         ) : (
