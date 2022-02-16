@@ -133,10 +133,7 @@ const SearchTutors = () => {
 
     const fetchFilteredData = async () => {
         const filterParams = new URLSearchParams();
-        if (
-            Object.keys(params).length !== 0 &&
-            params.constructor === Object
-        ) {
+        if (Object.keys(params).length !== 0 && params.constructor === Object) {
             for (const [key, value] of Object.entries(params)) {
                 filterParams.append(key, value);
             }
@@ -147,11 +144,9 @@ const SearchTutors = () => {
 
         const tutorResponse = await getAvailableTutors({ ...params }).unwrap();
         setLoadedTutorItems(tutorResponse.rows);
-
     };
 
     const handleScroll = async (e: HTMLDivElement) => {
-
         if (loadedTutorItems.length !== availableTutors?.count) {
             const innerHeight = e.scrollHeight;
             const scrollPosition = e.scrollTop + e.clientHeight;
@@ -164,8 +159,12 @@ const SearchTutors = () => {
                 const test = cardElement.scrollTop;
                 setScrollTopOffset(test);
 
-                const tutorResponse = await getAvailableTutors({ ...newParams }).unwrap();
-                setLoadedTutorItems(loadedTutorItems.concat(tutorResponse.rows));
+                const tutorResponse = await getAvailableTutors({
+                    ...newParams,
+                }).unwrap();
+                setLoadedTutorItems(
+                    loadedTutorItems.concat(tutorResponse.rows)
+                );
             }
         }
     };
@@ -501,9 +500,10 @@ const SearchTutors = () => {
                             }
                         />
                     </div>
+
                     <div className="tutor-list">
                         {isLoadingAvailableTutors ||
-                            isFetchingAvailableTutors ? (
+                        isFetchingAvailableTutors ? (
                             // Here goes loader
                             <div className="loader--sceleton">
                                 <LoaderTutor />
