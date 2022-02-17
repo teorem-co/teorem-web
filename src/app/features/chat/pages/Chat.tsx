@@ -1,6 +1,10 @@
-import React from 'react';
-
 import MainWrapper from '../../../components/MainWrapper';
+import {
+    chatConversation,
+    chatConversationList,
+    IChatConversation,
+    IChatConversationItem,
+} from '../../../constants/chatConstants';
 import ConversationAside from '../components/ConversationAside';
 import LoggedUserMessage from '../components/LoggedUserMessage';
 import OtherUserMessage from '../components/OtherUserMessage';
@@ -19,21 +23,19 @@ const Chat = () => {
                         />
                     </div>
                     <div className="chat__messages-wrapper">
-                        <ConversationAside />
-                        <ConversationAside />
-                        <ConversationAside />
-                        <ConversationAside />
-                        <ConversationAside />
-                        <ConversationAside />
-                        <ConversationAside />
-                        <ConversationAside />
-                        <ConversationAside />
-                        <ConversationAside />
-                        <ConversationAside />
-                        <ConversationAside />
-                        <ConversationAside />
-                        <ConversationAside />
-                        <ConversationAside />
+                        {chatConversationList.map(
+                            (
+                                chatConversationItem: IChatConversationItem,
+                                index: number
+                            ) => {
+                                return (
+                                    <ConversationAside
+                                        key={index}
+                                        data={chatConversationItem}
+                                    />
+                                );
+                            }
+                        )}
                     </div>
                 </div>
                 {/* Active chat */}
@@ -49,16 +51,24 @@ const Chat = () => {
                     </div>
                     {/* Messages */}
                     <div className="content__main">
-                        <LoggedUserMessage />
-                        <OtherUserMessage />
-                        <OtherUserMessage />
-                        <LoggedUserMessage />
-                        <LoggedUserMessage />
-                        <LoggedUserMessage />
-                        <LoggedUserMessage />
-                        <LoggedUserMessage />
-                        <LoggedUserMessage />
-                        <LoggedUserMessage />
+                        {chatConversation.map(
+                            (
+                                chatConversation: IChatConversation,
+                                index: number
+                            ) => {
+                                return chatConversation.incomingMessage ? (
+                                    <OtherUserMessage
+                                        key={index}
+                                        data={chatConversation}
+                                    />
+                                ) : (
+                                    <LoggedUserMessage
+                                        key={index}
+                                        data={chatConversation}
+                                    />
+                                );
+                            }
+                        )}
                     </div>
                     <div className="content__footer content__footer--chat">
                         <div className="flex--shrink">

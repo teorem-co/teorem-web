@@ -1,5 +1,5 @@
 import { Form, FormikProvider, useFormik } from 'formik';
-import { debounce, isEqual, throttle } from 'lodash';
+import { debounce, isEqual } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
@@ -52,11 +52,7 @@ const SearchTutors = () => {
 
     const [
         getAvailableTutors,
-        {
-            data: availableTutors,
-            isLoading: isLoadingAvailableTutors,
-            isFetching: isFetchingAvailableTutors,
-        },
+        { data: availableTutors, isLoading: isLoadingAvailableTutors },
     ] = useLazyGetAvailableTutorsQuery();
 
     const [

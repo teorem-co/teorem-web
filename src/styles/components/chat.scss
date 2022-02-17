@@ -13,7 +13,8 @@
             border-radius: $border-circle;
             width: 60px;
             height: 60px;
-            background-color: lightskyblue;
+            object-fit: cover;
+            background-color: $grey-ed;
 
             &--small {
                 width: 40px;
@@ -68,7 +69,8 @@
             &--logged {
                 background-color: $color-primary;
                 color: $white;
-                margin-right: calc($unit * 4);
+                margin-right: calc($unit * 0);
+                text-align: left;
             }
         }
     }

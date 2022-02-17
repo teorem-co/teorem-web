@@ -1,9 +1,5 @@
-import { string } from 'yup/lib/locale';
-
 import { baseService } from '../app/baseService';
 import IChangePassword from '../app/features/my-profile/interfaces/IChangePassword';
-import IPartOfDayOption from '../app/features/my-profile/interfaces/IPartOfDayOption';
-import ITutorAvailability from '../app/features/my-profile/interfaces/ITutorAvailability';
 import { HttpMethods } from '../app/lookups/httpMethods';
 import typeToFormData from '../app/utils/typeToFormData';
 import IUser from '../interfaces/IUser';

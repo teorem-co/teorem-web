@@ -1,5 +1,5 @@
 import { FieldAttributes, useField } from 'formik';
-import React, { useEffect } from 'react';
+import React from 'react';
 
 type TextFieldType = {
     min?: number;

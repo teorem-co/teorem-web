@@ -1,5 +1,5 @@
 import { cloneDeep, debounce } from 'lodash';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 
@@ -37,18 +37,11 @@ const TutorProfile = () => {
 
     const [
         getTutorProfileData,
-        {
-            data: tutorData,
-            isLoading: tutorDataLoading,
-            isSuccess: tutorDataSuccess,
-        },
+        { data: tutorData, isLoading: tutorDataLoading },
     ] = useLazyGetTutorProfileDataQuery();
-    const [getMyReviews, { data: myReviews, isFetching: myReviewsLoading }] =
-        useLazyGetMyReviewsQuery();
-    const [
-        getStatistics,
-        { data: tutorStatistics, isLoading: statisticsLoading },
-    ] = useLazyGetStatisticsQuery();
+    const [getMyReviews, { data: myReviews }] = useLazyGetMyReviewsQuery();
+    const [getStatistics, { data: tutorStatistics }] =
+        useLazyGetStatisticsQuery();
     const [getTutorAvailability, { data: tutorAvailability }] =
         useLazyGetTutorAvailabilityQuery();
 

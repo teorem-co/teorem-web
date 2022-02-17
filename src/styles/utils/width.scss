@@ -12,6 +12,11 @@
             max-width: 50px;
         }
     }
+    &--80 {
+        &--max {
+            max-width: 80%;
+        }
+    }
 
     &--100 {
         width: 100%;
