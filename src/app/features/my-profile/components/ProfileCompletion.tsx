@@ -1,7 +1,6 @@
 import { NavLink } from 'react-router-dom';
 
 import { PROFILE_PATHS } from '../../../routes';
-import IProgressProfile from '../interfaces/IProgressProfile';
 import CircularProgress from './CircularProgress';
 
 interface Props {

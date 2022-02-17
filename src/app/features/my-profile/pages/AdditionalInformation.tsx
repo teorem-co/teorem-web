@@ -18,7 +18,6 @@ import toastService from '../../../services/toastService';
 import { getUserId } from '../../../utils/getUserId';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
-import ProfileTabs from '../components/ProfileTabs';
 import IUpdateAdditionalInfo from '../interfaces/IUpdateAdditionalInfo';
 
 const AdditionalInformation = () => {
@@ -29,14 +28,8 @@ const AdditionalInformation = () => {
 
     const tutorId = getUserId();
 
-    const [
-        getProfileData,
-        {
-            data: additionalInfoData,
-            isSuccess: isSuccessGetInfo,
-            isLoading: isLoadingGetInfo,
-        },
-    ] = useLazyGetTutorProfileDataQuery();
+    const [getProfileData, { isLoading: isLoadingGetInfo }] =
+        useLazyGetTutorProfileDataQuery();
 
     const [initialValues, setInitialValues] = useState<IUpdateAdditionalInfo>({
         aboutTutor: '',
