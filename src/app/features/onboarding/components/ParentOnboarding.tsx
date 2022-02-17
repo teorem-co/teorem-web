@@ -522,7 +522,10 @@ const ParentOnboarding: React.FC<IProps> = ({
                             name="childFirstName"
                             id="childFirstName"
                             placeholder="Enter your first name"
-                            onBlur={() => generateChildUsername()}
+                            onBlur={(e: any) => {
+                                generateChildUsername();
+                                formikStepThree.handleBlur(e);
+                            }}
                         />
                     </div>
                     <div className="field">
@@ -618,6 +621,7 @@ const ParentOnboarding: React.FC<IProps> = ({
                 username: nameForGenerator,
             }).unwrap();
             formikStepThree.setFieldValue('username', response.toLowerCase());
+            formikStepThree.validateField('username');
         }
     };
 
