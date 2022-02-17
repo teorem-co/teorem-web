@@ -41,15 +41,7 @@ const TutorItem: FC<Props> = (props: Props) => {
         // }
 
         return (
-            <div>
-                <div>{showText}</div>
-                {/* <p
-                    onClick={() => setShowMore(!showMore)}
-                    className="type--color--brand mt-2 cur--pointer"
-                >
-                    show {showMore ? 'less' : 'more'}
-                </p> */}
-            </div>
+            <div className="type--break">{showText}</div>
         );
     };
 
@@ -61,15 +53,13 @@ const TutorItem: FC<Props> = (props: Props) => {
                         <img src={tutor.User.profileImage} alt="tutor-list" />
                     ) : (
                         <ImageCircle
-                            initials={`${
-                                tutor.User.firstName
+                            initials={`${tutor.User.firstName
                                     ? tutor.User.firstName.charAt(0)
                                     : ''
-                            }${
-                                tutor.User.lastName
+                                }${tutor.User.lastName
                                     ? tutor.User.lastName.charAt(0)
                                     : ''
-                            }`}
+                                }`}
                             imageBig={true}
                         />
                     )}
@@ -86,9 +76,8 @@ const TutorItem: FC<Props> = (props: Props) => {
                             : t('SEARCH_TUTORS.NOT_FILLED')}
                     </div>
                     <div
-                        className={`type--color--secondary ${
-                            tutor.TutorSubjects.length > 0 ? 'mb-6' : ''
-                        } w--632--max`}
+                        className={`type--color--secondary ${tutor.TutorSubjects.length > 0 ? 'mb-6' : ''
+                            } w--632--max`}
                     >
                         {tutor.aboutTutor
                             ? tutor.aboutTutor

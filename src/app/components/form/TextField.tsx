@@ -1,5 +1,5 @@
 import { FieldAttributes, useField } from 'formik';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 type TextFieldType = {
     min?: number;
@@ -7,11 +7,12 @@ type TextFieldType = {
     className?: string;
     wrapperClassName?: string;
     withoutErr?: boolean;
+    additionalValidation?: string;
 } & FieldAttributes<{}>;
 
 //const TextField: React.FC<TextFieldType> = ( { type, placeholder, id, disabled, min, onChange, ...props } ) =>
 const TextField: React.FC<TextFieldType> = (props: any) => {
-    const { password } = props;
+    const { password, additionalValidation } = props;
     const [field, meta] = useField(props);
     const errorText = meta.error && meta.touched ? meta.error : '';
 
@@ -21,6 +22,13 @@ const TextField: React.FC<TextFieldType> = (props: any) => {
         e.target && currentInput.type === 'password'
             ? (currentInput.type = 'text')
             : (currentInput.type = 'password');
+    };
+
+    const displayValidationMessage = () => {
+        if (additionalValidation) {
+            return errorText || additionalValidation;
+        }
+        return errorText;
     };
 
     return (
@@ -50,7 +58,7 @@ const TextField: React.FC<TextFieldType> = (props: any) => {
                 <></>
             ) : (
                 <div className="field__validation">
-                    {errorText ? errorText : ''}
+                    {displayValidationMessage()}
                 </div>
             )}
         </>

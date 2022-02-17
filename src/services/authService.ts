@@ -1,6 +1,7 @@
 import { baseService } from '../app/baseService';
 import { HttpMethods } from '../app/lookups/httpMethods';
 import typeToFormData from '../app/utils/typeToFormData';
+import IGenerateUsername from '../interfaces/IGenerateUsername';
 
 interface ILogin {
     email: string;
@@ -116,6 +117,13 @@ export const authService = baseService.injectEndpoints({
                 body: body,
             }),
         }),
+        generateChildUsername: builder.mutation<string, IGenerateUsername>({
+            query: (body) => ({
+                url: `${URL}/generate-username`,
+                method: HttpMethods.POST,
+                body: body,
+            }),
+        }),
     }),
 });
 
@@ -127,4 +135,5 @@ export const {
     useResetPasswordMutation,
     useCheckMailMutation,
     useCheckUsernameMutation,
+    useGenerateChildUsernameMutation,
 } = authService;
