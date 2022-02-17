@@ -8,6 +8,7 @@ import * as Yup from 'yup';
 import { IChild } from '../../../../interfaces/IChild';
 import {
     useCheckUsernameMutation,
+    useGenerateChildUsernameMutation,
     useRegisterParentMutation,
 } from '../../../../services/authService';
 import {
@@ -79,6 +80,8 @@ const ParentOnboarding: React.FC<IProps> = ({
         child,
         skip,
     } = parentCreds;
+
+    const [generateChildUsernamePost] = useGenerateChildUsernameMutation();
 
     const roleAbrv = useAppSelector((state) => state.role.selectedRole);
 
@@ -519,6 +522,7 @@ const ParentOnboarding: React.FC<IProps> = ({
                             name="childFirstName"
                             id="childFirstName"
                             placeholder="Enter your first name"
+                            onBlur={() => generateChildUsername()}
                         />
                     </div>
                     <div className="field">
@@ -605,6 +609,16 @@ const ParentOnboarding: React.FC<IProps> = ({
                 </Form>
             </FormikProvider>
         );
+    };
+
+    const generateChildUsername = async () => {
+        const nameForGenerator = formikStepThree.values.childFirstName;
+        if (nameForGenerator) {
+            const response = await generateChildUsernamePost({
+                username: nameForGenerator,
+            }).unwrap();
+            formikStepThree.setFieldValue('username', response.toLowerCase());
+        }
     };
 
     // end of steps

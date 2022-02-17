@@ -156,8 +156,8 @@ const SearchTutors = () => {
                 const newParams = { ...params };
                 newParams.page++;
 
-                const test = cardElement.scrollTop;
-                setScrollTopOffset(test);
+                const currentScrollTop = cardElement.scrollTop;
+                setScrollTopOffset(currentScrollTop);
 
                 const tutorResponse = await getAvailableTutors({
                     ...newParams,
@@ -502,8 +502,7 @@ const SearchTutors = () => {
                     </div>
 
                     <div className="tutor-list">
-                        {isLoadingAvailableTutors ||
-                        isFetchingAvailableTutors ? (
+                        {isLoadingAvailableTutors ? (
                             // Here goes loader
                             <div className="loader--sceleton">
                                 <LoaderTutor />

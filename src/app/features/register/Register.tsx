@@ -30,6 +30,7 @@ const Register: React.FC = () => {
     const { firstName, lastName, email, password } = state;
     const roleSelection = useAppSelector((state) => state.role.selectedRole);
     const [passTooltip, setPassTooltip] = useState<boolean>(false);
+    const [checkMailValidation, setCheckMailValidation] = useState<string>('');
 
     const [checkMail] = useCheckMailMutation();
 
@@ -69,20 +70,16 @@ const Register: React.FC = () => {
                 .required(t('FORM_VALIDATION.REQUIRED')),
             email: Yup.string()
                 .email(t('FORM_VALIDATION.INVALID_EMAIL'))
-                .required(t('FORM_VALIDATION.REQUIRED'))
-                .test(
-                    'email',
-                    'This email already exists',
-                    async (value: any) => {
-                        if (value && value.includes('@')) {
-                            const isValid = await checkMail({
-                                email: value,
-                            }).unwrap();
-                            return !isValid;
-                        }
-                        return true;
-                    }
-                ),
+                .required(t('FORM_VALIDATION.REQUIRED')),
+            // .test('email', 'This email already exists', () => {
+            //     if (value && value.includes('@')) {
+            //         const isValid = await checkMail({
+            //             email: value,
+            //         }).unwrap();
+            //         return !isValid;
+            //     }
+            //     return false;
+            // }),
             password: Yup.string()
                 .required(t('FORM_VALIDATION.REQUIRED'))
                 .min(8, t('FORM_VALIDATION.TOO_SHORT'))
@@ -100,9 +97,22 @@ const Register: React.FC = () => {
         }),
     });
 
+    const checkEmailExistence = async () => {
+        const isValid = await checkMail({
+            email: formik.values.email,
+        }).unwrap();
+        //debugger;
+        if (isValid) {
+            setCheckMailValidation('This email already exists');
+        } else {
+            setCheckMailValidation('');
+        }
+    };
+
     const handleSubmit = (values: Values) => {
         //no roleSelection is already handleded by redirecting to role selection screen
-        if (roleSelection) {
+        //checkMailValidation -> if checkEmailExistence return error, dont submit form
+        if (roleSelection && !checkMailValidation) {
             dispatch(
                 setRegister({
                     firstName: values.firstName,
@@ -266,14 +276,17 @@ const Register: React.FC = () => {
                                         {t('REGISTER.FORM.EMAIL')}
                                     </label>
                                     <TextField
-                                        // onBlur={() =>
-                                        //     checkMail({
-                                        //         email: formik.values.email,
-                                        //     })
-                                        // }
+                                        onBlur={(e: any) => {
+                                            formik.handleBlur(e);
+                                            //formik.validateForm();
+                                            checkEmailExistence();
+                                        }}
                                         name="email"
                                         id="email"
                                         placeholder="Enter your email"
+                                        additionalValidation={
+                                            checkMailValidation
+                                        }
                                         // disabled={isLoading}
                                     />
                                 </div>

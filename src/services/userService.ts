@@ -1,3 +1,5 @@
+import { string } from 'yup/lib/locale';
+
 import { baseService } from '../app/baseService';
 import IChangePassword from '../app/features/my-profile/interfaces/IChangePassword';
 import IPartOfDayOption from '../app/features/my-profile/interfaces/IPartOfDayOption';
