@@ -30,6 +30,7 @@ interface CustomSelectProps extends FieldProps {
     noOptionsMessage?: () => string;
     isSearchable?: boolean;
     withoutErr?: boolean;
+    customValue?: string;
 }
 
 const MySelect = ({
@@ -50,6 +51,7 @@ const MySelect = ({
     menuIsOpen,
     isSearchable,
     withoutErr,
+    customValue,
 }: CustomSelectProps) => {
     const [formikField, meta] = useField(form.getFieldProps(field.name));
 
@@ -157,7 +159,7 @@ const MySelect = ({
                     Option: customOption ? customOption : customOptions,
                 }}
                 name={field.name}
-                value={getValue()}
+                value={getValue() ? getValue() : customValue}
                 onChange={onChange}
                 options={options}
                 isMulti={isMulti}

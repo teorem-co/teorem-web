@@ -62,7 +62,7 @@ $rbc-calendar-width: 675px;
             .rbc-day-slot.rbc-slot-selecting {
                 cursor: default;
                 .rbc-slot-selection {
-                    display: none;
+                    // display: none;
                 }
             }
         }
@@ -225,7 +225,7 @@ $rbc-calendar-width: 675px;
         content: '';
         border: 1px solid $grey-ed;
         border-top: none;
-        width: 160px;
+        right: 0;
         height: 15%;
         background: repeating-linear-gradient(
             45deg,
@@ -236,5 +236,10 @@ $rbc-calendar-width: 675px;
         );
         bottom: 0;
         left: 0;
+    }
+    &-events {
+        &-container {
+            margin-right: 0px !important;
+        }
     }
 }

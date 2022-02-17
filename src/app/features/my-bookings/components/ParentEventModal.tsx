@@ -1,3 +1,7 @@
+import moment from 'moment';
+
+import IBooking from '../interfaces/IBooking';
+
 interface IEvent {
     id?: string;
     label: string;
@@ -9,11 +13,14 @@ interface IEvent {
 interface IProps {
     handleClose?: (close: boolean) => void;
     positionClass: string;
-    event: IEvent | null;
+    event: IBooking | null;
+    tutorName: string;
+    openEditModal: () => void;
 }
 
 const ParentEventModal: React.FC<IProps> = (props) => {
-    const { handleClose, positionClass, event } = props;
+    const { handleClose, positionClass, event, tutorName, openEditModal } =
+        props;
 
     return (
         <>
@@ -25,14 +32,20 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                         <div className="flex flex--primary">
                             <div>
                                 <div className="type--wgt--bold type--md mb-1">
-                                    {event.label}
+                                    {event.Subject.name}
                                 </div>
                                 <div className="type--color--secondary">
-                                    {event.start} - {event.end}
+                                    {moment(event.startTime).format(
+                                        'DD/MMM/YYYY, HH:mm'
+                                    )}{' '}
+                                    - {moment(event.endTime).format('HH:mm')}
                                 </div>
                             </div>
                             <div className="mb-6">
-                                <i className="icon icon--base icon--grey icon--edit mr-4"></i>
+                                <i
+                                    className="icon icon--base icon--grey icon--edit mr-4"
+                                    onClick={openEditModal}
+                                ></i>
                                 <i className="icon icon--base icon--grey icon--delete mr-4"></i>
                                 <i
                                     className="icon icon--base icon--grey icon--close"
@@ -52,21 +65,21 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                         <div className="flex flex--center mb-4">
                             <i className="icon icon--base icon--tutor icon--grey mr-4"></i>
                             <div className="type--color--secondary">
-                                Tutor name
+                                {tutorName}
                             </div>
                         </div>
 
                         <div className="flex flex--center mb-4">
                             <i className="icon icon--base icon--subject icon--grey mr-4"></i>
                             <div className="type--color--secondary">
-                                Subject - level
+                                {event.Subject.name} - {event.Level.name}
                             </div>
                         </div>
 
                         <div className="flex flex--center">
                             <i className="icon icon--base icon--child icon--grey mr-4"></i>
                             <div className="type--color--secondary">
-                                Child Name
+                                {event.User.firstName}
                             </div>
                         </div>
                     </div>

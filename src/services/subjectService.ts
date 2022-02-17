@@ -24,6 +24,16 @@ interface ICreateSubject {
     objectId?: string;
 }
 
+interface ITutorSubject {
+    price: number;
+    Subject: ISubject;
+}
+
+interface ITutorSubjectId {
+    tutorId: string;
+    levelId: string;
+}
+
 export const subjectService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         getSubjectOptionsByLevel: builder.query<OptionType[], string>({
@@ -80,6 +90,24 @@ export const subjectService = baseService.injectEndpoints({
                 };
             },
         }),
+        getTutorSubjectsByTutorLevel: builder.query<
+            OptionType[],
+            ITutorSubjectId
+        >({
+            query: (data) => ({
+                url: `${mutationURL}/${URL}/${data.tutorId}?levelId=${data.levelId}`,
+                method: HttpMethods.GET,
+            }),
+            transformResponse: (response: ITutorSubject[]) => {
+                const subjectOptions: OptionType[] = response.map(
+                    (subject) => ({
+                        value: subject.Subject.id,
+                        label: subject.Subject.name,
+                    })
+                );
+                return subjectOptions;
+            },
+        }),
     }),
 });
 
@@ -89,4 +117,5 @@ export const {
     useUpdateSubjectMutation,
     useCreateSubjectMutation,
     useDeleteSubjectMutation,
+    useLazyGetTutorSubjectsByTutorLevelQuery,
 } = subjectService;
