@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
+import storage from 'redux-persist/lib/storage';
 
 import gradientCircle from '../../assets/images/gradient-circle.svg';
 import logo from '../../assets/images/logo.svg';
@@ -18,6 +19,7 @@ const Navbar = () => {
         persistor.purge();
         dispatch(logout());
         dispatch(logoutUser());
+        dispatch({ type: 'USER_LOGOUT' });
     };
 
     const user = useAppSelector((state) => state.user.user);
@@ -31,26 +33,12 @@ const Navbar = () => {
                 <RenderMenuLinks></RenderMenuLinks>
             </div>
             <div className="navbar__bottom">
-                <NavLink
-                    to="/my-profile/info/personal"
-                    className="flex flex--grow flex--center cur--pointer navbar__bottom--border"
-                >
+                <NavLink to="/my-profile/info/personal" className="flex flex--grow flex--center cur--pointer navbar__bottom--border">
                     <div className="navbar__bottom__avatar pos--rel">
                         {user?.Role?.abrv === RoleOptions.Tutor ? (
-                            <img
-                                src={
-                                    user?.profileImage
-                                        ? user?.profileImage
-                                        : gradientCircle
-                                }
-                                alt="avatar"
-                            />
+                            <img src={user?.profileImage ? user?.profileImage : gradientCircle} alt="avatar" />
                         ) : (
-                            <ImageCircle
-                                initials={`${user?.firstName.charAt(
-                                    0
-                                )}${user?.lastName.charAt(0)}`}
-                            />
+                            <ImageCircle initials={`${user?.firstName.charAt(0)}${user?.lastName.charAt(0)}`} />
                         )}
                         {user?.Role.abrv === RoleOptions.Tutor ? (
                             <div className="navbar__bottom--settings">
@@ -64,9 +52,7 @@ const Navbar = () => {
                         <div className="type--color--primary type--wgt--bold type--break">
                             {user?.firstName} {user?.lastName}
                         </div>
-                        <div className="type--xs type--color--secondary type--wgt--regular ">
-                            {user?.Role?.name}
-                        </div>
+                        <div className="type--xs type--color--secondary type--wgt--regular ">{user?.Role?.name}</div>
                     </div>
                 </NavLink>
                 <NavLink to="/" onClick={handleLogout} className="d--ib">

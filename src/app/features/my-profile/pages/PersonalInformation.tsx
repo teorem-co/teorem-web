@@ -6,10 +6,7 @@ import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
 import { useLazyGetProfileProgressQuery } from '../../../../services/tutorService';
-import {
-    useLazyGetUserQuery,
-    useUpdateUserInformationMutation,
-} from '../../../../services/userService';
+import { useLazyGetUserQuery, useUpdateUserInformationMutation } from '../../../../services/userService';
 import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyPhoneInput from '../../../components/form/MyPhoneInput';
 import MySelect, { OptionType } from '../../../components/form/MySelectField';
@@ -19,16 +16,13 @@ import MainWrapper from '../../../components/MainWrapper';
 import RouterPrompt from '../../../components/RouterPrompt';
 import { countryInput } from '../../../constants/countryInput';
 import { countryOption } from '../../../constants/countryOption';
-import { useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import { getUserId } from '../../../utils/getUserId';
-import {
-    ICountry,
-    useLazyGetCountriesQuery,
-} from '../../onboarding/services/countryService';
+import { ICountry, useLazyGetCountriesQuery } from '../../onboarding/services/countryService';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
-import ProfileTabs from '../components/ProfileTabs';
+import { setMyProfileProgress } from '../slices/myProfileSlice';
 
 interface Values {
     firstName: string;
@@ -40,29 +34,11 @@ interface Values {
 }
 
 const PersonalInformation = () => {
-    const [
-        getCountries,
-        {
-            data: countries,
-            isLoading: countriesLoading,
-            isUninitialized: countriesUninitialized,
-            isFetching: countriesFetching,
-        },
-    ] = useLazyGetCountriesQuery();
-    const [getProfileProgress, { data: profileProgress }] =
-        useLazyGetProfileProgressQuery();
-    const [
-        updateUserInformation,
-        { isLoading: isLoadingUserUpdate, isSuccess: isSuccessUserUpdate },
-    ] = useUpdateUserInformationMutation();
-    const [
-        getUser,
-        {
-            isLoading: isLoadingUser,
-            isUninitialized: userUninitialized,
-            isFetching: userFetching,
-        },
-    ] = useLazyGetUserQuery();
+    const [getCountries, { data: countries, isLoading: countriesLoading, isUninitialized: countriesUninitialized, isFetching: countriesFetching }] =
+        useLazyGetCountriesQuery();
+    const [getProfileProgress] = useLazyGetProfileProgressQuery();
+    const [updateUserInformation, { isLoading: isLoadingUserUpdate }] = useUpdateUserInformationMutation();
+    const [getUser, { isLoading: isLoadingUser, isUninitialized: userUninitialized, isFetching: userFetching }] = useLazyGetUserQuery();
 
     const [countryOptions, setCountryOptions] = useState<OptionType[]>([]);
     const [saveBtnActive, setSaveBtnActive] = useState(false);
@@ -75,17 +51,13 @@ const PersonalInformation = () => {
         profileImage: '',
     });
 
+    const dispatch = useAppDispatch();
+    const profileProgressState = useAppSelector((state) => state.myProfileProgress);
     const user = useAppSelector((state) => state.auth.user);
     const userId = getUserId();
     const { t } = useTranslation();
     const isLoading = isLoadingUser || isLoadingUserUpdate;
-    const pageLoading =
-        countriesLoading ||
-        countriesUninitialized ||
-        isLoadingUser ||
-        userUninitialized ||
-        countriesFetching ||
-        userFetching;
+    const pageLoading = countriesLoading || countriesUninitialized || isLoadingUser || userUninitialized || countriesFetching || userFetching;
 
     const handleSubmit = async (values: Values) => {
         await updateUserInformation({
@@ -96,7 +68,11 @@ const PersonalInformation = () => {
             dateOfBirth: moment(values.dateOfBirth).toISOString(),
             profileImage: values.profileImage,
         });
+
+        //hide save button
+        setSaveBtnActive(false);
         setInitialvalues(values);
+        toastService.success(t('SEARCH_TUTORS.TUTOR_PROFILE.UPDATE_ADDITIONAL_INFO_SUCCESS'));
     };
 
     const handleBlur = () => {
@@ -109,7 +85,6 @@ const PersonalInformation = () => {
 
     const fetchData = async () => {
         getCountries();
-
         if (user) {
             const userResponse = await getUser(user.id).unwrap();
 
@@ -125,7 +100,11 @@ const PersonalInformation = () => {
                 //set formik values
                 setInitialvalues(values);
             }
-            getProfileProgress();
+            //If there is no state in redux for profileProgress fetch data and save result to redux
+            if (profileProgressState.percentage === 0) {
+                const progressResponse = await getProfileProgress().unwrap();
+                dispatch(setMyProfileProgress(progressResponse));
+            }
         }
     };
 
@@ -150,67 +129,55 @@ const PersonalInformation = () => {
         validationSchema: Yup.object().shape({
             firstName: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             lastName: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            phoneNumber: Yup.string()
-                .min(6, t('FORM_VALIDATION.TOO_SHORT'))
-                .required(t('FORM_VALIDATION.REQUIRED')),
+            phoneNumber: Yup.string().min(6, t('FORM_VALIDATION.TOO_SHORT')).required(t('FORM_VALIDATION.REQUIRED')),
             dateOfBirth: Yup.string()
                 .required(t('FORM_VALIDATION.REQUIRED'))
-                .test(
-                    'dateOfBirth',
-                    t('FORM_VALIDATION.FUTURE_DATE'),
-                    (value) => {
-                        const dateDiff = moment(value).diff(moment(), 'days');
+                .test('dateOfBirth', t('FORM_VALIDATION.FUTURE_DATE'), (value) => {
+                    const dateDiff = moment(value).diff(moment(), 'days');
 
-                        if (dateDiff < 0) {
-                            return true;
-                        } else {
-                            return false;
-                        }
+                    if (dateDiff < 0) {
+                        return true;
+                    } else {
+                        return false;
                     }
-                ),
+                }),
             countryId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             profileImage: Yup.mixed()
                 .required('Image Required')
-                .test(
-                    'profileImage',
-                    'Image has to be either jpg,png,jpeg or svg',
-                    (value) => {
-                        if (typeof value === 'string') {
+                .test('profileImage', 'Image has to be either jpg,png,jpeg or svg', (value) => {
+                    if (typeof value === 'string') {
+                        return true;
+                    } else {
+                        if (value.type === 'image/jpg' || value.type === 'image/jpeg' || value.type === 'image/png' || value.type === 'image/svg') {
                             return true;
-                        } else {
-                            if (
-                                value.type === 'image/jpg' ||
-                                value.type === 'image/jpeg' ||
-                                value.type === 'image/png' ||
-                                value.type === 'image/svg'
-                            ) {
-                                return true;
-                            }
+                        }
 
+                        return false;
+                    }
+                })
+                .test('profileImage', 'Image has to be less than 2MB in size.', (value) => {
+                    if (typeof value === 'string') {
+                        return true;
+                    } else {
+                        if (value.size > 2000000) {
                             return false;
                         }
-                    }
-                )
-                .test(
-                    'profileImage',
-                    'Image has to be less than 2MB in size.',
-                    (value) => {
-                        if (typeof value === 'string') {
-                            return true;
-                        } else {
-                            if (value.size > 2000000) {
-                                return false;
-                            }
 
-                            return true;
-                        }
+                        return true;
                     }
-                ),
+                }),
         }),
     });
 
     useEffect(() => {
         fetchData();
+
+        //if user id exist, update user info on component unmount
+        if (userId) {
+            return function updateUserOnUnmount() {
+                getUser(userId);
+            };
+        }
     }, []);
 
     useEffect(() => {
@@ -226,18 +193,18 @@ const PersonalInformation = () => {
         setCountryOptions(currentCountries);
     }, [countries]);
 
-    useEffect(() => {
-        if (isSuccessUserUpdate) {
-            if (userId) {
-                getUser(userId);
-                getProfileProgress();
-            }
-            setSaveBtnActive(false);
-            toastService.success(
-                t('SEARCH_TUTORS.TUTOR_PROFILE.UPDATE_ADDITIONAL_INFO_SUCCESS')
-            );
-        }
-    }, [isSuccessUserUpdate]);
+    // useEffect(() => {
+    //     if (isSuccessUserUpdate) {
+    //         if (userId) {
+    //             getUser(userId);
+    //             getProfileProgress();
+    //         }
+    //         setSaveBtnActive(false);
+    //         toastService.success(
+    //             t('SEARCH_TUTORS.TUTOR_PROFILE.UPDATE_ADDITIONAL_INFO_SUCCESS')
+    //         );
+    //     }
+    // }, [isSuccessUserUpdate]);
 
     useEffect(() => {
         handleBlur();
@@ -262,167 +229,114 @@ const PersonalInformation = () => {
 
                             {/* PROGRESS */}
                             <ProfileCompletion
-                                generalAvailability={
-                                    profileProgress?.generalAvailability
-                                }
-                                aditionalInformation={profileProgress?.aboutMe}
-                                myTeachings={profileProgress?.myTeachings}
-                                percentage={profileProgress?.percentage}
+                                generalAvailability={profileProgressState.generalAvailability}
+                                aditionalInformation={profileProgressState.aboutMe}
+                                myTeachings={profileProgressState.myTeachings}
+                                percentage={profileProgressState.percentage}
                             />
 
                             {/* PERSONAL INFO */}
-                            {pageLoading || (
+                            {(pageLoading && <>Loading...</>) || (
                                 <div className="card--profile__section">
                                     <div>
-                                        <div className="mb-2 type--wgt--bold">
-                                            Personal Information
-                                        </div>
-                                        <div className="type--color--tertiary w--200--max">
-                                            Edit and update your personal
-                                            information
-                                        </div>
+                                        <div className="mb-2 type--wgt--bold">{t('MY_PROFILE.PROFILE_SETTINGS.TITLE')}</div>
+                                        <div className="type--color--tertiary w--200--max">{t('MY_PROFILE.PROFILE_SETTINGS.DESCRIPTION')}</div>
                                         <button
                                             className={`btn btn--primary btn--lg mt-6 card--profile__savebtn`}
                                             type="submit"
                                             // disabled={isLoading || !saveBtnActive}
-                                            disabled={
-                                                isLoading || !saveBtnActive
-                                            }
+                                            disabled={isLoading || !saveBtnActive}
                                         >
-                                            Save
+                                            {t('MY_PROFILE.SUBMIT')}
                                         </button>
                                     </div>
                                     <div className="w--800--max">
                                         <div className="row">
                                             <div className="col col-12 col-xl-6">
                                                 <div className="field">
-                                                    <label
-                                                        htmlFor="firstName"
-                                                        className="field__label"
-                                                    >
-                                                        First Name
+                                                    <label htmlFor="firstName" className="field__label">
+                                                        {t('MY_PROFILE.PROFILE_SETTINGS.FIRST_NAME')}
                                                     </label>
                                                     <TextField
                                                         name="firstName"
                                                         id="firstName"
-                                                        placeholder="Enter your first name"
+                                                        placeholder={t('MY_PROFILE.PROFILE_SETTINGS.FIRST_NAME_PLACEHOLDER')}
                                                         disabled={isLoading}
                                                     />
                                                 </div>
                                             </div>
                                             <div className="col col-12 col-xl-6">
                                                 <div className="field">
-                                                    <label
-                                                        htmlFor="lastName"
-                                                        className="field__label"
-                                                    >
-                                                        Last Name
+                                                    <label htmlFor="lastName" className="field__label">
+                                                        {t('MY_PROFILE.PROFILE_SETTINGS.LAST_NAME')}
                                                     </label>
                                                     <TextField
                                                         name="lastName"
                                                         id="lastName"
-                                                        placeholder="Enter your first name"
+                                                        placeholder={t('MY_PROFILE.PROFILE_SETTINGS.LAST_NAME_PLACEHOLDER')}
                                                         disabled={isLoading}
                                                     />
                                                 </div>
                                             </div>
                                             <div className="col col-12 col-xl-6">
                                                 <div className="field">
-                                                    <label
-                                                        htmlFor="phoneNumber"
-                                                        className="field__label"
-                                                    >
-                                                        {t(
-                                                            'REGISTER.FORM.PHONE_NUMBER'
-                                                        )}
+                                                    <label htmlFor="phoneNumber" className="field__label">
+                                                        {t('REGISTER.FORM.PHONE_NUMBER')}
                                                     </label>
                                                     <MyPhoneInput
                                                         form={formik}
                                                         name="phoneNumber"
-                                                        field={formik.getFieldProps(
-                                                            'phoneNumber'
-                                                        )}
-                                                        meta={formik.getFieldMeta(
-                                                            'phoneNumber'
-                                                        )}
+                                                        field={formik.getFieldProps('phoneNumber')}
+                                                        meta={formik.getFieldMeta('phoneNumber')}
                                                         disabled={isLoading}
                                                     />
                                                 </div>
                                             </div>
                                             <div className="col col-12 col-xl-6">
                                                 <div className="field">
-                                                    <label
-                                                        htmlFor="countryId"
-                                                        className="field__label"
-                                                    >
-                                                        Country*
+                                                    <label htmlFor="countryId" className="field__label">
+                                                        {t('MY_PROFILE.PROFILE_SETTINGS.COUNTRY')}
                                                     </label>
 
                                                     <MySelect
                                                         form={formik}
-                                                        field={formik.getFieldProps(
-                                                            'countryId'
-                                                        )}
-                                                        meta={formik.getFieldMeta(
-                                                            'countryId'
-                                                        )}
+                                                        field={formik.getFieldProps('countryId')}
+                                                        meta={formik.getFieldMeta('countryId')}
                                                         isMulti={false}
                                                         classNamePrefix="onboarding-select"
                                                         options={countryOptions}
                                                         placeholder="Choose your country"
-                                                        customInputField={
-                                                            countryInput
-                                                        }
-                                                        customOption={
-                                                            countryOption
-                                                        }
+                                                        customInputField={countryInput}
+                                                        customOption={countryOption}
                                                         isDisabled={isLoading}
                                                     />
                                                 </div>
                                             </div>
                                             <div className="col col-12 col-xl-6">
                                                 <div className="field">
-                                                    <label
-                                                        className="field__label"
-                                                        htmlFor="dateOfBirth"
-                                                    >
-                                                        Date of Birth*
+                                                    <label className="field__label" htmlFor="dateOfBirth">
+                                                        {t('MY_PROFILE.PROFILE_SETTINGS.BIRTHDAY')}
                                                     </label>
                                                     <MyDatePicker
                                                         form={formik}
-                                                        field={formik.getFieldProps(
-                                                            'dateOfBirth'
-                                                        )}
-                                                        meta={formik.getFieldMeta(
-                                                            'dateOfBirth'
-                                                        )}
+                                                        field={formik.getFieldProps('dateOfBirth')}
+                                                        meta={formik.getFieldMeta('dateOfBirth')}
                                                         isDisabled={isLoading}
                                                     />
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="field field__file">
-                                            <label
-                                                className="field__label"
-                                                htmlFor="profileImage"
-                                            >
-                                                Profile Image*
+                                            <label className="field__label" htmlFor="profileImage">
+                                                {t('MY_PROFILE.PROFILE_SETTINGS.IMAGE')}
                                             </label>
                                             <UploadFile
-                                                setFieldValue={
-                                                    formik.setFieldValue
-                                                }
+                                                setFieldValue={formik.setFieldValue}
                                                 id="profileImage"
                                                 name="profileImage"
-                                                value={
-                                                    user?.profileImage
-                                                        ? user.profileImage
-                                                        : ''
-                                                }
+                                                value={user?.profileImage ? user.profileImage : ''}
                                                 disabled={isLoading}
-                                                imagePreview={
-                                                    formik.values.profileImage
-                                                }
+                                                imagePreview={formik.values.profileImage}
                                             />
                                         </div>
                                     </div>

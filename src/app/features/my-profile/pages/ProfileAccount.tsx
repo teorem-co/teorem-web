@@ -1,4 +1,3 @@
-import { QueryStatus } from '@reduxjs/toolkit/dist/query';
 import { Form, FormikProvider, useFormik } from 'formik';
 import { isEqual } from 'lodash';
 import { useEffect, useState } from 'react';
@@ -9,13 +8,14 @@ import { useLazyGetProfileProgressQuery } from '../../../../services/tutorServic
 import { useChangePasswordMutation } from '../../../../services/userService';
 import TextField from '../../../components/form/TextField';
 import MainWrapper from '../../../components/MainWrapper';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import TooltipPassword from '../../register/TooltipPassword';
 import AddCreditCard from '../components/AddCreditCard';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
-import ProfileTabs from '../components/ProfileTabs';
 import IChangePassword from '../interfaces/IChangePassword';
+import { setMyProfileProgress } from '../slices/myProfileSlice';
 
 interface Values {
     currentPassword: string;
@@ -24,70 +24,28 @@ interface Values {
 }
 
 const ProfileAccount = () => {
-    const { t } = useTranslation();
+    const [getProfileProgress] = useLazyGetProfileProgressQuery();
+    const [changePassword] = useChangePasswordMutation();
 
     const [addSidebarOpen, setAddSidebarOpen] = useState(false);
-    const [editSidebarOpen, setEditSidebarOpen] = useState(false);
+    //const [editSidebarOpen, setEditSidebarOpen] = useState(false);
     const [saveBtnActive, setSaveBtnActive] = useState(false);
     const [passTooltip, setPassTooltip] = useState<boolean>(false);
-    const [getProfileProgress, { data: profileProgress }] =
-        useLazyGetProfileProgressQuery();
 
-    const [changePassword, { status: changePasswordStatus }] =
-        useChangePasswordMutation();
-
+    const { t } = useTranslation();
+    const profileProgressState = useAppSelector((state) => state.myProfileProgress);
+    const dispatch = useAppDispatch();
     const initialValues: Values = {
         currentPassword: '',
         newPassword: '',
         confirmPassword: '',
     };
-
-    const handleSubmit = (values: Values) => {
-        const toSend: IChangePassword = {
-            oldPassword: values.currentPassword,
-            password: values.newPassword,
-            confirmPassword: values.confirmPassword,
-        };
-        changePassword(toSend);
-    };
-
-    useEffect(() => {
-        if (changePasswordStatus === QueryStatus.fulfilled) {
-            toastService.success('You successfully changed a password');
-            setSaveBtnActive(false);
-        }
-    }, [changePasswordStatus]);
-
-    const formik = useFormik({
-        initialValues: initialValues,
-        onSubmit: handleSubmit,
-        validateOnBlur: true,
-        validateOnChange: false,
-        enableReinitialize: true,
-        validationSchema: Yup.object().shape({
-            currentPassword: Yup.string().required(
-                t('FORM_VALIDATION.REQUIRED')
-            ),
-            newPassword: Yup.string()
-                .min(8, t('FORM_VALIDATION.TOO_SHORT'))
-                .max(128, t('FORM_VALIDATION.TOO_LONG'))
-                .matches(
-                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_/+\-=[\]{};':"\\|,.<>?])[A-Za-z\d!@#$%^&*()_/+\-=[\]{};':"\\|,.<>?]{8,128}$/gm,
-                    t('FORM_VALIDATION.PASSWORD_STRENGTH')
-                )
-                .required(t('FORM_VALIDATION.REQUIRED')),
-            confirmPassword: Yup.string()
-                .oneOf(
-                    [Yup.ref('newPassword'), null],
-                    t('FORM_VALIDATION.PASSWORD_MATCH')
-                )
-                .required(t('FORM_VALIDATION.REQUIRED')),
-        }),
-    });
-
-    useEffect(() => {
-        handleChangeForSave();
-    }, [formik.values]);
+    const myInput = document.getElementById('newPassword') as HTMLInputElement;
+    const letter = document.getElementById('letter');
+    const capital = document.getElementById('capital');
+    const number = document.getElementById('number');
+    const length = document.getElementById('length');
+    const special = document.getElementById('special');
 
     const handleChangeForSave = () => {
         if (!isEqual(initialValues, formik.values)) {
@@ -104,13 +62,6 @@ const ProfileAccount = () => {
     const handlePasswordBlur = () => {
         setPassTooltip(false);
     };
-
-    const myInput = document.getElementById('newPassword') as HTMLInputElement;
-    const letter = document.getElementById('letter');
-    const capital = document.getElementById('capital');
-    const number = document.getElementById('number');
-    const length = document.getElementById('length');
-    const special = document.getElementById('special');
 
     const handleKeyUp = () => {
         const lowerCaseLetters = /[a-z]/g;
@@ -166,13 +117,58 @@ const ProfileAccount = () => {
         setAddSidebarOpen(false);
     };
 
-    const closeEditCardSidebar = () => {
-        setEditSidebarOpen(false);
+    // const closeEditCardSidebar = () => {
+    //     setEditSidebarOpen(false);
+    // };
+
+    const handleSubmit = async (values: Values) => {
+        const toSend: IChangePassword = {
+            oldPassword: values.currentPassword,
+            password: values.newPassword,
+            confirmPassword: values.confirmPassword,
+        };
+        await changePassword(toSend);
+        toastService.success('You successfully changed a password');
+        setSaveBtnActive(false);
+    };
+
+    const formik = useFormik({
+        initialValues: initialValues,
+        onSubmit: handleSubmit,
+        validateOnBlur: true,
+        validateOnChange: false,
+        enableReinitialize: true,
+        validationSchema: Yup.object().shape({
+            currentPassword: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            newPassword: Yup.string()
+                .min(8, t('FORM_VALIDATION.TOO_SHORT'))
+                .max(128, t('FORM_VALIDATION.TOO_LONG'))
+                .matches(
+                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_/+\-=[\]{};':"\\|,.<>?])[A-Za-z\d!@#$%^&*()_/+\-=[\]{};':"\\|,.<>?]{8,128}$/gm,
+                    t('FORM_VALIDATION.PASSWORD_STRENGTH')
+                )
+                .required(t('FORM_VALIDATION.REQUIRED')),
+            confirmPassword: Yup.string()
+                .oneOf([Yup.ref('newPassword'), null], t('FORM_VALIDATION.PASSWORD_MATCH'))
+                .required(t('FORM_VALIDATION.REQUIRED')),
+        }),
+    });
+
+    const fetchProgress = async () => {
+        //If there is no state in redux for profileProgress fetch data and save result to redux
+        if (profileProgressState.percentage === 0) {
+            const progressResponse = await getProfileProgress().unwrap();
+            dispatch(setMyProfileProgress(progressResponse));
+        }
     };
 
     useEffect(() => {
-        getProfileProgress();
+        fetchProgress();
     }, []);
+
+    useEffect(() => {
+        handleChangeForSave();
+    }, [formik.values]);
 
     return (
         <MainWrapper>
@@ -182,10 +178,10 @@ const ProfileAccount = () => {
 
                 {/* PROGRESS */}
                 <ProfileCompletion
-                    generalAvailability={profileProgress?.generalAvailability}
-                    aditionalInformation={profileProgress?.aboutMe}
-                    myTeachings={profileProgress?.myTeachings}
-                    percentage={profileProgress?.percentage}
+                    generalAvailability={profileProgressState.generalAvailability}
+                    aditionalInformation={profileProgressState.aboutMe}
+                    myTeachings={profileProgressState.myTeachings}
+                    percentage={profileProgressState.percentage}
                 />
 
                 {/* PERSONAL INFO */}
@@ -193,19 +189,11 @@ const ProfileAccount = () => {
                     <Form>
                         <div className="card--profile__section">
                             <div>
-                                <div className="mb-2 type--wgt--bold">
-                                    Change password
-                                </div>
-                                <div className="type--color--tertiary w--200--max">
-                                    Confirm your current password, then enter a
-                                    new one.
-                                </div>
+                                <div className="mb-2 type--wgt--bold">{t('ACCOUNT.CHANGE_PASSWORD.TITLE')}</div>
+                                <div className="type--color--tertiary w--200--max">{t('ACCOUNT.CHANGE_PASSWORD.DESCRIPTION')}</div>
                                 {saveBtnActive ? (
-                                    <button
-                                        className="btn btn--primary btn--lg mt-6"
-                                        type="submit"
-                                    >
-                                        Save
+                                    <button className="btn btn--primary btn--lg mt-6" type="submit">
+                                        {t('ACCOUNT.SUBMIT')}
                                     </button>
                                 ) : (
                                     <></>
@@ -215,11 +203,8 @@ const ProfileAccount = () => {
                                 <div className="row">
                                     <div className="col col-12 col-xl-6">
                                         <div className="field">
-                                            <label
-                                                htmlFor="currentPassword"
-                                                className="field__label"
-                                            >
-                                                Current Password
+                                            <label htmlFor="currentPassword" className="field__label">
+                                                {t('ACCOUNT.CHANGE_PASSWORD.CURRENT_PASSWORD')}
                                             </label>
                                             <TextField
                                                 name="currentPassword"
@@ -231,11 +216,8 @@ const ProfileAccount = () => {
                                     </div>
                                     <div className="col col-12 col-xl-6">
                                         <div className="field">
-                                            <label
-                                                htmlFor="newPassword"
-                                                className="field__label"
-                                            >
-                                                New Password
+                                            <label htmlFor="newPassword" className="field__label">
+                                                {t('ACCOUNT.CHANGE_PASSWORD.NEW_PASSWORD')}
                                             </label>
                                             <TextField
                                                 name="newPassword"
@@ -249,26 +231,15 @@ const ProfileAccount = () => {
                                                 }}
                                                 onKeyUp={handleKeyUp}
                                             />
-                                            <TooltipPassword
-                                                positionTop={true}
-                                                passTooltip={passTooltip}
-                                            />
+                                            <TooltipPassword positionTop={true} passTooltip={passTooltip} />
                                         </div>
                                     </div>
                                     <div className="col col-12 col-xl-6">
                                         <div className="field">
-                                            <label
-                                                htmlFor="confirmPassword"
-                                                className="field__label"
-                                            >
-                                                Confirm Password
+                                            <label htmlFor="confirmPassword" className="field__label">
+                                                {t('ACCOUNT.CHANGE_PASSWORD.CONFIRM_PASSWORD')}
                                             </label>
-                                            <TextField
-                                                name="confirmPassword"
-                                                id="confirmPassword"
-                                                placeholder="Enter New Password"
-                                                password={true}
-                                            />
+                                            <TextField name="confirmPassword" id="confirmPassword" placeholder="Enter New Password" password={true} />
                                         </div>
                                     </div>
                                 </div>
@@ -277,28 +248,16 @@ const ProfileAccount = () => {
 
                         <div className="card--profile__section">
                             <div>
-                                <div className="mb-2 type--wgt--bold">
-                                    Card details
-                                </div>
-                                <div className="type--color--tertiary w--200--max">
-                                    Select default payment method or add new
-                                    one.
-                                </div>
+                                <div className="mb-2 type--wgt--bold">{t('ACCOUNT.CARD_DETAILS.TITLE')}</div>
+                                <div className="type--color--tertiary w--200--max">{t('ACCOUNT.CARD_DETAILS.DESCRIPTION')}</div>
                             </div>
                             <div className="dash-wrapper">
                                 <div className="dash-wrapper__item">
-                                    <div
-                                        className="dash-wrapper__item__element"
-                                        onClick={() => setAddSidebarOpen(true)}
-                                    >
+                                    <div className="dash-wrapper__item__element" onClick={() => setAddSidebarOpen(true)}>
                                         <div className="flex--primary cur--pointer">
                                             <div>
-                                                <div className="type--wgt--bold">
-                                                    Add new Card
-                                                </div>
-                                                <div>
-                                                    Select to add new Card
-                                                </div>
+                                                <div className="type--wgt--bold">{t('ACCOUNT.CARD_DETAILS.ADD_NEW')}</div>
+                                                <div>{t('ACCOUNT.CARD_DETAILS.ADD_NEW_DESC')}</div>
                                             </div>
                                             <div>
                                                 <i className="icon icon--base icon--plus icon--primary"></i>
@@ -312,10 +271,7 @@ const ProfileAccount = () => {
                     </Form>
                 </FormikProvider>
             </div>
-            <AddCreditCard
-                closeSidebar={closeAddCardSidebar}
-                sideBarIsOpen={addSidebarOpen}
-            />
+            <AddCreditCard closeSidebar={closeAddCardSidebar} sideBarIsOpen={addSidebarOpen} />
         </MainWrapper>
     );
 };

@@ -1,18 +1,10 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/dist/query';
 import { combineReducers } from 'redux';
-import {
-    FLUSH,
-    PAUSE,
-    PERSIST,
-    persistReducer,
-    persistStore,
-    PURGE,
-    REGISTER,
-    REHYDRATE,
-} from 'redux-persist';
+import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
+import myProfileProgressReducer from '../app/features/my-profile/slices/myProfileSlice';
 import authReducer from '../slices/authSlice';
 import childrenReducer from '../slices/childrenSlice';
 import parentRegisterReducer from '../slices/parentRegisterSlice';
@@ -29,18 +21,10 @@ const persistConfig = {
     key: 'root',
     version: 1,
     storage,
-    whitelist: [
-        'auth',
-        'user',
-        'role',
-        'user',
-        'myReviews',
-        'tutorRegister',
-        'parentRegisterSlice',
-    ],
+    whitelist: ['auth', 'user', 'role', 'user', 'myReviews', 'tutorRegister', 'parentRegisterSlice', 'myProfileProgress'],
 };
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
     [baseService.reducerPath]: baseService.reducer,
     auth: authReducer,
     role: roleReducer,
@@ -51,7 +35,17 @@ const rootReducer = combineReducers({
     studentRegister: studentRegisterReducer,
     parentRegister: parentRegisterReducer,
     children: childrenReducer,
+    myProfileProgress: myProfileProgressReducer,
 });
+
+const rootReducer = (state: any, action: any) => {
+    if (action.type === 'USER_LOGOUT') {
+        storage.removeItem('persist:root');
+
+        return appReducer(undefined, action);
+    }
+    return appReducer(state, action);
+};
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
@@ -60,14 +54,7 @@ export const store = configureStore({
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
             serializableCheck: {
-                ignoredActions: [
-                    FLUSH,
-                    REHYDRATE,
-                    PAUSE,
-                    PERSIST,
-                    PURGE,
-                    REGISTER,
-                ],
+                ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
             },
         }).concat(baseService.middleware, rtkQueryErrorLogger),
 });
@@ -78,9 +65,4 @@ export const persistor = persistStore(store);
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
-export type AppThunk<ReturnType = void> = ThunkAction<
-    ReturnType,
-    RootState,
-    unknown,
-    Action<string>
->;
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action<string>>;

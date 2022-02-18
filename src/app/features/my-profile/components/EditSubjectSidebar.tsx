@@ -1,28 +1,19 @@
 import { Form, FormikProvider, useFormik } from 'formik';
-import { initial, isEqual } from 'lodash';
-import React, { useEffect, useState } from 'react';
+import { isEqual } from 'lodash';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
-import { useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 
-import IParams from '../../../../interfaces/IParams';
-import {
-    useGetLevelOptionsQuery,
-    useLazyGetLevelOptionsQuery,
-} from '../../../../services/levelService';
-import {
-    useDeleteSubjectMutation,
-    useLazyGetSubjectOptionsByLevelQuery,
-    useLazyGetSubjectsByLevelAndSubjectQuery,
-    useUpdateSubjectMutation,
-} from '../../../../services/subjectService';
-import { useLazyGetTutorProfileDataQuery } from '../../../../services/tutorService';
+import { useGetLevelOptionsQuery } from '../../../../services/levelService';
+import { useDeleteSubjectMutation, useLazyGetSubjectsByLevelAndSubjectQuery, useUpdateSubjectMutation } from '../../../../services/subjectService';
+import { useLazyGetProfileProgressQuery, useLazyGetTutorProfileDataQuery } from '../../../../services/tutorService';
 import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import TextField from '../../../components/form/TextField';
-import { useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import getUrlParams from '../../../utils/getUrlParams';
+import { setMyProfileProgress } from '../slices/myProfileSlice';
 
 interface Values {
     level: string;
@@ -39,29 +30,12 @@ interface Props {
 const EditSubjectSidebar = (props: Props) => {
     const { closeSidebar, sideBarIsOpen, handleGetData } = props;
 
-    //get level and subject name from user subject with mapping
-    const history = useHistory();
-    const tutorId = useAppSelector((state) => state.auth.user?.id);
-
-    const { data: levelOptions, isLoading: isLoadingLevels } =
-        useGetLevelOptionsQuery();
-
-    const [
-        deleteSubject,
-        {
-            isLoading: isLoadingDeleteSubject,
-            isSuccess: isSuccessDeleteSubject,
-        },
-    ] = useDeleteSubjectMutation();
-
-    const [
-        getProfileData,
-        {
-            data: myTeachingsData,
-            isSuccess: isSuccessMyTeachings,
-            isLoading: isLoadingMyTeachings,
-        },
-    ] = useLazyGetTutorProfileDataQuery({
+    const { data: levelOptions, isLoading: isLoadingLevels } = useGetLevelOptionsQuery();
+    const [updateSubject, { isSuccess: isSuccessUpdateSubject }] = useUpdateSubjectMutation();
+    const [deleteSubject, { isSuccess: isSuccessDeleteSubject }] = useDeleteSubjectMutation();
+    const [getProfileProgress] = useLazyGetProfileProgressQuery();
+    const [getSubjectOptionsByLevel, { data: subjectsData, isSuccess: isSuccessSubjects }] = useLazyGetSubjectsByLevelAndSubjectQuery();
+    const [getProfileData, { data: myTeachingsData }] = useLazyGetTutorProfileDataQuery({
         selectFromResult: ({ data, isSuccess, isLoading }) => ({
             data: {
                 occupation: data?.currentOccupation,
@@ -73,103 +47,34 @@ const EditSubjectSidebar = (props: Props) => {
         }),
     });
 
-    const [updateSubject, { isSuccess: isSuccessUpdateSubject }] =
-        useUpdateSubjectMutation();
-
-    useEffect(() => {
-        getProfileData(tutorId ? tutorId : '');
-    }, []);
-
-    const urlQueries = getUrlParams(history.location.search.replace('?', ''));
-
-    const selectedSubject =
-        myTeachingsData.tutorSubjects &&
-        myTeachingsData.tutorSubjects.find(
-            (x) => x.subjectId === urlQueries.subjectId
-        );
-
-    const [
-        getSubjectOptionsByLevel,
-        {
-            data: subjectsData,
-            isLoading: isLoadingSubjects,
-            isSuccess: isSuccessSubjects,
-        },
-    ] = useLazyGetSubjectsByLevelAndSubjectQuery();
-
-    const levelDisabled = !levelOptions || isLoadingLevels;
-
     const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
-
-    const handleDeleteSubject = (objectId: string) => {
-        deleteSubject(objectId);
-    };
-
-    useEffect(() => {
-        if (subjectsData && isSuccessSubjects && formik.values.level !== '') {
-            setSubjectOptions(subjectsData);
-        }
-    }, [subjectsData]);
-
-    useEffect(() => {
-        if (sideBarIsOpen) {
-            if (
-                selectedSubject?.levelId &&
-                selectedSubject.subjectId &&
-                selectedSubject.price
-            ) {
-                formik.setFieldValue('level', selectedSubject.levelId);
-                formik.setFieldValue('subject', selectedSubject.subjectId);
-                formik.setFieldValue('price', selectedSubject.price);
-            }
-        }
-    }, [sideBarIsOpen]);
-
-    // useEffect(() => {
-    //     const filterParams = new URLSearchParams();
-    //     if (Object.keys(params).length !== 0 && params.constructor === Object) {
-    //         for (const [key, value] of Object.entries(params)) {
-    //             filterParams.append(key, value);
-    //         }
-    //         history.push({ search: filterParams.toString() });
-    //     } else {
-    //         history.push({ search: filterParams.toString() });
-    //     }
-    // }, [params]);
-
-    // const initialValues: Values = {
-    //     level: '',
-    //     subject: '',
-    //     price: '',
-    // };
-
     const [initialValues, setInitialValues] = useState<Values>({
         level: '',
         subject: '',
         price: '',
     });
 
-    useEffect(() => {
-        if (sideBarIsOpen) {
-            if (
-                selectedSubject?.levelId &&
-                selectedSubject.subjectId &&
-                selectedSubject.price
-            ) {
-                const values: Values = {
-                    level: selectedSubject.levelId,
-                    subject: selectedSubject.subjectId,
-                    price: selectedSubject.price.toString(),
-                };
-                setInitialValues(values);
-                // initialValues.level = selectedSubject.levelId;
-                // initialValues.subject = selectedSubject.subjectId;
-                // initialValues.price = selectedSubject.price.toString();
-            }
-        }
-    }, [sideBarIsOpen]);
-
+    //get level and subject name from user subject with mapping
+    const history = useHistory();
+    const dispatch = useAppDispatch();
+    const tutorId = useAppSelector((state) => state.auth.user?.id);
+    const urlQueries = getUrlParams(history.location.search.replace('?', ''));
+    const selectedSubject = myTeachingsData.tutorSubjects && myTeachingsData.tutorSubjects.find((x) => x.subjectId === urlQueries.subjectId);
+    const levelDisabled = !levelOptions || isLoadingLevels;
     const { t } = useTranslation();
+
+    const handleDeleteSubject = async (objectId: string) => {
+        await deleteSubject(objectId);
+        handleGetData();
+        closeSidebar();
+        toastService.success('Subject deleted');
+
+        //handle profile progress
+        if (myTeachingsData.tutorSubjects?.length === 1) {
+            const progressResponse = await getProfileProgress().unwrap();
+            dispatch(setMyProfileProgress(progressResponse));
+        }
+    };
 
     const handleSubmit = (values: Values) => {
         updateSubject({
@@ -210,73 +115,77 @@ const EditSubjectSidebar = (props: Props) => {
     }, [isSuccessUpdateSubject]);
 
     useEffect(() => {
-        if (isSuccessDeleteSubject) {
-            toastService.success('Subject deleted');
-            closeSidebar();
-            handleGetData();
+        if (subjectsData && isSuccessSubjects && formik.values.level !== '') {
+            setSubjectOptions(subjectsData);
         }
-    }, [isSuccessDeleteSubject]);
+    }, [subjectsData]);
+
+    useEffect(() => {
+        getProfileData(tutorId ? tutorId : '');
+    }, []);
+
+    useEffect(() => {
+        if (sideBarIsOpen) {
+            if (selectedSubject?.levelId && selectedSubject.subjectId && selectedSubject.price) {
+                formik.setFieldValue('level', selectedSubject.levelId);
+                formik.setFieldValue('subject', selectedSubject.subjectId);
+                formik.setFieldValue('price', selectedSubject.price);
+            }
+        }
+    }, [sideBarIsOpen]);
+
+    useEffect(() => {
+        if (sideBarIsOpen) {
+            if (selectedSubject?.levelId && selectedSubject.subjectId && selectedSubject.price) {
+                const values: Values = {
+                    level: selectedSubject.levelId,
+                    subject: selectedSubject.subjectId,
+                    price: selectedSubject.price.toString(),
+                };
+                setInitialValues(values);
+                // initialValues.level = selectedSubject.levelId;
+                // initialValues.subject = selectedSubject.subjectId;
+                // initialValues.price = selectedSubject.price.toString();
+            }
+        }
+    }, [sideBarIsOpen]);
 
     return (
         <div>
-            <div
-                className={`cur--pointer sidebar__overlay ${
-                    !sideBarIsOpen ? 'sidebar__overlay--close' : ''
-                }`}
-                onClick={closeSidebar}
-            ></div>
+            <div className={`cur--pointer sidebar__overlay ${!sideBarIsOpen ? 'sidebar__overlay--close' : ''}`} onClick={closeSidebar}></div>
 
-            <div
-                className={`sidebar sidebar--secondary sidebar--secondary ${
-                    !sideBarIsOpen ? 'sidebar--secondary--close' : ''
-                }`}
-            >
+            <div className={`sidebar sidebar--secondary sidebar--secondary ${!sideBarIsOpen ? 'sidebar--secondary--close' : ''}`}>
                 <div className="flex--primary flex--shrink">
-                    <div className="type--color--secondary">
-                        EDIT SUBJECT DETAILS
-                    </div>
+                    <div className="type--color--secondary">EDIT SUBJECT DETAILS</div>
                     <div>
-                        <i
-                            className="icon icon--base icon--close icon--grey"
-                            onClick={closeSidebar}
-                        ></i>
+                        <i className="icon icon--base icon--close icon--grey" onClick={closeSidebar}></i>
                     </div>
                 </div>
                 <div className="flex--grow mt-10">
                     <FormikProvider value={formik}>
                         <Form noValidate>
                             <div>
-                                <label htmlFor="level">
-                                    Select subject you teach*
-                                </label>
+                                <label htmlFor="level">Select subject you teach*</label>
                                 <MySelect
                                     field={formik.getFieldProps('level')}
                                     form={formik}
                                     meta={formik.getFieldMeta('level')}
                                     isMulti={false}
                                     options={levelOptions}
-                                    placeholder={t(
-                                        'SEARCH_TUTORS.PLACEHOLDER.LEVEL'
-                                    )}
+                                    placeholder={t('SEARCH_TUTORS.PLACEHOLDER.LEVEL')}
                                     classNamePrefix="onboarding-select"
                                 />
                             </div>
                             <div>
-                                <label htmlFor="subject">
-                                    Select levels that you are able to teach*
-                                </label>
+                                <label htmlFor="subject">Select levels that you are able to teach*</label>
                                 <MySelect
                                     field={formik.getFieldProps('subject')}
                                     form={formik}
                                     meta={formik.getFieldMeta('subject')}
                                     isMulti={false}
                                     options={subjectsData}
-                                    noOptionsMessage={() =>
-                                        t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')
-                                    }
-                                    placeholder={t(
-                                        'SEARCH_TUTORS.PLACEHOLDER.SUBJECT'
-                                    )}
+                                    noOptionsMessage={() => t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')}
+                                    placeholder={t('SEARCH_TUTORS.PLACEHOLDER.SUBJECT')}
                                     classNamePrefix="onboarding-select"
                                 />
                             </div>
@@ -288,12 +197,7 @@ const EditSubjectSidebar = (props: Props) => {
                                     name="price"
                                     id="price"
                                     placeholder="$0/hr"
-                                    withoutErr={
-                                        formik.errors.price &&
-                                        formik.touched.price
-                                            ? false
-                                            : true
-                                    }
+                                    withoutErr={formik.errors.price && formik.touched.price ? false : true}
                                     type="number"
                                 />
                             </div>
@@ -302,19 +206,12 @@ const EditSubjectSidebar = (props: Props) => {
                 </div>
                 <div className="flex--shirnk sidebar--secondary__bottom mt-10">
                     <div className="flex--primary mt-6">
-                        <button
-                            className="btn btn--primary btn--base type--wgt--bold"
-                            onClick={() => formik.handleSubmit()}
-                        >
+                        <button className="btn btn--primary btn--base type--wgt--bold" onClick={() => formik.handleSubmit()}>
                             Save information
                         </button>
                         <button
                             className="btn btn--clear type--color--error type--wgt--bold"
-                            onClick={() =>
-                                handleDeleteSubject(
-                                    selectedSubject ? selectedSubject.id : ''
-                                )
-                            }
+                            onClick={() => handleDeleteSubject(selectedSubject ? selectedSubject.id : '')}
                         >
                             Delete
                         </button>
