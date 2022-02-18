@@ -1,4 +1,3 @@
-import { QueryStatus } from '@reduxjs/toolkit/dist/query';
 import { Form, FormikProvider, useFormik } from 'formik';
 import { isEqual } from 'lodash';
 import { useEffect, useState } from 'react';
@@ -161,13 +160,13 @@ const AdditionalInformation = () => {
                                         <div className="col col-12 col-xl-6">
                                             <div className="field">
                                                 <label className="field__label" htmlFor="currentOccupation">
-                                                    Your current Occupation*
+                                                    {t('MY_PROFILE.ABOUT_ME.OCCUPATION')}
                                                 </label>
                                                 <TextField
                                                     id="currentOccupation"
                                                     wrapperClassName="flex--grow"
                                                     name="currentOccupation"
-                                                    placeholder="What’s your current Occupation"
+                                                    placeholder={t('MY_PROFILE.ABOUT_ME.OCCUPATION_PLACEHOLDER')}
                                                     className="input input--base"
                                                     disabled={isLoading}
                                                 />
@@ -176,13 +175,13 @@ const AdditionalInformation = () => {
                                         <div className="col col-12 col-xl-6">
                                             <div className="field">
                                                 <label className="field__label" htmlFor="yearsOfExperience">
-                                                    Years of professional experience (optional)
+                                                    {t('MY_PROFILE.ABOUT_ME.YEARS')}
                                                 </label>
                                                 <TextField
                                                     id="yearsOfExperience"
                                                     wrapperClassName="flex--grow"
                                                     name="yearsOfExperience"
-                                                    placeholder="How many years of professional experience you have"
+                                                    placeholder={t('MY_PROFILE.ABOUT_ME.YEARS_PLACEHOLDER')}
                                                     className="input input--base"
                                                     type={'number'}
                                                     disabled={isLoading}

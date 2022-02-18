@@ -1,3 +1,4 @@
+import { t } from 'i18next';
 import { cloneDeep, isEqual } from 'lodash';
 import { useEffect, useState } from 'react';
 
@@ -178,11 +179,11 @@ const GeneralAvailability = () => {
                 {(loading && <>Loading...</>) || (
                     <div className="card--profile__section">
                         <div>
-                            <div className="mb-2 type--wgt--bold">General Availability</div>
-                            <div className="type--color--tertiary w--200--max">Edit and update your availability information</div>
+                            <div className="mb-2 type--wgt--bold">{t('MY_PROFILE.GENERAL_AVAILABILITY.TITLE')}</div>
+                            <div className="type--color--tertiary w--200--max">{t('MY_PROFILE.GENERAL_AVAILABILITY.DESCRIPTION')}</div>
                             {saveBtnActive ? (
                                 <button onClick={() => handleSubmit()} className="btn btn--base btn--primary mt-4">
-                                    Save
+                                    {t('MY_PROFILE.SUBMIT')}
                                 </button>
                             ) : (
                                 <></>

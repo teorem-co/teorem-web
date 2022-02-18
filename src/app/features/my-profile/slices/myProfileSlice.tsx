@@ -16,7 +16,7 @@ export const myProfileSlice = createSlice({
         setMyProfileProgress(state, action: PayloadAction<IProgressProfile>) {
             return action.payload;
         },
-        resetMyProfileProgress(state) {
+        resetMyProfileProgress() {
             return initialState;
         },
     },

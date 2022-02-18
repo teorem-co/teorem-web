@@ -239,15 +239,15 @@ const PersonalInformation = () => {
                             {(pageLoading && <>Loading...</>) || (
                                 <div className="card--profile__section">
                                     <div>
-                                        <div className="mb-2 type--wgt--bold">Personal Information</div>
-                                        <div className="type--color--tertiary w--200--max">Edit and update your personal information</div>
+                                        <div className="mb-2 type--wgt--bold">{t('MY_PROFILE.PROFILE_SETTINGS.TITLE')}</div>
+                                        <div className="type--color--tertiary w--200--max">{t('MY_PROFILE.PROFILE_SETTINGS.DESCRIPTION')}</div>
                                         <button
                                             className={`btn btn--primary btn--lg mt-6 card--profile__savebtn`}
                                             type="submit"
                                             // disabled={isLoading || !saveBtnActive}
                                             disabled={isLoading || !saveBtnActive}
                                         >
-                                            Save
+                                            {t('MY_PROFILE.SUBMIT')}
                                         </button>
                                     </div>
                                     <div className="w--800--max">
@@ -255,12 +255,12 @@ const PersonalInformation = () => {
                                             <div className="col col-12 col-xl-6">
                                                 <div className="field">
                                                     <label htmlFor="firstName" className="field__label">
-                                                        First Name
+                                                        {t('MY_PROFILE.PROFILE_SETTINGS.FIRST_NAME')}
                                                     </label>
                                                     <TextField
                                                         name="firstName"
                                                         id="firstName"
-                                                        placeholder="Enter your first name"
+                                                        placeholder={t('MY_PROFILE.PROFILE_SETTINGS.FIRST_NAME_PLACEHOLDER')}
                                                         disabled={isLoading}
                                                     />
                                                 </div>
@@ -268,12 +268,12 @@ const PersonalInformation = () => {
                                             <div className="col col-12 col-xl-6">
                                                 <div className="field">
                                                     <label htmlFor="lastName" className="field__label">
-                                                        Last Name
+                                                        {t('MY_PROFILE.PROFILE_SETTINGS.LAST_NAME')}
                                                     </label>
                                                     <TextField
                                                         name="lastName"
                                                         id="lastName"
-                                                        placeholder="Enter your first name"
+                                                        placeholder={t('MY_PROFILE.PROFILE_SETTINGS.LAST_NAME_PLACEHOLDER')}
                                                         disabled={isLoading}
                                                     />
                                                 </div>
@@ -295,7 +295,7 @@ const PersonalInformation = () => {
                                             <div className="col col-12 col-xl-6">
                                                 <div className="field">
                                                     <label htmlFor="countryId" className="field__label">
-                                                        Country*
+                                                        {t('MY_PROFILE.PROFILE_SETTINGS.COUNTRY')}
                                                     </label>
 
                                                     <MySelect
@@ -315,7 +315,7 @@ const PersonalInformation = () => {
                                             <div className="col col-12 col-xl-6">
                                                 <div className="field">
                                                     <label className="field__label" htmlFor="dateOfBirth">
-                                                        Date of Birth*
+                                                        {t('MY_PROFILE.PROFILE_SETTINGS.BIRTHDAY')}
                                                     </label>
                                                     <MyDatePicker
                                                         form={formik}
@@ -328,7 +328,7 @@ const PersonalInformation = () => {
                                         </div>
                                         <div className="field field__file">
                                             <label className="field__label" htmlFor="profileImage">
-                                                Profile Image*
+                                                {t('MY_PROFILE.PROFILE_SETTINGS.IMAGE')}
                                             </label>
                                             <UploadFile
                                                 setFieldValue={formik.setFieldValue}

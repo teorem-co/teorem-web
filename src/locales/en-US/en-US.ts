@@ -284,4 +284,53 @@ export const EN_US = {
         ABOUT_ME: 'About me',
         ACCOUNT: 'Account',
     },
+    ACCOUNT: {
+        CHANGE_PASSWORD: {
+            TITLE: 'Change password',
+            DESCRIPTION: 'Confirm your current password, then enter a new one.',
+            CURRENT_PASSWORD: 'Current Password',
+            NEW_PASSWORD: 'New Password',
+            CONFIRM_PASSWORD: 'Confirm Password',
+        },
+        CARD_DETAILS: {
+            TITLE: 'Card details',
+            DESCRIPTION: 'Select default payment method or add new one.',
+            ADD_NEW: 'Add new Card',
+            ADD_NEW_DESC: 'Select to add new Card',
+        },
+        SUBMIT: 'Save',
+    },
+    MY_PROFILE: {
+        ABOUT_ME: {
+            OCCUPATION: 'Yor current Occupation*',
+            OCCUPATION_PLACEHOLDER: 'What’s your current Occupation',
+            YEARS: 'Years of professional experience (optional)',
+            YEARS_PLACEHOLDER: 'How many years of professional experience you have',
+            ABOUT_YOURSELF: 'Tell us more about yourself*',
+            ABOUT_LESSON: 'Tell us more about your lessons*',
+        },
+        MY_TEACHINGS: {
+            TITLE: 'My Subjects',
+            DESCRIPTION: 'Edit and update your subjects information',
+            ADD_NEW: 'Add new Subject',
+            ADD_DESC: 'Select to add new Subject',
+        },
+        GENERAL_AVAILABILITY: {
+            TITLE: 'General Availability',
+            DESCRIPTION: 'Edit and update your availability information',
+        },
+        PROFILE_SETTINGS: {
+            TITLE: 'Personal Information',
+            DESCRIPTION: 'Edit and update your personal information',
+            FIRST_NAME: 'First Name*',
+            FIRST_NAME_PLACEHOLDER: 'Enter your first name',
+            LAST_NAME: 'Last Name*',
+            LAST_NAME_PLACEHOLDER: 'Enter your first name',
+            PHONE: 'Phone Number*',
+            COUNTRY: 'Country*',
+            BIRTHDAY: 'Date of Birth*',
+            IMAGE: 'Profile Image*',
+        },
+        SUBMIT: 'Save',
+    },
 };

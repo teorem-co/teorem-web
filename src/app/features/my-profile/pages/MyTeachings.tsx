@@ -77,8 +77,8 @@ const MyTeachings = () => {
                     <div className="card--profile__section">
                         {/* Add subject */}
                         <div>
-                            <div className="mb-2 type--wgt--bold">My Subjects</div>
-                            <div className="type--color--tertiary w--200--max">Edit and update your subjects information</div>
+                            <div className="mb-2 type--wgt--bold">{t('MY_PROFILE.MY_TEACHINGS.TITLE')}</div>
+                            <div className="type--color--tertiary w--200--max">{t('MY_PROFILE.MY_TEACHINGS.DESCRIPTION')}</div>
                         </div>
                         <div>
                             <div className="dash-wrapper dash-wrapper--adaptive flex--grow">
@@ -86,8 +86,8 @@ const MyTeachings = () => {
                                     <div className="dash-wrapper__item__element" onClick={() => setAddSidebarOpen(true)}>
                                         <div className="flex--primary cur--pointer">
                                             <div>
-                                                <div className="type--wgt--bold">Add new Subject</div>
-                                                <div>Select to add new Subject</div>
+                                                <div className="type--wgt--bold">{t('MY_PROFILE.MY_TEACHINGS.ADD_NEW')}</div>
+                                                <div>{t('MY_PROFILE.MY_TEACHINGS.ADD_DESC')}</div>
                                             </div>
                                             <div>
                                                 <i className="icon icon--base icon--plus icon--primary"></i>

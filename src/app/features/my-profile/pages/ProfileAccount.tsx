@@ -189,11 +189,11 @@ const ProfileAccount = () => {
                     <Form>
                         <div className="card--profile__section">
                             <div>
-                                <div className="mb-2 type--wgt--bold">Change password</div>
-                                <div className="type--color--tertiary w--200--max">Confirm your current password, then enter a new one.</div>
+                                <div className="mb-2 type--wgt--bold">{t('ACCOUNT.CHANGE_PASSWORD.TITLE')}</div>
+                                <div className="type--color--tertiary w--200--max">{t('ACCOUNT.CHANGE_PASSWORD.DESCRIPTION')}</div>
                                 {saveBtnActive ? (
                                     <button className="btn btn--primary btn--lg mt-6" type="submit">
-                                        Save
+                                        {t('ACCOUNT.SUBMIT')}
                                     </button>
                                 ) : (
                                     <></>
@@ -204,7 +204,7 @@ const ProfileAccount = () => {
                                     <div className="col col-12 col-xl-6">
                                         <div className="field">
                                             <label htmlFor="currentPassword" className="field__label">
-                                                Current Password
+                                                {t('ACCOUNT.CHANGE_PASSWORD.CURRENT_PASSWORD')}
                                             </label>
                                             <TextField
                                                 name="currentPassword"
@@ -217,7 +217,7 @@ const ProfileAccount = () => {
                                     <div className="col col-12 col-xl-6">
                                         <div className="field">
                                             <label htmlFor="newPassword" className="field__label">
-                                                New Password
+                                                {t('ACCOUNT.CHANGE_PASSWORD.NEW_PASSWORD')}
                                             </label>
                                             <TextField
                                                 name="newPassword"
@@ -237,7 +237,7 @@ const ProfileAccount = () => {
                                     <div className="col col-12 col-xl-6">
                                         <div className="field">
                                             <label htmlFor="confirmPassword" className="field__label">
-                                                Confirm Password
+                                                {t('ACCOUNT.CHANGE_PASSWORD.CONFIRM_PASSWORD')}
                                             </label>
                                             <TextField name="confirmPassword" id="confirmPassword" placeholder="Enter New Password" password={true} />
                                         </div>
@@ -248,16 +248,16 @@ const ProfileAccount = () => {
 
                         <div className="card--profile__section">
                             <div>
-                                <div className="mb-2 type--wgt--bold">Card details</div>
-                                <div className="type--color--tertiary w--200--max">Select default payment method or add new one.</div>
+                                <div className="mb-2 type--wgt--bold">{t('ACCOUNT.CARD_DETAILS.TITLE')}</div>
+                                <div className="type--color--tertiary w--200--max">{t('ACCOUNT.CARD_DETAILS.DESCRIPTION')}</div>
                             </div>
                             <div className="dash-wrapper">
                                 <div className="dash-wrapper__item">
                                     <div className="dash-wrapper__item__element" onClick={() => setAddSidebarOpen(true)}>
                                         <div className="flex--primary cur--pointer">
                                             <div>
-                                                <div className="type--wgt--bold">Add new Card</div>
-                                                <div>Select to add new Card</div>
+                                                <div className="type--wgt--bold">{t('ACCOUNT.CARD_DETAILS.ADD_NEW')}</div>
+                                                <div>{t('ACCOUNT.CARD_DETAILS.ADD_NEW_DESC')}</div>
                                             </div>
                                             <div>
                                                 <i className="icon icon--base icon--plus icon--primary"></i>
