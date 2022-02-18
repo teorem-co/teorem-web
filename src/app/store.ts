@@ -13,6 +13,7 @@ import {
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
+import myProfileProgressReducer from '../app/features/my-profile/slices/myProfileSlice';
 import authReducer from '../slices/authSlice';
 import childrenReducer from '../slices/childrenSlice';
 import parentRegisterReducer from '../slices/parentRegisterSlice';
@@ -37,6 +38,7 @@ const persistConfig = {
         'myReviews',
         'tutorRegister',
         'parentRegisterSlice',
+        'myProfileProgress',
     ],
 };
 
@@ -51,6 +53,7 @@ const rootReducer = combineReducers({
     studentRegister: studentRegisterReducer,
     parentRegister: parentRegisterReducer,
     children: childrenReducer,
+    myProfileProgress: myProfileProgressReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

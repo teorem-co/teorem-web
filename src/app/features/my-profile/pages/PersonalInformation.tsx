@@ -19,7 +19,7 @@ import MainWrapper from '../../../components/MainWrapper';
 import RouterPrompt from '../../../components/RouterPrompt';
 import { countryInput } from '../../../constants/countryInput';
 import { countryOption } from '../../../constants/countryOption';
-import { useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import { getUserId } from '../../../utils/getUserId';
 import {
@@ -28,7 +28,7 @@ import {
 } from '../../onboarding/services/countryService';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
-import ProfileTabs from '../components/ProfileTabs';
+import { setMyProfileProgress } from '../slices/myProfileSlice';
 
 interface Values {
     firstName: string;
@@ -49,12 +49,9 @@ const PersonalInformation = () => {
             isFetching: countriesFetching,
         },
     ] = useLazyGetCountriesQuery();
-    const [getProfileProgress, { data: profileProgress }] =
-        useLazyGetProfileProgressQuery();
-    const [
-        updateUserInformation,
-        { isLoading: isLoadingUserUpdate, isSuccess: isSuccessUserUpdate },
-    ] = useUpdateUserInformationMutation();
+    const [getProfileProgress] = useLazyGetProfileProgressQuery();
+    const [updateUserInformation, { isLoading: isLoadingUserUpdate }] =
+        useUpdateUserInformationMutation();
     const [
         getUser,
         {
@@ -75,6 +72,10 @@ const PersonalInformation = () => {
         profileImage: '',
     });
 
+    const dispatch = useAppDispatch();
+    const profileProgressState = useAppSelector(
+        (state) => state.myProfileProgress
+    );
     const user = useAppSelector((state) => state.auth.user);
     const userId = getUserId();
     const { t } = useTranslation();
@@ -96,7 +97,13 @@ const PersonalInformation = () => {
             dateOfBirth: moment(values.dateOfBirth).toISOString(),
             profileImage: values.profileImage,
         });
+
+        //hide save button
+        setSaveBtnActive(false);
         setInitialvalues(values);
+        toastService.success(
+            t('SEARCH_TUTORS.TUTOR_PROFILE.UPDATE_ADDITIONAL_INFO_SUCCESS')
+        );
     };
 
     const handleBlur = () => {
@@ -109,7 +116,6 @@ const PersonalInformation = () => {
 
     const fetchData = async () => {
         getCountries();
-
         if (user) {
             const userResponse = await getUser(user.id).unwrap();
 
@@ -125,7 +131,11 @@ const PersonalInformation = () => {
                 //set formik values
                 setInitialvalues(values);
             }
-            getProfileProgress();
+            //If there is no state in redux for profileProgress fetch data and save result to redux
+            if (profileProgressState.percentage === 0) {
+                const progressResponse = await getProfileProgress().unwrap();
+                dispatch(setMyProfileProgress(progressResponse));
+            }
         }
     };
 
@@ -211,6 +221,13 @@ const PersonalInformation = () => {
 
     useEffect(() => {
         fetchData();
+
+        //if user id exist, update user info on component unmount
+        if (userId) {
+            return function updateUserOnUnmount() {
+                getUser(userId);
+            };
+        }
     }, []);
 
     useEffect(() => {
@@ -226,18 +243,18 @@ const PersonalInformation = () => {
         setCountryOptions(currentCountries);
     }, [countries]);
 
-    useEffect(() => {
-        if (isSuccessUserUpdate) {
-            if (userId) {
-                getUser(userId);
-                getProfileProgress();
-            }
-            setSaveBtnActive(false);
-            toastService.success(
-                t('SEARCH_TUTORS.TUTOR_PROFILE.UPDATE_ADDITIONAL_INFO_SUCCESS')
-            );
-        }
-    }, [isSuccessUserUpdate]);
+    // useEffect(() => {
+    //     if (isSuccessUserUpdate) {
+    //         if (userId) {
+    //             getUser(userId);
+    //             getProfileProgress();
+    //         }
+    //         setSaveBtnActive(false);
+    //         toastService.success(
+    //             t('SEARCH_TUTORS.TUTOR_PROFILE.UPDATE_ADDITIONAL_INFO_SUCCESS')
+    //         );
+    //     }
+    // }, [isSuccessUserUpdate]);
 
     useEffect(() => {
         handleBlur();
@@ -263,15 +280,17 @@ const PersonalInformation = () => {
                             {/* PROGRESS */}
                             <ProfileCompletion
                                 generalAvailability={
-                                    profileProgress?.generalAvailability
+                                    profileProgressState.generalAvailability
                                 }
-                                aditionalInformation={profileProgress?.aboutMe}
-                                myTeachings={profileProgress?.myTeachings}
-                                percentage={profileProgress?.percentage}
+                                aditionalInformation={
+                                    profileProgressState.aboutMe
+                                }
+                                myTeachings={profileProgressState.myTeachings}
+                                percentage={profileProgressState.percentage}
                             />
 
                             {/* PERSONAL INFO */}
-                            {pageLoading || (
+                            {(pageLoading && <>Loading...</>) || (
                                 <div className="card--profile__section">
                                     <div>
                                         <div className="mb-2 type--wgt--bold">

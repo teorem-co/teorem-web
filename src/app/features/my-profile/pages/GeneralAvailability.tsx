@@ -19,53 +19,25 @@ import {
 } from '../services/tutorAvailabilityService';
 
 const GeneralAvailability = () => {
-    const userId = useAppSelector((state) => state.auth.user?.id);
-
     //const { data: profileProgress } = useGetProfileProgressQuery();
-    const [getProfileProgress, { data: profileProgress }] =
-        useLazyGetProfileProgressQuery();
+    const [getProfileProgress, { data: profileProgress }] = useLazyGetProfileProgressQuery();
+    const [getTutorAvailability, { data: tutorAvailability }] = useLazyGetTutorAvailabilityQuery();
+    const [updateTutorAvailability, { isSuccess: updateSuccess }] = useUpdateTutorAvailabilityMutation();
+    const [createTutorAvailability, { isSuccess: createSuccess, status: createStatus }] = useCreateTutorAvailabilityMutation();
 
-    const [getTutorAvailability, { data: tutorAvailability }] =
-        useLazyGetTutorAvailabilityQuery();
-    const [updateTutorAvailability, { isSuccess: updateSuccess }] =
-        useUpdateTutorAvailabilityMutation();
-    const [
-        createTutorAvailability,
-        { isSuccess: createSuccess, status: createStatus },
-    ] = useCreateTutorAvailabilityMutation();
-
-    const [currentAvailabilities, setCurrentAvailabilities] = useState<
-        (string | boolean)[][]
-    >([]);
+    const [currentAvailabilities, setCurrentAvailabilities] = useState<(string | boolean)[][]>([]);
     const [saveBtnActive, setSaveBtnActive] = useState(false);
 
-    const renderTableCells = (
-        column: string | boolean,
-        availabilityIndex: IAvailabilityIndex
-    ) => {
+    const userId = useAppSelector((state) => state.auth.user?.id);
+
+    const renderTableCells = (column: string | boolean, availabilityIndex: IAvailabilityIndex) => {
         if (typeof column === 'boolean') {
             return (
                 <td
-                    onClick={() =>
-                        handleAvailabilityClick(
-                            availabilityIndex.column,
-                            availabilityIndex.row,
-                            column
-                        )
-                    }
-                    className={`${
-                        column
-                            ? 'table--availability--check'
-                            : 'table--availability--close'
-                    }`}
+                    onClick={() => handleAvailabilityClick(availabilityIndex.column, availabilityIndex.row, column)}
+                    className={`${column ? 'table--availability--check' : 'table--availability--close'}`}
                 >
-                    <i
-                        className={`icon icon--base ${
-                            column
-                                ? 'icon--check icon--primary'
-                                : 'icon--close icon--grey'
-                        }`}
-                    ></i>
+                    <i className={`icon icon--base ${column ? 'icon--check icon--primary' : 'icon--close icon--grey'}`}></i>
                 </td>
             );
         } else {
@@ -74,41 +46,26 @@ const GeneralAvailability = () => {
     };
 
     const renderAvailabilityTable = () => {
-        const update: boolean =
-            currentAvailabilities.length > 0 &&
-            currentAvailabilities[1].length > 1;
+        const update: boolean = currentAvailabilities.length > 0 && currentAvailabilities[1].length > 1;
 
-        const availabilityToMap = update
-            ? currentAvailabilities
-            : availabilityTable;
+        const availabilityToMap = update ? currentAvailabilities : availabilityTable;
 
-        return availabilityToMap.map(
-            (row: (string | boolean)[], rowIndex: number) => {
-                return (
-                    <tr>
-                        {row.map(
-                            (column: string | boolean, columnIndex: number) => {
-                                const availabilityIndex: IAvailabilityIndex = {
-                                    row: rowIndex,
-                                    column: columnIndex,
-                                };
-                                return renderTableCells(
-                                    column,
-                                    availabilityIndex
-                                );
-                            }
-                        )}
-                    </tr>
-                );
-            }
-        );
+        return availabilityToMap.map((row: (string | boolean)[], rowIndex: number) => {
+            return (
+                <tr>
+                    {row.map((column: string | boolean, columnIndex: number) => {
+                        const availabilityIndex: IAvailabilityIndex = {
+                            row: rowIndex,
+                            column: columnIndex,
+                        };
+                        return renderTableCells(column, availabilityIndex);
+                    })}
+                </tr>
+            );
+        });
     };
 
-    const handleAvailabilityClick = (
-        column: number,
-        row: number,
-        value: boolean
-    ) => {
+    const handleAvailabilityClick = (column: number, row: number, value: boolean) => {
         let cloneState;
         if (currentAvailabilities && currentAvailabilities[1].length > 1) {
             cloneState = cloneDeep(currentAvailabilities);
@@ -146,6 +103,11 @@ const GeneralAvailability = () => {
         }
     };
 
+    const handleUpdateOnRouteChange = () => {
+        handleSubmit();
+        return true;
+    };
+
     useEffect(() => {
         //  if (userId) {
         //      setTimeout(() => {
@@ -171,12 +133,7 @@ const GeneralAvailability = () => {
     }, [tutorAvailability]);
 
     useEffect(() => {
-        const isLoaded: boolean =
-            tutorAvailability &&
-            tutorAvailability.length > 0 &&
-            currentAvailabilities.length > 0
-                ? true
-                : false;
+        const isLoaded: boolean = tutorAvailability && tutorAvailability.length > 0 && currentAvailabilities.length > 0 ? true : false;
 
         if (isLoaded) {
             if (isEqual(tutorAvailability, currentAvailabilities)) {
@@ -192,11 +149,6 @@ const GeneralAvailability = () => {
             getProfileProgress();
         }
     }, [createStatus]);
-
-    const handleUpdateOnRouteChange = () => {
-        handleSubmit();
-        return true;
-    };
 
     return (
         <MainWrapper>
@@ -223,17 +175,20 @@ const GeneralAvailability = () => {
                 {/* AVAILABILITY */}
                 <div className="card--profile__section">
                     <div>
-                        <div className="mb-2 type--wgt--bold">
-                            General Availability
-                        </div>
-                        <div className="type--color--tertiary w--200--max">
-                            Edit and update your availability information
-                        </div>
+                        <div
+                            className="teafnaw"
+                            onClick={() => {
+                                console.log('test');
+                            }}
+                            id="tzefje"
+                            about="ujfensfouwe"
+                            key="oindfawondwa"
+                            draggable={false}
+                        ></div>
+                        <div className="mb-2 type--wgt--bold">General Availability</div>
+                        <div className="type--color--tertiary w--200--max">Edit and update your availability information</div>
                         {saveBtnActive ? (
-                            <button
-                                onClick={() => handleSubmit()}
-                                className="btn btn--base btn--primary mt-4"
-                            >
+                            <button onClick={() => handleSubmit()} className="btn btn--base btn--primary mt-4">
                                 Save
                             </button>
                         ) : (
@@ -241,9 +196,7 @@ const GeneralAvailability = () => {
                         )}
                     </div>
                     <div>
-                        <table className="table table--availability">
-                            {renderAvailabilityTable()}
-                        </table>
+                        <table className="table table--availability">{renderAvailabilityTable()}</table>
                     </div>
                 </div>
             </div>
