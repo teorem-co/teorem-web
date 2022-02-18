@@ -1,4 +1,3 @@
-import { QueryStatus } from '@reduxjs/toolkit/dist/query';
 import { cloneDeep, isEqual } from 'lodash';
 import { useEffect, useState } from 'react';
 
@@ -6,7 +5,7 @@ import { useLazyGetProfileProgressQuery } from '../../../../services/tutorServic
 import MainWrapper from '../../../components/MainWrapper';
 import RouterPrompt from '../../../components/RouterPrompt';
 import availabilityTable from '../../../constants/availabilityTable';
-import { useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
@@ -17,18 +16,23 @@ import {
     useLazyGetTutorAvailabilityQuery,
     useUpdateTutorAvailabilityMutation,
 } from '../services/tutorAvailabilityService';
+import { setMyProfileProgress } from '../slices/myProfileSlice';
 
 const GeneralAvailability = () => {
     //const { data: profileProgress } = useGetProfileProgressQuery();
-    const [getProfileProgress, { data: profileProgress }] = useLazyGetProfileProgressQuery();
-    const [getTutorAvailability, { data: tutorAvailability }] = useLazyGetTutorAvailabilityQuery();
-    const [updateTutorAvailability, { isSuccess: updateSuccess }] = useUpdateTutorAvailabilityMutation();
-    const [createTutorAvailability, { isSuccess: createSuccess, status: createStatus }] = useCreateTutorAvailabilityMutation();
+    const [getProfileProgress] = useLazyGetProfileProgressQuery();
+    const [getTutorAvailability, { data: tutorAvailability, isUninitialized: availabilityUninitialized, isLoading: availabilityLoading }] =
+        useLazyGetTutorAvailabilityQuery();
+    const [updateTutorAvailability] = useUpdateTutorAvailabilityMutation();
+    const [createTutorAvailability] = useCreateTutorAvailabilityMutation();
 
     const [currentAvailabilities, setCurrentAvailabilities] = useState<(string | boolean)[][]>([]);
     const [saveBtnActive, setSaveBtnActive] = useState(false);
 
+    const dispatch = useAppDispatch();
+    const profileProgressState = useAppSelector((state) => state.myProfileProgress);
     const userId = useAppSelector((state) => state.auth.user?.id);
+    const loading = availabilityUninitialized || availabilityLoading;
 
     const renderTableCells = (column: string | boolean, availabilityIndex: IAvailabilityIndex) => {
         if (typeof column === 'boolean') {
@@ -98,8 +102,12 @@ const GeneralAvailability = () => {
 
         if (tutorAvailability && tutorAvailability[1].length > 1) {
             await updateTutorAvailability({ tutorAvailability: toSend });
+            toastService.success('Availability updated');
         } else {
             await createTutorAvailability({ tutorAvailability: toSend });
+            const progressResponse = await getProfileProgress().unwrap();
+            dispatch(setMyProfileProgress(progressResponse));
+            toastService.success('Availability created');
         }
     };
 
@@ -108,29 +116,22 @@ const GeneralAvailability = () => {
         return true;
     };
 
-    useEffect(() => {
-        //  if (userId) {
-        //      setTimeout(() => {
-        //          getTutorAvailability(userId);
-        //      }, 2000);
-        //  }
-        if (createSuccess || updateSuccess) {
-            toastService.success('Availability updated');
-        }
-    }, [updateSuccess, createSuccess]);
-
-    useEffect(() => {
+    const fetchData = async () => {
         if (userId) {
-            getTutorAvailability(userId);
-            getProfileProgress();
+            const tutorAvailabilityResponse = await getTutorAvailability(userId).unwrap();
+            setCurrentAvailabilities(tutorAvailabilityResponse);
+
+            //If there is no state in redux for profileProgress fetch data and save result to redux
+            if (profileProgressState.percentage === 0) {
+                const progressResponse = await getProfileProgress().unwrap();
+                dispatch(setMyProfileProgress(progressResponse));
+            }
         }
-    }, []);
+    };
 
     useEffect(() => {
-        if (tutorAvailability) {
-            setCurrentAvailabilities(tutorAvailability);
-        }
-    }, [tutorAvailability]);
+        fetchData();
+    }, []);
 
     useEffect(() => {
         const isLoaded: boolean = tutorAvailability && tutorAvailability.length > 0 && currentAvailabilities.length > 0 ? true : false;
@@ -144,11 +145,12 @@ const GeneralAvailability = () => {
         }
     }, [currentAvailabilities]);
 
+    //set state to updated tutorAvailabilities for RouterPrompt modal check
     useEffect(() => {
-        if (createStatus === QueryStatus.fulfilled) {
-            getProfileProgress();
+        if (tutorAvailability) {
+            setCurrentAvailabilities(tutorAvailability);
         }
-    }, [createStatus]);
+    }, [tutorAvailability]);
 
     return (
         <MainWrapper>
@@ -166,39 +168,31 @@ const GeneralAvailability = () => {
 
                 {/* PROGRESS */}
                 <ProfileCompletion
-                    generalAvailability={profileProgress?.generalAvailability}
-                    aditionalInformation={profileProgress?.aboutMe}
-                    myTeachings={profileProgress?.myTeachings}
-                    percentage={profileProgress?.percentage}
+                    generalAvailability={profileProgressState.generalAvailability}
+                    aditionalInformation={profileProgressState.aboutMe}
+                    myTeachings={profileProgressState.myTeachings}
+                    percentage={profileProgressState.percentage}
                 />
 
                 {/* AVAILABILITY */}
-                <div className="card--profile__section">
-                    <div>
-                        <div
-                            className="teafnaw"
-                            onClick={() => {
-                                console.log('test');
-                            }}
-                            id="tzefje"
-                            about="ujfensfouwe"
-                            key="oindfawondwa"
-                            draggable={false}
-                        ></div>
-                        <div className="mb-2 type--wgt--bold">General Availability</div>
-                        <div className="type--color--tertiary w--200--max">Edit and update your availability information</div>
-                        {saveBtnActive ? (
-                            <button onClick={() => handleSubmit()} className="btn btn--base btn--primary mt-4">
-                                Save
-                            </button>
-                        ) : (
-                            <></>
-                        )}
+                {(loading && <>Loading...</>) || (
+                    <div className="card--profile__section">
+                        <div>
+                            <div className="mb-2 type--wgt--bold">General Availability</div>
+                            <div className="type--color--tertiary w--200--max">Edit and update your availability information</div>
+                            {saveBtnActive ? (
+                                <button onClick={() => handleSubmit()} className="btn btn--base btn--primary mt-4">
+                                    Save
+                                </button>
+                            ) : (
+                                <></>
+                            )}
+                        </div>
+                        <div>
+                            <table className="table table--availability">{renderAvailabilityTable()}</table>
+                        </div>
                     </div>
-                    <div>
-                        <table className="table table--availability">{renderAvailabilityTable()}</table>
-                    </div>
-                </div>
+                )}
             </div>
         </MainWrapper>
     );

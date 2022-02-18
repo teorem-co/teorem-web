@@ -14,18 +14,14 @@ export const myProfileSlice = createSlice({
     initialState,
     reducers: {
         setMyProfileProgress(state, action: PayloadAction<IProgressProfile>) {
-            state.aboutMe = action.payload.aboutMe;
-            state.generalAvailability = action.payload.generalAvailability;
-            state.myTeachings = action.payload.myTeachings;
-            state.percentage = action.payload.percentage;
+            return action.payload;
         },
         resetMyProfileProgress(state) {
-            state = initialState;
+            return initialState;
         },
     },
 });
 
-export const { setMyProfileProgress, resetMyProfileProgress } =
-    myProfileSlice.actions;
+export const { setMyProfileProgress, resetMyProfileProgress } = myProfileSlice.actions;
 
 export default myProfileSlice.reducer;

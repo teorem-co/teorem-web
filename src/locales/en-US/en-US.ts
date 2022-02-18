@@ -6,8 +6,7 @@ export const EN_US = {
     },
     TRIAL_POPUP: {
         WELCOME: 'Welcome to Teorem',
-        DESCRIPTION:
-            'Your profile is now ready to use. Fill out the agenda, sit back and relax, wait for students to reach out to you!',
+        DESCRIPTION: 'Your profile is now ready to use. Fill out the agenda, sit back and relax, wait for students to reach out to you!',
         EXPIRATION: 'Your free trial will expire in 30 days!',
         REMIND: 'Don’t worry, we’ll remind you on time.',
         CONFIRM_BUTTON: 'Got it',
@@ -15,8 +14,7 @@ export const EN_US = {
     ONBOARDING: {
         NAVIGATION: {
             TITLE: 'Welcome to Teorem!',
-            DESCRIPTION:
-                "Please follow the onboarding process to finish up your profile. It'll take only few minutes.",
+            DESCRIPTION: "Please follow the onboarding process to finish up your profile. It'll take only few minutes.",
             STEP_ONE: {
                 TITLE: 'Personal information',
                 DESCRIPTION: 'Let us get to know you a little bit better',
@@ -30,8 +28,7 @@ export const EN_US = {
             PARENT: {
                 STEP_TWO: {
                     TITLE: "Child's List",
-                    DESCRIPTION:
-                        'Fill in information for your child and set his/her login credentials.',
+                    DESCRIPTION: 'Fill in information for your child and set his/her login credentials.',
                 },
             },
         },
@@ -39,8 +36,7 @@ export const EN_US = {
     },
     FORM_VALIDATION: {
         INVALID_EMAIL: 'Invalid email',
-        INVALID_IMAGE:
-            'Image has to be either jpg,png,jpeg or svg and less than 2MB in size.',
+        INVALID_IMAGE: 'Image has to be either jpg,png,jpeg or svg and less than 2MB in size.',
         TOO_SHORT: 'Too Short!',
         TOO_LONG: 'Too Long!',
         REQUIRED: 'This field is required',
@@ -48,8 +44,7 @@ export const EN_US = {
         UPPERCASE: 'Include at least one uppercase letter (A-Z)',
         NUMBER: 'Include at least one number (0-9)',
         MIN_CHARACTERS: 'Be a minimum of 8 characters',
-        SPECIAL_CHAR:
-            'Include at least one special character (@, $, !, %, *, ?, &...)',
+        SPECIAL_CHAR: 'Include at least one special character (@, $, !, %, *, ?, &...)',
         PASSWORD_MUST: 'Password must',
         PASSWORD_MATCH: 'Passwords must match',
         PASSWORD_STRENGTH: 'Password must meet the conditions',
@@ -107,20 +102,16 @@ export const EN_US = {
             ABOUT_ME: 'About me',
             ABOUT_TEACHINGS: 'About my teachings',
             EMPTY_STATE_ABOUT: 'This tutor has not filled out about me section',
-            EMPTY_STATE_LESSON:
-                'This tutor has not filled out his profile about teachings',
+            EMPTY_STATE_LESSON: 'This tutor has not filled out his profile about teachings',
             ADDITIONAL_INFORMATION_TITLE: 'About me',
-            ADDITIONAL_INFORMATION_DESC:
-                'Edit and update your about me section of the profile.',
+            ADDITIONAL_INFORMATION_DESC: 'Edit and update your about me section of the profile.',
             UPDATE_ADDITIONAL_INFO_SUCCESS: 'Additional information updated!',
             UPDATE_TEACHINGS_SUCCESS: 'My teachings updated!',
             FORM: {
                 ABOUT_TUTOR_LABEL: 'Tell us more about yourself*',
-                ABOUT_TUTOR_PLACEHOLDER:
-                    'What describes you best, what are your hobbies, approach...',
+                ABOUT_TUTOR_PLACEHOLDER: 'What describes you best, what are your hobbies, approach...',
                 ABOUT_LESSONS_LABEL: 'Tell us more about your lessons*',
-                ABOUT_LESSONS_PLACEHOLDER:
-                    'Describe your lessons, approach, way of teaching...',
+                ABOUT_LESSONS_PLACEHOLDER: 'Describe your lessons, approach, way of teaching...',
                 SUBMIT_BTN: 'Save',
             },
         },
@@ -206,8 +197,7 @@ export const EN_US = {
     },
     NOT_FOUND: {
         TITLE: 'Page not found',
-        SUBTITLE:
-            ' Sorry,looks like we sent you the wrong way. Let us guide you back!',
+        SUBTITLE: ' Sorry,looks like we sent you the wrong way. Let us guide you back!',
         BACK_BUTTON: 'Back to home',
     },
     UPCOMING_LESSONS: {
@@ -284,5 +274,14 @@ export const EN_US = {
         REVIEW: 'Review',
         SUBMIT: 'Post',
         CANCEL: 'Cancel',
+    },
+    COMPLETE_PROFILE: {
+        TITLE: 'Complete my profile',
+        DESCRIPTION: 'FIll out the missing information to make your profile complete',
+        PROFILE_SETTINGS: 'Profile Settings',
+        GENERAL_AVAILABILITY: 'General Availability',
+        MY_TEACHINGS: 'My Teachings',
+        ABOUT_ME: 'About me',
+        ACCOUNT: 'Account',
     },
 };

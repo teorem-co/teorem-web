@@ -5,67 +5,46 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
-import {
-    useLazyGetProfileProgressQuery,
-    useLazyGetTutorProfileDataQuery,
-    useUpdateAditionalInfoMutation,
-} from '../../../../services/tutorService';
+import { useLazyGetProfileProgressQuery, useLazyGetTutorProfileDataQuery, useUpdateAditionalInfoMutation } from '../../../../services/tutorService';
 import MyTextArea from '../../../components/form/MyTextArea';
 import TextField from '../../../components/form/TextField';
 import MainWrapper from '../../../components/MainWrapper';
 import RouterPrompt from '../../../components/RouterPrompt';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import { getUserId } from '../../../utils/getUserId';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
 import IUpdateAdditionalInfo from '../interfaces/IUpdateAdditionalInfo';
+import { setMyProfileProgress } from '../slices/myProfileSlice';
 
 const AdditionalInformation = () => {
-    const [
-        getProfileProgress,
-        {
-            data: profileProgress,
-            isLoading: progressLoading,
-            isUninitialized: progressUninitialized,
-        },
-    ] = useLazyGetProfileProgressQuery();
-    const [
-        getProfileData,
-        {
-            isLoading: isLoadingGetInfo,
-            isLoading: dataLoading,
-            isUninitialized: dataUninitialized,
-        },
-    ] = useLazyGetTutorProfileDataQuery();
-    const [
-        updateAditionalInfo,
-        {
-            isLoading: isUpdatingInfo,
-            isSuccess: isSuccessUpdateInfo,
-            status: updateStatus,
-        },
-    ] = useUpdateAditionalInfoMutation();
+    const [getProfileProgress] = useLazyGetProfileProgressQuery();
+    const [getProfileData, { isLoading: isLoadingGetInfo, isLoading: dataLoading, isUninitialized: dataUninitialized }] =
+        useLazyGetTutorProfileDataQuery();
+    const [updateAditionalInfo, { isLoading: isUpdatingInfo, isSuccess: isSuccessUpdateInfo }] = useUpdateAditionalInfoMutation();
 
     const isLoading = isLoadingGetInfo || isUpdatingInfo;
-    const pageLoading =
-        progressLoading ||
-        dataLoading ||
-        progressUninitialized ||
-        dataUninitialized;
+    const pageLoading = dataLoading || dataUninitialized;
     const { t } = useTranslation();
     const tutorId = getUserId();
+    const dispatch = useAppDispatch();
+    const profileProgressState = useAppSelector((state) => state.myProfileProgress);
 
+    const [saveBtnActive, setSaveBtnActive] = useState(false);
     const [initialValues, setInitialValues] = useState<IUpdateAdditionalInfo>({
         aboutTutor: '',
         aboutLessons: '',
         yearsOfExperience: '',
         currentOccupation: '',
     });
-    const [saveBtnActive, setSaveBtnActive] = useState(false);
 
     const handleSubmit = async (values: IUpdateAdditionalInfo) => {
         await updateAditionalInfo(values);
+        const progressResponse = await getProfileProgress().unwrap();
+        dispatch(setMyProfileProgress(progressResponse));
         setSaveBtnActive(false);
+        toastService.success(t('SEARCH_TUTORS.TUTOR_PROFILE.UPDATE_ADDITIONAL_INFO_SUCCESS'));
     };
 
     const handleChangeForSave = () => {
@@ -87,15 +66,19 @@ const AdditionalInformation = () => {
 
             if (profileDataResponse) {
                 const values = {
-                    aboutTutor: profileDataResponse.aboutTutor,
-                    aboutLessons: profileDataResponse.aboutLessons,
+                    aboutTutor: profileDataResponse.aboutTutor ?? '',
+                    aboutLessons: profileDataResponse.aboutLessons ?? '',
                     yearsOfExperience: profileDataResponse.yearsOfExperience,
-                    currentOccupation: profileDataResponse.currentOccupation,
+                    currentOccupation: profileDataResponse.currentOccupation ?? '',
                 };
                 setInitialValues(values);
             }
 
-            getProfileProgress();
+            //If there is no state in redux for profileProgress fetch data and save result to redux
+            if (profileProgressState.percentage === 0) {
+                const progressResponse = await getProfileProgress().unwrap();
+                dispatch(setMyProfileProgress(progressResponse));
+            }
         }
     };
 
@@ -112,9 +95,7 @@ const AdditionalInformation = () => {
                 .min(2, t('FORM_VALIDATION.TOO_SHORT'))
                 .max(50, t('FORM_VALIDATION.TOO_LONG'))
                 .required(t('FORM_VALIDATION.REQUIRED')),
-            yearsOfExperience: Yup.number()
-                .min(0, 'Can`t be a negative number')
-                .max(100, 'number is too big'),
+            yearsOfExperience: Yup.number().min(0, 'Can`t be a negative number').max(100, 'number is too big').nullable(),
         }),
     });
 
@@ -122,20 +103,12 @@ const AdditionalInformation = () => {
         fetchData();
     }, []);
 
-    useEffect(() => {
-        if (updateStatus === QueryStatus.fulfilled) {
-            getProfileProgress();
-        }
-    }, [updateStatus]);
-
+    //check for displaying save button
     useEffect(() => {
         if (isSuccessUpdateInfo) {
             if (tutorId) {
                 getProfileData(tutorId);
             }
-            toastService.success(
-                t('SEARCH_TUTORS.TUTOR_PROFILE.UPDATE_ADDITIONAL_INFO_SUCCESS')
-            );
         }
     }, [isSuccessUpdateInfo]);
 
@@ -159,37 +132,25 @@ const AdditionalInformation = () => {
 
                 {/* PROGRESS */}
                 <ProfileCompletion
-                    generalAvailability={profileProgress?.generalAvailability}
-                    aditionalInformation={profileProgress?.aboutMe}
-                    myTeachings={profileProgress?.myTeachings}
-                    percentage={profileProgress?.percentage}
+                    generalAvailability={profileProgressState.generalAvailability}
+                    aditionalInformation={profileProgressState.aboutMe}
+                    myTeachings={profileProgressState.myTeachings}
+                    percentage={profileProgressState.percentage}
                 />
 
                 {/* ADDITIONAL INFO */}
                 <FormikProvider value={formik}>
                     <Form>
-                        {pageLoading || (
+                        {(pageLoading && <>Loading...</>) || (
                             <div className="card--profile__section">
                                 <div>
-                                    <div className="mb-2 type--wgt--bold">
-                                        {t(
-                                            'SEARCH_TUTORS.TUTOR_PROFILE.ADDITIONAL_INFORMATION_TITLE'
-                                        )}
-                                    </div>
+                                    <div className="mb-2 type--wgt--bold">{t('SEARCH_TUTORS.TUTOR_PROFILE.ADDITIONAL_INFORMATION_TITLE')}</div>
                                     <div className="type--color--tertiary w--200--max">
-                                        {t(
-                                            'SEARCH_TUTORS.TUTOR_PROFILE.ADDITIONAL_INFORMATION_DESC'
-                                        )}
+                                        {t('SEARCH_TUTORS.TUTOR_PROFILE.ADDITIONAL_INFORMATION_DESC')}
                                     </div>
                                     {saveBtnActive ? (
-                                        <button
-                                            className="btn btn--primary btn--lg mt-6"
-                                            type="submit"
-                                            disabled={isLoading}
-                                        >
-                                            {t(
-                                                'SEARCH_TUTORS.TUTOR_PROFILE.FORM.SUBMIT_BTN'
-                                            )}
+                                        <button className="btn btn--primary btn--lg mt-6" type="submit" disabled={isLoading}>
+                                            {t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.SUBMIT_BTN')}
                                         </button>
                                     ) : (
                                         <></>
@@ -199,10 +160,7 @@ const AdditionalInformation = () => {
                                     <div className="row">
                                         <div className="col col-12 col-xl-6">
                                             <div className="field">
-                                                <label
-                                                    className="field__label"
-                                                    htmlFor="currentOccupation"
-                                                >
+                                                <label className="field__label" htmlFor="currentOccupation">
                                                     Your current Occupation*
                                                 </label>
                                                 <TextField
@@ -217,12 +175,8 @@ const AdditionalInformation = () => {
                                         </div>
                                         <div className="col col-12 col-xl-6">
                                             <div className="field">
-                                                <label
-                                                    className="field__label"
-                                                    htmlFor="yearsOfExperience"
-                                                >
-                                                    Years of professional
-                                                    experience (optional)
+                                                <label className="field__label" htmlFor="yearsOfExperience">
+                                                    Years of professional experience (optional)
                                                 </label>
                                                 <TextField
                                                     id="yearsOfExperience"
@@ -237,20 +191,13 @@ const AdditionalInformation = () => {
                                         </div>
                                         <div className="col col-12 col-xl-6">
                                             <div className="field">
-                                                <label
-                                                    className="field__label"
-                                                    htmlFor="aboutTutor"
-                                                >
-                                                    {t(
-                                                        'SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_LABEL'
-                                                    )}
+                                                <label className="field__label" htmlFor="aboutTutor">
+                                                    {t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_LABEL')}
                                                 </label>
                                                 <MyTextArea
                                                     maxLength={2500}
                                                     name="aboutTutor"
-                                                    placeholder={t(
-                                                        'SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_PLACEHOLDER'
-                                                    )}
+                                                    placeholder={t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_PLACEHOLDER')}
                                                     id="aboutTutor"
                                                     disabled={isLoading}
                                                 />
@@ -258,20 +205,13 @@ const AdditionalInformation = () => {
                                         </div>
                                         <div className="col col-12 col-xl-6">
                                             <div className="field">
-                                                <label
-                                                    className="field__label"
-                                                    htmlFor="aboutLessons"
-                                                >
-                                                    {t(
-                                                        'SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_LABEL'
-                                                    )}
+                                                <label className="field__label" htmlFor="aboutLessons">
+                                                    {t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_LABEL')}
                                                 </label>
                                                 <MyTextArea
                                                     maxLength={2500}
                                                     name="aboutLessons"
-                                                    placeholder={t(
-                                                        'SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_PLACEHOLDER'
-                                                    )}
+                                                    placeholder={t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_PLACEHOLDER')}
                                                     id="aboutLessons"
                                                     disabled={isLoading}
                                                 />
