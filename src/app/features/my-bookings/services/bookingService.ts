@@ -38,6 +38,11 @@ interface ICreateBooking {
     tutorId?: string;
 }
 
+interface IUpdateBooking {
+    startTime: string;
+    bookingId: string;
+}
+
 export const bookingService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         getBookings: builder.query<IBookingTransformed[], IDateRange>({
@@ -105,6 +110,14 @@ export const bookingService = baseService.injectEndpoints({
             }),
             invalidatesTags: ['tutorBookings'],
         }),
+        updateBooking: builder.mutation<void, IUpdateBooking>({
+            query: (data) => ({
+                url: `${URL}/${data.bookingId}`,
+                method: HttpMethods.PUT,
+                body: data,
+            }),
+            invalidatesTags: ['tutorBookings'],
+        }),
         getBookingById: builder.query<IBooking, string>({
             query: (bookingId) => ({
                 url: `${URL}/${bookingId}`,
@@ -121,4 +134,5 @@ export const {
     useLazyGetBookingsByIdQuery,
     useCreatebookingMutation,
     useLazyGetBookingByIdQuery,
+    useUpdateBookingMutation,
 } = bookingService;

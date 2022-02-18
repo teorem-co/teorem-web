@@ -32,6 +32,7 @@ interface IProps {
     setSidebarOpen: (isOpen: boolean) => void;
     positionClass: string;
     clearEmptyBookings: () => void;
+    booking: IBooking | null;
 }
 
 interface Values {
@@ -40,7 +41,7 @@ interface Values {
     child: string;
     timeFrom: string;
 }
-const ParentCalendarSlots: React.FC<IProps> = (props) => {
+const UpdateBooking: React.FC<IProps> = (props) => {
     const { tutorId } = useParams();
     const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
     const [selectedTime, setSelectedTime] = useState<string>('');
@@ -51,6 +52,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
         positionClass,
         setSidebarOpen,
         clearEmptyBookings,
+        booking,
     } = props;
     const { data: levelOptions, isLoading: isLoadingLevels } =
         useGetTutorLevelsQuery(tutorId);
@@ -67,8 +69,16 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
         },
     ] = useLazyGetTutorSubjectsByTutorLevelQuery();
 
+    const filteredSubjects = subjectsData?.find(
+        (x) => x.value === props.booking?.subjectId
+    );
+    console.log(filteredSubjects?.value);
+
     const [createBooking, { isSuccess: createBookingSuccess }] =
         useCreatebookingMutation();
+
+    const [updateBooking, { isSuccess: updateBookingSuccess }] =
+        useUpdateBookingMutation();
 
     const timeOptions = [
         {
@@ -187,9 +197,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
         level: '',
         subject: '',
         child: '',
-        timeFrom: start
-            ? moment(start, 'DD/MMMM/YYYY, HH:mm').format('HH:mm')
-            : '',
+        timeFrom: start ? moment(start).format('HH:mm') : '',
     });
 
     const formik = useFormik({
@@ -203,18 +211,15 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
 
     const handleSubmit = (values: any) => {
         props.setSidebarOpen(false);
-        createBooking({
-            startTime: moment(start).toISOString(),
-            subjectId: values.subject,
-            studentId: values.child,
-            tutorId: tutorId,
-        });
+        if (!isEqual(values.timeFrom, initialValues.timeFrom)) {
+            updateBooking({
+                startTime: moment(values.timeFrom, 'HH:mm').toISOString(),
+                bookingId: booking ? booking.id : '',
+            });
+        }
     };
 
     useEffect(() => {
-        if (!isEqual(formik.values.level, initialValues.level)) {
-            formik.setFieldValue('subject', '');
-        }
         if (formik.values.level !== '') {
             getSubjectOptionsByLevel({
                 tutorId: tutorId,
@@ -222,21 +227,6 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
             });
         }
     }, [formik.values.level]);
-
-    // const escFunction = useCallback((event) => {
-    //     if (event.keyCode === 27) {
-    //         //Close modal on esc keydown
-    //         handleClose ? handleClose(false) : null;
-    //     }
-    // }, []);
-
-    // useEffect(() => {
-    //     document.addEventListener('keydown', escFunction, false);
-
-    //     return () => {
-    //         document.removeEventListener('keydown', escFunction, false);
-    //     };
-    // }, []);
 
     useEffect(() => {
         if (subjectsData && isSuccessSubjects && formik.values.level !== '') {
@@ -254,13 +244,24 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     };
 
     useEffect(() => {
-        if (createBookingSuccess) {
-            toastService.success('Booking created');
+        if (updateBookingSuccess) {
+            toastService.success('Booking updated');
             handleClose ? handleClose(false) : false;
         }
-    }, [createBookingSuccess]);
+    }, [updateBookingSuccess]);
 
-    // const levelDisabled = !levelOptions || isLoadingLevels;
+    useEffect(() => {
+        if (booking) {
+            const values: Values = {
+                level: booking.Level.id,
+                subject: booking.subjectId,
+                child: booking.User.id,
+                timeFrom: moment(booking.startTime).format('H:mm'),
+            };
+            setInitialValues(values);
+        }
+    }, [booking]);
+    const levelDisabled = !levelOptions || isLoadingLevels;
 
     return (
         <div className={`modal--parent modal--parent--${positionClass}`}>
@@ -304,6 +305,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                                 classNamePrefix="onboarding-select"
                                 isMulti={false}
                                 options={levelOptions ? levelOptions : []}
+                                isDisabled={booking?.id ? true : false}
                                 placeholder="Select Level"
                             />
                         </div>
@@ -319,6 +321,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                                 isMulti={false}
                                 options={subjectsData}
                                 classNamePrefix="onboarding-select"
+                                isDisabled={booking?.id ? true : false}
                                 noOptionsMessage={() =>
                                     t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')
                                 }
@@ -339,6 +342,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                                 classNamePrefix="onboarding-select"
                                 isMulti={false}
                                 options={childOptions ? childOptions : []}
+                                isDisabled={booking?.id ? true : false}
                                 placeholder="Select Child"
                             />
                         </div>
@@ -378,8 +382,8 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                                                 ? moment(selectedTime, 'HH:mm')
                                                       .add(1, 'hours')
                                                       .format('HH:mm')
-                                                : start
-                                                ? moment(start)
+                                                : booking
+                                                ? moment(booking.startTime)
                                                       .add(1, 'hours')
                                                       .format('HH:mm')
                                                 : 'Time'
@@ -412,4 +416,4 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     );
 };
 
-export default ParentCalendarSlots;
+export default UpdateBooking;

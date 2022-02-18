@@ -15,7 +15,7 @@ interface IProps {
     positionClass: string;
     event: IBooking | null;
     tutorName: string;
-    openEditModal: () => void;
+    openEditModal: (isOpen: boolean) => void;
 }
 
 const ParentEventModal: React.FC<IProps> = (props) => {
@@ -44,7 +44,7 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                             <div className="mb-6">
                                 <i
                                     className="icon icon--base icon--grey icon--edit mr-4"
-                                    onClick={openEditModal}
+                                    onClick={() => openEditModal(true)}
                                 ></i>
                                 <i className="icon icon--base icon--grey icon--delete mr-4"></i>
                                 <i
@@ -53,6 +53,7 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                                         handleClose
                                             ? handleClose(false)
                                             : false;
+                                        openEditModal(false);
                                     }}
                                 ></i>
                             </div>

@@ -25,6 +25,7 @@ import { PATHS } from '../../routes';
 import toastService from '../../services/toastService';
 import ParentCalendarSlots from '../my-bookings/components/ParentCalendarSlots';
 import ParentEventModal from '../my-bookings/components/ParentEventModal';
+import UpdateBooking from '../my-bookings/components/UpdateBooking';
 import { useLazyGetBookingByIdQuery } from '../my-bookings/services/bookingService';
 
 interface IBookingTransformed {
@@ -56,6 +57,7 @@ const TutorBookings = () => {
     const [openSlot, setOpenSlot] = useState<boolean>(false);
     const [eventDetails, setEventDetails] = useState<IEvent>();
     const [openEventDetails, setOpenEventDetails] = useState<boolean>(false);
+    const [openUpdateModal, setOpenUpdateModal] = useState<boolean>(false);
 
     const [calChange, setCalChange] = useState<boolean>(false);
     const positionClass = moment(selectedStart).format('dddd');
@@ -186,6 +188,7 @@ const TutorBookings = () => {
             setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
             setSelectedEnd(moment(e.start).add(1, 'hours').format('HH:mm'));
             setOpenSlot(true);
+            setOpenUpdateModal(false);
             setOpenEventDetails(false);
 
             setEmptybookings([
@@ -204,22 +207,27 @@ const TutorBookings = () => {
             toastService.info("You can't book a lesson at selected time");
         }
     };
+    console.log(emptyBookings);
 
     const handleSelectedEvent = (e: IBookingTransformed) => {
-        setOpenSlot(false);
-        setOpenEventDetails(true);
-        getBookingById(e.id);
-        setEventDetails({
-            start: moment(e.start).format('DD/MMMM/YYYY, HH:mm'),
-            end: moment(e.end).format('HH:mm'),
-            allDay: e.allDay,
-            label: e.label,
-        });
-        setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
-        setSelectedEnd(moment(e.end).format('HH:mm'));
-        // if (booking && booking.id) {
-        //     setOpenSlot(true);
-        // }
+        if (moment(e.start).isBefore(moment()) || emptyBookings.length > 0) {
+            return;
+        } else {
+            setOpenSlot(false);
+            setOpenEventDetails(true);
+            getBookingById(e.id);
+            setEventDetails({
+                start: moment(e.start).format('DD/MMMM/YYYY, HH:mm'),
+                end: moment(e.end).format('HH:mm'),
+                allDay: e.allDay,
+                label: e.label,
+            });
+            setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
+            setSelectedEnd(moment(e.end).format('HH:mm'));
+            // if (booking && booking.id) {
+            //     setOpenSlot(true);
+            // }
+        }
     };
 
     const initialValues = {
@@ -237,6 +245,11 @@ const TutorBookings = () => {
 
     const handleSubmit = (values: any) => {
         setSidebarOpen(false);
+    };
+
+    const handleUpdateModal = (isOpen: boolean) => {
+        setOpenUpdateModal(isOpen);
+        setOpenEventDetails(false);
     };
 
     const allBookings = tutorBookings && tutorBookings.concat(emptyBookings);
@@ -302,7 +315,6 @@ const TutorBookings = () => {
                         />
                         {openSlot ? (
                             <ParentCalendarSlots
-                                booking={booking ? booking : null}
                                 clearEmptyBookings={() => setEmptybookings([])}
                                 setSidebarOpen={(e) => setSidebarOpen(e)}
                                 start={`${selectedStart}`}
@@ -326,7 +338,9 @@ const TutorBookings = () => {
                             />
                         ) : openEventDetails ? (
                             <ParentEventModal
-                                openEditModal={() => setOpenSlot(true)}
+                                openEditModal={(isOpen) =>
+                                    handleUpdateModal(isOpen)
+                                }
                                 tutorName={
                                     tutorData.firstName && tutorData.lastName
                                         ? tutorData.firstName +
@@ -336,6 +350,30 @@ const TutorBookings = () => {
                                 }
                                 event={booking ? booking : null}
                                 handleClose={(e) => setOpenEventDetails(e)}
+                                positionClass={`${
+                                    positionClass === 'Monday'
+                                        ? 'monday'
+                                        : positionClass === 'Tuesday'
+                                        ? 'tuesday'
+                                        : positionClass === 'Wednesday'
+                                        ? 'wednesday'
+                                        : positionClass === 'Thursday'
+                                        ? 'thursday'
+                                        : positionClass === 'Friday'
+                                        ? 'friday'
+                                        : positionClass === 'Saturday'
+                                        ? 'saturday'
+                                        : 'sunday'
+                                }`}
+                            />
+                        ) : openUpdateModal ? (
+                            <UpdateBooking
+                                booking={booking ? booking : null}
+                                clearEmptyBookings={() => setEmptybookings([])}
+                                setSidebarOpen={(e) => setSidebarOpen(e)}
+                                start={`${selectedStart}`}
+                                end={`${selectedEnd}`}
+                                handleClose={(e) => setOpenUpdateModal(e)}
                                 positionClass={`${
                                     positionClass === 'Monday'
                                         ? 'monday'
