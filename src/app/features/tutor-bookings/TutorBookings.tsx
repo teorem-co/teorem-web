@@ -151,10 +151,20 @@ const TutorBookings = () => {
     }, [calChange]);
 
     const CustomEvent = (event: any) => {
-        // const { isAvailable } = event.event;
-        // return !isAvailable ? (
-        //     <div className="my-bookings--unavailable"></div>
-        // ) : (
+        const eventStart = event.event.start;
+        if (moment(eventStart).isBefore(moment())) {
+            return <div className="my-bookings--unavailable"></div>;
+        } else {
+            return (
+                <div>
+                    <div className="mb-2 ">
+                        {moment(event.event.start).format('HH:mm')}
+                    </div>
+                    <div className="type--wgt--bold">{event.event.label}</div>
+                </div>
+            );
+        }
+        // return (
         //     <div>
         //         <div className="mb-2 ">
         //             {moment(event.event.start).format('HH:mm')}
@@ -162,14 +172,6 @@ const TutorBookings = () => {
         //         <div className="type--wgt--bold">{event.event.label}</div>
         //     </div>
         // );
-        return (
-            <div>
-                <div className="mb-2 ">
-                    {moment(event.event.start).format('HH:mm')}
-                </div>
-                <div className="type--wgt--bold">{event.event.label}</div>
-            </div>
-        );
     };
 
     const PrevIcon = () => {
