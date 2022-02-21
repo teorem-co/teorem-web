@@ -126,15 +126,7 @@ const ROUTES: any = [
         key: 'MY_BOOKINGS',
         exact: true,
         component: () => (
-            <PermissionsGate
-                roles={[
-                    Role.Tutor,
-                    Role.Parent,
-                    Role.Student,
-                    Role.SuperAdmin,
-                    Role.Child,
-                ]}
-            >
+            <PermissionsGate roles={[Role.Tutor, Role.Parent, Role.Student, Role.SuperAdmin, Role.Child]}>
                 <MyBookings />
             </PermissionsGate>
         ),
@@ -144,15 +136,7 @@ const ROUTES: any = [
         key: 'CHAT',
         exact: true,
         component: () => (
-            <PermissionsGate
-                roles={[
-                    Role.Tutor,
-                    Role.Parent,
-                    Role.Student,
-                    Role.SuperAdmin,
-                    Role.Child,
-                ]}
-            >
+            <PermissionsGate roles={[Role.Tutor, Role.Parent, Role.Student, Role.SuperAdmin, Role.Child]}>
                 <Chat />
             </PermissionsGate>
         ),
@@ -172,9 +156,7 @@ const ROUTES: any = [
         key: 'SEARCH_TUTORS',
         exact: true,
         component: () => (
-            <PermissionsGate
-                roles={[Role.Parent, Role.Student, Role.SuperAdmin]}
-            >
+            <PermissionsGate roles={[Role.Parent, Role.Student, Role.SuperAdmin]}>
                 <SearchTutors />
             </PermissionsGate>
         ),
@@ -184,9 +166,7 @@ const ROUTES: any = [
         key: 'SEARCH_TUTORS_TUTOR_PROFILE',
         exact: true,
         component: () => (
-            <PermissionsGate
-                roles={[Role.Parent, Role.Student, Role.Tutor, Role.SuperAdmin]}
-            >
+            <PermissionsGate roles={[Role.Parent, Role.Student, Role.Tutor, Role.SuperAdmin]}>
                 <TutorProfile />
             </PermissionsGate>
         ),
@@ -196,9 +176,7 @@ const ROUTES: any = [
         key: 'SEARCH_TUTORS_TUTOR_BOOKINGS',
         exact: true,
         component: () => (
-            <PermissionsGate
-                roles={[Role.Parent, Role.Student, Role.SuperAdmin]}
-            >
+            <PermissionsGate roles={[Role.Parent, Role.Student, Role.SuperAdmin]}>
                 <TutorBookings />
             </PermissionsGate>
         ),
@@ -208,9 +186,7 @@ const ROUTES: any = [
         key: 'COMPLETED_LESSONS',
         exact: true,
         component: () => (
-            <PermissionsGate
-                roles={[Role.Parent, Role.Student, Role.SuperAdmin]}
-            >
+            <PermissionsGate roles={[Role.Parent, Role.Student, Role.SuperAdmin]}>
                 <CompletedLessons />
             </PermissionsGate>
         ),
@@ -220,7 +196,7 @@ const ROUTES: any = [
         key: 'MY_PROFILE',
         component: (props: any) => {
             return (
-                <PermissionsGate roles={[Role.Tutor]}>
+                <PermissionsGate roles={[Role.Tutor, Role.Parent, Role.Student, Role.SuperAdmin]}>
                     <RenderRoutes {...props} />
                 </PermissionsGate>
             );
@@ -272,14 +248,7 @@ export default ROUTES;
 
 function RouteWithSubRoutes(route: any) {
     return (
-        <Route
-            key={route.key}
-            path={route.path}
-            exact={route.exact}
-            render={(props: any) => (
-                <route.component {...props} routes={route.routes} />
-            )}
-        />
+        <Route key={route.key} path={route.path} exact={route.exact} render={(props: any) => <route.component {...props} routes={route.routes} />} />
     );
 }
 
@@ -443,9 +412,7 @@ export function RenderMenuLinks() {
                         isActive={(match: any, location: Location) => {
                             //format nicer later
                             if (route.rootPath) {
-                                if (
-                                    location.pathname.startsWith(route.rootPath)
-                                ) {
+                                if (location.pathname.startsWith(route.rootPath)) {
                                     return true;
                                 } else {
                                     return false;
@@ -459,12 +426,8 @@ export function RenderMenuLinks() {
                             return true;
                         }}
                     >
-                        <i
-                            className={`icon icon--base navbar__item__icon navbar__item--${route.icon}`}
-                        ></i>
-                        <span className={`navbar__item__label`}>
-                            {t(`NAVIGATION.${route.name}`)}
-                        </span>
+                        <i className={`icon icon--base navbar__item__icon navbar__item--${route.icon}`}></i>
+                        <span className={`navbar__item__label`}>{t(`NAVIGATION.${route.name}`)}</span>
                     </NavLink>
                 ))}
             </>
