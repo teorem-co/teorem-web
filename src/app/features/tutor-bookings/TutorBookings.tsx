@@ -159,7 +159,7 @@ const TutorBookings = () => {
         const existingBooking =
             tutorBookings && tutorBookings.filter((date) => moment(date.start).format('YYYY/MM/DD') === moment(e.start).format('YYYY/MM/DD'));
 
-        let test = false;
+        const test = [];
         if (existingBooking) {
             const checkHours = !moment(e.start).isBefore(moment().add(3, 'hours'));
             existingBooking.forEach((booking) => {
@@ -167,12 +167,12 @@ const TutorBookings = () => {
                 const isBetweenEnd = moment(e.start).add(1, 'hours').isBetween(moment(booking.start), moment(booking.end));
                 const test2 = checkHours && isBetweenStart === false && isBetweenEnd === false;
                 if (test2) {
-                    test = true;
+                    test.push(true);
                 }
                 debugger;
             });
         }
-        if (test) {
+        if (test.length === existingBooking?.length) {
             setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
             setSelectedEnd(moment(e.start).add(1, 'hours').format('HH:mm'));
             setOpenSlot(true);
