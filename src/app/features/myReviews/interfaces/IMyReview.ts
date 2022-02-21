@@ -1,14 +1,23 @@
-import IMyReviewBooking from "./IMyReviewBooking";
+import ILevel from '../../../../interfaces/ILevel';
+import ISubject from '../../../../interfaces/ISubject';
+import ITutor from '../../../../interfaces/ITutor';
+import IUser from '../../../../interfaces/IUser';
 
 interface IMyReview {
     id: string;
     bookingId: string;
-    tutorId: string;
     createdAt: string;
     title: string;
     comment: string;
     mark: number;
-    Booking: IMyReviewBooking;
+    tutorId: string;
+    Tutor: ITutor;
+    levelId: string;
+    Level: ILevel;
+    subjectId: string;
+    Subject: ISubject;
+    userId: string;
+    User: IUser;
 }
 
 export default IMyReview;

@@ -15,13 +15,11 @@ const ReviewItem: FC<Props> = (props: Props) => {
             <div key={reviewItem.id} className="reviews-list__item">
                 <div>
                     <h4 className="type--md type--wgt--normal mb-1">
-                        {reviewItem.Booking.User.firstName}
+                        {reviewItem.User.firstName}
                         &nbsp;
-                        {reviewItem.Booking.User.lastName}
+                        {reviewItem.User.lastName}
                     </h4>
-                    <p className="type--color--brand-light">
-                        {reviewItem.Booking.User.Role.name}
-                    </p>
+                    <p className="type--color--brand-light">{reviewItem.User.Role.name}</p>
                 </div>
                 <div>
                     <div className="flex--primary mb-2">
@@ -35,9 +33,7 @@ const ReviewItem: FC<Props> = (props: Props) => {
                                 ></div>
                             </div>
                         </div>
-                        <div className="tag--primary">
-                            {reviewItem.Booking.Subject.name}
-                        </div>
+                        <div className="tag--primary">{reviewItem.Subject.name}</div>
                     </div>
                     <p className="type--md mb-4">{reviewItem.title}</p>
                     <p className="mb-2">{reviewItem.comment}</p>
