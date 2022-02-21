@@ -176,6 +176,7 @@ const PersonalInformation = () => {
 
         return Yup.object().shape(validation);
     };
+
     const formik = useFormik({
         initialValues: initialValues,
         onSubmit: handleSubmit,
