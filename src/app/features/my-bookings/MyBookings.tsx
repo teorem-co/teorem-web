@@ -49,17 +49,12 @@ const MyBookings: React.FC = () => {
     const positionClass = moment(selectedStart).format('dddd');
     const history = useHistory();
 
-    const [getUpcomingLessons, { data: upcomingLessons }] =
-        useLazyGetUpcomingLessonsQuery();
+    const [getUpcomingLessons, { data: upcomingLessons }] = useLazyGetUpcomingLessonsQuery();
 
     const [getBookings, { data: bookings }] = useLazyGetBookingsQuery();
-    const [getNotificationForLessons, { data: lessonsCount }] =
-        useLazyGetNotificationForLessonsQuery();
+    const [getNotificationForLessons, { data: lessonsCount }] = useLazyGetNotificationForLessonsQuery();
 
-    const [
-        getBookingById,
-        { data: booking, isSuccess: getBookingByIdSuccess },
-    ] = useLazyGetBookingByIdQuery();
+    const [getBookingById, { data: booking, isSuccess: getBookingByIdSuccess }] = useLazyGetBookingByIdQuery();
 
     const userId = useAppSelector((state) => state.auth.user?.id);
     const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
@@ -78,9 +73,7 @@ const MyBookings: React.FC = () => {
             });
             getNotificationForLessons({
                 userId: userId,
-                date: moment()
-                    .set({ hour: 23, minute: 59, second: 59 })
-                    .toISOString(),
+                date: moment().set({ hour: 23, minute: 59, second: 59 }).toISOString(),
             });
         }
     }, [value, userId]);
@@ -92,25 +85,16 @@ const MyBookings: React.FC = () => {
         return (
             <>
                 <div className="mb-2">{moment(date.date).format('dddd')}</div>
-                <div className="type--color--tertiary">
-                    {moment(date.date).format('DD/MMM')}
-                </div>
+                <div className="type--color--tertiary">{moment(date.date).format('DD/MMM')}</div>
             </>
         );
     };
     useEffect(() => {
-        const indicator: any = document.getElementsByClassName(
-            'rbc-current-time-indicator'
-        );
-        indicator[0] &&
-            indicator[0].setAttribute('data-time', moment().format('HH:mm'));
+        const indicator: any = document.getElementsByClassName('rbc-current-time-indicator');
+        indicator[0] && indicator[0].setAttribute('data-time', moment().format('HH:mm'));
 
         const interval = setInterval(() => {
-            indicator[0] &&
-                indicator[0].setAttribute(
-                    'data-time',
-                    moment().format('HH:mm')
-                );
+            indicator[0] && indicator[0].setAttribute('data-time', moment().format('HH:mm'));
         }, 60000);
         return () => clearInterval(interval);
     }, [calChange]);
@@ -118,9 +102,7 @@ const MyBookings: React.FC = () => {
     const CustomEvent = (event: any) => {
         return (
             <>
-                <div className="mb-2">
-                    {moment(event.event.start).format('HH:mm')}
-                </div>
+                <div className="mb-2">{moment(event.event.start).format('HH:mm')}</div>
                 <div className="type--wgt--bold">{event.event.label}</div>
             </>
         );
@@ -165,12 +147,8 @@ const MyBookings: React.FC = () => {
 
     const highlightRef = useRef<HTMLDivElement>(null);
     const calcPosition = () => {
-        const childElement = document.querySelector(
-            '.react-calendar__tile--active'
-        );
-        const rectParent =
-            highlightRef.current &&
-            highlightRef.current.getBoundingClientRect();
+        const childElement = document.querySelector('.react-calendar__tile--active');
+        const rectParent = highlightRef.current && highlightRef.current.getBoundingClientRect();
         const rectChild = childElement && childElement.getBoundingClientRect();
 
         if (rectParent && rectChild) {
@@ -204,9 +182,7 @@ const MyBookings: React.FC = () => {
                 <div>
                     <div className="card--calendar">
                         <div className="flex--primary p-6">
-                            <h2 className="type--lg">
-                                {t('MY_BOOKINGS.TITLE')}
-                            </h2>
+                            <h2 className="type--lg">{t('MY_BOOKINGS.TITLE')}</h2>
                             <div className="type--wgt--bold type--color--brand">
                                 {t('MY_BOOKINGS.NOTIFICATION_PART_1')}&nbsp;
                                 {lessonsCount ?? 0}
@@ -266,10 +242,7 @@ const MyBookings: React.FC = () => {
                     </div>
                 </div>
                 <div>
-                    <div
-                        ref={highlightRef}
-                        className="card card--mini-calendar mb-4 pos--rel"
-                    >
+                    <div ref={highlightRef} className="card card--mini-calendar mb-4 pos--rel">
                         <Calendar
                             onActiveStartDateChange={(e) => {
                                 hideShowHighlight(e.activeStartDate);
@@ -292,11 +265,7 @@ const MyBookings: React.FC = () => {
                         ></div>
                     </div>
                     <div className="upcoming-lessons">
-                        <UpcomingLessons
-                            upcomingLessons={
-                                upcomingLessons ? upcomingLessons : []
-                            }
-                        />
+                        <UpcomingLessons upcomingLessons={upcomingLessons ? upcomingLessons : []} />
                     </div>
                 </div>
             </div>

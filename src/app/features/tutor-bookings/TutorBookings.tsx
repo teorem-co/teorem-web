@@ -1,20 +1,13 @@
 import { Form, FormikProvider, useFormik } from 'formik';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
-import {
-    Calendar as BigCalendar,
-    momentLocalizer,
-    SlotInfo,
-} from 'react-big-calendar';
+import { Calendar as BigCalendar, momentLocalizer, SlotInfo } from 'react-big-calendar';
 import Calendar from 'react-calendar';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 
-import {
-    useLazyGetTutorBookingsQuery,
-    useLazyGetTutorProfileDataQuery,
-} from '../../../services/tutorService';
+import { useLazyGetTutorBookingsQuery, useLazyGetTutorProfileDataQuery } from '../../../services/tutorService';
 import { RoleOptions } from '../../../slices/roleSlice';
 import ExpDateField from '../../components/form/ExpDateField';
 import TextField from '../../components/form/TextField';
@@ -51,9 +44,7 @@ const TutorBookings = () => {
     const [selectedStart, setSelectedStart] = useState<string>('');
     const [selectedEnd, setSelectedEnd] = useState<string>('');
     const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
-    const [emptyBookings, setEmptybookings] = useState<IBookingTransformed[]>(
-        []
-    );
+    const [emptyBookings, setEmptybookings] = useState<IBookingTransformed[]>([]);
     const [openSlot, setOpenSlot] = useState<boolean>(false);
     const [eventDetails, setEventDetails] = useState<IEvent>();
     const [openEventDetails, setOpenEventDetails] = useState<boolean>(false);
@@ -66,23 +57,9 @@ const TutorBookings = () => {
 
     const { tutorId } = useParams();
 
-    const [
-        getTutorBookings,
-        {
-            data: tutorBookings,
-            isSuccess: isSuccessBookings,
-            isLoading: isLoadingBookings,
-        },
-    ] = useLazyGetTutorBookingsQuery();
+    const [getTutorBookings, { data: tutorBookings, isSuccess: isSuccessBookings, isLoading: isLoadingBookings }] = useLazyGetTutorBookingsQuery();
 
-    const [
-        getTutorData,
-        {
-            data: tutorData,
-            isSuccess: isSuccessTutorData,
-            isLoading: isLoadingTutorData,
-        },
-    ] = useLazyGetTutorProfileDataQuery({
+    const [getTutorData, { data: tutorData, isSuccess: isSuccessTutorData, isLoading: isLoadingTutorData }] = useLazyGetTutorProfileDataQuery({
         selectFromResult: ({ data, isSuccess, isLoading }) => ({
             data: {
                 firstName: data?.User.firstName,
@@ -92,10 +69,7 @@ const TutorBookings = () => {
             isLoading,
         }),
     });
-    const [
-        getBookingById,
-        { data: booking, isSuccess: isSuccessGetBookingById },
-    ] = useLazyGetBookingByIdQuery();
+    const [getBookingById, { data: booking, isSuccess: isSuccessGetBookingById }] = useLazyGetBookingByIdQuery();
 
     const { t } = useTranslation();
 
@@ -128,26 +102,17 @@ const TutorBookings = () => {
         return (
             <>
                 <div className="mb-2">{moment(date.date).format('dddd')}</div>
-                <div className="type--color--tertiary">
-                    {moment(date.date).format('DD.MM')}
-                </div>
+                <div className="type--color--tertiary">{moment(date.date).format('DD.MM')}</div>
             </>
         );
     };
 
     useEffect(() => {
-        const indicator: any = document.getElementsByClassName(
-            'rbc-current-time-indicator'
-        );
-        indicator[0] &&
-            indicator[0].setAttribute('data-time', moment().format('HH:mm'));
+        const indicator: any = document.getElementsByClassName('rbc-current-time-indicator');
+        indicator[0] && indicator[0].setAttribute('data-time', moment().format('HH:mm'));
 
         const interval = setInterval(() => {
-            indicator[0] &&
-                indicator[0].setAttribute(
-                    'data-time',
-                    moment().format('HH:mm')
-                );
+            indicator[0] && indicator[0].setAttribute('data-time', moment().format('HH:mm'));
         }, 60000);
         return () => clearInterval(interval);
     }, [calChange]);
@@ -159,9 +124,7 @@ const TutorBookings = () => {
         } else {
             return (
                 <div>
-                    <div className="mb-2 ">
-                        {moment(event.event.start).format('HH:mm')}
-                    </div>
+                    <div className="mb-2 ">{moment(event.event.start).format('HH:mm')}</div>
                     <div className="type--wgt--bold">{event.event.label}</div>
                 </div>
             );
@@ -266,11 +229,7 @@ const TutorBookings = () => {
                                 </div>
                             </Link>
                             <h2 className="type--lg  ml-6">
-                                {`${t('MY_BOOKINGS.TITLE')} - ${
-                                    tutorData.firstName
-                                        ? tutorData.firstName
-                                        : ''
-                                } ${
+                                {`${t('MY_BOOKINGS.TITLE')} - ${tutorData.firstName ? tutorData.firstName : ''} ${
                                     tutorData.lastName ? tutorData.lastName : ''
                                 }`}
                             </h2>
@@ -299,17 +258,9 @@ const TutorBookings = () => {
                             step={10}
                             timeslots={6}
                             longPressThreshold={10}
-                            onSelectSlot={(e) =>
-                                userRole === RoleOptions.Parent ||
-                                userRole === RoleOptions.Student
-                                    ? slotSelect(e)
-                                    : null
-                            }
+                            onSelectSlot={(e) => (userRole === RoleOptions.Parent || userRole === RoleOptions.Student ? slotSelect(e) : null)}
                             onSelectEvent={(e) =>
-                                userRole === RoleOptions.Parent ||
-                                userRole === RoleOptions.Student
-                                    ? handleSelectedEvent(e)
-                                    : null
+                                userRole === RoleOptions.Parent || userRole === RoleOptions.Student ? handleSelectedEvent(e) : null
                             }
                             // onSelecting={(range: { start: ; end: 'test'; }) => false}
                         />
@@ -338,16 +289,9 @@ const TutorBookings = () => {
                             />
                         ) : openEventDetails ? (
                             <ParentEventModal
-                                openEditModal={(isOpen) =>
-                                    handleUpdateModal(isOpen)
-                                }
-                                tutorName={
-                                    tutorData.firstName && tutorData.lastName
-                                        ? tutorData.firstName +
-                                          ' ' +
-                                          tutorData.lastName
-                                        : ''
-                                }
+                                bookingStart={booking ? booking.startTime : ''}
+                                openEditModal={(isOpen) => handleUpdateModal(isOpen)}
+                                tutorName={tutorData.firstName && tutorData.lastName ? tutorData.firstName + ' ' + tutorData.lastName : ''}
                                 event={booking ? booking : null}
                                 handleClose={(e) => setOpenEventDetails(e)}
                                 positionClass={`${
@@ -370,10 +314,10 @@ const TutorBookings = () => {
                             <UpdateBooking
                                 booking={booking ? booking : null}
                                 clearEmptyBookings={() => setEmptybookings([])}
-                                setSidebarOpen={(e) => setSidebarOpen(e)}
+                                setSidebarOpen={(e: any) => setSidebarOpen(e)}
                                 start={`${selectedStart}`}
                                 end={`${selectedEnd}`}
-                                handleClose={(e) => setOpenUpdateModal(e)}
+                                handleClose={(e: any) => setOpenUpdateModal(e)}
                                 positionClass={`${
                                     positionClass === 'Monday'
                                         ? 'monday'
@@ -428,13 +372,8 @@ const TutorBookings = () => {
                                     <Form>
                                         {/* <div>{JSON.stringify(formikStepTwo.values, null, 2)}</div> */}
                                         <div className="field">
-                                            <label
-                                                htmlFor="cardFirstName"
-                                                className="field__label"
-                                            >
-                                                {t(
-                                                    'REGISTER.CARD_DETAILS.FIRST_NAME'
-                                                )}
+                                            <label htmlFor="cardFirstName" className="field__label">
+                                                {t('REGISTER.CARD_DETAILS.FIRST_NAME')}
                                             </label>
                                             <TextField
                                                 name="cardFirstName"
@@ -444,13 +383,8 @@ const TutorBookings = () => {
                                             />
                                         </div>
                                         <div className="field">
-                                            <label
-                                                htmlFor="cardLastName"
-                                                className="field__label"
-                                            >
-                                                {t(
-                                                    'REGISTER.CARD_DETAILS.LAST_NAME'
-                                                )}
+                                            <label htmlFor="cardLastName" className="field__label">
+                                                {t('REGISTER.CARD_DETAILS.LAST_NAME')}
                                             </label>
                                             <TextField
                                                 name="cardLastName"
@@ -460,13 +394,8 @@ const TutorBookings = () => {
                                             />
                                         </div>
                                         <div className="field">
-                                            <label
-                                                htmlFor="cardNumber"
-                                                className="field__label"
-                                            >
-                                                {t(
-                                                    'REGISTER.CARD_DETAILS.CARD_NUMBER'
-                                                )}
+                                            <label htmlFor="cardNumber" className="field__label">
+                                                {t('REGISTER.CARD_DETAILS.CARD_NUMBER')}
                                             </label>
                                             <TextField
                                                 type="number"
@@ -479,13 +408,8 @@ const TutorBookings = () => {
                                         <div className="field field__file">
                                             <div className="flex">
                                                 <div className="field w--100 mr-6">
-                                                    <label
-                                                        htmlFor="expiryDate"
-                                                        className="field__label"
-                                                    >
-                                                        {t(
-                                                            'REGISTER.CARD_DETAILS.EXPIRY_DATE'
-                                                        )}
+                                                    <label htmlFor="expiryDate" className="field__label">
+                                                        {t('REGISTER.CARD_DETAILS.EXPIRY_DATE')}
                                                     </label>
                                                     <ExpDateField
                                                         name="expiryDate"
@@ -496,13 +420,8 @@ const TutorBookings = () => {
                                                 </div>
 
                                                 <div className="field w--100">
-                                                    <label
-                                                        htmlFor="cvv"
-                                                        className="field__label"
-                                                    >
-                                                        {t(
-                                                            'REGISTER.CARD_DETAILS.CVV'
-                                                        )}
+                                                    <label htmlFor="cvv" className="field__label">
+                                                        {t('REGISTER.CARD_DETAILS.CVV')}
                                                     </label>
                                                     <TextField
                                                         max={3}
@@ -518,13 +437,8 @@ const TutorBookings = () => {
                                         </div>
 
                                         <div className="field">
-                                            <label
-                                                htmlFor="zipCode"
-                                                className="field__label"
-                                            >
-                                                {t(
-                                                    'REGISTER.CARD_DETAILS.ZIP_CODE'
-                                                )}
+                                            <label htmlFor="zipCode" className="field__label">
+                                                {t('REGISTER.CARD_DETAILS.ZIP_CODE')}
                                             </label>
                                             <TextField
                                                 type="number"

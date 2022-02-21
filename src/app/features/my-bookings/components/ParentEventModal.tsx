@@ -16,43 +16,39 @@ interface IProps {
     event: IBooking | null;
     tutorName: string;
     openEditModal: (isOpen: boolean) => void;
+    bookingStart: string;
 }
 
 const ParentEventModal: React.FC<IProps> = (props) => {
-    const { handleClose, positionClass, event, tutorName, openEditModal } =
-        props;
+    const { handleClose, positionClass, event, tutorName, openEditModal, bookingStart } = props;
+
+    const handleDeleteBooking = () => {
+        console.log();
+    };
 
     return (
         <>
             {event ? (
-                <div
-                    className={`modal--parent modal--parent--${positionClass}`}
-                >
+                <div className={`modal--parent modal--parent--${positionClass}`}>
                     <div className="modal--parent__header">
                         <div className="flex flex--primary">
                             <div>
-                                <div className="type--wgt--bold type--md mb-1">
-                                    {event.Subject.name}
-                                </div>
+                                <div className="type--wgt--bold type--md mb-1">{event.Subject.name}</div>
                                 <div className="type--color--secondary">
-                                    {moment(event.startTime).format(
-                                        'DD/MMM/YYYY, HH:mm'
-                                    )}{' '}
-                                    - {moment(event.endTime).format('HH:mm')}
+                                    {moment(event.startTime).format('DD/MMM/YYYY, HH:mm')} - {moment(event.endTime).format('HH:mm')}
                                 </div>
                             </div>
                             <div className="mb-6">
-                                <i
-                                    className="icon icon--base icon--grey icon--edit mr-4"
-                                    onClick={() => openEditModal(true)}
-                                ></i>
-                                <i className="icon icon--base icon--grey icon--delete mr-4"></i>
+                                <i className="icon icon--base icon--grey icon--edit mr-4" onClick={() => openEditModal(true)}></i>
+                                {moment(bookingStart).isSame(moment(), 'day') ? (
+                                    <></>
+                                ) : (
+                                    <i className="icon icon--base icon--grey icon--delete mr-4" onClick={() => handleDeleteBooking()}></i>
+                                )}
                                 <i
                                     className="icon icon--base icon--grey icon--close"
                                     onClick={() => {
-                                        handleClose
-                                            ? handleClose(false)
-                                            : false;
+                                        handleClose ? handleClose(false) : false;
                                         openEditModal(false);
                                     }}
                                 ></i>
@@ -65,9 +61,7 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                     <div className="modal--parent__body">
                         <div className="flex flex--center mb-4">
                             <i className="icon icon--base icon--tutor icon--grey mr-4"></i>
-                            <div className="type--color--secondary">
-                                {tutorName}
-                            </div>
+                            <div className="type--color--secondary">{tutorName}</div>
                         </div>
 
                         <div className="flex flex--center mb-4">
@@ -85,9 +79,7 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                         </div>
                     </div>
                     <div className="modal--parent__footer mt-6">
-                        <button className="btn btn--base btn--primary">
-                            Join
-                        </button>
+                        <button className="btn btn--base btn--primary">Join</button>
                     </div>
                 </div>
             ) : (
