@@ -1,6 +1,10 @@
+import { url } from 'inspector';
+import { method } from 'lodash';
+
 import { baseService } from '../../../baseService';
 import { HttpMethods } from '../../../lookups/httpMethods';
 import IBooking from '../interfaces/IBooking';
+import ICompletedLesson from '../interfaces/ICompletedLesson';
 import IUpcomingLessons from '../interfaces/IUpcomingLessons';
 
 //bookings/week/:tutorId
@@ -65,10 +69,7 @@ export const bookingService = baseService.injectEndpoints({
             },
         }),
         //maybe change return object to have additional properties to handle unavailable events
-        getBookingsById: builder.query<
-            IBookingTransformed[],
-            IBookingsByIdPayload
-        >({
+        getBookingsById: builder.query<IBookingTransformed[], IBookingsByIdPayload>({
             query: (data) => ({
                 url: `${URL}/${data.tutorId}?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}`,
                 method: HttpMethods.GET,
@@ -93,10 +94,7 @@ export const bookingService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
-        getNotificationForLessons: builder.query<
-            number,
-            INotificationForLessons
-        >({
+        getNotificationForLessons: builder.query<number, INotificationForLessons>({
             query: (data) => ({
                 url: `${URL}/${data.userId}/${data.date}/count`,
                 method: HttpMethods.GET,
@@ -121,6 +119,11 @@ export const bookingService = baseService.injectEndpoints({
         getBookingById: builder.query<IBooking, string>({
             query: (bookingId) => ({
                 url: `${URL}/${bookingId}`,
+            }),
+        }),
+        getCompletedLessons: builder.query<ICompletedLesson[], void>({
+            query: () => ({
+                url: `${URL}/completed-lessons`,
                 method: HttpMethods.GET,
             }),
         }),
@@ -135,4 +138,5 @@ export const {
     useCreatebookingMutation,
     useLazyGetBookingByIdQuery,
     useUpdateBookingMutation,
+    useLazyGetCompletedLessonsQuery,
 } = bookingService;

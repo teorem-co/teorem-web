@@ -1,4 +1,4 @@
-export interface ICompletedLesson {
+export interface ICompletedLessonMock {
     id: string;
     tutorImg: string;
     subject: string;
@@ -13,7 +13,7 @@ export interface IVideoLesson {
     date: string;
 }
 
-const completedLessonsList: ICompletedLesson[] = [
+const completedLessonsList: ICompletedLessonMock[] = [
     {
         id: 'tutor-01',
         tutorImg: 'https://source.unsplash.com/random/300×300/?teacher',
