@@ -1,6 +1,6 @@
 import { Form, FormikProvider, useFormik } from 'formik';
 import moment from 'moment';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Calendar as BigCalendar, momentLocalizer, SlotInfo } from 'react-big-calendar';
 import Calendar from 'react-calendar';
 import { useTranslation } from 'react-i18next';
@@ -37,6 +37,11 @@ interface IEvent {
     allDay: boolean;
 }
 
+interface ICoords {
+    x: number;
+    y: number;
+}
+
 const TutorBookings = () => {
     const localizer = momentLocalizer(moment);
 
@@ -52,6 +57,10 @@ const TutorBookings = () => {
 
     const [calChange, setCalChange] = useState<boolean>(false);
     const positionClass = moment(selectedStart).format('dddd');
+    const [highlightCoords, setHighlightCoords] = useState<ICoords>({
+        x: 0,
+        y: 0,
+    });
 
     const userRole = useAppSelector((state) => state.auth.user?.Role?.abrv);
 
@@ -215,6 +224,37 @@ const TutorBookings = () => {
         setOpenEventDetails(false);
     };
 
+    const highlightRef = useRef<HTMLDivElement>(null);
+    const calcPosition = () => {
+        const childElement = document.querySelector('.react-calendar__tile--active');
+        const rectParent = highlightRef.current && highlightRef.current.getBoundingClientRect();
+        const rectChild = childElement && childElement.getBoundingClientRect();
+
+        if (rectParent && rectChild) {
+            const finalX = rectParent.x - rectChild.x;
+            const finalY = rectChild.y - rectParent.y;
+            setHighlightCoords({ x: finalX, y: finalY });
+        }
+    };
+
+    const tileRef = useRef<HTMLDivElement>(null);
+    const tileElement = tileRef.current as HTMLDivElement;
+
+    const hideShowHighlight = (date: Date) => {
+        if (tileElement) {
+            if (moment(date).isSame(value, 'month')) {
+                tileElement.style.display = 'block';
+            } else {
+                tileElement.style.display = 'none';
+            }
+        }
+    };
+
+    useEffect(() => {
+        calcPosition();
+        hideShowHighlight(value);
+    }, [value]);
+
     const allBookings = tutorBookings && tutorBookings.concat(emptyBookings);
 
     return (
@@ -340,8 +380,11 @@ const TutorBookings = () => {
                     </div>
                 </div>
                 <div>
-                    <div className="card card--primary mb-4">
+                    <div ref={highlightRef} className="card card--mini-calendar mb-4 pos--rel">
                         <Calendar
+                            onActiveStartDateChange={(e) => {
+                                hideShowHighlight(e.activeStartDate);
+                            }}
                             onChange={(e: Date) => {
                                 onChange(e);
                                 setCalChange(!calChange);
@@ -350,6 +393,14 @@ const TutorBookings = () => {
                             prevLabel={<PrevIcon />}
                             nextLabel={<NextIcon />}
                         />
+                        <div
+                            ref={tileRef}
+                            style={{
+                                top: `${highlightCoords.y}px`,
+                                left: `${highlightCoords.x}px`,
+                            }}
+                            className="tile--row"
+                        ></div>
                     </div>
                     <div className="upcoming-lessons">
                         {/* <UpcomingLessons
