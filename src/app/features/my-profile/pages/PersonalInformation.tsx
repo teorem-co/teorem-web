@@ -3,6 +3,7 @@ import { isEqual } from 'lodash';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router';
 import * as Yup from 'yup';
 
 import { useLazyGetProfileProgressQuery } from '../../../../services/tutorService';
@@ -52,7 +53,9 @@ const PersonalInformation = () => {
     });
 
     const dispatch = useAppDispatch();
+    const history = useHistory();
     const profileProgressState = useAppSelector((state) => state.myProfileProgress);
+    const userRole: string = useAppSelector((state) => state.auth.user?.Role.abrv) || '';
     const user = useAppSelector((state) => state.auth.user);
     const userId = getUserId();
     const { t } = useTranslation();
@@ -60,14 +63,19 @@ const PersonalInformation = () => {
     const pageLoading = countriesLoading || countriesUninitialized || isLoadingUser || userUninitialized || countriesFetching || userFetching;
 
     const handleSubmit = async (values: Values) => {
-        await updateUserInformation({
+        const toSend: any = {
             firstName: values.firstName,
             lastName: values.lastName,
             phoneNumber: values.phoneNumber,
             countryId: values.countryId,
             dateOfBirth: moment(values.dateOfBirth).toISOString(),
-            profileImage: values.profileImage,
-        });
+        };
+
+        if (userRole === 'tutor') {
+            toSend['profileImage'] = values.profileImage;
+        }
+
+        await updateUserInformation(toSend);
 
         //hide save button
         setSaveBtnActive(false);
@@ -120,13 +128,8 @@ const PersonalInformation = () => {
         return true;
     };
 
-    const formik = useFormik({
-        initialValues: initialValues,
-        onSubmit: handleSubmit,
-        validateOnBlur: true,
-        validateOnChange: false,
-        enableReinitialize: true,
-        validationSchema: Yup.object().shape({
+    const generateValidation = () => {
+        const validation: any = {
             firstName: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             lastName: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             phoneNumber: Yup.string().min(6, t('FORM_VALIDATION.TOO_SHORT')).required(t('FORM_VALIDATION.REQUIRED')),
@@ -142,7 +145,10 @@ const PersonalInformation = () => {
                     }
                 }),
             countryId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            profileImage: Yup.mixed()
+        };
+
+        if (userRole === 'tutor') {
+            validation['profileImage'] = Yup.mixed()
                 .required('Image Required')
                 .test('profileImage', 'Image has to be either jpg,png,jpeg or svg', (value) => {
                     if (typeof value === 'string') {
@@ -165,8 +171,18 @@ const PersonalInformation = () => {
 
                         return true;
                     }
-                }),
-        }),
+                });
+        }
+
+        return Yup.object().shape(validation);
+    };
+    const formik = useFormik({
+        initialValues: initialValues,
+        onSubmit: handleSubmit,
+        validateOnBlur: true,
+        validateOnChange: false,
+        enableReinitialize: true,
+        validationSchema: generateValidation(),
     });
 
     useEffect(() => {
@@ -175,7 +191,10 @@ const PersonalInformation = () => {
         //if user id exist, update user info on component unmount
         if (userId) {
             return function updateUserOnUnmount() {
-                getUser(userId);
+                //if user is loggin out, dont fetch new userData
+                if (history.location.pathname !== '/') {
+                    getUser(userId);
+                }
             };
         }
     }, []);
@@ -192,19 +211,6 @@ const PersonalInformation = () => {
             : [];
         setCountryOptions(currentCountries);
     }, [countries]);
-
-    // useEffect(() => {
-    //     if (isSuccessUserUpdate) {
-    //         if (userId) {
-    //             getUser(userId);
-    //             getProfileProgress();
-    //         }
-    //         setSaveBtnActive(false);
-    //         toastService.success(
-    //             t('SEARCH_TUTORS.TUTOR_PROFILE.UPDATE_ADDITIONAL_INFO_SUCCESS')
-    //         );
-    //     }
-    // }, [isSuccessUserUpdate]);
 
     useEffect(() => {
         handleBlur();
@@ -325,19 +331,23 @@ const PersonalInformation = () => {
                                                     />
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div className="field field__file">
-                                            <label className="field__label" htmlFor="profileImage">
-                                                {t('MY_PROFILE.PROFILE_SETTINGS.IMAGE')}
-                                            </label>
-                                            <UploadFile
-                                                setFieldValue={formik.setFieldValue}
-                                                id="profileImage"
-                                                name="profileImage"
-                                                value={user?.profileImage ? user.profileImage : ''}
-                                                disabled={isLoading}
-                                                imagePreview={formik.values.profileImage}
-                                            />
+                                            {userRole === 'tutor' && (
+                                                <div className="col col-12">
+                                                    <div className="field field__file">
+                                                        <label className="field__label" htmlFor="profileImage">
+                                                            {t('MY_PROFILE.PROFILE_SETTINGS.IMAGE')}
+                                                        </label>
+                                                        <UploadFile
+                                                            setFieldValue={formik.setFieldValue}
+                                                            id="profileImage"
+                                                            name="profileImage"
+                                                            value={user?.profileImage ? user.profileImage : ''}
+                                                            disabled={isLoading}
+                                                            imagePreview={formik.values.profileImage}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
