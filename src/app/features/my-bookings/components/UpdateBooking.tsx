@@ -29,134 +29,117 @@ interface Values {
     level: string;
     subject: string;
     child: string;
-    timeFrom: string;
+    timeFrom: number;
 }
 const UpdateBooking: React.FC<IProps> = (props) => {
     const { tutorId } = useParams();
     const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
     const [selectedTime, setSelectedTime] = useState<string>('');
-    const {
-        start,
-        end,
-        handleClose,
-        positionClass,
-        setSidebarOpen,
-        clearEmptyBookings,
-        booking,
-    } = props;
-    const { data: levelOptions, isLoading: isLoadingLevels } =
-        useGetTutorLevelsQuery(tutorId);
+    const { start, end, handleClose, positionClass, setSidebarOpen, clearEmptyBookings, booking } = props;
+    const { data: levelOptions, isLoading: isLoadingLevels } = useGetTutorLevelsQuery(tutorId);
 
-    const { data: childOptions, isLoading: isLoadingChildren } =
-        useGetChildQuery();
+    const { data: childOptions, isLoading: isLoadingChildren } = useGetChildQuery();
 
-    const [
-        getSubjectOptionsByLevel,
-        {
-            data: subjectsData,
-            isLoading: isLoadingSubjects,
-            isSuccess: isSuccessSubjects,
-        },
-    ] = useLazyGetTutorSubjectsByTutorLevelQuery();
+    const [getSubjectOptionsByLevel, { data: subjectsData, isLoading: isLoadingSubjects, isSuccess: isSuccessSubjects }] =
+        useLazyGetTutorSubjectsByTutorLevelQuery();
 
-    const [updateBooking, { isSuccess: updateBookingSuccess }] =
-        useUpdateBookingMutation();
+    const [updateBooking, { isSuccess: updateBookingSuccess }] = useUpdateBookingMutation();
 
     const timeOptions = [
         {
-            value: '0:00',
+            value: 0,
             label: '00:00',
         },
         {
-            value: '1:00',
+            value: 1,
             label: '01:00',
         },
         {
-            value: '2:00',
+            value: 2,
             label: '02:00',
         },
         {
-            value: '3:00',
+            value: 3,
             label: '03:00',
         },
         {
-            value: '4:00',
+            value: 4,
             label: '04:00',
         },
         {
-            value: '5:00',
+            value: 5,
             label: '05:00',
         },
         {
-            value: '6:00',
+            value: 6,
             label: '06:00',
         },
         {
-            value: '7:00',
+            value: 7,
             label: '07:00',
         },
         {
-            value: '8:00',
+            value: 8,
             label: '08:00',
         },
         {
-            value: '9:00',
+            value: 9,
             label: '09:00',
         },
         {
-            value: '10:00',
+            value: 10,
             label: '10:00',
         },
         {
-            value: '11:00',
+            value: 11,
             label: '11:00',
         },
         {
-            value: '12:00',
+            value: 12,
             label: '12:00',
         },
         {
-            value: '13:00',
+            value: 13,
             label: '13:00',
         },
         {
-            value: '14:00',
+            value: 14,
             label: '14:00',
         },
         {
-            value: '15:00',
+            value: 15,
             label: '15:00',
         },
         {
-            value: '16:00',
+            value: 16,
             label: '16:00',
         },
         {
-            value: '17:00',
+            value: 17,
             label: '17:00',
         },
         {
-            value: '18:00',
+            value: 18,
             label: '18:00',
         },
         {
-            value: '19:00',
+            value: 19,
             label: '19:00',
         },
         {
-            value: '20:00',
+            value: 20,
             label: '20:00',
         },
         {
-            value: '21:00',
+            value: 21,
             label: '21:00',
         },
         {
-            value: '22:00',
+            value: 22,
             label: '22:00',
         },
         {
-            value: '23:00',
+            value: 23,
             label: '23:00',
         },
     ];
@@ -179,8 +162,9 @@ const UpdateBooking: React.FC<IProps> = (props) => {
         level: '',
         subject: '',
         child: '',
-        timeFrom: start ? moment(start).format('HH:mm') : '',
+        timeFrom: 0,
     });
+    console.log(timeOptions.find((time) => time.label === moment(start).format('HH:mm')));
 
     const formik = useFormik({
         initialValues: initialValues,
@@ -195,7 +179,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
         props.setSidebarOpen(false);
         if (!isEqual(values.timeFrom, initialValues.timeFrom)) {
             updateBooking({
-                startTime: moment(values.timeFrom, 'HH:mm').toISOString(),
+                startTime: moment(start).set('hours', values.timeFrom).toISOString(),
                 bookingId: booking ? booking.id : '',
             });
         }
@@ -238,21 +222,18 @@ const UpdateBooking: React.FC<IProps> = (props) => {
                 level: booking.Level.id,
                 subject: booking.subjectId,
                 child: booking.User.id,
-                timeFrom: moment(booking.startTime).format('H:mm'),
+                timeFrom: timeOptions.find((time) => time.label === moment(booking.startTime).format('HH:mm'))!.value,
             };
             setInitialValues(values);
         }
     }, [booking]);
-    const levelDisabled = !levelOptions || isLoadingLevels;
 
     return (
         <div className={`modal--parent modal--parent--${positionClass}`}>
             <div className="modal--parent__header">
                 <div className="flex flex--primary">
                     <div>
-                        <div className="type--wgt--bold type--md mb-1">
-                            Book a Slot
-                        </div>
+                        <div className="type--wgt--bold type--md mb-1">Book a Slot</div>
                         <div className="type--color--secondary">
                             {start} - {end}
                         </div>
@@ -275,6 +256,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
             <div className="modal--parent__body">
                 <FormikProvider value={formik}>
                     <Form>
+                        <div>{JSON.stringify(formik.values, null, 2)}</div>
                         <div className="field">
                             <label htmlFor="level" className="field__label">
                                 Level*
@@ -304,12 +286,8 @@ const UpdateBooking: React.FC<IProps> = (props) => {
                                 options={subjectsData}
                                 classNamePrefix="onboarding-select"
                                 isDisabled={booking?.id ? true : false}
-                                noOptionsMessage={() =>
-                                    t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')
-                                }
-                                placeholder={t(
-                                    'SEARCH_TUTORS.PLACEHOLDER.SUBJECT'
-                                )}
+                                noOptionsMessage={() => t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')}
+                                placeholder={t('SEARCH_TUTORS.PLACEHOLDER.SUBJECT')}
                             />
                         </div>
                         <div className="field">
@@ -335,13 +313,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
                             <div className="flex">
                                 <div className="field w--100 mr-6">
                                     <MySelect
-                                        onChangeCustom={(e) =>
-                                            handleChange(
-                                                moment(e, 'HH:mm').format(
-                                                    'HH:mm'
-                                                )
-                                            )
-                                        }
+                                        onChangeCustom={(e) => handleChange(moment(e, 'HH:mm').format('HH:mm'))}
                                         field={formik.getFieldProps('timeFrom')}
                                         form={formik}
                                         meta={formik.getFieldMeta('timeFrom')}
@@ -361,13 +333,9 @@ const UpdateBooking: React.FC<IProps> = (props) => {
                                         disabled={true}
                                         value={
                                             selectedTime
-                                                ? moment(selectedTime, 'HH:mm')
-                                                      .add(1, 'hours')
-                                                      .format('HH:mm')
+                                                ? moment(selectedTime, 'HH:mm').add(1, 'hours').format('HH:mm')
                                                 : booking
-                                                ? moment(booking.startTime)
-                                                      .add(1, 'hours')
-                                                      .format('HH:mm')
+                                                ? moment(booking.startTime).add(1, 'hours').format('HH:mm')
                                                 : 'Time'
                                         }
                                     />
@@ -378,10 +346,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
                 </FormikProvider>
             </div>
             <div className="modal--parent__footer">
-                <button
-                    className="btn btn--base btn--primary mb-1"
-                    onClick={() => handleSubmitForm()}
-                >
+                <button className="btn btn--base btn--primary mb-1" onClick={() => handleSubmitForm()}>
                     Book
                 </button>
                 <button

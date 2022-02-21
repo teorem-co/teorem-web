@@ -6,24 +6,15 @@ import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 
-import {
-    useGetLevelOptionsQuery,
-    useGetTutorLevelsQuery,
-} from '../../../../services/levelService';
-import {
-    useLazyGetSubjectOptionsByLevelQuery,
-    useLazyGetTutorSubjectsByTutorLevelQuery,
-} from '../../../../services/subjectService';
+import { useGetLevelOptionsQuery, useGetTutorLevelsQuery } from '../../../../services/levelService';
+import { useLazyGetSubjectOptionsByLevelQuery, useLazyGetTutorSubjectsByTutorLevelQuery } from '../../../../services/subjectService';
 import { useGetChildQuery } from '../../../../services/userService';
 import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import TextField from '../../../components/form/TextField';
 import { useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import IBooking from '../interfaces/IBooking';
-import {
-    useCreatebookingMutation,
-    useUpdateBookingMutation,
-} from '../services/bookingService';
+import { useCreatebookingMutation, useUpdateBookingMutation } from '../services/bookingService';
 
 interface IProps {
     start?: string;
@@ -44,127 +35,111 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     const { tutorId } = useParams();
     const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
     const [selectedTime, setSelectedTime] = useState<string>('');
-    const {
-        start,
-        end,
-        handleClose,
-        positionClass,
-        setSidebarOpen,
-        clearEmptyBookings,
-    } = props;
-    const { data: levelOptions, isLoading: isLoadingLevels } =
-        useGetTutorLevelsQuery(tutorId);
+    const { start, end, handleClose, positionClass, setSidebarOpen, clearEmptyBookings } = props;
+    const { data: levelOptions, isLoading: isLoadingLevels } = useGetTutorLevelsQuery(tutorId);
 
-    const { data: childOptions, isLoading: isLoadingChildren } =
-        useGetChildQuery();
+    const { data: childOptions, isLoading: isLoadingChildren } = useGetChildQuery();
 
-    const [
-        getSubjectOptionsByLevel,
-        {
-            data: subjectsData,
-            isLoading: isLoadingSubjects,
-            isSuccess: isSuccessSubjects,
-        },
-    ] = useLazyGetTutorSubjectsByTutorLevelQuery();
+    const [getSubjectOptionsByLevel, { data: subjectsData, isLoading: isLoadingSubjects, isSuccess: isSuccessSubjects }] =
+        useLazyGetTutorSubjectsByTutorLevelQuery();
 
-    const [createBooking, { isSuccess: createBookingSuccess }] =
-        useCreatebookingMutation();
+    const [createBooking, { isSuccess: createBookingSuccess }] = useCreatebookingMutation();
 
     const timeOptions = [
         {
-            value: '0:00',
+            value: 0,
             label: '00:00',
         },
         {
-            value: '1:00',
+            value: 1,
             label: '01:00',
         },
         {
-            value: '2:00',
+            value: 2,
             label: '02:00',
         },
         {
-            value: '3:00',
+            value: 3,
             label: '03:00',
         },
         {
-            value: '4:00',
+            value: 4,
             label: '04:00',
         },
         {
-            value: '5:00',
+            value: 5,
             label: '05:00',
         },
         {
-            value: '6:00',
+            value: 6,
             label: '06:00',
         },
         {
-            value: '7:00',
+            value: 7,
             label: '07:00',
         },
         {
-            value: '8:00',
+            value: 8,
             label: '08:00',
         },
         {
-            value: '9:00',
+            value: 9,
             label: '09:00',
         },
         {
-            value: '10:00',
+            value: 10,
             label: '10:00',
         },
         {
-            value: '11:00',
+            value: 11,
             label: '11:00',
         },
         {
-            value: '12:00',
+            value: 12,
             label: '12:00',
         },
         {
-            value: '13:00',
+            value: 13,
             label: '13:00',
         },
         {
-            value: '14:00',
+            value: 14,
             label: '14:00',
         },
         {
-            value: '15:00',
+            value: 15,
             label: '15:00',
         },
         {
-            value: '16:00',
+            value: 16,
             label: '16:00',
         },
         {
-            value: '17:00',
+            value: 17,
             label: '17:00',
         },
         {
-            value: '18:00',
+            value: 18,
             label: '18:00',
         },
         {
-            value: '19:00',
+            value: 19,
             label: '19:00',
         },
         {
-            value: '20:00',
+            value: 20,
             label: '20:00',
         },
         {
-            value: '21:00',
+            value: 21,
             label: '21:00',
         },
         {
-            value: '22:00',
+            value: 22,
             label: '22:00',
         },
         {
-            value: '23:00',
+            value: 23,
             label: '23:00',
         },
     ];
@@ -202,11 +177,12 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     const handleSubmit = (values: any) => {
         props.setSidebarOpen(false);
         createBooking({
-            startTime: moment(start).toISOString(),
+            startTime: moment(start).set('hours', values.timeFrom).toISOString(),
             subjectId: values.subject,
             studentId: values.child,
             tutorId: tutorId,
         });
+        props.clearEmptyBookings();
     };
 
     useEffect(() => {
@@ -244,6 +220,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
 
     const handleChange = (e: any) => {
         setSelectedTime(e);
+        console.log(e);
     };
     const handleSubmitForm = () => {
         formik.handleSubmit();
@@ -265,9 +242,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
             <div className="modal--parent__header">
                 <div className="flex flex--primary">
                     <div>
-                        <div className="type--wgt--bold type--md mb-1">
-                            Book a Slot
-                        </div>
+                        <div className="type--wgt--bold type--md mb-1">Book a Slot</div>
                         <div className="type--color--secondary">
                             {start} - {end}
                         </div>
@@ -317,12 +292,8 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                                 isMulti={false}
                                 options={subjectsData}
                                 classNamePrefix="onboarding-select"
-                                noOptionsMessage={() =>
-                                    t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')
-                                }
-                                placeholder={t(
-                                    'SEARCH_TUTORS.PLACEHOLDER.SUBJECT'
-                                )}
+                                noOptionsMessage={() => t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')}
+                                placeholder={t('SEARCH_TUTORS.PLACEHOLDER.SUBJECT')}
                             />
                         </div>
                         <div className="field">
@@ -347,13 +318,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                             <div className="flex">
                                 <div className="field w--100 mr-6">
                                     <MySelect
-                                        onChangeCustom={(e) =>
-                                            handleChange(
-                                                moment(e, 'HH:mm').format(
-                                                    'HH:mm'
-                                                )
-                                            )
-                                        }
+                                        onChangeCustom={(e) => handleChange(moment(e, 'HH:mm').format('HH:mm'))}
                                         field={formik.getFieldProps('timeFrom')}
                                         form={formik}
                                         meta={formik.getFieldMeta('timeFrom')}
@@ -373,13 +338,9 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                                         disabled={true}
                                         value={
                                             selectedTime
-                                                ? moment(selectedTime, 'HH:mm')
-                                                      .add(1, 'hours')
-                                                      .format('HH:mm')
+                                                ? moment(selectedTime, 'HH:mm').add(1, 'hours').format('HH:mm')
                                                 : start
-                                                ? moment(start)
-                                                      .add(1, 'hours')
-                                                      .format('HH:mm')
+                                                ? moment(start).add(1, 'hours').format('HH:mm')
                                                 : 'Time'
                                         }
                                     />
@@ -390,10 +351,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                 </FormikProvider>
             </div>
             <div className="modal--parent__footer">
-                <button
-                    className="btn btn--base btn--primary mb-1"
-                    onClick={() => handleSubmitForm()}
-                >
+                <button className="btn btn--base btn--primary mb-1" onClick={() => handleSubmitForm()}>
                     Book
                 </button>
                 <button
