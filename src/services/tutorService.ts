@@ -1,4 +1,5 @@
 import { baseService } from '../app/baseService';
+import IBooking from '../app/features/my-bookings/interfaces/IBooking';
 import IProgressProfile from '../app/features/my-profile/interfaces/IProgressProfile';
 import IUpdateAdditionalInfo from '../app/features/my-profile/interfaces/IUpdateAdditionalInfo';
 import { HttpMethods } from '../app/lookups/httpMethods';
@@ -8,6 +9,20 @@ import ITutor from '../interfaces/ITutor';
 interface ITutorAvailable {
     count: number;
     rows: ITutor[];
+}
+
+interface IBookingsByIdPayload {
+    dateFrom: string;
+    dateTo: string;
+    tutorId: string;
+}
+
+interface IBookingTransformed {
+    id: string;
+    label: string;
+    start: Date;
+    end: Date;
+    allDay: boolean;
 }
 
 // interface ICreateTutorSubject {}
@@ -65,6 +80,31 @@ export const tutorService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
+        getTutorBookings: builder.query<
+            IBookingTransformed[],
+            IBookingsByIdPayload
+        >({
+            query: (data) => ({
+                url: `${URL}/${data.tutorId}?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}`,
+                method: HttpMethods.GET,
+            }),
+            transformResponse: (response: ITutor) => {
+                const bookings: IBookingTransformed[] = response.Bookings.map(
+                    (x) => {
+                        return {
+                            id: x.id,
+                            label: x.Subject ? x.Subject.name : 'No title',
+                            start: new Date(x.startTime),
+                            end: new Date(x.endTime),
+                            allDay: false,
+                        };
+                    }
+                );
+
+                return bookings;
+            },
+            providesTags: ['tutorBookings'],
+        }),
         // postTutorsubject: builder.mutation<void, >
     }),
 });
@@ -77,4 +117,5 @@ export const {
     useLazyGetTutorProfileDataQuery,
     useUpdateAditionalInfoMutation,
     useGetTutorProfileDataQuery,
+    useLazyGetTutorBookingsQuery,
 } = tutorService;

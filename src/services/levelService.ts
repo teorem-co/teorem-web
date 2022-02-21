@@ -4,6 +4,12 @@ import { HttpMethods } from '../app/lookups/httpMethods';
 import ILevel from '../interfaces/ILevel';
 
 const URL = 'levels';
+const tutorLevelsUrl = 'tutor-subjects';
+
+interface ITutorLevel {
+    Level: ILevel;
+    levelId: string;
+}
 
 export const levelService = baseService.injectEndpoints({
     endpoints: (builder) => ({
@@ -27,8 +33,25 @@ export const levelService = baseService.injectEndpoints({
                 return levelOptions;
             },
         }),
+        getTutorLevels: builder.query<OptionType[], string>({
+            query: (tutorId) => ({
+                url: `${tutorLevelsUrl}/${URL}/${tutorId}`,
+                method: HttpMethods.GET,
+            }),
+            transformResponse: (response: ITutorLevel[]) => {
+                const tutorLevels: OptionType[] = response.map((level) => ({
+                    value: level.levelId,
+                    label: level.Level.name,
+                }));
+
+                return tutorLevels;
+            },
+        }),
     }),
 });
 
-export const { useLazyGetLevelOptionsQuery, useGetLevelOptionsQuery } =
-    levelService;
+export const {
+    useLazyGetLevelOptionsQuery,
+    useGetLevelOptionsQuery,
+    useGetTutorLevelsQuery,
+} = levelService;

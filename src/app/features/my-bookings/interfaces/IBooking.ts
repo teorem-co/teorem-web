@@ -25,7 +25,7 @@ export default interface IBooking {
         email: string;
         firstName: string;
         id: string;
-        lastname: string;
+        lastName: string;
         parentId: null;
         password: string;
         passwordResetToken: string;

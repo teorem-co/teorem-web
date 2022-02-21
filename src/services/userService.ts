@@ -1,4 +1,5 @@
 import { baseService } from '../app/baseService';
+import { OptionType } from '../app/components/form/MySelectField';
 import IChangePassword from '../app/features/my-profile/interfaces/IChangePassword';
 import { HttpMethods } from '../app/lookups/httpMethods';
 import typeToFormData from '../app/utils/typeToFormData';
@@ -37,6 +38,20 @@ export const userService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
+        getChild: builder.query<OptionType[], void>({
+            query: () => ({
+                url: `${URL}/children`,
+                method: HttpMethods.GET,
+            }),
+            transformResponse: (response: IUser[]) => {
+                const childOptions: OptionType[] = response.map((child) => ({
+                    value: child.id,
+                    label: child.firstName + ' ' + child.lastName,
+                }));
+
+                return childOptions;
+            },
+        }),
     }),
 });
 
@@ -44,4 +59,6 @@ export const {
     useUpdateUserInformationMutation,
     useChangePasswordMutation,
     useLazyGetUserQuery,
+    useLazyGetChildQuery,
+    useGetChildQuery,
 } = userService;
