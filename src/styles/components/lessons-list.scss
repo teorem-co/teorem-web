@@ -45,4 +45,48 @@
             margin: 0 calc(#{$unit} * 2);
         }
     }
+
+    &__group {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: calc(#{$unit} * 6);
+        padding-top: calc(#{$unit} * 6);
+        cursor: pointer;
+
+        &__icon {
+            transition: all 250ms ease-in-out;
+        }
+
+        &__name {
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: $grey-bb;
+        }
+
+        &__count {
+            background-color: $color-primary-lighter;
+            padding: calc(#{$unit} / 2) calc(#{$unit} * 4);
+            color: $color-primary;
+            border-radius: $border-rounded;
+            margin-left: calc(#{$unit} * 2);
+        }
+
+        &__list {
+            overflow: hidden;
+            transition: all 250ms ease-in-out;
+        }
+
+        &--border {
+            border-bottom: 1px solid $grey-ed;
+            margin-left: -24px;
+            margin-right: -24px;
+        }
+    }
+}
+
+.rotate {
+    &--180 {
+        transform: rotate3d(0, 0, 1, 180deg);
+    }
 }

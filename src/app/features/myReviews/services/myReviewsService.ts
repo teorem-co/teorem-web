@@ -1,5 +1,6 @@
 import { baseService } from '../../../baseService';
 import { HttpMethods } from '../../../lookups/httpMethods';
+import IAddReview from '../interfaces/IAddReview';
 import IMyReviews from '../interfaces/IMyReviews';
 import ITutorStatistics from '../interfaces/ITutorStatistics';
 import { IGetMyReviews } from '../MyReviews';
@@ -10,14 +11,19 @@ export const myReviewsService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         getMyReviews: builder.query<IMyReviews, IGetMyReviews>({
             query: (obj) => ({
-                url: `${URL}/${obj.tutorId}?${`page=${
-                    obj.page
-                }${`&rpp=${obj.rpp}`}`}`,
+                url: `${URL}/${obj.tutorId}?${`page=${obj.page}${`&rpp=${obj.rpp}`}`}`,
                 method: HttpMethods.GET,
             }),
             transformResponse: (response: IMyReviews) => {
                 return response;
             },
+        }),
+        addReview: builder.mutation<void, IAddReview>({
+            query: (body) => ({
+                url: `${URL}`,
+                method: HttpMethods.POST,
+                body: body,
+            }),
         }),
         getStatistics: builder.query<ITutorStatistics, string>({
             query: (tutorId) => ({
@@ -31,5 +37,4 @@ export const myReviewsService = baseService.injectEndpoints({
     }),
 });
 
-export const { useLazyGetMyReviewsQuery, useLazyGetStatisticsQuery } =
-    myReviewsService;
+export const { useLazyGetMyReviewsQuery, useLazyGetStatisticsQuery, useAddReviewMutation } = myReviewsService;

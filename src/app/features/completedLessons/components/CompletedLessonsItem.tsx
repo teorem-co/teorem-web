@@ -1,4 +1,4 @@
-import { ICompletedLesson } from '../../../constants/completedLessonsList';
+import ICompletedLesson from '../../my-bookings/interfaces/ICompletedLesson';
 
 interface Props {
     lesson: ICompletedLesson;
@@ -12,21 +12,17 @@ const CompletedLessonsItem = (props: Props) => {
     return (
         <div
             key={lesson.id}
-            className={`lessons-list__item ${
-                activeLesson === lesson.id ? 'active' : ''
-            }`}
+            className={`lessons-list__item ${activeLesson === lesson.id ? 'active' : ''}`}
             onClick={() => handleActiveLessons(lesson.id)}
         >
-            <img
-                className="lessons-list__item__img"
-                src={lesson.tutorImg}
-                alt="tutor profile picture"
-            />
+            <img className="lessons-list__item__img" src={lesson.Tutor.User.profileImage} alt="tutor profile picture" />
             <div className="lessons-list__item__info">
-                <div className="type--wgt--bold">{lesson.subject}</div>
-                <div className="type--color--brand">{lesson.tutorName}</div>
+                <div className="type--wgt--bold">{lesson.Subject.name}</div>
+                <div className="type--color--brand">
+                    {lesson.Tutor.User.firstName}&nbsp;{lesson.Tutor.User.lastName}
+                </div>
             </div>
-            <div>{lesson.lessonsCount} lessons</div>
+            <div>{lesson.count} lessons</div>
         </div>
     );
 };
