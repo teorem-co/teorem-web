@@ -29,7 +29,7 @@ interface Values {
     level: string;
     subject: string;
     child: string;
-    timeFrom: number;
+    timeFrom: string;
 }
 const UpdateBooking: React.FC<IProps> = (props) => {
     const { tutorId } = useParams();
@@ -47,99 +47,99 @@ const UpdateBooking: React.FC<IProps> = (props) => {
 
     const timeOptions = [
         {
-            value: 0,
+            value: '00:00',
             label: '00:00',
         },
         {
-            value: 1,
+            value: '01:00',
             label: '01:00',
         },
         {
-            value: 2,
+            value: '02:00',
             label: '02:00',
         },
         {
-            value: 3,
+            value: '03:00',
             label: '03:00',
         },
         {
-            value: 4,
+            value: '04:00',
             label: '04:00',
         },
         {
-            value: 5,
+            value: '05:00',
             label: '05:00',
         },
         {
-            value: 6,
+            value: '06:00',
             label: '06:00',
         },
         {
-            value: 7,
+            value: '07:00',
             label: '07:00',
         },
         {
-            value: 8,
+            value: '08:00',
             label: '08:00',
         },
         {
-            value: 9,
+            value: '09:00',
             label: '09:00',
         },
         {
-            value: 10,
+            value: '10:00',
             label: '10:00',
         },
         {
-            value: 11,
+            value: '11:00',
             label: '11:00',
         },
         {
-            value: 12,
+            value: '12:00',
             label: '12:00',
         },
         {
-            value: 13,
+            value: '13:00',
             label: '13:00',
         },
         {
-            value: 14,
+            value: '14:00',
             label: '14:00',
         },
         {
-            value: 15,
+            value: '15:00',
             label: '15:00',
         },
         {
-            value: 16,
+            value: '16:00',
             label: '16:00',
         },
         {
-            value: 17,
+            value: '17:00',
             label: '17:00',
         },
         {
-            value: 18,
+            value: '18:00',
             label: '18:00',
         },
         {
-            value: 19,
+            value: '19:00',
             label: '19:00',
         },
         {
-            value: 20,
+            value: '20:00',
             label: '20:00',
         },
         {
-            value: 21,
+            value: '21:00',
             label: '21:00',
         },
         {
-            value: 22,
+            value: '22:00',
             label: '22:00',
         },
         {
-            value: 23,
+            value: '23:00',
             label: '23:00',
         },
     ];
@@ -162,7 +162,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
         level: '',
         subject: '',
         child: '',
-        timeFrom: 0,
+        timeFrom: moment(start).format('HH:mm'),
     });
     console.log(timeOptions.find((time) => time.label === moment(start).format('HH:mm')));
 
@@ -177,9 +177,10 @@ const UpdateBooking: React.FC<IProps> = (props) => {
 
     const handleSubmit = (values: any) => {
         props.setSidebarOpen(false);
+        const splitString = values.timeFrom.split(':');
         if (!isEqual(values.timeFrom, initialValues.timeFrom)) {
             updateBooking({
-                startTime: moment(start).set('hours', values.timeFrom).toISOString(),
+                startTime: moment(start).set('hours', Number(splitString[0])).toISOString(),
                 bookingId: booking ? booking.id : '',
             });
         }
@@ -222,7 +223,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
                 level: booking.Level.id,
                 subject: booking.subjectId,
                 child: booking.User.id,
-                timeFrom: timeOptions.find((time) => time.label === moment(booking.startTime).format('HH:mm'))!.value,
+                timeFrom: moment(booking.startTime).format('HH:mm'),
             };
             setInitialValues(values);
         }
@@ -256,7 +257,6 @@ const UpdateBooking: React.FC<IProps> = (props) => {
             <div className="modal--parent__body">
                 <FormikProvider value={formik}>
                     <Form>
-                        <div>{JSON.stringify(formik.values, null, 2)}</div>
                         <div className="field">
                             <label htmlFor="level" className="field__label">
                                 Level*
