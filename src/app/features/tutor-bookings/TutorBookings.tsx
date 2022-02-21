@@ -159,20 +159,19 @@ const TutorBookings = () => {
         const existingBooking =
             tutorBookings && tutorBookings.filter((date) => moment(date.start).format('YYYY/MM/DD') === moment(e.start).format('YYYY/MM/DD'));
 
-        const test = [];
+        const flagArr = [];
         if (existingBooking) {
             const checkHours = !moment(e.start).isBefore(moment().add(3, 'hours'));
             existingBooking.forEach((booking) => {
                 const isBetweenStart = moment(e.start).isBetween(moment(booking.start), moment(booking.end));
                 const isBetweenEnd = moment(e.start).add(1, 'hours').isBetween(moment(booking.start), moment(booking.end));
-                const test2 = checkHours && isBetweenStart === false && isBetweenEnd === false;
-                if (test2) {
-                    test.push(true);
+                const currentFlag = checkHours && isBetweenStart === false && isBetweenEnd === false;
+                if (currentFlag) {
+                    flagArr.push(true);
                 }
-                debugger;
             });
         }
-        if (test.length === existingBooking?.length) {
+        if (flagArr.length === existingBooking?.length) {
             setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
             setSelectedEnd(moment(e.start).add(1, 'hours').format('HH:mm'));
             setOpenSlot(true);
@@ -194,12 +193,6 @@ const TutorBookings = () => {
             setEmptybookings([]);
             toastService.info("You can't book a lesson at selected time");
         }
-
-        // const isTest =
-        //     moment(existingBooking?.start).subtract(1, 'hours').isBefore(e.start) || moment(existingBooking?.start).add(1, 'hours').isAfter(e.start);
-
-        // const isBetweenStart = moment(e.start).isBetween(moment(existingBooking?.start), moment(existingBooking?.end));
-        // const isBetweenEnd = moment(e.start).add(1, 'hours').isBetween(moment(existingBooking?.start), moment(existingBooking?.end));
     };
 
     const handleSelectedEvent = (e: IBookingTransformed) => {
