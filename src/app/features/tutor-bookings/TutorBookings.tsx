@@ -207,9 +207,9 @@ const TutorBookings = () => {
             toastService.info("You can't book a lesson at selected time");
         }
     };
-    console.log(emptyBookings);
 
     const handleSelectedEvent = (e: IBookingTransformed) => {
+        // check whole date not only hours this is a bug
         if (moment(e.start).isBefore(moment()) || emptyBookings.length > 0) {
             return;
         } else {

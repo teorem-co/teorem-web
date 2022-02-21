@@ -1,29 +1,19 @@
 import { Form, FormikProvider, useFormik } from 'formik';
 import { t } from 'i18next';
-import { initial, isEqual } from 'lodash';
+import { isEqual } from 'lodash';
 import moment from 'moment';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 
-import {
-    useGetLevelOptionsQuery,
-    useGetTutorLevelsQuery,
-} from '../../../../services/levelService';
-import {
-    useLazyGetSubjectOptionsByLevelQuery,
-    useLazyGetTutorSubjectsByTutorLevelQuery,
-} from '../../../../services/subjectService';
+import { useGetTutorLevelsQuery } from '../../../../services/levelService';
+import { useLazyGetTutorSubjectsByTutorLevelQuery } from '../../../../services/subjectService';
 import { useGetChildQuery } from '../../../../services/userService';
 import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import TextField from '../../../components/form/TextField';
-import { useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import IBooking from '../interfaces/IBooking';
-import {
-    useCreatebookingMutation,
-    useUpdateBookingMutation,
-} from '../services/bookingService';
+import { useUpdateBookingMutation } from '../services/bookingService';
 
 interface IProps {
     start?: string;
@@ -68,14 +58,6 @@ const UpdateBooking: React.FC<IProps> = (props) => {
             isSuccess: isSuccessSubjects,
         },
     ] = useLazyGetTutorSubjectsByTutorLevelQuery();
-
-    const filteredSubjects = subjectsData?.find(
-        (x) => x.value === props.booking?.subjectId
-    );
-    console.log(filteredSubjects?.value);
-
-    const [createBooking, { isSuccess: createBookingSuccess }] =
-        useCreatebookingMutation();
 
     const [updateBooking, { isSuccess: updateBookingSuccess }] =
         useUpdateBookingMutation();

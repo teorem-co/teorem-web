@@ -183,14 +183,12 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
 
     // console.log(times);
 
-    const [initialValues, setInitialValues] = useState<Values>({
+    const initialValues: Values = {
         level: '',
         subject: '',
         child: '',
-        timeFrom: start
-            ? moment(start, 'DD/MMMM/YYYY, HH:mm').format('HH:mm')
-            : '',
-    });
+        timeFrom: moment(start).format('HH:mm'),
+    };
 
     const formik = useFormik({
         initialValues: initialValues,

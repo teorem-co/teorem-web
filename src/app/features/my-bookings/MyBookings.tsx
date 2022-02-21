@@ -6,11 +6,15 @@ import { useEffect, useRef, useState } from 'react';
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import Calendar from 'react-calendar';
 import ReactDOM from 'react-dom';
+import { useHistory } from 'react-router';
 
+import { RoleOptions } from '../../../slices/roleSlice';
 import MainWrapper from '../../components/MainWrapper';
 import { useAppSelector } from '../../hooks';
+import TutorEventModal from './components/TutorEventModal';
 import UpcomingLessons from './components/UpcomingLessons';
 import {
+    useLazyGetBookingByIdQuery,
     useLazyGetBookingsQuery,
     useLazyGetNotificationForLessonsQuery,
     useLazyGetUpcomingLessonsQuery,
@@ -21,6 +25,15 @@ interface ICoords {
     y: number;
 }
 
+interface IBookingTransformed {
+    id: string;
+    label: string;
+    start: Date;
+    end: Date;
+    allDay: boolean;
+    // tutorId?: string;
+}
+
 const MyBookings: React.FC = () => {
     const localizer = momentLocalizer(moment);
     const [value, onChange] = useState(new Date());
@@ -29,6 +42,12 @@ const MyBookings: React.FC = () => {
         x: 0,
         y: 0,
     });
+    const [selectedStart, setSelectedStart] = useState<string>('');
+    const [selectedEnd, setSelectedEnd] = useState<string>('');
+    const [openEventDetails, setOpenEventDetails] = useState<boolean>(false);
+    // const [bookingId, setBookingId] = useState<string>('');
+    const positionClass = moment(selectedStart).format('dddd');
+    const history = useHistory();
 
     const [getUpcomingLessons, { data: upcomingLessons }] =
         useLazyGetUpcomingLessonsQuery();
@@ -37,7 +56,13 @@ const MyBookings: React.FC = () => {
     const [getNotificationForLessons, { data: lessonsCount }] =
         useLazyGetNotificationForLessonsQuery();
 
+    const [
+        getBookingById,
+        { data: booking, isSuccess: getBookingByIdSuccess },
+    ] = useLazyGetBookingByIdQuery();
+
     const userId = useAppSelector((state) => state.auth.user?.id);
+    const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
 
     useEffect(() => {
         if (userId) {
@@ -101,11 +126,36 @@ const MyBookings: React.FC = () => {
         );
     };
 
+    // const getBooking = async () => {
+    //     const response = await getBookingById(bookingId);
+    //     return response;
+    // };
+
+    // useEffect(() => {
+    //     getBooking();
+    // }, [bookingId]);
+
     const PrevIcon = () => {
         return <i className="icon icon--base icon--chevron-left"></i>;
     };
     const NextIcon = () => {
         return <i className="icon icon--base icon--chevron-right"></i>;
+    };
+
+    const handleSelectedEvent = (e: IBookingTransformed) => {
+        // setBookingId(e.id);
+        if (userRole === RoleOptions.Tutor) {
+            getBookingById(e.id);
+            setOpenEventDetails(true);
+            setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
+            setSelectedEnd(moment(e.end).format('HH:mm'));
+            // if (booking && booking.id) {
+            //     setOpenSlot(true);
+            // }
+        }
+        // } else {
+        //     history.push(`/search-tutors/bookings/${booking?.tutorId}`);
+        // }
     };
 
     // const newBookings = union(bookings, emptyBookings);
@@ -188,7 +238,31 @@ const MyBookings: React.FC = () => {
                             step={10}
                             timeslots={6}
                             longPressThreshold={10}
+                            onSelectEvent={(e) => handleSelectedEvent(e)}
                         />
+                        {openEventDetails ? (
+                            <TutorEventModal
+                                event={booking ? booking : null}
+                                handleClose={(e) => setOpenEventDetails(e)}
+                                positionClass={`${
+                                    positionClass === 'Monday'
+                                        ? 'monday'
+                                        : positionClass === 'Tuesday'
+                                        ? 'tuesday'
+                                        : positionClass === 'Wednesday'
+                                        ? 'wednesday'
+                                        : positionClass === 'Thursday'
+                                        ? 'thursday'
+                                        : positionClass === 'Friday'
+                                        ? 'friday'
+                                        : positionClass === 'Saturday'
+                                        ? 'saturday'
+                                        : 'sunday'
+                                }`}
+                            />
+                        ) : (
+                            <></>
+                        )}
                     </div>
                 </div>
                 <div>
