@@ -82,7 +82,9 @@ const CompletedLessons = () => {
                             {userRole !== 'parent' && (
                                 <div className="mt-10 mb-10 ml-6 mr-6">
                                     <span className="type--uppercase type--color--tertiary">{t('COMPLETED_LESSONS.LESSONS_AVAILABLE')}</span>
-                                    <span className="tag--primary d--ib ml-2">{completedLessonsList.length ? completedLessonsList.length : '0'}</span>
+                                    <span className="tag--primary d--ib ml-2">
+                                        {completedLessonsState.length ? completedLessonsState.length : '0'}
+                                    </span>
                                 </div>
                             )}
                             <div className="lessons-list">
