@@ -160,7 +160,6 @@ const TutorBookings = () => {
     };
 
     const slotSelect = (e: SlotInfo) => {
-        debugger;
         const existingBooking =
             tutorBookings && tutorBookings.filter((date) => moment(date.start).format('YYYY/MM/DD') === moment(e.start).format('YYYY/MM/DD'));
 
@@ -203,23 +202,27 @@ const TutorBookings = () => {
 
     const handleSelectedEvent = (e: IBookingTransformed) => {
         // check whole date not only hours this is a bug
-        if (moment(e.start).isBefore(moment()) || emptyBookings.length > 0) {
-            return;
+        if (e.userId === userId) {
+            if (moment(e.start).isBefore(moment()) || emptyBookings.length > 0) {
+                return;
+            } else {
+                setOpenSlot(false);
+                setOpenEventDetails(true);
+                getBookingById(e.id);
+                setEventDetails({
+                    start: moment(e.start).format('DD/MMMM/YYYY, HH:mm'),
+                    end: moment(e.end).format('HH:mm'),
+                    allDay: e.allDay,
+                    label: e.label,
+                });
+                setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
+                setSelectedEnd(moment(e.end).format('HH:mm'));
+                // if (booking && booking.id) {
+                //     setOpenSlot(true);
+                // }
+            }
         } else {
-            setOpenSlot(false);
-            setOpenEventDetails(true);
-            getBookingById(e.id);
-            setEventDetails({
-                start: moment(e.start).format('DD/MMMM/YYYY, HH:mm'),
-                end: moment(e.end).format('HH:mm'),
-                allDay: e.allDay,
-                label: e.label,
-            });
-            setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
-            setSelectedEnd(moment(e.end).format('HH:mm'));
-            // if (booking && booking.id) {
-            //     setOpenSlot(true);
-            // }
+            return;
         }
     };
 
