@@ -1,4 +1,5 @@
 import { Form, FormikProvider, useFormik } from 'formik';
+import { uniqBy } from 'lodash';
 import moment from 'moment';
 import React, { useEffect, useRef, useState } from 'react';
 import { Calendar as BigCalendar, momentLocalizer, SlotInfo } from 'react-big-calendar';
@@ -19,7 +20,7 @@ import toastService from '../../services/toastService';
 import ParentCalendarSlots from '../my-bookings/components/ParentCalendarSlots';
 import ParentEventModal from '../my-bookings/components/ParentEventModal';
 import UpdateBooking from '../my-bookings/components/UpdateBooking';
-import { useLazyGetBookingByIdQuery } from '../my-bookings/services/bookingService';
+import { useLazyGetBookingByIdQuery, useLazyGetBookingsQuery } from '../my-bookings/services/bookingService';
 
 interface IBookingTransformed {
     id: string;
@@ -69,6 +70,7 @@ const TutorBookings = () => {
     const { tutorId } = useParams();
 
     const [getTutorBookings, { data: tutorBookings, isSuccess: isSuccessBookings, isLoading: isLoadingBookings }] = useLazyGetTutorBookingsQuery();
+    const [getBookings, { data: bookings, isSuccess: isSuccessAllBookings }] = useLazyGetBookingsQuery();
 
     const [getTutorData, { data: tutorData, isSuccess: isSuccessTutorData, isLoading: isLoadingTutorData }] = useLazyGetTutorProfileDataQuery({
         selectFromResult: ({ data, isSuccess, isLoading }) => ({
@@ -85,6 +87,15 @@ const TutorBookings = () => {
     const { t } = useTranslation();
 
     const defaultScrollTime = new Date(new Date().setHours(7, 45, 0));
+
+    useEffect(() => {
+        if (userId) {
+            getBookings({
+                dateFrom: moment(value).startOf('isoWeek').toISOString(),
+                dateTo: moment(value).endOf('isoWeek').toISOString(),
+            });
+        }
+    }, [value, userId]);
 
     useEffect(() => {
         if (tutorId) {
@@ -266,6 +277,9 @@ const TutorBookings = () => {
 
     const allBookings = tutorBookings && tutorBookings.concat(emptyBookings);
 
+    const totalBookings = allBookings && allBookings.concat(bookings ? bookings : []);
+    const filteredBookings = uniqBy(totalBookings, 'id');
+
     return (
         <MainWrapper>
             <div className="layout--primary">
@@ -288,7 +302,7 @@ const TutorBookings = () => {
                             formats={{
                                 timeGutterFormat: 'HH:mm',
                             }}
-                            events={allBookings ? allBookings : []}
+                            events={filteredBookings ? filteredBookings : []}
                             toolbar={false}
                             date={value}
                             selectable={'ignoreEvents'}
