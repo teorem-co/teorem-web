@@ -8,7 +8,7 @@ import * as Yup from 'yup';
 
 import { useGetLevelOptionsQuery, useGetTutorLevelsQuery } from '../../../../services/levelService';
 import { useLazyGetSubjectOptionsByLevelQuery, useLazyGetTutorSubjectsByTutorLevelQuery } from '../../../../services/subjectService';
-import { useGetChildQuery } from '../../../../services/userService';
+import { useGetChildQuery, useLazyGetChildQuery } from '../../../../services/userService';
 import { RoleOptions } from '../../../../slices/roleSlice';
 import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import TextField from '../../../components/form/TextField';
@@ -39,7 +39,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     const { start, end, handleClose, positionClass, setSidebarOpen, clearEmptyBookings } = props;
     const { data: levelOptions, isLoading: isLoadingLevels } = useGetTutorLevelsQuery(tutorId);
 
-    const { data: childOptions, isLoading: isLoadingChildren } = useGetChildQuery();
+    const [getChildOptions, { data: childOptions, isLoading: isLoadingChildren }] = useLazyGetChildQuery();
 
     const [getSubjectOptionsByLevel, { data: subjectsData, isLoading: isLoadingSubjects, isSuccess: isSuccessSubjects }] =
         useLazyGetTutorSubjectsByTutorLevelQuery();
@@ -160,6 +160,12 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     // }
 
     // console.log(times);
+
+    useEffect(() => {
+        if (userRole === RoleOptions.Parent) {
+            getChildOptions();
+        }
+    }, []);
 
     const initialValues: Values = {
         level: '',
