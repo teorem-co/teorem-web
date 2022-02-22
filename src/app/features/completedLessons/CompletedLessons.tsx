@@ -1,15 +1,14 @@
 import { t } from 'i18next';
-import { groupBy } from 'lodash';
+import { cloneDeep, groupBy } from 'lodash';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import MainWrapper from '../../components/MainWrapper';
 import LoaderAvailableLessons from '../../components/skeleton-loaders/LoaderAvailableLessons';
 import LoaderLessonCard from '../../components/skeleton-loaders/LoaderLessonCard';
-import completedLessonsList, { ICompletedLessonMock, IVideoLesson } from '../../constants/completedLessonsList';
+import completedLessonsList, { IVideoLesson } from '../../constants/completedLessonsList';
 import { useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
-import toastService from '../../services/toastService';
 import ICompletedLesson from '../my-bookings/interfaces/ICompletedLesson';
 import { useLazyGetCompletedLessonsQuery } from '../my-bookings/services/bookingService';
 import CompletedLessonsItem from './components/CompletedLessonsItem';
@@ -21,19 +20,20 @@ const CompletedLessons = () => {
     const [getCompletedLessons, { data: completedLessons }] = useLazyGetCompletedLessonsQuery();
 
     const [activeLesson, setActiveLesson] = useState<ICompletedLesson | null>(null);
+    const [completedLessonsState, setCompletedLessonsState] = useState<ICompletedLesson[]>([]);
     const [activeReviewModal, setActiveReviewModal] = useState<boolean>(false);
 
     const userRole = useAppSelector((state) => state.auth.user!.Role.abrv);
 
     const handleActiveLessons = async (lessonId: string) => {
-        if (completedLessons) {
-            const currentlyActiveLesson = completedLessons.find((currentLessonId: ICompletedLesson) => currentLessonId.id === lessonId);
+        if (completedLessonsState) {
+            const currentlyActiveLesson = completedLessonsState.find((currentLessonId: ICompletedLesson) => currentLessonId.id === lessonId);
             setActiveLesson(currentlyActiveLesson ? currentlyActiveLesson : null);
         }
     };
 
     const renderGroupedLessons = () => {
-        const groupedList = groupBy(completedLessons, 'studentId');
+        const groupedList = groupBy(completedLessonsState, 'studentId');
 
         return Object.keys(groupedList).map((studentId: string, index: number) => (
             <GroupedLessons
@@ -48,7 +48,21 @@ const CompletedLessons = () => {
 
     const fetchData = async () => {
         const completedLessonsResponse = await getCompletedLessons().unwrap();
+        setCompletedLessonsState(completedLessonsResponse);
         setActiveLesson(completedLessonsResponse[0]);
+    };
+
+    const onReviewSubmit = async (lessonId: string) => {
+        //change state of completed lessons
+        const completedLessonsCloned = cloneDeep(completedLessonsState);
+        const reviewedLessonIndex = completedLessonsCloned.findIndex((x) => x.id === lessonId)!;
+        completedLessonsCloned[reviewedLessonIndex].isReview = true;
+        //chamge state of active lesson
+        const activeLessonCloned = cloneDeep(activeLesson);
+        activeLessonCloned!.isReview = true;
+        //set new states;
+        setActiveLesson(activeLessonCloned);
+        setCompletedLessonsState(completedLessonsCloned);
     };
 
     useEffect(() => {
@@ -72,11 +86,11 @@ const CompletedLessons = () => {
                                 </div>
                             )}
                             <div className="lessons-list">
-                                {completedLessons && completedLessons.length > 0 ? (
+                                {completedLessonsState && completedLessonsState.length > 0 ? (
                                     userRole === 'parent' ? (
                                         renderGroupedLessons()
                                     ) : (
-                                        completedLessons.map((lesson: ICompletedLesson) => {
+                                        completedLessonsState.map((lesson: ICompletedLesson) => {
                                             return (
                                                 <CompletedLessonsItem
                                                     key={lesson.id}
@@ -130,9 +144,12 @@ const CompletedLessons = () => {
                                                 </div>
                                             </div>
                                             <div>
-                                                <button onClick={() => setActiveReviewModal(true)} className="btn btn--base btn--clear mr-4">
-                                                    {t('COMPLETED_LESSONS.LEAVE_REVIEW')}
-                                                </button>
+                                                {!activeLesson.isReview && (
+                                                    <button onClick={() => setActiveReviewModal(true)} className="btn btn--base btn--clear mr-4">
+                                                        {t('COMPLETED_LESSONS.LEAVE_REVIEW')}
+                                                    </button>
+                                                )}
+
                                                 <Link
                                                     className="btn btn--primary btn--base"
                                                     to={`${PATHS.SEARCH_TUTORS}/bookings/${activeLesson.Tutor.userId}`}
@@ -163,7 +180,11 @@ const CompletedLessons = () => {
                         </div>
                     </div>
                 </div>
-                {activeReviewModal ? <ReviewModal activeLesson={activeLesson} handleClose={() => setActiveReviewModal(false)} /> : <></>}
+                {activeReviewModal ? (
+                    <ReviewModal activeLesson={activeLesson} handleClose={() => setActiveReviewModal(false)} onCompletedReview={onReviewSubmit} />
+                ) : (
+                    <></>
+                )}
             </MainWrapper>
         </>
     );

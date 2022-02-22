@@ -13,6 +13,8 @@ interface ICompletedLesson {
     Subject: ISubject;
     id: string;
     level: ILevel;
+    isReview: boolean;
+    index?: number;
 }
 
 export default ICompletedLesson;

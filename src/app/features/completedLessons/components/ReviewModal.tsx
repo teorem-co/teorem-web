@@ -14,6 +14,7 @@ import { useAddReviewMutation } from '../../myReviews/services/myReviewsService'
 interface Props {
     activeLesson: ICompletedLesson | null;
     handleClose: () => void;
+    onCompletedReview: (lessonId: string) => void;
 }
 
 interface InitialValues {
@@ -23,7 +24,7 @@ interface InitialValues {
 }
 
 const ReviewModal: FC<Props> = (props: Props) => {
-    const { activeLesson, handleClose } = props;
+    const { activeLesson, handleClose, onCompletedReview } = props;
 
     const [addNewReview, { data: postResonse }] = useAddReviewMutation();
 
@@ -60,6 +61,7 @@ const ReviewModal: FC<Props> = (props: Props) => {
 
             await addNewReview(toSend).unwrap();
             toastService.success('Your review is published.');
+            onCompletedReview(activeLesson.id);
             handleClose();
         }
     };
