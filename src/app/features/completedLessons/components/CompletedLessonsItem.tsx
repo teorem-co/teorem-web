@@ -1,3 +1,5 @@
+import { t } from 'i18next';
+
 import ICompletedLesson from '../../my-bookings/interfaces/ICompletedLesson';
 
 interface Props {
@@ -22,7 +24,9 @@ const CompletedLessonsItem = (props: Props) => {
                     {lesson.Tutor.User.firstName}&nbsp;{lesson.Tutor.User.lastName}
                 </div>
             </div>
-            <div>{lesson.count} lessons</div>
+            <div>
+                {lesson.count}&nbsp;{t('COMPLETED_LESSONS.COUNT_EXTENSION')}
+            </div>
         </div>
     );
 };

@@ -113,6 +113,7 @@ const MyTeachings = () => {
                 handleGetData={() => getProfileData(tutorId ? tutorId : '')}
             />
             <AddSubjectSidebar
+                key={myTeachingsData?.TutorSubjects.length}
                 sideBarIsOpen={addSidebarOpen}
                 closeSidebar={closeAddSubjectSidebar}
                 handleGetData={() => getProfileData(tutorId ? tutorId : '')}

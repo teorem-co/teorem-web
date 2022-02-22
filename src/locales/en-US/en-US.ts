@@ -261,11 +261,15 @@ export const EN_US = {
     COMPLETED_LESSONS: {
         TITLE: 'Completed Lessons',
         TUTORS_AVAILABLE: 'Tutors Available',
+        LESSONS_AVAILABLE: 'Lessons available',
         EMPTY_LESSONS_LIST: 'There is no completed lessons available',
+        EMPTY_LESSONS_TITLE: 'No Lessons',
         LEAVE_REVIEW: 'Leave review',
         VIEW_CALENDAR: 'View Calendar',
         VIDEOS_TITLE: 'Play / Download Lessons',
-        EMPTY_VIDEOS: 'There is no video lessons to download',
+        EMPTY_VIDEOS: 'There is no completed lessons available to select',
+        LINK: 'Go to My Bookings',
+        COUNT_EXTENSION: 'Lessons',
     },
     WRITE_REVIEW: {
         SECTION_TITLE: 'Write a review',

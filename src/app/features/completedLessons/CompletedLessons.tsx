@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 
 import MainWrapper from '../../components/MainWrapper';
 import LoaderAvailableLessons from '../../components/skeleton-loaders/LoaderAvailableLessons';
-import LoaderLessonCard from '../../components/skeleton-loaders/LoaderLessonCard';
 import completedLessonsList, { IVideoLesson } from '../../constants/completedLessonsList';
 import { useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
@@ -82,7 +81,7 @@ const CompletedLessons = () => {
                             {/*hide lesson counter if parent is logged in*/}
                             {userRole !== 'parent' && (
                                 <div className="mt-10 mb-10 ml-6 mr-6">
-                                    <span className="type--uppercase type--color--tertiary">Lessons available</span>
+                                    <span className="type--uppercase type--color--tertiary">{t('COMPLETED_LESSONS.LESSONS_AVAILABLE')}</span>
                                     <span className="tag--primary d--ib ml-2">{completedLessonsList.length ? completedLessonsList.length : '0'}</span>
                                 </div>
                             )}
@@ -105,28 +104,16 @@ const CompletedLessons = () => {
                                         })
                                     )
                                 ) : (
-                                    <>{t('COMPLETED_LESSONS.EMPTY_LESSONS_LIST')}</>
+                                    <>
+                                        <div className={`lessons-list__item mt-6`}>
+                                            <div className="lessons-list__item__info">
+                                                <div className="type--wgt--bold">{t('COMPLETED_LESSONS.EMPTY_LESSONS_TITLE')}</div>
+                                                <div className="type--color--brand">{t('COMPLETED_LESSONS.EMPTY_LESSONS_LIST')}</div>
+                                            </div>
+                                        </div>
+                                    </>
                                 )}
-                                {
-                                    //loader for available lessons
-                                    //-------------------------------------
-                                    //<LoaderAvailableLessons /> - add this when backend is finished
-                                    //-------------------------------------
-                                }
                             </div>
-                            {/* <div className="lessons-list">
-                                {completedLessons && completedLessons.length > 0 ? (
-                                    renderGroupedLessons()
-                                ) : (
-                                    <>{t('COMPLETED_LESSONS.EMPTY_LESSONS_LIST')}</>
-                                )}
-                                {
-                                    //loader for available lessons
-                                    //-------------------------------------
-                                    //<LoaderAvailableLessons /> - add this when backend is finished
-                                    //-------------------------------------
-                                }
-                            </div> */}
                         </div>
                         <div className="card--lessons__body__main">
                             {activeLesson ? (
@@ -172,14 +159,16 @@ const CompletedLessons = () => {
                                     </div>
                                 </>
                             ) : (
-                                <>{t('COMPLETED_LESSONS.EMPTY_VIDEOS')}</>
+                                <>
+                                    <div className="tutor-list__no-results">
+                                        <h1 className="tutor-list__no-results__title">{t('COMPLETED_LESSONS.EMPTY_LESSONS_TITLE')}</h1>
+                                        <p className="tutor-list__no-results__subtitle">{t('COMPLETED_LESSONS.EMPTY_VIDEOS')}</p>
+                                        <Link className="btn btn--clear ml-6 type--wgt--bold" to={'/my-bookings'}>
+                                            {t('COMPLETED_LESSONS.LINK')}
+                                        </Link>
+                                    </div>
+                                </>
                             )}
-                            {
-                                //loader for selected lesson card
-                                //-------------------------------------
-                                //<LoaderLessonCard />
-                                //-------------------------------------
-                            }
                         </div>
                     </div>
                 </div>
