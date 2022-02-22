@@ -2,14 +2,26 @@ import moment from 'moment';
 
 import IBooking from '../interfaces/IBooking';
 
+interface IEvent {
+    id?: string;
+    label: string;
+    start: string;
+    end: string;
+    allDay: boolean;
+}
+
 interface IProps {
     handleClose?: (close: boolean) => void;
     positionClass: string;
     event: IBooking | null;
+    goToTutorCalendar: () => void;
 }
 
-const TutorEventModal: React.FC<IProps> = (props) => {
-    const { handleClose, positionClass, event } = props;
+const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
+    const { handleClose, positionClass, event, goToTutorCalendar } = props;
+
+    console.log(event);
+
     return (
         <>
             {event ? (
@@ -18,7 +30,7 @@ const TutorEventModal: React.FC<IProps> = (props) => {
                         <div className="flex flex--primary">
                             <div>
                                 <div className="type--wgt--bold type--md mb-1">
-                                    {event.User.firstName} {event.User.lastName}
+                                    {event.Tutor.User.firstName} {event.Tutor.User.lastName}
                                 </div>
                                 <div className="type--color--secondary">
                                     {moment(event.startTime).format('DD/MMM/YYYY, HH:mm')} - {moment(event.endTime).format('HH:mm')}
@@ -52,10 +64,10 @@ const TutorEventModal: React.FC<IProps> = (props) => {
                             </div>
                         </div>
                     </div>
-                    <div className="modal--tutor__footer mt-6">
-                        <button className="btn btn--base btn--clear type--wgt--bold">Accept</button>
-                        <button className="btn btn--base btn--clear type--wgt--bold">Deny</button>
-                        <button className="btn btn--base btn--clear type--wgt--bold">Propose a new time</button>
+                    <div className="modal--parent__footer mt-6">
+                        <button className="btn btn--base btn--primary" onClick={() => goToTutorCalendar()}>
+                            Tutor calendar
+                        </button>
                     </div>
                 </div>
             ) : (
@@ -65,4 +77,4 @@ const TutorEventModal: React.FC<IProps> = (props) => {
     );
 };
 
-export default TutorEventModal;
+export default OpenTutorCalendarModal;

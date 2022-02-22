@@ -2,9 +2,12 @@ import { baseService } from '../app/baseService';
 import IBooking from '../app/features/my-bookings/interfaces/IBooking';
 import IProgressProfile from '../app/features/my-profile/interfaces/IProgressProfile';
 import IUpdateAdditionalInfo from '../app/features/my-profile/interfaces/IUpdateAdditionalInfo';
+import { useAppSelector } from '../app/hooks';
 import { HttpMethods } from '../app/lookups/httpMethods';
+import { getAppState } from '../app/utils/getAppState';
 import IParams from '../interfaces/IParams';
 import ITutor from '../interfaces/ITutor';
+import { RoleOptions } from '../slices/roleSlice';
 
 interface ITutorAvailable {
     count: number;
@@ -23,6 +26,7 @@ interface IBookingTransformed {
     start: Date;
     end: Date;
     allDay: boolean;
+    userId?: string;
 }
 
 // interface ICreateTutorSubject {}
@@ -34,16 +38,11 @@ export const tutorService = baseService.injectEndpoints({
         getAvailableTutors: builder.query<ITutorAvailable, IParams>({
             query: (params) => {
                 const queryData = {
-                    url: `${URL}/available-tutors?rpp=${params.rpp}&page=${params.page}${params.subject
-                        ? '&subjectId=' + params.subject
-                        : ''
-                        }${params.level ? '&levelId=' + params.level : ''}${params.dayOfWeek
-                            ? '&dayOfWeek=' + params.dayOfWeek
-                            : ''
-                        }${params.timeOfDay
-                            ? '&timeOfDay=' + params.timeOfDay
-                            : ''
-                        }${params.sort ? '&sort=' + params.sort : ''}`,
+                    url: `${URL}/available-tutors?rpp=${params.rpp}&page=${params.page}${params.subject ? '&subjectId=' + params.subject : ''}${
+                        params.level ? '&levelId=' + params.level : ''
+                    }${params.dayOfWeek ? '&dayOfWeek=' + params.dayOfWeek : ''}${params.timeOfDay ? '&timeOfDay=' + params.timeOfDay : ''}${
+                        params.sort ? '&sort=' + params.sort : ''
+                    }`,
                     method: HttpMethods.GET,
                 };
 
@@ -80,26 +79,34 @@ export const tutorService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
-        getTutorBookings: builder.query<
-            IBookingTransformed[],
-            IBookingsByIdPayload
-        >({
+        getTutorBookings: builder.query<IBookingTransformed[], IBookingsByIdPayload>({
             query: (data) => ({
                 url: `${URL}/${data.tutorId}?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}`,
                 method: HttpMethods.GET,
             }),
             transformResponse: (response: ITutor) => {
-                const bookings: IBookingTransformed[] = response.Bookings.map(
-                    (x) => {
+                const userRole = getUserRoleAbbrv();
+                const bookings: IBookingTransformed[] = response.Bookings.map((x) => {
+                    if (userRole === RoleOptions.Parent) {
                         return {
                             id: x.id,
                             label: x.Subject ? x.Subject.name : 'No title',
+                            userId: x.User ? x.User.parentId : '',
+                            start: new Date(x.startTime),
+                            end: new Date(x.endTime),
+                            allDay: false,
+                        };
+                    } else {
+                        return {
+                            id: x.id,
+                            label: x.Subject ? x.Subject.name : 'No title',
+                            userId: x.studentId ? x.studentId : '',
                             start: new Date(x.startTime),
                             end: new Date(x.endTime),
                             allDay: false,
                         };
                     }
-                );
+                });
 
                 return bookings;
             },
@@ -119,3 +126,8 @@ export const {
     useGetTutorProfileDataQuery,
     useLazyGetTutorBookingsQuery,
 } = tutorService;
+
+export function getUserRoleAbbrv() {
+    const { auth } = getAppState();
+    return auth.user?.Role.abrv;
+}

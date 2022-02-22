@@ -11,6 +11,7 @@ import { useHistory } from 'react-router';
 import { RoleOptions } from '../../../slices/roleSlice';
 import MainWrapper from '../../components/MainWrapper';
 import { useAppSelector } from '../../hooks';
+import OpenTutorCalendarModal from './components/OpenTutorCalendarModal';
 import TutorEventModal from './components/TutorEventModal';
 import UpcomingLessons from './components/UpcomingLessons';
 import {
@@ -45,6 +46,7 @@ const MyBookings: React.FC = () => {
     const [selectedStart, setSelectedStart] = useState<string>('');
     const [selectedEnd, setSelectedEnd] = useState<string>('');
     const [openEventDetails, setOpenEventDetails] = useState<boolean>(false);
+    const [openTutorCalendarModal, setOpenTutorCalendarModal] = useState<boolean>(false);
     // const [bookingId, setBookingId] = useState<string>('');
     const positionClass = moment(selectedStart).format('dddd');
     const history = useHistory();
@@ -100,22 +102,22 @@ const MyBookings: React.FC = () => {
     }, [calChange]);
 
     const CustomEvent = (event: any) => {
-        return (
-            <>
-                <div className="mb-2">{moment(event.event.start).format('HH:mm')}</div>
-                <div className="type--wgt--bold">{event.event.label}</div>
-            </>
-        );
+        if (userRole === RoleOptions.Tutor) {
+            return (
+                <>
+                    <div className="mb-2">{moment(event.event.start).format('HH:mm')}</div>
+                    <div className="type--wgt--bold">{event.event.label}</div>
+                </>
+            );
+        } else {
+            return (
+                <>
+                    <div className="mb-2">{moment(event.event.start).format('HH:mm')}</div>
+                    <div className="type--wgt--bold">{event.event.tutor}</div>
+                </>
+            );
+        }
     };
-
-    // const getBooking = async () => {
-    //     const response = await getBookingById(bookingId);
-    //     return response;
-    // };
-
-    // useEffect(() => {
-    //     getBooking();
-    // }, [bookingId]);
 
     const PrevIcon = () => {
         return <i className="icon icon--base icon--chevron-left"></i>;
@@ -125,25 +127,22 @@ const MyBookings: React.FC = () => {
     };
 
     const handleSelectedEvent = (e: IBookingTransformed) => {
-        // setBookingId(e.id);
         if (userRole === RoleOptions.Tutor) {
             getBookingById(e.id);
             setOpenEventDetails(true);
             setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
             setSelectedEnd(moment(e.end).format('HH:mm'));
-            // if (booking && booking.id) {
-            //     setOpenSlot(true);
-            // }
+        } else if (userRole === RoleOptions.Parent || userRole === RoleOptions.Student) {
+            getBookingById(e.id);
+            setOpenTutorCalendarModal(true);
+            setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
+            setSelectedEnd(moment(e.end).format('HH:mm'));
         }
-        // } else {
-        //     history.push(`/search-tutors/bookings/${booking?.tutorId}`);
-        // }
     };
 
-    // const newBookings = union(bookings, emptyBookings);
-
-    // const rect = ReactDOM.findDOMNode(test) as Element;
-    // console.log(rect);
+    const goToTutorCalendar = () => {
+        history.push(`/search-tutors/bookings/${booking?.tutorId}`);
+    };
 
     const highlightRef = useRef<HTMLDivElement>(null);
     const calcPosition = () => {
@@ -239,6 +238,30 @@ const MyBookings: React.FC = () => {
                         ) : (
                             <></>
                         )}
+                        {openTutorCalendarModal ? (
+                            <OpenTutorCalendarModal
+                                goToTutorCalendar={() => goToTutorCalendar()}
+                                event={booking ? booking : null}
+                                handleClose={(e) => setOpenTutorCalendarModal(e)}
+                                positionClass={`${
+                                    positionClass === 'Monday'
+                                        ? 'monday'
+                                        : positionClass === 'Tuesday'
+                                        ? 'tuesday'
+                                        : positionClass === 'Wednesday'
+                                        ? 'wednesday'
+                                        : positionClass === 'Thursday'
+                                        ? 'thursday'
+                                        : positionClass === 'Friday'
+                                        ? 'friday'
+                                        : positionClass === 'Saturday'
+                                        ? 'saturday'
+                                        : 'sunday'
+                                }`}
+                            />
+                        ) : (
+                            <></>
+                        )}
                     </div>
                 </div>
                 <div>
@@ -250,6 +273,8 @@ const MyBookings: React.FC = () => {
                             onChange={(e: Date) => {
                                 onChange(e);
                                 setCalChange(!calChange);
+                                setOpenEventDetails(false);
+                                setOpenTutorCalendarModal(false);
                             }}
                             value={value}
                             prevLabel={<PrevIcon />}

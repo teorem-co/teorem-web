@@ -17,6 +17,7 @@ interface IBookingTransformed {
     start: Date;
     end: Date;
     allDay: boolean;
+    tutor?: string;
 }
 
 interface IDateRange {
@@ -37,7 +38,7 @@ interface IBookingsByIdPayload {
 
 interface ICreateBooking {
     subjectId: string;
-    studentId: string;
+    studentId?: string;
     startTime: string;
     tutorId?: string;
 }
@@ -59,6 +60,7 @@ export const bookingService = baseService.injectEndpoints({
                     return {
                         id: x.id,
                         label: x.Subject ? x.Subject.name : 'No title',
+                        tutor: x.Tutor ? x.Tutor.User.firstName + ' ' + x.Tutor.User.lastName : 'No tutor name',
                         start: new Date(x.startTime),
                         end: new Date(x.endTime),
                         allDay: false,

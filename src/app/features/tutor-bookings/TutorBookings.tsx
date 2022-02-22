@@ -27,6 +27,7 @@ interface IBookingTransformed {
     start: Date;
     end: Date;
     allDay: boolean;
+    userId?: string;
 }
 
 interface IEvent {
@@ -63,6 +64,7 @@ const TutorBookings = () => {
     });
 
     const userRole = useAppSelector((state) => state.auth.user?.Role?.abrv);
+    const userId = useAppSelector((state) => state.auth.user?.id);
 
     const { tutorId } = useParams();
 
@@ -111,7 +113,7 @@ const TutorBookings = () => {
         return (
             <>
                 <div className="mb-2">{moment(date.date).format('dddd')}</div>
-                <div className="type--color--tertiary">{moment(date.date).format('DD.MM')}</div>
+                <div className="type--color--tertiary">{moment(date.date).format('DD/MMM')}</div>
             </>
         );
     };
@@ -127,8 +129,7 @@ const TutorBookings = () => {
     }, [calChange]);
 
     const CustomEvent = (event: any) => {
-        const eventStart = event.event.start;
-        if (moment(eventStart).isBefore(moment())) {
+        if (event.event.userId !== userId) {
             return <div className="my-bookings--unavailable"></div>;
         } else {
             return (
@@ -138,14 +139,6 @@ const TutorBookings = () => {
                 </div>
             );
         }
-        // return (
-        //     <div>
-        //         <div className="mb-2 ">
-        //             {moment(event.event.start).format('HH:mm')}
-        //         </div>
-        //         <div className="type--wgt--bold">{event.event.label}</div>
-        //     </div>
-        // );
     };
 
     const PrevIcon = () => {
@@ -185,6 +178,7 @@ const TutorBookings = () => {
                     end: moment(e.start).add(1, 'hours').toDate(),
                     label: 'Book event',
                     allDay: false,
+                    userId: userId ? userId : '',
                 },
             ]);
             return CustomEvent(e.slots);

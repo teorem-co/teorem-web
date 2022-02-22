@@ -9,6 +9,7 @@ import * as Yup from 'yup';
 import { useGetLevelOptionsQuery, useGetTutorLevelsQuery } from '../../../../services/levelService';
 import { useLazyGetSubjectOptionsByLevelQuery, useLazyGetTutorSubjectsByTutorLevelQuery } from '../../../../services/subjectService';
 import { useGetChildQuery } from '../../../../services/userService';
+import { RoleOptions } from '../../../../slices/roleSlice';
 import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import TextField from '../../../components/form/TextField';
 import { useAppSelector } from '../../../hooks';
@@ -44,6 +45,8 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
         useLazyGetTutorSubjectsByTutorLevelQuery();
 
     const [createBooking, { isSuccess: createBookingSuccess }] = useCreatebookingMutation();
+
+    const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
 
     const timeOptions = [
         {
@@ -177,14 +180,22 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     const handleSubmit = (values: any) => {
         props.setSidebarOpen(false);
         const splitString = values.timeFrom.split(':');
-
-        createBooking({
-            startTime: moment(start).set('hours', Number(splitString[0])).toISOString(),
-            subjectId: values.subject,
-            studentId: values.child,
-            tutorId: tutorId,
-        });
-        props.clearEmptyBookings();
+        if (userRole === RoleOptions.Parent) {
+            createBooking({
+                startTime: moment(start).set('hours', Number(splitString[0])).toISOString(),
+                subjectId: values.subject,
+                studentId: values.child,
+                tutorId: tutorId,
+            });
+            props.clearEmptyBookings();
+        } else {
+            createBooking({
+                startTime: moment(start).set('hours', Number(splitString[0])).toISOString(),
+                subjectId: values.subject,
+                tutorId: tutorId,
+            });
+            props.clearEmptyBookings();
+        }
     };
 
     useEffect(() => {
@@ -297,21 +308,26 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                                 placeholder={t('SEARCH_TUTORS.PLACEHOLDER.SUBJECT')}
                             />
                         </div>
-                        <div className="field">
-                            <label htmlFor="child" className="field__label">
-                                Child*
-                            </label>
+                        {userRole === RoleOptions.Parent ? (
+                            <div className="field">
+                                <label htmlFor="child" className="field__label">
+                                    Child*
+                                </label>
 
-                            <MySelect
-                                field={formik.getFieldProps('child')}
-                                form={formik}
-                                meta={formik.getFieldMeta('child')}
-                                classNamePrefix="onboarding-select"
-                                isMulti={false}
-                                options={childOptions ? childOptions : []}
-                                placeholder="Select Child"
-                            />
-                        </div>
+                                <MySelect
+                                    field={formik.getFieldProps('child')}
+                                    form={formik}
+                                    meta={formik.getFieldMeta('child')}
+                                    classNamePrefix="onboarding-select"
+                                    isMulti={false}
+                                    options={childOptions ? childOptions : []}
+                                    placeholder="Select Child"
+                                />
+                            </div>
+                        ) : (
+                            <></>
+                        )}
+
                         <div className="field">
                             <label htmlFor="timeFrom" className="field__label">
                                 Time* (Session length is 50min)
