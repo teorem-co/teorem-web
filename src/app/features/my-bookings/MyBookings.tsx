@@ -189,6 +189,7 @@ const MyBookings: React.FC = () => {
                             </div>
                         </div>
                         <BigCalendar
+                            onSelecting={() => false}
                             localizer={localizer}
                             formats={{
                                 timeGutterFormat: 'HH:mm',
