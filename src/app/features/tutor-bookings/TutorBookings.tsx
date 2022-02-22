@@ -160,6 +160,7 @@ const TutorBookings = () => {
     };
 
     const slotSelect = (e: SlotInfo) => {
+        debugger;
         const existingBooking =
             tutorBookings && tutorBookings.filter((date) => moment(date.start).format('YYYY/MM/DD') === moment(e.start).format('YYYY/MM/DD'));
 
@@ -305,7 +306,8 @@ const TutorBookings = () => {
                             events={filteredBookings ? filteredBookings : []}
                             toolbar={false}
                             date={value}
-                            selectable={'ignoreEvents'}
+                            selectable={true}
+                            onSelecting={() => false}
                             view="week"
                             style={{ height: 'calc(100% - 84px)' }}
                             startAccessor="start"
