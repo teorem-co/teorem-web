@@ -1,7 +1,7 @@
 import ContentLoader from 'react-content-loader';
 
 const LoaderAvailableLessons = () => (
-    <div>
+    <div className="mt-6">
         <ContentLoader
             className="w--100"
             speed={2}

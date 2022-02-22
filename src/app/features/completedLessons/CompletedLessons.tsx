@@ -17,13 +17,14 @@ import ReviewModal from './components/ReviewModal';
 import VideoLessonItem from './components/VideoLessonItem';
 
 const CompletedLessons = () => {
-    const [getCompletedLessons, { data: completedLessons }] = useLazyGetCompletedLessonsQuery();
+    const [getCompletedLessons, { isLoading: listLoading, isUninitialized: listUninitialized }] = useLazyGetCompletedLessonsQuery();
 
     const [activeLesson, setActiveLesson] = useState<ICompletedLesson | null>(null);
     const [completedLessonsState, setCompletedLessonsState] = useState<ICompletedLesson[]>([]);
     const [activeReviewModal, setActiveReviewModal] = useState<boolean>(false);
 
     const userRole = useAppSelector((state) => state.auth.user!.Role.abrv);
+    const loadingList = listLoading || listUninitialized;
 
     const handleActiveLessons = async (lessonId: string) => {
         if (completedLessonsState) {
@@ -86,7 +87,9 @@ const CompletedLessons = () => {
                                 </div>
                             )}
                             <div className="lessons-list">
-                                {completedLessonsState && completedLessonsState.length > 0 ? (
+                                {loadingList ? (
+                                    <LoaderAvailableLessons />
+                                ) : completedLessonsState.length > 0 ? (
                                     userRole === 'parent' ? (
                                         renderGroupedLessons()
                                     ) : (
