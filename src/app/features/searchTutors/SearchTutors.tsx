@@ -15,6 +15,7 @@ import MySelect, { OptionType } from '../../components/form/MySelectField';
 import MainWrapper from '../../components/MainWrapper';
 import LoaderTutor from '../../components/skeleton-loaders/LoaderTutor';
 import { SortDirection } from '../../lookups/sortDirection';
+import toastService from '../../services/toastService';
 import getUrlParams from '../../utils/getUrlParams';
 import PriceSort from './components/PriceSort';
 import TutorItem from './components/TutorItem';
@@ -36,9 +37,7 @@ const SearchTutors = () => {
     const [dayOfWeekArray, setDayOfWeekArray] = useState<string[]>([]);
     const [timeOfDayArray, setTimeOfDayArray] = useState<string[]>([]);
     const [loadedTutorItems, setLoadedTutorItems] = useState<ITutor[]>([]);
-    const [priceSortDirection, setPriceSortDirection] = useState<SortDirection>(
-        SortDirection.None
-    );
+    const [priceSortDirection, setPriceSortDirection] = useState<SortDirection>(SortDirection.None);
     const [scrollTopOffset, setScrollTopOffset] = useState<number | null>(null);
     const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
     const cardRef = useRef<HTMLDivElement>(null);
@@ -50,24 +49,13 @@ const SearchTutors = () => {
     //storing subjects in state so it can reset on Reset Filter
     const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
 
-    const [
-        getAvailableTutors,
-        { data: availableTutors, isLoading: isLoadingAvailableTutors },
-    ] = useLazyGetAvailableTutorsQuery();
+    const [getAvailableTutors, { data: availableTutors, isLoading: isLoadingAvailableTutors }] = useLazyGetAvailableTutorsQuery();
 
-    const [
-        getLevelOptions,
-        { data: levelOptions, isLoading: isLoadingLevels },
-    ] = useLazyGetLevelOptionsQuery();
+    const [getLevelOptions, { data: levelOptions, isLoading: isLoadingLevels }] = useLazyGetLevelOptionsQuery();
 
     const [
         getSubjectOptionsByLevel,
-        {
-            data: subjectsData,
-            isLoading: isLoadingSubjects,
-            isSuccess: isSuccessSubjects,
-            isFetching: isFetchingSubjects,
-        },
+        { data: subjectsData, isLoading: isLoadingSubjects, isSuccess: isSuccessSubjects, isFetching: isFetchingSubjects },
     ] = useLazyGetSubjectOptionsByLevelQuery();
 
     const levelDisabled = !levelOptions || isLoadingLevels;
@@ -99,19 +87,13 @@ const SearchTutors = () => {
     const fetchData = async () => {
         getLevelOptions();
 
-        const urlQueries: IParams = getUrlParams(
-            history.location.search.replace('?', '')
-        );
+        const urlQueries: IParams = getUrlParams(history.location.search.replace('?', ''));
 
         if (Object.keys(urlQueries).length > 0) {
-            urlQueries.subject &&
-                formik.setFieldValue('subject', urlQueries.subject) &&
-                setIsInitialSubject(true);
+            urlQueries.subject && formik.setFieldValue('subject', urlQueries.subject) && setIsInitialSubject(true);
             urlQueries.level && formik.setFieldValue('level', urlQueries.level);
-            urlQueries.dayOfWeek &&
-                setDayOfWeekArray(urlQueries.dayOfWeek.split(','));
-            urlQueries.timeOfDay &&
-                setTimeOfDayArray(urlQueries.timeOfDay.split(','));
+            urlQueries.dayOfWeek && setDayOfWeekArray(urlQueries.dayOfWeek.split(','));
+            urlQueries.timeOfDay && setTimeOfDayArray(urlQueries.timeOfDay.split(','));
 
             setParams(urlQueries);
 
@@ -158,9 +140,7 @@ const SearchTutors = () => {
                 const tutorResponse = await getAvailableTutors({
                     ...newParams,
                 }).unwrap();
-                setLoadedTutorItems(
-                    loadedTutorItems.concat(tutorResponse.rows)
-                );
+                setLoadedTutorItems(loadedTutorItems.concat(tutorResponse.rows));
             }
         }
     };
@@ -173,10 +153,7 @@ const SearchTutors = () => {
     });
 
     const resetFilterDisabled =
-        formik.values.level == '' &&
-        formik.values.subject == '' &&
-        formik.values.dayOfWeek.length == 0 &&
-        formik.values.timeOfDay.length == 0;
+        formik.values.level == '' && formik.values.subject == '' && formik.values.dayOfWeek.length == 0 && formik.values.timeOfDay.length == 0;
 
     useEffect(() => {
         if (formik.values.level) {
@@ -227,12 +204,7 @@ const SearchTutors = () => {
     };
 
     useEffect(() => {
-        if (
-            subjectsData &&
-            isSuccessSubjects &&
-            formik.values.level &&
-            !isFetchingSubjects
-        ) {
+        if (subjectsData && isSuccessSubjects && formik.values.level && !isFetchingSubjects) {
             setSubjectOptions(subjectsData);
         }
     }, [subjectsData, isFetchingSubjects]);
@@ -269,47 +241,35 @@ const SearchTutors = () => {
         return (
             <components.Menu className="react-select--availability" {...props}>
                 <div>
-                    <div className="type--uppercase type--color--tertiary mb-4">
-                        {t('SEARCH_TUTORS.TUTOR_AVAILABLE')}
-                    </div>
+                    <div className="type--uppercase type--color--tertiary mb-4">{t('SEARCH_TUTORS.TUTOR_AVAILABLE')}</div>
                     <div>
                         <CustomCheckbox
                             id="beforeNoon"
                             customChecks={timeOfDayArray}
-                            label={t(
-                                'SEARCH_TUTORS.AVAILABILITY.TIME_OF_DAY.BEFORE_NOON'
-                            )}
+                            label={t('SEARCH_TUTORS.AVAILABILITY.TIME_OF_DAY.BEFORE_NOON')}
                             handleCustomCheck={handleCustomTimeOfDay}
                         />
                         <CustomCheckbox
                             customChecks={timeOfDayArray}
                             id="noonToFive"
-                            label={t(
-                                'SEARCH_TUTORS.AVAILABILITY.TIME_OF_DAY.NOON_TO_FIVE'
-                            )}
+                            label={t('SEARCH_TUTORS.AVAILABILITY.TIME_OF_DAY.NOON_TO_FIVE')}
                             handleCustomCheck={handleCustomTimeOfDay}
                         />
                         <CustomCheckbox
                             customChecks={timeOfDayArray}
                             id="afterFive"
-                            label={t(
-                                'SEARCH_TUTORS.AVAILABILITY.TIME_OF_DAY.AFTER_FIVE'
-                            )}
+                            label={t('SEARCH_TUTORS.AVAILABILITY.TIME_OF_DAY.AFTER_FIVE')}
                             handleCustomCheck={handleCustomTimeOfDay}
                         />
                     </div>
                 </div>
                 <div className="mt-6">
-                    <div className="type--uppercase type--color--tertiary mb-4">
-                        {t('SEARCH_TUTORS.TUTOR_AVAILABLE')}
-                    </div>
+                    <div className="type--uppercase type--color--tertiary mb-4">{t('SEARCH_TUTORS.TUTOR_AVAILABLE')}</div>
                     <div>
                         <CustomCheckbox
                             id="mon"
                             customChecks={dayOfWeekArray}
-                            label={t(
-                                'SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.MON'
-                            )}
+                            label={t('SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.MON')}
                             handleCustomCheck={(id: string) => {
                                 handleCustomDayOfWeek(id);
                             }}
@@ -317,9 +277,7 @@ const SearchTutors = () => {
                         <CustomCheckbox
                             customChecks={dayOfWeekArray}
                             id="tue"
-                            label={t(
-                                'SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.TUE'
-                            )}
+                            label={t('SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.TUE')}
                             handleCustomCheck={(id: string) => {
                                 handleCustomDayOfWeek(id);
                             }}
@@ -327,9 +285,7 @@ const SearchTutors = () => {
                         <CustomCheckbox
                             customChecks={dayOfWeekArray}
                             id="wed"
-                            label={t(
-                                'SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.WED'
-                            )}
+                            label={t('SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.WED')}
                             handleCustomCheck={(id: string) => {
                                 handleCustomDayOfWeek(id);
                             }}
@@ -337,9 +293,7 @@ const SearchTutors = () => {
                         <CustomCheckbox
                             customChecks={dayOfWeekArray}
                             id="thu"
-                            label={t(
-                                'SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.THU'
-                            )}
+                            label={t('SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.THU')}
                             handleCustomCheck={(id: string) => {
                                 handleCustomDayOfWeek(id);
                             }}
@@ -347,9 +301,7 @@ const SearchTutors = () => {
                         <CustomCheckbox
                             customChecks={dayOfWeekArray}
                             id="fri"
-                            label={t(
-                                'SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.FRI'
-                            )}
+                            label={t('SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.FRI')}
                             handleCustomCheck={(id: string) => {
                                 handleCustomDayOfWeek(id);
                             }}
@@ -357,9 +309,7 @@ const SearchTutors = () => {
                         <CustomCheckbox
                             customChecks={dayOfWeekArray}
                             id="sat"
-                            label={t(
-                                'SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.SAT'
-                            )}
+                            label={t('SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.SAT')}
                             handleCustomCheck={(id: string) => {
                                 handleCustomDayOfWeek(id);
                             }}
@@ -367,9 +317,7 @@ const SearchTutors = () => {
                         <CustomCheckbox
                             customChecks={dayOfWeekArray}
                             id="sun"
-                            label={t(
-                                'SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.SUN'
-                            )}
+                            label={t('SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.SUN')}
                             handleCustomCheck={(id: string) => {
                                 handleCustomDayOfWeek(id);
                             }}
@@ -412,15 +360,12 @@ const SearchTutors = () => {
 
     return (
         <MainWrapper>
-            <div
-                onScroll={(e) => debouncedScrollHandler(e.target)}
-                className="card--secondary"
-                ref={cardRef}
-            >
+            <div onScroll={(e) => debouncedScrollHandler(e.target)} className="card--secondary" ref={cardRef}>
+                {/* <button className="btn btn--base btn--success" onClick={() => toastService.notification('test')}>
+                    Click me
+                </button> */}
                 <div className="card--secondary__head">
-                    <div className="type--lg type--wgt--bold">
-                        {t('SEARCH_TUTORS.TUTOR_LIST')}
-                    </div>
+                    <div className="type--lg type--wgt--bold">{t('SEARCH_TUTORS.TUTOR_LIST')}</div>
                     <div className="flex flex--center">
                         <FormikProvider value={formik}>
                             <Form className="flex" noValidate>
@@ -432,9 +377,7 @@ const SearchTutors = () => {
                                     isMulti={false}
                                     options={levelOptions ? levelOptions : []}
                                     isDisabled={levelDisabled}
-                                    placeholder={t(
-                                        'SEARCH_TUTORS.PLACEHOLDER.LEVEL'
-                                    )}
+                                    placeholder={t('SEARCH_TUTORS.PLACEHOLDER.LEVEL')}
                                 ></MySelect>
                                 <MySelect
                                     field={formik.getFieldProps('subject')}
@@ -444,22 +387,12 @@ const SearchTutors = () => {
                                     className="ml-6"
                                     classNamePrefix="react-select--search-tutor"
                                     options={subjectOptions}
-                                    isDisabled={
-                                        levelDisabled ||
-                                        isLoadingSubjects ||
-                                        isFetchingSubjects
-                                    }
-                                    noOptionsMessage={() =>
-                                        t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')
-                                    }
-                                    placeholder={t(
-                                        'SEARCH_TUTORS.PLACEHOLDER.SUBJECT'
-                                    )}
+                                    isDisabled={levelDisabled || isLoadingSubjects || isFetchingSubjects}
+                                    noOptionsMessage={() => t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')}
+                                    placeholder={t('SEARCH_TUTORS.PLACEHOLDER.SUBJECT')}
                                 ></MySelect>
                                 <Select
-                                    placeholder={t(
-                                        'SEARCH_TUTORS.PLACEHOLDER.AVAILABILITY'
-                                    )}
+                                    placeholder={t('SEARCH_TUTORS.PLACEHOLDER.AVAILABILITY')}
                                     components={{
                                         Menu: CustomMenu,
                                     }}
@@ -470,11 +403,7 @@ const SearchTutors = () => {
                                 ></Select>
                             </Form>
                         </FormikProvider>
-                        <button
-                            className="btn btn--clear ml-6"
-                            onClick={handleResetFilter}
-                            disabled={resetFilterDisabled}
-                        >
+                        <button className="btn btn--clear ml-6" onClick={handleResetFilter} disabled={resetFilterDisabled}>
                             {t('SEARCH_TUTORS.RESET_FILTER')}
                         </button>
                     </div>
@@ -482,18 +411,12 @@ const SearchTutors = () => {
                 <div className="card--secondary__body">
                     <div className="mb-10 flex--primary">
                         <div>
-                            <span className="type--uppercase type--color--tertiary">
-                                {t('SEARCH_TUTORS.TUTOR_AVAILABLE')}
-                            </span>
-                            <span className="tag--primary d--ib ml-2">
-                                {availableTutors ? availableTutors.count : '0'}
-                            </span>
+                            <span className="type--uppercase type--color--tertiary">{t('SEARCH_TUTORS.TUTOR_AVAILABLE')}</span>
+                            <span className="tag--primary d--ib ml-2">{availableTutors ? availableTutors.count : '0'}</span>
                         </div>
                         <PriceSort
                             sortDirection={priceSortDirection}
-                            handleActiveSort={(sortDirection: SortDirection) =>
-                                setPriceSortDirection(sortDirection)
-                            }
+                            handleActiveSort={(sortDirection: SortDirection) => setPriceSortDirection(sortDirection)}
                         />
                     </div>
 
@@ -506,22 +429,12 @@ const SearchTutors = () => {
                                 <LoaderTutor />
                             </div>
                         ) : loadedTutorItems.length > 0 ? (
-                            loadedTutorItems.map((tutor) => (
-                                <TutorItem key={tutor.userId} tutor={tutor} />
-                            ))
+                            loadedTutorItems.map((tutor) => <TutorItem key={tutor.userId} tutor={tutor} />)
                         ) : (
                             <div className="tutor-list__no-results">
-                                <h1 className="tutor-list__no-results__title">
-                                    {t('SEARCH_TUTORS.NO_RESULT.TITLE')}
-                                </h1>
-                                <p className="tutor-list__no-results__subtitle">
-                                    {t('SEARCH_TUTORS.NO_RESULT.DESC')}
-                                </p>
-                                <button
-                                    className="btn btn--clear ml-6 type--wgt--bold"
-                                    onClick={handleResetFilter}
-                                    disabled={resetFilterDisabled}
-                                >
+                                <h1 className="tutor-list__no-results__title">{t('SEARCH_TUTORS.NO_RESULT.TITLE')}</h1>
+                                <p className="tutor-list__no-results__subtitle">{t('SEARCH_TUTORS.NO_RESULT.DESC')}</p>
+                                <button className="btn btn--clear ml-6 type--wgt--bold" onClick={handleResetFilter} disabled={resetFilterDisabled}>
                                     {t('SEARCH_TUTORS.RESET_FILTER')}
                                 </button>
                             </div>

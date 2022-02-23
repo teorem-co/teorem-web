@@ -89,6 +89,7 @@ $mobile-height: 50px;
         & > div {
             &:first-child {
                 flex-grow: 1;
+                width: 100%;
             }
             &:last-child {
                 display: flex;

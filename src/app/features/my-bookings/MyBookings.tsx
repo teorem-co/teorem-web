@@ -3,9 +3,8 @@ import 'moment/locale/en-gb';
 import { t } from 'i18next';
 import moment from 'moment';
 import { useEffect, useRef, useState } from 'react';
-import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
+import { Calendar as BigCalendar, momentLocalizer, SlotInfo } from 'react-big-calendar';
 import Calendar from 'react-calendar';
-import ReactDOM from 'react-dom';
 import { useHistory } from 'react-router';
 
 import { RoleOptions } from '../../../slices/roleSlice';
@@ -13,6 +12,7 @@ import MainWrapper from '../../components/MainWrapper';
 import { useAppSelector } from '../../hooks';
 import OpenTutorCalendarModal from './components/OpenTutorCalendarModal';
 import TutorEventModal from './components/TutorEventModal';
+import UnavailabilityModal from './components/UnavailabilityModal';
 import UpcomingLessons from './components/UpcomingLessons';
 import {
     useLazyGetBookingByIdQuery,
@@ -37,39 +37,37 @@ interface IBookingTransformed {
 }
 
 const MyBookings: React.FC = () => {
-    const localizer = momentLocalizer(moment);
+    const [getBookings, { data: bookings }] = useLazyGetBookingsQuery();
+    const [getNotificationForLessons, { data: lessonsCount }] = useLazyGetNotificationForLessonsQuery();
+    const [getBookingById, { data: booking, isSuccess: getBookingByIdSuccess }] = useLazyGetBookingByIdQuery();
+    const [getUpcomingLessons, { data: upcomingLessons }] = useLazyGetUpcomingLessonsQuery();
+    const [getTutorUnavailableBookings, { data: unavailableBookings }] = useLazyGetUnavailableBookingsQuery();
+
+    const [openUnavailabilityModal, setOpenUnavailabilityModal] = useState(false);
+    const [unavailableCurrentEvent, setUnavailableCurrentEvent] = useState<IBookingTransformed[]>([]);
+    const [selectedSlot, setSelectedSlot] = useState<Date | null>(null);
+    const [selectedStart, setSelectedStart] = useState<string>('');
+    const [selectedEnd, setSelectedEnd] = useState<string>('');
+    const [openEventDetails, setOpenEventDetails] = useState<boolean>(false);
+    const [openTutorCalendarModal, setOpenTutorCalendarModal] = useState<boolean>(false);
     const [value, onChange] = useState(new Date());
     const [calChange, setCalChange] = useState<boolean>(false);
     const [highlightCoords, setHighlightCoords] = useState<ICoords>({
         x: 0,
         y: 0,
     });
-    const [selectedStart, setSelectedStart] = useState<string>('');
-    const [selectedEnd, setSelectedEnd] = useState<string>('');
-    const [openEventDetails, setOpenEventDetails] = useState<boolean>(false);
-    const [openTutorCalendarModal, setOpenTutorCalendarModal] = useState<boolean>(false);
-    // const [bookingId, setBookingId] = useState<string>('');
-    const positionClass = moment(selectedStart).format('dddd');
+
     const history = useHistory();
-
-    const [getUpcomingLessons, { data: upcomingLessons }] = useLazyGetUpcomingLessonsQuery();
-
-    const [getBookings, { data: bookings }] = useLazyGetBookingsQuery();
-    const [getNotificationForLessons, { data: lessonsCount }] = useLazyGetNotificationForLessonsQuery();
-
-    const [getBookingById, { data: booking, isSuccess: getBookingByIdSuccess }] = useLazyGetBookingByIdQuery();
-    const [getTutorUnavailableBookings, { data: unavailableBookings }] = useLazyGetUnavailableBookingsQuery();
-
+    const localizer = momentLocalizer(moment);
+    const positionClass = moment(selectedStart).format('dddd');
+    const unavailablePositionClass = moment(selectedSlot).format('dddd');
+    const defaultScrollTime = new Date(new Date().setHours(7, 45, 0));
+    const highlightRef = useRef<HTMLDivElement>(null);
+    const tileRef = useRef<HTMLDivElement>(null);
+    const tileElement = tileRef.current as HTMLDivElement;
     const userId = useAppSelector((state) => state.auth.user?.id);
     const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
-
     const allBookings = bookings?.concat(unavailableBookings ? unavailableBookings : []);
-
-    useEffect(() => {
-        if (userId) {
-            getUpcomingLessons(userId);
-        }
-    }, []);
 
     // useEffect(() => {
     //     if (userRole === RoleOptions.Tutor) {
@@ -80,21 +78,6 @@ const MyBookings: React.FC = () => {
     //     }
     // }, [value, userId, userRole]);
 
-    useEffect(() => {
-        if (userId) {
-            getBookings({
-                dateFrom: moment(value).startOf('isoWeek').toISOString(),
-                dateTo: moment(value).endOf('isoWeek').toISOString(),
-            });
-            getNotificationForLessons({
-                userId: userId,
-                date: moment().set({ hour: 23, minute: 59, second: 59 }).toISOString(),
-            });
-        }
-    }, [value, userId]);
-
-    const defaultScrollTime = new Date(new Date().setHours(7, 45, 0));
-
     const CustomHeader = (date: any) => {
         setCalChange(true);
         return (
@@ -104,15 +87,6 @@ const MyBookings: React.FC = () => {
             </>
         );
     };
-    useEffect(() => {
-        const indicator: any = document.getElementsByClassName('rbc-current-time-indicator');
-        indicator[0] && indicator[0].setAttribute('data-time', moment().format('HH:mm'));
-
-        const interval = setInterval(() => {
-            indicator[0] && indicator[0].setAttribute('data-time', moment().format('HH:mm'));
-        }, 60000);
-        return () => clearInterval(interval);
-    }, [calChange]);
 
     const CustomEvent = (event: any) => {
         if (userRole === RoleOptions.Tutor) {
@@ -122,6 +96,14 @@ const MyBookings: React.FC = () => {
                         <div className="mb-2">{moment(event.event.start).format('HH:mm')}</div>
                         <div className="type--wgt--bold">{event.event.label}</div>
                     </div>
+                );
+            } else if (event.event.id === 'currentUnavailableItem') {
+                return (
+                    <>
+                        <div className="test">
+                            <div className="type--color--primary">test</div>
+                        </div>
+                    </>
                 );
             } else {
                 return (
@@ -144,6 +126,7 @@ const MyBookings: React.FC = () => {
     const PrevIcon = () => {
         return <i className="icon icon--base icon--chevron-left"></i>;
     };
+
     const NextIcon = () => {
         return <i className="icon icon--base icon--chevron-right"></i>;
     };
@@ -166,7 +149,22 @@ const MyBookings: React.FC = () => {
         history.push(`/search-tutors/bookings/${booking?.tutorId}`);
     };
 
-    const highlightRef = useRef<HTMLDivElement>(null);
+    const handleSelectedSlot = (e: SlotInfo) => {
+        if (userRole === 'tutor') {
+            setUnavailableCurrentEvent([
+                {
+                    id: 'currentUnavailableItem',
+                    label: 'unavailable',
+                    start: moment(e.start).toDate(),
+                    end: moment(e.start).add(1, 'hours').toDate(),
+                    allDay: false,
+                },
+            ]);
+            setSelectedSlot(moment(e.start).toDate());
+            setOpenUnavailabilityModal(true);
+        }
+    };
+
     const calcPosition = () => {
         const childElement = document.querySelector('.react-calendar__tile--active');
         const rectParent = highlightRef.current && highlightRef.current.getBoundingClientRect();
@@ -178,9 +176,6 @@ const MyBookings: React.FC = () => {
             setHighlightCoords({ x: finalX, y: finalY });
         }
     };
-
-    const tileRef = useRef<HTMLDivElement>(null);
-    const tileElement = tileRef.current as HTMLDivElement;
 
     const hideShowHighlight = (date: Date) => {
         if (tileElement) {
@@ -196,6 +191,35 @@ const MyBookings: React.FC = () => {
         calcPosition();
         hideShowHighlight(value);
     }, [value]);
+
+    useEffect(() => {
+        if (userId) {
+            getUpcomingLessons(userId);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (userId) {
+            getBookings({
+                dateFrom: moment(value).startOf('isoWeek').toISOString(),
+                dateTo: moment(value).endOf('isoWeek').toISOString(),
+            });
+            getNotificationForLessons({
+                userId: userId,
+                date: moment().set({ hour: 23, minute: 59, second: 59 }).toISOString(),
+            });
+        }
+    }, [value, userId]);
+
+    useEffect(() => {
+        const indicator: any = document.getElementsByClassName('rbc-current-time-indicator');
+        indicator[0] && indicator[0].setAttribute('data-time', moment().format('HH:mm'));
+
+        const interval = setInterval(() => {
+            indicator[0] && indicator[0].setAttribute('data-time', moment().format('HH:mm'));
+        }, 60000);
+        return () => clearInterval(interval);
+    }, [calChange]);
 
     return (
         <MainWrapper>
@@ -216,7 +240,7 @@ const MyBookings: React.FC = () => {
                             formats={{
                                 timeGutterFormat: 'HH:mm',
                             }}
-                            events={allBookings ? allBookings : []}
+                            events={allBookings ? allBookings.concat(unavailableCurrentEvent) : []}
                             toolbar={false}
                             date={value}
                             view="week"
@@ -236,6 +260,7 @@ const MyBookings: React.FC = () => {
                             step={15}
                             timeslots={4}
                             longPressThreshold={10}
+                            onSelectSlot={(e) => handleSelectedSlot(e)}
                             onSelectEvent={(e) => handleSelectedEvent(e)}
                         />
                         {openEventDetails ? (
@@ -284,6 +309,30 @@ const MyBookings: React.FC = () => {
                             />
                         ) : (
                             <></>
+                        )}
+                        {openUnavailabilityModal && (
+                            <UnavailabilityModal
+                                event={selectedSlot}
+                                handleClose={() => {
+                                    setOpenUnavailabilityModal(false);
+                                    setUnavailableCurrentEvent([]);
+                                }}
+                                positionClass={`${
+                                    unavailablePositionClass === 'Monday'
+                                        ? 'monday'
+                                        : unavailablePositionClass === 'Tuesday'
+                                        ? 'tuesday'
+                                        : unavailablePositionClass === 'Wednesday'
+                                        ? 'wednesday'
+                                        : unavailablePositionClass === 'Thursday'
+                                        ? 'thursday'
+                                        : unavailablePositionClass === 'Friday'
+                                        ? 'friday'
+                                        : unavailablePositionClass === 'Saturday'
+                                        ? 'saturday'
+                                        : 'sunday'
+                                }`}
+                            />
                         )}
                     </div>
                 </div>
