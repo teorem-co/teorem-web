@@ -1,0 +1,25 @@
+/*
+    overrides: rc-time-picker.scss
+*/
+
+.rc-time-picker {
+    display: block !important;
+    padding: 0 !important;
+
+    &-input {
+        padding: 10px 12px !important;
+        display: block !important;
+        height: 100% !important;
+        font-size: 14px !important;
+        line-height: normal !important;
+        color: $black !important;
+    }
+
+    &-clear {
+        display: none !important;
+    }
+
+    &-panel {
+        // top: 685px !important;
+    }
+}

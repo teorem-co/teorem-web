@@ -20,6 +20,7 @@ import {
     useLazyGetNotificationForLessonsQuery,
     useLazyGetUpcomingLessonsQuery,
 } from './services/bookingService';
+import { useLazyGetUnavailableBookingsQuery } from './services/unavailabilityService';
 
 interface ICoords {
     x: number;
@@ -57,15 +58,27 @@ const MyBookings: React.FC = () => {
     const [getNotificationForLessons, { data: lessonsCount }] = useLazyGetNotificationForLessonsQuery();
 
     const [getBookingById, { data: booking, isSuccess: getBookingByIdSuccess }] = useLazyGetBookingByIdQuery();
+    const [getTutorUnavailableBookings, { data: unavailableBookings }] = useLazyGetUnavailableBookingsQuery();
 
     const userId = useAppSelector((state) => state.auth.user?.id);
     const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
+
+    const allBookings = bookings?.concat(unavailableBookings ? unavailableBookings : []);
 
     useEffect(() => {
         if (userId) {
             getUpcomingLessons(userId);
         }
     }, []);
+
+    // useEffect(() => {
+    //     if (userRole === RoleOptions.Tutor) {
+    //         getTutorUnavailableBookings({
+    //             dateFrom: moment(value).startOf('isoWeek').toISOString(),
+    //             dateTo: moment(value).endOf('isoWeek').toISOString(),
+    //         });
+    //     }
+    // }, [value, userId, userRole]);
 
     useEffect(() => {
         if (userId) {
@@ -103,12 +116,21 @@ const MyBookings: React.FC = () => {
 
     const CustomEvent = (event: any) => {
         if (userRole === RoleOptions.Tutor) {
-            return (
-                <>
-                    <div className="mb-2">{moment(event.event.start).format('HH:mm')}</div>
-                    <div className="type--wgt--bold">{event.event.label}</div>
-                </>
-            );
+            if (event.event.isAccepted === false) {
+                return (
+                    <div className="event">
+                        <div className="mb-2">{moment(event.event.start).format('HH:mm')}</div>
+                        <div className="type--wgt--bold">{event.event.label}</div>
+                    </div>
+                );
+            } else {
+                return (
+                    <>
+                        <div className="mb-2">{moment(event.event.start).format('HH:mm')}</div>
+                        <div className="type--wgt--bold">{event.event.label}</div>
+                    </>
+                );
+            }
         } else {
             return (
                 <>
@@ -194,7 +216,7 @@ const MyBookings: React.FC = () => {
                             formats={{
                                 timeGutterFormat: 'HH:mm',
                             }}
-                            events={bookings ? bookings : []}
+                            events={allBookings ? allBookings : []}
                             toolbar={false}
                             date={value}
                             view="week"
@@ -211,8 +233,8 @@ const MyBookings: React.FC = () => {
                             scrollToTime={defaultScrollTime}
                             showMultiDayTimes={true}
                             selectable={true}
-                            step={10}
-                            timeslots={6}
+                            step={15}
+                            timeslots={4}
                             longPressThreshold={10}
                             onSelectEvent={(e) => handleSelectedEvent(e)}
                         />

@@ -5,6 +5,7 @@ import 'react-calendar/dist/Calendar.css';
 import 'react-date-picker/dist/DatePicker.css';
 import 'react-phone-input-2/lib/style.css';
 import './styles/App.scss';
+import 'rc-time-picker/assets/index.css';
 
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';

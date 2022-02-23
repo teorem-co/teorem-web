@@ -5,6 +5,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Calendar as BigCalendar, momentLocalizer, SlotInfo } from 'react-big-calendar';
 import Calendar from 'react-calendar';
 import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 
@@ -46,6 +47,7 @@ interface ICoords {
 
 const TutorBookings = () => {
     const localizer = momentLocalizer(moment);
+    const history = useHistory();
 
     const [value, onChange] = useState(new Date());
     const [selectedStart, setSelectedStart] = useState<string>('');
@@ -143,12 +145,21 @@ const TutorBookings = () => {
         if (event.event.userId !== userId) {
             return <div className="my-bookings--unavailable"></div>;
         } else {
-            return (
-                <div>
-                    <div className="mb-2 ">{moment(event.event.start).format('HH:mm')}</div>
-                    <div className="type--wgt--bold">{event.event.label}</div>
-                </div>
-            );
+            if (event.event.isAccepted === false) {
+                return (
+                    <div className="event">
+                        <div className="mb-2">{moment(event.event.start).format('HH:mm')}</div>
+                        <div className="type--wgt--bold">{event.event.label}</div>
+                    </div>
+                );
+            } else {
+                return (
+                    <div>
+                        <div className="mb-2 ">{moment(event.event.start).format('HH:mm')}</div>
+                        <div className="type--wgt--bold">{event.event.label}</div>
+                    </div>
+                );
+            }
         }
     };
 
@@ -175,7 +186,7 @@ const TutorBookings = () => {
                 }
             });
         }
-        if (flagArr.length === existingBooking?.length) {
+        if (flagArr.length === existingBooking?.length && !moment(e.start).isBefore(moment().add(3, 'hours'))) {
             setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
             setSelectedEnd(moment(e.start).add(1, 'hours').format('HH:mm'));
             setOpenSlot(true);
@@ -290,11 +301,16 @@ const TutorBookings = () => {
                 <div>
                     <div className="card--calendar">
                         <div className="flex flex--center p-6">
-                            <Link to={PATHS.SEARCH_TUTORS}>
+                            {/* <Link to={PATHS.SEARCH_TUTORS}>
                                 <div>
                                     <i className="icon icon--base icon--arrow-left icon--black"></i>
                                 </div>
-                            </Link>
+                            </Link> */}
+                            <div onClick={() => history.goBack()}>
+                                <div>
+                                    <i className="icon icon--base icon--arrow-left icon--black"></i>
+                                </div>
+                            </div>
                             <h2 className="type--lg  ml-6">
                                 {`${t('MY_BOOKINGS.TITLE')} - ${tutorData.firstName ? tutorData.firstName : ''} ${
                                     tutorData.lastName ? tutorData.lastName : ''
@@ -323,8 +339,8 @@ const TutorBookings = () => {
                             }}
                             scrollToTime={defaultScrollTime}
                             showMultiDayTimes={true}
-                            step={10}
-                            timeslots={6}
+                            step={15}
+                            timeslots={4}
                             longPressThreshold={10}
                             onSelectSlot={(e) => (userRole === RoleOptions.Parent || userRole === RoleOptions.Student ? slotSelect(e) : null)}
                             onSelectEvent={(e) =>

@@ -1,6 +1,7 @@
 import moment from 'moment';
 
 import IBooking from '../interfaces/IBooking';
+import { useAcceptBookingMutation } from '../services/bookingService';
 
 interface IProps {
     handleClose?: (close: boolean) => void;
@@ -10,6 +11,12 @@ interface IProps {
 
 const TutorEventModal: React.FC<IProps> = (props) => {
     const { handleClose, positionClass, event } = props;
+    const [acceptBooking, { isSuccess: isSuccessAcceptBooking }] = useAcceptBookingMutation();
+
+    const handleAcceptBooking = () => {
+        acceptBooking(event ? event.id : '');
+        handleClose ? handleClose(false) : false;
+    };
     return (
         <>
             {event ? (
@@ -53,7 +60,9 @@ const TutorEventModal: React.FC<IProps> = (props) => {
                         </div>
                     </div>
                     <div className="modal--tutor__footer mt-6">
-                        <button className="btn btn--base btn--clear type--wgt--bold">Accept</button>
+                        <button className="btn btn--base btn--clear type--wgt--bold" onClick={() => handleAcceptBooking()}>
+                            Accept
+                        </button>
                         <button className="btn btn--base btn--clear type--wgt--bold">Deny</button>
                         <button className="btn btn--base btn--clear type--wgt--bold">Propose a new time</button>
                     </div>

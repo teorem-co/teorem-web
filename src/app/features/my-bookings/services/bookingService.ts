@@ -18,6 +18,7 @@ interface IBookingTransformed {
     end: Date;
     allDay: boolean;
     tutor?: string;
+    isAccepted?: boolean;
 }
 
 interface IDateRange {
@@ -63,12 +64,14 @@ export const bookingService = baseService.injectEndpoints({
                         tutor: x.Tutor ? x.Tutor.User.firstName + ' ' + x.Tutor.User.lastName : 'No tutor name',
                         start: new Date(x.startTime),
                         end: new Date(x.endTime),
+                        isAccepted: x.isAccepted,
                         allDay: false,
                     };
                 });
 
                 return bookings;
             },
+            providesTags: ['bookings'],
         }),
         //maybe change return object to have additional properties to handle unavailable events
         getBookingsById: builder.query<IBookingTransformed[], IBookingsByIdPayload>({
@@ -129,6 +132,13 @@ export const bookingService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
+        acceptBooking: builder.mutation<void, string>({
+            query: (bookingId) => ({
+                url: `${URL}/accept/${bookingId}`,
+                method: HttpMethods.PUT,
+            }),
+            invalidatesTags: ['bookings'],
+        }),
     }),
 });
 
@@ -141,4 +151,5 @@ export const {
     useLazyGetBookingByIdQuery,
     useUpdateBookingMutation,
     useLazyGetCompletedLessonsQuery,
+    useAcceptBookingMutation,
 } = bookingService;

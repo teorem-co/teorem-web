@@ -27,6 +27,7 @@ interface IBookingTransformed {
     end: Date;
     allDay: boolean;
     userId?: string;
+    isAccepted?: boolean;
 }
 
 // interface ICreateTutorSubject {}
@@ -94,6 +95,7 @@ export const tutorService = baseService.injectEndpoints({
                             userId: x.User ? x.User.parentId : '',
                             start: new Date(x.startTime),
                             end: new Date(x.endTime),
+                            isAccepted: x.isAccepted,
                             allDay: false,
                         };
                     } else {
@@ -103,6 +105,7 @@ export const tutorService = baseService.injectEndpoints({
                             userId: x.studentId ? x.studentId : '',
                             start: new Date(x.startTime),
                             end: new Date(x.endTime),
+                            isAccepted: x.isAccepted,
                             allDay: false,
                         };
                     }
