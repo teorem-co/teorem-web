@@ -19,7 +19,7 @@ interface CustomTimePickerProps extends FieldProps {
     defaultValue: Moment;
 }
 
-const MyTimePicker = ({ field, form, placeholder, className, withoutErr, defaultValue }: CustomTimePickerProps) => {
+const MyTimePicker = ({ field, form, placeholder, className, withoutErr, defaultValue, isDisabled, onChangeCustom }: CustomTimePickerProps) => {
     const [formikField, meta] = useField(form.getFieldProps(field.name));
 
     const onChange = (option: any) => {
@@ -36,6 +36,8 @@ const MyTimePicker = ({ field, form, placeholder, className, withoutErr, default
                 defaultValue={moment(defaultValue)}
                 minuteStep={15}
                 showSecond={false}
+                disabled={isDisabled ? isDisabled : false}
+                onClose={onChangeCustom}
             />
             {withoutErr ? <></> : <div className="field__validation">{meta.error && meta.touched ? meta.error : ''}</div>}
         </>

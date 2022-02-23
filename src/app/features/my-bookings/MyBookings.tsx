@@ -100,8 +100,8 @@ const MyBookings: React.FC = () => {
             } else if (event.event.id === 'currentUnavailableItem') {
                 return (
                     <>
-                        <div className="test">
-                            <div className="type--color--primary">test</div>
+                        <div className="event--unavailable">
+                            <div className="type--color--primary type--wgt--bold">Unavailable</div>
                         </div>
                     </>
                 );
@@ -312,6 +312,7 @@ const MyBookings: React.FC = () => {
                         )}
                         {openUnavailabilityModal && (
                             <UnavailabilityModal
+                                key={selectedSlot ? selectedSlot.toString() : ''}
                                 event={selectedSlot}
                                 handleClose={() => {
                                     setOpenUnavailabilityModal(false);
