@@ -40,13 +40,9 @@ const Navbar = () => {
                         ) : (
                             <ImageCircle initials={`${user?.firstName.charAt(0)}${user?.lastName.charAt(0)}`} />
                         )}
-                        {user?.Role.abrv === RoleOptions.Tutor ? (
-                            <div className="navbar__bottom--settings">
-                                <i className="icon icon--base icon--white icon--settings"></i>
-                            </div>
-                        ) : (
-                            <></>
-                        )}
+                        <div className="navbar__bottom--settings">
+                            <i className="icon icon--base icon--white icon--settings"></i>
+                        </div>
                     </div>
                     <div className="navbar__bottom__user-info">
                         <div className="type--color--primary type--wgt--bold type--break">

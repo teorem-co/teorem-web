@@ -11,6 +11,7 @@ import { useHistory } from 'react-router';
 import { RoleOptions } from '../../../slices/roleSlice';
 import MainWrapper from '../../components/MainWrapper';
 import { useAppSelector } from '../../hooks';
+import OpenTutorCalendarModal from './components/OpenTutorCalendarModal';
 import TutorEventModal from './components/TutorEventModal';
 import UpcomingLessons from './components/UpcomingLessons';
 import {
@@ -19,6 +20,7 @@ import {
     useLazyGetNotificationForLessonsQuery,
     useLazyGetUpcomingLessonsQuery,
 } from './services/bookingService';
+import { useLazyGetUnavailableBookingsQuery } from './services/unavailabilityService';
 
 interface ICoords {
     x: number;
@@ -45,30 +47,38 @@ const MyBookings: React.FC = () => {
     const [selectedStart, setSelectedStart] = useState<string>('');
     const [selectedEnd, setSelectedEnd] = useState<string>('');
     const [openEventDetails, setOpenEventDetails] = useState<boolean>(false);
+    const [openTutorCalendarModal, setOpenTutorCalendarModal] = useState<boolean>(false);
     // const [bookingId, setBookingId] = useState<string>('');
     const positionClass = moment(selectedStart).format('dddd');
     const history = useHistory();
 
-    const [getUpcomingLessons, { data: upcomingLessons }] =
-        useLazyGetUpcomingLessonsQuery();
+    const [getUpcomingLessons, { data: upcomingLessons }] = useLazyGetUpcomingLessonsQuery();
 
     const [getBookings, { data: bookings }] = useLazyGetBookingsQuery();
-    const [getNotificationForLessons, { data: lessonsCount }] =
-        useLazyGetNotificationForLessonsQuery();
+    const [getNotificationForLessons, { data: lessonsCount }] = useLazyGetNotificationForLessonsQuery();
 
-    const [
-        getBookingById,
-        { data: booking, isSuccess: getBookingByIdSuccess },
-    ] = useLazyGetBookingByIdQuery();
+    const [getBookingById, { data: booking, isSuccess: getBookingByIdSuccess }] = useLazyGetBookingByIdQuery();
+    const [getTutorUnavailableBookings, { data: unavailableBookings }] = useLazyGetUnavailableBookingsQuery();
 
     const userId = useAppSelector((state) => state.auth.user?.id);
     const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
+
+    const allBookings = bookings?.concat(unavailableBookings ? unavailableBookings : []);
 
     useEffect(() => {
         if (userId) {
             getUpcomingLessons(userId);
         }
     }, []);
+
+    // useEffect(() => {
+    //     if (userRole === RoleOptions.Tutor) {
+    //         getTutorUnavailableBookings({
+    //             dateFrom: moment(value).startOf('isoWeek').toISOString(),
+    //             dateTo: moment(value).endOf('isoWeek').toISOString(),
+    //         });
+    //     }
+    // }, [value, userId, userRole]);
 
     useEffect(() => {
         if (userId) {
@@ -78,9 +88,7 @@ const MyBookings: React.FC = () => {
             });
             getNotificationForLessons({
                 userId: userId,
-                date: moment()
-                    .set({ hour: 23, minute: 59, second: 59 })
-                    .toISOString(),
+                date: moment().set({ hour: 23, minute: 59, second: 59 }).toISOString(),
             });
         }
     }, [value, userId]);
@@ -92,48 +100,46 @@ const MyBookings: React.FC = () => {
         return (
             <>
                 <div className="mb-2">{moment(date.date).format('dddd')}</div>
-                <div className="type--color--tertiary">
-                    {moment(date.date).format('DD/MMM')}
-                </div>
+                <div className="type--color--tertiary">{moment(date.date).format('DD/MMM')}</div>
             </>
         );
     };
     useEffect(() => {
-        const indicator: any = document.getElementsByClassName(
-            'rbc-current-time-indicator'
-        );
-        indicator[0] &&
-            indicator[0].setAttribute('data-time', moment().format('HH:mm'));
+        const indicator: any = document.getElementsByClassName('rbc-current-time-indicator');
+        indicator[0] && indicator[0].setAttribute('data-time', moment().format('HH:mm'));
 
         const interval = setInterval(() => {
-            indicator[0] &&
-                indicator[0].setAttribute(
-                    'data-time',
-                    moment().format('HH:mm')
-                );
+            indicator[0] && indicator[0].setAttribute('data-time', moment().format('HH:mm'));
         }, 60000);
         return () => clearInterval(interval);
     }, [calChange]);
 
     const CustomEvent = (event: any) => {
-        return (
-            <>
-                <div className="mb-2">
-                    {moment(event.event.start).format('HH:mm')}
-                </div>
-                <div className="type--wgt--bold">{event.event.label}</div>
-            </>
-        );
+        if (userRole === RoleOptions.Tutor) {
+            if (event.event.isAccepted === false) {
+                return (
+                    <div className="event">
+                        <div className="mb-2">{moment(event.event.start).format('HH:mm')}</div>
+                        <div className="type--wgt--bold">{event.event.label}</div>
+                    </div>
+                );
+            } else {
+                return (
+                    <>
+                        <div className="mb-2">{moment(event.event.start).format('HH:mm')}</div>
+                        <div className="type--wgt--bold">{event.event.label}</div>
+                    </>
+                );
+            }
+        } else {
+            return (
+                <>
+                    <div className="mb-2">{moment(event.event.start).format('HH:mm')}</div>
+                    <div className="type--wgt--bold">{event.event.tutor}</div>
+                </>
+            );
+        }
     };
-
-    // const getBooking = async () => {
-    //     const response = await getBookingById(bookingId);
-    //     return response;
-    // };
-
-    // useEffect(() => {
-    //     getBooking();
-    // }, [bookingId]);
 
     const PrevIcon = () => {
         return <i className="icon icon--base icon--chevron-left"></i>;
@@ -143,34 +149,27 @@ const MyBookings: React.FC = () => {
     };
 
     const handleSelectedEvent = (e: IBookingTransformed) => {
-        // setBookingId(e.id);
         if (userRole === RoleOptions.Tutor) {
             getBookingById(e.id);
             setOpenEventDetails(true);
             setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
             setSelectedEnd(moment(e.end).format('HH:mm'));
-            // if (booking && booking.id) {
-            //     setOpenSlot(true);
-            // }
+        } else if (userRole === RoleOptions.Parent || userRole === RoleOptions.Student) {
+            getBookingById(e.id);
+            setOpenTutorCalendarModal(true);
+            setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
+            setSelectedEnd(moment(e.end).format('HH:mm'));
         }
-        // } else {
-        //     history.push(`/search-tutors/bookings/${booking?.tutorId}`);
-        // }
     };
 
-    // const newBookings = union(bookings, emptyBookings);
-
-    // const rect = ReactDOM.findDOMNode(test) as Element;
-    // console.log(rect);
+    const goToTutorCalendar = () => {
+        history.push(`/search-tutors/bookings/${booking?.tutorId}`);
+    };
 
     const highlightRef = useRef<HTMLDivElement>(null);
     const calcPosition = () => {
-        const childElement = document.querySelector(
-            '.react-calendar__tile--active'
-        );
-        const rectParent =
-            highlightRef.current &&
-            highlightRef.current.getBoundingClientRect();
+        const childElement = document.querySelector('.react-calendar__tile--active');
+        const rectParent = highlightRef.current && highlightRef.current.getBoundingClientRect();
         const rectChild = childElement && childElement.getBoundingClientRect();
 
         if (rectParent && rectChild) {
@@ -204,9 +203,7 @@ const MyBookings: React.FC = () => {
                 <div>
                     <div className="card--calendar">
                         <div className="flex--primary p-6">
-                            <h2 className="type--lg">
-                                {t('MY_BOOKINGS.TITLE')}
-                            </h2>
+                            <h2 className="type--lg">{t('MY_BOOKINGS.TITLE')}</h2>
                             <div className="type--wgt--bold type--color--brand">
                                 {t('MY_BOOKINGS.NOTIFICATION_PART_1')}&nbsp;
                                 {lessonsCount ?? 0}
@@ -214,11 +211,12 @@ const MyBookings: React.FC = () => {
                             </div>
                         </div>
                         <BigCalendar
+                            onSelecting={() => false}
                             localizer={localizer}
                             formats={{
                                 timeGutterFormat: 'HH:mm',
                             }}
-                            events={bookings ? bookings : []}
+                            events={allBookings ? allBookings : []}
                             toolbar={false}
                             date={value}
                             view="week"
@@ -235,8 +233,8 @@ const MyBookings: React.FC = () => {
                             scrollToTime={defaultScrollTime}
                             showMultiDayTimes={true}
                             selectable={true}
-                            step={10}
-                            timeslots={6}
+                            step={15}
+                            timeslots={4}
                             longPressThreshold={10}
                             onSelectEvent={(e) => handleSelectedEvent(e)}
                         />
@@ -263,13 +261,34 @@ const MyBookings: React.FC = () => {
                         ) : (
                             <></>
                         )}
+                        {openTutorCalendarModal ? (
+                            <OpenTutorCalendarModal
+                                goToTutorCalendar={() => goToTutorCalendar()}
+                                event={booking ? booking : null}
+                                handleClose={(e) => setOpenTutorCalendarModal(e)}
+                                positionClass={`${
+                                    positionClass === 'Monday'
+                                        ? 'monday'
+                                        : positionClass === 'Tuesday'
+                                        ? 'tuesday'
+                                        : positionClass === 'Wednesday'
+                                        ? 'wednesday'
+                                        : positionClass === 'Thursday'
+                                        ? 'thursday'
+                                        : positionClass === 'Friday'
+                                        ? 'friday'
+                                        : positionClass === 'Saturday'
+                                        ? 'saturday'
+                                        : 'sunday'
+                                }`}
+                            />
+                        ) : (
+                            <></>
+                        )}
                     </div>
                 </div>
                 <div>
-                    <div
-                        ref={highlightRef}
-                        className="card card--mini-calendar mb-4 pos--rel"
-                    >
+                    <div ref={highlightRef} className="card card--mini-calendar mb-4 pos--rel">
                         <Calendar
                             onActiveStartDateChange={(e) => {
                                 hideShowHighlight(e.activeStartDate);
@@ -277,6 +296,8 @@ const MyBookings: React.FC = () => {
                             onChange={(e: Date) => {
                                 onChange(e);
                                 setCalChange(!calChange);
+                                setOpenEventDetails(false);
+                                setOpenTutorCalendarModal(false);
                             }}
                             value={value}
                             prevLabel={<PrevIcon />}
@@ -292,11 +313,7 @@ const MyBookings: React.FC = () => {
                         ></div>
                     </div>
                     <div className="upcoming-lessons">
-                        <UpcomingLessons
-                            upcomingLessons={
-                                upcomingLessons ? upcomingLessons : []
-                            }
-                        />
+                        <UpcomingLessons upcomingLessons={upcomingLessons ? upcomingLessons : []} />
                     </div>
                 </div>
             </div>

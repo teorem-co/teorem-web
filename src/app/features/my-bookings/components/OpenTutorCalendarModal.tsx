@@ -14,17 +14,13 @@ interface IProps {
     handleClose?: (close: boolean) => void;
     positionClass: string;
     event: IBooking | null;
-    tutorName: string;
-    openEditModal: (isOpen: boolean) => void;
-    bookingStart: string;
+    goToTutorCalendar: () => void;
 }
 
-const ParentEventModal: React.FC<IProps> = (props) => {
-    const { handleClose, positionClass, event, tutorName, openEditModal, bookingStart } = props;
+const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
+    const { handleClose, positionClass, event, goToTutorCalendar } = props;
 
-    const handleDeleteBooking = () => {
-        console.log();
-    };
+    console.log(event);
 
     return (
         <>
@@ -33,23 +29,18 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                     <div className="modal--parent__header">
                         <div className="flex flex--primary">
                             <div>
-                                <div className="type--wgt--bold type--md mb-1">{event.Subject.name}</div>
+                                <div className="type--wgt--bold type--md mb-1">
+                                    {event.Tutor.User.firstName} {event.Tutor.User.lastName}
+                                </div>
                                 <div className="type--color--secondary">
                                     {moment(event.startTime).format('DD/MMM/YYYY, HH:mm')} - {moment(event.endTime).format('HH:mm')}
                                 </div>
                             </div>
                             <div className="mb-6">
-                                <i className="icon icon--base icon--grey icon--edit mr-4" onClick={() => openEditModal(true)}></i>
-                                {moment(bookingStart).isSame(moment(), 'day') ? (
-                                    <></>
-                                ) : (
-                                    <i className="icon icon--base icon--grey icon--delete mr-4" onClick={() => handleDeleteBooking()}></i>
-                                )}
                                 <i
                                     className="icon icon--base icon--grey icon--close"
                                     onClick={() => {
                                         handleClose ? handleClose(false) : false;
-                                        openEditModal(false);
                                     }}
                                 ></i>
                             </div>
@@ -59,11 +50,6 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                     <div className="modal--parent__line"></div>
 
                     <div className="modal--parent__body">
-                        <div className="flex flex--center mb-4">
-                            <i className="icon icon--base icon--tutor icon--grey mr-4"></i>
-                            <div className="type--color--secondary">{tutorName}</div>
-                        </div>
-
                         <div className="flex flex--center mb-4">
                             <i className="icon icon--base icon--subject icon--grey mr-4"></i>
                             <div className="type--color--secondary">
@@ -79,7 +65,9 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                         </div>
                     </div>
                     <div className="modal--parent__footer mt-6">
-                        <button className="btn btn--base btn--primary">Join</button>
+                        <button className="btn btn--base btn--primary" onClick={() => goToTutorCalendar()}>
+                            Tutor calendar
+                        </button>
                     </div>
                 </div>
             ) : (
@@ -89,4 +77,4 @@ const ParentEventModal: React.FC<IProps> = (props) => {
     );
 };
 
-export default ParentEventModal;
+export default OpenTutorCalendarModal;

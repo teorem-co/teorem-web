@@ -2,14 +2,17 @@ import { Form, FormikProvider, useFormik } from 'formik';
 import { t } from 'i18next';
 import { initial, isEqual } from 'lodash';
 import moment from 'moment';
+import TimePicker from 'rc-time-picker';
 import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { useGetLevelOptionsQuery, useGetTutorLevelsQuery } from '../../../../services/levelService';
 import { useLazyGetSubjectOptionsByLevelQuery, useLazyGetTutorSubjectsByTutorLevelQuery } from '../../../../services/subjectService';
-import { useGetChildQuery } from '../../../../services/userService';
+import { useGetChildQuery, useLazyGetChildQuery } from '../../../../services/userService';
+import { RoleOptions } from '../../../../slices/roleSlice';
 import MySelect, { OptionType } from '../../../components/form/MySelectField';
+import MyTimePicker from '../../../components/form/MyTimePicker';
 import TextField from '../../../components/form/TextField';
 import { useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
@@ -38,125 +41,20 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     const { start, end, handleClose, positionClass, setSidebarOpen, clearEmptyBookings } = props;
     const { data: levelOptions, isLoading: isLoadingLevels } = useGetTutorLevelsQuery(tutorId);
 
-    const { data: childOptions, isLoading: isLoadingChildren } = useGetChildQuery();
+    const [getChildOptions, { data: childOptions, isLoading: isLoadingChildren }] = useLazyGetChildQuery();
 
     const [getSubjectOptionsByLevel, { data: subjectsData, isLoading: isLoadingSubjects, isSuccess: isSuccessSubjects }] =
         useLazyGetTutorSubjectsByTutorLevelQuery();
 
     const [createBooking, { isSuccess: createBookingSuccess }] = useCreatebookingMutation();
 
-    const timeOptions = [
-        {
-            value: 0,
-            label: '00:00',
-        },
-        {
-            value: 1,
-            label: '01:00',
-        },
-        {
-            value: 2,
-            label: '02:00',
-        },
-        {
-            value: 3,
-            label: '03:00',
-        },
-        {
-            value: 4,
-            label: '04:00',
-        },
-        {
-            value: 5,
-            label: '05:00',
-        },
-        {
-            value: 6,
-            label: '06:00',
-        },
-        {
-            value: 7,
-            label: '07:00',
-        },
-        {
-            value: 8,
-            label: '08:00',
-        },
-        {
-            value: 9,
-            label: '09:00',
-        },
-        {
-            value: 10,
-            label: '10:00',
-        },
-        {
-            value: 11,
-            label: '11:00',
-        },
-        {
-            value: 12,
-            label: '12:00',
-        },
-        {
-            value: 13,
-            label: '13:00',
-        },
-        {
-            value: 14,
-            label: '14:00',
-        },
-        {
-            value: 15,
-            label: '15:00',
-        },
-        {
-            value: 16,
-            label: '16:00',
-        },
-        {
-            value: 17,
-            label: '17:00',
-        },
-        {
-            value: 18,
-            label: '18:00',
-        },
-        {
-            value: 19,
-            label: '19:00',
-        },
-        {
-            value: 20,
-            label: '20:00',
-        },
-        {
-            value: 21,
-            label: '21:00',
-        },
-        {
-            value: 22,
-            label: '22:00',
-        },
-        {
-            value: 23,
-            label: '23:00',
-        },
-    ];
+    const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
 
-    // const x = 10; //minutes interval
-    // const times = []; // time array
-    // let tt = 0; // start time
-
-    // //loop to increment the time and push results in array
-    // for (let i = 0; tt < 24 * 60; i++) {
-    //     const hh = Math.floor(tt / 60); // getting hours of day in 0-24 format
-    //     const mm = tt % 60; // getting minutes of the hour in 0-55 format
-    //     times[i] = ('0' + (hh % 12)).slice(-2) + ':' + ('0' + mm).slice(-2);
-    //     tt = tt + x;
-    // }
-
-    // console.log(times);
+    useEffect(() => {
+        if (userRole === RoleOptions.Parent) {
+            getChildOptions();
+        }
+    }, []);
 
     const initialValues: Values = {
         level: '',
@@ -175,14 +73,24 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     });
 
     const handleSubmit = (values: any) => {
+        const splitString = values.timeFrom.split(':');
         props.setSidebarOpen(false);
-        createBooking({
-            startTime: moment(start).set('hours', values.timeFrom).toISOString(),
-            subjectId: values.subject,
-            studentId: values.child,
-            tutorId: tutorId,
-        });
-        props.clearEmptyBookings();
+        if (userRole === RoleOptions.Parent) {
+            createBooking({
+                startTime: moment(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
+                subjectId: values.subject,
+                studentId: values.child,
+                tutorId: tutorId,
+            });
+            props.clearEmptyBookings();
+        } else {
+            createBooking({
+                startTime: moment(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
+                subjectId: values.subject,
+                tutorId: tutorId,
+            });
+            props.clearEmptyBookings();
+        }
     };
 
     useEffect(() => {
@@ -219,8 +127,8 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     }, [subjectsData]);
 
     const handleChange = (e: any) => {
+        debugger;
         setSelectedTime(e);
-        console.log(e);
     };
     const handleSubmitForm = () => {
         formik.handleSubmit();
@@ -296,37 +204,38 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                                 placeholder={t('SEARCH_TUTORS.PLACEHOLDER.SUBJECT')}
                             />
                         </div>
-                        <div className="field">
-                            <label htmlFor="child" className="field__label">
-                                Child*
-                            </label>
+                        {userRole === RoleOptions.Parent ? (
+                            <div className="field">
+                                <label htmlFor="child" className="field__label">
+                                    Child*
+                                </label>
 
-                            <MySelect
-                                field={formik.getFieldProps('child')}
-                                form={formik}
-                                meta={formik.getFieldMeta('child')}
-                                classNamePrefix="onboarding-select"
-                                isMulti={false}
-                                options={childOptions ? childOptions : []}
-                                placeholder="Select Child"
-                            />
-                        </div>
+                                <MySelect
+                                    field={formik.getFieldProps('child')}
+                                    form={formik}
+                                    meta={formik.getFieldMeta('child')}
+                                    classNamePrefix="onboarding-select"
+                                    isMulti={false}
+                                    options={childOptions ? childOptions : []}
+                                    placeholder="Select Child"
+                                />
+                            </div>
+                        ) : (
+                            <></>
+                        )}
+
                         <div className="field">
                             <label htmlFor="timeFrom" className="field__label">
                                 Time* (Session length is 50min)
                             </label>
                             <div className="flex">
                                 <div className="field w--100 mr-6">
-                                    <MySelect
-                                        onChangeCustom={(e) => handleChange(moment(e, 'HH:mm').format('HH:mm'))}
+                                    <MyTimePicker
                                         field={formik.getFieldProps('timeFrom')}
                                         form={formik}
                                         meta={formik.getFieldMeta('timeFrom')}
-                                        classNamePrefix="onboarding-select"
-                                        isMulti={false}
-                                        options={timeOptions ? timeOptions : []}
-                                        // isDisabled={levelDisabled}
-                                        placeholder="Select time"
+                                        defaultValue={moment(formik.values.timeFrom, 'HH:mm')}
+                                        onChangeCustom={(e) => handleChange(moment(e, 'HH:mm').format('HH:mm'))}
                                     />
                                 </div>
                                 <div className="field w--100">
@@ -337,8 +246,8 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                                         id="time"
                                         disabled={true}
                                         value={
-                                            selectedTime
-                                                ? moment(selectedTime, 'HH:mm').add(1, 'hours').format('HH:mm')
+                                            formik.values.timeFrom
+                                                ? moment(formik.values.timeFrom, 'HH:mm').add(1, 'hours').format('HH:mm')
                                                 : start
                                                 ? moment(start).add(1, 'hours').format('HH:mm')
                                                 : 'Time'

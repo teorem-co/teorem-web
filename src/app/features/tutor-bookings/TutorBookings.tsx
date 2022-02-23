@@ -1,20 +1,15 @@
 import { Form, FormikProvider, useFormik } from 'formik';
+import { uniqBy } from 'lodash';
 import moment from 'moment';
-import React, { useEffect, useState } from 'react';
-import {
-    Calendar as BigCalendar,
-    momentLocalizer,
-    SlotInfo,
-} from 'react-big-calendar';
+import React, { useEffect, useRef, useState } from 'react';
+import { Calendar as BigCalendar, momentLocalizer, SlotInfo } from 'react-big-calendar';
 import Calendar from 'react-calendar';
 import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 
-import {
-    useLazyGetTutorBookingsQuery,
-    useLazyGetTutorProfileDataQuery,
-} from '../../../services/tutorService';
+import { useLazyGetTutorBookingsQuery, useLazyGetTutorProfileDataQuery } from '../../../services/tutorService';
 import { RoleOptions } from '../../../slices/roleSlice';
 import ExpDateField from '../../components/form/ExpDateField';
 import TextField from '../../components/form/TextField';
@@ -26,7 +21,7 @@ import toastService from '../../services/toastService';
 import ParentCalendarSlots from '../my-bookings/components/ParentCalendarSlots';
 import ParentEventModal from '../my-bookings/components/ParentEventModal';
 import UpdateBooking from '../my-bookings/components/UpdateBooking';
-import { useLazyGetBookingByIdQuery } from '../my-bookings/services/bookingService';
+import { useLazyGetBookingByIdQuery, useLazyGetBookingsQuery } from '../my-bookings/services/bookingService';
 
 interface IBookingTransformed {
     id: string;
@@ -34,6 +29,7 @@ interface IBookingTransformed {
     start: Date;
     end: Date;
     allDay: boolean;
+    userId?: string;
 }
 
 interface IEvent {
@@ -44,16 +40,20 @@ interface IEvent {
     allDay: boolean;
 }
 
+interface ICoords {
+    x: number;
+    y: number;
+}
+
 const TutorBookings = () => {
     const localizer = momentLocalizer(moment);
+    const history = useHistory();
 
     const [value, onChange] = useState(new Date());
     const [selectedStart, setSelectedStart] = useState<string>('');
     const [selectedEnd, setSelectedEnd] = useState<string>('');
     const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
-    const [emptyBookings, setEmptybookings] = useState<IBookingTransformed[]>(
-        []
-    );
+    const [emptyBookings, setEmptybookings] = useState<IBookingTransformed[]>([]);
     const [openSlot, setOpenSlot] = useState<boolean>(false);
     const [eventDetails, setEventDetails] = useState<IEvent>();
     const [openEventDetails, setOpenEventDetails] = useState<boolean>(false);
@@ -61,28 +61,20 @@ const TutorBookings = () => {
 
     const [calChange, setCalChange] = useState<boolean>(false);
     const positionClass = moment(selectedStart).format('dddd');
+    const [highlightCoords, setHighlightCoords] = useState<ICoords>({
+        x: 0,
+        y: 0,
+    });
 
     const userRole = useAppSelector((state) => state.auth.user?.Role?.abrv);
+    const userId = useAppSelector((state) => state.auth.user?.id);
 
     const { tutorId } = useParams();
 
-    const [
-        getTutorBookings,
-        {
-            data: tutorBookings,
-            isSuccess: isSuccessBookings,
-            isLoading: isLoadingBookings,
-        },
-    ] = useLazyGetTutorBookingsQuery();
+    const [getTutorBookings, { data: tutorBookings, isSuccess: isSuccessBookings, isLoading: isLoadingBookings }] = useLazyGetTutorBookingsQuery();
+    const [getBookings, { data: bookings, isSuccess: isSuccessAllBookings }] = useLazyGetBookingsQuery();
 
-    const [
-        getTutorData,
-        {
-            data: tutorData,
-            isSuccess: isSuccessTutorData,
-            isLoading: isLoadingTutorData,
-        },
-    ] = useLazyGetTutorProfileDataQuery({
+    const [getTutorData, { data: tutorData, isSuccess: isSuccessTutorData, isLoading: isLoadingTutorData }] = useLazyGetTutorProfileDataQuery({
         selectFromResult: ({ data, isSuccess, isLoading }) => ({
             data: {
                 firstName: data?.User.firstName,
@@ -92,14 +84,20 @@ const TutorBookings = () => {
             isLoading,
         }),
     });
-    const [
-        getBookingById,
-        { data: booking, isSuccess: isSuccessGetBookingById },
-    ] = useLazyGetBookingByIdQuery();
+    const [getBookingById, { data: booking, isSuccess: isSuccessGetBookingById }] = useLazyGetBookingByIdQuery();
 
     const { t } = useTranslation();
 
     const defaultScrollTime = new Date(new Date().setHours(7, 45, 0));
+
+    useEffect(() => {
+        if (userId) {
+            getBookings({
+                dateFrom: moment(value).startOf('isoWeek').toISOString(),
+                dateTo: moment(value).endOf('isoWeek').toISOString(),
+            });
+        }
+    }, [value, userId]);
 
     useEffect(() => {
         if (tutorId) {
@@ -128,52 +126,41 @@ const TutorBookings = () => {
         return (
             <>
                 <div className="mb-2">{moment(date.date).format('dddd')}</div>
-                <div className="type--color--tertiary">
-                    {moment(date.date).format('DD.MM')}
-                </div>
+                <div className="type--color--tertiary">{moment(date.date).format('DD/MMM')}</div>
             </>
         );
     };
 
     useEffect(() => {
-        const indicator: any = document.getElementsByClassName(
-            'rbc-current-time-indicator'
-        );
-        indicator[0] &&
-            indicator[0].setAttribute('data-time', moment().format('HH:mm'));
+        const indicator: any = document.getElementsByClassName('rbc-current-time-indicator');
+        indicator[0] && indicator[0].setAttribute('data-time', moment().format('HH:mm'));
 
         const interval = setInterval(() => {
-            indicator[0] &&
-                indicator[0].setAttribute(
-                    'data-time',
-                    moment().format('HH:mm')
-                );
+            indicator[0] && indicator[0].setAttribute('data-time', moment().format('HH:mm'));
         }, 60000);
         return () => clearInterval(interval);
     }, [calChange]);
 
     const CustomEvent = (event: any) => {
-        const eventStart = event.event.start;
-        if (moment(eventStart).isBefore(moment())) {
+        if (event.event.userId !== userId) {
             return <div className="my-bookings--unavailable"></div>;
         } else {
-            return (
-                <div>
-                    <div className="mb-2 ">
-                        {moment(event.event.start).format('HH:mm')}
+            if (event.event.isAccepted === false) {
+                return (
+                    <div className="event">
+                        <div className="mb-2">{moment(event.event.start).format('HH:mm')}</div>
+                        <div className="type--wgt--bold">{event.event.label}</div>
                     </div>
-                    <div className="type--wgt--bold">{event.event.label}</div>
-                </div>
-            );
+                );
+            } else {
+                return (
+                    <div>
+                        <div className="mb-2 ">{moment(event.event.start).format('HH:mm')}</div>
+                        <div className="type--wgt--bold">{event.event.label}</div>
+                    </div>
+                );
+            }
         }
-        // return (
-        //     <div>
-        //         <div className="mb-2 ">
-        //             {moment(event.event.start).format('HH:mm')}
-        //         </div>
-        //         <div className="type--wgt--bold">{event.event.label}</div>
-        //     </div>
-        // );
     };
 
     const PrevIcon = () => {
@@ -184,7 +171,22 @@ const TutorBookings = () => {
     };
 
     const slotSelect = (e: SlotInfo) => {
-        if (!moment(e.start).isBefore(moment().add(3, 'hours'))) {
+        const existingBooking =
+            tutorBookings && tutorBookings.filter((date) => moment(date.start).format('YYYY/MM/DD') === moment(e.start).format('YYYY/MM/DD'));
+
+        const flagArr = [];
+        if (existingBooking) {
+            const checkHours = !moment(e.start).isBefore(moment().add(3, 'hours'));
+            existingBooking.forEach((booking) => {
+                const isBetweenStart = moment(e.start).isBetween(moment(booking.start), moment(booking.end));
+                const isBetweenEnd = moment(e.start).add(1, 'hours').isBetween(moment(booking.start), moment(booking.end));
+                const currentFlag = checkHours && isBetweenStart === false && isBetweenEnd === false;
+                if (currentFlag) {
+                    flagArr.push(true);
+                }
+            });
+        }
+        if (flagArr.length === existingBooking?.length && !moment(e.start).isBefore(moment().add(3, 'hours'))) {
             setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
             setSelectedEnd(moment(e.start).add(1, 'hours').format('HH:mm'));
             setOpenSlot(true);
@@ -198,6 +200,7 @@ const TutorBookings = () => {
                     end: moment(e.start).add(1, 'hours').toDate(),
                     label: 'Book event',
                     allDay: false,
+                    userId: userId ? userId : '',
                 },
             ]);
             return CustomEvent(e.slots);
@@ -210,23 +213,27 @@ const TutorBookings = () => {
 
     const handleSelectedEvent = (e: IBookingTransformed) => {
         // check whole date not only hours this is a bug
-        if (moment(e.start).isBefore(moment()) || emptyBookings.length > 0) {
-            return;
+        if (e.userId === userId) {
+            if (moment(e.start).isBefore(moment()) || emptyBookings.length > 0) {
+                return;
+            } else {
+                setOpenSlot(false);
+                setOpenEventDetails(true);
+                getBookingById(e.id);
+                setEventDetails({
+                    start: moment(e.start).format('DD/MMMM/YYYY, HH:mm'),
+                    end: moment(e.end).format('HH:mm'),
+                    allDay: e.allDay,
+                    label: e.label,
+                });
+                setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
+                setSelectedEnd(moment(e.end).format('HH:mm'));
+                // if (booking && booking.id) {
+                //     setOpenSlot(true);
+                // }
+            }
         } else {
-            setOpenSlot(false);
-            setOpenEventDetails(true);
-            getBookingById(e.id);
-            setEventDetails({
-                start: moment(e.start).format('DD/MMMM/YYYY, HH:mm'),
-                end: moment(e.end).format('HH:mm'),
-                allDay: e.allDay,
-                label: e.label,
-            });
-            setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
-            setSelectedEnd(moment(e.end).format('HH:mm'));
-            // if (booking && booking.id) {
-            //     setOpenSlot(true);
-            // }
+            return;
         }
     };
 
@@ -252,7 +259,41 @@ const TutorBookings = () => {
         setOpenEventDetails(false);
     };
 
+    const highlightRef = useRef<HTMLDivElement>(null);
+    const calcPosition = () => {
+        const childElement = document.querySelector('.react-calendar__tile--active');
+        const rectParent = highlightRef.current && highlightRef.current.getBoundingClientRect();
+        const rectChild = childElement && childElement.getBoundingClientRect();
+
+        if (rectParent && rectChild) {
+            const finalX = rectParent.x - rectChild.x;
+            const finalY = rectChild.y - rectParent.y;
+            setHighlightCoords({ x: finalX, y: finalY });
+        }
+    };
+
+    const tileRef = useRef<HTMLDivElement>(null);
+    const tileElement = tileRef.current as HTMLDivElement;
+
+    const hideShowHighlight = (date: Date) => {
+        if (tileElement) {
+            if (moment(date).isSame(value, 'month')) {
+                tileElement.style.display = 'block';
+            } else {
+                tileElement.style.display = 'none';
+            }
+        }
+    };
+
+    useEffect(() => {
+        calcPosition();
+        hideShowHighlight(value);
+    }, [value]);
+
     const allBookings = tutorBookings && tutorBookings.concat(emptyBookings);
+
+    const totalBookings = allBookings && allBookings.concat(bookings ? bookings : []);
+    const filteredBookings = uniqBy(totalBookings, 'id');
 
     return (
         <MainWrapper>
@@ -260,17 +301,18 @@ const TutorBookings = () => {
                 <div>
                     <div className="card--calendar">
                         <div className="flex flex--center p-6">
-                            <Link to={PATHS.SEARCH_TUTORS}>
+                            {/* <Link to={PATHS.SEARCH_TUTORS}>
                                 <div>
                                     <i className="icon icon--base icon--arrow-left icon--black"></i>
                                 </div>
-                            </Link>
+                            </Link> */}
+                            <div onClick={() => history.goBack()}>
+                                <div>
+                                    <i className="icon icon--base icon--arrow-left icon--black"></i>
+                                </div>
+                            </div>
                             <h2 className="type--lg  ml-6">
-                                {`${t('MY_BOOKINGS.TITLE')} - ${
-                                    tutorData.firstName
-                                        ? tutorData.firstName
-                                        : ''
-                                } ${
+                                {`${t('MY_BOOKINGS.TITLE')} - ${tutorData.firstName ? tutorData.firstName : ''} ${
                                     tutorData.lastName ? tutorData.lastName : ''
                                 }`}
                             </h2>
@@ -280,10 +322,11 @@ const TutorBookings = () => {
                             formats={{
                                 timeGutterFormat: 'HH:mm',
                             }}
-                            events={allBookings ? allBookings : []}
+                            events={filteredBookings ? filteredBookings : []}
                             toolbar={false}
                             date={value}
-                            selectable={'ignoreEvents'}
+                            selectable={true}
+                            onSelecting={() => false}
                             view="week"
                             style={{ height: 'calc(100% - 84px)' }}
                             startAccessor="start"
@@ -296,20 +339,12 @@ const TutorBookings = () => {
                             }}
                             scrollToTime={defaultScrollTime}
                             showMultiDayTimes={true}
-                            step={10}
-                            timeslots={6}
+                            step={15}
+                            timeslots={4}
                             longPressThreshold={10}
-                            onSelectSlot={(e) =>
-                                userRole === RoleOptions.Parent ||
-                                userRole === RoleOptions.Student
-                                    ? slotSelect(e)
-                                    : null
-                            }
+                            onSelectSlot={(e) => (userRole === RoleOptions.Parent || userRole === RoleOptions.Student ? slotSelect(e) : null)}
                             onSelectEvent={(e) =>
-                                userRole === RoleOptions.Parent ||
-                                userRole === RoleOptions.Student
-                                    ? handleSelectedEvent(e)
-                                    : null
+                                userRole === RoleOptions.Parent || userRole === RoleOptions.Student ? handleSelectedEvent(e) : null
                             }
                             // onSelecting={(range: { start: ; end: 'test'; }) => false}
                         />
@@ -338,16 +373,9 @@ const TutorBookings = () => {
                             />
                         ) : openEventDetails ? (
                             <ParentEventModal
-                                openEditModal={(isOpen) =>
-                                    handleUpdateModal(isOpen)
-                                }
-                                tutorName={
-                                    tutorData.firstName && tutorData.lastName
-                                        ? tutorData.firstName +
-                                          ' ' +
-                                          tutorData.lastName
-                                        : ''
-                                }
+                                bookingStart={booking ? booking.startTime : ''}
+                                openEditModal={(isOpen) => handleUpdateModal(isOpen)}
+                                tutorName={tutorData.firstName && tutorData.lastName ? tutorData.firstName + ' ' + tutorData.lastName : ''}
                                 event={booking ? booking : null}
                                 handleClose={(e) => setOpenEventDetails(e)}
                                 positionClass={`${
@@ -370,10 +398,10 @@ const TutorBookings = () => {
                             <UpdateBooking
                                 booking={booking ? booking : null}
                                 clearEmptyBookings={() => setEmptybookings([])}
-                                setSidebarOpen={(e) => setSidebarOpen(e)}
+                                setSidebarOpen={(e: any) => setSidebarOpen(e)}
                                 start={`${selectedStart}`}
                                 end={`${selectedEnd}`}
-                                handleClose={(e) => setOpenUpdateModal(e)}
+                                handleClose={(e: any) => setOpenUpdateModal(e)}
                                 positionClass={`${
                                     positionClass === 'Monday'
                                         ? 'monday'
@@ -396,8 +424,11 @@ const TutorBookings = () => {
                     </div>
                 </div>
                 <div>
-                    <div className="card card--primary mb-4">
+                    <div ref={highlightRef} className="card card--mini-calendar mb-4 pos--rel">
                         <Calendar
+                            onActiveStartDateChange={(e) => {
+                                hideShowHighlight(e.activeStartDate);
+                            }}
                             onChange={(e: Date) => {
                                 onChange(e);
                                 setCalChange(!calChange);
@@ -406,6 +437,14 @@ const TutorBookings = () => {
                             prevLabel={<PrevIcon />}
                             nextLabel={<NextIcon />}
                         />
+                        <div
+                            ref={tileRef}
+                            style={{
+                                top: `${highlightCoords.y}px`,
+                                left: `${highlightCoords.x}px`,
+                            }}
+                            className="tile--row"
+                        ></div>
                     </div>
                     <div className="upcoming-lessons">
                         {/* <UpcomingLessons
@@ -428,13 +467,8 @@ const TutorBookings = () => {
                                     <Form>
                                         {/* <div>{JSON.stringify(formikStepTwo.values, null, 2)}</div> */}
                                         <div className="field">
-                                            <label
-                                                htmlFor="cardFirstName"
-                                                className="field__label"
-                                            >
-                                                {t(
-                                                    'REGISTER.CARD_DETAILS.FIRST_NAME'
-                                                )}
+                                            <label htmlFor="cardFirstName" className="field__label">
+                                                {t('REGISTER.CARD_DETAILS.FIRST_NAME')}
                                             </label>
                                             <TextField
                                                 name="cardFirstName"
@@ -444,13 +478,8 @@ const TutorBookings = () => {
                                             />
                                         </div>
                                         <div className="field">
-                                            <label
-                                                htmlFor="cardLastName"
-                                                className="field__label"
-                                            >
-                                                {t(
-                                                    'REGISTER.CARD_DETAILS.LAST_NAME'
-                                                )}
+                                            <label htmlFor="cardLastName" className="field__label">
+                                                {t('REGISTER.CARD_DETAILS.LAST_NAME')}
                                             </label>
                                             <TextField
                                                 name="cardLastName"
@@ -460,13 +489,8 @@ const TutorBookings = () => {
                                             />
                                         </div>
                                         <div className="field">
-                                            <label
-                                                htmlFor="cardNumber"
-                                                className="field__label"
-                                            >
-                                                {t(
-                                                    'REGISTER.CARD_DETAILS.CARD_NUMBER'
-                                                )}
+                                            <label htmlFor="cardNumber" className="field__label">
+                                                {t('REGISTER.CARD_DETAILS.CARD_NUMBER')}
                                             </label>
                                             <TextField
                                                 type="number"
@@ -479,13 +503,8 @@ const TutorBookings = () => {
                                         <div className="field field__file">
                                             <div className="flex">
                                                 <div className="field w--100 mr-6">
-                                                    <label
-                                                        htmlFor="expiryDate"
-                                                        className="field__label"
-                                                    >
-                                                        {t(
-                                                            'REGISTER.CARD_DETAILS.EXPIRY_DATE'
-                                                        )}
+                                                    <label htmlFor="expiryDate" className="field__label">
+                                                        {t('REGISTER.CARD_DETAILS.EXPIRY_DATE')}
                                                     </label>
                                                     <ExpDateField
                                                         name="expiryDate"
@@ -496,13 +515,8 @@ const TutorBookings = () => {
                                                 </div>
 
                                                 <div className="field w--100">
-                                                    <label
-                                                        htmlFor="cvv"
-                                                        className="field__label"
-                                                    >
-                                                        {t(
-                                                            'REGISTER.CARD_DETAILS.CVV'
-                                                        )}
+                                                    <label htmlFor="cvv" className="field__label">
+                                                        {t('REGISTER.CARD_DETAILS.CVV')}
                                                     </label>
                                                     <TextField
                                                         max={3}
@@ -518,13 +532,8 @@ const TutorBookings = () => {
                                         </div>
 
                                         <div className="field">
-                                            <label
-                                                htmlFor="zipCode"
-                                                className="field__label"
-                                            >
-                                                {t(
-                                                    'REGISTER.CARD_DETAILS.ZIP_CODE'
-                                                )}
+                                            <label htmlFor="zipCode" className="field__label">
+                                                {t('REGISTER.CARD_DETAILS.ZIP_CODE')}
                                             </label>
                                             <TextField
                                                 type="number"
