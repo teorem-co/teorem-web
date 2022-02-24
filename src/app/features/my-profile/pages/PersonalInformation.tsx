@@ -15,6 +15,7 @@ import UploadFile from '../../../components/form/MyUploadField';
 import TextField from '../../../components/form/TextField';
 import MainWrapper from '../../../components/MainWrapper';
 import RouterPrompt from '../../../components/RouterPrompt';
+import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
 import { countryInput } from '../../../constants/countryInput';
 import { countryOption } from '../../../constants/countryOption';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
@@ -243,7 +244,7 @@ const PersonalInformation = () => {
                             />
 
                             {/* PERSONAL INFO */}
-                            {(pageLoading && <>Loading...</>) || (
+                            {(pageLoading && <LoaderPrimary />) || (
                                 <div className="card--profile__section">
                                     <div>
                                         <div className="mb-2 type--wgt--bold">{t('MY_PROFILE.PROFILE_SETTINGS.TITLE')}</div>

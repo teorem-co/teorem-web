@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 import { useLazyGetProfileProgressQuery, useLazyGetTutorProfileDataQuery } from '../../../../services/tutorService';
 import MainWrapper from '../../../components/MainWrapper';
+import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { getUserId } from '../../../utils/getUserId';
 import AddSubjectSidebar from '../components/AddSubjectSidebar';
@@ -73,7 +74,7 @@ const MyTeachings = () => {
                 />
 
                 {/* MY TEACHINGS */}
-                {(isLoading && <>Loading...</>) || (
+                {(isLoading && <LoaderPrimary />) || (
                     <div className="card--profile__section">
                         {/* Add subject */}
                         <div>

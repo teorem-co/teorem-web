@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useLazyGetProfileProgressQuery } from '../../../../services/tutorService';
 import MainWrapper from '../../../components/MainWrapper';
 import RouterPrompt from '../../../components/RouterPrompt';
+import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
 import availabilityTable from '../../../constants/availabilityTable';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
@@ -176,7 +177,7 @@ const GeneralAvailability = () => {
                 />
 
                 {/* AVAILABILITY */}
-                {(loading && <>Loading...</>) || (
+                {(loading && <LoaderPrimary />) || (
                     <div className="card--profile__section">
                         <div>
                             <div className="mb-2 type--wgt--bold">{t('MY_PROFILE.GENERAL_AVAILABILITY.TITLE')}</div>
