@@ -307,7 +307,9 @@ const TutorProfile = () => {
                                         </span>
                                     </div>
                                 </div>
-                                <button className="btn btn--base btn--primary w--100 mb-4">Book a Lesson</button>
+                                <Link className="btn btn--base btn--primary w--100 mb-4 type--center" to={`/search-tutors/bookings/${tutorId}`}>
+                                    Book a Lesson
+                                </Link>
                                 <button className="btn btn--base btn--ghost w--100">Send a message</button>
                             </div>
                         </div>

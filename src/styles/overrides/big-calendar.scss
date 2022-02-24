@@ -100,12 +100,13 @@ $rbc-calendar-width: 675px;
                     .rbc-time-slot {
                         .rbc-label {
                             margin-top: -10px;
+                            display: block;
                         }
                     }
                     &:first-child {
                         .rbc-time-slot {
                             .rbc-label {
-                                margin-top: -20px;
+                                margin-top: 00px;
                             }
                         }
                     }
@@ -132,17 +133,17 @@ $rbc-calendar-width: 675px;
                 &:after {
                     content: '';
                     position: absolute;
-                    top: 22px;
+                    top: 30px;
                     left: calc(#{$unit} * 6);
                     width: 20px;
-                    height: 36px;
+                    height: 62px;
                     border-top: 1px solid $grey-ed;
                     border-bottom: 1px solid $grey-ed;
                 }
                 &:before {
                     content: '';
                     position: absolute;
-                    bottom: 40px;
+                    bottom: 90px;
                     left: calc(#{$unit} * 6);
                     width: 32px;
                     height: 1px;
@@ -220,7 +221,7 @@ $rbc-calendar-width: 675px;
         border: 1px solid $grey-ed;
         border-top: none;
         right: 0;
-        height: 15%;
+        height: 20px;
         background: repeating-linear-gradient(45deg, #f7f7f7, #f7f7f7 10px, #fcfcfc 10px, #fcfcfc 20px);
         // background: repeating-linear-gradient(
         //     45deg,

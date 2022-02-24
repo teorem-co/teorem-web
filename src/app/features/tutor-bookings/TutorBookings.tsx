@@ -22,6 +22,7 @@ import ParentCalendarSlots from '../my-bookings/components/ParentCalendarSlots';
 import ParentEventModal from '../my-bookings/components/ParentEventModal';
 import UpdateBooking from '../my-bookings/components/UpdateBooking';
 import { useLazyGetBookingByIdQuery, useLazyGetBookingsQuery } from '../my-bookings/services/bookingService';
+import { useLazyGetUnavailableBookingsQuery } from '../my-bookings/services/unavailabilityService';
 
 interface IBookingTransformed {
     id: string;
@@ -46,34 +47,9 @@ interface ICoords {
 }
 
 const TutorBookings = () => {
-    const localizer = momentLocalizer(moment);
-    const history = useHistory();
-
-    const [value, onChange] = useState(new Date());
-    const [selectedStart, setSelectedStart] = useState<string>('');
-    const [selectedEnd, setSelectedEnd] = useState<string>('');
-    const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
-    const [emptyBookings, setEmptybookings] = useState<IBookingTransformed[]>([]);
-    const [openSlot, setOpenSlot] = useState<boolean>(false);
-    const [eventDetails, setEventDetails] = useState<IEvent>();
-    const [openEventDetails, setOpenEventDetails] = useState<boolean>(false);
-    const [openUpdateModal, setOpenUpdateModal] = useState<boolean>(false);
-
-    const [calChange, setCalChange] = useState<boolean>(false);
-    const positionClass = moment(selectedStart).format('dddd');
-    const [highlightCoords, setHighlightCoords] = useState<ICoords>({
-        x: 0,
-        y: 0,
-    });
-
-    const userRole = useAppSelector((state) => state.auth.user?.Role?.abrv);
-    const userId = useAppSelector((state) => state.auth.user?.id);
-
-    const { tutorId } = useParams();
-
     const [getTutorBookings, { data: tutorBookings, isSuccess: isSuccessBookings, isLoading: isLoadingBookings }] = useLazyGetTutorBookingsQuery();
     const [getBookings, { data: bookings, isSuccess: isSuccessAllBookings }] = useLazyGetBookingsQuery();
-
+    const [getTutorUnavailableBookings, { data: unavailableBookings }] = useLazyGetUnavailableBookingsQuery();
     const [getTutorData, { data: tutorData, isSuccess: isSuccessTutorData, isLoading: isLoadingTutorData }] = useLazyGetTutorProfileDataQuery({
         selectFromResult: ({ data, isSuccess, isLoading }) => ({
             data: {
@@ -86,40 +62,38 @@ const TutorBookings = () => {
     });
     const [getBookingById, { data: booking, isSuccess: isSuccessGetBookingById }] = useLazyGetBookingByIdQuery();
 
+    const [selectedStart, setSelectedStart] = useState<string>('');
+    const [selectedEnd, setSelectedEnd] = useState<string>('');
+    const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
+    const [emptyBookings, setEmptybookings] = useState<IBookingTransformed[]>([]);
+    const [openSlot, setOpenSlot] = useState<boolean>(false);
+    const [eventDetails, setEventDetails] = useState<IEvent>();
+    const [openEventDetails, setOpenEventDetails] = useState<boolean>(false);
+    const [openUpdateModal, setOpenUpdateModal] = useState<boolean>(false);
+    const [calChange, setCalChange] = useState<boolean>(false);
+    const [value, onChange] = useState(new Date());
+    const [highlightCoords, setHighlightCoords] = useState<ICoords>({
+        x: 0,
+        y: 0,
+    });
+
+    const localizer = momentLocalizer(moment);
+    const history = useHistory();
+    const positionClass = moment(selectedStart).format('dddd');
+    const userRole = useAppSelector((state) => state.auth.user?.Role?.abrv);
+    const userId = useAppSelector((state) => state.auth.user?.id);
+    const { tutorId } = useParams();
     const { t } = useTranslation();
-
     const defaultScrollTime = new Date(new Date().setHours(7, 45, 0));
-
-    useEffect(() => {
-        if (userId) {
-            getBookings({
-                dateFrom: moment(value).startOf('isoWeek').toISOString(),
-                dateTo: moment(value).endOf('isoWeek').toISOString(),
-            });
-        }
-    }, [value, userId]);
-
-    useEffect(() => {
-        if (tutorId) {
-            getTutorData(tutorId);
-        }
-    }, []);
-
-    // useEffect(() => {
-    //     if (isSuccessTutorData && tutorData) {
-    //     }
-    //     //if failed redirect to previous route ?
-    // }, [isSuccessTutorData]);
-
-    useEffect(() => {
-        if (tutorId) {
-            getTutorBookings({
-                dateFrom: moment(value).startOf('isoWeek').toISOString(),
-                dateTo: moment(value).endOf('isoWeek').toISOString(),
-                tutorId: tutorId,
-            });
-        }
-    }, [value, tutorId]);
+    const highlightRef = useRef<HTMLDivElement>(null);
+    const allBookings = tutorBookings && tutorBookings.concat(emptyBookings, unavailableBookings ? unavailableBookings : []);
+    const totalBookings = allBookings && allBookings.concat(bookings ? bookings : []);
+    const filteredBookings = uniqBy(totalBookings, 'id');
+    const tileRef = useRef<HTMLDivElement>(null);
+    const tileElement = tileRef.current as HTMLDivElement;
+    const initialValues = {
+        test: '',
+    };
 
     const CustomHeader = (date: any) => {
         setCalChange(true);
@@ -130,16 +104,6 @@ const TutorBookings = () => {
             </>
         );
     };
-
-    useEffect(() => {
-        const indicator: any = document.getElementsByClassName('rbc-current-time-indicator');
-        indicator[0] && indicator[0].setAttribute('data-time', moment().format('HH:mm'));
-
-        const interval = setInterval(() => {
-            indicator[0] && indicator[0].setAttribute('data-time', moment().format('HH:mm'));
-        }, 60000);
-        return () => clearInterval(interval);
-    }, [calChange]);
 
     const CustomEvent = (event: any) => {
         if (event.event.userId !== userId) {
@@ -166,6 +130,7 @@ const TutorBookings = () => {
     const PrevIcon = () => {
         return <i className="icon icon--base icon--chevron-left"></i>;
     };
+
     const NextIcon = () => {
         return <i className="icon icon--base icon--chevron-right"></i>;
     };
@@ -237,10 +202,6 @@ const TutorBookings = () => {
         }
     };
 
-    const initialValues = {
-        test: '',
-    };
-
     const formik = useFormik({
         initialValues: initialValues,
         onSubmit: (values) => handleSubmit(values),
@@ -259,7 +220,6 @@ const TutorBookings = () => {
         setOpenEventDetails(false);
     };
 
-    const highlightRef = useRef<HTMLDivElement>(null);
     const calcPosition = () => {
         const childElement = document.querySelector('.react-calendar__tile--active');
         const rectParent = highlightRef.current && highlightRef.current.getBoundingClientRect();
@@ -272,9 +232,6 @@ const TutorBookings = () => {
         }
     };
 
-    const tileRef = useRef<HTMLDivElement>(null);
-    const tileElement = tileRef.current as HTMLDivElement;
-
     const hideShowHighlight = (date: Date) => {
         if (tileElement) {
             if (moment(date).isSame(value, 'month')) {
@@ -285,15 +242,54 @@ const TutorBookings = () => {
         }
     };
 
+    const fetchData = async () => {
+        if (tutorId) {
+            await getTutorData(tutorId).unwrap();
+            await getTutorUnavailableBookings({
+                tutorId: tutorId,
+                dateFrom: moment(value).startOf('isoWeek').toISOString(),
+                dateTo: moment(value).endOf('isoWeek').toISOString(),
+            }).unwrap();
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
     useEffect(() => {
         calcPosition();
         hideShowHighlight(value);
     }, [value]);
 
-    const allBookings = tutorBookings && tutorBookings.concat(emptyBookings);
+    useEffect(() => {
+        const indicator: any = document.getElementsByClassName('rbc-current-time-indicator');
+        indicator[0] && indicator[0].setAttribute('data-time', moment().format('HH:mm'));
 
-    const totalBookings = allBookings && allBookings.concat(bookings ? bookings : []);
-    const filteredBookings = uniqBy(totalBookings, 'id');
+        const interval = setInterval(() => {
+            indicator[0] && indicator[0].setAttribute('data-time', moment().format('HH:mm'));
+        }, 60000);
+        return () => clearInterval(interval);
+    }, [calChange]);
+
+    useEffect(() => {
+        if (userId) {
+            getBookings({
+                dateFrom: moment(value).startOf('isoWeek').toISOString(),
+                dateTo: moment(value).endOf('isoWeek').toISOString(),
+            });
+        }
+    }, [value, userId]);
+
+    useEffect(() => {
+        if (tutorId) {
+            getTutorBookings({
+                dateFrom: moment(value).startOf('isoWeek').toISOString(),
+                dateTo: moment(value).endOf('isoWeek').toISOString(),
+                tutorId: tutorId,
+            });
+        }
+    }, [value, tutorId]);
 
     return (
         <MainWrapper>

@@ -14,6 +14,6 @@ export const baseService = createApi({
             return headers;
         },
     }),
-    tagTypes: ['userAvailability', 'tutorBookings', 'bookings'],
+    tagTypes: ['userAvailability', 'tutorBookings', 'bookings', 'tutor-unavailability'],
     endpoints: () => ({}),
 });

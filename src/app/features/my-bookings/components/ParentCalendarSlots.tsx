@@ -127,7 +127,6 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     }, [subjectsData]);
 
     const handleChange = (e: any) => {
-        debugger;
         setSelectedTime(e);
     };
     const handleSubmitForm = () => {

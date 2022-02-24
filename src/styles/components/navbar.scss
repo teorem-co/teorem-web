@@ -101,7 +101,15 @@
         align-items: center;
         padding: 0 calc($unit * 4);
 
-        margin-bottom: 40px;
+        margin-bottom: calc(#{$unit} * 10);
+
+        a:first-child:hover {
+            background-color: $grey-f7;
+            border-radius: $border-circle;
+        }
+        a:last-child {
+            margin-left: calc(#{$unit} * 3);
+        }
 
         &__avatar {
             width: 56px;
@@ -138,11 +146,7 @@
                     left: 50%;
                     top: 50%;
                     transform: translate(-50%, -50%);
-                    background: linear-gradient(
-                        226.69deg,
-                        rgba(127, 95, 211, 0.5) 4.52%,
-                        #5c3ee8 94.64%
-                    );
+                    background: linear-gradient(226.69deg, rgba(127, 95, 211, 0.5) 4.52%, #5c3ee8 94.64%);
                     width: 90%;
                     height: 90%;
                     display: flex;
