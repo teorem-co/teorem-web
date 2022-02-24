@@ -1,0 +1,37 @@
+/*
+    overrirdes: toastify.scss;
+*/
+
+.Toastify {
+    &__toast {
+        &--warning {
+            background-color: $color-primary;
+            .Toastify__toast-body {
+                padding-top: 24px;
+                padding-bottom: 24px;
+            }
+            .Toastify__toast-icon {
+                display: none;
+            }
+            .Toastify__progress-bar {
+                background: #beb5fa;
+            }
+            .Toastify__close-button {
+                svg {
+                    fill: $white;
+                }
+            }
+        }
+    }
+    &--custom {
+        display: flex;
+        align-items: flex-start;
+
+        &__message {
+            color: $white;
+            padding-left: calc(#{$unit} * 2);
+        }
+        &__icon {
+        }
+    }
+}

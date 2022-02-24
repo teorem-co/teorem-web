@@ -9,6 +9,7 @@ import MyTextArea from '../../../components/form/MyTextArea';
 import TextField from '../../../components/form/TextField';
 import MainWrapper from '../../../components/MainWrapper';
 import RouterPrompt from '../../../components/RouterPrompt';
+import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import { getUserId } from '../../../utils/getUserId';
@@ -140,7 +141,7 @@ const AdditionalInformation = () => {
                 {/* ADDITIONAL INFO */}
                 <FormikProvider value={formik}>
                     <Form>
-                        {(pageLoading && <>Loading...</>) || (
+                        {(pageLoading && <LoaderPrimary />) || (
                             <div className="card--profile__section">
                                 <div>
                                     <div className="mb-2 type--wgt--bold">{t('SEARCH_TUTORS.TUTOR_PROFILE.ADDITIONAL_INFORMATION_TITLE')}</div>
