@@ -40,7 +40,7 @@ interface IBookingTransformed {
 const MyBookings: React.FC = () => {
     const [getBookings, { data: bookings }] = useLazyGetBookingsQuery();
     const [getNotificationForLessons, { data: lessonsCount }] = useLazyGetNotificationForLessonsQuery();
-    const [getBookingById, { data: booking, isSuccess: getBookingByIdSuccess }] = useLazyGetBookingByIdQuery();
+    const [getBookingById, { data: booking }] = useLazyGetBookingByIdQuery();
     const [getUpcomingLessons, { data: upcomingLessons }] = useLazyGetUpcomingLessonsQuery();
     const [getTutorUnavailableBookings, { data: unavailableBookings }] = useLazyGetUnavailableBookingsQuery();
 
@@ -236,6 +236,7 @@ const MyBookings: React.FC = () => {
         }
         return null;
     };
+
     const fetchData = async () => {
         if (userId) {
             await getUpcomingLessons(userId).unwrap();

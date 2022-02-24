@@ -10,7 +10,7 @@ class ToastService {
 
     private static notificationOpts: object = {
         position: 'top-right',
-        autoClose: 5000,
+        autoClose: 10000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -32,7 +32,15 @@ class ToastService {
     };
 
     notification = (message: string): void => {
-        toast.warning(message, Object.assign({}, ToastService.notificationOpts, { toastId: 'notificationId' }));
+        const customToast: JSX.Element = (
+            <div className="Toastify--custom">
+                <div className="Toastify--custom__icon">
+                    <i className="icon icon--base icon--calendar icon--white"></i>
+                </div>
+                <div className="Toastify--custom__message">{message}</div>
+            </div>
+        );
+        toast.warning(customToast, Object.assign({}, ToastService.notificationOpts, { toastId: 'notificationId' }));
     };
 }
 
