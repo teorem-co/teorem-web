@@ -91,7 +91,10 @@ const MyBookings: React.FC = () => {
                         <div className="type--wgt--bold">{event.event.label}</div>
                     </div>
                 );
-            } else if (event.event.id === 'currentUnavailableItem') {
+            } else if (
+                event.event.id === 'currentUnavailableItem' ||
+                (unavailableBookings && unavailableBookings.find((x) => x.id === event.event.id))
+            ) {
                 return (
                     <>
                         <div className="event--unavailable">
