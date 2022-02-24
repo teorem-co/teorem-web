@@ -178,7 +178,7 @@ const TutorBookings = () => {
 
     const handleSelectedEvent = (e: IBookingTransformed) => {
         // check whole date not only hours this is a bug
-        if (e.userId === userId) {
+        if (e.userId === userId && !moment(e.start).isBefore(moment().add(3, 'hours'))) {
             if (moment(e.start).isBefore(moment()) || emptyBookings.length > 0) {
                 return;
             } else {
@@ -443,11 +443,31 @@ const TutorBookings = () => {
                         ></div>
                     </div>
                     <div className="upcoming-lessons">
-                        {/* <UpcomingLessons
-                            upcomingLessons={
-                                upcomingLessons ? upcomingLessons : []
-                            }
-                        /> */}
+                        <p className="upcoming-lessons__title">BOOKING INFORMATION</p>
+                        <div className="card card--primary mb-2">
+                            <div className="flex--primary mb-2">
+                                <div className="flex--center">
+                                    <span>How to reserve a slot?</span>
+                                    <div className="type--color--secondary mt-2">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+                                        magna aliqua.
+                                    </div>
+                                </div>
+                                <div className="type--color--tertiary"></div>
+                            </div>
+                        </div>
+                        <div className="card card--primary mb-2">
+                            <div className="flex--primary mb-2">
+                                <div className="flex--center">
+                                    <span>How to cancel reservation?</span>
+                                    <div className="type--color--secondary mt-2">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+                                        magna aliqua.
+                                    </div>
+                                </div>
+                                <div className="type--color--tertiary"></div>
+                            </div>
+                        </div>
                     </div>
                     {/* needs to be in this place because layout have nth-child selector */}
                     {sidebarOpen ? (

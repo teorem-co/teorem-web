@@ -108,12 +108,21 @@ const MyBookings: React.FC = () => {
                 );
             }
         } else {
-            return (
-                <>
-                    <div className="mb-2">{moment(event.event.start).format('HH:mm')}</div>
-                    <div className="type--wgt--bold">{event.event.tutor}</div>
-                </>
-            );
+            if (event.event.isAccepted === false) {
+                return (
+                    <div className="event">
+                        <div className="mb-2">{moment(event.event.start).format('HH:mm')}</div>
+                        <div className="type--wgt--bold">{event.event.label}</div>
+                    </div>
+                );
+            } else {
+                return (
+                    <div>
+                        <div className="mb-2 ">{moment(event.event.start).format('HH:mm')}</div>
+                        <div className="type--wgt--bold">{event.event.label}</div>
+                    </div>
+                );
+            }
         }
     };
 
