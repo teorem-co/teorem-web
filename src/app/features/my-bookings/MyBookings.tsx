@@ -12,6 +12,7 @@ import MainWrapper from '../../components/MainWrapper';
 import { useAppSelector } from '../../hooks';
 import OpenTutorCalendarModal from './components/OpenTutorCalendarModal';
 import TutorEventModal from './components/TutorEventModal';
+import UnavailabilityEditModal from './components/UnavailabilityEditModal';
 import UnavailabilityModal from './components/UnavailabilityModal';
 import UpcomingLessons from './components/UpcomingLessons';
 import {
@@ -44,9 +45,11 @@ const MyBookings: React.FC = () => {
     const [getTutorUnavailableBookings, { data: unavailableBookings }] = useLazyGetUnavailableBookingsQuery();
 
     const [openUnavailabilityModal, setOpenUnavailabilityModal] = useState(false);
+    const [openUnavailabilityEditModal, setOpenUnavailabilityEditModal] = useState(false);
     const [unavailableCurrentEvent, setUnavailableCurrentEvent] = useState<IBookingTransformed[]>([]);
     const [selectedSlot, setSelectedSlot] = useState<Date | null>(null);
     const [selectedStart, setSelectedStart] = useState<string>('');
+    const [selectedUnavailability, setSelectedUnavailability] = useState<string>('');
     const [selectedEnd, setSelectedEnd] = useState<string>('');
     const [openEventDetails, setOpenEventDetails] = useState<boolean>(false);
     const [openTutorCalendarModal, setOpenTutorCalendarModal] = useState<boolean>(false);
@@ -68,15 +71,6 @@ const MyBookings: React.FC = () => {
     const userId = useAppSelector((state) => state.auth.user?.id);
     const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
     const allBookings = bookings?.concat(unavailableBookings ? unavailableBookings : []);
-
-    // useEffect(() => {
-    //     if (userRole === RoleOptions.Tutor) {
-    //         getTutorUnavailableBookings({
-    //             dateFrom: moment(value).startOf('isoWeek').toISOString(),
-    //             dateTo: moment(value).endOf('isoWeek').toISOString(),
-    //         });
-    //     }
-    // }, [value, userId, userRole]);
 
     const CustomHeader = (date: any) => {
         setCalChange(true);
@@ -133,15 +127,48 @@ const MyBookings: React.FC = () => {
 
     const handleSelectedEvent = (e: IBookingTransformed) => {
         if (userRole === RoleOptions.Tutor) {
-            getBookingById(e.id);
-            setOpenEventDetails(true);
-            setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
-            setSelectedEnd(moment(e.end).format('HH:mm'));
+            if (e.label === 'Unavailable') {
+                //close createNewUnavailability
+                setOpenUnavailabilityModal(false);
+                setUnavailableCurrentEvent([]);
+                //open unavailability modal
+                setOpenUnavailabilityEditModal(true);
+                setSelectedUnavailability(e.id);
+                setSelectedSlot(e.start);
+            } else {
+                getBookingById(e.id);
+                setOpenEventDetails(true);
+                setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
+                setSelectedEnd(moment(e.end).format('HH:mm'));
+            }
         } else if (userRole === RoleOptions.Parent || userRole === RoleOptions.Student) {
-            getBookingById(e.id);
-            setOpenTutorCalendarModal(true);
-            setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
-            setSelectedEnd(moment(e.end).format('HH:mm'));
+            if (e.label !== 'Unavailable') {
+                getBookingById(e.id);
+                setOpenTutorCalendarModal(true);
+                setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
+                setSelectedEnd(moment(e.end).format('HH:mm'));
+            }
+        }
+    };
+
+    const calcModalPosition = (dayOfWeek: string) => {
+        switch (dayOfWeek) {
+            case 'Monday':
+                return 'monday';
+            case 'Tuesday':
+                return 'tuesday';
+            case 'Wednesday':
+                return 'wednesday';
+            case 'Thursday':
+                return 'thursday';
+            case 'Friday':
+                return 'friday';
+            case 'Saturday':
+                return 'saturday';
+            case 'Sunday':
+                return 'sunday';
+            default:
+                return 'wednesday';
         }
     };
 
@@ -151,6 +178,7 @@ const MyBookings: React.FC = () => {
 
     const handleSelectedSlot = (e: SlotInfo) => {
         if (userRole === 'tutor') {
+            setOpenUnavailabilityEditModal(false);
             setUnavailableCurrentEvent([
                 {
                     id: 'currentUnavailableItem',
@@ -187,15 +215,38 @@ const MyBookings: React.FC = () => {
         }
     };
 
+    const getCurrentUnavailability = () => {
+        const currentUnavailability = (allBookings && allBookings.find((x) => x.id === selectedUnavailability)) || null;
+
+        if (currentUnavailability) {
+            return {
+                startTime: currentUnavailability.start,
+                endTime: currentUnavailability.end,
+                id: currentUnavailability.id,
+            };
+        }
+        return null;
+    };
+    const fetchData = async () => {
+        if (userId) {
+            await getUpcomingLessons(userId).unwrap();
+            if (userRole === 'tutor') {
+                await getTutorUnavailableBookings({
+                    tutorId: userId,
+                    dateFrom: moment(value).startOf('isoWeek').toISOString(),
+                    dateTo: moment(value).endOf('isoWeek').toISOString(),
+                }).unwrap();
+            }
+        }
+    };
+
     useEffect(() => {
         calcPosition();
         hideShowHighlight(value);
     }, [value]);
 
     useEffect(() => {
-        if (userId) {
-            getUpcomingLessons(userId);
-        }
+        fetchData();
     }, []);
 
     useEffect(() => {
@@ -267,21 +318,7 @@ const MyBookings: React.FC = () => {
                             <TutorEventModal
                                 event={booking ? booking : null}
                                 handleClose={(e) => setOpenEventDetails(e)}
-                                positionClass={`${
-                                    positionClass === 'Monday'
-                                        ? 'monday'
-                                        : positionClass === 'Tuesday'
-                                        ? 'tuesday'
-                                        : positionClass === 'Wednesday'
-                                        ? 'wednesday'
-                                        : positionClass === 'Thursday'
-                                        ? 'thursday'
-                                        : positionClass === 'Friday'
-                                        ? 'friday'
-                                        : positionClass === 'Saturday'
-                                        ? 'saturday'
-                                        : 'sunday'
-                                }`}
+                                positionClass={calcModalPosition(positionClass)}
                             />
                         ) : (
                             <></>
@@ -291,21 +328,7 @@ const MyBookings: React.FC = () => {
                                 goToTutorCalendar={() => goToTutorCalendar()}
                                 event={booking ? booking : null}
                                 handleClose={(e) => setOpenTutorCalendarModal(e)}
-                                positionClass={`${
-                                    positionClass === 'Monday'
-                                        ? 'monday'
-                                        : positionClass === 'Tuesday'
-                                        ? 'tuesday'
-                                        : positionClass === 'Wednesday'
-                                        ? 'wednesday'
-                                        : positionClass === 'Thursday'
-                                        ? 'thursday'
-                                        : positionClass === 'Friday'
-                                        ? 'friday'
-                                        : positionClass === 'Saturday'
-                                        ? 'saturday'
-                                        : 'sunday'
-                                }`}
+                                positionClass={calcModalPosition(positionClass)}
                             />
                         ) : (
                             <></>
@@ -318,21 +341,17 @@ const MyBookings: React.FC = () => {
                                     setOpenUnavailabilityModal(false);
                                     setUnavailableCurrentEvent([]);
                                 }}
-                                positionClass={`${
-                                    unavailablePositionClass === 'Monday'
-                                        ? 'monday'
-                                        : unavailablePositionClass === 'Tuesday'
-                                        ? 'tuesday'
-                                        : unavailablePositionClass === 'Wednesday'
-                                        ? 'wednesday'
-                                        : unavailablePositionClass === 'Thursday'
-                                        ? 'thursday'
-                                        : unavailablePositionClass === 'Friday'
-                                        ? 'friday'
-                                        : unavailablePositionClass === 'Saturday'
-                                        ? 'saturday'
-                                        : 'sunday'
-                                }`}
+                                positionClass={calcModalPosition(unavailablePositionClass)}
+                            />
+                        )}
+                        {openUnavailabilityEditModal && (
+                            <UnavailabilityEditModal
+                                event={getCurrentUnavailability()}
+                                handleClose={() => {
+                                    setOpenUnavailabilityEditModal(false);
+                                    setSelectedUnavailability('');
+                                }}
+                                positionClass={calcModalPosition(unavailablePositionClass)}
                             />
                         )}
                     </div>

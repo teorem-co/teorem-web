@@ -5,6 +5,8 @@ import * as Yup from 'yup';
 
 import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyTimePicker from '../../../components/form/MyTimePicker';
+import toastService from '../../../services/toastService';
+import { IPostUnavailability, useCreateTutorUnavailabilityMutation } from '../services/unavailabilityService';
 
 interface Props {
     handleClose?: (close: boolean) => void;
@@ -21,6 +23,8 @@ interface IValues {
 const UnavailabilityModal: React.FC<Props> = (props) => {
     const { handleClose, positionClass, event } = props;
 
+    const [createTutorUnavailability] = useCreateTutorUnavailabilityMutation();
+
     const [wholeDayChecked, setWholeDayChecked] = useState(false);
 
     const initialValues: IValues = {
@@ -29,22 +33,34 @@ const UnavailabilityModal: React.FC<Props> = (props) => {
         timeEnd: moment(event, 'HH:mm').add(1, 'hour').format('HH:mm').toString(),
     };
 
-    const handleSubmit = (values: IValues) => {
-        let toSend: IValues;
+    const handleSubmit = async (values: IValues) => {
+        let toSend: IPostUnavailability;
         if (wholeDayChecked) {
             toSend = {
-                date: values.date,
-                timeStart: '00:00',
-                timeEnd: '23:59',
+                startTime: moment(values.date).set({ hour: 0, minute: 0, second: 0 }).toDate(),
+                endTime: moment(values.date).set({ hour: 23, minute: 59, second: 59 }).toDate(),
             };
         } else {
             toSend = {
-                date: values.date,
-                timeStart: values.timeStart,
-                timeEnd: values.timeEnd,
+                startTime: moment(values.date)
+                    .set({
+                        hour: Number(moment(values.timeStart, 'HH:mm').format('HH')),
+                        minute: Number(moment(values.timeStart, 'HH:mm').format('mm')),
+                    })
+                    .toDate(),
+                endTime: moment(values.date)
+                    .set({ hour: Number(moment(values.timeEnd, 'HH:mm').format('HH')), minute: Number(moment(values.timeEnd, 'HH:mm').format('mm')) })
+                    .toDate(),
             };
         }
-        alert('date: ' + moment(toSend.date).format('DD-MM-yy') + ' | start: ' + toSend.timeStart + ' | end: ' + toSend.timeEnd);
+
+        const condition = moment(toSend.startTime).isAfter(moment().add(3, 'hour'));
+        if (condition) {
+            await createTutorUnavailability(toSend).unwrap();
+            handleClose && handleClose(false);
+        } else {
+            toastService.error('Can`t add event before current time and 3 hours after now');
+        }
     };
 
     const generateValidationSchema = () => {

@@ -4,7 +4,7 @@ import { IUnavailability } from '../interfaces/IUnavailability';
 
 //bookings/week/:tutorId
 
-const URL = '/tutor-unvailabilities';
+const URL = '/tutor-unavailabilities';
 
 interface IUnavailabilityTransformed {
     id: string;
@@ -14,16 +14,22 @@ interface IUnavailabilityTransformed {
     allDay: boolean;
 }
 
-interface IDateRange {
+interface IGetUnavailabilities {
+    tutorId: string;
     dateFrom: string;
     dateTo: string;
 }
 
+export interface IPostUnavailability {
+    startTime: Date;
+    endTime: Date;
+}
+
 export const unavailabilityService = baseService.injectEndpoints({
     endpoints: (builder) => ({
-        getUnavailableBookings: builder.query<IUnavailabilityTransformed[], IDateRange>({
+        getUnavailableBookings: builder.query<IUnavailabilityTransformed[], IGetUnavailabilities>({
             query: (data) => ({
-                url: `${URL}/?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}`,
+                url: `${URL}/${data.tutorId}?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}`,
                 method: HttpMethods.GET,
             }),
             transformResponse: (response: IUnavailability[]) => {
@@ -39,8 +45,29 @@ export const unavailabilityService = baseService.injectEndpoints({
 
                 return bookings;
             },
+            providesTags: ['tutor-unavailability'],
+        }),
+        createTutorUnavailability: builder.mutation<void, IPostUnavailability>({
+            query(body) {
+                return {
+                    url: `${URL}`,
+                    method: HttpMethods.POST,
+                    body,
+                };
+            },
+            invalidatesTags: ['tutor-unavailability'],
+        }),
+        deleteTutorUnavailability: builder.mutation<void, string>({
+            query(body) {
+                return {
+                    url: `${URL}/${body}`,
+                    method: HttpMethods.DELETE,
+                };
+            },
+            invalidatesTags: ['tutor-unavailability'],
         }),
     }),
 });
 
-export const { useLazyGetUnavailableBookingsQuery } = unavailabilityService;
+export const { useLazyGetUnavailableBookingsQuery, useCreateTutorUnavailabilityMutation, useDeleteTutorUnavailabilityMutation } =
+    unavailabilityService;
