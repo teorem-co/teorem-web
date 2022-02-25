@@ -3,6 +3,7 @@ import { NavLink, Route, Switch } from 'react-router-dom';
 
 import Chat from './features/chat/pages/Chat';
 import CompletedLessons from './features/completedLessons/CompletedLessons';
+import Dashboard from './features/dashboard/Dashboard';
 import BecomeTutor from './features/landing/pages/BecomeTutor';
 import HowItWorks from './features/landing/pages/HowItWorks';
 import Pricing from './features/landing/pages/Pricing';
@@ -14,6 +15,7 @@ import MyTeachings from './features/my-profile/pages/MyTeachings';
 import PersonalInformation from './features/my-profile/pages/PersonalInformation';
 import ProfileAccount from './features/my-profile/pages/ProfileAccount';
 import MyReviews from './features/myReviews/MyReviews';
+import Notifications from './features/notifications/Notifications';
 import Onboarding from './features/onboarding/Onboarding';
 import Register from './features/register/Register';
 import ResetPassword from './features/reset-password/ResetPassword';
@@ -39,6 +41,8 @@ export enum PATHS {
     MY_REVIEWS = '/my-reviews',
     COMPLETED_LESSONS = '/completed-lessons',
     CHAT = '/chat',
+    DASHBOARD = '/dashboard',
+    NOTIFICATIONS = '/notifications',
 }
 
 export enum LANDING_PATHS {
@@ -148,6 +152,26 @@ const ROUTES: any = [
         component: () => (
             <PermissionsGate roles={[Role.Tutor, Role.SuperAdmin]}>
                 <MyReviews />
+            </PermissionsGate>
+        ),
+    },
+    {
+        path: PATHS.DASHBOARD,
+        key: 'DASHBOARD',
+        exact: true,
+        component: () => (
+            <PermissionsGate roles={[Role.Tutor, Role.SuperAdmin, Role.Parent, Role.Student, Role.Child]}>
+                <Dashboard />
+            </PermissionsGate>
+        ),
+    },
+    {
+        path: PATHS.NOTIFICATIONS,
+        key: 'NOTIFICATIONS',
+        exact: true,
+        component: () => (
+            <PermissionsGate roles={[Role.Tutor, Role.SuperAdmin, Role.Parent, Role.Student, Role.Child]}>
+                <Notifications />
             </PermissionsGate>
         ),
     },
@@ -268,6 +292,12 @@ export function RenderRoutes(routesObj: any) {
 export const menuPerRole: IMenuPerRole = {
     [Role.Tutor]: [
         {
+            name: 'DASHBOARD',
+            icon: 'dashboard',
+            key: 'DASHBOARD',
+            path: PATHS.DASHBOARD,
+        },
+        {
             name: 'MY_BOOKINGS',
             icon: 'calendar',
             key: 'MY_BOOKINGS',
@@ -280,13 +310,6 @@ export const menuPerRole: IMenuPerRole = {
             path: PATHS.MY_REVIEWS,
         },
         {
-            name: 'MY_PROFILE',
-            icon: 'profile',
-            key: 'MY_PROFILE_INFO_PERSONAL',
-            rootPath: PROFILE_PATHS.MY_PROFILE,
-            path: PROFILE_PATHS.MY_PROFILE_INFO_PERSONAL,
-        },
-        {
             name: 'CHAT',
             icon: 'chat',
             key: 'CHAT',
@@ -294,6 +317,12 @@ export const menuPerRole: IMenuPerRole = {
         },
     ],
     [Role.Student]: [
+        {
+            name: 'DASHBOARD',
+            icon: 'dashboard',
+            key: 'DASHBOARD',
+            path: PATHS.DASHBOARD,
+        },
         {
             name: 'MY_BOOKINGS',
             icon: 'calendar',
@@ -321,6 +350,12 @@ export const menuPerRole: IMenuPerRole = {
     ],
     [Role.Parent]: [
         {
+            name: 'DASHBOARD',
+            icon: 'dashboard',
+            key: 'DASHBOARD',
+            path: PATHS.DASHBOARD,
+        },
+        {
             name: 'MY_BOOKINGS',
             icon: 'calendar',
             key: 'MY_BOOKINGS',
@@ -346,6 +381,12 @@ export const menuPerRole: IMenuPerRole = {
         },
     ],
     [Role.SuperAdmin]: [
+        {
+            name: 'DASHBOARD',
+            icon: 'dashboard',
+            key: 'DASHBOARD',
+            path: PATHS.DASHBOARD,
+        },
         {
             name: 'MY_BOOKINGS',
             icon: 'calendar',
@@ -379,6 +420,12 @@ export const menuPerRole: IMenuPerRole = {
         },
     ],
     [Role.Child]: [
+        {
+            name: 'DASHBOARD',
+            icon: 'dashboard',
+            key: 'DASHBOARD',
+            path: PATHS.DASHBOARD,
+        },
         {
             name: 'MY_BOOKINGS',
             icon: 'calendar',

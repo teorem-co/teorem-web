@@ -40,7 +40,7 @@ class ToastService {
                 <div className="Toastify--custom__message">{message}</div>
             </div>
         );
-        toast.warning(customToast, Object.assign({}, ToastService.notificationOpts, { toastId: 'notificationId' }));
+        toast.warning(customToast, Object.assign({}, ToastService.notificationOpts));
     };
 }
 

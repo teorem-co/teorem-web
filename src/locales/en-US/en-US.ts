@@ -59,6 +59,7 @@ export const EN_US = {
         MY_PROFILE: 'My Profile',
         COMPLETED_LESSONS: 'Completed lessons',
         CHAT: 'Chat',
+        DASHBOARD: 'Dashboard',
     },
     SEARCH_TUTORS: {
         AVAILABILITY: {

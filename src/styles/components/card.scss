@@ -8,6 +8,9 @@
         padding: 12px;
         border: 1px solid $grey-ed;
         border-radius: $border-rounded;
+        &--shadow {
+            box-shadow: 2px 2px 12px $grey-ed;
+        }
     }
 
     &--secondary {
@@ -16,7 +19,7 @@
         background-color: $white;
         border-radius: $border-rounded;
         margin: calc(#{$unit} * 6);
-        border: 1px solid $grey-f5;
+        border: 1px solid $grey-ed;
 
         &__head {
             z-index: 9;
