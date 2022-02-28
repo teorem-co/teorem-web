@@ -1,6 +1,6 @@
 import { Form, FormikProvider, useFormik } from 'formik';
 import { t } from 'i18next';
-import { initial, isEqual } from 'lodash';
+import { cloneDeep, initial, isEqual } from 'lodash';
 import moment from 'moment';
 import TimePicker from 'rc-time-picker';
 import { useCallback, useEffect, useState } from 'react';
@@ -40,6 +40,12 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     const [selectedTime, setSelectedTime] = useState<string>('');
     const { start, end, handleClose, positionClass, setSidebarOpen, clearEmptyBookings } = props;
     const { data: levelOptions, isLoading: isLoadingLevels } = useGetTutorLevelsQuery(tutorId);
+    const initialValues: Values = {
+        level: '',
+        subject: '',
+        child: '',
+        timeFrom: moment(start).format('HH:mm'),
+    };
 
     const [getChildOptions, { data: childOptions, isLoading: isLoadingChildren }] = useLazyGetChildQuery();
 
@@ -55,13 +61,9 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
             getChildOptions();
         }
     }, []);
-
-    const initialValues: Values = {
-        level: '',
-        subject: '',
-        child: '',
-        timeFrom: moment(start).format('HH:mm'),
-    };
+    useEffect(() => {
+        formik.setFieldValue('timeFrom', moment(start).format('HH:mm'));
+    }, [start]);
 
     const formik = useFormik({
         initialValues: initialValues,
@@ -235,6 +237,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                                         meta={formik.getFieldMeta('timeFrom')}
                                         defaultValue={moment(formik.values.timeFrom, 'HH:mm')}
                                         onChangeCustom={(e) => handleChange(moment(e, 'HH:mm').format('HH:mm'))}
+                                        key={formik.values.timeFrom}
                                     />
                                 </div>
                                 <div className="field w--100">

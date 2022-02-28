@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 import IBooking from '../interfaces/IBooking';
-import { useAcceptBookingMutation } from '../services/bookingService';
+import { useAcceptBookingMutation, useDeleteBookingMutation } from '../services/bookingService';
 
 interface IProps {
     handleClose?: (close: boolean) => void;
@@ -12,6 +12,13 @@ interface IProps {
 const TutorEventModal: React.FC<IProps> = (props) => {
     const { handleClose, positionClass, event } = props;
     const [acceptBooking, { isSuccess: isSuccessAcceptBooking }] = useAcceptBookingMutation();
+    const [deleteBooking, { isSuccess: isSuccessDeleteBooking }] = useDeleteBookingMutation();
+    const handleDeleteBooking = () => {
+        if (event) {
+            deleteBooking(event.id);
+            handleClose ? handleClose(false) : false;
+        }
+    };
 
     const handleAcceptBooking = () => {
         acceptBooking(event ? event.id : '');
@@ -53,17 +60,24 @@ const TutorEventModal: React.FC<IProps> = (props) => {
                         </div>
 
                         <div className="flex flex--center">
-                            <i className="icon icon--base icon--child icon--grey mr-4"></i>
+                            <i className={`icon icon--base icon--${event.User.parentId ? 'child' : 'profile'} icon--grey mr-4`}></i>
                             <div className="type--color--secondary">
                                 {event.User.firstName} {event.User.lastName}
                             </div>
                         </div>
                     </div>
                     <div className="modal--tutor__footer mt-6">
-                        <button className="btn btn--base btn--clear type--wgt--bold" onClick={() => handleAcceptBooking()}>
-                            Accept
+                        {!event.isAccepted ? (
+                            <button className="btn btn--base btn--clear type--wgt--bold" onClick={() => handleAcceptBooking()}>
+                                Accept
+                            </button>
+                        ) : (
+                            <></>
+                        )}
+
+                        <button className="btn btn--base btn--clear type--wgt--bold" onClick={() => handleDeleteBooking()}>
+                            {event.isAccepted ? 'Delete' : 'Deny'}
                         </button>
-                        <button className="btn btn--base btn--clear type--wgt--bold">Deny</button>
                         <button className="btn btn--base btn--clear type--wgt--bold">Propose a new time</button>
                     </div>
                 </div>

@@ -1,12 +1,12 @@
 import { Form, FormikProvider, useFormik } from 'formik';
 import { uniqBy } from 'lodash';
 import moment from 'moment';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Calendar as BigCalendar, momentLocalizer, SlotInfo } from 'react-big-calendar';
 import Calendar from 'react-calendar';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { useLazyGetTutorBookingsQuery, useLazyGetTutorProfileDataQuery } from '../../../services/tutorService';
@@ -15,9 +15,10 @@ import ExpDateField from '../../components/form/ExpDateField';
 import TextField from '../../components/form/TextField';
 import MainWrapper from '../../components/MainWrapper';
 import Sidebar from '../../components/Sidebar';
+import LoaderPrimary from '../../components/skeleton-loaders/LoaderPrimary';
 import { useAppSelector } from '../../hooks';
-import { PATHS } from '../../routes';
 import toastService from '../../services/toastService';
+import { calcModalPosition } from '../../utils/calcModalPosition';
 import ParentCalendarSlots from '../my-bookings/components/ParentCalendarSlots';
 import ParentEventModal from '../my-bookings/components/ParentEventModal';
 import UpdateBooking from '../my-bookings/components/UpdateBooking';
@@ -47,9 +48,11 @@ interface ICoords {
 }
 
 const TutorBookings = () => {
-    const [getTutorBookings, { data: tutorBookings, isSuccess: isSuccessBookings, isLoading: isLoadingBookings }] = useLazyGetTutorBookingsQuery();
-    const [getBookings, { data: bookings, isSuccess: isSuccessAllBookings }] = useLazyGetBookingsQuery();
-    const [getTutorUnavailableBookings, { data: unavailableBookings }] = useLazyGetUnavailableBookingsQuery();
+    const [getTutorBookings, { data: tutorBookings, isSuccess: isSuccessBookings, isLoading: isLoadingTutorBookings }] =
+        useLazyGetTutorBookingsQuery();
+    const [getBookings, { data: bookings, isSuccess: isSuccessAllBookings, isLoading: isLoadingBookings }] = useLazyGetBookingsQuery();
+    const [getTutorUnavailableBookings, { data: unavailableBookings, isLoading: isLoadingUnavailableBookings }] =
+        useLazyGetUnavailableBookingsQuery();
     const [getTutorData, { data: tutorData, isSuccess: isSuccessTutorData, isLoading: isLoadingTutorData }] = useLazyGetTutorProfileDataQuery({
         selectFromResult: ({ data, isSuccess, isLoading }) => ({
             data: {
@@ -94,6 +97,7 @@ const TutorBookings = () => {
     const initialValues = {
         test: '',
     };
+    const isLoading = isLoadingTutorBookings || isLoadingBookings || isLoadingUnavailableBookings;
 
     const CustomHeader = (date: any) => {
         setCalChange(true);
@@ -127,6 +131,14 @@ const TutorBookings = () => {
         }
     };
 
+    // const CustomSlot = (e: any) => {
+    //     if (moment(e.value).isBefore(moment())) {
+    //     return <div style={{ backgroundColor: '#fcfcfc', width: '100%', height: '25px' }}></div>;
+    //     } else {
+    //         return e.children;
+    //     }
+    // };
+
     const PrevIcon = () => {
         return <i className="icon icon--base icon--chevron-left"></i>;
     };
@@ -137,7 +149,7 @@ const TutorBookings = () => {
 
     const slotSelect = (e: SlotInfo) => {
         const existingBooking =
-            tutorBookings && tutorBookings.filter((date) => moment(date.start).format('YYYY/MM/DD') === moment(e.start).format('YYYY/MM/DD'));
+            allBookings && allBookings.filter((date) => moment(date.start).format('YYYY/MM/DD') === moment(e.start).format('YYYY/MM/DD'));
 
         const flagArr = [];
         if (existingBooking) {
@@ -295,129 +307,90 @@ const TutorBookings = () => {
         <MainWrapper>
             <div className="layout--primary">
                 <div>
-                    <div className="card--calendar">
-                        <div className="flex flex--center p-6">
-                            {/* <Link to={PATHS.SEARCH_TUTORS}>
-                                <div>
-                                    <i className="icon icon--base icon--arrow-left icon--black"></i>
-                                </div>
-                            </Link> */}
-                            <div onClick={() => history.goBack()}>
-                                <div>
-                                    <i className="icon icon--base icon--arrow-left icon--black"></i>
-                                </div>
+                    {(isLoading && <LoaderPrimary />) || (
+                        <div className="card--calendar">
+                            <div className="flex flex--center p-6">
+                                {/* <Link to={PATHS.SEARCH_TUTORS}>
+                            <div>
+                                <i className="icon icon--base icon--arrow-left icon--black"></i>
                             </div>
-                            <h2 className="type--lg  ml-6">
-                                {`${t('MY_BOOKINGS.TITLE')} - ${tutorData.firstName ? tutorData.firstName : ''} ${
-                                    tutorData.lastName ? tutorData.lastName : ''
-                                }`}
-                            </h2>
+                        </Link> */}
+                                <div onClick={() => history.goBack()}>
+                                    <div>
+                                        <i className="icon icon--base icon--arrow-left icon--black"></i>
+                                    </div>
+                                </div>
+                                <h2 className="type--lg  ml-6">
+                                    {`${t('MY_BOOKINGS.TITLE')} - ${tutorData.firstName ? tutorData.firstName : ''} ${
+                                        tutorData.lastName ? tutorData.lastName : ''
+                                    }`}
+                                </h2>
+                            </div>
+                            <BigCalendar
+                                localizer={localizer}
+                                formats={{
+                                    timeGutterFormat: 'HH:mm',
+                                }}
+                                events={filteredBookings ? filteredBookings : []}
+                                toolbar={false}
+                                date={value}
+                                selectable={true}
+                                onSelecting={() => false}
+                                view="week"
+                                style={{ height: 'calc(100% - 84px)' }}
+                                startAccessor="start"
+                                endAccessor="end"
+                                components={{
+                                    week: {
+                                        header: (date) => CustomHeader(date),
+                                    },
+                                    event: (event) => CustomEvent(event),
+                                    // timeSlotWrapper: (e) => CustomSlot(e),
+                                }}
+                                scrollToTime={defaultScrollTime}
+                                showMultiDayTimes={true}
+                                step={15}
+                                timeslots={4}
+                                longPressThreshold={10}
+                                onSelectSlot={(e) => (userRole === RoleOptions.Parent || userRole === RoleOptions.Student ? slotSelect(e) : null)}
+                                onSelectEvent={(e) =>
+                                    userRole === RoleOptions.Parent || userRole === RoleOptions.Student ? handleSelectedEvent(e) : null
+                                }
+                                // onSelecting={(range: { start: ; end: 'test'; }) => false}
+                            />
+                            {openSlot ? (
+                                <ParentCalendarSlots
+                                    clearEmptyBookings={() => setEmptybookings([])}
+                                    setSidebarOpen={(e) => setSidebarOpen(e)}
+                                    start={`${selectedStart}`}
+                                    end={`${selectedEnd}`}
+                                    handleClose={(e) => setOpenSlot(e)}
+                                    positionClass={calcModalPosition(positionClass)}
+                                />
+                            ) : openEventDetails ? (
+                                <ParentEventModal
+                                    bookingStart={booking ? booking.startTime : ''}
+                                    openEditModal={(isOpen) => handleUpdateModal(isOpen)}
+                                    tutorName={tutorData.firstName && tutorData.lastName ? tutorData.firstName + ' ' + tutorData.lastName : ''}
+                                    event={booking ? booking : null}
+                                    handleClose={(e) => setOpenEventDetails(e)}
+                                    positionClass={calcModalPosition(positionClass)}
+                                />
+                            ) : openUpdateModal ? (
+                                <UpdateBooking
+                                    booking={booking ? booking : null}
+                                    clearEmptyBookings={() => setEmptybookings([])}
+                                    setSidebarOpen={(e: any) => setSidebarOpen(e)}
+                                    start={`${selectedStart}`}
+                                    end={`${selectedEnd}`}
+                                    handleClose={(e: any) => setOpenUpdateModal(e)}
+                                    positionClass={calcModalPosition(positionClass)}
+                                />
+                            ) : (
+                                <></>
+                            )}
                         </div>
-                        <BigCalendar
-                            localizer={localizer}
-                            formats={{
-                                timeGutterFormat: 'HH:mm',
-                            }}
-                            events={filteredBookings ? filteredBookings : []}
-                            toolbar={false}
-                            date={value}
-                            selectable={true}
-                            onSelecting={() => false}
-                            view="week"
-                            style={{ height: 'calc(100% - 84px)' }}
-                            startAccessor="start"
-                            endAccessor="end"
-                            components={{
-                                week: {
-                                    header: (date) => CustomHeader(date),
-                                },
-                                event: (event) => CustomEvent(event),
-                            }}
-                            scrollToTime={defaultScrollTime}
-                            showMultiDayTimes={true}
-                            step={15}
-                            timeslots={4}
-                            longPressThreshold={10}
-                            onSelectSlot={(e) => (userRole === RoleOptions.Parent || userRole === RoleOptions.Student ? slotSelect(e) : null)}
-                            onSelectEvent={(e) =>
-                                userRole === RoleOptions.Parent || userRole === RoleOptions.Student ? handleSelectedEvent(e) : null
-                            }
-                            // onSelecting={(range: { start: ; end: 'test'; }) => false}
-                        />
-                        {openSlot ? (
-                            <ParentCalendarSlots
-                                clearEmptyBookings={() => setEmptybookings([])}
-                                setSidebarOpen={(e) => setSidebarOpen(e)}
-                                start={`${selectedStart}`}
-                                end={`${selectedEnd}`}
-                                handleClose={(e) => setOpenSlot(e)}
-                                positionClass={`${
-                                    positionClass === 'Monday'
-                                        ? 'monday'
-                                        : positionClass === 'Tuesday'
-                                        ? 'tuesday'
-                                        : positionClass === 'Wednesday'
-                                        ? 'wednesday'
-                                        : positionClass === 'Thursday'
-                                        ? 'thursday'
-                                        : positionClass === 'Friday'
-                                        ? 'friday'
-                                        : positionClass === 'Saturday'
-                                        ? 'saturday'
-                                        : 'sunday'
-                                }`}
-                            />
-                        ) : openEventDetails ? (
-                            <ParentEventModal
-                                bookingStart={booking ? booking.startTime : ''}
-                                openEditModal={(isOpen) => handleUpdateModal(isOpen)}
-                                tutorName={tutorData.firstName && tutorData.lastName ? tutorData.firstName + ' ' + tutorData.lastName : ''}
-                                event={booking ? booking : null}
-                                handleClose={(e) => setOpenEventDetails(e)}
-                                positionClass={`${
-                                    positionClass === 'Monday'
-                                        ? 'monday'
-                                        : positionClass === 'Tuesday'
-                                        ? 'tuesday'
-                                        : positionClass === 'Wednesday'
-                                        ? 'wednesday'
-                                        : positionClass === 'Thursday'
-                                        ? 'thursday'
-                                        : positionClass === 'Friday'
-                                        ? 'friday'
-                                        : positionClass === 'Saturday'
-                                        ? 'saturday'
-                                        : 'sunday'
-                                }`}
-                            />
-                        ) : openUpdateModal ? (
-                            <UpdateBooking
-                                booking={booking ? booking : null}
-                                clearEmptyBookings={() => setEmptybookings([])}
-                                setSidebarOpen={(e: any) => setSidebarOpen(e)}
-                                start={`${selectedStart}`}
-                                end={`${selectedEnd}`}
-                                handleClose={(e: any) => setOpenUpdateModal(e)}
-                                positionClass={`${
-                                    positionClass === 'Monday'
-                                        ? 'monday'
-                                        : positionClass === 'Tuesday'
-                                        ? 'tuesday'
-                                        : positionClass === 'Wednesday'
-                                        ? 'wednesday'
-                                        : positionClass === 'Thursday'
-                                        ? 'thursday'
-                                        : positionClass === 'Friday'
-                                        ? 'friday'
-                                        : positionClass === 'Saturday'
-                                        ? 'saturday'
-                                        : 'sunday'
-                                }`}
-                            />
-                        ) : (
-                            <></>
-                        )}
-                    </div>
+                    )}
                 </div>
                 <div>
                     <div ref={highlightRef} className="card card--mini-calendar mb-4 pos--rel">

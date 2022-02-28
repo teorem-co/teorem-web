@@ -1,14 +1,11 @@
 import moment from 'moment';
+import { useEffect } from 'react';
 
+import { RoleOptions } from '../../../../slices/roleSlice';
+import { useAppSelector } from '../../../hooks';
+import toastService from '../../../services/toastService';
 import IBooking from '../interfaces/IBooking';
-
-interface IEvent {
-    id?: string;
-    label: string;
-    start: string;
-    end: string;
-    allDay: boolean;
-}
+import { useDeleteBookingMutation } from '../services/bookingService';
 
 interface IProps {
     handleClose?: (close: boolean) => void;
@@ -21,10 +18,20 @@ interface IProps {
 
 const ParentEventModal: React.FC<IProps> = (props) => {
     const { handleClose, positionClass, event, tutorName, openEditModal, bookingStart } = props;
-
+    const [deleteBooking, { isSuccess: isSuccessDeleteBooking }] = useDeleteBookingMutation();
+    const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
     const handleDeleteBooking = () => {
-        console.log();
+        if (event) {
+            deleteBooking(event.id);
+            handleClose ? handleClose(false) : false;
+        }
     };
+
+    useEffect(() => {
+        if (isSuccessDeleteBooking) {
+            toastService.success('Booking deleted');
+        }
+    }, [isSuccessDeleteBooking]);
 
     return (
         <>
@@ -70,13 +77,16 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                                 {event.Subject.name} - {event.Level.name}
                             </div>
                         </div>
-
-                        <div className="flex flex--center">
-                            <i className="icon icon--base icon--child icon--grey mr-4"></i>
-                            <div className="type--color--secondary">
-                                {event.User.firstName} {event.User.lastName}
+                        {userRole === RoleOptions.Student ? (
+                            <></>
+                        ) : (
+                            <div className="flex flex--center">
+                                <i className="icon icon--base icon--child icon--grey mr-4"></i>
+                                <div className="type--color--secondary">
+                                    {event.User.firstName} {event.User.lastName}
+                                </div>
                             </div>
-                        </div>
+                        )}
                     </div>
                     <div className="modal--parent__footer mt-6">
                         <button className="btn btn--base btn--primary">Join</button>

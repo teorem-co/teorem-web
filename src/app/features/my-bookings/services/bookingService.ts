@@ -98,6 +98,7 @@ export const bookingService = baseService.injectEndpoints({
                 url: `${URL}/${userId}/upcoming`,
                 method: HttpMethods.GET,
             }),
+            providesTags: ['upcomingLessons'],
         }),
         getNotificationForLessons: builder.query<number, INotificationForLessons>({
             query: (data) => ({
@@ -139,6 +140,13 @@ export const bookingService = baseService.injectEndpoints({
             }),
             invalidatesTags: ['bookings'],
         }),
+        deleteBooking: builder.mutation<void, string>({
+            query: (bookingId) => ({
+                url: `${URL}/${bookingId}`,
+                method: HttpMethods.DELETE,
+            }),
+            invalidatesTags: ['bookings', 'tutorBookings', 'upcomingLessons'],
+        }),
     }),
 });
 
@@ -152,4 +160,5 @@ export const {
     useUpdateBookingMutation,
     useLazyGetCompletedLessonsQuery,
     useAcceptBookingMutation,
+    useDeleteBookingMutation,
 } = bookingService;

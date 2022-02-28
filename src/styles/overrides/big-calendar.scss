@@ -65,6 +65,12 @@ $rbc-calendar-width: 675px;
             border-top-color: transparent !important;
             min-height: $rbc-hour-height;
             display: block !important;
+
+            &-group {
+                div {
+                    background-color: transparent !important;
+                }
+            }
         }
 
         &-view {
