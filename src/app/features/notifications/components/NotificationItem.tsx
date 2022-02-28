@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { useHistory } from 'react-router';
 
 import INotification from '../../../../interfaces/notification/INotification';
 import { useMarkAsReadMutation } from '../../../../services/notificationService';
@@ -12,8 +13,11 @@ const NotificationItem = (props: Props) => {
 
     const [markAsRead] = useMarkAsReadMutation();
 
+    const history = useHistory();
+
     const handleClick = async () => {
         await markAsRead(id).unwrap();
+        history.push('/my-bookings');
     };
 
     return (
