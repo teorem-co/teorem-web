@@ -19,9 +19,7 @@ const TextField: React.FC<TextFieldType> = (props: any) => {
     const visiblePassToggle = (e: any) => {
         const currentInput = e.target.parentNode.childNodes[0];
 
-        e.target && currentInput.type === 'password'
-            ? (currentInput.type = 'text')
-            : (currentInput.type = 'password');
+        e.target && currentInput.type === 'password' ? (currentInput.type = 'text') : (currentInput.type = 'password');
     };
 
     const displayValidationMessage = () => {
@@ -38,29 +36,18 @@ const TextField: React.FC<TextFieldType> = (props: any) => {
                     type={`${password ? 'password' : 'text'}`}
                     {...field}
                     {...props}
-                    className={`${
-                        props.className ?? 'input input--base input--text'
-                    } ${errorText ? 'input__border--error' : ''}`}
+                    className={`${props.className ?? 'input input--base input--text'} ${errorText ? 'input__border--error' : ''}`}
                 />
                 {
                     /* toggle password visibility */
                     props.password ? (
-                        <i
-                            className="icon icon--sm icon--visible input--text--password"
-                            onClick={(e: any) => visiblePassToggle(e)}
-                        ></i>
+                        <i className="icon icon--sm icon--visible input--text--password" onClick={(e: any) => visiblePassToggle(e)}></i>
                     ) : (
                         ''
                     )
                 }
             </div>
-            {props.withoutErr ? (
-                <></>
-            ) : (
-                <div className="field__validation">
-                    {displayValidationMessage()}
-                </div>
-            )}
+            {props.withoutErr ? <></> : <div className="field__validation">{displayValidationMessage()}</div>}
         </>
     );
 };

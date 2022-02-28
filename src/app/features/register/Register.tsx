@@ -68,9 +68,7 @@ const Register: React.FC = () => {
                 .min(2, t('FORM_VALIDATION.TOO_SHORT'))
                 .max(100, t('FORM_VALIDATION.TOO_LONG'))
                 .required(t('FORM_VALIDATION.REQUIRED')),
-            email: Yup.string()
-                .email(t('FORM_VALIDATION.INVALID_EMAIL'))
-                .required(t('FORM_VALIDATION.REQUIRED')),
+            email: Yup.string().email(t('FORM_VALIDATION.INVALID_EMAIL')).required(t('FORM_VALIDATION.REQUIRED')),
             // .test('email', 'This email already exists', () => {
             //     if (value && value.includes('@')) {
             //         const isValid = await checkMail({
@@ -90,10 +88,7 @@ const Register: React.FC = () => {
                 ),
             passwordRepeat: Yup.string()
                 .required(t('FORM_VALIDATION.REQUIRED'))
-                .oneOf(
-                    [Yup.ref('password'), null],
-                    t('FORM_VALIDATION.PASSWORD_MATCH')
-                ),
+                .oneOf([Yup.ref('password'), null], t('FORM_VALIDATION.PASSWORD_MATCH')),
         }),
     });
 
@@ -235,16 +230,11 @@ const Register: React.FC = () => {
                         <div className="mb-22">
                             <img className="w--128" src={logo} alt="Teorem" />
                         </div>
-                        <div className="type--lg type--wgt--bold mb-4">
-                            {t('REGISTER.TITLE', { role: roleSelection })}
-                        </div>
+                        <div className="type--lg type--wgt--bold mb-4">{t('REGISTER.TITLE', { role: roleSelection })}</div>
                         <FormikProvider value={formik}>
                             <Form>
                                 <div className="field">
-                                    <label
-                                        htmlFor="firstName"
-                                        className="field__label"
-                                    >
+                                    <label htmlFor="firstName" className="field__label">
                                         {t('REGISTER.FORM.FIRST_NAME')}
                                     </label>
                                     <TextField
@@ -255,10 +245,7 @@ const Register: React.FC = () => {
                                     />
                                 </div>
                                 <div className="field">
-                                    <label
-                                        htmlFor="lastName"
-                                        className="field__label"
-                                    >
+                                    <label htmlFor="lastName" className="field__label">
                                         {t('REGISTER.FORM.LAST_NAME')}
                                     </label>
                                     <TextField
@@ -269,10 +256,7 @@ const Register: React.FC = () => {
                                     />
                                 </div>
                                 <div className="field">
-                                    <label
-                                        className="field__label"
-                                        htmlFor="email"
-                                    >
+                                    <label className="field__label" htmlFor="email">
                                         {t('REGISTER.FORM.EMAIL')}
                                     </label>
                                     <TextField
@@ -284,17 +268,12 @@ const Register: React.FC = () => {
                                         name="email"
                                         id="email"
                                         placeholder="Enter your email"
-                                        additionalValidation={
-                                            checkMailValidation
-                                        }
+                                        additionalValidation={checkMailValidation}
                                         // disabled={isLoading}
                                     />
                                 </div>
                                 <div className="field">
-                                    <label
-                                        className="field__label"
-                                        htmlFor="password"
-                                    >
+                                    <label className="field__label" htmlFor="password">
                                         {t('REGISTER.FORM.PASSWORD')}
                                     </label>
                                     <TextField
@@ -312,15 +291,10 @@ const Register: React.FC = () => {
                                         onKeyUp={handleKeyUp}
                                     />
 
-                                    <TooltipPassword
-                                        passTooltip={passTooltip}
-                                    />
+                                    <TooltipPassword passTooltip={passTooltip} />
                                 </div>
                                 <div className="field">
-                                    <label
-                                        className="field__label"
-                                        htmlFor="passwordRepeat"
-                                    >
+                                    <label className="field__label" htmlFor="passwordRepeat">
                                         {t('REGISTER.FORM.CONFIRM_PASSWORD')}
                                     </label>
                                     <TextField
@@ -340,22 +314,15 @@ const Register: React.FC = () => {
                                     {t('REGISTER.FORM.SUBMIT_BUTTON')}
                                 </div>
                                 <div className="flex flex--jc--center">
-                                    <div
-                                        onClick={() => handleGoBack()}
-                                        className="btn btn--clear btn--base type--color--brand type--wgt--bold"
-                                    >
-                                        <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>{' '}
-                                        {t('REGISTER.BACK_BUTTON')}
+                                    <div onClick={() => handleGoBack()} className="btn btn--clear btn--base type--color--brand type--wgt--bold">
+                                        <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i> {t('REGISTER.BACK_BUTTON')}
                                     </div>
                                 </div>
                             </Form>
                         </FormikProvider>
                     </div>
                     <div className="mt-8">
-                        <div className="type--color--tertiary">
-                            {' '}
-                            {t('WATERMARK')}
-                        </div>
+                        <div className="type--color--tertiary"> {t('WATERMARK')}</div>
                     </div>
                 </div>
             </div>

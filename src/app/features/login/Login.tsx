@@ -31,15 +31,7 @@ const Login: React.FC = () => {
         password: '',
     };
 
-    const [
-        login,
-        {
-            data: loginData,
-            isSuccess: isSuccessLogin,
-            isLoading: isLoadingLogin,
-            error: errorLogin,
-        },
-    ] = useLoginMutation();
+    const [login, { data: loginData, isSuccess: isSuccessLogin, isLoading: isLoadingLogin, error: errorLogin }] = useLoginMutation();
 
     const formik = useFormik({
         initialValues: initialValues,
@@ -102,30 +94,17 @@ const Login: React.FC = () => {
                         <div className="mb-22">
                             <img className="w--128" src={logo} alt="Teorem" />
                         </div>
-                        <div className="type--lg type--wgt--bold mb-4">
-                            {t('LOGIN.TITLE')}
-                        </div>
+                        <div className="type--lg type--wgt--bold mb-4">{t('LOGIN.TITLE')}</div>
                         <FormikProvider value={formik}>
                             <Form>
                                 <div className="field">
-                                    <label
-                                        htmlFor="email"
-                                        className="field__label"
-                                    >
+                                    <label htmlFor="email" className="field__label">
                                         {t('LOGIN.FORM.EMAIL')}
                                     </label>
-                                    <TextField
-                                        name="email"
-                                        id="email"
-                                        placeholder="Enter your email"
-                                        disabled={isLoadingLogin}
-                                    />
+                                    <TextField name="email" id="email" placeholder="Enter your email" disabled={isLoadingLogin} />
                                 </div>
                                 <div className="field">
-                                    <label
-                                        className="field__label"
-                                        htmlFor="password"
-                                    >
+                                    <label className="field__label" htmlFor="password">
                                         {t('LOGIN.FORM.PASSWORD')}
                                     </label>
                                     <TextField
@@ -137,18 +116,8 @@ const Login: React.FC = () => {
                                         disabled={isLoadingLogin}
                                     />
                                 </div>
-                                {loginErrorMessage ? (
-                                    <div className="type--color--error">
-                                        {t(loginErrorMessage)}
-                                    </div>
-                                ) : (
-                                    <></>
-                                )}
-                                <button
-                                    className="btn btn--base btn--primary w--100 mb-2 mt-6"
-                                    type="submit"
-                                    disabled={isLoadingLogin}
-                                >
+                                {loginErrorMessage ? <div className="type--color--error">{t(loginErrorMessage)}</div> : <></>}
+                                <button className="btn btn--base btn--primary w--100 mb-2 mt-6" type="submit" disabled={isLoadingLogin}>
                                     {t('LOGIN.FORM.SUBMIT_BTN')}
                                 </button>
                                 <button
@@ -162,18 +131,9 @@ const Login: React.FC = () => {
                         </FormikProvider>
                     </div>
                     <div className="flex--primary mt-8 w--448--max">
-                        <div className="type--color--tertiary">
-                            {t('WATERMARK')}
-                        </div>
+                        <div className="type--color--tertiary">{t('WATERMARK')}</div>
                         <div>
-                            {t('LOGIN.ACCOUNT')}{' '}
-                            <Link
-                                to={
-                                    !isLoadingLogin ? PATHS.ROLE_SELECTION : '#'
-                                }
-                            >
-                                {t('LOGIN.REGISTER')}
-                            </Link>
+                            {t('LOGIN.ACCOUNT')} <Link to={!isLoadingLogin ? PATHS.ROLE_SELECTION : '#'}>{t('LOGIN.REGISTER')}</Link>
                         </div>
                     </div>
                 </div>
