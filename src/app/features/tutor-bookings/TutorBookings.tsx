@@ -48,12 +48,11 @@ interface ICoords {
 }
 
 const TutorBookings = () => {
-    const [getTutorBookings, { data: tutorBookings, isSuccess: isSuccessBookings, isLoading: isLoadingTutorBookings }] =
-        useLazyGetTutorBookingsQuery();
-    const [getBookings, { data: bookings, isSuccess: isSuccessAllBookings, isLoading: isLoadingBookings }] = useLazyGetBookingsQuery();
+    const [getTutorBookings, { data: tutorBookings, isLoading: isLoadingTutorBookings }] = useLazyGetTutorBookingsQuery();
+    const [getBookings, { data: bookings, isLoading: isLoadingBookings }] = useLazyGetBookingsQuery();
     const [getTutorUnavailableBookings, { data: unavailableBookings, isLoading: isLoadingUnavailableBookings }] =
         useLazyGetUnavailableBookingsQuery();
-    const [getTutorData, { data: tutorData, isSuccess: isSuccessTutorData, isLoading: isLoadingTutorData }] = useLazyGetTutorProfileDataQuery({
+    const [getTutorData, { data: tutorData }] = useLazyGetTutorProfileDataQuery({
         selectFromResult: ({ data, isSuccess, isLoading }) => ({
             data: {
                 firstName: data?.User.firstName,
@@ -63,7 +62,7 @@ const TutorBookings = () => {
             isLoading,
         }),
     });
-    const [getBookingById, { data: booking, isSuccess: isSuccessGetBookingById }] = useLazyGetBookingByIdQuery();
+    const [getBookingById, { data: booking }] = useLazyGetBookingByIdQuery();
 
     const [selectedStart, setSelectedStart] = useState<string>('');
     const [selectedEnd, setSelectedEnd] = useState<string>('');
@@ -223,6 +222,7 @@ const TutorBookings = () => {
         validationSchema: Yup.object(),
     });
 
+    //use for creadit card information sidebar
     const handleSubmit = (values: any) => {
         setSidebarOpen(false);
     };

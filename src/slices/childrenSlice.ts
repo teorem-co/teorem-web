@@ -1,10 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { IChild } from '../interfaces/IChild';
-import IChildListOption from '../interfaces/IChildListOption';
 
 interface IState {
-    child: IChild[] | [];
+    child: IChild[];
 }
 
 const initialState: IState = {

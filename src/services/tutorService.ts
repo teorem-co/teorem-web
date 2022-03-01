@@ -1,8 +1,6 @@
 import { baseService } from '../app/baseService';
-import IBooking from '../app/features/my-bookings/interfaces/IBooking';
 import IProgressProfile from '../app/features/my-profile/interfaces/IProgressProfile';
 import IUpdateAdditionalInfo from '../app/features/my-profile/interfaces/IUpdateAdditionalInfo';
-import { useAppSelector } from '../app/hooks';
 import { HttpMethods } from '../app/lookups/httpMethods';
 import { getAppState } from '../app/utils/getAppState';
 import IParams from '../interfaces/IParams';
