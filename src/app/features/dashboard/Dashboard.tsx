@@ -1,9 +1,12 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { io } from 'socket.io-client';
 
 import INotification from '../../../interfaces/notification/INotification';
+import ISocketNotification from '../../../interfaces/notification/ISocketNotification';
 import { useLazyGetAllUnreadNotificationsQuery, useMarkAllAsReadMutation } from '../../../services/notificationService';
 import MainWrapper from '../../components/MainWrapper';
+import { useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
 import NotificationItem from '../notifications/components/NotificationItem';
 
@@ -11,8 +14,23 @@ const Dashboard = () => {
     const [getUnreadNotifications, { data: notificationsData }] = useLazyGetAllUnreadNotificationsQuery();
     const [markAllAsRead] = useMarkAllAsReadMutation();
 
+    const userId = useAppSelector((state) => state.auth.user?.id);
+    const socket = io('http://192.168.11.83:8000');
+
     useEffect(() => {
         getUnreadNotifications();
+    }, []);
+
+    useEffect(() => {
+        socket.on('showNotification', (notification: ISocketNotification) => {
+            if (userId && notification.userId === userId) {
+                getUnreadNotifications();
+            }
+        });
+
+        return function disconnectSocket() {
+            socket.disconnect();
+        };
     }, []);
 
     return (
