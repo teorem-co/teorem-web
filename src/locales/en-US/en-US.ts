@@ -86,11 +86,11 @@ export const EN_US = {
             AVAILABILITY: 'All availability',
         },
         NO_OPTIONS_MESSAGE: 'Please select level first',
-        TUTOR_LIST: 'Tutor list',
+        TUTOR_LIST: 'Tutors list',
         VIEW_PROFILE: 'View profile',
         BOOK_LESSON: 'Book a lesson',
         RESET_FILTER: 'Reset search',
-        TUTOR_AVAILABLE: 'Tutor Available',
+        TUTOR_AVAILABLE: 'Tutors Available',
         SUBJECT_LIST: {
             MORE: 'more',
         },
