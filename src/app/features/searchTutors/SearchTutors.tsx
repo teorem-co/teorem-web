@@ -45,21 +45,18 @@ const SearchTutors = () => {
 
     //initialSubject is not reset on initial level change
     const [isInitialSubject, setIsInitialSubject] = useState<boolean>(false);
-
     //storing subjects in state so it can reset on Reset Filter
     const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
-
-    const [getAvailableTutors, { data: availableTutors, isLoading: isLoadingAvailableTutors }] = useLazyGetAvailableTutorsQuery();
-
+    const [getAvailableTutors, { data: availableTutors, isLoading: isLoadingAvailableTutors, isUninitialized: availableTutorsUninitialized }] =
+        useLazyGetAvailableTutorsQuery();
     const [getLevelOptions, { data: levelOptions, isLoading: isLoadingLevels }] = useLazyGetLevelOptionsQuery();
-
     const [
         getSubjectOptionsByLevel,
         { data: subjectsData, isLoading: isLoadingSubjects, isSuccess: isSuccessSubjects, isFetching: isFetchingSubjects },
     ] = useLazyGetSubjectOptionsByLevelQuery();
 
     const levelDisabled = !levelOptions || isLoadingLevels;
-
+    const isLoading = isLoadingAvailableTutors || availableTutorsUninitialized;
     const initialValues: Values = {
         subject: '',
         level: '',
@@ -424,7 +421,7 @@ const SearchTutors = () => {
                     </div>
 
                     <div className="tutor-list">
-                        {isLoadingAvailableTutors ? (
+                        {isLoading ? (
                             // Here goes loader
                             <div className="loader--sceleton">
                                 <LoaderTutor />

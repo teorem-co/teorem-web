@@ -23,6 +23,7 @@ const Navbar = () => {
     };
 
     const user = useAppSelector((state) => state.user.user);
+    const userRole = useAppSelector((state) => state.user.user?.Role.abrv);
 
     return (
         <div className="navbar">
@@ -33,24 +34,44 @@ const Navbar = () => {
                 <RenderMenuLinks></RenderMenuLinks>
             </div>
             <div className="navbar__bottom">
-                <NavLink to="/my-profile/info/personal" className="flex flex--grow flex--center cur--pointer navbar__bottom--border">
-                    <div className="navbar__bottom__avatar pos--rel">
-                        {user?.Role?.abrv === RoleOptions.Tutor ? (
-                            <img src={user?.profileImage ? user?.profileImage : gradientCircle} alt="avatar" />
-                        ) : (
+                {/* Don't show user profile settings to child role */}
+                {(userRole === 'child' && (
+                    <div className="flex flex--grow flex--center">
+                        <div className="navbar__bottom__avatar pos--rel">
                             <ImageCircle initials={`${user?.firstName.charAt(0)}${user?.lastName.charAt(0)}`} />
-                        )}
-                        <div className="navbar__bottom--settings">
-                            <i className="icon icon--base icon--white icon--settings"></i>
+
+                            <div className="navbar__bottom--settings">
+                                <i className="icon icon--base icon--white icon--settings"></i>
+                            </div>
+                        </div>
+                        <div className="navbar__bottom__user-info">
+                            <div className="type--color--primary type--wgt--bold type--break">
+                                {user?.firstName} {user?.lastName}
+                            </div>
+                            <div className="type--xs type--color--secondary type--wgt--regular ">{user?.Role?.name}</div>
                         </div>
                     </div>
-                    <div className="navbar__bottom__user-info">
-                        <div className="type--color--primary type--wgt--bold type--break">
-                            {user?.firstName} {user?.lastName}
+                )) || (
+                    <NavLink to="/my-profile/info/personal" className="flex flex--grow flex--center cur--pointer navbar__bottom--border">
+                        <div className="navbar__bottom__avatar pos--rel">
+                            {userRole === RoleOptions.Tutor ? (
+                                <img src={user?.profileImage ? user?.profileImage : gradientCircle} alt="avatar" />
+                            ) : (
+                                <ImageCircle initials={`${user?.firstName.charAt(0)}${user?.lastName.charAt(0)}`} />
+                            )}
+                            <div className="navbar__bottom--settings">
+                                <i className="icon icon--base icon--white icon--settings"></i>
+                            </div>
                         </div>
-                        <div className="type--xs type--color--secondary type--wgt--regular ">{user?.Role?.name}</div>
-                    </div>
-                </NavLink>
+                        <div className="navbar__bottom__user-info">
+                            <div className="type--color--primary type--wgt--bold type--break">
+                                {user?.firstName} {user?.lastName}
+                            </div>
+                            <div className="type--xs type--color--secondary type--wgt--regular ">{user?.Role?.name}</div>
+                        </div>
+                    </NavLink>
+                )}
+
                 <NavLink to="/" onClick={handleLogout} className="d--ib">
                     <i className="icon icon--logout icon--sm icon--grey"></i>
                 </NavLink>

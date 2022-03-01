@@ -77,7 +77,19 @@ const UnavailabilityModal: React.FC<Props> = (props) => {
                         const startTime = moment(value, 'HH:mm');
                         const endTime = moment(formik.values.timeEnd, 'HH:mm');
                         const condition = moment(endTime).isBefore(startTime);
-
+                        //debugger;
+                        if (condition) {
+                            return false;
+                        }
+                        return true;
+                    })
+                    .test('timeStart', 'Start time and end time can`t be the same', (value) => {
+                        const startTime = moment(value, 'HH:mm');
+                        const startTimeFormated = moment(startTime).format('HH:mm');
+                        const endTime = moment(formik.values.timeEnd, 'HH:mm');
+                        const endTimeFormated = moment(endTime).format('HH:mm');
+                        const condition = startTimeFormated === endTimeFormated;
+                        //debugger;
                         if (condition) {
                             return false;
                         }
