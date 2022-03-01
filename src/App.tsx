@@ -9,15 +9,15 @@ import ISocketNotification from './interfaces/notification/ISocketNotification';
 function App() {
     const userId = useAppSelector((state) => state.auth.user?.id);
 
+    const socket = io('http://192.168.11.83:8000');
     useEffect(() => {
-        const socket = io('http://192.168.11.145:3001');
-        socket.on('connect', () => {
-            console.log(`Connected with id : ${socket.id}`); // true
-        });
+        // socket.on('connect', () => {
+        //     console.log(`Connected with id : ${socket.id}`); // true
+        // });
 
         socket.on('showNotification', (notification: ISocketNotification) => {
             if (userId && notification.userId === userId) {
-                toastService.success(notification.description);
+                toastService.notification(notification.description);
             }
         });
 
