@@ -105,6 +105,7 @@ export const bookingService = baseService.injectEndpoints({
                 url: `${URL}/${data.userId}/${data.date}/count`,
                 method: HttpMethods.GET,
             }),
+            providesTags: ['lessonCount'],
         }),
         createbooking: builder.mutation<void, ICreateBooking>({
             query: (data) => ({
@@ -145,7 +146,7 @@ export const bookingService = baseService.injectEndpoints({
                 url: `${URL}/${bookingId}`,
                 method: HttpMethods.DELETE,
             }),
-            invalidatesTags: ['bookings', 'tutorBookings', 'upcomingLessons'],
+            invalidatesTags: ['bookings', 'tutorBookings', 'upcomingLessons', 'lessonCount'],
         }),
     }),
 });

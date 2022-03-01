@@ -10,6 +10,7 @@ import { useHistory } from 'react-router';
 import { RoleOptions } from '../../../slices/roleSlice';
 import MainWrapper from '../../components/MainWrapper';
 import LoaderPrimary from '../../components/skeleton-loaders/LoaderPrimary';
+import LoaderSecondary from '../../components/skeleton-loaders/LoaderSecondary';
 import { useAppSelector } from '../../hooks';
 import { calcModalPosition } from '../../utils/calcModalPosition';
 import OpenTutorCalendarModal from './components/OpenTutorCalendarModal';
@@ -145,19 +146,23 @@ const MyBookings: React.FC = () => {
 
     const handleSelectedEvent = (e: IBookingTransformed) => {
         if (userRole === RoleOptions.Tutor) {
-            if (e.label === 'Unavailable') {
-                //close createNewUnavailability
-                setOpenUnavailabilityModal(false);
-                setUnavailableCurrentEvent([]);
-                //open unavailability modal
-                setOpenUnavailabilityEditModal(true);
-                setSelectedUnavailability(e.id);
-                setSelectedSlot(e.start);
+            if (unavailableCurrentEvent.length > 0) {
+                return;
             } else {
-                getBookingById(e.id);
-                setOpenEventDetails(true);
-                setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
-                setSelectedEnd(moment(e.end).format('HH:mm'));
+                if (e.label === 'Unavailable') {
+                    //close createNewUnavailability
+                    setOpenUnavailabilityModal(false);
+                    setUnavailableCurrentEvent([]);
+                    //open unavailability modal
+                    setOpenUnavailabilityEditModal(true);
+                    setSelectedUnavailability(e.id);
+                    setSelectedSlot(e.start);
+                } else {
+                    getBookingById(e.id);
+                    setOpenEventDetails(true);
+                    setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
+                    setSelectedEnd(moment(e.end).format('HH:mm'));
+                }
             }
         } else if (userRole === RoleOptions.Parent || userRole === RoleOptions.Student) {
             if (e.label !== 'Unavailable') {
@@ -175,18 +180,22 @@ const MyBookings: React.FC = () => {
 
     const handleSelectedSlot = (e: SlotInfo) => {
         if (userRole === 'tutor') {
-            setOpenUnavailabilityEditModal(false);
-            setUnavailableCurrentEvent([
-                {
-                    id: 'currentUnavailableItem',
-                    label: 'unavailable',
-                    start: moment(e.start).toDate(),
-                    end: moment(e.start).add(1, 'hours').toDate(),
-                    allDay: false,
-                },
-            ]);
-            setSelectedSlot(moment(e.start).toDate());
-            setOpenUnavailabilityModal(true);
+            if (unavailableCurrentEvent.length > 0) {
+                return;
+            } else {
+                setOpenUnavailabilityEditModal(false);
+                setUnavailableCurrentEvent([
+                    {
+                        id: 'currentUnavailableItem',
+                        label: 'unavailable',
+                        start: moment(e.start).toDate(),
+                        end: moment(e.start).add(1, 'hours').toDate(),
+                        allDay: false,
+                    },
+                ]);
+                setSelectedSlot(moment(e.start).toDate());
+                setOpenUnavailabilityModal(true);
+            }
         }
     };
 
@@ -273,90 +282,87 @@ const MyBookings: React.FC = () => {
     return (
         <MainWrapper>
             <div className="layout--primary">
+                {isLoading ? <LoaderSecondary /> : <></>}
                 <div>
-                    {isLoading ? (
-                        <LoaderPrimary />
-                    ) : (
-                        <div className="card--calendar">
-                            <div className="flex--primary p-6">
-                                <h2 className="type--lg">{t('MY_BOOKINGS.TITLE')}</h2>
-                                <div className="type--wgt--bold type--color--brand">
-                                    {t('MY_BOOKINGS.NOTIFICATION_PART_1')}&nbsp;
-                                    {lessonsCount ?? 0}
-                                    &nbsp;{t('MY_BOOKINGS.NOTIFICATION_PART_2')}
-                                </div>
+                    <div className="card--calendar">
+                        <div className="flex--primary p-6">
+                            <h2 className="type--lg">{t('MY_BOOKINGS.TITLE')}</h2>
+                            <div className="type--wgt--bold type--color--brand">
+                                {t('MY_BOOKINGS.NOTIFICATION_PART_1')}&nbsp;
+                                {lessonsCount ?? 0}
+                                &nbsp;{t('MY_BOOKINGS.NOTIFICATION_PART_2')}
                             </div>
-                            <BigCalendar
-                                onSelecting={() => false}
-                                localizer={localizer}
-                                formats={{
-                                    timeGutterFormat: 'HH:mm',
-                                }}
-                                events={allBookings ? allBookings.concat(unavailableCurrentEvent) : []}
-                                toolbar={false}
-                                date={value}
-                                view="week"
-                                style={{ height: 'calc(100% - 84px)' }}
-                                startAccessor="start"
-                                endAccessor="end"
-                                // selectable={true}
-                                components={{
-                                    week: {
-                                        header: (date) => CustomHeader(date),
-                                    },
-                                    event: (event) => CustomEvent(event),
-                                }}
-                                scrollToTime={defaultScrollTime}
-                                showMultiDayTimes={true}
-                                selectable={true}
-                                step={15}
-                                timeslots={4}
-                                longPressThreshold={10}
-                                onSelectSlot={(e) => handleSelectedSlot(e)}
-                                onSelectEvent={(e) => handleSelectedEvent(e)}
-                            />
-                            {openEventDetails ? (
-                                <TutorEventModal
-                                    event={booking ? booking : null}
-                                    handleClose={(e) => setOpenEventDetails(e)}
-                                    positionClass={calcModalPosition(positionClass)}
-                                />
-                            ) : (
-                                <></>
-                            )}
-                            {openTutorCalendarModal ? (
-                                <OpenTutorCalendarModal
-                                    goToTutorCalendar={() => goToTutorCalendar()}
-                                    event={booking ? booking : null}
-                                    handleClose={(e) => setOpenTutorCalendarModal(e)}
-                                    positionClass={calcModalPosition(positionClass)}
-                                />
-                            ) : (
-                                <></>
-                            )}
-                            {openUnavailabilityModal && (
-                                <UnavailabilityModal
-                                    key={selectedSlot ? selectedSlot.toString() : ''}
-                                    event={selectedSlot}
-                                    handleClose={() => {
-                                        setOpenUnavailabilityModal(false);
-                                        setUnavailableCurrentEvent([]);
-                                    }}
-                                    positionClass={calcModalPosition(unavailablePositionClass)}
-                                />
-                            )}
-                            {openUnavailabilityEditModal && (
-                                <UnavailabilityEditModal
-                                    event={getCurrentUnavailability()}
-                                    handleClose={() => {
-                                        setOpenUnavailabilityEditModal(false);
-                                        setSelectedUnavailability('');
-                                    }}
-                                    positionClass={calcModalPosition(unavailablePositionClass)}
-                                />
-                            )}
                         </div>
-                    )}
+                        <BigCalendar
+                            onSelecting={() => false}
+                            localizer={localizer}
+                            formats={{
+                                timeGutterFormat: 'HH:mm',
+                            }}
+                            events={allBookings ? allBookings.concat(unavailableCurrentEvent) : []}
+                            toolbar={false}
+                            date={value}
+                            view="week"
+                            style={{ height: 'calc(100% - 84px)' }}
+                            startAccessor="start"
+                            endAccessor="end"
+                            // selectable={true}
+                            components={{
+                                week: {
+                                    header: (date) => CustomHeader(date),
+                                },
+                                event: (event) => CustomEvent(event),
+                            }}
+                            scrollToTime={defaultScrollTime}
+                            showMultiDayTimes={true}
+                            selectable={true}
+                            step={15}
+                            timeslots={4}
+                            longPressThreshold={10}
+                            onSelectSlot={(e) => handleSelectedSlot(e)}
+                            onSelectEvent={(e) => handleSelectedEvent(e)}
+                        />
+                        {openEventDetails ? (
+                            <TutorEventModal
+                                event={booking ? booking : null}
+                                handleClose={(e) => setOpenEventDetails(e)}
+                                positionClass={calcModalPosition(positionClass)}
+                            />
+                        ) : (
+                            <></>
+                        )}
+                        {openTutorCalendarModal ? (
+                            <OpenTutorCalendarModal
+                                goToTutorCalendar={() => goToTutorCalendar()}
+                                event={booking ? booking : null}
+                                handleClose={(e) => setOpenTutorCalendarModal(e)}
+                                positionClass={calcModalPosition(positionClass)}
+                            />
+                        ) : (
+                            <></>
+                        )}
+                        {openUnavailabilityModal && (
+                            <UnavailabilityModal
+                                key={selectedSlot ? selectedSlot.toString() : ''}
+                                event={selectedSlot}
+                                handleClose={() => {
+                                    setOpenUnavailabilityModal(false);
+                                    setUnavailableCurrentEvent([]);
+                                }}
+                                positionClass={calcModalPosition(unavailablePositionClass)}
+                            />
+                        )}
+                        {openUnavailabilityEditModal && (
+                            <UnavailabilityEditModal
+                                event={getCurrentUnavailability()}
+                                handleClose={() => {
+                                    setOpenUnavailabilityEditModal(false);
+                                    setSelectedUnavailability('');
+                                }}
+                                positionClass={calcModalPosition(unavailablePositionClass)}
+                            />
+                        )}
+                    </div>
                 </div>
                 <div>
                     <div ref={highlightRef} className="card card--mini-calendar mb-4 pos--rel">
