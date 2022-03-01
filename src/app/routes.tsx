@@ -210,7 +210,7 @@ const ROUTES: any = [
         key: 'COMPLETED_LESSONS',
         exact: true,
         component: () => (
-            <PermissionsGate roles={[Role.Parent, Role.Student, Role.SuperAdmin]}>
+            <PermissionsGate roles={[Role.Parent, Role.Student, Role.SuperAdmin, Role.Child]}>
                 <CompletedLessons />
             </PermissionsGate>
         ),

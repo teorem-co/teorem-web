@@ -35,8 +35,8 @@ const ReviewItem: FC<Props> = (props: Props) => {
                         </div>
                         <div className="tag--primary">{reviewItem.Subject.name}</div>
                     </div>
-                    <p className="type--md mb-4">{reviewItem.title}</p>
-                    <p className="mb-2">{reviewItem.comment}</p>
+                    <p className="type--md mb-4 type--break">{reviewItem.title}</p>
+                    <p className="mb-2 type--break">{reviewItem.comment}</p>
                     <p className="type--color--tertiary">
                         {t('MY_REVIEWS.PUBLISHED')}
                         &nbsp; {getDateAgoLabel(reviewItem.createdAt)}

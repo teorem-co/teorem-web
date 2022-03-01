@@ -1,4 +1,4 @@
-import { groupBy, orderBy, sortBy } from 'lodash';
+import { cloneDeep, debounce, groupBy, orderBy, sortBy } from 'lodash';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
@@ -6,30 +6,74 @@ import { useHistory } from 'react-router';
 import INotification from '../../../interfaces/notification/INotification';
 import { useLazyGetAllNotificationsQuery } from '../../../services/notificationService';
 import MainWrapper from '../../components/MainWrapper';
+import LoaderPrimary from '../../components/skeleton-loaders/LoaderPrimary';
 import NotificationItem from './components/NotificationItem';
 import IGroupedNotifications from './interfaces/IGroupedNotifications';
+import IParams from './interfaces/IParams';
 
 const Notifications = () => {
-    const [getNotifications, { data: notificationsData }] = useLazyGetAllNotificationsQuery();
+    const [getNotifications, { data: notificationsData, isFetching: notificationsFetching }] = useLazyGetAllNotificationsQuery();
 
     const [groupedNotifications, setGroupedNotifications] = useState<IGroupedNotifications>({});
+    const [loadedNotifications, setLoadedNotifications] = useState<INotification[]>([]);
+    const [params, setParams] = useState<IParams>({ page: 1, rpp: 10 });
 
     const history = useHistory();
+    const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
 
-    const fetchData = async () => {
-        const res = await getNotifications().unwrap();
-        const sortedRes = orderBy(res, ['createdAt'], ['desc']);
+    const handleLoadMore = () => {
+        let newParams = { ...params };
+        newParams = {
+            page: params.page + 1,
+            rpp: params.rpp,
+        };
+
+        setParams(newParams);
+    };
+
+    const hideLoadMore = () => {
+        let returnValue: boolean = false;
+        if (notificationsData) {
+            const totalPages = Math.ceil(notificationsData.count / params.rpp);
+
+            if (params.page === totalPages) returnValue = true;
+        }
+        return returnValue;
+    };
+
+    const handleScroll = (e: HTMLDivElement) => {
+        const innerHeight = e.scrollHeight;
+        const scrollPosition = e.scrollTop + e.clientHeight;
+
+        if (!hideLoadMore() && innerHeight === scrollPosition) {
+            handleLoadMore();
+        }
+    };
+
+    const fetchData = async (params: IParams) => {
+        const res = await getNotifications(params).unwrap();
+        setLoadedNotifications(res.rows.concat(loadedNotifications));
+    };
+
+    const groupNotifications = (notifications: INotification[]) => {
+        const sortedRes = orderBy(notifications, ['createdAt'], ['desc']);
         const groupedRes = groupBy(sortedRes, (notification: INotification) => moment(notification['createdAt']).format('DD/MMM/YYYY'));
         setGroupedNotifications(groupedRes);
     };
 
     useEffect(() => {
-        fetchData();
-    }, [notificationsData]);
+        if (loadedNotifications.length > 0) {
+            groupNotifications(loadedNotifications);
+        }
+    }, [loadedNotifications]);
+
+    useEffect(() => {
+        fetchData(params);
+    }, [params]);
 
     return (
         <MainWrapper>
-            <div className="card--secondary">
+            <div className="card--secondary" onScroll={(e: any) => debouncedScrollHandler(e.target)}>
                 <div className="card--secondary__head">
                     <div className="flex flex--center">
                         <i className="icon icon--md icon--chevron-left" onClick={() => history.goBack()}></i>
@@ -60,6 +104,7 @@ const Notifications = () => {
                                     </div>
                                 );
                             })}
+                        <div>{notificationsFetching && <LoaderPrimary />}</div>
                     </div>
                 </div>
             </div>

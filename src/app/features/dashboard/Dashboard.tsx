@@ -2,20 +2,19 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import INotification from '../../../interfaces/notification/INotification';
-import { useLazyGetAllNotificationsQuery } from '../../../services/notificationService';
+import { useLazyGetAllUnreadNotificationsQuery, useMarkAllAsReadMutation } from '../../../services/notificationService';
 import MainWrapper from '../../components/MainWrapper';
 import { PATHS } from '../../routes';
 import NotificationItem from '../notifications/components/NotificationItem';
 
 const Dashboard = () => {
-    const [getNotifications, { data: notificationsData }] = useLazyGetAllNotificationsQuery();
+    const [getUnreadNotifications, { data: notificationsData }] = useLazyGetAllUnreadNotificationsQuery();
+    const [markAllAsRead] = useMarkAllAsReadMutation();
 
     useEffect(() => {
-        getNotifications();
+        getUnreadNotifications();
     }, []);
-    useEffect(() => {
-        console.log(notificationsData?.length);
-    }, [notificationsData]);
+
     return (
         <MainWrapper>
             <div className="layout--primary">
@@ -29,7 +28,11 @@ const Dashboard = () => {
                 <div className="overflow--auto">
                     <div className="flex--primary mb-2">
                         <div className="type--color--secondary">NOTIFICATIONS</div>
-                        {/* <div className="type--color--brand type--wgt--bold cur--pointer">Clear</div> */}
+                        {notificationsData && notificationsData.length > 0 && (
+                            <div className="type--color--brand type--wgt--bold cur--pointer" onClick={() => markAllAsRead()}>
+                                Clear
+                            </div>
+                        )}
                     </div>
                     {notificationsData && notificationsData.find((x) => x.isRead === false) ? (
                         notificationsData.map((notification: INotification) => {

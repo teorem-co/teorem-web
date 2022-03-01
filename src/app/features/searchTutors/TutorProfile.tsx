@@ -272,7 +272,7 @@ const TutorProfile = () => {
                                     {tutorData.User.firstName}&nbsp;
                                     {tutorData.User.lastName}
                                 </div>
-                                <div className="type--color--brand type--center">{tutorData.currentOccupation}</div>
+                                <div className="type--color--brand type--center type--break">{tutorData.currentOccupation}</div>
                                 <div className="mt-10 mb-10">
                                     <div className="flex--primary mb-3">
                                         <div>

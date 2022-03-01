@@ -1,23 +1,21 @@
 import { Form, FormikProvider, useFormik } from 'formik';
 import { t } from 'i18next';
-import { cloneDeep, initial, isEqual } from 'lodash';
+import { isEqual } from 'lodash';
 import moment from 'moment';
-import TimePicker from 'rc-time-picker';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 
-import { useGetLevelOptionsQuery, useGetTutorLevelsQuery } from '../../../../services/levelService';
-import { useLazyGetSubjectOptionsByLevelQuery, useLazyGetTutorSubjectsByTutorLevelQuery } from '../../../../services/subjectService';
-import { useGetChildQuery, useLazyGetChildQuery } from '../../../../services/userService';
+import { useGetTutorLevelsQuery } from '../../../../services/levelService';
+import { useLazyGetTutorSubjectsByTutorLevelQuery } from '../../../../services/subjectService';
+import { useLazyGetChildQuery } from '../../../../services/userService';
 import { RoleOptions } from '../../../../slices/roleSlice';
 import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import MyTimePicker from '../../../components/form/MyTimePicker';
 import TextField from '../../../components/form/TextField';
 import { useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
-import IBooking from '../interfaces/IBooking';
-import { useCreatebookingMutation, useUpdateBookingMutation } from '../services/bookingService';
+import { useCreatebookingMutation } from '../services/bookingService';
 
 interface IProps {
     start?: string;
@@ -34,12 +32,20 @@ interface Values {
     child: string;
     timeFrom: string;
 }
+
 const ParentCalendarSlots: React.FC<IProps> = (props) => {
+    const { start, end, handleClose, positionClass } = props;
     const { tutorId } = useParams();
+
+    const [getChildOptions, { data: childOptions }] = useLazyGetChildQuery();
+    const [getSubjectOptionsByLevel, { data: subjectsData, isSuccess: isSuccessSubjects }] = useLazyGetTutorSubjectsByTutorLevelQuery();
+    const [createBooking, { isSuccess: createBookingSuccess }] = useCreatebookingMutation();
+    const { data: levelOptions } = useGetTutorLevelsQuery(tutorId);
+
     const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
     const [selectedTime, setSelectedTime] = useState<string>('');
-    const { start, end, handleClose, positionClass, setSidebarOpen, clearEmptyBookings } = props;
-    const { data: levelOptions, isLoading: isLoadingLevels } = useGetTutorLevelsQuery(tutorId);
+
+    const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
     const initialValues: Values = {
         level: '',
         subject: '',
@@ -47,32 +53,19 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
         timeFrom: moment(start).format('HH:mm'),
     };
 
-    const [getChildOptions, { data: childOptions, isLoading: isLoadingChildren }] = useLazyGetChildQuery();
+    const generateValidationSchema = () => {
+        const validationSchema: any = {
+            level: Yup.string().required('Level is required'),
+            subject: Yup.string().required('Subject is required'),
+        };
 
-    const [getSubjectOptionsByLevel, { data: subjectsData, isLoading: isLoadingSubjects, isSuccess: isSuccessSubjects }] =
-        useLazyGetTutorSubjectsByTutorLevelQuery();
-
-    const [createBooking, { isSuccess: createBookingSuccess }] = useCreatebookingMutation();
-
-    const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
-
-    useEffect(() => {
         if (userRole === RoleOptions.Parent) {
-            getChildOptions();
+            validationSchema['child'] = Yup.string().required('Child is required');
+            return validationSchema;
         }
-    }, []);
-    useEffect(() => {
-        formik.setFieldValue('timeFrom', moment(start).format('HH:mm'));
-    }, [start]);
 
-    const formik = useFormik({
-        initialValues: initialValues,
-        onSubmit: (values) => handleSubmit(values),
-        validateOnBlur: true,
-        validateOnChange: false,
-        enableReinitialize: true,
-        validationSchema: Yup.object(),
-    });
+        return validationSchema;
+    };
 
     const handleSubmit = (values: any) => {
         const splitString = values.timeFrom.split(':');
@@ -95,6 +88,31 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
         }
     };
 
+    const handleChange = (e: any) => {
+        setSelectedTime(e);
+    };
+
+    const handleSubmitForm = () => {
+        formik.handleSubmit();
+
+        props.setSidebarOpen(false);
+    };
+
+    const formik = useFormik({
+        initialValues: initialValues,
+        onSubmit: (values) => handleSubmit(values),
+        validateOnBlur: true,
+        validateOnChange: false,
+        enableReinitialize: true,
+        validationSchema: Yup.object().shape(generateValidationSchema()),
+    });
+
+    useEffect(() => {
+        if (subjectsData && isSuccessSubjects && formik.values.level !== '') {
+            setSubjectOptions(subjectsData);
+        }
+    }, [subjectsData]);
+
     useEffect(() => {
         if (!isEqual(formik.values.level, initialValues.level)) {
             formik.setFieldValue('subject', '');
@@ -107,35 +125,15 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
         }
     }, [formik.values.level]);
 
-    // const escFunction = useCallback((event) => {
-    //     if (event.keyCode === 27) {
-    //         //Close modal on esc keydown
-    //         handleClose ? handleClose(false) : null;
-    //     }
-    // }, []);
-
-    // useEffect(() => {
-    //     document.addEventListener('keydown', escFunction, false);
-
-    //     return () => {
-    //         document.removeEventListener('keydown', escFunction, false);
-    //     };
-    // }, []);
+    useEffect(() => {
+        if (userRole === RoleOptions.Parent) {
+            getChildOptions();
+        }
+    }, []);
 
     useEffect(() => {
-        if (subjectsData && isSuccessSubjects && formik.values.level !== '') {
-            setSubjectOptions(subjectsData);
-        }
-    }, [subjectsData]);
-
-    const handleChange = (e: any) => {
-        setSelectedTime(e);
-    };
-    const handleSubmitForm = () => {
-        formik.handleSubmit();
-
-        props.setSidebarOpen(false);
-    };
+        formik.setFieldValue('timeFrom', moment(start).format('HH:mm'));
+    }, [start]);
 
     useEffect(() => {
         if (createBookingSuccess) {
@@ -143,8 +141,6 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
             handleClose ? handleClose(false) : false;
         }
     }, [createBookingSuccess]);
-
-    // const levelDisabled = !levelOptions || isLoadingLevels;
 
     return (
         <div className={`modal--parent modal--parent--${positionClass}`}>
