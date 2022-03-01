@@ -42,7 +42,7 @@ export enum PATHS {
     COMPLETED_LESSONS = '/completed-lessons',
     CHAT = '/chat',
     DASHBOARD = '/dashboard',
-    NOTIFICATIONS = '/notifications',
+    NOTIFICATIONS = '/dashboard/notifications',
 }
 
 export enum LANDING_PATHS {
@@ -451,7 +451,6 @@ export function RenderMenuLinks() {
             <>
                 {menuPerRole[userRole].map((route) => (
                     <NavLink
-                        exact
                         key={route.key}
                         to={route.path}
                         className={`navbar__item`}
