@@ -22,10 +22,6 @@ const Dashboard = () => {
     }, []);
 
     useEffect(() => {
-        // socket.on('connect', () => {
-        //     console.log(`Connected with id : ${socket.id}`); // true
-        // });
-
         socket.on('showNotification', (notification: ISocketNotification) => {
             if (userId && notification.userId === userId) {
                 getUnreadNotifications();
