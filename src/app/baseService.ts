@@ -23,6 +23,7 @@ export const baseService = createApi({
         'upcomingLessons',
         'notificationsUnread',
         'lessonCount',
+        'child',
     ],
     endpoints: () => ({}),
 });

@@ -288,6 +288,7 @@ export const EN_US = {
         MY_TEACHINGS: 'My Teachings',
         ABOUT_ME: 'About me',
         ACCOUNT: 'Account',
+        CHILD_INFO: 'Child information',
     },
     ACCOUNT: {
         CHANGE_PASSWORD: {
