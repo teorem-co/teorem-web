@@ -181,7 +181,7 @@ const AddChildSidebar = (props: Props) => {
 
             <div className={`sidebar sidebar--secondary sidebar--secondary ${!sideBarIsOpen ? 'sidebar--secondary--close' : ''}`}>
                 <div className="flex--primary flex--shrink">
-                    <div className="type--color--secondary">ADD NEW CHILD</div>
+                    <div className="type--color--secondary">{(childData && 'EDIT A CHILD') || 'ADD NEW CHILD'}</div>
                     <div>
                         <i className="icon icon--base icon--close icon--grey" onClick={closeSidebar}></i>
                     </div>
@@ -221,7 +221,7 @@ const AddChildSidebar = (props: Props) => {
                                 </label>
                                 {childData && (
                                     <p className="mb-2 type--color--tertiary">
-                                        This field is optional, if you want to change current child password enter it below.
+                                        This field is optional, if you want to change current child's password you can do it in field below.
                                     </p>
                                 )}
 
@@ -247,7 +247,7 @@ const AddChildSidebar = (props: Props) => {
                 <div className="flex--shirnk sidebar--secondary__bottom mt-10">
                     <div className="flex--primary mt-6">
                         <button className="btn btn--clear type--wgt--bold" onClick={() => formik.handleSubmit()}>
-                            Add New Child
+                            {(childData && 'Edit Child') || 'Add New Child'}
                         </button>
                         {(childData && (
                             <button onClick={() => handleDelete()} className="btn btn--clear type--color--error type--wgt--bold">
