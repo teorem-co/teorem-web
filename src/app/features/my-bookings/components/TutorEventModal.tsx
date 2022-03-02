@@ -11,8 +11,8 @@ interface IProps {
 
 const TutorEventModal: React.FC<IProps> = (props) => {
     const { handleClose, positionClass, event } = props;
-    const [acceptBooking, { isSuccess: isSuccessAcceptBooking }] = useAcceptBookingMutation();
-    const [deleteBooking, { isSuccess: isSuccessDeleteBooking }] = useDeleteBookingMutation();
+    const [acceptBooking] = useAcceptBookingMutation();
+    const [deleteBooking] = useDeleteBookingMutation();
     const handleDeleteBooking = () => {
         if (event) {
             deleteBooking(event.id);
@@ -32,7 +32,12 @@ const TutorEventModal: React.FC<IProps> = (props) => {
                         <div className="flex flex--primary">
                             <div>
                                 <div className="type--wgt--bold type--md mb-1">
-                                    {event.User.firstName} {event.User.lastName}
+                                    {(event.User && (
+                                        <>
+                                            {event.User.firstName} {event.User.lastName}
+                                        </>
+                                    )) ||
+                                        'Deleted user'}
                                 </div>
                                 <div className="type--color--secondary">
                                     {moment(event.startTime).format('DD/MMM/YYYY, HH:mm')} - {moment(event.endTime).format('HH:mm')}
@@ -60,9 +65,14 @@ const TutorEventModal: React.FC<IProps> = (props) => {
                         </div>
 
                         <div className="flex flex--center">
-                            <i className={`icon icon--base icon--${event.User.parentId ? 'child' : 'profile'} icon--grey mr-4`}></i>
+                            <i className={`icon icon--base icon--${event.User?.parentId ? 'child' : 'profile'} icon--grey mr-4`}></i>
                             <div className="type--color--secondary">
-                                {event.User.firstName} {event.User.lastName}
+                                {(event.studentId && (
+                                    <>
+                                        {event.User?.firstName} {event.User?.lastName}
+                                    </>
+                                )) ||
+                                    'Deleted user'}
                             </div>
                         </div>
                     </div>

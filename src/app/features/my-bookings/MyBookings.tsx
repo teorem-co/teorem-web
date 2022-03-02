@@ -266,6 +266,13 @@ const MyBookings: React.FC = () => {
                 userId: userId,
                 date: moment().set({ hour: 23, minute: 59, second: 59 }).toISOString(),
             });
+            if (userRole === 'tutor') {
+                getTutorUnavailableBookings({
+                    tutorId: userId,
+                    dateFrom: moment(value).startOf('isoWeek').toISOString(),
+                    dateTo: moment(value).endOf('isoWeek').toISOString(),
+                }).unwrap();
+            }
         }
     }, [value, userId]);
 

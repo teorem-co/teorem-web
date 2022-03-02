@@ -28,6 +28,10 @@
             }
         }
 
+        &:nth-child(n + 3) {
+            padding-top: 0;
+        }
+
         @media (max-width: 300px) {
             width: 100%;
             &:nth-child(n + 2) {

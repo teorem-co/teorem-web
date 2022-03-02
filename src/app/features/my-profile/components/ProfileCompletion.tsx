@@ -71,7 +71,18 @@ const ProfileCompletion = (props: Props) => {
                         </NavLink>
                     </>
                 )}
-
+                {userRole === 'parent' && (
+                    <>
+                        <NavLink exact to={PROFILE_PATHS.MY_PROFILE_CHILD_INFO} className="nav-link--profile" activeClassName="active">
+                            <div className="flex flex--col flex--center">
+                                <div className="nav-link--profile__wrapper">
+                                    <i className={`icon icon--base icon--check nav-link--profile__icon`}></i>
+                                </div>
+                                <div className="nav-link--profile__label type--center mt-4 pl-2 pr-2">{t('COMPLETE_PROFILE.CHILD_INFO')}</div>
+                            </div>
+                        </NavLink>
+                    </>
+                )}
                 <NavLink exact to={PROFILE_PATHS.MY_PROFILE_ACCOUNT} className="nav-link--profile" activeClassName="active">
                     <div className="flex flex--col flex--center">
                         <div className="nav-link--profile__wrapper">

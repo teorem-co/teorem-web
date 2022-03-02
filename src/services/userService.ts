@@ -3,6 +3,8 @@ import { OptionType } from '../app/components/form/MySelectField';
 import IChangePassword from '../app/features/my-profile/interfaces/IChangePassword';
 import { HttpMethods } from '../app/lookups/httpMethods';
 import typeToFormData from '../app/utils/typeToFormData';
+import { IChild } from '../interfaces/IChild';
+import IChildUpdate from '../interfaces/IChildUpdate';
 import IUser from '../interfaces/IUser';
 
 const URL = '/users';
@@ -38,6 +40,36 @@ export const userService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
+        getChildren: builder.query<IChild[], void>({
+            query: () => ({
+                url: `${URL}/children`,
+                method: HttpMethods.GET,
+            }),
+            providesTags: ['child'],
+        }),
+        createChild: builder.mutation<void, IChild>({
+            query: (body) => ({
+                url: `${URL}/children`,
+                method: HttpMethods.POST,
+                body: body,
+            }),
+            invalidatesTags: ['child'],
+        }),
+        updateChild: builder.mutation<void, IChildUpdate>({
+            query: (body) => ({
+                url: `${URL}/children/${body.childId}`,
+                method: HttpMethods.PUT,
+                body: body,
+            }),
+            invalidatesTags: ['child'],
+        }),
+        deleteChild: builder.mutation<void, string>({
+            query: (childId) => ({
+                url: `${URL}/children/${childId}`,
+                method: HttpMethods.DELETE,
+            }),
+            invalidatesTags: ['child'],
+        }),
         getChild: builder.query<OptionType[], void>({
             query: () => ({
                 url: `${URL}/children`,
@@ -61,4 +93,8 @@ export const {
     useLazyGetUserQuery,
     useLazyGetChildQuery,
     useGetChildQuery,
+    useLazyGetChildrenQuery,
+    useUpdateChildMutation,
+    useDeleteChildMutation,
+    useCreateChildMutation,
 } = userService;

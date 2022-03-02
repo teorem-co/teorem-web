@@ -10,6 +10,7 @@ import Pricing from './features/landing/pages/Pricing';
 import Login from './features/login/Login';
 import MyBookings from './features/my-bookings/MyBookings';
 import AdditionalInformation from './features/my-profile/pages/AdditionalInformation';
+import ChildInformations from './features/my-profile/pages/ChildInformations';
 import GeneralAvailability from './features/my-profile/pages/GeneralAvailability';
 import MyTeachings from './features/my-profile/pages/MyTeachings';
 import PersonalInformation from './features/my-profile/pages/PersonalInformation';
@@ -59,6 +60,7 @@ export enum PROFILE_PATHS {
     MY_PROFILE_INFO_TEACHINGS = '/my-profile/info/teachings',
     MY_PROFILE_INFO_ADDITIONAL = '/my-profile/info/additional',
     MY_PROFILE_ACCOUNT = '/my-profile/account',
+    MY_PROFILE_CHILD_INFO = '/my-profile/childs',
 }
 
 interface IMenuItem {
@@ -262,6 +264,12 @@ const ROUTES: any = [
                 key: 'MY_PROFILE_ACCOUNT',
                 exact: true,
                 component: () => <ProfileAccount />,
+            },
+            {
+                path: PROFILE_PATHS.MY_PROFILE_CHILD_INFO,
+                key: 'MY_PROFILE_CHILD_INFO',
+                exact: true,
+                component: () => <ChildInformations />,
             },
         ],
     },
