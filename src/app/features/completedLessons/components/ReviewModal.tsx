@@ -83,7 +83,7 @@ const ReviewModal: FC<Props> = (props: Props) => {
                                     <label htmlFor="title" className="field__label">
                                         {t('WRITE_REVIEW.TITLE')}*
                                     </label>
-                                    <TextField name="title" id="title" placeholder="Write title of your review" />
+                                    <TextField name="title" id="title" placeholder="Write title of your review" maxLength={40} />
                                 </div>
                                 <div className="field">
                                     <label htmlFor="rating" className="field__label">

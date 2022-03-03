@@ -4,6 +4,7 @@ import { NavLink, Route, Switch } from 'react-router-dom';
 import Chat from './features/chat/pages/Chat';
 import CompletedLessons from './features/completedLessons/CompletedLessons';
 import Dashboard from './features/dashboard/Dashboard';
+import Earnings from './features/earnings/Earnings';
 import BecomeTutor from './features/landing/pages/BecomeTutor';
 import HowItWorks from './features/landing/pages/HowItWorks';
 import Pricing from './features/landing/pages/Pricing';
@@ -44,6 +45,7 @@ export enum PATHS {
     CHAT = '/chat',
     DASHBOARD = '/dashboard',
     NOTIFICATIONS = '/dashboard/notifications',
+    EARNINGS = '/earnings',
 }
 
 export enum LANDING_PATHS {
@@ -178,6 +180,16 @@ const ROUTES: any = [
         ),
     },
     {
+        path: PATHS.EARNINGS,
+        key: 'EARNINGS',
+        exact: true,
+        component: () => (
+            <PermissionsGate roles={[Role.Tutor, Role.SuperAdmin]}>
+                <Earnings />
+            </PermissionsGate>
+        ),
+    },
+    {
         path: PATHS.SEARCH_TUTORS,
         key: 'SEARCH_TUTORS',
         exact: true,
@@ -304,6 +316,12 @@ export const menuPerRole: IMenuPerRole = {
             icon: 'dashboard',
             key: 'DASHBOARD',
             path: PATHS.DASHBOARD,
+        },
+        {
+            name: 'EARNINGS',
+            icon: 'earnings',
+            key: 'EARNINGS',
+            path: PATHS.EARNINGS,
         },
         {
             name: 'MY_BOOKINGS',

@@ -49,5 +49,33 @@
         td {
             padding: calc(#{$unit} * 4) calc(#{$unit} * 6);
         }
+        &--zebra {
+            tbody tr {
+                &:nth-child(odd) {
+                    background-color: $color-primary-lighter;
+                }
+            }
+        }
+    }
+
+    &--secondary {
+        border: 1px solid $grey-ed;
+
+        td,
+        th {
+            border: 1px solid $grey-ed;
+        }
+        th {
+            padding: calc(#{$unit} * 6);
+            background-color: $color-primary-bright;
+        }
+        td {
+            padding: calc(#{$unit} * 4) calc(#{$unit} * 6);
+        }
+        tr {
+            &:nth-child(even) {
+                background-color: $grey-fb;
+            }
+        }
     }
 }

@@ -79,6 +79,9 @@
     &--download {
         mask-image: url('../../assets/icons/download.svg');
     }
+    &--earnings {
+        mask-image: url('./../../assets/icons/earnings.svg');
+    }
     &--edit {
         mask-image: url('./../../assets/icons/edit.svg');
     }
@@ -93,6 +96,9 @@
     }
     &--language {
         mask-image: url('../../assets/icons/language.svg');
+    }
+    &--level {
+        mask-image: url('../../assets/icons/level.svg');
     }
     &--logout {
         mask-image: url('../../assets/icons/logout.svg');

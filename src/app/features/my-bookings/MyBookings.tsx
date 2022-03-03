@@ -372,6 +372,7 @@ const MyBookings: React.FC = () => {
                     </div>
                 </div>
                 <div>
+                    <p className="upcoming-lessons__title">CALENDAR</p>
                     <div ref={highlightRef} className="card card--mini-calendar mb-4 pos--rel">
                         <Calendar
                             onActiveStartDateChange={(e) => {

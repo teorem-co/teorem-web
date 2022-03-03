@@ -48,7 +48,7 @@
 
     &--mini-calendar {
         background-color: $white;
-        padding: 12px;
+        padding: calc(#{$unit} * 4);
         border: 1px solid $grey-ed;
         border-radius: $border-rounded;
         margin-bottom: 16px;
@@ -242,6 +242,35 @@
                 pointer-events: none;
                 user-select: none;
             }
+        }
+    }
+
+    &--dashboard {
+        overflow: hidden;
+        position: relative;
+        background-color: $white;
+        padding: calc(#{$unit} * 6);
+        border: 1px solid $grey-ed;
+        border-radius: $border-rounded;
+
+        @media (max-width: $responsive-xl) {
+            margin-bottom: calc(#{$unit} * 6);
+        }
+
+        &__title {
+            font-size: 24px;
+            color: $color-primary;
+            font-weight: 600;
+            margin-bottom: calc(#{$unit} * 1);
+        }
+
+        i {
+            width: 140px;
+            height: 140px;
+            position: absolute;
+            bottom: -50px;
+            right: -40px;
+            background-color: $color-primary-lighter;
         }
     }
 }
