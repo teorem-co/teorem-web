@@ -224,7 +224,7 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
                         />
                     </div>
                     <div
-                        className="btn btn--base btn--primary type--center w--100 mb-2 mt-6"
+                        className="btn btn--base btn--primary type--center w--100 mb-2 type--wgt--extra-bold mt-6"
                         // type="submit"
                         onClick={() => formikStepOne.handleSubmit()}
                         // disabled={isLoading}
@@ -232,7 +232,7 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
                         {t('REGISTER.NEXT_BUTTON')}
                     </div>
                     <div className="flex flex--jc--center">
-                        <div onClick={() => handleGoBack()} className="btn btn--clear btn--base type--color--brand type--wgt--bold">
+                        <div onClick={() => handleGoBack()} className="btn btn--clear btn--base type--color--brand type--wgt--extra-bold">
                             <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>
                             {t('REGISTER.BACK_TO_REGISTER')}
                         </div>
@@ -313,7 +313,7 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
                                 })}
                         </div>
                         <div
-                            className="btn btn--base btn--primary type--center w--100 mb-2 mt-6"
+                            className="btn btn--base btn--primary type--center w--100 mb-2 mt-6 type--wgt--extra-bold"
                             onClick={() => formikStepTwo.handleSubmit()}
                             // disabled={isLoading}
                             // onClick={() => handleNextStep()}
@@ -321,7 +321,7 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
                             {t('REGISTER.FINISH')}
                         </div>
                         <div className="flex flex--jc--center">
-                            <div onClick={() => handleGoBack()} className="btn btn--clear btn--base type--color--brand type--wgt--bold">
+                            <div onClick={() => handleGoBack()} className="btn btn--clear btn--base type--color--brand type--wgt--extra-bold">
                                 <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i> {t('REGISTER.BACK_TO_STEP_ONE')}
                             </div>
                         </div>
@@ -492,7 +492,7 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
                         <TooltipPassword passTooltip={passTooltip} />
                     </div>
                     <div
-                        className="btn btn--base btn--primary type--center w--100 mb-2 mt-6"
+                        className="btn btn--base btn--primary type--center w--100 mb-2 mt-6 type--wgt--extra-bold"
                         onClick={() => formikStepThree.handleSubmit()}
                         // disabled={isLoading}
                     >
@@ -500,7 +500,7 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
                     </div>
                     {childUsername ? (
                         <div
-                            className="btn btn--base btn--ghost btn--ghost--error type--center w--100 mb-2 mt-2"
+                            className="btn btn--base btn--ghost btn--ghost--error type--center w--100 type--wgt--extra-bold mb-2 mt-2"
                             onClick={() => handleDeleteChild()}
                             // disabled={isLoading}
                         >
@@ -514,7 +514,7 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
                             onClick={() => {
                                 handleResetForm();
                             }}
-                            className="btn btn--clear btn--base type--color--brand type--wgt--bold"
+                            className="btn btn--clear btn--base type--color--brand type--wgt--extra-bold"
                         >
                             <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i> {t('REGISTER.BACK_TO_LIST')}
                         </div>

@@ -30,10 +30,7 @@ interface IProps {
     step: number;
 }
 
-const StudentOnboarding: React.FC<IProps> = ({
-    handleGoBack,
-    handleNextStep,
-}) => {
+const StudentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep }) => {
     const [registerStudent, { isSuccess }] = useRegisterStudentMutation();
     const [countryOptions, setCountryOptions] = useState<OptionType[]>([]);
     const [phoneTooltip, setPhoneTooltip] = useState<boolean>(false);
@@ -75,24 +72,18 @@ const StudentOnboarding: React.FC<IProps> = ({
         enableReinitialize: true,
         validationSchema: Yup.object().shape({
             countryId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            phoneNumber: Yup.string()
-                .min(6, t('FORM_VALIDATION.TOO_SHORT'))
-                .required(t('FORM_VALIDATION.REQUIRED')),
+            phoneNumber: Yup.string().min(6, t('FORM_VALIDATION.TOO_SHORT')).required(t('FORM_VALIDATION.REQUIRED')),
             dateOfBirth: Yup.string()
                 .required(t('FORM_VALIDATION.REQUIRED'))
-                .test(
-                    'dateOfBirth',
-                    t('FORM_VALIDATION.FUTURE_DATE'),
-                    (value) => {
-                        const test = moment(value).diff(moment(), 'days');
+                .test('dateOfBirth', t('FORM_VALIDATION.FUTURE_DATE'), (value) => {
+                    const test = moment(value).diff(moment(), 'days');
 
-                        if (test < 0) {
-                            return true;
-                        } else {
-                            return false;
-                        }
+                    if (test < 0) {
+                        return true;
+                    } else {
+                        return false;
                     }
-                ),
+                }),
         }),
     });
 
@@ -161,38 +152,24 @@ const StudentOnboarding: React.FC<IProps> = ({
                             meta={formik.getFieldMeta('phoneNumber')}
                             openTooltip={() => setPhoneTooltip(true)}
                         />
-                        <div
-                            className={`tooltip--phone ${
-                                phoneTooltip ? 'active' : ''
-                            }`}
-                        >
-                            <div className="">
-                                Your phone number will not be visible to the
-                                public, we use it in case of support.
-                            </div>
+                        <div className={`tooltip--phone ${phoneTooltip ? 'active' : ''}`}>
+                            <div className="">Your phone number will not be visible to the public, we use it in case of support.</div>
                         </div>
                     </div>
                     <div className="field">
                         <label className="field__label" htmlFor="dateOfBirth">
                             {t('REGISTER.FORM.DATE_OF_BIRTH')}
                         </label>
-                        <MyDatePicker
-                            form={formik}
-                            field={formik.getFieldProps('dateOfBirth')}
-                            meta={formik.getFieldMeta('dateOfBirth')}
-                        />
+                        <MyDatePicker form={formik} field={formik.getFieldProps('dateOfBirth')} meta={formik.getFieldMeta('dateOfBirth')} />
                     </div>
                     <div
-                        className="btn btn--base btn--primary type--center w--100 mb-2 mt-6"
+                        className="btn btn--base btn--primary type--center w--100 mb-2 mt-6 type--wgt--extra-bold"
                         onClick={() => formik.handleSubmit()}
                     >
                         {t('REGISTER.FINISH')}
                     </div>
                     <div className="flex flex--jc--center">
-                        <div
-                            onClick={() => handleGoBack()}
-                            className="btn btn--clear btn--base type--color--brand type--wgt--bold"
-                        >
+                        <div onClick={() => handleGoBack()} className="btn btn--clear btn--base type--color--brand type--wgt--extra-bold">
                             <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>
                             {t('REGISTER.BACK_TO_REGISTER')}
                         </div>

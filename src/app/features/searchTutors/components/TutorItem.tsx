@@ -22,12 +22,10 @@ const TutorItem: FC<Props> = (props: Props) => {
 
     useEffect(() => {
         if (tutor.TutorSubjects.length > 0) {
-            const tutorNames: ISubject[] = tutor.TutorSubjects.map(
-                (item: ITutorSubject) => {
-                    const test = item.Subject;
-                    return test;
-                }
-            );
+            const tutorNames: ISubject[] = tutor.TutorSubjects.map((item: ITutorSubject) => {
+                const test = item.Subject;
+                return test;
+            });
             setUniqueSubjects(tutorNames);
         }
     }, [tutor]);
@@ -40,9 +38,7 @@ const TutorItem: FC<Props> = (props: Props) => {
         showText = text.slice(0, 300) + '...';
         // }
 
-        return (
-            <div className="type--break">{showText}</div>
-        );
+        return <div className="type--break">{showText}</div>;
     };
 
     return (
@@ -53,32 +49,19 @@ const TutorItem: FC<Props> = (props: Props) => {
                         <img src={tutor.User.profileImage} alt="tutor-list" />
                     ) : (
                         <ImageCircle
-                            initials={`${tutor.User.firstName
-                                    ? tutor.User.firstName.charAt(0)
-                                    : ''
-                                }${tutor.User.lastName
-                                    ? tutor.User.lastName.charAt(0)
-                                    : ''
-                                }`}
+                            initials={`${tutor.User.firstName ? tutor.User.firstName.charAt(0) : ''}${
+                                tutor.User.lastName ? tutor.User.lastName.charAt(0) : ''
+                            }`}
                             imageBig={true}
                         />
                     )}
                 </div>
                 <div className="tutor-list__item__info">
                     <div className="type--md mb-1">
-                        {tutor.User.firstName && tutor.User.lastName
-                            ? `${tutor.User.firstName} ${tutor.User.lastName}`
-                            : ''}
+                        {tutor.User.firstName && tutor.User.lastName ? `${tutor.User.firstName} ${tutor.User.lastName}` : ''}
                     </div>
-                    <div className="type--color--brand mb-4">
-                        {tutor.currentOccupation
-                            ? tutor.currentOccupation
-                            : t('SEARCH_TUTORS.NOT_FILLED')}
-                    </div>
-                    <div
-                        className={`type--color--secondary ${tutor.TutorSubjects.length > 0 ? 'mb-6' : ''
-                            } w--632--max`}
-                    >
+                    <div className="type--color--brand mb-4">{tutor.currentOccupation ? tutor.currentOccupation : t('SEARCH_TUTORS.NOT_FILLED')}</div>
+                    <div className={`type--color--secondary ${tutor.TutorSubjects.length > 0 ? 'mb-6' : ''} w--632--max`}>
                         {tutor.aboutTutor
                             ? tutor.aboutTutor
                                 ? tutor.aboutTutor.length > 300
@@ -87,13 +70,7 @@ const TutorItem: FC<Props> = (props: Props) => {
                                 : ''
                             : t('SEARCH_TUTORS.NOT_FILLED')}
                     </div>
-                    {tutor.TutorSubjects.length > 0 ? (
-                        <CustomSubjectList
-                            subjects={uniqBy(uniqueSubjects, 'name')}
-                        />
-                    ) : (
-                        <></>
-                    )}
+                    {tutor.TutorSubjects.length > 0 ? <CustomSubjectList subjects={uniqBy(uniqueSubjects, 'name')} /> : <></>}
                 </div>
                 <div className="tutor-list__item__details">
                     <div className="flex--grow mb-6">
@@ -106,9 +83,7 @@ const TutorItem: FC<Props> = (props: Props) => {
                                     {tutor.maximumPrice}&nbsp;/hr
                                 </span>
                             ) : (
-                                <span className="d--ib ml-4">
-                                    There is no price
-                                </span>
+                                <span className="d--ib ml-4">There is no price</span>
                             )}
                         </div>
 
@@ -116,9 +91,7 @@ const TutorItem: FC<Props> = (props: Props) => {
                             <i className="icon icon--star icon--base icon--grey"></i>
                             <span className="d--ib ml-4">
                                 {/* Add later */}
-                                {tutor.averageGrade
-                                    ? tutor.averageGrade.toFixed(1)
-                                    : 0}
+                                {tutor.averageGrade ? tutor.averageGrade.toFixed(1) : 0}
                             </span>
                         </div>
                         <div className="flex flex--center">
@@ -130,14 +103,11 @@ const TutorItem: FC<Props> = (props: Props) => {
                         </div>
                     </div>
                     <div className="type--center">
-                        <Link
-                            className="btn btn--primary btn--base w--100 mb-3"
-                            to={`${PATHS.SEARCH_TUTORS}/bookings/${tutor.userId}`}
-                        >
+                        <Link className="btn btn--primary btn--base w--100 mb-3" to={`${PATHS.SEARCH_TUTORS}/bookings/${tutor.userId}`}>
                             {t('SEARCH_TUTORS.BOOK_LESSON')}
                         </Link>
                         <Link
-                            className="btn btn--base btn--ghost--bordered w--100 type--wgt--bold"
+                            className="btn btn--base btn--ghost--bordered w--100 type--wgt--extra-bold"
                             to={`${PATHS.SEARCH_TUTORS}/profile/${tutor.userId}`}
                         >
                             {t('SEARCH_TUTORS.VIEW_PROFILE')}

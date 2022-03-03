@@ -78,17 +78,17 @@ const TutorEventModal: React.FC<IProps> = (props) => {
                     </div>
                     <div className="modal--tutor__footer mt-6">
                         {!event.isAccepted ? (
-                            <button className="btn btn--base btn--clear type--wgt--bold" onClick={() => handleAcceptBooking()}>
+                            <button className="btn btn--base btn--clear type--wgt--extra-bold" onClick={() => handleAcceptBooking()}>
                                 Accept
                             </button>
                         ) : (
                             <></>
                         )}
 
-                        <button className="btn btn--base btn--clear type--wgt--bold" onClick={() => handleDeleteBooking()}>
+                        <button className="btn btn--base btn--clear type--wgt--extra-bold" onClick={() => handleDeleteBooking()}>
                             {event.isAccepted ? 'Delete' : 'Deny'}
                         </button>
-                        <button className="btn btn--base btn--clear type--wgt--bold">Propose a new time</button>
+                        <button className="btn btn--base btn--clear type--wgt--extra-bold">Propose a new time</button>
                     </div>
                 </div>
             ) : (

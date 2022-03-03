@@ -145,10 +145,10 @@ const AddSubjectSidebar = (props: Props) => {
                 </div>
                 <div className="flex--shirnk sidebar--secondary__bottom mt-10">
                     <div className="flex--primary mt-6">
-                        <button className="btn btn--primary btn--base type--wgt--bold" onClick={() => formik.handleSubmit()}>
+                        <button className="btn btn--primary btn--base type--wgt--extra-bold" onClick={() => formik.handleSubmit()}>
                             Save information
                         </button>
-                        <button className="btn btn--clear type--color--error type--wgt--bold" onClick={closeSidebar}>
+                        <button className="btn btn--clear type--color--error type--wgt--extra-bold" onClick={closeSidebar}>
                             Cancel
                         </button>
                     </div>

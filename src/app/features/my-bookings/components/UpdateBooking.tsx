@@ -243,11 +243,11 @@ const UpdateBooking: React.FC<IProps> = (props) => {
                 </FormikProvider>
             </div>
             <div className="modal--parent__footer">
-                <button className="btn btn--base btn--primary mb-1" onClick={() => handleSubmitForm()}>
+                <button className="btn btn--base type--wgt--extra-bold btn--primary mb-1" onClick={() => handleSubmitForm()}>
                     Book
                 </button>
                 <button
-                    className="btn btn--base btn--clear"
+                    className="btn btn--base type--wgt--extra-bold btn--clear"
                     onClick={() => {
                         handleClose ? handleClose(false) : false;
                         props.clearEmptyBookings();

@@ -90,6 +90,7 @@ const TutorBookings = () => {
     const defaultScrollTime = new Date(new Date().setHours(7, 45, 0));
     const highlightRef = useRef<HTMLDivElement>(null);
     const allBookings = tutorBookings && tutorBookings.concat(emptyBookings, unavailableBookings ? unavailableBookings : []);
+    const existingBookings = tutorBookings && tutorBookings.concat(unavailableBookings ? unavailableBookings : []);
     const totalBookings = allBookings && allBookings.concat(bookings ? bookings : []);
     const filteredBookings = uniqBy(totalBookings, 'id');
     const tileRef = useRef<HTMLDivElement>(null);
@@ -149,7 +150,7 @@ const TutorBookings = () => {
 
     const slotSelect = (e: SlotInfo) => {
         const existingBooking =
-            allBookings && allBookings.filter((date) => moment(date.start).format('YYYY/MM/DD') === moment(e.start).format('YYYY/MM/DD'));
+            existingBookings && existingBookings.filter((date) => moment(date.start).format('YYYY/MM/DD') === moment(e.start).format('YYYY/MM/DD'));
 
         const flagArr = [];
         if (existingBooking) {
@@ -371,6 +372,7 @@ const TutorBookings = () => {
                             />
                         ) : openEventDetails ? (
                             <ParentEventModal
+                                eventIsAccepted={booking ? booking.isAccepted : false}
                                 bookingStart={booking ? booking.startTime : ''}
                                 openEditModal={(isOpen) => handleUpdateModal(isOpen)}
                                 tutorName={tutorData.firstName && tutorData.lastName ? tutorData.firstName + ' ' + tutorData.lastName : ''}

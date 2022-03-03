@@ -149,7 +149,7 @@ const AdditionalInformation = () => {
                                         {t('SEARCH_TUTORS.TUTOR_PROFILE.ADDITIONAL_INFORMATION_DESC')}
                                     </div>
                                     {saveBtnActive ? (
-                                        <button className="btn btn--primary btn--lg mt-6" type="submit" disabled={isLoading}>
+                                        <button className="btn btn--primary btn--lg mt-6 type--wgt--extra-bold" type="submit" disabled={isLoading}>
                                             {t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.SUBMIT_BTN')}
                                         </button>
                                     ) : (

@@ -23,8 +23,7 @@ const ResetPassword = () => {
         email: '',
     };
 
-    const [resetPassword, { isLoading, isSuccess }] =
-        useResetPasswordMutation();
+    const [resetPassword, { isLoading, isSuccess }] = useResetPasswordMutation();
 
     const formik = useFormik({
         initialValues: initialValues,
@@ -33,9 +32,7 @@ const ResetPassword = () => {
         validateOnChange: false,
         enableReinitialize: true,
         validationSchema: Yup.object().shape({
-            email: Yup.string()
-                .email(t('FORM_VALIDATION.INVALID_EMAIL'))
-                .required(t('FORM_VALIDATION.REQUIRED')),
+            email: Yup.string().email(t('FORM_VALIDATION.INVALID_EMAIL')).required(t('FORM_VALIDATION.REQUIRED')),
         }),
     });
 
@@ -64,52 +61,33 @@ const ResetPassword = () => {
                         <div className="mb-22">
                             <img className="w--128" src={logo} alt="Theorem" />
                         </div>
-                        <div className="type--lg type--wgt--bold mb-4">
-                            {t('RESET_PASSWORD.TITLE')}
-                        </div>
+                        <div className="type--lg type--wgt--bold mb-4">{t('RESET_PASSWORD.TITLE')}</div>
                         <FormikProvider value={formik}>
                             <Form>
                                 <div className="field">
-                                    <label
-                                        htmlFor="email"
-                                        className="field__label"
-                                    >
+                                    <label htmlFor="email" className="field__label">
                                         {t('RESET_PASSWORD.FORM.EMAIL')}
                                     </label>
-                                    <TextField
-                                        name="email"
-                                        id="email"
-                                        placeholder={t(
-                                            'RESET_PASSWORD.FORM.ENTER_MAIL'
-                                        )}
-                                        disabled={isLoading}
-                                    />
+                                    <TextField name="email" id="email" placeholder={t('RESET_PASSWORD.FORM.ENTER_MAIL')} disabled={isLoading} />
                                 </div>
 
                                 <button
-                                    className="btn btn--base btn--primary w--100 mb-2 mt-6"
+                                    className="btn btn--base btn--primary w--100 mb-2 mt-6 type--wgt--extra-bold"
                                     type="submit"
                                     disabled={isLoading}
                                 >
                                     {t('RESET_PASSWORD.FORM.SUBMIT_BTN')}
                                 </button>
                                 <div className="flex flex--jc--center">
-                                    <div
-                                        onClick={() => handleGoBack()}
-                                        className="btn btn--clear btn--base type--color--brand type--wgt--bold"
-                                    >
-                                        <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>{' '}
-                                        {t('RESET_PASSWORD.BACK_BTN')}
+                                    <div onClick={() => handleGoBack()} className="btn btn--clear btn--base type--color--brand type--wgt--extra-bold">
+                                        <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i> {t('RESET_PASSWORD.BACK_BTN')}
                                     </div>
                                 </div>
                             </Form>
                         </FormikProvider>
                     </div>
                     <div className="mt-8">
-                        <div className="type--color--tertiary">
-                            {' '}
-                            {t('WATERMARK')}
-                        </div>
+                        <div className="type--color--tertiary"> {t('WATERMARK')}</div>
                     </div>
                 </div>
             </div>

@@ -46,64 +46,45 @@ const RoleSelection: React.FC = () => {
                         <div className="mb-22">
                             <img className="w--128" src={logo} alt="Teorem" />
                         </div>
-                        <div className="type--lg type--wgt--bold mb-4">
-                            {t('ROLE_SELECTION.TITLE')}
-                        </div>
+                        <div className="type--lg type--wgt--bold mb-4">{t('ROLE_SELECTION.TITLE')}</div>
                         <div className="mb-2">{t('ROLE_SELECTION.ACTION')}</div>
                         <div className="role-selection__form">
-                            {roleSelectionOptions.map(
-                                (roleOption: IRoleSelectionOption) => {
-                                    const { id } = roleOption;
-                                    return (
-                                        <div
-                                            className="role-selection__item"
-                                            key={id}
-                                            onClick={() =>
-                                                handleRoleSelection(id)
-                                            }
-                                        >
-                                            <ImageCircle
-                                                initials={`${roleOption.title.charAt(
-                                                    0
-                                                )}`}
-                                            />
-                                            <div className="flex--grow ml-4">
-                                                <div className="mb-1">
-                                                    {t(
-                                                        id === 0
-                                                            ? 'ROLE_SELECTION.STUDENT_TITLE'
-                                                            : id === 1
-                                                            ? 'ROLE_SELECTION.PARENT_TITLE'
-                                                            : 'ROLE_SELECTION.TUTOR_TITLE'
-                                                    )}
-                                                </div>
-                                                <div className="type--color--secondary">
-                                                    {t(
-                                                        id === 0
-                                                            ? 'ROLE_SELECTION.STUDENT_DESCRIPTION'
-                                                            : id === 1
-                                                            ? 'ROLE_SELECTION.PARENT_DESCRIPTION'
-                                                            : 'ROLE_SELECTION.TUTOR_DESCRIPTION'
-                                                    )}
-                                                </div>
+                            {roleSelectionOptions.map((roleOption: IRoleSelectionOption) => {
+                                const { id } = roleOption;
+                                return (
+                                    <div className="role-selection__item" key={id} onClick={() => handleRoleSelection(id)}>
+                                        <ImageCircle initials={`${roleOption.title.charAt(0)}`} />
+                                        <div className="flex--grow ml-4">
+                                            <div className="mb-1">
+                                                {t(
+                                                    id === 0
+                                                        ? 'ROLE_SELECTION.STUDENT_TITLE'
+                                                        : id === 1
+                                                        ? 'ROLE_SELECTION.PARENT_TITLE'
+                                                        : 'ROLE_SELECTION.TUTOR_TITLE'
+                                                )}
                                             </div>
-                                            <i className="icon icon--base icon--chevron-right icon--primary"></i>
+                                            <div className="type--color--secondary">
+                                                {t(
+                                                    id === 0
+                                                        ? 'ROLE_SELECTION.STUDENT_DESCRIPTION'
+                                                        : id === 1
+                                                        ? 'ROLE_SELECTION.PARENT_DESCRIPTION'
+                                                        : 'ROLE_SELECTION.TUTOR_DESCRIPTION'
+                                                )}
+                                            </div>
                                         </div>
-                                    );
-                                }
-                            )}
+                                        <i className="icon icon--base icon--chevron-right icon--primary"></i>
+                                    </div>
+                                );
+                            })}
                         </div>
                     </div>
                     <div className="flex--primary w--448--max">
-                        <div className="type--color--tertiary">
-                            {t('WATERMARK')}
-                        </div>
+                        <div className="type--color--tertiary">{t('WATERMARK')}</div>
                         <div>
                             {t('ROLE_SELECTION.ACCOUNT')}&nbsp;
-                            <Link
-                                to={PATHS.LOGIN}
-                                onClick={() => handleResetForm()}
-                            >
+                            <Link className="type--wgt--extra-bold" to={PATHS.LOGIN} onClick={() => handleResetForm()}>
                                 {t('ROLE_SELECTION.LOG_IN')}
                             </Link>
                         </div>

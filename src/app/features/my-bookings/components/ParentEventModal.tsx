@@ -14,10 +14,11 @@ interface IProps {
     tutorName: string;
     openEditModal: (isOpen: boolean) => void;
     bookingStart: string;
+    eventIsAccepted: boolean;
 }
 
 const ParentEventModal: React.FC<IProps> = (props) => {
-    const { handleClose, positionClass, event, tutorName, openEditModal, bookingStart } = props;
+    const { handleClose, positionClass, event, tutorName, openEditModal, bookingStart, eventIsAccepted } = props;
     const [deleteBooking, { isSuccess: isSuccessDeleteBooking }] = useDeleteBookingMutation();
     const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
     const handleDeleteBooking = () => {
@@ -42,7 +43,7 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                             <div>
                                 <div className="type--wgt--bold type--md mb-1">{event.Subject.name}</div>
                                 <div className="type--color--secondary">
-                                    {moment(event.startTime).format('DD/MMM/YYYY, HH:mm')} - {moment(event.endTime).format('HH:mm')}
+                                    {moment(event.startTime).format('DD/MMM/YYYY, HH:mm')} - {moment(event.endTime).add(1, 'minutes').format('HH:mm')}
                                 </div>
                             </div>
                             <div className="mb-6">
@@ -89,7 +90,7 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                         )}
                     </div>
                     <div className="modal--parent__footer mt-6">
-                        <button className="btn btn--base btn--primary">Join</button>
+                        {eventIsAccepted === false ? <></> : <button className="btn btn--base type--wgt--extra-bold btn--primary">Join</button>}
                     </div>
                 </div>
             ) : (

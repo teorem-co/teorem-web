@@ -246,15 +246,15 @@ const AddChildSidebar = (props: Props) => {
                 </div>
                 <div className="flex--shirnk sidebar--secondary__bottom mt-10">
                     <div className="flex--primary mt-6">
-                        <button className="btn btn--clear type--wgt--bold" onClick={() => formik.handleSubmit()}>
+                        <button className="btn btn--clear type--wgt--extra-bold" onClick={() => formik.handleSubmit()}>
                             {(childData && 'Edit Child') || 'Add New Child'}
                         </button>
                         {(childData && (
-                            <button onClick={() => handleDelete()} className="btn btn--clear type--color--error type--wgt--bold">
+                            <button onClick={() => handleDelete()} className="btn btn--clear type--color--error type--wgt--extra-bold">
                                 Delete
                             </button>
                         )) || (
-                            <button onClick={() => handleClose()} className="btn btn--clear type--color--error type--wgt--bold">
+                            <button onClick={() => handleClose()} className="btn btn--clear type--color--error type--wgt--extra-bold">
                                 Cancel
                             </button>
                         )}

@@ -117,12 +117,16 @@ const Login: React.FC = () => {
                                     />
                                 </div>
                                 {loginErrorMessage ? <div className="type--color--error">{t(loginErrorMessage)}</div> : <></>}
-                                <button className="btn btn--base btn--primary w--100 mb-2 mt-6" type="submit" disabled={isLoadingLogin}>
+                                <button
+                                    className="btn btn--base btn--primary w--100 mb-2 mt-6 type--wgt--extra-bold"
+                                    type="submit"
+                                    disabled={isLoadingLogin}
+                                >
                                     {t('LOGIN.FORM.SUBMIT_BTN')}
                                 </button>
                                 <button
                                     onClick={handleGoBack}
-                                    className="btn btn--clear btn--base type--color--brand type--wgt--bold align--center d--b"
+                                    className="btn btn--clear btn--base type--color--brand type--wgt--extra-bold align--center d--b"
                                     disabled={isLoadingLogin}
                                 >
                                     {t('LOGIN.FORGOT_PASSWORD')}
@@ -133,7 +137,10 @@ const Login: React.FC = () => {
                     <div className="flex--primary mt-8 w--448--max">
                         <div className="type--color--tertiary">{t('WATERMARK')}</div>
                         <div>
-                            {t('LOGIN.ACCOUNT')} <Link to={!isLoadingLogin ? PATHS.ROLE_SELECTION : '#'}>{t('LOGIN.REGISTER')}</Link>
+                            {t('LOGIN.ACCOUNT')}{' '}
+                            <Link className="type--wgt--extra-bold" to={!isLoadingLogin ? PATHS.ROLE_SELECTION : '#'}>
+                                {t('LOGIN.REGISTER')}
+                            </Link>
                         </div>
                     </div>
                 </div>

@@ -7,11 +7,7 @@ import * as Yup from 'yup';
 import { useRegisterTutorMutation } from '../../../../services/authService';
 import { resetParentRegister } from '../../../../slices/parentRegisterSlice';
 import { resetStudentRegister } from '../../../../slices/studentRegisterSlice';
-import {
-    resetTutorRegister,
-    setStepOne,
-    setStepTwo,
-} from '../../../../slices/tutorRegisterSlice';
+import { resetTutorRegister, setStepOne, setStepTwo } from '../../../../slices/tutorRegisterSlice';
 import CreditCardfield from '../../../components/CreditCardField';
 import ExpDateField from '../../../components/form/ExpDateField';
 import MyDatePicker from '../../../components/form/MyDatePicker';
@@ -49,31 +45,16 @@ interface IProps {
     step: number;
 }
 
-const TutorOnboarding: React.FC<IProps> = ({
-    handleGoBack,
-    handleNextStep,
-    step,
-}) => {
+const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step }) => {
     const dispatch = useAppDispatch();
     const state = useAppSelector((state) => state.tutorRegister);
-    const {
-        firstName,
-        lastName,
-        email,
-        password,
-        passwordRepeat,
-        countryId,
-        phoneNumber,
-        dateOfBirth,
-    } = state;
+    const { firstName, lastName, email, password, passwordRepeat, countryId, phoneNumber, dateOfBirth } = state;
     const roleAbrv = useAppSelector((state) => state.role.selectedRole);
     const [getCountries, { data: countries }] = useLazyGetCountriesQuery();
     const [registerTutor, { isSuccess }] = useRegisterTutorMutation();
     const [countryOptions, setCountryOptions] = useState<OptionType[]>([]);
     const [phoneTooltip, setPhoneTooltip] = useState<boolean>(false);
-    const profileImage = useAppSelector(
-        (state) => state.tutorRegister.profileImage
-    );
+    const profileImage = useAppSelector((state) => state.tutorRegister.profileImage);
     const { t } = useTranslation();
 
     // step one
@@ -111,54 +92,34 @@ const TutorOnboarding: React.FC<IProps> = ({
                 ),
             dateOfBirth: Yup.string()
                 .required(t('FORM_VALIDATION.REQUIRED'))
-                .test(
-                    'dateOfBirth',
-                    t('FORM_VALIDATION.FUTURE_DATE'),
-                    (value) => {
-                        const dateDiff = moment(value).diff(moment(), 'days');
+                .test('dateOfBirth', t('FORM_VALIDATION.FUTURE_DATE'), (value) => {
+                    const dateDiff = moment(value).diff(moment(), 'days');
 
-                        if (dateDiff < 0) {
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    }
-                )
-                .test(
-                    'dateOfBirth',
-                    t('FORM_VALIDATION.TUTOR_AGE'),
-                    (value) => {
-                        const dateDiff = moment(value).diff(
-                            moment().subtract(18, 'years'),
-                            'days'
-                        );
-
-                        if (dateDiff < 0) {
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    }
-                ),
-            profileImage: Yup.mixed()
-                .required('Image Required')
-                .test(
-                    'profileImage',
-                    'Image has to be either jpg,png,jpeg or svg and less than 2MB in size.',
-                    (value) => {
-                        if (value.size > 2000000) return false;
-                        if (
-                            value.type === 'image/jpg' ||
-                            value.type === 'image/jpeg' ||
-                            value.type === 'image/png' ||
-                            value.type === 'image/svg'
-                        ) {
-                            return true;
-                        }
-
+                    if (dateDiff < 0) {
+                        return true;
+                    } else {
                         return false;
                     }
-                ),
+                })
+                .test('dateOfBirth', t('FORM_VALIDATION.TUTOR_AGE'), (value) => {
+                    const dateDiff = moment(value).diff(moment().subtract(18, 'years'), 'days');
+
+                    if (dateDiff < 0) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }),
+            profileImage: Yup.mixed()
+                .required('Image Required')
+                .test('profileImage', 'Image has to be either jpg,png,jpeg or svg and less than 2MB in size.', (value) => {
+                    if (value.size > 2000000) return false;
+                    if (value.type === 'image/jpg' || value.type === 'image/jpeg' || value.type === 'image/png' || value.type === 'image/svg') {
+                        return true;
+                    }
+
+                    return false;
+                }),
         }),
     });
 
@@ -215,15 +176,8 @@ const TutorOnboarding: React.FC<IProps> = ({
                             meta={formikStepOne.getFieldMeta('phoneNumber')}
                             openTooltip={() => setPhoneTooltip(true)}
                         />
-                        <div
-                            className={`tooltip--phone ${
-                                phoneTooltip ? 'active' : ''
-                            }`}
-                        >
-                            <div className="">
-                                Your phone number will not be visible to the
-                                public, we use it in case of support.
-                            </div>
+                        <div className={`tooltip--phone ${phoneTooltip ? 'active' : ''}`}>
+                            <div className="">Your phone number will not be visible to the public, we use it in case of support.</div>
                         </div>
                     </div>
                     <div className="field">
@@ -240,26 +194,18 @@ const TutorOnboarding: React.FC<IProps> = ({
                         <label className="field__label" htmlFor="profileImage">
                             {t('REGISTER.FORM.PROFILE_IMAGE')}
                         </label>
-                        <UploadFile
-                            setFieldValue={formikStepOne.setFieldValue}
-                            id="profileImage"
-                            name="profileImage"
-                        />
+                        <UploadFile setFieldValue={formikStepOne.setFieldValue} id="profileImage" name="profileImage" />
                     </div>
 
                     <div
-                        className="btn btn--base btn--primary type--center w--100 mb-2 mt-6"
+                        className="btn btn--base btn--primary type--center w--100 mb-2 mt-6 type--wgt--extra-bold"
                         onClick={() => formikStepOne.handleSubmit()}
                     >
                         {t('REGISTER.NEXT_BUTTON')}
                     </div>
                     <div className="flex flex--jc--center">
-                        <div
-                            onClick={() => handleGoBack()}
-                            className="btn btn--clear btn--base type--color--brand type--wgt--bold"
-                        >
-                            <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>{' '}
-                            {t('REGISTER.BACK_TO_REGISTER')}
+                        <div onClick={() => handleGoBack()} className="btn btn--clear btn--base type--color--brand type--wgt--extra-bold">
+                            <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i> {t('REGISTER.BACK_TO_REGISTER')}
                         </div>
                     </div>
                 </Form>
@@ -298,9 +244,7 @@ const TutorOnboarding: React.FC<IProps> = ({
                 .max(19, t('FORM_VALIDATION.TOO_LONG'))
                 .required(t('FORM_VALIDATION.REQUIRED')),
             expiryDate: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            cvv: Yup.string()
-                .max(3, t('FORM_VALIDATION.TOO_LONG'))
-                .required(t('FORM_VALIDATION.REQUIRED')),
+            cvv: Yup.string().max(3, t('FORM_VALIDATION.TOO_LONG')).required(t('FORM_VALIDATION.REQUIRED')),
             zipCode: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
         }),
     });
@@ -372,10 +316,7 @@ const TutorOnboarding: React.FC<IProps> = ({
                     <div className="field field__file">
                         <div className="flex">
                             <div className="field w--100 mr-6">
-                                <label
-                                    htmlFor="expiryDate"
-                                    className="field__label"
-                                >
+                                <label htmlFor="expiryDate" className="field__label">
                                     {t('REGISTER.CARD_DETAILS.EXPIRY_DATE')}
                                 </label>
                                 <ExpDateField
@@ -416,18 +357,14 @@ const TutorOnboarding: React.FC<IProps> = ({
                         />
                     </div>
                     <div
-                        className="btn btn--base btn--primary type--center w--100 mb-2 mt-6"
+                        className="btn btn--base btn--primary type--wgt--extra-bold type--center w--100 mb-2 mt-6"
                         onClick={() => formikStepTwo.handleSubmit()}
                     >
                         {t('REGISTER.FINISH')}
                     </div>
                     <div className="flex flex--jc--center">
-                        <div
-                            onClick={() => handleGoBack()}
-                            className="btn btn--clear btn--base type--color--brand type--wgt--bold"
-                        >
-                            <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>{' '}
-                            {t('REGISTER.BACK_TO_STEP_TWO')}
+                        <div onClick={() => handleGoBack()} className="btn btn--clear btn--base type--color--brand type--wgt--extra-bold">
+                            <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i> {t('REGISTER.BACK_TO_STEP_TWO')}
                         </div>
                     </div>
                 </Form>
