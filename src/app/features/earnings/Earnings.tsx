@@ -36,7 +36,7 @@ const Earnings = () => {
             },
         },
     };
-    const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+
     const data = {
         datasets: [
             {
