@@ -68,7 +68,6 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     };
 
     const handleSubmit = (values: any) => {
-        debugger;
         const splitString = values.timeFrom.split(':');
         props.setSidebarOpen(false);
         if (userRole === RoleOptions.Parent) {

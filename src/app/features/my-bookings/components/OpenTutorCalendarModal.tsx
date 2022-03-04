@@ -20,8 +20,6 @@ interface IProps {
 const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
     const { handleClose, positionClass, event, goToTutorCalendar } = props;
 
-    console.log(event);
-
     return (
         <>
             {event ? (
