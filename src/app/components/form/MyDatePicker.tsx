@@ -33,9 +33,7 @@ const MyDatePicker = ({ field, form }: CustomSelectProps) => {
                 onCalendarClose={() => form.setFieldTouched(field.name)}
             />
 
-            <div className="field__validation">
-                {errorText ? errorText : ''}
-            </div>
+            <div className="field__validation">{errorText ? errorText : ''}</div>
         </>
     );
 };

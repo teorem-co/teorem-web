@@ -1,4 +1,5 @@
 import { Form, FormikProvider, useFormik } from 'formik';
+import moment from 'moment';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
@@ -64,7 +65,7 @@ const AddChildSidebar = (props: Props) => {
             //edit
             const toSend: IChildUpdate = {
                 childId: childData.id!,
-                dateOfBirth: values.dateOfBirth,
+                dateOfBirth: moment(values.dateOfBirth).set('hours', 12).toISOString(),
                 firstName: values.firstName,
                 lastName: values.lastName!,
                 username: values.username,
@@ -74,11 +75,11 @@ const AddChildSidebar = (props: Props) => {
             }
 
             await updateChild(toSend).unwrap();
-            toastService.success('You successfully updated the child');
+            toastService.success('You successfully updated the child information');
         } else {
             //add
             const toSend: IChild = {
-                dateOfBirth: values.dateOfBirth,
+                dateOfBirth: moment(values.dateOfBirth).set('hours', 12).toISOString(),
                 firstName: values.firstName,
                 password: values.password,
                 username: values.username,
