@@ -23,6 +23,7 @@ const MyTimePicker = ({ field, form, placeholder, className, withoutErr, default
     const [formikField, meta] = useField(form.getFieldProps(field.name));
 
     const onChange = (option: any) => {
+        option.preventDefault();
         form.setFieldValue(field.name, moment(option._d).format('HH:mm'));
     };
 

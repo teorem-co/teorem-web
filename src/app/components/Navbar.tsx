@@ -52,7 +52,7 @@ const Navbar = () => {
                         </div>
                     </div>
                 )) || (
-                    <NavLink to="/my-profile/info/personal" className="flex flex--grow flex--center cur--pointer navbar__bottom--border">
+                    <NavLink to="/my-profile/info/personal" className="navbar__bottom__my-profile" activeClassName="active">
                         <div className="navbar__bottom__avatar pos--rel">
                             {userRole === RoleOptions.Tutor ? (
                                 <img src={user?.profileImage ? user?.profileImage : gradientCircle} alt="avatar" />

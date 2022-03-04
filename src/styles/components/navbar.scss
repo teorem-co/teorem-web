@@ -119,6 +119,37 @@
             margin-left: calc(#{$unit} * 3);
         }
 
+        &__my-profile {
+            display: flex;
+            flex-grow: 1;
+            align-items: center;
+            cursor: pointer;
+
+            &:hover {
+                .navbar__bottom--settings {
+                    position: absolute;
+                    left: 50%;
+                    top: 50%;
+                    transform: translate(-50%, -50%);
+                    background: linear-gradient(226.69deg, rgba(127, 95, 211, 0.5) 4.52%, #5c3ee8 94.64%);
+                    width: 90%;
+                    height: 90%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: $border-circle;
+                }
+            }
+            &.active {
+                .navbar__bottom__user-info > div {
+                    color: $color-primary;
+                }
+                .navbar__bottom__avatar {
+                    background-color: $color-primary-light;
+                }
+            }
+        }
+
         &__avatar {
             width: 56px;
             height: 56px;
@@ -145,24 +176,6 @@
             justify-content: center;
             flex-grow: 1;
             margin-left: calc($unit * 2);
-        }
-
-        &--border {
-            &:hover {
-                .navbar__bottom--settings {
-                    position: absolute;
-                    left: 50%;
-                    top: 50%;
-                    transform: translate(-50%, -50%);
-                    background: linear-gradient(226.69deg, rgba(127, 95, 211, 0.5) 4.52%, #5c3ee8 94.64%);
-                    width: 90%;
-                    height: 90%;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    border-radius: $border-circle;
-                }
-            }
         }
     }
 }
