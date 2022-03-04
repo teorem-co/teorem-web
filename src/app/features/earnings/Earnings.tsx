@@ -1,114 +1,33 @@
 import { CategoryScale, Chart as ChartJS, Filler, Legend, LinearScale, LineElement, PointElement, Title, Tooltip } from 'chart.js';
+import moment from 'moment';
+import { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
-import Select, { components } from 'react-select';
+import Select from 'react-select';
 
-import MySelect from '../../components/form/MySelectField';
+import { OptionType } from '../../components/form/MySelectField';
 import MainWrapper from '../../components/MainWrapper';
+import { calcYears } from '../../utils/yearOptions';
+import earningsGraphOptions from './constants/earningsGraphOptions';
+import tableData from './constants/tableData';
+import IGraph from './interfaces/IGraph';
+import { useLazyGetEarningsQuery } from './services/earningsService';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
 const Earnings = () => {
-    const xAxisLabels = [
-        'Jan',
-        'Jan_2',
-        'Feb',
-        'Feb_2',
-        'Mar',
-        'Mar_2',
-        'Apr',
-        'Apr_2',
-        'May',
-        'May_2',
-        'Jun',
-        'Jun_2',
-        'Jul',
-        'Jul_2',
-        'Aug',
-        'Aug_2',
-        'Sep',
-        'Sep_2',
-        'Oct',
-        'Oct_2',
-        'Nov',
-        'Nov_2',
-        'Dec',
-        'Dec_2',
-    ];
-    const options = {
-        maintainAspectRatio: false,
-        responsive: true,
-        plugins: {
-            legend: {
-                position: 'top' as const,
-                align: 'end' as const,
-                labels: {
-                    boxWidth: 10,
-                    boxHeight: 10,
-                    usePointStyle: true,
-                    pointStyle: 'circle',
-                },
-            },
-            title: {
-                display: false,
-            },
-        },
-        elements: {
-            line: {
-                tension: 0.3,
-            },
-        },
-        scales: {
-            x: {
-                grid: {
-                    color: 'rgb(240,240,240)',
-                    borderColor: 'rgb(240,240,240)',
-                    drawTicks: true,
-                    tickColor: 'transparent',
-                    tickLength: 16,
-                },
-                ticks: {
-                    callback: (item: string | number, index: number) => {
-                        if (!(index % 2)) {
-                            return xAxisLabels[index];
-                        }
-                    },
-                    autoSkip: false,
-                },
-            },
-            y: {
-                grid: {
-                    color: 'rgb(240,240,240)',
-                    borderColor: 'rgb(240,240,240)',
-                    drawTicks: true,
-                    tickColor: 'transparent',
-                    tickLength: 16,
-                },
-                ticks: {
-                    maxTicksLimit: 5,
-                },
-            },
-        },
-    };
+    const [getEarnings] = useLazyGetEarningsQuery();
+    //calculate years to select
+    const yearOptions = calcYears();
+
+    const [earningsGraphData, setEarningsGraphData] = useState<IGraph[]>([]);
+    const [selectedYear, setSelectedYear] = useState<OptionType>(yearOptions[yearOptions.length - 1]);
 
     const data = {
         datasets: [
             {
                 parse: false,
                 label: 'Income',
-                data: [
-                    { x: 'Jan', y: 20 },
-                    { x: 'Jan_2', y: 25 },
-                    { x: 'Feb', y: 30 },
-                    { x: 'Feb_2', y: 50 },
-                    { x: 'Mar', y: 60 },
-                    { x: 'Mar_2', y: 10 },
-                    { x: 'Apr', y: 80 },
-                    { x: 'Apr_2', y: 40 },
-                    { x: 'May', y: 30 },
-                    { x: 'May_2', y: 25 },
-                    { x: 'Jun', y: 35 },
-                    { x: 'Jun_2', y: 40 },
-                ],
+                data: earningsGraphData,
                 fill: true,
                 backgroundColor: 'rgba(162, 108, 242, 0.04)',
                 borderColor: 'rgb(162, 108, 242)',
@@ -119,14 +38,20 @@ const Earnings = () => {
         ],
     };
 
-    const selectOptions = [
-        { label: '2021', value: '2021' },
-        { label: '2022', value: '2022' },
-    ];
-
-    const onChange = () => {
-        console.log('povuci nove podatke');
+    const onChange = (e: OptionType | null) => {
+        if (e) setSelectedYear(e);
     };
+
+    const fetchData = async (date: string) => {
+        const response = await getEarnings(date).unwrap();
+        setEarningsGraphData(response.graph);
+    };
+
+    useEffect(() => {
+        const selectedDate = '06.01.' + selectedYear.value + '.';
+        const selectedDateIso = moment(selectedDate).toISOString();
+        fetchData(selectedDateIso);
+    }, [selectedYear]);
 
     return (
         <MainWrapper>
@@ -134,12 +59,7 @@ const Earnings = () => {
                 <div className="card--secondary__head">
                     <h2 className="type--wgt--bold type--lg">Earnings</h2>
                     <div>
-                        <Select
-                            classNamePrefix="react-select"
-                            defaultValue={selectOptions[selectOptions.length - 1]}
-                            onChange={onChange}
-                            options={selectOptions}
-                        />
+                        <Select classNamePrefix="react-select" defaultValue={selectedYear} onChange={(e) => onChange(e)} options={yearOptions} />
                     </div>
                 </div>
                 <div className="card--secondary__body">
@@ -176,7 +96,7 @@ const Earnings = () => {
                     </div>
                     <div className="upcoming-lessons__title mt-10">REVENUE</div>
                     <div>
-                        <Line height={200} options={options} data={data} />
+                        <Line height={200} options={earningsGraphOptions} data={data} />
                     </div>
                     <div className="upcoming-lessons__title mt-10">DETAILS</div>
                     <table className="table table--secondary">
@@ -190,20 +110,17 @@ const Earnings = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>January</td>
-                                <td>18</td>
-                                <td>10</td>
-                                <td>8</td>
-                                <td>$1.123,00</td>
-                            </tr>
-                            <tr>
-                                <td>January</td>
-                                <td>18</td>
-                                <td>10</td>
-                                <td>8</td>
-                                <td>$1.123,00</td>
-                            </tr>
+                            {tableData.map((tableItem) => {
+                                return (
+                                    <tr>
+                                        <td>{tableItem.month}</td>
+                                        <td>{tableItem.bookings}</td>
+                                        <td>{tableItem.students}</td>
+                                        <td>{tableItem.reviews}</td>
+                                        <td>${tableItem.revenue}</td>
+                                    </tr>
+                                );
+                            })}
                         </tbody>
                     </table>
                 </div>

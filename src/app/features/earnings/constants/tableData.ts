@@ -1,0 +1,88 @@
+const tableData = [
+    {
+        month: 'January',
+        bookings: '18',
+        students: '10',
+        reviews: '9',
+        revenue: '1.123,00',
+    },
+    {
+        month: 'February',
+        bookings: '18',
+        students: '10',
+        reviews: '9',
+        revenue: '1.123,00',
+    },
+    {
+        month: 'March',
+        bookings: '18',
+        students: '10',
+        reviews: '9',
+        revenue: '1.123,00',
+    },
+    {
+        month: 'April',
+        bookings: '18',
+        students: '10',
+        reviews: '9',
+        revenue: '1.123,00',
+    },
+    {
+        month: 'May',
+        bookings: '18',
+        students: '10',
+        reviews: '9',
+        revenue: '1.123,00',
+    },
+    {
+        month: 'June',
+        bookings: '18',
+        students: '10',
+        reviews: '9',
+        revenue: '1.123,00',
+    },
+    {
+        month: 'July',
+        bookings: '18',
+        students: '10',
+        reviews: '9',
+        revenue: '1.123,00',
+    },
+    {
+        month: 'August',
+        bookings: '18',
+        students: '10',
+        reviews: '9',
+        revenue: '1.123,00',
+    },
+    {
+        month: 'September',
+        bookings: '18',
+        students: '10',
+        reviews: '9',
+        revenue: '1.123,00',
+    },
+    {
+        month: 'October',
+        bookings: '18',
+        students: '10',
+        reviews: '9',
+        revenue: '1.123,00',
+    },
+    {
+        month: 'November',
+        bookings: '18',
+        students: '10',
+        reviews: '9',
+        revenue: '1.123,00',
+    },
+    {
+        month: 'December',
+        bookings: '18',
+        students: '10',
+        reviews: '9',
+        revenue: '1.123,00',
+    },
+];
+
+export default tableData;

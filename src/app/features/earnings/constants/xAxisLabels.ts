@@ -1,0 +1,28 @@
+const xAxisLabels = [
+    'Jan',
+    'Jan_2',
+    'Feb',
+    'Feb_2',
+    'Mar',
+    'Mar_2',
+    'Apr',
+    'Apr_2',
+    'May',
+    'May_2',
+    'Jun',
+    'Jun_2',
+    'Jul',
+    'Jul_2',
+    'Aug',
+    'Aug_2',
+    'Sep',
+    'Sep_2',
+    'Oct',
+    'Oct_2',
+    'Nov',
+    'Nov_2',
+    'Dec',
+    'Dec_2',
+];
+
+export default xAxisLabels;
