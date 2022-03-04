@@ -52,7 +52,7 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
     const [countryOptions, setCountryOptions] = useState<OptionType[]>([]);
     const [passTooltip, setPassTooltip] = useState<boolean>(false);
     const [phoneTooltip, setPhoneTooltip] = useState<boolean>(false);
-    const [registerParent, { isSuccess }] = useRegisterParentMutation();
+    const [registerParent, { isSuccess, isLoading }] = useRegisterParentMutation();
     const [checkUsername] = useCheckUsernameMutation();
     const parentCreds = useAppSelector((state) => state.parentRegister);
     const { firstName, lastName, password, passwordRepeat, email, dateOfBirth, phoneNumber, countryId, child, skip } = parentCreds;
@@ -313,7 +313,7 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
                                 })}
                         </div>
                         <div
-                            className="btn btn--base btn--primary type--center w--100 mb-2 mt-6 type--wgt--extra-bold"
+                            className={`btn btn--base btn--${isLoading ? 'disabled' : 'primary'} type--center w--100 mb-2 mt-6 type--wgt--extra-bold`}
                             onClick={() => formikStepTwo.handleSubmit()}
                             // disabled={isLoading}
                             // onClick={() => handleNextStep()}

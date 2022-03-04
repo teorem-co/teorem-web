@@ -31,7 +31,7 @@ interface IProps {
 }
 
 const StudentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep }) => {
-    const [registerStudent, { isSuccess }] = useRegisterStudentMutation();
+    const [registerStudent, { isSuccess, isLoading }] = useRegisterStudentMutation();
     const [countryOptions, setCountryOptions] = useState<OptionType[]>([]);
     const [phoneTooltip, setPhoneTooltip] = useState<boolean>(false);
     const state = useAppSelector((state) => state.studentRegister);
@@ -163,7 +163,7 @@ const StudentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep }) =
                         <MyDatePicker form={formik} field={formik.getFieldProps('dateOfBirth')} meta={formik.getFieldMeta('dateOfBirth')} />
                     </div>
                     <div
-                        className="btn btn--base btn--primary type--center w--100 mb-2 mt-6 type--wgt--extra-bold"
+                        className={`btn btn--base btn--${isLoading ? 'disabled' : 'primary'} type--center w--100 mb-2 mt-6 type--wgt--extra-bold`}
                         onClick={() => formik.handleSubmit()}
                     >
                         {t('REGISTER.FINISH')}

@@ -51,7 +51,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
     const { firstName, lastName, email, password, passwordRepeat, countryId, phoneNumber, dateOfBirth } = state;
     const roleAbrv = useAppSelector((state) => state.role.selectedRole);
     const [getCountries, { data: countries }] = useLazyGetCountriesQuery();
-    const [registerTutor, { isSuccess }] = useRegisterTutorMutation();
+    const [registerTutor, { isSuccess, isLoading }] = useRegisterTutorMutation();
     const [countryOptions, setCountryOptions] = useState<OptionType[]>([]);
     const [phoneTooltip, setPhoneTooltip] = useState<boolean>(false);
     const profileImage = useAppSelector((state) => state.tutorRegister.profileImage);
@@ -357,7 +357,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
                         />
                     </div>
                     <div
-                        className="btn btn--base btn--primary type--wgt--extra-bold type--center w--100 mb-2 mt-6"
+                        className={`btn btn--base btn--${isLoading ? 'disabled' : 'primary'} type--wgt--extra-bold type--center w--100 mb-2 mt-6`}
                         onClick={() => formikStepTwo.handleSubmit()}
                     >
                         {t('REGISTER.FINISH')}

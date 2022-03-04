@@ -25,11 +25,7 @@
     //button styles
     &--primary {
         background-color: $color-primary;
-        background: linear-gradient(
-            226.69deg,
-            rgba(127, 95, 211, 0.9) 4.52%,
-            #5c3ee8 94.64%
-        );
+        background: linear-gradient(226.69deg, rgba(127, 95, 211, 0.9) 4.52%, #5c3ee8 94.64%);
         color: $white;
         &:hover {
             background-color: darken($color-primary, 10%);
@@ -88,6 +84,14 @@
             border: 1px solid $color-primary;
             border-radius: $border-rounded;
         }
+    }
+
+    &--disabled {
+        background-color: $color-primary;
+        background: linear-gradient(226.69deg, rgba(127, 95, 211, 0.9) 4.52%, #5c3ee8 94.64%);
+        color: $white;
+        pointer-events: none;
+        opacity: 0.7;
     }
 
     &--clear {
