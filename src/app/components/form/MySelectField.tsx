@@ -58,40 +58,19 @@ const MySelect = ({
     const onChange = (option: any) => {
         form.setFieldValue(
             field.name,
-            isMulti
-                ? option
-                    ? option.map(
-                          (item: OptionType | PhoneOptionType) => item.value
-                      )
-                    : ''
-                : (option as OptionType | PhoneOptionType).value
+            isMulti ? (option ? option.map((item: OptionType | PhoneOptionType) => item.value) : '') : (option as OptionType | PhoneOptionType).value
         );
 
         isMulti
-            ? onChangeCustom &&
-              onChangeCustom(
-                  option &&
-                      option.map(
-                          (item: OptionType | PhoneOptionType) => item.value
-                      )
-              )
-            : onChangeCustom &&
-              onChangeCustom((option as OptionType | PhoneOptionType).value);
+            ? onChangeCustom && onChangeCustom(option && option.map((item: OptionType | PhoneOptionType) => item.value))
+            : onChangeCustom && onChangeCustom((option as OptionType | PhoneOptionType).value);
     };
 
     const getValue = () => {
         if (options && field.value) {
             return isMulti
-                ? options.filter(
-                      (option: any) => field.value.indexOf(option.value) >= 0
-                  )
-                : options.find(
-                      (option: any) =>
-                          option.value ===
-                          (typeof field.value !== 'string'
-                              ? field.value.toString()
-                              : field.value)
-                  );
+                ? options.filter((option: any) => field.value.indexOf(option.value) >= 0)
+                : options.find((option: any) => option.value === (typeof field.value !== 'string' ? field.value.toString() : field.value));
         } else {
             return isMulti ? [] : ('' as any);
         }
@@ -153,9 +132,7 @@ const MySelect = ({
                 className={className ?? 'form__type'}
                 classNamePrefix={classNamePrefix}
                 components={{
-                    SingleValue: customInputField
-                        ? customInputField
-                        : customSingleValue,
+                    SingleValue: customInputField ? customInputField : customSingleValue,
                     Option: customOption ? customOption : customOptions,
                 }}
                 name={field.name}
@@ -172,13 +149,7 @@ const MySelect = ({
                 noOptionsMessage={noOptionsMessage}
                 isSearchable={isSearchable}
             />
-            {withoutErr ? (
-                <></>
-            ) : (
-                <div className="field__validation">
-                    {meta.error && meta.touched ? meta.error : ''}
-                </div>
-            )}
+            {withoutErr ? <></> : <div className="field__validation">{meta.error && meta.touched ? meta.error : ''}</div>}
         </>
     );
 };

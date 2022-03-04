@@ -1,11 +1,39 @@
-import { CategoryScale, Chart as ChartJS, Legend, LinearScale, LineElement, PointElement, Title, Tooltip } from 'chart.js';
+import { CategoryScale, Chart as ChartJS, Filler, Legend, LinearScale, LineElement, PointElement, Title, Tooltip } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import Select, { components } from 'react-select';
 
+import MySelect from '../../components/form/MySelectField';
 import MainWrapper from '../../components/MainWrapper';
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
 const Earnings = () => {
+    const xAxisLabels = [
+        'Jan',
+        'Jan_2',
+        'Feb',
+        'Feb_2',
+        'Mar',
+        'Mar_2',
+        'Apr',
+        'Apr_2',
+        'May',
+        'May_2',
+        'Jun',
+        'Jun_2',
+        'Jul',
+        'Jul_2',
+        'Aug',
+        'Aug_2',
+        'Sep',
+        'Sep_2',
+        'Oct',
+        'Oct_2',
+        'Nov',
+        'Nov_2',
+        'Dec',
+        'Dec_2',
+    ];
     const options = {
         maintainAspectRatio: false,
         responsive: true,
@@ -13,6 +41,12 @@ const Earnings = () => {
             legend: {
                 position: 'top' as const,
                 align: 'end' as const,
+                labels: {
+                    boxWidth: 10,
+                    boxHeight: 10,
+                    usePointStyle: true,
+                    pointStyle: 'circle',
+                },
             },
             title: {
                 display: false,
@@ -26,12 +60,31 @@ const Earnings = () => {
         scales: {
             x: {
                 grid: {
-                    color: 'rgb(237,237,237)',
+                    color: 'rgb(240,240,240)',
+                    borderColor: 'rgb(240,240,240)',
+                    drawTicks: true,
+                    tickColor: 'transparent',
+                    tickLength: 16,
+                },
+                ticks: {
+                    callback: (item: string | number, index: number) => {
+                        if (!(index % 2)) {
+                            return xAxisLabels[index];
+                        }
+                    },
+                    autoSkip: false,
                 },
             },
             y: {
                 grid: {
-                    color: 'rgb(237,237,237)',
+                    color: 'rgb(240,240,240)',
+                    borderColor: 'rgb(240,240,240)',
+                    drawTicks: true,
+                    tickColor: 'transparent',
+                    tickLength: 16,
+                },
+                ticks: {
+                    maxTicksLimit: 5,
                 },
             },
         },
@@ -41,17 +94,38 @@ const Earnings = () => {
         datasets: [
             {
                 parse: false,
-                label: 'Dataset 1',
+                label: 'Income',
                 data: [
-                    { x: '2016-12-25', y: 20 },
-                    { x: '2016-12-26', y: 25 },
-                    { x: '2016-12-27', y: 30 },
-                    { x: '2016-12-28', y: 50 },
+                    { x: 'Jan', y: 20 },
+                    { x: 'Jan_2', y: 25 },
+                    { x: 'Feb', y: 30 },
+                    { x: 'Feb_2', y: 50 },
+                    { x: 'Mar', y: 60 },
+                    { x: 'Mar_2', y: 10 },
+                    { x: 'Apr', y: 80 },
+                    { x: 'Apr_2', y: 40 },
+                    { x: 'May', y: 30 },
+                    { x: 'May_2', y: 25 },
+                    { x: 'Jun', y: 35 },
+                    { x: 'Jun_2', y: 40 },
                 ],
-                borderColor: 'rgb(255, 99, 132)',
-                backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                fill: true,
+                backgroundColor: 'rgba(162, 108, 242, 0.04)',
+                borderColor: 'rgb(162, 108, 242)',
+                borderWidth: 1,
+                pointBackgroundColor: '#fff',
+                pointBorderWidth: 2,
             },
         ],
+    };
+
+    const selectOptions = [
+        { label: '2021', value: '2021' },
+        { label: '2022', value: '2022' },
+    ];
+
+    const onChange = () => {
+        console.log('povuci nove podatke');
     };
 
     return (
@@ -59,7 +133,14 @@ const Earnings = () => {
             <div className="card--secondary">
                 <div className="card--secondary__head">
                     <h2 className="type--wgt--bold type--lg">Earnings</h2>
-                    <div>dropwdown</div>
+                    <div>
+                        <Select
+                            classNamePrefix="react-select"
+                            defaultValue={selectOptions[selectOptions.length - 1]}
+                            onChange={onChange}
+                            options={selectOptions}
+                        />
+                    </div>
                 </div>
                 <div className="card--secondary__body">
                     <div className="upcoming-lessons__title">GENERAL INFORMATION</div>
