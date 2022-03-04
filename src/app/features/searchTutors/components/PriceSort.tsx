@@ -56,7 +56,7 @@ const PriceSort: FC<Props> = (props: Props) => {
             <span className="d--ib mr-4">{t('SEARCH_TUTORS.PRICE_SORT')}</span>
             <span
                 onClick={() => handleSort(sortDirection)}
-                className="type--color--brand flex--inline flex--center cur--pointer"
+                className="type--color--brand flex--inline flex--center cur--pointer type--wgt--extra-bold"
             >
                 {renderIndicator(sortDirection)}
             </span>

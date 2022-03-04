@@ -40,7 +40,7 @@ const TutorEventModal: React.FC<IProps> = (props) => {
                                         'Deleted user'}
                                 </div>
                                 <div className="type--color--secondary">
-                                    {moment(event.startTime).format('DD/MMM/YYYY, HH:mm')} - {moment(event.endTime).format('HH:mm')}
+                                    {moment(event.startTime).format('DD/MMM/YYYY, HH:mm')} - {moment(event.endTime).add(1, 'minutes').format('HH:mm')}
                                 </div>
                             </div>
                             <div className="mb-6">
