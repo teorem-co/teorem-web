@@ -19,7 +19,6 @@ const ChildInformations = () => {
     const [getChildren, { data: childrenData, isLoading: childrenLoading, isUninitialized: childrenUninitialized }] = useLazyGetChildrenQuery();
 
     const [addSidebarOpen, setAddSidebarOpen] = useState(false);
-    const [editSidebarOpen, setEditSidebarOpen] = useState(false);
     const [childForEdit, setChildForEdit] = useState<IChild | null>(null);
 
     const { t } = useTranslation();

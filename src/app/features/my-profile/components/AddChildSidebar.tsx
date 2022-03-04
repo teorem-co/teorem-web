@@ -1,14 +1,14 @@
 import { Form, FormikProvider, useFormik } from 'formik';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
 import { IChild } from '../../../../interfaces/IChild';
 import IChildUpdate from '../../../../interfaces/IChildUpdate';
+import { useGenerateChildUsernameMutation } from '../../../../services/authService';
 import { useCreateChildMutation, useDeleteChildMutation, useUpdateChildMutation } from '../../../../services/userService';
 import MyDatePicker from '../../../components/form/MyDatePicker';
 import TextField from '../../../components/form/TextField';
-import { useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import TooltipPassword from '../../register/TooltipPassword';
 
@@ -24,6 +24,7 @@ const AddChildSidebar = (props: Props) => {
     const [updateChild] = useUpdateChildMutation();
     const [createChild] = useCreateChildMutation();
     const [deleteChild] = useDeleteChildMutation();
+    const [generateChildUsernamePost] = useGenerateChildUsernameMutation();
 
     const [passTooltip, setPassTooltip] = useState<boolean>(false);
 
@@ -168,6 +169,17 @@ const AddChildSidebar = (props: Props) => {
         return validationSchema;
     };
 
+    const generateChildUsername = async () => {
+        const nameForGenerator = formik.values.firstName;
+        if (nameForGenerator) {
+            const response = await generateChildUsernamePost({
+                username: nameForGenerator,
+            }).unwrap();
+            formik.setFieldValue('username', response.toLowerCase());
+            formik.validateField('username');
+        }
+    };
+
     const formik = useFormik({
         initialValues: initialValueObj,
         onSubmit: handleSubmit,
@@ -193,7 +205,15 @@ const AddChildSidebar = (props: Props) => {
                                 <label htmlFor="firstName" className="field__label">
                                     First Name*
                                 </label>
-                                <TextField name="firstName" id="firstName" placeholder="Enter Child Name" />
+                                <TextField
+                                    name="firstName"
+                                    id="firstName"
+                                    placeholder="Enter Child Name"
+                                    onBlur={(e: any) => {
+                                        generateChildUsername();
+                                        formik.handleBlur(e);
+                                    }}
+                                />
                             </div>
                             {childData && (
                                 <div className="field">
@@ -247,7 +267,7 @@ const AddChildSidebar = (props: Props) => {
                 <div className="flex--shirnk sidebar--secondary__bottom mt-10">
                     <div className="flex--primary mt-6">
                         <button className="btn btn--clear type--wgt--extra-bold" onClick={() => formik.handleSubmit()}>
-                            {(childData && 'Edit Child') || 'Add New Child'}
+                            {(childData && 'Save Child') || 'Add New Child'}
                         </button>
                         {(childData && (
                             <button onClick={() => handleDelete()} className="btn btn--clear type--color--error type--wgt--extra-bold">

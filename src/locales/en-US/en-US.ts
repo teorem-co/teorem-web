@@ -60,6 +60,7 @@ export const EN_US = {
         COMPLETED_LESSONS: 'Completed lessons',
         CHAT: 'Chat',
         DASHBOARD: 'Dashboard',
+        EARNINGS: 'Earnings',
     },
     SEARCH_TUTORS: {
         AVAILABILITY: {

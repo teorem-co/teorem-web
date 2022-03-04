@@ -44,14 +44,14 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
 
     const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
     const [selectedTime, setSelectedTime] = useState<string>('');
-
-    const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
-    const initialValues: Values = {
+    const [initialValues, setInitialValues] = useState<Values>({
         level: '',
         subject: '',
         child: '',
         timeFrom: moment(start).format('HH:mm'),
-    };
+    });
+
+    const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
 
     const generateValidationSchema = () => {
         const validationSchema: any = {
@@ -68,6 +68,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     };
 
     const handleSubmit = (values: any) => {
+        debugger;
         const splitString = values.timeFrom.split(':');
         props.setSidebarOpen(false);
         if (userRole === RoleOptions.Parent) {
