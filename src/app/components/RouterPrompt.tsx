@@ -67,15 +67,9 @@ const RouterPrompt = (props: Props) => {
                 <div className="modal">
                     <div className="modal__head">
                         <div className="type--md mb-4">Save changes?</div>
-                        <i
-                            onClick={() => setShowPrompt(false)}
-                            className="icon icon--close icon--base modal__close"
-                        ></i>
+                        <i onClick={() => setShowPrompt(false)} className="icon icon--close icon--base modal__close"></i>
                     </div>
-                    <div className="modal__body">
-                        Do you want to save your changes before leaving the
-                        page?
-                    </div>
+                    <div className="modal__body type--color--secondary">Do you want to save your changes before leaving the page?</div>
                     <div className="modal__footer">
                         <button
                             onClick={() => {

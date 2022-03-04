@@ -41,8 +41,7 @@ $role-selection-form-width: 448px;
             width: 100%;
         }
 
-        padding: calc(#{$unit} * 20) calc(#{$unit} * 28) calc(#{$unit} * 10)
-            calc(#{$unit} * 28);
+        padding: calc(#{$unit} * 20) calc(#{$unit} * 28) calc(#{$unit} * 10) calc(#{$unit} * 28);
 
         @media (max-width: 650px) {
             padding: calc(#{$unit} * 8) calc(#{$unit} * 8);
@@ -52,7 +51,8 @@ $role-selection-form-width: 448px;
     &__form {
         border: 1px dashed $color-primary-light;
         border-radius: $border-rounded;
-        max-width: $role-selection-form-width;
+        // max-width: $role-selection-form-width;
+        width: 100%;
         max-height: 425px;
         padding: calc(#{$unit} * 6);
         margin-bottom: calc(#{$unit} * 4);

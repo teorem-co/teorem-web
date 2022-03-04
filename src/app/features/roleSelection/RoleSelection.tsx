@@ -42,7 +42,7 @@ const RoleSelection: React.FC = () => {
                     <img src={heroImg} alt="Hero Img" />
                 </div>
                 <div className="role-selection__content">
-                    <div className="flex--grow">
+                    <div className="flex--grow w--448--max">
                         <div className="mb-22">
                             <img className="w--128" src={logo} alt="Teorem" />
                         </div>

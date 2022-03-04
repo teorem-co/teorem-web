@@ -2,10 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 
-import {
-    resetParentRegister,
-    setSkip,
-} from '../../../slices/parentRegisterSlice';
+import { resetParentRegister, setSkip } from '../../../slices/parentRegisterSlice';
 import { RoleOptions } from '../../../slices/roleSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
@@ -68,9 +65,7 @@ const Onboarding = () => {
                 <div className="onboarding">
                     <div className="onboarding__aside">
                         <div className="onboarding__steps">
-                            <div className="type--lg type--wgt--bold mb-2">
-                                {t('ONBOARDING.NAVIGATION.TITLE')}
-                            </div>
+                            <div className="type--lg type--wgt--bold mb-2">{t('ONBOARDING.NAVIGATION.TITLE')}</div>
                             <div className="w--350--max mb-10 type--wgt--regular type--color--secondary">
                                 {t('ONBOARDING.NAVIGATION.DESCRIPTION')}
                             </div>
@@ -86,53 +81,33 @@ const Onboarding = () => {
                         </div>
                     </div>
                     <div className="onboarding__content">
-                        <div className="flex--grow">
+                        <div className="flex--grow w--448--max">
                             <div className="mb-22">
-                                <img
-                                    className="w--128"
-                                    src={logo}
-                                    alt="Teorem"
-                                />
+                                <img className="w--128" src={logo} alt="Teorem" />
                             </div>
                             {roleSelection === RoleOptions.Tutor ? (
                                 <div className="type--lg type--wgt--bold mb-4">
-                                    {step === 1
-                                        ? 'Personal information'
-                                        : step === 2
-                                        ? 'Card Details'
-                                        : ''}
+                                    {step === 1 ? 'Personal information' : step === 2 ? 'Card Details' : ''}
                                 </div>
                             ) : roleSelection === RoleOptions.Parent ? (
                                 <>
                                     <div className="type--lg type--wgt--bold mb-4">
-                                        {step === 1
-                                            ? 'Personal information'
-                                            : step === 2
-                                            ? "Child's List"
-                                            : ''}
+                                        {step === 1 ? 'Personal information' : step === 2 ? "Child's List" : ''}
                                     </div>
                                     {step === 1 ? (
                                         <></>
                                     ) : step === 2 && show ? (
-                                        <div className="type--wgt--regular mb-2">
-                                            Edit child's details
-                                        </div>
+                                        <div className="type--wgt--regular mb-2">Edit child's details</div>
                                     ) : (
                                         <></>
                                     )}
                                 </>
                             ) : (
-                                <div className="type--lg type--wgt--bold mb-4">
-                                    {step === 1 ? 'Personal information' : ''}
-                                </div>
+                                <div className="type--lg type--wgt--bold mb-4">{step === 1 ? 'Personal information' : ''}</div>
                             )}
                             {roleSelection === RoleOptions.Tutor ? (
                                 <>
-                                    <TutorOnboarding
-                                        step={step}
-                                        handleNextStep={handleNextStepTutor}
-                                        handleGoBack={handleGoBack}
-                                    />
+                                    <TutorOnboarding step={step} handleNextStep={handleNextStepTutor} handleGoBack={handleGoBack} />
                                 </>
                             ) : roleSelection === RoleOptions.Parent ? (
                                 <>
@@ -144,22 +119,14 @@ const Onboarding = () => {
                                     />
                                 </>
                             ) : roleSelection === RoleOptions.Student ? (
-                                <StudentOnboarding
-                                    step={step}
-                                    handleNextStep={handleNextStepStudent}
-                                    handleGoBack={handleGoBack}
-                                />
+                                <StudentOnboarding step={step} handleNextStep={handleNextStepStudent} handleGoBack={handleGoBack} />
                             ) : (
                                 history.push('/')
                             )}
                         </div>
                         <div className="flex--primary mt-8 w--448--max">
-                            <div className="type--color--tertiary">
-                                {t('WATERMARK')}
-                            </div>
-                            {roleSelection === RoleOptions.Parent &&
-                            step === 2 &&
-                            show ? (
+                            <div className="type--color--tertiary">{t('WATERMARK')}</div>
+                            {roleSelection === RoleOptions.Parent && step === 2 && show ? (
                                 <div>
                                     {/* {t('LOGIN.ACCOUNT')}{' '} */}
                                     You can add this later.{' '}
@@ -167,7 +134,7 @@ const Onboarding = () => {
                         {t('LOGIN.REGISTER')}
                     </Link> */}
                                     <button
-                                        className="btn btn--clear type--wgt--regular"
+                                        className="btn btn--clear type--wgt--extra-bold"
                                         form="formSubmit"
                                         onClick={() => dispatch(setSkip(true))}
                                     >

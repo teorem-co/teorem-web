@@ -53,6 +53,7 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
     const [passTooltip, setPassTooltip] = useState<boolean>(false);
     const [phoneTooltip, setPhoneTooltip] = useState<boolean>(false);
     const [registerParent, { isSuccess, isLoading }] = useRegisterParentMutation();
+    const [checkUsernameValidation, setCheckUsernameValidation] = useState<string>('');
     const [checkUsername] = useCheckUsernameMutation();
     const parentCreds = useAppSelector((state) => state.parentRegister);
     const { firstName, lastName, password, passwordRepeat, email, dateOfBirth, phoneNumber, countryId, child, skip } = parentCreds;
@@ -353,25 +354,25 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
                     }
                 }),
             username: Yup.string()
-                .test('username', 'Username already exists', async (value: any) => {
-                    if (value) {
-                        //filter all without selected child(on edit)
-                        const filteredArray = child.filter((x) => x.username !== childUsername);
+                // .test('username', 'Username already exists', async (value: any) => {
+                //     if (value) {
+                //         //filter all without selected child(on edit)
+                //         const filteredArray = child.filter((x) => x.username !== childUsername);
 
-                        //check backend usernames
-                        const isValid = await checkUsername({
-                            username: value,
-                        }).unwrap();
+                //         //check backend usernames
+                //         const isValid = await checkUsername({
+                //             username: value,
+                //         }).unwrap();
 
-                        //check local usernames
-                        const checkCurrent = filteredArray.find((x) => x.username === value);
-                        //set validation boolean
-                        const finalValid = isValid || checkCurrent ? true : false;
+                //         //check local usernames
+                //         const checkCurrent = filteredArray.find((x) => x.username === value);
+                //         //set validation boolean
+                //         const finalValid = isValid || checkCurrent ? true : false;
 
-                        return !finalValid;
-                    }
-                    return true;
-                })
+                //         return !finalValid;
+                //     }
+                //     return true;
+                // })
                 .required(t('FORM_VALIDATION.REQUIRED')),
             childPassword: Yup.string()
                 .min(8, t('FORM_VALIDATION.TOO_SHORT'))
@@ -383,6 +384,18 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
                 .required(t('FORM_VALIDATION.REQUIRED')),
         }),
     });
+
+    const checkUsernameExistance = async () => {
+        const isValid = await checkUsername({
+            username: formikStepThree.values.username,
+        }).unwrap();
+        //debugger;
+        if (isValid) {
+            setCheckUsernameValidation('This username already exists');
+        } else {
+            setCheckUsernameValidation('');
+        }
+    };
 
     const submitStepThree = (values: DetailsValues) => {
         let newArr: IChild[] = [];
@@ -461,14 +474,14 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
                             {t('REGISTER.FORM.USERNAME')}
                         </label>
                         <TextField
-                            // onBlur={() =>
-                            //     checkUsername({
-                            //         username: formikStepThree.values.username,
-                            //     })
-                            // }
+                            onBlur={(e: any) => {
+                                formikStepThree.handleBlur(e);
+                                checkUsernameExistance();
+                            }}
                             name="username"
                             id="username"
                             placeholder="Enter your first name"
+                            additionalValidation={checkUsernameValidation}
                         />
                     </div>
                     <div className="field">
