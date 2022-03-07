@@ -22,6 +22,11 @@ const earningsGraphOptions = {
         line: {
             tension: 0.3,
         },
+        point: {
+            radius: 0,
+            hoverRadius: 4,
+            hitRadius: 8,
+        },
     },
     scales: {
         x: {
