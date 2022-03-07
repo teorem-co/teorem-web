@@ -22,6 +22,7 @@ const Login: React.FC = () => {
     const history = useHistory();
     const { t } = useTranslation();
     const [loginErrorMessage, setLoginErrorMessage] = useState<string>();
+    const [login, { data: loginData, isSuccess: isSuccessLogin, isLoading: isLoadingLogin, error: errorLogin }] = useLoginMutation();
 
     const userRoleAbrv = useAppSelector((state) => state.auth.user?.Role?.abrv);
     const userToken = useAppSelector((state) => state.auth.token);
@@ -31,7 +32,9 @@ const Login: React.FC = () => {
         password: '',
     };
 
-    const [login, { data: loginData, isSuccess: isSuccessLogin, isLoading: isLoadingLogin, error: errorLogin }] = useLoginMutation();
+    const handleGoBack = () => {
+        history.push(PATHS.RESET_PASSWORD);
+    };
 
     const formik = useFormik({
         initialValues: initialValues,
@@ -70,10 +73,6 @@ const Login: React.FC = () => {
             }
         }
     }, [userRoleAbrv]);
-
-    const handleGoBack = () => {
-        history.push(PATHS.RESET_PASSWORD);
-    };
 
     useEffect(() => {
         const loginError: any = errorLogin;

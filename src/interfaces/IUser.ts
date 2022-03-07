@@ -13,4 +13,5 @@ export default interface IUser {
     parentId?: string;
     Role: IRole;
     profileImage: string;
+    childIds: string[];
 }

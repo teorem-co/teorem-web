@@ -90,6 +90,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
 
     const handleChange = (e: any) => {
         setSelectedTime(e);
+        formik.setFieldValue('timeFrom', e);
     };
 
     const handleSubmitForm = () => {
@@ -243,13 +244,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                                         name="time"
                                         id="time"
                                         disabled={true}
-                                        value={
-                                            formik.values.timeFrom
-                                                ? moment(formik.values.timeFrom, 'HH:mm').add(1, 'hours').format('HH:mm')
-                                                : start
-                                                ? moment(start).add(1, 'hours').format('HH:mm')
-                                                : 'Time'
-                                        }
+                                        value={moment(formik.values.timeFrom, 'HH:mm').add(1, 'hour').format('HH:mm')}
                                     />
                                 </div>
                             </div>

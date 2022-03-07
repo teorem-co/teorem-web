@@ -8,6 +8,7 @@ import ISocketNotification from './interfaces/notification/ISocketNotification';
 
 function App() {
     const userId = useAppSelector((state) => state.auth.user?.id);
+    const childIds = useAppSelector((state) => state.auth.user?.childIds);
 
     const socket = io('http://192.168.11.83:8000');
     useEffect(() => {
@@ -16,7 +17,8 @@ function App() {
         // });
 
         socket.on('showNotification', (notification: ISocketNotification) => {
-            if (userId && notification.userId === userId) {
+            const ifChildExists = childIds?.find((x) => x === notification.userId);
+            if (userId && (notification.userId === userId || ifChildExists)) {
                 toastService.notification(notification.description);
             }
         });
