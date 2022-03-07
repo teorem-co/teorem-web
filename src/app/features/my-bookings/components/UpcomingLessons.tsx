@@ -26,7 +26,7 @@ const UpcomingLessons: React.FC<Props> = (props: Props) => {
                                     <i className={`status--primary status--primary--blue mr-2`}></i>
                                     <span className="type--color--secondary">{moment(lesson.startTime).format('HH:mm')}</span>
                                     &nbsp;{'-'}&nbsp;
-                                    <span className="type--color--secondary">{moment(lesson.endTime).format('HH:mm')}</span>
+                                    <span className="type--color--secondary">{moment(lesson.endTime).add(1, 'minute').format('HH:mm')}</span>
                                 </div>
                                 <div className="type--color--tertiary">{moment(lesson.startTime).format('DD/MMM/YYYY')}</div>
                             </div>
