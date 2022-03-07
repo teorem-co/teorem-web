@@ -1,7 +1,7 @@
 const LoaderSecondary = () => {
     return (
         <div className="loader--cover">
-            <div className="loader--primary">
+            <div className="loader--primary loader--primary--fh ">
                 <div></div>
                 <div></div>
                 <div></div>

@@ -233,7 +233,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
             <div className="modal--parent__footer">
                 {/* <button className="btn btn--base type--wgt--extra-bold btn--primary mb-1" onClick={() => handleSubmitForm()}> */}
                 <button form="updateBookingForm" className="btn btn--base type--wgt--extra-bold btn--primary mb-1">
-                    Book
+                    Update booking
                 </button>
                 <button
                     className="btn btn--base type--wgt--extra-bold btn--clear"
