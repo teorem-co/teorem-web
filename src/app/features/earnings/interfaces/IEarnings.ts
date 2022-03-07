@@ -1,3 +1,4 @@
+import IEarningDetails from './IEarningDetails';
 import IGraph from './IGraph';
 
 interface IEarnings {
@@ -6,6 +7,7 @@ interface IEarnings {
     totalStudents: number;
     totalEarnings: number;
     graph: IGraph[];
+    details: IEarningDetails[];
 }
 
 export default IEarnings;

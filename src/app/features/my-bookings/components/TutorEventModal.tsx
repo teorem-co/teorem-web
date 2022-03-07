@@ -84,11 +84,16 @@ const TutorEventModal: React.FC<IProps> = (props) => {
                         ) : (
                             <></>
                         )}
-
-                        <button className="btn btn--base btn--clear type--wgt--extra-bold" onClick={() => handleDeleteBooking()}>
-                            {event.isAccepted ? 'Delete' : 'Deny'}
-                        </button>
-                        <button className="btn btn--base btn--clear type--wgt--extra-bold">Propose a new time</button>
+                        {moment(event.startTime).isBefore(moment()) ? (
+                            <></>
+                        ) : (
+                            <>
+                                <button className="btn btn--base btn--clear type--wgt--extra-bold" onClick={() => handleDeleteBooking()}>
+                                    {event.isAccepted ? 'Delete' : 'Deny'}
+                                </button>
+                                <button className="btn btn--base btn--clear type--wgt--extra-bold">Propose a new time</button>
+                            </>
+                        )}
                     </div>
                 </div>
             ) : (

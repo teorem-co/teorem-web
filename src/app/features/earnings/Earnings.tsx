@@ -15,7 +15,7 @@ import { useLazyGetEarningsQuery } from './services/earningsService';
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
 const Earnings = () => {
-    const [getEarnings] = useLazyGetEarningsQuery();
+    const [getEarnings, { data: earningsData }] = useLazyGetEarningsQuery();
     //calculate years to select
     const yearOptions = calcYears();
 
@@ -67,30 +67,30 @@ const Earnings = () => {
                     <div className="row">
                         <div className="col col-12 col-md-6 col-xl-3">
                             <div className="card--dashboard">
-                                <div className="card--dashboard__title">156</div>
+                                <div className="card--dashboard__title">{earningsData?.totalBookings}</div>
                                 <div>Total bookings</div>
-                                <i className="icon icon--subject"></i>
+                                <i className="icon icon--subject cur--default"></i>
                             </div>
                         </div>
                         <div className="col col-12 col-md-6 col-xl-3">
                             <div className="card--dashboard">
-                                <div className="card--dashboard__title">80</div>
+                                <div className="card--dashboard__title">{earningsData?.totalStudents}</div>
                                 <div>Total students</div>
-                                <i className="icon icon--tutor"></i>
+                                <i className="icon icon--tutor cur--default"></i>
                             </div>
                         </div>
                         <div className="col col-12 col-md-6 col-xl-3">
                             <div className="card--dashboard">
-                                <div className="card--dashboard__title">95</div>
+                                <div className="card--dashboard__title">{earningsData?.totalReviews}</div>
                                 <div>Total reviews</div>
-                                <i className="icon icon--reviews"></i>
+                                <i className="icon icon--reviews cur--default"></i>
                             </div>
                         </div>
                         <div className="col col-12 col-md-6 col-xl-3">
                             <div className="card--dashboard">
-                                <div className="card--dashboard__title">15.748,00</div>
+                                <div className="card--dashboard__title">{earningsData?.totalEarnings}.00</div>
                                 <div>Total revenue</div>
-                                <i className="icon icon--level"></i>
+                                <i className="icon icon--level cur--default"></i>
                             </div>
                         </div>
                     </div>
@@ -110,17 +110,19 @@ const Earnings = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {tableData.map((tableItem) => {
-                                return (
-                                    <tr>
-                                        <td>{tableItem.month}</td>
-                                        <td>{tableItem.bookings}</td>
-                                        <td>{tableItem.students}</td>
-                                        <td>{tableItem.reviews}</td>
-                                        <td>${tableItem.revenue}</td>
-                                    </tr>
-                                );
-                            })}
+                            {(earningsData &&
+                                earningsData.details.map((tableItem) => {
+                                    return (
+                                        <tr>
+                                            <td>{tableItem.month}</td>
+                                            <td>{tableItem.bookings}</td>
+                                            <td>{tableItem.students}</td>
+                                            <td>{tableItem.reviews}</td>
+                                            <td>${tableItem.revenue}</td>
+                                        </tr>
+                                    );
+                                })) ||
+                                'There is no details'}
                         </tbody>
                     </table>
                 </div>

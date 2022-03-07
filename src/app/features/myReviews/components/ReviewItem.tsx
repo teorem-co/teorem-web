@@ -15,11 +15,11 @@ const ReviewItem: FC<Props> = (props: Props) => {
             <div key={reviewItem.id} className="reviews-list__item">
                 <div>
                     <h4 className="type--md type--wgt--normal mb-1">
-                        {reviewItem.User.firstName}
+                        {reviewItem.User ? reviewItem.User.firstName : 'Deleted user'}
                         &nbsp;
-                        {reviewItem.User.lastName}
+                        {reviewItem.User ? reviewItem.User.lastName : ''}
                     </h4>
-                    <p className="type--color--brand-light">{reviewItem.User.Role.name}</p>
+                    <p className="type--color--brand-light">{reviewItem.User ? reviewItem.User.Role.name : 'Child'}</p>
                 </div>
                 <div>
                     <div className="flex--primary mb-2">
