@@ -226,7 +226,6 @@ const UpdateBooking: React.FC<IProps> = (props) => {
                                     />
                                 </div>
                             </div>
-                            <div>{JSON.stringify(formik.values, null, 2)}</div>
                         </div>
                     </Form>
                 </FormikProvider>
