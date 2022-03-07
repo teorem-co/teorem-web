@@ -9,7 +9,7 @@ import * as Yup from 'yup';
 
 import { useGetTutorLevelsQuery } from '../../../../services/levelService';
 import { useLazyGetTutorSubjectsByTutorLevelQuery } from '../../../../services/subjectService';
-import { useGetChildQuery, useLazyGetChildQuery } from '../../../../services/userService';
+import { useLazyGetChildQuery } from '../../../../services/userService';
 import { RoleOptions } from '../../../../slices/roleSlice';
 import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import MyTimePicker from '../../../components/form/MyTimePicker';

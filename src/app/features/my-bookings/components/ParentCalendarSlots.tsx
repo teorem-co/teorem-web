@@ -114,7 +114,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     }, [subjectsData]);
 
     useEffect(() => {
-        if (!isEqual(formik.values.level, initialValues.level)) {
+        if (formik.values.subject) {
             formik.setFieldValue('subject', '');
         }
         if (formik.values.level !== '') {
@@ -191,6 +191,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                             </label>
 
                             <MySelect
+                                key={formik.values.subject}
                                 field={formik.getFieldProps('subject')}
                                 form={formik}
                                 meta={formik.getFieldMeta('subject')}
@@ -220,7 +221,6 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                         ) : (
                             <></>
                         )}
-
                         <div className="field">
                             <label htmlFor="timeFrom" className="field__label">
                                 Time* (Session length is 50min)

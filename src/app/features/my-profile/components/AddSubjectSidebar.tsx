@@ -28,7 +28,7 @@ const AddSubjectSidebar = (props: Props) => {
     const { closeSidebar, sideBarIsOpen, handleGetData } = props;
 
     const { data: levelOptions, isLoading: isLoadingLevels } = useGetLevelOptionsQuery();
-    const [createSubject, { isSuccess: isSuccessCreateSubject }] = useCreateSubjectMutation();
+    const [createSubject] = useCreateSubjectMutation();
     const [getSubjectOptionsByLevel, { data: subjectsData, isLoading: isLoadingSubjects, isSuccess: isSuccessSubjects }] =
         useLazyGetSubjectsByLevelAndSubjectQuery();
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
@@ -102,7 +102,7 @@ const AddSubjectSidebar = (props: Props) => {
                     <FormikProvider value={formik}>
                         <Form noValidate>
                             <div>
-                                <label htmlFor="level">Select subject you teach*</label>
+                                <label htmlFor="subject">Select levels that you are able to teach*</label>
                                 <MySelect
                                     field={formik.getFieldProps('level')}
                                     form={formik}
@@ -115,8 +115,9 @@ const AddSubjectSidebar = (props: Props) => {
                                 />
                             </div>
                             <div>
-                                <label htmlFor="subject">Select levels that you are able to teach*</label>
+                                <label htmlFor="level">Select subject you teach*</label>
                                 <MySelect
+                                    key={formik.values.subject}
                                     field={formik.getFieldProps('subject')}
                                     form={formik}
                                     meta={formik.getFieldMeta('subject')}
