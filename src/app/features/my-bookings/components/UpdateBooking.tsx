@@ -2,6 +2,7 @@ import { Form, FormikProvider, useFormik } from 'formik';
 import { t } from 'i18next';
 import { isEqual } from 'lodash';
 import moment from 'moment';
+import { stringify } from 'querystring';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import * as Yup from 'yup';
@@ -35,33 +36,40 @@ interface Values {
     timeFrom: string;
 }
 const UpdateBooking: React.FC<IProps> = (props) => {
-    const { tutorId } = useParams();
-    const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
-    const [selectedTime, setSelectedTime] = useState<string>('');
     const { start, end, handleClose, positionClass, setSidebarOpen, clearEmptyBookings, booking } = props;
-    const { data: levelOptions, isLoading: isLoadingLevels } = useGetTutorLevelsQuery(tutorId);
-
-    const [getChildOptions, { data: childOptions, isLoading: isLoadingChildren }] = useLazyGetChildQuery();
-
-    const [getSubjectOptionsByLevel, { data: subjectsData, isLoading: isLoadingSubjects, isSuccess: isSuccessSubjects }] =
-        useLazyGetTutorSubjectsByTutorLevelQuery();
-
-    const [updateBooking, { isSuccess: updateBookingSuccess }] = useUpdateBookingMutation();
-
+    const { tutorId } = useParams();
     const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
 
-    useEffect(() => {
-        if (userRole === RoleOptions.Parent) {
-            getChildOptions();
-        }
-    }, []);
-
+    const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
+    const [selectedTime, setSelectedTime] = useState<string>('');
     const [initialValues, setInitialValues] = useState<Values>({
         level: '',
         subject: '',
         child: '',
         timeFrom: moment(start).format('HH:mm'),
     });
+
+    const [getChildOptions, { data: childOptions }] = useLazyGetChildQuery();
+    const [getSubjectOptionsByLevel, { data: subjectsData, isSuccess: isSuccessSubjects }] = useLazyGetTutorSubjectsByTutorLevelQuery();
+    const [updateBooking, { isSuccess: updateBookingSuccess }] = useUpdateBookingMutation();
+    const { data: levelOptions } = useGetTutorLevelsQuery(tutorId);
+
+    const handleSubmit = (values: any) => {
+        props.setSidebarOpen(false);
+        const splitString = values.timeFrom.split(':');
+
+        if (!isEqual(values.timeFrom, initialValues.timeFrom)) {
+            updateBooking({
+                startTime: moment(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
+                bookingId: booking ? booking.id : '',
+            });
+        }
+    };
+
+    const handleChange = (e: any) => {
+        setSelectedTime(e);
+        formik.setFieldValue('timeFrom', e);
+    };
 
     const formik = useFormik({
         initialValues: initialValues,
@@ -72,16 +80,11 @@ const UpdateBooking: React.FC<IProps> = (props) => {
         validationSchema: Yup.object(),
     });
 
-    const handleSubmit = (values: any) => {
-        props.setSidebarOpen(false);
-        const splitString = values.timeFrom.split(':');
-        if (!isEqual(values.timeFrom, initialValues.timeFrom)) {
-            updateBooking({
-                startTime: moment(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
-                bookingId: booking ? booking.id : '',
-            });
+    useEffect(() => {
+        if (userRole === RoleOptions.Parent) {
+            getChildOptions();
         }
-    };
+    }, []);
 
     useEffect(() => {
         if (formik.values.level !== '') {
@@ -97,15 +100,6 @@ const UpdateBooking: React.FC<IProps> = (props) => {
             setSubjectOptions(subjectsData);
         }
     }, [subjectsData]);
-
-    const handleChange = (e: any) => {
-        setSelectedTime(e);
-    };
-    const handleSubmitForm = () => {
-        formik.handleSubmit();
-
-        props.setSidebarOpen(false);
-    };
 
     useEffect(() => {
         if (updateBookingSuccess) {
@@ -153,7 +147,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
 
             <div className="modal--parent__body">
                 <FormikProvider value={formik}>
-                    <Form>
+                    <Form id="updateBookingForm">
                         <div className="field">
                             <label htmlFor="level" className="field__label">
                                 Level*
@@ -228,22 +222,18 @@ const UpdateBooking: React.FC<IProps> = (props) => {
                                         name="time"
                                         id="time"
                                         disabled={true}
-                                        value={
-                                            formik.values.timeFrom
-                                                ? moment(formik.values.timeFrom, 'HH:mm').add(1, 'hours').format('HH:mm')
-                                                : booking
-                                                ? moment(booking.startTime).add(1, 'hours').format('HH:mm')
-                                                : 'Time'
-                                        }
+                                        value={moment(formik.values.timeFrom, 'HH:mm').add(1, 'hour').format('HH:mm')}
                                     />
                                 </div>
                             </div>
+                            <div>{JSON.stringify(formik.values, null, 2)}</div>
                         </div>
                     </Form>
                 </FormikProvider>
             </div>
             <div className="modal--parent__footer">
-                <button className="btn btn--base type--wgt--extra-bold btn--primary mb-1" onClick={() => handleSubmitForm()}>
+                {/* <button className="btn btn--base type--wgt--extra-bold btn--primary mb-1" onClick={() => handleSubmitForm()}> */}
+                <button form="updateBookingForm" className="btn btn--base type--wgt--extra-bold btn--primary mb-1">
                     Book
                 </button>
                 <button

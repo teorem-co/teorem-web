@@ -23,8 +23,12 @@ const MyTimePicker = ({ field, form, placeholder, className, withoutErr, default
     const [formikField, meta] = useField(form.getFieldProps(field.name));
 
     const onChange = (option: any) => {
-        option.preventDefault();
-        form.setFieldValue(field.name, moment(option._d).format('HH:mm'));
+        if (onChangeCustom) {
+            onChangeCustom(option);
+        } else {
+            option.preventDefault();
+            form.setFieldValue(field.name, moment(option._d).format('HH:mm'));
+        }
     };
 
     return (
@@ -38,7 +42,6 @@ const MyTimePicker = ({ field, form, placeholder, className, withoutErr, default
                 minuteStep={15}
                 showSecond={false}
                 disabled={isDisabled ? isDisabled : false}
-                onClose={onChangeCustom}
             />
             {withoutErr ? <></> : <div className="field__validation">{meta.error && meta.touched ? meta.error : ''}</div>}
         </>
