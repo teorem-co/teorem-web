@@ -5,6 +5,8 @@ import Chat from './features/chat/pages/Chat';
 import CompletedLessons from './features/completedLessons/CompletedLessons';
 import Dashboard from './features/dashboard/Dashboard';
 import Earnings from './features/earnings/Earnings';
+import ForgotPassword from './features/forgot-password/ForgotPassword';
+import ResetPassword from './features/forgot-password/ResetPassword';
 import BecomeTutor from './features/landing/pages/BecomeTutor';
 import HowItWorks from './features/landing/pages/HowItWorks';
 import Pricing from './features/landing/pages/Pricing';
@@ -20,7 +22,6 @@ import MyReviews from './features/myReviews/MyReviews';
 import Notifications from './features/notifications/Notifications';
 import Onboarding from './features/onboarding/Onboarding';
 import Register from './features/register/Register';
-import ResetPassword from './features/reset-password/ResetPassword';
 import RoleSelection from './features/roleSelection/RoleSelection';
 import SearchTutors from './features/searchTutors/SearchTutors';
 import TutorProfile from './features/searchTutors/TutorProfile';
@@ -33,6 +34,7 @@ import { getUserRoleAbrv } from './utils/getUserRoleAbrv';
 export enum PATHS {
     ROLE_SELECTION = '/role-selection',
     REGISTER = '/register',
+    FORGOT_PASSWORD = '/forgot-password',
     RESET_PASSWORD = '/reset-password',
     LOGIN = '/',
     MY_BOOKINGS = '/my-bookings',
@@ -116,6 +118,12 @@ const ROUTES: any = [
         isMenu: false,
         isPublic: true,
         component: () => <Onboarding />,
+    },
+    {
+        path: PATHS.FORGOT_PASSWORD,
+        key: 'FORGOT_PASSWORD',
+        exact: true,
+        component: () => <ForgotPassword />,
     },
     {
         path: PATHS.RESET_PASSWORD,

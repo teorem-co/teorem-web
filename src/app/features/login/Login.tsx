@@ -33,7 +33,7 @@ const Login: React.FC = () => {
     };
 
     const handleGoBack = () => {
-        history.push(PATHS.RESET_PASSWORD);
+        history.push(PATHS.FORGOT_PASSWORD);
     };
 
     const formik = useFormik({

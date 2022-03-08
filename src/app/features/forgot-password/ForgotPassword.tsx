@@ -14,7 +14,7 @@ interface Values {
     email: string;
 }
 
-const ResetPassword = () => {
+const ForgotPassword = () => {
     const { t } = useTranslation();
 
     const history = useHistory();
@@ -95,4 +95,4 @@ const ResetPassword = () => {
     );
 };
 
-export default ResetPassword;
+export default ForgotPassword;

@@ -15,7 +15,6 @@ import MySelect, { OptionType } from '../../components/form/MySelectField';
 import MainWrapper from '../../components/MainWrapper';
 import LoaderTutor from '../../components/skeleton-loaders/LoaderTutor';
 import { SortDirection } from '../../lookups/sortDirection';
-import toastService from '../../services/toastService';
 import getUrlParams from '../../utils/getUrlParams';
 import PriceSort from './components/PriceSort';
 import TutorItem from './components/TutorItem';
@@ -28,25 +27,6 @@ interface Values {
 }
 
 const SearchTutors = () => {
-    const history = useHistory();
-
-    const { t } = useTranslation();
-
-    const [params, setParams] = useState<IParams>({ rpp: 10, page: 1 });
-    const [initialLoad, setInitialLoad] = useState<boolean>(true);
-    const [dayOfWeekArray, setDayOfWeekArray] = useState<string[]>([]);
-    const [timeOfDayArray, setTimeOfDayArray] = useState<string[]>([]);
-    const [loadedTutorItems, setLoadedTutorItems] = useState<ITutor[]>([]);
-    const [priceSortDirection, setPriceSortDirection] = useState<SortDirection>(SortDirection.None);
-    const [scrollTopOffset, setScrollTopOffset] = useState<number | null>(null);
-    const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
-    const cardRef = useRef<HTMLDivElement>(null);
-    const cardElement = cardRef.current as HTMLDivElement;
-
-    //initialSubject is not reset on initial level change
-    const [isInitialSubject, setIsInitialSubject] = useState<boolean>(false);
-    //storing subjects in state so it can reset on Reset Filter
-    const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
     const [getAvailableTutors, { data: availableTutors, isLoading: isLoadingAvailableTutors, isUninitialized: availableTutorsUninitialized }] =
         useLazyGetAvailableTutorsQuery();
     const [getLevelOptions, { data: levelOptions, isLoading: isLoadingLevels }] = useLazyGetLevelOptionsQuery();
@@ -55,6 +35,23 @@ const SearchTutors = () => {
         { data: subjectsData, isLoading: isLoadingSubjects, isSuccess: isSuccessSubjects, isFetching: isFetchingSubjects },
     ] = useLazyGetSubjectOptionsByLevelQuery();
 
+    const [params, setParams] = useState<IParams>({ rpp: 10, page: 1 });
+    const [initialLoad, setInitialLoad] = useState<boolean>(true);
+    const [dayOfWeekArray, setDayOfWeekArray] = useState<string[]>([]);
+    const [timeOfDayArray, setTimeOfDayArray] = useState<string[]>([]);
+    const [loadedTutorItems, setLoadedTutorItems] = useState<ITutor[]>([]);
+    const [priceSortDirection, setPriceSortDirection] = useState<SortDirection>(SortDirection.None);
+    const [scrollTopOffset, setScrollTopOffset] = useState<number | null>(null);
+    //initialSubject is not reset on initial level change
+    const [isInitialSubject, setIsInitialSubject] = useState<boolean>(false);
+    //storing subjects in state so it can reset on Reset Filter
+    const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
+
+    const history = useHistory();
+    const { t } = useTranslation();
+    const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
+    const cardRef = useRef<HTMLDivElement>(null);
+    const cardElement = cardRef.current as HTMLDivElement;
     const levelDisabled = !levelOptions || isLoadingLevels;
     const isLoading = isLoadingAvailableTutors || availableTutorsUninitialized;
     const initialValues: Values = {
@@ -63,154 +60,6 @@ const SearchTutors = () => {
         dayOfWeek: [],
         timeOfDay: [],
     };
-
-    useEffect(() => {
-        fetchData();
-    }, []);
-
-    useEffect(() => {
-        setScrollTopOffset(null);
-        if (!initialLoad) {
-            fetchFilteredData();
-        }
-    }, [params]);
-
-    useEffect(() => {
-        if (cardElement && scrollTopOffset) {
-            cardElement.scrollTop = scrollTopOffset;
-        }
-    }, [loadedTutorItems]);
-
-    const fetchData = async () => {
-        getLevelOptions();
-
-        const urlQueries: IParams = getUrlParams(history.location.search.replace('?', ''));
-
-        if (Object.keys(urlQueries).length > 0) {
-            urlQueries.subject && formik.setFieldValue('subject', urlQueries.subject) && setIsInitialSubject(true);
-            urlQueries.level && formik.setFieldValue('level', urlQueries.level);
-            urlQueries.dayOfWeek && setDayOfWeekArray(urlQueries.dayOfWeek.split(','));
-            urlQueries.timeOfDay && setTimeOfDayArray(urlQueries.timeOfDay.split(','));
-
-            setParams(urlQueries);
-
-            //set sort direction if params.price is already in URL
-            if (urlQueries.sort) {
-                setPriceSortDirection(urlQueries.sort as SortDirection);
-            }
-        } else {
-            const tutorResponse = await getAvailableTutors(params).unwrap();
-            setLoadedTutorItems(tutorResponse.rows);
-        }
-
-        setInitialLoad(false);
-    };
-
-    const fetchFilteredData = async () => {
-        const filterParams = new URLSearchParams();
-        if (Object.keys(params).length !== 0 && params.constructor === Object) {
-            for (const [key, value] of Object.entries(params)) {
-                filterParams.append(key, value);
-            }
-            history.push({ search: filterParams.toString() });
-        } else {
-            history.push({ search: filterParams.toString() });
-        }
-
-        const tutorResponse = await getAvailableTutors({ ...params }).unwrap();
-        setLoadedTutorItems(tutorResponse.rows);
-    };
-
-    const handleScroll = async (e: HTMLDivElement) => {
-        if (loadedTutorItems.length !== availableTutors?.count) {
-            const innerHeight = e.scrollHeight;
-            const scrollPosition = e.scrollTop + e.clientHeight;
-
-            if (innerHeight === scrollPosition) {
-                //action to do on scroll to bottom
-                const newParams = { ...params };
-                newParams.page++;
-
-                const currentScrollTop = cardElement.scrollTop;
-                setScrollTopOffset(currentScrollTop);
-
-                const tutorResponse = await getAvailableTutors({
-                    ...newParams,
-                }).unwrap();
-                setLoadedTutorItems(loadedTutorItems.concat(tutorResponse.rows));
-            }
-        }
-    };
-
-    const formik = useFormik({
-        initialValues: initialValues,
-        onSubmit: () => {
-            //no submit
-        },
-    });
-
-    const resetFilterDisabled =
-        formik.values.level == '' && formik.values.subject == '' && formik.values.dayOfWeek.length == 0 && formik.values.timeOfDay.length == 0;
-
-    useEffect(() => {
-        if (formik.values.level) {
-            getSubjectOptionsByLevel(formik.values.level);
-
-            if (isInitialSubject) {
-                setIsInitialSubject(false);
-            } else {
-                formik.setFieldValue('subject', '');
-                const paramsObj = { ...params };
-                delete paramsObj.subject;
-                setParams({ ...paramsObj, level: formik.values.level });
-            }
-        }
-    }, [formik.values.level]);
-
-    useEffect(() => {
-        if (priceSortDirection === SortDirection.None) {
-            if (Object.keys(params).length > 0) {
-                const paramsObj = { ...params };
-                delete paramsObj.sort;
-                setParams({ ...paramsObj });
-            }
-        } else {
-            if (params.sort) {
-                const paramsObj = { ...params };
-                delete paramsObj.sort;
-                setParams({ ...paramsObj, sort: priceSortDirection });
-            } else {
-                setParams({ ...params, sort: priceSortDirection });
-            }
-        }
-    }, [priceSortDirection]);
-
-    const handleResetFilter = () => {
-        //can't delete all params because reset button couldn't affect price sort
-        const paramsObj = { ...params };
-        delete paramsObj.dayOfWeek;
-        delete paramsObj.level;
-        delete paramsObj.subject;
-        delete paramsObj.timeOfDay;
-        setParams(paramsObj);
-
-        setSubjectOptions([]);
-        setDayOfWeekArray([]);
-        setTimeOfDayArray([]);
-        formik.setValues(initialValues);
-    };
-
-    useEffect(() => {
-        if (subjectsData && isSuccessSubjects && formik.values.level && !isFetchingSubjects) {
-            setSubjectOptions(subjectsData);
-        }
-    }, [subjectsData, isFetchingSubjects]);
-
-    useEffect(() => {
-        if (formik.values.level && formik.values.subject) {
-            setParams({ ...params, subject: formik.values.subject });
-        }
-    }, [formik.values.subject]);
 
     const handleMenuClose = () => {
         const initialParamsObj: IParams = { ...params };
@@ -346,6 +195,154 @@ const SearchTutors = () => {
             setTimeOfDayArray([...timeOfDayArray, id]);
         }
     };
+
+    const fetchData = async () => {
+        getLevelOptions();
+
+        const urlQueries: IParams = getUrlParams(history.location.search.replace('?', ''));
+
+        if (Object.keys(urlQueries).length > 0) {
+            urlQueries.subject && formik.setFieldValue('subject', urlQueries.subject) && setIsInitialSubject(true);
+            urlQueries.level && formik.setFieldValue('level', urlQueries.level);
+            urlQueries.dayOfWeek && setDayOfWeekArray(urlQueries.dayOfWeek.split(','));
+            urlQueries.timeOfDay && setTimeOfDayArray(urlQueries.timeOfDay.split(','));
+
+            setParams(urlQueries);
+
+            //set sort direction if params.price is already in URL
+            if (urlQueries.sort) {
+                setPriceSortDirection(urlQueries.sort as SortDirection);
+            }
+        } else {
+            const tutorResponse = await getAvailableTutors(params).unwrap();
+            setLoadedTutorItems(tutorResponse.rows);
+        }
+
+        setInitialLoad(false);
+    };
+
+    const fetchFilteredData = async () => {
+        const filterParams = new URLSearchParams();
+        if (Object.keys(params).length !== 0 && params.constructor === Object) {
+            for (const [key, value] of Object.entries(params)) {
+                filterParams.append(key, value);
+            }
+            history.push({ search: filterParams.toString() });
+        } else {
+            history.push({ search: filterParams.toString() });
+        }
+
+        const tutorResponse = await getAvailableTutors({ ...params }).unwrap();
+        setLoadedTutorItems(tutorResponse.rows);
+    };
+
+    const handleScroll = async (e: HTMLDivElement) => {
+        if (loadedTutorItems.length !== availableTutors?.count) {
+            const innerHeight = e.scrollHeight;
+            const scrollPosition = e.scrollTop + e.clientHeight;
+
+            if (innerHeight === scrollPosition) {
+                //action to do on scroll to bottom
+                const newParams = { ...params };
+                newParams.page++;
+
+                const currentScrollTop = cardElement.scrollTop;
+                setScrollTopOffset(currentScrollTop);
+
+                const tutorResponse = await getAvailableTutors({
+                    ...newParams,
+                }).unwrap();
+                setLoadedTutorItems(loadedTutorItems.concat(tutorResponse.rows));
+            }
+        }
+    };
+
+    const handleResetFilter = () => {
+        //can't delete all params because reset button couldn't affect price sort
+        const paramsObj = { ...params };
+        delete paramsObj.dayOfWeek;
+        delete paramsObj.level;
+        delete paramsObj.subject;
+        delete paramsObj.timeOfDay;
+        setParams(paramsObj);
+
+        setSubjectOptions([]);
+        setDayOfWeekArray([]);
+        setTimeOfDayArray([]);
+        formik.setValues(initialValues);
+    };
+
+    const formik = useFormik({
+        initialValues: initialValues,
+        onSubmit: () => {
+            //no submit
+        },
+    });
+
+    const resetFilterDisabled =
+        formik.values.level == '' && formik.values.subject == '' && formik.values.dayOfWeek.length == 0 && formik.values.timeOfDay.length == 0;
+
+    useEffect(() => {
+        if (formik.values.level) {
+            getSubjectOptionsByLevel(formik.values.level);
+
+            if (isInitialSubject) {
+                setIsInitialSubject(false);
+            } else {
+                formik.setFieldValue('subject', '');
+                const paramsObj = { ...params };
+                delete paramsObj.subject;
+                setParams({ ...paramsObj, level: formik.values.level });
+            }
+        }
+    }, [formik.values.level]);
+
+    useEffect(() => {
+        if (priceSortDirection === SortDirection.None) {
+            if (Object.keys(params).length > 0) {
+                const paramsObj = { ...params };
+                delete paramsObj.sort;
+                setParams({ ...paramsObj });
+            }
+        } else {
+            if (params.sort) {
+                const paramsObj = { ...params };
+                delete paramsObj.sort;
+                setParams({ ...paramsObj, sort: priceSortDirection });
+            } else {
+                setParams({ ...params, sort: priceSortDirection });
+            }
+        }
+    }, [priceSortDirection]);
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        setScrollTopOffset(null);
+        if (!initialLoad) {
+            fetchFilteredData();
+        }
+    }, [params]);
+
+    useEffect(() => {
+        if (cardElement && scrollTopOffset) {
+            cardElement.scrollTop = scrollTopOffset;
+        }
+    }, [loadedTutorItems]);
+
+    useEffect(() => {
+        if (subjectsData && isSuccessSubjects && formik.values.level && !isFetchingSubjects) {
+            setSubjectOptions(subjectsData);
+        }
+    }, [subjectsData, isFetchingSubjects]);
+
+    useEffect(() => {
+        if (formik.values.level && formik.values.subject) {
+            setParams({ ...params, subject: formik.values.subject });
+        }
+    }, [formik.values.subject]);
 
     useEffect(() => {
         formik.setFieldValue('dayOfWeek', dayOfWeekArray);

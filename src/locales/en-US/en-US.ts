@@ -140,6 +140,8 @@ export const EN_US = {
             EMAIL: 'Email',
             ENTER_MAIL: 'Enter Email',
             SUBMIT_BTN: 'Reset Password',
+            PASSWORD: 'Password',
+            REPEAT_PASSWORD: 'Repeat password',
         },
         BACK_BTN: 'Back to Login',
     },

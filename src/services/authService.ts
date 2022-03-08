@@ -53,6 +53,12 @@ interface IRegisterStudent {
     dateOfBirth: string;
 }
 
+interface IChangePassword {
+    token: string;
+    password: string;
+    repeatPassword: string;
+}
+
 interface IResetPassword {
     email: string;
 }
@@ -80,6 +86,16 @@ export const authService = baseService.injectEndpoints({
                 url: `${URL}/reset-password`,
                 method: HttpMethods.POST,
                 body,
+            }),
+        }),
+        changePassword: builder.mutation<void, IChangePassword>({
+            query: (body) => ({
+                url: `${URL}/reset-password?token=${body.token}`,
+                method: HttpMethods.PUT,
+                body: {
+                    password: body.password,
+                    confirmPassword: body.repeatPassword,
+                },
             }),
         }),
         registerTutor: builder.mutation<void, IRegisterTutor>({
@@ -136,4 +152,5 @@ export const {
     useCheckMailMutation,
     useCheckUsernameMutation,
     useGenerateChildUsernameMutation,
+    useChangePasswordMutation,
 } = authService;
