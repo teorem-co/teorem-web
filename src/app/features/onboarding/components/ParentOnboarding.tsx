@@ -68,6 +68,7 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
         username: '',
         childPassword: '',
     });
+
     const handlePasswordFocus = () => {
         setPassTooltip(true);
     };
@@ -345,34 +346,34 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
             childDateOfBirth: Yup.string()
                 .required(t('FORM_VALIDATION.REQUIRED'))
                 .test('dateOfBirth', t('FORM_VALIDATION.FUTURE_DATE'), (value) => {
-                    const test = moment(value).diff(moment(), 'days');
+                    const currentDate = moment(value).diff(moment(), 'days');
 
-                    if (test < 0) {
+                    if (currentDate < 0) {
                         return true;
                     } else {
                         return false;
                     }
                 }),
             username: Yup.string()
-                // .test('username', 'Username already exists', async (value: any) => {
-                //     if (value) {
-                //         //filter all without selected child(on edit)
-                //         const filteredArray = child.filter((x) => x.username !== childUsername);
+                .test('username', 'Username already exists', async (value: any) => {
+                    if (value) {
+                        //filter all without selected child(on edit)
+                        const filteredArray = child.filter((x) => x.username !== childUsername);
 
-                //         //check backend usernames
-                //         const isValid = await checkUsername({
-                //             username: value,
-                //         }).unwrap();
+                        //check backend usernames
+                        const isValid = await checkUsername({
+                            username: value,
+                        }).unwrap();
 
-                //         //check local usernames
-                //         const checkCurrent = filteredArray.find((x) => x.username === value);
-                //         //set validation boolean
-                //         const finalValid = isValid || checkCurrent ? true : false;
+                        //check local usernames
+                        const checkCurrent = filteredArray.find((x) => x.username === value);
+                        //set validation boolean
+                        const finalValid = isValid || checkCurrent ? true : false;
 
-                //         return !finalValid;
-                //     }
-                //     return true;
-                // })
+                        return !finalValid;
+                    }
+                    return true;
+                })
                 .required(t('FORM_VALIDATION.REQUIRED')),
             childPassword: Yup.string()
                 .min(8, t('FORM_VALIDATION.TOO_SHORT'))
@@ -389,7 +390,7 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
         const isValid = await checkUsername({
             username: formikStepThree.values.username,
         }).unwrap();
-        //debugger;
+
         if (isValid) {
             setCheckUsernameValidation('This username already exists');
         } else {

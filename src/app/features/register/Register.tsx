@@ -96,7 +96,6 @@ const Register: React.FC = () => {
         const isValid = await checkMail({
             email: formik.values.email,
         }).unwrap();
-        //debugger;
         if (isValid) {
             setCheckMailValidation('This email already exists');
         } else {
@@ -129,7 +128,6 @@ const Register: React.FC = () => {
 
     // useEffect(() => {
     //     if (isSuccess) {
-    //         // debugger;
     //         history.push('/test');
     //         toastService.success('You are registered successfully.');
     //     }

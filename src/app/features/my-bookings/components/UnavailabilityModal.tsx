@@ -53,7 +53,6 @@ const UnavailabilityModal: React.FC<Props> = (props) => {
                     .toDate(),
             };
         }
-
         const condition = moment(toSend.startTime).isAfter(moment().add(3, 'hour'));
         if (condition) {
             await createTutorUnavailability(toSend).unwrap();
@@ -77,7 +76,7 @@ const UnavailabilityModal: React.FC<Props> = (props) => {
                         const startTime = moment(value, 'HH:mm');
                         const endTime = moment(formik.values.timeEnd, 'HH:mm');
                         const condition = moment(endTime).isBefore(startTime);
-                        //debugger;
+
                         if (condition) {
                             return false;
                         }
@@ -89,7 +88,7 @@ const UnavailabilityModal: React.FC<Props> = (props) => {
                         const endTime = moment(formik.values.timeEnd, 'HH:mm');
                         const endTimeFormated = moment(endTime).format('HH:mm');
                         const condition = startTimeFormated === endTimeFormated;
-                        //debugger;
+
                         if (condition) {
                             return false;
                         }
@@ -166,6 +165,9 @@ const UnavailabilityModal: React.FC<Props> = (props) => {
                                                 meta={formik.getFieldMeta('timeStart')}
                                                 defaultValue={moment(event, 'HH:mm')}
                                                 isDisabled={wholeDayChecked}
+                                                onChangeCustom={(e) => {
+                                                    formik.setFieldValue('timeStart', moment(e).format('HH:mm'));
+                                                }}
                                             />
                                         </div>
                                     </div>
@@ -177,9 +179,13 @@ const UnavailabilityModal: React.FC<Props> = (props) => {
                                                 meta={formik.getFieldMeta('timeEnd')}
                                                 defaultValue={moment(event, 'HH:mm').add(1, 'hour')}
                                                 isDisabled={wholeDayChecked}
+                                                onChangeCustom={(e) => {
+                                                    formik.setFieldValue('timeEnd', moment(e).format('HH:mm'));
+                                                }}
                                             />
                                         </div>
                                     </div>
+                                    <div>{JSON.stringify(formik.values, null, 2)}</div>
                                 </div>
                             </Form>
                         </FormikProvider>

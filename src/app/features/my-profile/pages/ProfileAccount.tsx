@@ -129,6 +129,7 @@ const ProfileAccount = () => {
         };
         await changePassword(toSend);
         toastService.success('You successfully changed a password');
+        formik.resetForm();
         setSaveBtnActive(false);
     };
 

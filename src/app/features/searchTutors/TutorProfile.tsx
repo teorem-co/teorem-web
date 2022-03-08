@@ -103,8 +103,7 @@ const TutorProfile = () => {
     const handleScroll = (e: HTMLDivElement) => {
         const innerHeight = e.scrollHeight;
         const scrollPosition = e.scrollTop + e.clientHeight;
-
-        if (!hideLoadMore() && innerHeight === scrollPosition) {
+        if (!hideLoadMore() && innerHeight === scrollPosition && loadedMyReviews.length > 0) {
             handleLoadMore();
         }
         // if (innerHeight === scrollPosition) {

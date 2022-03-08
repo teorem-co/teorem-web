@@ -9,7 +9,6 @@ import { useHistory } from 'react-router';
 
 import { RoleOptions } from '../../../slices/roleSlice';
 import MainWrapper from '../../components/MainWrapper';
-import LoaderPrimary from '../../components/skeleton-loaders/LoaderPrimary';
 import LoaderSecondary from '../../components/skeleton-loaders/LoaderSecondary';
 import { useAppSelector } from '../../hooks';
 import { calcModalPosition } from '../../utils/calcModalPosition';
@@ -375,6 +374,7 @@ const MyBookings: React.FC = () => {
                     <p className="upcoming-lessons__title">CALENDAR</p>
                     <div ref={highlightRef} className="card card--mini-calendar mb-4 pos--rel">
                         <Calendar
+                            locale="en"
                             onActiveStartDateChange={(e) => {
                                 hideShowHighlight(e.activeStartDate);
                             }}

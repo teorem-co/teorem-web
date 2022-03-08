@@ -14,12 +14,12 @@ export const getDateAgoLabel = (dateCreated: string) => {
     }
 
     if (monthsDiff !== 0) {
-        return `${monthsDiff} months ago`;
+        return `${monthsDiff === 1 ? monthsDiff + ' month ago' : monthsDiff + ' months ago'} `;
     }
 
     if (weekDiff !== 0) {
-        return `${weekDiff} weeks ago`;
+        return `${weekDiff === 1 ? weekDiff + ' week ago' : weekDiff + ' weeks ago'}`;
     }
 
-    return `${daysDiff} days ago`;
+    return `${daysDiff === 0 ? 'Today' : daysDiff === 1 ? daysDiff + ' day ago' : daysDiff + ' days ago'}`;
 };
