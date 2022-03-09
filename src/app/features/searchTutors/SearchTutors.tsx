@@ -27,8 +27,15 @@ interface Values {
 }
 
 const SearchTutors = () => {
-    const [getAvailableTutors, { data: availableTutors, isLoading: isLoadingAvailableTutors, isUninitialized: availableTutorsUninitialized }] =
-        useLazyGetAvailableTutorsQuery();
+    const [
+        getAvailableTutors,
+        {
+            data: availableTutors,
+            isLoading: isLoadingAvailableTutors,
+            isUninitialized: availableTutorsUninitialized,
+            isFetching: availableTutorsFetching,
+        },
+    ] = useLazyGetAvailableTutorsQuery();
     const [getLevelOptions, { data: levelOptions, isLoading: isLoadingLevels }] = useLazyGetLevelOptionsQuery();
     const [
         getSubjectOptionsByLevel,
@@ -53,7 +60,7 @@ const SearchTutors = () => {
     const cardRef = useRef<HTMLDivElement>(null);
     const cardElement = cardRef.current as HTMLDivElement;
     const levelDisabled = !levelOptions || isLoadingLevels;
-    const isLoading = isLoadingAvailableTutors || availableTutorsUninitialized;
+    const isLoading = isLoadingAvailableTutors || availableTutorsUninitialized || availableTutorsFetching;
     const initialValues: Values = {
         subject: '',
         level: '',

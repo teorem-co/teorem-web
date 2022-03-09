@@ -19,7 +19,7 @@ const NotFound = () => {
             </div>
             <h1 className="not-found__title">{t('NOT_FOUND.TITLE')}</h1>
             <p className="not-found__subtitle">{t('NOT_FOUND.SUBTITLE')}</p>
-            <button onClick={() => history.goBack()} className="btn btn--sm btn--clear type--wgt--extra-bold">
+            <button onClick={() => history.push('/my-bookings')} className="btn btn--sm btn--clear type--wgt--extra-bold">
                 {t('NOT_FOUND.BACK_BUTTON')}
             </button>
         </div>
