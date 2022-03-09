@@ -66,29 +66,29 @@ const Earnings = () => {
                     <div className="upcoming-lessons__title">GENERAL INFORMATION</div>
                     <div className="row">
                         <div className="col col-12 col-md-6 col-xl-3">
-                            <div className="card--dashboard">
-                                <div className="card--dashboard__title">{earningsData?.totalBookings}</div>
+                            <div className="card--earnings">
+                                <div className="card--earnings__title">{earningsData?.totalBookings}</div>
                                 <div>Total bookings</div>
                                 <i className="icon icon--subject cur--default"></i>
                             </div>
                         </div>
                         <div className="col col-12 col-md-6 col-xl-3">
-                            <div className="card--dashboard">
-                                <div className="card--dashboard__title">{earningsData?.totalStudents}</div>
+                            <div className="card--earnings">
+                                <div className="card--earnings__title">{earningsData?.totalStudents}</div>
                                 <div>Total students</div>
                                 <i className="icon icon--tutor cur--default"></i>
                             </div>
                         </div>
                         <div className="col col-12 col-md-6 col-xl-3">
-                            <div className="card--dashboard">
-                                <div className="card--dashboard__title">{earningsData?.totalReviews}</div>
+                            <div className="card--earnings">
+                                <div className="card--earnings__title">{earningsData?.totalReviews}</div>
                                 <div>Total reviews</div>
                                 <i className="icon icon--reviews cur--default"></i>
                             </div>
                         </div>
                         <div className="col col-12 col-md-6 col-xl-3">
-                            <div className="card--dashboard">
-                                <div className="card--dashboard__title">{earningsData?.totalEarnings}.00</div>
+                            <div className="card--earnings">
+                                <div className="card--earnings__title">{earningsData?.totalEarnings}.00</div>
                                 <div>Total revenue</div>
                                 <i className="icon icon--level cur--default"></i>
                             </div>
