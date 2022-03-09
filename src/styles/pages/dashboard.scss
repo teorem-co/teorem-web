@@ -1,0 +1,37 @@
+/*
+    pages: dashboard.scss
+*/
+
+.dashboard {
+    &__list {
+        margin-top: calc(#{$unit} * 10);
+
+        &__item {
+            display: flex;
+            width: 100%;
+            border: 1px solid $grey-ed;
+            border-radius: $border-rounded;
+            padding: calc(#{$unit} * 4) calc(#{$unit} * 6);
+            margin-bottom: calc(#{$unit} * 2);
+
+            div:nth-child(1) {
+                width: calc(30% - 30px);
+            }
+            div:nth-child(2) {
+                width: 20%;
+                color: $color-text-secondary;
+            }
+            div:nth-child(3) {
+                width: 30%;
+                display: flex;
+            }
+            div:nth-child(4) {
+                width: 20%;
+            }
+            div:nth-child(5) {
+                width: 30px;
+                text-align: right;
+            }
+        }
+    }
+}

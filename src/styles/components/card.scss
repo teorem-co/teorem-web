@@ -245,7 +245,7 @@
         }
     }
 
-    &--dashboard {
+    &--earnings {
         overflow: hidden;
         position: relative;
         background-color: $white;
@@ -271,6 +271,34 @@
             bottom: 24px;
             right: 24px;
             background-color: $color-primary-lighter;
+        }
+    }
+
+    &--dashboard {
+        background-color: $white;
+        padding: 12px;
+        border: 1px solid $grey-ed;
+        border-radius: $border-rounded;
+
+        &--brand {
+            background-color: $color-primary;
+            color: $white;
+            .card--dashboard__btn {
+                color: white;
+                background-color: rgba(255, 255, 255, 0.15);
+            }
+        }
+        &__text {
+            opacity: 0.7;
+            margin-bottom: calc(#{$unit} * 4);
+        }
+
+        &__btn {
+            background-color: rgba(124, 106, 244, 0.05);
+            color: $color-primary;
+            i {
+                pointer-events: none;
+            }
         }
     }
 }
