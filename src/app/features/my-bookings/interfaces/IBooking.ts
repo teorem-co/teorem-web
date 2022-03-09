@@ -16,4 +16,5 @@ export default interface IBooking {
     startTime: string;
     endTime: string;
     isAccepted: boolean;
+    userFullName: string;
 }

@@ -123,7 +123,6 @@ const StudentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep }) =
         <>
             <FormikProvider value={formik}>
                 <Form>
-                    {/* <div>{JSON.stringify(formik.values, null, 2)}</div> */}
                     <div className="field">
                         <label htmlFor="countryId" className="field__label">
                             {t('REGISTER.FORM.COUNTRY')}

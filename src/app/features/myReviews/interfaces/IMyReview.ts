@@ -18,6 +18,7 @@ interface IMyReview {
     Subject: ISubject;
     userId: string;
     User: IUser;
+    userName: string;
 }
 
 export default IMyReview;

@@ -83,9 +83,7 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                         ) : (
                             <div className="flex flex--center">
                                 <i className="icon icon--base icon--child icon--grey mr-4"></i>
-                                <div className="type--color--secondary">
-                                    {event.User.firstName} {event.User.lastName}
-                                </div>
+                                <div className="type--color--secondary">{event.userFullName}</div>
                             </div>
                         )}
                     </div>

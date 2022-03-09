@@ -14,11 +14,7 @@ const ReviewItem: FC<Props> = (props: Props) => {
         <>
             <div key={reviewItem.id} className="reviews-list__item">
                 <div>
-                    <h4 className="type--md type--wgt--normal mb-1">
-                        {reviewItem.User ? reviewItem.User.firstName : 'Deleted user'}
-                        &nbsp;
-                        {reviewItem.User ? reviewItem.User.lastName : ''}
-                    </h4>
+                    <h4 className="type--md type--wgt--normal mb-1">{reviewItem.userName}</h4>
                     <p className="type--color--brand-light">{reviewItem.User ? reviewItem.User.Role.name : 'Child'}</p>
                 </div>
                 <div>
