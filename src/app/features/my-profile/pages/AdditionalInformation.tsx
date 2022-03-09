@@ -35,12 +35,18 @@ const AdditionalInformation = () => {
     const [initialValues, setInitialValues] = useState<IUpdateAdditionalInfo>({
         aboutTutor: '',
         aboutLessons: '',
-        yearsOfExperience: '',
+        yearsOfExperience: null,
         currentOccupation: '',
     });
 
     const handleSubmit = async (values: IUpdateAdditionalInfo) => {
-        await updateAditionalInfo(values);
+        const toSend: IUpdateAdditionalInfo = {
+            aboutLessons: values.aboutLessons,
+            aboutTutor: values.aboutTutor,
+            currentOccupation: values.currentOccupation,
+            yearsOfExperience: values.yearsOfExperience ? values.yearsOfExperience : null,
+        };
+        await updateAditionalInfo(toSend);
         const progressResponse = await getProfileProgress().unwrap();
         dispatch(setMyProfileProgress(progressResponse));
         setSaveBtnActive(false);
@@ -56,8 +62,13 @@ const AdditionalInformation = () => {
     };
 
     const handleUpdateOnRouteChange = () => {
-        handleSubmit(formik.values);
-        return true;
+        if (Object.keys(formik.errors).length > 0) {
+            toastService.error('You didn`t fulfill all field requirements');
+            return false;
+        } else {
+            handleSubmit(formik.values);
+            return true;
+        }
     };
 
     const fetchData = async () => {

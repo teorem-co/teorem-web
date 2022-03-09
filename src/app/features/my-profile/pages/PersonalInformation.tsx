@@ -4,6 +4,7 @@ import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
+import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 
 import { useLazyGetProfileProgressQuery } from '../../../../services/tutorService';
@@ -118,15 +119,20 @@ const PersonalInformation = () => {
     };
 
     const handleUpdateOnRouteChange = () => {
-        updateUserInformation({
-            firstName: formik.values.firstName,
-            lastName: formik.values.lastName,
-            phoneNumber: formik.values.phoneNumber,
-            countryId: formik.values.countryId,
-            dateOfBirth: moment(formik.values.dateOfBirth).toISOString(),
-            profileImage: formik.values.profileImage,
-        });
-        return true;
+        if (Object.keys(formik.errors).length > 0) {
+            toastService.error('You didn`t fulfill all field requirements');
+            return false;
+        } else {
+            updateUserInformation({
+                firstName: formik.values.firstName,
+                lastName: formik.values.lastName,
+                phoneNumber: formik.values.phoneNumber,
+                countryId: formik.values.countryId,
+                dateOfBirth: moment(formik.values.dateOfBirth).toISOString(),
+                profileImage: formik.values.profileImage,
+            });
+            return true;
+        }
     };
 
     const generateValidation = () => {
