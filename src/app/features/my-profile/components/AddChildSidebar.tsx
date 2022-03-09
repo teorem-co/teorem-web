@@ -43,6 +43,7 @@ const AddChildSidebar = (props: Props) => {
 
     if (childData) {
         initialValueObj = childData;
+        initialValueObj['password'] = '';
     } else {
         initialValueObj = {
             firstName: '',
@@ -153,20 +154,23 @@ const AddChildSidebar = (props: Props) => {
             username: Yup.string()
                 .test('username', 'Username already exists', async (value: any) => {
                     if (value) {
-                        //filter all without selected child(on edit)
-                        const filteredArray = child.filter((x) => x.username !== value);
+                        if (childData && childData.username !== value) {
+                            //filter all without selected child(on edit)
+                            const filteredArray = child.filter((x) => x.username !== value);
 
-                        //check backend usernames
-                        const isValid = await checkUsername({
-                            username: value,
-                        }).unwrap();
+                            //check backend usernames
+                            const isValid = await checkUsername({
+                                username: value,
+                            }).unwrap();
 
-                        //check local usernames
-                        const checkCurrent = filteredArray.find((x) => x.username === value);
-                        //set validation boolean
-                        const finalValid = isValid || checkCurrent ? true : false;
+                            //check local usernames
+                            const checkCurrent = filteredArray.find((x) => x.username === value);
+                            //set validation boolean
+                            const finalValid = isValid || checkCurrent ? true : false;
 
-                        return !finalValid;
+                            return !finalValid;
+                        }
+                        return true;
                     }
                     return true;
                 })
@@ -196,7 +200,7 @@ const AddChildSidebar = (props: Props) => {
 
     const generateChildUsername = async () => {
         const nameForGenerator = formik.values.firstName;
-        if (nameForGenerator) {
+        if (nameForGenerator && !formik.values.username) {
             const response = await generateChildUsernamePost({
                 username: nameForGenerator,
             }).unwrap();
@@ -207,6 +211,8 @@ const AddChildSidebar = (props: Props) => {
 
     const formik = useFormik({
         initialValues: initialValueObj,
+        validateOnBlur: true,
+        validateOnChange: false,
         onSubmit: handleSubmit,
         enableReinitialize: true,
         validationSchema: Yup.object().shape(generateValidationSchema()),
