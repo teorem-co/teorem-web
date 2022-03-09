@@ -1,6 +1,6 @@
 import { groupBy } from 'lodash';
 import moment from 'moment';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { io } from 'socket.io-client';
 
@@ -49,10 +49,6 @@ const Dashboard = () => {
             setActiveIndex(activeIndex - 1);
         }
     };
-
-    useEffect(() => {
-        console.log('activeIndex: ', activeIndex);
-    }, [activeIndex]);
 
     useEffect(() => {
         fetchData();
@@ -145,14 +141,14 @@ const Dashboard = () => {
                             <div className="dashboard__list">
                                 {Object.keys(groupedUpcomming).map((key: string) => {
                                     return (
-                                        <>
+                                        <React.Fragment key={key}>
                                             <div className="flex--primary">
                                                 <div className="mb-4 mt-6 type--wgt--bold">{key}</div>
                                                 <div className="type--color--secondary">Total: {groupedUpcomming[key].length}:00h</div>
                                             </div>
                                             {groupedUpcomming[key].map((item: IBooking) => {
                                                 return (
-                                                    <div className="dashboard__list__item">
+                                                    <div className="dashboard__list__item" key={item.id}>
                                                         <div>
                                                             {item.User.firstName}&nbsp;{item.User.lastName}
                                                         </div>
@@ -169,7 +165,7 @@ const Dashboard = () => {
                                                     </div>
                                                 );
                                             })}
-                                        </>
+                                        </React.Fragment>
                                     );
                                 })}
                             </div>
@@ -188,7 +184,7 @@ const Dashboard = () => {
                     {notificationsData && notificationsData.find((x) => x.isRead === false) ? (
                         notificationsData.map((notification: INotification) => {
                             if (!notification.isRead) {
-                                return <NotificationItem notificationData={notification} />;
+                                return <NotificationItem key={notification.id} notificationData={notification} />;
                             }
                         })
                     ) : (
