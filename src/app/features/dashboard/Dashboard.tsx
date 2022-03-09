@@ -114,7 +114,7 @@ const Dashboard = () => {
                                             </div>
                                         </div>
                                     ) : (
-                                        'There is no scheduled bookings today'
+                                        <div>There is no scheduled bookings today</div>
                                     )}
                                 </div>
                                 <div className="col col-12 col-xl-8">
