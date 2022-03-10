@@ -53,7 +53,7 @@ export const EN_US = {
         TUTOR_AGE: 'Tutor must have more than 18 years old',
     },
     NAVIGATION: {
-        MY_BOOKINGS: 'My Bookings',
+        MY_BOOKINGS: 'Calendar',
         MY_REVIEWS: 'My reviews',
         SEARCH_TUTORS: 'Search tutors',
         MY_PROFILE: 'My Profile',
@@ -272,7 +272,7 @@ export const EN_US = {
         VIEW_CALENDAR: 'View Calendar',
         VIDEOS_TITLE: 'Play / Download Lessons',
         EMPTY_VIDEOS: 'There is no completed lessons available to select',
-        LINK: 'Go to My Bookings',
+        LINK: 'Go to Calendar',
         COUNT_EXTENSION: 'Lessons',
     },
     WRITE_REVIEW: {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import logo from '../../../../assets/images/logo.svg';
-import { LANDING_PATHS } from '../../../routes';
+import { LANDING_PATHS, PATHS } from '../../../routes';
 
 const Navigation = () => {
     const [showSidebar, setShowSidebar] = useState(false);
@@ -44,8 +44,12 @@ const Navigation = () => {
                         </div>
                         <div className="flex--primary">
                             <div>
-                                <button className="btn btn--ghost  btn--base type--color--black">Sign in</button>
-                                <button className="btn btn--primary ml-4 btn--base">Get started</button>
+                                <NavLink to={PATHS.LOGIN} className="btn btn--ghost  btn--base type--color--black">
+                                    Sign in
+                                </NavLink>
+                                <NavLink to={PATHS.REGISTER} className="btn btn--primary ml-4 btn--base">
+                                    Get started
+                                </NavLink>
                             </div>
                         </div>
                         {/* <div className="landing__navigation__language">
