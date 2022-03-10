@@ -200,7 +200,7 @@ const AdditionalInformation = () => {
                                                 />
                                             </div>
                                         </div>
-                                        <div className="col col-12 col-xl-6">
+                                        <div className="col col-12">
                                             <div className="field">
                                                 <label className="field__label" htmlFor="aboutTutor">
                                                     {t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_LABEL')}
@@ -214,7 +214,7 @@ const AdditionalInformation = () => {
                                                 />
                                             </div>
                                         </div>
-                                        <div className="col col-12 col-xl-6">
+                                        <div className="col col-12">
                                             <div className="field">
                                                 <label className="field__label" htmlFor="aboutLessons">
                                                     {t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_LABEL')}

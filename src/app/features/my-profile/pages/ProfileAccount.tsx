@@ -252,7 +252,7 @@ const ProfileAccount = () => {
                                 <div className="mb-2 type--wgt--bold">{t('ACCOUNT.CARD_DETAILS.TITLE')}</div>
                                 <div className="type--color--tertiary w--200--max">{t('ACCOUNT.CARD_DETAILS.DESCRIPTION')}</div>
                             </div>
-                            <div className="dash-wrapper">
+                            {/* <div className="dash-wrapper">
                                 <div className="dash-wrapper__item">
                                     <div className="dash-wrapper__item__element" onClick={() => setAddSidebarOpen(true)}>
                                         <div className="flex--primary cur--pointer">
@@ -266,7 +266,10 @@ const ProfileAccount = () => {
                                         </div>
                                     </div>
                                 </div>
-                                {/* Map through credit cards here, change dash-wrapper__item__element children layout to work with 3 child items (card image,card data and edit icon) */}
+                                
+                            </div> */}
+                            <div>
+                                <div className="btn btn--primary btn--base">Go to stripe</div>
                             </div>
                         </div>
                     </Form>

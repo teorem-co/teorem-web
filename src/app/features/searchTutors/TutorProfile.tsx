@@ -153,7 +153,7 @@ const TutorProfile = () => {
                                         </div>
                                     </div>
                                     <div className="mb-10">
-                                        <div className="type--wgt--bold mb-2">General Availability</div>
+                                        <div className="type--wgt--bold mb-2">{t('MY_PROFILE.GENERAL_AVAILABILITY.TITLE')}</div>
 
                                         {tutorAvailability && tutorAvailability[1].length > 1 ? (
                                             <table className="table table--availability">

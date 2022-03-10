@@ -369,7 +369,7 @@ const SearchTutors = () => {
                     Click me
                 </button> */}
                 <div className="card--secondary__head">
-                    <div className="type--lg type--wgt--bold">{t('SEARCH_TUTORS.TUTOR_LIST')}</div>
+                    <div className="type--lg type--wgt--bold">{t('SEARCH_TUTORS.TITLE')}</div>
                     <div className="flex flex--center">
                         <FormikProvider value={formik}>
                             <Form className="flex" noValidate>
