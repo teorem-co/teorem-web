@@ -17,19 +17,9 @@ const HeroSection = (props: Props) => {
 
     return (
         <div className="landing__hero">
-            <div className="landing__hero__title landing--fluid--title">
-                {title}
-            </div>
-            <div className="landing__hero__subtitle landing--fluid--sm type--color--secondary">
-                {desc}
-            </div>
-            {showBtn ? (
-                <button className="btn btn--primary btn--lg mt-10">
-                    Try for free
-                </button>
-            ) : (
-                <></>
-            )}
+            <div className="landing__hero__title landing--fluid--title">{title}</div>
+            <div className="landing__hero__subtitle landing--fluid--sm type--color--secondary">{desc}</div>
+            {showBtn ? <button className="btn btn--primary btn--lg mt-10">Try for free</button> : <></>}
             <div className="landing__avatar landing__avatar--first">
                 <img src={firstAvatar} alt="user-1" />
             </div>

@@ -33,12 +33,6 @@
         width: 105px;
     }
 
-    &--200 {
-        &--max {
-            max-width: 200px;
-        }
-    }
-
     &--128 {
         width: 128px;
 
@@ -51,6 +45,18 @@
 
         &--max {
             max-width: 136px;
+        }
+    }
+
+    &--200 {
+        &--max {
+            max-width: 200px;
+        }
+    }
+
+    &--260 {
+        &--max {
+            max-width: 260px !important;
         }
     }
 
@@ -68,6 +74,13 @@
 
         &--max {
             max-width: 448px;
+        }
+    }
+    &--550 {
+        width: 550px;
+
+        &--max {
+            max-width: 550px !important;
         }
     }
     &--632 {

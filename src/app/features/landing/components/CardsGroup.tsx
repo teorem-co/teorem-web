@@ -19,7 +19,7 @@ const CardsGroup = (props: Props) => {
     const { showCreditCards } = props;
 
     return showCreditCards ? (
-        <div className="landing__cards">
+        <div className="landing__cards mt-10">
             <div className="landing__cards__item">
                 <img src={stripe} alt="stripe" />
             </div>
@@ -37,7 +37,7 @@ const CardsGroup = (props: Props) => {
             </div>
         </div>
     ) : (
-        <div className="landing__cards">
+        <div className="landing__cards mt-10">
             <div className="landing__cards__item">
                 <img src={unitedNations} alt="un" />
             </div>

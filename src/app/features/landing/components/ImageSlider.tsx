@@ -18,14 +18,16 @@ const ImageSlider = () => {
         //     className="landing__slider"
         // >
         <>
-            <div>
-                <img src={calendar} className="landing__img" alt="calendar" />
-            </div>
-            <div>
-                <img src={tutorList} className="landing__img" alt="tutorList" />
-            </div>
-            <div>
-                <img src={calendar} className="landing__img" alt="calendar" />
+            <div className="landing__carousel">
+                <div className="landing__carousel__item">
+                    <img src={calendar} className="landing__img" alt="calendar" />
+                </div>
+                <div className="landing__carousel__item">
+                    <img src={tutorList} className="landing__img" alt="tutorList" />
+                </div>
+                <div className="landing__carousel__item">
+                    <img src={calendar} className="landing__img" alt="calendar" />
+                </div>
             </div>
         </>
         // </Carousel>
