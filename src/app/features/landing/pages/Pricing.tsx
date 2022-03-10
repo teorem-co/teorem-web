@@ -1,23 +1,13 @@
-import React from 'react';
-
-import card from '../../../../assets/images/card.png';
-import euro from '../../../../assets/images/euro.png';
-import money from '../../../../assets/images/money.png';
-import wallet from '../../../../assets/images/wallet.png';
 import useWindowSize from '../../../utils/useWindowSize';
 import FAQGroup from '../components/FAQGroup';
-import FeaturesCard from '../components/FeaturesCard';
 import Footer from '../components/Footer';
 import HeroSection from '../components/HeroSection';
-import LandingWrapper from '../components/LandingWrapper';
 import Navigation from '../components/Navigation';
-import ReviewCard from '../components/ReviewCard';
 import TextCard from '../components/TextCard';
 import grid7 from './../../../../assets/images/grid7.jpg';
 import grid8 from './../../../../assets/images/grid8.jpg';
 import grid9 from './../../../../assets/images/grid9.jpg';
 import grid10 from './../../../../assets/images/grid10.jpg';
-import profileIllustration1 from './../../../../assets/images/profile-illustration.jpg';
 
 const Pricing = () => {
     return (

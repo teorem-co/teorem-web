@@ -1,5 +1,3 @@
-import React from 'react';
-
 import calendar from '../../../../assets/images/landing_calendar.jpg';
 import firstAvatar from '../../../../assets/images/user-avatar-1.png';
 import secondAvatar from '../../../../assets/images/user-avatar-2.png';
@@ -7,7 +5,6 @@ import thirdAvatar from '../../../../assets/images/user-avatar-3.png';
 import fourthAvatar from '../../../../assets/images/user-avatar-4.png';
 import fifthAvatar from '../../../../assets/images/user-avatar-5.png';
 import FAQGroup from '../components/FAQGroup';
-import ImageSlider from '../components/ImageSlider';
 import LandingWrapper from '../components/LandingWrapper';
 import ReviewCard from '../components/ReviewCard';
 import TextCard from '../components/TextCard';
