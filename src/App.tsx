@@ -9,8 +9,8 @@ import ISocketNotification from './interfaces/notification/ISocketNotification';
 function App() {
     const userId = useAppSelector((state) => state.auth.user?.id);
     const childIds = useAppSelector((state) => state.auth.user?.childIds);
-
-    const socket = io('http://192.168.11.83:8000');
+    const serverUrl = `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_API_PORT}`;
+    const socket = io(serverUrl);
     useEffect(() => {
         // socket.on('connect', () => {
         //     console.log(`Connected with id : ${socket.id}`); // true

@@ -144,6 +144,7 @@ const MyBookings: React.FC = () => {
     };
 
     const handleSelectedEvent = (e: IBookingTransformed) => {
+        //debugger;
         if (userRole === RoleOptions.Tutor) {
             if (unavailableCurrentEvent.length > 0) {
                 return;
@@ -156,7 +157,9 @@ const MyBookings: React.FC = () => {
                     setOpenUnavailabilityEditModal(true);
                     setSelectedUnavailability(e.id);
                     setSelectedSlot(e.start);
+                    setOpenEventDetails(false);
                 } else {
+                    setOpenUnavailabilityEditModal(false);
                     getBookingById(e.id);
                     setOpenEventDetails(true);
                     setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));

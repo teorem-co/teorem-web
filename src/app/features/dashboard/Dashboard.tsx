@@ -28,7 +28,8 @@ const Dashboard = () => {
     const [activeIndex, setActiveIndex] = useState<number>(0);
 
     const userId = useAppSelector((state) => state.auth.user?.id);
-    const socket = io('http://192.168.11.83:8000');
+    const serverUrl = `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_API_PORT}`;
+    const socket = io(serverUrl);
 
     const fetchData = async () => {
         await getUnreadNotifications().unwrap();
@@ -104,7 +105,7 @@ const Dashboard = () => {
                                             <div className="flex--primary">
                                                 <div>
                                                     {moment(todayScheduled[activeIndex].startTime).format('HH:mm')} -{' '}
-                                                    {moment(todayScheduled[activeIndex].endTime).format('HH:mm')}
+                                                    {moment(todayScheduled[activeIndex].endTime).add(1, 'minute').format('HH:mm')}
                                                 </div>
                                                 <button className="btn btn--base card--dashboard__btn">Join</button>
                                             </div>
