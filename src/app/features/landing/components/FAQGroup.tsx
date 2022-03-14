@@ -1,38 +1,42 @@
 import React from 'react';
 
+import IFAQItem from '../interfaces/IFAQItem';
+import FAQItem from './FAQItem';
+
+const FAQContent: IFAQItem[] = [
+    {
+        id: 'faq-1',
+        question: 'What is the price of instructions?',
+        answer: 'lorem ipsum lorem ipsum',
+    },
+    {
+        id: 'faq-2',
+        question: 'What is a trial version?',
+        answer: 'lorem ipsum lorem ipsum',
+    },
+    {
+        id: 'faq-3',
+        question: 'How the subscription works?',
+        answer: 'lorem ipsum lorem ipsum',
+    },
+    {
+        id: 'faq-4',
+        question: 'What are the payment options?',
+        answer: 'lorem ipsum lorem ipsum',
+    },
+    {
+        id: 'faq-5',
+        question: 'Can I listen to more subjects?',
+        answer: 'lorem ipsum lorem ipsum',
+    },
+];
+
 const FAQGroup = () => {
     return (
         <div className="landing__faq mt-10">
-            <div className="flex--primary p-3 p-md-6">
-                <div className="flex--grow type--color--secondary">What is the price of instructions?</div>
-                <div className="flex--shrink">
-                    <i className="icon icon--sm icon--black icon--plus"></i>
-                </div>
-            </div>
-            <div className="flex--primary p-3 p-md-6">
-                <div className="flex--grow type--color--secondary">What is a trial version?</div>
-                <div className="flex--shrink">
-                    <i className="icon icon--sm icon--black icon--plus"></i>
-                </div>
-            </div>
-            <div className="flex--primary p-3 p-md-6">
-                <div className="flex--grow type--color--secondary">How the subscription works?</div>
-                <div className="flex--shrink">
-                    <i className="icon icon--sm icon--black icon--plus"></i>
-                </div>
-            </div>
-            <div className="flex--primary p-3 p-md-6 ">
-                <div className="flex--grow type--color--secondary">What are the payment options?</div>
-                <div className="flex--shrink">
-                    <i className="icon icon--sm icon--black icon--plus"></i>
-                </div>
-            </div>
-            <div className="flex--primary p-3 p-md-6">
-                <div className="flex--grow type--color--secondary">Can I listen to more subjects?</div>
-                <div className="flex--shrink">
-                    <i className="icon icon--sm icon--black icon--plus"></i>
-                </div>
-            </div>
+            {FAQContent.map((currentFAQItem: IFAQItem) => {
+                return <FAQItem key={currentFAQItem.id} data={currentFAQItem} />;
+            })}
         </div>
     );
 };

@@ -14,6 +14,7 @@ import TooltipPassword from '../../register/TooltipPassword';
 import AddCreditCard from '../components/AddCreditCard';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
+import StripeModal from '../components/StripeModal';
 import IChangePassword from '../interfaces/IChangePassword';
 import { setMyProfileProgress } from '../slices/myProfileSlice';
 
@@ -31,6 +32,7 @@ const ProfileAccount = () => {
     //const [editSidebarOpen, setEditSidebarOpen] = useState(false);
     const [saveBtnActive, setSaveBtnActive] = useState(false);
     const [passTooltip, setPassTooltip] = useState<boolean>(false);
+    const [stripeModalOpen, setStripeModalOpen] = useState<boolean>(false);
 
     const { t } = useTranslation();
     const profileProgressState = useAppSelector((state) => state.myProfileProgress);
@@ -269,11 +271,14 @@ const ProfileAccount = () => {
                                 
                             </div> */}
                             <div>
-                                <div className="btn btn--primary btn--base">Go to stripe</div>
+                                <div onClick={() => setStripeModalOpen(true)} className="btn btn--primary btn--base">
+                                    Go to stripe
+                                </div>
                             </div>
                         </div>
                     </Form>
                 </FormikProvider>
+                <>{stripeModalOpen && <StripeModal handleClose={() => setStripeModalOpen(false)} />}</>
             </div>
             <AddCreditCard closeSidebar={closeAddCardSidebar} sideBarIsOpen={addSidebarOpen} />
         </MainWrapper>

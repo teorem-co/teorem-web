@@ -11,6 +11,7 @@ function App() {
     const childIds = useAppSelector((state) => state.auth.user?.childIds);
     const serverUrl = `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_API_PORT}`;
     const socket = io(serverUrl);
+
     useEffect(() => {
         // socket.on('connect', () => {
         //     console.log(`Connected with id : ${socket.id}`); // true
