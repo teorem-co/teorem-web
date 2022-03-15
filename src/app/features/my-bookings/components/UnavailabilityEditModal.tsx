@@ -37,7 +37,10 @@ const UnavailabilityEditModal: React.FC<Props> = (props) => {
                                 </div>
                             </div>
                             <div className="mb-6">
-                                <i className="icon icon--base icon--grey icon--delete d--ib mr-2" onClick={() => handleDelete()}></i>
+                                {!moment(event.startTime).isBefore(moment()) && (
+                                    <i className="icon icon--base icon--grey icon--delete d--ib mr-2" onClick={() => handleDelete()}></i>
+                                )}
+
                                 <i
                                     className="icon icon--base icon--grey icon--close"
                                     onClick={() => {

@@ -1,6 +1,7 @@
 import { groupBy } from 'lodash';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import { io } from 'socket.io-client';
 
@@ -30,6 +31,7 @@ const Dashboard = () => {
     const userId = useAppSelector((state) => state.auth.user?.id);
     const serverUrl = `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_API_PORT}`;
     const socket = io(serverUrl);
+    const history = useHistory();
 
     const fetchData = async () => {
         await getUnreadNotifications().unwrap();
@@ -162,7 +164,7 @@ const Dashboard = () => {
                                                         <div>
                                                             {moment(item.startTime).format('HH:mm')} - {moment(item.endTime).format('HH:mm')}
                                                         </div>
-                                                        <div>
+                                                        <div onClick={() => history.push(PATHS.MY_BOOKINGS)}>
                                                             <i className="icon icon--base icon--chevron-right icon--primary"></i>
                                                         </div>
                                                     </div>

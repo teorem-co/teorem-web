@@ -68,7 +68,7 @@ const AddSubjectSidebar = (props: Props) => {
         validationSchema: Yup.object().shape({
             level: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             subject: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            price: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            price: Yup.number().required(t('FORM_VALIDATION.REQUIRED')).min(47, 'Price can`t be lower than 47'),
         }),
     });
 

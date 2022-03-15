@@ -35,10 +35,13 @@ const Onboarding = () => {
     };
 
     const handleNextStepTutor = () => {
-        if (step < 2) {
+        if (step < 1) {
             setStep(step + 1);
-        } else if (step === 2) {
+        } else if (step === 1) {
             setTrial(true);
+            //if there is step with card informations
+            // } else if (step === 2) {
+            //     setTrial(true);
         }
     };
     const handleNextStepParent = () => {

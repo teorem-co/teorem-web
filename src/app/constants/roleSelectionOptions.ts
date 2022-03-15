@@ -7,16 +7,16 @@ export enum RoleSelectionEnum {
 }
 
 export const roleSelectionOptions: IRoleSelectionOption[] = [
-    {
-        id: RoleSelectionEnum.Student,
-        title: 'Student',
-        description: 'Here to expand my knowledge.',
-    },
-    {
-        id: RoleSelectionEnum.Parent,
-        title: 'Parent / Guardian',
-        description: 'Here to help my child learn.',
-    },
+    // {
+    //     id: RoleSelectionEnum.Student,
+    //     title: 'Student',
+    //     description: 'Here to expand my knowledge.',
+    // },
+    // {
+    //     id: RoleSelectionEnum.Parent,
+    //     title: 'Parent / Guardian',
+    //     description: 'Here to help my child learn.',
+    // },
     {
         id: RoleSelectionEnum.Tutor,
         title: 'Tutor',

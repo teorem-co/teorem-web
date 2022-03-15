@@ -144,10 +144,25 @@ const MyBookings: React.FC = () => {
     };
 
     const handleSelectedEvent = (e: IBookingTransformed) => {
-        //debugger;
         if (userRole === RoleOptions.Tutor) {
             if (unavailableCurrentEvent.length > 0) {
-                return;
+                //close createNewUnavailability
+                setOpenUnavailabilityModal(false);
+                setUnavailableCurrentEvent([]);
+                if (e.label === 'Unavailable') {
+                    //open unavailability modal
+                    setOpenUnavailabilityEditModal(true);
+                    setSelectedUnavailability(e.id);
+                    setSelectedSlot(e.start);
+                    setOpenEventDetails(false);
+                } else {
+                    setOpenUnavailabilityEditModal(false);
+                    getBookingById(e.id);
+                    setOpenEventDetails(true);
+                    setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
+                    setSelectedEnd(moment(e.end).format('HH:mm'));
+                }
+                //return;
             } else {
                 if (e.label === 'Unavailable') {
                     //close createNewUnavailability
@@ -182,22 +197,19 @@ const MyBookings: React.FC = () => {
 
     const handleSelectedSlot = (e: SlotInfo) => {
         if (userRole === 'tutor') {
-            if (unavailableCurrentEvent.length > 0) {
-                return;
-            } else {
-                setOpenUnavailabilityEditModal(false);
-                setUnavailableCurrentEvent([
-                    {
-                        id: 'currentUnavailableItem',
-                        label: 'unavailable',
-                        start: moment(e.start).toDate(),
-                        end: moment(e.start).add(1, 'hours').toDate(),
-                        allDay: false,
-                    },
-                ]);
-                setSelectedSlot(moment(e.start).toDate());
-                setOpenUnavailabilityModal(true);
-            }
+            setOpenEventDetails(false);
+            setOpenUnavailabilityEditModal(false);
+            setUnavailableCurrentEvent([
+                {
+                    id: 'currentUnavailableItem',
+                    label: 'unavailable',
+                    start: moment(e.start).toDate(),
+                    end: moment(e.start).add(1, 'hours').toDate(),
+                    allDay: false,
+                },
+            ]);
+            setSelectedSlot(moment(e.start).toDate());
+            setOpenUnavailabilityModal(true);
         }
     };
 

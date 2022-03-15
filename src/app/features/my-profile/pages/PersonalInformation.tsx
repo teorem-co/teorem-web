@@ -1,5 +1,5 @@
 import { Form, FormikProvider, useFormik } from 'formik';
-import { isEqual } from 'lodash';
+import { cloneDeep, isEqual } from 'lodash';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -86,7 +86,31 @@ const PersonalInformation = () => {
     };
 
     const handleBlur = () => {
-        if (!isEqual(initialValues, formik.values)) {
+        // const initialValueImgSplit = initialValues.profileImage.split('/');
+        // const initialValueImg = initialValueImgSplit[initialValueImgSplit.length - 1];
+
+        // const formikImgSplit = formik.values.profileImage.split('/');
+        // const formikImg = formikImgSplit[formikImgSplit.length - 1];
+
+        const initialValueObj = {
+            firstName: initialValues.firstName,
+            lastName: initialValues.lastName,
+            phoneNumber: initialValues.phoneNumber,
+            dateOfBirth: initialValues.dateOfBirth,
+            countryId: initialValues.countryId,
+            //profileImage: initialValueImg,
+        };
+
+        const formikValuesObj = {
+            firstName: formik.values.firstName,
+            lastName: formik.values.lastName,
+            phoneNumber: formik.values.phoneNumber,
+            dateOfBirth: formik.values.dateOfBirth,
+            countryId: formik.values.countryId,
+            //profileImage: formikImg,
+        };
+
+        if (!isEqual(initialValueObj, formikValuesObj)) {
             setSaveBtnActive(true);
         } else {
             setSaveBtnActive(false);

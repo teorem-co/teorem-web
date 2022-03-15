@@ -8,6 +8,7 @@ import { useLazyGetTutorProfileDataQuery } from '../../../services/tutorService'
 import MainWrapper from '../../components/MainWrapper';
 import LoaderTutorProfile from '../../components/skeleton-loaders/LoaderTutorProfile';
 import { PATHS } from '../../routes';
+import handleRatingStars from '../../utils/handleRatingStarts';
 import { useLazyGetTutorAvailabilityQuery } from '../my-profile/services/tutorAvailabilityService';
 import Ratings from '../myReviews/components/Ratings';
 import ReviewItem from '../myReviews/components/ReviewItem';
@@ -216,7 +217,7 @@ const TutorProfile = () => {
                                                     <div
                                                         className="rating__stars__fill"
                                                         style={{
-                                                            width: `${(tutorStatistics ? tutorStatistics.statistic : 0) * 20}%`,
+                                                            width: `${tutorStatistics ? handleRatingStars(tutorStatistics.statistic) : 0}px`,
                                                         }}
                                                     ></div>
                                                 </div>

@@ -32,7 +32,7 @@ const EditSubjectSidebar = (props: Props) => {
 
     const { data: levelOptions, isLoading: isLoadingLevels } = useGetLevelOptionsQuery();
     const [updateSubject, { isSuccess: isSuccessUpdateSubject }] = useUpdateSubjectMutation();
-    const [deleteSubject, { isSuccess: isSuccessDeleteSubject }] = useDeleteSubjectMutation();
+    const [deleteSubject] = useDeleteSubjectMutation();
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
     const [getSubjectOptionsByLevel, { data: subjectsData, isSuccess: isSuccessSubjects }] = useLazyGetSubjectsByLevelAndSubjectQuery();
     const [getProfileData, { data: myTeachingsData }] = useLazyGetTutorProfileDataQuery({
@@ -88,7 +88,7 @@ const EditSubjectSidebar = (props: Props) => {
         initialValues: initialValues,
         onSubmit: handleSubmit,
         validationSchema: Yup.object().shape({
-            price: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            price: Yup.number().required(t('FORM_VALIDATION.REQUIRED')).min(47, 'Price can`t be lower than 47'),
         }),
     });
 

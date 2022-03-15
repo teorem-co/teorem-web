@@ -2,6 +2,7 @@ import { t } from 'i18next';
 import { FC } from 'react';
 
 import { getDateAgoLabel } from '../../../utils/getDateAgoLabel';
+import handleRatingStars from '../../../utils/handleRatingStarts';
 import IMyReview from '../interfaces/IMyReview';
 
 interface Props {
@@ -10,11 +11,12 @@ interface Props {
 
 const ReviewItem: FC<Props> = (props: Props) => {
     const { reviewItem } = props;
+
     return (
         <>
             <div key={reviewItem.id} className="reviews-list__item">
                 <div>
-                    <h4 className="type--md type--wgt--normal mb-1">{reviewItem.userName}</h4>
+                    <h4 className="type--md type--wgt--normal mb-1">{reviewItem.userName ? reviewItem.userName : 'Deleted user'}</h4>
                     <p className="type--color--brand-light">{reviewItem.User ? reviewItem.User.Role.name : 'Child'}</p>
                 </div>
                 <div>
@@ -24,7 +26,7 @@ const ReviewItem: FC<Props> = (props: Props) => {
                                 <div
                                     className="rating__stars__fill"
                                     style={{
-                                        width: `${reviewItem.mark * 20}%`,
+                                        width: `${handleRatingStars(reviewItem.mark)}px`,
                                     }}
                                 ></div>
                             </div>

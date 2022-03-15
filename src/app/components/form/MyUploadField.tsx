@@ -28,9 +28,7 @@ const UploadFile: FC<UploadFileType> = ({ setFieldValue, ...props }) => {
 
     useEffect(() => {
         if (file) {
-            setImagePreview(
-                Object.assign(file, { preview: URL.createObjectURL(file) })
-            );
+            setImagePreview(Object.assign(file, { preview: URL.createObjectURL(file) }));
             setFieldValue(field.name, file);
         }
     }, [file]);
@@ -51,10 +49,7 @@ const UploadFile: FC<UploadFileType> = ({ setFieldValue, ...props }) => {
             <div className="flex flex--center">
                 {preview.preview || props.imagePreview ? (
                     <aside className="upload__images mr-6">
-                        <img
-                            alt="profile"
-                            src={preview.preview || props.imagePreview}
-                        />
+                        <img alt="profile" src={preview.preview || props.imagePreview} />
                     </aside>
                 ) : (
                     <div className="upload__placeholder">
@@ -64,19 +59,13 @@ const UploadFile: FC<UploadFileType> = ({ setFieldValue, ...props }) => {
                     </div>
                 )}
                 <div {...getRootProps({ className: 'upload' })}>
-                    {isDragActive ? (
-                        <div className="upload__drag-overlay"></div>
-                    ) : (
-                        ''
-                    )}
+                    {isDragActive ? <div className="upload__drag-overlay"></div> : ''}
                     <input {...getInputProps()} />
                     <div className="upload__text" role="presentation">
                         {preview ? (
                             <div className="flex--primary flex--col">
                                 <i className="icon icon--base icon--upload icon--grey"></i>
-                                <div className="type--color--tertiary type--wgt--regular">
-                                    Drag and drop to upload
-                                </div>
+                                <div className="type--color--tertiary type--wgt--regular">Drag and drop to upload</div>
                             </div>
                         ) : (
                             <></>
@@ -84,9 +73,7 @@ const UploadFile: FC<UploadFileType> = ({ setFieldValue, ...props }) => {
                     </div>
                 </div>
             </div>
-            <div className="field__validation">
-                {errorText ? errorText : ''}
-            </div>
+            <div className="field__validation">{errorText ? errorText : ''}</div>
         </>
     );
 };

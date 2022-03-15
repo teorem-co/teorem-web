@@ -123,7 +123,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
         }),
     });
 
-    const handleSubmitStepOne = (values: StepOneValues) => {
+    const handleSubmitStepOne = async (values: StepOneValues) => {
         dispatch(
             setStepOne({
                 countryId: values.countryId,
@@ -132,7 +132,26 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
                 profileImage: values.profileImage,
             })
         );
-        handleNextStep();
+
+        await registerTutor({
+            firstName: firstName,
+            lastName: lastName,
+            password: password,
+            confirmPassword: passwordRepeat,
+            roleAbrv: roleAbrv ? roleAbrv : '',
+            countryId: values.countryId,
+            phoneNumber: values.phoneNumber,
+            dateOfBirth: moment(values.dateOfBirth).toISOString(),
+            email: email,
+            profileImage: values.profileImage,
+        })
+            .unwrap()
+            .then(() => {
+                handleNextStep();
+            })
+            .catch(() => {
+                toastService.error('Something gone wrong, please contact the support');
+            });
     };
 
     const rangeSetterRef = useRef<HTMLDivElement>(null);
