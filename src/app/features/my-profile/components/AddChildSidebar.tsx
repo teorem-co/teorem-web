@@ -61,7 +61,7 @@ const AddChildSidebar = (props: Props) => {
     const handleDelete = async () => {
         await deleteChild(childData!.id!).unwrap();
         handleClose();
-        toastService.success('You successfully deleted a child');
+        toastService.success(t('FORM_VALIDATION.TOAST.DELETE'));
     };
 
     const handleSubmit = async (values: IChild) => {
@@ -79,7 +79,7 @@ const AddChildSidebar = (props: Props) => {
             }
 
             await updateChild(toSend).unwrap();
-            toastService.success('You successfully updated the child information');
+            toastService.success(t('FORM_VALIDATION.TOAST.UPDATE'));
         } else {
             //add
             const toSend: IChild = {
@@ -89,7 +89,7 @@ const AddChildSidebar = (props: Props) => {
                 username: values.username,
             };
             await createChild(toSend).unwrap();
-            toastService.success('You successfully created a child');
+            toastService.success(t('FORM_VALIDATION.TOAST.CREATE'));
         }
         handleClose();
     };
@@ -152,7 +152,7 @@ const AddChildSidebar = (props: Props) => {
         const validationSchema: any = {
             firstName: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             username: Yup.string()
-                .test('username', 'Username already exists', async (value: any) => {
+                .test('username', t('FORM_VALIDATION.USERNAME_EXIST'), async (value: any) => {
                     if (value) {
                         if (childData && childData.username !== value) {
                             //filter all without selected child(on edit)
@@ -224,7 +224,7 @@ const AddChildSidebar = (props: Props) => {
 
             <div className={`sidebar sidebar--secondary sidebar--secondary ${!sideBarIsOpen ? 'sidebar--secondary--close' : ''}`}>
                 <div className="flex--primary flex--shrink">
-                    <div className="type--color--secondary">{(childData && 'EDIT A CHILD') || 'ADD NEW CHILD'}</div>
+                    <div className="type--color--secondary">{(childData && t('MY_PROFILE.CHILD.EDIT_TITLE')) || t('MY_PROFILE.CHILD.ADD_TITLE')}</div>
                     <div>
                         <i className="icon icon--base icon--close icon--grey" onClick={closeSidebar}></i>
                     </div>
@@ -234,12 +234,12 @@ const AddChildSidebar = (props: Props) => {
                         <Form>
                             <div className="field">
                                 <label htmlFor="firstName" className="field__label">
-                                    First Name*
+                                    {t('MY_PROFILE.CHILD.FIRST_NAME')}*
                                 </label>
                                 <TextField
                                     name="firstName"
                                     id="firstName"
-                                    placeholder="Enter Child Name"
+                                    placeholder={t('MY_PROFILE.CHILD.FIRST_NAME_PLACEHOLDER')}
                                     onBlur={(e: any) => {
                                         generateChildUsername();
                                         formik.handleBlur(e);
@@ -249,16 +249,16 @@ const AddChildSidebar = (props: Props) => {
                             {childData && (
                                 <div className="field">
                                     <label htmlFor="lastName" className="field__label">
-                                        LastName*
+                                        {t('MY_PROFILE.CHILD.LAST_NAME')}*
                                     </label>
-                                    <TextField name="lastName" id="lastName" placeholder="Enter Username" />
+                                    <TextField name="lastName" id="lastName" placeholder={t('MY_PROFILE.CHILD.LAST_NAME_PLACEHOLDER')} />
                                 </div>
                             )}
                             <div className="field">
                                 <label htmlFor="username" className="field__label">
-                                    Username*
+                                    {t('MY_PROFILE.CHILD.USERNAME')}*
                                 </label>
-                                <TextField name="username" id="username" placeholder="Enter Username" />
+                                <TextField name="username" id="username" placeholder={t('MY_PROFILE.CHILD.USERNAME_PLACEHOLDER')} />
                             </div>
                             <div className="field">
                                 <label className="field__label" htmlFor="dateOfBirth">
@@ -268,18 +268,14 @@ const AddChildSidebar = (props: Props) => {
                             </div>
                             <div className="field">
                                 <label className="field__label" htmlFor="password">
-                                    Enter a new password
+                                    {t('MY_PROFILE.CHILD.PASSWORD')}
                                 </label>
-                                {childData && (
-                                    <p className="mb-2 type--color--tertiary">
-                                        This field is optional, if you want to change current child's password you can do it in field below.
-                                    </p>
-                                )}
+                                {childData && <p className="mb-2 type--color--tertiary">{t('MY_PROFILE.CHILD.PASSWORD_OPTIONAL')}</p>}
 
                                 <TextField
                                     name="password"
                                     id="password"
-                                    placeholder="Type your password"
+                                    placeholder={t('MY_PROFILE.CHILD.PASSWORD_PLACEHOLDER')}
                                     className="input input--base input--text input--icon"
                                     password={true}
                                     onBlur={(e: any) => {
@@ -302,11 +298,11 @@ const AddChildSidebar = (props: Props) => {
                         </button>
                         {(childData && (
                             <button onClick={() => handleDelete()} className="btn btn--clear type--color--error type--wgt--extra-bold">
-                                Delete
+                                {t('MY_PROFILE.CHILD.DELETE')}
                             </button>
                         )) || (
                             <button onClick={() => handleClose()} className="btn btn--clear type--color--error type--wgt--extra-bold">
-                                Cancel
+                                {t('MY_PROFILE.CHILD.CANCEL')}
                             </button>
                         )}
                     </div>

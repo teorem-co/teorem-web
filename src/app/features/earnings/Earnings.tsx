@@ -1,4 +1,5 @@
 import { CategoryScale, Chart as ChartJS, Filler, Legend, LinearScale, LineElement, PointElement, Title, Tooltip } from 'chart.js';
+import { t } from 'i18next';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
@@ -8,7 +9,6 @@ import { OptionType } from '../../components/form/MySelectField';
 import MainWrapper from '../../components/MainWrapper';
 import { calcYears } from '../../utils/yearOptions';
 import earningsGraphOptions from './constants/earningsGraphOptions';
-import tableData from './constants/tableData';
 import IGraph from './interfaces/IGraph';
 import { useLazyGetEarningsQuery } from './services/earningsService';
 
@@ -26,7 +26,7 @@ const Earnings = () => {
         datasets: [
             {
                 parse: false,
-                label: 'Income',
+                label: t('EARNINGS.REVENUE.GRAPH_LEGEND'),
                 data: earningsGraphData,
                 fill: true,
                 backgroundColor: 'rgba(162, 108, 242, 0.04)',
@@ -57,56 +57,56 @@ const Earnings = () => {
         <MainWrapper>
             <div className="card--secondary">
                 <div className="card--secondary__head">
-                    <h2 className="type--wgt--bold type--lg">Earnings</h2>
+                    <h2 className="type--wgt--bold type--lg">{t('EARNINGS.TITLE')}</h2>
                     <div>
                         <Select classNamePrefix="react-select" defaultValue={selectedYear} onChange={(e) => onChange(e)} options={yearOptions} />
                     </div>
                 </div>
                 <div className="card--secondary__body">
-                    <div className="upcoming-lessons__title">GENERAL INFORMATION</div>
+                    <div className="upcoming-lessons__title">{t('EARNINGS.GENERAL.TITLE')}</div>
                     <div className="row">
                         <div className="col col-12 col-md-6 col-xl-3">
                             <div className="card--earnings">
                                 <div className="card--earnings__title">{earningsData?.totalBookings}</div>
-                                <div>Total bookings</div>
+                                <div>{t('EARNINGS.GENERAL.BOOKINGS')}</div>
                                 <i className="icon icon--subject cur--default"></i>
                             </div>
                         </div>
                         <div className="col col-12 col-md-6 col-xl-3">
                             <div className="card--earnings">
                                 <div className="card--earnings__title">{earningsData?.totalStudents}</div>
-                                <div>Total students</div>
+                                <div>{t('EARNINGS.GENERAL.STUDENTS')}</div>
                                 <i className="icon icon--tutor cur--default"></i>
                             </div>
                         </div>
                         <div className="col col-12 col-md-6 col-xl-3">
                             <div className="card--earnings">
                                 <div className="card--earnings__title">{earningsData?.totalReviews}</div>
-                                <div>Total reviews</div>
+                                <div>{t('EARNINGS.GENERAL.REVIEWS')}</div>
                                 <i className="icon icon--reviews cur--default"></i>
                             </div>
                         </div>
                         <div className="col col-12 col-md-6 col-xl-3">
                             <div className="card--earnings">
                                 <div className="card--earnings__title">{earningsData?.totalEarnings}.00</div>
-                                <div>Total revenue</div>
+                                <div>{t('EARNINGS.GENERAL.REVENUE')}</div>
                                 <i className="icon icon--level cur--default"></i>
                             </div>
                         </div>
                     </div>
-                    <div className="upcoming-lessons__title mt-10">REVENUE</div>
+                    <div className="upcoming-lessons__title mt-10">{t('EARNINGS.REVENUE.TITLE')}</div>
                     <div>
                         <Line height={200} options={earningsGraphOptions} data={data} />
                     </div>
-                    <div className="upcoming-lessons__title mt-10">DETAILS</div>
+                    <div className="upcoming-lessons__title mt-10">{t('EARNINGS.DETAILS.TITLE')}</div>
                     <table className="table table--secondary">
                         <thead>
                             <tr>
-                                <th>Month</th>
-                                <th>Bookings</th>
-                                <th>Students</th>
-                                <th>Reviews</th>
-                                <th>Revenue</th>
+                                <th>{t('EARNINGS.DETAILS.TABLE.MONTH')}</th>
+                                <th>{t('EARNINGS.DETAILS.TABLE.BOOKINGS')}</th>
+                                <th>{t('EARNINGS.DETAILS.TABLE.STUDENTS')}</th>
+                                <th>{t('EARNINGS.DETAILS.TABLE.REVIEWS')}</th>
+                                <th>{t('EARNINGS.DETAILS.TABLE.REVENUE')}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -122,7 +122,7 @@ const Earnings = () => {
                                         </tr>
                                     );
                                 })) ||
-                                'There is no details'}
+                                t('EARNINGS.DETAILS.TABLE.EMPTY')}
                         </tbody>
                     </table>
                 </div>

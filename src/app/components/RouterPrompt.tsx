@@ -1,3 +1,4 @@
+import { t } from 'i18next';
 import { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 
@@ -66,10 +67,10 @@ const RouterPrompt = (props: Props) => {
             <div className={'w--100 h-100 b--shadow b--shadow-mobile active'}>
                 <div className="modal">
                     <div className="modal__head">
-                        <div className="type--md mb-4">Save changes?</div>
+                        <div className="type--md mb-4">{t('ROUTER_MODAL.TITLE')}</div>
                         <i onClick={() => setShowPrompt(false)} className="icon icon--close icon--base modal__close"></i>
                     </div>
-                    <div className="modal__body type--color--secondary">Do you want to save your changes before leaving the page?</div>
+                    <div className="modal__body type--color--secondary">{t('ROUTER_MODAL.DESC')}</div>
                     <div className="modal__footer">
                         <button
                             onClick={() => {
@@ -79,7 +80,7 @@ const RouterPrompt = (props: Props) => {
                             type="button"
                             className="btn btn--primary btn--base mr-4"
                         >
-                            Save
+                            {t('ROUTER_MODAL.SAVE')}
                         </button>
                         <button
                             onClick={() => {
@@ -89,7 +90,7 @@ const RouterPrompt = (props: Props) => {
                             type="button"
                             className="btn btn--secondary btn--base"
                         >
-                            No
+                            {t('ROUTER_MODAL.NO')}
                         </button>
                     </div>
                 </div>

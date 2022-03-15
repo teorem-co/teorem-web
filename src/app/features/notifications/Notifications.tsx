@@ -1,3 +1,4 @@
+import { t } from 'i18next';
 import { cloneDeep, debounce, groupBy, orderBy, sortBy } from 'lodash';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
@@ -77,14 +78,14 @@ const Notifications = () => {
                 <div className="card--secondary__head">
                     <div className="flex flex--center">
                         <i className="icon icon--md icon--chevron-left" onClick={() => history.goBack()}></i>
-                        <h2 className="type--wgt--bold type--lg ml-4">Notifications</h2>
+                        <h2 className="type--wgt--bold type--lg ml-4">{t('NOTIFICATIONS.TITLE')}</h2>
                     </div>
                     <div></div>
                 </div>
                 <div className="card--secondary__body">
                     <div className="notifications">
                         {(Object.keys(groupedNotifications).length === 0 && (
-                            <div className="type--center type--md type--wgt--bold">There are no notifications</div>
+                            <div className="type--center type--md type--wgt--bold">{t('NOTIFICATIONS.EMPTY')}</div>
                         )) ||
                             Object.keys(groupedNotifications).map((date: string) => {
                                 return (

@@ -40,14 +40,11 @@ interface IBookingTransformed {
 }
 
 const MyBookings: React.FC = () => {
-    const [getBookings, { data: bookings, isLoading: bookingsLoading, isUninitialized: bookingsUninitialized }] = useLazyGetBookingsQuery();
+    const [getBookings, { data: bookings, isLoading: bookingsLoading }] = useLazyGetBookingsQuery();
     const [getNotificationForLessons, { data: lessonsCount }] = useLazyGetNotificationForLessonsQuery();
     const [getBookingById, { data: booking }] = useLazyGetBookingByIdQuery();
     const [getUpcomingLessons, { data: upcomingLessons }] = useLazyGetUpcomingLessonsQuery();
-    const [
-        getTutorUnavailableBookings,
-        { data: unavailableBookings, isLoading: unavailableBookingsLoading, isUninitialized: unavailableBookingsUninitialized },
-    ] = useLazyGetUnavailableBookingsQuery();
+    const [getTutorUnavailableBookings, { data: unavailableBookings, isLoading: unavailableBookingsLoading }] = useLazyGetUnavailableBookingsQuery();
 
     const [openUnavailabilityModal, setOpenUnavailabilityModal] = useState(false);
     const [openUnavailabilityEditModal, setOpenUnavailabilityEditModal] = useState(false);
@@ -104,7 +101,7 @@ const MyBookings: React.FC = () => {
                 return (
                     <>
                         <div className="event--unavailable">
-                            <div className="type--color--primary type--wgt--bold">Unavailable</div>
+                            <div className="type--color--primary type--wgt--bold">{t('MY_BOOKINGS.UNAVAILABLE')}</div>
                         </div>
                     </>
                 );
@@ -386,7 +383,7 @@ const MyBookings: React.FC = () => {
                     </div>
                 </div>
                 <div>
-                    <p className="upcoming-lessons__title">CALENDAR</p>
+                    <p className="upcoming-lessons__title">{t('MY_BOOKINGS.CALENDAR.TITLE')}</p>
                     <div ref={highlightRef} className="card card--mini-calendar mb-4 pos--rel">
                         <Calendar
                             locale="en"

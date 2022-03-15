@@ -63,7 +63,7 @@ const AdditionalInformation = () => {
 
     const handleUpdateOnRouteChange = () => {
         if (Object.keys(formik.errors).length > 0) {
-            toastService.error('You didn`t fulfill all field requirements');
+            toastService.error(t('FORM_VALIDATION.WRONG_REQUIREMENTS'));
             return false;
         } else {
             handleSubmit(formik.values);
@@ -106,7 +106,7 @@ const AdditionalInformation = () => {
                 .min(2, t('FORM_VALIDATION.TOO_SHORT'))
                 .max(50, t('FORM_VALIDATION.TOO_LONG'))
                 .required(t('FORM_VALIDATION.REQUIRED')),
-            yearsOfExperience: Yup.number().min(0, 'Can`t be a negative number').max(100, 'number is too big').nullable(),
+            yearsOfExperience: Yup.number().min(0, t('FORM_VALIDATION.NEGATIVE')).max(100, t('FORM_VALIDATION.TOO_BIG')).nullable(),
         }),
     });
 

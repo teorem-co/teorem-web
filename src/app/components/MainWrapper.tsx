@@ -16,22 +16,12 @@ const MainWrapper = (props: Props) => {
             <div className="layout">
                 <div className="layout__mobile">
                     <div>{t('MAIN_TITLE')}</div>
-                    <i
-                        className="icon icon--md icon--menu icon--white"
-                        onClick={() => setAsideActive(!asideActive)}
-                    >
+                    <i className="icon icon--md icon--menu icon--white" onClick={() => setAsideActive(!asideActive)}>
                         hamburger
                     </i>
                 </div>
-                <div
-                    className={`sidebar layout__aside ${
-                        asideActive ? 'active' : ''
-                    }`}
-                >
-                    <div
-                        className="layout__aside__close sidebar__close"
-                        onClick={() => setAsideActive(!asideActive)}
-                    >
+                <div className={`sidebar layout__aside ${asideActive ? 'active' : ''}`}>
+                    <div className="layout__aside__close sidebar__close" onClick={() => setAsideActive(!asideActive)}>
                         <i className="icon icon--sm icon--close icon--black"></i>
                     </div>
                     <Navbar />

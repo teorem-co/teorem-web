@@ -1,3 +1,4 @@
+import { t } from 'i18next';
 import { groupBy } from 'lodash';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
@@ -72,12 +73,12 @@ const Dashboard = () => {
                 <div>
                     <div className="card--secondary card--secondary--alt">
                         <div className="card--secondary__head">
-                            <h2 className="type--wgt--bold type--lg">Dashboard</h2>
+                            <h2 className="type--wgt--bold type--lg">{t('DASHBOARD.TITLE')}</h2>
                         </div>
                         <div className="card--secondary__body">
                             <div className="row">
                                 <div className="col col-12 col-xl-4">
-                                    <div className="type--color--tertiary mb-2">TODAY'S SCHEDULE</div>
+                                    <div className="type--color--tertiary mb-2">{t('DASHBOARD.SCHEDULE.TITLE')}</div>
                                     {todayScheduled.length > 0 ? (
                                         <div className="card--dashboard card--dashboard--brand">
                                             <div className="flex--primary mb-2">
@@ -109,17 +110,17 @@ const Dashboard = () => {
                                                     {moment(todayScheduled[activeIndex].startTime).format('HH:mm')} -{' '}
                                                     {moment(todayScheduled[activeIndex].endTime).add(1, 'minute').format('HH:mm')}
                                                 </div>
-                                                <button className="btn btn--base card--dashboard__btn">Join</button>
+                                                <button className="btn btn--base card--dashboard__btn">{t('DASHBOARD.SCHEDULE.BUTTON')}</button>
                                             </div>
                                         </div>
                                     ) : (
                                         <div className="card--dashboard">
-                                            <div>There is no scheduled bookings today</div>
+                                            <div>{t('DASHBOARD.SCHEDULE.EMPTY')}</div>
                                         </div>
                                     )}
                                 </div>
                                 <div className="col col-12 col-xl-8">
-                                    <div className="type--color--tertiary mb-2">UNREAD MESSAGES</div>
+                                    <div className="type--color--tertiary mb-2">{t('DASHBOARD.MESSAGES.TITLE')}</div>
                                     <div className="card--dashboard">
                                         <div className="flex--primary mb-2">
                                             <div>Elizabeth Betty</div>
@@ -138,7 +139,7 @@ const Dashboard = () => {
                                         </div>
                                         <div className="flex--primary">
                                             <div className="type--color--secondary">9/Mar/2022</div>
-                                            <button className="btn btn--base card--dashboard__btn">Chat</button>
+                                            <button className="btn btn--base card--dashboard__btn">{t('DASHBOARD.MESSAGES.BUTTON')}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -149,7 +150,9 @@ const Dashboard = () => {
                                         <React.Fragment key={key}>
                                             <div className="flex--primary">
                                                 <div className="mb-4 mt-6 type--wgt--bold">{key}</div>
-                                                <div className="type--color--secondary">Total: {groupedUpcomming[key].length}:00h</div>
+                                                <div className="type--color--secondary">
+                                                    {t('DASHBOARD.BOOKINGS.TOTAL')}: {groupedUpcomming[key].length}:00h
+                                                </div>
                                             </div>
                                             {groupedUpcomming[key].map((item: IBooking) => {
                                                 return (
@@ -179,10 +182,10 @@ const Dashboard = () => {
                 </div>
                 <div className="overflow--auto">
                     <div className="flex--primary mb-2">
-                        <div className="type--color--tertiary">NOTIFICATIONS</div>
+                        <div className="type--color--tertiary">{t('DASHBOARD.NOTIFICATIONS.TITLE')}</div>
                         {notificationsData && notificationsData.length > 0 && (
                             <div className="type--color--brand type--wgt--bold cur--pointer" onClick={() => markAllAsRead()}>
-                                Clear
+                                {t('DASHBOARD.NOTIFICATIONS.CLEAR')}
                             </div>
                         )}
                     </div>
@@ -193,11 +196,11 @@ const Dashboard = () => {
                             }
                         })
                     ) : (
-                        <div className="card--primary card--primary--shadow">There is no unread notifications</div>
+                        <div className="card--primary card--primary--shadow">{t('DASHBOARD.NOTIFICATIONS.EMPTY')}</div>
                     )}
                     <div className="type--center mt-4">
                         <Link to={PATHS.NOTIFICATIONS} className="btn btn--clear">
-                            See all
+                            {t('DASHBOARD.NOTIFICATIONS.ALL')}
                         </Link>
                     </div>
                 </div>

@@ -130,7 +130,7 @@ const ProfileAccount = () => {
             confirmPassword: values.confirmPassword,
         };
         await changePassword(toSend);
-        toastService.success('You successfully changed a password');
+        toastService.success(t('MY_PROFILE.PROFILE_ACCOUNT.SUCCESS_PASSWORD'));
         formik.resetForm();
         setSaveBtnActive(false);
     };
@@ -272,7 +272,7 @@ const ProfileAccount = () => {
                             </div> */}
                             <div>
                                 <div onClick={() => setStripeModalOpen(true)} className="btn btn--primary btn--base">
-                                    Go to stripe
+                                    {t('MY_PROFILE.PROFILE_ACCOUNT.STRIPE')}
                                 </div>
                             </div>
                         </div>

@@ -62,7 +62,7 @@ const UpcomingLessons: React.FC<Props> = (props: Props) => {
                 })
             ) : (
                 <div className="card card--primary card--primary--shadow">
-                    <div className="type--color--secondary">There are no upcoming lessons</div>
+                    <div className="type--color--secondary">{t('UPCOMING_LESSONS.EMPTY')}</div>
                 </div>
             )}
         </>

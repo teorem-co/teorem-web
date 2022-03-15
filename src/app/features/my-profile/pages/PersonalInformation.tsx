@@ -144,7 +144,7 @@ const PersonalInformation = () => {
 
     const handleUpdateOnRouteChange = () => {
         if (Object.keys(formik.errors).length > 0) {
-            toastService.error('You didn`t fulfill all field requirements');
+            toastService.error(t('FORM_VALIDATION.WRONG_REQUIREMENTS'));
             return false;
         } else {
             updateUserInformation({
@@ -180,8 +180,8 @@ const PersonalInformation = () => {
 
         if (userRole === 'tutor') {
             validation['profileImage'] = Yup.mixed()
-                .required('Image Required')
-                .test('profileImage', 'Image has to be either jpg,png,jpeg or svg', (value) => {
+                .required(t('FORM_VALIDATION.REQUIRED'))
+                .test('profileImage', t('FORM_VALIDATION.IMAGE_TYPE'), (value) => {
                     if (typeof value === 'string') {
                         return true;
                     } else {
@@ -192,7 +192,7 @@ const PersonalInformation = () => {
                         return false;
                     }
                 })
-                .test('profileImage', 'Image has to be less than 2MB in size.', (value) => {
+                .test('profileImage', t('FORM_VALIDATION.IMAGE_SIZE'), (value) => {
                     if (typeof value === 'string') {
                         return true;
                     } else {

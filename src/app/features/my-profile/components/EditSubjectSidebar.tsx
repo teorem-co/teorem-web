@@ -67,7 +67,7 @@ const EditSubjectSidebar = (props: Props) => {
         await deleteSubject(objectId);
         handleGetData();
         closeSidebar();
-        toastService.success('Subject deleted');
+        toastService.success(t('MY_PROFILE.MY_TEACHINGS.DELETED'));
 
         //handle profile progress
         if (myTeachingsData.tutorSubjects?.length === 1) {
@@ -88,7 +88,7 @@ const EditSubjectSidebar = (props: Props) => {
         initialValues: initialValues,
         onSubmit: handleSubmit,
         validationSchema: Yup.object().shape({
-            price: Yup.number().required(t('FORM_VALIDATION.REQUIRED')).min(47, 'Price can`t be lower than 47'),
+            price: Yup.number().required(t('FORM_VALIDATION.REQUIRED')).min(47, t('FORM_VALIDATION.PRICE')),
         }),
     });
 
@@ -156,7 +156,7 @@ const EditSubjectSidebar = (props: Props) => {
 
             <div className={`sidebar sidebar--secondary sidebar--secondary ${!sideBarIsOpen ? 'sidebar--secondary--close' : ''}`}>
                 <div className="flex--primary flex--shrink">
-                    <div className="type--color--secondary">EDIT SUBJECT DETAILS</div>
+                    <div className="type--color--secondary">{t('MY_PROFILE.MY_TEACHINGS.EDIT_TITLE')}</div>
                     <div>
                         <i className="icon icon--base icon--close icon--grey" onClick={closeSidebar}></i>
                     </div>
@@ -165,7 +165,7 @@ const EditSubjectSidebar = (props: Props) => {
                     <FormikProvider value={formik}>
                         <Form noValidate>
                             <div>
-                                <label htmlFor="level">Select subject you teach*</label>
+                                <label htmlFor="level">{t('MY_PROFILE.MY_TEACHINGS.SUBJECT')}</label>
                                 <MySelect
                                     field={formik.getFieldProps('level')}
                                     form={formik}
@@ -177,7 +177,7 @@ const EditSubjectSidebar = (props: Props) => {
                                 />
                             </div>
                             <div>
-                                <label htmlFor="subject">Select levels that you are able to teach*</label>
+                                <label htmlFor="subject">{t('MY_PROFILE.MY_TEACHINGS.LEVEL')}</label>
                                 <MySelect
                                     field={formik.getFieldProps('subject')}
                                     form={formik}
@@ -191,12 +191,12 @@ const EditSubjectSidebar = (props: Props) => {
                             </div>
                             <div className="field">
                                 <label htmlFor="price" className="field__label">
-                                    Pricing
+                                    {t('MY_PROFILE.MY_TEACHINGS.PRICING')}
                                 </label>
                                 <TextField
                                     name="price"
                                     id="price"
-                                    placeholder="$0/hr"
+                                    placeholder={`$0/${t('MY_PROFILE.MY_TEACHINGS.HOUR_ABRV')}`}
                                     withoutErr={formik.errors.price && formik.touched.price ? false : true}
                                     type="number"
                                 />
@@ -207,13 +207,13 @@ const EditSubjectSidebar = (props: Props) => {
                 <div className="flex--shirnk sidebar--secondary__bottom mt-10">
                     <div className="flex--primary mt-6">
                         <button className="btn btn--primary btn--base type--wgt--bold" onClick={() => formik.handleSubmit()}>
-                            Save information
+                            ${t('MY_PROFILE.MY_TEACHINGS.SAVE')}
                         </button>
                         <button
                             className="btn btn--clear type--color--error type--wgt--bold"
                             onClick={() => handleDeleteSubject(selectedSubject ? selectedSubject.id : '')}
                         >
-                            Delete
+                            ${t('MY_PROFILE.MY_TEACHINGS.DELETE')}
                         </button>
                     </div>
                 </div>

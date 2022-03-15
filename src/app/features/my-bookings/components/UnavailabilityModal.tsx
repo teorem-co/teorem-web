@@ -1,4 +1,5 @@
 import { Form, FormikProvider, useFormik } from 'formik';
+import { t } from 'i18next';
 import moment from 'moment';
 import { useState } from 'react';
 import * as Yup from 'yup';
@@ -58,21 +59,21 @@ const UnavailabilityModal: React.FC<Props> = (props) => {
             await createTutorUnavailability(toSend).unwrap();
             handleClose && handleClose(false);
         } else {
-            toastService.error('Can`t add event before current time and 3 hours after now');
+            toastService.error(t('MY_BOOKINGS.UNABLE_MESSAGE'));
         }
     };
 
     const generateValidationSchema = () => {
         if (wholeDayChecked) {
             return Yup.object().shape({
-                date: Yup.string().required('required'),
+                date: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             });
         } else {
             return Yup.object().shape({
-                date: Yup.string().required('required'),
+                date: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
                 timeStart: Yup.string()
-                    .required('required')
-                    .test('timeStart', 'Start time can`t be after end time', (value) => {
+                    .required(t('FORM_VALIDATION.REQUIRED'))
+                    .test('timeStart', t('MY_BOOKINGS.TIME_AFTER'), (value) => {
                         const startTime = moment(value, 'HH:mm');
                         const endTime = moment(formik.values.timeEnd, 'HH:mm');
                         const condition = moment(endTime).isBefore(startTime);
@@ -82,7 +83,7 @@ const UnavailabilityModal: React.FC<Props> = (props) => {
                         }
                         return true;
                     })
-                    .test('timeStart', 'Start time and end time can`t be the same', (value) => {
+                    .test('timeStart', t('MY_BOOKINGS.TIME_SAME'), (value) => {
                         const startTime = moment(value, 'HH:mm');
                         const startTimeFormated = moment(startTime).format('HH:mm');
                         const endTime = moment(formik.values.timeEnd, 'HH:mm');
@@ -94,7 +95,7 @@ const UnavailabilityModal: React.FC<Props> = (props) => {
                         }
                         return true;
                     }),
-                timeEnd: Yup.string().required('required'),
+                timeEnd: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             });
         }
     };
@@ -117,7 +118,7 @@ const UnavailabilityModal: React.FC<Props> = (props) => {
                             <div>
                                 <div className="type--wgt--bold type--md mb-1">
                                     {/* {event.Subject.name} */}
-                                    Unavailability
+                                    {t('MY_BOOKINGS.UNAVAILABILITY')}
                                 </div>
                                 <div className="type--color--secondary">
                                     {moment(event).format('DD/MMM/YYYY, HH:mm')} - {moment(event).add(1, 'hour').format('HH:mm')}
@@ -143,17 +144,17 @@ const UnavailabilityModal: React.FC<Props> = (props) => {
                                     <div className="col col-12">
                                         <div className="field">
                                             <label className="field__label" htmlFor="date">
-                                                Date
+                                                {t('MY_BOOKINGS.MODAL.DATE')}
                                             </label>
                                             <MyDatePicker form={formik} field={formik.getFieldProps('date')} meta={formik.getFieldMeta('date')} />
                                         </div>
                                     </div>
                                     <div className="flex--primary w--100 pl-3 pr-3">
-                                        <div>Time</div>
+                                        <div>{t('MY_BOOKINGS.MODAL.TIME')}</div>
                                         <div className="mb-1">
                                             <div className="input--custom-check" onClick={() => setWholeDayChecked(!wholeDayChecked)}>
                                                 <div className={`input--custom-check__input ${wholeDayChecked ? 'active' : ''}`}></div>
-                                                <div className="input--custom-check__label">Whole day</div>
+                                                <div className="input--custom-check__label">{t('MY_BOOKINGS.MODAL.WHOLE_DAY')}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -191,7 +192,7 @@ const UnavailabilityModal: React.FC<Props> = (props) => {
                     </div>
                     <div className="modal--parent__footer mt-6">
                         <button form="unavailability-form" className="btn btn--base btn--primary w--100">
-                            Set unavailability
+                            {t('MY_BOOKINGS.MODAL.SET_UNAVAILABILITY')}
                         </button>
                         <button
                             className="btn btn--base btn--clear"
@@ -199,7 +200,7 @@ const UnavailabilityModal: React.FC<Props> = (props) => {
                                 handleClose ? handleClose(false) : false;
                             }}
                         >
-                            Cancel
+                            {t('MY_BOOKINGS.MODAL.CANCEL')}
                         </button>
                     </div>
                 </div>

@@ -1,3 +1,4 @@
+import { t } from 'i18next';
 import moment from 'moment';
 
 import toastService from '../../../services/toastService';
@@ -30,7 +31,7 @@ const UnavailabilityEditModal: React.FC<Props> = (props) => {
                             <div>
                                 <div className="type--wgt--bold type--md mb-1">
                                     {/* {event.Subject.name} */}
-                                    Unavailability
+                                    {t('MY_BOOKINGS.UNAVAILABILITY')}
                                 </div>
                                 <div className="type--color--secondary">
                                     {moment(event.startTime).format('DD/MMM/YYYY, HH:mm')} - {moment(event.endTime).add(1, 'minutes').format('HH:mm')}

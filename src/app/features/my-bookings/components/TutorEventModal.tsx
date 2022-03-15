@@ -1,3 +1,4 @@
+import { t } from 'i18next';
 import moment from 'moment';
 
 import IBooking from '../interfaces/IBooking';
@@ -37,7 +38,7 @@ const TutorEventModal: React.FC<IProps> = (props) => {
                                             {event.User.firstName} {event.User.lastName}
                                         </>
                                     )) ||
-                                        'Deleted user'}
+                                        t('MY_BOOKINGS.MODAL.DELETED_USER')}
                                 </div>
                                 <div className="type--color--secondary">
                                     {moment(event.startTime).format('DD/MMM/YYYY, HH:mm')} - {moment(event.endTime).add(1, 'minutes').format('HH:mm')}
@@ -72,14 +73,14 @@ const TutorEventModal: React.FC<IProps> = (props) => {
                                         {event.User?.firstName} {event.User?.lastName}
                                     </>
                                 )) ||
-                                    'Deleted user'}
+                                    t('MY_BOOKINGS.MODAL.DELETED_USER')}
                             </div>
                         </div>
                     </div>
                     <div className="modal--tutor__footer mt-6">
                         {!event.isAccepted ? (
                             <button className="btn btn--base btn--clear type--wgt--extra-bold" onClick={() => handleAcceptBooking()}>
-                                Accept
+                                {t('MY_BOOKINGS.MODAL.ACCEPT')}
                             </button>
                         ) : (
                             <></>
@@ -89,9 +90,9 @@ const TutorEventModal: React.FC<IProps> = (props) => {
                         ) : (
                             <>
                                 <button className="btn btn--base btn--clear type--wgt--extra-bold" onClick={() => handleDeleteBooking()}>
-                                    {event.isAccepted ? 'Delete' : 'Deny'}
+                                    {event.isAccepted ? t('MY_BOOKINGS.MODAL.DELETE') : t('MY_BOOKINGS.MODAL.DENY')}
                                 </button>
-                                <button className="btn btn--base btn--clear type--wgt--extra-bold">Propose a new time</button>
+                                <button className="btn btn--base btn--clear type--wgt--extra-bold">{t('MY_BOOKINGS.MODAL.PROPOSE')}</button>
                             </>
                         )}
                     </div>

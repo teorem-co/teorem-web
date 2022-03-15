@@ -53,7 +53,7 @@ const AddSubjectSidebar = (props: Props) => {
         handleGetData();
         closeSidebar();
         formik.resetForm();
-        toastService.success('Subject created');
+        toastService.success(t('MY_PROFILE.MY_TEACHINGS.CREATED'));
 
         //handle profile progress
         if (!profileProgressState.myTeachings) {
@@ -68,7 +68,7 @@ const AddSubjectSidebar = (props: Props) => {
         validationSchema: Yup.object().shape({
             level: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             subject: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            price: Yup.number().required(t('FORM_VALIDATION.REQUIRED')).min(47, 'Price can`t be lower than 47'),
+            price: Yup.number().required(t('FORM_VALIDATION.REQUIRED')).min(47, t('FORM_VALIDATION.PRICE')),
         }),
     });
 
@@ -93,7 +93,7 @@ const AddSubjectSidebar = (props: Props) => {
 
             <div className={`sidebar sidebar--secondary sidebar--secondary ${!sideBarIsOpen ? 'sidebar--secondary--close' : ''}`}>
                 <div className="flex--primary flex--shrink">
-                    <div className="type--color--secondary">ADD NEW SUBJECT</div>
+                    <div className="type--color--secondary">{'MY_PROFILE.MY_TEACHINGS.ADD_TITLE'}</div>
                     <div>
                         <i className="icon icon--base icon--close icon--grey" onClick={closeSidebar}></i>
                     </div>
@@ -102,7 +102,7 @@ const AddSubjectSidebar = (props: Props) => {
                     <FormikProvider value={formik}>
                         <Form noValidate>
                             <div>
-                                <label htmlFor="subject">Select levels that you are able to teach*</label>
+                                <label htmlFor="subject">{'MY_PROFILE.MY_TEACHINGS.LEVEL'}</label>
                                 <MySelect
                                     field={formik.getFieldProps('level')}
                                     form={formik}
@@ -115,7 +115,7 @@ const AddSubjectSidebar = (props: Props) => {
                                 />
                             </div>
                             <div>
-                                <label htmlFor="level">Select subject you teach*</label>
+                                <label htmlFor="level">{'MY_PROFILE.MY_TEACHINGS.SUBJECT'}</label>
                                 <MySelect
                                     key={formik.values.subject}
                                     field={formik.getFieldProps('subject')}
@@ -131,7 +131,7 @@ const AddSubjectSidebar = (props: Props) => {
                             </div>
                             <div className="field">
                                 <label htmlFor="price" className="field__label">
-                                    Pricing
+                                    {'MY_PROFILE.MY_TEACHINGS.PRICING'}
                                 </label>
                                 <TextField
                                     name="price"
@@ -147,10 +147,10 @@ const AddSubjectSidebar = (props: Props) => {
                 <div className="flex--shirnk sidebar--secondary__bottom mt-10">
                     <div className="flex--primary mt-6">
                         <button className="btn btn--primary btn--base type--wgt--extra-bold" onClick={() => formik.handleSubmit()}>
-                            Save information
+                            {'MY_PROFILE.MY_TEACHINGS.SAVE'}
                         </button>
                         <button className="btn btn--clear type--color--error type--wgt--extra-bold" onClick={closeSidebar}>
-                            Cancel
+                            {'MY_PROFILE.MY_TEACHINGS.CANCEL'}
                         </button>
                     </div>
                 </div>
