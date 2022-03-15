@@ -4,12 +4,36 @@ import Footer from '../components/Footer';
 import HeroSection from '../components/HeroSection';
 import Navigation from '../components/Navigation';
 import TextCard from '../components/TextCard';
+import IFAQItem from '../interfaces/IFAQItem';
 import grid7 from './../../../../assets/images/grid7.jpg';
 import grid8 from './../../../../assets/images/grid8.jpg';
 import grid9 from './../../../../assets/images/grid9.jpg';
 import grid10 from './../../../../assets/images/grid10.jpg';
 
 const Pricing = () => {
+    const FAQContent: IFAQItem[] = [
+        {
+            id: 'faq-1',
+            question: 'How much does a tutor cost?',
+            answer: 'Our tutors set their own prices based on their experience, qualifications and availability. Prices start at $XX. You can see all the tutors who match your budget with the handy price filter on our Tutor Search.',
+        },
+        {
+            id: 'faq-2',
+            question: 'How to find a tutor?',
+            answer: 'Finding a tutor is easy. After you register an account with Teorem, you can search and filter by subject, level, price, experience and more.',
+        },
+        {
+            id: 'faq-3',
+            question: 'Can I change a tutor if I am unhappy?',
+            answer: 'Of course! You are free to change a tutor anytime. We’ll take care of the admin, so you don’t have to.',
+        },
+        {
+            id: 'faq-4',
+            question: 'Can I get a refund?',
+            answer: 'Yes, if you cancel up to 24 hours in advance, we will issue you a full refund for your lesson.',
+        },
+    ];
+
     return (
         <>
             <Navigation />
@@ -107,7 +131,7 @@ const Pricing = () => {
                         </div>
                     </div>
                     <p className="landing__title">Frequently asked questions</p>
-                    <FAQGroup />
+                    <FAQGroup data={FAQContent} />
                 </div>
             </div>
             {/* FOOTER */}

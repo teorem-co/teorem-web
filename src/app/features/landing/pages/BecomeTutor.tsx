@@ -8,6 +8,7 @@ import FAQGroup from '../components/FAQGroup';
 import LandingWrapper from '../components/LandingWrapper';
 import ReviewCard from '../components/ReviewCard';
 import TextCard from '../components/TextCard';
+import IFAQItem from '../interfaces/IFAQItem';
 import grid1 from './../../../../assets/images/grid1.jpg';
 import grid2 from './../../../../assets/images/grid2.jpg';
 import grid3 from './../../../../assets/images/grid3.jpg';
@@ -17,6 +18,45 @@ import grid6 from './../../../../assets/images/grid6.jpg';
 import profileIllustration3 from './../../../../assets/images/profile-illustration3.jpg';
 
 const BecomeTutor = () => {
+    const cardText1 = {
+        text: 'Teorem helps me worry less about my child’s grades. Their expert tutors helped my kids achieve better grades which was followed by a boost in their confidence!',
+        name: 'John',
+        role: 'Father of three',
+    };
+    const cardText2 = {
+        text: 'The complimentary video call has allowed me to chat with several tutors before deciding on one that best fits my child’s needs. I couldn’t be happier!',
+        name: 'Renata',
+        role: 'Single mother',
+    };
+
+    const FAQContent: IFAQItem[] = [
+        {
+            id: 'faq-1',
+            question: 'How do I become an online tutor?',
+            answer: 'If you want to know how to get into tutoring, you’ve come to the right place! Just create an account, book your interview and we’ll help you get set up!',
+        },
+        {
+            id: 'faq-2',
+            question: 'What are the requirements for tutors?',
+            answer: 'We ideally require our tutors to commit a minimum of 6 lessons per week. You must be qualified at high school diploma level or above. You need to have a laptop (or PC) and a stable internet connection to teach online.',
+        },
+        {
+            id: 'faq-3',
+            question: 'How long does it take before I can start teaching?',
+            answer: 'As the registration process consists of a few simple steps, it usually only takes a day until you are verified and can begin teaching.',
+        },
+        {
+            id: 'faq-4',
+            question: 'What does the employment relationship look like?',
+            answer: 'You offer independent tutoring via Teorem’s platform. There is no employment relationship. You are responsible for any taxes and National Insurance contributions.',
+        },
+        {
+            id: 'faq-5',
+            question: 'What makes Teorem different from other portals?',
+            answer: 'We guarantee you a steady stream of students. We also take care of everything so that you can focus 100% on teaching.',
+        },
+    ];
+
     return (
         <LandingWrapper>
             {/* Content */}
@@ -97,7 +137,7 @@ const BecomeTutor = () => {
                     </div>
                 </div>
             </div>
-            <ReviewCard className="mt-30" img={profileIllustration3} />
+            <ReviewCard className="mt-30" data={cardText1} img={profileIllustration3} />
 
             <TextCard
                 className="mt-30"
@@ -108,7 +148,7 @@ const BecomeTutor = () => {
                 <img src={calendar} alt="calendar" className="landing__img" />
             </div>
             <p className="landing__title">We are here to help you grow!</p>
-            <ReviewCard className="mt-30" img={profileIllustration3} />
+            <ReviewCard className="mt-30" data={cardText2} img={profileIllustration3} />
             <p className="landing__title">How to become an online tutor on Teorem</p>
             <div className="mt-20">
                 <div className="flex flex--jc--start">
@@ -128,7 +168,7 @@ const BecomeTutor = () => {
                 <button className="btn btn--primary btn--lg type--md">Get started</button>
             </div>
             <p className="landing__title">Frequently asked questions</p>
-            <FAQGroup />
+            <FAQGroup data={FAQContent} />
         </LandingWrapper>
     );
 };
