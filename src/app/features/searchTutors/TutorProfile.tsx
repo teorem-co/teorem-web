@@ -171,17 +171,17 @@ const TutorProfile = () => {
                                                 </tbody>
                                             </table>
                                         ) : (
-                                            <>Tutor did not fill out the availability table</>
+                                            <>{t('TUTOR_PROFILE.AVAILABILITY_EMPTY')}</>
                                         )}
                                     </div>
                                     <div className="mb-10">
-                                        <div className="type--wgt--bold mb-2">Subjects offered</div>
+                                        <div className="type--wgt--bold mb-2">{t('TUTOR_PROFILE.SUBJECTS.TITLE')}</div>
                                         <table className="table table--primary">
                                             <thead>
                                                 <tr>
-                                                    <th>Subject</th>
-                                                    <th>Qualification</th>
-                                                    <th>Price</th>
+                                                    <th>{t('TUTOR_PROFILE.SUBJECTS.SUBJECT')}</th>
+                                                    <th>{t('TUTOR_PROFILE.SUBJECTS.QUALIFICATION')}</th>
+                                                    <th>{t('TUTOR_PROFILE.SUBJECTS.PRICE')}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -193,21 +193,23 @@ const TutorProfile = () => {
                                                                 <td>{item.Level.name}</td>
                                                                 <td>
                                                                     ${item.price}
-                                                                    <span className="type--color--tertiary">/hr</span>
+                                                                    <span className="type--color--tertiary">
+                                                                        /{t('TUTOR_PROFILE.SUBJECTS.HOUR_ABRV')}
+                                                                    </span>
                                                                 </td>
                                                             </tr>
                                                         );
                                                     })
                                                 ) : (
                                                     <tr>
-                                                        <td colSpan={3}>There are no subjects offered</td>
+                                                        <td colSpan={3}>{t('TUTOR_PROFILE.SUBJECTS.EMPTY')}</td>
                                                     </tr>
                                                 )}
                                             </tbody>
                                         </table>
                                     </div>
                                     <div className="mb-10">
-                                        <div className="type--wgt--bold mb-2">Ratings & reviews</div>
+                                        <div className="type--wgt--bold mb-2">{t('TUTOR_PROFILE.RATING.TITLE')}</div>
                                         <div className="flex flex--jc--space-between">
                                             <div>
                                                 <div className="type--huge">
@@ -221,7 +223,9 @@ const TutorProfile = () => {
                                                         }}
                                                     ></div>
                                                 </div>
-                                                <div className="type--color--secondary">{myReviews?.count} reviews total</div>
+                                                <div className="type--color--secondary">
+                                                    {myReviews?.count} {t('TUTOR_PROFILE.RATING.TOTAL')}
+                                                </div>
                                             </div>
                                             <div>
                                                 <Ratings ratings={tutorStatistics ? tutorStatistics.result : []} />
@@ -277,18 +281,18 @@ const TutorProfile = () => {
                                     <div className="flex--primary mb-3">
                                         <div>
                                             <i className="icon icon--pricing icon--base icon--grey"></i>
-                                            <span className="d--ib ml-2 type--color--secondary">Pricing:</span>
+                                            <span className="d--ib ml-2 type--color--secondary">{t('TUTOR_PROFILE.PRICING')}:</span>
                                         </div>
                                         <span className="d--ib ml-4">
                                             {/* Add later */}${tutorData.minimumPrice}
                                             &nbsp;-&nbsp;$
-                                            {tutorData.maximumPrice}&nbsp;/hr
+                                            {tutorData.maximumPrice}&nbsp;/{t('TUTOR_PROFILE.SUBJECTS.HOUR_ABRV')}
                                         </span>
                                     </div>
                                     <div className="flex--primary mb-3">
                                         <div>
                                             <i className="icon icon--star icon--base icon--grey"></i>
-                                            <span className="d--ib ml-2 type--color--secondary">Rating:</span>
+                                            <span className="d--ib ml-2 type--color--secondary">{t('TUTOR_PROFILE.RATING_TITLE')}:</span>
                                         </div>
 
                                         <span className="d--ib ml-4">
@@ -299,7 +303,7 @@ const TutorProfile = () => {
                                     <div className="flex--primary">
                                         <div>
                                             <i className="icon icon--completed-lessons icon--base icon--grey"></i>
-                                            <span className="d--ib ml-2 type--color--secondary">Completed lessons:</span>
+                                            <span className="d--ib ml-2 type--color--secondary">{t('TUTOR_PROFILE.COMPLETED_LESSONS')}:</span>
                                         </div>
                                         <span className="d--ib ml-4">
                                             {/* Add later */}
@@ -308,14 +312,14 @@ const TutorProfile = () => {
                                     </div>
                                 </div>
                                 <Link className="btn btn--base btn--primary w--100 mb-4 type--center" to={`/search-tutors/bookings/${tutorId}`}>
-                                    Book a Lesson
+                                    {t('TUTOR_PROFILE.BOOK')}
                                 </Link>
-                                <button className="btn btn--base btn--ghost w--100">Send a message</button>
+                                <button className="btn btn--base btn--ghost w--100">{t('TUTOR_PROFILE.SEND')}</button>
                             </div>
                         </div>
                     </>
                 ) : (
-                    <div className="type--wgt--bold type--lg mt-5 ml-5">User not found</div>
+                    <div className="type--wgt--bold type--lg mt-5 ml-5">{t('TUTOR_PROFILE.EMPTY')}</div>
                 )}
             </div>
         </MainWrapper>

@@ -467,5 +467,25 @@ export const EN_US = {
         SAVE: 'Save',
         NO: 'No',
     },
-    TUTOR_PROFILE: {},
+    TUTOR_PROFILE: {
+        AVAILABILITY_EMPTY: 'Tutor did not fill out the availability table',
+        PRICING: 'Pricing',
+        RATING_TITLE: 'Rating',
+        COMPLETED_LESSONS: 'Completed lessons',
+        BOOK: 'Book a lesson',
+        SEND: 'Send a message',
+        EMPTY: 'User not found',
+        SUBJECTS: {
+            TITLE: 'Subjects',
+            SUBJECT: 'Subject',
+            QUALIFICATION: 'Qualification',
+            PRICE: 'Price',
+            HOUR_ABRV: 'hr',
+            EMPTY: 'There are no subjects offered',
+        },
+        RATING: {
+            TITLE: 'Ratings & reviews',
+            TOTAL: 'reviews total',
+        },
+    },
 };
