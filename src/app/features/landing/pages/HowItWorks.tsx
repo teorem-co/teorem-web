@@ -1,5 +1,11 @@
-import calendar from '../../../../assets/images/landing_calendar.jpg';
+import { useEffect } from 'react';
+import { useHistory } from 'react-router';
+
+import call1 from '../../../../assets/images/call-1.jpg';
+import call2 from '../../../../assets/images/call-2.jpg';
+import chat from '../../../../assets/images/chat.jpg';
 import tutorList from '../../../../assets/images/landing_tutor_list.jpg';
+import { PATHS } from '../../../routes';
 import CardsGroup from '../components/CardsGroup';
 import FAQGroup from '../components/FAQGroup';
 import HeroSection from '../components/HeroSection';
@@ -17,8 +23,8 @@ import profileIllustration3 from './../../../../assets/images/profile-illustrati
 const HowItWorks = () => {
     const cardText1 = {
         text: 'Teorem helps me worry less about my child’s grades. Their expert tutors helped my kids achieve better grades which was followed by a boost in their confidence!',
-        name: 'John',
-        role: 'Father of three',
+        name: 'Emma',
+        role: 'Mother of one',
     };
     const cardText2 = {
         text: 'The complimentary video call has allowed me to chat with several tutors before deciding on one that best fits my child’s needs. I couldn’t be happier!',
@@ -27,8 +33,8 @@ const HowItWorks = () => {
     };
     const cardText3 = {
         text: 'Teorem’s virtual classroom helped my son understand tricky concepts through interactive exercises and fun design. It also allows me to rewatch the lessons and make sure my son kept focus!',
-        name: 'Emma',
-        role: 'Mother of one',
+        name: 'John',
+        role: 'Father of three',
     };
 
     const FAQContent: IFAQItem[] = [
@@ -54,6 +60,12 @@ const HowItWorks = () => {
         },
     ];
 
+    const history = useHistory();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     return (
         <LandingWrapper>
             {/* Content */}
@@ -62,8 +74,8 @@ const HowItWorks = () => {
                 desc="Private One-on-One 50-minute online lessons uniquely tailored for each student. All school subjects and age groups covered."
                 showBtn={false}
             />
-            <div className="landing__section mt-30">
-                <img src={calendar} alt="calendar" className="landing__img" />
+            <div className="landing__section mt-30 w--100">
+                <img src={call1} alt="calendar" className="landing__img" />
             </div>
 
             <div className="type--wgt--bold type--xl type--center mt-30">As featured around the world</div>
@@ -84,8 +96,8 @@ const HowItWorks = () => {
                 title="Chat with any tutor for free before you book."
                 desc="Share any files or assignments with the tutor and have a free video call to make sure the tutor you cohose is the perfect fit for you."
             />
-            <div className="landing__section mt-30">
-                <img src={calendar} alt="calendar" className="landing__img" />
+            <div className="landing__section mt-30 w--100">
+                <img src={chat} alt="calendar" className="landing__img" />
             </div>
             <ReviewCard img={profileIllustration2} data={cardText2} className="mt-30" />
             <TextCard
@@ -93,8 +105,8 @@ const HowItWorks = () => {
                 title="Our virtual classroom lets you rewatch lessons."
                 desc="Our lessons are so much more than just video calls. Our virtual classroom contains a digital whiteboard, recording function, screen sharing and much more."
             />
-            <div className="landing__section mt-30">
-                <img src={calendar} alt="calendar" className="landing__img" />
+            <div className="landing__section mt-30 w--100">
+                <img src={call2} alt="calendar" className="landing__img" />
             </div>
             <ReviewCard img={profileIllustration3} data={cardText3} className="mt-30" />
 
@@ -105,7 +117,9 @@ const HowItWorks = () => {
             />
             <CardsGroup showCreditCards />
             <div className="landing__section mt-30">
-                <button className="btn btn--primary btn--lg type--md">Get started</button>
+                <button className="btn btn--primary btn--lg type--md" onClick={() => history.push(PATHS.REGISTER)}>
+                    Get started
+                </button>
             </div>
             <p className="type--xxl type--wgt--bold mt-30">Frequently asked questions</p>
             <FAQGroup data={FAQContent} />

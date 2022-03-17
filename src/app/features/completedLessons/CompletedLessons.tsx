@@ -129,10 +129,10 @@ const CompletedLessons = () => {
                                                     alt="tutor profile picture"
                                                 />
                                                 <div>
-                                                    <div className="type--md mb-1">{activeLesson.Subject.name}</div>
-                                                    <div className="type--color--brand">
+                                                    <div className="type--md mb-1">
                                                         {activeLesson.Tutor.User.firstName}&nbsp;{activeLesson.Tutor.User.lastName}
                                                     </div>
+                                                    <div className="type--color--brand">{activeLesson.Subject.name}</div>
                                                 </div>
                                             </div>
                                             <div>

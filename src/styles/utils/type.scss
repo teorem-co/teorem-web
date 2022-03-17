@@ -107,6 +107,10 @@
         &--black {
             color: $black;
         }
+        &--half-transparent {
+            color: $white;
+            opacity: 0.6;
+        }
     }
 
     //style

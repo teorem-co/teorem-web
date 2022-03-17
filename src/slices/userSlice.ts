@@ -29,19 +29,13 @@ export const userSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder.addMatcher(
-            authService.endpoints.login.matchFulfilled,
-            (state, action: PayloadAction<ILoginPayload>) => {
-                const { user } = action.payload;
-                state.user = user;
-            }
-        );
-        builder.addMatcher(
-            userService.endpoints.getUser.matchFulfilled,
-            (state, action: PayloadAction<IUser>) => {
-                state.user = action.payload;
-            }
-        );
+        builder.addMatcher(authService.endpoints.login.matchFulfilled, (state, action: PayloadAction<ILoginPayload>) => {
+            const { user } = action.payload;
+            state.user = user;
+        });
+        builder.addMatcher(userService.endpoints.getUser.matchFulfilled, (state, action: PayloadAction<IUser>) => {
+            state.user = action.payload;
+        });
     },
 });
 

@@ -18,10 +18,11 @@ const StripeModal = (props: Props) => {
 
     const stripeConnectFunc = async () => {
         const toSend = {
-            refreshUrl: 'https://www.google.hr',
-            returnUrl: 'https://www.google.com',
+            refreshUrl: `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_HOST}/my-profile/account`,
+            returnUrl: `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_HOST}/my-profile/account`,
         };
         const res = await stripeConnect(toSend).unwrap();
+        debugger;
         setStripeModalUrl(res.url);
     };
 

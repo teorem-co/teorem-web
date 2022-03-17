@@ -1,9 +1,15 @@
+import { useEffect } from 'react';
+import { useHistory } from 'react-router';
+
+import call3 from '../../../../assets/images/call-3.jpg';
+import earnings from '../../../../assets/images/earnings.jpg';
 import calendar from '../../../../assets/images/landing_calendar.jpg';
 import firstAvatar from '../../../../assets/images/user-avatar-1.png';
 import secondAvatar from '../../../../assets/images/user-avatar-2.png';
 import thirdAvatar from '../../../../assets/images/user-avatar-3.png';
 import fourthAvatar from '../../../../assets/images/user-avatar-4.png';
 import fifthAvatar from '../../../../assets/images/user-avatar-5.png';
+import { PATHS } from '../../../routes';
 import FAQGroup from '../components/FAQGroup';
 import LandingWrapper from '../components/LandingWrapper';
 import ReviewCard from '../components/ReviewCard';
@@ -15,6 +21,7 @@ import grid3 from './../../../../assets/images/grid3.jpg';
 import grid4 from './../../../../assets/images/grid4.jpg';
 import grid5 from './../../../../assets/images/grid5.jpg';
 import grid6 from './../../../../assets/images/grid6.jpg';
+import profileIllustration2 from './../../../../assets/images/profile-illustration2.jpg';
 import profileIllustration3 from './../../../../assets/images/profile-illustration3.jpg';
 
 const BecomeTutor = () => {
@@ -57,6 +64,12 @@ const BecomeTutor = () => {
         },
     ];
 
+    const history = useHistory();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     return (
         <LandingWrapper>
             {/* Content */}
@@ -66,7 +79,6 @@ const BecomeTutor = () => {
                 <div className="landing__hero__subtitle landing--fluid--sm type--color--secondary w--260--max">
                     Give lessons whenever you want, from the comfort of your home.
                 </div>
-                <button className="btn btn--primary btn--lg mt-10">Try for free</button>
                 <div className="landing__avatar landing__avatar--first">
                     <img src={firstAvatar} alt="user-1" />
                 </div>
@@ -83,8 +95,8 @@ const BecomeTutor = () => {
                     <img src={fifthAvatar} alt="user-5" />
                 </div>
             </div>
-            <div className="landing__section mt-30">
-                <img src={calendar} alt="calendar" className="landing__img" />
+            <div className="landing__section mt-30 w--100">
+                <img src={call3} alt="calendar" className="landing__img" />
             </div>
             <TextCard
                 className="mt-30"
@@ -144,11 +156,11 @@ const BecomeTutor = () => {
                 title="Set your own price and availability!"
                 desc="Use our tools to track how much you’re making and increase your client base!"
             />
-            <div className="landing__section mt-30">
-                <img src={calendar} alt="calendar" className="landing__img" />
+            <div className="landing__section mt-30 w--100">
+                <img src={earnings} alt="calendar" className="landing__img" />
             </div>
             <p className="landing__title">We are here to help you grow!</p>
-            <ReviewCard className="mt-30" data={cardText2} img={profileIllustration3} />
+            <ReviewCard className="mt-30" data={cardText2} img={profileIllustration2} />
             <p className="landing__title">How to become an online tutor on Teorem</p>
             <div className="mt-20">
                 <div className="flex flex--jc--start">
@@ -165,7 +177,9 @@ const BecomeTutor = () => {
                 </div>
             </div>
             <div className="landing__section mt-30">
-                <button className="btn btn--primary btn--lg type--md">Get started</button>
+                <button className="btn btn--primary btn--lg type--md" onClick={() => history.push(PATHS.REGISTER)}>
+                    Get started
+                </button>
             </div>
             <p className="landing__title">Frequently asked questions</p>
             <FAQGroup data={FAQContent} />

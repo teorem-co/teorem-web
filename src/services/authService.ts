@@ -2,6 +2,7 @@ import { baseService } from '../app/baseService';
 import { HttpMethods } from '../app/lookups/httpMethods';
 import typeToFormData from '../app/utils/typeToFormData';
 import IGenerateUsername from '../interfaces/IGenerateUsername';
+import IRole from '../interfaces/IRole';
 
 interface ILogin {
     email: string;
@@ -12,7 +13,7 @@ interface ILoginResponse {
     token: string;
     user: {
         id: string;
-        role: string;
+        role: IRole;
     };
 }
 interface IRegisterTutor {
@@ -83,14 +84,14 @@ export const authService = baseService.injectEndpoints({
         }),
         resetPassword: builder.mutation<void, IResetPassword>({
             query: (body) => ({
-                url: `${URL}/reset-password`,
+                url: `/request-reset-password`,
                 method: HttpMethods.POST,
                 body,
             }),
         }),
         changePassword: builder.mutation<void, IChangePassword>({
             query: (body) => ({
-                url: `${URL}/reset-password?token=${body.token}`,
+                url: `/reset-password?token=${body.token}`,
                 method: HttpMethods.PUT,
                 body: {
                     password: body.password,

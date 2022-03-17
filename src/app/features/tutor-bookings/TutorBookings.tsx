@@ -15,7 +15,6 @@ import ExpDateField from '../../components/form/ExpDateField';
 import TextField from '../../components/form/TextField';
 import MainWrapper from '../../components/MainWrapper';
 import Sidebar from '../../components/Sidebar';
-import LoaderPrimary from '../../components/skeleton-loaders/LoaderPrimary';
 import LoaderSecondary from '../../components/skeleton-loaders/LoaderSecondary';
 import { useAppSelector } from '../../hooks';
 import toastService from '../../services/toastService';
@@ -35,13 +34,13 @@ interface IBookingTransformed {
     userId?: string;
 }
 
-interface IEvent {
-    id?: string;
-    label: string;
-    start: string;
-    end: string;
-    allDay: boolean;
-}
+// interface IEvent {
+//     id?: string;
+//     label: string;
+//     start: string;
+//     end: string;
+//     allDay: boolean;
+// }
 
 interface ICoords {
     x: number;
@@ -70,7 +69,7 @@ const TutorBookings = () => {
     const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
     const [emptyBookings, setEmptybookings] = useState<IBookingTransformed[]>([]);
     const [openSlot, setOpenSlot] = useState<boolean>(false);
-    const [eventDetails, setEventDetails] = useState<IEvent>();
+    //const [eventDetails, setEventDetails] = useState<IEvent>();
     const [openEventDetails, setOpenEventDetails] = useState<boolean>(false);
     const [openUpdateModal, setOpenUpdateModal] = useState<boolean>(false);
     const [calChange, setCalChange] = useState<boolean>(false);
@@ -117,14 +116,12 @@ const TutorBookings = () => {
             if (event.event.isAccepted === false) {
                 return (
                     <div className="event">
-                        <div className="mb-2">{moment(event.event.start).format('HH:mm')}</div>
                         <div className="type--wgt--bold">{event.event.label}</div>
                     </div>
                 );
             } else {
                 return (
-                    <div>
-                        <div className="mb-2 ">{moment(event.event.start).format('HH:mm')}</div>
+                    <div className="event event--pending">
                         <div className="type--wgt--bold">{event.event.label}</div>
                     </div>
                 );
@@ -198,12 +195,12 @@ const TutorBookings = () => {
                 setOpenSlot(false);
                 setOpenEventDetails(true);
                 getBookingById(e.id);
-                setEventDetails({
-                    start: moment(e.start).format('DD/MMMM/YYYY, HH:mm'),
-                    end: moment(e.end).format('HH:mm'),
-                    allDay: e.allDay,
-                    label: e.label,
-                });
+                // setEventDetails({
+                //     start: moment(e.start).format('DD/MMMM/YYYY, HH:mm'),
+                //     end: moment(e.end).format('HH:mm'),
+                //     allDay: e.allDay,
+                //     label: e.label,
+                // });
                 setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
                 setSelectedEnd(moment(e.end).format('HH:mm'));
                 // if (booking && booking.id) {
@@ -217,7 +214,7 @@ const TutorBookings = () => {
 
     const formik = useFormik({
         initialValues: initialValues,
-        onSubmit: (values) => handleSubmit(values),
+        onSubmit: () => handleSubmit(),
         validateOnBlur: true,
         validateOnChange: false,
         enableReinitialize: true,
@@ -225,7 +222,7 @@ const TutorBookings = () => {
     });
 
     //use for creadit card information sidebar
-    const handleSubmit = (values: any) => {
+    const handleSubmit = () => {
         setSidebarOpen(false);
     };
 

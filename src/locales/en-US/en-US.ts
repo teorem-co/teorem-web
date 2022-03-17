@@ -488,4 +488,20 @@ export const EN_US = {
             TOTAL: 'reviews total',
         },
     },
+    FOOTER: {
+        TITLE_TEXT: 'If you have additional questions, feel free to contact us via email info@teorem.hr',
+        APP_NAME: 'Teorem Ltd',
+        ADDRESS: '',
+        MOBILE: '',
+        EMAIL: 'info@teorem.hr',
+        LEGAL: {
+            TITLE: 'About Teorem',
+            LEGAL: 'Terms & Conditions',
+            PRIVACY: 'Privacy policy',
+            TUTOR: 'Become a tutor',
+        },
+        PAYMENT: {
+            TITLE: 'Payment methods',
+        },
+    },
 };

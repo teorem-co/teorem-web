@@ -19,10 +19,10 @@ const CompletedLessonsItem = (props: Props) => {
         >
             <img className="lessons-list__item__img" src={lesson.Tutor.User.profileImage} alt="tutor profile picture" />
             <div className="lessons-list__item__info">
-                <div className="type--wgt--bold">{lesson.Subject.name}</div>
-                <div className="type--color--brand">
+                <div className="type--wgt--bold">
                     {lesson.Tutor.User.firstName}&nbsp;{lesson.Tutor.User.lastName}
                 </div>
+                <div className="type--color--brand">{lesson.Subject.name}</div>
             </div>
             <div>
                 {lesson.count}&nbsp;{t('COMPLETED_LESSONS.COUNT_EXTENSION')}

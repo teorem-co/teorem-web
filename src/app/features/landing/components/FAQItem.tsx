@@ -20,7 +20,7 @@ const FAQItem = (props: Props) => {
                         <i className={`icon icon--base icon--black ${isActive ? 'icon--minus' : 'icon--plus'}`}></i>
                     </div>
                 </div>
-                {isActive && <div className="p-3 p-md-6 type--md type--color--secondary">{answer}</div>}
+                {isActive && <div className="p-3 pt-0 p-md-6 type--md type--color--secondary">{answer}</div>}
             </div>
         </>
     );

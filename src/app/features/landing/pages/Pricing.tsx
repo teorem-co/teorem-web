@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import useWindowSize from '../../../utils/useWindowSize';
 import FAQGroup from '../components/FAQGroup';
 import Footer from '../components/Footer';
@@ -34,6 +36,10 @@ const Pricing = () => {
         },
     ];
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     return (
         <>
             <Navigation />
@@ -57,7 +63,7 @@ const Pricing = () => {
                         />
                     </div>
                     <p className="landing__title">Our tutoring process</p>
-                    <div className="mt-20">
+                    <div className="mt-20 landing__steps__wrapper">
                         <div className="flex mb-30">
                             {useWindowSize().width > 850 && <div className="landing__steps__item long">1</div>}
                             <div className="landing__steps__main">
@@ -92,6 +98,7 @@ const Pricing = () => {
 
                     <div className="landing__section mt-20">
                         <button className="btn btn--primary btn--lg type--md">Book Your Complementary Lesson</button>
+                        <span className="d--b type--center mt-2 type--color--tertiary">Coming soon</span>
                     </div>
                     <p className="landing__title mb-20">Teorem benefits</p>
                     <div className="row row--adaptive">

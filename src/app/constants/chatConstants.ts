@@ -60,19 +60,16 @@ export const chatConversationList: IChatConversationItem[] = [
 export const chatConversation: IChatConversation[] = [
     {
         incomingMessage: true,
-        tutorImgUrl: 'https://source.unsplash.com/random/?model',
-        messages: [
-            'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-            'Lorem Ipsum has been the industry`s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
-            'It has survived not only five centuries, but also the leap into electronic typesetting.',
-        ],
+        tutorImgUrl: 'https://source.unsplash.com/random/?girl',
+        messages: ['Can you confirm that new time is OK with you?', 'and please leave a review after a lesson that will help me a lot. Thank you'],
     },
     {
         incomingMessage: false,
-        messages: [
-            'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-            'Lorem Ipsum has been the industry`s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
-            'It has survived not only five centuries, but also the leap into electronic typesetting.',
-        ],
+        messages: ['Ohh yes, i will do that now! Thank you for reminding me', 'I will leave a review for you.'],
+    },
+    {
+        incomingMessage: true,
+        tutorImgUrl: 'https://source.unsplash.com/random/?girl',
+        messages: ['Thank you :)'],
     },
 ];

@@ -280,6 +280,18 @@
                 }
             }
         }
+
+        &__cards {
+            display: flex;
+            align-items: center;
+            margin-top: calc(#{$unit} * 2);
+
+            img {
+                display: inline-block;
+                width: 32px;
+                margin-right: 6px;
+            }
+        }
     }
 
     &__grid {
@@ -334,8 +346,10 @@
     &__img {
         width: 100%;
         display: block;
-        box-shadow: 4px 3px 21px 5px rgba(0, 0, 0, 0.05);
+        box-shadow: 4px 3px 21px 5px rgba(0, 0, 0, 0.1);
         object-fit: cover;
+        max-height: 600px;
+        border-radius: $border-rounded;
     }
 
     &__navigation {
@@ -408,6 +422,8 @@
 
             &.active {
                 span {
+                    background: $white;
+
                     &:nth-child(1) {
                         width: 0%;
                         left: 50%;
@@ -469,6 +485,11 @@
             @media (min-width: $responsive-xl) {
                 width: 128px;
             }
+        }
+        //mobile navigation on landing pages
+        a {
+            padding: calc(#{$unit} * 3) calc(#{$unit} * 10);
+            font-size: $type-md;
         }
     }
 
@@ -583,6 +604,12 @@
             }
             max-width: 550px;
             text-align: center;
+        }
+        &__wrapper {
+            margin-left: -240px;
+            @media (max-width: 1100px) {
+                margin-left: 0;
+            }
         }
     }
 

@@ -3,7 +3,7 @@ import { FC, useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { setFile } from '../../slices/tutorImageUploadSlice';
+import { resetTutorImageUploadState, setFile } from '../../slices/tutorImageUploadSlice';
 
 interface PreviewFileType {
     preview: string | null;
@@ -11,10 +11,11 @@ interface PreviewFileType {
 
 type UploadFileType = {
     setFieldValue: (field: string, value: any) => void;
+    removePreviewOnUnmount?: boolean;
     imagePreview?: string;
 } & FieldAttributes<{}>;
 
-const UploadFile: FC<UploadFileType> = ({ setFieldValue, ...props }) => {
+const UploadFile: FC<UploadFileType> = ({ setFieldValue, removePreviewOnUnmount, ...props }) => {
     const dispatch = useAppDispatch();
 
     const [field, meta, helper] = useField<{}>(props);
@@ -30,6 +31,12 @@ const UploadFile: FC<UploadFileType> = ({ setFieldValue, ...props }) => {
         if (file) {
             setImagePreview(Object.assign(file, { preview: URL.createObjectURL(file) }));
             setFieldValue(field.name, file);
+        }
+
+        if (removePreviewOnUnmount) {
+            return function () {
+                dispatch(resetTutorImageUploadState());
+            };
         }
     }, [file]);
 

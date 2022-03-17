@@ -19,7 +19,7 @@ const ReviewCard = (props: Props) => {
                 </div>
                 <div className="flex flex--col flex--center">
                     <div className="type--color--white type--wgt--bold type--md mb-2">{data.name}</div>
-                    <div className="type--sm type--color--tertiary type--wgt--bold">{data.role}</div>
+                    <div className="type--sm type--color--half-transparent type--wgt--bold">{data.role}</div>
                 </div>
             </div>
             {/* Review description */}

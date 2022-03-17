@@ -10,6 +10,8 @@ import ResetPassword from './features/forgot-password/ResetPassword';
 import BecomeTutor from './features/landing/pages/BecomeTutor';
 import HowItWorks from './features/landing/pages/HowItWorks';
 import Pricing from './features/landing/pages/Pricing';
+import Privacy from './features/landing/pages/Privacy';
+import Terms from './features/landing/pages/Terms';
 import Login from './features/login/Login';
 import MyBookings from './features/my-bookings/MyBookings';
 import AdditionalInformation from './features/my-profile/pages/AdditionalInformation';
@@ -48,6 +50,8 @@ export enum PATHS {
     DASHBOARD = '/dashboard',
     NOTIFICATIONS = '/dashboard/notifications',
     EARNINGS = '/earnings',
+    TERMS = '/terms',
+    PRIVACY = '/privacy',
 }
 
 export enum LANDING_PATHS {
@@ -109,6 +113,18 @@ const ROUTES: any = [
         key: 'PRICING',
         exact: true,
         component: () => <Pricing />,
+    },
+    {
+        path: PATHS.TERMS,
+        key: 'TERMS',
+        exact: true,
+        component: () => <Terms />,
+    },
+    {
+        path: PATHS.PRIVACY,
+        key: 'PRIVACY',
+        exact: true,
+        component: () => <Privacy />,
     },
     {
         path: PATHS.ONBOARDING,
@@ -326,16 +342,16 @@ export const menuPerRole: IMenuPerRole = {
             path: PATHS.DASHBOARD,
         },
         {
-            name: 'EARNINGS',
-            icon: 'earnings',
-            key: 'EARNINGS',
-            path: PATHS.EARNINGS,
-        },
-        {
             name: 'MY_BOOKINGS',
             icon: 'calendar',
             key: 'MY_BOOKINGS',
             path: PATHS.MY_BOOKINGS,
+        },
+        {
+            name: 'CHAT',
+            icon: 'chat',
+            key: 'CHAT',
+            path: PATHS.CHAT,
         },
         {
             name: 'MY_REVIEWS',
@@ -344,10 +360,10 @@ export const menuPerRole: IMenuPerRole = {
             path: PATHS.MY_REVIEWS,
         },
         {
-            name: 'CHAT',
-            icon: 'chat',
-            key: 'CHAT',
-            path: PATHS.CHAT,
+            name: 'EARNINGS',
+            icon: 'earnings',
+            key: 'EARNINGS',
+            path: PATHS.EARNINGS,
         },
     ],
     [Role.Student]: [
@@ -364,6 +380,12 @@ export const menuPerRole: IMenuPerRole = {
             path: PATHS.MY_BOOKINGS,
         },
         {
+            name: 'CHAT',
+            icon: 'chat',
+            key: 'CHAT',
+            path: PATHS.CHAT,
+        },
+        {
             name: 'SEARCH_TUTORS',
             icon: 'search-tutors',
             key: 'SEARCH_TUTORS',
@@ -374,12 +396,6 @@ export const menuPerRole: IMenuPerRole = {
             icon: 'completed-lessons',
             key: 'COMPLETED_LESSONS',
             path: PATHS.COMPLETED_LESSONS,
-        },
-        {
-            name: 'CHAT',
-            icon: 'chat',
-            key: 'CHAT',
-            path: PATHS.CHAT,
         },
     ],
     [Role.Parent]: [
@@ -396,6 +412,12 @@ export const menuPerRole: IMenuPerRole = {
             path: PATHS.MY_BOOKINGS,
         },
         {
+            name: 'CHAT',
+            icon: 'chat',
+            key: 'CHAT',
+            path: PATHS.CHAT,
+        },
+        {
             name: 'SEARCH_TUTORS',
             icon: 'search-tutors',
             key: 'SEARCH_TUTORS',
@@ -406,12 +428,6 @@ export const menuPerRole: IMenuPerRole = {
             icon: 'completed-lessons',
             key: 'COMPLETED_LESSONS',
             path: PATHS.COMPLETED_LESSONS,
-        },
-        {
-            name: 'CHAT',
-            icon: 'chat',
-            key: 'CHAT',
-            path: PATHS.CHAT,
         },
     ],
     [Role.SuperAdmin]: [
@@ -428,29 +444,22 @@ export const menuPerRole: IMenuPerRole = {
             path: PATHS.MY_BOOKINGS,
         },
         {
+            name: 'CHAT',
+            icon: 'chat',
+            key: 'CHAT',
+            path: PATHS.CHAT,
+        },
+        {
             name: 'SEARCH_TUTORS',
             icon: 'search-tutors',
             key: 'SEARCH_TUTORS',
             path: PATHS.SEARCH_TUTORS,
         },
         {
-            name: 'MY_PROFILE',
-            icon: 'profile',
-            key: 'MY_PROFILE_INFO_PERSONAL',
-            rootPath: PROFILE_PATHS.MY_PROFILE,
-            path: PROFILE_PATHS.MY_PROFILE_INFO_PERSONAL,
-        },
-        {
             name: 'COMPLETED_LESSONS',
             icon: 'completed-lessons',
             key: 'COMPLETED_LESSONS',
             path: PATHS.COMPLETED_LESSONS,
-        },
-        {
-            name: 'CHAT',
-            icon: 'chat',
-            key: 'CHAT',
-            path: PATHS.CHAT,
         },
     ],
     [Role.Child]: [

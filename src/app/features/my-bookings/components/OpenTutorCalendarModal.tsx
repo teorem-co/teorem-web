@@ -65,7 +65,7 @@ const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
                     </div>
                     <div className="modal--parent__footer mt-6">
                         <button className="btn btn--base btn--primary type--wgt--extra-bold" onClick={() => goToTutorCalendar()}>
-                            {t('MY_BOOKINGS.MODAL.TUTOE_CALENDAR')}
+                            {t('MY_BOOKINGS.MODAL.TUTOR_CALENDAR')}
                         </button>
                     </div>
                 </div>

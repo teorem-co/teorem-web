@@ -4,7 +4,7 @@
 
 $rbc-color-header: #faf9ff;
 $rbc-color-today: transparent;
-$rbc-hour-height: 30px;
+$rbc-hour-height: 15px;
 $rbc-calendar-width: 675px;
 
 .rbc {
@@ -112,7 +112,10 @@ $rbc-calendar-width: 675px;
                     &:first-child {
                         .rbc-time-slot {
                             .rbc-label {
-                                margin-top: 00px;
+                                margin-top: 0px;
+                                &::after {
+                                    top: 26px;
+                                }
                             }
                         }
                     }
@@ -139,17 +142,17 @@ $rbc-calendar-width: 675px;
                 &:after {
                     content: '';
                     position: absolute;
-                    top: 30px;
+                    top: 20px;
                     left: calc(#{$unit} * 6);
                     width: 20px;
-                    height: 62px;
+                    height: 24px;
                     border-top: 1px solid $grey-ed;
                     border-bottom: 1px solid $grey-ed;
                 }
                 &:before {
                     content: '';
                     position: absolute;
-                    bottom: 90px;
+                    bottom: -18px;
                     left: calc(#{$unit} * 6);
                     width: 32px;
                     height: 1px;
@@ -245,6 +248,7 @@ $rbc-calendar-width: 675px;
             left: 0;
         }
     }
+
     &-events {
         &-container {
             margin-right: 0px !important;

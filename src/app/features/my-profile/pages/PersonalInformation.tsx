@@ -86,11 +86,18 @@ const PersonalInformation = () => {
     };
 
     const handleBlur = () => {
-        // const initialValueImgSplit = initialValues.profileImage.split('/');
-        // const initialValueImg = initialValueImgSplit[initialValueImgSplit.length - 1];
+        const initialValueImgSplit = initialValues.profileImage.split('/');
+        const initialValueImg = initialValueImgSplit[initialValueImgSplit.length - 1];
 
-        // const formikImgSplit = formik.values.profileImage.split('/');
-        // const formikImg = formikImgSplit[formikImgSplit.length - 1];
+        let formikImgSplit = [];
+        let formikImg = '';
+        if (typeof formik.values.profileImage === 'string') {
+            formikImgSplit = formik.values.profileImage.split('/');
+            formikImg = formikImgSplit[formikImgSplit.length - 1];
+        } else {
+            const test: any = formik.values.profileImage;
+            formikImg = test.name;
+        }
 
         const initialValueObj = {
             firstName: initialValues.firstName,
@@ -98,7 +105,7 @@ const PersonalInformation = () => {
             phoneNumber: initialValues.phoneNumber,
             dateOfBirth: initialValues.dateOfBirth,
             countryId: initialValues.countryId,
-            //profileImage: initialValueImg,
+            profileImage: initialValueImg,
         };
 
         const formikValuesObj = {
@@ -107,7 +114,7 @@ const PersonalInformation = () => {
             phoneNumber: formik.values.phoneNumber,
             dateOfBirth: formik.values.dateOfBirth,
             countryId: formik.values.countryId,
-            //profileImage: formikImg,
+            profileImage: formikImg,
         };
 
         if (!isEqual(initialValueObj, formikValuesObj)) {
@@ -376,6 +383,7 @@ const PersonalInformation = () => {
                                                             value={user?.profileImage ? user.profileImage : ''}
                                                             disabled={isLoading}
                                                             imagePreview={formik.values.profileImage}
+                                                            removePreviewOnUnmount={true}
                                                         />
                                                     </div>
                                                 </div>

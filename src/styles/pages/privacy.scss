@@ -1,0 +1,16 @@
+/*
+    pages: privacy.scss;
+*/
+
+.privacy {
+    p {
+        margin-bottom: calc(#{$unit} * 2);
+    }
+    h1 {
+        margin-bottom: calc(#{$unit} * 4);
+    }
+    h2 {
+        margin-bottom: calc(#{$unit} * 2);
+        margin-top: calc(#{$unit} * 10);
+    }
+}

@@ -1,10 +1,5 @@
 import MainWrapper from '../../../components/MainWrapper';
-import {
-    chatConversation,
-    chatConversationList,
-    IChatConversation,
-    IChatConversationItem,
-} from '../../../constants/chatConstants';
+import { chatConversation, chatConversationList, IChatConversation, IChatConversationItem } from '../../../constants/chatConstants';
 import ConversationAside from '../components/ConversationAside';
 import LoggedUserMessage from '../components/LoggedUserMessage';
 import OtherUserMessage from '../components/OtherUserMessage';
@@ -16,59 +11,33 @@ const Chat = () => {
                 <div className="card--chat__aside">
                     <div className="p-4">
                         <div className="type--wgt--bold type--lg">Chat</div>
-                        <input
-                            type="text"
-                            placeholder="Search in chat"
-                            className="input p-3 mt-6"
-                        />
+                        <input type="text" placeholder="Search in chat" className="input p-3 mt-6" />
                     </div>
                     <div className="chat__messages-wrapper">
-                        {chatConversationList.map(
-                            (
-                                chatConversationItem: IChatConversationItem,
-                                index: number
-                            ) => {
-                                return (
-                                    <ConversationAside
-                                        key={index}
-                                        data={chatConversationItem}
-                                    />
-                                );
-                            }
-                        )}
+                        {chatConversationList.map((chatConversationItem: IChatConversationItem, index: number) => {
+                            return <ConversationAside key={index} data={chatConversationItem} />;
+                        })}
                     </div>
                 </div>
                 {/* Active chat */}
                 <div className="content">
                     <div className="content__header content__header--chat">
                         <div className="flex flex--center">
-                            <div className="chat__conversation__avatar"></div>
+                            <img className="chat__conversation__avatar" src="https://source.unsplash.com/random/?girl" alt="chat avatar" />
+
                             <div className="ml-3 type--wgt--bold">John doe</div>
                         </div>
-                        <button className="btn btn--primary btn--base">
-                            Book a session
-                        </button>
+                        <button className="btn btn--primary btn--base">Book a session</button>
                     </div>
                     {/* Messages */}
                     <div className="content__main">
-                        {chatConversation.map(
-                            (
-                                chatConversation: IChatConversation,
-                                index: number
-                            ) => {
-                                return chatConversation.incomingMessage ? (
-                                    <OtherUserMessage
-                                        key={index}
-                                        data={chatConversation}
-                                    />
-                                ) : (
-                                    <LoggedUserMessage
-                                        key={index}
-                                        data={chatConversation}
-                                    />
-                                );
-                            }
-                        )}
+                        {chatConversation.map((chatConversation: IChatConversation, index: number) => {
+                            return chatConversation.incomingMessage ? (
+                                <OtherUserMessage key={index} data={chatConversation} />
+                            ) : (
+                                <LoggedUserMessage key={index} data={chatConversation} />
+                            );
+                        })}
                     </div>
                     <div className="content__footer content__footer--chat">
                         <div className="flex--shrink">

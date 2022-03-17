@@ -8,11 +8,15 @@
     height: 83%;
     top: 0;
     left: 0;
-    background-color: $white;
-    color: $black;
+
+    display: flex;
+    align-items: center;
+    padding: $unit;
     border: 1px solid #88bfff;
-    padding: 16px 8px;
+
     color: #88bfff;
+    background-color: $white;
+
     &--unavailable {
         position: absolute;
         background: repeating-linear-gradient(45deg, #f7f7f7, #f7f7f7 10px, #fcfcfc 10px, #fcfcfc 20px);
@@ -24,5 +28,10 @@
         align-items: center;
         justify-content: center;
         height: 100%;
+    }
+    &--pending {
+        background: #c9e2ff;
+        color: $white;
+        border: none;
     }
 }
