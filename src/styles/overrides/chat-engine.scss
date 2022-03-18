@@ -8,6 +8,7 @@
             background-color: $color-primary !important;
         }
         &-title-container {
+            backdrop-filter: blur(6px) !important;
             .ce-chat-title-text,
             .ce-chat-subtitle-text {
                 color: $color-primary !important;
