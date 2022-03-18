@@ -1,14 +1,43 @@
+import { useEffect, useState } from 'react';
+import { ChatEngine } from 'react-chat-engine';
+
+import IChatEnginePost from '../../../../interfaces/IChatEnginePost';
+import IUser from '../../../../interfaces/IUser';
 import MainWrapper from '../../../components/MainWrapper';
 import { chatConversation, chatConversationList, IChatConversation, IChatConversationItem } from '../../../constants/chatConstants';
+import { useAppSelector } from '../../../hooks';
+import { useAddUserMutation } from '../../../services/chatEngineService';
 import ConversationAside from '../components/ConversationAside';
 import LoggedUserMessage from '../components/LoggedUserMessage';
 import OtherUserMessage from '../components/OtherUserMessage';
 
 const Chat = () => {
+    const user = useAppSelector((state) => state.auth.user);
+
+    const chatUserName = user?.email.split('@')[0];
+
+    const [addUserQuery] = useAddUserMutation();
+
+    const addUser = async () => {
+        const toSend: IChatEnginePost = {
+            email: 'parent@reroot.hr',
+            first_name: 'Parent',
+            last_name: 'Parentić',
+            secret: 'Password1!',
+            username: 'parent',
+        };
+
+        const res = await addUserQuery(toSend).unwrap();
+    };
+
     return (
         <MainWrapper>
+            <div>
+                <button onClick={() => addUser()}>add user</button>
+            </div>
             <div className="card--chat">
-                <div className="card--chat__aside">
+                <ChatEngine height="80vh" userName={chatUserName} userSecret="Password1!" projectID="118ac403-e935-406b-a5bd-3239a377af7b" />
+                {/* <div className="card--chat__aside">
                     <div className="p-4">
                         <div className="type--wgt--bold type--lg">Chat</div>
                         <input type="text" placeholder="Search in chat" className="input p-3 mt-6" />
@@ -19,7 +48,7 @@ const Chat = () => {
                         })}
                     </div>
                 </div>
-                {/* Active chat */}
+                
                 <div className="content">
                     <div className="content__header content__header--chat">
                         <div className="flex flex--center">
@@ -29,7 +58,7 @@ const Chat = () => {
                         </div>
                         <button className="btn btn--primary btn--base">Book a session</button>
                     </div>
-                    {/* Messages */}
+                    
                     <div className="content__main">
                         {chatConversation.map((chatConversation: IChatConversation, index: number) => {
                             return chatConversation.incomingMessage ? (
@@ -45,7 +74,7 @@ const Chat = () => {
                         </div>
                         <input type="text" className="input ml-5 p-2" />
                     </div>
-                </div>
+                </div> */}
             </div>
         </MainWrapper>
     );
