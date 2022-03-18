@@ -14,7 +14,7 @@ export const chatEngineService = createApi({
                 url: `/users/`,
                 method: HttpMethods.POST,
                 headers: {
-                    'PRIVATE-KEY': '8c45e93f-3d50-4a31-9cff-dddf970ff170',
+                    'PRIVATE-KEY': `8c45e93f-3d50-4a31-9cff-dddf970ff170`,
                 },
                 body,
             }),

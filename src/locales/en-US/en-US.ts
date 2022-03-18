@@ -3,6 +3,7 @@ export const EN_US = {
     WATERMARK: '© Teorem',
     ERROR_HANDLING: {
         UNHANDLED_ERROR: 'Unhandled error occured!',
+        SUPPORT: 'Something gone wrong, please contact the support',
     },
     TRIAL_POPUP: {
         WELCOME: 'Welcome to Teorem',

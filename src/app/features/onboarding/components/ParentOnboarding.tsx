@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
+import IChatEnginePost from '../../../../interfaces/IChatEnginePost';
 import { IChild } from '../../../../interfaces/IChild';
 import { useCheckUsernameMutation, useGenerateChildUsernameMutation, useRegisterParentMutation } from '../../../../services/authService';
 import { resetParentRegister, setChildList, setStepOne } from '../../../../slices/parentRegisterSlice';
@@ -18,6 +19,7 @@ import ImageCircle from '../../../components/ImageCircle';
 import { countryInput } from '../../../constants/countryInput';
 import { countryOption } from '../../../constants/countryOption';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useAddUserMutation } from '../../../services/chatEngineService';
 import toastService from '../../../services/toastService';
 import useOutsideAlerter from '../../../utils/useOutsideAlerter';
 import TooltipPassword from '../../register/TooltipPassword';
@@ -57,6 +59,7 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
     const [checkUsername] = useCheckUsernameMutation();
     const parentCreds = useAppSelector((state) => state.parentRegister);
     const { firstName, lastName, password, passwordRepeat, email, dateOfBirth, phoneNumber, countryId, child, skip } = parentCreds;
+    const [addUserQuery] = useAddUserMutation();
 
     const [generateChildUsernamePost] = useGenerateChildUsernameMutation();
 
@@ -255,31 +258,52 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
         validationSchema: Yup.object().shape({}),
     });
 
-    const submitStepTwo = () => {
-        skip
-            ? registerParent({
-                  firstName: firstName,
-                  lastName: lastName,
-                  email: email,
-                  password: password,
-                  confirmPassword: passwordRepeat,
-                  dateOfBirth: moment(dateOfBirth).toISOString(),
-                  phoneNumber: phoneNumber,
-                  countryId: countryId,
-                  roleAbrv: roleAbrv ? roleAbrv : '',
-              })
-            : registerParent({
-                  firstName: firstName,
-                  lastName: lastName,
-                  email: email,
-                  password: password,
-                  confirmPassword: passwordRepeat,
-                  dateOfBirth: moment(dateOfBirth).toISOString(),
-                  phoneNumber: phoneNumber,
-                  countryId: countryId,
-                  children: JSON.stringify(child),
-                  roleAbrv: roleAbrv ? roleAbrv : '',
-              });
+    const submitStepTwo = async () => {
+        const toSend: IChatEnginePost = {
+            email: email,
+            first_name: firstName,
+            last_name: lastName,
+            secret: 'Password1!',
+            username: email.split('@')[0],
+        };
+        if (skip) {
+            addUserQuery(toSend).unwrap();
+            await registerParent({
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                password: password,
+                confirmPassword: passwordRepeat,
+                dateOfBirth: moment(dateOfBirth).toISOString(),
+                phoneNumber: phoneNumber,
+                countryId: countryId,
+                roleAbrv: roleAbrv ? roleAbrv : '',
+            })
+                .unwrap()
+                .then()
+                .catch(() => {
+                    toastService.error(t('ERROR_HANDLING.SUPPORT'));
+                });
+        } else {
+            addUserQuery(toSend).unwrap();
+            await registerParent({
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                password: password,
+                confirmPassword: passwordRepeat,
+                dateOfBirth: moment(dateOfBirth).toISOString(),
+                phoneNumber: phoneNumber,
+                countryId: countryId,
+                children: JSON.stringify(child),
+                roleAbrv: roleAbrv ? roleAbrv : '',
+            })
+                .unwrap()
+                .then()
+                .catch(() => {
+                    toastService.error(t('ERROR_HANDLING.SUPPORT'));
+                });
+        }
     };
 
     const stepTwo = () => {

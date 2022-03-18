@@ -20,23 +20,23 @@ const Chat = () => {
 
     const addUser = async () => {
         const toSend: IChatEnginePost = {
-            email: 'parent@reroot.hr',
-            first_name: 'Parent',
-            last_name: 'Parentić',
+            email: 'tutor@reroot.hr',
+            first_name: 'Tutor',
+            last_name: 'Tutorić',
             secret: 'Password1!',
-            username: 'parent',
+            username: 'tutor',
         };
 
-        const res = await addUserQuery(toSend).unwrap();
+        await addUserQuery(toSend).unwrap();
     };
 
     return (
         <MainWrapper>
-            <div>
+            {/* <div>
                 <button onClick={() => addUser()}>add user</button>
-            </div>
-            <div className="card--chat">
-                <ChatEngine height="80vh" userName={chatUserName} userSecret="Password1!" projectID="118ac403-e935-406b-a5bd-3239a377af7b" />
+            </div> */}
+            <div className="card--chat card--primary--shadow">
+                <ChatEngine height="100%" userName={chatUserName} userSecret="Password1!" projectID={`118ac403-e935-406b-a5bd-3239a377af7b`} />
                 {/* <div className="card--chat__aside">
                     <div className="p-4">
                         <div className="type--wgt--bold type--lg">Chat</div>

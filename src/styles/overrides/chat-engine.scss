@@ -2,6 +2,110 @@
     overrides: chat-engine.scss;
 */
 
-.ce-chat-engine {
-    width: 100%;
+.ce {
+    &-chat {
+        &-unread-dot {
+            background-color: $color-primary !important;
+        }
+        &-title-container {
+            .ce-chat-title-text,
+            .ce-chat-subtitle-text {
+                color: $color-primary !important;
+            }
+        }
+        &-engine {
+            width: 100%;
+            border-radius: $border-rounded;
+            overflow: hidden;
+
+            * {
+                font-family: 'Lato', sans-serif !important;
+            }
+        }
+        &-card {
+            &.ce-active-chat-card {
+                background-color: $color-primary !important;
+                .ce-chat-title-text {
+                    color: $white !important;
+                }
+                .ce-chat-subtitle-text {
+                    color: $white !important;
+                    opacity: 0.6;
+                }
+                .ce-chat-unread-dot {
+                    background-color: $white !important;
+                }
+            }
+        }
+        &-list {
+            padding-left: 10px;
+            border-color: $grey-ed !important;
+        }
+    }
+
+    &-wrapper {
+        height: 100%;
+    }
+
+    &-my-message-bubble {
+        background-color: $color-primary !important;
+    }
+
+    &-primary-button {
+        background-color: $color-primary !important;
+
+        &.ce-danger-button {
+            background-color: $white !important;
+        }
+    }
+
+    &-message-timestamp {
+        color: $color-primary !important;
+    }
+
+    &-send-button-container > div > div {
+        background-color: $color-primary !important;
+    }
+
+    &-input {
+        &:focus {
+            border-color: $color-primary !important;
+        }
+    }
+
+    &-settings {
+        border-color: $grey-ed !important;
+    }
+
+    &-quill-container {
+        display: flex;
+        flex-direction: column-reverse;
+
+        .ql-container {
+            border-color: $grey-ed !important;
+            border-left: none !important;
+            border-right: none !important;
+        }
+        .ql-toolbar {
+            border: none !important;
+        }
+    }
+}
+
+//big selectors overrides
+.ql-snow .ql-toolbar .ql-picker-item.ql-selected,
+.ql-snow .ql-toolbar .ql-picker-item:hover,
+.ql-snow .ql-toolbar .ql-picker-label.ql-active,
+.ql-snow .ql-toolbar .ql-picker-label:hover,
+.ql-snow .ql-toolbar button.ql-active,
+.ql-snow .ql-toolbar button:focus,
+.ql-snow .ql-toolbar button:hover,
+.ql-snow.ql-toolbar .ql-picker-item.ql-selected,
+.ql-snow.ql-toolbar .ql-picker-item:hover,
+.ql-snow.ql-toolbar .ql-picker-label.ql-active,
+.ql-snow.ql-toolbar .ql-picker-label:hover,
+.ql-snow.ql-toolbar button.ql-active,
+.ql-snow.ql-toolbar button:focus,
+.ql-snow.ql-toolbar button:hover {
+    color: $color-primary !important;
 }
