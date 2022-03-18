@@ -38,7 +38,7 @@ export enum PATHS {
     REGISTER = '/register',
     FORGOT_PASSWORD = '/forgot-password',
     RESET_PASSWORD = '/reset-password',
-    LOGIN = '/',
+    LOGIN = '/login',
     MY_BOOKINGS = '/my-bookings',
     SEARCH_TUTORS = '/search-tutors',
     SEARCH_TUTORS_TUTOR_PROFILE = '/search-tutors/profile/:tutorId',
@@ -55,7 +55,7 @@ export enum PATHS {
 }
 
 export enum LANDING_PATHS {
-    HOW_IT_WORKS = '/how-it-works',
+    HOW_IT_WORKS = '/',
     BECOME_TUTOR = '/become-tutor',
     PRICING = '/pricing',
 }

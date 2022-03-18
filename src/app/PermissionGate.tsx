@@ -1,5 +1,6 @@
 import { Redirect } from 'react-router';
 
+import { PATHS } from './routes';
 import { getUserRoleAbrv } from './utils/getUserRoleAbrv';
 
 export default function PermissionsGate(props: any) {
@@ -8,7 +9,7 @@ export default function PermissionsGate(props: any) {
     const permissionGranted = roles.some((role: any) => role === userRole);
 
     if (!permissionGranted) {
-        return <Redirect to="/" />;
+        return <Redirect to={PATHS.LOGIN} />;
     }
 
     return <>{children}</>;

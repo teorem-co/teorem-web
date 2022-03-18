@@ -8,7 +8,7 @@ import { logout } from '../../slices/authSlice';
 import { RoleOptions } from '../../slices/roleSlice';
 import { logoutUser } from '../../slices/userSlice';
 import { useAppDispatch, useAppSelector } from '../hooks';
-import { RenderMenuLinks } from '../routes';
+import { PATHS, RenderMenuLinks } from '../routes';
 import { persistor } from '../store';
 import ImageCircle from './ImageCircle';
 
@@ -72,7 +72,7 @@ const Navbar = () => {
                     </NavLink>
                 )}
 
-                <NavLink to="/" onClick={handleLogout} className="d--ib">
+                <NavLink to={PATHS.LOGIN} onClick={handleLogout} className="d--ib">
                     <i className="icon icon--logout icon--sm icon--grey"></i>
                 </NavLink>
             </div>
