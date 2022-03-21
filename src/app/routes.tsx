@@ -464,12 +464,6 @@ export const menuPerRole: IMenuPerRole = {
     ],
     [Role.Child]: [
         {
-            name: 'DASHBOARD',
-            icon: 'dashboard',
-            key: 'DASHBOARD',
-            path: PATHS.DASHBOARD,
-        },
-        {
             name: 'MY_BOOKINGS',
             icon: 'calendar',
             key: 'MY_BOOKINGS',

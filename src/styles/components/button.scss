@@ -36,6 +36,11 @@
         &:focus {
             --box-shadow-color: #{darken($color-primary, 15%)};
         }
+
+        &--landing {
+            padding: calc((#{$unit} * 1.5) + 2px) calc(#{$unit} * 4);
+            border-radius: 8px;
+        }
     }
 
     &--success {
@@ -83,6 +88,12 @@
         &--bordered {
             border: 1px solid $color-primary;
             border-radius: $border-rounded;
+        }
+
+        &--landing {
+            padding: calc(#{$unit} * 1.5) calc(#{$unit} * 4);
+            border-radius: 8px;
+            border-width: 2px;
         }
     }
 

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
+import IChatEnginePost from '../../../../interfaces/IChatEnginePost';
 import { useRegisterTutorMutation } from '../../../../services/authService';
 import { resetParentRegister } from '../../../../slices/parentRegisterSlice';
 import { resetStudentRegister } from '../../../../slices/studentRegisterSlice';
@@ -18,6 +19,7 @@ import TextField from '../../../components/form/TextField';
 import { countryInput } from '../../../constants/countryInput';
 import { countryOption } from '../../../constants/countryOption';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useAddUserMutation } from '../../../services/chatEngineService';
 import toastService from '../../../services/toastService';
 import { resetTutorImageUploadState } from '../../../slices/tutorImageUploadSlice';
 import useOutsideAlerter from '../../../utils/useOutsideAlerter';
@@ -56,6 +58,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
     const [phoneTooltip, setPhoneTooltip] = useState<boolean>(false);
     const profileImage = useAppSelector((state) => state.tutorRegister.profileImage);
     const { t } = useTranslation();
+    const [addUserQuery] = useAddUserMutation();
 
     // step one
     const editStepOne = () => {
@@ -133,25 +136,32 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
             })
         );
 
-        await registerTutor({
-            firstName: firstName,
-            lastName: lastName,
-            password: password,
-            confirmPassword: passwordRepeat,
-            roleAbrv: roleAbrv ? roleAbrv : '',
-            countryId: values.countryId,
-            phoneNumber: values.phoneNumber,
-            dateOfBirth: moment(values.dateOfBirth).toISOString(),
+        const toSend: IChatEnginePost = {
             email: email,
-            profileImage: values.profileImage,
-        })
-            .unwrap()
-            .then(() => {
-                handleNextStep();
-            })
-            .catch(() => {
-                toastService.error('Something gone wrong, please contact the support');
-            });
+            first_name: firstName,
+            last_name: lastName,
+            secret: 'Password1!',
+            username: email.split('@')[0],
+        };
+
+        try {
+            await registerTutor({
+                firstName: firstName,
+                lastName: lastName,
+                password: password,
+                confirmPassword: passwordRepeat,
+                roleAbrv: roleAbrv ? roleAbrv : '',
+                countryId: values.countryId,
+                phoneNumber: values.phoneNumber,
+                dateOfBirth: moment(values.dateOfBirth).toISOString(),
+                email: email,
+                profileImage: values.profileImage,
+            }).unwrap();
+            await addUserQuery(toSend).unwrap();
+            handleNextStep();
+        } catch (error) {
+            toastService.error(t('ERROR_HANDLING.SUPPORT'));
+        }
     };
 
     const rangeSetterRef = useRef<HTMLDivElement>(null);

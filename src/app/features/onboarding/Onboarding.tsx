@@ -49,12 +49,12 @@ const Onboarding = () => {
             setStep(step + 1);
         } else if (step === 2) {
             dispatch(resetParentRegister());
-            history.push('/');
+            history.push(PATHS.LOGIN);
         }
     };
 
     const handleNextStepStudent = () => {
-        history.push('/');
+        history.push(PATHS.LOGIN);
     };
     const showDesc = (data: boolean) => {
         setShow(data);
@@ -124,7 +124,7 @@ const Onboarding = () => {
                             ) : roleSelection === RoleOptions.Student ? (
                                 <StudentOnboarding step={step} handleNextStep={handleNextStepStudent} handleGoBack={handleGoBack} />
                             ) : (
-                                history.push('/')
+                                history.push(PATHS.LOGIN)
                             )}
                         </div>
                         <div className="flex--primary mt-8 w--448--max">

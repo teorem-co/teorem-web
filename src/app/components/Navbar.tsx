@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import storage from 'redux-persist/lib/storage';
 
@@ -27,7 +28,7 @@ const Navbar = () => {
 
     return (
         <div className="navbar">
-            <NavLink className="d--b" to="/my-bookings">
+            <NavLink className="d--b" to={`${userRole === 'tutor' ? '/dashboard' : '/my-bookings'}`}>
                 <img className="navbar__logo" src={logo} alt="logo" />
             </NavLink>
             <div className="flex--grow">
@@ -55,7 +56,7 @@ const Navbar = () => {
                     <NavLink to="/my-profile/info/personal" className="navbar__bottom__my-profile" activeClassName="active">
                         <div className="navbar__bottom__avatar pos--rel">
                             {userRole === RoleOptions.Tutor ? (
-                                <img src={user?.profileImage ? user?.profileImage : gradientCircle} alt="avatar" />
+                                <img src={user?.profileImage ? 'https://' + user?.profileImage : gradientCircle} alt="avatar" />
                             ) : (
                                 <ImageCircle initials={`${user?.firstName.charAt(0)}${user?.lastName.charAt(0)}`} />
                             )}

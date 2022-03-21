@@ -24,6 +24,7 @@
         "react-big-calendar": "^0.38.2",
         "react-calendar": "^3.5.0",
         "react-chartjs-2": "^4.0.1",
+        "react-chat-engine": "^1.11.22",
         "react-content-loader": "^6.1.0",
         "react-date-picker": "^8.3.6",
         "react-dom": "^17.0.2",

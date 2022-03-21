@@ -56,7 +56,9 @@ const Login: React.FC = () => {
 
     useEffect(() => {
         if (userToken && userRoleAbrv) {
-            if (userRoleAbrv === Role.Tutor || userRoleAbrv === Role.Child) {
+            if (userRoleAbrv === Role.Tutor) {
+                history.push(PATHS.DASHBOARD);
+            } else if (userRoleAbrv === Role.Child) {
                 history.push(PATHS.MY_BOOKINGS);
             } else {
                 history.push(PATHS.SEARCH_TUTORS);
@@ -66,7 +68,9 @@ const Login: React.FC = () => {
 
     useEffect(() => {
         if (isSuccessLogin && loginData && userRoleAbrv) {
-            if (userRoleAbrv === Role.Tutor || userRoleAbrv === Role.Child) {
+            if (userRoleAbrv === Role.Tutor) {
+                history.push(PATHS.DASHBOARD);
+            } else if (userRoleAbrv === Role.Child) {
                 history.push(PATHS.MY_BOOKINGS);
             } else {
                 history.push(PATHS.SEARCH_TUTORS);

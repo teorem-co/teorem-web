@@ -22,8 +22,10 @@ const StripeModal = (props: Props) => {
             returnUrl: `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_HOST}/my-profile/account`,
         };
         const res = await stripeConnect(toSend).unwrap();
-        debugger;
+        //debugger;
+        window.open(res.url, '_blank');
         setStripeModalUrl(res.url);
+        handleClose();
     };
 
     useEffect(() => {
@@ -37,7 +39,8 @@ const StripeModal = (props: Props) => {
                     <i className="icon icon--base icon--close modal__close" onClick={handleClose}></i>
 
                     <div className="modal__body">
-                        {(loading && <LoaderPrimary />) || <iframe style={{ width: '100%' }} id="frame" src={stripeModalUrl}></iframe>}
+                        {loading && <LoaderPrimary />}
+                        {/* {(loading && <LoaderPrimary />) || <iframe style={{ width: '100%' }} id="frame" src={stripeModalUrl}></iframe>} */}
                     </div>
                 </div>
             </div>

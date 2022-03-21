@@ -219,7 +219,11 @@ const TutorProfile = () => {
                                                     <div
                                                         className="rating__stars__fill"
                                                         style={{
-                                                            width: `${tutorStatistics ? handleRatingStars(tutorStatistics.statistic) : 0}px`,
+                                                            width: `${
+                                                                tutorStatistics && tutorStatistics.statistic
+                                                                    ? handleRatingStars(tutorStatistics.statistic)
+                                                                    : 0
+                                                            }px`,
                                                         }}
                                                     ></div>
                                                 </div>

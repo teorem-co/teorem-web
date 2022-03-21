@@ -31,7 +31,7 @@ const Navigation = () => {
 
                     {/* WEB SIZE NAV */}
                     <div className="landing__navigation__items">
-                        <div className="flex flex--grow flex--jc--end mr-6 mr-md-30">
+                        <div className="flex flex--grow flex--jc--center">
                             <NavLink to={LANDING_PATHS.HOW_IT_WORKS} className="nav-link--landing">
                                 <div>How it works</div>
                             </NavLink>
@@ -44,10 +44,10 @@ const Navigation = () => {
                         </div>
                         <div className="flex--primary">
                             <div>
-                                <NavLink to={PATHS.LOGIN} className="btn btn--ghost  btn--base type--color--black">
+                                <NavLink to={PATHS.LOGIN} className="btn btn--ghost btn--ghost--landing type--color--black type--wgt--bold">
                                     Sign in
                                 </NavLink>
-                                <NavLink to={PATHS.REGISTER} className="btn btn--primary ml-4 btn--base">
+                                <NavLink to={PATHS.REGISTER} className="btn btn--primary btn--primary--landing ml-4">
                                     Get started
                                 </NavLink>
                             </div>
@@ -67,6 +67,12 @@ const Navigation = () => {
                     </NavLink>
                     <NavLink to={LANDING_PATHS.BECOME_TUTOR} className="d--b type--color--white">
                         <div>Become a tutor</div>
+                    </NavLink>
+                    <NavLink to={PATHS.REGISTER} className="d--b type--color--white mt-20">
+                        <div>Register</div>
+                    </NavLink>
+                    <NavLink to={PATHS.LOGIN} className="d--b type--color--white">
+                        <div>Login</div>
                     </NavLink>
                 </div>
             </div>

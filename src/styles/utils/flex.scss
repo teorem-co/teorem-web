@@ -26,6 +26,9 @@
     &--end {
         align-items: flex-end;
     }
+    &--start {
+        align-items: flex-start;
+    }
 
     &--jc {
         &--space-between {
@@ -50,6 +53,9 @@
 
     &--grow {
         flex-grow: 1;
+    }
+    &--shrink {
+        flex-shrink: 0;
     }
 
     &--wrap {

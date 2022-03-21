@@ -1,4 +1,4 @@
-export const EN_US = {
+export const HR_HR = {
     MAIN_TITLE: 'Teorem',
     WATERMARK: '© Teorem',
     ERROR_HANDLING: {
@@ -410,33 +410,33 @@ export const EN_US = {
             CANCEL: 'Cancel',
         },
         TRANSLATION: {
-            TITLE: 'Translation',
-            SUBTITLE: 'Choose your language for the application.',
+            TITLE: 'Prijevodi',
+            SUBTITLE: 'Odaberi jezik za aplikaciju',
         },
         SUBMIT: 'Save',
     },
     DASHBOARD: {
-        TITLE: 'Dashboard',
+        TITLE: 'Kontrolna ploča',
         SCHEDULE: {
-            TITLE: 'TODAY`S SCHEDULE',
-            BUTTON: 'Join',
-            EMPTY: 'There is no scheduled bookings today',
+            TITLE: 'DANAŠNJI RASPORED',
+            BUTTON: 'Pridruži se',
+            EMPTY: 'Raspored za danas je prazan, nema predavanja',
         },
         MESSAGES: {
-            TITLE: 'UNREAD MESSAGES',
+            TITLE: 'NEPROČITANE PORUKE',
             BUTTON: 'Chat',
             EMPTY: 'There is no unread messages today',
         },
         BOOKINGS: {
             TOTAL: 'Total',
-            EMPTY: 'No bookings',
-            EMPTY_SUBTITLE: 'Hmm, looks like there is no bookings yet.',
+            EMPTY: 'Nema instrukcija',
+            EMPTY_SUBTITLE: 'Hmm, izgleda da još nemaš instrukcija.',
         },
         NOTIFICATIONS: {
-            TITLE: 'NOTIFICATIONS',
-            CLEAR: 'Mark as read',
-            ALL: 'See all',
-            EMPTY: 'There is no unread notifications',
+            TITLE: 'OBAVJESTI',
+            CLEAR: 'Označi kao pročitano',
+            ALL: 'Pogledaj sve',
+            EMPTY: 'Nema nepročitanih obavjesti',
         },
     },
     NOTIFICATIONS: {

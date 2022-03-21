@@ -2,10 +2,12 @@ import { t } from 'i18next';
 import { groupBy } from 'lodash';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import { io } from 'socket.io-client';
 
+import note from '../../../assets/images/note.png';
 import INotification from '../../../interfaces/notification/INotification';
 import ISocketNotification from '../../../interfaces/notification/ISocketNotification';
 import { useLazyGetAllUnreadNotificationsQuery, useMarkAllAsReadMutation } from '../../../services/notificationService';
@@ -77,15 +79,15 @@ const Dashboard = () => {
                         </div>
                         <div className="card--secondary__body">
                             <div className="row">
-                                <div className="col col-12 col-xl-4">
+                                <div className="col col-12 col-xl-5">
                                     <div className="type--color--tertiary mb-2">{t('DASHBOARD.SCHEDULE.TITLE')}</div>
                                     {todayScheduled.length > 0 ? (
-                                        <div className="card--dashboard card--dashboard--brand">
+                                        <div className="card--dashboard card--dashboard--brand mb-xl-0 mb-4">
                                             <div className="flex--primary mb-2">
                                                 <div>
                                                     {todayScheduled[activeIndex].User.firstName}&nbsp;{todayScheduled[activeIndex].User.lastName}
                                                 </div>
-                                                <div>
+                                                <div className="flex--shrink">
                                                     <button
                                                         className="btn card--dashboard__btn mr-2"
                                                         onClick={() => handlePrevIndex()}
@@ -114,15 +116,44 @@ const Dashboard = () => {
                                             </div>
                                         </div>
                                     ) : (
-                                        <div className="card--dashboard">
-                                            <div>{t('DASHBOARD.SCHEDULE.EMPTY')}</div>
+                                        <div className="card--dashboard card--dashboard--brand  mb-xl-0 mb-4">
+                                            <div className="flex--primary mb-2">
+                                                <div>
+                                                    <div>{t('DASHBOARD.SCHEDULE.EMPTY')}</div>
+                                                </div>
+                                                <div className="flex--shrink">
+                                                    <button
+                                                        className="btn card--dashboard__btn mr-2"
+                                                        onClick={() => handlePrevIndex()}
+                                                        disabled={activeIndex === 0}
+                                                    >
+                                                        <i className="icon icon--base icon--chevron-left icon--white"></i>
+                                                    </button>
+                                                    <button
+                                                        className="btn card--dashboard__btn"
+                                                        onClick={() => handleNextIndex()}
+                                                        disabled={activeIndex === todayScheduled.length - 1}
+                                                    >
+                                                        <i className="icon icon--base icon--chevron-right icon--white"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
                                     )}
                                 </div>
-                                <div className="col col-12 col-xl-8">
+                                <div className="col col-12 col-xl-7">
                                     <div className="type--color--tertiary mb-2">{t('DASHBOARD.MESSAGES.TITLE')}</div>
-                                    <div className="card--dashboard">
-                                        <div className="flex--primary mb-2">
+                                    <div className="card--dashboard h--150--min">
+                                        <div className="flex--primary flex--start">
+                                            <div>
+                                                <div className="mb-2">Comming soon</div>
+                                                <div className="type--color--secondary">We are working hard to get this up and running</div>
+                                            </div>
+                                            <div>
+                                                <img className="w--170" src={note} alt="coming soon" />
+                                            </div>
+                                        </div>
+                                        {/* <div className="flex--primary mb-2">
                                             <div>Elizabeth Betty</div>
                                             <div>
                                                 <button className="btn card--dashboard__btn mr-2">
@@ -140,42 +171,51 @@ const Dashboard = () => {
                                         <div className="flex--primary">
                                             <div className="type--color--secondary">9/Mar/2022</div>
                                             <button className="btn btn--base card--dashboard__btn">{t('DASHBOARD.MESSAGES.BUTTON')}</button>
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
                             </div>
                             <div className="dashboard__list">
-                                {Object.keys(groupedUpcomming).map((key: string) => {
-                                    return (
-                                        <React.Fragment key={key}>
-                                            <div className="flex--primary">
-                                                <div className="mb-4 mt-6 type--wgt--bold">{key}</div>
-                                                <div className="type--color--secondary">
-                                                    {t('DASHBOARD.BOOKINGS.TOTAL')}: {groupedUpcomming[key].length}:00h
-                                                </div>
-                                            </div>
-                                            {groupedUpcomming[key].map((item: IBooking) => {
-                                                return (
-                                                    <div className="dashboard__list__item" key={item.id}>
-                                                        <div>
-                                                            {item.User.firstName}&nbsp;{item.User.lastName}
-                                                        </div>
-                                                        <div>{item.User.Role.name}</div>
-                                                        <div>
-                                                            <span className="tag tag--primary">{item.Subject.name}</span>
-                                                        </div>
-                                                        <div>
-                                                            {moment(item.startTime).format('HH:mm')} - {moment(item.endTime).format('HH:mm')}
-                                                        </div>
-                                                        <div onClick={() => history.push(PATHS.MY_BOOKINGS)}>
-                                                            <i className="icon icon--base icon--chevron-right icon--primary"></i>
-                                                        </div>
+                                {Object.keys(groupedUpcomming).length > 0 ? (
+                                    Object.keys(groupedUpcomming).map((key: string) => {
+                                        return (
+                                            <React.Fragment key={key}>
+                                                <div className="flex--primary">
+                                                    <div className="mb-4 mt-6 type--wgt--bold">{key}</div>
+                                                    <div className="type--color--secondary">
+                                                        {t('DASHBOARD.BOOKINGS.TOTAL')}: {groupedUpcomming[key].length}:00h
                                                     </div>
-                                                );
-                                            })}
-                                        </React.Fragment>
-                                    );
-                                })}
+                                                </div>
+                                                {groupedUpcomming[key].map((item: IBooking) => {
+                                                    return (
+                                                        <div className="dashboard__list__item" key={item.id}>
+                                                            <div>
+                                                                {item.User.firstName}&nbsp;{item.User.lastName}
+                                                            </div>
+                                                            <div>{item.User.Role.name}</div>
+                                                            <div>
+                                                                <span className="tag tag--primary">{item.Subject.name}</span>
+                                                            </div>
+                                                            <div>
+                                                                {moment(item.startTime).format('HH:mm')} - {moment(item.endTime).format('HH:mm')}
+                                                            </div>
+                                                            <div onClick={() => history.push(PATHS.MY_BOOKINGS)}>
+                                                                <i className="icon icon--base icon--chevron-right icon--primary"></i>
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </React.Fragment>
+                                        );
+                                    })
+                                ) : (
+                                    <div className="tutor-list__no-results mt-30">
+                                        <h1 className="tutor-list__no-results__title">
+                                            <div>{t('DASHBOARD.BOOKINGS.EMPTY')}</div>
+                                        </h1>
+                                        <p className="tutor-list__no-results__subtitle">{t('DASHBOARD.BOOKINGS.EMPTY_SUBTITLE')}</p>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>

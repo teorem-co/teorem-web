@@ -47,7 +47,7 @@ const Pricing = () => {
                 <div className="landing">
                     <div className="landing__content">
                         <HeroSection
-                            title="Great value for your money"
+                            title="Get the most value for your money"
                             desc="Teorem helps students of all ages to achieve their academic goals."
                             showBtn={false}
                         />
