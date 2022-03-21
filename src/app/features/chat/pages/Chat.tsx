@@ -20,11 +20,11 @@ const Chat = () => {
 
     const addUser = async () => {
         const toSend: IChatEnginePost = {
-            email: 'tutor@reroot.hr',
-            first_name: 'Tutor',
-            last_name: 'Tutorić',
+            email: 'neven.jovic2@gmail.com',
+            first_name: 'Neven',
+            last_name: 'Jovic',
             secret: 'Password1!',
-            username: 'tutor',
+            username: 'neven.jovic2',
         };
 
         await addUserQuery(toSend).unwrap();

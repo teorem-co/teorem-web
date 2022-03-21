@@ -46,7 +46,7 @@ const TutorItem: FC<Props> = (props: Props) => {
             <div className="tutor-list__item">
                 <div className="tutor-list__item__img">
                     {tutor.User.profileImage ? (
-                        <img src={tutor.User.profileImage} alt="tutor-list" />
+                        <img src={'https://' + tutor.User.profileImage} alt="tutor-list" />
                     ) : (
                         <ImageCircle
                             initials={`${tutor.User.firstName ? tutor.User.firstName.charAt(0) : ''}${

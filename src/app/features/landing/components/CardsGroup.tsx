@@ -10,6 +10,7 @@ import theNextWeb from '../../../../assets/images/the-next-web.png';
 import trustPilot from '../../../../assets/images/trustpilot.png';
 import unitedNations from '../../../../assets/images/united-nations.png';
 import visa from '../../../../assets/images/visa.png';
+import useWindowSize from '../../../utils/useWindowSize';
 
 interface Props {
     showCreditCards: boolean;
@@ -19,7 +20,7 @@ const CardsGroup = (props: Props) => {
     const { showCreditCards } = props;
 
     return showCreditCards ? (
-        <div className="landing__cards mt-10">
+        <div className={`landing__cards ${useWindowSize().width > 900 ? '' : 'mobile'} mt-10`}>
             <div className="landing__cards__item">
                 <img src={stripe} alt="stripe" />
             </div>
@@ -37,7 +38,7 @@ const CardsGroup = (props: Props) => {
             </div>
         </div>
     ) : (
-        <div className="landing__cards mt-10">
+        <div className={`landing__cards ${useWindowSize().width > 900 ? '' : 'mobile'} mt-10`}>
             <div className="landing__cards__item">
                 <img src={unitedNations} alt="un" />
             </div>

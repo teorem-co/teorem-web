@@ -1,4 +1,5 @@
 const handleRatingStars = (mark: number) => {
+    debugger;
     const splitedMark = mark.toString().split('.');
     const firstOffset = Number(splitedMark[0]) * 32;
     let secondOffset = 0;
