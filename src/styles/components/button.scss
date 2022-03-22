@@ -38,7 +38,8 @@
         }
 
         &--landing {
-            padding: calc((#{$unit} * 1.5) + 2px) calc(#{$unit} * 4);
+            padding: calc((#{$unit} * 2) + 2px) calc(#{$unit} * 4.5);
+            font-size: 16px;
             border-radius: 8px;
         }
     }
@@ -92,10 +93,11 @@
         }
 
         &--landing {
-            padding: calc(#{$unit} * 1.5) calc(#{$unit} * 4);
+            padding: calc(#{$unit} * 2) calc(#{$unit} * 4.5);
+            font-size: 16px;
             border-radius: 8px;
             border-width: 2px;
-            color: $color-primary !important;
+            color: $color-primary;
         }
 
         &:focus {

@@ -166,6 +166,9 @@
 
         @media (max-width: $responsive-xl) {
             width: 100%;
+            overflow: hidden;
+            white-space: normal;
+            text-align: left;
         }
 
         &__item {
@@ -192,6 +195,14 @@
                 width: 206px;
                 padding: calc($unit * 3) 0;
             }
+            @media (max-width: $responsive-xl) {
+                width: calc(50% - 32px);
+                margin: calc(#{$unit} * 4) calc(#{$unit} * 4);
+                text-align: center;
+            }
+            // @media (max-width: $responsive-sm) {
+            //     width: calc(100% - 32px);
+            // }
         }
     }
 

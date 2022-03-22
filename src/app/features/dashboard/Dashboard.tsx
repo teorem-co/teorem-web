@@ -146,8 +146,8 @@ const Dashboard = () => {
                                     <div className="card--dashboard h--150--min">
                                         <div className="flex--primary flex--start">
                                             <div>
-                                                <div className="mb-2">Comming soon</div>
-                                                <div className="type--color--secondary">We are working hard to get this up and running</div>
+                                                <div className="mb-2">{t('DASHBOARD.COMING_SOON.TITLE')}</div>
+                                                <div className="type--color--secondary">{t('DASHBOARD.COMING_SOON.SUBTITLE')}</div>
                                             </div>
                                             <div>
                                                 <img className="w--170" src={note} alt="coming soon" />

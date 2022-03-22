@@ -207,13 +207,13 @@ const EditSubjectSidebar = (props: Props) => {
                 <div className="flex--shirnk sidebar--secondary__bottom mt-10">
                     <div className="flex--primary mt-6">
                         <button className="btn btn--primary btn--base type--wgt--bold" onClick={() => formik.handleSubmit()}>
-                            ${t('MY_PROFILE.MY_TEACHINGS.SAVE')}
+                            {t('MY_PROFILE.MY_TEACHINGS.SAVE')}
                         </button>
                         <button
                             className="btn btn--clear type--color--error type--wgt--bold"
                             onClick={() => handleDeleteSubject(selectedSubject ? selectedSubject.id : '')}
                         >
-                            ${t('MY_PROFILE.MY_TEACHINGS.DELETE')}
+                            {t('MY_PROFILE.MY_TEACHINGS.DELETE')}
                         </button>
                     </div>
                 </div>

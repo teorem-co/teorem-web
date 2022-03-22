@@ -110,7 +110,7 @@ export const EN_US = {
         },
         NO_RESULT: {
             TITLE: 'No results',
-            DESC: ' Hmm, looks like there is no tutors for this specific search.',
+            DESC: ' Hmm, looks like there are no tutors for this specific search.',
         },
         NOT_FILLED: 'This information is not filled out yet',
         TUTOR_PROFILE: {
@@ -421,7 +421,7 @@ export const EN_US = {
         SCHEDULE: {
             TITLE: 'TODAY`S SCHEDULE',
             BUTTON: 'Join',
-            EMPTY: 'There is no scheduled bookings today',
+            EMPTY: 'There are no scheduled bookings today',
         },
         MESSAGES: {
             TITLE: 'UNREAD MESSAGES',
@@ -431,13 +431,17 @@ export const EN_US = {
         BOOKINGS: {
             TOTAL: 'Total',
             EMPTY: 'No bookings',
-            EMPTY_SUBTITLE: 'Hmm, looks like there is no bookings yet.',
+            EMPTY_SUBTITLE: 'Hmm, looks like there are no bookings yet.',
         },
         NOTIFICATIONS: {
             TITLE: 'NOTIFICATIONS',
             CLEAR: 'Mark as read',
             ALL: 'See all',
             EMPTY: 'There is no unread notifications',
+        },
+        COMING_SOON: {
+            TITLE: 'Coming soon',
+            SUBTITLE: 'We are working hard to get this up and running',
         },
     },
     NOTIFICATIONS: {

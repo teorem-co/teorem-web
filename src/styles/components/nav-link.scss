@@ -42,9 +42,28 @@
         font-size: 16px;
         color: $grey-7f;
         display: block;
+        position: relative;
+        margin: 0 calc(#{$unit} * 6);
+        transition: all 250ms ease-out;
 
-        &.active {
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: $color-text-primary;
+            transition: all 250ms ease-out;
+        }
+
+        &.active,
+        &:hover {
             color: $black;
+
+            &::after {
+                width: 100%;
+            }
         }
     }
 }

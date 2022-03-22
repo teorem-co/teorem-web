@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useHistory } from 'react-router';
 import { NavLink } from 'react-router-dom';
 
 import logo from '../../../../assets/images/logo.svg';
@@ -7,7 +8,7 @@ import { LANDING_PATHS, PATHS } from '../../../routes';
 const Navigation = () => {
     const [showSidebar, setShowSidebar] = useState(false);
     const landingHeaderRef = useRef<HTMLDivElement>(null);
-    const landingHeaderElement = landingHeaderRef.current as HTMLDivElement;
+    const history = useHistory();
 
     useEffect(() => {
         if (showSidebar) {
@@ -36,6 +37,15 @@ const Navigation = () => {
         }
     };
 
+    const testActiveClassName = (e: any) => {
+        const currentUrl = e.url;
+        const location = history.location.pathname;
+
+        if (currentUrl === location) {
+            return true;
+        }
+    };
+
     return (
         <div ref={landingHeaderRef} className={`layout__header--background active`}>
             <div className="layout__header--landing">
@@ -53,19 +63,19 @@ const Navigation = () => {
                     {/* WEB SIZE NAV */}
                     <div className="landing__navigation__items">
                         <div className="flex flex--grow flex--jc--center">
-                            <NavLink to={LANDING_PATHS.HOW_IT_WORKS} className="nav-link--landing">
+                            <NavLink isActive={(e: any) => testActiveClassName(e)} to={LANDING_PATHS.HOW_IT_WORKS} className="nav-link--landing">
                                 <div>How it works</div>
                             </NavLink>
-                            <NavLink to={LANDING_PATHS.PRICING} className="nav-link--landing pl-10">
+                            <NavLink to={LANDING_PATHS.PRICING} className="nav-link--landing">
                                 <div>Pricing</div>
                             </NavLink>
-                            <NavLink to={LANDING_PATHS.BECOME_TUTOR} className="nav-link--landing pl-10">
+                            <NavLink to={LANDING_PATHS.BECOME_TUTOR} className="nav-link--landing">
                                 <div>Become a tutor</div>
                             </NavLink>
                         </div>
                         <div className="flex--primary">
                             <div>
-                                <NavLink to={PATHS.LOGIN} className="btn btn--ghost btn--ghost--landing type--color--black type--wgt--bold">
+                                <NavLink to={PATHS.LOGIN} className="btn btn--ghost btn--ghost--landing type--wgt--bold">
                                     Sign in
                                 </NavLink>
                                 <NavLink to={PATHS.REGISTER} className="btn btn--primary btn--primary--landing ml-4">
