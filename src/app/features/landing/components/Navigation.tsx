@@ -71,7 +71,9 @@ const Navigation = () => {
                         )}
                     </NavLink>
                     <div
-                        className={`landing__navigation__hamburger ${onTop ? 'pricing' : ''} ${showSidebar ? 'active' : ''}`}
+                        className={`landing__navigation__hamburger ${history.location.pathname === '/pricing' ? (onTop ? 'pricing' : '') : ''} ${
+                            showSidebar ? 'active' : ''
+                        }`}
                         onClick={() => setShowSidebar(!showSidebar)}
                     >
                         <span></span>
