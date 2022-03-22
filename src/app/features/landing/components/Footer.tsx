@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 
 import diners from '../../../../assets/images/diners-club.png';
 import ipad from '../../../../assets/images/ipad-hand-hold.png';
-import logo from '../../../../assets/images/logo.svg';
+import logoWhite from '../../../../assets/images/logoWhite.svg';
 import maestro from '../../../../assets/images/maestro.png';
 import masterCard from '../../../../assets/images/mastercard.png';
 import stripe from '../../../../assets/images/stripe-white.svg';
@@ -18,7 +18,7 @@ const Footer = () => {
         <div className="landing__footer">
             <div className="landing__footer__content">
                 <NavLink className="landing__navigation__logo d--b flex--shrink mt-10" to={LANDING_PATHS.HOW_IT_WORKS}>
-                    <img src={logo} alt="logo" />
+                    <img src={logoWhite} alt="logo" />
                 </NavLink>
                 <div className="type--color--white mt-10">{t('FOOTER.TITLE_TEXT')}</div>
                 <div className="flex flex--wrap w--100 type--color--white ">

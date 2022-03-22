@@ -4,7 +4,7 @@ import { useHistory } from 'react-router';
 import call1 from '../../../../assets/images/call-1.jpg';
 import call2 from '../../../../assets/images/call-2.jpg';
 import chat from '../../../../assets/images/chat.jpg';
-import tutorList from '../../../../assets/images/landing_tutor_list.jpg';
+import tutorList from '../../../../assets/images/landing_tutor_list.png';
 import { PATHS } from '../../../routes';
 import CardsGroup from '../components/CardsGroup';
 import FAQGroup from '../components/FAQGroup';

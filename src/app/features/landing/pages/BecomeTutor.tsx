@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
 import { useHistory } from 'react-router';
 
-import call3 from '../../../../assets/images/call-3.jpg';
-import earnings from '../../../../assets/images/earnings.jpg';
-import calendar from '../../../../assets/images/landing_calendar.jpg';
+import calendar from '../../../../assets/images/calendar.png';
+import earnings from '../../../../assets/images/earnings.png';
 import firstAvatar from '../../../../assets/images/user-avatar-1.png';
 import secondAvatar from '../../../../assets/images/user-avatar-2.png';
 import thirdAvatar from '../../../../assets/images/user-avatar-3.png';
@@ -96,7 +95,7 @@ const BecomeTutor = () => {
                 </div>
             </div>
             <div className="landing__section mt-30 w--100">
-                <img src={call3} alt="calendar" className="landing__img" />
+                <img src={calendar} alt="calendar" className="landing__img" />
             </div>
             <TextCard
                 className="mt-30"

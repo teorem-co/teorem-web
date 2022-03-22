@@ -425,6 +425,9 @@
             -o-transition: 0.5s ease-in-out;
             transition: 0.5s ease-in-out;
             cursor: pointer;
+            &.pricing span {
+                background: $white;
+            }
 
             span {
                 display: block;

@@ -3,11 +3,13 @@ import { useHistory } from 'react-router';
 import { NavLink } from 'react-router-dom';
 
 import logo from '../../../../assets/images/logo.svg';
+import logoWhite from '../../../../assets/images/logoWhite.svg';
 import { LANDING_PATHS, PATHS } from '../../../routes';
 
 const Navigation = () => {
     const [showSidebar, setShowSidebar] = useState(false);
     const landingHeaderRef = useRef<HTMLDivElement>(null);
+    const [onTop, setOnTop] = useState<boolean>(true);
     const history = useHistory();
 
     useEffect(() => {
@@ -32,8 +34,10 @@ const Navigation = () => {
         //debugger;
         if (scrollTop === 0) {
             landingHeaderElement.classList.add('active');
+            setOnTop(true);
         } else {
             landingHeaderElement.classList.remove('active');
+            setOnTop(false);
         }
     };
 
@@ -47,13 +51,29 @@ const Navigation = () => {
     };
 
     return (
-        <div ref={landingHeaderRef} className={`layout__header--background active`}>
+        <div
+            ref={landingHeaderRef}
+            className={`layout__header--background active ${
+                history.location.pathname === '/pricing' ? (onTop ? 'layout__header--background--primary' : '') : ''
+            }`}
+        >
             <div className="layout__header--landing">
                 <div className="flex--primary">
                     <NavLink className="landing__navigation__logo d--b flex--shrink" to={LANDING_PATHS.HOW_IT_WORKS}>
-                        <img src={logo} alt="logo" />
+                        {history.location.pathname === '/pricing' ? (
+                            onTop ? (
+                                <img src={logoWhite} alt="logo" />
+                            ) : (
+                                <img src={logo} alt="logo" />
+                            )
+                        ) : (
+                            <img src={logo} alt="logo" />
+                        )}
                     </NavLink>
-                    <div className={`landing__navigation__hamburger ${showSidebar ? 'active' : ''}`} onClick={() => setShowSidebar(!showSidebar)}>
+                    <div
+                        className={`landing__navigation__hamburger ${onTop ? 'pricing' : ''} ${showSidebar ? 'active' : ''}`}
+                        onClick={() => setShowSidebar(!showSidebar)}
+                    >
                         <span></span>
                         <span></span>
                         <span></span>

@@ -2,7 +2,7 @@
 
 //import { Carousel } from 'react-responsive-carousel';
 import calendar from '../../../../assets/images/landing_calendar.jpg';
-import tutorList from '../../../../assets/images/landing_tutor_list.jpg';
+import tutorList from '../../../../assets/images/landing_tutor_list.png';
 
 const ImageSlider = () => {
     return (
