@@ -68,7 +68,7 @@ const Pricing = () => {
                             {useWindowSize().width > 850 && <div className="landing__steps__item long">1</div>}
                             <div className="landing__steps__main">
                                 <div className="type--lg type--wgt--bold mb-6">Initial Assessment Complimentary</div>
-                                <div className="type--color--secondary type--md">
+                                <div className="type--color--secondary type--lg">
                                     During an initial, complimentary call, Teorem’s tutor will determine the student’s needs and choose the ideal
                                     study based on the student’s personality, learning style and requirements.
                                 </div>
@@ -78,7 +78,7 @@ const Pricing = () => {
                             {useWindowSize().width > 850 && <div className="landing__steps__item long">2</div>}
                             <div className="landing__steps__main">
                                 <div className="type--lg type--wgt--bold mb-6">Trial Lesson</div>
-                                <div className="type--color--secondary type--md">
+                                <div className="type--color--secondary type--lg">
                                     A trial lesson gives you a chance to see how the tutor teaches and how the Teorem platform works.
                                 </div>
                             </div>
@@ -87,7 +87,7 @@ const Pricing = () => {
                             {useWindowSize().width > 850 && <div className="landing__steps__item long last">3</div>}
                             <div className="landing__steps__main">
                                 <div className="type--lg type--wgt--bold mb-6">Collaboration</div>
-                                <div className="type--color--secondary type--md">
+                                <div className="type--color--secondary type--lg">
                                     Teorem’s tutoring is straightforward and hassle-free. Once you’re registered, you’ll find everything you need on
                                     our platform. You can monitor performance, change lesson times, book new lessons, cancel them, or even contact
                                     your tutor, all in just a few clicks.
@@ -106,14 +106,14 @@ const Pricing = () => {
                             <div className="landing__grid__card">
                                 <img className="mb-10" src={grid7} alt="grid" />
                                 <div className="type--lg type--wgt--bold mb-4">Flexible</div>
-                                <div className="type--color--tertiary">Easy, flexible, scheduling adjusted to you.</div>
+                                <div className="type--color--tertiary type--md">Easy, flexible, scheduling adjusted to you.</div>
                             </div>
                         </div>
                         <div className="col col-12 col-md-6 col-lg-3">
                             <div className="landing__grid__card">
                                 <img className="mb-10" src={grid9} alt="grid" />
                                 <div className="type--lg type--wgt--bold mb-4">Virtual Classroom</div>
-                                <div className="type--color--tertiary">
+                                <div className="type--color--tertiary type--md">
                                     Available on all devices, with a built-in recording function, digital whiteboard, and screen and file sharing.
                                 </div>
                             </div>
@@ -122,7 +122,7 @@ const Pricing = () => {
                             <div className="landing__grid__card">
                                 <img className="mb-10" src={grid8} alt="grid" />
                                 <div className="type--lg type--wgt--bold mb-4">Secure Payment</div>
-                                <div className="type--color--tertiary">
+                                <div className="type--color--tertiary type--md">
                                     Secure, safe payment gateway provided by Stripe. No hidden fees, just pay for lessons. Refunds provided.
                                 </div>
                             </div>
@@ -131,7 +131,7 @@ const Pricing = () => {
                             <div className="landing__grid__card">
                                 <img className="mb-10" src={grid10} alt="grid" />
                                 <div className="type--lg type--wgt--bold mb-4">Support</div>
-                                <div className="type--color--tertiary">
+                                <div className="type--color--tertiary type--md">
                                     24/7 access to support. Our dedicated support team is available to you at a moment’s notice.
                                 </div>
                             </div>

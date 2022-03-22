@@ -108,42 +108,42 @@ const BecomeTutor = () => {
                         <div className="landing__grid__card">
                             <img className="mb-10" src={grid1} alt="grid" />
                             <div className="type--lg type--wgt--bold mb-4">Fully remote</div>
-                            <div className="type--color--tertiary">All you need is a laptop and wifi</div>
+                            <div className="type--color--tertiary type--md">All you need is a laptop and wifi</div>
                         </div>
                     </div>
                     <div className="col col-12 col-md-6 col-lg-4">
                         <div className="landing__grid__card">
                             <img className="mb-10" src={grid2} alt="grid" />
                             <div className="type--lg type--wgt--bold mb-4">Tools you need</div>
-                            <div className="type--color--tertiary">Booking system, chat, video calls & more.</div>
+                            <div className="type--color--tertiary type--md">Booking system, chat, video calls & more.</div>
                         </div>
                     </div>
                     <div className="col col-12 col-md-6 col-lg-4">
                         <div className="landing__grid__card">
                             <img className="mb-10" src={grid3} alt="grid" />
                             <div className="type--lg type--wgt--bold mb-4">Secure Income</div>
-                            <div className="type--color--tertiary">We make sure you get paid.</div>
+                            <div className="type--color--tertiary type--md">We make sure you get paid.</div>
                         </div>
                     </div>
                     <div className="col col-12 col-md-6 col-lg-4">
                         <div className="landing__grid__card">
                             <img className="mb-10" src={grid4} alt="grid" />
                             <div className="type--lg type--wgt--bold mb-4">Set Your Price</div>
-                            <div className="type--color--tertiary">No limitations on what you can earn.</div>
+                            <div className="type--color--tertiary type--md">No limitations on what you can earn.</div>
                         </div>
                     </div>
                     <div className="col col-12 col-md-6 col-lg-4">
                         <div className="landing__grid__card">
                             <img className="mb-10" src={grid5} alt="grid" />
                             <div className="type--lg type--wgt--bold mb-4">24/7 Support</div>
-                            <div className="type--color--tertiary">We make sure all your issues are solved.</div>
+                            <div className="type--color--tertiary type--md">We make sure all your issues are solved.</div>
                         </div>
                     </div>
                     <div className="col col-12 col-md-6 col-lg-4">
                         <div className="landing__grid__card">
                             <img className="mb-10" src={grid6} alt="grid" />
                             <div className="type--lg type--wgt--bold mb-4">Improve Your Teaching</div>
-                            <div className="type--color--tertiary">We take care of administration, you just focus on the lessons.</div>
+                            <div className="type--color--tertiary type--md">We take care of administration, you just focus on the lessons.</div>
                         </div>
                     </div>
                 </div>
@@ -164,15 +164,15 @@ const BecomeTutor = () => {
             <div className="mt-20">
                 <div className="flex flex--jc--start">
                     <div className="landing__steps__item">1</div>
-                    <div className="mt-5 ml-6 type--color--secondary type--md">Create your account and fill in the information.</div>
+                    <div className="mt-3 ml-6 type--color--secondary type--lg">Create your account and fill in the information.</div>
                 </div>
                 <div className="flex flex--jc--start">
                     <div className="landing__steps__item">2</div>
-                    <div className="mt-5 ml-6 type--color--secondary type--md">Upload a short video to prove your identity.</div>
+                    <div className="mt-3 ml-6 type--color--secondary type--lg">Upload a short video to prove your identity.</div>
                 </div>
                 <div className="flex flex--jc--start">
                     <div className="landing__steps__item last">3</div>
-                    <div className="mt-5 ml-6 type--color--secondary type--md">Complete your profile and start tutoring!</div>
+                    <div className="mt-3 ml-6 type--color--secondary type--lg">Complete your profile and start tutoring!</div>
                 </div>
             </div>
             <div className="landing__section mt-30">
