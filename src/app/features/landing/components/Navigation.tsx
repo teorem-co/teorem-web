@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import logo from '../../../../assets/images/logo.svg';
@@ -6,6 +6,8 @@ import { LANDING_PATHS, PATHS } from '../../../routes';
 
 const Navigation = () => {
     const [showSidebar, setShowSidebar] = useState(false);
+    const landingHeaderRef = useRef<HTMLDivElement>(null);
+    const landingHeaderElement = landingHeaderRef.current as HTMLDivElement;
 
     useEffect(() => {
         if (showSidebar) {
@@ -15,8 +17,27 @@ const Navigation = () => {
         }
     }, [showSidebar]);
 
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+
+        return function () {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
+    const handleScroll = (e: any) => {
+        const scrollTop = e.currentTarget?.pageYOffset;
+        const landingHeaderElement = landingHeaderRef.current as HTMLDivElement;
+        //debugger;
+        if (scrollTop === 0) {
+            landingHeaderElement.classList.add('active');
+        } else {
+            landingHeaderElement.classList.remove('active');
+        }
+    };
+
     return (
-        <div className="layout__header--background">
+        <div ref={landingHeaderRef} className={`layout__header--background active`}>
             <div className="layout__header--landing">
                 <div className="flex--primary">
                     <NavLink className="landing__navigation__logo d--b flex--shrink" to={LANDING_PATHS.HOW_IT_WORKS}>

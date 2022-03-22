@@ -22,7 +22,6 @@ const StripeModal = (props: Props) => {
             returnUrl: `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_HOST}/my-profile/account`,
         };
         const res = await stripeConnect(toSend).unwrap();
-        //debugger;
         window.open(res.url, '_blank');
         setStripeModalUrl(res.url);
         handleClose();

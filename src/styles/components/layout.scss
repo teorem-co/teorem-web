@@ -83,6 +83,12 @@ $mobile-height: 50px;
             z-index: 30;
             position: sticky;
             top: 0;
+            box-shadow: 0 0 15px 0px rgb(0, 0, 0, 0.3);
+            transition: box-shadow 400ms ease-in-out;
+
+            &.active {
+                box-shadow: 0 0 0 0 rgb(0, 0, 0, 0);
+            }
         }
     }
 

@@ -93,7 +93,7 @@ const AddSubjectSidebar = (props: Props) => {
 
             <div className={`sidebar sidebar--secondary sidebar--secondary ${!sideBarIsOpen ? 'sidebar--secondary--close' : ''}`}>
                 <div className="flex--primary flex--shrink">
-                    <div className="type--color--secondary">{'MY_PROFILE.MY_TEACHINGS.ADD_TITLE'}</div>
+                    <div className="type--color--secondary">{t('MY_PROFILE.MY_TEACHINGS.ADD_TITLE')}</div>
                     <div>
                         <i className="icon icon--base icon--close icon--grey" onClick={closeSidebar}></i>
                     </div>
@@ -102,7 +102,7 @@ const AddSubjectSidebar = (props: Props) => {
                     <FormikProvider value={formik}>
                         <Form noValidate>
                             <div>
-                                <label htmlFor="subject">{'MY_PROFILE.MY_TEACHINGS.LEVEL'}</label>
+                                <label htmlFor="subject">{t('MY_PROFILE.MY_TEACHINGS.LEVEL')}</label>
                                 <MySelect
                                     field={formik.getFieldProps('level')}
                                     form={formik}
@@ -115,7 +115,7 @@ const AddSubjectSidebar = (props: Props) => {
                                 />
                             </div>
                             <div>
-                                <label htmlFor="level">{'MY_PROFILE.MY_TEACHINGS.SUBJECT'}</label>
+                                <label htmlFor="level">{t('MY_PROFILE.MY_TEACHINGS.SUBJECT')}</label>
                                 <MySelect
                                     key={formik.values.subject}
                                     field={formik.getFieldProps('subject')}
@@ -131,12 +131,12 @@ const AddSubjectSidebar = (props: Props) => {
                             </div>
                             <div className="field">
                                 <label htmlFor="price" className="field__label">
-                                    {'MY_PROFILE.MY_TEACHINGS.PRICING'}
+                                    {t('MY_PROFILE.MY_TEACHINGS.PRICING')}
                                 </label>
                                 <TextField
                                     name="price"
                                     id="price"
-                                    placeholder="$0/hr"
+                                    placeholder={t('MY_PROFILE.MY_TEACHINGS.PRICING_PLACEHOLDER')}
                                     withoutErr={formik.errors.price && formik.touched.price ? false : true}
                                     type="number"
                                 />
@@ -147,10 +147,10 @@ const AddSubjectSidebar = (props: Props) => {
                 <div className="flex--shirnk sidebar--secondary__bottom mt-10">
                     <div className="flex--primary mt-6">
                         <button className="btn btn--primary btn--base type--wgt--extra-bold" onClick={() => formik.handleSubmit()}>
-                            {'MY_PROFILE.MY_TEACHINGS.SAVE'}
+                            {t('MY_PROFILE.MY_TEACHINGS.SAVE')}
                         </button>
                         <button className="btn btn--clear type--color--error type--wgt--extra-bold" onClick={closeSidebar}>
-                            {'MY_PROFILE.MY_TEACHINGS.CANCEL'}
+                            {t('MY_PROFILE.MY_TEACHINGS.CANCEL')}
                         </button>
                     </div>
                 </div>

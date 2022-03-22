@@ -196,7 +196,7 @@ const EditSubjectSidebar = (props: Props) => {
                                 <TextField
                                     name="price"
                                     id="price"
-                                    placeholder={`$0/${t('MY_PROFILE.MY_TEACHINGS.HOUR_ABRV')}`}
+                                    placeholder={`€0/${t('MY_PROFILE.MY_TEACHINGS.HOUR_ABRV')}`}
                                     withoutErr={formik.errors.price && formik.touched.price ? false : true}
                                     type="number"
                                 />
