@@ -33,16 +33,19 @@ const MyTimePicker = ({ field, form, placeholder, className, withoutErr, default
 
     return (
         <>
-            <TimePicker
-                className={className ?? 'form__type'}
-                name={field.name}
-                onChange={(e) => onChange(e)}
-                placeholder={placeholder}
-                defaultValue={moment(defaultValue)}
-                minuteStep={15}
-                showSecond={false}
-                disabled={isDisabled ? isDisabled : false}
-            />
+            <div className="pos--rel">
+                <TimePicker
+                    className={className ?? 'form__type'}
+                    name={field.name}
+                    onChange={(e) => onChange(e)}
+                    placeholder={placeholder}
+                    defaultValue={moment(defaultValue)}
+                    minuteStep={15}
+                    showSecond={false}
+                    disabled={isDisabled ? isDisabled : false}
+                />
+                <i className="icon icon--base icon--chevron-down icon--pos--dropdown"></i>
+            </div>
             {withoutErr ? <></> : <div className="field__validation">{meta.error && meta.touched ? meta.error : ''}</div>}
         </>
     );

@@ -37,6 +37,16 @@
         height: calc(#{$unit} * 10);
     }
 
+    //position
+    &--pos {
+        &--dropdown {
+            pointer-events: none;
+            position: absolute;
+            top: calc(#{$unit} * 2);
+            right: calc(#{$unit} * 2);
+        }
+    }
+
     //icons
     &--arrow-left {
         mask-image: url('./../../assets/icons/arrow-left.svg');

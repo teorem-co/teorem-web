@@ -13,6 +13,10 @@
         font-size: 14px !important;
         line-height: normal !important;
         color: $black !important;
+        &:focus {
+            outline: none !important;
+            border-color: $color-primary !important;
+        }
     }
 
     &-clear {
