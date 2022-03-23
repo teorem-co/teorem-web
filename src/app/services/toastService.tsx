@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 class ToastService {
     private static opts: object = {
         autoClose: 3000,
-        position: 'top-center',
+        position: 'bottom-center',
         hideProgressBar: true,
     };
 

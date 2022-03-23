@@ -293,6 +293,67 @@
     }
 }
 
+.earnings-select {
+    &__placeholder {
+        color: $black !important;
+        transition: color 0.5s;
+    }
+
+    &__control {
+        width: 100px !important;
+
+        border-radius: $border-rounded !important;
+        box-shadow: 0 0 0 1px $color-primary !important;
+
+        .earnings-select__dropdown-indicator {
+            transition: transform 0.5s !important;
+            color: $black !important;
+        }
+
+        &--is-focused {
+            background-color: $color-primary !important;
+
+            .earnings-select__dropdown-indicator {
+                transform: rotate(180deg) !important;
+                color: $white !important;
+            }
+            .earnings-select__placeholder {
+                color: $white !important;
+            }
+
+            .earnings-select__single-value {
+                color: $white !important;
+            }
+
+            .earnings-select__value-container {
+                color: $white !important;
+            }
+
+            .input-select__option {
+                color: $white !important;
+            }
+        }
+    }
+
+    &__option {
+        color: $color-text-primary !important;
+
+        &--is-selected {
+            color: $color-primary !important;
+            background-color: $color-primary-lighter !important;
+        }
+    }
+
+    &__menu {
+        border: 1px solid $color-primary-light;
+        border-radius: $border-rounded !important;
+    }
+
+    &__indicator-separator {
+        display: none !important;
+    }
+}
+
 .test {
     &__checkbox {
         position: relative;

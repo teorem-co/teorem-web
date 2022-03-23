@@ -6,6 +6,9 @@
     width: 100% !important;
 
     &--open {
+        .react-date-picker__wrapper {
+            border-color: $color-primary;
+        }
         .icon {
             &--calendar {
                 background-color: $white;

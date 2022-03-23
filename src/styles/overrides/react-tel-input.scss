@@ -9,10 +9,13 @@
         padding-left: 48px;
         font-family: 'Lato', sans-serif;
         height: auto;
+        &:focus {
+            border-color: $color-primary;
+        }
     }
     .flag-dropdown {
         background-color: transparent;
-        border-right-color: transparent;
+        border-color: transparent;
 
         .selected-flag {
             display: flex;

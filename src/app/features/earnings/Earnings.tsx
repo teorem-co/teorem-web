@@ -59,7 +59,7 @@ const Earnings = () => {
                 <div className="card--secondary__head">
                     <h2 className="type--wgt--bold type--lg">{t('EARNINGS.TITLE')}</h2>
                     <div>
-                        <Select classNamePrefix="react-select" defaultValue={selectedYear} onChange={(e) => onChange(e)} options={yearOptions} />
+                        <Select classNamePrefix="earnings-select" defaultValue={selectedYear} onChange={(e) => onChange(e)} options={yearOptions} />
                     </div>
                 </div>
                 <div className="card--secondary__body">
