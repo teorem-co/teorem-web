@@ -64,7 +64,7 @@ const Pricing = () => {
                     </div>
                     <p className="landing__title">Our tutoring process</p>
                     <div className="mt-20 landing__steps__wrapper">
-                        <div className="flex mb-30">
+                        <div className="flex mb-20">
                             {useWindowSize().width > 850 && <div className="landing__steps__item long">1</div>}
                             <div className="landing__steps__main">
                                 <div className="type--lg type--wgt--bold mb-6">Initial Assessment Complimentary</div>
@@ -74,7 +74,7 @@ const Pricing = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="flex mb-30">
+                        <div className="flex mb-20">
                             {useWindowSize().width > 850 && <div className="landing__steps__item long">2</div>}
                             <div className="landing__steps__main">
                                 <div className="type--lg type--wgt--bold mb-6">Trial Lesson</div>
@@ -105,15 +105,15 @@ const Pricing = () => {
                         <div className="col col-12 col-md-6 col-lg-3">
                             <div className="landing__grid__card">
                                 <img className="mb-10" src={grid7} alt="grid" />
-                                <div className="type--lg type--wgt--bold mb-4">Flexible</div>
-                                <div className="type--color--tertiary">Easy, flexible, scheduling adjusted to you.</div>
+                                <div className="type--md type--wgt--bold mb-4">Flexible</div>
+                                <div className="type--color--tertiary type--base">Easy, flexible, scheduling adjusted to you.</div>
                             </div>
                         </div>
                         <div className="col col-12 col-md-6 col-lg-3">
                             <div className="landing__grid__card">
                                 <img className="mb-10" src={grid9} alt="grid" />
-                                <div className="type--lg type--wgt--bold mb-4">Virtual Classroom</div>
-                                <div className="type--color--tertiary">
+                                <div className="type--md type--wgt--bold mb-4">Virtual Classroom</div>
+                                <div className="type--color--tertiary type--base">
                                     Available on all devices, with a built-in recording function, digital whiteboard, and screen and file sharing.
                                 </div>
                             </div>
@@ -121,8 +121,8 @@ const Pricing = () => {
                         <div className="col col-12 col-md-6 col-lg-3">
                             <div className="landing__grid__card">
                                 <img className="mb-10" src={grid8} alt="grid" />
-                                <div className="type--lg type--wgt--bold mb-4">Secure Payment</div>
-                                <div className="type--color--tertiary">
+                                <div className="type--md type--wgt--bold mb-4">Secure Payment</div>
+                                <div className="type--color--tertiary type--base">
                                     Secure, safe payment gateway provided by Stripe. No hidden fees, just pay for lessons. Refunds provided.
                                 </div>
                             </div>
@@ -130,8 +130,8 @@ const Pricing = () => {
                         <div className="col col-12 col-md-6 col-lg-3">
                             <div className="landing__grid__card">
                                 <img className="mb-10" src={grid10} alt="grid" />
-                                <div className="type--lg type--wgt--bold mb-4">Support</div>
-                                <div className="type--color--tertiary">
+                                <div className="type--md type--wgt--bold mb-4">Support</div>
+                                <div className="type--color--tertiary type--base">
                                     24/7 access to support. Our dedicated support team is available to you at a moment’s notice.
                                 </div>
                             </div>

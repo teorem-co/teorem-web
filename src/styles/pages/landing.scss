@@ -185,6 +185,7 @@
             img {
                 display: inline-block;
                 max-width: 100%;
+                transition: all 250ms ease-in-out;
             }
 
             &:last-child {
@@ -351,7 +352,7 @@
             margin-bottom: calc($unit * 3);
             line-height: 50px;
             font-weight: 900;
-            max-width: 730px;
+            max-width: 800px;
 
             @media (min-width: $responsive-sm) {
                 line-height: 70px;
@@ -626,7 +627,7 @@
                 height: 120px;
                 font-size: 64px;
                 &::after {
-                    height: 180px;
+                    height: 210px;
                     left: 60px;
                 }
             }
@@ -667,20 +668,21 @@
         max-width: 328px;
 
         @media (min-width: $responsive-xl) {
-            max-width: 730px;
+            max-width: 800px;
         }
 
         &__title {
             font-size: 28px;
+            font-weight: 900;
 
             @media (min-width: $responsive-xl) {
-                font-size: 48px;
+                font-size: 56px;
             }
         }
 
         &__description {
             font-size: 14px;
-            max-width: 480px;
+            max-width: 720px;
             margin: 0 auto;
 
             @media (min-width: $responsive-xl) {
@@ -704,16 +706,20 @@
 
     //Fluid typography
     &--fluid {
+        &--xs {
+            @include fluid-type($fluid-min-width, $fluid-max-width, 16px, 18px);
+        }
+
         &--sm {
-            @include fluid-type($fluid-min-width, $fluid-max-width, 14px, 18px);
+            @include fluid-type($fluid-min-width, $fluid-max-width, 16px, 21px);
         }
 
         &--md {
-            @include fluid-type($fluid-min-width, $fluid-max-width, 18px, 24px);
+            @include fluid-type($fluid-min-width, $fluid-max-width, 18px, 32px);
         }
 
         &--title {
-            @include fluid-type($fluid-min-width, $fluid-max-width, 32px, 72px);
+            @include fluid-type($fluid-min-width, $fluid-max-width, 32px, 80px);
         }
     }
 }

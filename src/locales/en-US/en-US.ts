@@ -501,7 +501,7 @@ export const EN_US = {
         },
     },
     FOOTER: {
-        TITLE_TEXT: 'If you have additional questions, feel free to contact us via email info@teorem.co',
+        TITLE_TEXT: 'If you have additional questions, feel free to contact us via email ',
         APP_NAME: 'Teorem Ltd',
         ADDRESS: '',
         MOBILE: '',
