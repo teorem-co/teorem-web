@@ -165,7 +165,7 @@ const EditSubjectSidebar = (props: Props) => {
                     <FormikProvider value={formik}>
                         <Form noValidate>
                             <div>
-                                <label htmlFor="level">{t('MY_PROFILE.MY_TEACHINGS.SUBJECT')}</label>
+                                <label htmlFor="level">{t('MY_PROFILE.MY_TEACHINGS.SUBJECT')}*</label>
                                 <MySelect
                                     field={formik.getFieldProps('level')}
                                     form={formik}
@@ -177,7 +177,7 @@ const EditSubjectSidebar = (props: Props) => {
                                 />
                             </div>
                             <div>
-                                <label htmlFor="subject">{t('MY_PROFILE.MY_TEACHINGS.LEVEL')}</label>
+                                <label htmlFor="subject">{t('MY_PROFILE.MY_TEACHINGS.LEVEL')}*</label>
                                 <MySelect
                                     field={formik.getFieldProps('subject')}
                                     form={formik}
@@ -191,7 +191,7 @@ const EditSubjectSidebar = (props: Props) => {
                             </div>
                             <div className="field">
                                 <label htmlFor="price" className="field__label">
-                                    {t('MY_PROFILE.MY_TEACHINGS.PRICING')}
+                                    {t('MY_PROFILE.MY_TEACHINGS.PRICING')}*
                                 </label>
                                 <TextField
                                     name="price"
