@@ -113,8 +113,8 @@ const Navigation = () => {
                 </div>
                 <div>
                     <div className={`landing__navigation ${showSidebar ? 'active' : ''}`}>
-                        <div className="p-4">
-                            <img className="w--200--max" src={logo} alt="logo" />
+                        <div className="p-5">
+                            <img className="w--100--max" src={logo} alt="logo" />
                         </div>
                         <div className="flex--grow mt-8">
                             <NavLink
