@@ -525,8 +525,10 @@
         }
 
         &__item {
-            font-size: 18px;
             color: $black;
+            padding: calc(#{$unit} * 4) calc(#{$unit} * 4);
+            font-size: $type-md;
+
             &.active {
                 text-decoration: underline;
             }
@@ -554,10 +556,6 @@
             }
         }
         //mobile navigation on landing pages
-        a {
-            padding: calc(#{$unit} * 3) calc(#{$unit} * 4);
-            font-size: $type-md;
-        }
 
         &__overlay {
             position: fixed;
@@ -575,6 +573,7 @@
             display: inline-block;
             width: calc(50% - 8px);
             text-align: center;
+
             @media (min-width: $responsive-md) {
                 width: 156px;
             }
