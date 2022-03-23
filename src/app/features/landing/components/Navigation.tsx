@@ -141,10 +141,10 @@ const Navigation = () => {
                             </NavLink>
                         </div>
                         <div className="p-3 pl-4">
-                            <NavLink to={PATHS.LOGIN} className="btn btn--base btn--primary d--ib mr-2 w--156 type--center">
+                            <NavLink to={PATHS.LOGIN} className="btn btn--base btn--ghost landing__navigation__btn mr-2">
                                 <div>Sign in</div>
                             </NavLink>
-                            <NavLink to={PATHS.REGISTER} className="btn btn--base btn--ghost d--ib w--156 type--center">
+                            <NavLink to={PATHS.REGISTER} className="btn btn--base btn--primary landing__navigation__btn ml-2">
                                 <div>Get started</div>
                             </NavLink>
                         </div>
