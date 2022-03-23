@@ -111,22 +111,46 @@ const Navigation = () => {
                     </div> */}
                     </div>
                 </div>
-                <div className={`landing__navigation ${showSidebar ? 'active' : ''}`}>
-                    <NavLink to={LANDING_PATHS.HOW_IT_WORKS} className="d--b type--color--white mt-20">
-                        <div>How it works</div>
-                    </NavLink>
-                    <NavLink to={LANDING_PATHS.PRICING} className="d--b type--color--white">
-                        <div>Pricing</div>
-                    </NavLink>
-                    <NavLink to={LANDING_PATHS.BECOME_TUTOR} className="d--b type--color--white">
-                        <div>Become a tutor</div>
-                    </NavLink>
-                    <NavLink to={PATHS.REGISTER} className="d--b type--color--white mt-20">
-                        <div>Register</div>
-                    </NavLink>
-                    <NavLink to={PATHS.LOGIN} className="d--b type--color--white">
-                        <div>Login</div>
-                    </NavLink>
+                <div>
+                    <div className={`landing__navigation ${showSidebar ? 'active' : ''}`}>
+                        <div className="p-4">
+                            <img className="w--200--max" src={logo} alt="logo" />
+                        </div>
+                        <div className="flex--grow mt-8">
+                            <NavLink
+                                isActive={(e: any) => testActiveClassName(e)}
+                                to={LANDING_PATHS.HOW_IT_WORKS}
+                                className="d--b landing__navigation__item"
+                            >
+                                <div className="flex flex--center">
+                                    <i className="icon icon--base icon--how-it-works icon--primary-gradient"></i>
+                                    <span className="d--ib ml-2">How it works</span>
+                                </div>
+                            </NavLink>
+                            <NavLink to={LANDING_PATHS.PRICING} className="d--b landing__navigation__item">
+                                <div className="flex flex--center">
+                                    <i className="icon icon--base icon--pricing-item icon--primary-gradient"></i>
+                                    <span className="d--ib ml-2">Pricing</span>
+                                </div>
+                            </NavLink>
+                            <NavLink to={LANDING_PATHS.BECOME_TUTOR} className="d--b landing__navigation__item">
+                                <div className="flex flex--center">
+                                    <i className="icon icon--base icon--become-a-tutor icon--primary-gradient"></i>
+                                    <span className="d--ib ml-2">Become a tutor</span>
+                                </div>
+                            </NavLink>
+                        </div>
+                        <div className="p-3 pl-4">
+                            <NavLink to={PATHS.LOGIN} className="btn btn--base btn--primary d--ib mr-2 w--156 type--center">
+                                <div>Sign in</div>
+                            </NavLink>
+                            <NavLink to={PATHS.REGISTER} className="btn btn--base btn--ghost d--ib w--156 type--center">
+                                <div>Get started</div>
+                            </NavLink>
+                        </div>
+                    </div>
+                    {showSidebar && <div onClick={() => setShowSidebar(false)} className="landing__navigation__overlay"></div>}
+                    <div></div>
                 </div>
             </div>
         </div>

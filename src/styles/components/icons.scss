@@ -54,6 +54,9 @@
     &--attachment {
         mask-image: url('./../../assets/icons/attachment.svg');
     }
+    &--become-a-tutor {
+        mask-image: url('./../../assets/icons/become-a-tutor.svg');
+    }
     &--calendar {
         mask-image: url('../../assets/icons/calendar.svg');
     }
@@ -101,6 +104,9 @@
     &--hide {
         mask-image: url('../../assets/icons/hide.svg');
     }
+    &--how-it-works {
+        mask-image: url('../../assets/icons/how-it-works.svg');
+    }
     &--info {
         mask-image: url('../../assets/icons/info.svg');
     }
@@ -133,6 +139,9 @@
     }
     &--pricing {
         mask-image: url('../../assets/icons/pricing.svg');
+    }
+    &--pricing-item {
+        mask-image: url('../../assets/icons/pricing-item.svg');
     }
     &--profile {
         mask-image: url('../../assets/icons/profile.svg');
@@ -203,6 +212,11 @@
     //color modifiers
     &--primary {
         background-color: $color-primary;
+    }
+
+    &--primary-gradient {
+        background: $color-primary;
+        background: linear-gradient(226.69deg, rgba(127, 95, 211, 0.9) 4.52%, #5c3ee8 94.64%);
     }
 
     &--grey {

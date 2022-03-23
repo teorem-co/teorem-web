@@ -395,17 +395,23 @@
 
     &__navigation {
         position: fixed;
-        top: 0;
+        top: -100%;
         display: block;
         width: 100%;
-        height: 100vh;
+        height: 60vh;
+        min-height: 380px;
         z-index: 15;
-        background-color: $color-primary;
-        left: -100%;
+
+        display: flex;
+        flex-direction: column;
+
+        background-color: $white;
+        left: 0;
         transition: all 0.5s;
+        overflow: visible;
 
         &.active {
-            left: 0;
+            top: 0;
         }
 
         @media (min-width: $responsive-xl) {
@@ -426,6 +432,7 @@
             -o-transition: 0.5s ease-in-out;
             transition: 0.5s ease-in-out;
             cursor: pointer;
+
             &.pricing span {
                 background: $white;
             }
@@ -466,7 +473,7 @@
 
             &.active {
                 span {
-                    background: $white;
+                    background: $black;
 
                     &:nth-child(1) {
                         width: 0%;
@@ -504,8 +511,17 @@
             display: flex;
             align-items: center;
             flex-grow: 1;
+
             @media (max-width: $responsive-xl) {
                 display: none;
+            }
+        }
+
+        &__item {
+            font-size: 18px;
+            color: $black;
+            &.active {
+                text-decoration: underline;
             }
         }
 
@@ -532,8 +548,20 @@
         }
         //mobile navigation on landing pages
         a {
-            padding: calc(#{$unit} * 3) calc(#{$unit} * 10);
+            padding: calc(#{$unit} * 3) calc(#{$unit} * 4);
             font-size: $type-md;
+        }
+
+        &__overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.3);
+            @media (min-width: $responsive-xl) {
+                display: none;
+            }
         }
     }
 
