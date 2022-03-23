@@ -76,6 +76,13 @@
             max-width: 350px;
         }
     }
+    &--400 {
+        width: 400px;
+
+        &--max {
+            max-width: 400px !important;
+        }
+    }
 
     &--448 {
         width: 448px;

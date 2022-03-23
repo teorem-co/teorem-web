@@ -185,6 +185,7 @@
             img {
                 display: inline-block;
                 max-width: 100%;
+                transition: all 250ms ease-in-out;
             }
 
             &:last-child {
@@ -672,6 +673,7 @@
 
         &__title {
             font-size: 28px;
+            font-weight: 900;
 
             @media (min-width: $responsive-xl) {
                 font-size: 56px;
@@ -704,8 +706,12 @@
 
     //Fluid typography
     &--fluid {
+        &--xs {
+            @include fluid-type($fluid-min-width, $fluid-max-width, 16px, 18px);
+        }
+
         &--sm {
-            @include fluid-type($fluid-min-width, $fluid-max-width, 14px, 24px);
+            @include fluid-type($fluid-min-width, $fluid-max-width, 16px, 21px);
         }
 
         &--md {

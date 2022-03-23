@@ -75,7 +75,7 @@ const BecomeTutor = () => {
 
             <div className="landing__hero">
                 <div className="landing__hero__title landing--fluid--title w--550--max">Start tutoring online</div>
-                <div className="landing__hero__subtitle landing--fluid--sm type--color--secondary w--260--max">
+                <div className="landing__hero__subtitle landing--fluid--sm type--color--secondary w--400--max">
                     Give lessons whenever you want, from the comfort of your home.
                 </div>
                 <div className="landing__avatar landing__avatar--first">

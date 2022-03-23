@@ -20,7 +20,12 @@ const Footer = () => {
                 <NavLink className="landing__navigation__logo d--b flex--shrink mt-10" to={LANDING_PATHS.HOW_IT_WORKS}>
                     <img src={logoWhite} alt="logo" />
                 </NavLink>
-                <div className="type--color--white mt-10">{t('FOOTER.TITLE_TEXT')}</div>
+                <div className="type--color--white mt-10 type--md">
+                    {t('FOOTER.TITLE_TEXT')}
+                    <a className="type--color--white type--underline" href="mailto: info@teorem.co">
+                        info@teorem.co
+                    </a>
+                </div>
                 <div className="flex flex--wrap w--100 type--color--white ">
                     <div className="mr-20">
                         <div className="type--wgt--bold mt-8">{t('FOOTER.APP_NAME')}</div>
