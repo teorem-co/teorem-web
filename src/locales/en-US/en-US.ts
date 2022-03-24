@@ -500,20 +500,215 @@ export const EN_US = {
             TOTAL: 'reviews total',
         },
     },
-    FOOTER: {
-        TITLE_TEXT: 'If you have additional questions, feel free to contact us via email ',
-        APP_NAME: 'Teorem Ltd',
-        ADDRESS: '',
-        MOBILE: '',
-        EMAIL: 'info@teorem.co',
-        LEGAL: {
-            TITLE: 'About Teorem',
-            LEGAL: 'Terms & Conditions',
-            PRIVACY: 'Privacy policy',
-            TUTOR: 'Become a tutor',
+    LANDING: {
+        HEADER: {
+            NAV_1: 'How it works',
+            NAV_2: 'Pricing',
+            NAV_3: 'Become a tutor',
+            SIGN_IN: 'Sign in',
+            GET_STARTED: 'Get started',
         },
-        PAYMENT: {
-            TITLE: 'Payment methods',
+        FOOTER: {
+            TITLE_TEXT: 'If you have additional questions, feel free to contact us via email ',
+            APP_NAME: 'Teorem Ltd',
+            ADDRESS: '',
+            MOBILE: '',
+            EMAIL: 'info@teorem.co',
+            LEGAL: {
+                TITLE: 'About Teorem',
+                LEGAL: 'Terms & Conditions',
+                PRIVACY: 'Privacy policy',
+                TUTOR: 'Become a tutor',
+            },
+            PAYMENT: {
+                TITLE: 'Payment methods',
+            },
         },
+    },
+    HOW_IT_WORKS: {
+        HERO: {
+            TITLE: 'Online tutoring that releases potential',
+            SUBTITLE: 'Private One-on-One 50-minute online lessons uniquely tailored for each student. All school subjects and age groups covered.',
+        },
+        SUBTITLE_1: 'As featured around the world',
+        SUBTITLE_2: 'Frequently asked questions',
+        TEXT_CARD_1: {
+            TITLE: 'Large circle of vetted and reviewed high-quality tutors',
+            SUBTITLE:
+                'Our tutors are all vetted to ensure they have experience in tutoring. They are reviewed by parents and students after each lesson.',
+        },
+        TEXT_CARD_2: {
+            TITLE: 'Chat with any tutor for free before you book.',
+            SUBTITLE:
+                'Share any files or assignments with the tutor and have a free video call to make sure the tutor you cohose is the perfect fit for you.',
+        },
+        TEXT_CARD_3: {
+            TITLE: 'Our virtual classroom lets you rewatch lessons.',
+            SUBTITLE:
+                'Our lessons are so much more than just video calls. Our virtual classroom contains a digital whiteboard, recording function, screen sharing and much more.',
+        },
+        TEXT_CARD_4: {
+            TITLE: 'Only pay for what you use.',
+            SUBTITLE:
+                'Teorem won’t charge you anything until you’ve found your perfect tutor, had a chat with them and booked your first lesson. No sign-up fees, no subscriptions, just plain pay-as-you-go. Safe and secure payment gateway accepting a wide range of options.',
+        },
+        REVIEW_1: {
+            TEXT: 'Teorem helps me worry less about my child’s grades. Their expert tutors helped my kids achieve better grades which was followed by a boost in their confidence!',
+            NAME: 'Sandra',
+            OCCUPATION: 'Mother of one',
+        },
+        REVIEW_2: {
+            TEXT: 'The complimentary video call has allowed me to chat with several tutors before deciding on one that best fits my child’s needs. I couldn’t be happier!',
+            NAME: 'Renata',
+            OCCUPATION: 'Single mother',
+        },
+        REVIEW_3: {
+            TEXT: 'Teorem’s virtual classroom helped my son understand tricky concepts through interactive exercises and fun design. It also allows me to rewatch the lessons and make sure my son kept focus!',
+            NAME: 'John',
+            OCCUPATION: 'Father of three',
+        },
+        BUTTON_1: 'Get started',
+        FAQ: {
+            QUESTION_1: 'Why One-to-one tutoring?',
+            ANSWER_1:
+                'One-to-one online tutoring gives kids the opportunity to learn at their own pace and in a way that matches their learning style. Teens are often too shy to put their hand up in class – especially if they’re struggling. The reassurance of one-to-one tutoring means they can ask all the questions they want, and go over topics as much as they need until they get it.',
+            QUESTION_2: 'What are the benefits of online tutoring?',
+            ANSWER_2:
+                'Teorem’s online tutoring lets kids unleash their full potential. Our digital whiteboard allows tutors to explain complex concepts in an easy and thoughtful manner. Whatever your child needs help with, their tutor will guide them through. In addition, the online model removes geographic constraints of finding a high-quality tutor.',
+            QUESTION_3: 'What qualifications do the tutors have?',
+            ANSWER_3:
+                'Applicants undergo multiple tests before becoming tutors on our platform. They are tested on their subject knowledge and personal and teaching skills. A very small number of applicants who apply are selected.',
+            QUESTION_4: 'How do online lessons work?',
+            ANSWER_4:
+                'We have our own virtual lesson space including video chat, messaging and an interactive whiteboard which makes it easy for students and tutors to communicate, discuss tricky concepts and do practice questions together. With the live video chat, they can have a natural back-and-forth conversation – just like on FaceTime, WhatsApp and other apps teens use all the time. All our lessons last 50 minutes.',
+        },
+    },
+    PRICING: {
+        HERO: {
+            TITLE: 'Get the most value for your money',
+            SUBTITLE: 'Teorem helps students of all ages to achieve their academic goals.',
+        },
+        SUBTITLE_1: 'Our tutoring process',
+        SUBTITLE_2: 'Teorem benefits',
+        SUBTITLE_3: 'Frequently asked questions',
+        BUTTON_1: 'Book Your Complementary Lesson',
+        TEXT_CARD_1: {
+            TITLE: 'How much does online tutoring cost?',
+            SUBTITLE:
+                'Teorem’s tutors set their own prices, based on their experience and availability. Lesson prices start from HRK 50, with the average price at around HRK 80. ',
+        },
+        FAQ: {
+            QUESTION_1: 'How much does a tutor cost?',
+            ANSWER_1:
+                'Our tutors set their own prices based on their experience, qualifications and availability. Prices start at $XX. You can see all the tutors who match your budget with the handy price filter on our Tutor Search.',
+            QUESTION_2: 'How to find a tutor?',
+            ANSWER_2:
+                'Finding a tutor is easy. After you register an account with Teorem, you can search and filter by subject, level, price, experience and more.',
+            QUESTION_3: 'Can I change a tutor if I am unhappy?',
+            ANSWER_3: 'Of course! You are free to change a tutor anytime. We’ll take care of the admin, so you don’t have to.',
+            QUESTION_4: 'Can I get a refund?',
+            ANSWER_4: 'Yes, if you cancel up to 24 hours in advance, we will issue you a full refund for your lesson.',
+        },
+        STEP_1: {
+            TITLE: 'Initial Assessment Complimentary',
+            SUBTITLE:
+                'During an initial, complimentary call, Teorem’s tutor will determine the student’s needs and choose the ideal study based on the student’s personality, learning style and requirements.',
+        },
+        STEP_2: {
+            TITLE: 'Trial Lesson',
+            SUBTITLE: 'A trial lesson gives you a chance to see how the tutor teaches and how the Teorem platform works.',
+        },
+        STEP_3: {
+            TITLE: 'Collaboration',
+            SUBTITLE:
+                'Teorem’s tutoring is straightforward and hassle-free. Once you’re registered, you’ll find everything you need on our platform. You can monitor performance, change lesson times, book new lessons, cancel them, or even contact your tutor, all in just a few clicks.',
+        },
+        CARD_1: {
+            TITLE: 'Flexible',
+            SUBTITLE: 'Easy, flexible, scheduling adjusted to you.',
+        },
+        CARD_2: {
+            TITLE: 'Virtual Classroom',
+            SUBTITLE: 'Available on all devices, with a built-in recording function, digital whiteboard, and screen and file sharing.',
+        },
+        CARD_3: {
+            TITLE: 'Secure Payment',
+            SUBTITLE: 'Secure, safe payment gateway provided by Stripe. No hidden fees, just pay for lessons. Refunds provided.',
+        },
+        CARD_4: {
+            TITLE: 'Support',
+            SUBTITLE: '24/7 access to support. Our dedicated support team is available to you at a moment’s notice.',
+        },
+    },
+    BECOME_A_TUTOR: {
+        HERO: {
+            TITLE: 'Start tutoring online',
+            SUBTITLE: 'Give lessons whenever you want, from the comfort of your home.',
+        },
+        TEXT_CARD_1: {
+            TITLE: 'Teorem’s online tutoring makes your life easier',
+            SUBTITLE: 'We’ll provide you with everything you need to teach online. We help you find students and manage lessons.',
+        },
+        TEXT_CARD_2: {
+            TITLE: 'Set your own price and availability!',
+            SUBTITLE: 'Use our tools to track how much you’re making and increase your client base!',
+        },
+        REVIEW_1: {
+            TEXT: 'Teorem helps me worry less about my child’s grades. Their expert tutors helped my kids achieve better grades which was followed by a boost in their confidence!',
+            NAME: 'John',
+            OCCUPATION: 'Father of three',
+        },
+        REVIEW_2: {
+            TEXT: 'The complimentary video call has allowed me to chat with several tutors before deciding on one that best fits my child’s needs. I couldn’t be happier!',
+            NAME: 'Renata',
+            OCCUPATION: 'Single mother',
+        },
+        SUBTITLE_1: 'We are here to help you grow!',
+        SUBTITLE_2: 'How to become an online tutor on Teorem',
+        SUBTITLE_3: 'Frequently asked questions',
+        BUTTON_1: 'Get started',
+        FAQ: {
+            QUESTION_1: 'How do I become an online tutor?',
+            ANSWER_1:
+                'If you want to know how to get into tutoring, you’ve come to the right place! Just create an account, book your interview and we’ll help you get set up!',
+            QUESTION_2: 'What are the requirements for tutors?',
+            ANSWER_2:
+                'We ideally require our tutors to commit a minimum of 6 lessons per week. You must be qualified at high school diploma level or above. You need to have a laptop (or PC) and a stable internet connection to teach online.',
+            QUESTION_3: 'How long does it take before I can start teaching?',
+            ANSWER_3:
+                'As the registration process consists of a few simple steps, it usually only takes a day until you are verified and can begin teaching.',
+            QUESTION_4: 'What does the employment relationship look like?',
+            ANSWER_4:
+                'You offer independent tutoring via Teorem’s platform. There is no employment relationship. You are responsible for any taxes and National Insurance contributions.',
+            QUESTION_5: 'What makes Teorem different from other portals?',
+            ANSWER_5: 'We guarantee you a steady stream of students. We also take care of everything so that you can focus 100% on teaching.',
+        },
+        CARD_1: {
+            TITLE: 'Fully remote',
+            SUBTITLE: 'All you need is a laptop and wifi',
+        },
+        CARD_2: {
+            TITLE: 'Tools you need',
+            SUBTITLE: 'Booking system, chat, video calls & more.',
+        },
+        CARD_3: {
+            TITLE: 'Secure Income',
+            SUBTITLE: 'We make sure you get paid.',
+        },
+        CARD_4: {
+            TITLE: 'Set Your Price',
+            SUBTITLE: 'No limitations on what you can earn.',
+        },
+        CARD_5: {
+            TITLE: '24/7 Support',
+            SUBTITLE: 'We make sure all your issues are solved.',
+        },
+        CARD_6: {
+            TITLE: 'Improve Your Teaching',
+            SUBTITLE: 'We take care of administration, you just focus on the lessons.',
+        },
+        STEP_1: 'Create your account and fill in the information.',
+        STEP_2: 'Upload a short video to prove your identity.',
+        STEP_3: 'Complete your profile and start tutoring!',
     },
 };

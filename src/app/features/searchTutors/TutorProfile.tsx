@@ -318,7 +318,9 @@ const TutorProfile = () => {
                                 <Link className="btn btn--base btn--primary w--100 mb-4 type--center" to={`/search-tutors/bookings/${tutorId}`}>
                                     {t('TUTOR_PROFILE.BOOK')}
                                 </Link>
-                                <button className="btn btn--base btn--ghost w--100">{t('TUTOR_PROFILE.SEND')}</button>
+                                <Link className="btn btn--base btn--ghost w--100 type--center" to={PATHS.CHAT}>
+                                    {t('TUTOR_PROFILE.SEND')}
+                                </Link>
                             </div>
                         </div>
                     </>

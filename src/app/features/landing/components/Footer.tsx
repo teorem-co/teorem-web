@@ -21,32 +21,32 @@ const Footer = () => {
                     <img src={logoWhite} alt="logo" />
                 </NavLink>
                 <div className="type--color--white mt-10 type--md">
-                    {t('FOOTER.TITLE_TEXT')}
+                    {t('LANDING.FOOTER.TITLE_TEXT')}
                     <a className="type--color--white type--underline" href="mailto: info@teorem.co">
                         info@teorem.co
                     </a>
                 </div>
                 <div className="flex flex--wrap w--100 type--color--white ">
                     <div className="mr-20">
-                        <div className="type--wgt--bold mt-8">{t('FOOTER.APP_NAME')}</div>
-                        <div>{t('FOOTER.ADDRESS')}</div>
-                        <div>{t('FOOTER.MOBILE')}</div>
-                        <div>{t('FOOTER.EMAIL')}</div>
+                        <div className="type--wgt--bold mt-8">{t('LANDING.FOOTER.APP_NAME')}</div>
+                        <div>{t('LANDING.FOOTER.ADDRESS')}</div>
+                        <div>{t('LANDING.FOOTER.MOBILE')}</div>
+                        <div>{t('LANDING.FOOTER.EMAIL')}</div>
                     </div>
                     <div className="mr-20">
-                        <div className="type--wgt--bold mt-8">{t('FOOTER.LEGAL.TITLE')}</div>
+                        <div className="type--wgt--bold mt-8">{t('LANDING.FOOTER.LEGAL.TITLE')}</div>
                         <div className="cur--pointer" onClick={() => history.push(PATHS.TERMS)}>
-                            {t('FOOTER.LEGAL.LEGAL')}
+                            {t('LANDING.FOOTER.LEGAL.LEGAL')}
                         </div>
                         <div className="cur--pointer" onClick={() => history.push(PATHS.PRIVACY)}>
-                            {t('FOOTER.LEGAL.PRIVACY')}
+                            {t('LANDING.FOOTER.LEGAL.PRIVACY')}
                         </div>
                         <div className="cur--pointer" onClick={() => history.push(PATHS.REGISTER)}>
-                            {t('FOOTER.LEGAL.TUTOR')}
+                            {t('LANDING.FOOTER.LEGAL.TUTOR')}
                         </div>
                     </div>
                     <div className="">
-                        <div className="type--wgt--bold mt-8">{t('FOOTER.PAYMENT.TITLE')}</div>
+                        <div className="type--wgt--bold mt-8">{t('LANDING.FOOTER.PAYMENT.TITLE')}</div>
                         <div className="landing__footer__cards">
                             <img src={stripe} alt="stripe logo" />
                             <img src={visa} alt="visa logo" />

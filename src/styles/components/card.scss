@@ -22,7 +22,7 @@
         border: 1px solid $grey-ed;
 
         &__head {
-            z-index: 9;
+            z-index: 7;
             position: sticky;
             top: 0;
             display: flex;
@@ -34,6 +34,13 @@
 
             backdrop-filter: blur(20px);
             background-color: rgba(255, 255, 255, 0.8);
+
+            &--search-tutor {
+                @media (max-width: $responsive-xl) {
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+            }
         }
 
         &__body {

@@ -1,3 +1,4 @@
+import { t } from 'i18next';
 import { useEffect } from 'react';
 import { useHistory } from 'react-router';
 
@@ -25,41 +26,41 @@ import profileIllustration3 from './../../../../assets/images/profile-illustrati
 
 const BecomeTutor = () => {
     const cardText1 = {
-        text: 'Teorem helps me worry less about my child’s grades. Their expert tutors helped my kids achieve better grades which was followed by a boost in their confidence!',
-        name: 'John',
-        role: 'Father of three',
+        text: t('BECOME_A_TUTOR.REVIEW_1.TEXT'),
+        name: t('BECOME_A_TUTOR.REVIEW_1.NAME'),
+        role: t('BECOME_A_TUTOR.REVIEW_1.OCCUPATION'),
     };
     const cardText2 = {
-        text: 'The complimentary video call has allowed me to chat with several tutors before deciding on one that best fits my child’s needs. I couldn’t be happier!',
-        name: 'Renata',
-        role: 'Single mother',
+        text: t('BECOME_A_TUTOR.REVIEW_2.TEXT'),
+        name: t('BECOME_A_TUTOR.REVIEW_2.NAME'),
+        role: t('BECOME_A_TUTOR.REVIEW_2.OCCUPATION'),
     };
 
     const FAQContent: IFAQItem[] = [
         {
             id: 'faq-1',
-            question: 'How do I become an online tutor?',
-            answer: 'If you want to know how to get into tutoring, you’ve come to the right place! Just create an account, book your interview and we’ll help you get set up!',
+            question: t('BECOME_A_TUTOR.FAQ.QUESTION_1'),
+            answer: t('BECOME_A_TUTOR.FAQ.ANSWER_1'),
         },
         {
             id: 'faq-2',
-            question: 'What are the requirements for tutors?',
-            answer: 'We ideally require our tutors to commit a minimum of 6 lessons per week. You must be qualified at high school diploma level or above. You need to have a laptop (or PC) and a stable internet connection to teach online.',
+            question: t('BECOME_A_TUTOR.FAQ.QUESTION_2'),
+            answer: t('BECOME_A_TUTOR.FAQ.ANSWER_2'),
         },
         {
             id: 'faq-3',
-            question: 'How long does it take before I can start teaching?',
-            answer: 'As the registration process consists of a few simple steps, it usually only takes a day until you are verified and can begin teaching.',
+            question: t('BECOME_A_TUTOR.FAQ.QUESTION_3'),
+            answer: t('BECOME_A_TUTOR.FAQ.ANSWER_3'),
         },
         {
             id: 'faq-4',
-            question: 'What does the employment relationship look like?',
-            answer: 'You offer independent tutoring via Teorem’s platform. There is no employment relationship. You are responsible for any taxes and National Insurance contributions.',
+            question: t('BECOME_A_TUTOR.FAQ.QUESTION_4'),
+            answer: t('BECOME_A_TUTOR.FAQ.ANSWER_4'),
         },
         {
             id: 'faq-5',
-            question: 'What makes Teorem different from other portals?',
-            answer: 'We guarantee you a steady stream of students. We also take care of everything so that you can focus 100% on teaching.',
+            question: t('BECOME_A_TUTOR.FAQ.QUESTION_5'),
+            answer: t('BECOME_A_TUTOR.FAQ.ANSWER_5'),
         },
     ];
 
@@ -74,9 +75,9 @@ const BecomeTutor = () => {
             {/* Content */}
 
             <div className="landing__hero">
-                <div className="landing__hero__title landing--fluid--title w--550--max">Start tutoring online</div>
+                <div className="landing__hero__title landing--fluid--title w--550--max">{t('BECOME_A_TUTOR.HERO.TITLE')}</div>
                 <div className="landing__hero__subtitle landing--fluid--sm type--color--secondary w--400--max">
-                    Give lessons whenever you want, from the comfort of your home.
+                    {t('BECOME_A_TUTOR.HERO.SUBTITLE')}
                 </div>
                 <div className="landing__avatar landing__avatar--first">
                     <img src={firstAvatar} alt="user-1" />
@@ -97,90 +98,83 @@ const BecomeTutor = () => {
             <div className="landing__section mt-30 w--100">
                 <img src={calendar} alt="calendar" className="landing__img" />
             </div>
-            <TextCard
-                className="mt-30"
-                title="Teorem’s online tutoring makes your life easier"
-                desc="We’ll provide you with everything you need to teach online. We help you find students and manage lessons."
-            />
+            <TextCard className="mt-30" title={t('BECOME_A_TUTOR.TEXT_CARD_1.TITLE')} desc={t('BECOME_A_TUTOR.TEXT_CARD_1.SUBTITLE')} />
             <div className="mt-30">
                 <div className="row row--adaptive">
                     <div className="col col-12 col-md-6 col-lg-4">
                         <div className="landing__grid__card">
                             <img className="mb-10" src={grid1} alt="grid" />
-                            <div className="type--lg type--wgt--bold mb-4">Fully remote</div>
-                            <div className="type--color--tertiary type--md">All you need is a laptop and wifi</div>
+                            <div className="type--lg type--wgt--bold mb-4">{t('BECOME_A_TUTOR.CARD_1.TITLE')}</div>
+                            <div className="type--color--tertiary type--md">{t('BECOME_A_TUTOR.CARD_1.SUBTITLE')}</div>
                         </div>
                     </div>
                     <div className="col col-12 col-md-6 col-lg-4">
                         <div className="landing__grid__card">
                             <img className="mb-10" src={grid2} alt="grid" />
-                            <div className="type--lg type--wgt--bold mb-4">Tools you need</div>
-                            <div className="type--color--tertiary type--md">Booking system, chat, video calls & more.</div>
+                            <div className="type--lg type--wgt--bold mb-4">{t('BECOME_A_TUTOR.CARD_2.TITLE')}</div>
+                            <div className="type--color--tertiary type--md">{t('BECOME_A_TUTOR.CARD_2.SUBTITLE')}</div>
                         </div>
                     </div>
                     <div className="col col-12 col-md-6 col-lg-4">
                         <div className="landing__grid__card">
                             <img className="mb-10" src={grid3} alt="grid" />
-                            <div className="type--lg type--wgt--bold mb-4">Secure Income</div>
-                            <div className="type--color--tertiary type--md">We make sure you get paid.</div>
+                            <div className="type--lg type--wgt--bold mb-4">{t('BECOME_A_TUTOR.CARD_3.TITLE')}</div>
+                            <div className="type--color--tertiary type--md">{t('BECOME_A_TUTOR.CARD_3.SUBTITLE')}</div>
                         </div>
                     </div>
                     <div className="col col-12 col-md-6 col-lg-4">
                         <div className="landing__grid__card">
                             <img className="mb-10" src={grid4} alt="grid" />
-                            <div className="type--lg type--wgt--bold mb-4">Set Your Price</div>
-                            <div className="type--color--tertiary type--md">No limitations on what you can earn.</div>
+                            <div className="type--lg type--wgt--bold mb-4">{t('BECOME_A_TUTOR.CARD_4.TITLE')}</div>
+                            <div className="type--color--tertiary type--md">{t('BECOME_A_TUTOR.CARD_4.SUBTITLE')}</div>
                         </div>
                     </div>
                     <div className="col col-12 col-md-6 col-lg-4">
                         <div className="landing__grid__card">
                             <img className="mb-10" src={grid5} alt="grid" />
-                            <div className="type--lg type--wgt--bold mb-4">24/7 Support</div>
-                            <div className="type--color--tertiary type--md">We make sure all your issues are solved.</div>
+                            <div className="type--lg type--wgt--bold mb-4">{t('BECOME_A_TUTOR.CARD_5.TITLE')}</div>
+                            <div className="type--color--tertiary type--md">{t('BECOME_A_TUTOR.CARD_5.SUBTITLE')}</div>
                         </div>
                     </div>
                     <div className="col col-12 col-md-6 col-lg-4">
                         <div className="landing__grid__card">
                             <img className="mb-10" src={grid6} alt="grid" />
-                            <div className="type--lg type--wgt--bold mb-4">Improve Your Teaching</div>
-                            <div className="type--color--tertiary type--md">We take care of administration, you just focus on the lessons.</div>
+                            <div className="type--lg type--wgt--bold mb-4">{t('BECOME_A_TUTOR.CARD_6.TITLE')}</div>
+                            <div className="type--color--tertiary type--md">{t('BECOME_A_TUTOR.CARD_6.SUBTITLE')}</div>
                         </div>
                     </div>
                 </div>
             </div>
+
             <ReviewCard className="mt-30" data={cardText1} img={profileIllustration3} />
 
-            <TextCard
-                className="mt-30"
-                title="Set your own price and availability!"
-                desc="Use our tools to track how much you’re making and increase your client base!"
-            />
+            <TextCard className="mt-30" title={t('BECOME_A_TUTOR.TEXT_CARD_1.TITLE')} desc={t('BECOME_A_TUTOR.TEXT_CARD_1.SUBTITLE')} />
             <div className="landing__section mt-30 w--100">
                 <img src={earnings} alt="calendar" className="landing__img" />
             </div>
-            <p className="landing__title">We are here to help you grow!</p>
+            <p className="landing__title">{t('BECOME_A_TUTOR.SUBTITLE_1')}</p>
             <ReviewCard className="mt-30" data={cardText2} img={profileIllustration2} />
-            <p className="landing__title">How to become an online tutor on Teorem</p>
+            <p className="landing__title">{t('BECOME_A_TUTOR.SUBTITLE_2')}</p>
             <div className="mt-20">
                 <div className="flex flex--jc--start">
                     <div className="landing__steps__item">1</div>
-                    <div className="mt-3 ml-6 type--color--secondary type--lg">Create your account and fill in the information.</div>
+                    <div className="mt-3 ml-6 type--color--secondary type--lg">{t('BECOME_A_TUTOR.STEP_1')}</div>
                 </div>
                 <div className="flex flex--jc--start">
                     <div className="landing__steps__item">2</div>
-                    <div className="mt-3 ml-6 type--color--secondary type--lg">Upload a short video to prove your identity.</div>
+                    <div className="mt-3 ml-6 type--color--secondary type--lg">{t('BECOME_A_TUTOR.STEP_2')}</div>
                 </div>
                 <div className="flex flex--jc--start">
                     <div className="landing__steps__item last">3</div>
-                    <div className="mt-3 ml-6 type--color--secondary type--lg">Complete your profile and start tutoring!</div>
+                    <div className="mt-3 ml-6 type--color--secondary type--lg">{t('BECOME_A_TUTOR.STEP_3')}</div>
                 </div>
             </div>
             <div className="landing__section mt-30">
                 <button className="btn btn--primary btn--lg type--md" onClick={() => history.push(PATHS.REGISTER)}>
-                    Get started
+                    {t('BECOME_A_TUTOR.BUTTON_1')}
                 </button>
             </div>
-            <p className="landing__title">Frequently asked questions</p>
+            <p className="landing__title">{t('BECOME_A_TUTOR.SUBTITLE_3')}</p>
             <FAQGroup data={FAQContent} />
         </LandingWrapper>
     );

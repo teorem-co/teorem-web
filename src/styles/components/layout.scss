@@ -120,6 +120,10 @@ $mobile-height: 50px;
         display: flex;
         height: 100%;
 
+        @media (max-width: $responsive-lg) {
+            flex-direction: column;
+        }
+
         & > div {
             &:first-child {
                 flex-grow: 1;
@@ -131,6 +135,13 @@ $mobile-height: 50px;
                 flex-shrink: 0;
                 width: 300px;
                 margin-left: calc(#{$unit} * 6);
+
+                @media (max-width: $responsive-lg) {
+                    margin-left: calc(#{$unit} * 0);
+                    margin-top: calc(#{$unit} * 4);
+                    padding-bottom: calc(#{$unit} * 4);
+                    width: 100%;
+                }
             }
         }
     }

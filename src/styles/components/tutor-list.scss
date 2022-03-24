@@ -12,6 +12,7 @@ $tutor-list-details-width: 264px;
         border: 1px solid $grey-ed;
         border-radius: $border-rounded;
         margin-bottom: calc(#{$unit} * 4);
+        padding-right: calc(#{$unit} * 4);
 
         &:last-child {
             margin-bottom: 0;

@@ -368,8 +368,8 @@ const SearchTutors = () => {
                 >
                     Click me
                 </button> */}
-                <div className="card--secondary__head">
-                    <div className="type--lg type--wgt--bold">{t('SEARCH_TUTORS.TITLE')}</div>
+                <div className="card--secondary__head card--secondary__head--search-tutor">
+                    <div className="type--lg type--wgt--bold mb-4 mb-xl-0">{t('SEARCH_TUTORS.TITLE')}</div>
                     <div className="flex flex--center">
                         <FormikProvider value={formik}>
                             <Form className="flex" noValidate>

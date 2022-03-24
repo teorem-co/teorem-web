@@ -52,7 +52,6 @@ const MyBookings: React.FC = () => {
     const [selectedSlot, setSelectedSlot] = useState<Date | null>(null);
     const [selectedStart, setSelectedStart] = useState<string>('');
     const [selectedUnavailability, setSelectedUnavailability] = useState<string>('');
-    const [selectedEnd, setSelectedEnd] = useState<string>('');
     const [openEventDetails, setOpenEventDetails] = useState<boolean>(false);
     const [openTutorCalendarModal, setOpenTutorCalendarModal] = useState<boolean>(false);
     const [value, onChange] = useState(new Date());
@@ -156,7 +155,6 @@ const MyBookings: React.FC = () => {
                     getBookingById(e.id);
                     setOpenEventDetails(true);
                     setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
-                    setSelectedEnd(moment(e.end).format('HH:mm'));
                 }
                 //return;
             } else {
@@ -174,7 +172,6 @@ const MyBookings: React.FC = () => {
                     getBookingById(e.id);
                     setOpenEventDetails(true);
                     setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
-                    setSelectedEnd(moment(e.end).format('HH:mm'));
                 }
             }
         } else if (userRole === RoleOptions.Parent || userRole === RoleOptions.Student) {
@@ -182,7 +179,6 @@ const MyBookings: React.FC = () => {
                 getBookingById(e.id);
                 setOpenTutorCalendarModal(true);
                 setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
-                setSelectedEnd(moment(e.end).format('HH:mm'));
             }
         }
     };

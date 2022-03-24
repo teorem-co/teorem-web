@@ -92,7 +92,9 @@ const TutorEventModal: React.FC<IProps> = (props) => {
                                 <button className="btn btn--base btn--clear type--wgt--extra-bold" onClick={() => handleDeleteBooking()}>
                                     {event.isAccepted ? t('MY_BOOKINGS.MODAL.DELETE') : t('MY_BOOKINGS.MODAL.DENY')}
                                 </button>
-                                <button className="btn btn--base btn--clear type--wgt--extra-bold">{t('MY_BOOKINGS.MODAL.PROPOSE')}</button>
+                                {/* 
+                                //COMING SOON
+                                <button className="btn btn--base btn--clear type--wgt--extra-bold">{t('MY_BOOKINGS.MODAL.PROPOSE')}</button> */}
                             </>
                         )}
                     </div>

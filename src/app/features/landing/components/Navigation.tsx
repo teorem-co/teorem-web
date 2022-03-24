@@ -1,3 +1,4 @@
+import { t } from 'i18next';
 import React, { useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router';
 import { NavLink } from 'react-router-dom';
@@ -86,22 +87,22 @@ const Navigation = () => {
                     <div className="landing__navigation__items">
                         <div className="flex flex--grow flex--jc--center">
                             <NavLink isActive={(e: any) => testActiveClassName(e)} to={LANDING_PATHS.HOW_IT_WORKS} className="nav-link--landing">
-                                <div>How it works</div>
+                                <div>{t('LANDING.HEADER.NAV_1')}</div>
                             </NavLink>
                             <NavLink to={LANDING_PATHS.PRICING} className="nav-link--landing">
-                                <div>Pricing</div>
+                                <div>{t('LANDING.HEADER.NAV_2')}</div>
                             </NavLink>
                             <NavLink to={LANDING_PATHS.BECOME_TUTOR} className="nav-link--landing">
-                                <div>Become a tutor</div>
+                                <div>{t('LANDING.HEADER.NAV_3')}</div>
                             </NavLink>
                         </div>
                         <div className="flex--primary">
                             <div>
                                 <NavLink to={PATHS.LOGIN} className="btn btn--ghost btn--ghost--landing type--wgt--bold">
-                                    Sign in
+                                    {t('LANDING.HEADER.SIGN_IN')}
                                 </NavLink>
                                 <NavLink to={PATHS.REGISTER} className="btn btn--primary btn--primary--landing ml-4">
-                                    Get started
+                                    {t('LANDING.HEADER.GET_STARTED')}
                                 </NavLink>
                             </div>
                         </div>
@@ -124,28 +125,28 @@ const Navigation = () => {
                             >
                                 <div className="flex flex--center">
                                     <i className="icon icon--base icon--how-it-works icon--primary-gradient"></i>
-                                    <span className="d--ib ml-2">How it works</span>
+                                    <span className="d--ib ml-2">{t('LANDING.HEADER.NAV_1')}</span>
                                 </div>
                             </NavLink>
                             <NavLink to={LANDING_PATHS.PRICING} className="d--b landing__navigation__item">
                                 <div className="flex flex--center">
                                     <i className="icon icon--base icon--pricing-item icon--primary-gradient"></i>
-                                    <span className="d--ib ml-2">Pricing</span>
+                                    <span className="d--ib ml-2">{t('LANDING.HEADER.NAV_2')}</span>
                                 </div>
                             </NavLink>
                             <NavLink to={LANDING_PATHS.BECOME_TUTOR} className="d--b landing__navigation__item">
                                 <div className="flex flex--center">
                                     <i className="icon icon--base icon--become-a-tutor icon--primary-gradient"></i>
-                                    <span className="d--ib ml-2">Become a tutor</span>
+                                    <span className="d--ib ml-2">{t('LANDING.HEADER.NAV_3')}</span>
                                 </div>
                             </NavLink>
                         </div>
                         <div className="p-3 pl-4">
                             <NavLink to={PATHS.LOGIN} className="btn btn--base btn--ghost landing__navigation__btn mr-2">
-                                <div>Sign in</div>
+                                <div>{t('LANDING.HEADER.SIGN_IN')}</div>
                             </NavLink>
                             <NavLink to={PATHS.REGISTER} className="btn btn--base btn--primary landing__navigation__btn ml-2">
-                                <div>Get started</div>
+                                <div>{t('LANDING.HEADER.GET_STARTED')}</div>
                             </NavLink>
                         </div>
                     </div>

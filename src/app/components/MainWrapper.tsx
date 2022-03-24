@@ -22,7 +22,7 @@ const MainWrapper = (props: Props) => {
                 </div>
                 <div className={`sidebar layout__aside ${asideActive ? 'active' : ''}`}>
                     <div className="layout__aside__close sidebar__close" onClick={() => setAsideActive(!asideActive)}>
-                        <i className="icon icon--sm icon--close icon--black"></i>
+                        <i className="icon icon--md icon--close icon--black"></i>
                     </div>
                     <Navbar />
                 </div>
