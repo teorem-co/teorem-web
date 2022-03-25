@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 
 import { useLazyGetProfileProgressQuery } from '../../../../services/tutorService';
 import { useChangePasswordMutation } from '../../../../services/userService';
+import { RoleOptions } from '../../../../slices/roleSlice';
 import TextField from '../../../components/form/TextField';
 import MainWrapper from '../../../components/MainWrapper';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
@@ -36,6 +37,7 @@ const ProfileAccount = () => {
 
     const { t } = useTranslation();
     const profileProgressState = useAppSelector((state) => state.myProfileProgress);
+    const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
     const dispatch = useAppDispatch();
     const initialValues: Values = {
         currentPassword: '',
@@ -254,26 +256,28 @@ const ProfileAccount = () => {
                                 <div className="mb-2 type--wgt--bold">{t('ACCOUNT.CARD_DETAILS.TITLE')}</div>
                                 <div className="type--color--tertiary w--200--max">{t('ACCOUNT.CARD_DETAILS.DESCRIPTION')}</div>
                             </div>
-                            {/* <div className="dash-wrapper">
-                                <div className="dash-wrapper__item">
-                                    <div className="dash-wrapper__item__element" onClick={() => setAddSidebarOpen(true)}>
-                                        <div className="flex--primary cur--pointer">
-                                            <div>
-                                                <div className="type--wgt--bold">{t('ACCOUNT.CARD_DETAILS.ADD_NEW')}</div>
-                                                <div>{t('ACCOUNT.CARD_DETAILS.ADD_NEW_DESC')}</div>
-                                            </div>
-                                            <div>
-                                                <i className="icon icon--base icon--plus icon--primary"></i>
+                            <div>
+                                {userRole === RoleOptions.Tutor ? (
+                                    <div onClick={() => setStripeModalOpen(true)} className="btn btn--primary btn--base">
+                                        {t('MY_PROFILE.PROFILE_ACCOUNT.STRIPE')}
+                                    </div>
+                                ) : (
+                                    <div className="dash-wrapper">
+                                        <div className="dash-wrapper__item">
+                                            <div className="dash-wrapper__item__element" onClick={() => setAddSidebarOpen(true)}>
+                                                <div className="flex--primary cur--pointer">
+                                                    <div>
+                                                        <div className="type--wgt--bold">{t('ACCOUNT.CARD_DETAILS.ADD_NEW')}</div>
+                                                        <div>{t('ACCOUNT.CARD_DETAILS.ADD_NEW_DESC')}</div>
+                                                    </div>
+                                                    <div>
+                                                        <i className="icon icon--base icon--plus icon--primary"></i>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                
-                            </div> */}
-                            <div>
-                                <div onClick={() => setStripeModalOpen(true)} className="btn btn--primary btn--base">
-                                    {t('MY_PROFILE.PROFILE_ACCOUNT.STRIPE')}
-                                </div>
+                                )}
                             </div>
                         </div>
                     </Form>

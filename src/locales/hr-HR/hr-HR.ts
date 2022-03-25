@@ -502,11 +502,11 @@ export const HR_HR = {
     },
     LANDING: {
         HEADER: {
-            NAV_1: 'How it works',
-            NAV_2: 'Pricing',
-            NAV_3: 'Become a tutor',
-            SIGN_IN: 'Sign in',
-            GET_STARTED: 'Get started',
+            NAV_1: 'Kako ovo radi',
+            NAV_2: 'Cijene',
+            NAV_3: 'Postani predavač',
+            SIGN_IN: 'Prijavi se',
+            GET_STARTED: 'Registriraj se',
         },
         FOOTER: {
             TITLE_TEXT: 'If you have additional questions, feel free to contact us via email ',

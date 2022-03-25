@@ -1,0 +1,49 @@
+/*
+    components: language.scss
+*/
+
+.language {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    margin-right: calc(#{$unit} * 6);
+    cursor: pointer;
+
+    &--primary {
+        .language__label {
+            color: $white;
+        }
+        .icon {
+            background-color: $white;
+        }
+    }
+
+    &__label {
+        display: inline-block;
+        color: $color-text-secondary;
+        margin-left: calc(#{$unit} * 2);
+    }
+
+    &__dropdown {
+        z-index: 2;
+        position: absolute;
+        left: 0;
+        top: calc(100% + 2px);
+        border: 1px solid $grey-ed;
+        background-color: $white;
+        border-radius: $border-rounded;
+
+        &__item {
+            padding: calc(#{$unit} * 2) calc(#{$unit} * 4);
+            border-bottom: 1px solid $grey-f7;
+
+            &:hover {
+                background-color: $grey-fc;
+            }
+
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+    }
+}

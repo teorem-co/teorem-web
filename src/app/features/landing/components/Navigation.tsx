@@ -6,6 +6,7 @@ import { NavLink } from 'react-router-dom';
 import logo from '../../../../assets/images/logo.svg';
 import logoWhite from '../../../../assets/images/logoWhite.svg';
 import { LANDING_PATHS, PATHS } from '../../../routes';
+import LanguageSelector from './LanguageSelector';
 
 const Navigation = () => {
     const [showSidebar, setShowSidebar] = useState(false);
@@ -97,7 +98,9 @@ const Navigation = () => {
                             </NavLink>
                         </div>
                         <div className="flex--primary">
-                            <div>
+                            <div className="flex">
+                                <LanguageSelector onTop={onTop} />
+
                                 <NavLink to={PATHS.LOGIN} className="btn btn--ghost btn--ghost--landing type--wgt--bold">
                                     {t('LANDING.HEADER.SIGN_IN')}
                                 </NavLink>
