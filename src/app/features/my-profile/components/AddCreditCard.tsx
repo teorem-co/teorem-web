@@ -7,11 +7,15 @@ import TextField from '../../../components/form/TextField';
 interface Props {
     sideBarIsOpen: boolean;
     closeSidebar: () => void;
+    handleSubmit: (values: Values) => void;
 }
 
-interface Values {
+export interface Values {
     cardFirstName: string;
     cardLastName: string;
+    city: string;
+    line1: string;
+    line2: string;
     cardNumber: string;
     expiryDate: string;
     cvv: string;
@@ -24,6 +28,9 @@ const AddCreditCard = (props: Props) => {
     const initialValues: Values = {
         cardFirstName: '',
         cardLastName: '',
+        city: '',
+        line1: '',
+        line2: '',
         cardNumber: '',
         expiryDate: '',
         cvv: '',
@@ -31,7 +38,7 @@ const AddCreditCard = (props: Props) => {
     };
 
     const handleSubmit = (values: Values) => {
-        const test = values;
+        props.handleSubmit(values);
     };
 
     const { t } = useTranslation();
@@ -42,6 +49,9 @@ const AddCreditCard = (props: Props) => {
         validationSchema: Yup.object().shape({
             cardFirstName: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             cardLastName: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            city: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            line1: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            line2: Yup.string(),
             cardNumber: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             expiryDate: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             cvv: Yup.string().max(3, t('FORM_VALIDATION.TOO_LONG')).required(t('FORM_VALIDATION.REQUIRED')),
@@ -67,23 +77,36 @@ const AddCreditCard = (props: Props) => {
                                 <label htmlFor="cardFirstName" className="field__label">
                                     First Name*
                                 </label>
-                                <TextField
-                                    name="cardFirstName"
-                                    id="cardFirstName"
-                                    placeholder="Enter First Name"
-                                    withoutErr={formik.errors.cardFirstName && formik.touched.cardFirstName ? false : true}
-                                />
+                                <TextField name="cardFirstName" id="cardFirstName" placeholder="Enter First Name" />
                             </div>
                             <div className="field">
                                 <label htmlFor="cardLastName" className="field__label">
                                     Last Name*
                                 </label>
+                                <TextField name="cardLastName" id="cardLastName" placeholder="Enter Last Name" />
+                            </div>
+                            <div className="field">
+                                <label htmlFor="city" className="field__label">
+                                    City*
+                                </label>
+                                <TextField name="city" id="city" placeholder="Enter City Name" />
+                            </div>
+                            <div className="field">
+                                <label htmlFor="line1" className="field__label">
+                                    Address 1*
+                                </label>
                                 <TextField
-                                    name="cardLastName"
-                                    id="cardLastName"
-                                    placeholder="Enter Last Name"
-                                    withoutErr={formik.errors.cardLastName && formik.touched.cardLastName ? false : true}
+                                    name="line1"
+                                    id="line1"
+                                    placeholder="Enter first address"
+                                    withoutErr={formik.errors.line1 && formik.touched.line1 ? false : true}
                                 />
+                            </div>
+                            <div className="field">
+                                <label htmlFor="line2" className="field__label">
+                                    Address 2
+                                </label>
+                                <TextField name="line2" id="line2" placeholder="Enter second address" />
                             </div>
                             <div className="field">
                                 <label htmlFor="cardNumber" className="field__label">
@@ -97,7 +120,7 @@ const AddCreditCard = (props: Props) => {
                                         <label htmlFor="expiryDate" className="field__label">
                                             Expiry date*
                                         </label>
-                                        <TextField type="number" name="expiryDate" id="expiryDate" placeholder="MM / YY" />
+                                        <TextField type="text" name="expiryDate" id="expiryDate" placeholder="MM / YY" />
                                     </div>
 
                                     <div className="field w--100">

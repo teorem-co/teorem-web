@@ -16,12 +16,6 @@ export interface ICountry {
     flag: string;
 }
 
-// interface ICountryTransformed {
-//     id: string;
-//     name: string;
-//     phonePrefix: string;
-// }
-
 export const countryService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         getCountries: builder.query<ICountry[], void>({
@@ -29,17 +23,6 @@ export const countryService = baseService.injectEndpoints({
                 url: `${URL}`,
                 method: HttpMethods.GET,
             }),
-            // transformResponse: (response: ICountry[]) => {
-            //     const countries: ICountryTransformed[] = response.map((x) => {
-            //         return {
-            //             id: x.id,
-            //             name: x.name,
-            //             phonePrefix: x.phonePrefix,
-            //         };
-            //     });
-
-            //     return countries;
-            // },
         }),
     }),
 });

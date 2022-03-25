@@ -12,11 +12,19 @@ import MainWrapper from '../../../components/MainWrapper';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import TooltipPassword from '../../register/TooltipPassword';
-import AddCreditCard from '../components/AddCreditCard';
+import AddCreditCard, { Values as CreadiCardValues } from '../components/AddCreditCard';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
 import StripeModal from '../components/StripeModal';
+import ICardPost from '../interfaces/ICardPost';
 import IChangePassword from '../interfaces/IChangePassword';
+import {
+    IAddCustomerPost,
+    useAddCustomerMutation,
+    useAddCustomerSourceMutation,
+    useGetCardTokenMutation,
+    useLazyGetCreditCardsQuery,
+} from '../services/stripeService';
 import { setMyProfileProgress } from '../slices/myProfileSlice';
 
 interface Values {
@@ -28,6 +36,10 @@ interface Values {
 const ProfileAccount = () => {
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
     const [changePassword] = useChangePasswordMutation();
+    const [addStripeCustomer] = useAddCustomerMutation();
+    const [getCardToken] = useGetCardTokenMutation();
+    const [addCustomerSource] = useAddCustomerSourceMutation();
+    const [getCreditCards, { data: creditCards }] = useLazyGetCreditCardsQuery();
 
     const [addSidebarOpen, setAddSidebarOpen] = useState(false);
     //const [editSidebarOpen, setEditSidebarOpen] = useState(false);
@@ -38,6 +50,8 @@ const ProfileAccount = () => {
     const { t } = useTranslation();
     const profileProgressState = useAppSelector((state) => state.myProfileProgress);
     const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
+    const stripeCustomerId = useAppSelector((state) => state.auth.user?.stripeCustomerId);
+    const userInfo = useAppSelector((state) => state.auth.user);
     const dispatch = useAppDispatch();
     const initialValues: Values = {
         currentPassword: '',
@@ -125,6 +139,58 @@ const ProfileAccount = () => {
     //     setEditSidebarOpen(false);
     // };
 
+    const handleSubmitCreditCard = async (values: CreadiCardValues) => {
+        if (!stripeCustomerId) {
+            const toSend: IAddCustomerPost = {
+                address: {
+                    city: values.city,
+                    country: 'Poland',
+                    line1: values.line1,
+                    line2: values.line2,
+                    postal_code: Number(values.zipCode),
+                    state: values.city,
+                },
+                description: ' ',
+                email: userInfo!.email,
+                name: values.cardFirstName + ' ' + values.cardLastName,
+                phone: userInfo!.phoneNumber,
+            };
+            await addStripeCustomer(toSend)
+                .unwrap()
+                .then()
+                .catch(() => {
+                    toastService.error('Erorr creating stripe account');
+                    return;
+                });
+        }
+
+        const toSend: ICardPost = {
+            object: 'card',
+            number: values.cardNumber,
+            exp_month: Number(values.expiryDate.split('/')[0]),
+            exp_year: Number('20' + values.expiryDate.split('/')[1]),
+            cvc: Number(values.cvv),
+            name: 'creditCard',
+            address_line1: values.line1,
+            address_city: values.city,
+            address_zip: values.zipCode,
+            address_country: 'Poland',
+        };
+        getCardToken(toSend)
+            .unwrap()
+            .then((res) => {
+                const toSendCustomerSource = {
+                    userId: userInfo!.id,
+                    source: res.id,
+                };
+                debugger;
+                addCustomerSource(toSendCustomerSource);
+            })
+            .catch(() => {
+                toastService.error('There is a problem with stripe, please contact a support');
+            });
+    };
+
     const handleSubmit = async (values: Values) => {
         const toSend: IChangePassword = {
             oldPassword: values.currentPassword,
@@ -167,8 +233,15 @@ const ProfileAccount = () => {
         }
     };
 
+    const fetchData = async () => {
+        if (userInfo) {
+            await getCreditCards(userInfo.id).unwrap();
+        }
+    };
+
     useEffect(() => {
         fetchProgress();
+        fetchData();
     }, []);
 
     useEffect(() => {
@@ -284,7 +357,7 @@ const ProfileAccount = () => {
                 </FormikProvider>
                 <>{stripeModalOpen && <StripeModal handleClose={() => setStripeModalOpen(false)} />}</>
             </div>
-            <AddCreditCard closeSidebar={closeAddCardSidebar} sideBarIsOpen={addSidebarOpen} />
+            <AddCreditCard handleSubmit={handleSubmitCreditCard} closeSidebar={closeAddCardSidebar} sideBarIsOpen={addSidebarOpen} />
         </MainWrapper>
     );
 };

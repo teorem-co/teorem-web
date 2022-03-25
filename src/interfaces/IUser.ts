@@ -14,4 +14,6 @@ export default interface IUser {
     Role: IRole;
     profileImage: string;
     childIds: string[];
+    stripeCustomerId: string;
+    stripeAccountId: string;
 }
