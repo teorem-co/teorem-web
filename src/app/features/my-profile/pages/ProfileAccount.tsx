@@ -166,7 +166,7 @@ const ProfileAccount = () => {
 
         const toSend: ICardPost = {
             object: 'card',
-            number: values.cardNumber,
+            number: values.cardNumber.toString(),
             exp_month: Number(values.expiryDate.split('/')[0]),
             exp_year: Number('20' + values.expiryDate.split('/')[1]),
             cvc: Number(values.cvv),
@@ -183,7 +183,6 @@ const ProfileAccount = () => {
                     userId: userInfo!.id,
                     source: res.id,
                 };
-                debugger;
                 addCustomerSource(toSendCustomerSource);
             })
             .catch(() => {
@@ -349,6 +348,24 @@ const ProfileAccount = () => {
                                                 </div>
                                             </div>
                                         </div>
+                                        {creditCards &&
+                                            creditCards.data.map((item: any) => {
+                                                return (
+                                                    <div className="dash-wrapper__item">
+                                                        <div className="dash-wrapper__item__element">
+                                                            <div className="flex--primary cur--pointer">
+                                                                <div>
+                                                                    <div className="type--wgt--bold">**** **** **** {item.card.last4}</div>
+                                                                    <div>{item.card.brand}</div>
+                                                                </div>
+                                                                <div>
+                                                                    <i className="icon icon--base icon--edit icon--primary"></i>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })}
                                     </div>
                                 )}
                             </div>
