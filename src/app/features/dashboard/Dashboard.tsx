@@ -197,7 +197,8 @@ const Dashboard = () => {
                                                                 <span className="tag tag--primary">{item.Subject.name}</span>
                                                             </div>
                                                             <div>
-                                                                {moment(item.startTime).format('HH:mm')} - {moment(item.endTime).format('HH:mm')}
+                                                                {moment(item.startTime).format('HH:mm')} -{' '}
+                                                                {moment(item.endTime).add(1, 'minute').format('HH:mm')}
                                                             </div>
                                                             <div onClick={() => history.push(PATHS.MY_BOOKINGS)}>
                                                                 <i className="icon icon--base icon--chevron-right icon--primary"></i>

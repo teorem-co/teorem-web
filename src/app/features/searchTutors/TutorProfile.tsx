@@ -5,8 +5,10 @@ import { Link, useParams } from 'react-router-dom';
 
 import ITutorSubject from '../../../interfaces/ITutorSubject';
 import { useLazyGetTutorProfileDataQuery } from '../../../services/tutorService';
+import { RoleOptions } from '../../../slices/roleSlice';
 import MainWrapper from '../../components/MainWrapper';
 import LoaderTutorProfile from '../../components/skeleton-loaders/LoaderTutorProfile';
+import { useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
 import handleRatingStars from '../../utils/handleRatingStarts';
 import { useLazyGetTutorAvailabilityQuery } from '../my-profile/services/tutorAvailabilityService';
@@ -21,6 +23,7 @@ const TutorProfile = () => {
     const { t } = useTranslation();
 
     const { tutorId } = useParams();
+    const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
     const [params, setParams] = useState<IMyReviewParams>({ page: 1, rpp: 3 });
     const [loadedMyReviews, setLoadedMyReviews] = useState<IMyReview[]>([]);
 
@@ -315,12 +318,19 @@ const TutorProfile = () => {
                                         </span>
                                     </div>
                                 </div>
-                                <Link className="btn btn--base btn--primary w--100 mb-4 type--center" to={`/search-tutors/bookings/${tutorId}`}>
-                                    {t('TUTOR_PROFILE.BOOK')}
-                                </Link>
-                                <Link className="btn btn--base btn--ghost w--100 type--center" to={PATHS.CHAT}>
-                                    {t('TUTOR_PROFILE.SEND')}
-                                </Link>
+                                {userRole !== RoleOptions.Tutor && (
+                                    <>
+                                        <Link
+                                            className="btn btn--base btn--primary w--100 mb-4 type--center"
+                                            to={`/search-tutors/bookings/${tutorId}`}
+                                        >
+                                            {t('TUTOR_PROFILE.BOOK')}
+                                        </Link>
+                                        <Link className="btn btn--base btn--ghost w--100 type--center" to={PATHS.CHAT}>
+                                            {t('TUTOR_PROFILE.SEND')}
+                                        </Link>
+                                    </>
+                                )}
                             </div>
                         </div>
                     </>

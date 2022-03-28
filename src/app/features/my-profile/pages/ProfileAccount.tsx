@@ -9,6 +9,8 @@ import { useChangePasswordMutation } from '../../../../services/userService';
 import { RoleOptions } from '../../../../slices/roleSlice';
 import TextField from '../../../components/form/TextField';
 import MainWrapper from '../../../components/MainWrapper';
+import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
+import LoaderSecondary from '../../../components/skeleton-loaders/LoaderSecondary';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import TooltipPassword from '../../register/TooltipPassword';
@@ -20,10 +22,11 @@ import ICardPost from '../interfaces/ICardPost';
 import IChangePassword from '../interfaces/IChangePassword';
 import {
     IAddCustomerPost,
+    ICreditCard,
     useAddCustomerMutation,
     useAddCustomerSourceMutation,
-    useGetCardTokenMutation,
     useLazyGetCreditCardsQuery,
+    useRemoveCreditCardMutation,
 } from '../services/stripeService';
 import { setMyProfileProgress } from '../slices/myProfileSlice';
 
@@ -37,15 +40,18 @@ const ProfileAccount = () => {
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
     const [changePassword] = useChangePasswordMutation();
     const [addStripeCustomer] = useAddCustomerMutation();
-    const [getCardToken] = useGetCardTokenMutation();
     const [addCustomerSource] = useAddCustomerSourceMutation();
-    const [getCreditCards, { data: creditCards }] = useLazyGetCreditCardsQuery();
+    const [getCreditCards, { data: creditCards, isLoading: creditCardLoading, isUninitialized: creditCardUninitialized }] =
+        useLazyGetCreditCardsQuery();
+
+    const [deleteCreditCard] = useRemoveCreditCardMutation();
 
     const [addSidebarOpen, setAddSidebarOpen] = useState(false);
     //const [editSidebarOpen, setEditSidebarOpen] = useState(false);
     const [saveBtnActive, setSaveBtnActive] = useState(false);
     const [passTooltip, setPassTooltip] = useState<boolean>(false);
     const [stripeModalOpen, setStripeModalOpen] = useState<boolean>(false);
+    const creditCardIsLoading = creditCardLoading || creditCardUninitialized;
 
     const { t } = useTranslation();
     const profileProgressState = useAppSelector((state) => state.myProfileProgress);
@@ -142,18 +148,21 @@ const ProfileAccount = () => {
     const handleSubmitCreditCard = async (values: CreadiCardValues) => {
         if (!stripeCustomerId) {
             const toSend: IAddCustomerPost = {
-                address: {
-                    city: values.city,
-                    country: 'Poland',
-                    line1: values.line1,
-                    line2: values.line2,
-                    postal_code: Number(values.zipCode),
-                    state: values.city,
+                userId: userInfo!.id,
+                customer: {
+                    address: {
+                        city: values.city,
+                        country: 'Poland',
+                        line1: values.line1,
+                        line2: values.line2,
+                        postal_code: Number(values.zipCode),
+                        state: values.city,
+                    },
+                    description: ' ',
+                    email: userInfo!.email,
+                    name: values.cardFirstName + ' ' + values.cardLastName,
+                    phone: userInfo!.phoneNumber,
                 },
-                description: ' ',
-                email: userInfo!.email,
-                name: values.cardFirstName + ' ' + values.cardLastName,
-                phone: userInfo!.phoneNumber,
             };
             await addStripeCustomer(toSend)
                 .unwrap()
@@ -174,19 +183,32 @@ const ProfileAccount = () => {
             address_line1: values.line1,
             address_city: values.city,
             address_zip: values.zipCode,
-            address_country: 'Poland',
+            address_country: 'PL',
         };
-        getCardToken(toSend)
+
+        const toSendCustomerSource = {
+            userId: userInfo!.id,
+            card: toSend,
+        };
+
+        addCustomerSource(toSendCustomerSource)
             .unwrap()
-            .then((res) => {
-                const toSendCustomerSource = {
-                    userId: userInfo!.id,
-                    source: res.id,
-                };
-                addCustomerSource(toSendCustomerSource);
-            })
-            .catch(() => {
-                toastService.error('There is a problem with stripe, please contact a support');
+            .then(() => {
+                fetchData();
+                closeAddCardSidebar();
+            });
+    };
+
+    const handleDeleteCreditCard = async (cardId: string) => {
+        const toSend = {
+            userId: userInfo!.id,
+            sourceId: cardId,
+        };
+
+        await deleteCreditCard(toSend)
+            .unwrap()
+            .then(() => {
+                fetchData();
             });
     };
 
@@ -348,8 +370,12 @@ const ProfileAccount = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        {creditCards &&
-                                            creditCards.data.map((item: any) => {
+                                        {creditCardIsLoading ? (
+                                            <LoaderSecondary full={false} />
+                                        ) : (
+                                            creditCards &&
+                                            !Array.isArray(creditCards) &&
+                                            creditCards.data.map((item: ICreditCard) => {
                                                 return (
                                                     <div className="dash-wrapper__item">
                                                         <div className="dash-wrapper__item__element">
@@ -359,13 +385,17 @@ const ProfileAccount = () => {
                                                                     <div>{item.card.brand}</div>
                                                                 </div>
                                                                 <div>
-                                                                    <i className="icon icon--base icon--edit icon--primary"></i>
+                                                                    <i
+                                                                        onClick={() => handleDeleteCreditCard(item.id)}
+                                                                        className="icon icon--base icon--delete icon--primary"
+                                                                    ></i>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 );
-                                            })}
+                                            })
+                                        )}
                                     </div>
                                 )}
                             </div>

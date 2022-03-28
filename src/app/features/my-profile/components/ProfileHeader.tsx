@@ -2,6 +2,7 @@ import { t } from 'i18next';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
+import { RoleOptions } from '../../../../slices/roleSlice';
 import { useAppSelector } from '../../../hooks';
 import { getUserId } from '../../../utils/getUserId';
 
@@ -20,7 +21,7 @@ const ProfileHeader: FC<Props> = (props: Props) => {
             <div className="type--lg type--wgt--bold flex--grow">{t('MY_PROFILE.TITLE')}</div>
             <div>
                 {/* Preview profile has to be div, because of formik validation bug */}
-                {userRole === 'tutor' && (
+                {userRole === RoleOptions.Tutor && (
                     <Link to={`/search-tutors/profile/${tutorId}`} className="btn btn--clear btn--base type--wgt--bold">
                         {t('MY_PROFILE.PREVIEW')}
                     </Link>

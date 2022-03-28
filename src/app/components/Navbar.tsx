@@ -1,7 +1,4 @@
-import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
-import storage from 'redux-persist/lib/storage';
 
 import gradientCircle from '../../assets/images/gradient-circle.svg';
 import logo from '../../assets/images/logo.svg';
@@ -28,7 +25,7 @@ const Navbar = () => {
 
     return (
         <div className="navbar">
-            <NavLink className="d--b" to={`${userRole === 'tutor' ? '/dashboard' : '/my-bookings'}`}>
+            <NavLink className="d--b" to={`${userRole === RoleOptions.Tutor ? '/dashboard' : '/my-bookings'}`}>
                 <img className="navbar__logo" src={logo} alt="logo" />
             </NavLink>
             <div className="flex--grow">
@@ -36,7 +33,7 @@ const Navbar = () => {
             </div>
             <div className="navbar__bottom">
                 {/* Don't show user profile settings to child role */}
-                {(userRole === 'child' && (
+                {(userRole === RoleOptions.Child && (
                     <div className="flex flex--grow flex--center">
                         <div className="navbar__bottom__avatar pos--rel">
                             <ImageCircle initials={`${user?.firstName.charAt(0)}${user?.lastName.charAt(0)}`} />

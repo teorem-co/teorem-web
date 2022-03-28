@@ -146,7 +146,9 @@ const AddCreditCard = (props: Props) => {
                         <button className="btn btn--clear type--wgt--bold" onClick={() => formik.handleSubmit()}>
                             Add New Card
                         </button>
-                        <button className="btn btn--clear type--color--error type--wgt--bold">Cancel</button>
+                        <button onClick={() => closeSidebar()} className="btn btn--clear type--color--error type--wgt--bold">
+                            Cancel
+                        </button>
                     </div>
                 </div>
             </div>

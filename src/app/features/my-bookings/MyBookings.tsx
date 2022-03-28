@@ -188,7 +188,7 @@ const MyBookings: React.FC = () => {
     };
 
     const handleSelectedSlot = (e: SlotInfo) => {
-        if (userRole === 'tutor') {
+        if (userRole === RoleOptions.Tutor) {
             setOpenEventDetails(false);
             setOpenUnavailabilityEditModal(false);
             setUnavailableCurrentEvent([
@@ -243,7 +243,7 @@ const MyBookings: React.FC = () => {
     const fetchData = async () => {
         if (userId) {
             await getUpcomingLessons(userId).unwrap();
-            if (userRole === 'tutor') {
+            if (userRole === RoleOptions.Tutor) {
                 await getTutorUnavailableBookings({
                     tutorId: userId,
                     dateFrom: moment(value).startOf('isoWeek').toISOString(),
@@ -272,7 +272,7 @@ const MyBookings: React.FC = () => {
                 userId: userId,
                 date: moment().set({ hour: 23, minute: 59, second: 59 }).toISOString(),
             });
-            if (userRole === 'tutor') {
+            if (userRole === RoleOptions.Tutor) {
                 getTutorUnavailableBookings({
                     tutorId: userId,
                     dateFrom: moment(value).startOf('isoWeek').toISOString(),

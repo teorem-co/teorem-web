@@ -117,7 +117,7 @@ export const EN_US = {
             ABOUT_ME: 'About me',
             ABOUT_TEACHINGS: 'About subjects',
             EMPTY_STATE_ABOUT: 'This tutor has not filled out about me section',
-            EMPTY_STATE_LESSON: 'This tutor has not filled out his profile about teachings',
+            EMPTY_STATE_LESSON: 'This tutor has not filled out his profile about subjects',
             ADDITIONAL_INFORMATION_TITLE: 'About me',
             ADDITIONAL_INFORMATION_DESC: 'Edit and update your about me section of the profile.',
             UPDATE_ADDITIONAL_INFO_SUCCESS: 'Additional information updated!',
@@ -361,7 +361,7 @@ export const EN_US = {
             ADD_NEW: 'Add new Subject',
             ADD_DESC: 'Select to add new Subject',
             DELETED: 'Subject is deleted',
-            CREATED: 'Subjedt is created',
+            CREATED: 'Subject is created',
             EDIT_TITLE: 'EDIT SUBJECT DETAILS',
             ADD_TITLE: 'ADD NEW SUBJECT',
             SUBJECT: 'Select subject you teach',
@@ -445,7 +445,7 @@ export const EN_US = {
         },
     },
     NOTIFICATIONS: {
-        TITLE: 'Notifications',
+        TITLE: 'All Notifications',
         EMPTY: 'There are no notifications',
     },
     EARNINGS: {

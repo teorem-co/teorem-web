@@ -14,30 +14,51 @@ interface IStripeResponse {
 }
 
 export interface IAddCustomerPost {
-    address: {
-        city: string;
-        country: string;
-        line1: string;
-        line2: string;
-        postal_code: number;
-        state: string;
+    userId: string;
+    customer: {
+        address: {
+            city: string;
+            country: string;
+            line1: string;
+            line2: string;
+            postal_code: number;
+            state: string;
+        };
+        description: string;
+        email: string;
+        name: string;
+        phone: string;
     };
-    description: string;
-    email: string;
-    name: string;
-    phone: string;
 }
 
 export interface ICustomerSourcePost {
     userId: string;
-    source: string;
+    card: ICardPost;
 }
 
 export interface IGetCreditCards {
     object: string;
-    data: any;
+    data: ICreditCard[];
     has_more: boolean;
     url: string;
+}
+
+export interface ICreditCard {
+    card: {
+        brand: string;
+        country: string;
+        exp_month: number;
+        exp_year: number;
+        last4: string;
+    };
+    customer: string;
+    id: string;
+    type: string;
+}
+
+export interface IDeleteCreditCard {
+    sourceId: string;
+    userId: string;
 }
 
 export const stripeService = baseService.injectEndpoints({
@@ -51,26 +72,16 @@ export const stripeService = baseService.injectEndpoints({
         }),
         addCustomer: builder.mutation<any, IAddCustomerPost>({
             query: (body) => ({
-                url: `${URL}/add-customer`,
+                url: `${URL}/add-customer/${body.userId}`,
                 method: HttpMethods.POST,
-                body: body,
-            }),
-        }),
-        //I need to get a cradToken before i can add a new card
-        getCardToken: builder.mutation<ICardToken, ICardPost>({
-            query: (body) => ({
-                url: `${URL}/card-token`,
-                method: HttpMethods.POST,
-                body: body,
+                body: body.customer,
             }),
         }),
         addCustomerSource: builder.mutation<any, ICustomerSourcePost>({
             query: (body) => ({
-                url: `${URL}/add-customer-sources/${body.userId}`,
+                url: `${URL}/add-payment-method/${body.userId}`,
                 method: HttpMethods.POST,
-                body: {
-                    source: body.source,
-                },
+                body: body.card,
             }),
         }),
         getCreditCards: builder.query<IGetCreditCards, string>({
@@ -79,13 +90,22 @@ export const stripeService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
+        removeCreditCard: builder.mutation<any, IDeleteCreditCard>({
+            query: (deleteCreditCard) => ({
+                url: `${URL}/remove-customer-source/${deleteCreditCard.userId}`,
+                method: HttpMethods.POST,
+                body: {
+                    sourceId: deleteCreditCard.sourceId,
+                },
+            }),
+        }),
     }),
 });
 
 export const {
     useConnectAccountMutation,
     useAddCustomerMutation,
-    useGetCardTokenMutation,
     useAddCustomerSourceMutation,
     useLazyGetCreditCardsQuery,
+    useRemoveCreditCardMutation,
 } = stripeService;

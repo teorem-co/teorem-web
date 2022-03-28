@@ -1,6 +1,7 @@
 import { t } from 'i18next';
 import { NavLink } from 'react-router-dom';
 
+import { RoleOptions } from '../../../../slices/roleSlice';
 import { useAppSelector } from '../../../hooks';
 import { PROFILE_PATHS } from '../../../routes';
 import CircularProgress from './CircularProgress';
@@ -18,7 +19,7 @@ const ProfileCompletion = (props: Props) => {
 
     return (
         <div className="card--profile__progress flex--primary p-6 mb-20">
-            {percentage && percentage !== 100 && userRole === 'tutor' && (
+            {percentage && percentage !== 100 && userRole === RoleOptions.Tutor && (
                 <div className="flex">
                     {/* Maybe change later to use custom component instead of library component */}
                     <div className="flex flex--center flex--shrink w--105">
@@ -41,7 +42,7 @@ const ProfileCompletion = (props: Props) => {
                         <div className="nav-link--profile__label type--center mt-4 pl-2 pr-2">{t('COMPLETE_PROFILE.PROFILE_SETTINGS')}</div>
                     </div>
                 </NavLink>
-                {userRole === 'tutor' && (
+                {userRole === RoleOptions.Tutor && (
                     <>
                         <NavLink exact to={PROFILE_PATHS.MY_PROFILE_INFO_AVAILABILITY} className="nav-link--profile" activeClassName="active">
                             <div className="flex flex--col flex--center">
@@ -71,7 +72,7 @@ const ProfileCompletion = (props: Props) => {
                         </NavLink>
                     </>
                 )}
-                {userRole === 'parent' && (
+                {userRole === RoleOptions.Parent && (
                     <>
                         <NavLink exact to={PROFILE_PATHS.MY_PROFILE_CHILD_INFO} className="nav-link--profile" activeClassName="active">
                             <div className="flex flex--col flex--center">

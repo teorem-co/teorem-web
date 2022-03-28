@@ -3,6 +3,7 @@ import { cloneDeep, groupBy } from 'lodash';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import { RoleOptions } from '../../../slices/roleSlice';
 import MainWrapper from '../../components/MainWrapper';
 import LoaderAvailableLessons from '../../components/skeleton-loaders/LoaderAvailableLessons';
 import completedLessonsList, { IVideoLesson } from '../../constants/completedLessonsList';
@@ -79,7 +80,7 @@ const CompletedLessons = () => {
                     <div className="card--lessons__body">
                         <div className="card--lessons__body__aside">
                             {/*hide lesson counter if parent is logged in*/}
-                            {userRole !== 'parent' && (
+                            {userRole !== RoleOptions.Parent && (
                                 <div className="mt-10 mb-10 ml-6 mr-6">
                                     <span className="type--uppercase type--color--tertiary">{t('COMPLETED_LESSONS.LESSONS_AVAILABLE')}</span>
                                     <span className="tag--primary d--ib ml-2">
@@ -91,7 +92,7 @@ const CompletedLessons = () => {
                                 {loadingList ? (
                                     <LoaderAvailableLessons />
                                 ) : completedLessonsState.length > 0 ? (
-                                    userRole === 'parent' ? (
+                                    userRole === RoleOptions.Parent ? (
                                         renderGroupedLessons()
                                     ) : (
                                         completedLessonsState.map((lesson: ICompletedLesson) => {

@@ -8,6 +8,7 @@ import * as Yup from 'yup';
 
 import { useLazyGetProfileProgressQuery } from '../../../../services/tutorService';
 import { useLazyGetUserQuery, useUpdateUserInformationMutation } from '../../../../services/userService';
+import { RoleOptions } from '../../../../slices/roleSlice';
 import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyPhoneInput from '../../../components/form/MyPhoneInput';
 import MySelect, { OptionType } from '../../../components/form/MySelectField';
@@ -72,7 +73,7 @@ const PersonalInformation = () => {
             dateOfBirth: moment(values.dateOfBirth).toISOString(),
         };
 
-        if (userRole === 'tutor') {
+        if (userRole === RoleOptions.Tutor) {
             toSend['profileImage'] = values.profileImage;
         }
 
@@ -184,7 +185,7 @@ const PersonalInformation = () => {
             countryId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
         };
 
-        if (userRole === 'tutor') {
+        if (userRole === RoleOptions.Tutor) {
             validation['profileImage'] = Yup.mixed()
                 .required(t('FORM_VALIDATION.REQUIRED'))
                 .test('profileImage', t('FORM_VALIDATION.IMAGE_TYPE'), (value) => {
@@ -370,7 +371,7 @@ const PersonalInformation = () => {
                                                         />
                                                     </div>
                                                 </div>
-                                                {userRole === 'tutor' && (
+                                                {userRole === RoleOptions.Tutor && (
                                                     <div className="col col-12">
                                                         <div className="field field__file">
                                                             <label className="field__label" htmlFor="profileImage">
