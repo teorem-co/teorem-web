@@ -1,9 +1,37 @@
+import { useEffect, useState } from 'react';
+
+import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
+import { useAppSelector } from '../../../hooks';
+import { useLazyGetRoomLinkQuery } from '../../../services/learnCubeService';
+
 interface Props {
     handleClose: () => void;
+    bookingId: string;
 }
 
 const LearnCubeModal = (props: Props) => {
-    const { handleClose } = props;
+    const { bookingId, handleClose } = props;
+
+    const [getRoomLink, { isFetching: roomLinkFetching, isUninitialized: roomLinkUninitialized, isLoading: roomLinkLoading }] =
+        useLazyGetRoomLinkQuery();
+
+    const [roomLink, setRoomLink] = useState<string | null>(null);
+
+    const isLoading = roomLinkFetching || roomLinkUninitialized || roomLinkLoading || !roomLink;
+    const userId = useAppSelector((state) => state.auth.user?.id);
+
+    const fetchRoomLink = async () => {
+        const toSend = {
+            userId: userId!,
+            bookingId: bookingId,
+        };
+        const res = await getRoomLink(toSend).unwrap();
+        setRoomLink(res);
+    };
+
+    useEffect(() => {
+        fetchRoomLink();
+    }, []);
 
     return (
         <>
@@ -12,14 +40,9 @@ const LearnCubeModal = (props: Props) => {
                     <i className="icon icon--base icon--close modal__close" onClick={handleClose}></i>
 
                     <div className="modal__body">
-                        {/* {loading && <LoaderPrimary />} */}
-                        {
-                            <iframe
-                                style={{ width: '100%' }}
-                                id="frame"
-                                src={'https://app.learncube.com/vc/room/class-na-reroot-545375-ypdiwvgtzxam/'}
-                            ></iframe>
-                        }
+                        {(isLoading && <LoaderPrimary />) || (
+                            <iframe style={{ width: '100%' }} id="frame" src={roomLink!} allow="camera;microphone"></iframe>
+                        )}
                     </div>
                 </div>
             </div>

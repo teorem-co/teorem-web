@@ -76,6 +76,7 @@ const TutorBookings = () => {
     const [calChange, setCalChange] = useState<boolean>(false);
     const [value, onChange] = useState(new Date());
     const [learnCubeModal, setLearnCubeModal] = useState<boolean>(false);
+    const [currentlyActiveBooking, setCurentlyActiveBooking] = useState<string>('');
     const [highlightCoords, setHighlightCoords] = useState<ICoords>({
         x: 0,
         y: 0,
@@ -189,6 +190,7 @@ const TutorBookings = () => {
     };
 
     const handleSelectedEvent = (e: IBookingTransformed) => {
+        setCurentlyActiveBooking(e.id);
         // check whole date not only hours this is a bug
         if (e.userId === userId) {
             if (moment(e.start).isBefore(moment()) || emptyBookings.length > 0) {
@@ -543,7 +545,7 @@ const TutorBookings = () => {
                     ) : (
                         <></>
                     )}
-                    {learnCubeModal && <LearnCubeModal handleClose={() => setLearnCubeModal(false)} />}
+                    {learnCubeModal && <LearnCubeModal bookingId={currentlyActiveBooking} handleClose={() => setLearnCubeModal(false)} />}
                 </div>
             </div>
         </MainWrapper>

@@ -58,6 +58,7 @@ const MyBookings: React.FC = () => {
     const [value, onChange] = useState(new Date());
     const [calChange, setCalChange] = useState<boolean>(false);
     const [learnCubeModal, setLearnCubeModal] = useState<boolean>(false);
+    const [currentlyActiveBooking, setCurentlyActiveBooking] = useState<string>('');
     const [highlightCoords, setHighlightCoords] = useState<ICoords>({
         x: 0,
         y: 0,
@@ -141,6 +142,7 @@ const MyBookings: React.FC = () => {
     };
 
     const handleSelectedEvent = (e: IBookingTransformed) => {
+        setCurentlyActiveBooking(e.id);
         if (userRole === RoleOptions.Tutor) {
             if (unavailableCurrentEvent.length > 0) {
                 //close createNewUnavailability
@@ -411,7 +413,7 @@ const MyBookings: React.FC = () => {
                     <div className="upcoming-lessons">
                         <UpcomingLessons upcomingLessons={upcomingLessons ? upcomingLessons : []} />
                     </div>
-                    {learnCubeModal && <LearnCubeModal handleClose={() => setLearnCubeModal(false)} />}
+                    {learnCubeModal && <LearnCubeModal bookingId={currentlyActiveBooking} handleClose={() => setLearnCubeModal(false)} />}
                 </div>
             </div>
         </MainWrapper>
