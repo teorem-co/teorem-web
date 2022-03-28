@@ -36,6 +36,11 @@ export interface ICustomerSourcePost {
     card: ICardPost;
 }
 
+export interface ISetDefaultCreditCard {
+    sourceId: string;
+    userId: string;
+}
+
 export interface IGetCreditCards {
     object: string;
     data: ICreditCard[];
@@ -70,6 +75,12 @@ export const stripeService = baseService.injectEndpoints({
                 body: body,
             }),
         }),
+        getCustomerById: builder.query<any, string>({
+            query: (userId) => ({
+                url: `${URL}/customers/${userId}`,
+                method: HttpMethods.GET,
+            }),
+        }),
         addCustomer: builder.mutation<any, IAddCustomerPost>({
             query: (body) => ({
                 url: `${URL}/add-customer/${body.userId}`,
@@ -99,6 +110,15 @@ export const stripeService = baseService.injectEndpoints({
                 },
             }),
         }),
+        setDefaultCreditCard: builder.mutation<any, ISetDefaultCreditCard>({
+            query: (setDefault) => ({
+                url: `${URL}/update-default-customer-source/${setDefault.userId}`,
+                method: HttpMethods.POST,
+                body: {
+                    sourceId: setDefault.sourceId,
+                },
+            }),
+        }),
     }),
 });
 
@@ -107,5 +127,7 @@ export const {
     useAddCustomerMutation,
     useAddCustomerSourceMutation,
     useLazyGetCreditCardsQuery,
+    useSetDefaultCreditCardMutation,
     useRemoveCreditCardMutation,
+    useLazyGetCustomerByIdQuery,
 } = stripeService;

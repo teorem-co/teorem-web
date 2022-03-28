@@ -12,6 +12,7 @@ import MainWrapper from '../../components/MainWrapper';
 import LoaderSecondary from '../../components/skeleton-loaders/LoaderSecondary';
 import { useAppSelector } from '../../hooks';
 import { calcModalPosition } from '../../utils/calcModalPosition';
+import LearnCubeModal from '../my-profile/components/LearnCubeModal';
 import OpenTutorCalendarModal from './components/OpenTutorCalendarModal';
 import TutorEventModal from './components/TutorEventModal';
 import UnavailabilityEditModal from './components/UnavailabilityEditModal';
@@ -56,6 +57,7 @@ const MyBookings: React.FC = () => {
     const [openTutorCalendarModal, setOpenTutorCalendarModal] = useState<boolean>(false);
     const [value, onChange] = useState(new Date());
     const [calChange, setCalChange] = useState<boolean>(false);
+    const [learnCubeModal, setLearnCubeModal] = useState<boolean>(false);
     const [highlightCoords, setHighlightCoords] = useState<ICoords>({
         x: 0,
         y: 0,
@@ -340,6 +342,7 @@ const MyBookings: React.FC = () => {
                                 event={booking ? booking : null}
                                 handleClose={(e) => setOpenEventDetails(e)}
                                 positionClass={calcModalPosition(positionClass)}
+                                openLearnCube={() => setLearnCubeModal(true)}
                             />
                         ) : (
                             <></>
@@ -350,6 +353,7 @@ const MyBookings: React.FC = () => {
                                 event={booking ? booking : null}
                                 handleClose={(e) => setOpenTutorCalendarModal(e)}
                                 positionClass={calcModalPosition(positionClass)}
+                                openLearnCube={() => setLearnCubeModal(true)}
                             />
                         ) : (
                             <></>
@@ -407,6 +411,7 @@ const MyBookings: React.FC = () => {
                     <div className="upcoming-lessons">
                         <UpcomingLessons upcomingLessons={upcomingLessons ? upcomingLessons : []} />
                     </div>
+                    {learnCubeModal && <LearnCubeModal handleClose={() => setLearnCubeModal(false)} />}
                 </div>
             </div>
         </MainWrapper>

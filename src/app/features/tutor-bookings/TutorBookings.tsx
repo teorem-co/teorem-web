@@ -24,6 +24,7 @@ import ParentEventModal from '../my-bookings/components/ParentEventModal';
 import UpdateBooking from '../my-bookings/components/UpdateBooking';
 import { useLazyGetBookingByIdQuery, useLazyGetBookingsQuery } from '../my-bookings/services/bookingService';
 import { useLazyGetUnavailableBookingsQuery } from '../my-bookings/services/unavailabilityService';
+import LearnCubeModal from '../my-profile/components/LearnCubeModal';
 
 interface IBookingTransformed {
     id: string;
@@ -74,6 +75,7 @@ const TutorBookings = () => {
     const [openUpdateModal, setOpenUpdateModal] = useState<boolean>(false);
     const [calChange, setCalChange] = useState<boolean>(false);
     const [value, onChange] = useState(new Date());
+    const [learnCubeModal, setLearnCubeModal] = useState<boolean>(false);
     const [highlightCoords, setHighlightCoords] = useState<ICoords>({
         x: 0,
         y: 0,
@@ -188,7 +190,7 @@ const TutorBookings = () => {
 
     const handleSelectedEvent = (e: IBookingTransformed) => {
         // check whole date not only hours this is a bug
-        if (e.userId === userId && !moment(e.start).isBefore(moment().add(3, 'hours'))) {
+        if (e.userId === userId) {
             if (moment(e.start).isBefore(moment()) || emptyBookings.length > 0) {
                 return;
             } else {
@@ -376,6 +378,7 @@ const TutorBookings = () => {
                                 event={booking ? booking : null}
                                 handleClose={(e) => setOpenEventDetails(e)}
                                 positionClass={calcModalPosition(positionClass)}
+                                openLearnCube={() => setLearnCubeModal(true)}
                             />
                         ) : openUpdateModal ? (
                             <UpdateBooking
@@ -540,6 +543,7 @@ const TutorBookings = () => {
                     ) : (
                         <></>
                     )}
+                    {learnCubeModal && <LearnCubeModal handleClose={() => setLearnCubeModal(false)} />}
                 </div>
             </div>
         </MainWrapper>

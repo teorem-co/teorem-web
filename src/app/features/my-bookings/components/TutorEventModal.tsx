@@ -6,12 +6,13 @@ import { useAcceptBookingMutation, useDeleteBookingMutation } from '../services/
 
 interface IProps {
     handleClose?: (close: boolean) => void;
+    openLearnCube?: () => void;
     positionClass: string;
     event: IBooking | null;
 }
 
 const TutorEventModal: React.FC<IProps> = (props) => {
-    const { handleClose, positionClass, event } = props;
+    const { handleClose, positionClass, event, openLearnCube } = props;
     const [acceptBooking] = useAcceptBookingMutation();
     const [deleteBooking] = useDeleteBookingMutation();
     const handleDeleteBooking = () => {
@@ -91,6 +92,9 @@ const TutorEventModal: React.FC<IProps> = (props) => {
                             <>
                                 <button className="btn btn--base btn--clear type--wgt--extra-bold" onClick={() => handleDeleteBooking()}>
                                     {event.isAccepted ? t('MY_BOOKINGS.MODAL.DELETE') : t('MY_BOOKINGS.MODAL.DENY')}
+                                </button>
+                                <button className="btn btn--base btn--primary" onClick={() => openLearnCube && openLearnCube()}>
+                                    Join
                                 </button>
                                 {/* 
                                 //COMING SOON

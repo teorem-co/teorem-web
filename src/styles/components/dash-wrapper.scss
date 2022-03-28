@@ -44,6 +44,14 @@
             padding: calc($unit * 4);
             border: 1px solid $grey-ed;
             border-radius: $border-rounded;
+
+            &.active {
+                background-color: $color-primary;
+                color: white;
+                i {
+                    background-color: white;
+                }
+            }
         }
     }
 }

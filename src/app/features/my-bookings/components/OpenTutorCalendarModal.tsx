@@ -13,13 +13,14 @@ interface IEvent {
 
 interface IProps {
     handleClose?: (close: boolean) => void;
+    openLearnCube?: () => void;
     positionClass: string;
     event: IBooking | null;
     goToTutorCalendar: () => void;
 }
 
 const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
-    const { handleClose, positionClass, event, goToTutorCalendar } = props;
+    const { handleClose, positionClass, event, goToTutorCalendar, openLearnCube } = props;
 
     return (
         <>
@@ -66,6 +67,9 @@ const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
                     <div className="modal--parent__footer mt-6">
                         <button className="btn btn--base btn--primary type--wgt--extra-bold" onClick={() => goToTutorCalendar()}>
                             {t('MY_BOOKINGS.MODAL.TUTOR_CALENDAR')}
+                        </button>
+                        <button className="btn btn--base btn--primary mt-4" onClick={() => openLearnCube && openLearnCube()}>
+                            Join
                         </button>
                     </div>
                 </div>

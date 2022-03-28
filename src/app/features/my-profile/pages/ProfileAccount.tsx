@@ -26,7 +26,9 @@ import {
     useAddCustomerMutation,
     useAddCustomerSourceMutation,
     useLazyGetCreditCardsQuery,
+    useLazyGetCustomerByIdQuery,
     useRemoveCreditCardMutation,
+    useSetDefaultCreditCardMutation,
 } from '../services/stripeService';
 import { setMyProfileProgress } from '../slices/myProfileSlice';
 
@@ -41,6 +43,8 @@ const ProfileAccount = () => {
     const [changePassword] = useChangePasswordMutation();
     const [addStripeCustomer] = useAddCustomerMutation();
     const [addCustomerSource] = useAddCustomerSourceMutation();
+    const [setDefaultCreditCard] = useSetDefaultCreditCardMutation();
+    const [getCustomerById] = useLazyGetCustomerByIdQuery();
     const [getCreditCards, { data: creditCards, isLoading: creditCardLoading, isUninitialized: creditCardUninitialized }] =
         useLazyGetCreditCardsQuery();
 
@@ -51,7 +55,8 @@ const ProfileAccount = () => {
     const [saveBtnActive, setSaveBtnActive] = useState(false);
     const [passTooltip, setPassTooltip] = useState<boolean>(false);
     const [stripeModalOpen, setStripeModalOpen] = useState<boolean>(false);
-    const creditCardIsLoading = creditCardLoading || creditCardUninitialized;
+    const [activeDefaultPaymentMethod, setActiveDefaultPaymentMethod] = useState<string>('');
+    const creditCardIsLoading = creditCardLoading || creditCardUninitialized || !activeDefaultPaymentMethod;
 
     const { t } = useTranslation();
     const profileProgressState = useAppSelector((state) => state.myProfileProgress);
@@ -152,7 +157,7 @@ const ProfileAccount = () => {
                 customer: {
                     address: {
                         city: values.city,
-                        country: 'Poland',
+                        country: 'PL',
                         line1: values.line1,
                         line2: values.line2,
                         postal_code: Number(values.zipCode),
@@ -212,6 +217,19 @@ const ProfileAccount = () => {
             });
     };
 
+    const handleDefaultCreditCard = async (cardId: string) => {
+        const toSend = {
+            userId: userInfo!.id,
+            sourceId: cardId,
+        };
+        await setDefaultCreditCard(toSend)
+            .unwrap()
+            .then(() => {
+                toastService.success('Default payment method is updated');
+                setActiveDefaultPaymentMethod(cardId);
+            });
+    };
+
     const handleSubmit = async (values: Values) => {
         const toSend: IChangePassword = {
             oldPassword: values.currentPassword,
@@ -257,6 +275,10 @@ const ProfileAccount = () => {
     const fetchData = async () => {
         if (userInfo) {
             await getCreditCards(userInfo.id).unwrap();
+        }
+        if (userInfo && userRole !== RoleOptions.Tutor) {
+            const res = await getCustomerById(userInfo.id).unwrap();
+            setActiveDefaultPaymentMethod(res.invoice_settings.default_payment_method);
         }
     };
 
@@ -377,8 +399,12 @@ const ProfileAccount = () => {
                                             !Array.isArray(creditCards) &&
                                             creditCards.data.map((item: ICreditCard) => {
                                                 return (
-                                                    <div className="dash-wrapper__item">
-                                                        <div className="dash-wrapper__item__element">
+                                                    <div className="dash-wrapper__item" onClick={() => handleDefaultCreditCard(item.id)}>
+                                                        <div
+                                                            className={`dash-wrapper__item__element ${
+                                                                item.id === activeDefaultPaymentMethod && 'active'
+                                                            }`}
+                                                        >
                                                             <div className="flex--primary cur--pointer">
                                                                 <div>
                                                                     <div className="type--wgt--bold">**** **** **** {item.card.last4}</div>

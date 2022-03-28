@@ -9,6 +9,7 @@ import { useDeleteBookingMutation } from '../services/bookingService';
 
 interface IProps {
     handleClose?: (close: boolean) => void;
+    openLearnCube?: () => void;
     positionClass: string;
     event: IBooking | null;
     tutorName: string;
@@ -18,7 +19,7 @@ interface IProps {
 }
 
 const ParentEventModal: React.FC<IProps> = (props) => {
-    const { handleClose, positionClass, event, tutorName, openEditModal, bookingStart, eventIsAccepted } = props;
+    const { handleClose, positionClass, event, tutorName, openEditModal, bookingStart, eventIsAccepted, openLearnCube } = props;
     const [deleteBooking, { isSuccess: isSuccessDeleteBooking }] = useDeleteBookingMutation();
     const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
     const handleDeleteBooking = () => {
@@ -47,7 +48,10 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                                 </div>
                             </div>
                             <div className="mb-6">
-                                <i className="icon icon--base icon--grey icon--edit mr-4" onClick={() => openEditModal(true)}></i>
+                                {!moment(event.startTime).isBefore(moment().add(3, 'hours')) && (
+                                    <i className="icon icon--base icon--grey icon--edit mr-4" onClick={() => openEditModal(true)}></i>
+                                )}
+
                                 {moment(bookingStart).isSame(moment(), 'day') ? (
                                     <></>
                                 ) : (
@@ -88,7 +92,13 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                         )}
                     </div>
                     <div className="modal--parent__footer mt-6">
-                        {eventIsAccepted === false ? <></> : <button className="btn btn--base type--wgt--extra-bold btn--primary">Join</button>}
+                        {eventIsAccepted === false ? (
+                            <></>
+                        ) : (
+                            <button className="btn btn--base type--wgt--extra-bold btn--primary" onClick={() => openLearnCube && openLearnCube()}>
+                                Join
+                            </button>
+                        )}
                     </div>
                 </div>
             ) : (
