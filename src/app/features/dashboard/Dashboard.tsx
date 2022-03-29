@@ -176,7 +176,7 @@ const Dashboard = () => {
                                 </div>
                             </div>
                             <div className="dashboard__list">
-                                {Object.keys(groupedUpcomming).length > 0 ? (
+                                {groupedUpcomming && Object.keys(groupedUpcomming).length > 0 ? (
                                     Object.keys(groupedUpcomming).map((key: string) => {
                                         return (
                                             <React.Fragment key={key}>

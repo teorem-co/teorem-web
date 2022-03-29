@@ -178,7 +178,7 @@ const MyBookings: React.FC = () => {
                     setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
                 }
             }
-        } else if (userRole === RoleOptions.Parent || userRole === RoleOptions.Student) {
+        } else if (userRole === RoleOptions.Parent || userRole === RoleOptions.Student || userRole === RoleOptions.Child) {
             if (e.label !== 'Unavailable') {
                 getBookingById(e.id);
                 setOpenTutorCalendarModal(true);

@@ -144,24 +144,21 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
             username: email.split('@')[0],
         };
 
-        try {
-            await registerTutor({
-                firstName: firstName,
-                lastName: lastName,
-                password: password,
-                confirmPassword: passwordRepeat,
-                roleAbrv: roleAbrv ? roleAbrv : '',
-                countryId: values.countryId,
-                phoneNumber: values.phoneNumber,
-                dateOfBirth: moment(values.dateOfBirth).toISOString(),
-                email: email,
-                profileImage: values.profileImage,
-            }).unwrap();
-            await addUserQuery(toSend).unwrap();
-            handleNextStep();
-        } catch (error) {
-            toastService.error(t('ERROR_HANDLING.SUPPORT'));
-        }
+        await addUserQuery(toSend).unwrap();
+        await registerTutor({
+            firstName: firstName,
+            lastName: lastName,
+            password: password,
+            confirmPassword: passwordRepeat,
+            roleAbrv: roleAbrv ? roleAbrv : '',
+            countryId: values.countryId,
+            phoneNumber: values.phoneNumber,
+            dateOfBirth: moment(values.dateOfBirth).toISOString(),
+            email: email,
+            profileImage: values.profileImage,
+        }).unwrap();
+
+        handleNextStep();
     };
 
     const rangeSetterRef = useRef<HTMLDivElement>(null);

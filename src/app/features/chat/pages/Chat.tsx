@@ -36,7 +36,7 @@ const Chat = () => {
                 <button onClick={() => addUser()}>add user</button>
             </div> */}
             <div className="card--chat card--primary--shadow">
-                <ChatEngine height="100%" userName={chatUserName} userSecret="Password1!" projectID={`118ac403-e935-406b-a5bd-3239a377af7b`} />
+                <ChatEngine height="100%" userName={chatUserName} userSecret="Password1!" projectID="648c1169-c9a5-4b36-9335-bfa80a9d0135" />
                 {/* <div className="card--chat__aside">
                     <div className="p-4">
                         <div className="type--wgt--bold type--lg">Chat</div>

@@ -110,12 +110,7 @@ const StudentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep }) =
             phoneNumber: values.phoneNumber,
             dateOfBirth: moment(values.dateOfBirth).toISOString(),
             email: email,
-        })
-            .unwrap()
-            .then()
-            .catch(() => {
-                toastService.error(t('ERROR_HANDLING.SUPPORT'));
-            });
+        }).unwrap();
     };
 
     useEffect(() => {

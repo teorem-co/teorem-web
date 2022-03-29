@@ -268,6 +268,7 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
         };
         if (skip) {
             addUserQuery(toSend).unwrap();
+
             await registerParent({
                 firstName: firstName,
                 lastName: lastName,
@@ -278,12 +279,7 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
                 phoneNumber: phoneNumber,
                 countryId: countryId,
                 roleAbrv: roleAbrv ? roleAbrv : '',
-            })
-                .unwrap()
-                .then()
-                .catch(() => {
-                    toastService.error(t('ERROR_HANDLING.SUPPORT'));
-                });
+            }).unwrap();
         } else {
             addUserQuery(toSend).unwrap();
             await registerParent({
@@ -297,12 +293,7 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
                 countryId: countryId,
                 children: JSON.stringify(child),
                 roleAbrv: roleAbrv ? roleAbrv : '',
-            })
-                .unwrap()
-                .then()
-                .catch(() => {
-                    toastService.error(t('ERROR_HANDLING.SUPPORT'));
-                });
+            }).unwrap();
         }
     };
 
