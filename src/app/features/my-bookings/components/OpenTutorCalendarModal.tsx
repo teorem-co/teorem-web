@@ -68,9 +68,15 @@ const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
                         <button className="btn btn--base btn--primary type--wgt--extra-bold" onClick={() => goToTutorCalendar()}>
                             {t('MY_BOOKINGS.MODAL.TUTOR_CALENDAR')}
                         </button>
-                        <button className="btn btn--base btn--primary mt-4" onClick={() => openLearnCube && openLearnCube()}>
-                            Join
-                        </button>
+                        {event.isAccepted &&
+                        moment(event.startTime).subtract(10, 'minutes').isBefore(moment()) &&
+                        moment(event.endTime).isAfter(moment()) ? (
+                            <button className="btn btn--base btn--primary mt-4" onClick={() => openLearnCube && openLearnCube()}>
+                                {t('BOOK.JOIN')}
+                            </button>
+                        ) : (
+                            <></>
+                        )}
                     </div>
                 </div>
             ) : (

@@ -285,6 +285,33 @@ export const EN_US = {
             SET_UNAVAILABILITY: 'Set unavailability',
             CANCEL: 'Cancel',
         },
+        INFORMATION: {
+            TITLE: 'BOOKING INFORMATION',
+            CARD1: {
+                TITLE: 'How to book a slot?',
+                DESC: 'You can book a slot with a tutor by visiting their profile and clicking "Book Now". You will be able to see the tutor`s availability and select a time that works for both of you.',
+            },
+            CARD2: {
+                TITLE: 'How to cancel a booking?',
+                DESC: 'You can cancel a booking in your calendar by clicking on the booking and clicking "Cancel". If you cancel a booking 24 hours in advance, you will receive a full refund.',
+            },
+        },
+    },
+    BOOK: {
+        TITLE: 'Book a Slot',
+        FORM: {
+            LEVEL: 'Level',
+            LEVEL_PLACEHOLDER: 'Select Level',
+            SUBJECT: 'Subject',
+            CHILD: 'Child',
+            CHILD_PLACEHOLDER: 'Select a child',
+            TIME: 'Time* (Session length is 50min)',
+            TIME_PLACEHOLDER: 'Time',
+            SUBMIT: 'Book',
+            UPDATE: 'Update booking',
+            CANCEL: 'Cancel',
+        },
+        JOIN: 'Join',
     },
     MY_REVIEWS: {
         TITLE: 'My Reviews',

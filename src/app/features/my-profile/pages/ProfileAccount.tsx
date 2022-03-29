@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
+import { useChangeCurrentPasswordMutation } from '../../../../services/authService';
 import { useLazyGetProfileProgressQuery } from '../../../../services/tutorService';
 import { useChangePasswordMutation } from '../../../../services/userService';
 import { RoleOptions } from '../../../../slices/roleSlice';
@@ -47,6 +48,7 @@ const ProfileAccount = () => {
     const [getCustomerById] = useLazyGetCustomerByIdQuery();
     const [getCreditCards, { data: creditCards, isLoading: creditCardLoading, isUninitialized: creditCardUninitialized }] =
         useLazyGetCreditCardsQuery();
+    const [changeCurrentPassword] = useChangeCurrentPasswordMutation();
 
     const [deleteCreditCard] = useRemoveCreditCardMutation();
 
@@ -236,7 +238,7 @@ const ProfileAccount = () => {
             password: values.newPassword,
             confirmPassword: values.confirmPassword,
         };
-        await changePassword(toSend);
+        await changeCurrentPassword(toSend);
         toastService.success(t('MY_PROFILE.PROFILE_ACCOUNT.SUCCESS_PASSWORD'));
         formik.resetForm();
         setSaveBtnActive(false);

@@ -1,3 +1,4 @@
+import { t } from 'i18next';
 import moment from 'moment';
 import { useEffect } from 'react';
 
@@ -92,13 +93,13 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                         )}
                     </div>
                     <div className="modal--parent__footer mt-6">
-                        {eventIsAccepted === false ? (
-                            <></>
-                        ) : (
-                            <button className="btn btn--base type--wgt--extra-bold btn--primary" onClick={() => openLearnCube && openLearnCube()}>
-                                Join
-                            </button>
-                        )}
+                        {eventIsAccepted &&
+                            moment(bookingStart).subtract(10, 'minutes').isBefore(moment()) &&
+                            moment(event.endTime).isAfter(moment()) && (
+                                <button className="btn btn--base type--wgt--extra-bold btn--primary" onClick={() => openLearnCube && openLearnCube()}>
+                                    {t('BOOK.JOIN')}
+                                </button>
+                            )}
                     </div>
                 </div>
             ) : (

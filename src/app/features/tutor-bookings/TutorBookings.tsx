@@ -422,15 +422,12 @@ const TutorBookings = () => {
                         ></div>
                     </div>
                     <div className="upcoming-lessons">
-                        <p className="upcoming-lessons__title">BOOKING INFORMATION</p>
+                        <p className="upcoming-lessons__title">{t('MY_BOOKINGS.INFORMATION.TITLE')}</p>
                         <div className="card card--primary mb-2">
                             <div className="flex--primary mb-2">
                                 <div className="flex--center">
-                                    <span>How to reserve a slot?</span>
-                                    <div className="type--color--secondary mt-2">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-                                        magna aliqua.
-                                    </div>
+                                    <span>{t('MY_BOOKINGS.INFORMATION.CARD1.TITLE')}</span>
+                                    <div className="type--color--secondary mt-2">{t('MY_BOOKINGS.INFORMATION.CARD1.DESC')}</div>
                                 </div>
                                 <div className="type--color--tertiary"></div>
                             </div>
@@ -438,11 +435,8 @@ const TutorBookings = () => {
                         <div className="card card--primary mb-2">
                             <div className="flex--primary mb-2">
                                 <div className="flex--center">
-                                    <span>How to cancel reservation?</span>
-                                    <div className="type--color--secondary mt-2">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-                                        magna aliqua.
-                                    </div>
+                                    <span>{t('MY_BOOKINGS.INFORMATION.CARD2.TITLE')}</span>
+                                    <div className="type--color--secondary mt-2">{t('MY_BOOKINGS.INFORMATION.CARD2.DESC')}</div>
                                 </div>
                                 <div className="type--color--tertiary"></div>
                             </div>

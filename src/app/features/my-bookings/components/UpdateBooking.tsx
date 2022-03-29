@@ -125,7 +125,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
             <div className="modal--parent__header">
                 <div className="flex flex--primary">
                     <div>
-                        <div className="type--wgt--bold type--md mb-1">Book a Slot</div>
+                        <div className="type--wgt--bold type--md mb-1">{t('BOOK.TITLE')}</div>
                         <div className="type--color--secondary">
                             {start} - {end}
                         </div>
@@ -150,7 +150,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
                     <Form id="updateBookingForm">
                         <div className="field">
                             <label htmlFor="level" className="field__label">
-                                Level*
+                                {t('BOOK.FORM.LEVEL')}*
                             </label>
 
                             <MySelect
@@ -161,12 +161,12 @@ const UpdateBooking: React.FC<IProps> = (props) => {
                                 isMulti={false}
                                 options={levelOptions ? levelOptions : []}
                                 isDisabled={booking?.id ? true : false}
-                                placeholder="Select Level"
+                                placeholder={t('BOOK.FORM.LEVEL_PLACEHOLDER')}
                             />
                         </div>
                         <div className="field">
                             <label htmlFor="subject" className="field__label">
-                                Subject*
+                                {t('BOOK.FORM.SUBJECT')}*
                             </label>
 
                             <MySelect
@@ -184,7 +184,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
                         {userRole === RoleOptions.Parent ? (
                             <div className="field">
                                 <label htmlFor="child" className="field__label">
-                                    Child*
+                                    {t('BOOK.FORM.CHILD')}*
                                 </label>
 
                                 <MySelect
@@ -194,7 +194,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
                                     classNamePrefix="onboarding-select"
                                     isMulti={false}
                                     options={childOptions ? childOptions : []}
-                                    placeholder="Select Child"
+                                    placeholder={t('BOOK.FORM.CHILD_PLACEHOLDER')}
                                     isDisabled={true}
                                 />
                             </div>
@@ -203,7 +203,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
                         )}
                         <div className="field">
                             <label htmlFor="timeFrom" className="field__label">
-                                Time* (Session length is 50min)
+                                {t('BOOK.FORM.TIME')}
                             </label>
                             <div className="flex">
                                 <div className="field w--100 mr-6">
@@ -218,7 +218,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
                                 <div className="field w--100">
                                     <TextField
                                         // isDisabled={levelDisabled}
-                                        placeholder="Time"
+                                        placeholder={t('BOOK.FORM.TIME_PLACEHOLDER')}
                                         name="time"
                                         id="time"
                                         disabled={true}
@@ -233,7 +233,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
             <div className="modal--parent__footer">
                 {/* <button className="btn btn--base type--wgt--extra-bold btn--primary mb-1" onClick={() => handleSubmitForm()}> */}
                 <button form="updateBookingForm" className="btn btn--base type--wgt--extra-bold btn--primary mb-1">
-                    Update booking
+                    {t('BOOK.FORM.UPDATE')}
                 </button>
                 <button
                     className="btn btn--base type--wgt--extra-bold btn--clear"
@@ -242,7 +242,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
                         props.clearEmptyBookings();
                     }}
                 >
-                    Cancel
+                    {t('BOOK.FORM.CANCEL')}
                 </button>
             </div>
         </div>

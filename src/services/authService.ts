@@ -60,6 +60,12 @@ interface IChangePassword {
     repeatPassword: string;
 }
 
+interface IChangeCurrentPassword {
+    oldPassword: string;
+    password: string;
+    confirmPassword: string;
+}
+
 interface IResetPassword {
     email: string;
 }
@@ -91,11 +97,22 @@ export const authService = baseService.injectEndpoints({
         }),
         changePassword: builder.mutation<void, IChangePassword>({
             query: (body) => ({
-                url: `/reset-password?token=${body.token}`,
+                url: `/reset-password`,
                 method: HttpMethods.PUT,
                 body: {
                     password: body.password,
                     confirmPassword: body.repeatPassword,
+                },
+            }),
+        }),
+        changeCurrentPassword: builder.mutation<void, IChangeCurrentPassword>({
+            query: (body) => ({
+                url: `/users/change-password`,
+                method: HttpMethods.PUT,
+                body: {
+                    oldPassword: body.oldPassword,
+                    password: body.password,
+                    confirmPassword: body.confirmPassword,
                 },
             }),
         }),
@@ -154,4 +171,5 @@ export const {
     useCheckUsernameMutation,
     useGenerateChildUsernameMutation,
     useChangePasswordMutation,
+    useChangeCurrentPasswordMutation,
 } = authService;

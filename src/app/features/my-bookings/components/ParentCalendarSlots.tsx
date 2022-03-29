@@ -148,7 +148,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
             <div className="modal--parent__header">
                 <div className="flex flex--primary">
                     <div>
-                        <div className="type--wgt--bold type--md mb-1">Book a Slot</div>
+                        <div className="type--wgt--bold type--md mb-1">{t('BOOK.TITLE')}</div>
                         <div className="type--color--secondary">
                             {start} - {end}
                         </div>
@@ -173,7 +173,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                     <Form>
                         <div className="field">
                             <label htmlFor="level" className="field__label">
-                                Level*
+                                {t('BOOK.FORM.LEVEL')}*
                             </label>
 
                             <MySelect
@@ -183,12 +183,12 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                                 classNamePrefix="onboarding-select"
                                 isMulti={false}
                                 options={levelOptions ? levelOptions : []}
-                                placeholder="Select Level"
+                                placeholder={t('BOOK.FORM.LEVEL_PLACEHOLDER')}
                             />
                         </div>
                         <div className="field">
                             <label htmlFor="subject" className="field__label">
-                                Subject*
+                                {t('BOOK.FORM.SUBJECT')}*
                             </label>
 
                             <MySelect
@@ -206,7 +206,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                         {userRole === RoleOptions.Parent ? (
                             <div className="field">
                                 <label htmlFor="child" className="field__label">
-                                    Child*
+                                    {t('BOOK.FORM.CHILD')}*
                                 </label>
 
                                 <MySelect
@@ -216,7 +216,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                                     classNamePrefix="onboarding-select"
                                     isMulti={false}
                                     options={childOptions ? childOptions : []}
-                                    placeholder="Select Child"
+                                    placeholder={t('BOOK.FORM.CHILD_PLACEHOLDER')}
                                 />
                             </div>
                         ) : (
@@ -224,7 +224,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                         )}
                         <div className="field">
                             <label htmlFor="timeFrom" className="field__label">
-                                Time* (Session length is 50min)
+                                {t('BOOK.FORM.TIME')}
                             </label>
                             <div className="flex">
                                 <div className="field w--100 mr-6">
@@ -240,7 +240,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                                 <div className="field w--100">
                                     <TextField
                                         // isDisabled={levelDisabled}
-                                        placeholder="Time"
+                                        placeholder={t('BOOK.FORM.TIME_PLACEHOLDER')}
                                         name="time"
                                         id="time"
                                         disabled={true}
@@ -254,7 +254,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
             </div>
             <div className="modal--parent__footer">
                 <button className="btn btn--base btn--primary type--wgt--extra-bold mb-1" onClick={() => handleSubmitForm()}>
-                    Book
+                    {t('BOOK.FORM.SUBMIT')}
                 </button>
                 <button
                     className="btn btn--base type--wtg--extra-bold btn--clear"
@@ -263,7 +263,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                         props.clearEmptyBookings();
                     }}
                 >
-                    Cancel
+                    {t('BOOK.FORM.CANCEL')}
                 </button>
             </div>
         </div>
