@@ -285,6 +285,33 @@ export const HR_HR = {
             SET_UNAVAILABILITY: 'Set unavailability',
             CANCEL: 'Cancel',
         },
+        INFORMATION: {
+            TITLE: 'BOOKING INFORMATION',
+            CARD1: {
+                TITLE: 'How to book a slot?',
+                DESC: 'You can book a slot with a tutor by visiting their profile and clicking "Book Now". You will be able to see the tutor`s availability and select a time that works for both of you.',
+            },
+            CARD2: {
+                TITLE: 'How to cancel a booking?',
+                DESC: 'You can cancel a booking in your calendar by clicking on the booking and clicking "Cancel". If you cancel a booking 24 hours in advance, you will receive a full refund.',
+            },
+        },
+    },
+    BOOK: {
+        TITLE: 'Book a Slot',
+        FORM: {
+            LEVEL: 'Level',
+            LEVEL_PLACEHOLDER: 'Select Level',
+            SUBJECT: 'Subject',
+            CHILD: 'Child',
+            CHILD_PLACEHOLDER: 'Select a child',
+            TIME: 'Time* (Session length is 50min)',
+            TIME_PLACEHOLDER: 'Time',
+            SUBMIT: 'Book',
+            UPDATE: 'Update booking',
+            CANCEL: 'Cancel',
+        },
+        JOIN: 'Join',
     },
     MY_REVIEWS: {
         TITLE: 'My Reviews',
@@ -445,7 +472,7 @@ export const HR_HR = {
         },
     },
     NOTIFICATIONS: {
-        TITLE: 'Notifications',
+        TITLE: 'All Notifications',
         EMPTY: 'There are no notifications',
     },
     EARNINGS: {
@@ -502,11 +529,11 @@ export const HR_HR = {
     },
     LANDING: {
         HEADER: {
-            NAV_1: 'Kako ovo radi',
-            NAV_2: 'Cijene',
-            NAV_3: 'Postani predavač',
-            SIGN_IN: 'Prijavi se',
-            GET_STARTED: 'Registriraj se',
+            NAV_1: 'How it works',
+            NAV_2: 'Pricing',
+            NAV_3: 'Become a tutor',
+            SIGN_IN: 'Sign in',
+            GET_STARTED: 'Get started',
         },
         FOOTER: {
             TITLE_TEXT: 'If you have additional questions, feel free to contact us via email ',
