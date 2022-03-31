@@ -26,6 +26,9 @@ export const authSlice = createSlice({
             state.token = null;
             state.user = null;
         },
+        addStripeId(state, action: PayloadAction<string>) {
+            state.user!.stripeCustomerId = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder.addMatcher(authService.endpoints.login.matchFulfilled, (state, action: PayloadAction<ILoginPayload>) => {
@@ -36,5 +39,5 @@ export const authSlice = createSlice({
     },
 });
 
-export const { logout } = authSlice.actions;
+export const { logout, addStripeId } = authSlice.actions;
 export default authSlice.reducer;

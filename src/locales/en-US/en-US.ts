@@ -255,6 +255,16 @@ export const EN_US = {
         SAVE_BUTTON: 'Save',
         DELETE_BUTTON: 'Delete',
         BACK_TO_LIST: 'Back to list',
+        NAVIGATION: {
+            STEP1: {
+                TITLE: 'Personal information',
+                DESC: 'Let us get to know you a little bit better',
+            },
+            STEP2: {
+                TITLE: 'Child`s List',
+                DESC: 'Fill in information for your child and set his/her login credentials.',
+            },
+        },
     },
     ADD_CHILD: {
         TITLE: 'Add new Child',
@@ -432,7 +442,7 @@ export const EN_US = {
             USERNAME: 'Username',
             USERNAME_PLACEHOLDER: 'Enter username',
             PASSWORD: 'Enter a new password',
-            PASSWORD_PLACEHOLDER: 'Type yort password',
+            PASSWORD_PLACEHOLDER: 'Type your password',
             PASSWORD_OPTIONAL: 'This field is optional, if you want to change current child`s password you can do it in field below.',
             DELETE: 'Delete',
             CANCEL: 'Cancel',

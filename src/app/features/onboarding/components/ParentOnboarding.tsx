@@ -263,7 +263,7 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
             email: email,
             first_name: firstName,
             last_name: lastName,
-            secret: 'Password1!',
+            secret: 'Teorem1!',
             username: email.split('@')[0],
         };
         if (skip) {

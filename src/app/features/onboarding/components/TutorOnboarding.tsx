@@ -140,11 +140,11 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
             email: email,
             first_name: firstName,
             last_name: lastName,
-            secret: 'Password1!',
+            secret: 'Teorem1!',
             username: email.split('@')[0],
         };
 
-        await addUserQuery(toSend).unwrap();
+        addUserQuery(toSend).unwrap();
         await registerTutor({
             firstName: firstName,
             lastName: lastName,

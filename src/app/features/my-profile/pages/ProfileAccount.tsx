@@ -7,6 +7,7 @@ import * as Yup from 'yup';
 import { useChangeCurrentPasswordMutation } from '../../../../services/authService';
 import { useLazyGetProfileProgressQuery } from '../../../../services/tutorService';
 import { useChangePasswordMutation } from '../../../../services/userService';
+import { addStripeId } from '../../../../slices/authSlice';
 import { RoleOptions } from '../../../../slices/roleSlice';
 import TextField from '../../../components/form/TextField';
 import MainWrapper from '../../../components/MainWrapper';
@@ -58,7 +59,7 @@ const ProfileAccount = () => {
     const [passTooltip, setPassTooltip] = useState<boolean>(false);
     const [stripeModalOpen, setStripeModalOpen] = useState<boolean>(false);
     const [activeDefaultPaymentMethod, setActiveDefaultPaymentMethod] = useState<string>('');
-    const creditCardIsLoading = creditCardLoading || creditCardUninitialized || !activeDefaultPaymentMethod;
+    const creditCardIsLoading = creditCardLoading || creditCardUninitialized;
 
     const { t } = useTranslation();
     const profileProgressState = useAppSelector((state) => state.myProfileProgress);
@@ -154,6 +155,10 @@ const ProfileAccount = () => {
 
     const handleSubmitCreditCard = async (values: CreadiCardValues) => {
         if (!stripeCustomerId) {
+            //If user has not added any card to the stripe yet
+            //    - add user to stripe
+            //    - add stripeID to redux
+            //    - set Added credit card to be default
             const toSend: IAddCustomerPost = {
                 userId: userInfo!.id,
                 customer: {
@@ -173,7 +178,13 @@ const ProfileAccount = () => {
             };
             await addStripeCustomer(toSend)
                 .unwrap()
-                .then()
+                .then((res) => {
+                    dispatch(addStripeId(res.id));
+                    setDefaultCreditCard({
+                        userId: userInfo!.id,
+                        sourceId: res.id,
+                    });
+                })
                 .catch(() => {
                     toastService.error('Erorr creating stripe account');
                     return;
@@ -278,7 +289,7 @@ const ProfileAccount = () => {
         if (userInfo) {
             await getCreditCards(userInfo.id).unwrap();
         }
-        if (userInfo && userRole !== RoleOptions.Tutor) {
+        if (userInfo && userRole !== RoleOptions.Tutor && stripeCustomerId) {
             const res = await getCustomerById(userInfo.id).unwrap();
             setActiveDefaultPaymentMethod(res.invoice_settings.default_payment_method);
         }
@@ -414,7 +425,10 @@ const ProfileAccount = () => {
                                                                 </div>
                                                                 <div>
                                                                     <i
-                                                                        onClick={() => handleDeleteCreditCard(item.id)}
+                                                                        onClick={(e) => {
+                                                                            e.stopPropagation();
+                                                                            handleDeleteCreditCard(item.id);
+                                                                        }}
                                                                         className="icon icon--base icon--delete icon--primary"
                                                                     ></i>
                                                                 </div>

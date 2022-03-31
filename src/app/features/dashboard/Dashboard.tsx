@@ -2,7 +2,6 @@ import { t } from 'i18next';
 import { groupBy } from 'lodash';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import { io } from 'socket.io-client';
@@ -16,6 +15,7 @@ import MainWrapper from '../../components/MainWrapper';
 import { useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
 import IBooking from '../my-bookings/interfaces/IBooking';
+import LearnCubeModal from '../my-profile/components/LearnCubeModal';
 import NotificationItem from '../notifications/components/NotificationItem';
 
 interface IGroupedDashboardData {
@@ -29,6 +29,8 @@ const Dashboard = () => {
 
     const [groupedUpcomming, setGroupedUpcomming] = useState<IGroupedDashboardData>({});
     const [todayScheduled, setTodayScheduled] = useState<IBooking[]>([]);
+    const [learnCubeModal, setLearnCubeModal] = useState<boolean>(false);
+    const [currentlyActiveBooking, setCurentlyActiveBooking] = useState<string>('');
     const [activeIndex, setActiveIndex] = useState<number>(0);
 
     const userId = useAppSelector((state) => state.auth.user?.id);
@@ -54,6 +56,11 @@ const Dashboard = () => {
         if (activeIndex > 0) {
             setActiveIndex(activeIndex - 1);
         }
+    };
+
+    const handleJoinBooking = (event: IBooking) => {
+        setCurentlyActiveBooking(event.id);
+        setLearnCubeModal(true);
     };
 
     useEffect(() => {
@@ -112,7 +119,16 @@ const Dashboard = () => {
                                                     {moment(todayScheduled[activeIndex].startTime).format('HH:mm')} -{' '}
                                                     {moment(todayScheduled[activeIndex].endTime).add(1, 'minute').format('HH:mm')}
                                                 </div>
-                                                <button className="btn btn--base card--dashboard__btn">{t('DASHBOARD.SCHEDULE.BUTTON')}</button>
+                                                {todayScheduled[activeIndex].isAccepted &&
+                                                    moment(todayScheduled[activeIndex].startTime).subtract(200, 'minutes').isBefore(moment()) &&
+                                                    moment(todayScheduled[activeIndex].endTime).isAfter(moment()) && (
+                                                        <button
+                                                            className="btn btn--base card--dashboard__btn"
+                                                            onClick={() => handleJoinBooking(todayScheduled[activeIndex])}
+                                                        >
+                                                            {t('DASHBOARD.SCHEDULE.BUTTON')}
+                                                        </button>
+                                                    )}
                                             </div>
                                         </div>
                                     ) : (
@@ -244,6 +260,7 @@ const Dashboard = () => {
                             {t('DASHBOARD.NOTIFICATIONS.ALL')}
                         </Link>
                     </div>
+                    {learnCubeModal && <LearnCubeModal bookingId={currentlyActiveBooking} handleClose={() => setLearnCubeModal(false)} />}
                 </div>
             </div>
         </MainWrapper>
