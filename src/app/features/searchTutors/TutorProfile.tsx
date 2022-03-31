@@ -1,15 +1,20 @@
 import { cloneDeep, debounce } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
 
 import ITutorSubject from '../../../interfaces/ITutorSubject';
 import { useLazyGetTutorProfileDataQuery } from '../../../services/tutorService';
 import { RoleOptions } from '../../../slices/roleSlice';
 import MainWrapper from '../../components/MainWrapper';
+import LoaderPrimary from '../../components/skeleton-loaders/LoaderPrimary';
+import LoaderSecondary from '../../components/skeleton-loaders/LoaderSecondary';
 import LoaderTutorProfile from '../../components/skeleton-loaders/LoaderTutorProfile';
 import { useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
+import { useGetOrCreateChatMutation } from '../../services/chatEngineService';
+import toastService from '../../services/toastService';
 import handleRatingStars from '../../utils/handleRatingStarts';
 import { useLazyGetTutorAvailabilityQuery } from '../my-profile/services/tutorAvailabilityService';
 import Ratings from '../myReviews/components/Ratings';
@@ -22,8 +27,13 @@ import { useLazyGetMyReviewsQuery, useLazyGetStatisticsQuery } from '../myReview
 const TutorProfile = () => {
     const { t } = useTranslation();
 
+    const [getOrCreateNewChat, { isLoading: createChatLoading }] = useGetOrCreateChatMutation();
+    const [getTutorById] = useLazyGetTutorProfileDataQuery();
+
     const { tutorId } = useParams();
+    const history = useHistory();
     const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
+    const user = useAppSelector((state) => state.auth.user);
     const [params, setParams] = useState<IMyReviewParams>({ page: 1, rpp: 3 });
     const [loadedMyReviews, setLoadedMyReviews] = useState<IMyReview[]>([]);
 
@@ -101,6 +111,27 @@ const TutorProfile = () => {
         }
 
         return returnValue;
+    };
+
+    const createNewChat = async () => {
+        const tutorData = await getTutorById(tutorId).unwrap();
+
+        const userName = user!.email.split('@')[0];
+        const tutorUserName = tutorData.User.email.split('@')[0];
+
+        const toSend = {
+            username: userName,
+            tutorUsername: tutorUserName,
+        };
+
+        await getOrCreateNewChat(toSend)
+            .unwrap()
+            .then(() => {
+                history.push(PATHS.CHAT);
+            })
+            .catch(() => {
+                toastService.error(`can't create a chat with ${tutorUserName}, please contact a support for more informations`);
+            });
     };
 
     //scroll to bottom alerter
@@ -326,9 +357,14 @@ const TutorProfile = () => {
                                         >
                                             {t('TUTOR_PROFILE.BOOK')}
                                         </Link>
-                                        <Link className="btn btn--base btn--ghost w--100 type--center" to={PATHS.CHAT}>
-                                            {t('TUTOR_PROFILE.SEND')}
-                                        </Link>
+
+                                        <div
+                                            className="btn btn--base btn--ghost w--100 type--center flex flex--center flex--jc--center"
+                                            onClick={() => createNewChat()}
+                                        >
+                                            {createChatLoading && <LoaderPrimary small={true} />}
+                                            <span>{t('TUTOR_PROFILE.SEND')}</span>
+                                        </div>
                                     </>
                                 )}
                             </div>

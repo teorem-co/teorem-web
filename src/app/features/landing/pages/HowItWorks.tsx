@@ -3,8 +3,8 @@ import { useEffect } from 'react';
 import { useHistory } from 'react-router';
 
 import call1 from '../../../../assets/images/call-1.jpg';
-import call2 from '../../../../assets/images/call-2.jpg';
 import chat from '../../../../assets/images/chat.jpg';
+import completedLessons from '../../../../assets/images/completed-lessons.png';
 import tutorList from '../../../../assets/images/landing_tutor_list.png';
 import { PATHS } from '../../../routes';
 import CardsGroup from '../components/CardsGroup';
@@ -91,7 +91,7 @@ const HowItWorks = () => {
             <ReviewCard img={profileIllustration2} data={cardText2} className="mt-30" />
             <TextCard className="mt-30" title={t('HOW_IT_WORKS.TEXT_CARD_3.TITLE')} desc={t('HOW_IT_WORKS.TEXT_CARD_3.SUBTITLE')} />
             <div className="landing__section mt-30 w--100">
-                <img src={call2} alt="calendar" className="landing__img" />
+                <img src={completedLessons} alt="calendar" className="landing__img" />
             </div>
             <ReviewCard img={profileIllustration3} data={cardText3} className="mt-30" />
 

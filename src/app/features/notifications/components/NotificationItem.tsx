@@ -33,7 +33,11 @@ const NotificationItem = (props: Props) => {
                 {/* <span className="type--color--secondary">Made a booking for</span>
                 <span className="type--color--brand">Mathematics @ 13:00, 14/jan/2022.</span> */}
 
-                <span className="type--color--secondary">{description}</span>
+                <span className="type--color--secondary">
+                    {description.replace(/date=\{(.*?)\}/g, function (match, token) {
+                        return moment(new Date(token)).format('HH:mm, DD/MMM/YYYY');
+                    })}
+                </span>
             </div>
         </div>
     );

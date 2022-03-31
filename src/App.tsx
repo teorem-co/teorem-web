@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { useEffect } from 'react';
 import { io } from 'socket.io-client';
 
@@ -20,6 +21,9 @@ function App() {
         socket.on('showNotification', (notification: ISocketNotification) => {
             const ifChildExists = childIds?.find((x) => x === notification.userId);
             if (userId && (notification.userId === userId || ifChildExists)) {
+                notification.description = notification.description.replace(/date=\{(.*?)\}/g, function (match, token) {
+                    return moment(new Date(token)).format('HH:mm, DD/MMM/YYYY');
+                });
                 toastService.notification(notification.description);
             }
         });

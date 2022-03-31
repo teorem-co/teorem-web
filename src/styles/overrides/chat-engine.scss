@@ -110,3 +110,11 @@
 .ql-snow.ql-toolbar button:hover {
     color: $color-primary !important;
 }
+
+// hide button for adding a new chats
+#new-chat-plus-button {
+    opacity: 0;
+    visibility: hidden;
+    user-select: none;
+    pointer-events: none;
+}

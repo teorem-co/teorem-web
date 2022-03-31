@@ -1,6 +1,8 @@
 import { t } from 'i18next';
 import moment from 'moment';
 
+import { RoleOptions } from '../../../../slices/roleSlice';
+import { useAppSelector } from '../../../hooks';
 import IBooking from '../interfaces/IBooking';
 
 interface IEvent {
@@ -21,6 +23,8 @@ interface IProps {
 
 const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
     const { handleClose, positionClass, event, goToTutorCalendar, openLearnCube } = props;
+
+    const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
 
     return (
         <>
@@ -65,9 +69,12 @@ const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
                         </div>
                     </div>
                     <div className="modal--parent__footer mt-6">
-                        <button className="btn btn--base btn--primary type--wgt--extra-bold" onClick={() => goToTutorCalendar()}>
-                            {t('MY_BOOKINGS.MODAL.TUTOR_CALENDAR')}
-                        </button>
+                        {userRole !== RoleOptions.Child && (
+                            <button className="btn btn--base btn--primary type--wgt--extra-bold" onClick={() => goToTutorCalendar()}>
+                                {t('MY_BOOKINGS.MODAL.TUTOR_CALENDAR')}
+                            </button>
+                        )}
+
                         {event.isAccepted &&
                         moment(event.startTime).subtract(10, 'minutes').isBefore(moment()) &&
                         moment(event.endTime).isAfter(moment()) ? (
