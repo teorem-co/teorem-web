@@ -10,6 +10,7 @@ import LoaderAvailableLessons from '../../components/skeleton-loaders/LoaderAvai
 import completedLessonsList, { IVideoLesson } from '../../constants/completedLessonsList';
 import { useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
+import { useLazyGetRecordedRoomsQuery } from '../../services/learnCubeService';
 import ICompletedLesson from '../my-bookings/interfaces/ICompletedLesson';
 import { useLazyGetCompletedLessonsQuery } from '../my-bookings/services/bookingService';
 import CompletedLessonsItem from './components/CompletedLessonsItem';
@@ -19,6 +20,7 @@ import VideoLessonItem from './components/VideoLessonItem';
 
 const CompletedLessons = () => {
     const [getCompletedLessons, { isLoading: listLoading, isUninitialized: listUninitialized }] = useLazyGetCompletedLessonsQuery();
+    const [getRecordedRooms] = useLazyGetRecordedRoomsQuery();
 
     const [activeLesson, setActiveLesson] = useState<ICompletedLesson | null>(null);
     const [completedLessonsState, setCompletedLessonsState] = useState<ICompletedLesson[]>([]);
@@ -31,6 +33,16 @@ const CompletedLessons = () => {
         if (completedLessonsState) {
             const currentlyActiveLesson = completedLessonsState.find((currentLessonId: ICompletedLesson) => currentLessonId.id === lessonId);
             setActiveLesson(currentlyActiveLesson ? currentlyActiveLesson : null);
+
+            //get recorded lessons:
+            if (currentlyActiveLesson) {
+                const toSend = {
+                    subjectId: currentlyActiveLesson?.Subject.id,
+                    tutorId: currentlyActiveLesson?.tutorId,
+                    studentId: currentlyActiveLesson?.User.id,
+                };
+                const res = await getRecordedRooms(toSend).unwrap();
+            }
         }
     };
 

@@ -1,76 +1,20 @@
 import { baseService } from '../../../baseService';
 import { HttpMethods } from '../../../lookups/httpMethods';
-import ICardPost from '../interfaces/ICardPost';
-import ICardToken from '../interfaces/ICardToken';
+import IAddCustomerPost from '../interfaces/IAddCustomerPost';
+import ICustomerSourcePost from '../interfaces/ICustomerSourcePost';
+import IDeleteCreditCard from '../interfaces/IDeleteCreditCard';
+import IGetCreditCards from '../interfaces/IGetCreditCards';
+import ISetDefaultCreditCard from '../interfaces/ISetDefaultCreditCard';
 import IStripeConnectAccount from '../interfaces/IStripeConnectAccount';
+import IStripeResponse from '../interfaces/IStripeResponse';
 
 const URL = '/stripe';
-
-interface IStripeResponse {
-    created: number;
-    expired_at: number;
-    url: string;
-    object: string;
-}
-
-export interface IAddCustomerPost {
-    userId: string;
-    customer: {
-        address: {
-            city: string;
-            country: string;
-            line1: string;
-            line2: string;
-            postal_code: number;
-            state: string;
-        };
-        description: string;
-        email: string;
-        name: string;
-        phone: string;
-    };
-}
-
-export interface ICustomerSourcePost {
-    userId: string;
-    card: ICardPost;
-}
-
-export interface ISetDefaultCreditCard {
-    sourceId: string;
-    userId: string;
-}
-
-export interface IGetCreditCards {
-    object: string;
-    data: ICreditCard[];
-    has_more: boolean;
-    url: string;
-}
-
-export interface ICreditCard {
-    card: {
-        brand: string;
-        country: string;
-        exp_month: number;
-        exp_year: number;
-        last4: string;
-    };
-    customer: string;
-    id: string;
-    type: string;
-}
-
-export interface IDeleteCreditCard {
-    sourceId: string;
-    userId: string;
-}
 
 export const stripeService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         connectAccount: builder.mutation<IStripeResponse, IStripeConnectAccount>({
             query: (body) => ({
-                url: `${URL}/connect-account`,
+                url: `${URL}/connect-account/${body.userId}`,
                 method: HttpMethods.POST,
                 body: body,
             }),

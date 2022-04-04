@@ -8,13 +8,14 @@ import * as Yup from 'yup';
 
 import { useGetTutorLevelsQuery } from '../../../../services/levelService';
 import { useLazyGetTutorSubjectsByTutorLevelQuery } from '../../../../services/subjectService';
-import { useLazyGetChildQuery } from '../../../../services/userService';
+import { useLazyGetChildQuery, useLazyGetUserQuery } from '../../../../services/userService';
 import { RoleOptions } from '../../../../slices/roleSlice';
 import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import MyTimePicker from '../../../components/form/MyTimePicker';
 import TextField from '../../../components/form/TextField';
 import { useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
+import { useLazyGetCustomerByIdQuery } from '../../my-profile/services/stripeService';
 import { useCreatebookingMutation } from '../services/bookingService';
 
 interface IProps {
@@ -38,6 +39,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     const { tutorId } = useParams();
 
     const [getChildOptions, { data: childOptions }] = useLazyGetChildQuery();
+    const [getUser] = useLazyGetCustomerByIdQuery();
     const [getSubjectOptionsByLevel, { data: subjectsData, isSuccess: isSuccessSubjects }] = useLazyGetTutorSubjectsByTutorLevelQuery();
     const [createBooking, { isSuccess: createBookingSuccess }] = useCreatebookingMutation();
     const { data: levelOptions } = useGetTutorLevelsQuery(tutorId);
@@ -52,6 +54,8 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     });
 
     const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
+    const userId = useAppSelector((state) => state.auth.user?.id);
+    const stripeCustomerId = useAppSelector((state) => state.auth.user?.stripeCustomerId);
 
     const generateValidationSchema = () => {
         const validationSchema: any = {
@@ -67,7 +71,21 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
         return validationSchema;
     };
 
-    const handleSubmit = (values: any) => {
+    const handleSubmit = async (values: any) => {
+        //if user didn't added credit card before adding a booking, show the message and redirect button
+        if (stripeCustomerId) {
+            //if user has stripe account but don't have default payment method
+            const res = await getUser(userId!).unwrap();
+            const defaultSource = res.invoice_settings.default_payment_method;
+            if (!defaultSource) {
+                toastService.creditCard(t('ERROR_HANDLING.DEFAULT_CARD_MISSING'));
+                return;
+            }
+        } else {
+            toastService.creditCard(t('ERROR_HANDLING.CREDIT_CARD_MISSING'));
+            return;
+        }
+
         const splitString = values.timeFrom.split(':');
         props.setSidebarOpen(false);
         if (userRole === RoleOptions.Parent) {

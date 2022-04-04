@@ -549,10 +549,13 @@
         }
 
         &__logo {
-            width: 94px;
+            width: 300px;
+            img {
+                width: 94px;
 
-            @media (min-width: $responsive-xl) {
-                width: 128px;
+                @media (min-width: $responsive-xl) {
+                    width: 128px;
+                }
             }
         }
         //mobile navigation on landing pages

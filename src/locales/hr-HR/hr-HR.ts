@@ -4,6 +4,8 @@ export const HR_HR = {
     ERROR_HANDLING: {
         UNHANDLED_ERROR: 'Unhandled error occured!',
         SUPPORT: 'Something gone wrong, please contact the support',
+        CREDIT_CARD_MISSING: 'You are missing a credit card. Please add payment method before creating a booking.',
+        DEFAULT_CARD_MISSING: 'You don`t have default payment method. Please select one of your credit cards.',
     },
     TRIAL_POPUP: {
         WELCOME: 'Welcome to Teorem',

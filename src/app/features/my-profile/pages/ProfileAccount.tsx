@@ -6,12 +6,10 @@ import * as Yup from 'yup';
 
 import { useChangeCurrentPasswordMutation } from '../../../../services/authService';
 import { useLazyGetProfileProgressQuery } from '../../../../services/tutorService';
-import { useChangePasswordMutation } from '../../../../services/userService';
 import { addStripeId } from '../../../../slices/authSlice';
 import { RoleOptions } from '../../../../slices/roleSlice';
 import TextField from '../../../components/form/TextField';
 import MainWrapper from '../../../components/MainWrapper';
-import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
 import LoaderSecondary from '../../../components/skeleton-loaders/LoaderSecondary';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
@@ -20,11 +18,11 @@ import AddCreditCard, { Values as CreadiCardValues } from '../components/AddCred
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
 import StripeModal from '../components/StripeModal';
+import IAddCustomerPost from '../interfaces/IAddCustomerPost';
 import ICardPost from '../interfaces/ICardPost';
 import IChangePassword from '../interfaces/IChangePassword';
+import ICreditCard from '../interfaces/ICreditCard';
 import {
-    IAddCustomerPost,
-    ICreditCard,
     useAddCustomerMutation,
     useAddCustomerSourceMutation,
     useLazyGetCreditCardsQuery,
@@ -42,7 +40,6 @@ interface Values {
 
 const ProfileAccount = () => {
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
-    const [changePassword] = useChangePasswordMutation();
     const [addStripeCustomer] = useAddCustomerMutation();
     const [addCustomerSource] = useAddCustomerSourceMutation();
     const [setDefaultCreditCard] = useSetDefaultCreditCardMutation();

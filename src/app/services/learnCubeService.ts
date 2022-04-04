@@ -1,12 +1,9 @@
+import IGetRecordedRooms from '../../interfaces/IGetRecordedRooms';
+import IGetRoomLink from '../../interfaces/IGetRoomLink';
 import { baseService } from '../baseService';
 import { HttpMethods } from '../lookups/httpMethods';
 
 const URL = '/learn-cube';
-
-export interface IGetRoomLink {
-    userId: string;
-    bookingId: string;
-}
 
 export const stripeService = baseService.injectEndpoints({
     endpoints: (builder) => ({
@@ -16,7 +13,13 @@ export const stripeService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
+        getRecordedRooms: builder.query<any, IGetRecordedRooms>({
+            query: (params) => ({
+                url: `${URL}/get-recorded-room/?subjectId=${params.subjectId}&tutorId=${params.tutorId}&studentId=${params.studentId}`,
+                method: HttpMethods.GET,
+            }),
+        }),
     }),
 });
 
-export const { useLazyGetRoomLinkQuery } = stripeService;
+export const { useLazyGetRoomLinkQuery, useLazyGetRecordedRoomsQuery } = stripeService;

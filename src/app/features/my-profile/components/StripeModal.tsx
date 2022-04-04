@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
+import { useAppSelector } from '../../../hooks';
 import { useConnectAccountMutation } from '../services/stripeService';
 
 interface Props {
@@ -9,6 +10,7 @@ interface Props {
 
 const StripeModal = (props: Props) => {
     const { handleClose } = props;
+    const userId = useAppSelector((state) => state.auth.user?.id);
 
     const [stripeConnect, { isLoading: stripeLoading, isUninitialized: uninitialized }] = useConnectAccountMutation();
 
@@ -20,6 +22,7 @@ const StripeModal = (props: Props) => {
         const toSend = {
             refreshUrl: `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_HOST}/my-profile/account`,
             returnUrl: `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_HOST}/my-profile/account`,
+            userId: userId!,
         };
         const res = await stripeConnect(toSend).unwrap();
         window.open(res.url, '_blank');

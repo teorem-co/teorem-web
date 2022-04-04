@@ -1,5 +1,8 @@
 import i18next from 'i18next';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+
+import { PROFILE_PATHS } from '../routes';
 
 class ToastService {
     private static opts: object = {
@@ -38,6 +41,20 @@ class ToastService {
                     <i className="icon icon--base icon--calendar icon--white"></i>
                 </div>
                 <div className="Toastify--custom__message">{message}</div>
+            </div>
+        );
+        toast.warning(customToast, Object.assign({}, ToastService.notificationOpts));
+    };
+
+    creditCard = (message: string): void => {
+        const customToast: JSX.Element = (
+            <div className="Toastify--custom">
+                <div className="Toastify--custom__message">{message}</div>
+                <div className="Toastify--custom__icon">
+                    <Link to={PROFILE_PATHS.MY_PROFILE_ACCOUNT} className="btn btn--sm btn--secondary">
+                        Add
+                    </Link>
+                </div>
             </div>
         );
         toast.warning(customToast, Object.assign({}, ToastService.notificationOpts));
