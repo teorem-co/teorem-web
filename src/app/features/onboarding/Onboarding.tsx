@@ -3,7 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 
 import { resetParentRegister, setSkip } from '../../../slices/parentRegisterSlice';
-import { RoleOptions } from '../../../slices/roleSlice';
+import { resetSelectedRole , RoleOptions } from '../../../slices/roleSlice';
+import { resetStudentRegister } from '../../../slices/studentRegisterSlice';
+import { resetTutorRegister } from '../../../slices/tutorRegisterSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
 import TrialPopup from '../register/TrialPopup';
@@ -38,7 +40,10 @@ const Onboarding = () => {
         if (step < 1) {
             setStep(step + 1);
         } else if (step === 1) {
-            setTrial(true);
+            dispatch(resetTutorRegister());
+            dispatch(resetSelectedRole());
+            history.push(PATHS.LOGIN);
+            // setTrial(true);
             //if there is step with card informations
             // } else if (step === 2) {
             //     setTrial(true);
@@ -49,11 +54,14 @@ const Onboarding = () => {
             setStep(step + 1);
         } else if (step === 2) {
             dispatch(resetParentRegister());
+            dispatch(resetSelectedRole());
             history.push(PATHS.LOGIN);
         }
     };
 
     const handleNextStepStudent = () => {
+        dispatch(resetStudentRegister());
+        dispatch(resetSelectedRole());
         history.push(PATHS.LOGIN);
     };
     const showDesc = (data: boolean) => {

@@ -25,7 +25,7 @@ const Navbar = () => {
 
     return (
         <div className="navbar">
-            <NavLink className="d--b" to={`${userRole === RoleOptions.Tutor ? '/dashboard' : '/my-bookings'}`}>
+            <NavLink className="d--b" to={`${userRole === RoleOptions.SuperAdmin ? '/tutor-managment' : userRole === RoleOptions.Tutor ? '/dashboard' : '/my-bookings'}`}>
                 <img className="navbar__logo" src={logo} alt="logo" />
             </NavLink>
             <div className="flex--grow">

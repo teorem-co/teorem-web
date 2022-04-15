@@ -6,6 +6,8 @@ interface IParams {
     sort?: string;
     page: number;
     rpp: number;
+    verified?: number;
+    unprocessed?: number;
 }
 
 export default IParams;

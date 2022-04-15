@@ -1,6 +1,8 @@
 import { FieldProps, useField } from 'formik';
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import PhoneInput from 'react-phone-input-2';
+
+import { useLazyGetCountriesQuery } from '../../features/onboarding/services/countryService';
 
 interface TextFieldType extends FieldProps {
     className?: string;
@@ -17,13 +19,28 @@ const MyPhoneInput: FC<TextFieldType> = (props: any) => {
 
     const currentValue = form.values.phoneNumber;
 
+    const [getCountries] = useLazyGetCountriesQuery();
+    const [country, setCountry] = useState('pl');
+
+    const updateCountry = async () => {
+        const res = await getCountries().unwrap();
+        res.forEach(country => {
+            country.id === form.values.countryId &&
+                setCountry((country.abrv.toLowerCase()));
+        });
+    };
+
+    useEffect(()=>{
+        window && window.location.pathname === "/onboarding" && updateCountry();
+    }, [props.form.values.countryId]);
+
     return (
         <>
             <PhoneInput
                 {...field}
                 {...props}
                 name={name}
-                country={'pl'}
+                country={country}
                 value={currentValue}
                 className={`${className ?? 'input input--base input--text'}`}
                 onChange={(phone) => form.setFieldValue('phoneNumber', phone)}
