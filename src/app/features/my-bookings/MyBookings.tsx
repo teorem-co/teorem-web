@@ -1,11 +1,13 @@
 import 'moment/locale/en-gb';
 
 import { t } from 'i18next';
+import { slice } from 'lodash';
 import moment from 'moment';
 import { useEffect, useRef, useState } from 'react';
 import { Calendar as BigCalendar, momentLocalizer, SlotInfo } from 'react-big-calendar';
 import Calendar from 'react-calendar';
 import { useHistory } from 'react-router';
+import { useLocation } from "react-router-dom";
 
 import { RoleOptions } from '../../../slices/roleSlice';
 import MainWrapper from '../../components/MainWrapper';
@@ -40,7 +42,7 @@ interface IBookingTransformed {
     // tutorId?: string;
 }
 
-const MyBookings: React.FC = () => {
+const MyBookings: React.FC = (props: any) => {
     const [getBookings, { data: bookings, isLoading: bookingsLoading }] = useLazyGetBookingsQuery();
     const [getNotificationForLessons, { data: lessonsCount }] = useLazyGetNotificationForLessonsQuery();
     const [getBookingById, { data: booking }] = useLazyGetBookingByIdQuery();
@@ -55,7 +57,8 @@ const MyBookings: React.FC = () => {
     const [selectedUnavailability, setSelectedUnavailability] = useState<string>('');
     const [openEventDetails, setOpenEventDetails] = useState<boolean>(false);
     const [openTutorCalendarModal, setOpenTutorCalendarModal] = useState<boolean>(false);
-    const [value, onChange] = useState(new Date());
+    const location = useLocation();
+    const [value, onChange] = useState(location.state? new Date(location.state.value) : new Date());
     const [calChange, setCalChange] = useState<boolean>(false);
     const [learnCubeModal, setLearnCubeModal] = useState<boolean>(false);
     const [currentlyActiveBooking, setCurentlyActiveBooking] = useState<string>('');
