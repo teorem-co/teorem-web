@@ -1,0 +1,191 @@
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { stat } from 'fs';
+import { io, Socket } from 'socket.io-client';
+
+const serverUrl = `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_API_PORT}`;
+export interface IChatProfile {
+    userId: string;
+    userNickname: string;
+    userImage: string;
+}
+
+export interface IChatMessage {
+
+    messageId?: string;
+    messageNew?: boolean;
+    message: string;
+    createdAt: Date;
+    isRead: boolean;
+}
+
+export interface ISendChatMessage {
+    userId: string;
+    tutorId: string;
+    message: IChatMessage;
+    senderId?: string;
+
+}
+
+export interface IChatRoom {
+    tutor?: IChatProfile;
+    user?: IChatProfile;
+    messages: Array<ISendChatMessage>;
+    unreadMessageCount: number;
+}
+export interface IState {
+    user: IChatProfile | null;
+    chatRooms: Array<IChatRoom>;
+    newMessages: number;
+    activeChatRoom: IChatRoom | null;
+    socket: Socket;
+}
+
+const initialState: IState = {
+    user: null,
+    chatRooms: [],
+    newMessages: 0,
+    activeChatRoom: null,
+    socket: io(serverUrl)
+};
+
+//RESET STATE AFTER SUCCESFUL LOGIN/REGISTER
+const chatSlice = createSlice({
+    name: 'chat',
+    initialState,
+    reducers: {
+
+        setUser(state, action: PayloadAction<IChatProfile | null>) {
+            state.user = action.payload;
+        },
+
+        setActiveChatRoom(state, action: PayloadAction<IChatRoom | null>) {
+
+            state.activeChatRoom = action.payload;
+        },
+
+        addChatRooms(state, action: PayloadAction<Array<IChatRoom> | null>) {
+
+            if (action.payload) {
+                state.chatRooms = state.chatRooms.concat(action.payload);
+
+                let unreadMessages = 0;
+                for (let i = 0; i < action.payload.length; i++) {
+                    unreadMessages += action.payload[i].unreadMessageCount;
+                }
+
+                state.newMessages += unreadMessages;
+            }
+        },
+        getMessage(state, action: PayloadAction<ISendChatMessage | null>) {
+
+            if (action.payload) {
+
+                for (let i = 0; i < state.chatRooms.length; i++) {
+                    if (state.chatRooms[i].tutor?.userId == action.payload.tutorId) {
+
+                        for (let j = 0; j < state.chatRooms[i].messages.length; j++) {
+
+                            if (state.chatRooms[i].messages[j].message.messageId === action.payload.message.messageId) {
+                                return;
+                            }
+                        }
+
+                        state.chatRooms[i].messages.push(action.payload);
+
+                        if (state.chatRooms[i].tutor?.userId == action.payload.senderId) {
+                            state.chatRooms[i].unreadMessageCount += 1;
+
+                            state.newMessages += 1;
+
+                            return;
+                        }
+                    }
+                }
+            }
+        },
+        getMessages(state, action: PayloadAction<ISendChatMessage[] | null>) {
+
+            if (action.payload) {
+                for (let k = 0; k < action.payload.length; k++) {
+                    for (let i = 0; i < state.chatRooms.length; i++) {
+                        if (state.chatRooms[i].tutor?.userId == action.payload[k].tutorId) {
+
+                            let inside = false;
+                            for (let j = 0; j < state.chatRooms[i].messages.length; j++) {
+
+                                if (state.chatRooms[i].messages[j].message.messageId === action.payload[k].message.messageId) {
+                                    inside = true;
+                                    break;
+                                }
+                            }
+
+                            if (inside)
+                                break;
+
+                            state.chatRooms[i].messages.push(action.payload[k]);
+
+                            if (state.chatRooms[i].tutor?.userId == action.payload[k].senderId) {
+                                state.chatRooms[i].unreadMessageCount += 1;
+
+                                state.newMessages += 1;
+
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        addMessage(state, action: PayloadAction<ISendChatMessage | null>) {
+
+            if (action.payload) {
+
+                for (let i = 0; i < state.chatRooms.length; i++) {
+                    for (let j = 0; j < state.chatRooms[i].messages.length; j++) {
+
+                        if (!state.chatRooms[i].messages[j].message.messageNew && state.chatRooms[i].messages[j].message.messageId == action.payload.message.messageId) {
+                            return;
+                        }
+                    }
+
+                    if (state.chatRooms[i].tutor?.userId == action.payload.tutorId && state.chatRooms[i].user?.userId == action.payload.userId) {
+                        state.chatRooms[i].messages.push(action.payload);
+                        state.activeChatRoom?.messages.push(action.payload);
+
+                        if (!action.payload.message.messageNew) {
+                            state.chatRooms[i].unreadMessageCount += 1;
+                            state.newMessages += 1;
+                        }
+                        return;
+                    }
+                }
+
+            }
+        },
+        readMessage(state, action: PayloadAction<ISendChatMessage | null>) {
+
+            if (action.payload) {
+
+                for (let i = 0; i < state.chatRooms.length; i++) {
+                    for (let j = 0; j < state.chatRooms[i].messages.length; j++) {
+                        if (state.chatRooms[i].messages[j].message.messageId == action.payload.message.messageId) {
+
+                            if (state.chatRooms[i].messages[j].message.isRead)
+                                return;
+                            state.chatRooms[i].messages[j].message.isRead = true;
+                            state.chatRooms[i].unreadMessageCount -= 1;
+
+                            state.newMessages -= 1;
+
+                            state.socket.emit('readMessage', state.chatRooms[i].messages[j]);
+                            return;
+                        }
+                    }
+                }
+            }
+        },
+    },
+});
+
+export const { setUser, setActiveChatRoom, addChatRooms, getMessage, getMessages, addMessage, readMessage } = chatSlice.actions;
+export default chatSlice.reducer;

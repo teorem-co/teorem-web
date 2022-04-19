@@ -16,6 +16,7 @@ import { baseService } from './baseService';
 import myReviewsReducer from './features/myReviews/slices/MyReviewsSlice';
 import { rtkQueryErrorLogger } from './middleware/rtkQueryErrorLogger';
 import uploadFileReducer from './slices/tutorImageUploadSlice';
+import chatReducer from './features/chat/slices/chatSlice';
 
 const persistConfig = {
     key: 'root',
@@ -36,6 +37,7 @@ const appReducer = combineReducers({
     parentRegister: parentRegisterReducer,
     children: childrenReducer,
     myProfileProgress: myProfileProgressReducer,
+    chat: chatReducer,
 });
 
 const rootReducer = (state: any, action: any) => {

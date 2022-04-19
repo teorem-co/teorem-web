@@ -1,16 +1,27 @@
 import React from 'react';
 
+import { useDispatch } from 'react-redux';
 import { IChatConversationItem } from '../../../constants/chatConstants';
+import { IChatRoom, setActiveChatRoom } from '../slices/chatSlice';
 
 interface Props {
     data: IChatConversationItem;
+    chat: IChatRoom;
 }
 
 const ConversationAside = (props: Props) => {
     const { imgUrl, name, lastMessage, lastMessageTime, unread } = props.data;
 
+    const dispatch = useDispatch();
+
+    const selectChat = () => {
+        dispatch(setActiveChatRoom(props.chat));
+    };
+
     return (
-        <div className="chat__conversation">
+
+
+        <div className="chat__conversation" onClick={selectChat}>
             <img
                 className="chat__conversation__avatar"
                 src={imgUrl}

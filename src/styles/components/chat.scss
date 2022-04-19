@@ -72,6 +72,10 @@
                 margin-right: calc($unit * 0);
                 text-align: left;
             }
+
+            &__end{
+                margin-right:16px;
+            }
         }
     }
 
@@ -80,4 +84,8 @@
         align-items: center;
         padding: calc($unit * 5) calc($unit * 6);
     }
+}
+
+.message-full-width{
+    width: 100%;
 }
