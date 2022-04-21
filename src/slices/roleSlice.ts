@@ -5,6 +5,7 @@ export enum RoleOptions {
     Tutor = 'tutor',
     Parent = 'parent',
     Child = 'child',
+    SuperAdmin = 'admin',
 }
 
 interface IState {
