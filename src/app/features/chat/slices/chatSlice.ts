@@ -179,13 +179,13 @@ const chatSlice = createSlice({
                     for (let j = 0; j < state.chatRooms[i].messages.length; j++) {
                         if (state.chatRooms[i].messages[j].message.messageId == action.payload.message.messageId) {
 
-                            if (state.chatRooms[i].messages[j].message.isRead)
+                            if (state.chatRooms[i].messages[j].message.messageNew || state.chatRooms[i].messages[j].message.isRead)
                                 return;
                             state.chatRooms[i].messages[j].message.isRead = true;
                             state.chatRooms[i].unreadMessageCount -= 1;
                             state.newMessages -= 1;
 
-                            if (state.activeChatRoom?.tutor?.userId == state.chatRooms[i].messages[j].tutorId && state.activeChatRoom?.user?.userId == state.chatRooms[i].messages[j].userId) {
+                            if (!state.chatRooms[i].messages[j].message.messageNew && state.activeChatRoom?.tutor?.userId == state.chatRooms[i].messages[j].tutorId && state.activeChatRoom?.user?.userId == state.chatRooms[i].messages[j].userId) {
                                 state.activeChatRoom.unreadMessageCount -= 1;
                             }
 
@@ -196,8 +196,29 @@ const chatSlice = createSlice({
                 }
             }
         },
+
+        addChatRoom(state, action: PayloadAction<IChatRoom | null>) {
+
+            if (action.payload) {
+
+                for (let i = 0; i < state.chatRooms.length; i++) {
+
+                    if (state.chatRooms[i].tutor?.userId == action.payload.tutor?.userId && state.chatRooms[i].user?.userId == action.payload.user?.userId) {
+                        return;
+                    }
+                }
+
+                if (action.payload.user?.userId == state.user?.userId)
+                    state.activeChatRoom = action.payload;
+
+                state.chatRooms.push(action.payload);
+
+                /*if (state.user?.userId != action.payload.user?.userId)
+                    state.newMessages += 1;*/
+            }
+        },
     },
 });
 
-export const { setUser, setActiveChatRoom, addChatRooms, getMessage, getMessages, addMessage, readMessage } = chatSlice.actions;
+export const { setUser, setActiveChatRoom, addChatRooms, getMessage, getMessages, addMessage, readMessage, addChatRoom } = chatSlice.actions;
 export default chatSlice.reducer;

@@ -1,9 +1,9 @@
-import React, { useEffect,useRef  } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { useAppSelector } from '../../../hooks';
-import { IChatRoom, ISendChatMessage,readMessage } from '../slices/chatSlice';
+import { IChatRoom, ISendChatMessage, readMessage } from '../slices/chatSlice';
 import SendMessageForm from './SendMessageForm';
 
 interface Props {
@@ -73,7 +73,18 @@ const SingleConversation = (props: Props) => {
             </div>
 
             <div className="content__main">
-                {props.data && props.data.messages.map((message: ISendChatMessage, index: number) => {
+                {props.data && props.data.messages.length == 0 &&
+                    <div className={`chat_message_init_new`}>
+                        <div className={`message-full-width flex flex--col flex--center`}>
+                            <div className="type--right w--80--max">
+                                <div className={`chat__message__item__center chat__message__item chat__message__item__init`}>
+                                    <i>Pošaljite poruku da započnete razgovor</i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                {props.data && props.data.messages.length > 0 && props.data.messages.map((message: ISendChatMessage, index: number) => {
 
                     let img = false;
 
@@ -122,7 +133,7 @@ const SingleConversation = (props: Props) => {
             </div>
             {props.data && <SendMessageForm data={props.data} />}
 
-        </div>
+        </div >
     );
 };
 
