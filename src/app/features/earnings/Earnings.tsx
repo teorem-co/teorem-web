@@ -63,7 +63,7 @@ const Earnings = () => {
                     </div>
                 </div>
                 <div className="card--secondary__body">
-                    <div className="upcoming-lessons__title--primary">{t('EARNINGS.GENERAL.TITLE')}</div>
+                    <div className="type--color--tertiary type--spacing mb-2">{t('EARNINGS.GENERAL.TITLE')}</div>
                     <div className="row">
                         <div className="col col-12 col-md-6 col-xl-3">
                             <div className="card--earnings">
@@ -94,11 +94,11 @@ const Earnings = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="upcoming-lessons__title--primary mt-10">{t('EARNINGS.REVENUE.TITLE')}</div>
+                    <div className="type--color--tertiary  type--spacing mt-10 mb-2">{t('EARNINGS.REVENUE.TITLE')}</div>
                     <div>
                         <Line height={200} options={earningsGraphOptions} data={data} />
                     </div>
-                    <div className="upcoming-lessons__title--primary mt-10">{t('EARNINGS.DETAILS.TITLE')}</div>
+                    <div className="type--color--tertiary  type--spacing mt-10 mb-2">{t('EARNINGS.DETAILS.TITLE')}</div>
                     <table className="table table--secondary">
                         <thead>
                             <tr>

@@ -19,10 +19,12 @@ const NotificationItem = (props: Props) => {
         await markAsRead(id).unwrap();
         let date = description.match(/date=\{(.*?)\}/g)?.toString();
         date = date?.slice(6, date.length - 1);
-        history.push({
-            pathname: '/my-bookings',
-            state: {value: date}
-          });
+        date ? 
+            history.push({
+                pathname: '/my-bookings',
+                state: {value: date}
+            }) : 
+            history.push('/my-bookings');
     };
 
     return (

@@ -70,14 +70,12 @@ const Login: React.FC = () => {
 
     useEffect(() => {
         if (isSuccessLogin && loginData && userRoleAbrv) {
-            if (userRoleAbrv === Role.Tutor) {
-                history.push(PATHS.DASHBOARD);
-            } else if (userRoleAbrv === Role.Child) {
+            if (userRoleAbrv === Role.Child) {
                 history.push(PATHS.MY_BOOKINGS);
             } else if (userRoleAbrv === Role.SuperAdmin) {
                 history.push(PATHS.TUTOR_MANAGMENT);
             } else {
-                history.push(PATHS.SEARCH_TUTORS);
+                history.push(PATHS.DASHBOARD);
             }
         }
     }, [userRoleAbrv]);

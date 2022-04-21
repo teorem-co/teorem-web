@@ -216,7 +216,16 @@ const Dashboard = () => {
                                                                 {moment(item.startTime).format('HH:mm')} -{' '}
                                                                 {moment(item.endTime).add(1, 'minute').format('HH:mm')}
                                                             </div>
-                                                            <div onClick={() => history.push(PATHS.MY_BOOKINGS)}>
+                                                            <div 
+                                                                onClick={() => {
+                                                                    // history.push(PATHS.MY_BOOKINGS)
+
+                                                                    history.push({
+                                                                        pathname: PATHS.MY_BOOKINGS,
+                                                                        state: {value: new Date(item.startTime).toString()}
+                                                                    });
+                                                                }
+                                                            }>
                                                                 <i className="icon icon--base icon--chevron-right icon--primary"></i>
                                                             </div>
                                                         </div>
