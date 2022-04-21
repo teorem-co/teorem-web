@@ -48,7 +48,7 @@ $footer-height: 72px;
         // due to the desired initial flex-end behaviour, if we have two groups of buttons their order is reversed
         // for example
         //    - delete button needs to be under save button in HTML to be pushed on the other side
-        flex-flow: row-reverse;
+        //flex-flow: row-reverse;
 
         height: $footer-height;
         min-height: $footer-height;
@@ -57,7 +57,7 @@ $footer-height: 72px;
         background-color: $white;
 
         &--chat {
-            flex-direction: row;
+            flex-wrap: wrap;
         }
     }
 }

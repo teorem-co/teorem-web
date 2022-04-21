@@ -1,34 +1,40 @@
-import { useEffect, useState } from 'react';
-import { ChatEngine } from 'react-chat-engine';
+import { curryGetDefaultMiddleware } from '@reduxjs/toolkit/dist/getDefaultMiddleware';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
 import IChatEnginePost from '../../../../interfaces/IChatEnginePost';
-import IUser from '../../../../interfaces/IUser';
 import MainWrapper from '../../../components/MainWrapper';
-import { chatConversation, chatConversationList, IChatConversation, IChatConversationItem } from '../../../constants/chatConstants';
 import { useAppSelector } from '../../../hooks';
 import { useAddUserMutation } from '../../../services/chatEngineService';
-import ConversationAside from '../components/ConversationAside';
-import LoggedUserMessage from '../components/LoggedUserMessage';
-import OtherUserMessage from '../components/OtherUserMessage';
+import AsideWrapper from '../components/AsideWrapper';
+import SendMessageForm from '../components/SendMessageForm';
+import SingleConversation from '../components/SingleConversation';
+import { IChatRoom, ISendChatMessage, readMessage, setActiveChatRoom } from '../slices/chatSlice';
+
 
 const Chat = () => {
+
     const user = useAppSelector((state) => state.auth.user);
+    const chat = useAppSelector((state) => state.chat);
 
-    const chatUserName = user?.email.split('@')[0];
+    const dispatch = useDispatch();
 
-    const [addUserQuery] = useAddUserMutation();
+    useEffect(() => {
+        if (!chat.activeChatRoom) {
 
-    const addUser = async () => {
-        const toSend: IChatEnginePost = {
-            email: 'neven.jovic2@gmail.com',
-            first_name: 'Neven',
-            last_name: 'Jovic',
-            secret: 'Teorem1!',
-            username: 'neven.jovic2',
-        };
+            for (let i = 0; i < chat.chatRooms.length; i++) {
 
-        await addUserQuery(toSend).unwrap();
-    };
+                if (i == 0) {
+                    dispatch(setActiveChatRoom(chat.chatRooms[0]));
+                    break;
+                }
+            }
+        }
+    }, []);
+
+    /*useEffect(() => {
+        console.log(chat);
+    }, [chat]);*/
 
     return (
         <MainWrapper>
@@ -36,7 +42,11 @@ const Chat = () => {
                 <button onClick={() => addUser()}>add user</button>
             </div> */}
             <div className="card--chat card--primary--shadow">
-                <ChatEngine height="100%" userName={chatUserName} userSecret="Teorem1!" projectID="18898bd1-08c8-40ea-aed1-fb1a1cf1e413" />
+
+
+
+                {/*<ChatEngine height="100%" userName={chatUserName} userSecret="Teorem1!" projectID="18898bd1-08c8-40ea-aed1-fb1a1cf1e413" />*/}
+
                 {/* <div className="card--chat__aside">
                     <div className="p-4">
                         <div className="type--wgt--bold type--lg">Chat</div>
@@ -47,9 +57,11 @@ const Chat = () => {
                             return <ConversationAside key={index} data={chatConversationItem} />;
                         })}
                     </div>
-                </div>
-                
-                <div className="content">
+                    </div>*/}
+                <AsideWrapper data={chat.chatRooms} />
+
+                <SingleConversation data={chat.activeChatRoom} />
+                {/*<div className="content">
                     <div className="content__header content__header--chat">
                         <div className="flex flex--center">
                             <img className="chat__conversation__avatar" src="https://source.unsplash.com/random/?girl" alt="chat avatar" />

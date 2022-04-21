@@ -23,10 +23,10 @@
         }
 
         &__dot {
-            width: 8px;
-            height: 8px;
+            width: 10px;
+            height: 10px;
             border-radius: $border-circle;
-            background-color: $black;
+            background:#7e6cf2;
             margin: 0 auto;
         }
     }
@@ -44,7 +44,6 @@
 
     &__message {
         display: flex;
-        margin-top: calc($unit * 6);
 
         &--other {
             flex-direction: row;
@@ -72,6 +71,27 @@
                 margin-right: calc($unit * 0);
                 text-align: left;
             }
+            &--logged a{
+                color: $color-primary;
+                margin-right: calc($unit * 0);
+                text-align: left;
+            }
+
+            &__end{
+                margin-right:16px;
+            }
+        }
+
+        &__margin-top{
+            margin-top: calc($unit * 6);
+        }
+
+        &__margin-left{
+            margin-left: calc($unit * 10);
+        }
+        
+        &__margin-right{
+            margin-right: calc($unit * 10);
         }
     }
 
@@ -80,4 +100,81 @@
         align-items: center;
         padding: calc($unit * 5) calc($unit * 6);
     }
+}
+
+.message-full-width{
+    width: 100%;
+}
+
+form.chat-file-send-form{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.input-file-relative{
+    position: relative;
+}
+
+.input-file-hidden{
+    position: absolute;
+    display:flex;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    top:0;
+    left:0;
+    z-index: 2;
+    pointer-events: all;
+    cursor: pointer;
+}
+
+.aside-conversation-message{
+    pointer-events: none;
+}
+
+.chat-file-message-send{
+    display: flex;
+    margin-left: calc( $unit * 20);
+    margin-right: auto;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    padding: 8px 16px;
+    background: linear-gradient(226.69deg, rgba(127, 95, 211, 0.9) 4.52%, #5c3ee8 94.64%);
+    color: #fff;
+    border-radius: calc( $unit * 4);
+
+    button{
+        margin-left: 8px;
+        outline: none;
+        background: transparent;
+        font-weight: bold;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+}
+
+.chat-file-outline{
+    background: transparent;
+    border: 1px solid $color-primary;
+    border-radius: calc( $unit * 4);
+    display: inline-flex;
+    padding-left: calc( $unit * 2);
+}
+.chat-file-outline .chat-file-icon{
+    margin-right: calc( $unit * 2);
+}
+.chat-file-icon{
+    width:24px;
+    height: 24px;
+    background: $color-primary;
+}
+
+.chat-file-message-send button i {
+    background-color: white;
+    width:24px;
+    height:24px;
+    display: flex;
 }
