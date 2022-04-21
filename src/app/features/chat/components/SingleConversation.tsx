@@ -98,7 +98,7 @@ const SingleConversation = (props: Props) => {
 
                     if (userActive && userActive.id == message.senderId)
                         return (
-                            <div className={`chat__message chat__message--logged${img ? " chat__message__margin-top" : ""}${img ? "" : " chat__message__margin-right"}`}>
+                            <div key={index} className={`chat__message chat__message--logged${img ? " chat__message__margin-top" : ""}${img ? "" : " chat__message__margin-right"}`}>
                                 {img && <img
                                     className="chat__conversation__avatar chat__conversation__avatar--small"
                                     src={props.data ? ('https://' + (message.senderId == props.data.tutor?.userId ? props.data.tutor?.userImage : props.data.user?.userImage)) : ""}
@@ -113,7 +113,7 @@ const SingleConversation = (props: Props) => {
                             </div>
                         );
                     return (
-                        <div className={`chat__message chat__message--other${img ? " chat__message__margin-top" : ""}${img ? "" : " chat__message__margin-left"}`}>
+                        <div key={index} className={`chat__message chat__message--other${img ? " chat__message__margin-top" : ""}${img ? "" : " chat__message__margin-left"}`}>
 
                             {img && <img
                                 className="chat__conversation__avatar chat__conversation__avatar--small"
