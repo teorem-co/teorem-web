@@ -13,10 +13,10 @@ import studentRegisterReducer from '../slices/studentRegisterSlice';
 import tutorRegisterReducer from '../slices/tutorRegisterSlice';
 import userReducer from '../slices/userSlice';
 import { baseService } from './baseService';
+import chatReducer from './features/chat/slices/chatSlice';
 import myReviewsReducer from './features/myReviews/slices/MyReviewsSlice';
 import { rtkQueryErrorLogger } from './middleware/rtkQueryErrorLogger';
 import uploadFileReducer from './slices/tutorImageUploadSlice';
-import chatReducer from './features/chat/slices/chatSlice';
 
 const persistConfig = {
     key: 'root',

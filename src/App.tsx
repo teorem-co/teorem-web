@@ -1,9 +1,9 @@
 import moment from 'moment';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+
 import { useLazyGetChatRoomsQuery } from './app/features/chat/services/chatService';
 import { addChatRooms, addMessage, ISendChatMessage, readMessage, setUser } from './app/features/chat/slices/chatSlice';
-
 import { useAppSelector } from './app/hooks';
 import ROUTES, { RenderRoutes } from './app/routes';
 import toastService from './app/services/toastService';

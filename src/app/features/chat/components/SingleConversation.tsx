@@ -1,11 +1,9 @@
-import React, { useRef } from 'react';
-
-import { useEffect } from 'react';
+import React, { useEffect,useRef  } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { useAppSelector } from '../../../hooks';
-import { IChatRoom, readMessage, ISendChatMessage } from '../slices/chatSlice';
+import { IChatRoom, ISendChatMessage,readMessage } from '../slices/chatSlice';
 import SendMessageForm from './SendMessageForm';
 
 interface Props {
