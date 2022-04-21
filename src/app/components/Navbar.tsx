@@ -20,12 +20,18 @@ const Navbar = () => {
         dispatch({ type: 'USER_LOGOUT' });
     };
 
-    const user = useAppSelector((state) => state.user.user);
-    const userRole = useAppSelector((state) => state.user.user?.Role.abrv);
+    const user = useAppSelector((state) => state.auth?.user);
 
     return (
         <div className="navbar">
-            <NavLink className="d--b" to={`${userRole === RoleOptions.Tutor ? '/dashboard' : '/my-bookings'}`}>
+            <NavLink 
+                className="d--b" 
+                to={`${user?.Role?.abrv === RoleOptions.SuperAdmin ? 
+                        '/tutor-managment' : 
+                        user?.Role?.abrv === RoleOptions.Tutor ? 
+                            '/dashboard' : 
+                            '/my-bookings'}`}
+            >
                 <img className="navbar__logo" src={logo} alt="logo" />
             </NavLink>
             <div className="flex--grow">
@@ -33,7 +39,7 @@ const Navbar = () => {
             </div>
             <div className="navbar__bottom">
                 {/* Don't show user profile settings to child role */}
-                {(userRole === RoleOptions.Child && (
+                {(user?.Role?.abrv === RoleOptions.Child && (
                     <div className="flex flex--grow flex--center">
                         <div className="navbar__bottom__avatar pos--rel">
                             <ImageCircle initials={`${user?.firstName.charAt(0)}${user?.lastName.charAt(0)}`} />
@@ -52,7 +58,7 @@ const Navbar = () => {
                 )) || (
                     <NavLink to="/my-profile/info/personal" className="navbar__bottom__my-profile" activeClassName="active">
                         <div className="navbar__bottom__avatar pos--rel">
-                            {userRole === RoleOptions.Tutor ? (
+                            {user?.Role?.abrv === RoleOptions.Tutor ? (
                                 <img src={user?.profileImage ? 'https://' + user?.profileImage : gradientCircle} alt="avatar" />
                             ) : (
                                 <ImageCircle initials={`${user?.firstName.charAt(0)}${user?.lastName.charAt(0)}`} />

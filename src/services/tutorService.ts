@@ -1,3 +1,5 @@
+import { InteractionMode } from 'chart.js';
+
 import { baseService } from '../app/baseService';
 import IProgressProfile from '../app/features/my-profile/interfaces/IProgressProfile';
 import IUpdateAdditionalInfo from '../app/features/my-profile/interfaces/IUpdateAdditionalInfo';
@@ -34,6 +36,16 @@ const URL = 'tutors';
 
 export const tutorService = baseService.injectEndpoints({
     endpoints: (builder) => ({
+        getTutors: builder.query({
+            query: (params: any) => {
+                const queryData = {
+                    url: `${URL}/?page=${params.page}&rpp=${params.rpp}&unproccessed=${params.unprocessed? "true" : "false"}${params.verified? params.verified == 1 ? "&verified=true" : "&verified=false" : ""}`,
+                    method: HttpMethods.GET,
+                };
+
+                return queryData;
+            },
+        }),
         getAvailableTutors: builder.query<ITutorAvailable, IParams>({
             query: (params) => {
                 const queryData = {
@@ -113,11 +125,36 @@ export const tutorService = baseService.injectEndpoints({
             },
             providesTags: ['tutorBookings'],
         }),
+        approveTutor: builder.mutation({
+            query(tutorID) {
+                return {
+                    url: `${URL}/verify-tutor/?tutorId=${tutorID}`,
+                    method: 'PUT',
+                };
+            },
+        }),
+        denyTutor: builder.mutation({
+            query(data) {
+                return {
+                    url: `${URL}/unverify-tutor/?tutorId=${data.tutorId}&message=${data.message}`,
+                    method: 'PUT',
+                };
+            },
+        }),
+        deleteTutor: builder.mutation({
+            query(tutorId) {
+                return {
+                    url: `${URL}/${tutorId}`,
+                    method: 'DELETE',
+                };
+            },
+        }),
         // postTutorsubject: builder.mutation<void, >
     }),
 });
 
 export const {
+    useLazyGetTutorsQuery,
     useLazyGetAvailableTutorsQuery,
     useGetAvailableTutorsQuery,
     useGetProfileProgressQuery,
@@ -126,6 +163,9 @@ export const {
     useUpdateAditionalInfoMutation,
     useGetTutorProfileDataQuery,
     useLazyGetTutorBookingsQuery,
+    useApproveTutorMutation,
+    useDenyTutorMutation,
+    useDeleteTutorMutation,
 } = tutorService;
 
 export function getUserRoleAbbrv() {

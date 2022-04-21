@@ -1,6 +1,7 @@
 import { t } from 'i18next';
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 
+import { useLazyGetUserQuery } from '../../../../services/userService';
 import { getDateAgoLabel } from '../../../utils/getDateAgoLabel';
 import handleRatingStars from '../../../utils/handleRatingStarts';
 import IMyReview from '../interfaces/IMyReview';
@@ -12,12 +13,24 @@ interface Props {
 const ReviewItem: FC<Props> = (props: Props) => {
     const { reviewItem } = props;
 
+    const [getUser] = useLazyGetUserQuery();
+    const [userRole, setUserRole] = useState<string>('');
+
+    const getUserRole = async (id: any) => {
+        const userResponse = await (await getUser(id).unwrap()).Role.abrv;
+        setUserRole( userResponse.charAt(0).toUpperCase() + userResponse.slice(1) );
+    };
+
+    useEffect(()=>{
+        getUserRole(reviewItem.userId);
+    }, []);
+
     return (
         <>
             <div key={reviewItem.id} className="reviews-list__item">
                 <div>
                     <h4 className="type--md type--wgt--normal mb-1">{reviewItem.userName ? reviewItem.userName : 'Deleted user'}</h4>
-                    <p className="type--color--brand-light">{reviewItem.User ? reviewItem.User.Role.name : 'Child'}</p>
+                    <p className="type--color--brand-light">{userRole}</p>
                 </div>
                 <div>
                     <div className="flex--primary mb-2">

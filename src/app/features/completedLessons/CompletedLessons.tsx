@@ -150,7 +150,7 @@ const CompletedLessons = () => {
                                                 </div>
                                             </div>
                                             <div>
-                                                {!activeLesson.isReview && (
+                                                {!activeLesson.isReview && userRole !== "child" && (
                                                     <button onClick={() => setActiveReviewModal(true)} className="btn btn--base btn--clear mr-4">
                                                         {t('COMPLETED_LESSONS.LEAVE_REVIEW')}
                                                     </button>

@@ -17,7 +17,14 @@ const NotificationItem = (props: Props) => {
 
     const handleClick = async () => {
         await markAsRead(id).unwrap();
-        history.push('/my-bookings');
+        let date = description.match(/date=\{(.*?)\}/g)?.toString();
+        date = date?.slice(6, date.length - 1);
+        date ? 
+            history.push({
+                pathname: '/my-bookings',
+                state: {value: date}
+            }) : 
+            history.push('/my-bookings');
     };
 
     return (

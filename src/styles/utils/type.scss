@@ -137,4 +137,8 @@
     &--break {
         word-break: break-word;
     }
+
+    &--spacing{
+        letter-spacing: 1px;
+    }
 }
