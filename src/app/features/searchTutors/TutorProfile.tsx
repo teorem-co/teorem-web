@@ -127,12 +127,12 @@ const TutorProfile = () => {
         const toSend: IChatRoom = {
             user: {
                 userId: user?.id + '',
-                userImage: user?.profileImage || 'localhost:3000/profile/images/profilePictureDefault.jpg',
+                userImage: user?.profileImage || 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
                 userNickname: user?.firstName + ' ' + user?.lastName,
             },
             tutor: {
                 userId: tutorData?.userId + '',
-                userImage: tutorData?.User.profileImage || 'localhost:3000/profile/images/profilePictureDefault.jpg',
+                userImage: tutorData?.User.profileImage || 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
                 userNickname: tutorData?.User.firstName + ' ' + tutorData?.User.lastName,
             },
             unreadMessageCount: 0,
