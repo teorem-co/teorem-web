@@ -28,6 +28,7 @@ import RoleSelection from './features/roleSelection/RoleSelection';
 import SearchTutors from './features/searchTutors/SearchTutors';
 import TutorProfile from './features/searchTutors/TutorProfile';
 import TutorBookings from './features/tutor-bookings/TutorBookings';
+import { useAppSelector } from './hooks';
 import { Role } from './lookups/role';
 import NotFound from './pages/NotFound';
 import PermissionsGate from './PermissionGate';
@@ -481,6 +482,8 @@ export const menuPerRole: IMenuPerRole = {
 export function RenderMenuLinks() {
     const userRole = getUserRoleAbrv();
 
+    const chat = useAppSelector((state) => state.chat);
+
     const { t } = useTranslation();
 
     if (userRole) {
@@ -511,6 +514,7 @@ export function RenderMenuLinks() {
                     >
                         <i className={`icon icon--base navbar__item__icon navbar__item--${route.icon}`}></i>
                         <span className={`navbar__item__label`}>{t(`NAVIGATION.${route.name}`)}</span>
+                        {route.key == 'CHAT' && chat.newMessages > 0 && <i className={`navbar__item__unread`}></i>}
                     </NavLink>
                 ))}
             </>

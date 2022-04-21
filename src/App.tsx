@@ -1,10 +1,6 @@
-import { use } from 'i18next';
-import { identity } from 'lodash';
 import moment from 'moment';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { io } from 'socket.io-client';
-import ConversationAside from './app/features/chat/components/ConversationAside';
 import { useLazyGetChatRoomsQuery } from './app/features/chat/services/chatService';
 import { addChatRooms, addMessage, ISendChatMessage, readMessage, setUser } from './app/features/chat/slices/chatSlice';
 
@@ -46,7 +42,7 @@ function App() {
 
             if (userId) {
                 dispatch(addMessage(sendMessageObject));
-                dispatch(readMessage(sendMessageObject));
+                //dispatch(readMessage(sendMessageObject));
             }
         });
 

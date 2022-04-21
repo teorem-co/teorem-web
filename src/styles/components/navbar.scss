@@ -101,6 +101,14 @@
                 color: $black;
             }
         }
+
+        &__unread{
+            background:#7e6cf2;
+            border-radius: 50%;
+            width: 10px;
+            height: 10px;
+            margin-left: auto;
+        }
     }
 
     &__bottom {

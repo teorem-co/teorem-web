@@ -7,6 +7,7 @@ import MainWrapper from '../../../components/MainWrapper';
 import { useAppSelector } from '../../../hooks';
 import { useAddUserMutation } from '../../../services/chatEngineService';
 import AsideWrapper from '../components/AsideWrapper';
+import SendMessageForm from '../components/SendMessageForm';
 import SingleConversation from '../components/SingleConversation';
 import { IChatRoom, ISendChatMessage, readMessage, setActiveChatRoom } from '../slices/chatSlice';
 
@@ -30,6 +31,10 @@ const Chat = () => {
             }
         }
     }, []);
+
+    /*useEffect(() => {
+        console.log(chat);
+    }, [chat]);*/
 
     return (
         <MainWrapper>

@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { useAppSelector } from '../../../hooks';
 import { IChatRoom, readMessage, ISendChatMessage } from '../slices/chatSlice';
@@ -21,7 +22,12 @@ const SingleConversation = (props: Props) => {
 
     const dispatch = useDispatch();
 
-    const scrollToBottom = () => {
+    const scrollToBottomFast = () => {
+
+        messagesEndRef.current?.scrollIntoView({ behavior: "auto", block: "nearest" });
+
+    };
+    const scrollToBottomSmooth = () => {
 
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
 
@@ -39,11 +45,14 @@ const SingleConversation = (props: Props) => {
 
                     for (let j = 0; j < chat.chatRooms[i].messages.length; j++) {
 
-                        if (userActive?.id !== chat.chatRooms[i].messages[j].senderId)
+                        if (userActive?.id !== chat.chatRooms[i].messages[j].senderId) {
                             dispatch(readMessage(chat.chatRooms[i].messages[j]));
+                        }
                     }
                 }
             }
+
+            scrollToBottomFast();
         }
 
     }, [props.data]);
@@ -52,11 +61,17 @@ const SingleConversation = (props: Props) => {
         <div className="content">
             <div className="content__header content__header--chat">
                 <div className="flex flex--center">
-                    <img className="chat__conversation__avatar" src={props.data ? ('https://' + (userActive?.id != props.data.tutor?.userId ? props.data.tutor?.userImage : props.data.user?.userImage)) : ""} alt="chat avatar" />
+                    {props.data && <img className="chat__conversation__avatar" src={props.data ? ('https://' + (userActive?.id != props.data.tutor?.userId ? props.data.tutor?.userImage : props.data.user?.userImage)) : ""} alt="chat avatar" />
+                    }
 
-                    <div className="ml-3 type--wgt--bold">{props.data ? (userActive?.id != props.data.tutor?.userId ? props.data.tutor?.userNickname : props.data.user?.userNickname) : ""}</div>
+                    <div className="ml-3 type--wgt--bold">{props.data ? (userActive?.id != props.data.tutor?.userId ? props.data.tutor?.userNickname : props.data.user?.userNickname) : "Odaberite osobu za razgovor"}</div>
                 </div>
-                <button className="btn btn--primary btn--base">Book a session</button>
+                {props.data && (userActive?.id == props.data.user?.userId) && <Link
+                    className="btn btn--primary btn--base"
+                    to={`/search-tutors/bookings/${props.data.tutor?.userId}`} >
+                    Book a session
+                </Link>}
+
             </div>
 
             <div className="content__main">
@@ -70,37 +85,35 @@ const SingleConversation = (props: Props) => {
                     }
 
                     if (props.data && index == props.data?.messages.length - 1)
-                        scrollToBottom();
+                        scrollToBottomSmooth();
 
                     if (userActive && userActive.id == message.senderId)
                         return (
-                            <div className="chat__message chat__message--logged">
+                            <div className={`chat__message chat__message--logged${img ? " chat__message__margin-top" : ""}${img ? "" : " chat__message__margin-right"}`}>
                                 {img && <img
                                     className="chat__conversation__avatar chat__conversation__avatar--small"
                                     src={props.data ? ('https://' + (message.senderId == props.data.tutor?.userId ? props.data.tutor?.userImage : props.data.user?.userImage)) : ""}
                                     alt={'profile avatar'} />
                                 }
-                                <div className="message-full-width flex flex--col flex--end">
+                                <div className={`message-full-width flex flex--col flex--end`}>
                                     <div className="type--right w--80--max">
-                                        <div className="chat__message__item__end chat__message__item chat__message__item--logged">
-                                            {message.message.message}
+                                        <div className={`chat__message__item__end chat__message__item chat__message__item--logged${message.message.isFile ? " chat-file-outline" : ""}`} dangerouslySetInnerHTML={{ __html: (message.message.isFile ? '<i class="icon--attachment chat-file-icon"></i>' : '') + message.message.message }}>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         );
                     return (
-                        <div className="chat__message chat__message--other">
+                        <div className={`chat__message chat__message--other${img ? " chat__message__margin-top" : ""}${img ? "" : " chat__message__margin-left"}`}>
 
                             {img && <img
                                 className="chat__conversation__avatar chat__conversation__avatar--small"
                                 src={props.data ? ('https://' + (message.senderId == props.data.tutor?.userId ? props.data.tutor?.userImage : props.data.user?.userImage)) : ""}
                                 alt={'profile avatar'} />
                             }
-                            <div className="message-full-width flex flex--col">
+                            <div className={`message-full-width flex flex--col`}>
                                 <div className="w--80--max">
-                                    <div className="chat__message__item chat__message__item--other">
-                                        {message.message.message}
+                                    <div className={`chat__message__item chat__message__item--other${message.message.isFile ? " chat-file-outline" : ""}`} dangerouslySetInnerHTML={{ __html: (message.message.isFile ? '<i class="icon--attachment chat-file-icon"></i>' : '') + message.message.message }}>
                                     </div>
                                 </div>
                             </div>
@@ -109,9 +122,8 @@ const SingleConversation = (props: Props) => {
                 })}
                 <div style={{ marginTop: 80 }} ref={messagesEndRef} />
             </div>
-            <div className="content__footer content__footer--chat">
-                <SendMessageForm data={props.data} />
-            </div>
+            {props.data && <SendMessageForm data={props.data} />}
+
         </div>
     );
 };

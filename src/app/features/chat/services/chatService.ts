@@ -1,6 +1,7 @@
 import 'moment/locale/en-gb';
 import { baseService } from '../../../baseService';
 import { HttpMethods } from '../../../lookups/httpMethods';
+import typeToFormData from '../../../utils/typeToFormData';
 import { IChatRoom, ISendChatMessage } from '../slices/chatSlice';
 
 const URL = '/chat';
@@ -18,9 +19,16 @@ export const chatService = baseService.injectEndpoints({
             }),
         }),
         getChatMessages: builder.query<ISendChatMessage[], IChatMessagesQuery>({
-            query: () => ({
-                url: `${URL}/get-chat-rooms`,
+            query: (body) => ({
+                url: `${URL}/get-chat-rooms?userId=${body.userId}&rpp=${body.rpp}&page=${body.page}`,
                 method: HttpMethods.GET,
+            }),
+        }),
+        postUploadFile: builder.mutation<ISendChatMessage, FormData>({
+            query: (body) => ({
+                url: `${URL}/post-file`,
+                method: HttpMethods.POST,
+                body: body
             }),
         }),
     }),
@@ -28,5 +36,6 @@ export const chatService = baseService.injectEndpoints({
 
 export const {
     useLazyGetChatRoomsQuery,
-    useLazyGetChatMessagesQuery
+    useLazyGetChatMessagesQuery,
+    usePostUploadFileMutation
 } = chatService;

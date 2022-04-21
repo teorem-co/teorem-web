@@ -30,7 +30,7 @@ const ConversationAside = (props: Props) => {
             {/* <div className="chat__conversation__avatar"></div> */}
             <div className="flex flex--col flex--jc--center flex--grow ml-2">
                 <div className="type--wgt--bold">{name}</div>
-                <div>{lastMessage}</div>
+                <div className="aside-conversation-message" dangerouslySetInnerHTML={{ __html: lastMessage }}></div>
             </div>
             <div className="flex flex--col flex--jc--center flex--shrink flex--end">
                 <div>

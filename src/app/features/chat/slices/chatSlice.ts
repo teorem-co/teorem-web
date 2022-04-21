@@ -16,6 +16,7 @@ export interface IChatMessage {
     message: string;
     createdAt: Date;
     isRead: boolean;
+    isFile?: boolean;
 }
 
 export interface ISendChatMessage {
@@ -150,12 +151,20 @@ const chatSlice = createSlice({
 
                     if (state.chatRooms[i].tutor?.userId == action.payload.tutorId && state.chatRooms[i].user?.userId == action.payload.userId) {
                         state.chatRooms[i].messages.push(action.payload);
-                        state.activeChatRoom?.messages.push(action.payload);
+
+                        if (state.chatRooms[i].tutor?.userId == state.activeChatRoom?.tutor?.userId && state.chatRooms[i].user?.userId == state.activeChatRoom?.user?.userId) {
+                            state.activeChatRoom?.messages.push(action.payload);
+                            if (!action.payload.message.messageNew && state.activeChatRoom)
+                                state.activeChatRoom.unreadMessageCount += 1;
+                        }
 
                         if (!action.payload.message.messageNew) {
                             state.chatRooms[i].unreadMessageCount += 1;
+
+
                             state.newMessages += 1;
                         }
+
                         return;
                     }
                 }
@@ -174,8 +183,11 @@ const chatSlice = createSlice({
                                 return;
                             state.chatRooms[i].messages[j].message.isRead = true;
                             state.chatRooms[i].unreadMessageCount -= 1;
-
                             state.newMessages -= 1;
+
+                            if (state.activeChatRoom?.tutor?.userId == state.chatRooms[i].messages[j].tutorId && state.activeChatRoom?.user?.userId == state.chatRooms[i].messages[j].userId) {
+                                state.activeChatRoom.unreadMessageCount -= 1;
+                            }
 
                             state.socket.emit('readMessage', state.chatRooms[i].messages[j]);
                             return;
