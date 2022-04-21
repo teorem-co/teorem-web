@@ -1,0 +1,298 @@
+import { Form, FormikProvider, useFormik } from 'formik';
+import { networkInterfaces, userInfo } from 'os';
+import { useEffect, useRef, useState } from 'react';
+import { Navigate } from 'react-big-calendar';
+import { useTranslation } from 'react-i18next';
+import { Link, useHistory } from "react-router-dom";
+
+import IParams from '../../../interfaces/IParams';
+import { useApproveTutorMutation, useDeleteTutorMutation, useDenyTutorMutation, useLazyGetTutorsQuery } from '../../../services/tutorService';
+import MainWrapper from '../../components/MainWrapper';
+import Sidebar from '../../components/Sidebar';
+import LoaderTutor from '../../components/skeleton-loaders/LoaderTutor';
+import { useAppSelector } from '../../hooks';
+
+const SearchTutors = () => {
+    const history = useHistory();
+    const [closeModal, setCloseModal] = useState<boolean>(true);
+    const [tutorDenySent, setTutorDenySent] = useState<boolean>(false);
+    const [selectedTutor, setSelectedTutor] = useState<any>();
+    const [activeTab, setActiveTab] = useState<string>('unprocessed');
+    const noteRef = useRef<HTMLTextAreaElement>(null);
+    const editNoteRef = useRef<HTMLTextAreaElement>(null);
+    const [
+        getTutors,
+        {
+            isLoading: isLoadingAvailableTutors,
+            isUninitialized: availableTutorsUninitialized,
+            isFetching: availableTutorsFetching,
+        },
+    ] = useLazyGetTutorsQuery();
+    const [
+        approveTutor,
+        {isLoading: isLoadingApproveTutor},
+    ] = useApproveTutorMutation();
+    const [
+        denyTutor,
+        {isLoading: isLoadingDenyTutors, isSuccess: isSuccessDenyTutors},
+    ] = useDenyTutorMutation();
+    const [
+        deleteTutor,
+        {isLoading: isLoadingDeleteTutors},
+    ] = useDeleteTutorMutation();
+
+    const handleDenyTutor = (tutor:any) => {
+        setSelectedTutor(tutor);
+        setCloseModal(!closeModal);
+    };
+
+    const [params, setParams] = useState<IParams>({ rpp: 10, page: 1, verified: 0, unprocessed: 1 });
+    const [loadedTutorItems, setLoadedTutorItems] = useState<any[]>([]);
+    const { t } = useTranslation();
+    const cardRef = useRef<HTMLDivElement>(null);
+    const isLoading = isLoadingAvailableTutors || availableTutorsUninitialized || availableTutorsFetching;
+    
+    const fetchData = async () => {
+        const tutorResponse = await getTutors(params).unwrap();
+        setLoadedTutorItems(tutorResponse.rows);
+    };
+
+    const switchTab = (tab: string) => {
+        switch( tab ){
+            case 'unprocessed':
+                setParams({...params, verified: 0, unprocessed: 1});
+                break;
+            case 'approved':
+                setParams({...params, verified: 1, unprocessed: 0});
+                break;
+            case 'denied':
+                setParams({...params, verified: 2, unprocessed: 0});
+                break;
+        }
+        setActiveTab(tab);
+    };
+    useEffect(() => {
+        fetchData();
+    }, []);
+    useEffect(() => {
+        fetchData();
+    }, [params]);
+    useEffect(() => {
+        isLoadingApproveTutor == false && fetchData();
+    }, [isLoadingApproveTutor]);
+    useEffect(() => {
+        isLoadingDenyTutors == false && fetchData();
+    }, [isLoadingDenyTutors]);
+
+    return (
+        <MainWrapper>
+            <div className="card--secondary" ref={cardRef}>
+                {/* <button
+                    className="btn btn--base btn--success"
+                    onClick={() => toastService.notification('Robert Nash wants to book A level Mathematics @ 13:00, 13/sept/2022.')}
+                >
+                    Click me
+                </button> */}
+                <div className="card--secondary__head card--secondary__head--search-tutor tutor-managment-head">
+                    <div className="type--lg type--wgt--bold mb-4 mb-xl-0">{t('TUTOR_MANAGMENT.TITLE')}</div>
+                    <div className="flex flex--center">
+                    </div>
+                </div>
+                <div className="tutors--table--tab--select card--secondary__head card--secondary__head--search-tutor">
+                    <div 
+                        className={`tutors--table--tab type--color--secondary mb-3 mb-xl-0 ${activeTab === 'unprocessed' ? 'active' : ''}`} 
+                        onClick={()=>switchTab('unprocessed') }
+                    >{t('TUTOR_MANAGMENT.UNPROCESSED')}</div>
+                    <div 
+                        className={`tutors--table--tab type--color--secondary mb-3 mb-xl-0 ${activeTab === 'approved' ? 'active' : ''}`}  
+                        onClick={()=>switchTab('approved') }
+                    >{t('TUTOR_MANAGMENT.APPROVED')}</div>
+                    <div 
+                        className={`tutors--table--tab type--color--secondary mb-3 mb-xl-0 ${activeTab === 'denied' ? 'active' : ''}`}  
+                        onClick={()=>switchTab('denied') }
+                    >{t('TUTOR_MANAGMENT.DENIED')}</div>
+                </div>
+                <div className="card--secondary__body tutor-managment-card">
+                    <div className="tutor-list">
+                        {isLoading ? (
+                            // Here goes loader
+                            <div className="loader--sceleton">
+                                <LoaderTutor />
+                                <LoaderTutor />
+                                <LoaderTutor />
+                            </div>
+                        ) : loadedTutorItems.length > 0 ? (
+                            <table className="tutors-table">
+                                <tbody>
+                                <tr>
+                                <td className="type--color--secondary mb-3 mb-xl-0">FIRST NAME</td>
+                                <td className="type--color--secondary mb-3 mb-xl-0">LAST NAME</td>
+                                <td className="type--color--secondary mb-3 mb-xl-0">EMAIL</td>
+                                <td className="type--color--secondary mb-3 mb-xl-0">COUNTRY</td>
+                                <td className="type--color--secondary mb-3 mb-xl-0">DATE OF BIRTH</td>
+                                </tr>
+                            {loadedTutorItems.map((tutor, key) => <tr key={key}>
+                                <td onClick={()=>{ 
+                                    activeTab == 'unprocessed' ? 
+                                        history.push("/tutor-managment/profile/" + tutor.userId) : 
+                                        setSelectedTutor(tutor);}} 
+                                >{tutor.User.firstName}</td>
+                                <td onClick={()=>{ 
+                                    activeTab == 'unprocessed' ? 
+                                        history.push("/tutor-managment/profile/" + tutor.userId) : 
+                                        setSelectedTutor(tutor);}} 
+                                >{tutor.User.lastName}</td>
+                                <td onClick={()=>{ 
+                                    activeTab == 'unprocessed' ? 
+                                        history.push("/tutor-managment/profile/" + tutor.userId) : 
+                                        setSelectedTutor(tutor);}} 
+                                >{tutor.User.email}</td>
+                                <td onClick={()=>{ 
+                                    activeTab == 'unprocessed' ? 
+                                        history.push("/tutor-managment/profile/" + tutor.userId) : 
+                                        setSelectedTutor(tutor);}} 
+                                ><img className="react-select__flag" src={tutor.User.Country.flag} />{tutor.User.Country.name}</td>
+                                <td onClick={()=>{ 
+                                    activeTab == 'unprocessed' ? 
+                                        history.push("/tutor-managment/profile/" + tutor.userId) : 
+                                        setSelectedTutor(tutor);}} 
+                                >{tutor.User.dateOfBirth}</td>
+                                {tutor.verified == null ? (
+                                    <td className='approve-deny'>
+                                        <button
+                                            className="btn btn--base btn--clear"
+                                            onClick={() => approveTutor(tutor.userId)}
+                                        >
+                                            Approve
+                                        </button>
+                                        <button
+                                            className="btn btn--base btn--ghost"
+                                            onClick={() => handleDenyTutor(tutor)}
+                                        >
+                                            Deny
+                                        </button>
+                                    </td>
+                                ) : (
+                                    <td className='menu-container'><Link to={"/tutor-managment/profile/" + tutor.userId} >Preview profile</Link>
+                                        <div className='dots' tabIndex={1}>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                        </div>
+                                        <div className='tutor-list-menu'>
+                                            <button
+                                                className="btn btn--base btn--clear"
+                                                onClick={() => !tutor.verified ? approveTutor(tutor.userId) : handleDenyTutor(tutor)}
+                                            >
+                                                <i className="icon icon--check icon--sm icon--grey"></i>
+                                                {!tutor.verified ?  'Approve' : 'Decline' }
+                                            </button>
+                                            <button
+                                                className="btn btn--base btn--clear"
+                                                onClick={() => deleteTutor(tutor.userId)}
+                                            >
+                                                <i className="icon icon--delete icon--sm icon--red"></i>
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </td>
+                                )}
+                                </tr>
+                            )}
+                            </tbody>
+                            </table>
+
+                        ) : (
+                            <div className="tutor-list__no-results">
+                                <h1 className="tutor-list__no-results__title">{t('TUTOR_MANAGMENT.NO_RESULT.TITLE')}</h1>
+                                <p className="tutor-list__no-results__subtitle">{t('TUTOR_MANAGMENT.NO_RESULT.DESC')}</p>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
+
+            <div className={`modal tutor--managment ${closeModal && 'closed'}`}>
+                <div className="tutors--table--tab--select card--secondary__head card--secondary__head--search-tutor">
+                    <div className="type--md type--wgt--bold mb-4 mb-xl-0">{t('TUTOR_MANAGMENT.TITLE')}</div>
+                    <p className="type--color--secondary mb-3 mb-xl-0">{selectedTutor?.User.email}</p>
+                </div>
+                <div className="card--secondary__body tutor-managment-card">
+                    <p className="type--color--primary mb-3 mb-xl-0">Note</p>
+                    <textarea 
+                        placeholder='Enter a note here...'
+                        ref={noteRef}
+                    ></textarea>
+                </div>
+                {!tutorDenySent? 
+                    (
+                        <div className="card--secondary__body tutor-managment-card">
+                            <button
+                                className="btn btn--base btn--ghost modal-button--deny"
+                                onClick={ async () => {
+                                    await denyTutor({tutorId: selectedTutor?.userId, message: noteRef?.current?.value || ''});
+                                    setTutorDenySent(true);
+                                }}
+                            >
+                                Deny
+                            </button>
+                            <button
+                                className="btn btn--base btn--clear modal-button--cancel"
+                                onClick={() => {
+                                    setCloseModal(!closeModal);
+                                    setSelectedTutor(undefined);
+                                }}
+                            >
+                                Cancel
+                            </button>
+                        </div>) : 
+                    (
+                        <div className="card--secondary__body tutor-managment-card">
+                            <button
+                                className="btn btn--base btn--clear modal-button--cancel"
+                                onClick={() => {
+                                    setCloseModal(!closeModal);
+                                    setTutorDenySent(false);
+                                    setSelectedTutor(undefined);
+                                }}
+                            >
+                                OK
+                            </button>
+                        </div>)
+                }
+            </div>
+
+            <Sidebar                 
+                children={
+                    <div className="card--secondary__body tutor-managment-card">
+                        <p className="type--color--primary mb-3 mb-xl-0">Note</p>
+                        <textarea 
+                            placeholder={'Note goes here..'}
+                            defaultValue={selectedTutor?.adminNote || undefined}
+                            ref={editNoteRef}
+                        ></textarea>
+                        <button
+                            className="btn btn--base btn--clear"
+                            style={{float: "right"}}
+                            onClick={async () => {
+                                await denyTutor({tutorId: selectedTutor?.userId, message: editNoteRef?.current?.value || ''});
+                                setSelectedTutor(undefined);
+                                }}
+                        >
+                        Edit note
+                        </button> 
+                    </div>
+                    } //: JSX.Element | JSX.Element[];
+                sideBarIsOpen={selectedTutor && closeModal} //: boolean;
+                title={selectedTutor?.User?.firstName.toUpperCase() + ' ' + selectedTutor?.User?.lastName.toUpperCase() + ' DETAILS'} //: string;
+                closeSidebar={()=>{setSelectedTutor(undefined);}} //: () => void;
+                onSubmit={()=>{approveTutor(selectedTutor?.userId);}} //: () => void;
+                onCancel={()=>{deleteTutor(selectedTutor?.userId);}} //: () => void;
+                submitLabel={'Approve Tutor'} //: string;
+                cancelLabel={'Delete Tutor'} //: string;
+            />
+        </MainWrapper>
+    );
+};
+
+export default SearchTutors;

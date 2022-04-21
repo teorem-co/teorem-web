@@ -120,8 +120,8 @@ const Dashboard = () => {
                                                     {moment(todayScheduled[activeIndex].endTime).add(1, 'minute').format('HH:mm')}
                                                 </div>
                                                 {todayScheduled[activeIndex].isAccepted &&
-                                                    moment(todayScheduled[activeIndex].startTime).subtract(200, 'minutes').isBefore(moment()) &&
-                                                    moment(todayScheduled[activeIndex].endTime).isAfter(moment()) && (
+                                                    moment(todayScheduled[activeIndex].startTime).subtract(10, 'minutes').isBefore(moment()) &&
+                                                    moment(todayScheduled[activeIndex].startTime).add(60, 'minutes').isAfter(moment()) && (
                                                         <button
                                                             className="btn btn--base card--dashboard__btn"
                                                             onClick={() => handleJoinBooking(todayScheduled[activeIndex])}
@@ -216,7 +216,16 @@ const Dashboard = () => {
                                                                 {moment(item.startTime).format('HH:mm')} -{' '}
                                                                 {moment(item.endTime).add(1, 'minute').format('HH:mm')}
                                                             </div>
-                                                            <div onClick={() => history.push(PATHS.MY_BOOKINGS)}>
+                                                            <div 
+                                                                onClick={() => {
+                                                                    // history.push(PATHS.MY_BOOKINGS)
+
+                                                                    history.push({
+                                                                        pathname: PATHS.MY_BOOKINGS,
+                                                                        state: {value: new Date(item.startTime).toString()}
+                                                                    });
+                                                                }
+                                                            }>
                                                                 <i className="icon icon--base icon--chevron-right icon--primary"></i>
                                                             </div>
                                                         </div>
