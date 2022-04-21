@@ -28,12 +28,9 @@ import RoleSelection from './features/roleSelection/RoleSelection';
 import SearchTutors from './features/searchTutors/SearchTutors';
 import TutorProfile from './features/searchTutors/TutorProfile';
 import TutorBookings from './features/tutor-bookings/TutorBookings';
-<<<<<<< HEAD
-import { useAppSelector } from './hooks';
-=======
 import TutorManagment from './features/tutor-managment/TutorManagment';
 import TutorManagmentProfile from './features/tutor-managment/TutorProfile';
->>>>>>> 6bca311f8c2d0d65df23d1e0d3b806a0adc36479
+import { useAppSelector } from './hooks';
 import { Role } from './lookups/role';
 import NotFound from './pages/NotFound';
 import PermissionsGate from './PermissionGate';
