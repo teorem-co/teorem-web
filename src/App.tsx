@@ -60,7 +60,7 @@ function App() {
                 dispatch(addChatRoom({
                     user: {
                         userId: user.id + '',
-                        userImage: user.profileImage || 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
+                        userImage: 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
                         userNickname: user?.firstName + ' ' + user?.lastName,
                     },
                     tutor: {
@@ -94,11 +94,18 @@ function App() {
 
     }, [chatRooms]);
 
-    /*useEffect(() => {
+    useEffect(() => {
 
-        console.log(chat);
+        if (document) {
 
-    }, [chat]);*/
+            if (chat.newMessages > 0) {
+                document.title = "Inbox(" + (chat.newMessages > 9 ? "9+" : chat.newMessages) + ") - Teorem";
+            } else {
+                document.title = "Teorem";
+            }
+        }
+
+    }, [chat]);
 
     useEffect(() => {
 
@@ -112,7 +119,7 @@ function App() {
                     {
                         userId: userData.user?.id + '',
                         userNickname: (userData.user?.firstName + '') + ' ' + (userData.user?.lastName + ''),
-                        userImage: userData.user?.profileImage || process.env.DEFAULT_PROFILE_IMAGE || ''
+                        userImage: userData.user?.profileImage || 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg'
                     }
                 )
             );

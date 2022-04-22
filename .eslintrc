@@ -33,7 +33,7 @@
             }
         ],
         "simple-import-sort/imports": [
-            "error",
+            "warn",
             {
               "groups": [
                     // Side effect imports.

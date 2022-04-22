@@ -7,6 +7,7 @@ import { IChatRoom, setActiveChatRoom } from '../slices/chatSlice';
 interface Props {
     data: IChatConversationItem;
     chat: IChatRoom;
+    active?: boolean;
 }
 
 const ConversationAside = (props: Props) => {
@@ -21,7 +22,7 @@ const ConversationAside = (props: Props) => {
     return (
 
 
-        <div className="chat__conversation" onClick={selectChat}>
+        <div className={`chat__conversation${props.active ? " chat__conversation__active" : ""}`} onClick={selectChat}>
             <img
                 className="chat__conversation__avatar"
                 src={imgUrl}

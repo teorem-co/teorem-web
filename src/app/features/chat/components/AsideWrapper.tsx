@@ -10,6 +10,7 @@ const AsideWrapper = (props: Props) => {
 
     const user = useAppSelector((state) => state.auth.user);
 
+    const activeChat = useAppSelector((state) => state.chat.activeChatRoom);
     return (
         <div className="card--chat__aside">
             <div className="p-4">
@@ -21,13 +22,14 @@ const AsideWrapper = (props: Props) => {
 
                     if (chatConversationItem.messages[chatConversationItem.messages.length - 1] && chatConversationItem.messages[chatConversationItem.messages.length - 1].message) {
                         const chatConversation = {
-                            imgUrl: 'https://' + (user?.id != chatConversationItem.user?.userId ? chatConversationItem.user?.userImage : chatConversationItem.tutor?.userImage) + '',
+                            imgUrl: 'https://' + (user?.id != chatConversationItem.user?.userId ? 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg' : chatConversationItem.tutor?.userImage) + '',
                             name: (user?.id != chatConversationItem.user?.userId ? chatConversationItem.user?.userNickname : chatConversationItem.tutor?.userNickname) + '',
                             lastMessage: chatConversationItem.messages[chatConversationItem.messages.length - 1].message.message,
                             lastMessageTime: /*chatConversationItem.messages[chatConversationItem.messages.length - 1].message.createdAt*/ '',
                             unread: chatConversationItem.unreadMessageCount > 0
                         };
-                        return <ConversationAside key={index} chat={chatConversationItem} data={chatConversation} />;
+
+                        return (chatConversationItem.tutor?.userId == activeChat?.tutor?.userId && chatConversationItem.user?.userId == activeChat?.user?.userId) ? <ConversationAside key={index} chat={chatConversationItem} data={chatConversation} active={true} /> : <ConversationAside key={index} chat={chatConversationItem} data={chatConversation} active={false} />;
                     }
                 })}
             </div>

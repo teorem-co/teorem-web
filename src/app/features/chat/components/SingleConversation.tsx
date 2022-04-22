@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { useAppSelector } from '../../../hooks';
+import { Role } from '../../../lookups/role';
+import { PATHS } from '../../../routes';
 import { IChatRoom, ISendChatMessage, readMessage } from '../slices/chatSlice';
 import SendMessageForm from './SendMessageForm';
 
@@ -37,6 +39,8 @@ const SingleConversation = (props: Props) => {
 
         if (props.data) {
 
+            console.log(props.data);
+
             for (let i = 0; i < chat.chatRooms.length; i++) {
 
                 if (chat.chatRooms[i].tutor?.userId == props.data.tutor?.userId && chat.chatRooms[i].user?.userId == props.data.user?.userId) {
@@ -59,10 +63,25 @@ const SingleConversation = (props: Props) => {
         <div className="content">
             <div className="content__header content__header--chat">
                 <div className="flex flex--center">
-                    {props.data && <img className="chat__conversation__avatar" src={props.data ? ('https://' + (userActive?.id != props.data.tutor?.userId ? props.data.tutor?.userImage : props.data.user?.userImage)) : ""} alt="chat avatar" />
+                    {props.data && userActive?.Role.abrv != Role.Tutor &&
+
+                        <Link
+                            className="chat-single-conversation-link"
+                            to={`${PATHS.SEARCH_TUTORS}/profile/${props.data.tutor?.userId}`}
+                        >
+                            {props.data &&
+                                <img className="chat__conversation__avatar" src={props.data ? ('https://' + (userActive?.id != props.data.tutor?.userId ? props.data.tutor?.userImage : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')) : "teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg"} alt="chat avatar" />
+                            }
+
+                            <div className="ml-3 type--wgt--bold">{props.data ? (userActive?.id != props.data.tutor?.userId ? props.data.tutor?.userNickname : props.data.user?.userNickname) : "Odaberite osobu za razgovor"}</div>
+                        </Link>
                     }
 
-                    <div className="ml-3 type--wgt--bold">{props.data ? (userActive?.id != props.data.tutor?.userId ? props.data.tutor?.userNickname : props.data.user?.userNickname) : "Odaberite osobu za razgovor"}</div>
+                    {props.data && userActive?.Role.abrv == Role.Tutor &&
+                        <img className="chat__conversation__avatar" src={props.data ? ('https://' + (userActive?.id != props.data.tutor?.userId ? props.data.tutor?.userImage : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')) : "teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg"} alt="chat avatar" />
+                    }
+
+                    {props.data && userActive?.Role.abrv == Role.Tutor && <div className="ml-3 type--wgt--bold">{props.data ? (userActive?.id != props.data.tutor?.userId ? props.data.tutor?.userNickname : props.data.user?.userNickname) : "Odaberite osobu za razgovor"}</div>}
                 </div>
                 {props.data && (userActive?.id == props.data.user?.userId) && <Link
                     className="btn btn--primary btn--base"
@@ -78,7 +97,7 @@ const SingleConversation = (props: Props) => {
                         <div className={`message-full-width flex flex--col flex--center`}>
                             <div className="type--right w--80--max">
                                 <div className={`chat__message__item__center chat__message__item chat__message__item__init`}>
-                                    <i>Pošaljite poruku da započnete razgovor</i>
+                                    <i>Send a message to start a conversation</i>
                                 </div>
                             </div>
                         </div>
@@ -101,7 +120,7 @@ const SingleConversation = (props: Props) => {
                             <div key={index} className={`chat__message chat__message--logged${img ? " chat__message__margin-top" : ""}${img ? "" : " chat__message__margin-right"}`}>
                                 {img && <img
                                     className="chat__conversation__avatar chat__conversation__avatar--small"
-                                    src={props.data ? ('https://' + (message.senderId == props.data.tutor?.userId ? props.data.tutor?.userImage : props.data.user?.userImage)) : ""}
+                                    src={props.data ? ('https://' + (message.senderId == props.data.tutor?.userId ? props.data.tutor?.userImage : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')) : "teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg"}
                                     alt={'profile avatar'} />
                                 }
                                 <div className={`message-full-width flex flex--col flex--end`}>
@@ -117,7 +136,7 @@ const SingleConversation = (props: Props) => {
 
                             {img && <img
                                 className="chat__conversation__avatar chat__conversation__avatar--small"
-                                src={props.data ? ('https://' + (message.senderId == props.data.tutor?.userId ? props.data.tutor?.userImage : props.data.user?.userImage)) : ""}
+                                src={props.data ? ('https://' + (message.senderId == props.data.tutor?.userId ? props.data.tutor?.userImage : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')) : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg'}
                                 alt={'profile avatar'} />
                             }
                             <div className={`message-full-width flex flex--col`}>
