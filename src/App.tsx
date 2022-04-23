@@ -111,7 +111,11 @@ function App() {
 
         if (userId) {
 
-            getChatRooms();
+            getChatRooms({
+                limitMessages: 20,
+                rpp: 10,
+                page: 1
+            });
 
 
             chatDispatch(

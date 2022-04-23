@@ -8,6 +8,7 @@ import { addMessage, IChatRoom, ISendChatMessage } from "../slices/chatSlice";
 
 interface Props {
     data: IChatRoom | null;
+    scrollOnSend: () => void;
 }
 
 const SendMessageForm = (props: Props) => {
@@ -48,6 +49,8 @@ const SendMessageForm = (props: Props) => {
                 chat.socket.emit('messageSent', message);
 
                 dispatch(addMessage(message));
+
+                props.scrollOnSend();
 
                 if (newMessageRef.current)
                     newMessageRef.current.value = '';
@@ -100,6 +103,8 @@ const SendMessageForm = (props: Props) => {
                         },
                         senderId: message.senderId
                     }));
+
+                    props.scrollOnSend();
                 }
             }
         }

@@ -1,11 +1,14 @@
-import React, { useEffect, useRef } from 'react';
+import { debounce } from 'lodash';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { setSourceMapRange } from 'typescript';
 
 import { useAppSelector } from '../../../hooks';
 import { Role } from '../../../lookups/role';
 import { PATHS } from '../../../routes';
-import { IChatRoom, ISendChatMessage, readMessage } from '../slices/chatSlice';
+import { IChatMessagesQuery, useLazyGetChatMessagesQuery } from '../services/chatService';
+import { getMessages, IChatRoom, ISendChatMessage, readMessage } from '../slices/chatSlice';
 import SendMessageForm from './SendMessageForm';
 
 interface Props {
@@ -15,10 +18,15 @@ interface Props {
 const SingleConversation = (props: Props) => {
 
     const messagesEndRef = useRef<HTMLDivElement>(null);
+    const chatRef = useRef<HTMLDivElement>(null);
 
     const userActive = useAppSelector((state) => state.auth.user);
 
     const chat = useAppSelector((state) => state.chat);
+
+    const [page, setPage] = useState<number>(0);
+
+    const [getChatMessages, { data: chatMessages }] = useLazyGetChatMessagesQuery();
 
     const dispatch = useDispatch();
 
@@ -36,10 +44,14 @@ const SingleConversation = (props: Props) => {
     let lastMessageUserId: string = '';
 
     useEffect(() => {
+        if (props.data && chatRef.current && props.data.messages.length <= chat.rpp) {
+            chatRef.current.scrollTop = chatRef.current.scrollHeight;
+        }
+    });
+
+    useEffect(() => {
 
         if (props.data) {
-
-            console.log(props.data);
 
             for (let i = 0; i < chat.chatRooms.length; i++) {
 
@@ -53,11 +65,58 @@ const SingleConversation = (props: Props) => {
                     }
                 }
             }
-
-            scrollToBottomFast();
         }
 
     }, [props.data]);
+
+    useEffect(() => {
+        if (chatMessages)
+            dispatch(getMessages(chatMessages));
+    },
+        [chatMessages]);
+
+    useEffect(() => {
+        if (userActive && props.data) {
+
+            const getMessagesObject: IChatMessagesQuery = {
+                userId: (userActive.id == props.data?.user?.userId ? props.data.tutor?.userId : props.data?.user?.userId) || '',
+                page: page,
+                rpp: chat.rpp,
+            };
+            getChatMessages(getMessagesObject);
+        }
+    }, [page]);
+
+    const handleLoadMore = () => {
+        setPage(page + 1);
+    };
+
+    const hideLoadMore = () => {
+        let returnValue: boolean = false;
+        if (props.data && chatMessages) {
+            const totalPages = Math.ceil(chatMessages.length / chat.rpp);
+
+            if (totalPages < 1) returnValue = true;
+        }
+
+        return returnValue;
+    };
+
+    //scroll to bottom alerter
+    const handleScroll = (e: HTMLDivElement) => {
+
+        const scrollPosition = 0;
+
+        if (props.data && !hideLoadMore() && e.scrollTop === scrollPosition && props.data?.messages.length > 0) {
+            handleLoadMore();
+        }
+        // if (innerHeight === scrollPosition) {
+        //     //action to do on scroll to bottom
+        //
+        // }
+    };
+
+    const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
 
     return (
         <div className="content">
@@ -91,7 +150,7 @@ const SingleConversation = (props: Props) => {
 
             </div>
 
-            <div className="content__main">
+            <div ref={chatRef} onScroll={(e: any) => debouncedScrollHandler(e.target)} className="content__main">
                 {props.data && props.data.messages.length == 0 &&
                     <div className={`chat_message_init_new`}>
                         <div className={`message-full-width flex flex--col flex--center`}>
@@ -112,8 +171,9 @@ const SingleConversation = (props: Props) => {
                         lastMessageUserId = message.senderId + '';
                     }
 
-                    if (props.data && index == props.data?.messages.length - 1)
-                        scrollToBottomSmooth();
+                    if (props.data && index == props.data.messages.length - 1) {
+                        //scrollToBottomSmooth();
+                    }
 
                     if (userActive && userActive.id == message.senderId)
                         return (
@@ -150,7 +210,7 @@ const SingleConversation = (props: Props) => {
                 })}
                 <div style={{ marginTop: 80 }} ref={messagesEndRef} />
             </div>
-            {props.data && <SendMessageForm data={props.data} />}
+            {props.data && <SendMessageForm data={props.data} scrollOnSend={scrollToBottomSmooth} />}
 
         </div >
     );

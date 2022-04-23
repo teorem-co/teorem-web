@@ -6,22 +6,28 @@ import typeToFormData from '../../../utils/typeToFormData';
 import { IChatRoom, ISendChatMessage } from '../slices/chatSlice';
 
 const URL = '/chat';
-interface IChatMessagesQuery {
+export interface IChatRoomsQuery {
+    limitMessages: number;
+    rpp: number;
+    page: number
+}
+
+export interface IChatMessagesQuery {
     userId: string;
     rpp: number;
     page: number
 }
 export const chatService = baseService.injectEndpoints({
     endpoints: (builder) => ({
-        getChatRooms: builder.query<IChatRoom[], void>({
-            query: () => ({
-                url: `${URL}/get-chat-rooms`,
+        getChatRooms: builder.query<IChatRoom[], IChatRoomsQuery>({
+            query: (body) => ({
+                url: `${URL}/get-chat-rooms?rpp=${body.rpp}&page=${body.page}&limitMessages=${body.limitMessages}`,
                 method: HttpMethods.GET,
             }),
         }),
         getChatMessages: builder.query<ISendChatMessage[], IChatMessagesQuery>({
             query: (body) => ({
-                url: `${URL}/get-chat-rooms?userId=${body.userId}&rpp=${body.rpp}&page=${body.page}`,
+                url: `${URL}/get-chat-messages?userId=${body.userId}&rpp=${body.rpp}&page=${body.page}`,
                 method: HttpMethods.GET,
             }),
         }),

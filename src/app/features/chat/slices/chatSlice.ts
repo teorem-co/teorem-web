@@ -39,6 +39,7 @@ export interface IState {
     newMessages: number;
     activeChatRoom: IChatRoom | null;
     socket: Socket;
+    rpp: number;
 }
 
 const initialState: IState = {
@@ -46,7 +47,8 @@ const initialState: IState = {
     chatRooms: [],
     newMessages: 0,
     activeChatRoom: null,
-    socket: io(serverUrl)
+    socket: io(serverUrl),
+    rpp: 20
 };
 
 //RESET STATE AFTER SUCCESFUL LOGIN/REGISTER
@@ -107,8 +109,14 @@ const chatSlice = createSlice({
         getMessages(state, action: PayloadAction<ISendChatMessage[] | null>) {
 
             if (action.payload) {
-                for (let k = 0; k < action.payload.length; k++) {
-                    for (let i = 0; i < state.chatRooms.length; i++) {
+
+
+                for (let i = 0; i < state.chatRooms.length; i++) {
+
+                    const newMessages = [];
+
+                    for (let k = 0; k < action.payload.length; k++) {
+
                         if (state.chatRooms[i].tutor?.userId == action.payload[k].tutorId) {
 
                             let inside = false;
@@ -123,9 +131,12 @@ const chatSlice = createSlice({
                             if (inside)
                                 break;
 
-                            state.chatRooms[i].messages.push(action.payload[k]);
+                            newMessages.push(action.payload[k]);
 
-                            if (state.chatRooms[i].tutor?.userId == action.payload[k].senderId) {
+                            if (state.activeChatRoom)
+                                state.activeChatRoom.messages.push(action.payload[k]);
+
+                            if (state.chatRooms[i].tutor?.userId == action.payload[k].senderId && !action.payload[k].message.isRead) {
                                 state.chatRooms[i].unreadMessageCount += 1;
 
                                 state.newMessages += 1;
@@ -134,6 +145,11 @@ const chatSlice = createSlice({
                             }
                         }
                     }
+
+                    state.chatRooms[i].messages = [...newMessages, ...state.chatRooms[i].messages];
+                    if (state.activeChatRoom)
+                        state.activeChatRoom.messages = [...newMessages, ...state.activeChatRoom.messages];
+
                 }
             }
         },
