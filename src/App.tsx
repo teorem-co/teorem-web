@@ -113,7 +113,7 @@ function App() {
 
             getChatRooms({
                 limitMessages: 20,
-                rpp: 10,
+                rpp: 1000,
                 page: 1
             });
 

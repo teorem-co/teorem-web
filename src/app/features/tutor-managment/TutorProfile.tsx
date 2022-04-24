@@ -365,13 +365,14 @@ const TutorProfile = () => {
                                 </div>
                                 {userRole !== RoleOptions.Tutor && (
                                     <>
-                                        <div
+                                        <Link
                                             className="btn btn--base btn--ghost w--100 type--center flex flex--center flex--jc--center"
                                             onClick={() => createNewChat()}
+                                            to={`/chat`}
                                         >
                                             {createChatLoading && <LoaderPrimary small={true} />}
                                             <span>{t('TUTOR_PROFILE.SEND')}</span>
-                                        </div>
+                                        </Link>
                                     </>
                                 )}
                             </div>

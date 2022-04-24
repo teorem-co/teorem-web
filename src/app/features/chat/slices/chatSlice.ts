@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { stat } from 'fs';
+import { StaticRouter } from 'react-router';
 import { io, Socket } from 'socket.io-client';
 
 const serverUrl = `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_API_PORT}`;
@@ -51,6 +52,17 @@ const initialState: IState = {
     rpp: 20
 };
 
+
+export const filterArrayUnique = (arr: Array<any>, prop: string) => {
+    const set = new Set;
+    return arr.filter(o => !set.has(o[prop]) && set.add(o[prop]));
+};
+
+export const filterArrayUniqueMessages = (arr: Array<ISendChatMessage>) => {
+    const set = new Set;
+    return arr.filter(o => !set.has(o.message.messageId) && set.add(o.message.messageId));
+};
+
 //RESET STATE AFTER SUCCESFUL LOGIN/REGISTER
 const chatSlice = createSlice({
     name: 'chat',
@@ -69,11 +81,24 @@ const chatSlice = createSlice({
         addChatRooms(state, action: PayloadAction<Array<IChatRoom> | null>) {
 
             if (action.payload) {
-                state.chatRooms = state.chatRooms.concat(action.payload);
-
                 let unreadMessages = 0;
-                for (let i = 0; i < action.payload.length; i++) {
-                    unreadMessages += action.payload[i].unreadMessageCount;
+                for (let j = 0; j < action.payload.length; j++) {
+
+                    let inside = false;
+                    for (let i = 0; i < state.chatRooms.length; i++) {
+
+                        if (state.chatRooms[i].tutor?.userId == action.payload[j].tutor?.userId && state.chatRooms[i].user?.userId == action.payload[j].user?.userId) {
+
+                            state.chatRooms[i].messages = filterArrayUniqueMessages(state.chatRooms[i].messages.concat(action.payload[j].messages));
+
+                            inside = true;
+                        }
+                    }
+
+                    if (!inside)
+                        state.chatRooms.push(action.payload[j]);
+
+                    unreadMessages += action.payload[j].unreadMessageCount;
                 }
 
                 state.newMessages += unreadMessages;
