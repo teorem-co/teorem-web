@@ -24,7 +24,7 @@ const SingleConversation = (props: Props) => {
 
     const chat = useAppSelector((state) => state.chat);
 
-    const [page, setPage] = useState<number>(0);
+    const [page, setPage] = useState<number>(1);
 
     const [getChatMessages, { data: chatMessages }] = useLazyGetChatMessagesQuery();
 
