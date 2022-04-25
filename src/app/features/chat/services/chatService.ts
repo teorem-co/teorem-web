@@ -38,11 +38,18 @@ export const chatService = baseService.injectEndpoints({
                 body: body
             }),
         }),
+        getChildBookingTutors: builder.query<IChatRoom[], void>({
+            query: () => ({
+                url: `${URL}/get-child-tutors`,
+                method: HttpMethods.GET,
+            }),
+        }),
     }),
 });
 
 export const {
     useLazyGetChatRoomsQuery,
     useLazyGetChatMessagesQuery,
-    usePostUploadFileMutation
+    usePostUploadFileMutation,
+    useLazyGetChildBookingTutorsQuery
 } = chatService;

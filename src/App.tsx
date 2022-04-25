@@ -2,9 +2,10 @@ import moment from 'moment';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { useLazyGetChatRoomsQuery } from './app/features/chat/services/chatService';
+import { useLazyGetChatRoomsQuery, useLazyGetChildBookingTutorsQuery } from './app/features/chat/services/chatService';
 import { addChatRoom, addChatRooms, addMessage, ISendChatMessage, readMessage, setUser } from './app/features/chat/slices/chatSlice';
 import { useAppSelector } from './app/hooks';
+import { Role } from './app/lookups/role';
 import ROUTES, { RenderRoutes } from './app/routes';
 import toastService from './app/services/toastService';
 import ISocketNotification from './interfaces/notification/ISocketNotification';
@@ -18,8 +19,10 @@ function App() {
     const chatDispatch = useDispatch();
     const userData = useAppSelector((state) => state.user);
 
-    const [getUserById, { data: user2Data }] = useLazyGetUserQuery();;
+    const [getUserById, { data: user2Data }] = useLazyGetUserQuery();
     const [getChatRooms, { data: chatRooms, isSuccess: isSuccessChatRooms }] = useLazyGetChatRoomsQuery();
+    const [getChildBookingTutors, { data: childTutors, isSuccess: isSuccessChildTutors }] = useLazyGetChildBookingTutorsQuery();
+
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -111,6 +114,9 @@ function App() {
 
         if (userId) {
 
+            if (userData.user?.Role.abrv == Role.Child)
+                getChildBookingTutors();
+
             getChatRooms({
                 limitMessages: 20,
                 rpp: 1000,
@@ -130,6 +136,14 @@ function App() {
         }
 
     }, [userId]);
+
+    useEffect(() => {
+
+        if (isSuccessChildTutors) {
+            console.log(childTutors);
+            dispatch(addChatRooms(childTutors || null));
+        }
+    }, [childTutors]);
 
     return <RenderRoutes routes={ROUTES} />;
 }
