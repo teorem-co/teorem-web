@@ -125,11 +125,11 @@ const SearchTutors = () => {
                             <table className="tutors-table">
                                 <tbody>
                                 <tr>
-                                <td className="type--color--secondary mb-3 mb-xl-0">FIRST NAME</td>
-                                <td className="type--color--secondary mb-3 mb-xl-0">LAST NAME</td>
-                                <td className="type--color--secondary mb-3 mb-xl-0">EMAIL</td>
-                                <td className="type--color--secondary mb-3 mb-xl-0">COUNTRY</td>
-                                <td className="type--color--secondary mb-3 mb-xl-0">DATE OF BIRTH</td>
+                                <td className="type--color--secondary mb-3 mb-xl-0">{t('TUTOR_MANAGMENT.TABLE.FIRST_NAME')}</td>
+                                <td className="type--color--secondary mb-3 mb-xl-0">{t('TUTOR_MANAGMENT.TABLE.LAST_NAME')}</td>
+                                <td className="type--color--secondary mb-3 mb-xl-0">{t('TUTOR_MANAGMENT.TABLE.EMAIL')}</td>
+                                <td className="type--color--secondary mb-3 mb-xl-0">{t('TUTOR_MANAGMENT.TABLE.COUNTRY')}</td>
+                                <td className="type--color--secondary mb-3 mb-xl-0">{t('TUTOR_MANAGMENT.TABLE.DATE_OF_BIRTH')}</td>
                                 </tr>
                             {loadedTutorItems.map((tutor, key) => <tr key={key}>
                                 <td onClick={()=>{ 
@@ -163,7 +163,7 @@ const SearchTutors = () => {
                                             className="btn btn--base btn--clear"
                                             onClick={() => approveTutor(tutor.userId)}
                                         >
-                                            Approve
+                                            {t('TUTOR_MANAGMENT.ACTIONS.APPROVE')}
                                         </button>
                                         <button
                                             className="btn btn--base btn--ghost"
@@ -173,7 +173,7 @@ const SearchTutors = () => {
                                         </button>
                                     </td>
                                 ) : (
-                                    <td className='menu-container'><Link to={"/tutor-managment/profile/" + tutor.userId} >Preview profile</Link>
+                                    <td className='menu-container'><Link to={"/tutor-managment/profile/" + tutor.userId} >{t('TUTOR_MANAGMENT.TABLE.PREVIEW_PROFILE')}</Link>
                                         <div className='dots' tabIndex={1}>
                                             <span></span>
                                             <span></span>
@@ -185,14 +185,16 @@ const SearchTutors = () => {
                                                 onClick={() => !tutor.verified ? approveTutor(tutor.userId) : handleDenyTutor(tutor)}
                                             >
                                                 <i className="icon icon--check icon--sm icon--grey"></i>
-                                                {!tutor.verified ?  'Approve' : 'Decline' }
+                                                {!tutor.verified ?  
+                                                    t('TUTOR_MANAGMENT.ACTIONS.APPROVE') :
+                                                    t('TUTOR_MANAGMENT.ACTIONS.DECLINE') }
                                             </button>
                                             <button
                                                 className="btn btn--base btn--clear"
                                                 onClick={() => deleteTutor(tutor.userId)}
                                             >
                                                 <i className="icon icon--delete icon--sm icon--red"></i>
-                                                Delete
+                                                {t('TUTOR_MANAGMENT.ACTIONS.DELETE')}
                                             </button>
                                         </div>
                                     </td>
@@ -218,9 +220,9 @@ const SearchTutors = () => {
                     <p className="type--color--secondary mb-3 mb-xl-0">{selectedTutor?.User.email}</p>
                 </div>
                 <div className="card--secondary__body tutor-managment-card">
-                    <p className="type--color--primary mb-3 mb-xl-0">Note</p>
+                    <p className="type--color--primary mb-3 mb-xl-0">{t('TUTOR_MANAGMENT.NOTE')}</p>
                     <textarea 
-                        placeholder='Enter a note here...'
+                        placeholder={t('TUTOR_MANAGMENT.NOTE_PLACEHOLDER')}
                         ref={noteRef}
                     ></textarea>
                 </div>
@@ -265,9 +267,9 @@ const SearchTutors = () => {
             <Sidebar                 
                 children={
                     <div className="card--secondary__body tutor-managment-card">
-                        <p className="type--color--primary mb-3 mb-xl-0">Note</p>
+                        <p className="type--color--primary mb-3 mb-xl-0">{t('TUTOR_MANAGMENT.NOTE')}</p>
                         <textarea 
-                            placeholder={'Note goes here..'}
+                            placeholder={t('TUTOR_MANAGMENT.NOTE_PLACEHOLDER')}
                             defaultValue={selectedTutor?.adminNote || undefined}
                             ref={editNoteRef}
                         ></textarea>
@@ -279,17 +281,17 @@ const SearchTutors = () => {
                                 setSelectedTutor(undefined);
                                 }}
                         >
-                        Edit note
+                        {t('TUTOR_MANAGMENT.ACTIONS.EDIT_NOTE')}
                         </button> 
                     </div>
                     } //: JSX.Element | JSX.Element[];
                 sideBarIsOpen={selectedTutor && closeModal} //: boolean;
-                title={selectedTutor?.User?.firstName.toUpperCase() + ' ' + selectedTutor?.User?.lastName.toUpperCase() + ' DETAILS'} //: string;
+                title={selectedTutor?.User?.firstName.toUpperCase() + ' ' + selectedTutor?.User?.lastName.toUpperCase() + t('TUTOR_MANAGMENT.DETAILS')} //: string;
                 closeSidebar={()=>{setSelectedTutor(undefined);}} //: () => void;
                 onSubmit={()=>{approveTutor(selectedTutor?.userId);}} //: () => void;
                 onCancel={()=>{deleteTutor(selectedTutor?.userId);}} //: () => void;
-                submitLabel={'Approve Tutor'} //: string;
-                cancelLabel={'Delete Tutor'} //: string;
+                submitLabel={t('TUTOR_MANAGMENT.ACTIONS.APPROVE_TUTOR')} //: string;
+                cancelLabel={t('TUTOR_MANAGMENT.ACTIONS.DELETE_TUTOR')} //: string;
             />
         </MainWrapper>
     );

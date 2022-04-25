@@ -1,3 +1,4 @@
+import { t } from 'i18next';
 import { debounce } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -145,7 +146,7 @@ const SingleConversation = (props: Props) => {
                 {props.data && (userActive?.id == props.data.user?.userId) && <Link
                     className="btn btn--primary btn--base"
                     to={`/search-tutors/bookings/${props.data.tutor?.userId}`} >
-                    Book a session
+                    {t('CHAT.BOOK_SESSION')}
                 </Link>}
 
             </div>
@@ -156,7 +157,7 @@ const SingleConversation = (props: Props) => {
                         <div className={`message-full-width flex flex--col flex--center`}>
                             <div className="type--right w--80--max">
                                 <div className={`chat__message__item__center chat__message__item chat__message__item__init`}>
-                                    <i>Send a message to start a conversation</i>
+                                    <i>{t('CHAT.PLACEHOLDER')}</i>
                                 </div>
                             </div>
                         </div>

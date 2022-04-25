@@ -1,3 +1,5 @@
+import { t } from "i18next";
+
 import { useAppSelector } from "../../../hooks";
 import { IChatRoom } from "../slices/chatSlice";
 import ConversationAside from "./ConversationAside";
@@ -15,7 +17,7 @@ const AsideWrapper = (props: Props) => {
         <div className="card--chat__aside">
             <div className="p-4">
                 <div className="type--wgt--bold type--lg">Chat</div>
-                <input type="text" placeholder="Search in chat" className="input p-3 mt-6" />
+                <input type="text" placeholder={t('CHAT.SEARCH_PLACEHOLDER')} className="input p-3 mt-6" />
             </div>
             <div className="chat__messages-wrapper">
                 {props.data.map((chatConversationItem: IChatRoom, index: number) => {
