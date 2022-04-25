@@ -461,7 +461,13 @@ export const menuPerRole: IMenuPerRole = {
             icon: 'tutor-managment',
             key: 'TUTOR_MANAGMENT',
             path: PATHS.TUTOR_MANAGMENT,
-        }
+        },
+        {
+            name: 'CHAT',
+            icon: 'chat',
+            key: 'CHAT',
+            path: PATHS.CHAT,
+        },
     ],
     [Role.Child]: [
         {
