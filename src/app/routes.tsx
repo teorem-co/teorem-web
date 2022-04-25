@@ -477,6 +477,12 @@ export const menuPerRole: IMenuPerRole = {
             path: PATHS.MY_BOOKINGS,
         },
         {
+            name: 'CHAT',
+            icon: 'chat',
+            key: 'CHAT',
+            path: PATHS.CHAT,
+        },
+        {
             name: 'COMPLETED_LESSONS',
             icon: 'completed-lessons',
             key: 'COMPLETED_LESSONS',
