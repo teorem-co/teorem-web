@@ -3,6 +3,7 @@ import { groupBy } from 'lodash';
 import moment from 'moment';
 import TimePicker from 'rc-time-picker';
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import { io } from 'socket.io-client';
@@ -16,6 +17,7 @@ import { RoleOptions } from '../../../slices/roleSlice';
 import MainWrapper from '../../components/MainWrapper';
 import { useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
+import { setActiveChatRoom } from '../chat/slices/chatSlice';
 import IBooking from '../my-bookings/interfaces/IBooking';
 import LearnCubeModal from '../my-profile/components/LearnCubeModal';
 import NotificationItem from '../notifications/components/NotificationItem';
@@ -44,6 +46,8 @@ const Dashboard = () => {
     const history = useHistory();
 
     const chatrooms = useAppSelector((state) => state.chat.chatRooms);
+
+    const dispatch = useDispatch();
 
     const fetchData = async () => {
         await getUnreadNotifications().unwrap();
@@ -83,10 +87,8 @@ const Dashboard = () => {
     };
 
     const handleGoToChat = (activeChatRoom: any) => {
-        history.push({
-            pathname: '/chat',
-            state: {activeChatRoom: activeChatRoom}
-        });
+        dispatch(setActiveChatRoom(activeChatRoom));
+        history.push('/chat');
     };
 
     useEffect(() => {
