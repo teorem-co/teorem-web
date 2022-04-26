@@ -41,12 +41,10 @@ const Dashboard = () => {
 
     const userId = useAppSelector((state) => state.auth.user?.id);
     const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
+    const chatrooms = useAppSelector((state) => state.chat.chatRooms);
     const serverUrl = `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_API_PORT}`;
     const socket = io(serverUrl);
     const history = useHistory();
-
-    const chatrooms = useAppSelector((state) => state.chat.chatRooms);
-
     const dispatch = useDispatch();
 
     const fetchData = async () => {
@@ -91,6 +89,14 @@ const Dashboard = () => {
         history.push('/chat');
     };
 
+    useEffect(()=> {
+        const tmpCr: any = [];
+        chatrooms.forEach( cr => {
+            cr.unreadMessageCount && tmpCr.push(cr);
+        });
+        setUnreadChatrooms(tmpCr);
+    }, [chatrooms]);
+
     useEffect(() => {
         fetchData();
         socket.on('showNotification', (notification: ISocketNotification) => {
@@ -98,12 +104,6 @@ const Dashboard = () => {
                 getUnreadNotifications();
             }
         });
-
-        const tmpCr: any = [];
-        chatrooms.forEach( cr => {
-            cr.unreadMessageCount && tmpCr.push(cr);
-        });
-        setUnreadChatrooms(tmpCr);
 
         return function disconnectSocket() {
             socket.disconnect();
@@ -123,7 +123,7 @@ const Dashboard = () => {
                                 <div className="col col-12 col-xl-5">
                                     <div className="type--color--tertiary mb-2">{t('DASHBOARD.SCHEDULE.TITLE')}</div>
                                     {todayScheduled.length > 0 ? (
-                                        <div className="card--dashboard card--dashboard--brand mb-xl-0 mb-4 h--175--min">
+                                        <div className="card--dashboard card--dashboard--brand mb-xl-0 mb-4 h--200--min">
                                             <div className="flex--primary mb-2">
                                                 <div>
                                                     {todayScheduled[activeIndex].User.firstName}&nbsp;{todayScheduled[activeIndex].User.lastName}
@@ -173,7 +173,7 @@ const Dashboard = () => {
                                             </div>
                                         </div>
                                     ) : (
-                                        <div className="card--dashboard card--dashboard--brand  mb-xl-0 mb-4">
+                                        <div className="card--dashboard card--dashboard--brand mb-xl-0 mb-4 h--200--min">
                                             <div className="flex--primary mb-2">
                                                 <div>
                                                     <div>{t('DASHBOARD.SCHEDULE.EMPTY')}</div>
@@ -202,7 +202,7 @@ const Dashboard = () => {
                                     <div className="type--color--tertiary mb-2">{t('DASHBOARD.MESSAGES.TITLE')}</div>
                                     
                                     {unreadChatrooms[activeMsgIndex] != undefined ? (
-                                        <div className="card--dashboard h--175--min">
+                                        <div className="card--dashboard h--200--min">
                                             <div className="flex--primary mb-2">
                                                 <div>
                                                     {userRole === RoleOptions.Tutor ? 
@@ -263,7 +263,7 @@ const Dashboard = () => {
                                             </div> */}
                                         </div>
                                     ) : (
-                                        <div className="card--dashboard h--175--min">
+                                        <div className="card--dashboard h--200--min">
                                             <div className="flex--primary mb-2">
                                                 <div>
                                                     {t('DASHBOARD.MESSAGES.EMPTY')}

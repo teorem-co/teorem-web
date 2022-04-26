@@ -283,7 +283,7 @@
 
     &--dashboard {
         background-color: $white;
-        padding: 12px;
+        padding: 24px;
         border: 1px solid $grey-ed;
         border-radius: $border-rounded;
 
@@ -309,7 +309,7 @@
                 -webkit-box-orient: vertical;
                 -webkit-box-sizing: border-box;
 
-                height: 60px;
+                max-height: 60px;
             }
         }
 
