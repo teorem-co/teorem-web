@@ -390,6 +390,8 @@ export const HR_HR = {
         REVIEW: 'Recenzija',
         SUBMIT: 'Objavi',
         CANCEL: 'Odustani',
+        HEADING_PLACEHOLDER: "Napišite naslov svoje recenzije",
+        TEXT_PLACEHOLDER: "Opišite svoje cjelokupno iskustvo s ovom lekcijom",
     },
     COMPLETE_PROFILE: {
         TITLE: 'Završi svoj profil',

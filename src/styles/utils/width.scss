@@ -142,9 +142,24 @@
 }
 
 .h {
+    &--40 {
+        &--min {
+            min-height: 40px;
+        }
+    }
     &--150 {
         &--min {
             min-height: 150px;
+        }
+    }
+    &--175 {
+        &--min {
+            min-height: 175px;
+        }
+    }
+    &--200 {
+        &--min {
+            min-height: 200px;
         }
     }
 }

@@ -396,6 +396,8 @@ export const EN_US = {
         REVIEW: 'Review',
         SUBMIT: 'Post',
         CANCEL: 'Cancel',
+        HEADING_PLACEHOLDER: "Write title of your review",
+        TEXT_PLACEHOLDER: "Describe your overall experience with this lesson",
     },
     COMPLETE_PROFILE: {
         TITLE: 'Complete my profile',
