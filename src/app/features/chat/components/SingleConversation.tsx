@@ -74,8 +74,27 @@ const SingleConversation = (props: Props) => {
 
             </div>
 
+<<<<<<< Updated upstream
             <div className="content__main">
                 {props.data && props.data.messages.map((message: ISendChatMessage, index: number) => {
+=======
+            <div ref={chatRef} onScroll={(e: any) => debouncedScrollHandler(e.target)} className="content__main">
+
+                {props.data && props.data.messages.length >= 20 && !hideLoadMore() && <div><i className={`icon--loader chat-load-more`}></i></div>}
+                {props.data && props.data.messages.length == 0 &&
+                    <div className={`chat_message_init_new`}>
+                        <div className={`message-full-width flex flex--col flex--center`}>
+                            <div className="type--right w--80--max">
+                                <div className={`chat__message__item__center chat__message__item chat__message__item__init`}>
+                                    <i>{t('CHAT.PLACEHOLDER')}</i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                {props.data && console.log(props.data.messages)}
+                {props.data && props.data.messages.length > 0 && props.data.messages.map((message: ISendChatMessage, index: number) => {
+>>>>>>> Stashed changes
 
                     let img = false;
 
