@@ -1,8 +1,11 @@
+import { use } from 'i18next';
 import { cloneDeep, debounce } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
+import ITutor from '../../../interfaces/ITutor';
 
 import ITutorSubject from '../../../interfaces/ITutorSubject';
 import { useLazyGetTutorProfileDataQuery } from '../../../services/tutorService';
@@ -16,6 +19,7 @@ import { PATHS } from '../../routes';
 import { useGetOrCreateChatMutation } from '../../services/chatEngineService';
 import toastService from '../../services/toastService';
 import handleRatingStars from '../../utils/handleRatingStarts';
+import { addChatRoom, addMessage, IChatRoom, ISendChatMessage } from '../chat/slices/chatSlice';
 import { useLazyGetTutorAvailabilityQuery } from '../my-profile/services/tutorAvailabilityService';
 import Ratings from '../myReviews/components/Ratings';
 import ReviewItem from '../myReviews/components/ReviewItem';
@@ -32,6 +36,9 @@ const TutorProfile = () => {
 
     const { tutorId } = useParams();
     const history = useHistory();
+
+    const dispatch = useDispatch();
+
     const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
     const user = useAppSelector((state) => state.auth.user);
     const [params, setParams] = useState<IMyReviewParams>({ page: 1, rpp: 3 });
@@ -116,22 +123,32 @@ const TutorProfile = () => {
     const createNewChat = async () => {
         const tutorData = await getTutorById(tutorId).unwrap();
 
-        const userName = user!.email.split('@')[0];
-        const tutorUserName = tutorData.User.email.split('@')[0];
 
-        const toSend = {
-            username: userName,
-            tutorUsername: tutorUserName,
+        const toSend: IChatRoom = {
+            user: {
+                userId: user?.id + '',
+                userImage: 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg',
+                userNickname: user?.firstName + ' ' + user?.lastName,
+            },
+            tutor: {
+                userId: tutorData?.userId + '',
+                userImage: tutorData?.User.profileImage || 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg',
+                userNickname: tutorData?.User.firstName + ' ' + tutorData?.User.lastName,
+            },
+            unreadMessageCount: 0,
+            messages: []
         };
 
-        await getOrCreateNewChat(toSend)
+        dispatch(addChatRoom(toSend));
+
+        /*await getOrCreateNewChat(toSend)
             .unwrap()
             .then(() => {
                 history.push(PATHS.CHAT);
             })
             .catch(() => {
                 toastService.error(`can't create a chat with ${tutorUserName}, please contact a support for more informations`);
-            });
+            });*/
     };
 
     //scroll to bottom alerter
@@ -253,11 +270,10 @@ const TutorProfile = () => {
                                                     <div
                                                         className="rating__stars__fill"
                                                         style={{
-                                                            width: `${
-                                                                tutorStatistics && tutorStatistics.statistic
-                                                                    ? handleRatingStars(tutorStatistics.statistic)
-                                                                    : 0
-                                                            }px`,
+                                                            width: `${tutorStatistics && tutorStatistics.statistic
+                                                                ? handleRatingStars(tutorStatistics.statistic)
+                                                                : 0
+                                                                }px`,
                                                         }}
                                                     ></div>
                                                 </div>
@@ -358,13 +374,14 @@ const TutorProfile = () => {
                                             {t('TUTOR_PROFILE.BOOK')}
                                         </Link>
 
-                                        <div
+                                        <Link
                                             className="btn btn--base btn--ghost w--100 type--center flex flex--center flex--jc--center"
                                             onClick={() => createNewChat()}
+                                            to={`/chat`}
                                         >
                                             {createChatLoading && <LoaderPrimary small={true} />}
                                             <span>{t('TUTOR_PROFILE.SEND')}</span>
-                                        </div>
+                                        </Link>
                                     </>
                                 )}
                             </div>
@@ -379,3 +396,4 @@ const TutorProfile = () => {
 };
 
 export default TutorProfile;
+
