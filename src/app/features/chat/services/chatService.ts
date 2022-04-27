@@ -5,7 +5,7 @@ import typeToFormData from '../../../utils/typeToFormData';
 import { IChatRoom, ISendChatMessage } from '../slices/chatSlice';
 
 const URL = '/chat';
-interface IChatMessagesQuery {
+export interface IChatMessagesQuery {
     userId: string;
     rpp: number;
     page: number

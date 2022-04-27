@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useDispatch } from "react-redux";
+
 import { useAppSelector } from "../../../hooks";
 import { usePostUploadFileMutation } from "../services/chatService";
 import { addMessage, IChatRoom, ISendChatMessage } from "../slices/chatSlice";
 
 interface Props {
     data: IChatRoom | null;
+    scrollOnSend: () => void;
 }
 
 const SendMessageForm = (props: Props) => {
@@ -48,6 +50,8 @@ const SendMessageForm = (props: Props) => {
 
                 dispatch(addMessage(message));
 
+                props.scrollOnSend();
+
                 if (newMessageRef.current)
                     newMessageRef.current.value = '';
             }
@@ -58,6 +62,14 @@ const SendMessageForm = (props: Props) => {
 
         if (fileRef.current?.files && fileRef.current?.files.length > 0)
             setFileToSend(fileRef.current?.files[0]);
+    };
+
+    const onCancelFileSend = async (event: any) => {
+
+        if (fileToSend && fileRef.current?.form) {
+            fileRef.current.form.reset();
+            setFileToSend(undefined);
+        }
     };
 
     const onFileSend = async (event: any) => {
@@ -93,10 +105,6 @@ const SendMessageForm = (props: Props) => {
                 setFileToSend(undefined);
             }
 
-<<<<<<< Updated upstream
-                if (message)
-                    dispatch(addMessage(message));
-=======
             if (postFileData) {
                 dispatch(addMessage({
                     userId: postFileData.userId,
@@ -113,7 +121,6 @@ const SendMessageForm = (props: Props) => {
                 }));
 
                 props.scrollOnSend();
->>>>>>> Stashed changes
             }
         }
 
@@ -121,11 +128,7 @@ const SendMessageForm = (props: Props) => {
 
     return (
         <>
-<<<<<<< Updated upstream
-            {fileToSend && <div className="chat-file-message-send"><p>{fileToSend.name}</p><button onClick={onFileSend}><i className="icon--upload"></i></button></div>}
-=======
             {fileToSend && <div className="chat-file-message-send"><button className="close-button-popup" onClick={onCancelFileSend}><i className="icon--close"></i></button><p>{fileToSend.name}</p><button onClick={onFileSend}><i className="icon--upload"></i></button></div>}
->>>>>>> Stashed changes
             <div className="content__footer content__footer--chat">
                 <form className="chat-file-send-form" method="POST" action="" onSubmit={onSubmit}>
                     <div className="flex--shrink input-file-relative">

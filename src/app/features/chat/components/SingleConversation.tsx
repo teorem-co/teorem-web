@@ -1,11 +1,15 @@
-import React, { useRef } from 'react';
-
-import { useEffect } from 'react';
+import { t } from 'i18next';
+import { debounce } from 'lodash';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { setSourceMapRange } from 'typescript';
 
 import { useAppSelector } from '../../../hooks';
-import { IChatRoom, readMessage, ISendChatMessage } from '../slices/chatSlice';
+import { Role } from '../../../lookups/role';
+import { PATHS } from '../../../routes';
+import { IChatMessagesQuery, useLazyGetChatMessagesQuery } from '../services/chatService';
+import { getMessages, IChatRoom, ISendChatMessage, readMessage } from '../slices/chatSlice';
 import SendMessageForm from './SendMessageForm';
 
 interface Props {
@@ -15,10 +19,15 @@ interface Props {
 const SingleConversation = (props: Props) => {
 
     const messagesEndRef = useRef<HTMLDivElement>(null);
+    const chatRef = useRef<HTMLDivElement>(null);
 
     const userActive = useAppSelector((state) => state.auth.user);
 
     const chat = useAppSelector((state) => state.chat);
+
+    const [page, setPage] = useState<number>(1);
+
+    const [getChatMessages, { data: chatMessages }] = useLazyGetChatMessagesQuery();
 
     const dispatch = useDispatch();
 
@@ -36,6 +45,12 @@ const SingleConversation = (props: Props) => {
     let lastMessageUserId: string = '';
 
     useEffect(() => {
+        if (props.data && chatRef.current && props.data.messages.length <= chat.rpp) {
+            chatRef.current.scrollTop = chatRef.current.scrollHeight;
+        }
+    });
+
+    useEffect(() => {
 
         if (props.data) {
 
@@ -51,33 +66,91 @@ const SingleConversation = (props: Props) => {
                     }
                 }
             }
-
-            scrollToBottomFast();
         }
 
     }, [props.data]);
+
+    useEffect(() => {
+        if (chatMessages)
+            dispatch(getMessages(chatMessages));
+    },
+        [chatMessages]);
+
+    useEffect(() => {
+        if (userActive && props.data) {
+
+            const getMessagesObject: IChatMessagesQuery = {
+                userId: (userActive.id == props.data?.user?.userId ? props.data.tutor?.userId : props.data?.user?.userId) || '',
+                page: page,
+                rpp: chat.rpp,
+            };
+            getChatMessages(getMessagesObject);
+        }
+    }, [page]);
+
+    const handleLoadMore = () => {
+        setPage(page + 1);
+    };
+
+    const hideLoadMore = () => {
+        let returnValue: boolean = false;
+        if (props.data && chatMessages) {
+            const totalPages = Math.ceil(chatMessages.length / chat.rpp);
+
+            if (totalPages < 1) returnValue = true;
+        }
+
+        return returnValue;
+    };
+
+    //scroll to bottom alerter
+    const handleScroll = (e: HTMLDivElement) => {
+
+        const scrollPosition = 0;
+
+        if (props.data && !hideLoadMore() && e.scrollTop === scrollPosition && props.data?.messages.length > 0) {
+            handleLoadMore();
+        }
+        // if (innerHeight === scrollPosition) {
+        //     //action to do on scroll to bottom
+        //
+        // }
+    };
+
+    const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
 
     return (
         <div className="content">
             <div className="content__header content__header--chat">
                 <div className="flex flex--center">
-                    {props.data && <img className="chat__conversation__avatar" src={props.data ? ('https://' + (userActive?.id != props.data.tutor?.userId ? props.data.tutor?.userImage : props.data.user?.userImage)) : ""} alt="chat avatar" />
+                    {props.data && userActive?.Role.abrv != Role.Tutor &&
+
+                        <Link
+                            className="chat-single-conversation-link"
+                            to={`${PATHS.SEARCH_TUTORS}/profile/${props.data.tutor?.userId}`}
+                        >
+                            {props.data &&
+                                <img className="chat__conversation__avatar" src={props.data ? ('https://' + (userActive?.id != props.data.tutor?.userId ? props.data.tutor?.userImage : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')) : "teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg"} alt="chat avatar" />
+                            }
+
+                            <div className="ml-3 type--wgt--bold">{props.data ? (userActive?.id != props.data.tutor?.userId ? props.data.tutor?.userNickname : props.data.user?.userNickname) : "Odaberite osobu za razgovor"}</div>
+                        </Link>
                     }
 
-                    <div className="ml-3 type--wgt--bold">{props.data ? (userActive?.id != props.data.tutor?.userId ? props.data.tutor?.userNickname : props.data.user?.userNickname) : "Odaberite osobu za razgovor"}</div>
+                    {props.data && userActive?.Role.abrv == Role.Tutor &&
+                        <img className="chat__conversation__avatar" src={props.data ? ('https://' + (userActive?.id != props.data.tutor?.userId ? props.data.tutor?.userImage : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')) : "teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg"} alt="chat avatar" />
+                    }
+
+                    {props.data && userActive?.Role.abrv == Role.Tutor && <div className="ml-3 type--wgt--bold">{props.data ? (userActive?.id != props.data.tutor?.userId ? props.data.tutor?.userNickname : props.data.user?.userNickname) : "Odaberite osobu za razgovor"}</div>}
                 </div>
                 {props.data && (userActive?.id == props.data.user?.userId) && <Link
                     className="btn btn--primary btn--base"
                     to={`/search-tutors/bookings/${props.data.tutor?.userId}`} >
-                    Book a session
+                    {t('CHAT.BOOK_SESSION')}
                 </Link>}
 
             </div>
 
-<<<<<<< Updated upstream
-            <div className="content__main">
-                {props.data && props.data.messages.map((message: ISendChatMessage, index: number) => {
-=======
             <div ref={chatRef} onScroll={(e: any) => debouncedScrollHandler(e.target)} className="content__main">
 
                 {props.data && props.data.messages.length >= 20 && !hideLoadMore() && <div><i className={`icon--loader chat-load-more`}></i></div>}
@@ -94,7 +167,6 @@ const SingleConversation = (props: Props) => {
                 }
                 {props.data && console.log(props.data.messages)}
                 {props.data && props.data.messages.length > 0 && props.data.messages.map((message: ISendChatMessage, index: number) => {
->>>>>>> Stashed changes
 
                     let img = false;
 
@@ -103,15 +175,16 @@ const SingleConversation = (props: Props) => {
                         lastMessageUserId = message.senderId + '';
                     }
 
-                    if (props.data && index == props.data?.messages.length - 1)
-                        scrollToBottomSmooth();
+                    if (props.data && index == props.data.messages.length - 1) {
+                        //scrollToBottomSmooth();
+                    }
 
                     if (userActive && userActive.id == message.senderId)
                         return (
-                            <div className={`chat__message chat__message--logged${img ? " chat__message__margin-top" : ""}${img ? "" : " chat__message__margin-right"}`}>
+                            <div key={index} className={`chat__message chat__message--logged${img ? " chat__message__margin-top" : ""}${img ? "" : " chat__message__margin-right"}`}>
                                 {img && <img
                                     className="chat__conversation__avatar chat__conversation__avatar--small"
-                                    src={props.data ? ('https://' + (message.senderId == props.data.tutor?.userId ? props.data.tutor?.userImage : props.data.user?.userImage)) : ""}
+                                    src={props.data ? ('https://' + (message.senderId == props.data.tutor?.userId ? props.data.tutor?.userImage : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')) : "teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg"}
                                     alt={'profile avatar'} />
                                 }
                                 <div className={`message-full-width flex flex--col flex--end`}>
@@ -123,11 +196,11 @@ const SingleConversation = (props: Props) => {
                             </div>
                         );
                     return (
-                        <div className={`chat__message chat__message--other${img ? " chat__message__margin-top" : ""}${img ? "" : " chat__message__margin-left"}`}>
+                        <div key={index} className={`chat__message chat__message--other${img ? " chat__message__margin-top" : ""}${img ? "" : " chat__message__margin-left"}`}>
 
                             {img && <img
                                 className="chat__conversation__avatar chat__conversation__avatar--small"
-                                src={props.data ? ('https://' + (message.senderId == props.data.tutor?.userId ? props.data.tutor?.userImage : props.data.user?.userImage)) : ""}
+                                src={props.data ? ('https://' + (message.senderId == props.data.tutor?.userId ? props.data.tutor?.userImage : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')) : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg'}
                                 alt={'profile avatar'} />
                             }
                             <div className={`message-full-width flex flex--col`}>
@@ -141,9 +214,9 @@ const SingleConversation = (props: Props) => {
                 })}
                 <div style={{ marginTop: 80 }} ref={messagesEndRef} />
             </div>
-            {props.data && <SendMessageForm data={props.data} />}
+            {props.data && <SendMessageForm data={props.data} scrollOnSend={scrollToBottomSmooth} />}
 
-        </div>
+        </div >
     );
 };
 
