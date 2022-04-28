@@ -165,7 +165,6 @@ const SingleConversation = (props: Props) => {
                         </div>
                     </div>
                 }
-                {props.data && console.log(props.data.messages)}
                 {props.data && props.data.messages.length > 0 && props.data.messages.map((message: ISendChatMessage, index: number) => {
 
                     let img = false;
