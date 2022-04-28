@@ -45,7 +45,11 @@ const AsideWrapper = (props: Props) => {
             });
 
         } else {
-            getChatRooms();
+            getChatRooms({
+                page: 1,
+                rpp: chat.rpp,
+                limitMessages: chat.rpp
+            });
         }
 
     };

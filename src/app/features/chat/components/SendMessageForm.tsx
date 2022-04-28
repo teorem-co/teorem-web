@@ -119,25 +119,7 @@ const SendMessageForm = (props: Props) => {
                     },
                     senderId: postFileData.senderId
                 }));
-
-                if (message) {
-
-                    dispatch(addMessage({
-                        userId: message.userId,
-                        tutorId: message.tutorId,
-                        message: {
-                            message: message.message.message,
-                            messageId: message.message.messageId,
-                            isRead: message.message.isRead,
-                            isFile: message.message.isFile,
-                            createdAt: message.message.createdAt,
-                            messageNew: true,
-                        },
-                        senderId: message.senderId
-                    }));
-
-                    props.scrollOnSend();
-                }
+                props.scrollOnSend();
             }
         }
 
