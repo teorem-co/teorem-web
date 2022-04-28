@@ -153,7 +153,7 @@ const SingleConversation = (props: Props) => {
 
             <div ref={chatRef} onScroll={(e: any) => debouncedScrollHandler(e.target)} className="content__main">
 
-                {props.data && props.data.messages.length > 0 && !hideLoadMore() && <div><i className={`icon--more chat-load-more`}></i></div>}
+                {props.data && props.data.messages.length >= 20 && !hideLoadMore() && <div><i className={`icon--loader chat-load-more`}></i></div>}
                 {props.data && props.data.messages.length == 0 &&
                     <div className={`chat_message_init_new`}>
                         <div className={`message-full-width flex flex--col flex--center`}>

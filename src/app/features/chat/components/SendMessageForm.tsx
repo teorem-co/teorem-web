@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useDispatch } from "react-redux";
 
@@ -20,7 +20,7 @@ const SendMessageForm = (props: Props) => {
 
     const [fileToSend, setFileToSend] = useState<File>();
 
-    const [postFile] = usePostUploadFileMutation();
+    const [postFile, { data: postFileData, isSuccess: isSuccessPostFile, isLoading: isLoadingPostFile, error: errorPostFile }] = usePostUploadFileMutation();
 
     const dispatch = useDispatch();
 
@@ -91,10 +91,34 @@ const SendMessageForm = (props: Props) => {
                 fd.append("fileName", fileName || '');
                 fd.append("fileExt", '.' + fileExt || '');
 
-                const message = await postFile(fd).unwrap();
+                postFile(fd);
+            }
+        }
+    };
 
+    useEffect(() => {
+
+        if (isSuccessPostFile) {
+
+            if (fileRef.current?.form) {
                 fileRef.current.form.reset();
                 setFileToSend(undefined);
+            }
+
+            if (postFileData) {
+                dispatch(addMessage({
+                    userId: postFileData.userId,
+                    tutorId: postFileData.tutorId,
+                    message: {
+                        message: postFileData.message.message,
+                        messageId: postFileData.message.messageId,
+                        isRead: postFileData.message.isRead,
+                        isFile: postFileData.message.isFile,
+                        createdAt: postFileData.message.createdAt,
+                        messageNew: true,
+                    },
+                    senderId: postFileData.senderId
+                }));
 
                 if (message) {
 
@@ -116,7 +140,9 @@ const SendMessageForm = (props: Props) => {
                 }
             }
         }
-    };
+
+    }, [isSuccessPostFile]);
+
     return (
         <>
             {fileToSend && <div className="chat-file-message-send"><button onClick={onCancelFileSend}><i className="icon--close"></i></button><p>{fileToSend.name}</p><button onClick={onFileSend}><i className="icon--upload"></i></button></div>}
