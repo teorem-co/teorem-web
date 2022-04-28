@@ -5,6 +5,12 @@ import typeToFormData from '../../../utils/typeToFormData';
 import { IChatRoom, ISendChatMessage } from '../slices/chatSlice';
 
 const URL = '/chat';
+export interface IChatRoomsQuery {
+    limitMessages: number;
+    rpp: number;
+    page: number
+}
+
 export interface IChatMessagesQuery {
     userId: string;
     rpp: number;
@@ -44,6 +50,13 @@ export const chatService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
+        getChildBookingTutors: builder.query<IChatRoom[], void>({
+            query: () => ({
+                url: `${URL}/get-child-tutors`,
+                method: HttpMethods.GET,
+            }),
+        }),
+
     }),
 });
 
@@ -51,5 +64,6 @@ export const {
     useLazyGetChatRoomsQuery,
     useLazyGetChatMessagesQuery,
     usePostUploadFileMutation,
-    useLazyGetOnSearchChatRoomsQuery
+    useLazyGetOnSearchChatRoomsQuery,
+    useLazyGetChildBookingTutorsQuery
 } = chatService;
