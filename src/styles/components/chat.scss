@@ -8,6 +8,26 @@
         display: flex;
         padding: calc($unit * 3) calc($unit * 4);
 
+        &__active{
+            background-color: #ededed;
+            position: relative;
+        }
+        
+        &__active:before {
+            background-color: #7e6cf2;
+            border-radius: 0 4px 4px 0;
+            content: "";
+            height: 100%;
+            left: 0px;
+            opacity: 1;
+            position: absolute;
+            top: 50%;
+            -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+            width: 4px;
+            z-index: 2;
+        }
+
         &__avatar {
             flex-shrink: 0;
             border-radius: $border-circle;

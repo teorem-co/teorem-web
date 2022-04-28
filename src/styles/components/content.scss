@@ -34,7 +34,7 @@ $footer-height: 72px;
 
         padding: calc(#{$unit} * 6);
         overflow-y: auto;
-        scroll-behavior: smooth;
+        //scroll-behavior: smooth;
 
         //container sizes
         &--md {

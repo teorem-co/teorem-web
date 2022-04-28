@@ -72,7 +72,9 @@ const ReviewModal: FC<Props> = (props: Props) => {
                 <div className="modal">
                     <div className="modal__head">
                         <div className="type--md type--wgt--bold">{t('WRITE_REVIEW.SECTION_TITLE')}</div>
-                        <div className="type--color--secondary">Maria Diaz, Mathematics, A level</div>
+                        <div className="type--color--secondary">
+                            {activeLesson?.Tutor.User.firstName} {activeLesson?.Tutor.User.lastName}, {activeLesson?.Subject.name}, {activeLesson?.level.name}
+                            {/*Maria Diaz, Mathematics, A level*/}</div>
                         <i onClick={handleClose} className="modal__close icon icon--base icon--close icon--grey"></i>
                     </div>
                     <div className="modal__separator"></div>
@@ -83,7 +85,7 @@ const ReviewModal: FC<Props> = (props: Props) => {
                                     <label htmlFor="title" className="field__label">
                                         {t('WRITE_REVIEW.TITLE')}*
                                     </label>
-                                    <TextField name="title" id="title" placeholder="Write title of your review" maxLength={40} />
+                                    <TextField name="title" id="title" placeholder={t('WRITE_REVIEW.HEADING_PLACEHOLDER')} maxLength={40} />
                                 </div>
                                 <div className="field">
                                     <label htmlFor="rating" className="field__label">
@@ -98,7 +100,7 @@ const ReviewModal: FC<Props> = (props: Props) => {
                                     <TextArea
                                         name="review"
                                         id="review"
-                                        placeholder="Describe your overall expirience with this lesson"
+                                        placeholder={t('WRITE_REVIEW.TEXT_PLACEHOLDER')}
                                         maxLength={2500}
                                     />
                                 </div>

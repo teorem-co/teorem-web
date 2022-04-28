@@ -120,7 +120,24 @@ const SendMessageForm = (props: Props) => {
                     senderId: postFileData.senderId
                 }));
 
-                props.scrollOnSend();
+                if (message) {
+
+                    dispatch(addMessage({
+                        userId: message.userId,
+                        tutorId: message.tutorId,
+                        message: {
+                            message: message.message.message,
+                            messageId: message.message.messageId,
+                            isRead: message.message.isRead,
+                            isFile: message.message.isFile,
+                            createdAt: message.message.createdAt,
+                            messageNew: true,
+                        },
+                        senderId: message.senderId
+                    }));
+
+                    props.scrollOnSend();
+                }
             }
         }
 
@@ -128,7 +145,7 @@ const SendMessageForm = (props: Props) => {
 
     return (
         <>
-            {fileToSend && <div className="chat-file-message-send"><button className="close-button-popup" onClick={onCancelFileSend}><i className="icon--close"></i></button><p>{fileToSend.name}</p><button onClick={onFileSend}><i className="icon--upload"></i></button></div>}
+            {fileToSend && <div className="chat-file-message-send"><button onClick={onCancelFileSend}><i className="icon--close"></i></button><p>{fileToSend.name}</p><button onClick={onFileSend}><i className="icon--upload"></i></button></div>}
             <div className="content__footer content__footer--chat">
                 <form className="chat-file-send-form" method="POST" action="" onSubmit={onSubmit}>
                     <div className="flex--shrink input-file-relative">

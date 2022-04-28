@@ -377,68 +377,70 @@ const ProfileAccount = () => {
                             </div>
                         </div>
 
-                        <div className="card--profile__section">
-                            <div>
-                                <div className="mb-2 type--wgt--bold">{t('ACCOUNT.CARD_DETAILS.TITLE')}</div>
-                                <div className="type--color--tertiary w--200--max">{t('ACCOUNT.CARD_DETAILS.DESCRIPTION')}</div>
-                            </div>
-                            <div>
-                                {userRole === RoleOptions.Tutor ? (
-                                    <div onClick={() => setStripeModalOpen(true)} className="btn btn--primary btn--base">
-                                        {t('MY_PROFILE.PROFILE_ACCOUNT.STRIPE')}
-                                    </div>
-                                ) : (
-                                    <div className="dash-wrapper">
-                                        <div className="dash-wrapper__item">
-                                            <div className="dash-wrapper__item__element" onClick={() => setAddSidebarOpen(true)}>
-                                                <div className="flex--primary cur--pointer">
-                                                    <div>
-                                                        <div className="type--wgt--bold">{t('ACCOUNT.CARD_DETAILS.ADD_NEW')}</div>
-                                                        <div>{t('ACCOUNT.CARD_DETAILS.ADD_NEW_DESC')}</div>
-                                                    </div>
-                                                    <div>
-                                                        <i className="icon icon--base icon--plus icon--primary"></i>
+                        {userRole != RoleOptions.SuperAdmin && 
+                            <div className="card--profile__section">
+                                <div>
+                                    <div className="mb-2 type--wgt--bold">{t('ACCOUNT.CARD_DETAILS.TITLE')}</div>
+                                    <div className="type--color--tertiary w--200--max">{t('ACCOUNT.CARD_DETAILS.DESCRIPTION')}</div>
+                                </div>
+                                <div>
+                                    {userRole === RoleOptions.Tutor ? (
+                                        <div onClick={() => setStripeModalOpen(true)} className="btn btn--primary btn--base">
+                                            {t('MY_PROFILE.PROFILE_ACCOUNT.STRIPE')}
+                                        </div>
+                                    ) : (
+                                        <div className="dash-wrapper">
+                                            <div className="dash-wrapper__item">
+                                                <div className="dash-wrapper__item__element" onClick={() => setAddSidebarOpen(true)}>
+                                                    <div className="flex--primary cur--pointer">
+                                                        <div>
+                                                            <div className="type--wgt--bold">{t('ACCOUNT.CARD_DETAILS.ADD_NEW')}</div>
+                                                            <div>{t('ACCOUNT.CARD_DETAILS.ADD_NEW_DESC')}</div>
+                                                        </div>
+                                                        <div>
+                                                            <i className="icon icon--base icon--plus icon--primary"></i>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        {creditCardIsLoading ? (
-                                            <LoaderSecondary full={false} />
-                                        ) : (
-                                            creditCards &&
-                                            !Array.isArray(creditCards) &&
-                                            creditCards.data.map((item: ICreditCard) => {
-                                                return (
-                                                    <div className="dash-wrapper__item" onClick={() => handleDefaultCreditCard(item.id)}>
-                                                        <div
-                                                            className={`dash-wrapper__item__element ${
-                                                                item.id === activeDefaultPaymentMethod && 'active'
-                                                            }`}
-                                                        >
-                                                            <div className="flex--primary cur--pointer">
-                                                                <div>
-                                                                    <div className="type--wgt--bold">**** **** **** {item.card.last4}</div>
-                                                                    <div>{item.card.brand}</div>
-                                                                </div>
-                                                                <div>
-                                                                    <i
-                                                                        onClick={(e) => {
-                                                                            e.stopPropagation();
-                                                                            handleDeleteCreditCard(item.id);
-                                                                        }}
-                                                                        className="icon icon--base icon--delete icon--primary"
-                                                                    ></i>
+                                            {creditCardIsLoading ? (
+                                                <LoaderSecondary full={false} />
+                                            ) : (
+                                                creditCards &&
+                                                !Array.isArray(creditCards) &&
+                                                creditCards.data.map((item: ICreditCard) => {
+                                                    return (
+                                                        <div className="dash-wrapper__item" onClick={() => handleDefaultCreditCard(item.id)}>
+                                                            <div
+                                                                className={`dash-wrapper__item__element ${
+                                                                    item.id === activeDefaultPaymentMethod && 'active'
+                                                                }`}
+                                                            >
+                                                                <div className="flex--primary cur--pointer">
+                                                                    <div>
+                                                                        <div className="type--wgt--bold">**** **** **** {item.card.last4}</div>
+                                                                        <div>{item.card.brand}</div>
+                                                                    </div>
+                                                                    <div>
+                                                                        <i
+                                                                            onClick={(e) => {
+                                                                                e.stopPropagation();
+                                                                                handleDeleteCreditCard(item.id);
+                                                                            }}
+                                                                            className="icon icon--base icon--delete icon--primary"
+                                                                        ></i>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                );
-                                            })
-                                        )}
-                                    </div>
-                                )}
+                                                    );
+                                                })
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
-                        </div>
+                        }
                     </Form>
                 </FormikProvider>
                 <>{stripeModalOpen && <StripeModal handleClose={() => setStripeModalOpen(false)} />}</>

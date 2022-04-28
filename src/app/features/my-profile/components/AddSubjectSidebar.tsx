@@ -1,4 +1,5 @@
 import { Form, FormikProvider, useFormik } from 'formik';
+import { values } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
@@ -8,6 +9,7 @@ import { useCreateSubjectMutation, useLazyGetSubjectsByLevelAndSubjectQuery } fr
 import { useLazyGetProfileProgressQuery } from '../../../../services/tutorService';
 import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import TextField from '../../../components/form/TextField';
+import { useLazyGetCountriesQuery } from '../../../features/onboarding/services/countryService';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import { setMyProfileProgress } from '../slices/myProfileSlice';
@@ -45,6 +47,24 @@ const AddSubjectSidebar = (props: Props) => {
         price: '',
     };
 
+    
+    const [currency, setCurrency] = useState('PZL');
+    const [minPrice, setMinPrice] = useState(47);
+    const countryId = useAppSelector((state) => state?.user?.user?.countryId);
+    const [getCountries] = useLazyGetCountriesQuery();
+    const getCurrency = async () => {
+        const res = await getCountries().unwrap();
+        res.forEach(c => {
+            if(c.id === countryId){
+                setCurrency(c.currencyCode);
+                if(c.currencyCode == "HRK")
+                    setMinPrice(60);
+                if(c.currencyCode == "PLZ")
+                    setMinPrice(47);
+            }
+        });
+    };
+
     const handleSubmit = async (values: Values) => {
         await createSubject({
             subjectId: values.subject,
@@ -68,10 +88,14 @@ const AddSubjectSidebar = (props: Props) => {
         validationSchema: Yup.object().shape({
             level: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             subject: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            price: Yup.number().required(t('FORM_VALIDATION.REQUIRED')).min(47, t('FORM_VALIDATION.PRICE')),
+            price: Yup.number().required(t('FORM_VALIDATION.REQUIRED')).min(minPrice, t('FORM_VALIDATION.PRICE') + minPrice),
         }),
     });
 
+    useEffect(() => {
+        getCurrency();
+    }, []);
+    
     useEffect(() => {
         if (subjectsData && isSuccessSubjects && formik.values.level !== '') {
             setSubjectOptions(subjectsData);
@@ -131,13 +155,18 @@ const AddSubjectSidebar = (props: Props) => {
                             </div>
                             <div className="field">
                                 <label htmlFor="price" className="field__label">
-                                    {t('MY_PROFILE.MY_TEACHINGS.PRICING')}*
+                                    {t('MY_PROFILE.MY_TEACHINGS.PRICING')} ({currency})*
                                 </label>
                                 <TextField
                                     name="price"
                                     id="price"
-                                    placeholder={t('MY_PROFILE.MY_TEACHINGS.PRICING_PLACEHOLDER')}
-                                    withoutErr={formik.errors.price && formik.touched.price ? false : true}
+                                    placeholder={
+                                        t('MY_PROFILE.MY_TEACHINGS.PRICING_PLACEHOLDER') + 
+                                        minPrice + ' ' + currency + '/h'} 
+                                    withoutErr={
+                                        formik.errors.price && 
+                                        formik.touched.price ? 
+                                            false : true}
                                     type="number"
                                 />
                             </div>

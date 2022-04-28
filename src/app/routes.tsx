@@ -28,6 +28,8 @@ import RoleSelection from './features/roleSelection/RoleSelection';
 import SearchTutors from './features/searchTutors/SearchTutors';
 import TutorProfile from './features/searchTutors/TutorProfile';
 import TutorBookings from './features/tutor-bookings/TutorBookings';
+import TutorManagment from './features/tutor-managment/TutorManagment';
+import TutorManagmentProfile from './features/tutor-managment/TutorProfile';
 import { useAppSelector } from './hooks';
 import { Role } from './lookups/role';
 import NotFound from './pages/NotFound';
@@ -53,6 +55,8 @@ export enum PATHS {
     EARNINGS = '/earnings',
     TERMS = '/terms',
     PRIVACY = '/privacy',
+    TUTOR_MANAGMENT = '/tutor-managment',
+    TUTOR_MANAGMENT_TUTOR_PROFILE = '/tutor-managment/profile/:tutorId',
 }
 
 export enum LANDING_PATHS {
@@ -310,6 +314,26 @@ const ROUTES: any = [
             },
         ],
     },
+    {
+        path: PATHS.TUTOR_MANAGMENT,
+        key: 'TUTOR_MANAGMENT',
+        exact: true,
+        component: () => (
+            <PermissionsGate roles={[Role.SuperAdmin]}>
+                <TutorManagment />
+            </PermissionsGate>
+        ),
+    },
+    {
+        path: PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE,
+        key: 'TUTOR_MANAGMENT_TUTOR_PROFILE',
+        exact: true,
+        component: () => (
+            <PermissionsGate roles={[Role.SuperAdmin]}>
+                <TutorManagmentProfile />
+            </PermissionsGate>
+        ),
+    },
 ];
 //handle subroutes by <RenderRoutes {...props} /> inside PermissionGate if needed
 
@@ -433,11 +457,19 @@ export const menuPerRole: IMenuPerRole = {
     ],
     [Role.SuperAdmin]: [
         {
-            name: 'DASHBOARD',
-            icon: 'dashboard',
-            key: 'DASHBOARD',
-            path: PATHS.DASHBOARD,
+            name: 'TUTOR_MANAGMENT',
+            icon: 'tutor-managment',
+            key: 'TUTOR_MANAGMENT',
+            path: PATHS.TUTOR_MANAGMENT,
         },
+        {
+            name: 'CHAT',
+            icon: 'chat',
+            key: 'CHAT',
+            path: PATHS.CHAT,
+        },
+    ],
+    [Role.Child]: [
         {
             name: 'MY_BOOKINGS',
             icon: 'calendar',
@@ -449,26 +481,6 @@ export const menuPerRole: IMenuPerRole = {
             icon: 'chat',
             key: 'CHAT',
             path: PATHS.CHAT,
-        },
-        {
-            name: 'SEARCH_TUTORS',
-            icon: 'search-tutors',
-            key: 'SEARCH_TUTORS',
-            path: PATHS.SEARCH_TUTORS,
-        },
-        {
-            name: 'COMPLETED_LESSONS',
-            icon: 'completed-lessons',
-            key: 'COMPLETED_LESSONS',
-            path: PATHS.COMPLETED_LESSONS,
-        },
-    ],
-    [Role.Child]: [
-        {
-            name: 'MY_BOOKINGS',
-            icon: 'calendar',
-            key: 'MY_BOOKINGS',
-            path: PATHS.MY_BOOKINGS,
         },
         {
             name: 'COMPLETED_LESSONS',

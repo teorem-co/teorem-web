@@ -32,10 +32,6 @@ const Chat = () => {
         }
     }, []);
 
-    /*useEffect(() => {
-        console.log(chat);
-    }, [chat]);*/
-
     return (
         <MainWrapper>
             {/* <div>

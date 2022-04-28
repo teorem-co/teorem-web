@@ -1,4 +1,5 @@
 import 'moment/locale/en-gb';
+
 import { baseService } from '../../../baseService';
 import { HttpMethods } from '../../../lookups/httpMethods';
 import typeToFormData from '../../../utils/typeToFormData';
@@ -25,15 +26,15 @@ export interface ISearchChatQuery {
 
 export const chatService = baseService.injectEndpoints({
     endpoints: (builder) => ({
-        getChatRooms: builder.query<IChatRoom[], void>({
-            query: () => ({
-                url: `${URL}/get-chat-rooms`,
+        getChatRooms: builder.query<IChatRoom[], IChatRoomsQuery>({
+            query: (body) => ({
+                url: `${URL}/get-chat-rooms?rpp=${body.rpp}&page=${body.page}&limitMessages=${body.limitMessages}`,
                 method: HttpMethods.GET,
             }),
         }),
         getChatMessages: builder.query<ISendChatMessage[], IChatMessagesQuery>({
             query: (body) => ({
-                url: `${URL}/get-chat-rooms?userId=${body.userId}&rpp=${body.rpp}&page=${body.page}`,
+                url: `${URL}/get-chat-messages?userId=${body.userId}&rpp=${body.rpp}&page=${body.page}`,
                 method: HttpMethods.GET,
             }),
         }),

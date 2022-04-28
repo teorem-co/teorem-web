@@ -6,6 +6,7 @@ interface Props {
     title: string;
     closeSidebar: () => void;
     onSubmit: () => void;
+    onCancel?: () => void;
     submitLabel: string;
     cancelLabel: string;
 }
@@ -17,6 +18,7 @@ const Sidebar = (props: Props) => {
         children,
         closeSidebar,
         onSubmit,
+        onCancel,
         submitLabel,
         cancelLabel,
     } = props;
@@ -62,12 +64,15 @@ const Sidebar = (props: Props) => {
                 <div className="flex--grow mt-10">{children}</div>
                 <div className="flex--shirnk sidebar--secondary__bottom mt-10">
                     <div className="flex--primary mt-6">
-                        <button className="btn btn--clear type--wgt--bold">
+                        <button 
+                            className="btn btn--clear type--wgt--bold"
+                            onClick={onSubmit}
+                        >
                             {submitLabel}
                         </button>
                         <button
                             className="btn btn--clear type--color--error type--wgt--bold"
-                            onClick={closeSidebar}
+                            onClick={onCancel ? onCancel : closeSidebar}
                         >
                             {cancelLabel}
                         </button>
