@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useDispatch } from "react-redux";
 
@@ -20,7 +20,7 @@ const SendMessageForm = (props: Props) => {
 
     const [fileToSend, setFileToSend] = useState<File>();
 
-    const [postFile] = usePostUploadFileMutation();
+    const [postFile, { data: postFileData, isSuccess: isSuccessPostFile, isLoading: isLoadingPostFile, error: errorPostFile }] = usePostUploadFileMutation();
 
     const dispatch = useDispatch();
 
@@ -91,32 +91,40 @@ const SendMessageForm = (props: Props) => {
                 fd.append("fileName", fileName || '');
                 fd.append("fileExt", '.' + fileExt || '');
 
-                const message = await postFile(fd).unwrap();
-
-                fileRef.current.form.reset();
-                setFileToSend(undefined);
-
-                if (message) {
-
-                    dispatch(addMessage({
-                        userId: message.userId,
-                        tutorId: message.tutorId,
-                        message: {
-                            message: message.message.message,
-                            messageId: message.message.messageId,
-                            isRead: message.message.isRead,
-                            isFile: message.message.isFile,
-                            createdAt: message.message.createdAt,
-                            messageNew: true,
-                        },
-                        senderId: message.senderId
-                    }));
-
-                    props.scrollOnSend();
-                }
+                postFile(fd);
             }
         }
     };
+
+    useEffect(() => {
+
+        if (isSuccessPostFile) {
+
+            if (fileRef.current?.form) {
+                fileRef.current.form.reset();
+                setFileToSend(undefined);
+            }
+
+            if (postFileData) {
+                dispatch(addMessage({
+                    userId: postFileData.userId,
+                    tutorId: postFileData.tutorId,
+                    message: {
+                        message: postFileData.message.message,
+                        messageId: postFileData.message.messageId,
+                        isRead: postFileData.message.isRead,
+                        isFile: postFileData.message.isFile,
+                        createdAt: postFileData.message.createdAt,
+                        messageNew: true,
+                    },
+                    senderId: postFileData.senderId
+                }));
+                props.scrollOnSend();
+            }
+        }
+
+    }, [isSuccessPostFile]);
+
     return (
         <>
             {fileToSend && <div className="chat-file-message-send"><button onClick={onCancelFileSend}><i className="icon--close"></i></button><p>{fileToSend.name}</p><button onClick={onFileSend}><i className="icon--upload"></i></button></div>}
