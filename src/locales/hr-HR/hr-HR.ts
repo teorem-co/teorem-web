@@ -165,6 +165,7 @@ export const HR_HR = {
         NOTE: 'Bilješka',
         NOTE_PLACEHOLDER: 'Unesite bilješku...',
         DETAILS: " DETALJI",
+        SEARCH_PLACEHOLDER: 'Pronađi instruktora'
     },
     CHAT: {
         PLACEHOLDER: 'Pošaljite poruku da započnete razgovor',

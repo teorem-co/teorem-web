@@ -115,7 +115,7 @@ const TutorManagment = () => {
                             <input ref={searchInputRef} 
                                 type="text" 
                                 onKeyUp={handleSearch} 
-                                placeholder={t('CHAT.SEARCH_PLACEHOLDER')} 
+                                placeholder={t('TUTOR_MANAGMENT.SEARCH_PLACEHOLDER')} 
                                 className="input p-4 pl-12" />
                     </div>
                 </div>
