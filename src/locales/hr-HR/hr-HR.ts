@@ -442,7 +442,7 @@ export const HR_HR = {
             SUBJECT: 'Odaberi predmet koji predaješ',
             LEVEL: 'Odaberi razine koje možeš predavati',
             PRICING: 'Cijena (HRK)',
-            PRICING_PLACEHOLDER: '0 HRK/h',
+            PRICING_PLACEHOLDER: '',
             HOUR_ABRV: 'hr',
             SAVE: 'Spremi podatke',
             DELETE: 'Izbriši',
@@ -531,6 +531,7 @@ export const HR_HR = {
             STUDENTS: 'Ukupno učenika',
             REVIEWS: 'Ukupno recenzija',
             REVENUE: 'Ukupan prihod',
+            CURRENCY: ' HRK',
         },
         REVENUE: {
             TITLE: 'PRIHOD',
@@ -785,5 +786,21 @@ export const HR_HR = {
         STEP_1: 'Stvori svoj korisnički račun i ispuni podatke.',
         STEP_2: 'Učitaj kratak video da dokažeš svoj identitet.',
         STEP_3: 'Dovršite svoj profil i počnite podučavati!',
+    },
+    CONSTANTS: {
+        MONTHS_SHORT: {
+            JAN: 'SIJ',
+            FEB: 'VELJ',
+            MAR: 'OŽU',
+            APR: 'TRA',
+            MAY: 'SVI',
+            JUN: 'LIP',
+            JUL: 'SRP',
+            AUG: 'KOL',
+            SEP: 'RUJ',
+            OCT: 'LIS',
+            NOV: 'STU',
+            DEC: 'PRO',
+        },
     },
 };

@@ -507,7 +507,7 @@ export const EN_US = {
         MESSAGES: {
             TITLE: 'UNREAD MESSAGES',
             BUTTON: 'Chat',
-            EMPTY: 'There is no unread messages today',
+            EMPTY: 'No unread messages',
         },
         BOOKINGS: {
             TOTAL: 'Total',
@@ -537,6 +537,7 @@ export const EN_US = {
             STUDENTS: 'Total students',
             REVIEWS: 'Total reviews',
             REVENUE: 'Total revenue',
+            CURRENCY: '€',
         },
         REVENUE: {
             TITLE: 'REVENUE',
@@ -791,5 +792,21 @@ export const EN_US = {
         STEP_1: 'Create your account and fill in the information.',
         STEP_2: 'Upload a short video to prove your identity.',
         STEP_3: 'Complete your profile and start tutoring!',
+    },
+    CONSTANTS: {
+        MONTHS_SHORT: {
+            JAN: 'Jan',
+            FEB: 'Feb',
+            MAR: 'Mar',
+            APR: 'Apr',
+            MAY: 'May',
+            JUN: 'Jun',
+            JUL: 'Jul',
+            AUG: 'Aug',
+            SEP: 'Sep',
+            OCT: 'Oct',
+            NOV: 'Nov',
+            DEC: 'Dec',
+        },
     },
 };

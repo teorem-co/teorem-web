@@ -8,6 +8,7 @@ interface IParams {
     rpp: number;
     verified?: number;
     unprocessed?: number;
+    search?: string;
 }
 
 export default IParams;

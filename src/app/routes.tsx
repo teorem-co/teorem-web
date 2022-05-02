@@ -1,5 +1,6 @@
+import { forEach } from 'lodash';
 import { useTranslation } from 'react-i18next';
-import { NavLink, Route, Switch } from 'react-router-dom';
+import { BrowserRouter , matchPath, NavLink, Redirect, Route, Switch } from 'react-router-dom';
 
 import Chat from './features/chat/pages/Chat';
 import CompletedLessons from './features/completedLessons/CompletedLessons';
@@ -347,13 +348,28 @@ function RouteWithSubRoutes(route: any) {
 
 export function RenderRoutes(routesObj: any) {
     const { routes } = routesObj;
+    const { i18n } = useTranslation();
+
+    const languageFromPathname = matchPath(location.pathname, {
+        path: "/:lang",
+        //exact: true,
+        //strict: true,
+    })?.params.lang;
+
     return (
-        <Switch>
-            {routes.map((route: any) => {
-                return <RouteWithSubRoutes key={route.key} {...route} />;
-            })}
-            <Route component={() => <NotFound />} />
-        </Switch>
+        <BrowserRouter basename={i18n.languages[1]}>
+            <Switch>
+                {routes.map((route: any) => {
+                    return <RouteWithSubRoutes key={route.key} {...route} />;
+                })}
+
+                {i18n.languages[1] !== languageFromPathname && 
+                    <Redirect to={"/" + location.pathname.split("/").slice(2).join("/")} />
+                }
+
+                <Route component={() => <NotFound />} />
+            </Switch>
+        </BrowserRouter>
     );
 }
 

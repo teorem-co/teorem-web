@@ -39,8 +39,34 @@ export const tutorService = baseService.injectEndpoints({
         getTutors: builder.query({
             query: (params: any) => {
                 const queryData = {
-                    url: `${URL}/?page=${params.page}&rpp=${params.rpp}&unproccessed=${params.unprocessed? "true" : "false"}${params.verified? params.verified == 1 ? "&verified=true" : "&verified=false" : ""}`,
+                    url: `${URL}/?page=${
+                        params.page
+                    }&rpp=${
+                        params.rpp
+                    }&unproccessed=${
+                        params.unprocessed? "true" : "false"
+                    }${params.verified? params.verified == 1 ? "&verified=true" : "&verified=false" : ""}
+                    `,
                     method: HttpMethods.GET,
+                };
+
+                return queryData;
+            },
+        }),
+        searchTutors: builder.query({
+            query: (params: any) => {
+                const queryData = {
+                    url: `${URL}/search-tutors/?page=${
+                        params.page
+                    }&rpp=${
+                        params.rpp
+                    }&unproccessed=${
+                        params.unprocessed? "true" : "false"
+                    }${params.verified? params.verified == 1 ? "&verified=true" : "&verified=false" : ""
+                    }&search=${
+                        params.search
+                    }`,
+                    method: HttpMethods.POST,
                 };
 
                 return queryData;
@@ -155,6 +181,7 @@ export const tutorService = baseService.injectEndpoints({
 
 export const {
     useLazyGetTutorsQuery,
+    useLazySearchTutorsQuery,
     useLazyGetAvailableTutorsQuery,
     useGetAvailableTutorsQuery,
     useGetProfileProgressQuery,

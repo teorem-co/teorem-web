@@ -13,6 +13,7 @@ import { RoleOptions } from '../../../../slices/roleSlice';
 import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import MyTimePicker from '../../../components/form/MyTimePicker';
 import TextField from '../../../components/form/TextField';
+import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
 import { useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import { useLazyGetCustomerByIdQuery } from '../../my-profile/services/stripeService';
@@ -41,7 +42,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     const [getChildOptions, { data: childOptions }] = useLazyGetChildQuery();
     const [getUser] = useLazyGetCustomerByIdQuery();
     const [getSubjectOptionsByLevel, { data: subjectsData, isSuccess: isSuccessSubjects }] = useLazyGetTutorSubjectsByTutorLevelQuery();
-    const [createBooking, { isSuccess: createBookingSuccess }] = useCreatebookingMutation();
+    const [createBooking, { isSuccess: createBookingSuccess, isLoading: isLoadingCreateBooking }] = useCreatebookingMutation();
     const { data: levelOptions } = useGetTutorLevelsQuery(tutorId);
 
     const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
@@ -270,20 +271,27 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                     </Form>
                 </FormikProvider>
             </div>
-            <div className="modal--parent__footer">
-                <button className="btn btn--base btn--primary type--wgt--extra-bold mb-1" onClick={() => handleSubmitForm()}>
-                    {t('BOOK.FORM.SUBMIT')}
-                </button>
-                <button
-                    className="btn btn--base type--wtg--extra-bold btn--clear"
-                    onClick={() => {
-                        handleClose ? handleClose(false) : false;
-                        props.clearEmptyBookings();
-                    }}
-                >
-                    {t('BOOK.FORM.CANCEL')}
-                </button>
-            </div>
+            {!isLoadingCreateBooking ? (
+                <div className="modal--parent__footer">
+                    <button 
+                    className="btn btn--base btn--primary type--wgt--extra-bold mb-1" onClick={() => handleSubmitForm()}
+                    >
+                        {t('BOOK.FORM.SUBMIT')}
+                    </button>
+                    <button
+                        className="btn btn--base type--wtg--extra-bold btn--clear"
+                        onClick={() => {
+                            handleClose ? handleClose(false) : false;
+                            props.clearEmptyBookings();
+                        }}
+                    >
+                        {t('BOOK.FORM.CANCEL')}
+                    </button>
+                </div> ) : (
+                    <div className="flex--primary flex--primary--center mb-6">
+                            <LoaderPrimary small />
+                    </div>
+                )}
         </div>
     );
 };

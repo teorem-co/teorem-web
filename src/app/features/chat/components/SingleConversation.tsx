@@ -143,7 +143,7 @@ const SingleConversation = (props: Props) => {
 
                     {props.data && userActive?.Role.abrv == Role.Tutor && <div className="ml-3 type--wgt--bold">{props.data ? (userActive?.id != props.data.tutor?.userId ? props.data.tutor?.userNickname : props.data.user?.userNickname) : "Odaberite osobu za razgovor"}</div>}
                 </div>
-                {props.data && (userActive?.id == props.data.user?.userId) && <Link
+                {props.data && (userActive?.id == props.data.user?.userId && userActive?.Role.abrv != Role.SuperAdmin)  && <Link
                     className="btn btn--primary btn--base"
                     to={`/search-tutors/bookings/${props.data.tutor?.userId}`} >
                     {t('CHAT.BOOK_SESSION')}

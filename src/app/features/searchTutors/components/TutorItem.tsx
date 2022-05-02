@@ -78,9 +78,9 @@ const TutorItem: FC<Props> = (props: Props) => {
                             <i className="icon icon--pricing icon--base icon--grey"></i>
                             {tutor.minimumPrice ? (
                                 <span className="d--ib ml-4">
-                                    ${tutor.minimumPrice}
-                                    &nbsp;-&nbsp;$
-                                    {tutor.maximumPrice}&nbsp;/hr
+                                    {tutor.minimumPrice}{t('EARNINGS.GENERAL.CURRENCY')}
+                                    &nbsp;-&nbsp;
+                                    {tutor.maximumPrice}{t('EARNINGS.GENERAL.CURRENCY')}&nbsp;/hr
                                 </span>
                             ) : (
                                 <span className="d--ib ml-4">There is no price</span>

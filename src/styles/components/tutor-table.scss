@@ -51,6 +51,22 @@
 }
 .tutor-managment-head {
     border: none;
+    justify-content: center;
+
+    .absolute-left {
+        position: absolute;
+        left: calc(4px * 6);
+    }
+
+    .search-container {
+        width: 100%;
+        max-width: 448px;
+        .search-icon {
+            position: absolute;
+            top: 9px;
+            left: 8px;
+        }
+    }
 }
 .tutor-managment-card {
     padding: 32px 0 0;
