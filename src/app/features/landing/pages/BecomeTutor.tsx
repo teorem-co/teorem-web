@@ -170,7 +170,7 @@ const BecomeTutor = () => {
                 </div>
             </div>
             <div className="landing__section mt-30">
-                <button className="btn btn--primary btn--lg type--md" onClick={() => history.push(PATHS.REGISTER)}>
+                <button className="btn btn--primary btn--lg type--md" onClick={() => history.push(t(PATHS.REGISTER))}>
                     {t('BECOME_A_TUTOR.BUTTON_1')}
                 </button>
             </div>

@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
-import ITutor from '../../../interfaces/ITutor';
 
+import ITutor from '../../../interfaces/ITutor';
 import ITutorSubject from '../../../interfaces/ITutorSubject';
 import { useLazyGetTutorProfileDataQuery } from '../../../services/tutorService';
 import { RoleOptions } from '../../../slices/roleSlice';
@@ -177,7 +177,7 @@ const TutorProfile = () => {
                             <div onScroll={(e: any) => debouncedScrollHandler(e.target)} className="card--secondary card--secondary--alt">
                                 <div className="card--secondary__head">
                                     <div className="flex flex--center">
-                                        <Link to={PATHS.SEARCH_TUTORS}>
+                                        <Link to={t(PATHS.SEARCH_TUTORS)}>
                                             <div>
                                                 <i className="icon icon--base icon--chevron-left icon--black"></i>
                                             </div>

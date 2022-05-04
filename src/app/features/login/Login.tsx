@@ -57,13 +57,13 @@ const Login: React.FC = () => {
     useEffect(() => {
         if (userToken && userRoleAbrv) {
             if (userRoleAbrv === Role.Tutor) {
-                history.push(PATHS.DASHBOARD);
+                history.push(t(PATHS.DASHBOARD));
             } else if (userRoleAbrv === Role.Child) {
-                history.push(PATHS.MY_BOOKINGS);
+                history.push(t(PATHS.MY_BOOKINGS));
             } else if (userRoleAbrv === Role.SuperAdmin) {
-                history.push(PATHS.TUTOR_MANAGMENT);
+                history.push(t(PATHS.TUTOR_MANAGMENT));
             } else {
-                history.push(PATHS.SEARCH_TUTORS);
+                history.push(t(PATHS.SEARCH_TUTORS));
             }
         }
     }, []);
@@ -71,11 +71,11 @@ const Login: React.FC = () => {
     useEffect(() => {
         if (isSuccessLogin && loginData && userRoleAbrv) {
             if (userRoleAbrv === Role.Child) {
-                history.push(PATHS.MY_BOOKINGS);
+                history.push(t(PATHS.MY_BOOKINGS));
             } else if (userRoleAbrv === Role.SuperAdmin) {
-                history.push(PATHS.TUTOR_MANAGMENT);
+                history.push(t(PATHS.TUTOR_MANAGMENT));
             } else {
-                history.push(PATHS.DASHBOARD);
+                history.push(t(PATHS.DASHBOARD));
             }
         }
     }, [userRoleAbrv]);
@@ -143,7 +143,7 @@ const Login: React.FC = () => {
                         <div className="type--color--tertiary">{t('WATERMARK')}</div>
                         <div>
                             {t('LOGIN.ACCOUNT')}{' '}
-                            <Link className="type--wgt--extra-bold" to={!isLoadingLogin ? PATHS.ROLE_SELECTION : '#'}>
+                            <Link className="type--wgt--extra-bold" to={!isLoadingLogin ? t(PATHS.ROLE_SELECTION) : '#'}>
                                 {t('LOGIN.REGISTER')}
                             </Link>
                         </div>

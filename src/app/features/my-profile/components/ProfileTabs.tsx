@@ -1,3 +1,4 @@
+import { t } from 'i18next';
 import { NavLink } from 'react-router-dom';
 
 import { PROFILE_PATHS } from '../../../routes';
@@ -9,12 +10,12 @@ const ProfileTabs = () => {
                 className="tab--primary__item"
                 activeClassName="active"
                 exact
-                to={PROFILE_PATHS.MY_PROFILE_INFO_PERSONAL}
+                to={t(PROFILE_PATHS.MY_PROFILE_INFO_PERSONAL)}
                 isActive={(match: any, location: Location) => {
                     //function to check if tab is active in profile subroutes
                     if (
                         location.pathname.startsWith(
-                            PROFILE_PATHS.MY_PROFILE_INFO
+                            t(PROFILE_PATHS.MY_PROFILE_INFO)
                         )
                     ) {
                         return true;
@@ -29,7 +30,7 @@ const ProfileTabs = () => {
                 className="tab--primary__item"
                 activeClassName="active"
                 exact
-                to={PROFILE_PATHS.MY_PROFILE_ACCOUNT}
+                to={t(PROFILE_PATHS.MY_PROFILE_ACCOUNT)}
             >
                 <span>ACCOUNT</span>
             </NavLink>

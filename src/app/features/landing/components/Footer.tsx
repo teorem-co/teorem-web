@@ -17,7 +17,7 @@ const Footer = () => {
     return (
         <div className="landing__footer">
             <div className="landing__footer__content">
-                <NavLink className="landing__navigation__logo d--b flex--shrink mt-10" to={LANDING_PATHS.HOW_IT_WORKS}>
+                <NavLink className="landing__navigation__logo d--b flex--shrink mt-10" to={t(LANDING_PATHS.HOW_IT_WORKS)}>
                     <img src={logoWhite} alt="logo" />
                 </NavLink>
                 <div className="type--color--white mt-10 type--md">
@@ -35,13 +35,13 @@ const Footer = () => {
                     </div>
                     <div className="mr-20">
                         <div className="type--wgt--bold mt-8">{t('LANDING.FOOTER.LEGAL.TITLE')}</div>
-                        <div className="cur--pointer" onClick={() => history.push(PATHS.TERMS)}>
+                        <div className="cur--pointer" onClick={() => history.push(t(PATHS.TERMS))}>
                             {t('LANDING.FOOTER.LEGAL.LEGAL')}
                         </div>
-                        <div className="cur--pointer" onClick={() => history.push(PATHS.PRIVACY)}>
+                        <div className="cur--pointer" onClick={() => history.push(t(PATHS.PRIVACY))}>
                             {t('LANDING.FOOTER.LEGAL.PRIVACY')}
                         </div>
-                        <div className="cur--pointer" onClick={() => history.push(PATHS.REGISTER)}>
+                        <div className="cur--pointer" onClick={() => history.push(t(PATHS.REGISTER))}>
                             {t('LANDING.FOOTER.LEGAL.TUTOR')}
                         </div>
                     </div>

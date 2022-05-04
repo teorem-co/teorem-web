@@ -118,11 +118,11 @@ const ResetPassword = () => {
             repeatPassword: values.repeatPassword,
         };
         await changePassword(toSend).unwrap();
-        history.push(PATHS.LOGIN);
+        history.push(t(PATHS.LOGIN));
     };
 
     const handleGoBack = () => {
-        history.push(PATHS.LOGIN);
+        history.push(t(PATHS.LOGIN));
     };
 
     const handlePasswordBlur = () => {

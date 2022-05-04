@@ -127,7 +127,7 @@ const SingleConversation = (props: Props) => {
 
                         <Link
                             className="chat-single-conversation-link"
-                            to={`${PATHS.SEARCH_TUTORS}/profile/${props.data.tutor?.userId}`}
+                            to={`${t(PATHS.SEARCH_TUTORS)}/profile/${props.data.tutor?.userId}`}
                         >
                             {props.data &&
                                 <img className="chat__conversation__avatar" src={props.data ? ('https://' + (userActive?.id != props.data.tutor?.userId ? props.data.tutor?.userImage : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')) : "teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg"} alt="chat avatar" />

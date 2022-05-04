@@ -402,6 +402,7 @@ const PersonalInformation = () => {
                                                 className="btn btn--base btn--primary mr-2"
                                                 onClick={() => {
                                                     i18n.changeLanguage('en-US');
+                                                    window.location.reload();
                                                 }}
                                             >
                                                 ENG
@@ -410,6 +411,7 @@ const PersonalInformation = () => {
                                                 className="btn btn--base btn--primary mr-2"
                                                 onClick={() => {
                                                     i18n.changeLanguage('hr-HR');
+                                                    window.location.reload();
                                                 }}
                                             >
                                                 HR

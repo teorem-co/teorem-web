@@ -118,12 +118,12 @@ const Register: React.FC = () => {
                 })
             );
             dispatch(setSelectedRole(roleSelection));
-            history.push(PATHS.ONBOARDING);
+            history.push(t(PATHS.ONBOARDING));
         }
     };
 
     const handleGoBack = () => {
-        history.push(PATHS.ROLE_SELECTION);
+        history.push(t(PATHS.ROLE_SELECTION));
     };
 
     // useEffect(() => {
@@ -136,7 +136,7 @@ const Register: React.FC = () => {
     useEffect(() => {
         //if role selection is empty, redirect to role selection screen
         if (!roleSelection) {
-            history.push(PATHS.ROLE_SELECTION);
+            history.push(t(PATHS.ROLE_SELECTION));
         }
     }, []);
 

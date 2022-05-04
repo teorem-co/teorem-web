@@ -21,4 +21,8 @@ export default i18n
         interpolation: {
             escapeValue: false,
         },
+        detection: {
+            order: ['path', 'cookie', 'htmlTag'],
+            caches: ['cookie'],
+        },
     });

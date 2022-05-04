@@ -3,11 +3,11 @@ import { OptionType } from '../components/form/MySelectField';
 const languageOptions: OptionType[] = [
     {
         label: 'ENGLISH',
-        value: 'en-US',
+        value: 'en',
     },
     {
         label: 'HRVATSKI',
-        value: 'hr-HR',
+        value: 'hr',
     },
 ];
 

@@ -28,7 +28,7 @@ const Onboarding = () => {
 
     const handleGoBack = () => {
         if (step === 1) {
-            history.push(PATHS.REGISTER);
+            history.push(t(PATHS.REGISTER));
         } else if (step === 2) {
             setStep(1);
         } else if (step === 3) {
@@ -42,7 +42,7 @@ const Onboarding = () => {
         } else if (step === 1) {
             dispatch(resetTutorRegister());
             dispatch(resetSelectedRole());
-            history.push(PATHS.LOGIN);
+            history.push(t(PATHS.LOGIN));
             // setTrial(true);
             //if there is step with card informations
             // } else if (step === 2) {
@@ -55,14 +55,14 @@ const Onboarding = () => {
         } else if (step === 2) {
             dispatch(resetParentRegister());
             dispatch(resetSelectedRole());
-            history.push(PATHS.LOGIN);
+            history.push(t(PATHS.LOGIN));
         }
     };
 
     const handleNextStepStudent = () => {
         dispatch(resetStudentRegister());
         dispatch(resetSelectedRole());
-        history.push(PATHS.LOGIN);
+        history.push(t(PATHS.LOGIN));
     };
     const showDesc = (data: boolean) => {
         setShow(data);
@@ -132,7 +132,7 @@ const Onboarding = () => {
                             ) : roleSelection === RoleOptions.Student ? (
                                 <StudentOnboarding step={step} handleNextStep={handleNextStepStudent} handleGoBack={handleGoBack} />
                             ) : (
-                                history.push(PATHS.LOGIN)
+                                history.push(t(PATHS.LOGIN))
                             )}
                         </div>
                         <div className="flex--primary mt-8 w--448--max">

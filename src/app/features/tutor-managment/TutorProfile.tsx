@@ -175,7 +175,7 @@ const TutorProfile = () => {
                             <div onScroll={(e: any) => debouncedScrollHandler(e.target)} className="card--secondary card--secondary--alt">
                                 <div className="card--secondary__head">
                                     <div className="flex flex--center">
-                                        <Link to={PATHS.TUTOR_MANAGMENT}>
+                                        <Link to={t(PATHS.TUTOR_MANAGMENT)}>
                                             <div>
                                                 <i className="icon icon--base icon--chevron-left icon--black"></i>
                                             </div>

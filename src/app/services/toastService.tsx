@@ -1,4 +1,4 @@
-import i18next from 'i18next';
+import i18next, { t } from 'i18next';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -51,7 +51,7 @@ class ToastService {
             <div className="Toastify--custom">
                 <div className="Toastify--custom__message">{message}</div>
                 <div className="Toastify--custom__icon">
-                    <Link to={PROFILE_PATHS.MY_PROFILE_ACCOUNT} className="btn btn--sm btn--secondary">
+                    <Link to={t(PROFILE_PATHS.MY_PROFILE_ACCOUNT)} className="btn btn--sm btn--secondary">
                         Add
                     </Link>
                 </div>
