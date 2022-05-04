@@ -31,7 +31,33 @@
             color: $white;
             padding-left: calc(#{$unit} * 2);
         }
+
         &__icon {
+            margin: 10px 15px;
+        }
+
+        &__title{
+            color: white;
+            width:100%;
+            position:relative;
+            font-family: "Lato", sans-serif !important;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        &--free-consultation{
+            flex-wrap:wrap;
+            justify-content: space-around;
+            align-items: center;
+        }
+    }
+    &--button{
+        margin: 10px 15px;
+        padding: 10px 15px;
+
+        &--deny{
+            margin-left: 5px;
+            line-height: 20px;
         }
     }
 }

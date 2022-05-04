@@ -19,7 +19,17 @@ export const stripeService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
+        getFreeConsultationLink: builder.query<string, string>({
+            query: (tutorId) => ({
+                url: `${URL}/free-consultation/${tutorId}`,
+                method: HttpMethods.GET,
+            }),
+        }),
     }),
 });
 
-export const { useLazyGetRoomLinkQuery, useLazyGetRecordedRoomsQuery } = stripeService;
+export const {
+    useLazyGetRoomLinkQuery,
+    useLazyGetRecordedRoomsQuery,
+    useLazyGetFreeConsultationLinkQuery
+} = stripeService;

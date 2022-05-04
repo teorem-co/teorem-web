@@ -211,3 +211,17 @@ form.chat-file-send-form{
     margin: auto;
     background-color: #ddd;
 }
+
+.chat__overlay__free__consultation{
+    position: fixed;
+    top:0;
+    left:0;
+    width: 100vw;
+    height:100vh;
+    pointer-events: all;
+    z-index: 9999;
+}
+
+.free-consultation-btn{
+    z-index: 10000;
+}
