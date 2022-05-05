@@ -166,6 +166,8 @@ const TutorProfile = () => {
 
     const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
 
+    const tutorPath = PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS.replace(":tutorId", tutorId);
+
     return (
         <MainWrapper>
             <div className="layout--primary">
@@ -369,7 +371,7 @@ const TutorProfile = () => {
                                     <>
                                         <Link
                                             className="btn btn--base btn--primary w--100 mb-4 type--center"
-                                            to={`/search-tutors/bookings/${tutorId}`}
+                                            to={tutorPath}
                                         >
                                             {t('TUTOR_PROFILE.BOOK')}
                                         </Link>
@@ -377,7 +379,7 @@ const TutorProfile = () => {
                                         <Link
                                             className="btn btn--base btn--ghost w--100 type--center flex flex--center flex--jc--center"
                                             onClick={() => createNewChat()}
-                                            to={`/chat`}
+                                            to={PATHS.CHAT}
                                         >
                                             {createChatLoading && <LoaderPrimary small={true} />}
                                             <span>{t('TUTOR_PROFILE.SEND')}</span>

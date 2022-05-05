@@ -213,19 +213,16 @@ form.chat-file-send-form{
     background-color: #ddd;
 }
 
-.close-button-popup{
-    position:absolute;
-    top: -8px;
-    right: -8px;
-    width: 24px;
-    height: 24px;
-    z-index: 2;
-    background: linear-gradient(226.69deg, rgba(127, 95, 211, 0.9) 4.52%, #5c3ee8 94.64%) !important;
-    border-radius: 50%;
+.chat__overlay__free__consultation{
+    position: fixed;
+    top:0;
+    left:0;
+    width: 100vw;
+    height:100vh;
+    pointer-events: all;
+    z-index: 9999;
 }
 
-.chat-file-message-send button.close-button-popup i{
-    width: 16px;
-    height: 16px;
-    margin-left: -2px;
+.free-consultation-btn{
+    z-index: 10000;
 }

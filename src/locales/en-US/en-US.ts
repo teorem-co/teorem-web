@@ -176,6 +176,9 @@ export const EN_US = {
         PLACEHOLDER: 'Send a message to start a conversation',
         SEARCH_PLACEHOLDER: 'Search chat',
         BOOK_SESSION: 'Book a session',
+        FREE_CONSULTATION: 'Free consultation',
+        ACCEPT_CONSULTATION: 'Accept',
+        DENY_CONSULTATION: 'Deny',
     },
     ROLE_SELECTION: {
         TITLE: 'Register',

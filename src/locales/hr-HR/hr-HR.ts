@@ -169,7 +169,10 @@ export const HR_HR = {
     CHAT: {
         PLACEHOLDER: 'Pošaljite poruku da započnete razgovor',
         SEARCH_PLACEHOLDER: 'Pretraži razgovor',
-        BOOK_SESSION: 'Rezervirajte lekciju'
+        BOOK_SESSION: 'Rezervirajte lekciju',
+        FREE_CONSULTATION: 'Besplatna konzultacija',
+        ACCEPT_CONSULTATION: 'Prihvati',
+        DENY_CONSULTATION: 'Odbij',
     },
     ROLE_SELECTION: {
         TITLE: 'Registracija',
