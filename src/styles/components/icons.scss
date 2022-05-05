@@ -116,6 +116,9 @@
     &--level {
         mask-image: url('../../assets/icons/level.svg');
     }
+    &--loader{
+        mask-image: url('../../assets/icons/loader.svg');
+    }
     &--logout {
         mask-image: url('../../assets/icons/logout.svg');
     }
@@ -184,6 +187,9 @@
     }
     &--delete {
         mask-image: url('./../../assets/icons/delete.svg');
+    }
+    &--search {
+        mask-image: url('./../../assets/icons/search.svg');
     }
 
     //flags

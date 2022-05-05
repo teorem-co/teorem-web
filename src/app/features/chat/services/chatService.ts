@@ -17,6 +17,13 @@ export interface IChatMessagesQuery {
     rpp: number;
     page: number
 }
+
+export interface ISearchChatQuery {
+    search: string;
+    rpp: number;
+    page: number
+}
+
 export const chatService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         getChatRooms: builder.query<IChatRoom[], IChatRoomsQuery>({
@@ -38,12 +45,19 @@ export const chatService = baseService.injectEndpoints({
                 body: body
             }),
         }),
+        getOnSearchChatRooms: builder.query<IChatRoom[], ISearchChatQuery>({
+            query: (body) => ({
+                url: `${URL}/search-chat-rooms?search=${body.search}&rpp=${body.rpp}&page=${body.page}`,
+                method: HttpMethods.GET,
+            }),
+        }),
         getChildBookingTutors: builder.query<IChatRoom[], void>({
             query: () => ({
                 url: `${URL}/get-child-tutors`,
                 method: HttpMethods.GET,
             }),
         }),
+
     }),
 });
 
@@ -51,5 +65,6 @@ export const {
     useLazyGetChatRoomsQuery,
     useLazyGetChatMessagesQuery,
     usePostUploadFileMutation,
+    useLazyGetOnSearchChatRoomsQuery,
     useLazyGetChildBookingTutorsQuery
 } = chatService;

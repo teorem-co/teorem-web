@@ -118,7 +118,7 @@ const Earnings = () => {
                                             <td>{tableItem.bookings}</td>
                                             <td>{tableItem.students}</td>
                                             <td>{tableItem.reviews}</td>
-                                            <td>${tableItem.revenue}</td>
+                                            <td>{tableItem.revenue}{t('EARNINGS.GENERAL.CURRENCY')}</td>
                                         </tr>
                                     );
                                 })) ||

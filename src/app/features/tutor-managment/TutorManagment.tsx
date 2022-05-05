@@ -5,14 +5,16 @@ import { Navigate } from 'react-big-calendar';
 import { useTranslation } from 'react-i18next';
 import { Link, useHistory } from "react-router-dom";
 
+import searchIcon from '../../../assets/icons/search-tutors.svg';
 import IParams from '../../../interfaces/IParams';
-import { useApproveTutorMutation, useDeleteTutorMutation, useDenyTutorMutation, useLazyGetTutorsQuery } from '../../../services/tutorService';
+import { useApproveTutorMutation, useDeleteTutorMutation, useDenyTutorMutation, useLazyGetTutorsQuery, useLazySearchTutorsQuery } from '../../../services/tutorService';
+import TextField from '../../components/form/TextField';
 import MainWrapper from '../../components/MainWrapper';
 import Sidebar from '../../components/Sidebar';
 import LoaderTutor from '../../components/skeleton-loaders/LoaderTutor';
 import { useAppSelector } from '../../hooks';
 
-const SearchTutors = () => {
+const TutorManagment = () => {
     const history = useHistory();
     const [closeModal, setCloseModal] = useState<boolean>(true);
     const [tutorDenySent, setTutorDenySent] = useState<boolean>(false);
@@ -20,6 +22,8 @@ const SearchTutors = () => {
     const [activeTab, setActiveTab] = useState<string>('unprocessed');
     const noteRef = useRef<HTMLTextAreaElement>(null);
     const editNoteRef = useRef<HTMLTextAreaElement>(null);
+    const searchInputRef = useRef<HTMLInputElement>(null);
+    
     const [
         getTutors,
         {
@@ -29,16 +33,23 @@ const SearchTutors = () => {
         },
     ] = useLazyGetTutorsQuery();
     const [
+        searchTutors,
+        {
+            isLoading: isLoadingSearchTutors,
+            isFetching: searchTutorsFetching,
+        },
+    ] = useLazySearchTutorsQuery();
+    const [
         approveTutor,
-        {isLoading: isLoadingApproveTutor},
+        {isSuccess: isSuccessApproveTutor},
     ] = useApproveTutorMutation();
     const [
         denyTutor,
-        {isLoading: isLoadingDenyTutors, isSuccess: isSuccessDenyTutors},
+        {isSuccess: isSuccessDenyTutor},
     ] = useDenyTutorMutation();
     const [
         deleteTutor,
-        {isLoading: isLoadingDeleteTutors},
+        {isSuccess: isSuccessDeleteTutors},
     ] = useDeleteTutorMutation();
 
     const handleDenyTutor = (tutor:any) => {
@@ -46,14 +57,23 @@ const SearchTutors = () => {
         setCloseModal(!closeModal);
     };
 
-    const [params, setParams] = useState<IParams>({ rpp: 10, page: 1, verified: 0, unprocessed: 1 });
+    const [params, setParams] = useState<IParams>({ 
+        rpp: 10, 
+        page: 1, 
+        verified: 0, 
+        unprocessed: 1,
+        search: '',
+    });
     const [loadedTutorItems, setLoadedTutorItems] = useState<any[]>([]);
     const { t } = useTranslation();
     const cardRef = useRef<HTMLDivElement>(null);
-    const isLoading = isLoadingAvailableTutors || availableTutorsUninitialized || availableTutorsFetching;
+    const isLoading = isLoadingAvailableTutors || availableTutorsUninitialized || availableTutorsFetching || isLoadingSearchTutors || searchTutorsFetching;
     
     const fetchData = async () => {
-        const tutorResponse = await getTutors(params).unwrap();
+        const tutorResponse = params.search === '' ? 
+            await getTutors(params).unwrap() :
+            await searchTutors(params).unwrap();
+            
         setLoadedTutorItems(tutorResponse.rows);
     };
 
@@ -71,31 +91,32 @@ const SearchTutors = () => {
         }
         setActiveTab(tab);
     };
+
+    const handleSearch = () => {
+        searchInputRef.current?.value && searchInputRef.current?.value.length > 0 ?
+            setParams({...params, search: searchInputRef.current.value}) :
+            setParams({...params, search: ''});
+    };
+
     useEffect(() => {
         fetchData();
     }, []);
     useEffect(() => {
         fetchData();
-    }, [params]);
-    useEffect(() => {
-        isLoadingApproveTutor == false && fetchData();
-    }, [isLoadingApproveTutor]);
-    useEffect(() => {
-        isLoadingDenyTutors == false && fetchData();
-    }, [isLoadingDenyTutors]);
+    }, [params, isSuccessDenyTutor, isSuccessApproveTutor, isSuccessDeleteTutors]);
 
     return (
         <MainWrapper>
             <div className="card--secondary" ref={cardRef}>
-                {/* <button
-                    className="btn btn--base btn--success"
-                    onClick={() => toastService.notification('Robert Nash wants to book A level Mathematics @ 13:00, 13/sept/2022.')}
-                >
-                    Click me
-                </button> */}
                 <div className="card--secondary__head card--secondary__head--search-tutor tutor-managment-head">
-                    <div className="type--lg type--wgt--bold mb-4 mb-xl-0">{t('TUTOR_MANAGMENT.TITLE')}</div>
-                    <div className="flex flex--center">
+                    <div className="type--lg type--wgt--bold mb-4 mb-xl-0 absolute-left">{t('TUTOR_MANAGMENT.TITLE')}</div>
+                    <div className="flex flex--center search-container" style={{position: "relative"}}>
+                        <i className="icon icon--md icon--search icon--black search-icon"></i>
+                            <input ref={searchInputRef} 
+                                type="text" 
+                                onKeyUp={handleSearch} 
+                                placeholder={t('CHAT.SEARCH_PLACEHOLDER')} 
+                                className="input p-4 pl-12" />
                     </div>
                 </div>
                 <div className="tutors--table--tab--select card--secondary__head card--secondary__head--search-tutor">
@@ -297,4 +318,4 @@ const SearchTutors = () => {
     );
 };
 
-export default SearchTutors;
+export default TutorManagment;

@@ -156,6 +156,7 @@ form.chat-file-send-form{
 
 .chat-file-message-send{
     display: flex;
+    position: relative;
     margin-left: calc( $unit * 20);
     margin-right: auto;
     margin-top: 8px;

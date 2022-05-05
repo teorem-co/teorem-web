@@ -199,7 +199,7 @@ const chatSlice = createSlice({
                 for (let i = 0; i < state.chatRooms.length; i++) {
                     for (let j = 0; j < state.chatRooms[i].messages.length; j++) {
 
-                        if (!state.chatRooms[i].messages[j].message.messageNew && state.chatRooms[i].messages[j].message.messageId == action.payload.message.messageId) {
+                        if (state.chatRooms[i].messages[j].message.messageId == action.payload.message.messageId) {
                             return;
                         }
                     }
