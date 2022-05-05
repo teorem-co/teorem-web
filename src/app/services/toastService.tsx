@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Dispatch } from 'redux';
+import ToastFreeConsultationMessage from '../components/ToastFreeConsultationMessage';
 import { IState, setActiveChatRoom, setFreeConsultation, setLink } from '../features/chat/slices/chatSlice';
 import { useAppSelector } from '../hooks';
 
@@ -29,7 +30,7 @@ class ToastService {
         position: 'top-right',
         autoClose: 10000,
         hideProgressBar: false,
-        closeOnClick: true,
+        closeOnClick: false,
         pauseOnHover: false,
         draggable: true,
         progress: undefined,
@@ -62,62 +63,7 @@ class ToastService {
 
     freeConsultation = (buffer: any): React.ReactText => {
 
-        const CustomToast = () => {
-
-            const chat = useAppSelector((state) => state.chat);
-            const userId = useAppSelector((state) => state.auth.user?.id);
-            const dispatch = useDispatch();
-
-            const onAcceptConsultation = () => {
-
-                if (chat.chatRooms && chat.chatRooms.length) {
-
-                    chat.socket.emit("acceptedFreeConsultation", buffer);
-
-                    for (let i = 0; i < chat.chatRooms.length; i++) {
-
-                        if (chat.chatRooms[i].user?.userId == buffer.userId && chat.chatRooms[i].tutor?.userId == buffer.tutorId) {
-
-                            dispatch(setActiveChatRoom(chat.chatRooms[i]));
-                            dispatch(setFreeConsultation(true));
-                            dispatch(setLink(buffer.link + userId));
-                            break;
-                        }
-                    }
-                }
-            };
-
-            const onDenyConsultation = () => {
-                return;
-            };
-
-            return (
-                <div className="Toastify--custom Toastify--custom--free-consultation">
-                    <div className="Toastify--custom__title type--wgt--bold">
-                        {t("CHAT.CHAT_REQUEST_TITLE")}
-                    </div>
-                    <div className="Toastify--custom__icon">
-                        <i className="icon icon--base icon--calendar icon--white"></i>
-                    </div>
-                    <div className="Toastify--custom__message">
-                        <Link
-                            className={`btn btn--secondary btn--base Toastify--button`}
-                            onClick={onAcceptConsultation}
-                            to={PATHS.CHAT}>
-                            {t("CHAT.ACCEPT_CONSULTATION")}
-                        </Link>
-                        <button
-                            className={`btn btn--error btn--base Toastify--button Toastify--button--deny`}
-                            onClick={onDenyConsultation}
-                        >
-                            {t("CHAT.DENY_CONSULTATION")}
-                        </button>
-                    </div>
-                </div>
-            );
-        };
-
-        return toast.warning(<CustomToast />, Object.assign({}, ToastService.freeConsultationOpts));
+        return toast(<ToastFreeConsultationMessage buffer={buffer} />, Object.assign({}, ToastService.freeConsultationOpts));
     };
 
     creditCard = (message: string): void => {

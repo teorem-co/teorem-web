@@ -58,6 +58,12 @@ const SingleConversation = (props: Props) => {
             dispatch(setFreeConsultation(true));
             dispatch(setLink(buffer.link + userActive?.id));
         });
+
+        chat.socket.on("onDeniedFreeConsultation", (buffer: any) => {
+            setFreeConsultationClicked(false);
+            dispatch(setFreeConsultation(false));
+            dispatch(setLink(null));
+        });
     }, []);
 
     useEffect(() => {
@@ -156,6 +162,22 @@ const SingleConversation = (props: Props) => {
     const onFreeConsultationClose = () => {
 
         dispatch(setFreeConsultation(false));
+        dispatch(setLink(null));
+    };
+
+    const onCancelFreeConsultation = () => {
+
+        if (freeConsultationIsSuccess) {
+            chat.socket.emit("cancelFreeConsultation", {
+                userId: props.data?.user?.userId,
+                tutorId: props.data?.tutor?.userId,
+                senderId: userActive?.id,
+                link: freeConsultationLink
+            });
+            setFreeConsultationClicked(false);
+            dispatch(setFreeConsultation(false));
+            dispatch(setLink(null));
+        }
     };
 
     const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
@@ -185,20 +207,27 @@ const SingleConversation = (props: Props) => {
                     {props.data && userActive?.Role.abrv == Role.Tutor && <div className="ml-3 type--wgt--bold">{props.data ? (userActive?.id != props.data.tutor?.userId ? props.data.tutor?.userNickname : props.data.user?.userNickname) : "Odaberite osobu za razgovor"}</div>}
                 </div>
 
+                <div className='button-group-chat-header'>
 
-                <button
-                    className={`btn btn--primary btn--base free-consultation-btn ${freeConsultationClicked && "free-consultation-btn-pressed"}`}
-                    onClick={onFreeConsultation}>
-                    {freeConsultationClicked && <i className={`icon--loader chat-load-more-small`}></i>}
-                    {t('CHAT.FREE_CONSULTATION')}
-                </button>
+                    {false && <button
+                        className={`btn btn--primary btn--base free-consultation-btn ${freeConsultationClicked && "free-consultation-btn-pressed"}`}
+                        onClick={onFreeConsultation}>
+                        {freeConsultationClicked && <i className={`icon--loader chat-load-more-small`}></i>}
+                        {t('CHAT.FREE_CONSULTATION')}
+                    </button>}
 
-                {props.data && (userActive?.id == props.data.user?.userId) && <Link
-                    className="btn btn--primary btn--base"
-                    to={`/search-tutors/bookings/${props.data.tutor?.userId}`} >
-                    {t('CHAT.BOOK_SESSION')}
-                </Link>}
-
+                    {false && <button
+                        className={`btn btn--error btn--base free-consultation-btn ${freeConsultationClicked && "free-consultation-btn-pressed"}`}
+                        onClick={onCancelFreeConsultation}>
+                        {t('CHAT.DENY_FREE_CONSULTATION')}
+                    </button>
+                    }
+                    {props.data && (userActive?.id == props.data.user?.userId) && <Link
+                        className="btn btn--primary btn--base"
+                        to={`/search-tutors/bookings/${props.data.tutor?.userId}`} >
+                        {t('CHAT.BOOK_SESSION')}
+                    </Link>}
+                </div>
             </div>
 
             <div ref={chatRef} onScroll={(e: any) => debouncedScrollHandler(e.target)} className="content__main">
