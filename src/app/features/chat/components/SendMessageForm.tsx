@@ -127,8 +127,8 @@ const SendMessageForm = (props: Props) => {
 
     return (
         <>
-            {fileToSend && <div className="chat-file-message-send"><button onClick={onCancelFileSend}><i className="icon--close"></i></button><p>{fileToSend.name}</p><button onClick={onFileSend}><i className="icon--upload"></i></button></div>}
-            <div className="content__footer content__footer--chat">
+            {fileToSend && <div className="chat-file-message-send"><button className="close-button-popup" onClick={onCancelFileSend}><i className="icon--close"></i></button><p>{fileToSend.name}</p><button onClick={onFileSend}><i className="icon--upload"></i></button></div>}
+            <div className="content_footer content_footer--chat">
                 <form className="chat-file-send-form" method="POST" action="" onSubmit={onSubmit}>
                     <div className="flex--shrink input-file-relative">
                         <input ref={fileRef} type="file" name="uploadFile" className="input-file-hidden" onInput={onFileUpload} />
