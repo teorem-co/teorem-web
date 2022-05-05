@@ -51,7 +51,7 @@ const LanguageSelector = (props: Props) => {
     return (
         <div
             ref={languageRef}
-            className={`language ${onTop && history.location.pathname === LANDING_PATHS.PRICING && 'language--primary'}`}
+            className={`language`}
             onClick={() => setIsActive(!isActive)}
         >
             <i className="icon icon--base icon--language icon--grey"></i>

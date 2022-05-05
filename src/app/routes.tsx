@@ -396,7 +396,7 @@ export function RenderRoutes(routesObj: any) {
             {routes.map((route: any) => {
                 return <RouteWithSubRoutes key={route.key} {...route} />;
             })}
-            <Route component={() => <NotFound />} />
+            {/*<Route component={() => <NotFound />} />*/}
         </Switch>
     );
 }
