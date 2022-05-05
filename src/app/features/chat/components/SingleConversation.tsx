@@ -189,7 +189,7 @@ const SingleConversation = (props: Props) => {
                 <button
                     className={`btn btn--primary btn--base ${freeConsultationClicked && "free-consultation-btn"}`}
                     onClick={onFreeConsultation}>
-                    {freeConsultationClicked && <div><i className={`icon--more chat-load-more`}></i></div>}
+                    {freeConsultationClicked && <i className={`icon--loader chat-load-more`}></i>}<i className={`icon--loader chat-load-more`}></i>
                     {t('CHAT.FREE_CONSULTATION')}
                 </button>
 
