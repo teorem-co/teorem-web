@@ -41,6 +41,8 @@ export interface IState {
     activeChatRoom: IChatRoom | null;
     socket: Socket;
     rpp: number;
+    freeConsultation: boolean;
+    link: string | null;
 }
 
 const initialState: IState = {
@@ -49,7 +51,9 @@ const initialState: IState = {
     newMessages: 0,
     activeChatRoom: null,
     socket: io(serverUrl),
-    rpp: 20
+    rpp: 20,
+    freeConsultation: false,
+    link: null
 };
 
 
@@ -76,6 +80,16 @@ const chatSlice = createSlice({
         setActiveChatRoom(state, action: PayloadAction<IChatRoom | null>) {
 
             state.activeChatRoom = action.payload;
+        },
+
+        setFreeConsultation(state, action: PayloadAction<boolean>) {
+
+            state.freeConsultation = action.payload;
+        },
+
+        setLink(state, action: PayloadAction<string | null>) {
+
+            state.link = action.payload;
         },
 
         addChatRooms(state, action: PayloadAction<Array<IChatRoom> | null>) {
@@ -261,5 +275,5 @@ const chatSlice = createSlice({
     },
 });
 
-export const { setUser, setActiveChatRoom, addChatRooms, getMessage, getMessages, addMessage, readMessage, addChatRoom } = chatSlice.actions;
+export const { setUser, setActiveChatRoom, setFreeConsultation, setLink, addChatRooms, getMessage, getMessages, addMessage, readMessage, addChatRoom } = chatSlice.actions;
 export default chatSlice.reducer;

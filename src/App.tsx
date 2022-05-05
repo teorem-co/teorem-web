@@ -1,6 +1,7 @@
 import moment from 'moment';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 
 import { useLazyGetChatRoomsQuery, useLazyGetChildBookingTutorsQuery } from './app/features/chat/services/chatService';
 import { addChatRoom, addChatRooms, addMessage, ISendChatMessage, readMessage, setUser } from './app/features/chat/slices/chatSlice';
@@ -14,7 +15,7 @@ import { useLazyGetUserQuery } from './services/userService';
 function App() {
     const userId = useAppSelector((state) => state.auth.user?.id);
     const childIds = useAppSelector((state) => state.auth.user?.childIds);
-    const chat = useAppSelector((state) => state.chat);
+    const chat = useAppSelector((state) => state.chat); let freeConsultationRef = useRef<React.ReactText>(null);
 
     const chatDispatch = useDispatch();
     const userData = useAppSelector((state) => state.user);
@@ -80,10 +81,23 @@ function App() {
 
         });
 
+        chat.socket.on("cancelFreeConsultation", (buffer: any) => {
+
+            if (freeConsultationRef.current) {
+                toast.dismiss(freeConsultationRef.current);
+            }
+        });
+
         return function disconnectSocket() {
             chat.socket.disconnect();
         };
     }, []);
+
+    chat.socket.on("acceptFreeConsultation", (buffer: any) => {
+
+        freeConsultationRef = useRef(toastService.freeConsultation(buffer));
+
+    });
 
     useEffect(() => {
 

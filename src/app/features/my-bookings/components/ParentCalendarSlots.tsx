@@ -42,7 +42,8 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     const [getChildOptions, { data: childOptions }] = useLazyGetChildQuery();
     const [getUser] = useLazyGetCustomerByIdQuery();
     const [getSubjectOptionsByLevel, { data: subjectsData, isSuccess: isSuccessSubjects }] = useLazyGetTutorSubjectsByTutorLevelQuery();
-    const [createBooking, { isSuccess: createBookingSuccess, isLoading: isLoadingCreateBooking }] = useCreatebookingMutation();
+    const [createBooking, { isSuccess: createBookingSuccess }] = useCreatebookingMutation();
+    const [isCreateBookingLoading, setIsCreateBookingLoading] = useState<boolean>(false); // isLoading from Mutation is too slow;
     const { data: levelOptions } = useGetTutorLevelsQuery(tutorId);
 
     const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
@@ -73,6 +74,8 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     };
 
     const handleSubmit = async (values: any) => {
+        setIsCreateBookingLoading(true);
+
         //if user didn't added credit card before adding a booking, show the message and redirect button
         if (stripeCustomerId) {
             //if user has stripe account but don't have default payment method
@@ -90,7 +93,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
         const splitString = values.timeFrom.split(':');
         props.setSidebarOpen(false);
         if (userRole === RoleOptions.Parent) {
-            createBooking({
+            await createBooking({
                 startTime: moment(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
                 subjectId: values.subject,
                 studentId: values.child,
@@ -98,13 +101,15 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
             });
             props.clearEmptyBookings();
         } else {
-            createBooking({
+            await createBooking({
                 startTime: moment(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
                 subjectId: values.subject,
                 tutorId: tutorId,
             });
             props.clearEmptyBookings();
         }
+        
+        setIsCreateBookingLoading(false);
     };
 
     const handleChange = (e: any) => {
@@ -271,7 +276,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                     </Form>
                 </FormikProvider>
             </div>
-            {!isLoadingCreateBooking ? (
+            {!isCreateBookingLoading ? (
                 <div className="modal--parent__footer">
                     <button 
                     className="btn btn--base btn--primary type--wgt--extra-bold mb-1" onClick={() => handleSubmitForm()}
@@ -288,7 +293,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                         {t('BOOK.FORM.CANCEL')}
                     </button>
                 </div> ) : (
-                    <div className="flex--primary flex--primary--center mb-6">
+                    <div className="flex flex--jc--center flex--primary--center mb-6">
                             <LoaderPrimary small />
                     </div>
                 )}

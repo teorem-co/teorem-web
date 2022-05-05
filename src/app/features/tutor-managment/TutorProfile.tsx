@@ -368,7 +368,7 @@ const TutorProfile = () => {
                                         <Link
                                             className="btn btn--base btn--ghost w--100 type--center flex flex--center flex--jc--center"
                                             onClick={() => createNewChat()}
-                                            to={`/chat`}
+                                            to={PATHS.CHAT}
                                         >
                                             {createChatLoading && <LoaderPrimary small={true} />}
                                             <span>{t('TUTOR_PROFILE.SEND')}</span>

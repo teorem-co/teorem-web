@@ -1,4 +1,5 @@
 import { t } from 'i18next';
+import { is } from 'immer/dist/internal';
 import { debounce } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -8,8 +9,10 @@ import { setSourceMapRange } from 'typescript';
 import { useAppSelector } from '../../../hooks';
 import { Role } from '../../../lookups/role';
 import { PATHS } from '../../../routes';
+import { useLazyGetFreeConsultationLinkQuery } from '../../../services/learnCubeService';
 import { IChatMessagesQuery, useLazyGetChatMessagesQuery } from '../services/chatService';
-import { getMessages, IChatRoom, ISendChatMessage, readMessage } from '../slices/chatSlice';
+import { getMessages, IChatRoom, ISendChatMessage, readMessage, setFreeConsultation, setLink } from '../slices/chatSlice';
+import FreeConsultationModal from './FreeConsultationModal';
 import SendMessageForm from './SendMessageForm';
 
 interface Props {
@@ -27,7 +30,11 @@ const SingleConversation = (props: Props) => {
 
     const [page, setPage] = useState<number>(1);
 
+    const [freeConsultationClicked, setFreeConsultationClicked] = useState<boolean>(false);
+
     const [getChatMessages, { data: chatMessages }] = useLazyGetChatMessagesQuery();
+
+    const [getFreeConsultationLink, { data: freeConsultationLink, isSuccess: freeConsultationIsSuccess }] = useLazyGetFreeConsultationLinkQuery();
 
     const dispatch = useDispatch();
 
@@ -43,6 +50,15 @@ const SingleConversation = (props: Props) => {
     };
 
     let lastMessageUserId: string = '';
+
+    useEffect(() => {
+
+        chat.socket.on("onAcceptedFreeConsultation", (buffer: any) => {
+            setFreeConsultationClicked(false);
+            dispatch(setFreeConsultation(true));
+            dispatch(setLink(buffer.link + userActive?.id));
+        });
+    }, []);
 
     useEffect(() => {
         if (props.data && chatRef.current && props.data.messages.length <= chat.rpp) {
@@ -73,8 +89,7 @@ const SingleConversation = (props: Props) => {
     useEffect(() => {
         if (chatMessages)
             dispatch(getMessages(chatMessages));
-    },
-        [chatMessages]);
+    }, [chatMessages]);
 
     useEffect(() => {
         if (userActive && props.data) {
@@ -87,6 +102,20 @@ const SingleConversation = (props: Props) => {
             getChatMessages(getMessagesObject);
         }
     }, [page]);
+
+    useEffect(() => {
+
+        if (freeConsultationIsSuccess) {
+
+            chat.socket.emit("joinFreeConsultation", {
+                userId: props.data?.user?.userId,
+                tutorId: props.data?.tutor?.userId,
+                senderId: userActive?.id,
+                link: freeConsultationLink
+            });
+        }
+
+    }, [freeConsultationLink]);
 
     const handleLoadMore = () => {
         setPage(page + 1);
@@ -117,11 +146,23 @@ const SingleConversation = (props: Props) => {
         // }
     };
 
+    const onFreeConsultation = () => {
+
+        getFreeConsultationLink(props.data?.tutor?.userId + '');
+        setFreeConsultationClicked(true);
+        setTimeout(() => setFreeConsultationClicked(false), 10000);
+    };
+
+    const onFreeConsultationClose = () => {
+
+        dispatch(setFreeConsultation(false));
+    };
+
     const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
 
     return (
         <div className="content">
-            <div className="content__header content__header--chat">
+            <div className="content_header content_header--chat">
                 <div className="flex flex--center">
                     {props.data && userActive?.Role.abrv != Role.Tutor &&
 
@@ -130,7 +171,7 @@ const SingleConversation = (props: Props) => {
                             to={`${PATHS.SEARCH_TUTORS}/profile/${props.data.tutor?.userId}`}
                         >
                             {props.data &&
-                                <img className="chat__conversation__avatar" src={props.data ? ('https://' + (userActive?.id != props.data.tutor?.userId ? props.data.tutor?.userImage : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')) : "teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg"} alt="chat avatar" />
+                                <img className="chat_conversation_avatar" src={props.data ? ('https://' + (userActive?.id != props.data.tutor?.userId ? props.data.tutor?.userImage : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')) : "teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg"} alt="chat avatar" />
                             }
 
                             <div className="ml-3 type--wgt--bold">{props.data ? (userActive?.id != props.data.tutor?.userId ? props.data.tutor?.userNickname : props.data.user?.userNickname) : "Odaberite osobu za razgovor"}</div>
@@ -138,12 +179,21 @@ const SingleConversation = (props: Props) => {
                     }
 
                     {props.data && userActive?.Role.abrv == Role.Tutor &&
-                        <img className="chat__conversation__avatar" src={props.data ? ('https://' + (userActive?.id != props.data.tutor?.userId ? props.data.tutor?.userImage : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')) : "teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg"} alt="chat avatar" />
+                        <img className="chat_conversation_avatar" src={props.data ? ('https://' + (userActive?.id != props.data.tutor?.userId ? props.data.tutor?.userImage : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')) : "teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg"} alt="chat avatar" />
                     }
 
                     {props.data && userActive?.Role.abrv == Role.Tutor && <div className="ml-3 type--wgt--bold">{props.data ? (userActive?.id != props.data.tutor?.userId ? props.data.tutor?.userNickname : props.data.user?.userNickname) : "Odaberite osobu za razgovor"}</div>}
                 </div>
-                {props.data && (userActive?.id == props.data.user?.userId && userActive?.Role.abrv != Role.SuperAdmin)  && <Link
+
+
+                <button
+                    className={`btn btn--primary btn--base free-consultation-btn ${freeConsultationClicked && "free-consultation-btn-pressed"}`}
+                    onClick={onFreeConsultation}>
+                    {freeConsultationClicked && <i className={`icon--loader chat-load-more-small`}></i>}
+                    {t('CHAT.FREE_CONSULTATION')}
+                </button>
+
+                {props.data && (userActive?.id == props.data.user?.userId) && <Link
                     className="btn btn--primary btn--base"
                     to={`/search-tutors/bookings/${props.data.tutor?.userId}`} >
                     {t('CHAT.BOOK_SESSION')}
@@ -158,7 +208,7 @@ const SingleConversation = (props: Props) => {
                     <div className={`chat_message_init_new`}>
                         <div className={`message-full-width flex flex--col flex--center`}>
                             <div className="type--right w--80--max">
-                                <div className={`chat__message__item__center chat__message__item chat__message__item__init`}>
+                                <div className={`chat_messageitemcenter chatmessageitem chatmessageitem_init`}>
                                     <i>{t('CHAT.PLACEHOLDER')}</i>
                                 </div>
                             </div>
@@ -180,31 +230,31 @@ const SingleConversation = (props: Props) => {
 
                     if (userActive && userActive.id == message.senderId)
                         return (
-                            <div key={index} className={`chat__message chat__message--logged${img ? " chat__message__margin-top" : ""}${img ? "" : " chat__message__margin-right"}`}>
+                            <div key={index} className={`chat_message chatmessage--logged${img ? " chatmessagemargin-top" : ""}${img ? "" : " chatmessage_margin-right"}`}>
                                 {img && <img
-                                    className="chat__conversation__avatar chat__conversation__avatar--small"
+                                    className="chat_conversationavatar chatconversation_avatar--small"
                                     src={props.data ? ('https://' + (message.senderId == props.data.tutor?.userId ? props.data.tutor?.userImage : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')) : "teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg"}
                                     alt={'profile avatar'} />
                                 }
                                 <div className={`message-full-width flex flex--col flex--end`}>
                                     <div className="type--right w--80--max">
-                                        <div className={`chat__message__item__end chat__message__item chat__message__item--logged${message.message.isFile ? " chat-file-outline" : ""}`} dangerouslySetInnerHTML={{ __html: (message.message.isFile ? '<i class="icon--attachment chat-file-icon"></i>' : '') + message.message.message }}>
+                                        <div className={`chat_messageitemend chatmessageitem chatmessage_item--logged${message.message.isFile ? " chat-file-outline" : ""}`} dangerouslySetInnerHTML={{ __html: (message.message.isFile ? '<i class="icon--attachment chat-file-icon"></i>' : '') + message.message.message }}>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         );
                     return (
-                        <div key={index} className={`chat__message chat__message--other${img ? " chat__message__margin-top" : ""}${img ? "" : " chat__message__margin-left"}`}>
+                        <div key={index} className={`chat_message chatmessage--other${img ? " chatmessagemargin-top" : ""}${img ? "" : " chatmessage_margin-left"}`}>
 
                             {img && <img
-                                className="chat__conversation__avatar chat__conversation__avatar--small"
+                                className="chat_conversationavatar chatconversation_avatar--small"
                                 src={props.data ? ('https://' + (message.senderId == props.data.tutor?.userId ? props.data.tutor?.userImage : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')) : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg'}
                                 alt={'profile avatar'} />
                             }
                             <div className={`message-full-width flex flex--col`}>
                                 <div className="w--80--max">
-                                    <div className={`chat__message__item chat__message__item--other${message.message.isFile ? " chat-file-outline" : ""}`} dangerouslySetInnerHTML={{ __html: (message.message.isFile ? '<i class="icon--attachment chat-file-icon"></i>' : '') + message.message.message }}>
+                                    <div className={`chat_messageitem chatmessage_item--other${message.message.isFile ? " chat-file-outline" : ""}`} dangerouslySetInnerHTML={{ __html: (message.message.isFile ? '<i class="icon--attachment chat-file-icon"></i>' : '') + message.message.message }}>
                                     </div>
                                 </div>
                             </div>
@@ -214,10 +264,11 @@ const SingleConversation = (props: Props) => {
                 <div style={{ marginTop: 80 }} ref={messagesEndRef} />
             </div>
             {props.data && <SendMessageForm data={props.data} scrollOnSend={scrollToBottomSmooth} />}
+            {freeConsultationClicked && <div className='chat_overlayfree_consultation' onClick={(event: any) => { event.preventDefault(); event.stopPropagation(); }}></div>}
 
+            {chat.freeConsultation && chat.link && <FreeConsultationModal link={chat.link} handleClose={onFreeConsultationClose} />}
         </div >
     );
 };
 
 export default SingleConversation;
-
