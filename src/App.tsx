@@ -15,7 +15,8 @@ import { useLazyGetUserQuery } from './services/userService';
 function App() {
     const userId = useAppSelector((state) => state.auth.user?.id);
     const childIds = useAppSelector((state) => state.auth.user?.childIds);
-    const chat = useAppSelector((state) => state.chat); let freeConsultationRef = useRef<React.ReactText>(null);
+    const chat = useAppSelector((state) => state.chat);
+    const freeConsultationRef = useRef<any>(null);
 
     const chatDispatch = useDispatch();
     const userData = useAppSelector((state) => state.user);
@@ -81,23 +82,23 @@ function App() {
 
         });
 
-        chat.socket.on("cancelFreeConsultation", (buffer: any) => {
+        chat.socket.on("onCancelFreeConsultation", (buffer: any) => {
 
+            console.log(freeConsultationRef.current);
             if (freeConsultationRef.current) {
                 toast.dismiss(freeConsultationRef.current);
             }
         });
 
+        chat.socket.on("acceptFreeConsultation", (buffer: any) => {
+
+            freeConsultationRef.current = toastService.freeConsultation(buffer);
+
+        });
         return function disconnectSocket() {
             chat.socket.disconnect();
         };
     }, []);
-
-    chat.socket.on("acceptFreeConsultation", (buffer: any) => {
-
-        freeConsultationRef = useRef(toastService.freeConsultation(buffer));
-
-    });
 
     useEffect(() => {
 

@@ -265,3 +265,13 @@ form.chat-file-send-form{
     margin-right: 10px;
     animation: spin 1s linear infinite;
 }
+
+.button-group-chat-header{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.button-group-chat-header > *{
+    margin: auto 10px;
+}
