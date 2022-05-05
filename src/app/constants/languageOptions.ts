@@ -1,13 +1,21 @@
-import { OptionType } from '../components/form/MySelectField';
+//import { OptionType } from '../components/form/MySelectField';
 
-const languageOptions: OptionType[] = [
+export interface ILanguageOption {
+    label: string;
+    value: string;
+    path: string;
+}
+
+const languageOptions: ILanguageOption[] = [
     {
         label: 'ENGLISH',
         value: 'en-US',
+        path: 'en',
     },
     {
         label: 'HRVATSKI',
         value: 'hr-HR',
+        path: 'hr',
     },
 ];
 

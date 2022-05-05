@@ -184,7 +184,7 @@ const SingleConversation = (props: Props) => {
 
     return (
         <div className="content">
-            <div className="content__header content__header--chat">
+            <div className="content_header content_header--chat">
                 <div className="flex flex--center">
                     {props.data && userActive?.Role.abrv != Role.Tutor &&
 
@@ -193,7 +193,7 @@ const SingleConversation = (props: Props) => {
                             to={`${PATHS.SEARCH_TUTORS}/profile/${props.data.tutor?.userId}`}
                         >
                             {props.data &&
-                                <img className="chat__conversation__avatar" src={props.data ? ('https://' + (userActive?.id != props.data.tutor?.userId ? props.data.tutor?.userImage : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')) : "teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg"} alt="chat avatar" />
+                                <img className="chat_conversation_avatar" src={props.data ? ('https://' + (userActive?.id != props.data.tutor?.userId ? props.data.tutor?.userImage : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')) : "teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg"} alt="chat avatar" />
                             }
 
                             <div className="ml-3 type--wgt--bold">{props.data ? (userActive?.id != props.data.tutor?.userId ? props.data.tutor?.userNickname : props.data.user?.userNickname) : "Odaberite osobu za razgovor"}</div>
@@ -201,7 +201,7 @@ const SingleConversation = (props: Props) => {
                     }
 
                     {props.data && userActive?.Role.abrv == Role.Tutor &&
-                        <img className="chat__conversation__avatar" src={props.data ? ('https://' + (userActive?.id != props.data.tutor?.userId ? props.data.tutor?.userImage : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')) : "teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg"} alt="chat avatar" />
+                        <img className="chat_conversation_avatar" src={props.data ? ('https://' + (userActive?.id != props.data.tutor?.userId ? props.data.tutor?.userImage : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')) : "teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg"} alt="chat avatar" />
                     }
 
                     {props.data && userActive?.Role.abrv == Role.Tutor && <div className="ml-3 type--wgt--bold">{props.data ? (userActive?.id != props.data.tutor?.userId ? props.data.tutor?.userNickname : props.data.user?.userNickname) : "Odaberite osobu za razgovor"}</div>}
@@ -237,7 +237,7 @@ const SingleConversation = (props: Props) => {
                     <div className={`chat_message_init_new`}>
                         <div className={`message-full-width flex flex--col flex--center`}>
                             <div className="type--right w--80--max">
-                                <div className={`chat__message__item__center chat__message__item chat__message__item__init`}>
+                                <div className={`chat_messageitemcenter chatmessageitem chatmessageitem_init`}>
                                     <i>{t('CHAT.PLACEHOLDER')}</i>
                                 </div>
                             </div>
@@ -259,31 +259,31 @@ const SingleConversation = (props: Props) => {
 
                     if (userActive && userActive.id == message.senderId)
                         return (
-                            <div key={index} className={`chat__message chat__message--logged${img ? " chat__message__margin-top" : ""}${img ? "" : " chat__message__margin-right"}`}>
+                            <div key={index} className={`chat_message chatmessage--logged${img ? " chatmessagemargin-top" : ""}${img ? "" : " chatmessage_margin-right"}`}>
                                 {img && <img
-                                    className="chat__conversation__avatar chat__conversation__avatar--small"
+                                    className="chat_conversationavatar chatconversation_avatar--small"
                                     src={props.data ? ('https://' + (message.senderId == props.data.tutor?.userId ? props.data.tutor?.userImage : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')) : "teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg"}
                                     alt={'profile avatar'} />
                                 }
                                 <div className={`message-full-width flex flex--col flex--end`}>
                                     <div className="type--right w--80--max">
-                                        <div className={`chat__message__item__end chat__message__item chat__message__item--logged${message.message.isFile ? " chat-file-outline" : ""}`} dangerouslySetInnerHTML={{ __html: (message.message.isFile ? '<i class="icon--attachment chat-file-icon"></i>' : '') + message.message.message }}>
+                                        <div className={`chat_messageitemend chatmessageitem chatmessage_item--logged${message.message.isFile ? " chat-file-outline" : ""}`} dangerouslySetInnerHTML={{ __html: (message.message.isFile ? '<i class="icon--attachment chat-file-icon"></i>' : '') + message.message.message }}>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         );
                     return (
-                        <div key={index} className={`chat__message chat__message--other${img ? " chat__message__margin-top" : ""}${img ? "" : " chat__message__margin-left"}`}>
+                        <div key={index} className={`chat_message chatmessage--other${img ? " chatmessagemargin-top" : ""}${img ? "" : " chatmessage_margin-left"}`}>
 
                             {img && <img
-                                className="chat__conversation__avatar chat__conversation__avatar--small"
+                                className="chat_conversationavatar chatconversation_avatar--small"
                                 src={props.data ? ('https://' + (message.senderId == props.data.tutor?.userId ? props.data.tutor?.userImage : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')) : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg'}
                                 alt={'profile avatar'} />
                             }
                             <div className={`message-full-width flex flex--col`}>
                                 <div className="w--80--max">
-                                    <div className={`chat__message__item chat__message__item--other${message.message.isFile ? " chat-file-outline" : ""}`} dangerouslySetInnerHTML={{ __html: (message.message.isFile ? '<i class="icon--attachment chat-file-icon"></i>' : '') + message.message.message }}>
+                                    <div className={`chat_messageitem chatmessage_item--other${message.message.isFile ? " chat-file-outline" : ""}`} dangerouslySetInnerHTML={{ __html: (message.message.isFile ? '<i class="icon--attachment chat-file-icon"></i>' : '') + message.message.message }}>
                                     </div>
                                 </div>
                             </div>
@@ -294,7 +294,7 @@ const SingleConversation = (props: Props) => {
                 <div style={{ marginTop: 80 }} ref={messagesEndRef} />
             </div>
             {props.data && <SendMessageForm data={props.data} scrollOnSend={scrollToBottomSmooth} />}
-            {freeConsultationClicked && <div className='chat__overlay__free__consultation' onClick={(event: any) => { event.preventDefault(); event.stopPropagation(); }}></div>}
+            {freeConsultationClicked && <div className='chat_overlayfree_consultation' onClick={(event: any) => { event.preventDefault(); event.stopPropagation(); }}></div>}
 
             {chat.freeConsultation && chat.link && <FreeConsultationModal link={chat.link} handleClose={onFreeConsultationClose} />}
         </div >
@@ -302,4 +302,3 @@ const SingleConversation = (props: Props) => {
 };
 
 export default SingleConversation;
-
