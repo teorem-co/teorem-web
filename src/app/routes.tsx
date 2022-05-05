@@ -1,7 +1,6 @@
 import { forEach } from 'lodash';
-import { useEffect } from 'react';
-import { useTranslation, withTranslation } from 'react-i18next';
-import { BrowserRouter , matchPath, NavLink, Redirect, Route, Switch,useHistory  } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { BrowserRouter , matchPath, NavLink, Redirect, Route, Switch } from 'react-router-dom';
 
 import Chat from './features/chat/pages/Chat';
 import CompletedLessons from './features/completedLessons/CompletedLessons';
@@ -38,46 +37,45 @@ import NotFound from './pages/NotFound';
 import PermissionsGate from './PermissionGate';
 import { getUserRoleAbrv } from './utils/getUserRoleAbrv';
 
+export enum PATHS {
+    ROLE_SELECTION = '/role-selection',
+    REGISTER = '/register',
+    FORGOT_PASSWORD = '/forgot-password',
+    RESET_PASSWORD = '/reset-password',
+    LOGIN = '/login',
+    MY_BOOKINGS = '/my-bookings',
+    SEARCH_TUTORS = '/search-tutors',
+    SEARCH_TUTORS_TUTOR_PROFILE = '/search-tutors/profile/:tutorId',
+    SEARCH_TUTORS_TUTOR_BOOKINGS = '/search-tutors/bookings/:tutorId',
+    ONBOARDING = '/onboarding',
+    MY_REVIEWS = '/my-reviews',
+    COMPLETED_LESSONS = '/completed-lessons',
+    CHAT = '/chat',
+    DASHBOARD = '/dashboard',
+    NOTIFICATIONS = '/dashboard/notifications',
+    EARNINGS = '/earnings',
+    TERMS = '/terms',
+    PRIVACY = '/privacy',
+    TUTOR_MANAGMENT = '/tutor-managment',
+    TUTOR_MANAGMENT_TUTOR_PROFILE = '/tutor-managment/profile/:tutorId',
+}
 
-export const PATHS = {
-    ROLE_SELECTION: 'PATHS.ROLE_SELECTION',
-    REGISTER: 'PATHS.REGISTER',
-    FORGOT_PASSWORD: 'PATHS.FORGOT_PASSWORD',
-    RESET_PASSWORD: 'PATHS.RESET_PASSWORD',
-    LOGIN: 'PATHS.LOGIN',
-    MY_BOOKINGS: 'PATHS.MY_BOOKINGS',
-    SEARCH_TUTORS: 'PATHS.SEARCH_TUTORS',
-    SEARCH_TUTORS_TUTOR_PROFILE: 'PATHS.SEARCH_TUTORS_TUTOR_PROFILE',
-    SEARCH_TUTORS_TUTOR_BOOKINGS: 'PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS',
-    ONBOARDING: 'PATHS.ONBOARDING',
-    MY_REVIEWS: 'PATHS.MY_REVIEWS',
-    COMPLETED_LESSONS: 'PATHS.COMPLETED_LESSONS',
-    CHAT: 'PATHS.CHAT',
-    DASHBOARD: 'PATHS.DASHBOARD',
-    NOTIFICATIONS: 'PATHS.NOTIFICATIONS',
-    EARNINGS: 'PATHS.EARNINGS',
-    TERMS: 'PATHS.TERMS',
-    PRIVACY: 'PATHS.PRIVACY',
-    TUTOR_MANAGMENT: 'PATHS.TUTOR_MANAGMENT',
-    TUTOR_MANAGMENT_TUTOR_PROFILE: 'PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE',
-};
+export enum LANDING_PATHS {
+    HOW_IT_WORKS = '/',
+    BECOME_TUTOR = '/become-tutor',
+    PRICING = '/pricing',
+}
 
-export const LANDING_PATHS = {
-    HOW_IT_WORKS: 'PATHS.LANDING_PATHS.HOW_IT_WORKS',
-    BECOME_TUTOR: 'PATHS.LANDING_PATHS.BECOME_TUTOR',
-    PRICING: 'PATHS.LANDING_PATHS.PRICING',
-};
-
-export const PROFILE_PATHS = {
-    MY_PROFILE: 'PATHS.PROFILE_PATHS.MY_PROFILE',
-    MY_PROFILE_INFO: 'PATHS.PROFILE_PATHS.MY_PROFILE_INFO',
-    MY_PROFILE_INFO_PERSONAL: 'PATHS.PROFILE_PATHS.MY_PROFILE_INFO_PERSONAL',
-    MY_PROFILE_INFO_AVAILABILITY: 'PATHS.PROFILE_PATHS.MY_PROFILE_INFO_AVAILABILITY',
-    MY_PROFILE_INFO_TEACHINGS: 'PATHS.PROFILE_PATHS.MY_PROFILE_INFO_TEACHINGS',
-    MY_PROFILE_INFO_ADDITIONAL: 'PATHS.PROFILE_PATHS.MY_PROFILE_INFO_ADDITIONAL',
-    MY_PROFILE_ACCOUNT: 'PATHS.PROFILE_PATHS.MY_PROFILE_ACCOUNT',
-    MY_PROFILE_CHILD_INFO: 'PATHS.PROFILE_PATHS.MY_PROFILE_CHILD_INFO',
-};
+export enum PROFILE_PATHS {
+    MY_PROFILE = '/my-profile',
+    MY_PROFILE_INFO = '/my-profile/info',
+    MY_PROFILE_INFO_PERSONAL = '/my-profile/info/personal',
+    MY_PROFILE_INFO_AVAILABILITY = '/my-profile/info/availability',
+    MY_PROFILE_INFO_TEACHINGS = '/my-profile/info/teachings',
+    MY_PROFILE_INFO_ADDITIONAL = '/my-profile/info/additional',
+    MY_PROFILE_ACCOUNT = '/my-profile/account',
+    MY_PROFILE_CHILD_INFO = '/my-profile/childs',
+}
 
 interface IMenuItem {
     name: string;
@@ -344,50 +342,34 @@ export default ROUTES;
 
 function RouteWithSubRoutes(route: any) {
     return (
-        <Route 
-            key={route.key} 
-            path={route.path} 
-            exact={route.exact} 
-            render={(props: any) => <route.component {...props} routes={route.routes} />} 
-        />
+        <Route key={route.key} path={route.path} exact={route.exact} render={(props: any) => <route.component {...props} routes={route.routes} />} />
     );
 }
 
 export function RenderRoutes(routesObj: any) {
     const { routes } = routesObj;
-    const { i18n, t} = useTranslation();
-    const history = useHistory();
-
-    /*
     const { i18n } = useTranslation();
 
-    const languages = {
-        'en-US': 'en',
-        'hr-HR': 'hr'
-    };
-
-    let lang = languages[navigator.language as keyof typeof languages];
-    */
-
-    useEffect(()=>{
-        if(!matchPath(location.pathname, {path: "/:lang"})) {
-            const lang = matchPath(location.pathname, {
-                path: "/:lang"
-            })?.params.lang;
-    
-            history.push(`/${i18n.language}` + location.pathname.split("/").slice(2).join("/"));
-            //window.location.reload();
-        }
-    }, []);
+    const languageFromPathname = matchPath(location.pathname, {
+        path: "/:lang",
+        //exact: true,
+        //strict: true,
+    })?.params.lang;
 
     return (
-        <Switch>
-            {routes.map((route: any) => {
-                route.path = t(route.path);
-                return <RouteWithSubRoutes key={route.key} {...route} />;
-            })}
-            {/*<Route path="*" component={() => <NotFound />} />*/}
-        </Switch>
+        <BrowserRouter basename={i18n.languages[1]}>
+            <Switch>
+                {routes.map((route: any) => {
+                    return <RouteWithSubRoutes key={route.key} {...route} />;
+                })}
+
+                {i18n.languages[1] !== languageFromPathname && 
+                    <Redirect to={"/" + location.pathname.split("/").slice(2).join("/")} />
+                }
+
+                <Route component={() => <NotFound />} />
+            </Switch>
+        </BrowserRouter>
     );
 }
 
@@ -538,7 +520,7 @@ export function RenderMenuLinks() {
                 {menuPerRole[userRole].map((route) => (
                     <NavLink
                         key={route.key}
-                        to={t(route.path)}
+                        to={route.path}
                         className={`navbar__item`}
                         activeClassName="active"
                         isActive={(match: any, location: Location) => {

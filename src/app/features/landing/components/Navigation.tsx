@@ -1,5 +1,5 @@
+import { t } from 'i18next';
 import React, { useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import { NavLink } from 'react-router-dom';
 
@@ -13,7 +13,6 @@ const Navigation = () => {
     const landingHeaderRef = useRef<HTMLDivElement>(null);
     const [onTop, setOnTop] = useState<boolean>(true);
     const history = useHistory();
-    const { t } = useTranslation();
 
     useEffect(() => {
         if (showSidebar) {
@@ -45,7 +44,7 @@ const Navigation = () => {
     };
 
     const testActiveClassName = (e: any) => {
-        const currentUrl = e?.url;
+        const currentUrl = e.url;
         const location = history.location.pathname;
 
         if (currentUrl === location) {
@@ -62,7 +61,7 @@ const Navigation = () => {
         >
             <div className="layout__header--landing">
                 <div className="flex--primary">
-                    <NavLink className="landing__navigation__logo d--b flex--shrink" to={t(LANDING_PATHS.HOW_IT_WORKS)}>
+                    <NavLink className="landing__navigation__logo d--b flex--shrink" to={LANDING_PATHS.HOW_IT_WORKS}>
                         {history.location.pathname === '/pricing' ? (
                             onTop ? (
                                 <img src={logoWhite} alt="logo" />
@@ -88,13 +87,13 @@ const Navigation = () => {
                     {/* WEB SIZE NAV */}
                     <div className="landing__navigation__items">
                         <div className="flex flex--grow flex--jc--center">
-                            <NavLink isActive={(e: any) => testActiveClassName(e)} to={t(LANDING_PATHS.HOW_IT_WORKS)} className="nav-link--landing">
+                            <NavLink isActive={(e: any) => testActiveClassName(e)} to={LANDING_PATHS.HOW_IT_WORKS} className="nav-link--landing">
                                 <div>{t('LANDING.HEADER.NAV_1')}</div>
                             </NavLink>
-                            <NavLink to={t(LANDING_PATHS.PRICING)} className="nav-link--landing">
+                            <NavLink to={LANDING_PATHS.PRICING} className="nav-link--landing">
                                 <div>{t('LANDING.HEADER.NAV_2')}</div>
                             </NavLink>
-                            <NavLink to={t(LANDING_PATHS.BECOME_TUTOR)} className="nav-link--landing">
+                            <NavLink to={LANDING_PATHS.BECOME_TUTOR} className="nav-link--landing">
                                 <div>{t('LANDING.HEADER.NAV_3')}</div>
                             </NavLink>
                         </div>
@@ -102,10 +101,10 @@ const Navigation = () => {
                             <div className="flex">
                                 <LanguageSelector onTop={onTop} />
 
-                                <NavLink to={t(PATHS.LOGIN)} className="btn btn--ghost btn--ghost--landing type--wgt--bold">
+                                <NavLink to={PATHS.LOGIN} className="btn btn--ghost btn--ghost--landing type--wgt--bold">
                                     {t('LANDING.HEADER.SIGN_IN')}
                                 </NavLink>
-                                <NavLink to={t(PATHS.REGISTER)} className="btn btn--primary btn--primary--landing ml-4">
+                                <NavLink to={PATHS.REGISTER} className="btn btn--primary btn--primary--landing ml-4">
                                     {t('LANDING.HEADER.GET_STARTED')}
                                 </NavLink>
                             </div>
@@ -124,7 +123,7 @@ const Navigation = () => {
                         <div className="flex--grow mt-8">
                             <NavLink
                                 isActive={(e: any) => testActiveClassName(e)}
-                                to={t(LANDING_PATHS.HOW_IT_WORKS)}
+                                to={LANDING_PATHS.HOW_IT_WORKS}
                                 className="d--b landing__navigation__item"
                             >
                                 <div className="flex flex--center">
@@ -132,13 +131,13 @@ const Navigation = () => {
                                     <span className="d--ib ml-2">{t('LANDING.HEADER.NAV_1')}</span>
                                 </div>
                             </NavLink>
-                            <NavLink to={t(LANDING_PATHS.PRICING)} className="d--b landing__navigation__item">
+                            <NavLink to={LANDING_PATHS.PRICING} className="d--b landing__navigation__item">
                                 <div className="flex flex--center">
                                     <i className="icon icon--base icon--pricing-item icon--primary-gradient"></i>
                                     <span className="d--ib ml-2">{t('LANDING.HEADER.NAV_2')}</span>
                                 </div>
                             </NavLink>
-                            <NavLink to={t(LANDING_PATHS.BECOME_TUTOR)} className="d--b landing__navigation__item">
+                            <NavLink to={LANDING_PATHS.BECOME_TUTOR} className="d--b landing__navigation__item">
                                 <div className="flex flex--center">
                                     <i className="icon icon--base icon--become-a-tutor icon--primary-gradient"></i>
                                     <span className="d--ib ml-2">{t('LANDING.HEADER.NAV_3')}</span>
@@ -146,10 +145,10 @@ const Navigation = () => {
                             </NavLink>
                         </div>
                         <div className="p-3 pl-4">
-                            <NavLink to={t(PATHS.LOGIN)} className="btn btn--base btn--ghost landing__navigation__btn mr-2">
+                            <NavLink to={PATHS.LOGIN} className="btn btn--base btn--ghost landing__navigation__btn mr-2">
                                 <div>{t('LANDING.HEADER.SIGN_IN')}</div>
                             </NavLink>
-                            <NavLink to={t(PATHS.REGISTER)} className="btn btn--base btn--primary landing__navigation__btn ml-2">
+                            <NavLink to={PATHS.REGISTER} className="btn btn--base btn--primary landing__navigation__btn ml-2">
                                 <div>{t('LANDING.HEADER.GET_STARTED')}</div>
                             </NavLink>
                         </div>

@@ -108,7 +108,7 @@ const TutorItem: FC<Props> = (props: Props) => {
                         </Link>
                         <Link
                             className="btn btn--base btn--ghost--bordered w--100 type--wgt--extra-bold"
-                            to={`${t(PATHS.SEARCH_TUTORS)}/profile/${tutor.userId}`}
+                            to={`${PATHS.SEARCH_TUTORS}/profile/${tutor.userId}`}
                         >
                             {t('SEARCH_TUTORS.VIEW_PROFILE')}
                         </Link>

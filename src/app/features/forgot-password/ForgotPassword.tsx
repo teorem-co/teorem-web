@@ -42,12 +42,12 @@ const ForgotPassword = () => {
 
     useEffect(() => {
         if (isSuccess) {
-            history.push(t(PATHS.LOGIN));
+            history.push(PATHS.LOGIN);
         }
     }, [isSuccess]);
 
     const handleGoBack = () => {
-        history.push(t(PATHS.LOGIN));
+        history.push(PATHS.LOGIN);
     };
 
     return (

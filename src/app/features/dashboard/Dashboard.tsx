@@ -323,7 +323,7 @@ const Dashboard = () => {
                                                                     // history.push(PATHS.MY_BOOKINGS)
 
                                                                     history.push({
-                                                                        pathname: t(PATHS.MY_BOOKINGS),
+                                                                        pathname: PATHS.MY_BOOKINGS,
                                                                         state: {value: new Date(item.startTime).toString()}
                                                                     });
                                                                 }
@@ -367,7 +367,7 @@ const Dashboard = () => {
                         <div className="card--primary card--primary--shadow">{t('DASHBOARD.NOTIFICATIONS.EMPTY')}</div>
                     )}
                     <div className="type--center mt-4">
-                        <Link to={t(PATHS.NOTIFICATIONS)} className="btn btn--clear">
+                        <Link to={PATHS.NOTIFICATIONS} className="btn btn--clear">
                             {t('DASHBOARD.NOTIFICATIONS.ALL')}
                         </Link>
                     </div>

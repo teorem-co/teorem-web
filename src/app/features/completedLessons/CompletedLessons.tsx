@@ -158,7 +158,7 @@ const CompletedLessons = () => {
 
                                                 <Link
                                                     className="btn btn--primary btn--base"
-                                                    to={`${t(PATHS.SEARCH_TUTORS)}/bookings/${activeLesson.Tutor.userId}`}
+                                                    to={`${PATHS.SEARCH_TUTORS}/bookings/${activeLesson.Tutor.userId}`}
                                                 >
                                                     {t('COMPLETED_LESSONS.VIEW_CALENDAR')}
                                                 </Link>

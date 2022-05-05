@@ -26,7 +26,7 @@ const RoleSelection: React.FC = () => {
             2: RoleOptions.Tutor,
         };
         options[roleId] && dispatch(setSelectedRole(options[roleId]));
-        options[roleId] && history.push(t(PATHS.REGISTER));
+        options[roleId] && history.push(PATHS.REGISTER);
     };
 
     const handleResetForm = () => {
