@@ -171,6 +171,7 @@ export const EN_US = {
         NOTE: 'Note',
         NOTE_PLACEHOLDER: 'Enter a note here...',
         DETAILS: " DETAILS",
+        SEARCH_PLACEHOLDER: 'Search tutors'
     },
     CHAT: {
         PLACEHOLDER: 'Send a message to start a conversation',
