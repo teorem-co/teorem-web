@@ -1,6 +1,5 @@
 import { t } from 'i18next';
 import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 
 import call1 from '../../../../assets/images/call-1.png';
@@ -63,6 +62,7 @@ const HowItWorks = () => {
     ];
 
     const history = useHistory();
+
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -98,7 +98,7 @@ const HowItWorks = () => {
             <TextCard className="mt-30" title={t('HOW_IT_WORKS.TEXT_CARD_4.TITLE')} desc={t('HOW_IT_WORKS.TEXT_CARD_4.SUBTITLE')} />
             <CardsGroup showCreditCards />
             <div className="landing__section mt-30">
-                <button className="btn btn--primary btn--lg type--md" onClick={() => history.push(t(PATHS.REGISTER))}>
+                <button className="btn btn--primary btn--lg type--md" onClick={() => history.push(PATHS.REGISTER)}>
                     {t('HOW_IT_WORKS.BUTTON_1')}
                 </button>
             </div>

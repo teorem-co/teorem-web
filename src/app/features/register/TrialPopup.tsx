@@ -15,7 +15,7 @@ const TrialPopup = () => {
     const dispatch = useAppDispatch();
 
     const backToLogin = () => {
-        history.push(t(PATHS.LOGIN));
+        history.push(PATHS.LOGIN);
     };
 
     useEffect(() => {

@@ -1,4 +1,3 @@
-import { t } from 'i18next';
 import { NavLink } from 'react-router-dom';
 
 import gradientCircle from '../../assets/images/gradient-circle.svg';
@@ -28,10 +27,10 @@ const Navbar = () => {
             <NavLink 
                 className="d--b" 
                 to={`${user?.Role?.abrv === RoleOptions.SuperAdmin ? 
-                        t(PATHS.TUTOR_MANAGMENT) : 
+                        '/tutor-managment' : 
                         user?.Role?.abrv === RoleOptions.Tutor ? 
-                            t(PATHS.DASHBOARD) : 
-                            t(PATHS.MY_BOOKINGS)}`}
+                            '/dashboard' : 
+                            '/my-bookings'}`}
             >
                 <img className="navbar__logo" src={logo} alt="logo" />
             </NavLink>
@@ -57,7 +56,7 @@ const Navbar = () => {
                         </div>
                     </div>
                 )) || (
-                    <NavLink to={t('PATHS.PROFILE_PATHS.MY_PROFILE_INFO_PERSONAL')} className="navbar__bottom__my-profile" activeClassName="active">
+                    <NavLink to="/my-profile/info/personal" className="navbar__bottom__my-profile" activeClassName="active">
                         <div className="navbar__bottom__avatar pos--rel">
                             {user?.Role?.abrv === RoleOptions.Tutor ? (
                                 <img src={user?.profileImage ? 'https://' + user?.profileImage : gradientCircle} alt="avatar" />
@@ -77,7 +76,7 @@ const Navbar = () => {
                     </NavLink>
                 )}
 
-                <NavLink to={t(PATHS.LOGIN)} onClick={handleLogout} className="d--ib">
+                <NavLink to={PATHS.LOGIN} onClick={handleLogout} className="d--ib">
                     <i className="icon icon--logout icon--sm icon--grey"></i>
                 </NavLink>
             </div>

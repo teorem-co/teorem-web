@@ -34,7 +34,7 @@ const ProfileCompletion = (props: Props) => {
             )}
 
             <div className="card--profile__progress__links">
-                <NavLink exact to={t(PROFILE_PATHS.MY_PROFILE_INFO_PERSONAL)} className="nav-link--profile" activeClassName="active">
+                <NavLink exact to={PROFILE_PATHS.MY_PROFILE_INFO_PERSONAL} className="nav-link--profile" activeClassName="active">
                     <div className="flex flex--col flex--center">
                         <div className="nav-link--profile__wrapper">
                             <i className="icon icon--base icon--check nav-link--profile__icon"></i>
@@ -44,7 +44,7 @@ const ProfileCompletion = (props: Props) => {
                 </NavLink>
                 {userRole === RoleOptions.Tutor && (
                     <>
-                        <NavLink exact to={t(PROFILE_PATHS.MY_PROFILE_INFO_AVAILABILITY)} className="nav-link--profile" activeClassName="active">
+                        <NavLink exact to={PROFILE_PATHS.MY_PROFILE_INFO_AVAILABILITY} className="nav-link--profile" activeClassName="active">
                             <div className="flex flex--col flex--center">
                                 <div className="nav-link--profile__wrapper">
                                     <i className={`icon icon--base icon--${generalAvailability ? 'check' : 'edit'} nav-link--profile__icon`}></i>
@@ -54,7 +54,7 @@ const ProfileCompletion = (props: Props) => {
                                 </div>
                             </div>
                         </NavLink>
-                        <NavLink exact to={t(PROFILE_PATHS.MY_PROFILE_INFO_TEACHINGS)} className="nav-link--profile" activeClassName="active">
+                        <NavLink exact to={PROFILE_PATHS.MY_PROFILE_INFO_TEACHINGS} className="nav-link--profile" activeClassName="active">
                             <div className="flex flex--col flex--center">
                                 <div className="nav-link--profile__wrapper">
                                     <i className={`icon icon--base icon--${myTeachings ? 'check' : 'edit'} nav-link--profile__icon`}></i>
@@ -62,7 +62,7 @@ const ProfileCompletion = (props: Props) => {
                                 <div className="nav-link--profile__label type--center mt-4 pl-2 pr-2">{t('COMPLETE_PROFILE.MY_TEACHINGS')}</div>
                             </div>
                         </NavLink>
-                        <NavLink exact to={t(PROFILE_PATHS.MY_PROFILE_INFO_ADDITIONAL)} className="nav-link--profile" activeClassName="active">
+                        <NavLink exact to={PROFILE_PATHS.MY_PROFILE_INFO_ADDITIONAL} className="nav-link--profile" activeClassName="active">
                             <div className="flex flex--col flex--center">
                                 <div className="nav-link--profile__wrapper">
                                     <i className={`icon icon--base icon--${aditionalInformation ? 'check' : 'edit'} nav-link--profile__icon`}></i>
@@ -74,7 +74,7 @@ const ProfileCompletion = (props: Props) => {
                 )}
                 {userRole === RoleOptions.Parent && (
                     <>
-                        <NavLink exact to={t(PROFILE_PATHS.MY_PROFILE_CHILD_INFO)} className="nav-link--profile" activeClassName="active">
+                        <NavLink exact to={PROFILE_PATHS.MY_PROFILE_CHILD_INFO} className="nav-link--profile" activeClassName="active">
                             <div className="flex flex--col flex--center">
                                 <div className="nav-link--profile__wrapper">
                                     <i className={`icon icon--base icon--check nav-link--profile__icon`}></i>
@@ -84,7 +84,7 @@ const ProfileCompletion = (props: Props) => {
                         </NavLink>
                     </>
                 )}
-                <NavLink exact to={t(PROFILE_PATHS.MY_PROFILE_ACCOUNT)} className="nav-link--profile" activeClassName="active">
+                <NavLink exact to={PROFILE_PATHS.MY_PROFILE_ACCOUNT} className="nav-link--profile" activeClassName="active">
                     <div className="flex flex--col flex--center">
                         <div className="nav-link--profile__wrapper">
                             <i className="icon icon--base icon--check nav-link--profile__icon"></i>
