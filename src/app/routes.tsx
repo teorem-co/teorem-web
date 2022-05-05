@@ -1,6 +1,8 @@
+import { t } from 'i18next';
 import { forEach } from 'lodash';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { BrowserRouter , matchPath, NavLink, Redirect, Route, Switch } from 'react-router-dom';
+import { BrowserRouter , matchPath, NavLink, Redirect, Route, Switch, useHistory } from 'react-router-dom';
 
 import Chat from './features/chat/pages/Chat';
 import CompletedLessons from './features/completedLessons/CompletedLessons';
@@ -37,45 +39,45 @@ import NotFound from './pages/NotFound';
 import PermissionsGate from './PermissionGate';
 import { getUserRoleAbrv } from './utils/getUserRoleAbrv';
 
-export enum PATHS {
-    ROLE_SELECTION = '/role-selection',
-    REGISTER = '/register',
-    FORGOT_PASSWORD = '/forgot-password',
-    RESET_PASSWORD = '/reset-password',
-    LOGIN = '/login',
-    MY_BOOKINGS = '/my-bookings',
-    SEARCH_TUTORS = '/search-tutors',
-    SEARCH_TUTORS_TUTOR_PROFILE = '/search-tutors/profile/:tutorId',
-    SEARCH_TUTORS_TUTOR_BOOKINGS = '/search-tutors/bookings/:tutorId',
-    ONBOARDING = '/onboarding',
-    MY_REVIEWS = '/my-reviews',
-    COMPLETED_LESSONS = '/completed-lessons',
-    CHAT = '/chat',
-    DASHBOARD = '/dashboard',
-    NOTIFICATIONS = '/dashboard/notifications',
-    EARNINGS = '/earnings',
-    TERMS = '/terms',
-    PRIVACY = '/privacy',
-    TUTOR_MANAGMENT = '/tutor-managment',
-    TUTOR_MANAGMENT_TUTOR_PROFILE = '/tutor-managment/profile/:tutorId',
-}
+export const PATHS = {
+    ROLE_SELECTION: t('PATHS.ROLE_SELECTION'),
+    REGISTER: t('PATHS.REGISTER'),
+    FORGOT_PASSWORD: t('PATHS.FORGOT_PASSWORD'),
+    RESET_PASSWORD: t('PATHS.RESET_PASSWORD'),
+    LOGIN: t('PATHS.LOGIN'),
+    MY_BOOKINGS: t('PATHS.MY_BOOKINGS'),
+    SEARCH_TUTORS: t('PATHS.SEARCH_TUTORS'),
+    SEARCH_TUTORS_TUTOR_PROFILE: t('PATHS.SEARCH_TUTORS_TUTOR_PROFILE'),
+    SEARCH_TUTORS_TUTOR_BOOKINGS: t('PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS'),
+    ONBOARDING: t('PATHS.ONBOARDING'),
+    MY_REVIEWS: t('PATHS.MY_REVIEWS'),
+    COMPLETED_LESSONS: t('PATHS.COMPLETED_LESSONS'),
+    CHAT: t('PATHS.CHAT'),
+    DASHBOARD: t('PATHS.DASHBOARD'),
+    NOTIFICATIONS: t('PATHS.NOTIFICATIONS'),
+    EARNINGS: t('PATHS.EARNINGS'),
+    TERMS: t('PATHS.TERMS'),
+    PRIVACY: t('PATHS.PRIVACY'),
+    TUTOR_MANAGMENT: t('PATHS.TUTOR_MANAGMENT'),
+    TUTOR_MANAGMENT_TUTOR_PROFILE: t('PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE'),
+};
 
-export enum LANDING_PATHS {
-    HOW_IT_WORKS = '/',
-    BECOME_TUTOR = '/become-tutor',
-    PRICING = '/pricing',
-}
+export const LANDING_PATHS = {
+    HOW_IT_WORKS: t('PATHS.LANDING_PATHS.HOW_IT_WORKS'),
+    BECOME_TUTOR: t('PATHS.LANDING_PATHS.BECOME_TUTOR'),
+    PRICING: t('PATHS.LANDING_PATHS.PRICING'),
+};
 
-export enum PROFILE_PATHS {
-    MY_PROFILE = '/my-profile',
-    MY_PROFILE_INFO = '/my-profile/info',
-    MY_PROFILE_INFO_PERSONAL = '/my-profile/info/personal',
-    MY_PROFILE_INFO_AVAILABILITY = '/my-profile/info/availability',
-    MY_PROFILE_INFO_TEACHINGS = '/my-profile/info/teachings',
-    MY_PROFILE_INFO_ADDITIONAL = '/my-profile/info/additional',
-    MY_PROFILE_ACCOUNT = '/my-profile/account',
-    MY_PROFILE_CHILD_INFO = '/my-profile/childs',
-}
+export const PROFILE_PATHS = {
+    MY_PROFILE: t('PATHS.PROFILE_PATHS.MY_PROFILE'),
+    MY_PROFILE_INFO: t('PATHS.MY_PROFILE_INFO'),
+    MY_PROFILE_INFO_PERSONAL: t('PATHS.MY_PROFILE_INFO_PERSONAL'),
+    MY_PROFILE_INFO_AVAILABILITY: t('PATHS.MY_PROFILE_INFO_AVAILABILITY'),
+    MY_PROFILE_INFO_TEACHINGS: t('PATHS.MY_PROFILE_INFO_TEACHINGS'),
+    MY_PROFILE_INFO_ADDITIONAL: t('PATHS.MY_PROFILE_INFO_ADDITIONAL'),
+    MY_PROFILE_ACCOUNT: t('PATHS.MY_PROFILE_ACCOUNT'),
+    MY_PROFILE_CHILD_INFO: t('PATHS.MY_PROFILE_CHILD_INFO'),
+};
 
 interface IMenuItem {
     name: string;
@@ -349,27 +351,53 @@ function RouteWithSubRoutes(route: any) {
 export function RenderRoutes(routesObj: any) {
     const { routes } = routesObj;
     const { i18n } = useTranslation();
+    const history = useHistory();
+    const [locationKeys, setLocationKeys] = useState<(string | undefined)[]>([]);
 
-    const languageFromPathname = matchPath(location.pathname, {
-        path: "/:lang",
-        //exact: true,
-        //strict: true,
-    })?.params.lang;
+    const syncLanguage = () => {
+
+        if(matchPath(location.pathname, {path: "/:lang"})) {
+            const lang = matchPath(location.pathname, {
+                path: "/:lang"
+            })?.params.lang;
+
+            if(lang !==  i18n.language) {
+                i18n.changeLanguage(lang);
+                window.location.reload();
+            }
+        } else {
+            history.push(`/${i18n.language}` + location.pathname.split("/").slice(2).join("/"));
+        }
+    };
+
+    useEffect(() => {
+      return history.listen((location: any) => {
+        if (history.action === 'PUSH') {
+          if (location.key) setLocationKeys([location.key]);
+        }
+  
+        if (history.action === 'POP') {
+          if (locationKeys[1] === location.key) {
+            setLocationKeys(([_, ...keys]) => keys);
+          } else {
+            setLocationKeys((keys) => [location.key, ...keys]);
+            syncLanguage();
+          }
+        }
+      });
+    }, [locationKeys]);
+
+    useEffect(()=>{
+        syncLanguage();
+    }, []);
 
     return (
-        <BrowserRouter basename={i18n.languages[1]}>
-            <Switch>
-                {routes.map((route: any) => {
-                    return <RouteWithSubRoutes key={route.key} {...route} />;
-                })}
-
-                {i18n.languages[1] !== languageFromPathname && 
-                    <Redirect to={"/" + location.pathname.split("/").slice(2).join("/")} />
-                }
-
-                <Route component={() => <NotFound />} />
-            </Switch>
-        </BrowserRouter>
+        <Switch>
+            {routes.map((route: any) => {
+                return <RouteWithSubRoutes key={route.key} {...route} />;
+            })}
+            {/*<Route component={() => <NotFound />} />*/}
+        </Switch>
     );
 }
 

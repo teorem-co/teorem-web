@@ -21,4 +21,7 @@ export default i18n
         interpolation: {
             escapeValue: false,
         },
+        detection: {
+            order: ['path'],
+        },
     });
