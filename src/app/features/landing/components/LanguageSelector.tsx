@@ -21,32 +21,18 @@ const LanguageSelector = (props: Props) => {
 
     useOutsideAlerter(languageRef, () => setIsActive(false));
 
-    const currentLanguage = languageOptions.find((item) => item.value === i18n.language) || languageOptions[0];
-    const [activeOption, setActiveOption] = useState<ILanguageOption>(currentLanguage);
-
     const handleChange = (option: ILanguageOption) => {
-
-
-
-
         if (option.value !== i18n.language) {
-            setActiveOption(option);
-            
             let pushPath = '';
-
             Object.keys(LANDING_PATHS).forEach( path => {
-                if(t('PATHS.LANDING_PATHS.' + path) === history.location.pathname){
+                if(t('PATHS.LANDING_PATHS.' + path) === history.location.pathname)
                     pushPath = 'PATHS.LANDING_PATHS.' + path;
-                }
             });
-
             i18n.changeLanguage(option.path);
-
             history.push(t(pushPath));
             window.location.reload();
         }
     };
-
 
     return (
         <div

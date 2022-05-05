@@ -4,6 +4,7 @@ import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
+import { optionCSS } from 'react-select/dist/declarations/src/components/Option';
 import * as Yup from 'yup';
 
 import { useLazyGetProfileProgressQuery } from '../../../../services/tutorService';
@@ -19,7 +20,9 @@ import RouterPrompt from '../../../components/RouterPrompt';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
 import { countryInput } from '../../../constants/countryInput';
 import { countryOption } from '../../../constants/countryOption';
+import languageOptions, { ILanguageOption } from '../../../constants/languageOptions';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { PROFILE_PATHS } from '../../../routes';
 import toastService from '../../../services/toastService';
 import { getUserId } from '../../../utils/getUserId';
 import { ICountry, useLazyGetCountriesQuery } from '../../onboarding/services/countryService';
@@ -255,6 +258,24 @@ const PersonalInformation = () => {
         handleBlur();
     }, [formik.values]);
 
+    
+    const changeLanguage = (option: ILanguageOption) => {
+
+        if (option.value !== i18n.language) {
+            let pushPath = '';
+
+            Object.keys(PROFILE_PATHS).forEach( path => {
+                if(t('PATHS.PROFILE_PATHS.' + path) === history.location.pathname){
+                    pushPath = 'PATHS.PROFILE_PATHS.' + path;
+                }
+            });
+
+            i18n.changeLanguage(option.path);
+            history.push(t(pushPath));
+            window.location.reload();
+        }
+    };
+
     return (
         <>
             <RouterPrompt
@@ -398,22 +419,21 @@ const PersonalInformation = () => {
                                             <div className="type--color--tertiary w--200--max">{t('MY_PROFILE.TRANSLATION.SUBTITLE')}</div>
                                         </div>
                                         <div className="w--800--max">
-                                            <div
-                                                className="btn btn--base btn--primary mr-2"
-                                                onClick={() => {
-                                                    i18n.changeLanguage('en-US');
-                                                }}
-                                            >
-                                                ENG
-                                            </div>
-                                            <div
-                                                className="btn btn--base btn--primary mr-2"
-                                                onClick={() => {
-                                                    i18n.changeLanguage('hr-HR');
-                                                }}
-                                            >
-                                                HR
-                                            </div>
+                                            {languageOptions.map((option: ILanguageOption) => {
+
+                                                return(
+                                                    <div
+                                                        key={option.path}
+                                                        className="btn btn--base btn--primary mr-2"
+                                                        onClick={() => {
+                                                            changeLanguage(option);
+                                                        }}
+                                                    >
+                                                        {option.label.substring(0, 3)}
+                                                    </div>
+                                                );
+                                            })
+                                            }
                                         </div>
                                     </div>
                                 </>

@@ -6,7 +6,7 @@ import { logout } from '../../slices/authSlice';
 import { RoleOptions } from '../../slices/roleSlice';
 import { logoutUser } from '../../slices/userSlice';
 import { useAppDispatch, useAppSelector } from '../hooks';
-import { PATHS, RenderMenuLinks } from '../routes';
+import { PATHS, PROFILE_PATHS, RenderMenuLinks } from '../routes';
 import { persistor } from '../store';
 import ImageCircle from './ImageCircle';
 
@@ -27,10 +27,10 @@ const Navbar = () => {
             <NavLink 
                 className="d--b" 
                 to={`${user?.Role?.abrv === RoleOptions.SuperAdmin ? 
-                        '/tutor-managment' : 
+                        PATHS.TUTOR_MANAGMENT : 
                         user?.Role?.abrv === RoleOptions.Tutor ? 
-                            '/dashboard' : 
-                            '/my-bookings'}`}
+                            PATHS.DASHBOARD : 
+                            PATHS.MY_BOOKINGS}`}
             >
                 <img className="navbar__logo" src={logo} alt="logo" />
             </NavLink>
@@ -56,7 +56,7 @@ const Navbar = () => {
                         </div>
                     </div>
                 )) || (
-                    <NavLink to="/my-profile/info/personal" className="navbar__bottom__my-profile" activeClassName="active">
+                    <NavLink to={PROFILE_PATHS.MY_PROFILE_INFO_PERSONAL} className="navbar__bottom__my-profile" activeClassName="active">
                         <div className="navbar__bottom__avatar pos--rel">
                             {user?.Role?.abrv === RoleOptions.Tutor ? (
                                 <img src={user?.profileImage ? 'https://' + user?.profileImage : gradientCircle} alt="avatar" />
