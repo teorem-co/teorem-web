@@ -1,4 +1,5 @@
 import { t } from 'i18next';
+import { is } from 'immer/dist/internal';
 import { debounce } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -8,8 +9,10 @@ import { setSourceMapRange } from 'typescript';
 import { useAppSelector } from '../../../hooks';
 import { Role } from '../../../lookups/role';
 import { PATHS } from '../../../routes';
+import { useLazyGetFreeConsultationLinkQuery } from '../../../services/learnCubeService';
 import { IChatMessagesQuery, useLazyGetChatMessagesQuery } from '../services/chatService';
-import { getMessages, IChatRoom, ISendChatMessage, readMessage } from '../slices/chatSlice';
+import { getMessages, IChatRoom, ISendChatMessage, readMessage, setFreeConsultation, setLink } from '../slices/chatSlice';
+import FreeConsultationModal from './FreeConsultationModal';
 import SendMessageForm from './SendMessageForm';
 
 interface Props {
@@ -27,7 +30,11 @@ const SingleConversation = (props: Props) => {
 
     const [page, setPage] = useState<number>(1);
 
+    const [freeConsultationClicked, setFreeConsultationClicked] = useState<boolean>(false);
+
     const [getChatMessages, { data: chatMessages }] = useLazyGetChatMessagesQuery();
+
+    const [getFreeConsultationLink, { data: freeConsultationLink, isSuccess: freeConsultationIsSuccess }] = useLazyGetFreeConsultationLinkQuery();
 
     const dispatch = useDispatch();
 
@@ -43,6 +50,21 @@ const SingleConversation = (props: Props) => {
     };
 
     let lastMessageUserId: string = '';
+
+    useEffect(() => {
+
+        chat.socket.on("onAcceptedFreeConsultation", (buffer: any) => {
+            setFreeConsultationClicked(false);
+            dispatch(setFreeConsultation(true));
+            dispatch(setLink(buffer.link + userActive?.id));
+        });
+
+        chat.socket.on("onDeniedFreeConsultation", (buffer: any) => {
+            setFreeConsultationClicked(false);
+            dispatch(setFreeConsultation(false));
+            dispatch(setLink(null));
+        });
+    }, []);
 
     useEffect(() => {
         if (props.data && chatRef.current && props.data.messages.length <= chat.rpp) {
@@ -73,8 +95,7 @@ const SingleConversation = (props: Props) => {
     useEffect(() => {
         if (chatMessages)
             dispatch(getMessages(chatMessages));
-    },
-        [chatMessages]);
+    }, [chatMessages]);
 
     useEffect(() => {
         if (userActive && props.data) {
@@ -87,6 +108,30 @@ const SingleConversation = (props: Props) => {
             getChatMessages(getMessagesObject);
         }
     }, [page]);
+
+    useEffect(() => {
+
+        if (freeConsultationIsSuccess) {
+
+            chat.socket.emit("joinFreeConsultation", {
+                userId: props.data?.user?.userId,
+                tutorId: props.data?.tutor?.userId,
+                senderId: userActive?.id,
+                link: freeConsultationLink
+            });
+        }
+
+    }, [freeConsultationLink]);
+
+    useEffect(() => {
+
+        chat.socket.on("onCloseActiveFreeConsultation", (buffer: any) => {
+
+            setFreeConsultationClicked(false);
+            dispatch(setFreeConsultation(false));
+            dispatch(setLink(null));
+        });
+    }, []);
 
     const handleLoadMore = () => {
         setPage(page + 1);
@@ -117,6 +162,42 @@ const SingleConversation = (props: Props) => {
         // }
     };
 
+    const onFreeConsultation = () => {
+
+        getFreeConsultationLink(props.data?.tutor?.userId + '');
+        setFreeConsultationClicked(true);
+        setTimeout(() => setFreeConsultationClicked(false), 10000);
+    };
+
+    const onFreeConsultationClose = () => {
+
+        chat.socket.emit("closeActiveFreeConsultation", {
+            userId: props.data?.user?.userId,
+            tutorId: props.data?.tutor?.userId,
+            senderId: userActive?.id,
+            link: freeConsultationLink
+        });
+        setFreeConsultationClicked(false);
+        dispatch(setFreeConsultation(false));
+        dispatch(setLink(null));
+    };
+
+    const onCancelFreeConsultation = () => {
+
+        if (freeConsultationIsSuccess) {
+            chat.socket.emit("cancelFreeConsultation", {
+                userId: props.data?.user?.userId,
+                tutorId: props.data?.tutor?.userId,
+                senderId: userActive?.id,
+                link: freeConsultationLink
+            });
+
+            setFreeConsultationClicked(false);
+            dispatch(setFreeConsultation(false));
+            dispatch(setLink(null));
+        }
+    };
+
     const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
 
     return (
@@ -143,17 +224,33 @@ const SingleConversation = (props: Props) => {
 
                     {props.data && userActive?.Role.abrv == Role.Tutor && <div className="ml-3 type--wgt--bold">{props.data ? (userActive?.id != props.data.tutor?.userId ? props.data.tutor?.userNickname : props.data.user?.userNickname) : "Odaberite osobu za razgovor"}</div>}
                 </div>
-                {props.data && (userActive?.id == props.data.user?.userId) && <Link
-                    className="btn btn--primary btn--base"
-                    to={`/search-tutors/bookings/${props.data.tutor?.userId}`} >
-                    {t('CHAT.BOOK_SESSION')}
-                </Link>}
 
+                <div className='button-group-chat-header'>
+
+                    {chat.activeChatRoom && <button
+                        className={`btn btn--primary btn--base free-consultation-btn ${freeConsultationClicked && "free-consultation-btn-pressed"}`}
+                        onClick={onFreeConsultation}>
+                        {freeConsultationClicked && <i className={`icon--loader chat-load-more-small`}></i>}
+                        {t('CHAT.FREE_CONSULTATION')}
+                    </button>}
+
+                    {chat.activeChatRoom && freeConsultationClicked && <button
+                        className={`btn btn--error btn--base free-consultation-btn ${freeConsultationClicked && "free-consultation-btn-pressed"}`}
+                        onClick={onCancelFreeConsultation}>
+                        {t('CHAT.DENY_FREE_CONSULTATION')}
+                    </button>
+                    }
+                    {props.data && (userActive?.id == props.data.user?.userId) && <Link
+                        className="btn btn--primary btn--base"
+                        to={`/search-tutors/bookings/${props.data.tutor?.userId}`} >
+                        {t('CHAT.BOOK_SESSION')}
+                    </Link>}
+                </div>
             </div>
 
             <div ref={chatRef} onScroll={(e: any) => debouncedScrollHandler(e.target)} className="content__main">
 
-                {props.data && props.data.messages.length > 0 && !hideLoadMore() && <div><i className={`icon--more chat-load-more`}></i></div>}
+                {props.data && props.data.messages.length >= 20 && !hideLoadMore() && <div><i className={`icon--loader chat-load-more`}></i></div>}
                 {props.data && props.data.messages.length == 0 &&
                     <div className={`chat_message_init_new`}>
                         <div className={`message-full-width flex flex--col flex--center`}>
@@ -210,11 +307,14 @@ const SingleConversation = (props: Props) => {
                             </div>
                         </div>
                     );
+
                 })}
                 <div style={{ marginTop: 80 }} ref={messagesEndRef} />
             </div>
             {props.data && <SendMessageForm data={props.data} scrollOnSend={scrollToBottomSmooth} />}
+            {freeConsultationClicked && <div className='chat__overlay__free__consultation' onClick={(event: any) => { event.preventDefault(); event.stopPropagation(); }}></div>}
 
+            {chat.freeConsultation && chat.link && <FreeConsultationModal link={chat.link} handleClose={onFreeConsultationClose} />}
         </div >
     );
 };
