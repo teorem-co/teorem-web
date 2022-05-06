@@ -84,7 +84,6 @@ function App() {
 
         chat.socket.on("onCancelFreeConsultation", (buffer: any) => {
 
-            console.log(freeConsultationRef.current);
             if (freeConsultationRef.current) {
                 toast.dismiss(freeConsultationRef.current);
             }
@@ -155,7 +154,6 @@ function App() {
     useEffect(() => {
 
         if (isSuccessChildTutors) {
-            console.log(childTutors);
             dispatch(addChatRooms(childTutors || null));
         }
     }, [childTutors]);
