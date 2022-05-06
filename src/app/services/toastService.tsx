@@ -30,7 +30,7 @@ class ToastService {
         position: 'top-right',
         autoClose: 10000,
         hideProgressBar: false,
-        closeOnClick: false,
+        closeOnClick: true,
         pauseOnHover: false,
         draggable: true,
         progress: undefined,
@@ -63,7 +63,7 @@ class ToastService {
 
     freeConsultation = (buffer: any): React.ReactText => {
 
-        return toast(<ToastFreeConsultationMessage buffer={buffer} />, Object.assign({}, ToastService.freeConsultationOpts));
+        return toast.warning(<ToastFreeConsultationMessage buffer={buffer} />, Object.assign({}, ToastService.freeConsultationOpts));
     };
 
     creditCard = (message: string): void => {
