@@ -123,6 +123,16 @@ const SingleConversation = (props: Props) => {
 
     }, [freeConsultationLink]);
 
+    useEffect(() => {
+
+        chat.socket.on("onCloseActiveFreeConsultation", (buffer: any) => {
+
+            setFreeConsultationClicked(false);
+            dispatch(setFreeConsultation(false));
+            dispatch(setLink(null));
+        });
+    }, []);
+
     const handleLoadMore = () => {
         setPage(page + 1);
     };
@@ -161,6 +171,13 @@ const SingleConversation = (props: Props) => {
 
     const onFreeConsultationClose = () => {
 
+        chat.socket.emit("closeActiveFreeConsultation", {
+            userId: props.data?.user?.userId,
+            tutorId: props.data?.tutor?.userId,
+            senderId: userActive?.id,
+            link: freeConsultationLink
+        });
+        setFreeConsultationClicked(false);
         dispatch(setFreeConsultation(false));
         dispatch(setLink(null));
     };
@@ -174,6 +191,7 @@ const SingleConversation = (props: Props) => {
                 senderId: userActive?.id,
                 link: freeConsultationLink
             });
+
             setFreeConsultationClicked(false);
             dispatch(setFreeConsultation(false));
             dispatch(setLink(null));
@@ -209,14 +227,14 @@ const SingleConversation = (props: Props) => {
 
                 <div className='button-group-chat-header'>
 
-                    {false && <button
+                    {chat.activeChatRoom && <button
                         className={`btn btn--primary btn--base free-consultation-btn ${freeConsultationClicked && "free-consultation-btn-pressed"}`}
                         onClick={onFreeConsultation}>
                         {freeConsultationClicked && <i className={`icon--loader chat-load-more-small`}></i>}
                         {t('CHAT.FREE_CONSULTATION')}
                     </button>}
 
-                    {false && <button
+                    {chat.activeChatRoom && freeConsultationClicked && <button
                         className={`btn btn--error btn--base free-consultation-btn ${freeConsultationClicked && "free-consultation-btn-pressed"}`}
                         onClick={onCancelFreeConsultation}>
                         {t('CHAT.DENY_FREE_CONSULTATION')}
