@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 
 import { useLazyGetChatRoomsQuery, useLazyGetChildBookingTutorsQuery } from './app/features/chat/services/chatService';
-import { addChatRoom, addChatRooms, addMessage, ISendChatMessage, readMessage, setUser } from './app/features/chat/slices/chatSlice';
+import { addChatRoom, addChatRooms, addMessage, ISendChatMessage, readMessage, setConsultationInitialized, setUser } from './app/features/chat/slices/chatSlice';
 import { useAppSelector } from './app/hooks';
 import { Role } from './app/lookups/role';
 import ROUTES, { RenderRoutes } from './app/routes';
@@ -85,13 +85,18 @@ function App() {
         chat.socket.on("onCancelFreeConsultation", (buffer: any) => {
 
             if (freeConsultationRef.current) {
+                dispatch(setConsultationInitialized(false));
                 toast.dismiss(freeConsultationRef.current);
             }
         });
 
         chat.socket.on("acceptFreeConsultation", (buffer: any) => {
-
-            freeConsultationRef.current = toastService.freeConsultation(buffer);
+            freeConsultationRef.current = toastService.freeConsultation(
+                buffer,
+                () => { toast.dismiss(freeConsultationRef.current); },
+                () => { toast.dismiss(freeConsultationRef.current); }
+            );
+            dispatch(setConsultationInitialized(true));
 
         });
         return function disconnectSocket() {

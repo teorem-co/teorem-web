@@ -1,13 +1,14 @@
 import { t } from "i18next";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { setActiveChatRoom, setFreeConsultation, setLink } from "../features/chat/slices/chatSlice";
+import { setActiveChatRoom, setConsultationInitialized, setFreeConsultation, setLink } from "../features/chat/slices/chatSlice";
 import { useAppSelector } from "../hooks";
 import { PATHS } from "../routes";
 
 interface Props {
-
     buffer: any;
+    accept: () => void;
+    deny: () => void;
 }
 
 const ToastFreeConsultationMessage = (props: Props) => {
@@ -29,6 +30,8 @@ const ToastFreeConsultationMessage = (props: Props) => {
                     dispatch(setActiveChatRoom(chat.chatRooms[i]));
                     dispatch(setFreeConsultation(true));
                     dispatch(setLink(props.buffer.link + userId));
+                    dispatch(setConsultationInitialized(true));
+                    props.accept();
                     break;
                 }
             }
@@ -41,6 +44,9 @@ const ToastFreeConsultationMessage = (props: Props) => {
         chat.socket.emit("deniedFreeConsultation", props.buffer);
         dispatch(setFreeConsultation(false));
         dispatch(setLink(null));
+        dispatch(setConsultationInitialized(false));
+        props.deny();
+
     };
 
     return (

@@ -30,9 +30,9 @@ class ToastService {
         position: 'top-right',
         autoClose: 10000,
         hideProgressBar: false,
-        closeOnClick: true,
+        closeOnClick: false,
         pauseOnHover: false,
-        draggable: true,
+        draggable: false,
         progress: undefined,
     };
 
@@ -61,9 +61,9 @@ class ToastService {
         toast.warning(customToast, Object.assign({}, ToastService.notificationOpts));
     };
 
-    freeConsultation = (buffer: any): React.ReactText => {
+    freeConsultation = (buffer: any, accept: () => void, deny: () => void): React.ReactText => {
 
-        return toast.warning(<ToastFreeConsultationMessage buffer={buffer} />, Object.assign({}, ToastService.freeConsultationOpts));
+        return toast.warning(<ToastFreeConsultationMessage buffer={buffer} accept={accept} deny={deny} />, Object.assign({}, ToastService.freeConsultationOpts));
     };
 
     creditCard = (message: string): void => {

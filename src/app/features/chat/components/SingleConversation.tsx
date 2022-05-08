@@ -11,7 +11,7 @@ import { Role } from '../../../lookups/role';
 import { PATHS } from '../../../routes';
 import { useLazyGetFreeConsultationLinkQuery } from '../../../services/learnCubeService';
 import { IChatMessagesQuery, useLazyGetChatMessagesQuery } from '../services/chatService';
-import { getMessages, IChatRoom, ISendChatMessage, readMessage, setFreeConsultation, setLink } from '../slices/chatSlice';
+import { getMessages, IChatRoom, ISendChatMessage, readMessage, setConsultationInitialized, setFreeConsultation, setLink } from '../slices/chatSlice';
 import FreeConsultationModal from './FreeConsultationModal';
 import SendMessageForm from './SendMessageForm';
 
@@ -164,9 +164,22 @@ const SingleConversation = (props: Props) => {
 
     const onFreeConsultation = () => {
 
-        getFreeConsultationLink(props.data?.tutor?.userId + '');
-        setFreeConsultationClicked(true);
-        setTimeout(() => setFreeConsultationClicked(false), 10000);
+        if (!freeConsultationClicked) {
+
+            getFreeConsultationLink(props.data?.tutor?.userId + '');
+            setFreeConsultationClicked(true);
+            setTimeout(() => {
+
+                chat.socket.emit("cancelFreeConsultation", {
+                    userId: props.data?.user?.userId,
+                    tutorId: props.data?.tutor?.userId,
+                    senderId: userActive?.id,
+                    link: freeConsultationLink
+                });
+
+                cancelCallHandler();
+            }, 10000);
+        }
     };
 
     const onFreeConsultationClose = () => {
@@ -177,6 +190,12 @@ const SingleConversation = (props: Props) => {
             senderId: userActive?.id,
             link: freeConsultationLink
         });
+
+        cancelCallHandler();
+    };
+
+    const cancelCallHandler = () => {
+        dispatch(setConsultationInitialized(false));
         setFreeConsultationClicked(false);
         dispatch(setFreeConsultation(false));
         dispatch(setLink(null));
@@ -192,9 +211,7 @@ const SingleConversation = (props: Props) => {
                 link: freeConsultationLink
             });
 
-            setFreeConsultationClicked(false);
-            dispatch(setFreeConsultation(false));
-            dispatch(setLink(null));
+            cancelCallHandler();
         }
     };
 
@@ -227,7 +244,7 @@ const SingleConversation = (props: Props) => {
 
                 <div className='button-group-chat-header'>
 
-                    {chat.activeChatRoom && <button
+                    {!chat.consultationInitialized && chat.activeChatRoom && <button
                         className={`btn btn--primary btn--base free-consultation-btn ${freeConsultationClicked && "free-consultation-btn-pressed"}`}
                         onClick={onFreeConsultation}>
                         {freeConsultationClicked && <i className={`icon--loader chat-load-more-small`}></i>}
