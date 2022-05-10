@@ -177,9 +177,10 @@ export const EN_US = {
         PLACEHOLDER: 'Send a message to start a conversation',
         SEARCH_PLACEHOLDER: 'Search chat',
         BOOK_SESSION: 'Book a session',
-        FREE_CONSULTATION: 'Free consultation',
+        FREE_CONSULTATION: 'Start a free call',
         ACCEPT_CONSULTATION: 'Accept',
         DENY_CONSULTATION: 'Deny',
+        DENY_FREE_CONSULTATION: 'Cancel call',
     },
     ROLE_SELECTION: {
         TITLE: 'Register',
@@ -532,6 +533,45 @@ export const EN_US = {
     NOTIFICATIONS: {
         TITLE: 'All Notifications',
         EMPTY: 'There are no notifications',
+        BOOKING_CLASS_STARTING: {
+            DESCRIPTION: "Class starting soon",
+            TITLE: "Booking starting soon"
+        },
+        CHAT_MISSED_CALL: {
+            DESCRIPTION: "Missed call from",
+            TITLE: "Missed call"
+        },
+        BOOKING: {
+            STUDENT: 'Student',
+            PARENT: 'Parent',
+            TUTOR: 'Tutor',
+        },
+        BOOKING_NEW_BOOKING: {
+            TITLE: 'New booking',
+            DESCRIPTION: '',
+            MADE_BOOKING_TEXT: 'made new booking for',
+        },
+        BOOKING_RESCHEDULE_PROPOSITION: {
+            TITLE: 'Reschedule proposition',
+            DESCRIPTION: '',
+            PROPOSING_NEW_TIME_TEXT: 'wants to propose new time for booking',
+        },
+        BOOKING_ACCEPTED: {
+            TITLE: 'Booking accepted',
+            DESCRIPTION: 'accepted booking for',
+        },
+        BOOKING_CANCELED: {
+            TITLE: 'Booking canceled',
+            DESCRIPTION: '',
+            CANCEL_TEXT: 'canceled booking for'
+        },
+        BOOKING_DELETED: {
+            TITLE: 'Deleted unaccepted booking',
+            DESCRIPTION: {
+                PART1: 'Booking is deleted because',
+                PART2: 'didn\'t accept it.',
+            },
+        },
     },
     EARNINGS: {
         TITLE: 'Earnings',

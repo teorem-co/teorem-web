@@ -89,9 +89,9 @@ const Dashboard = () => {
         history.push('/chat');
     };
 
-    useEffect(()=> {
+    useEffect(() => {
         const tmpCr: any = [];
-        chatrooms.forEach( cr => {
+        chatrooms.forEach(cr => {
             cr.unreadMessageCount && tmpCr.push(cr);
         });
         setUnreadChatrooms(tmpCr);
@@ -156,20 +156,20 @@ const Dashboard = () => {
                                                 {todayScheduled[activeIndex].isAccepted &&
                                                     moment(todayScheduled[activeIndex].startTime).subtract(10, 'minutes').isBefore(moment()) &&
                                                     moment(todayScheduled[activeIndex].startTime).add(60, 'minutes').isAfter(moment()) ? (
-                                                        <button
-                                                            className="btn btn--base card--dashboard__btn"
-                                                            onClick={() => handleJoinBooking(todayScheduled[activeIndex])}
-                                                        >
-                                                            {t('DASHBOARD.SCHEDULE.BUTTON')}
-                                                        </button>
-                                                    ) : (
-                                                        <button
-                                                            className="btn btn--base card--dashboard__btn"
-                                                            style={{visibility: 'hidden'}}
-                                                        >
-                                                            {t('DASHBOARD.SCHEDULE.BUTTON')}
-                                                        </button>
-                                                    )}
+                                                    <button
+                                                        className="btn btn--base card--dashboard__btn"
+                                                        onClick={() => handleJoinBooking(todayScheduled[activeIndex])}
+                                                    >
+                                                        {t('DASHBOARD.SCHEDULE.BUTTON')}
+                                                    </button>
+                                                ) : (
+                                                    <button
+                                                        className="btn btn--base card--dashboard__btn"
+                                                        style={{ visibility: 'hidden' }}
+                                                    >
+                                                        {t('DASHBOARD.SCHEDULE.BUTTON')}
+                                                    </button>
+                                                )}
                                             </div>
                                         </div>
                                     ) : (
@@ -200,13 +200,13 @@ const Dashboard = () => {
                                 </div>
                                 <div className="col col-12 col-xl-7">
                                     <div className="type--color--tertiary mb-2">{t('DASHBOARD.MESSAGES.TITLE')}</div>
-                                    
+
                                     {unreadChatrooms[activeMsgIndex] != undefined ? (
                                         <div className="card--dashboard h--200--min">
                                             <div className="flex--primary mb-2">
                                                 <div>
-                                                    {userRole === RoleOptions.Tutor ? 
-                                                        unreadChatrooms[activeMsgIndex].user.userNickname : 
+                                                    {userRole === RoleOptions.Tutor ?
+                                                        unreadChatrooms[activeMsgIndex].user.userNickname :
                                                         unreadChatrooms[activeMsgIndex].tutor.userNickname
                                                     }
                                                 </div>
@@ -227,16 +227,17 @@ const Dashboard = () => {
                                                     </button>
                                                 </div>
                                             </div>
-                                            <div 
+                                            <div
                                                 className="card--dashboard__text card--dashboard__text--ellipsis"
-                                                dangerouslySetInnerHTML={{ 
-                                                    __html: (unreadChatrooms[activeMsgIndex].messages[unreadChatrooms[activeMsgIndex].messages.length-1].isFile ? 
-                                                        '<i class="icon--attachment chat-file-icon"></i>' : '') + unreadChatrooms[activeMsgIndex].messages[unreadChatrooms[activeMsgIndex].messages.length-1].message.message }}
+                                                dangerouslySetInnerHTML={{
+                                                    __html: (unreadChatrooms[activeMsgIndex].messages[unreadChatrooms[activeMsgIndex].messages.length - 1].isFile ?
+                                                        '<i class="icon--attachment chat-file-icon"></i>' : '') + unreadChatrooms[activeMsgIndex].messages[unreadChatrooms[activeMsgIndex].messages.length - 1].message.message
+                                                }}
                                             >
                                             </div>
                                             <div className="flex--primary">
                                                 <div className="type--color--secondary">
-                                                    {moment(unreadChatrooms[activeMsgIndex].messages[unreadChatrooms[activeMsgIndex].messages.length-1].message.createdAt).format('DD/MMM/yyy')}
+                                                    {moment(unreadChatrooms[activeMsgIndex].messages[unreadChatrooms[activeMsgIndex].messages.length - 1].message.createdAt).format('DD/MMM/yyy')}
                                                 </div>
                                                 <button
                                                     className="btn btn--base card--dashboard__btn"
@@ -318,16 +319,16 @@ const Dashboard = () => {
                                                                 {moment(item.startTime).format('HH:mm')} -{' '}
                                                                 {moment(item.endTime).add(1, 'minute').format('HH:mm')}
                                                             </div>
-                                                            <div 
+                                                            <div
                                                                 onClick={() => {
                                                                     // history.push(PATHS.MY_BOOKINGS)
 
                                                                     history.push({
-                                                                        pathname: PATHS.MY_BOOKINGS,
-                                                                        state: {value: new Date(item.startTime).toString()}
+                                                                        pathname: t(PATHS.MY_BOOKINGS),
+                                                                        state: { value: new Date(item.startTime).toString() }
                                                                     });
                                                                 }
-                                                            }>
+                                                                }>
                                                                 <i className="icon icon--base icon--chevron-right icon--primary"></i>
                                                             </div>
                                                         </div>
@@ -367,7 +368,7 @@ const Dashboard = () => {
                         <div className="card--primary card--primary--shadow">{t('DASHBOARD.NOTIFICATIONS.EMPTY')}</div>
                     )}
                     <div className="type--center mt-4">
-                        <Link to={PATHS.NOTIFICATIONS} className="btn btn--clear">
+                        <Link to={t(PATHS.NOTIFICATIONS)} className="btn btn--clear">
                             {t('DASHBOARD.NOTIFICATIONS.ALL')}
                         </Link>
                     </div>

@@ -174,7 +174,8 @@ const SingleConversation = (props: Props) => {
                     userId: props.data?.user?.userId,
                     tutorId: props.data?.tutor?.userId,
                     senderId: userActive?.id,
-                    link: freeConsultationLink
+                    link: freeConsultationLink,
+                    expired: true
                 });
 
                 cancelCallHandler();

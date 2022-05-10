@@ -1,3 +1,4 @@
+import { t } from 'i18next';
 import moment from 'moment';
 import React, { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
@@ -39,6 +40,9 @@ function App() {
             if (userId && (notification.userId === userId || ifChildExists)) {
                 notification.description = notification.description.replace(/date=\{(.*?)\}/g, function (match, token) {
                     return moment(new Date(token)).format('HH:mm, DD/MMM/YYYY');
+                });
+                notification.description = notification.description.replace(/stringTranslate=\{(.*?)\}/g, function (match, token) {
+                    return t(token);
                 });
                 toastService.notification(notification.description);
             }

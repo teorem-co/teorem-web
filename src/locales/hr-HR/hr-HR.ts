@@ -171,9 +171,10 @@ export const HR_HR = {
         PLACEHOLDER: 'Pošaljite poruku da započnete razgovor',
         SEARCH_PLACEHOLDER: 'Pretraži razgovor',
         BOOK_SESSION: 'Rezervirajte lekciju',
-        FREE_CONSULTATION: 'Besplatna konzultacija',
+        FREE_CONSULTATION: 'Započnite besplatan poziv',
         ACCEPT_CONSULTATION: 'Prihvati',
         DENY_CONSULTATION: 'Odbij',
+        DENY_FREE_CONSULTATION: 'Odustani of poziva',
     },
     ROLE_SELECTION: {
         TITLE: 'Registracija',
@@ -526,6 +527,45 @@ export const HR_HR = {
     NOTIFICATIONS: {
         TITLE: 'Sve Obavijesti',
         EMPTY: 'Nema obavijesti',
+        BOOKING_CLASS_STARTING: {
+            DESCRIPTION: "Predavanje započinje uskoro",
+            TITLE: "Predavanje započinje uskoro"
+        },
+        CHAT_MISSED_CALL: {
+            DESCRIPTION: "Propušten video poziv od",
+            TITLE: "Propušten video poziv"
+        },
+        BOOKING: {
+            STUDENT: 'Učenik',
+            PARENT: 'Roditelj',
+            TUTOR: 'Instruktor',
+        },
+        BOOKING_NEW_BOOKING: {
+            TITLE: 'Nova rezervacija',
+            DESCRIPTION: '',
+            MADE_BOOKING_TEXT: 'je napravio novu rezervaciju za',
+        },
+        BOOKING_RESCHEDULE_PROPOSITION: {
+            TITLE: 'Predloženo ponovno zakazivanje',
+            DESCRIPTION: '',
+            PROPOSING_NEW_TIME_TEXT: 'želi predložiti novo vrijeme za rezervaciju',
+        },
+        BOOKING_ACCEPTED: {
+            TITLE: 'Rezervacija prihvaćena',
+            DESCRIPTION: 'je prihvatio/la rezervaciju za',
+        },
+        BOOKING_CANCELED: {
+            TITLE: 'Rezervacija otkazana',
+            DESCRIPTION: '',
+            CANCEL_TEXT: 'je otkazao/la'
+        },
+        BOOKING_DELETED: {
+            TITLE: 'Deleted unaccepted booking',
+            DESCRIPTION: {
+                PART1: 'Booking is deleted because',
+                PART2: 'didn\'t accept it.',
+            },
+        },
     },
     EARNINGS: {
         TITLE: 'Prihod',
