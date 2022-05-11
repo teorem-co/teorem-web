@@ -40,7 +40,7 @@ interface Values {
 
 const ProfileAccount = () => {
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
-    const [addStripeCustomer] = useAddCustomerMutation();
+    const [addStripeCustomer, { data: dataStripeCustomer, isSuccess: isSuccessDataStripeCustomer, isError: isErrorDataStripeCustomer }] = useAddCustomerMutation();
     const [addCustomerSource] = useAddCustomerSourceMutation();
     const [setDefaultCreditCard] = useSetDefaultCreditCardMutation();
     const [getCustomerById] = useLazyGetCustomerByIdQuery();
@@ -173,19 +173,7 @@ const ProfileAccount = () => {
                     phone: userInfo!.phoneNumber,
                 },
             };
-            await addStripeCustomer(toSend)
-                .unwrap()
-                .then((res) => {
-                    dispatch(addStripeId(res.id));
-                    setDefaultCreditCard({
-                        userId: userInfo!.id,
-                        sourceId: res.id,
-                    });
-                })
-                .catch(() => {
-                    toastService.error('Erorr creating stripe account');
-                    return;
-                });
+            await addStripeCustomer(toSend).unwrap();
         }
 
         const toSend: ICardPost = {
@@ -235,7 +223,7 @@ const ProfileAccount = () => {
         await setDefaultCreditCard(toSend)
             .unwrap()
             .then(() => {
-                toastService.success('Default payment method is updated');
+                toastService.success(t("PROFILE_ACCOUNT.STRIPE_DEFAULT_PAYMENT_METHOD_UPDATED"));
                 setActiveDefaultPaymentMethod(cardId);
             });
     };
@@ -291,6 +279,23 @@ const ProfileAccount = () => {
             setActiveDefaultPaymentMethod(res.invoice_settings.default_payment_method);
         }
     };
+
+    useEffect(() => {
+
+        if (isSuccessDataStripeCustomer) {
+            dispatch(addStripeId(dataStripeCustomer.id));
+            setDefaultCreditCard({
+                userId: userInfo!.id,
+                sourceId: dataStripeCustomer.id,
+            });
+        } else if (isErrorDataStripeCustomer) {
+            toastService.error(t("PROFILE_ACCOUNT.STRIPE_CARD_DECLINED"));
+        }
+    },
+        [
+            isSuccessDataStripeCustomer,
+            isErrorDataStripeCustomer
+        ]);
 
     useEffect(() => {
         fetchProgress();
@@ -377,7 +382,7 @@ const ProfileAccount = () => {
                             </div>
                         </div>
 
-                        {userRole != RoleOptions.SuperAdmin && 
+                        {userRole != RoleOptions.SuperAdmin &&
                             <div className="card--profile__section">
                                 <div>
                                     <div className="mb-2 type--wgt--bold">{t('ACCOUNT.CARD_DETAILS.TITLE')}</div>
@@ -412,9 +417,8 @@ const ProfileAccount = () => {
                                                     return (
                                                         <div className="dash-wrapper__item" onClick={() => handleDefaultCreditCard(item.id)}>
                                                             <div
-                                                                className={`dash-wrapper__item__element ${
-                                                                    item.id === activeDefaultPaymentMethod && 'active'
-                                                                }`}
+                                                                className={`dash-wrapper__item__element ${item.id === activeDefaultPaymentMethod && 'active'
+                                                                    }`}
                                                             >
                                                                 <div className="flex--primary cur--pointer">
                                                                     <div>

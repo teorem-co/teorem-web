@@ -260,7 +260,7 @@ const SingleConversation = (props: Props) => {
                     }
                     {props.data && (userActive?.id == props.data.user?.userId) && <Link
                         className="btn btn--primary btn--base"
-                        to={`/search-tutors/bookings/${props.data.tutor?.userId}`} >
+                        to={t(PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS.replace(`:tutorId`, `${props.data.tutor?.userId}`))} >
                         {t('CHAT.BOOK_SESSION')}
                     </Link>}
                 </div>

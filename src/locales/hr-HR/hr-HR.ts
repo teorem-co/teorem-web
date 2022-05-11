@@ -175,6 +175,7 @@ export const HR_HR = {
         ACCEPT_CONSULTATION: 'Prihvati',
         DENY_CONSULTATION: 'Odbij',
         DENY_FREE_CONSULTATION: 'Odustani of poziva',
+        CHAT_REQUEST_TITLE: 'Dolazni videopoziv',
     },
     ROLE_SELECTION: {
         TITLE: 'Registracija',
@@ -473,7 +474,9 @@ export const HR_HR = {
         },
         PROFILE_ACCOUNT: {
             STRIPE: 'Idi na Stripe',
+            STRIPE_CARD_DECLINED: 'Greška prilikom izrade Stripe računa',
             SUCCESS_PASSWORD: 'Lozinka je uspješno izmijenjena',
+            STRIPE_DEFAULT_PAYMENT_METHOD_UPDATED: 'Primarna metoda plaćanje je izmjenjena',
         },
         CHILD: {
             ADD_TITLE: 'DODAJ DIJETE',

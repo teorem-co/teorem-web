@@ -181,6 +181,7 @@ export const EN_US = {
         ACCEPT_CONSULTATION: 'Accept',
         DENY_CONSULTATION: 'Deny',
         DENY_FREE_CONSULTATION: 'Cancel call',
+        CHAT_REQUEST_TITLE: 'Incoming video call',
     },
     ROLE_SELECTION: {
         TITLE: 'Register',
@@ -479,7 +480,9 @@ export const EN_US = {
         },
         PROFILE_ACCOUNT: {
             STRIPE: 'Go to Stripe',
+            STRIPE_CARD_DECLINED: 'Error creating Stripe account',
             SUCCESS_PASSWORD: 'You successfully changed a password',
+            STRIPE_DEFAULT_PAYMENT_METHOD_UPDATED: 'Default payment method is updated',
         },
         CHILD: {
             ADD_TITLE: 'ADD NEW CHILD',
