@@ -2,7 +2,7 @@ import { t } from 'i18next';
 import { forEach } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { BrowserRouter , matchPath, NavLink, Redirect, Route, Switch, useHistory } from 'react-router-dom';
+import { BrowserRouter, matchPath, NavLink, Redirect, Route, Switch, useHistory } from 'react-router-dom';
 
 import Chat from './features/chat/pages/Chat';
 import CompletedLessons from './features/completedLessons/CompletedLessons';
@@ -356,12 +356,12 @@ export function RenderRoutes(routesObj: any) {
 
     const syncLanguage = () => {
 
-        if(matchPath(location.pathname, {path: "/:lang"})) {
+        if (matchPath(location.pathname, { path: "/:lang" })) {
             const lang = matchPath(location.pathname, {
                 path: "/:lang"
             })?.params.lang;
 
-            if(lang !==  i18n.language) {
+            if (lang !== i18n.language) {
                 i18n.changeLanguage(lang);
                 window.location.reload();
             }
@@ -371,23 +371,23 @@ export function RenderRoutes(routesObj: any) {
     };
 
     useEffect(() => {
-      return history.listen((location: any) => {
-        if (history.action === 'PUSH') {
-          if (location.key) setLocationKeys([location.key]);
-        }
-  
-        if (history.action === 'POP') {
-          if (locationKeys[1] === location.key) {
-            setLocationKeys(([_, ...keys]) => keys);
-          } else {
-            setLocationKeys((keys) => [location.key, ...keys]);
-            syncLanguage();
-          }
-        }
-      });
+        return history.listen((location: any) => {
+            if (history.action === 'PUSH') {
+                if (location.key) setLocationKeys([location.key]);
+            }
+
+            if (history.action === 'POP') {
+                if (locationKeys[1] === location.key) {
+                    setLocationKeys(([_, ...keys]) => keys);
+                } else {
+                    setLocationKeys((keys) => [location.key, ...keys]);
+                    syncLanguage();
+                }
+            }
+        });
     }, [locationKeys]);
 
-    useEffect(()=>{
+    useEffect(() => {
         syncLanguage();
     }, []);
 

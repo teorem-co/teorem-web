@@ -54,6 +54,7 @@ const SingleConversation = (props: Props) => {
     useEffect(() => {
 
         chat.socket.on("onAcceptedFreeConsultation", (buffer: any) => {
+            dispatch(setConsultationInitialized(true));
             setFreeConsultationClicked(false);
             dispatch(setFreeConsultation(true));
             dispatch(setLink(buffer.link + userActive?.id));
@@ -169,16 +170,18 @@ const SingleConversation = (props: Props) => {
             getFreeConsultationLink(props.data?.tutor?.userId + '');
             setFreeConsultationClicked(true);
             setTimeout(() => {
+                if (chat.consultationInitialized) {
 
-                chat.socket.emit("cancelFreeConsultation", {
-                    userId: props.data?.user?.userId,
-                    tutorId: props.data?.tutor?.userId,
-                    senderId: userActive?.id,
-                    link: freeConsultationLink,
-                    expired: true
-                });
+                    chat.socket.emit("cancelFreeConsultation", {
+                        userId: props.data?.user?.userId,
+                        tutorId: props.data?.tutor?.userId,
+                        senderId: userActive?.id,
+                        link: freeConsultationLink,
+                        expired: true
+                    });
 
-                cancelCallHandler();
+                    cancelCallHandler();
+                }
             }, 10000);
         }
     };
@@ -198,7 +201,7 @@ const SingleConversation = (props: Props) => {
     const cancelCallHandler = () => {
         dispatch(setConsultationInitialized(false));
         setFreeConsultationClicked(false);
-        dispatch(setFreeConsultation(false));
+        dispatch(setFreeConsultation(true));
         dispatch(setLink(null));
     };
 

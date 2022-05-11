@@ -49,9 +49,8 @@ const TutorItem: FC<Props> = (props: Props) => {
                         <img src={'https://' + tutor.User.profileImage} alt="tutor-list" />
                     ) : (
                         <ImageCircle
-                            initials={`${tutor.User.firstName ? tutor.User.firstName.charAt(0) : ''}${
-                                tutor.User.lastName ? tutor.User.lastName.charAt(0) : ''
-                            }`}
+                            initials={`${tutor.User.firstName ? tutor.User.firstName.charAt(0) : ''}${tutor.User.lastName ? tutor.User.lastName.charAt(0) : ''
+                                }`}
                             imageBig={true}
                         />
                     )}
@@ -108,7 +107,7 @@ const TutorItem: FC<Props> = (props: Props) => {
                         </Link>
                         <Link
                             className="btn btn--base btn--ghost--bordered w--100 type--wgt--extra-bold"
-                            to={`${PATHS.SEARCH_TUTORS}/profile/${tutor.userId}`}
+                            to={`${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(":tutorId", tutor.userId)}`}
                         >
                             {t('SEARCH_TUTORS.VIEW_PROFILE')}
                         </Link>
