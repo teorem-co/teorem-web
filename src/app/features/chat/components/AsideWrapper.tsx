@@ -63,14 +63,26 @@ const AsideWrapper = (props: Props) => {
             <div className="chat__messages-wrapper">
                 {(!searchDataIsSuccess || !(searchInputRef.current?.value && searchInputRef.current?.value.length > 0)) ? props.data.map((chatConversationItem: IChatRoom, index: number) => {
 
+
                     if (chatConversationItem.messages[chatConversationItem.messages.length - 1] && chatConversationItem.messages[chatConversationItem.messages.length - 1].message) {
+
+                        let messageText = chatConversationItem.messages[chatConversationItem.messages.length - 1].message.message;
+                        messageText = messageText.replace(/stringTranslate=\{(.*?)\}/g, function (match: any, token: any) {
+                            return t(token);
+                        });
+                        messageText = messageText.replace(/userInsert=\{(.*?)\}/g, function (match: any, token: any) {
+                            return chat.buffer?.senderId == chatConversationItem.tutor?.userId ? `${chatConversationItem.user?.userNickname}` : `${chatConversationItem.tutor?.userNickname}`;
+                        });
+
                         const chatConversation = {
                             imgUrl: 'https://' + (user?.id != chatConversationItem.user?.userId ? 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg' : chatConversationItem.tutor?.userImage) + '',
                             name: (user?.id != chatConversationItem.user?.userId ? chatConversationItem.user?.userNickname : chatConversationItem.tutor?.userNickname) + '',
-                            lastMessage: chatConversationItem.messages[chatConversationItem.messages.length - 1].message.message,
+                            lastMessage: messageText,
                             lastMessageTime: /*chatConversationItem.messages[chatConversationItem.messages.length - 1].message.createdAt*/ '',
                             unread: chatConversationItem.unreadMessageCount > 0
                         };
+
+
 
                         return (chatConversationItem.tutor?.userId == activeChat?.tutor?.userId && chatConversationItem.user?.userId == activeChat?.user?.userId) ? <ConversationAside key={index} chat={chatConversationItem} data={chatConversation} active={true} /> : <ConversationAside key={index} chat={chatConversationItem} data={chatConversation} active={false} />;
                     } else {
@@ -90,10 +102,19 @@ const AsideWrapper = (props: Props) => {
                 }) : searchChatData && searchChatData.map((chatConversationItem: IChatRoom, index: number) => {
 
                     if (chatConversationItem.messages[chatConversationItem.messages.length - 1] && chatConversationItem.messages[chatConversationItem.messages.length - 1].message) {
+
+                        let messageText = chatConversationItem.messages[chatConversationItem.messages.length - 1].message.message;
+                        messageText = messageText.replace(/stringTranslate=\{(.*?)\}/g, function (match: any, token: any) {
+                            return t(token);
+                        });
+                        messageText = messageText.replace(/userInsert=\{(.*?)\}/g, function (match: any, token: any) {
+                            return chat.buffer?.senderId == chatConversationItem.tutor?.userId ? `${chatConversationItem.user?.userNickname}` : `${chatConversationItem.tutor?.userNickname}`;
+                        });
+
                         const chatConversation = {
                             imgUrl: 'https://' + (user?.id != chatConversationItem.user?.userId ? 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg' : chatConversationItem.tutor?.userImage) + '',
                             name: (user?.id != chatConversationItem.user?.userId ? chatConversationItem.user?.userNickname : chatConversationItem.tutor?.userNickname) + '',
-                            lastMessage: chatConversationItem.messages[chatConversationItem.messages.length - 1].message.message,
+                            lastMessage: messageText,
                             lastMessageTime: /*chatConversationItem.messages[chatConversationItem.messages.length - 1].message.createdAt*/ '',
                             unread: chatConversationItem.unreadMessageCount > 0
                         };

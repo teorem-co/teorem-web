@@ -11,7 +11,7 @@ import { Role } from '../../../lookups/role';
 import { PATHS } from '../../../routes';
 import { useLazyGetFreeConsultationLinkQuery } from '../../../services/learnCubeService';
 import { IChatMessagesQuery, useLazyGetChatMessagesQuery } from '../services/chatService';
-import { getMessages, IChatRoom, ISendChatMessage, readMessage, setConsultationInitialized, setFreeConsultation, setLink } from '../slices/chatSlice';
+import { getMessages, IChatRoom, ISendChatMessage, readMessage, setBuffer, setConsultationInitialized, setFreeConsultation, setLink } from '../slices/chatSlice';
 import FreeConsultationModal from './FreeConsultationModal';
 import SendMessageForm from './SendMessageForm';
 
@@ -31,6 +31,7 @@ const SingleConversation = (props: Props) => {
     const [page, setPage] = useState<number>(1);
 
     const [freeConsultationClicked, setFreeConsultationClicked] = useState<boolean>(false);
+    const [freeCallExpired, setFreeCallExpired] = useState<boolean>(false);
 
     const [getChatMessages, { data: chatMessages }] = useLazyGetChatMessagesQuery();
 
@@ -38,11 +39,6 @@ const SingleConversation = (props: Props) => {
 
     const dispatch = useDispatch();
 
-    const scrollToBottomFast = () => {
-
-        messagesEndRef.current?.scrollIntoView({ behavior: "auto", block: "nearest" });
-
-    };
     const scrollToBottomSmooth = () => {
 
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
@@ -58,13 +54,18 @@ const SingleConversation = (props: Props) => {
             setFreeConsultationClicked(false);
             dispatch(setFreeConsultation(true));
             dispatch(setLink(buffer.link + userActive?.id));
+            dispatch(setBuffer(buffer));
         });
 
         chat.socket.on("onDeniedFreeConsultation", (buffer: any) => {
-            setFreeConsultationClicked(false);
-            dispatch(setFreeConsultation(false));
-            dispatch(setLink(null));
+
+            handleChatInit();
         });
+
+        chat.socket.on("onCloseActiveFreeConsultation", (buffer: any) => {
+            handleChatInit();
+        });
+
     }, []);
 
     useEffect(() => {
@@ -72,6 +73,11 @@ const SingleConversation = (props: Props) => {
             chatRef.current.scrollTop = chatRef.current.scrollHeight;
         }
     });
+
+    useEffect(() => {
+        if (chatMessages)
+            dispatch(getMessages(chatMessages));
+    }, [chatMessages]);
 
     useEffect(() => {
 
@@ -92,11 +98,6 @@ const SingleConversation = (props: Props) => {
         }
 
     }, [props.data]);
-
-    useEffect(() => {
-        if (chatMessages)
-            dispatch(getMessages(chatMessages));
-    }, [chatMessages]);
 
     useEffect(() => {
         if (userActive && props.data) {
@@ -125,14 +126,47 @@ const SingleConversation = (props: Props) => {
     }, [freeConsultationLink]);
 
     useEffect(() => {
+        if (freeCallExpired) {
 
-        chat.socket.on("onCloseActiveFreeConsultation", (buffer: any) => {
+            if (props.data)
+                chat.socket.emit("cancelFreeConsultation", {
+                    userId: props.data?.user?.userId,
+                    tutorId: props.data?.tutor?.userId,
+                    senderId: userActive?.id,
+                    link: freeConsultationLink,
+                    expired: true
+                });
+            else if (chat.buffer)
+                chat.socket.emit("cancelFreeConsultation", {
+                    userId: chat.buffer.userId,
+                    tutorId: chat.buffer.userId,
+                    senderId: userActive?.id,
+                    link: chat.buffer.link,
+                    expired: true
+                });
 
-            setFreeConsultationClicked(false);
-            dispatch(setFreeConsultation(false));
-            dispatch(setLink(null));
-        });
-    }, []);
+            handleChatInit();
+        }
+    }, [freeCallExpired]);
+    useEffect(() => {
+
+        if (freeConsultationClicked) {
+            setTimeout(() => {
+
+                dispatch(setFreeConsultation(false));
+                setFreeCallExpired(true);
+
+            }, 10000);
+        }
+
+    }, [freeConsultationClicked]);
+
+    const handleChatInit = (freeConsultation: boolean = false) => {
+        dispatch(setConsultationInitialized(false));
+        setFreeConsultationClicked(false);
+        dispatch(setFreeConsultation(freeConsultation));
+        dispatch(setLink(null));
+    };
 
     const handleLoadMore = () => {
         setPage(page + 1);
@@ -165,44 +199,33 @@ const SingleConversation = (props: Props) => {
 
     const onFreeConsultation = () => {
 
-        if (!freeConsultationClicked) {
-
+        if (freeConsultationClicked == false) {
             getFreeConsultationLink(props.data?.tutor?.userId + '');
             setFreeConsultationClicked(true);
-            setTimeout(() => {
-                if (chat.consultationInitialized) {
-
-                    chat.socket.emit("cancelFreeConsultation", {
-                        userId: props.data?.user?.userId,
-                        tutorId: props.data?.tutor?.userId,
-                        senderId: userActive?.id,
-                        link: freeConsultationLink,
-                        expired: true
-                    });
-
-                    cancelCallHandler();
-                }
-            }, 10000);
+            dispatch(setConsultationInitialized(true));
+            setFreeCallExpired(false);
         }
     };
 
     const onFreeConsultationClose = () => {
 
-        chat.socket.emit("closeActiveFreeConsultation", {
-            userId: props.data?.user?.userId,
-            tutorId: props.data?.tutor?.userId,
-            senderId: userActive?.id,
-            link: freeConsultationLink
-        });
+        if (props.data)
+            chat.socket.emit("closeActiveFreeConsultation", {
+                userId: props.data?.user?.userId,
+                tutorId: props.data?.tutor?.userId,
+                senderId: userActive?.id,
+                link: freeConsultationLink,
+                expired: true
+            });
+        else if (chat.buffer)
+            chat.socket.emit("closeActiveFreeConsultation", {
+                userId: chat.buffer.userId,
+                tutorId: chat.buffer.tutorId,
+                senderId: userActive?.id,
+                link: chat.buffer.link
+            });
 
-        cancelCallHandler();
-    };
-
-    const cancelCallHandler = () => {
-        dispatch(setConsultationInitialized(false));
-        setFreeConsultationClicked(false);
-        dispatch(setFreeConsultation(true));
-        dispatch(setLink(null));
+        handleChatInit(true);
     };
 
     const onCancelFreeConsultation = () => {
@@ -215,7 +238,7 @@ const SingleConversation = (props: Props) => {
                 link: freeConsultationLink
             });
 
-            cancelCallHandler();
+            handleChatInit();
         }
     };
 
@@ -229,7 +252,7 @@ const SingleConversation = (props: Props) => {
 
                         <Link
                             className="chat-single-conversation-link"
-                            to={`${PATHS.SEARCH_TUTORS}/profile/${props.data.tutor?.userId}`}
+                            to={`${t(PATHS.SEARCH_TUTORS_TUTOR_PROFILE).replace(":tutorId", `${props.data.tutor?.userId}`)}`}
                         >
                             {props.data &&
                                 <img className="chat__conversation__avatar" src={props.data ? ('https://' + (userActive?.id != props.data.tutor?.userId ? props.data.tutor?.userImage : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')) : "teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg"} alt="chat avatar" />
@@ -251,10 +274,14 @@ const SingleConversation = (props: Props) => {
                     {!chat.consultationInitialized && chat.activeChatRoom && <button
                         className={`btn btn--primary btn--base free-consultation-btn ${freeConsultationClicked && "free-consultation-btn-pressed"}`}
                         onClick={onFreeConsultation}>
-                        {freeConsultationClicked && <i className={`icon--loader chat-load-more-small`}></i>}
                         {t('CHAT.FREE_CONSULTATION')}
                     </button>}
 
+                    {freeConsultationClicked &&
+                        <div className={`btn btn--primary btn--base free-consultation-btn ${freeConsultationClicked && "free-consultation-btn-pressed"}`}>
+                            <i className={`icon--loader chat-load-more-small`}></i>
+                        </div>
+                    }
                     {chat.activeChatRoom && freeConsultationClicked && <button
                         className={`btn btn--error btn--base free-consultation-btn ${freeConsultationClicked && "free-consultation-btn-pressed"}`}
                         onClick={onCancelFreeConsultation}>
@@ -296,6 +323,14 @@ const SingleConversation = (props: Props) => {
                         //scrollToBottomSmooth();
                     }
 
+                    let messageText = message.message.message;
+                    messageText = messageText.replace(/stringTranslate=\{(.*?)\}/g, function (match: any, token: any) {
+                        return t(token);
+                    });
+                    messageText = messageText.replace(/userInsert=\{(.*?)\}/g, function (match: any, token: any) {
+                        return message.senderId == message.tutorId ? `${props.data?.tutor?.userNickname}` : `${props.data?.tutor?.userNickname}`;
+                    });
+
                     if (userActive && userActive.id == message.senderId)
                         return (
                             <div key={index} className={`chat__message chat__message--logged${img ? " chat__message__margin-top" : ""}${img ? "" : " chat__message__margin-right"}`}>
@@ -306,7 +341,7 @@ const SingleConversation = (props: Props) => {
                                 }
                                 <div className={`message-full-width flex flex--col flex--end`}>
                                     <div className="type--right w--80--max">
-                                        <div className={`chat__message__item__end chat__message__item chat__message__item--logged${message.message.isFile ? " chat-file-outline" : ""}`} dangerouslySetInnerHTML={{ __html: (message.message.isFile ? '<i class="icon--attachment chat-file-icon"></i>' : '') + message.message.message }}>
+                                        <div className={`chat__message__item__end chat__message__item chat__message__item--logged${message.message.isFile ? " chat-file-outline" : ""}`} dangerouslySetInnerHTML={{ __html: (message.message.isFile ? '<i class="icon--attachment chat-file-icon"></i>' : '') + messageText }}>
                                         </div>
                                     </div>
                                 </div>
@@ -322,7 +357,7 @@ const SingleConversation = (props: Props) => {
                             }
                             <div className={`message-full-width flex flex--col`}>
                                 <div className="w--80--max">
-                                    <div className={`chat__message__item chat__message__item--other${message.message.isFile ? " chat-file-outline" : ""}`} dangerouslySetInnerHTML={{ __html: (message.message.isFile ? '<i class="icon--attachment chat-file-icon"></i>' : '') + message.message.message }}>
+                                    <div className={`chat__message__item chat__message__item--other${message.message.isFile ? " chat-file-outline" : ""}`} dangerouslySetInnerHTML={{ __html: (message.message.isFile ? '<i class="icon--attachment chat-file-icon"></i>' : '') + messageText }}>
                                     </div>
                                 </div>
                             </div>

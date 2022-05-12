@@ -182,6 +182,7 @@ export const EN_US = {
         DENY_CONSULTATION: 'Deny',
         DENY_FREE_CONSULTATION: 'Cancel call',
         CHAT_REQUEST_TITLE: 'Incoming video call',
+        CHAT_MISSED_CALL: '<span class="chat-missed-incoming-message">Missed call from userInsert={user}</span>',
     },
     ROLE_SELECTION: {
         TITLE: 'Register',

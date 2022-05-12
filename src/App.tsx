@@ -1,19 +1,22 @@
-import { t } from 'i18next';
 import moment from 'moment';
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 
 import { useLazyGetChatRoomsQuery, useLazyGetChildBookingTutorsQuery } from './app/features/chat/services/chatService';
-import { addChatRoom, addChatRooms, addMessage, ISendChatMessage, readMessage, setConsultationInitialized, setUser } from './app/features/chat/slices/chatSlice';
+import { addChatRoom, addChatRooms, addMessage, setBuffer, setConsultationInitialized, setUser } from './app/features/chat/slices/chatSlice';
 import { useAppSelector } from './app/hooks';
 import { Role } from './app/lookups/role';
 import ROUTES, { RenderRoutes } from './app/routes';
 import toastService from './app/services/toastService';
+import { NotificationType } from './interfaces/notification/INotification';
 import ISocketNotification from './interfaces/notification/ISocketNotification';
 import { useLazyGetUserQuery } from './services/userService';
 
 function App() {
+
+    const { t } = useTranslation();
     const userId = useAppSelector((state) => state.auth.user?.id);
     const childIds = useAppSelector((state) => state.auth.user?.childIds);
     const chat = useAppSelector((state) => state.chat);
@@ -29,11 +32,6 @@ function App() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        // socket.on('connect', () => {
-        //     console.log(`Connected with id : ${socket.id}`); // true
-        // });
-
-        //getChatRooms();
 
         chat.socket.on('showNotification', (notification: ISocketNotification) => {
             const ifChildExists = childIds?.find((x) => x === notification.userId);
@@ -86,11 +84,62 @@ function App() {
 
         });
 
-        chat.socket.on("onCancelFreeConsultation", (buffer: any) => {
+        chat.socket.on("onCancelFreeConsultation", async (buffer: any) => {
 
             if (freeConsultationRef.current) {
                 dispatch(setConsultationInitialized(false));
                 toast.dismiss(freeConsultationRef.current);
+            }
+
+
+            if (buffer.type == NotificationType.CHAT_MISSED_CALL) {
+
+                let user: any = null;
+                let user2: any = null;
+
+
+                if (userId == buffer.studentId) {
+                    user = userData.user;
+                    user2 = await getUserById(buffer.tutorId).unwrap();
+                } else {
+                    user = await getUserById(buffer.studentId).unwrap();
+                    user2 = userData.user;
+                }
+
+                dispatch(addChatRoom({
+                    user: {
+                        userId: user.id + '',
+                        userImage: 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
+                        userNickname: user?.firstName + ' ' + user?.lastName,
+                    },
+                    tutor: {
+                        userId: user2.id + '',
+                        userImage: user2.profileImage || 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
+                        userNickname: user2.firstName + ' ' + user2.lastName,
+                    },
+                    messages: [],
+                    unreadMessageCount: 0
+                }));
+
+                let messageText = buffer.message;
+                messageText = messageText.replace(/stringTranslate=\{(.*?)\}/g, function (match: any, token: any) {
+                    return t(token);
+                });
+                messageText = messageText.replace(/userInsert=\{(.*?)\}/g, function (match: any, token: any) {
+                    return buffer.callerName;
+                });
+                dispatch(addMessage({
+                    userId: user.Id,
+                    tutorId: user2.Id,
+                    message: {
+                        message: messageText,
+                        createdAt: buffer.createdAt,
+                        isRead: buffer.isRead,
+                        messageId: buffer.id,
+                        isFile: false,
+                        messageNew: true,
+                    }
+                }));
             }
         });
 
@@ -101,8 +150,9 @@ function App() {
                 () => { toast.dismiss(freeConsultationRef.current); }
             );
             dispatch(setConsultationInitialized(true));
-
+            dispatch(setBuffer(buffer));
         });
+
         return function disconnectSocket() {
             chat.socket.disconnect();
         };
@@ -111,6 +161,7 @@ function App() {
     useEffect(() => {
 
         if (isSuccessChatRooms) {
+
             dispatch(addChatRooms(chatRooms || null));
 
             chat.socket.emit('chatEntered', {
@@ -122,7 +173,7 @@ function App() {
 
     useEffect(() => {
 
-        if (document) {
+        if (document && userId) {
 
             if (chat.newMessages > 0) {
                 document.title = "Inbox(" + (chat.newMessages > 9 ? "9+" : chat.newMessages) + ") - Teorem";
@@ -131,7 +182,7 @@ function App() {
             }
         }
 
-    }, [chat]);
+    }, [chat.newMessages]);
 
     useEffect(() => {
 
@@ -171,4 +222,5 @@ function App() {
 }
 
 export default App;
+
 
