@@ -178,6 +178,8 @@ export const HR_HR = {
         DENY_CONSULTATION: 'Odbij',
         DENY_FREE_CONSULTATION: 'Odustani of poziva',
         CHAT_REQUEST_TITLE: 'Dolazni videopoziv',
+        CHAT_MISSED_CALL: '<span class="chat-missed-incoming-message">Propušten poziv od korisnika userInsert={user}</span>',
+
     },
     ROLE_SELECTION: {
         TITLE: 'Registracija',

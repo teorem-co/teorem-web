@@ -4,6 +4,14 @@ import { StaticRouter } from 'react-router';
 import { io, Socket } from 'socket.io-client';
 
 const serverUrl = `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_API_PORT}`;
+
+export interface IVideoChatBuffer {
+    userId: string;
+    tutorId: string;
+    senderId: string;
+    link: string;
+}
+
 export interface IChatProfile {
     userId: string;
     userNickname: string;
@@ -41,9 +49,10 @@ export interface IState {
     activeChatRoom: IChatRoom | null;
     socket: Socket;
     rpp: number;
-    freeConsultation: boolean;
+    freeConsultation: boolean | null;
     link: string | null;
-    consultationInitialized: boolean;
+    buffer: IVideoChatBuffer | null;
+    consultationInitialized: boolean | null;
 }
 
 const initialState: IState = {
@@ -55,7 +64,8 @@ const initialState: IState = {
     rpp: 20,
     freeConsultation: false,
     link: null,
-    consultationInitialized: false
+    consultationInitialized: null,
+    buffer: null,
 };
 
 
@@ -97,6 +107,11 @@ const chatSlice = createSlice({
         setConsultationInitialized(state, action: PayloadAction<boolean>) {
 
             state.consultationInitialized = action.payload;
+        },
+
+        setBuffer(state, action: PayloadAction<IVideoChatBuffer>) {
+
+            state.buffer = action.payload;
         },
 
         addChatRooms(state, action: PayloadAction<Array<IChatRoom> | null>) {
@@ -272,6 +287,8 @@ const chatSlice = createSlice({
 
                 if (action.payload.user?.userId == state.user?.userId)
                     state.activeChatRoom = action.payload;
+                else if (!state.activeChatRoom)
+                    state.activeChatRoom = action.payload;
 
                 state.chatRooms.push(action.payload);
 
@@ -282,5 +299,5 @@ const chatSlice = createSlice({
     },
 });
 
-export const { setUser, setActiveChatRoom, setConsultationInitialized, setFreeConsultation, setLink, addChatRooms, getMessage, getMessages, addMessage, readMessage, addChatRoom } = chatSlice.actions;
+export const { setUser, setActiveChatRoom, setConsultationInitialized, setBuffer, setFreeConsultation, setLink, addChatRooms, getMessage, getMessages, addMessage, readMessage, addChatRoom } = chatSlice.actions;
 export default chatSlice.reducer;
