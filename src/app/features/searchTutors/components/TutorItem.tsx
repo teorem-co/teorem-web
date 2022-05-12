@@ -97,7 +97,7 @@ const TutorItem: FC<Props> = (props: Props) => {
                             <i className="icon icon--completed-lessons icon--base icon--grey"></i>
                             <span className="d--ib ml-4">
                                 {/* Add later */}
-                                {tutor.completedLessons} completed lessons
+                                {tutor.completedLessons} {t('SEARCH_TUTORS.COMPLETED_LESSONS')}
                             </span>
                         </div>
                     </div>

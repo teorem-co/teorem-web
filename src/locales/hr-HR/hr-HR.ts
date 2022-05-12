@@ -108,6 +108,7 @@ export const HR_HR = {
         BOOK_LESSON: 'Rezerviranje lekcije',
         RESET_FILTER: 'Resetiranje pretrage',
         TUTOR_AVAILABLE: 'Dostupni instruktori',
+        COMPLETED_LESSONS: 'dovršenih lekcija',
         SUBJECT_LIST: {
             MORE: 'više',
         },
@@ -889,6 +890,12 @@ export const HR_HR = {
         philosophy: 'Filozofija',
         politics: 'Politika',
         statistics: 'Statistika',
+    },
+    ROLES: {
+        student: 'Student',
+        parent: 'Roditelj',
+        child: 'Dijete',
+        tutor: 'Instruktor',
     },
     LEVELS: {
         primaryschool: 'Osnovna škola',

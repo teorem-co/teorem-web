@@ -311,9 +311,9 @@ const Dashboard = () => {
                                                             <div>
                                                                 {item.User.firstName}&nbsp;{item.User.lastName}
                                                             </div>
-                                                            <div>{item.User.Role.name}</div>
+                                                            <div>{t(`ROLES.${item.User.Role.abrv}`)}</div>
                                                             <div>
-                                                                <span className="tag tag--primary">{item.Subject.name}</span>
+                                                                <span className="tag tag--primary">{t(`SUBJECTS.${item.Subject.abrv}`)}</span>
                                                             </div>
                                                             <div>
                                                                 {moment(item.startTime).format('HH:mm')} -{' '}
