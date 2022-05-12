@@ -12,6 +12,7 @@ import { useLocation } from "react-router-dom";
 import { RoleOptions } from '../../../slices/roleSlice';
 import MainWrapper from '../../components/MainWrapper';
 import LoaderSecondary from '../../components/skeleton-loaders/LoaderSecondary';
+import languageOptions from '../../constants/languageOptions';
 import { useAppSelector } from '../../hooks';
 import { calcModalPosition } from '../../utils/calcModalPosition';
 import LearnCubeModal from '../my-profile/components/LearnCubeModal';
@@ -28,7 +29,9 @@ import {
 } from './services/bookingService';
 import { useLazyGetUnavailableBookingsQuery } from './services/unavailabilityService';
 
-i18n.language !== 'en' && require(`moment/locale/${i18n.language}.js`);
+i18n.language !== 'en' && 
+    Array.from(languageOptions.map(l => l.path)).includes(i18n.language) &&
+    require(`moment/locale/${i18n.language}.js`);
 
 interface ICoords {
     x: number;
@@ -391,6 +394,7 @@ const MyBookings: React.FC = (props: any) => {
                 <div>
                     <p className="upcoming-lessons__title">{t('MY_BOOKINGS.CALENDAR.TITLE')}</p>
                     <div ref={highlightRef} className="card card--mini-calendar mb-4 pos--rel">
+                        {i18n.language}
                         <Calendar
                             locale={i18n.language}
                             onActiveStartDateChange={(e) => {

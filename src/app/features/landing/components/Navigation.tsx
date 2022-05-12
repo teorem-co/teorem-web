@@ -43,14 +43,6 @@ const Navigation = () => {
         }
     };
 
-    const testActiveClassName = (e: any) => {
-        const currentUrl = e.url;
-        const location = history.location.pathname;
-
-        if (currentUrl === location) {
-            return true;
-        }
-    };
 
     return (
         <div
@@ -87,7 +79,7 @@ const Navigation = () => {
                     {/* WEB SIZE NAV */}
                     <div className="landing__navigation__items">
                         <div className="flex flex--grow flex--jc--center">
-                            <NavLink isActive={(e: any) => testActiveClassName(e)} to={LANDING_PATHS.HOW_IT_WORKS} className="nav-link--landing">
+                            <NavLink  to={LANDING_PATHS.HOW_IT_WORKS} className="nav-link--landing">
                                 <div>{t('LANDING.HEADER.NAV_1')}</div>
                             </NavLink>
                             <NavLink to={LANDING_PATHS.PRICING} className="nav-link--landing">
@@ -122,7 +114,7 @@ const Navigation = () => {
                         </div>
                         <div className="flex--grow mt-8">
                             <NavLink
-                                isActive={(e: any) => testActiveClassName(e)}
+                                
                                 to={LANDING_PATHS.HOW_IT_WORKS}
                                 className="d--b landing__navigation__item"
                             >

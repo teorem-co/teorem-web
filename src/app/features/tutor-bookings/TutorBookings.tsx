@@ -1,4 +1,5 @@
 import { Form, FormikProvider, useFormik } from 'formik';
+import i18n from 'i18next';
 import { uniqBy } from 'lodash';
 import moment from 'moment';
 import { useEffect, useRef, useState } from 'react';
@@ -165,7 +166,8 @@ const TutorBookings = () => {
             });
         }
         if (flagArr.length === existingBooking?.length && !moment(e.start).isBefore(moment().add(3, 'hours'))) {
-            setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
+            // setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));     MMMM format doesn't work with different languages!
+            setSelectedStart(moment(e.start).format());
             setSelectedEnd(moment(e.start).add(1, 'hours').format('HH:mm'));
             setOpenSlot(true);
             setOpenUpdateModal(false);
@@ -401,6 +403,7 @@ const TutorBookings = () => {
                 <div>
                     <div ref={highlightRef} className="card card--mini-calendar mb-4 pos--rel">
                         <Calendar
+                            locale={i18n.language}
                             onActiveStartDateChange={(e) => {
                                 hideShowHighlight(e.activeStartDate);
                             }}

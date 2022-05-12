@@ -368,6 +368,7 @@ export function RenderRoutes(routesObj: any) {
                 location.pathname, {
                 path: match
             })?.params.lang;
+
             document.documentElement.lang = lang;
 
             if (lang !== i18n.language) {
@@ -376,7 +377,10 @@ export function RenderRoutes(routesObj: any) {
             }
         } else {
             i18n.changeLanguage(i18n.languages[i18n.languages.length-1]);
-            history.push(`/${i18n.languages[i18n.languages.length-1]}${location.pathname.length > 1 ? location.pathname : ''}`);
+
+            location.pathname.length > 1 
+                ? history.push(`/${i18n.languages[i18n.languages.length-1]}${location.pathname}`) 
+                : history.push(t('PATHS.LANDING_PATHS.HOW_IT_WORKS'));
         }
     };
 
