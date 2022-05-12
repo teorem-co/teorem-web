@@ -968,6 +968,8 @@ export const HR_HR = {
             HOW_IT_WORKS: '/hr/online-instrukcije',
             BECOME_TUTOR: '/hr/postani-instruktor',
             PRICING: '/hr/cijene',
+            TERMS: '/hr/uvjeti-koristenja',
+            PRIVACY: '/hr/pravila-privatnosti',
         },
         PROFILE_PATHS: {
             MY_PROFILE: '/hr/moj-profil',
