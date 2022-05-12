@@ -358,11 +358,6 @@ export function RenderRoutes(routesObj: any) {
 
     const syncLanguage = () => {
 
-<<<<<<< Updated upstream
-        if (matchPath(location.pathname, { path: "/:lang" })) {
-            const lang = matchPath(location.pathname, {
-                path: "/:lang"
-=======
         const match = '/:lang(' + Array.from(languageOptions.map(l => l.path)).join('|') + ')';
 
         if(matchPath(
@@ -372,7 +367,6 @@ export function RenderRoutes(routesObj: any) {
             const lang = matchPath(
                 location.pathname, {
                 path: match
->>>>>>> Stashed changes
             })?.params.lang;
             document.documentElement.lang = lang;
 
