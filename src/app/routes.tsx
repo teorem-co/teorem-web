@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BrowserRouter, matchPath, NavLink, Redirect, Route, Switch, useHistory } from 'react-router-dom';
 
+import languageOptions from './constants/languageOptions';
+import { SEO } from './constants/seo';
 import Chat from './features/chat/pages/Chat';
 import CompletedLessons from './features/completedLessons/CompletedLessons';
 import Dashboard from './features/dashboard/Dashboard';
@@ -91,7 +93,7 @@ interface IMenuPerRole {
     [key: string]: IMenuItem[];
 }
 
-const ROUTES: any = [
+export const ROUTES: any = [
     {
         path: PATHS.ROLE_SELECTION,
         key: 'ROLE_SELECTION',
@@ -356,17 +358,31 @@ export function RenderRoutes(routesObj: any) {
 
     const syncLanguage = () => {
 
+<<<<<<< Updated upstream
         if (matchPath(location.pathname, { path: "/:lang" })) {
             const lang = matchPath(location.pathname, {
                 path: "/:lang"
+=======
+        const match = '/:lang(' + Array.from(languageOptions.map(l => l.path)).join('|') + ')';
+
+        if(matchPath(
+            location.pathname, {
+            path: match
+        })) {
+            const lang = matchPath(
+                location.pathname, {
+                path: match
+>>>>>>> Stashed changes
             })?.params.lang;
+            document.documentElement.lang = lang;
 
             if (lang !== i18n.language) {
                 i18n.changeLanguage(lang);
                 window.location.reload();
             }
         } else {
-            history.push(`/${i18n.language}` + location.pathname.split("/").slice(2).join("/"));
+            i18n.changeLanguage(i18n.languages[i18n.languages.length-1]);
+            history.push(`/${i18n.languages[i18n.languages.length-1]}${location.pathname.length > 1 ? location.pathname : ''}`);
         }
     };
 
@@ -392,12 +408,15 @@ export function RenderRoutes(routesObj: any) {
     }, []);
 
     return (
-        <Switch>
-            {routes.map((route: any) => {
-                return <RouteWithSubRoutes key={route.key} {...route} />;
-            })}
-            {/*<Route component={() => <NotFound />} />*/}
-        </Switch>
+        <>
+            <Switch>
+                {routes.map((route: any) => {
+                    return <RouteWithSubRoutes key={route.key} {...route} />;
+                })}
+                {/*<Route component={() => <NotFound />} />*/}
+            </Switch>
+            <SEO />
+        </>
     );
 }
 

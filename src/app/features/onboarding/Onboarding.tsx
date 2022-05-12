@@ -98,17 +98,21 @@ const Onboarding = () => {
                             </div>
                             {roleSelection === RoleOptions.Tutor ? (
                                 <div className="type--lg type--wgt--bold mb-4">
-                                    {step === 1 ? 'Personal information' : step === 2 ? 'Card Details' : ''}
+                                    {step === 1 
+                                    ? t('ONBOARDING.NAVIGATION.STEP_ONE.TITLE') 
+                                    : step === 2 ? t('ONBOARDING.NAVIGATION.TUTOR.STEP_TWO.TITLE') : ''}
                                 </div>
                             ) : roleSelection === RoleOptions.Parent ? (
                                 <>
                                     <div className="type--lg type--wgt--bold mb-4">
-                                        {step === 1 ? 'Personal information' : step === 2 ? "Child's List" : ''}
+                                        {step === 1 
+                                        ? t('ONBOARDING.NAVIGATION.STEP_ONE.TITLE')
+                                         : step === 2 ? t('ONBOARDING.NAVIGATION.PARENT.STEP_TWO.TITLE') : ''}
                                     </div>
                                     {step === 1 ? (
                                         <></>
                                     ) : step === 2 && show ? (
-                                        <div className="type--wgt--regular mb-2">Edit child's details</div>
+                                        <div className="type--wgt--regular mb-2">{t('ONBOARDING.EDIT_CHILD_DETAILS')}</div>
                                     ) : (
                                         <></>
                                     )}

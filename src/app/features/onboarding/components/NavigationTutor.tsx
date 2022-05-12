@@ -1,3 +1,5 @@
+import { t } from 'i18next';
+
 interface IProps {
     step: number;
 }
@@ -12,8 +14,8 @@ const NavigationTutor: React.FC<IProps> = (props: IProps) => {
                     {step === 2 || step === 3 ? <i className="icon icon--check icon--base icon--white"></i> : 1}
                 </div>
                 <div className="steps__item--right">
-                    <div className="steps__title steps__title--primary">Personal information</div>
-                    <div className="steps__title steps__title--secondary">Let us get to know you a little bit better</div>
+                    <div className="steps__title steps__title--primary">{t('REGISTER.NAVIGATION.STEP1.TITLE')}</div>
+                    <div className="steps__title steps__title--secondary">{t('REGISTER.NAVIGATION.STEP1.DESC')}</div>
                 </div>
             </div>
 

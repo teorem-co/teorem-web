@@ -238,7 +238,7 @@ const Register: React.FC = () => {
                                     <TextField
                                         name="firstName"
                                         id="firstName"
-                                        placeholder="Enter your first name"
+                                        placeholder={t('REGISTER.FORM.FIRST_NAME_PLACEHOLDER')}
                                         // disabled={isLoading}
                                     />
                                 </div>
@@ -249,7 +249,7 @@ const Register: React.FC = () => {
                                     <TextField
                                         name="lastName"
                                         id="lastName"
-                                        placeholder="Enter your last name"
+                                        placeholder={t('REGISTER.FORM.LAST_NAME_PLACEHOLDER')}
                                         // disabled={isLoading}
                                     />
                                 </div>
@@ -265,7 +265,7 @@ const Register: React.FC = () => {
                                         }}
                                         name="email"
                                         id="email"
-                                        placeholder="Enter your email"
+                                        placeholder={t('REGISTER.FORM.EMAIL_PLACEHOLDER')}
                                         additionalValidation={checkMailValidation}
                                         // disabled={isLoading}
                                     />
@@ -277,7 +277,7 @@ const Register: React.FC = () => {
                                     <TextField
                                         name="password"
                                         id="password"
-                                        placeholder="Type your password"
+                                        placeholder={t('REGISTER.FORM.PASSWORD_PLACEHOLDER')}
                                         className="input input--base input--text input--icon"
                                         password={true}
                                         // disabled={isLoading}
@@ -298,7 +298,7 @@ const Register: React.FC = () => {
                                     <TextField
                                         name="passwordRepeat"
                                         id="passwordRepeat"
-                                        placeholder="Type your password"
+                                        placeholder={t('REGISTER.FORM.CONFIRM_PASSWORD_PLACEHOLDER')}
                                         // disabled={isLoading}
                                         className="input input--base input--text input--icon"
                                         password={true}

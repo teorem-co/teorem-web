@@ -127,10 +127,9 @@ function App() {
             if (chat.newMessages > 0) {
                 document.title = "Inbox(" + (chat.newMessages > 9 ? "9+" : chat.newMessages) + ") - Teorem";
             } else {
-                document.title = "Teorem";
+                // document.title = "Teorem";
             }
         }
-
     }, [chat]);
 
     useEffect(() => {

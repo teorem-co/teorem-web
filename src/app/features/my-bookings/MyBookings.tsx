@@ -1,6 +1,6 @@
 import 'moment/locale/en-gb';
 
-import { t } from 'i18next';
+import i18n, { t } from 'i18next';
 import { slice } from 'lodash';
 import moment from 'moment';
 import { useEffect, useRef, useState } from 'react';
@@ -27,6 +27,8 @@ import {
     useLazyGetUpcomingLessonsQuery,
 } from './services/bookingService';
 import { useLazyGetUnavailableBookingsQuery } from './services/unavailabilityService';
+
+i18n.language !== 'en' && require(`moment/locale/${i18n.language}.js`);
 
 interface ICoords {
     x: number;
@@ -191,7 +193,7 @@ const MyBookings: React.FC = (props: any) => {
     };
 
     const goToTutorCalendar = () => {
-        history.push(`/search-tutors/bookings/${booking?.tutorId}`);
+        history.push(`${t('PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS')}${booking?.tutorId}`);
     };
 
     const handleSelectedSlot = (e: SlotInfo) => {
@@ -390,7 +392,7 @@ const MyBookings: React.FC = (props: any) => {
                     <p className="upcoming-lessons__title">{t('MY_BOOKINGS.CALENDAR.TITLE')}</p>
                     <div ref={highlightRef} className="card card--mini-calendar mb-4 pos--rel">
                         <Calendar
-                            locale="en"
+                            locale={i18n.language}
                             onActiveStartDateChange={(e) => {
                                 hideShowHighlight(e.activeStartDate);
                             }}

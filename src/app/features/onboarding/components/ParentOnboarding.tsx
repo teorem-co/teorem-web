@@ -198,7 +198,7 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
                             isMulti={false}
                             classNamePrefix="onboarding-select"
                             options={countryOptions}
-                            placeholder="Choose your country"
+                            placeholder={t('REGISTER.FORM.COUNTRY_PLACEHOLDER')}
                             customInputField={countryInput}
                             customOption={countryOption}
                         />
@@ -468,7 +468,7 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
                         <TextField
                             name="childFirstName"
                             id="childFirstName"
-                            placeholder="Enter your first name"
+                            placeholder={t('REGISTER.FORM.CHILD_NAME_PLACEHOLDER')}
                             onBlur={(e: any) => {
                                 generateChildUsername();
                                 formikStepThree.handleBlur(e);
@@ -496,7 +496,7 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
                             }}
                             name="username"
                             id="username"
-                            placeholder="Enter your first name"
+                            placeholder={t('REGISTER.FORM.FIRST_NAME_PLACEHOLDER')}
                             additionalValidation={checkUsernameValidation}
                         />
                     </div>
@@ -507,7 +507,7 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
                         <TextField
                             name="childPassword"
                             id="childPassword"
-                            placeholder="Type your password"
+                            placeholder={t('REGISTER.FORM.PASSWORD_PLACEHOLDER')}
                             className="input input--base input--text input--icon"
                             password={true}
                             onBlur={(e: any) => {
@@ -577,7 +577,7 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
             showDesc(detailsOpen);
             setChildUsername(currentChild.username);
         } else {
-            toastService.error('There is no child with that username');
+            toastService.error(t('ERROR_HANDLING.NO_CHILD_USERNAME'));
         }
     };
 
@@ -623,7 +623,7 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
             dispatch(resetParentRegister());
             dispatch(resetStudentRegister());
             handleNextStep();
-            toastService.success('You are registered successfully.');
+            toastService.success(t('ERROR_HANDLING.REGISTERED_SUCCESSFULLY'));
         }
     }, [isSuccess]);
 

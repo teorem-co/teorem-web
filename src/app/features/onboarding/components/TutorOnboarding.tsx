@@ -186,7 +186,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
                             isMulti={false}
                             classNamePrefix="onboarding-select"
                             options={countryOptions}
-                            placeholder="Choose your country"
+                            placeholder={t('REGISTER.FORM.COUNTRY_PLACEHOLDER')}
                             customInputField={countryInput}
                             customOption={countryOption}
                         />
@@ -203,7 +203,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
                             openTooltip={() => setPhoneTooltip(true)}
                         />
                         <div className={`tooltip--phone ${phoneTooltip ? 'active' : ''}`}>
-                            <div className="">Your phone number will not be visible to the public, we use it in case of support.</div>
+                            <div className="">{t('REGISTER.FORM.PHONE_INFO')}</div>
                         </div>
                     </div>
                     <div className="field">
@@ -313,7 +313,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
                         <TextField
                             name="cardFirstName"
                             id="cardFirstName"
-                            placeholder="Enter First Name"
+                            placeholder={t('REGISTER.FORM.FIRST_NAME_PLACEHOLDER')}
                             // disabled={isLoading}
                         />
                     </div>
@@ -324,7 +324,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
                         <TextField
                             name="cardLastName"
                             id="cardLastName"
-                            placeholder="Enter Last Name"
+                            placeholder={t('REGISTER.FORM.LAST_NAME_PLACEHOLDER')}
                             // disabled={isLoading}
                         />
                     </div>
@@ -348,7 +348,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
                                 <ExpDateField
                                     name="expiryDate"
                                     id="expiryDate"
-                                    placeholder="MM / YY"
+                                    placeholder={t('REGISTER.CARD_DETAILS.EXPIRY_PLACEHOLDER')}
                                     // disabled={isLoading}
                                 />
                             </div>
@@ -378,7 +378,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
                             type="number"
                             name="zipCode"
                             id="zipCode"
-                            placeholder="Enter ZIP / Postal Code"
+                            placeholder={t('REGISTER.CARD_DETAILS.ZIP_CODE_PLACEHOLDER')}
                             // disabled={isLoading}
                         />
                     </div>
@@ -423,7 +423,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
             dispatch(resetParentRegister());
             dispatch(resetStudentRegister());
             handleNextStep();
-            toastService.success('You are registered successfully.');
+            toastService.success(t('REGISTER.ERROR_HANDLING.REGISTERED_SUCCESSFULY'));
         }
     }, [isSuccess]);
 
