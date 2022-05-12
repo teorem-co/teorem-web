@@ -73,7 +73,7 @@ const ReviewModal: FC<Props> = (props: Props) => {
                     <div className="modal__head">
                         <div className="type--md type--wgt--bold">{t('WRITE_REVIEW.SECTION_TITLE')}</div>
                         <div className="type--color--secondary">
-                            {activeLesson?.Tutor.User.firstName} {activeLesson?.Tutor.User.lastName}, {activeLesson?.Subject.name}, {activeLesson?.level.name}
+                            {activeLesson?.Tutor.User.firstName} {activeLesson?.Tutor.User.lastName}, {t(`SUBJECTS.${activeLesson?.Subject.abrv}`)}, {t(`LEVELS.${activeLesson?.level.abrv}`)}
                             {/*Maria Diaz, Mathematics, A level*/}</div>
                         <i onClick={handleClose} className="modal__close icon icon--base icon--close icon--grey"></i>
                     </div>

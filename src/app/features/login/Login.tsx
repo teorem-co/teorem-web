@@ -106,7 +106,12 @@ const Login: React.FC = () => {
                                     <label htmlFor="email" className="field__label">
                                         {t('LOGIN.FORM.EMAIL')}
                                     </label>
-                                    <TextField name="email" id="email" placeholder="Enter your email" disabled={isLoadingLogin} />
+                                    <TextField 
+                                        name="email" 
+                                        id="email" 
+                                        placeholder={t('LOGIN.FORM.EMAIL_PLACEHOLDER')}
+                                        disabled={isLoadingLogin} 
+                                    />
                                 </div>
                                 <div className="field">
                                     <label className="field__label" htmlFor="password">
@@ -115,7 +120,7 @@ const Login: React.FC = () => {
                                     <TextField
                                         name="password"
                                         id="password"
-                                        placeholder="Type your password"
+                                        placeholder={t('LOGIN.FORM.PASSWORD_PLACEHOLDER')}
                                         className="input input--base input--text input--icon"
                                         password={true}
                                         disabled={isLoadingLogin}

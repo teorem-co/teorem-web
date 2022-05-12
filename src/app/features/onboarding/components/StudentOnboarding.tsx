@@ -119,7 +119,7 @@ const StudentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep }) =
             dispatch(resetParentRegister());
             dispatch(resetStudentRegister());
             handleNextStep();
-            toastService.success('You are registered successfully.');
+            toastService.success(t('ERROR_HANDLING.REGISTERED_SUCCESSFULLY'));
         }
     });
 
@@ -147,7 +147,7 @@ const StudentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep }) =
                             isMulti={false}
                             classNamePrefix="onboarding-select"
                             options={countryOptions}
-                            placeholder="Choose your country"
+                            placeholder={t('REGISTER.FORM.COUNTRY_PLACEHOLDER')}
                             customInputField={countryInput}
                             customOption={countryOption}
                         />
@@ -164,7 +164,7 @@ const StudentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep }) =
                             openTooltip={() => setPhoneTooltip(true)}
                         />
                         <div className={`tooltip--phone ${phoneTooltip ? 'active' : ''}`}>
-                            <div className="">Your phone number will not be visible to the public, we use it in case of support.</div>
+                            <div className="">{t('REGISTER.FORM.PHONE_INFO')}</div>
                         </div>
                     </div>
                     <div className="field">
