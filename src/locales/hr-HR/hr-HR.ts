@@ -888,6 +888,13 @@ export const HR_HR = {
         politics: 'Politika',
         statistics: 'Statistika',
     },
+    LEVELS: {
+        primaryschool: 'Osnovna škola',
+        highschool: 'Srednja škola',
+        ib: 'IB (International Baccalaureate)',
+        maturaprep: 'Priprema za maturu',
+        university: 'Fakultet',
+    },
     CONSTANTS: {
         MONTHS_SHORT: {
             JAN: 'SIJ',
@@ -953,12 +960,12 @@ export const HR_HR = {
         DASHBOARD: '/hr/glavna-ploca',
         NOTIFICATIONS: '/hr/glavna-ploca/obavijesti',
         EARNINGS: '/hr/prihod',
-        TERMS: '/hr/uvjeti',
-        PRIVACY: '/hr/privatnost',
+        TERMS: '/hr/uvjeti-koristenja',
+        PRIVACY: '/hr/pravila-privatnosti',
         TUTOR_MANAGMENT: '/hr/upravljanje-instruktorima',
         TUTOR_MANAGMENT_TUTOR_PROFILE: '/hr/upravljanje-instruktorima/profil/:tutorId',
         LANDING_PATHS: {
-            HOW_IT_WORKS: '/hr',
+            HOW_IT_WORKS: '/hr/online-instrukcije',
             BECOME_TUTOR: '/hr/postani-instruktor',
             PRICING: '/hr/cijene',
         },

@@ -894,6 +894,13 @@ export const EN_US = {
         politics: 'Politics',
         statistics: 'Statistics',
     },
+    LEVEL: {
+        primaryschool: 'Primary School',
+        highschool: 'High School',
+        ib: 'IB (International Baccalaureate)',
+        maturaprep: 'Matura Prep',
+        university: 'University',
+    },
     CONSTANTS: {
         MONTHS_SHORT: {
             JAN: 'Jan',
@@ -960,15 +967,15 @@ export const EN_US = {
         NOTIFICATIONS: '/en/dashboard/notifications',
         EARNINGS: '/en/earnings',
         TERMS: '/en/terms',
-        PRIVACY: '/en/privacy',
+        PRIVACY: '/en/privacy-policy',
         TUTOR_MANAGMENT: '/en/tutor-managment',
         TUTOR_MANAGMENT_TUTOR_PROFILE: '/en/tutor-managment/profile/:tutorId',
         LANDING_PATHS: {
-            HOW_IT_WORKS: '/en',
+            HOW_IT_WORKS: '/en/online-tutoring',
             BECOME_TUTOR: '/en/become-tutor',
             PRICING: '/en/pricing',
-            TERMS: 'en/terms',
-            PRIVACY: 'en/privacy',
+            TERMS: '/en/terms',
+            PRIVACY: '/en/privacy-policy',
         },
         PROFILE_PATHS: {
             MY_PROFILE: '/en/my-profile',
