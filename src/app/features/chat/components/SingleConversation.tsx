@@ -32,6 +32,7 @@ const SingleConversation = (props: Props) => {
 
     const [freeConsultationClicked, setFreeConsultationClicked] = useState<boolean>(false);
     const [freeCallExpired, setFreeCallExpired] = useState<boolean>(false);
+    const [freeCallCancelled, setFreeCallCancelled] = useState<boolean | null>(null);
 
     const [getChatMessages, { data: chatMessages }] = useLazyGetChatMessagesQuery();
 
@@ -58,7 +59,7 @@ const SingleConversation = (props: Props) => {
         });
 
         chat.socket.on("onDeniedFreeConsultation", (buffer: any) => {
-
+            setFreeCallCancelled(true);
             handleChatInit();
         });
 
@@ -126,9 +127,10 @@ const SingleConversation = (props: Props) => {
     }, [freeConsultationLink]);
 
     useEffect(() => {
-        if (freeCallExpired) {
 
-            if (props.data)
+        if (freeCallExpired && !freeCallCancelled) {
+            if (props.data) {
+                console.log("here0");
                 chat.socket.emit("cancelFreeConsultation", {
                     userId: props.data?.user?.userId,
                     tutorId: props.data?.tutor?.userId,
@@ -136,7 +138,9 @@ const SingleConversation = (props: Props) => {
                     link: freeConsultationLink,
                     expired: true
                 });
-            else if (chat.buffer)
+            }
+            else if (chat.buffer) {
+                console.log("here1");
                 chat.socket.emit("cancelFreeConsultation", {
                     userId: chat.buffer.userId,
                     tutorId: chat.buffer.userId,
@@ -144,10 +148,14 @@ const SingleConversation = (props: Props) => {
                     link: chat.buffer.link,
                     expired: true
                 });
+            }
 
             handleChatInit();
+            setFreeCallCancelled(false);
+
         }
-    }, [freeCallExpired]);
+    }, [freeCallExpired
+    ]);
     useEffect(() => {
 
         if (freeConsultationClicked) {
@@ -155,7 +163,7 @@ const SingleConversation = (props: Props) => {
 
                 dispatch(setFreeConsultation(false));
                 setFreeCallExpired(true);
-
+                setFreeCallCancelled(false);
             }, 10000);
         }
 
@@ -226,11 +234,14 @@ const SingleConversation = (props: Props) => {
             });
 
         handleChatInit(true);
+        setFreeCallCancelled(false);
+
     };
 
     const onCancelFreeConsultation = () => {
 
         if (freeConsultationIsSuccess) {
+            console.log("here2");
             chat.socket.emit("cancelFreeConsultation", {
                 userId: props.data?.user?.userId,
                 tutorId: props.data?.tutor?.userId,
@@ -239,6 +250,7 @@ const SingleConversation = (props: Props) => {
             });
 
             handleChatInit();
+            setFreeCallCancelled(true);
         }
     };
 

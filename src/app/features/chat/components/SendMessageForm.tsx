@@ -20,7 +20,7 @@ const SendMessageForm = (props: Props) => {
 
     const [fileToSend, setFileToSend] = useState<File>();
 
-    const [postFile, { data: postFileData, isSuccess: isSuccessPostFile, isLoading: isLoadingPostFile, error: errorPostFile }] = usePostUploadFileMutation();
+    const [postFile, { data: postFileData, isSuccess: isSuccessPostFile }] = usePostUploadFileMutation();
 
     const dispatch = useDispatch();
 
