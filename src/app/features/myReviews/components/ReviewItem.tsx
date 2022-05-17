@@ -44,7 +44,7 @@ const ReviewItem: FC<Props> = (props: Props) => {
                                 ></div>
                             </div>
                         </div>
-                        <div className="tag--primary">{reviewItem.Subject.name}</div>
+                        <div className="tag--primary">{t(`SUBJECTS.${reviewItem.Subject.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}</div>
                     </div>
                     <p className="type--md mb-4 type--break">{reviewItem.title}</p>
                     <p className="mb-2 type--break">{reviewItem.comment}</p>

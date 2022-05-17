@@ -238,8 +238,12 @@ const TutorProfile = () => {
                                                     tutorData.TutorSubjects.map((item: ITutorSubject) => {
                                                         return (
                                                             <tr key={item.id}>
-                                                                <td>{item.Subject.name}</td>
-                                                                <td>{item.Level.name}</td>
+                                                                <td>
+                                                                    {t(`SUBJECTS.${item.Subject.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
+                                                                </td>
+                                                                <td>
+                                                                    {t(`LEVELS.${item.Level.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
+                                                                </td>
                                                                 <td>
                                                                     ${item.price}
                                                                     <span className="type--color--tertiary">

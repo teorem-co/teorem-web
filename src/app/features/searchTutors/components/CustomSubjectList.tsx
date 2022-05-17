@@ -50,7 +50,7 @@ const CustomSubjectList = (props: Props) => {
                                 className="type--color--brand"
                                 key={subject.id}
                             >
-                                {subject.name}
+                                {t(`SUBJECTS.${subject.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
                             </span>
                         ))}
                     </div>

@@ -239,7 +239,9 @@ const Dashboard = () => {
                                                 </div>
                                             </div>
                                             <div className="card--dashboard__text">
-                                                {todayScheduled[activeIndex].Level.name}&nbsp;{todayScheduled[activeIndex].Subject.name}
+                                                {t(`LEVELS.${todayScheduled[activeIndex].Level.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
+                                                &nbsp;
+                                                {t(`SUBJECTS.${todayScheduled[activeIndex].Subject.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
                                             </div>
                                             <div className="flex--primary">
                                                 <div>

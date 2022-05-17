@@ -1,3 +1,5 @@
+import { t } from 'i18next';
+
 import ITutorSubject from '../../../../interfaces/ITutorSubject';
 
 interface IProps {
@@ -19,9 +21,11 @@ const SubjectList: React.FC<IProps> = (props) => {
                             <div className="flex--primary cur--pointer">
                                 <div>
                                     <div className="type--wgt--bold">
-                                        {subject.Subject.name}
+                                        {t(`SUBJECTS.${subject.Subject.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
                                     </div>
-                                    <div>{subject.Level.name}</div>
+                                    <div>
+                                        {t(`LEVELS.${subject.Level.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
+                                    </div>
                                 </div>
                                 <div>
                                     <i className="icon icon--base icon--edit icon--primary"></i>

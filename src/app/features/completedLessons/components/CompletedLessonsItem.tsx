@@ -22,7 +22,7 @@ const CompletedLessonsItem = (props: Props) => {
                 <div className="type--wgt--bold">
                     {lesson.Tutor.User.firstName}&nbsp;{lesson.Tutor.User.lastName}
                 </div>
-                <div className="type--color--brand">{lesson.Subject.name}</div>
+                <div className="type--color--brand">{t(`SUBJECTS.${lesson.Subject.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}</div>
             </div>
             <div>
                 {lesson.count}&nbsp;{t('COMPLETED_LESSONS.COUNT_EXTENSION')}

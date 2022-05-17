@@ -146,7 +146,9 @@ const CompletedLessons = () => {
                                                     <div className="type--md mb-1">
                                                         {activeLesson.Tutor.User.firstName}&nbsp;{activeLesson.Tutor.User.lastName}
                                                     </div>
-                                                    <div className="type--color--brand">{activeLesson.Subject.name}</div>
+                                                    <div className="type--color--brand">
+                                                        {t(`SUBJECTS.${activeLesson.Subject.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div>
