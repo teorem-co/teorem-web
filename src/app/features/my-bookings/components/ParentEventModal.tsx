@@ -83,7 +83,7 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                                 {t(`SUBJECTS.${event.Subject.abrv}`)} - 
                                 {event.Level.name === 'IB (International Baccalaurate)' ?
                                     <td>{t('LEVELS.ib')}</td> :
-                                    <td>{t(`LEVELS.${event.Level.name.replace('-', '').replace(' ', '_').toLowerCase()}`)}</td>
+                                    <td>{t(`LEVELS.${event.Level.name.replace('-', '').replace(' ', '').toLowerCase()}`)}</td>
                                 }
                             </div>
                         </div>

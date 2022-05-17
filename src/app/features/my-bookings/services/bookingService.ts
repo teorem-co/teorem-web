@@ -1,3 +1,4 @@
+import i18n, { t } from 'i18next';
 import { url } from 'inspector';
 import { method } from 'lodash';
 
@@ -60,7 +61,7 @@ export const bookingService = baseService.injectEndpoints({
                 const bookings: IBookingTransformed[] = response.map((x) => {
                     return {
                         id: x.id,
-                        label: x.Subject ? x.Subject.name : 'No title',
+                        label: x.Subject ? t(`SUBJECTS.${x.Subject.abrv.replace('-', '').replace(' ', '')}`) : 'No title',
                         tutor: x.Tutor ? x.Tutor.User.firstName + ' ' + x.Tutor.User.lastName : 'No tutor name',
                         start: new Date(x.startTime),
                         end: new Date(x.endTime),
@@ -83,7 +84,7 @@ export const bookingService = baseService.injectEndpoints({
                 const bookings: IBookingTransformed[] = response.map((x) => {
                     return {
                         id: x.id,
-                        label: x.Subject ? x.Subject.name : 'No title',
+                        label: x.Subject ? t(`SUBJECTS.${x.Subject.abrv.replace('-', '').replace(' ', '')}`) : 'No title',
                         start: new Date(x.startTime),
                         end: new Date(x.endTime),
                         allDay: false,

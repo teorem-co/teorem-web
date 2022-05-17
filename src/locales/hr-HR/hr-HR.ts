@@ -894,18 +894,18 @@ export const HR_HR = {
         politics: 'Politika',
         statistics: 'Statistika',
     },
+    LEVELS: {
+        primaryschool: 'Osnovna škola',
+        highschool: 'Srednja škola',
+        ib: 'IB (International Baccalaureate)',
+        maturaprep: 'Priprema za maturu',
+        university: 'Fakultet',
+    },
     ROLES: {
         student: 'Student',
         parent: 'Roditelj',
         child: 'Dijete',
         tutor: 'Instruktor',
-    },
-    LEVELS: {
-        primary_school: 'Osnovna škola',
-        high_school: 'Srednja škola',
-        ib: 'IB (International Baccalaureate)',
-        matura_prep: 'Priprema za maturu',
-        university: 'Fakultet',
     },
     CONSTANTS: {
         MONTHS_SHORT: {

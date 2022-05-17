@@ -1,3 +1,5 @@
+import i18n, { t } from 'i18next';
+
 import { baseService } from '../app/baseService';
 import { OptionType } from '../app/components/form/MySelectField';
 import { HttpMethods } from '../app/lookups/httpMethods';
@@ -102,7 +104,7 @@ export const subjectService = baseService.injectEndpoints({
                 const subjectOptions: OptionType[] = response.map(
                     (subject) => ({
                         value: subject.Subject.id,
-                        label: subject.Subject.name,
+                        label: t(`SUBJECTS.${subject.Subject.abrv.replace('-', '').toLowerCase()}`),
                     })
                 );
                 return subjectOptions;

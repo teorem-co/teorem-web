@@ -254,7 +254,7 @@ const TutorProfile = () => {
                                                                 {
                                                                     item.Level.name === 'IB (International Baccalaurate)' ?
                                                                         <td>{t('LEVELS.ib')}</td> :
-                                                                        <td>{t(`LEVELS.${item.Level.name.replace('-', '').replace(' ', '_').toLowerCase()}`)}</td>
+                                                                        <td>{t(`LEVELS.${item.Level.name.replace('-', '').replace(' ', '').toLowerCase()}`)}</td>
                                                                 }
                                                                 <td>
                                                                     {item.price}

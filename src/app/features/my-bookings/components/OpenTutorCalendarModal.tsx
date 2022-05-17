@@ -37,7 +37,7 @@ const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
                                     {event.Tutor.User.firstName} {event.Tutor.User.lastName}
                                 </div>
                                 <div className="type--color--secondary">
-                                    {moment(event.startTime).format('DD/MMM/YYYY, HH:mm')} - {moment(event.endTime).add(1, 'minutes').format('HH:mm')}
+                                    {moment(event.startTime).format('DD/MM/YYYY, HH:mm')} - {moment(event.endTime).add(1, 'minutes').format('HH:mm')}
                                 </div>
                             </div>
                             <div className="mb-6">
@@ -57,7 +57,10 @@ const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
                         <div className="flex flex--center mb-4">
                             <i className="icon icon--base icon--subject icon--grey mr-4"></i>
                             <div className="type--color--secondary">
-                                {event.Subject.name} - {event.Level.name}
+                            {t(`SUBJECTS.${event.Subject.abrv}`)} - {event.Level.name === 'IB (International Baccalaurate)' ?
+                                    t('LEVELS.ib') :
+                                    t(`LEVELS.${event.Level.name.replace('-', '').replace(' ', '').toLowerCase()}`)
+                                }
                             </div>
                         </div>
 

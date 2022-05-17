@@ -1,3 +1,5 @@
+import i18n, { t } from 'i18next';
+
 import { baseService } from '../app/baseService';
 import { OptionType } from '../app/components/form/MySelectField';
 import { HttpMethods } from '../app/lookups/httpMethods';
@@ -41,7 +43,7 @@ export const levelService = baseService.injectEndpoints({
             transformResponse: (response: ITutorLevel[]) => {
                 const tutorLevels: OptionType[] = response.map((level) => ({
                     value: level.levelId,
-                    label: level.Level.name,
+                    label: t(`LEVELS.${level.Level.abrv.replace('-', '').toLowerCase()}`),
                 }));
 
                 return tutorLevels;

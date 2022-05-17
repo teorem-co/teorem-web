@@ -174,7 +174,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                     <div>
                         <div className="type--wgt--bold type--md mb-1">{t('BOOK.TITLE')}</div>
                         <div className="type--color--secondary">
-                            {start} - {end}
+                            { moment(start).format('DD/MM/YYYY, HH:mm')} - {end}
                         </div>
                     </div>
                     <i

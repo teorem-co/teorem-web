@@ -394,7 +394,6 @@ const MyBookings: React.FC = (props: any) => {
                 <div>
                     <p className="upcoming-lessons__title">{t('MY_BOOKINGS.CALENDAR.TITLE')}</p>
                     <div ref={highlightRef} className="card card--mini-calendar mb-4 pos--rel">
-                        {i18n.language}
                         <Calendar
                             locale={i18n.language}
                             onActiveStartDateChange={(e) => {
