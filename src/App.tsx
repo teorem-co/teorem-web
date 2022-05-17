@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -22,14 +22,70 @@ function App() {
     const chat = useAppSelector((state) => state.chat);
     const freeConsultationRef = useRef<any>(null);
 
+    const [missedCall, setMissedCall] = useState<boolean | null>(null);
+    const [missedCallBuffer, setMissedCallBuffer] = useState<any | null>(null);
     const chatDispatch = useDispatch();
     const userData = useAppSelector((state) => state.user);
 
-    const [getUserById, { data: user2Data }] = useLazyGetUserQuery();
+    const [getUserById, { data: user2Data, isSuccess: user2DataIsSuccess }] = useLazyGetUserQuery();
+    const [getUserById2, { data: user2Data2, isSuccess: user2DataIsSuccess2 }] = useLazyGetUserQuery();
     const [getChatRooms, { data: chatRooms, isSuccess: isSuccessChatRooms }] = useLazyGetChatRoomsQuery();
     const [getChildBookingTutors, { data: childTutors, isSuccess: isSuccessChildTutors }] = useLazyGetChildBookingTutorsQuery();
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (user2DataIsSuccess && user2DataIsSuccess2 && missedCallBuffer) {
+
+            dispatch(addChatRoom({
+                user: {
+                    userId: user2Data?.id + '',
+                    userImage: 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
+                    userNickname: user2Data?.firstName + ' ' + user2Data?.lastName,
+                },
+                tutor: {
+                    userId: user2Data2?.id + '',
+                    userImage: user2Data2?.profileImage || 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
+                    userNickname: user2Data2?.firstName + ' ' + user2Data2?.lastName,
+                },
+                messages: [],
+                unreadMessageCount: 0
+            }));
+
+            let messageText = missedCallBuffer.message;
+            messageText = messageText.replace(/stringTranslate=\{(.*?)\}/g, function (match: any, token: any) {
+                return t(token);
+            });
+            messageText = messageText.replace(/userInsert=\{(.*?)\}/g, function (match: any, token: any) {
+                return missedCallBuffer.callerName;
+            });
+            dispatch(addMessage({
+                userId: user2Data?.id + '',
+                tutorId: user2Data2?.id + '',
+                message: {
+                    message: messageText,
+                    createdAt: missedCallBuffer.createdAt,
+                    isRead: missedCallBuffer.isRead,
+                    messageId: missedCallBuffer.id,
+                    isFile: false,
+                    messageNew: true,
+                }
+            }));
+        }
+    }, [user2DataIsSuccess, user2DataIsSuccess2]);
+
+    useEffect(() => {
+
+        if (missedCall && missedCallBuffer) {
+
+            if (userId == missedCallBuffer.userId) {
+                getUserById(missedCallBuffer.tutorId).unwrap();
+            } else {
+                getUserById2(missedCallBuffer.userId).unwrap();
+            }
+
+        }
+    }, [missedCall]);
 
     useEffect(() => {
 
@@ -42,6 +98,7 @@ function App() {
                 notification.description = notification.description.replace(/stringTranslate=\{(.*?)\}/g, function (match, token) {
                     return t(token);
                 });
+
                 toastService.notification(notification.description);
             }
         });
@@ -49,7 +106,6 @@ function App() {
         chat.socket.on('messageReceive', async (sendMessageObject: any) => {
 
             if (userId) {
-
 
                 //dispatch(readMessage(sendMessageObject));
                 let user: any = null;
@@ -91,59 +147,15 @@ function App() {
                 toast.dismiss(freeConsultationRef.current);
             }
 
-
             if (buffer.type == NotificationType.CHAT_MISSED_CALL) {
-
-                let user: any = null;
-                let user2: any = null;
-
-
-                if (userId == buffer.studentId) {
-                    user = userData.user;
-                    user2 = await getUserById(buffer.tutorId).unwrap();
-                } else {
-                    user = await getUserById(buffer.studentId).unwrap();
-                    user2 = userData.user;
-                }
-
-                dispatch(addChatRoom({
-                    user: {
-                        userId: user.id + '',
-                        userImage: 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
-                        userNickname: user?.firstName + ' ' + user?.lastName,
-                    },
-                    tutor: {
-                        userId: user2.id + '',
-                        userImage: user2.profileImage || 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
-                        userNickname: user2.firstName + ' ' + user2.lastName,
-                    },
-                    messages: [],
-                    unreadMessageCount: 0
-                }));
-
-                let messageText = buffer.message;
-                messageText = messageText.replace(/stringTranslate=\{(.*?)\}/g, function (match: any, token: any) {
-                    return t(token);
-                });
-                messageText = messageText.replace(/userInsert=\{(.*?)\}/g, function (match: any, token: any) {
-                    return buffer.callerName;
-                });
-                dispatch(addMessage({
-                    userId: user.Id,
-                    tutorId: user2.Id,
-                    message: {
-                        message: messageText,
-                        createdAt: buffer.createdAt,
-                        isRead: buffer.isRead,
-                        messageId: buffer.id,
-                        isFile: false,
-                        messageNew: true,
-                    }
-                }));
+                setMissedCall(true);
+                setMissedCallBuffer(buffer);
             }
+
         });
 
         chat.socket.on("acceptFreeConsultation", (buffer: any) => {
+
             freeConsultationRef.current = toastService.freeConsultation(
                 buffer,
                 () => { toast.dismiss(freeConsultationRef.current); },

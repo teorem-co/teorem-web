@@ -12,12 +12,12 @@ import note from '../../../assets/images/note.png';
 import INotification from '../../../interfaces/notification/INotification';
 import ISocketNotification from '../../../interfaces/notification/ISocketNotification';
 import { useLazyGetAllUnreadNotificationsQuery, useMarkAllAsReadMutation } from '../../../services/notificationService';
-import { useLazyGetDashboardQuery } from '../../../services/userService';
+import { useLazyGetDashboardQuery, useLazyGetUserQuery } from '../../../services/userService';
 import { RoleOptions } from '../../../slices/roleSlice';
 import MainWrapper from '../../components/MainWrapper';
 import { useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
-import { setActiveChatRoom } from '../chat/slices/chatSlice';
+import { IChatMessage, IChatRoom, ISendChatMessage, setActiveChatRoom } from '../chat/slices/chatSlice';
 import IBooking from '../my-bookings/interfaces/IBooking';
 import LearnCubeModal from '../my-profile/components/LearnCubeModal';
 import NotificationItem from '../notifications/components/NotificationItem';
@@ -30,6 +30,8 @@ const Dashboard = () => {
     const [getUnreadNotifications, { data: notificationsData }] = useLazyGetAllUnreadNotificationsQuery();
     const [markAllAsRead] = useMarkAllAsReadMutation();
     const [getDashboardData] = useLazyGetDashboardQuery();
+    const [getUserById0, { data: userDataFirst }] = useLazyGetUserQuery();
+    const [getUserById1, { data: userDataSecond }] = useLazyGetUserQuery();
 
     const [groupedUpcomming, setGroupedUpcomming] = useState<IGroupedDashboardData>({});
     const [todayScheduled, setTodayScheduled] = useState<IBooking[]>([]);
@@ -39,11 +41,12 @@ const Dashboard = () => {
     const [activeIndex, setActiveIndex] = useState<number>(0);
     const [activeMsgIndex, setActiveMsgIndex] = useState<number>(0);
 
+    const userData = useAppSelector((state) => state.user);
+
     const userId = useAppSelector((state) => state.auth.user?.id);
     const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
     const chatrooms = useAppSelector((state) => state.chat.chatRooms);
-    const serverUrl = `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_API_PORT}`;
-    const socket = io(serverUrl);
+    const socket = useAppSelector((state) => state.chat.socket);
     const history = useHistory();
     const dispatch = useDispatch();
 
@@ -92,23 +95,113 @@ const Dashboard = () => {
     useEffect(() => {
         const tmpCr: any = [];
         chatrooms.forEach(cr => {
-            cr.unreadMessageCount && tmpCr.push(cr);
+
+            const message = cr.messages[cr.messages.length - 1] || null;
+
+            if (message) {
+                const messageText = message.message.message || null;
+
+                if (messageText) {
+
+                    const match = messageText.match(/userInsert=\{(.*?)\}/g);
+                    const match2 = messageText.match(/stringTranslate=\{(.*?)\}/g);
+                    let hasUserInsert: any = false;
+
+                    if (match)
+                        hasUserInsert = messageText.indexOf(match[0]) > - 1;
+                    if (match2)
+                        hasUserInsert = messageText.indexOf(match2[0]) > - 1;
+
+
+                    if (hasUserInsert) {
+                        getUserById0(message.tutorId);
+                        getUserById1(message.userId);
+                    }
+                }
+            }
+
+            tmpCr.push(cr);
         });
         setUnreadChatrooms(tmpCr);
     }, [chatrooms]);
 
     useEffect(() => {
+
+        if (userDataFirst && userDataSecond) {
+            const tmpCr: any = [];
+            chatrooms.forEach(cr => {
+
+                let messageText = cr.messages[cr.messages.length - 1].message.message || t('DASHBOARD.MESSAGES.EMPTY');
+
+
+                let user: any = null;
+                let user2: any = null;
+
+                if (userData.user?.id == cr.messages[cr.messages.length - 1].userId) {
+                    user = userData;
+                    user2 = userDataSecond;
+                } else {
+                    user = userDataFirst;
+                    user2 = userData;
+                }
+
+                messageText = messageText.replace(/stringTranslate=\{(.*?)\}/g, function (match: any, token: any) {
+                    return t(token);
+                });
+                messageText = messageText.replace(/userInsert=\{(.*?)\}/g, function (match: any, token: any) {
+
+                    return userData.user?.id == cr.messages[cr.messages.length - 1].userId ? `${user.user.firstName + " " + user.user.lastName}` : `${user2.user.firstName + " " + user2.user.lastName}`;
+                });
+
+                const msgList: ISendChatMessage[] = [...cr.messages];
+
+                const chatRoomTem: IChatRoom = {
+                    tutor: cr.tutor,
+                    user: cr.user,
+                    messages: msgList,
+                    unreadMessageCount: cr.unreadMessageCount,
+                };
+
+                if (cr.messages.length) {
+
+                    const popped = msgList.pop();
+
+                    if (popped)
+                        msgList.push({
+                            userId: popped.userId,
+                            tutorId: popped.tutorId,
+                            senderId: popped.senderId,
+                            message: {
+                                messageId: popped.message.messageId,
+                                messageNew: popped.message.messageNew,
+                                message: messageText,
+                                createdAt: popped.message.createdAt,
+                                isRead: popped.message.isRead,
+                                isFile: popped.message.isFile,
+                            }
+                        });
+
+                }
+
+
+                cr.unreadMessageCount && tmpCr.push(chatRoomTem);
+            }
+            );
+            setUnreadChatrooms(tmpCr);
+        }
+    },
+        [chatrooms, userDataFirst, userDataSecond]);
+
+    useEffect(() => {
         fetchData();
+
         socket.on('showNotification', (notification: ISocketNotification) => {
             if (userId && notification.userId === userId) {
                 getUnreadNotifications();
             }
         });
-
-        return function disconnectSocket() {
-            socket.disconnect();
-        };
     }, []);
+
 
     return (
         <MainWrapper>
