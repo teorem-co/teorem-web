@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
-import ITutor from '../../../interfaces/ITutor';
 
+import ITutor from '../../../interfaces/ITutor';
 import ITutorSubject from '../../../interfaces/ITutorSubject';
 import { useLazyGetTutorProfileDataQuery } from '../../../services/tutorService';
 import { RoleOptions } from '../../../slices/roleSlice';
@@ -94,8 +94,17 @@ const TutorProfile = () => {
                     <i className={`icon icon--base ${column ? 'icon--check icon--primary' : 'icon--close icon--grey'} `}></i>
                 </td>
             );
-        } else {
-            return <td key={index}>{column}</td>;
+        } else if(column == ''){
+            return <td key={index}></td>;
+        } else if(column == 'Pre 12 pm'){
+            return <td key={index}>{t(`TUTOR_PROFILE.PRE12`)}</td>;
+        } else if(column == '12 - 5 pm'){
+            return <td key={index}>{t(`TUTOR_PROFILE.ON12`)}</td>;
+        } else if(column == 'After 5 pm'){
+            return <td key={index}>{t(`TUTOR_PROFILE.AFTER5`)}</td>;
+        } 
+        else {
+            return <td key={index}>{t(`CONSTANTS.DAYS_SHORT.${column.toUpperCase()}`)}</td>;
         }
     };
 
@@ -208,7 +217,6 @@ const TutorProfile = () => {
                                     </div>
                                     <div className="mb-10">
                                         <div className="type--wgt--bold mb-2">{t('MY_PROFILE.GENERAL_AVAILABILITY.TITLE')}</div>
-
                                         {tutorAvailability && tutorAvailability[1].length > 1 ? (
                                             <table className="table table--availability">
                                                 <tbody>
@@ -242,12 +250,16 @@ const TutorProfile = () => {
                                                     tutorData.TutorSubjects.map((item: ITutorSubject) => {
                                                         return (
                                                             <tr key={item.id}>
-                                                                <td>{item.Subject.name}</td>
-                                                                <td>{item.Level.name}</td>
+                                                                <td>{t(`SUBJECTS.${item.Subject.abrv.replace('-', '')}`)}</td>
+                                                                {
+                                                                    item.Level.name === 'IB (International Baccalaurate)' ?
+                                                                        <td>{t('LEVELS.ib')}</td> :
+                                                                        <td>{t(`LEVELS.${item.Level.name.replace('-', '').replace(' ', '_').toLowerCase()}`)}</td>
+                                                                }
                                                                 <td>
-                                                                    ${item.price}
+                                                                    {item.price}
                                                                     <span className="type--color--tertiary">
-                                                                        /{t('TUTOR_PROFILE.SUBJECTS.HOUR_ABRV')}
+                                                                        {' ' + tutorData.User.Country.currencyCode}/{t('TUTOR_PROFILE.SUBJECTS.HOUR_ABRV')}
                                                                     </span>
                                                                 </td>
                                                             </tr>
@@ -340,9 +352,9 @@ const TutorProfile = () => {
                                             <span className="d--ib ml-2 type--color--secondary">{t('TUTOR_PROFILE.PRICING')}:</span>
                                         </div>
                                         <span className="d--ib ml-4">
-                                            {/* Add later */}${tutorData.minimumPrice}
-                                            &nbsp;-&nbsp;$
-                                            {tutorData.maximumPrice}&nbsp;/{t('TUTOR_PROFILE.SUBJECTS.HOUR_ABRV')}
+                                            {/* Add later */}{tutorData.minimumPrice}
+                                            &nbsp;-&nbsp;
+                                            {tutorData.maximumPrice}&nbsp; {tutorData.User.Country.currencyCode} /{t('TUTOR_PROFILE.SUBJECTS.HOUR_ABRV')}
                                         </span>
                                     </div>
                                     <div className="flex--primary mb-3">

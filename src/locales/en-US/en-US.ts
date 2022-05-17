@@ -644,6 +644,9 @@ export const EN_US = {
             TITLE: 'Ratings & reviews',
             TOTAL: 'reviews total',
         },
+        PRE12: 'Pre 12 pm',
+        ON12: '12 - 5 pm',
+        AFTER5: 'After 5 pm',
     },
     LANDING: {
         HEADER: {
@@ -902,7 +905,7 @@ export const EN_US = {
         child: 'Child',
         tutor: 'Tutor',
     },
-    LEVEL: {
+    LEVELS: {
         primary_school: 'Primary School',
         high_school: 'High School',
         ib: 'IB (International Baccalaureate)',

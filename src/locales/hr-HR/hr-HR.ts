@@ -464,7 +464,7 @@ export const HR_HR = {
             ADD_TITLE: 'DODAJ NOVI PREDMET',
             SUBJECT: 'Odaberi predmet koji predaješ',
             LEVEL: 'Odaberi razine koje možeš predavati',
-            PRICING: 'Cijena (HRK)',
+            PRICING: 'Cijena ',
             PRICING_PLACEHOLDER: '',
             HOUR_ABRV: 'hr',
             SAVE: 'Spremi podatke',
@@ -639,6 +639,9 @@ export const HR_HR = {
             TITLE: 'Ocjene i recenzije',
             TOTAL: 'ukupno recenzija',
         },
+        PRE12: '08-12h',
+        ON12: '12-17h',
+        AFTER5: '17-20h',
     },
     LANDING: {
         HEADER: {
@@ -898,10 +901,10 @@ export const HR_HR = {
         tutor: 'Instruktor',
     },
     LEVELS: {
-        primaryschool: 'Osnovna škola',
-        highschool: 'Srednja škola',
+        primary_school: 'Osnovna škola',
+        high_school: 'Srednja škola',
         ib: 'IB (International Baccalaureate)',
-        maturaprep: 'Priprema za maturu',
+        matura_prep: 'Priprema za maturu',
         university: 'Fakultet',
     },
     CONSTANTS: {

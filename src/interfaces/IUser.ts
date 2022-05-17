@@ -1,5 +1,9 @@
 import IRole from './IRole';
 
+interface ICountry {
+    currencyCode: string;
+    currencyName: string;
+}
 export default interface IUser {
     id: string;
     firstName: string;
@@ -16,4 +20,5 @@ export default interface IUser {
     childIds: string[];
     stripeCustomerId: string;
     stripeAccountId: string;
+    Country: ICountry;
 }

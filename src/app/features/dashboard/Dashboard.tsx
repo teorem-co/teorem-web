@@ -50,7 +50,7 @@ const Dashboard = () => {
     const fetchData = async () => {
         await getUnreadNotifications().unwrap();
         const res = await getDashboardData().unwrap();
-        const groupedDashboardData: IGroupedDashboardData = groupBy(res.upcoming, (e) => moment(e.startTime).format('DD/MMM/YYYY'));
+        const groupedDashboardData: IGroupedDashboardData = groupBy(res.upcoming, (e) => moment(e.startTime).format('DD/MM/YYYY'));
         setGroupedUpcomming(groupedDashboardData);
         setTodayScheduled(res.todaySchedule);
     };
@@ -297,6 +297,7 @@ const Dashboard = () => {
                             <div className="dashboard__list">
                                 {groupedUpcomming && Object.keys(groupedUpcomming).length > 0 ? (
                                     Object.keys(groupedUpcomming).map((key: string) => {
+                                        console.log(groupedUpcomming);
                                         return (
                                             <React.Fragment key={key}>
                                                 <div className="flex--primary">
@@ -313,7 +314,7 @@ const Dashboard = () => {
                                                             </div>
                                                             <div>{t(`ROLES.${item.User.Role.abrv}`)}</div>
                                                             <div>
-                                                                <span className="tag tag--primary">{t(`SUBJECTS.${item.Subject.abrv}`)}</span>
+                                                                <span className="tag tag--primary">{t(`SUBJECTS.${item.Subject.abrv.replace('-', '')}`)}</span>
                                                             </div>
                                                             <div>
                                                                 {moment(item.startTime).format('HH:mm')} -{' '}
