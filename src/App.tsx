@@ -103,14 +103,7 @@ function App() {
             }
         });
 
-        chat.socket.on('messageReceive', (sendMessageObject: any) => {
-            console.log(chat.socket);
-            console.log(sendMessageObject);
-        });
-
-        chat.socket.on('messageReceived', async (sendMessageObject: any) => {
-
-            console.log(sendMessageObject);
+        chat.socket.on('messageReceive', async (sendMessageObject: any) => {
 
             if (userId) {
 
