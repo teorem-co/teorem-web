@@ -128,9 +128,8 @@ const SingleConversation = (props: Props) => {
 
     useEffect(() => {
 
-        if (freeCallExpired && !freeCallCancelled) {
+        if (freeCallExpired && !freeCallCancelled && !chat.freeConsultation) {
             if (props.data) {
-                console.log("here0");
                 chat.socket.emit("cancelFreeConsultation", {
                     userId: props.data?.user?.userId,
                     tutorId: props.data?.tutor?.userId,
@@ -140,7 +139,6 @@ const SingleConversation = (props: Props) => {
                 });
             }
             else if (chat.buffer) {
-                console.log("here1");
                 chat.socket.emit("cancelFreeConsultation", {
                     userId: chat.buffer.userId,
                     tutorId: chat.buffer.userId,
@@ -154,16 +152,14 @@ const SingleConversation = (props: Props) => {
             setFreeCallCancelled(false);
 
         }
-    }, [freeCallExpired
-    ]);
+    },
+        [freeCallExpired]);
+
     useEffect(() => {
 
         if (freeConsultationClicked) {
             setTimeout(() => {
-
-                dispatch(setFreeConsultation(false));
                 setFreeCallExpired(true);
-                setFreeCallCancelled(false);
             }, 10000);
         }
 
@@ -241,7 +237,6 @@ const SingleConversation = (props: Props) => {
     const onCancelFreeConsultation = () => {
 
         if (freeConsultationIsSuccess) {
-            console.log("here2");
             chat.socket.emit("cancelFreeConsultation", {
                 userId: props.data?.user?.userId,
                 tutorId: props.data?.tutor?.userId,
