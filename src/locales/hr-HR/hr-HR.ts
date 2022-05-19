@@ -586,6 +586,8 @@ export const HR_HR = {
                 PART2: 'didn\'t accept it.',
             },
         },
+        CHAT_HAS_MISSED_CALL: ' je propustio vaš poziv',
+
     },
     EARNINGS: {
         TITLE: 'Prihod',

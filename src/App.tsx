@@ -41,8 +41,6 @@ function App() {
 
     useEffect(() => {
 
-        console.log(missedCallBuffer);
-
         if (user2Data && user2Data2 && missedCallBuffer) {
 
             let messageText = missedCallBuffer.message;

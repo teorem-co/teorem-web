@@ -5,6 +5,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { setSourceMapRange } from 'typescript';
+import { useLazyGetUserQuery } from '../../../../services/userService';
 
 import { useAppSelector } from '../../../hooks';
 import { Role } from '../../../lookups/role';
@@ -29,6 +30,9 @@ const SingleConversation = (props: Props) => {
     const chat = useAppSelector((state) => state.chat);
 
     const [page, setPage] = useState<number>(1);
+
+    const [getUserById, { data: user2Data }] = useLazyGetUserQuery();
+    const [getUserById2, { data: user2Data2 }] = useLazyGetUserQuery();
 
     const [freeConsultationClicked, setFreeConsultationClicked] = useState<boolean>(false);
     const [freeCallExpired, setFreeCallExpired] = useState<boolean>(false);
@@ -128,51 +132,18 @@ const SingleConversation = (props: Props) => {
 
     useEffect(() => {
 
-        if (freeCallExpired && !freeCallCancelled && !chat.freeConsultation) {
-
-            let user0: any;
-            let user1: any;
-
-            if (props.data) {
-                chat.socket.emit("cancelFreeConsultation", {
-                    userId: props.data?.user?.userId,
-                    tutorId: props.data?.tutor?.userId,
-                    senderId: userActive?.id,
-                    link: freeConsultationLink,
-                    expired: true
-                });
-
-                user0 = props.data?.user?.userId;
-                user1 = props.data?.tutor?.userId;
-            }
-            else if (chat.buffer) {
-                chat.socket.emit("cancelFreeConsultation", {
-                    userId: chat.buffer.userId,
-                    tutorId: chat.buffer.tutorId,
-                    senderId: chat.buffer.senderId,
-                    link: chat.buffer.link,
-                    expired: true
-                });
-
-                user0 = chat.buffer.userId;
-                user1 = chat.buffer.tutorId;
-            }
-
-            handleChatInit();
-            setFreeCallCancelled(false);
-
-
-            let messageText = "stringTranslate={NOTIFICATIONS.CHAT_MISSED_CALL.DESCRIPTION} " + chat.user?.userNickname;
+        if (user2Data && user2Data2) {
+            let messageText = "userInsert={username} stringTranslate={NOTIFICATIONS.CHAT_HAS_MISSED_CALL}";
             messageText = messageText.replace(/stringTranslate=\{(.*?)\}/g, function (match: any, token: any) {
                 return t(token);
             });
             messageText = messageText.replace(/userInsert=\{(.*?)\}/g, function (match: any, token: any) {
-                return chat.user?.userNickname + '';
+                return userActive?.id !== user2Data.id ? user2Data.firstName + ' ' + user2Data?.lastName : user2Data2.firstName + ' ' + user2Data2?.lastName;
             });
 
             const message = {
-                userId: user0.id + '',
-                tutorId: user1.id + '',
+                userId: user2Data.id + '',
+                tutorId: user2Data2.id + '',
                 message: {
                     message: messageText,
                     createdAt: new Date(),
@@ -187,20 +158,63 @@ const SingleConversation = (props: Props) => {
 
             const chatRoom: IChatRoom = {
                 user: {
-                    userId: user0?.id + '',
+                    userId: user2Data?.id + '',
                     userImage: 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
-                    userNickname: user0?.firstName + ' ' + user0?.lastName,
+                    userNickname: user2Data?.firstName + ' ' + user2Data?.lastName,
                 },
                 tutor: {
-                    userId: user1?.id + '',
-                    userImage: user1?.profileImage || 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
-                    userNickname: user1.firstName + ' ' + user1?.lastName,
+                    userId: user2Data2?.id + '',
+                    userImage: user2Data2?.profileImage || 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
+                    userNickname: user2Data2.firstName + ' ' + user2Data2?.lastName,
                 },
                 messages: [message],
                 unreadMessageCount: 1
             };
 
             dispatch(addChatRoom(chatRoom));
+
+            chat.socket.emit('onMissedFreeConsultation', {
+                userId: user2Data.id + '',
+                tutorId: user2Data2.id + '',
+                message: {
+                    message: "userInsert={username} stringTranslate={NOTIFICATIONS.CHAT_HAS_MISSED_CALL}",
+                    createdAt: new Date(),
+                    isRead: false,
+                    messageId: '',
+                    isFile: false,
+                    messageNew: true,
+                    messageMissedCall: true,
+                },
+                senderId: userActive?.id || chat.buffer?.senderId,
+            });
+        }
+    }, [user2Data, user2Data2]);
+
+    useEffect(() => {
+
+        if (freeCallExpired && !freeCallCancelled && !chat.freeConsultation) {
+
+            if (props.data) {
+                chat.socket.emit("cancelFreeConsultation", {
+                    userId: props.data?.user?.userId,
+                    tutorId: props.data?.tutor?.userId,
+                    senderId: userActive?.id,
+                    link: freeConsultationLink,
+                    expired: true
+                });
+            }
+            else if (chat.buffer) {
+                chat.socket.emit("cancelFreeConsultation", {
+                    userId: chat.buffer.userId,
+                    tutorId: chat.buffer.tutorId,
+                    senderId: chat.buffer.senderId,
+                    link: chat.buffer.link,
+                    expired: true
+                });
+            }
+
+            handleChatInit();
+            setFreeCallCancelled(false);
 
         }
     },
@@ -211,6 +225,7 @@ const SingleConversation = (props: Props) => {
         if (freeConsultationClicked) {
             setTimeout(() => {
                 setFreeCallExpired(true);
+                dispatch(setFreeConsultation(false));
             }, 10000);
         }
 
@@ -282,7 +297,6 @@ const SingleConversation = (props: Props) => {
 
         handleChatInit(true);
         setFreeCallCancelled(false);
-
     };
 
     const onCancelFreeConsultation = () => {
@@ -297,6 +311,9 @@ const SingleConversation = (props: Props) => {
 
             handleChatInit();
             setFreeCallCancelled(true);
+
+            getUserById(props.data?.user?.userId + '');
+            getUserById2(props.data?.tutor?.userId + '');
         }
     };
 
@@ -380,6 +397,9 @@ const SingleConversation = (props: Props) => {
                     if (props.data && index == props.data.messages.length - 1) {
                         //scrollToBottomSmooth();
                     }
+
+                    if (message.message.messageMissedCall && userActive?.id !== message.senderId)
+                        return <></>;
 
                     let messageText = message.message.message || '';
                     messageText = messageText.replace(/stringTranslate=\{(.*?)\}/g, function (match: any, token: any) {

@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 
 import { IChatConversationItem } from '../../../constants/chatConstants';
@@ -11,9 +12,13 @@ interface Props {
 }
 
 const ConversationAside = (props: Props) => {
+
+    const { t } = useTranslation();
     const { imgUrl, name, lastMessage, lastMessageTime, unread } = props.data;
 
     const messageRef = useRef<HTMLDivElement>(null);
+
+    const [messageDisplay, setMessageDisplay] = useState<string>("");
     const dispatch = useDispatch();
 
     const selectChat = () => {
@@ -47,6 +52,19 @@ const ConversationAside = (props: Props) => {
     },
         [messageRef]);
 
+    useEffect(() => {
+
+        let textMessage = lastMessage;
+        textMessage = textMessage.replace(/stringTranslate=\{(.*?)\}/g, function (match: any, token: any) {
+            return t(token);
+        });
+        textMessage = textMessage.replace(/userInsert=\{(.*?)\}/g, function (match: any, token: any) {
+            return name;
+        });
+
+        setMessageDisplay(textMessage);
+    }, []);
+
     return (
 
 
@@ -59,7 +77,7 @@ const ConversationAside = (props: Props) => {
             {/* <div className="chat__conversation__avatar"></div> */}
             <div className="flex flex--col flex--jc--center flex--grow ml-2">
                 <div className="type--wgt--bold">{name}</div>
-                <div ref={messageRef} className="aside-conversation-message" dangerouslySetInnerHTML={{ __html: lastMessage }}></div>
+                <div ref={messageRef} className="aside-conversation-message" dangerouslySetInnerHTML={{ __html: messageDisplay }}></div>
             </div>
             <div className="flex flex--col flex--jc--center flex--shrink flex--end">
                 <div>
