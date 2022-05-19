@@ -21,10 +21,10 @@ const SubjectList: React.FC<IProps> = (props) => {
                             <div className="flex--primary cur--pointer">
                                 <div>
                                     <div className="type--wgt--bold">
-                                        {t(`SUBJECTS.${subject.Subject.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
+                                        {t(`SUBJECTS.${subject.Subject.abrv?.replace('-', '').replace(' ', '').toLowerCase()}`)}
                                     </div>
                                     <div>
-                                        {t(`LEVELS.${subject.Level.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
+                                        {t(`LEVELS.${subject.Level.abrv?.replace('-', '').replace(' ', '').toLowerCase()}`)}
                                     </div>
                                 </div>
                                 <div>

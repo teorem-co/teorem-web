@@ -1,4 +1,5 @@
 import { FieldAttributes, FieldInputProps, useField } from 'formik';
+import { t } from 'i18next';
 import { FC, useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
@@ -72,7 +73,7 @@ const UploadFile: FC<UploadFileType> = ({ setFieldValue, removePreviewOnUnmount,
                         {preview ? (
                             <div className="flex--primary flex--col">
                                 <i className="icon icon--base icon--upload icon--grey"></i>
-                                <div className="type--color--tertiary type--wgt--regular">Drag and drop to upload</div>
+                                <div className="type--color--tertiary type--wgt--regular">{t('MY_PROFILE.PROFILE_SETTINGS.UPLOAD_IMAGE')}</div>
                             </div>
                         ) : (
                             <></>

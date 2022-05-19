@@ -65,7 +65,7 @@ const AddCreditCard = (props: Props) => {
 
             <div className={`sidebar sidebar--secondary sidebar--secondary ${!sideBarIsOpen ? 'sidebar--secondary--close' : ''}`}>
                 <div className="flex--primary flex--shrink">
-                    <div className="type--color--secondary">ADD NEW CARD</div>
+                    <div className="type--color--secondary">{t('ACCOUNT.NEW_CARD.ADD')}</div>
                     <div>
                         <i className="icon icon--base icon--close icon--grey" onClick={closeSidebar}></i>
                     </div>
@@ -75,68 +75,68 @@ const AddCreditCard = (props: Props) => {
                         <Form>
                             <div className="field">
                                 <label htmlFor="cardFirstName" className="field__label">
-                                    First Name*
+                                    {t('ACCOUNT.NEW_CARD.NAME')}
                                 </label>
-                                <TextField name="cardFirstName" id="cardFirstName" placeholder="Enter First Name" />
+                                <TextField name="cardFirstName" id="cardFirstName" placeholder={t('ACCOUNT.NEW_CARD.NAME_PLACEHOLDER')} />
                             </div>
                             <div className="field">
                                 <label htmlFor="cardLastName" className="field__label">
-                                    Last Name*
+                                    {t('ACCOUNT.NEW_CARD.SURNAME')}
                                 </label>
-                                <TextField name="cardLastName" id="cardLastName" placeholder="Enter Last Name" />
+                                <TextField name="cardLastName" id="cardLastName" placeholder={t('ACCOUNT.NEW_CARD.SURNAME_PLACEHOLDER')} />
                             </div>
                             <div className="field">
                                 <label htmlFor="city" className="field__label">
-                                    City*
+                                    {t('ACCOUNT.NEW_CARD.CITY')}
                                 </label>
-                                <TextField name="city" id="city" placeholder="Enter City Name" />
+                                <TextField name="city" id="city" placeholder={t('ACCOUNT.NEW_CARD.CITY_PLACEHOLDER')} />
                             </div>
                             <div className="field">
                                 <label htmlFor="line1" className="field__label">
-                                    Address 1*
+                                    {t('ACCOUNT.NEW_CARD.ADDRESS1')}
                                 </label>
                                 <TextField
                                     name="line1"
                                     id="line1"
-                                    placeholder="Enter first address"
+                                    placeholder={t('ACCOUNT.NEW_CARD.ADDRESS1_PLACEHOLDER')}
                                     withoutErr={formik.errors.line1 && formik.touched.line1 ? false : true}
                                 />
                             </div>
                             <div className="field">
                                 <label htmlFor="line2" className="field__label">
-                                    Address 2
+                                    {t('ACCOUNT.NEW_CARD.ADDRESS2')}
                                 </label>
-                                <TextField name="line2" id="line2" placeholder="Enter second address" />
+                                <TextField name="line2" id="line2" placeholder={t('ACCOUNT.NEW_CARD.ADDRESS2_PLACEHOLDER')} />
                             </div>
                             <div className="field">
                                 <label htmlFor="cardNumber" className="field__label">
-                                    Card Number*
+                                    {t('ACCOUNT.NEW_CARD.CARD_NUMBER')}
                                 </label>
-                                <TextField type="number" name="cardNumber" id="cardNumber" placeholder="**** **** **** ****" />
+                                <TextField type="number" name="cardNumber" id="cardNumber" placeholder={t('ACCOUNT.NEW_CARD.CARD_NUMBER_PLACEHOLDER')} />
                             </div>
                             <div className="field field__file">
                                 <div className="flex">
                                     <div className="field w--100 mr-6">
                                         <label htmlFor="expiryDate" className="field__label">
-                                            Expiry date*
+                                            {t('ACCOUNT.NEW_CARD.EXPIRY')}
                                         </label>
-                                        <TextField type="text" name="expiryDate" id="expiryDate" placeholder="MM / YY" />
+                                        <TextField type="text" name="expiryDate" id="expiryDate" placeholder={t('ACCOUNT.NEW_CARD.EXPIRY_PLACEHOLDER')} />
                                     </div>
 
                                     <div className="field w--100">
                                         <label htmlFor="cvv" className="field__label">
-                                            CVV*
+                                            {t('ACCOUNT.NEW_CARD.CVV')}
                                         </label>
-                                        <TextField max={3} maxLength={3} type="number" name="cvv" id="cvv" placeholder="***" />
+                                        <TextField max={3} maxLength={3} type="number" name="cvv" id="cvv" placeholder={t('ACCOUNT.NEW_CARD.CVV_PLACEHOLDER')} />
                                     </div>
                                 </div>
                             </div>
 
                             <div className="field">
                                 <label htmlFor="zipCode" className="field__label">
-                                    ZIP / Postal Code*
+                                    {t('ACCOUNT.NEW_CARD.ZIP')}
                                 </label>
-                                <TextField type="number" name="zipCode" id="zipCode" placeholder="Enter ZIP / Postal Code" />
+                                <TextField type="number" name="zipCode" id="zipCode" placeholder={t('ACCOUNT.NEW_CARD.ZIP_PLACEHOLDER')} />
                             </div>
                         </Form>
                     </FormikProvider>
@@ -144,7 +144,7 @@ const AddCreditCard = (props: Props) => {
                 <div className="flex--shirnk sidebar--secondary__bottom mt-10">
                     <div className="flex--primary mt-6">
                         <button className="btn btn--clear type--wgt--bold" onClick={() => formik.handleSubmit()}>
-                            Add New Card
+                            {t('ACCOUNT.NEW_CARD.ADD_BUTTON')}
                         </button>
                         <button onClick={() => closeSidebar()} className="btn btn--clear type--color--error type--wgt--bold">
                             Cancel

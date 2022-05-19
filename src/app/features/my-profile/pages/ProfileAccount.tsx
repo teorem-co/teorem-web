@@ -345,7 +345,7 @@ const ProfileAccount = () => {
                                             <TextField
                                                 name="currentPassword"
                                                 id="currentPassword"
-                                                placeholder="Enter Current Password"
+                                                placeholder={t('ACCOUNT.CHANGE_PASSWORD.CURRENT_PASSWORD_PLACEHOLDER')}
                                                 password={true}
                                             />
                                         </div>
@@ -358,7 +358,7 @@ const ProfileAccount = () => {
                                             <TextField
                                                 name="newPassword"
                                                 id="newPassword"
-                                                placeholder="Enter New Password"
+                                                placeholder={t('ACCOUNT.CHANGE_PASSWORD.NEW_PASSWORD_PLACEHOLDER')}
                                                 password={true}
                                                 onFocus={handlePasswordFocus}
                                                 onBlur={(e: any) => {
@@ -375,7 +375,7 @@ const ProfileAccount = () => {
                                             <label htmlFor="confirmPassword" className="field__label">
                                                 {t('ACCOUNT.CHANGE_PASSWORD.CONFIRM_PASSWORD')}
                                             </label>
-                                            <TextField name="confirmPassword" id="confirmPassword" placeholder="Enter New Password" password={true} />
+                                            <TextField name="confirmPassword" id="confirmPassword" placeholder={t('ACCOUNT.CHANGE_PASSWORD.NEW_PASSWORD_PLACEHOLDER')} password={true} />
                                         </div>
                                     </div>
                                 </div>

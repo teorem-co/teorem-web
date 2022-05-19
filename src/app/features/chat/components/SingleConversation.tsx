@@ -5,8 +5,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { setSourceMapRange } from 'typescript';
-import { useLazyGetUserQuery } from '../../../../services/userService';
 
+import { useLazyGetUserQuery } from '../../../../services/userService';
 import { useAppSelector } from '../../../hooks';
 import { Role } from '../../../lookups/role';
 import { PATHS } from '../../../routes';
@@ -225,7 +225,7 @@ const SingleConversation = (props: Props) => {
         if (freeConsultationClicked) {
             setTimeout(() => {
                 setFreeCallExpired(true);
-                dispatch(setFreeConsultation(false));
+                dispatch(setConsultationInitialized(false));
             }, 10000);
         }
 

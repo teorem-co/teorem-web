@@ -37,17 +37,24 @@ const GeneralAvailability = () => {
     const loading = availabilityUninitialized || availabilityLoading;
 
     const renderTableCells = (column: string | boolean, availabilityIndex: IAvailabilityIndex) => {
+        
         if (typeof column === 'boolean') {
             return (
-                <td
-                    onClick={() => handleAvailabilityClick(availabilityIndex.column, availabilityIndex.row, column)}
-                    className={`${column ? 'table--availability--check' : 'table--availability--close'}`}
-                >
-                    <i className={`icon icon--base ${column ? 'icon--check icon--primary' : 'icon--close icon--grey'}`}></i>
+                <td className={`${column ? 'table--availability--check' : 'table--availability--close'}`}>
+                    <i className={`icon icon--base ${column ? 'icon--check icon--primary' : 'icon--close icon--grey'} `}></i>
                 </td>
             );
-        } else {
-            return <td>{column}</td>;
+        } else if(column == ''){
+            return <td></td>;
+        } else if(column == 'Pre 12 pm'){
+            return <td>{t(`TUTOR_PROFILE.PRE12`)}</td>;
+        } else if(column == '12 - 5 pm'){
+            return <td>{t(`TUTOR_PROFILE.ON12`)}</td>;
+        } else if(column == 'After 5 pm'){
+            return <td>{t(`TUTOR_PROFILE.AFTER5`)}</td>;
+        } 
+        else {
+            return <td>{t(`CONSTANTS.DAYS_SHORT.${column.toUpperCase()}`)}</td>;
         }
     };
 
