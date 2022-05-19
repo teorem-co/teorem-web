@@ -360,7 +360,7 @@ export function RenderRoutes(routesObj: any) {
 
         const match = '/:lang(' + Array.from(languageOptions.map(l => l.path)).join('|') + ')';
 
-        if(matchPath(
+        if (matchPath(
             location.pathname, {
             path: match
         })) {
@@ -376,10 +376,10 @@ export function RenderRoutes(routesObj: any) {
                 window.location.reload();
             }
         } else {
-            i18n.changeLanguage(i18n.languages[i18n.languages.length-1]);
+            i18n.changeLanguage(i18n.languages[i18n.languages.length - 1]);
 
-            location.pathname.length > 1 
-                ? history.push(`/${i18n.languages[i18n.languages.length-1]}${location.pathname}`) 
+            location.pathname.length > 1
+                ? history.push(`/${i18n.languages[i18n.languages.length - 1]}${location.pathname}`)
                 : history.push(t('PATHS.LANDING_PATHS.HOW_IT_WORKS'));
         }
     };
@@ -587,7 +587,7 @@ export function RenderMenuLinks() {
                     >
                         <i className={`icon icon--base navbar__item__icon navbar__item--${route.icon}`}></i>
                         <span className={`navbar__item__label`}>{t(`NAVIGATION.${route.name}`)}</span>
-                        {route.key == 'CHAT' && chat.newMessages > 0 && <i className={`navbar__item__unread`}></i>}
+                        {route.key == 'CHAT' && chat.newMessages != null && chat.newMessages > 0 && <i className={`navbar__item__unread`}></i>}
                     </NavLink>
                 ))}
             </>

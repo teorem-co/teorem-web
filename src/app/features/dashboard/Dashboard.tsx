@@ -325,14 +325,14 @@ const Dashboard = () => {
                                             <div
                                                 className="card--dashboard__text card--dashboard__text--ellipsis"
                                                 dangerouslySetInnerHTML={{
-                                                    __html: (unreadChatrooms[activeMsgIndex].messages[unreadChatrooms[activeMsgIndex].messages.length - 1].isFile ?
-                                                        '<i class="icon--attachment chat-file-icon"></i>' : '') + unreadChatrooms[activeMsgIndex].messages[unreadChatrooms[activeMsgIndex].messages.length - 1].message.message
+                                                    __html: (unreadChatrooms[activeMsgIndex].messages[unreadChatrooms[activeMsgIndex].messages.length - 1]?.isFile ?
+                                                        '<i class="icon--attachment chat-file-icon"></i>' : '') + unreadChatrooms[activeMsgIndex].messages[unreadChatrooms[activeMsgIndex].messages.length - 1]?.message?.message
                                                 }}
                                             >
                                             </div>
                                             <div className="flex--primary">
                                                 <div className="type--color--secondary">
-                                                    {moment(unreadChatrooms[activeMsgIndex].messages[unreadChatrooms[activeMsgIndex].messages.length - 1].message.createdAt).format('DD/MMM/yyy')}
+                                                    {moment(unreadChatrooms[activeMsgIndex].messages[unreadChatrooms[activeMsgIndex].messages.length - 1]?.message?.createdAt).format('DD/MMM/yyy')}
                                                 </div>
                                                 <button
                                                     className="btn btn--base card--dashboard__btn"

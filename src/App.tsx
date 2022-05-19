@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 
 import { useLazyGetChatRoomsQuery, useLazyGetChildBookingTutorsQuery } from './app/features/chat/services/chatService';
-import { addChatRoom, addChatRooms, addMessage, setBuffer, setConsultationInitialized, setUser } from './app/features/chat/slices/chatSlice';
+import { addChatRoom, addChatRooms, addMessage, IChatRoom, setBuffer, setConsultationInitialized, setUser } from './app/features/chat/slices/chatSlice';
 import { useAppSelector } from './app/hooks';
 import { Role } from './app/lookups/role';
 import ROUTES, { RenderRoutes } from './app/routes';
@@ -24,33 +24,33 @@ function App() {
 
     const [missedCall, setMissedCall] = useState<boolean | null>(null);
     const [missedCallBuffer, setMissedCallBuffer] = useState<any | null>(null);
+    const [sendMessageObject, setSendMessageObject] = useState<any | null>(null);
     const chatDispatch = useDispatch();
     const userData = useAppSelector((state) => state.user);
 
-    const [getUserById, { data: user2Data, isSuccess: user2DataIsSuccess }] = useLazyGetUserQuery();
-    const [getUserById2, { data: user2Data2, isSuccess: user2DataIsSuccess2 }] = useLazyGetUserQuery();
+    const [getUserById, { data: user2Data, }] = useLazyGetUserQuery();
+    const [getUserById1, { data: user2Data1 }] = useLazyGetUserQuery();
+    const [getUserById3, { data: user2Data3 }] = useLazyGetUserQuery();
+    const [getUserById2, { data: user2Data2, }] = useLazyGetUserQuery();
     const [getChatRooms, { data: chatRooms, isSuccess: isSuccessChatRooms }] = useLazyGetChatRoomsQuery();
     const [getChildBookingTutors, { data: childTutors, isSuccess: isSuccessChildTutors }] = useLazyGetChildBookingTutorsQuery();
 
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (user2DataIsSuccess && user2DataIsSuccess2 && missedCallBuffer) {
 
-            dispatch(addChatRoom({
-                user: {
-                    userId: user2Data?.id + '',
-                    userImage: 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
-                    userNickname: user2Data?.firstName + ' ' + user2Data?.lastName,
-                },
-                tutor: {
-                    userId: user2Data2?.id + '',
-                    userImage: user2Data2?.profileImage || 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
-                    userNickname: user2Data2?.firstName + ' ' + user2Data2?.lastName,
-                },
-                messages: [],
-                unreadMessageCount: 0
-            }));
+
+        if (user2Data && user2Data2 && missedCallBuffer) {
+            let user0: any;
+            let user1: any;
+
+            if (userData.user?.Role.abrv != Role.Tutor) {
+                user0 = user2Data.id == userId ? user2Data : user2Data2;
+                user1 = user2Data.id != userId ? user2Data : user2Data2;
+            } else {
+                user0 = user2Data.id != userId ? user2Data : user2Data2;
+                user1 = user2Data.id == userId ? user2Data : user2Data2;
+            }
 
             let messageText = missedCallBuffer.message;
             messageText = messageText.replace(/stringTranslate=\{(.*?)\}/g, function (match: any, token: any) {
@@ -59,9 +59,10 @@ function App() {
             messageText = messageText.replace(/userInsert=\{(.*?)\}/g, function (match: any, token: any) {
                 return missedCallBuffer.callerName;
             });
-            dispatch(addMessage({
-                userId: user2Data?.id + '',
-                tutorId: user2Data2?.id + '',
+
+            const message = {
+                userId: user0.id + '',
+                tutorId: user1.id + '',
                 message: {
                     message: messageText,
                     createdAt: missedCallBuffer.createdAt,
@@ -69,23 +70,72 @@ function App() {
                     messageId: missedCallBuffer.id,
                     isFile: false,
                     messageNew: true,
+                    messageMissedCall: true,
                 }
-            }));
+            };
+
+            const chatRoom: IChatRoom = {
+                user: {
+                    userId: user1?.id + '',
+                    userImage: 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
+                    userNickname: user1?.firstName + ' ' + user1?.lastName,
+                },
+                tutor: {
+                    userId: user0?.id + '',
+                    userImage: user0?.profileImage || 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
+                    userNickname: user0?.firstName + ' ' + user0?.lastName,
+                },
+                messages: [message],
+                unreadMessageCount: 1
+            };
+
+            dispatch(addChatRoom(chatRoom));
         }
-    }, [user2DataIsSuccess, user2DataIsSuccess2]);
+
+    }, [user2Data, user2Data2, missedCallBuffer]);
 
     useEffect(() => {
 
         if (missedCall && missedCallBuffer) {
-
-            if (userId == missedCallBuffer.userId) {
-                getUserById(missedCallBuffer.tutorId).unwrap();
-            } else {
-                getUserById2(missedCallBuffer.userId).unwrap();
-            }
-
+            getUserById(missedCallBuffer.tutorId);
+            getUserById2(missedCallBuffer.userId);
         }
-    }, [missedCall]);
+    }, [missedCall, missedCallBuffer]);
+
+
+    useEffect(() => {
+
+        console.log(user2Data1, user2Data3, sendMessageObject);
+        if (user2Data1 && user2Data3 && sendMessageObject) {
+
+            dispatch(addChatRoom({
+                user: {
+                    userId: user2Data1.id + '',
+                    userImage: 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
+                    userNickname: user2Data1?.firstName + ' ' + user2Data1?.lastName,
+                },
+                tutor: {
+                    userId: user2Data3.id + '',
+                    userImage: user2Data3.profileImage || 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
+                    userNickname: user2Data3.firstName + ' ' + user2Data3.lastName,
+                },
+                messages: [sendMessageObject],
+                unreadMessageCount: 1
+            }));
+
+            //dispatch(addMessage());
+        }
+    },
+        [user2Data1, user2Data3, sendMessageObject]);
+
+    useEffect(() => {
+
+        console.log(sendMessageObject);
+        if (sendMessageObject) {
+            getUserById1(sendMessageObject.userId);
+            getUserById3(sendMessageObject.tutorId);
+        }
+    }, [sendMessageObject]);
 
     useEffect(() => {
 
@@ -103,41 +153,9 @@ function App() {
             }
         });
 
-        chat.socket.on('messageReceive', async (sendMessageObject: any) => {
+        chat.socket.on('messageReceive', (sendMessageObject: any) => {
 
-            if (userId) {
-
-                //dispatch(readMessage(sendMessageObject));
-                let user: any = null;
-                let user2: any = null;
-
-
-                if (userData.user?.id == sendMessageObject.userId) {
-                    user = userData.user;
-                    user2 = await getUserById(sendMessageObject.tutorId).unwrap();
-                } else {
-                    user = await getUserById(sendMessageObject.userId).unwrap();
-                    user2 = userData.user;
-                }
-
-                dispatch(addChatRoom({
-                    user: {
-                        userId: user.id + '',
-                        userImage: 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
-                        userNickname: user?.firstName + ' ' + user?.lastName,
-                    },
-                    tutor: {
-                        userId: user2.id + '',
-                        userImage: user2.profileImage || 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
-                        userNickname: user2.firstName + ' ' + user2.lastName,
-                    },
-                    messages: [],
-                    unreadMessageCount: 0
-                }));
-
-                dispatch(addMessage(sendMessageObject));
-            }
-
+            setSendMessageObject(sendMessageObject);
         });
 
         chat.socket.on("onCancelFreeConsultation", async (buffer: any) => {
@@ -148,6 +166,7 @@ function App() {
             }
 
             if (buffer.type == NotificationType.CHAT_MISSED_CALL) {
+
                 setMissedCall(true);
                 setMissedCallBuffer(buffer);
             }
@@ -187,10 +206,10 @@ function App() {
 
         if (document && userId) {
 
-            if (chat.newMessages > 0) {
+            if (chat.newMessages != null && chat.newMessages > 0) {
                 document.title = "Inbox(" + (chat.newMessages > 9 ? "9+" : chat.newMessages) + ") - Teorem";
-            } else {
-                // document.title = "Teorem";
+            } else if (chat.newMessages == 0) {
+                document.title = "Teorem";
             }
         }
 
