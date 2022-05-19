@@ -66,7 +66,7 @@ const AsideWrapper = (props: Props) => {
 
                     if (chatConversationItem.messages[chatConversationItem.messages.length - 1] && chatConversationItem.messages[chatConversationItem.messages.length - 1].message) {
 
-                        let messageText = chatConversationItem.messages[chatConversationItem.messages.length - 1].message.message;
+                        let messageText = chatConversationItem.messages[chatConversationItem.messages.length - 1].message.message || '';
                         messageText = messageText.replace(/stringTranslate=\{(.*?)\}/g, function (match: any, token: any) {
                             return t(token);
                         });

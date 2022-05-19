@@ -295,6 +295,7 @@ const chatSlice = createSlice({
 
                             if (state.chatRooms[i].messages[j].message.messageNew || state.chatRooms[i].messages[j].message.isRead)
                                 return;
+
                             state.chatRooms[i].messages[j].message.isRead = true;
                             state.chatRooms[i].unreadMessageCount -= 1;
                             if (state.newMessages != null)
@@ -316,8 +317,6 @@ const chatSlice = createSlice({
         addChatRoom(state, action: PayloadAction<IChatRoom | null>) {
 
             if (action.payload) {
-
-                console.log(action.payload);
 
                 let missedCall = false;
                 let inside = false;
@@ -361,8 +360,6 @@ const chatSlice = createSlice({
                                 newMessages.push(action.payload?.messages[j]);
                             }*/
                         }
-
-                        console.log(filterArrayUniqueMessages(state.chatRooms[i].messages.concat(action.payload?.messages)));
 
                         state.chatRooms[i].messages = filterArrayUniqueMessages(state.chatRooms[i].messages.concat(action.payload?.messages));
 

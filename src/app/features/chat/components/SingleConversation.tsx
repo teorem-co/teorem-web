@@ -11,7 +11,7 @@ import { Role } from '../../../lookups/role';
 import { PATHS } from '../../../routes';
 import { useLazyGetFreeConsultationLinkQuery } from '../../../services/learnCubeService';
 import { IChatMessagesQuery, useLazyGetChatMessagesQuery } from '../services/chatService';
-import { getMessages, IChatRoom, ISendChatMessage, readMessage, setBuffer, setConsultationInitialized, setFreeConsultation, setLink } from '../slices/chatSlice';
+import { addChatRoom, getMessages, IChatRoom, ISendChatMessage, readMessage, setBuffer, setConsultationInitialized, setFreeConsultation, setLink } from '../slices/chatSlice';
 import FreeConsultationModal from './FreeConsultationModal';
 import SendMessageForm from './SendMessageForm';
 
@@ -129,6 +129,10 @@ const SingleConversation = (props: Props) => {
     useEffect(() => {
 
         if (freeCallExpired && !freeCallCancelled && !chat.freeConsultation) {
+
+            let user0: any;
+            let user1: any;
+
             if (props.data) {
                 chat.socket.emit("cancelFreeConsultation", {
                     userId: props.data?.user?.userId,
@@ -137,19 +141,65 @@ const SingleConversation = (props: Props) => {
                     link: freeConsultationLink,
                     expired: true
                 });
+
+                user0 = props.data?.user?.userId;
+                user1 = props.data?.tutor?.userId;
             }
             else if (chat.buffer) {
                 chat.socket.emit("cancelFreeConsultation", {
                     userId: chat.buffer.userId,
-                    tutorId: chat.buffer.userId,
+                    tutorId: chat.buffer.tutorId,
                     senderId: userActive?.id,
                     link: chat.buffer.link,
                     expired: true
                 });
+
+                user0 = chat.buffer.userId;
+                user1 = chat.buffer.tutorId;
             }
 
             handleChatInit();
             setFreeCallCancelled(false);
+
+
+            let messageText = "stringTranslate={NOTIFICATIONS.CHAT_MISSED_CALL.DESCRIPTION} " + chat.user?.userNickname;
+            messageText = messageText.replace(/stringTranslate=\{(.*?)\}/g, function (match: any, token: any) {
+                return t(token);
+            });
+            messageText = messageText.replace(/userInsert=\{(.*?)\}/g, function (match: any, token: any) {
+                return chat.user?.userNickname + '';
+            });
+
+            const message = {
+                userId: user0.id + '',
+                tutorId: user1.id + '',
+                message: {
+                    message: messageText,
+                    createdAt: new Date(),
+                    isRead: false,
+                    messageId: '',
+                    isFile: false,
+                    messageNew: true,
+                    messageMissedCall: true,
+                }
+            };
+
+            const chatRoom: IChatRoom = {
+                user: {
+                    userId: user1?.id + '',
+                    userImage: 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
+                    userNickname: user1?.firstName + ' ' + user1?.lastName,
+                },
+                tutor: {
+                    userId: user0?.id + '',
+                    userImage: user0?.profileImage || 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
+                    userNickname: user0?.firstName + ' ' + user0?.lastName,
+                },
+                messages: [message],
+                unreadMessageCount: 1
+            };
+
+            dispatch(addChatRoom(chatRoom));
 
         }
     },
@@ -330,7 +380,7 @@ const SingleConversation = (props: Props) => {
                         //scrollToBottomSmooth();
                     }
 
-                    let messageText = message.message.message;
+                    let messageText = message.message.message || '';
                     messageText = messageText.replace(/stringTranslate=\{(.*?)\}/g, function (match: any, token: any) {
                         return t(token);
                     });

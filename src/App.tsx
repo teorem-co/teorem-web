@@ -42,16 +42,6 @@ function App() {
 
 
         if (user2Data && user2Data2 && missedCallBuffer) {
-            let user0: any;
-            let user1: any;
-
-            if (userData.user?.Role.abrv != Role.Tutor) {
-                user0 = user2Data.id == userId ? user2Data : user2Data2;
-                user1 = user2Data.id != userId ? user2Data : user2Data2;
-            } else {
-                user0 = user2Data.id != userId ? user2Data : user2Data2;
-                user1 = user2Data.id == userId ? user2Data : user2Data2;
-            }
 
             let messageText = missedCallBuffer.message;
             messageText = messageText.replace(/stringTranslate=\{(.*?)\}/g, function (match: any, token: any) {
@@ -62,8 +52,8 @@ function App() {
             });
 
             const message = {
-                userId: user0.id + '',
-                tutorId: user1.id + '',
+                userId: user2Data.id + '',
+                tutorId: user2Data2.id + '',
                 message: {
                     message: messageText,
                     createdAt: missedCallBuffer.createdAt,
@@ -77,14 +67,14 @@ function App() {
 
             const chatRoom: IChatRoom = {
                 user: {
-                    userId: user1?.id + '',
+                    userId: user2Data?.id + '',
                     userImage: 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
-                    userNickname: user1?.firstName + ' ' + user1?.lastName,
+                    userNickname: user2Data?.firstName + ' ' + user2Data?.lastName,
                 },
                 tutor: {
-                    userId: user0?.id + '',
-                    userImage: user0?.profileImage || 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
-                    userNickname: user0?.firstName + ' ' + user0?.lastName,
+                    userId: user2Data2?.id + '',
+                    userImage: user2Data2?.profileImage || 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
+                    userNickname: user2Data2?.firstName + ' ' + user2Data2?.lastName,
                 },
                 messages: [message],
                 unreadMessageCount: 1
@@ -106,10 +96,31 @@ function App() {
 
     useEffect(() => {
 
-        console.log(user2Data1, user2Data3, sendMessageObject);
         if (user2Data1 && user2Data3 && sendMessageObject) {
 
-            dispatch(addChatRoom({
+            let messageText = sendMessageObject.message;
+            messageText = messageText.replace(/stringTranslate=\{(.*?)\}/g, function (match: any, token: any) {
+                return t(token);
+            });
+            messageText = messageText.replace(/userInsert=\{(.*?)\}/g, function (match: any, token: any) {
+                return sendMessageObject.callerName;
+            });
+
+            const message = {
+                userId: user2Data1.id + '',
+                tutorId: user2Data3.id + '',
+                message: {
+                    message: messageText,
+                    createdAt: sendMessageObject.messageObj.createdAt,
+                    isRead: sendMessageObject.messageObj.isRead,
+                    messageId: sendMessageObject.messageObj.id,
+                    isFile: sendMessageObject.messageObj.isFile,
+                    messageNew: sendMessageObject.messageObj.messageNew,
+                    messageMissedCall: sendMessageObject.messageObj.missedCall,
+                }
+            };
+
+            const chatRoom: IChatRoom = {
                 user: {
                     userId: user2Data1.id + '',
                     userImage: 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
@@ -120,9 +131,10 @@ function App() {
                     userImage: user2Data3.profileImage || 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
                     userNickname: user2Data3.firstName + ' ' + user2Data3.lastName,
                 },
-                messages: [sendMessageObject],
+                messages: [message],
                 unreadMessageCount: 1
-            }));
+            };
+            dispatch(addChatRoom(chatRoom));
 
             //dispatch(addMessage());
         }
@@ -154,7 +166,7 @@ function App() {
         });
 
         chat.socket.on('messageReceive', (sendMessageObject: any) => {
-            
+
             console.log(sendMessageObject);
             setSendMessageObjectSet(true);
             setSendMessageObject(sendMessageObject);
