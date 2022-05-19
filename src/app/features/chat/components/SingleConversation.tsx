@@ -149,7 +149,7 @@ const SingleConversation = (props: Props) => {
                 chat.socket.emit("cancelFreeConsultation", {
                     userId: chat.buffer.userId,
                     tutorId: chat.buffer.tutorId,
-                    senderId: userActive?.id,
+                    senderId: chat.buffer.senderId,
                     link: chat.buffer.link,
                     expired: true
                 });
@@ -181,19 +181,20 @@ const SingleConversation = (props: Props) => {
                     isFile: false,
                     messageNew: true,
                     messageMissedCall: true,
-                }
+                },
+                senderId: userActive?.id || chat.buffer?.senderId,
             };
 
             const chatRoom: IChatRoom = {
                 user: {
-                    userId: user1?.id + '',
+                    userId: user0?.id + '',
                     userImage: 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
-                    userNickname: user1?.firstName + ' ' + user1?.lastName,
+                    userNickname: user0?.firstName + ' ' + user0?.lastName,
                 },
                 tutor: {
-                    userId: user0?.id + '',
-                    userImage: user0?.profileImage || 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
-                    userNickname: user0?.firstName + ' ' + user0?.lastName,
+                    userId: user1?.id + '',
+                    userImage: user1?.profileImage || 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
+                    userNickname: user1.firstName + ' ' + user1?.lastName,
                 },
                 messages: [message],
                 unreadMessageCount: 1

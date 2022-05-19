@@ -29,10 +29,11 @@ function App() {
     const chatDispatch = useDispatch();
     const userData = useAppSelector((state) => state.user);
 
-    const [getUserById, { data: user2Data, }] = useLazyGetUserQuery();
+    const [getUserById, { data: user2Data }] = useLazyGetUserQuery();
+    const [getUserById2, { data: user2Data2 }] = useLazyGetUserQuery();
     const [getUserById1, { data: user2Data1 }] = useLazyGetUserQuery();
     const [getUserById3, { data: user2Data3 }] = useLazyGetUserQuery();
-    const [getUserById2, { data: user2Data2, }] = useLazyGetUserQuery();
+
     const [getChatRooms, { data: chatRooms, isSuccess: isSuccessChatRooms }] = useLazyGetChatRoomsQuery();
     const [getChildBookingTutors, { data: childTutors, isSuccess: isSuccessChildTutors }] = useLazyGetChildBookingTutorsQuery();
 
@@ -40,6 +41,7 @@ function App() {
 
     useEffect(() => {
 
+        console.log(missedCallBuffer);
 
         if (user2Data && user2Data2 && missedCallBuffer) {
 
@@ -62,7 +64,8 @@ function App() {
                     isFile: false,
                     messageNew: true,
                     messageMissedCall: true,
-                }
+                },
+                senderId: missedCallBuffer.senderId,
             };
 
             const chatRoom: IChatRoom = {
@@ -88,8 +91,8 @@ function App() {
     useEffect(() => {
 
         if (missedCall && missedCallBuffer) {
-            getUserById(missedCallBuffer.tutorId);
-            getUserById2(missedCallBuffer.userId);
+            getUserById(missedCallBuffer.userId);
+            getUserById2(missedCallBuffer.tutorId);
         }
     }, [missedCall, missedCallBuffer]);
 
@@ -117,7 +120,8 @@ function App() {
                     isFile: sendMessageObject.messageObj.isFile,
                     messageNew: sendMessageObject.messageObj.messageNew,
                     messageMissedCall: sendMessageObject.messageObj.missedCall,
-                }
+                },
+                senderId: sendMessageObject.senderId,
             };
 
             const chatRoom: IChatRoom = {

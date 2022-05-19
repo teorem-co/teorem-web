@@ -41,7 +41,9 @@ const SendMessageForm = (props: Props) => {
                         message: text,
                         createdAt: new Date(),
                         isRead: false,
-                        messageId: ''
+                        messageId: '',
+                        messageMissedCall:false,
+                        isFile: false,
                     },
                     senderId: chat.user?.userId
                 };
