@@ -22,6 +22,7 @@ export interface IChatMessage {
 
     messageId?: string;
     messageNew?: boolean;
+    messageMissedCall?: boolean;
     message: string;
     createdAt: Date;
     isRead: boolean;
@@ -45,7 +46,7 @@ export interface IChatRoom {
 export interface IState {
     user: IChatProfile | null;
     chatRooms: Array<IChatRoom>;
-    newMessages: number;
+    newMessages: number | null;
     activeChatRoom: IChatRoom | null;
     socket: Socket;
     rpp: number;
@@ -76,7 +77,9 @@ export const filterArrayUnique = (arr: Array<any>, prop: string) => {
 
 export const filterArrayUniqueMessages = (arr: Array<ISendChatMessage>) => {
     const set = new Set;
-    return arr.filter(o => !set.has(o.message.messageId) && set.add(o.message.messageId));
+    return arr.filter(o => {
+        return !set.has(o.message.messageId) && set.add(o.message.messageId);;
+    });
 };
 
 //RESET STATE AFTER SUCCESFUL LOGIN/REGISTER
@@ -117,6 +120,7 @@ const chatSlice = createSlice({
         addChatRooms(state, action: PayloadAction<Array<IChatRoom> | null>) {
 
             if (action.payload) {
+
                 let unreadMessages = 0;
                 for (let j = 0; j < action.payload.length; j++) {
 
@@ -137,7 +141,11 @@ const chatSlice = createSlice({
                     unreadMessages += action.payload[j].unreadMessageCount;
                 }
 
-                state.newMessages += unreadMessages;
+                if (state.newMessages != null)
+                    state.newMessages += unreadMessages;
+                else
+                    state.newMessages = unreadMessages;
+
             }
         },
         getMessage(state, action: PayloadAction<ISendChatMessage | null>) {
@@ -159,8 +167,10 @@ const chatSlice = createSlice({
                         if (state.chatRooms[i].tutor?.userId == action.payload.senderId) {
                             state.chatRooms[i].unreadMessageCount += 1;
 
-                            state.newMessages += 1;
-
+                            if (state.newMessages != null)
+                                state.newMessages += 1;
+                            else
+                                state.newMessages = 1;
                             return;
                         }
                     }
@@ -200,8 +210,10 @@ const chatSlice = createSlice({
                             if (state.chatRooms[i].tutor?.userId == action.payload[k].senderId && !action.payload[k].message.isRead) {
                                 state.chatRooms[i].unreadMessageCount += 1;
 
-                                state.newMessages += 1;
-
+                                if (state.newMessages != null)
+                                    state.newMessages += 1;
+                                else
+                                    state.newMessages = 1;
                                 break;
                             }
                         }
@@ -214,6 +226,7 @@ const chatSlice = createSlice({
                 }
             }
         },
+
         addMessage(state, action: PayloadAction<ISendChatMessage | null>) {
 
             if (action.payload) {
@@ -221,7 +234,7 @@ const chatSlice = createSlice({
                 for (let i = 0; i < state.chatRooms.length; i++) {
                     for (let j = 0; j < state.chatRooms[i].messages.length; j++) {
 
-                        if (!action.payload.message.messageNew && state.chatRooms[i].messages[j].message.messageId == action.payload.message.messageId) {
+                        if (!action.payload.message.messageMissedCall && !action.payload.message.messageNew && state.chatRooms[i].messages[j].message.messageId == action.payload.message.messageId) {
                             return;
                         }
                     }
@@ -231,23 +244,47 @@ const chatSlice = createSlice({
 
                         if (state.chatRooms[i].tutor?.userId == state.activeChatRoom?.tutor?.userId && state.chatRooms[i].user?.userId == state.activeChatRoom?.user?.userId) {
                             state.activeChatRoom?.messages.push(action.payload);
-                            if (!action.payload.message.messageNew && state.activeChatRoom)
+
+                            if ((action.payload.message.messageMissedCall && !action.payload.message.messageNew) && state.activeChatRoom) {
                                 state.activeChatRoom.unreadMessageCount += 1;
+                            }
+
+                            if (action.payload.message.messageMissedCall && state.activeChatRoom) {
+                                state.activeChatRoom.unreadMessageCount += 1;
+                            }
                         }
 
                         if (!action.payload.message.messageNew) {
                             state.chatRooms[i].unreadMessageCount += 1;
 
-
-                            state.newMessages += 1;
+                            if (state.newMessages != null)
+                                state.newMessages += 1;
+                            else
+                                state.newMessages = 1;
                         }
 
+                        if (action.payload.message.messageMissedCall) {
+                            state.chatRooms[i].unreadMessageCount += 1;
+                            if (state.activeChatRoom) {
+                                if (state.activeChatRoom.unreadMessageCount)
+                                    state.activeChatRoom.unreadMessageCount += 1;
+                                else
+                                    state.activeChatRoom.unreadMessageCount = 1;
+
+                            }
+
+                            if (state.newMessages != null)
+                                state.newMessages += 1;
+                            else
+                                state.newMessages = 1;
+                        }
                         return;
                     }
                 }
 
             }
         },
+
         readMessage(state, action: PayloadAction<ISendChatMessage | null>) {
 
             if (action.payload) {
@@ -258,10 +295,13 @@ const chatSlice = createSlice({
 
                             if (state.chatRooms[i].messages[j].message.messageNew || state.chatRooms[i].messages[j].message.isRead)
                                 return;
+
                             state.chatRooms[i].messages[j].message.isRead = true;
                             state.chatRooms[i].unreadMessageCount -= 1;
-                            state.newMessages -= 1;
-
+                            if (state.newMessages != null)
+                                state.newMessages -= 1;
+                            else
+                                state.newMessages = 0;
                             if (!state.chatRooms[i].messages[j].message.messageNew && state.activeChatRoom?.tutor?.userId == state.chatRooms[i].messages[j].tutorId && state.activeChatRoom?.user?.userId == state.chatRooms[i].messages[j].userId) {
                                 state.activeChatRoom.unreadMessageCount -= 1;
                             }
@@ -278,22 +318,77 @@ const chatSlice = createSlice({
 
             if (action.payload) {
 
+                let missedCall = false;
+                let inside = false;
+
                 for (let i = 0; i < state.chatRooms.length; i++) {
 
+
                     if (state.chatRooms[i].tutor?.userId == action.payload.tutor?.userId && state.chatRooms[i].user?.userId == action.payload.user?.userId) {
-                        return;
+
+                        inside = true;
+
+                        const newMessages: ISendChatMessage[] = [];
+
+                        for (let j = 0; j < action.payload.messages.length; j++) {
+
+                            const x = state.chatRooms[i].messages.find((x: ISendChatMessage) => {
+
+                                if (action.payload?.messages[j].message.messageMissedCall && action.payload?.messages[j].message.messageNew) {
+                                    missedCall = true;
+                                }
+
+                                return x.message.messageId == action.payload?.messages[j].message.messageId
+                                    && !action.payload?.messages[j].message.messageMissedCall
+                                    && action.payload?.messages[j].message.messageNew;
+                            });
+
+                            if (missedCall)
+                                break;
+
+                            /*if (!x) {
+                                newMessages.push(action.payload?.messages[j]);
+                            }
+
+                            const y = state.chatRooms[i].messages.find((x: ISendChatMessage) => {
+
+                                return x.message.messageId == action.payload?.messages[j].message.messageId
+                                    && (!action.payload?.messages[j].message.messageMissedCall || !action.payload?.messages[j].message.messageNew);
+                            });
+
+                            if (!y) {
+                                newMessages.push(action.payload?.messages[j]);
+                            }*/
+                        }
+
+                        state.chatRooms[i].messages = filterArrayUniqueMessages(state.chatRooms[i].messages.concat(action.payload?.messages));
+
+                        if (state.activeChatRoom)
+                            state.activeChatRoom.messages = state.chatRooms[i].messages;
+
+
+                        break;
                     }
+                };
+
+
+
+                if (!missedCall) {
+                    /* if (action.payload.user?.userId == state.user?.userId)
+                         state.activeChatRoom = action.payload;
+                     else */
+                    if (!state.activeChatRoom)
+                        state.activeChatRoom = action.payload;
+
+                    if (!inside)
+                        state.chatRooms.push(action.payload);
                 }
-
-                if (action.payload.user?.userId == state.user?.userId)
-                    state.activeChatRoom = action.payload;
-                else if (!state.activeChatRoom)
-                    state.activeChatRoom = action.payload;
-
-                state.chatRooms.push(action.payload);
-
-                /*if (state.user?.userId != action.payload.user?.userId)
-                    state.newMessages += 1;*/
+                if (state.newMessages) {
+                    if (action.payload.unreadMessageCount > 0)
+                        state.newMessages += action.payload.unreadMessageCount;
+                } else {
+                    state.newMessages = action.payload.unreadMessageCount;
+                }
             }
         },
     },

@@ -591,6 +591,7 @@ export const EN_US = {
                 PART2: 'didn\'t accept it.',
             },
         },
+        CHAT_HAS_MISSED_CALL: ' has missed your call',
     },
     EARNINGS: {
         TITLE: 'Earnings',

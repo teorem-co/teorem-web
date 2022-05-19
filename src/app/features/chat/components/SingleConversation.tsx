@@ -5,13 +5,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { setSourceMapRange } from 'typescript';
+import { useLazyGetUserQuery } from '../../../../services/userService';
 
 import { useAppSelector } from '../../../hooks';
 import { Role } from '../../../lookups/role';
 import { PATHS } from '../../../routes';
 import { useLazyGetFreeConsultationLinkQuery } from '../../../services/learnCubeService';
 import { IChatMessagesQuery, useLazyGetChatMessagesQuery } from '../services/chatService';
-import { getMessages, IChatRoom, ISendChatMessage, readMessage, setBuffer, setConsultationInitialized, setFreeConsultation, setLink } from '../slices/chatSlice';
+import { addChatRoom, getMessages, IChatRoom, ISendChatMessage, readMessage, setBuffer, setConsultationInitialized, setFreeConsultation, setLink } from '../slices/chatSlice';
 import FreeConsultationModal from './FreeConsultationModal';
 import SendMessageForm from './SendMessageForm';
 
@@ -29,6 +30,9 @@ const SingleConversation = (props: Props) => {
     const chat = useAppSelector((state) => state.chat);
 
     const [page, setPage] = useState<number>(1);
+
+    const [getUserById, { data: user2Data }] = useLazyGetUserQuery();
+    const [getUserById2, { data: user2Data2 }] = useLazyGetUserQuery();
 
     const [freeConsultationClicked, setFreeConsultationClicked] = useState<boolean>(false);
     const [freeCallExpired, setFreeCallExpired] = useState<boolean>(false);
@@ -128,7 +132,68 @@ const SingleConversation = (props: Props) => {
 
     useEffect(() => {
 
+        if (user2Data && user2Data2) {
+            let messageText = "userInsert={username} stringTranslate={NOTIFICATIONS.CHAT_HAS_MISSED_CALL}";
+            messageText = messageText.replace(/stringTranslate=\{(.*?)\}/g, function (match: any, token: any) {
+                return t(token);
+            });
+            messageText = messageText.replace(/userInsert=\{(.*?)\}/g, function (match: any, token: any) {
+                return userActive?.id !== user2Data.id ? user2Data.firstName + ' ' + user2Data?.lastName : user2Data2.firstName + ' ' + user2Data2?.lastName;
+            });
+
+            const message = {
+                userId: user2Data.id + '',
+                tutorId: user2Data2.id + '',
+                message: {
+                    message: messageText,
+                    createdAt: new Date(),
+                    isRead: false,
+                    messageId: '',
+                    isFile: false,
+                    messageNew: true,
+                    messageMissedCall: true,
+                },
+                senderId: userActive?.id || chat.buffer?.senderId,
+            };
+
+            const chatRoom: IChatRoom = {
+                user: {
+                    userId: user2Data?.id + '',
+                    userImage: 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
+                    userNickname: user2Data?.firstName + ' ' + user2Data?.lastName,
+                },
+                tutor: {
+                    userId: user2Data2?.id + '',
+                    userImage: user2Data2?.profileImage || 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
+                    userNickname: user2Data2.firstName + ' ' + user2Data2?.lastName,
+                },
+                messages: [message],
+                unreadMessageCount: 1
+            };
+
+            dispatch(addChatRoom(chatRoom));
+
+            chat.socket.emit('onMissedFreeConsultation', {
+                userId: user2Data.id + '',
+                tutorId: user2Data2.id + '',
+                message: {
+                    message: "userInsert={username} stringTranslate={NOTIFICATIONS.CHAT_HAS_MISSED_CALL}",
+                    createdAt: new Date(),
+                    isRead: false,
+                    messageId: '',
+                    isFile: false,
+                    messageNew: true,
+                    messageMissedCall: true,
+                },
+                senderId: userActive?.id || chat.buffer?.senderId,
+            });
+        }
+    }, [user2Data, user2Data2]);
+
+    useEffect(() => {
+
         if (freeCallExpired && !freeCallCancelled && !chat.freeConsultation) {
+
             if (props.data) {
                 chat.socket.emit("cancelFreeConsultation", {
                     userId: props.data?.user?.userId,
@@ -141,8 +206,8 @@ const SingleConversation = (props: Props) => {
             else if (chat.buffer) {
                 chat.socket.emit("cancelFreeConsultation", {
                     userId: chat.buffer.userId,
-                    tutorId: chat.buffer.userId,
-                    senderId: userActive?.id,
+                    tutorId: chat.buffer.tutorId,
+                    senderId: chat.buffer.senderId,
                     link: chat.buffer.link,
                     expired: true
                 });
@@ -160,6 +225,7 @@ const SingleConversation = (props: Props) => {
         if (freeConsultationClicked) {
             setTimeout(() => {
                 setFreeCallExpired(true);
+                dispatch(setFreeConsultation(false));
             }, 10000);
         }
 
@@ -231,7 +297,6 @@ const SingleConversation = (props: Props) => {
 
         handleChatInit(true);
         setFreeCallCancelled(false);
-
     };
 
     const onCancelFreeConsultation = () => {
@@ -246,6 +311,9 @@ const SingleConversation = (props: Props) => {
 
             handleChatInit();
             setFreeCallCancelled(true);
+
+            getUserById(props.data?.user?.userId + '');
+            getUserById2(props.data?.tutor?.userId + '');
         }
     };
 
@@ -330,7 +398,10 @@ const SingleConversation = (props: Props) => {
                         //scrollToBottomSmooth();
                     }
 
-                    let messageText = message.message.message;
+                    if (message.message.messageMissedCall && userActive?.id !== message.senderId)
+                        return <></>;
+
+                    let messageText = message.message.message || '';
                     messageText = messageText.replace(/stringTranslate=\{(.*?)\}/g, function (match: any, token: any) {
                         return t(token);
                     });
