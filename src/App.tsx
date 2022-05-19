@@ -24,6 +24,7 @@ function App() {
 
     const [missedCall, setMissedCall] = useState<boolean | null>(null);
     const [missedCallBuffer, setMissedCallBuffer] = useState<any | null>(null);
+    const [sendMessageObjectSet, setSendMessageObjectSet] = useState<boolean | null>(null);
     const [sendMessageObject, setSendMessageObject] = useState<any | null>(null);
     const chatDispatch = useDispatch();
     const userData = useAppSelector((state) => state.user);
@@ -130,12 +131,11 @@ function App() {
 
     useEffect(() => {
 
-        console.log(sendMessageObject);
-        if (sendMessageObject) {
+        if (sendMessageObject && sendMessageObjectSet) {
             getUserById1(sendMessageObject.userId);
             getUserById3(sendMessageObject.tutorId);
         }
-    }, [sendMessageObject]);
+    }, [sendMessageObject, sendMessageObjectSet]);
 
     useEffect(() => {
 
@@ -154,7 +154,9 @@ function App() {
         });
 
         chat.socket.on('messageReceive', (sendMessageObject: any) => {
-
+            
+            console.log(sendMessageObject);
+            setSendMessageObjectSet(true);
             setSendMessageObject(sendMessageObject);
         });
 
