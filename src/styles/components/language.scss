@@ -46,4 +46,11 @@
             }
         }
     }
+
+    
+    &__mobile {
+        @media (min-width: $responsive-xl) {
+            display: none;
+        }
+    }
 }

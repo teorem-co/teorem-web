@@ -35,7 +35,7 @@ const MyTeachings = () => {
 
     const closeEditSubjectSidebar = () => {
         // history.location.search = '';
-        history.push('/my-profile/info/teachings');
+        history.push(t('PATHS.PROFILE_PATHS.MY_PROFILE_INFO_TEACHINGS'));
         setEditSidebarOpen(false);
     };
 

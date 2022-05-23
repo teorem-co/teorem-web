@@ -196,7 +196,7 @@ const CompletedLessons = () => {
                                     <div className="tutor-list__no-results">
                                         <h1 className="tutor-list__no-results__title">{t('COMPLETED_LESSONS.EMPTY_LESSONS_TITLE')}</h1>
                                         <p className="tutor-list__no-results__subtitle">{t('COMPLETED_LESSONS.EMPTY_VIDEOS')}</p>
-                                        <Link className="btn btn--clear ml-6 type--wgt--bold" to={'/my-bookings'}>
+                                        <Link className="btn btn--clear ml-6 type--wgt--bold" to={t('PATHS.MY_BOOKINGS')}>
                                             {t('COMPLETED_LESSONS.LINK')}
                                         </Link>
                                     </div>
