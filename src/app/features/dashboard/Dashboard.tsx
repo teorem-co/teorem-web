@@ -89,7 +89,7 @@ const Dashboard = () => {
 
     const handleGoToChat = (activeChatRoom: any) => {
         dispatch(setActiveChatRoom(activeChatRoom));
-        history.push('/chat');
+        history.push(t('PATHS.CHAT'));
     };
 
     useEffect(() => {
@@ -98,8 +98,10 @@ const Dashboard = () => {
 
             const message = cr.messages[cr.messages.length - 1] || null;
 
-            if (message) {
+            if (message && !message.message.isRead) {
                 const messageText = message.message.message || null;
+
+                console.log(message);
 
                 if (messageText) {
 
@@ -118,9 +120,9 @@ const Dashboard = () => {
                         getUserById1(message.userId);
                     }
                 }
+                
+                tmpCr.push(cr);
             }
-
-            tmpCr.push(cr);
         });
         setUnreadChatrooms(tmpCr);
     }, [chatrooms]);

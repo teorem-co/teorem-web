@@ -46,7 +46,7 @@ export const subjectService = baseService.injectEndpoints({
             transformResponse: (response: ISubject[]) => {
                 const subjectOptions: OptionType[] = response.map((level) => ({
                     value: level.id,
-                    label: level.name,
+                    label: t(`SUBJECTS.${level.abrv.replace(' ', '').replace('-', '').toLowerCase()}`),
                 }));
                 return subjectOptions;
             },

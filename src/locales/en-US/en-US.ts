@@ -333,6 +333,7 @@ export const EN_US = {
     ADD_CHILD: {
         TITLE: 'Add new Child',
         DESCRIPTION: 'Select to Add new Child',
+        SAVE: 'Save Child',
     },
     MY_BOOKINGS: {
         TITLE: 'Calendar',
@@ -397,6 +398,16 @@ export const EN_US = {
             TITLE: 'No results',
             DESC: 'You don`t have any reviews yet.',
         },
+        DATE_AGO: {
+            BEFORE: '',
+            YEAR: ' year ago',
+            YEARS: ' years ago',
+            MONTH: ' month ago',
+            MONTHS: ' months ago',
+            DAY: ' day ago',
+            DAYS: ' days ago',
+            TODAY: ' today',
+        }
     },
     COMPLETED_LESSONS: {
         TITLE: 'Completed Lessons',

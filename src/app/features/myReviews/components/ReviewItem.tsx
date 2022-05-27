@@ -18,7 +18,9 @@ const ReviewItem: FC<Props> = (props: Props) => {
 
     const getUserRole = async (id: any) => {
         const userResponse = await (await getUser(id).unwrap()).Role.abrv;
-        setUserRole( userResponse.charAt(0).toUpperCase() + userResponse.slice(1) );
+
+        // setUserRole( userResponse.charAt(0).toUpperCase() + userResponse.slice(1) );
+        setUserRole(t('ROLES.' + userResponse));
     };
 
     useEffect(()=>{

@@ -114,7 +114,7 @@ const Earnings = () => {
                                 earningsData.details.map((tableItem) => {
                                     return (
                                         <tr>
-                                            <td>{tableItem.month}</td>
+                                            <td>{t('CONSTANTS.MONTHS_LONG.'+ tableItem.month.substring(0, 3).toUpperCase())}</td>
                                             <td>{tableItem.bookings}</td>
                                             <td>{tableItem.students}</td>
                                             <td>{tableItem.reviews}</td>

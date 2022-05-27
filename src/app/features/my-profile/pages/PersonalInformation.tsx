@@ -396,7 +396,7 @@ const PersonalInformation = () => {
                                                     <div className="col col-12">
                                                         <div className="field field__file">
                                                             <label className="field__label" htmlFor="profileImage">
-                                                                {t('MY_PROFILE.PROFILE_SETTINGS.IMAGE')}
+                                                                {/*t('MY_PROFILE.PROFILE_SETTINGS.IMAGE')*/}
                                                             </label>
                                                             <UploadFile
                                                                 setFieldValue={formik.setFieldValue}

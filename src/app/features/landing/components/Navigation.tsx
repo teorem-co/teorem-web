@@ -64,16 +64,23 @@ const Navigation = () => {
                             <img src={logo} alt="logo" />
                         )}
                     </NavLink>
-                    <div
-                        className={`landing__navigation__hamburger ${history.location.pathname === '/pricing' ? (onTop ? 'pricing' : '') : ''} ${
-                            showSidebar ? 'active' : ''
-                        }`}
-                        onClick={() => setShowSidebar(!showSidebar)}
-                    >
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
+                    <div className="flex--primary">
+                        <div className="flex">
+                            <div className='language__mobile'>
+                                <LanguageSelector onTop={onTop} />
+                            </div>
+                            <div
+                                className={`landing__navigation__hamburger ${history.location.pathname === '/pricing' ? (onTop ? 'pricing' : '') : ''} ${
+                                    showSidebar ? 'active' : ''
+                                }`}
+                                onClick={() => setShowSidebar(!showSidebar)}
+                            >
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
                     </div>
 
                     {/* WEB SIZE NAV */}

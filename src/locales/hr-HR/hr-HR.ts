@@ -328,6 +328,7 @@ export const HR_HR = {
     ADD_CHILD: {
         TITLE: 'Dodajte novo dijete',
         DESCRIPTION: 'Izaberite za dodavanje novog djeteta',
+        SAVE: 'Spremi dijete',
     },
     MY_BOOKINGS: {
         TITLE: 'Kalendar',
@@ -392,6 +393,16 @@ export const HR_HR = {
             TITLE: 'Bez rezultata',
             DESC: 'Još uvijek nemate niti jednu recenziju.',
         },
+        DATE_AGO: {
+            BEFORE: ' prije ',
+            YEAR: ' godina',
+            YEARS: ' godina',
+            MONTH: ' mjesec',
+            MONTHS: ' mjeseci',
+            DAY: ' dan',
+            DAYS: ' dana',
+            TODAY: ' danas',
+        }
     },
     COMPLETED_LESSONS: {
         TITLE: 'Završene lekcije',
@@ -529,7 +540,7 @@ export const HR_HR = {
             USERNAME: 'Korisničko ime',
             USERNAME_PLACEHOLDER: 'Unesite korisničko ime',
             PASSWORD: 'Unesite novu lozinku',
-            PASSWORD_PLACEHOLDER: 'Upišite svoju lozinku',
+            PASSWORD_PLACEHOLDER: 'Upišite novu lozinku',
             PASSWORD_OPTIONAL: 'Ovo je polje izborno, ako želite promijeniti djetetovu trenutnu lozinku možete to učiniti u polju ispod.',
             DELETE: 'Izbriši',
             CANCEL: 'Odustani',
@@ -746,7 +757,7 @@ export const HR_HR = {
                 'Teoremove online instrukcije pomažu djeci osloboditi svoj puni potencijal. Naša digitalna bijela ploča omogućava instruktorima da objasne komplicirane koncepte na jednostavan i obazriv način. S čime god da Vaše dijete treba pomoć, naši instruktori će pronaći najbolji način za navoditi ga. Uz to, online model uklanja geografska ograničenja u pronalaženju vrhunskog instruktora.',
             QUESTION_3: 'Koje kvalifikacije imaju instruktori?',
             ANSWER_3:
-                'Kanditati prolaze kroz više testova prije nego što postanu instruktori na našoj platformi. Provjerava im se zanje individualnih predmeta te osobne i nastavne vještina. Jako malen broj kandidata koji se prijave su izabrani za instruktore.',
+                'Kanditati prolaze kroz više testova prije nego što postanu instruktori na našoj platformi. Provjerava im se znanje individualnih predmeta te osobne i nastavne vještina. Jako malen broj kandidata koji se prijave su izabrani za instruktore.',
             QUESTION_4: 'Kako funkcioniraju online predavanja?',
             ANSWER_4:
                 'Imamo našu virtualnu učionicu koja uključuje videopoziv, poruke, i interaktivnu bijelu ploču što učenicima i instruktorima omogućava laku komunikaciju, diskutiranje o kompleksnim temama i zajedničko vježbanje zadataka. S videopozivima, imaju prirodni razgovor - baš kao na FaceTime-u, WhatsAppu i drugim aplikacijama koje tinejdžeri često koriste. Sve naše instrukcije traju 50 minuta.',
@@ -764,12 +775,12 @@ export const HR_HR = {
         TEXT_CARD_1: {
             TITLE: 'Koja je cijena online instrukcija?',
             SUBTITLE:
-                'Teoremovi instruktori sami određuju svoje cijene, ovisno o njihovom iskustvu i dostupnosti. Instrukcije kreću od 60 HRK, s prosječnom cijenom od 80 HRK. ',
+                'Teoremovi instruktori sami određuju svoje cijene, ovisno o njihovom iskustvu i dostupnosti. Cijene instrukcija kreću se od 60 HRK, s prosječnom cijenom od 80 HRK. ',
         },
         FAQ: {
             QUESTION_1: 'Koja je cijena instruktora?',
             ANSWER_1:
-                'Teoremovi instruktori sami određuju svoje cijene, ovisno o njihovom iskustvu i dostupnosti. Instrukcije kreću od HRK 60. Možete vidjeti sve instruktore koji odgovaraju vašem budžetu s našim filterom cijena na Pretrazi Instruktora.',
+                'Teoremovi instruktori sami određuju svoje cijene, ovisno o njihovom iskustvu i dostupnosti. Cijene instrukcija kreću se od HRK 60. Možete vidjeti sve instruktore koji odgovaraju Vašem budžetu koristeći filtriranje prema cijeni u sekciji “Pretraga instruktora”.',
             QUESTION_2: 'Kako pronaći instruktora?',
             ANSWER_2:
                 'Pronaći instruktora je jednostavno. Nakon što otvorite korisnički račun na Teoremu, možete tražiti instruktore i filtrirati rezultate pretraživanja prema predmetu, razini, cijeni i dostupnosti.',

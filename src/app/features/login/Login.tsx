@@ -84,7 +84,7 @@ const Login: React.FC = () => {
         const loginError: any = errorLogin;
 
         if (loginError) {
-            setLoginErrorMessage(loginError.data.message);
+            setLoginErrorMessage(loginError.data?.message);
         }
     }, [errorLogin]);
 
