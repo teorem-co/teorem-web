@@ -937,6 +937,7 @@ export const EN_US = {
         parent: 'Parent',
         child: 'Child',
         tutor: 'Tutor',
+        admin: 'Admin',
     },
     LEVELS: {
         primaryschool: 'Primary School',

@@ -943,6 +943,7 @@ export const HR_HR = {
         parent: 'Roditelj',
         child: 'Dijete',
         tutor: 'Instruktor',
+        admin: 'Administrator',
     },
     CONSTANTS: {
         MONTHS_SHORT: {
