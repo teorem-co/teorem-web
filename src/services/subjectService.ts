@@ -53,15 +53,14 @@ export const subjectService = baseService.injectEndpoints({
         }),
         getSubjectsByLevelAndSubject: builder.query<OptionType[], IId>({
             query: (ids) => ({
-                url: `${URL}/filter/${ids.levelId}/?subjectId=${
-                    ids.subjectId ? ids.subjectId : ''
-                }`,
+                url: `${URL}/filter/${ids.levelId}/?subjectId=${ids.subjectId ? ids.subjectId : ''
+                    }`,
                 method: HttpMethods.GET,
             }),
             transformResponse: (response: IGetSubject[]) => {
                 const subjectOptions: OptionType[] = response.map((level) => ({
                     value: level.id,
-                    label: level.name,
+                    label: t(`SUBJECTS.${level.abrv.replace(' ', '').replace('-', '').toLowerCase()}`),
                 }));
                 return subjectOptions;
             },

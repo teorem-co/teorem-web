@@ -939,7 +939,7 @@ export const HR_HR = {
         university: 'Fakultet',
     },
     ROLES: {
-        student: 'Student',
+        student: 'Učenik',
         parent: 'Roditelj',
         child: 'Dijete',
         tutor: 'Instruktor',

@@ -47,7 +47,7 @@ const AddSubjectSidebar = (props: Props) => {
         price: '',
     };
 
-    
+
     const [currency, setCurrency] = useState('PZL');
     const [minPrice, setMinPrice] = useState(47);
     const countryId = useAppSelector((state) => state?.user?.user?.countryId);
@@ -55,11 +55,11 @@ const AddSubjectSidebar = (props: Props) => {
     const getCurrency = async () => {
         const res = await getCountries().unwrap();
         res.forEach(c => {
-            if(c.id === countryId){
+            if (c.id === countryId) {
                 setCurrency(c.currencyCode);
-                if(c.currencyCode == "HRK")
+                if (c.currencyCode == "HRK")
                     setMinPrice(60);
-                if(c.currencyCode == "PLZ")
+                if (c.currencyCode == "PLZ")
                     setMinPrice(47);
             }
         });
@@ -95,7 +95,7 @@ const AddSubjectSidebar = (props: Props) => {
     useEffect(() => {
         getCurrency();
     }, []);
-    
+
     useEffect(() => {
         if (subjectsData && isSuccessSubjects && formik.values.level !== '') {
             setSubjectOptions(subjectsData);
@@ -161,11 +161,11 @@ const AddSubjectSidebar = (props: Props) => {
                                     name="price"
                                     id="price"
                                     placeholder={
-                                        t('MY_PROFILE.MY_TEACHINGS.PRICING_PLACEHOLDER') + 
-                                        minPrice + ' ' + currency + '/h'} 
+                                        t('MY_PROFILE.MY_TEACHINGS.PRICING_PLACEHOLDER') +
+                                        minPrice + ' ' + currency + '/h'}
                                     withoutErr={
-                                        formik.errors.price && 
-                                        formik.touched.price ? 
+                                        formik.errors.price &&
+                                            formik.touched.price ?
                                             false : true}
                                     type="number"
                                 />
