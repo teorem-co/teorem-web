@@ -11,11 +11,13 @@ interface ILoginPayload {
 interface IState {
     token: string | null;
     user: IUser | null;
+    serverVersion: string | null;
 }
 
 const initialState: IState = {
     token: null,
     user: null,
+    serverVersion: null,
 };
 
 export const authSlice = createSlice({
@@ -29,6 +31,9 @@ export const authSlice = createSlice({
         addStripeId(state, action: PayloadAction<string>) {
             state.user!.stripeCustomerId = action.payload;
         },
+        setServerVersion(state, action: PayloadAction<string>) {
+            state.serverVersion = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder.addMatcher(authService.endpoints.login.matchFulfilled, (state, action: PayloadAction<ILoginPayload>) => {
@@ -39,5 +44,5 @@ export const authSlice = createSlice({
     },
 });
 
-export const { logout, addStripeId } = authSlice.actions;
+export const { logout, addStripeId, setServerVersion } = authSlice.actions;
 export default authSlice.reducer;

@@ -10,13 +10,21 @@ import { useAppSelector } from './app/hooks';
 import { Role } from './app/lookups/role';
 import ROUTES, { RenderRoutes } from './app/routes';
 import toastService from './app/services/toastService';
+import { persistor } from "./app/store";
 import { NotificationType } from './interfaces/notification/INotification';
 import ISocketNotification from './interfaces/notification/ISocketNotification';
+import { useLazyGetServerVersionQuery } from "./services/authService";
 import { useLazyGetUserQuery } from './services/userService';
+import { logout, setServerVersion } from "./slices/authSlice";
+import { logoutUser } from "./slices/userSlice";
 
 function App() {
 
     const { t } = useTranslation();
+
+    const version = useAppSelector((state) => state.auth.serverVersion);
+
+    const [versionSame, setVersionSame] = useState<boolean>(false);
     const userId = useAppSelector((state) => state.auth.user?.id);
     const childIds = useAppSelector((state) => state.auth.user?.childIds);
     const chat = useAppSelector((state) => state.chat);
@@ -34,10 +42,34 @@ function App() {
     const [getUserById1, { data: user2Data1 }] = useLazyGetUserQuery();
     const [getUserById3, { data: user2Data3 }] = useLazyGetUserQuery();
 
+    const [getServerVersion, { data: serverVersion, isSuccess: isSuccessServerVersion }] = useLazyGetServerVersionQuery();
+
     const [getChatRooms, { data: chatRooms, isSuccess: isSuccessChatRooms }] = useLazyGetChatRoomsQuery();
     const [getChildBookingTutors, { data: childTutors, isSuccess: isSuccessChildTutors }] = useLazyGetChildBookingTutorsQuery();
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+
+        if (isSuccessServerVersion) {
+            if (version != serverVersion) {
+
+
+                if (userId) {
+                    persistor.purge();
+                    dispatch(logout());
+                    dispatch(logoutUser());
+                    dispatch({ type: 'USER_LOGOUT' });
+                    setVersionSame(false);
+                }
+
+                dispatch(setServerVersion(serverVersion || '0.0.0'));
+
+                setVersionSame(true);
+            } else
+                setVersionSame(true);
+        }
+    }, [version, isSuccessServerVersion]);
 
     useEffect(() => {
 
@@ -153,6 +185,9 @@ function App() {
 
     useEffect(() => {
 
+        getServerVersion();
+
+
         chat.socket.on('showNotification', (notification: ISocketNotification) => {
             const ifChildExists = childIds?.find((x) => x === notification.userId);
             if (userId && (notification.userId === userId || ifChildExists)) {
@@ -169,7 +204,6 @@ function App() {
 
         chat.socket.on('messageReceive', (sendMessageObject: any) => {
 
-            console.log(sendMessageObject);
             setSendMessageObjectSet(true);
             setSendMessageObject(sendMessageObject);
         });
@@ -265,9 +299,7 @@ function App() {
         }
     }, [childTutors]);
 
-    return <RenderRoutes routes={ROUTES} />;
+    return versionSame ? <RenderRoutes routes={ROUTES} /> : <></>;
 }
 
 export default App;
-
-

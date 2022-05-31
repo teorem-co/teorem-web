@@ -158,6 +158,12 @@ export const authService = baseService.injectEndpoints({
                 body: body,
             }),
         }),
+        getServerVersion: builder.query<string, void>({
+            query: () => ({
+                url: `/get-server-version`,
+                method: HttpMethods.GET,
+            }),
+        }),
     }),
 });
 
@@ -172,4 +178,5 @@ export const {
     useGenerateChildUsernameMutation,
     useChangePasswordMutation,
     useChangeCurrentPasswordMutation,
+    useLazyGetServerVersionQuery,
 } = authService;

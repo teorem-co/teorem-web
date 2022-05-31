@@ -101,8 +101,6 @@ const Dashboard = () => {
             if (message && !message.message.isRead) {
                 const messageText = message.message.message || null;
 
-                console.log(message);
-
                 if (messageText) {
 
                     const match = messageText.match(/userInsert=\{(.*?)\}/g);
@@ -120,7 +118,7 @@ const Dashboard = () => {
                         getUserById1(message.userId);
                     }
                 }
-                
+
                 tmpCr.push(cr);
             }
         });
@@ -394,7 +392,6 @@ const Dashboard = () => {
                             <div className="dashboard__list">
                                 {groupedUpcomming && Object.keys(groupedUpcomming).length > 0 ? (
                                     Object.keys(groupedUpcomming).map((key: string) => {
-                                        console.log(groupedUpcomming);
                                         return (
                                             <React.Fragment key={key}>
                                                 <div className="flex--primary">

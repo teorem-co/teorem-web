@@ -45,7 +45,7 @@ const rootReducer = (state: any, action: any) => {
         storage.removeItem('persist:root');
 
         return appReducer(undefined, action);
-    }
+    };
     return appReducer(state, action);
 };
 
