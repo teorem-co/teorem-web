@@ -334,12 +334,13 @@ const Dashboard = () => {
                                                 <div className="type--color--secondary">
                                                     {moment(unreadChatrooms[activeMsgIndex].messages[unreadChatrooms[activeMsgIndex].messages.length - 1]?.message?.createdAt).format('DD/MMM/yyy')}
                                                 </div>
-                                                <button
+                                                <Link 
+                                                    to={PATHS.CHAT}
                                                     className="btn btn--base card--dashboard__btn"
-                                                    onClick={() => handleGoToChat(unreadChatrooms[activeMsgIndex])}
+                                                    //onClick={() => handleGoToChat(unreadChatrooms[activeMsgIndex])}
                                                 >
                                                     {t('DASHBOARD.MESSAGES.BUTTON')}
-                                                </button>
+                                                </Link>
                                             </div>
 
                                             {/* <div className="flex--primary mb-2">

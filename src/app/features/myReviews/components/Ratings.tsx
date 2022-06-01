@@ -40,17 +40,19 @@ const Ratings: FC<Props> = (props: Props) => {
                     return (
                         <div key={index} className="rating__item">
                             <div className="mr-3">
-                                {item.mark}&nbsp;{t('MY_REVIEWS.STAR')}
+                                {t('MY_REVIEWS.STAR.' + item.mark)}
                             </div>
-                            <div className="rating__progress">
-                                <span
-                                    className="rating__progress__bar"
-                                    style={{
-                                        right: `${100 - item.perCent * 100}%`,
-                                    }}
-                                ></span>
+                            <div className="flex flex--center">
+                                <div className="rating__progress">
+                                    <span
+                                        className="rating__progress__bar"
+                                        style={{
+                                            right: `${100 - item.perCent * 100}%`,
+                                        }}
+                                    ></span>
+                                </div>
+                                <div className="ml-3">({item.count})</div>
                             </div>
-                            <div className="ml-3">({item.count})</div>
                         </div>
                     );
                 })

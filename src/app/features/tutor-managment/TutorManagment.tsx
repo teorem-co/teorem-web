@@ -13,6 +13,7 @@ import MainWrapper from '../../components/MainWrapper';
 import Sidebar from '../../components/Sidebar';
 import LoaderTutor from '../../components/skeleton-loaders/LoaderTutor';
 import { useAppSelector } from '../../hooks';
+import { PATHS } from '../../routes';
 
 const TutorManagment = () => {
     const history = useHistory();
@@ -155,27 +156,27 @@ const TutorManagment = () => {
                             {loadedTutorItems.map((tutor, key) => <tr key={key}>
                                 <td onClick={()=>{ 
                                     activeTab == 'unprocessed' ? 
-                                        history.push("/tutor-managment/profile/" + tutor.userId) : 
+                                        history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorId', tutor.userId)) : 
                                         setSelectedTutor(tutor);}} 
                                 >{tutor.User.firstName}</td>
                                 <td onClick={()=>{ 
                                     activeTab == 'unprocessed' ? 
-                                        history.push("/tutor-managment/profile/" + tutor.userId) : 
+                                        history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorId', tutor.userId)) : 
                                         setSelectedTutor(tutor);}} 
                                 >{tutor.User.lastName}</td>
                                 <td onClick={()=>{ 
                                     activeTab == 'unprocessed' ? 
-                                        history.push("/tutor-managment/profile/" + tutor.userId) : 
+                                        history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorId', tutor.userId)) : 
                                         setSelectedTutor(tutor);}} 
                                 >{tutor.User.email}</td>
                                 <td onClick={()=>{ 
                                     activeTab == 'unprocessed' ? 
-                                        history.push("/tutor-managment/profile/" + tutor.userId) : 
+                                        history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorId', tutor.userId)) : 
                                         setSelectedTutor(tutor);}} 
                                 ><img className="react-select__flag" src={tutor.User.Country.flag} />{tutor.User.Country.name}</td>
                                 <td onClick={()=>{ 
                                     activeTab == 'unprocessed' ? 
-                                        history.push("/tutor-managment/profile/" + tutor.userId) : 
+                                        history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorId', tutor.userId)) : 
                                         setSelectedTutor(tutor);}} 
                                 >{tutor.User.dateOfBirth}</td>
                                 {tutor.verified == null ? (
@@ -190,11 +191,11 @@ const TutorManagment = () => {
                                             className="btn btn--base btn--ghost"
                                             onClick={() => handleDenyTutor(tutor)}
                                         >
-                                            Deny
+                                            {t('TUTOR_MANAGMENT.ACTIONS.DECLINE')}
                                         </button>
                                     </td>
                                 ) : (
-                                    <td className='menu-container'><Link to={"/tutor-managment/profile/" + tutor.userId} >{t('TUTOR_MANAGMENT.TABLE.PREVIEW_PROFILE')}</Link>
+                                    <td className='menu-container'><Link to={PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorId', tutor.userId)} >{t('TUTOR_MANAGMENT.TABLE.PREVIEW_PROFILE')}</Link>
                                         <div className='dots' tabIndex={1}>
                                             <span></span>
                                             <span></span>
@@ -205,7 +206,7 @@ const TutorManagment = () => {
                                                 className="btn btn--base btn--clear"
                                                 onClick={() => !tutor.verified ? approveTutor(tutor.userId) : handleDenyTutor(tutor)}
                                             >
-                                                <i className="icon icon--check icon--sm icon--grey"></i>
+                                                <i className={`icon icon--${tutor.verified ? 'close' : 'check'} icon--sm icon--grey`}></i>
                                                 {!tutor.verified ?  
                                                     t('TUTOR_MANAGMENT.ACTIONS.APPROVE') :
                                                     t('TUTOR_MANAGMENT.ACTIONS.DECLINE') }
@@ -257,7 +258,7 @@ const TutorManagment = () => {
                                     setTutorDenySent(true);
                                 }}
                             >
-                                Deny
+                                {t('TUTOR_MANAGMENT.ACTIONS.DECLINE')}
                             </button>
                             <button
                                 className="btn btn--base btn--clear modal-button--cancel"
@@ -266,7 +267,7 @@ const TutorManagment = () => {
                                     setSelectedTutor(undefined);
                                 }}
                             >
-                                Cancel
+                                {t('TUTOR_MANAGMENT.ACTIONS.CANCEL')}
                             </button>
                         </div>) : 
                     (

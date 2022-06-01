@@ -15,7 +15,7 @@ export const getDateAgoLabel = (dateCreated: string) => {
     }
 
     if (monthsDiff !== 0) {
-        return `${t('MY_REVIEWS.DATE_AGO.BEFORE')} ${monthsDiff === 1 ? monthsDiff + t('MY_REVIEWS.DATE_AGO.YEARS') : monthsDiff + ' months ago'} `;
+        return `${t('MY_REVIEWS.DATE_AGO.BEFORE')} ${monthsDiff === 1 ? monthsDiff + t('MY_REVIEWS.DATE_AGO.MONTH') : monthsDiff + t('MY_REVIEWS.DATE_AGO.MONTH')} `;
     }
 
     if (weekDiff !== 0) {
