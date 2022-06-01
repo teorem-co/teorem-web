@@ -5,12 +5,11 @@ import MainWrapper from '../../../components/MainWrapper';
 import { useAppSelector } from '../../../hooks';
 import AsideWrapper from '../components/AsideWrapper';
 import SingleConversation from '../components/SingleConversation';
-import { setActiveChatRoom } from '../slices/chatSlice';
+import { setActiveChatRoomById } from '../slices/chatSlice';
 
 
 const Chat = () => {
 
-    const user = useAppSelector((state) => state.auth.user);
     const chat = useAppSelector((state) => state.chat);
 
     const dispatch = useDispatch();
@@ -21,11 +20,12 @@ const Chat = () => {
             for (let i = 0; i < chat.chatRooms.length; i++) {
 
                 if (i == 0) {
-                    dispatch(setActiveChatRoom(chat.chatRooms[0]));
+                    dispatch(setActiveChatRoomById({ userId: chat.chatRooms[0].user?.userId + '', tutorId: chat.chatRooms[0].tutor?.userId + '' }));
                     break;
                 }
             }
         }
+
     }, []);
 
 

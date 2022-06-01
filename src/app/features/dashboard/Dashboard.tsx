@@ -17,7 +17,7 @@ import { RoleOptions } from '../../../slices/roleSlice';
 import MainWrapper from '../../components/MainWrapper';
 import { useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
-import { IChatMessage, IChatRoom, ISendChatMessage, setActiveChatRoom } from '../chat/slices/chatSlice';
+import { IChatMessage, IChatRoom, ISendChatMessage, setActiveChatRoomById } from '../chat/slices/chatSlice';
 import IBooking from '../my-bookings/interfaces/IBooking';
 import LearnCubeModal from '../my-profile/components/LearnCubeModal';
 import NotificationItem from '../notifications/components/NotificationItem';
@@ -87,9 +87,14 @@ const Dashboard = () => {
         setLearnCubeModal(true);
     };
 
-    const handleGoToChat = (activeChatRoom: any) => {
-        dispatch(setActiveChatRoom(activeChatRoom));
-        history.push(t('PATHS.CHAT'));
+    const handleGoToChat = (activeChatRoom: IChatRoom) => {
+        dispatch(setActiveChatRoomById(
+            {
+                userId: activeChatRoom.user?.userId + '',
+                tutorId: activeChatRoom.tutor?.userId + '',
+            }
+        ));
+
     };
 
     useEffect(() => {
@@ -98,7 +103,7 @@ const Dashboard = () => {
 
             const message = cr.messages[cr.messages.length - 1] || null;
 
-            if (message && !message.message.isRead) {
+            if (message && !message.message.isRead && userId == message.senderId) {
                 const messageText = message.message.message || null;
 
                 if (messageText) {
@@ -130,6 +135,11 @@ const Dashboard = () => {
         if (userDataFirst && userDataSecond) {
             const tmpCr: any = [];
             chatrooms.forEach(cr => {
+
+                const message = cr.messages[cr.messages.length - 1];
+
+                if (message && (message.message.isRead || userId != message.senderId))
+                    return;
 
                 let messageText = cr.messages[cr.messages.length - 1].message.message || t('DASHBOARD.MESSAGES.EMPTY');
 
@@ -334,10 +344,10 @@ const Dashboard = () => {
                                                 <div className="type--color--secondary">
                                                     {moment(unreadChatrooms[activeMsgIndex].messages[unreadChatrooms[activeMsgIndex].messages.length - 1]?.message?.createdAt).format('DD/MMM/yyy')}
                                                 </div>
-                                                <Link 
+                                                <Link
                                                     to={PATHS.CHAT}
                                                     className="btn btn--base card--dashboard__btn"
-                                                    //onClick={() => handleGoToChat(unreadChatrooms[activeMsgIndex])}
+                                                    onClick={() => handleGoToChat(unreadChatrooms[activeMsgIndex])}
                                                 >
                                                     {t('DASHBOARD.MESSAGES.BUTTON')}
                                                 </Link>

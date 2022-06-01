@@ -4,7 +4,7 @@ import { debounce } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { setSourceMapRange } from 'typescript';
+import { isConstructorDeclaration, setSourceMapRange } from 'typescript';
 
 import { useLazyGetUserQuery } from '../../../../services/userService';
 import { useAppSelector } from '../../../hooks';
@@ -12,7 +12,7 @@ import { Role } from '../../../lookups/role';
 import { PATHS } from '../../../routes';
 import { useLazyGetFreeConsultationLinkQuery } from '../../../services/learnCubeService';
 import { IChatMessagesQuery, useLazyGetChatMessagesQuery } from '../services/chatService';
-import { addChatRoom, getMessages, IChatRoom, ISendChatMessage, readMessage, setBuffer, setConsultationInitialized, setFreeConsultation, setLink } from '../slices/chatSlice';
+import { addChatRoom, getMessagesById, IChatRoom, ISendChatMessage, readMessage, setBuffer, setConsultationInitialized, setFreeConsultation, setLink } from '../slices/chatSlice';
 import FreeConsultationModal from './FreeConsultationModal';
 import SendMessageForm from './SendMessageForm';
 
@@ -53,6 +53,9 @@ const SingleConversation = (props: Props) => {
     let lastMessageUserId: string = '';
 
     useEffect(() => {
+        scrollToBottomSmooth();
+    }, []);
+    useEffect(() => {
 
         chat.socket.on("onAcceptedFreeConsultation", (buffer: any) => {
             dispatch(setConsultationInitialized(true));
@@ -80,8 +83,12 @@ const SingleConversation = (props: Props) => {
     });
 
     useEffect(() => {
-        if (chatMessages)
-            dispatch(getMessages(chatMessages));
+        if (chatMessages && props.data)
+            dispatch(getMessagesById({
+                userId: props.data.user?.userId + '',
+                tutorId: props.data?.tutor?.userId + '',
+                messages: chatMessages,
+            }));
     }, [chatMessages]);
 
     useEffect(() => {
@@ -105,7 +112,7 @@ const SingleConversation = (props: Props) => {
     }, [props.data]);
 
     useEffect(() => {
-        if (userActive && props.data) {
+        if (userActive && props.data && page > 1) {
 
             const getMessagesObject: IChatMessagesQuery = {
                 userId: (userActive.id == props.data?.user?.userId ? props.data.tutor?.userId : props.data?.user?.userId) || '',
@@ -387,6 +394,7 @@ const SingleConversation = (props: Props) => {
                 }
                 {props.data && props.data.messages.length > 0 && props.data.messages.map((message: ISendChatMessage, index: number) => {
 
+
                     let img = false;
 
                     if (message.senderId !== lastMessageUserId) {
@@ -417,9 +425,9 @@ const SingleConversation = (props: Props) => {
                                     src={props.data ? ('https://' + (message.senderId == props.data.tutor?.userId ? props.data.tutor?.userImage : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')) : "teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg"}
                                     alt={'profile avatar'} />
                                 }
-                                <div className={`message-full-width flex flex--col flex--end`}>
-                                    <div className="type--right w--80--max">
-                                        <div className={`chat__message__item__end chat__message__item chat__message__item--logged${message.message.isFile ? " chat-file-outline" : ""}`} dangerouslySetInnerHTML={{ __html: (message.message.isFile ? '<i class="icon--attachment chat-file-icon"></i>' : '') + messageText }}>
+                                <div key={`sub-${index}`} className={`message-full-width flex flex--col flex--end`}>
+                                    <div key={`sub-sub-${index}`} className="type--right w--80--max">
+                                        <div key={`sub-sub-sub-${index}`} className={`chat__message__item__end chat__message__item chat__message__item--logged${message.message.isFile ? " chat-file-outline" : ""}`} dangerouslySetInnerHTML={{ __html: (message.message.isFile ? '<i class="icon--attachment chat-file-icon"></i>' : '') + messageText }}>
                                         </div>
                                     </div>
                                 </div>
@@ -433,9 +441,9 @@ const SingleConversation = (props: Props) => {
                                 src={props.data ? ('https://' + (message.senderId == props.data.tutor?.userId ? props.data.tutor?.userImage : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')) : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg'}
                                 alt={'profile avatar'} />
                             }
-                            <div className={`message-full-width flex flex--col`}>
-                                <div className="w--80--max">
-                                    <div className={`chat__message__item chat__message__item--other${message.message.isFile ? " chat-file-outline" : ""}`} dangerouslySetInnerHTML={{ __html: (message.message.isFile ? '<i class="icon--attachment chat-file-icon"></i>' : '') + messageText }}>
+                            <div key={`sub-${index}`} className={`message-full-width flex flex--col`}>
+                                <div key={`sub-sub-${index}`} className="w--80--max">
+                                    <div key={`sub-sub-sub-${index}`} className={`chat__message__item chat__message__item--other${message.message.isFile ? " chat-file-outline" : ""}`} dangerouslySetInnerHTML={{ __html: (message.message.isFile ? '<i class="icon--attachment chat-file-icon"></i>' : '') + messageText }}>
                                     </div>
                                 </div>
                             </div>
