@@ -242,7 +242,7 @@ const Dashboard = () => {
                                                     <button
                                                         className="btn card--dashboard__btn"
                                                         onClick={() => handleNextIndex()}
-                                                        disabled={activeIndex === todayScheduled.length - 1}
+                                                        disabled={activeIndex === todayScheduled.length - 1 || todayScheduled.length == 0}
                                                     >
                                                         <i className="icon icon--base icon--chevron-right icon--white"></i>
                                                     </button>
@@ -294,7 +294,7 @@ const Dashboard = () => {
                                                     <button
                                                         className="btn card--dashboard__btn"
                                                         onClick={() => handleNextIndex()}
-                                                        disabled={activeIndex === todayScheduled.length - 1}
+                                                        disabled={activeIndex === todayScheduled.length - 1 || todayScheduled.length == 0}
                                                     >
                                                         <i className="icon icon--base icon--chevron-right icon--white"></i>
                                                     </button>
@@ -326,7 +326,7 @@ const Dashboard = () => {
                                                     <button
                                                         className="btn card--dashboard__btn"
                                                         onClick={() => handleNextMsgIndex()}
-                                                        disabled={activeMsgIndex === unreadChatrooms.length - 1}
+                                                        disabled={activeMsgIndex === unreadChatrooms.length - 1 || unreadChatrooms.length == 0}
                                                     >
                                                         <i className="icon icon--base icon--chevron-right icon--primary"></i>
                                                     </button>
@@ -390,7 +390,7 @@ const Dashboard = () => {
                                                     <button
                                                         className="btn card--dashboard__btn"
                                                         onClick={() => handleNextMsgIndex()}
-                                                        disabled={activeMsgIndex === unreadChatrooms.length - 1}
+                                                        disabled={activeMsgIndex === unreadChatrooms.length - 1 || unreadChatrooms.length == 0}
                                                     >
                                                         <i className="icon icon--base icon--chevron-right icon--primary"></i>
                                                     </button>
