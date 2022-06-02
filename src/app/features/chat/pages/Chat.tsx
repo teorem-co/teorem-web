@@ -28,7 +28,6 @@ const Chat = () => {
 
     }, []);
 
-
     return (
         <MainWrapper>
             <div className="card--chat card--primary--shadow">

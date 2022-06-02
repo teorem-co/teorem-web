@@ -54,6 +54,7 @@ const AsideWrapper = (props: Props) => {
 
     };
 
+
     return (
         <div className="card--chat__aside">
             <div className="p-4">
@@ -65,6 +66,9 @@ const AsideWrapper = (props: Props) => {
 
 
                     if (chatConversationItem.messages[chatConversationItem.messages.length - 1] && chatConversationItem.messages[chatConversationItem.messages.length - 1].message) {
+
+
+
 
                         let messageText = chatConversationItem.messages[chatConversationItem.messages.length - 1].message.message || '';
                         messageText = messageText.replace(/stringTranslate=\{(.*?)\}/g, function (match: any, token: any) {
@@ -82,7 +86,7 @@ const AsideWrapper = (props: Props) => {
                             unread: chatConversationItem.unreadMessageCount > 0
                         };
 
-
+                        console.log(chatConversation);
 
                         return (chatConversationItem.tutor?.userId == activeChat?.tutor?.userId && chatConversationItem.user?.userId == activeChat?.user?.userId) ? <ConversationAside key={index} chat={chatConversationItem} data={chatConversation} active={true} /> : <ConversationAside key={index} chat={chatConversationItem} data={chatConversation} active={false} />;
                     } else {

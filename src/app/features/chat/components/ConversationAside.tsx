@@ -63,7 +63,8 @@ const ConversationAside = (props: Props) => {
         });
 
         setMessageDisplay(textMessage);
-    }, []);
+
+    }, [lastMessage]);
 
     return (
 

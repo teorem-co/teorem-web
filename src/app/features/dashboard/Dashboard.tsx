@@ -103,7 +103,7 @@ const Dashboard = () => {
 
             const message = cr.messages[cr.messages.length - 1] || null;
 
-            if (message && !message.message.isRead && userId == message.senderId) {
+            if (message && !message.message.isRead && userId != message.senderId) {
                 const messageText = message.message.message || null;
 
                 if (messageText) {

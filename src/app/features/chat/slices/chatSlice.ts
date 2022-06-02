@@ -411,20 +411,6 @@ const chatSlice = createSlice({
 
                             if (missedCall)
                                 break;
-
-                            /*if (!x) {
-                                newMessages.push(action.payload?.messages[j]);
-                            }
-
-                            const y = state.chatRooms[i].messages.find((x: ISendChatMessage) => {
-
-                                return x.message.messageId == action.payload?.messages[j].message.messageId
-                                    && (!action.payload?.messages[j].message.messageMissedCall || !action.payload?.messages[j].message.messageNew);
-                            });
-
-                            if (!y) {
-                                newMessages.push(action.payload?.messages[j]);
-                            }*/
                         }
 
                         state.chatRooms[i].messages = filterArrayUniqueMessages(state.chatRooms[i].messages.concat(action.payload?.messages));
@@ -433,6 +419,7 @@ const chatSlice = createSlice({
                             state.activeChatRoom.messages = state.chatRooms[i].messages;
 
 
+                        state.activeChatRoom = state.chatRooms[i];
                         break;
                     }
                 };
@@ -440,14 +427,12 @@ const chatSlice = createSlice({
 
 
                 if (!missedCall) {
-                    /* if (action.payload.user?.userId == state.user?.userId)
-                         state.activeChatRoom = action.payload;
-                     else */
-                    if (!state.activeChatRoom)
-                        state.activeChatRoom = action.payload;
 
-                    if (!inside)
+
+                    if (!inside) {
                         state.chatRooms.push(action.payload);
+                        state.activeChatRoom = state.chatRooms[state.chatRooms.length - 1];
+                    }
                 }
                 if (state.newMessages) {
                     if (action.payload.unreadMessageCount > 0)
