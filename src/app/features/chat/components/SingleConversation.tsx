@@ -37,6 +37,7 @@ const SingleConversation = (props: Props) => {
     const [freeConsultationClicked, setFreeConsultationClicked] = useState<boolean>(false);
     const [freeCallExpired, setFreeCallExpired] = useState<boolean>(false);
     const [freeCallCancelled, setFreeCallCancelled] = useState<boolean | null>(null);
+    const [freeCallCancel, setFreeCallCancel] = useState<boolean>(false);
 
     const [getChatMessages, { data: chatMessages }] = useLazyGetChatMessagesQuery();
 
@@ -139,7 +140,8 @@ const SingleConversation = (props: Props) => {
 
     useEffect(() => {
 
-        if (user2Data && user2Data2) {
+        if (user2Data && user2Data2 && freeCallCancel) {
+
             let messageText = "userInsert={username} stringTranslate={NOTIFICATIONS.CHAT_HAS_MISSED_CALL}";
             messageText = messageText.replace(/stringTranslate=\{(.*?)\}/g, function (match: any, token: any) {
                 return t(token);
@@ -194,8 +196,10 @@ const SingleConversation = (props: Props) => {
                 },
                 senderId: (userActive?.id || chat.buffer?.senderId) == user2Data.id ? user2Data.id : user2Data2.id,
             });
+
+            setFreeCallCancel(false);
         }
-    }, [user2Data, user2Data2]);
+    }, [user2Data, user2Data2, freeCallCancel]);
 
     useEffect(() => {
 
@@ -309,6 +313,7 @@ const SingleConversation = (props: Props) => {
     const onCancelFreeConsultation = () => {
 
         if (freeConsultationIsSuccess) {
+
             chat.socket.emit("cancelFreeConsultation", {
                 userId: props.data?.user?.userId,
                 tutorId: props.data?.tutor?.userId,
@@ -318,6 +323,7 @@ const SingleConversation = (props: Props) => {
 
             handleChatInit();
             setFreeCallCancelled(true);
+            setFreeCallCancel(true);
 
             getUserById(props.data?.user?.userId + '');
             getUserById2(props.data?.tutor?.userId + '');
@@ -414,7 +420,7 @@ const SingleConversation = (props: Props) => {
                         return t(token);
                     });
                     messageText = messageText.replace(/userInsert=\{(.*?)\}/g, function (match: any, token: any) {
-                        return message.senderId == message.tutorId ? `${props.data?.tutor?.userNickname}` : `${props.data?.tutor?.userNickname}`;
+                        return message.senderId == message.tutorId ? `${props.data?.tutor?.userNickname}` : `${props.data?.user?.userNickname}`;
                     });
 
                     if (userActive && userActive.id == message.senderId)
