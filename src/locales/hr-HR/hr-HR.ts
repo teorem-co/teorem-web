@@ -4,6 +4,8 @@ export const HR_HR = {
     ERROR_HANDLING: {
         UNHANDLED_ERROR: 'Došlo je do neočekivane pogreške!',
         SUPPORT: 'Nešto je pošlo po zlu, molimo Vas kontaktirajte podršku',
+        CREDIT_CARD_MISSING: 'Nedostaje vam kreditna kartica. Molimo dodajte način plaćanja prije kreiranja rezervacije.',
+        DEFAULT_CARD_MISSING: 'Nemate zadani način plaćanja. Odaberite jednu od svojih kreditnih kartica.',
         NO_CHILD_USERNAME: 'Ne postoji dijete s danim korisničkim imenom',
         REGISTERED_SUCCESSFULLY: 'Registracija uspješna.',
     },
@@ -147,6 +149,9 @@ export const HR_HR = {
         UNPROCESSED: 'NEOBRAĐENO',
         APPROVED: 'ODOBRENO',
         DENIED: 'ODBIJENO',
+        SUBJECT_LIST: {
+            MORE: 'više',
+        },
         NO_RESULT: {
             TITLE: 'Nema rezultata',
             DESC: ' Hmm, izgleda da nema instruktora za ovu određenu pretragu.',
@@ -402,6 +407,7 @@ export const HR_HR = {
         NO_RESULT: {
             TITLE: 'Bez rezultata',
             DESC: 'Još uvijek nemate niti jednu recenziju.',
+            DESC_ADMIN: 'Još uvijek nema niti jedne recenzije.',
         },
         DATE_AGO: {
             BEFORE: ' prije ',
@@ -637,7 +643,6 @@ export const HR_HR = {
             },
         },
         CHAT_HAS_MISSED_CALL: ' je propustio Vaš poziv',
-
     },
     EARNINGS: {
         TITLE: 'Prihod',

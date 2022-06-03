@@ -407,6 +407,7 @@ export const EN_US = {
         NO_RESULT: {
             TITLE: 'No results',
             DESC: 'You don`t have any reviews yet.',
+            DESC_ADMIN: 'No reviews yet.',
         },
         DATE_AGO: {
             BEFORE: '',

@@ -213,7 +213,7 @@ const TutorManagment = () => {
                                             </button>
                                             <button
                                                 className="btn btn--base btn--clear"
-                                                onClick={() => deleteTutor(tutor.userId)}
+                                                onClick={() => {console.log(tutor.userId); deleteTutor(tutor.userId);}}
                                             >
                                                 <i className="icon icon--delete icon--sm icon--red"></i>
                                                 {t('TUTOR_MANAGMENT.ACTIONS.DELETE')}

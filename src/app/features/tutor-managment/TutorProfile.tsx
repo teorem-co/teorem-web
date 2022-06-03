@@ -92,8 +92,17 @@ const TutorProfile = () => {
                     <i className={`icon icon--base ${column ? 'icon--check icon--primary' : 'icon--close icon--grey'} `}></i>
                 </td>
             );
-        } else {
-            return <td key={index}>{column}</td>;
+        } else if(column == ''){
+            return <td key={index}></td>;
+        } else if(column == 'Pre 12 pm'){
+            return <td key={index}>{t(`TUTOR_PROFILE.PRE12`)}</td>;
+        } else if(column == '12 - 5 pm'){
+            return <td key={index}>{t(`TUTOR_PROFILE.ON12`)}</td>;
+        } else if(column == 'After 5 pm'){
+            return <td key={index}>{t(`TUTOR_PROFILE.AFTER5`)}</td>;
+        } 
+        else {
+            return <td key={index}>{t(`CONSTANTS.DAYS_SHORT.${column.toUpperCase()}`)}</td>;
         }
     };
 
@@ -315,7 +324,7 @@ const TutorProfile = () => {
                                             <div className="reviews-list">
                                                 <div className="type--center mt-22">
                                                     <h1 className="type--xxl">{t('MY_REVIEWS.NO_RESULT.TITLE')}</h1>
-                                                    <p className="type--color--secondary">{t('MY_REVIEWS.NO_RESULT.DESC')}</p>
+                                                    <p className="type--color--secondary">{t('MY_REVIEWS.NO_RESULT.DESC_ADMIN')}</p>
                                                 </div>
                                             </div>
                                         )}
