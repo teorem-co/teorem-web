@@ -147,7 +147,7 @@ const AddCreditCard = (props: Props) => {
                             {t('ACCOUNT.NEW_CARD.ADD_BUTTON')}
                         </button>
                         <button onClick={() => closeSidebar()} className="btn btn--clear type--color--error type--wgt--bold">
-                            Cancel
+                            {t('ACCOUNT.NEW_CARD.CANCEL_BUTTON')}
                         </button>
                     </div>
                 </div>

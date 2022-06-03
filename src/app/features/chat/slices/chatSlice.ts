@@ -90,7 +90,9 @@ export const filterArrayUnique = (arr: Array<any>, prop: string) => {
 export const filterArrayUniqueMessages = (arr: Array<ISendChatMessage>) => {
     const set = new Set;
     return arr.filter(o => {
-        return !set.has(o.message.messageId) && set.add(o.message.messageId);;
+        if (o.message.messageMissedCall)
+            return true;
+        return !set.has(o.message.messageId) && set.add(o.message.messageId);
     });
 };
 
@@ -106,15 +108,12 @@ const chatSlice = createSlice({
 
         setActiveChatRoom(state, action: PayloadAction<IChatRoom | null>) {
 
-            console.log(action.payload);
-
             if (action.payload)
                 state.activeChatRoom = action.payload;
+
         },
 
         setActiveChatRoomById(state, action: PayloadAction<IChatRoomIdSet | null>) {
-
-            console.log(action.payload);
 
             if (action.payload) {
 
@@ -281,7 +280,7 @@ const chatSlice = createSlice({
 
                     messages.sort((a: ISendChatMessage, b: ISendChatMessage) =>
 
-                        a.message.createdAt > b.message.createdAt ? 1 : -1
+                        new Date(a.message.createdAt) > new Date(b.message.createdAt) ? 1 : -1
                     );
 
                     state.chatRooms[i].messages = messages;
@@ -358,7 +357,7 @@ const chatSlice = createSlice({
                     for (let j = 0; j < state.chatRooms[i].messages.length; j++) {
                         if (state.chatRooms[i].messages[j].message.messageId == action.payload.message.messageId) {
 
-                            if (state.chatRooms[i].messages[j].message.messageNew || state.chatRooms[i].messages[j].message.isRead)
+                            if ((state.chatRooms[i].messages[j].message.messageNew && !state.chatRooms[i].messages[j].message.messageMissedCall) || state.chatRooms[i].messages[j].message.isRead)
                                 return;
 
                             state.chatRooms[i].messages[j].message.isRead = true;
@@ -368,11 +367,12 @@ const chatSlice = createSlice({
                                 state.newMessages -= 1;
                             else
                                 state.newMessages = 0;
-                            if (!state.chatRooms[i].messages[j].message.messageNew && state.activeChatRoom?.tutor?.userId == state.chatRooms[i].messages[j].tutorId && state.activeChatRoom?.user?.userId == state.chatRooms[i].messages[j].userId) {
+                            if (!(state.chatRooms[i].messages[j].message.messageNew && !state.chatRooms[i].messages[j].message.messageMissedCall) && state.activeChatRoom?.tutor?.userId == state.chatRooms[i].messages[j].tutorId && state.activeChatRoom?.user?.userId == state.chatRooms[i].messages[j].userId) {
                                 state.activeChatRoom.unreadMessageCount = Math.max(0, state.activeChatRoom.unreadMessageCount - 1);
                             }
 
-                            state.socket.emit('readMessage', state.chatRooms[i].messages[j]);
+                            if (state.chatRooms[i].messages[j].message.messageId)
+                                state.socket.emit('readMessage', state.chatRooms[i].messages[j]);
                             return;
                         }
                     }
@@ -394,11 +394,9 @@ const chatSlice = createSlice({
 
                         inside = true;
 
-                        const newMessages: ISendChatMessage[] = [];
-
                         for (let j = 0; j < action.payload.messages.length; j++) {
 
-                            const x = state.chatRooms[i].messages.find((x: ISendChatMessage) => {
+                            state.chatRooms[i].messages.find((x: ISendChatMessage) => {
 
                                 if (action.payload?.messages[j].message.messageMissedCall && action.payload?.messages[j].message.messageNew) {
                                     missedCall = true;
@@ -413,10 +411,10 @@ const chatSlice = createSlice({
                                 break;
                         }
 
-                        state.chatRooms[i].messages = filterArrayUniqueMessages(state.chatRooms[i].messages.concat(action.payload?.messages));
+                        state.chatRooms[i].messages = filterArrayUniqueMessages(state.chatRooms[i].messages.concat(action.payload?.messages)).sort((a: ISendChatMessage, b: ISendChatMessage) =>
 
-                        if (state.activeChatRoom)
-                            state.activeChatRoom.messages = state.chatRooms[i].messages;
+                            new Date(a.message.createdAt) > new Date(b.message.createdAt) ? 1 : -1
+                        );
 
 
                         state.activeChatRoom = state.chatRooms[i];

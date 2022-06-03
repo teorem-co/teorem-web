@@ -86,8 +86,6 @@ const AsideWrapper = (props: Props) => {
                             unread: chatConversationItem.unreadMessageCount > 0
                         };
 
-                        console.log(chatConversation);
-
                         return (chatConversationItem.tutor?.userId == activeChat?.tutor?.userId && chatConversationItem.user?.userId == activeChat?.user?.userId) ? <ConversationAside key={index} chat={chatConversationItem} data={chatConversation} active={true} /> : <ConversationAside key={index} chat={chatConversationItem} data={chatConversation} active={false} />;
                     } else {
 

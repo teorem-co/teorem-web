@@ -66,6 +66,9 @@ export const HR_HR = {
             CREATE: 'Uspješno ste dodali dijete',
             DELETE: 'Uspješno ste uklonili dijete',
         },
+        LEVEL_REQUIRED: 'Razina je obavezna',
+        SUBJECT_REQUIRED: 'Predmet je obavezan',
+        CHILD_REQUIRED: 'Dijete je obavezno',
     },
     NAVIGATION: {
         MY_BOOKINGS: 'Kalendar',
@@ -471,7 +474,7 @@ export const HR_HR = {
             SURNAME_PLACEHOLDER: 'Unesite prezime',
             CITY: 'Grad',
             CITY_PLACEHOLDER: 'Unesite ime grada',
-            ADDRESS1: 'ADresa 1',
+            ADDRESS1: 'Adresa 1',
             ADDRESS1_PLACEHOLDER: 'Unesite prvu adresu',
             ADDRESS2: 'Adresa 2',
             ADDRESS2_PLACEHOLDER: 'Unesite drugu adresu',
@@ -482,6 +485,9 @@ export const HR_HR = {
             CVV: 'CVV*',
             CVV_PLACEHOLDER: '***',
             ADD_BUTTON: 'Dodajte novu karticu',
+            CANCEL_BUTTON: 'Odustani',
+            ZIP: 'Zip',
+            ZIP_PLACEHOLDER: '12345',
         },
         SUBMIT: 'Spremi',
     },
@@ -630,7 +636,7 @@ export const HR_HR = {
                 PART2: 'nije prihvatio/la.',
             },
         },
-        CHAT_HAS_MISSED_CALL: ' je propustio vaš poziv',
+        CHAT_HAS_MISSED_CALL: ' je propustio Vaš poziv',
 
     },
     EARNINGS: {

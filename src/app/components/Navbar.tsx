@@ -1,3 +1,4 @@
+import { t } from "i18next";
 import { NavLink } from 'react-router-dom';
 
 import gradientCircle from '../../assets/images/gradient-circle.svg';
@@ -24,13 +25,13 @@ const Navbar = () => {
 
     return (
         <div className="navbar">
-            <NavLink 
-                className="d--b" 
-                to={`${user?.Role?.abrv === RoleOptions.SuperAdmin ? 
-                        PATHS.TUTOR_MANAGMENT : 
-                        user?.Role?.abrv === RoleOptions.Tutor ? 
-                            PATHS.DASHBOARD : 
-                            PATHS.MY_BOOKINGS}`}
+            <NavLink
+                className="d--b"
+                to={`${user?.Role?.abrv === RoleOptions.SuperAdmin ?
+                    PATHS.TUTOR_MANAGMENT :
+                    user?.Role?.abrv === RoleOptions.Tutor ?
+                        PATHS.DASHBOARD :
+                        PATHS.MY_BOOKINGS}`}
             >
                 <img className="navbar__logo" src={logo} alt="logo" />
             </NavLink>
@@ -56,25 +57,25 @@ const Navbar = () => {
                         </div>
                     </div>
                 )) || (
-                    <NavLink to={PROFILE_PATHS.MY_PROFILE_INFO_PERSONAL} className="navbar__bottom__my-profile" activeClassName="active">
-                        <div className="navbar__bottom__avatar pos--rel">
-                            {user?.Role?.abrv === RoleOptions.Tutor ? (
-                                <img src={user?.profileImage ? 'https://' + user?.profileImage : gradientCircle} alt="avatar" />
-                            ) : (
-                                <ImageCircle initials={`${user?.firstName.charAt(0)}${user?.lastName.charAt(0)}`} />
-                            )}
-                            <div className="navbar__bottom--settings">
-                                <i className="icon icon--base icon--white icon--settings"></i>
+                        <NavLink to={PROFILE_PATHS.MY_PROFILE_INFO_PERSONAL} className="navbar__bottom__my-profile" activeClassName="active">
+                            <div className="navbar__bottom__avatar pos--rel">
+                                {user?.Role?.abrv === RoleOptions.Tutor ? (
+                                    <img src={user?.profileImage ? 'https://' + user?.profileImage : gradientCircle} alt="avatar" />
+                                ) : (
+                                    <ImageCircle initials={`${user?.firstName.charAt(0)}${user?.lastName.charAt(0)}`} />
+                                )}
+                                <div className="navbar__bottom--settings">
+                                    <i className="icon icon--base icon--white icon--settings"></i>
+                                </div>
                             </div>
-                        </div>
-                        <div className="navbar__bottom__user-info">
-                            <div className="type--color--primary type--wgt--bold type--break">
-                                {user?.firstName} {user?.lastName}
+                            <div className="navbar__bottom__user-info">
+                                <div className="type--color--primary type--wgt--bold type--break">
+                                    {user?.firstName} {user?.lastName}
+                                </div>
+                                <div className="type--xs type--color--secondary type--wgt--regular ">{t("ROLES." + user?.Role?.abrv)}</div>
                             </div>
-                            <div className="type--xs type--color--secondary type--wgt--regular ">{user?.Role?.name}</div>
-                        </div>
-                    </NavLink>
-                )}
+                        </NavLink>
+                    )}
 
                 <NavLink to={PATHS.LOGIN} onClick={handleLogout} className="d--ib">
                     <i className="icon icon--logout icon--sm icon--grey"></i>

@@ -154,13 +154,13 @@ const SingleConversation = (props: Props) => {
                 message: {
                     message: messageText,
                     createdAt: new Date(),
-                    isRead: false,
+                    isRead: true,
                     messageId: '',
                     isFile: false,
                     messageNew: true,
                     messageMissedCall: true,
                 },
-                senderId: userActive?.id || chat.buffer?.senderId,
+                senderId: (userActive?.id || chat.buffer?.senderId) == user2Data.id ? user2Data2.id : user2Data.id,
             };
 
             const chatRoom: IChatRoom = {
@@ -175,7 +175,7 @@ const SingleConversation = (props: Props) => {
                     userNickname: user2Data2.firstName + ' ' + user2Data2?.lastName,
                 },
                 messages: [message],
-                unreadMessageCount: 1
+                unreadMessageCount: 0
             };
 
             dispatch(addChatRoom(chatRoom));
@@ -186,13 +186,13 @@ const SingleConversation = (props: Props) => {
                 message: {
                     message: "userInsert={username} stringTranslate={NOTIFICATIONS.CHAT_HAS_MISSED_CALL}",
                     createdAt: new Date(),
-                    isRead: false,
+                    isRead: true,
                     messageId: '',
                     isFile: false,
                     messageNew: true,
                     messageMissedCall: true,
                 },
-                senderId: userActive?.id || chat.buffer?.senderId,
+                senderId: (userActive?.id || chat.buffer?.senderId) == user2Data.id ? user2Data.id : user2Data2.id,
             });
         }
     }, [user2Data, user2Data2]);
@@ -406,7 +406,7 @@ const SingleConversation = (props: Props) => {
                         //scrollToBottomSmooth();
                     }
 
-                    if (message.message.messageMissedCall && userActive?.id !== message.senderId)
+                    if (message.message.messageMissedCall && userActive?.id == message.senderId)
                         return <></>;
 
                     let messageText = message.message.message || '';

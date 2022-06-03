@@ -61,12 +61,12 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
 
     const generateValidationSchema = () => {
         const validationSchema: any = {
-            level: Yup.string().required('Level is required'),
-            subject: Yup.string().required('Subject is required'),
+            level: Yup.string().required(t('FORM_VALIDATION.LEVEL_REQUIRED')),
+            subject: Yup.string().required(t('FORM_VALIDATION.SUBJECT_REQUIRED')),
         };
 
         if (userRole === RoleOptions.Parent) {
-            validationSchema['child'] = Yup.string().required('Child is required');
+            validationSchema['child'] = Yup.string().required(t('FORM_VALIDATION.CHILD_REQUIRED'));
             return validationSchema;
         }
 
@@ -108,7 +108,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
             });
             props.clearEmptyBookings();
         }
-        
+
         setIsCreateBookingLoading(false);
     };
 
@@ -174,7 +174,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                     <div>
                         <div className="type--wgt--bold type--md mb-1">{t('BOOK.TITLE')}</div>
                         <div className="type--color--secondary">
-                            { moment(start).format('DD/MM/YYYY, HH:mm')} - {end}
+                            {moment(start).format('DD/MM/YYYY, HH:mm')} - {end}
                         </div>
                     </div>
                     <i
@@ -278,8 +278,8 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
             </div>
             {!isCreateBookingLoading ? (
                 <div className="modal--parent__footer">
-                    <button 
-                    className="btn btn--base btn--primary type--wgt--extra-bold mb-1" onClick={() => handleSubmitForm()}
+                    <button
+                        className="btn btn--base btn--primary type--wgt--extra-bold mb-1" onClick={() => handleSubmitForm()}
                     >
                         {t('BOOK.FORM.SUBMIT')}
                     </button>
@@ -292,11 +292,11 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                     >
                         {t('BOOK.FORM.CANCEL')}
                     </button>
-                </div> ) : (
-                    <div className="flex flex--jc--center flex--primary--center mb-6">
-                            <LoaderPrimary small />
-                    </div>
-                )}
+                </div>) : (
+                <div className="flex flex--jc--center flex--primary--center mb-6">
+                    <LoaderPrimary small />
+                </div>
+            )}
         </div>
     );
 };

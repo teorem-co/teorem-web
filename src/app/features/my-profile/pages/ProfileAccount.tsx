@@ -223,7 +223,7 @@ const ProfileAccount = () => {
         await setDefaultCreditCard(toSend)
             .unwrap()
             .then(() => {
-                toastService.success(t("PROFILE_ACCOUNT.STRIPE_DEFAULT_PAYMENT_METHOD_UPDATED"));
+                toastService.success(t("MY_PROFILE.PROFILE_ACCOUNT.STRIPE_DEFAULT_PAYMENT_METHOD_UPDATED"));
                 setActiveDefaultPaymentMethod(cardId);
             });
     };
