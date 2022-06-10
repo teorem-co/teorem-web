@@ -254,7 +254,7 @@ const TutorProfile = () => {
                                                                     {t(`LEVELS.${item.Level.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
                                                                 </td>
                                                                 <td>
-                                                                    ${item.price}
+                                                                    {item.price}
                                                                     <span className="type--color--tertiary">
                                                                         /{t('TUTOR_PROFILE.SUBJECTS.HOUR_ABRV')}
                                                                     </span>
@@ -349,8 +349,8 @@ const TutorProfile = () => {
                                             <span className="d--ib ml-2 type--color--secondary">{t('TUTOR_PROFILE.PRICING')}:</span>
                                         </div>
                                         <span className="d--ib ml-4">
-                                            {/* Add later */}${tutorData.minimumPrice}
-                                            &nbsp;-&nbsp;$
+                                            {/* Add later */}{tutorData.minimumPrice}
+                                            &nbsp;-&nbsp;
                                             {tutorData.maximumPrice}&nbsp;/{t('TUTOR_PROFILE.SUBJECTS.HOUR_ABRV')}
                                         </span>
                                     </div>

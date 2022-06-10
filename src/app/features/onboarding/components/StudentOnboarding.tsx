@@ -42,7 +42,7 @@ const StudentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep }) =
     const dispatch = useAppDispatch();
     const { t } = useTranslation();
     const [getCountries, { data: countries }] = useLazyGetCountriesQuery();
-    const [addUserQuery] = useAddUserMutation();
+    //const [addUserQuery] = useAddUserMutation();
 
     useEffect(() => {
         getCountries();
@@ -91,6 +91,7 @@ const StudentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep }) =
     });
 
     const handleSubmit = async (values: StepOneValues) => {
+        /*
         const toSend: IChatEnginePost = {
             email: email,
             first_name: firstName,
@@ -100,6 +101,7 @@ const StudentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep }) =
         };
 
         addUserQuery(toSend).unwrap();
+        */
         await registerStudent({
             firstName: firstName,
             lastName: lastName,

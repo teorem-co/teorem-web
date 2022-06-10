@@ -59,7 +59,7 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
     const [checkUsername] = useCheckUsernameMutation();
     const parentCreds = useAppSelector((state) => state.parentRegister);
     const { firstName, lastName, password, passwordRepeat, email, dateOfBirth, phoneNumber, countryId, child, skip } = parentCreds;
-    const [addUserQuery] = useAddUserMutation();
+    //const [addUserQuery] = useAddUserMutation();
 
     const [generateChildUsernamePost] = useGenerateChildUsernameMutation();
 
@@ -259,6 +259,7 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
     });
 
     const submitStepTwo = async () => {
+        /*
         const toSend: IChatEnginePost = {
             email: email,
             first_name: firstName,
@@ -266,8 +267,9 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
             secret: 'Teorem1!',
             username: email.split('@')[0],
         };
+        */
         if (skip) {
-            addUserQuery(toSend).unwrap();
+            //addUserQuery(toSend).unwrap();
 
             await registerParent({
                 firstName: firstName,
@@ -281,7 +283,7 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
                 roleAbrv: roleAbrv ? roleAbrv : '',
             }).unwrap();
         } else {
-            addUserQuery(toSend).unwrap();
+            //addUserQuery(toSend).unwrap();
             await registerParent({
                 firstName: firstName,
                 lastName: lastName,

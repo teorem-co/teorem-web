@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import heroImg from '../../../assets/images/hero-img.png';
-import { useLoginMutation } from '../../../services/authService';
+import { useLazyGetServerVersionQuery, useLoginMutation } from '../../../services/authService';
 import TextField from '../../components/form/TextField';
 import { useAppSelector } from '../../hooks';
 import { Role } from '../../lookups/role';
@@ -23,6 +23,7 @@ const Login: React.FC = () => {
     const { t } = useTranslation();
     const [loginErrorMessage, setLoginErrorMessage] = useState<string>();
     const [login, { data: loginData, isSuccess: isSuccessLogin, isLoading: isLoadingLogin, error: errorLogin }] = useLoginMutation();
+    const [getServerVersion, { data: serverVersion, isSuccess: isSuccessServerVersion }] = useLazyGetServerVersionQuery();
 
     const userRoleAbrv = useAppSelector((state) => state.auth.user?.Role?.abrv);
     const userToken = useAppSelector((state) => state.auth.token);
@@ -44,6 +45,7 @@ const Login: React.FC = () => {
                 password: values.password,
             };
             login(data);
+            getServerVersion();
         },
         validationSchema: Yup.object().shape({
             email: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),

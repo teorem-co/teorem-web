@@ -58,7 +58,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
     const [phoneTooltip, setPhoneTooltip] = useState<boolean>(false);
     const profileImage = useAppSelector((state) => state.tutorRegister.profileImage);
     const { t } = useTranslation();
-    const [addUserQuery] = useAddUserMutation();
+    //const [addUserQuery] = useAddUserMutation();
 
     // step one
     const editStepOne = () => {
@@ -116,8 +116,8 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
             profileImage: Yup.mixed()
                 .required('Image Required')
                 .test('profileImage', 'Image has to be either jpg,png,jpeg or svg and less than 2MB in size.', (value) => {
-                    if (value.size > 2000000) return false;
-                    if (value.type === 'image/jpg' || value.type === 'image/jpeg' || value.type === 'image/png' || value.type === 'image/svg') {
+                    if (value && value.size > 2000000) return false;
+                    if (value && value.type === 'image/jpg' || value.type === 'image/jpeg' || value.type === 'image/png' || value.type === 'image/svg') {
                         return true;
                     }
 
@@ -135,7 +135,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
                 profileImage: values.profileImage,
             })
         );
-
+        /*
         const toSend: IChatEnginePost = {
             email: email,
             first_name: firstName,
@@ -145,6 +145,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
         };
 
         addUserQuery(toSend).unwrap();
+        */
         await registerTutor({
             firstName: firstName,
             lastName: lastName,
