@@ -40,7 +40,10 @@ const GeneralAvailability = () => {
         
         if (typeof column === 'boolean') {
             return (
-                <td className={`${column ? 'table--availability--check' : 'table--availability--close'}`}>
+                <td 
+                className={`${column ? 'table--availability--check' : 'table--availability--close'}`}
+                onClick={()=>handleAvailabilityClick(availabilityIndex.column, availabilityIndex.row, column)}
+                >
                     <i className={`icon icon--base ${column ? 'icon--check icon--primary' : 'icon--close icon--grey'} `}></i>
                 </td>
             );
