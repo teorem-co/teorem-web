@@ -114,10 +114,10 @@ const TutorBookings = () => {
     };
 
     const CustomEvent = (event: any) => {
-        if (event.event.userId !== userId) {
+        if (event.event?.userId !== userId) {
             return <div className="my-bookings--unavailable"></div>;
         } else {
-            if (event.event.isAccepted === false) {
+            if (event.event?.isAccepted === false) {
                 return (
                     <div className="event">
                         <div className="type--wgt--bold">{event.event.label}</div>
