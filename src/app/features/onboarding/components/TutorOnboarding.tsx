@@ -114,8 +114,10 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
                     }
                 }),
             profileImage: Yup.mixed()
-                .required('Image Required')
                 .test('profileImage', 'Image has to be either jpg,png,jpeg or svg and less than 2MB in size.', (value) => {
+                    if (!value)
+                        return true;
+
                     if (value && value.size > 2000000) return false;
                     if (value && value.type === 'image/jpg' || value.type === 'image/jpeg' || value.type === 'image/png' || value.type === 'image/svg') {
                         return true;
@@ -315,7 +317,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
                             name="cardFirstName"
                             id="cardFirstName"
                             placeholder={t('REGISTER.FORM.FIRST_NAME_PLACEHOLDER')}
-                            // disabled={isLoading}
+                        // disabled={isLoading}
                         />
                     </div>
                     <div className="field">
@@ -326,7 +328,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
                             name="cardLastName"
                             id="cardLastName"
                             placeholder={t('REGISTER.FORM.LAST_NAME_PLACEHOLDER')}
-                            // disabled={isLoading}
+                        // disabled={isLoading}
                         />
                     </div>
                     <div className="field">
@@ -337,7 +339,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
                             name="cardNumber"
                             id="cardNumber"
                             placeholder="**** **** **** ****"
-                            // disabled={isLoading}
+                        // disabled={isLoading}
                         />
                     </div>
                     <div className="field field__file">
@@ -350,7 +352,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
                                     name="expiryDate"
                                     id="expiryDate"
                                     placeholder={t('REGISTER.CARD_DETAILS.EXPIRY_PLACEHOLDER')}
-                                    // disabled={isLoading}
+                                // disabled={isLoading}
                                 />
                             </div>
 
@@ -365,7 +367,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
                                     name="cvv"
                                     id="cvv"
                                     placeholder="***"
-                                    // disabled={isLoading}
+                                // disabled={isLoading}
                                 />
                             </div>
                         </div>
@@ -380,7 +382,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
                             name="zipCode"
                             id="zipCode"
                             placeholder={t('REGISTER.CARD_DETAILS.ZIP_CODE_PLACEHOLDER')}
-                            // disabled={isLoading}
+                        // disabled={isLoading}
                         />
                     </div>
                     <div
@@ -408,12 +410,12 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
     useEffect(() => {
         const currentCountries: OptionType[] = countries
             ? countries.map((x: ICountry) => {
-                  return {
-                      label: x.name,
-                      value: x.id,
-                      icon: x.flag,
-                  };
-              })
+                return {
+                    label: x.name,
+                    value: x.id,
+                    icon: x.flag,
+                };
+            })
             : [];
         setCountryOptions(currentCountries);
     }, [countries]);
