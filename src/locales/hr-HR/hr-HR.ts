@@ -241,6 +241,9 @@ export const HR_HR = {
             LOGIN_WRONG_FORM_DATA: 'Pogrešan email ili lozinka',
             NOT_FOUND: 'Korisnik nije pronađen',
             USERNAME_CONFLICT: 'Korisničko ime već postoji',
+            PROFILE_NOT_ACTIVE: {
+                SENT_AGAIN: 'Molimo potvrdite vašu e-mail adresu.'
+            },
         },
         LEVEL: {
             NOT_FOUND: 'Razina nije pronađena',

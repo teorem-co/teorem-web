@@ -241,6 +241,9 @@ export const EN_US = {
             LOGIN_WRONG_FORM_DATA: 'Wrong email or password',
             NOT_FOUND: 'User not found',
             USERNAME_CONFLICT: 'Username already exists',
+            PROFILE_NOT_ACTIVE: {
+                SENT_AGAIN: 'Please confirm your e-mail address.'
+            },
         },
         LEVEL: {
             NOT_FOUND: 'Level not found',
