@@ -2,7 +2,7 @@ import { t } from 'i18next';
 import { useEffect } from 'react';
 import { useHistory } from 'react-router';
 
-import call1 from '../../../../assets/images/call-1.png';
+import call1 from '../../../../assets/images/call-1.jpg';
 import chat from '../../../../assets/images/chat.png';
 import completedLessons from '../../../../assets/images/completed-lessons.png';
 import tutorList from '../../../../assets/images/landing_tutor_list.png';
