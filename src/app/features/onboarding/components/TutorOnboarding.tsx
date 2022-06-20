@@ -426,7 +426,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
             dispatch(resetParentRegister());
             dispatch(resetStudentRegister());
             handleNextStep();
-            toastService.success(t('ERROR_HANDLING.REGISTERED_SUCCESSFULY'));
+            toastService.success(t('ERROR_HANDLING.REGISTERED_SUCCESSFULLY'));
         }
     }, [isSuccess]);
 

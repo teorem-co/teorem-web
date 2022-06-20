@@ -16,6 +16,12 @@ export const HR_HR = {
         REMIND: 'Don’t worry, we’ll remind you on time.',
         CONFIRM_BUTTON: 'Got it',
     },
+    EMAIL_CONFIRMATION_POPUP: {
+        WELCOME: 'Dobrodošli na Teorem!',
+        DESCRIPTION: 'Molimo Vas potvrdite Vašu e-mail adresu klikom na link koji smo Vam poslali.',
+        EXPIRATION: 'Ponovno pošalji poruku',
+        CONFIRM_BUTTON: 'U redu',
+    },
     ONBOARDING: {
         NAVIGATION: {
             TITLE: 'Dobrodošli na Teorem!',
@@ -56,7 +62,7 @@ export const HR_HR = {
         PASSWORD_MUST: 'Lozinka mora',
         PASSWORD_MATCH: 'Lozinke se moraju poklapati',
         PASSWORD_STRENGTH: 'Lozinka mora ispunjavati uvjete',
-        PRICE: 'Cijena ne može biti ispod 60',
+        PRICE: 'Cijena ne može biti ispod ',
         FUTURE_DATE: 'Datum ne može biti u budućnosti',
         PHONE_NUMBER: 'Neispravan broj telefona',
         TUTOR_AGE: 'Instruktor mora imati više od 18 godina',
@@ -522,7 +528,7 @@ export const HR_HR = {
             ADD_TITLE: 'DODAJTE NOVI PREDMET',
             SUBJECT: 'Odaberite predmet koji predajete',
             LEVEL: 'Odaberite razine koje predajete',
-            PRICING: 'Cijena (HRK)',
+            PRICING: 'Cijena ',
             PRICING_PLACEHOLDER: '',
             HOUR_ABRV: 'h',
             SAVE: 'Spremi podatke',

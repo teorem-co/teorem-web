@@ -16,6 +16,12 @@ export const EN_US = {
         REMIND: 'Don’t worry, we’ll remind you on time.',
         CONFIRM_BUTTON: 'Got it',
     },
+    EMAIL_CONFIRMATION_POPUP: {
+        WELCOME: 'Welcome to Teorem',
+        DESCRIPTION: 'Please confirm your e-mail address by clicking the link we sent you.',
+        EXPIRATION: 'Resend confirmation e-mail.',
+        CONFIRM_BUTTON: 'Got it',
+    },
     ONBOARDING: {
         NAVIGATION: {
             TITLE: 'Welcome to Teorem!',
@@ -804,7 +810,7 @@ export const EN_US = {
         TEXT_CARD_1: {
             TITLE: 'How much does online tutoring cost?',
             SUBTITLE:
-                'Teorem’s tutors set their own prices, based on their experience and availability. Lesson prices start from HRK 50, with the average price at around HRK 80. ',
+                'Teorem’s tutors set their own prices, based on their experience and availability. Lesson prices start from HRK 70, with the average price at around HRK 90. ',
         },
         FAQ: {
             QUESTION_1: 'How much does a tutor cost?',

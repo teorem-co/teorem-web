@@ -8,6 +8,7 @@ import { resetStudentRegister } from '../../../slices/studentRegisterSlice';
 import { resetTutorRegister } from '../../../slices/tutorRegisterSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
+import EmailConfirmationModal from '../register/EmailConfirmationModal';
 import TrialPopup from '../register/TrialPopup';
 import logo from './../../../assets/images/logo.svg';
 import NavigationParent from './components/NavigationParent';
@@ -19,6 +20,7 @@ import TutorOnboarding from './components/TutorOnboarding';
 
 const Onboarding = () => {
     const [step, setStep] = useState<number>(1);
+    const [emailConfirmationModalOpen, setEmailConfirmationModalOpen] = useState<boolean>(false);
     const [trial, setTrial] = useState<boolean>(false);
     const [show, setShow] = useState<boolean>(true);
     const dispatch = useAppDispatch();
@@ -42,7 +44,8 @@ const Onboarding = () => {
         } else if (step === 1) {
             dispatch(resetTutorRegister());
             dispatch(resetSelectedRole());
-            history.push(PATHS.LOGIN);
+            setEmailConfirmationModalOpen(true);
+            // history.push(PATHS.LOGIN);
             // setTrial(true);
             //if there is step with card informations
             // } else if (step === 2) {
@@ -72,7 +75,11 @@ const Onboarding = () => {
         <>
             {trial ? (
                 <TrialPopup />
-            ) : (
+            ) : 
+            emailConfirmationModalOpen ? (
+                <EmailConfirmationModal/>
+            ) :
+            (
                 <div className="onboarding">
                     <div className="onboarding__aside">
                         <div className="onboarding__steps">

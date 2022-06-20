@@ -10,6 +10,7 @@ import { useDeleteSubjectMutation, useLazyGetSubjectsByLevelAndSubjectQuery, use
 import { useLazyGetProfileProgressQuery, useLazyGetTutorProfileDataQuery } from '../../../../services/tutorService';
 import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import TextField from '../../../components/form/TextField';
+import { useLazyGetCountriesQuery } from '../../../features/onboarding/services/countryService';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import getUrlParams from '../../../utils/getUrlParams';
@@ -35,6 +36,8 @@ const EditSubjectSidebar = (props: Props) => {
     const [deleteSubject] = useDeleteSubjectMutation();
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
     const [getSubjectOptionsByLevel, { data: subjectsData, isSuccess: isSuccessSubjects }] = useLazyGetSubjectsByLevelAndSubjectQuery();
+    const countryId = useAppSelector((state) => state?.user?.user?.countryId);
+    const [getCountries] = useLazyGetCountriesQuery();
     const [getProfileData, { data: myTeachingsData }] = useLazyGetTutorProfileDataQuery({
         selectFromResult: ({ data, isSuccess, isLoading }) => ({
             data: {
@@ -53,6 +56,20 @@ const EditSubjectSidebar = (props: Props) => {
         subject: '',
         price: '',
     });
+    const [currency, setCurrency] = useState('PZL');
+    const [minPrice, setMinPrice] = useState(47);
+    const getCurrency = async () => {
+        const res = await getCountries().unwrap();
+        res.forEach(c => {
+            if (c.id === countryId) {
+                setCurrency(c.currencyCode);
+                if (c.currencyCode == "HRK")
+                    setMinPrice(60);
+                if (c.currencyCode == "PLZ")
+                    setMinPrice(47);
+            }
+        });
+    };
 
     //get level and subject name from user subject with mapping
     const history = useHistory();
@@ -88,7 +105,7 @@ const EditSubjectSidebar = (props: Props) => {
         initialValues: initialValues,
         onSubmit: handleSubmit,
         validationSchema: Yup.object().shape({
-            price: Yup.number().required(t('FORM_VALIDATION.REQUIRED')).min(47, t('FORM_VALIDATION.PRICE')),
+            price: Yup.number().required(t('FORM_VALIDATION.REQUIRED')).min(minPrice, t('FORM_VALIDATION.PRICE') + minPrice),
         }),
     });
 
@@ -150,6 +167,10 @@ const EditSubjectSidebar = (props: Props) => {
         }
     }, [sideBarIsOpen]);
 
+    useEffect(() => {
+        getCurrency();
+    }, []);
+
     return (
         <div>
             <div className={`cur--pointer sidebar__overlay ${!sideBarIsOpen ? 'sidebar__overlay--close' : ''}`} onClick={closeSidebar}></div>
@@ -191,7 +212,7 @@ const EditSubjectSidebar = (props: Props) => {
                             </div>
                             <div className="field">
                                 <label htmlFor="price" className="field__label">
-                                    {t('MY_PROFILE.MY_TEACHINGS.PRICING')}*
+                                    {t('MY_PROFILE.MY_TEACHINGS.PRICING')} ({currency})*
                                 </label>
                                 <TextField
                                     name="price"
