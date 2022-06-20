@@ -1,10 +1,9 @@
 import { t } from 'i18next';
-import { is } from 'immer/dist/internal';
 import { debounce } from 'lodash';
-import React, { useEffect, useRef, useState } from 'react';
+import moment from "moment";
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { isConstructorDeclaration, setSourceMapRange } from 'typescript';
 
 import { useLazyGetUserQuery } from '../../../../services/userService';
 import { useAppSelector } from '../../../hooks';
@@ -332,6 +331,8 @@ const SingleConversation = (props: Props) => {
 
     const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
 
+    let lastDate = '';
+
     return (
         <div className="content">
             <div className="content__header content__header--chat">
@@ -403,6 +404,18 @@ const SingleConversation = (props: Props) => {
 
                     let img = false;
 
+                    const temDat = new Date(message.message.createdAt);
+
+                    const tempDate = temDat.getDate() + "-" + temDat.getMonth() + "-" + temDat.getUTCFullYear();
+
+                    let sameDate = true;
+
+                    if (lastDate != tempDate) {
+                        sameDate = false;
+
+                        lastDate = tempDate;
+                    }
+
                     if (message.senderId !== lastMessageUserId) {
                         img = true;
                         lastMessageUserId = message.senderId + '';
@@ -425,35 +438,49 @@ const SingleConversation = (props: Props) => {
 
                     if (userActive && userActive.id == message.senderId)
                         return (
-                            <div key={index} className={`chat__message chat__message--logged${img ? " chat__message__margin-top" : ""}${img ? "" : " chat__message__margin-right"}`}>
+                            <>
+                                {!sameDate &&
+                                    <div className={`message-full-width flex flex--col flex--end`}>
+                                        <span>{moment(message.message.createdAt).format('DD.MMM.YYYY')}</span>
+                                    </div>
+                                }
+                                <div key={index} className={`chat__message chat__message--logged${img ? " chat__message__margin-top" : ""}${img ? "" : " chat__message__margin-right"}`}>
+                                    {img && <img
+                                        className="chat__conversation__avatar chat__conversation__avatar--small"
+                                        src={props.data ? ('https://' + (message.senderId == props.data.tutor?.userId ? props.data.tutor?.userImage : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')) : "teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg"}
+                                        alt={'profile avatar'} />
+                                    }
+                                    <div key={`sub-${index}`} className={`message-full-width flex flex--col flex--end`}>
+                                        <div key={`sub-sub-${index}`} className="type--right w--80--max">
+                                            <div key={`sub-sub-sub-${index}`} className={`chat__message__item__end chat__message__item chat__message__item--logged${message.message.isFile ? " chat-file-outline" : ""}`} dangerouslySetInnerHTML={{ __html: (message.message.isFile ? '<i class="icon--attachment chat-file-icon"></i>' : '') + messageText }}>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </>
+                        );
+                    return (
+                        <>
+                            {!sameDate &&
+                                <div className={`message-full-width flex flex--col flex--end`}>
+                                    <span>{moment(message.message.createdAt).format('DD.MMM.YYYY')}</span>
+                                </div>
+                            }
+                            <div key={index} className={`chat__message chat__message--other${img ? " chat__message__margin-top" : ""}${img ? "" : " chat__message__margin-left"}`}>
+
                                 {img && <img
                                     className="chat__conversation__avatar chat__conversation__avatar--small"
-                                    src={props.data ? ('https://' + (message.senderId == props.data.tutor?.userId ? props.data.tutor?.userImage : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')) : "teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg"}
+                                    src={props.data ? ('https://' + (message.senderId == props.data.tutor?.userId ? props.data.tutor?.userImage : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')) : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg'}
                                     alt={'profile avatar'} />
                                 }
-                                <div key={`sub-${index}`} className={`message-full-width flex flex--col flex--end`}>
-                                    <div key={`sub-sub-${index}`} className="type--right w--80--max">
-                                        <div key={`sub-sub-sub-${index}`} className={`chat__message__item__end chat__message__item chat__message__item--logged${message.message.isFile ? " chat-file-outline" : ""}`} dangerouslySetInnerHTML={{ __html: (message.message.isFile ? '<i class="icon--attachment chat-file-icon"></i>' : '') + messageText }}>
+                                <div key={`sub-${index}`} className={`message-full-width flex flex--col`}>
+                                    <div key={`sub-sub-${index}`} className="w--80--max">
+                                        <div key={`sub-sub-sub-${index}`} className={`chat__message__item chat__message__item--other${message.message.isFile ? " chat-file-outline" : ""}`} dangerouslySetInnerHTML={{ __html: (message.message.isFile ? '<i class="icon--attachment chat-file-icon"></i>' : '') + messageText }}>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        );
-                    return (
-                        <div key={index} className={`chat__message chat__message--other${img ? " chat__message__margin-top" : ""}${img ? "" : " chat__message__margin-left"}`}>
-
-                            {img && <img
-                                className="chat__conversation__avatar chat__conversation__avatar--small"
-                                src={props.data ? ('https://' + (message.senderId == props.data.tutor?.userId ? props.data.tutor?.userImage : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')) : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg'}
-                                alt={'profile avatar'} />
-                            }
-                            <div key={`sub-${index}`} className={`message-full-width flex flex--col`}>
-                                <div key={`sub-sub-${index}`} className="w--80--max">
-                                    <div key={`sub-sub-sub-${index}`} className={`chat__message__item chat__message__item--other${message.message.isFile ? " chat-file-outline" : ""}`} dangerouslySetInnerHTML={{ __html: (message.message.isFile ? '<i class="icon--attachment chat-file-icon"></i>' : '') + messageText }}>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        </>
                     );
 
                 })}

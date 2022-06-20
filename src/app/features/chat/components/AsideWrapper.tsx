@@ -5,6 +5,7 @@ import { useAppSelector } from "../../../hooks";
 import { useLazyGetChatRoomsQuery, useLazyGetOnSearchChatRoomsQuery } from "../services/chatService";
 import { addChatRooms, IChatRoom, setUser } from "../slices/chatSlice";
 import ConversationAside from "./ConversationAside";
+import moment from "moment";
 
 interface Props {
     data: IChatRoom[];
@@ -21,6 +22,8 @@ const AsideWrapper = (props: Props) => {
 
     const [page, setPage] = useState<number>(1);
 
+    const [tempSearchChatData, setTempSearchChatData] = useState<IChatRoom[]>([]);
+
     const [getSearchChat, { data: searchChatData, isSuccess: searchDataIsSuccess }] = useLazyGetOnSearchChatRoomsQuery();
 
     const [getChatRooms, { data: chatRooms, isSuccess: isSuccessChatRooms }] = useLazyGetChatRoomsQuery();
@@ -34,6 +37,22 @@ const AsideWrapper = (props: Props) => {
         }
 
     }, [isSuccessChatRooms]);
+
+    useEffect(() => {
+        if (searchChatData) {
+
+            const temDat = [...searchChatData];
+            temDat.sort((a: IChatRoom, b: IChatRoom) => {
+
+                const lastMessageA: Date = new Date(a.messages[a.messages.length - 1].message.createdAt);
+                const lastMessageB: Date = new Date(b.messages[b.messages.length - 1].message.createdAt);
+
+                return lastMessageA > lastMessageB ? -1 : 1;
+            });
+
+            setTempSearchChatData(temDat);
+        }
+    }, [searchChatData]);
 
     const onSearch = () => {
 
@@ -82,7 +101,7 @@ const AsideWrapper = (props: Props) => {
                             imgUrl: 'https://' + (user?.id != chatConversationItem.user?.userId ? 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg' : chatConversationItem.tutor?.userImage) + '',
                             name: (user?.id != chatConversationItem.user?.userId ? chatConversationItem.user?.userNickname : chatConversationItem.tutor?.userNickname) + '',
                             lastMessage: messageText,
-                            lastMessageTime: /*chatConversationItem.messages[chatConversationItem.messages.length - 1].message.createdAt*/ '',
+                            lastMessageTime: moment(chatConversationItem.messages[chatConversationItem.messages.length - 1].message.createdAt).format('DD.MMM.YYYY'),
                             unread: chatConversationItem.unreadMessageCount > 0
                         };
 
@@ -93,15 +112,15 @@ const AsideWrapper = (props: Props) => {
                             imgUrl: 'https://' + (user?.id != chatConversationItem.user?.userId ? 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg' : chatConversationItem.tutor?.userImage) + '',
                             name: (user?.id != chatConversationItem.user?.userId ? chatConversationItem.user?.userNickname : chatConversationItem.tutor?.userNickname) + '',
                             lastMessage: "<i>Send a message to start a conversation</i>",
-                            lastMessageTime: /*chatConversationItem.messages[chatConversationItem.messages.length - 1].message.createdAt*/ '',
+                            lastMessageTime: moment(chatConversationItem.messages[chatConversationItem.messages.length - 1].message.createdAt).format('DD.MMM.YYYY'),
                             unread: chatConversationItem.unreadMessageCount > 0
                         };
 
                         return (chatConversationItem.tutor?.userId == activeChat?.tutor?.userId && chatConversationItem.user?.userId == activeChat?.user?.userId) ? <ConversationAside key={index} chat={chatConversationItem} data={chatConversation} active={true} /> : <ConversationAside key={index} chat={chatConversationItem} data={chatConversation} active={false} />;
 
-                    }
+                    } searchChatData;
 
-                }) : searchChatData && searchChatData.map((chatConversationItem: IChatRoom, index: number) => {
+                }) : searchChatData && tempSearchChatData.map((chatConversationItem: IChatRoom, index: number) => {
 
                     if (chatConversationItem.messages[chatConversationItem.messages.length - 1] && chatConversationItem.messages[chatConversationItem.messages.length - 1].message) {
 
@@ -117,7 +136,7 @@ const AsideWrapper = (props: Props) => {
                             imgUrl: 'https://' + (user?.id != chatConversationItem.user?.userId ? 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg' : chatConversationItem.tutor?.userImage) + '',
                             name: (user?.id != chatConversationItem.user?.userId ? chatConversationItem.user?.userNickname : chatConversationItem.tutor?.userNickname) + '',
                             lastMessage: messageText,
-                            lastMessageTime: /*chatConversationItem.messages[chatConversationItem.messages.length - 1].message.createdAt*/ '',
+                            lastMessageTime: moment(chatConversationItem.messages[chatConversationItem.messages.length - 1].message.createdAt).format('DD.MMM.YYYY'),
                             unread: chatConversationItem.unreadMessageCount > 0
                         };
 
@@ -128,7 +147,7 @@ const AsideWrapper = (props: Props) => {
                             imgUrl: 'https://' + (user?.id != chatConversationItem.user?.userId ? 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg' : chatConversationItem.tutor?.userImage) + '',
                             name: (user?.id != chatConversationItem.user?.userId ? chatConversationItem.user?.userNickname : chatConversationItem.tutor?.userNickname) + '',
                             lastMessage: "<i>Send a message to start a conversation</i>",
-                            lastMessageTime: /*chatConversationItem.messages[chatConversationItem.messages.length - 1].message.createdAt*/ '',
+                            lastMessageTime: moment(chatConversationItem.messages[chatConversationItem.messages.length - 1].message.createdAt).format('DD.MMM.YYYY'),
                             unread: chatConversationItem.unreadMessageCount > 0
                         };
 
