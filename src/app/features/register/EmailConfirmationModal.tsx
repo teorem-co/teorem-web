@@ -13,7 +13,7 @@ const EmailConfirmatioPopup = () => {
     const [resendActivationEmailPost, { isSuccess: isSuccessResendActivationEmail }] = useResendActivationEmailMutation();
     const email = useAppSelector((state) => state.tutorRegister.email);
     const [disableButton, setDisableButton] = useState(false);
-    
+
     const resendActivationEmail = () => {
 
         if (email.length) {
@@ -32,10 +32,10 @@ const EmailConfirmatioPopup = () => {
                 </div>
                 <div className="type--lg type--wgt--bold mb-4">{t('EMAIL_CONFIRMATION_POPUP.WELCOME')}</div>
                 <div className="type--color--secondary mb-8 w--448--max">{t('EMAIL_CONFIRMATION_POPUP.DESCRIPTION')}</div>
-                <div className="btn btn--primary btn--lg mt-6 mb-4" onClick={resendActivationEmail}>
+                {false && <div className="btn btn--primary btn--lg mt-6 mb-4" onClick={resendActivationEmail}>
                     {t('EMAIL_CONFIRMATION_POPUP.EXPIRATION')}
-                </div>
-                <div onClick={() =>{history.push(PATHS.LOGIN);}}>
+                </div>}
+                <div onClick={() => { history.push(PATHS.LOGIN); }}>
                     <button className={`btn btn--base btn--clear${disableButton && ' btn--disabled'}`}>{t('EMAIL_CONFIRMATION_POPUP.CONFIRM_BUTTON')}</button>
                 </div>
             </div>
