@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import heroImg from '../../../assets/images/hero-img.png';
-import { useLazyGetServerVersionQuery, useLoginMutation } from '../../../services/authService';
+import { useLazyGetServerVersionQuery, useLoginMutation, useResendActivationEmailMutation } from '../../../services/authService';
 import TextField from '../../components/form/TextField';
 import { useAppSelector } from '../../hooks';
 import { Role } from '../../lookups/role';
@@ -22,9 +22,14 @@ const Login: React.FC = () => {
     const history = useHistory();
     const { t } = useTranslation();
     const [loginErrorMessage, setLoginErrorMessage] = useState<string>();
+    const [loginSentAgainMessage, setLoginSentAgainMessage] = useState<boolean>();
+    const [loginUserNotActive, setLoginUserNotActive] = useState<boolean>(false);
+
     const [login, { data: loginData, isSuccess: isSuccessLogin, isLoading: isLoadingLogin, error: errorLogin }] = useLoginMutation();
     const [getServerVersion, { data: serverVersion, isSuccess: isSuccessServerVersion }] = useLazyGetServerVersionQuery();
+    const [resendEmail, setResendEmail] = useState<string>('');
 
+    const [resendActivationEmailPost, { isSuccess: isSuccessResendActivationEmail }] = useResendActivationEmailMutation();
     const userRoleAbrv = useAppSelector((state) => state.auth.user?.Role?.abrv);
     const userToken = useAppSelector((state) => state.auth.token);
 
@@ -44,6 +49,9 @@ const Login: React.FC = () => {
                 email: values.email,
                 password: values.password,
             };
+
+            setResendEmail(values.email);
+
             login(data);
             getServerVersion();
         },
@@ -55,6 +63,22 @@ const Login: React.FC = () => {
                 .required(t('FORM_VALIDATION.REQUIRED')),
         }),
     });
+
+    const resendActivationEmail = () => {
+
+        if (resendEmail.length) {
+            resendActivationEmailPost({
+                email: resendEmail
+            });
+            setLoginSentAgainMessage(false);
+        }
+    };
+
+    useEffect(() => {
+        if (isSuccessResendActivationEmail) {
+            setLoginSentAgainMessage(true);
+        }
+    }, [isSuccessResendActivationEmail]);
 
     useEffect(() => {
         if (userToken && userRoleAbrv) {
@@ -86,7 +110,14 @@ const Login: React.FC = () => {
         const loginError: any = errorLogin;
 
         if (loginError) {
+
             setLoginErrorMessage(loginError.data?.message);
+
+            if (loginError.data && loginError.data.message == 'BACKEND_ERRORS.USER.PROFILE_NOT_ACTIVE.SENT_AGAIN') {
+                setLoginUserNotActive(true);
+            } else {
+                setLoginUserNotActive(false);
+            }
         }
     }, [errorLogin]);
 
@@ -108,11 +139,11 @@ const Login: React.FC = () => {
                                     <label htmlFor="email" className="field__label">
                                         {t('LOGIN.FORM.EMAIL')}
                                     </label>
-                                    <TextField 
-                                        name="email" 
-                                        id="email" 
+                                    <TextField
+                                        name="email"
+                                        id="email"
                                         placeholder={t('LOGIN.FORM.EMAIL_PLACEHOLDER')}
-                                        disabled={isLoadingLogin} 
+                                        disabled={isLoadingLogin}
                                     />
                                 </div>
                                 <div className="field">
@@ -129,6 +160,17 @@ const Login: React.FC = () => {
                                     />
                                 </div>
                                 {loginErrorMessage ? <div className="type--color--error">{t(loginErrorMessage)}</div> : <></>}
+                                {loginSentAgainMessage ? <div className="type--color--success">{t('LOGIN.FORM.SEND_AGAIN_SUCCESS')}</div> : <></>}
+                                {loginUserNotActive && !loginSentAgainMessage &&
+                                    <div>
+                                        <button
+                                            className="btn btn--base btn--primary w--100 mb-2 mt-6 type--wgt--extra-bold"
+                                            onClick={resendActivationEmail}
+                                        >
+                                            {t('LOGIN.FORM.SEND_AGAIN')}
+                                        </button>
+                                    </div>
+                                }
                                 <button
                                     className="btn btn--base btn--primary w--100 mb-2 mt-6 type--wgt--extra-bold"
                                     type="submit"

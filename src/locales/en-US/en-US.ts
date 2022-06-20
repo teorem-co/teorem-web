@@ -228,6 +228,8 @@ export const EN_US = {
             PASSWORD: 'Enter your Password',
             PASSWORD_PLACEHOLDER: 'Type your Password',
             SUBMIT_BTN: 'Log in',
+            SEND_AGAIN: 'Resend activation mail',
+            SEND_AGAIN_SUCCESS: 'Activation mail sent again',
         },
         FORGOT_PASSWORD: 'Forgot Password?',
         ACCOUNT: 'Dont have an account?',

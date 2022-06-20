@@ -78,6 +78,10 @@ interface ICheckUsername {
     username: string;
 }
 
+interface IResendEmail {
+    email: string;
+}
+
 const URL = '/membership';
 export const authService = baseService.injectEndpoints({
     endpoints: (builder) => ({
@@ -164,6 +168,13 @@ export const authService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
+        resendActivationEmail: builder.mutation<void, IResendEmail>({
+            query: (body) => ({
+                url: `${URL}/resend-activation-email`,
+                method: HttpMethods.POST,
+                body: body,
+            }),
+        }),
     }),
 });
 
@@ -179,4 +190,5 @@ export const {
     useChangePasswordMutation,
     useChangeCurrentPasswordMutation,
     useLazyGetServerVersionQuery,
+    useResendActivationEmailMutation,
 } = authService;

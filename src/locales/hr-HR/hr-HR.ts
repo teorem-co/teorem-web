@@ -228,6 +228,8 @@ export const HR_HR = {
             PASSWORD: 'Unesite svoju lozinku',
             PASSWORD_PLACEHOLDER: 'Unesite svoju lozinku',
             SUBMIT_BTN: 'Prijava',
+            SEND_AGAIN: 'Ponovno pošalji aktivacijsku poruku',
+            SEND_AGAIN_SUCCESS: 'Aktivacijska poruka ponovo poslana',
         },
         FORGOT_PASSWORD: 'Zaboravili ste lozinku?',
         ACCOUNT: 'Nemate korisnički račun?',
