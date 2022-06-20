@@ -159,7 +159,7 @@ const Login: React.FC = () => {
                                         disabled={isLoadingLogin}
                                     />
                                 </div>
-                                {loginErrorMessage ? <div className="type--color--error">{t(loginErrorMessage)}</div> : <></>}
+                                {loginErrorMessage && !loginSentAgainMessage ? <div className="type--color--error">{t(loginErrorMessage)}</div> : <></>}
                                 {loginSentAgainMessage ? <div className="type--color--success">{t('LOGIN.FORM.SEND_AGAIN_SUCCESS')}</div> : <></>}
                                 {loginUserNotActive && !loginSentAgainMessage &&
                                     <div>
