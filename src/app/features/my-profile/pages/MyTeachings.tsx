@@ -25,6 +25,7 @@ const MyTeachings = () => {
     const dispatch = useAppDispatch();
     const profileProgressState = useAppSelector((state) => state.myProfileProgress);
     const tutorId = getUserId();
+    const [currency, setCurrency] = useState('');
     const { t } = useTranslation();
     const isLoading = myTeachingsLoading || myTeachingsUninitialized;
     const history = useHistory();
@@ -47,6 +48,10 @@ const MyTeachings = () => {
     const fetchData = async () => {
         if (tutorId) {
             getProfileData(tutorId);
+
+            const tutorCurrency = await (await getProfileData(tutorId).unwrap()).User.Country.currencyCode;
+            setCurrency(tutorCurrency);
+            
             //If there is no state in redux for profileProgress fetch data and save result to redux
             if (profileProgressState.percentage === 0) {
                 const progressResponse = await getProfileProgress().unwrap();
@@ -101,6 +106,7 @@ const MyTeachings = () => {
                                 <SubjectList
                                     handleSendId={handleSendId}
                                     tutorSubjects={myTeachingsData && myTeachingsData.TutorSubjects ? myTeachingsData.TutorSubjects : []}
+                                    currency={currency}
                                     key={myTeachingsData && myTeachingsData.TutorSubjects.length}
                                 />
                             </div>

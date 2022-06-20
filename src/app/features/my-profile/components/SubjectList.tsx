@@ -4,11 +4,12 @@ import ITutorSubject from '../../../../interfaces/ITutorSubject';
 
 interface IProps {
     tutorSubjects: ITutorSubject[];
+    currency: string;
     handleSendId: (objectId: string) => void;
 }
 
 const SubjectList: React.FC<IProps> = (props) => {
-    const { tutorSubjects, handleSendId } = props;
+    const { tutorSubjects, currency, handleSendId } = props;
     return (
         <>
             {tutorSubjects ? (
@@ -18,7 +19,7 @@ const SubjectList: React.FC<IProps> = (props) => {
                             className="dash-wrapper__item__element"
                             onClick={() => handleSendId(subject.Subject.id)}
                         >
-                            <div className="flex--primary cur--pointer">
+                            <div className="flex--primary subject cur--pointer">
                                 <div>
                                     <div className="type--wgt--bold">
                                         {t(`SUBJECTS.${subject.Subject.abrv?.replace('-', '').replace(' ', '').toLowerCase()}`)}
@@ -26,7 +27,8 @@ const SubjectList: React.FC<IProps> = (props) => {
                                     <div>
                                         {t(`LEVELS.${subject.Level.abrv?.replace('-', '').replace(' ', '').toLowerCase()}`)}
                                     </div>
-                                </div>
+                                </div >
+                                <div className="type--wgt--bold price">{subject.price} {currency}</div>
                                 <div>
                                     <i className="icon icon--base icon--edit icon--primary"></i>
                                 </div>

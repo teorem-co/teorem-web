@@ -1,3 +1,4 @@
+import { kMaxLength } from 'buffer';
 import { FieldAttributes, useField } from 'formik';
 import React, { useEffect, useRef, useState } from 'react';
 
@@ -9,7 +10,7 @@ type TextFieldType = {
 
 //const TextField: React.FC<TextFieldType> = ( { type, placeholder, id, disabled, min, onChange, ...props } ) =>
 const TextArea: React.FC<TextFieldType> = (props: any) => {
-    const { password } = props;
+    const { password, maxLength } = props;
     const [field, meta] = useField(props);
     const [characterCount, setCharacterCount] = useState<number>(0);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -38,6 +39,7 @@ const TextArea: React.FC<TextFieldType> = (props: any) => {
             setCharacterCount(textareaLength);
         }
     };
+    
     return (
         <>
             <div className="pos--rel">
@@ -53,7 +55,7 @@ const TextArea: React.FC<TextFieldType> = (props: any) => {
                     } ${errorText ? 'input__border--error' : ''}`}
                 />
                 <div className="input--textarea__counter">
-                    {characterCount}/2500
+                    {characterCount}/{maxLength}
                 </div>
                 {
                     /* toggle password visibility */

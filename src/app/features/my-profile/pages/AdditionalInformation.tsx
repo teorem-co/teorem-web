@@ -175,6 +175,7 @@ const AdditionalInformation = () => {
                                                     {t('MY_PROFILE.ABOUT_ME.OCCUPATION')}
                                                 </label>
                                                 <TextField
+                                                    maxLength={50}
                                                     id="currentOccupation"
                                                     wrapperClassName="flex--grow"
                                                     name="currentOccupation"
@@ -190,6 +191,7 @@ const AdditionalInformation = () => {
                                                     {t('MY_PROFILE.ABOUT_ME.YEARS')}
                                                 </label>
                                                 <TextField
+                                                    maxLength={50}
                                                     id="yearsOfExperience"
                                                     wrapperClassName="flex--grow"
                                                     name="yearsOfExperience"

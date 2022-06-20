@@ -45,6 +45,12 @@
             border: 1px solid $grey-ed;
             border-radius: $border-rounded;
 
+            .subject {
+                justify-content: unset;
+                .price {
+                    margin: 0 25px 0 auto;
+                }
+            }
             &.active {
                 background-color: $color-primary;
                 color: white;
