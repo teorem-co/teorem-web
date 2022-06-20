@@ -574,6 +574,12 @@ export const EN_US = {
             SUBTITLE: 'Choose your language for the application.',
         },
         SUBMIT: 'Save',
+        TUTOR_DISABLE: {
+            TITLE: 'Profile visibility',
+            SUBTITLE: 'Profile is visible',
+            YES: 'Yes',
+            NO: 'No',
+        }
     },
     DASHBOARD: {
         TITLE: 'Dashboard',

@@ -574,6 +574,12 @@ export const HR_HR = {
             SUBTITLE: 'Izaberite jezik aplikacije.',
         },
         SUBMIT: 'Spremi',
+        TUTOR_DISABLE: {
+            TITLE: 'Vidljivost profila',
+            SUBTITLE: 'Profil se prikazuje',
+            YES: 'Da',
+            NO: 'Ne',
+        }
     },
     DASHBOARD: {
         TITLE: 'Upravljačka ploča',

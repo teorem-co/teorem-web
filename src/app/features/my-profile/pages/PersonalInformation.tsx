@@ -7,7 +7,7 @@ import { useHistory } from 'react-router';
 import { optionCSS } from 'react-select/dist/declarations/src/components/Option';
 import * as Yup from 'yup';
 
-import { useLazyGetProfileProgressQuery } from '../../../../services/tutorService';
+import { useLazyDisableTutorQuery, useLazyEnableTutorQuery, useLazyGetProfileProgressQuery, useLazyGetTutorProfileDataQuery } from '../../../../services/tutorService';
 import { useLazyGetUserQuery, useUpdateUserInformationMutation } from '../../../../services/userService';
 import { RoleOptions } from '../../../../slices/roleSlice';
 import MyDatePicker from '../../../components/form/MyDatePicker';
@@ -46,6 +46,11 @@ const PersonalInformation = () => {
     const [updateUserInformation, { isLoading: isLoadingUserUpdate }] = useUpdateUserInformationMutation();
     const [getUser, { isLoading: isLoadingUser, isUninitialized: userUninitialized, isFetching: userFetching }] = useLazyGetUserQuery();
 
+    const [getTutor, { data: tutorData, isSuccess: isSuccessTutor }] = useLazyGetTutorProfileDataQuery();
+    const [updateTutorDisabled] = useLazyDisableTutorQuery();
+    const [updateTutorEnabled] = useLazyEnableTutorQuery();
+
+    const [tutorDisabled, setTutorDisabledValue] = useState<boolean>(true);
     const [countryOptions, setCountryOptions] = useState<OptionType[]>([]);
     const [saveBtnActive, setSaveBtnActive] = useState(false);
     const [t, i18n] = useTranslation();
@@ -227,11 +232,32 @@ const PersonalInformation = () => {
         validationSchema: generateValidation(),
     });
 
+    const setTutorDisabled = (disabled: boolean) => {
+
+        if (disabled) {
+            updateTutorDisabled();
+        }
+        else {
+            updateTutorEnabled();
+        }
+
+        setTutorDisabledValue(disabled);
+    };
+
+    useEffect(() => {
+        if (isSuccessTutor && tutorData)
+            setTutorDisabledValue(tutorData.disabled);
+    }, [tutorData]);
+
     useEffect(() => {
         fetchData();
 
         //if user id exist, update user info on component unmount
         if (userId) {
+
+            if (userRole === RoleOptions.Tutor)
+                getTutor(userId);
+
             return function updateUserOnUnmount() {
                 //if user is loggin out, dont fetch new userData
                 if (history.location.pathname !== '/login') {
@@ -244,12 +270,12 @@ const PersonalInformation = () => {
     useEffect(() => {
         const currentCountries: OptionType[] = countries
             ? countries.map((x: ICountry) => {
-                  return {
-                      label: x.name,
-                      value: x.id,
-                      icon: x.flag,
-                  };
-              })
+                return {
+                    label: x.name,
+                    value: x.id,
+                    icon: x.flag,
+                };
+            })
             : [];
         setCountryOptions(currentCountries);
     }, [countries]);
@@ -258,12 +284,12 @@ const PersonalInformation = () => {
         handleBlur();
     }, [formik.values]);
 
-    
+
     const changeLanguage = (option: ILanguageOption) => {
         let pushPath = '';
 
-        Object.keys(PROFILE_PATHS).forEach( path => {
-            if(t('PATHS.PROFILE_PATHS.' + path) === history.location.pathname){
+        Object.keys(PROFILE_PATHS).forEach(path => {
+            if (t('PATHS.PROFILE_PATHS.' + path) === history.location.pathname) {
                 pushPath = 'PATHS.PROFILE_PATHS.' + path;
             }
         });
@@ -421,7 +447,7 @@ const PersonalInformation = () => {
                                         <div className="w--800--max">
                                             {languageOptions.map((option: ILanguageOption) => {
 
-                                                return(
+                                                return (
                                                     <div
                                                         key={option.path}
                                                         className={`btn btn--base btn--${option.path !== i18n.language ? 'primary' : 'disabled'} mr-2`}
@@ -436,6 +462,29 @@ const PersonalInformation = () => {
                                             }
                                         </div>
                                     </div>
+                                    {userRole === RoleOptions.Tutor && isSuccessTutor && (
+                                        <div className="card--profile__section">
+                                            <div>
+                                                <div className="mb-2 type--wgt--bold">{t('MY_PROFILE.TUTOR_DISABLE.TITLE')}</div>
+                                                <div className="type--color--tertiary w--200--max">{t('MY_PROFILE.TUTOR_DISABLE.SUBTITLE')}</div>
+                                            </div>
+                                            <div className="w--800--max">
+
+                                                <div className={`btn btn--base btn--${tutorDisabled ? 'primary' : 'disabled'} mr-2`} onClick={() => {
+                                                    setTutorDisabled(false);
+                                                }}
+                                                >
+                                                    {t('MY_PROFILE.TUTOR_DISABLE.NO')}
+                                                </div>
+                                                <div className={`btn btn--base btn--${!tutorDisabled ? 'primary' : 'disabled'} mr-2`} onClick={() => {
+                                                    setTutorDisabled(true);
+                                                }}
+                                                >
+                                                    {t('MY_PROFILE.TUTOR_DISABLE.YES')}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
                                 </>
                             )}
                         </Form>

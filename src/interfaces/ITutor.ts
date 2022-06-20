@@ -15,4 +15,5 @@ export default interface ITutor {
     averageGrade: number;
     completedLessons: number;
     Bookings: IBooking[];
+    disabled: boolean;
 }

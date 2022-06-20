@@ -40,13 +40,10 @@ export const tutorService = baseService.injectEndpoints({
         getTutors: builder.query({
             query: (params: any) => {
                 const queryData = {
-                    url: `${URL}/?page=${
-                        params.page
-                    }&rpp=${
-                        params.rpp
-                    }&unproccessed=${
-                        params.unprocessed? "true" : "false"
-                    }${params.verified? params.verified == 1 ? "&verified=true" : "&verified=false" : ""}
+                    url: `${URL}/?page=${params.page
+                        }&rpp=${params.rpp
+                        }&unproccessed=${params.unprocessed ? "true" : "false"
+                        }${params.verified ? params.verified == 1 ? "&verified=true" : "&verified=false" : ""}
                     `,
                     method: HttpMethods.GET,
                 };
@@ -57,16 +54,12 @@ export const tutorService = baseService.injectEndpoints({
         searchTutors: builder.query({
             query: (params: any) => {
                 const queryData = {
-                    url: `${URL}/search-tutors/?page=${
-                        params.page
-                    }&rpp=${
-                        params.rpp
-                    }&unproccessed=${
-                        params.unprocessed? "true" : "false"
-                    }${params.verified? params.verified == 1 ? "&verified=true" : "&verified=false" : ""
-                    }&search=${
-                        params.search
-                    }`,
+                    url: `${URL}/search-tutors/?page=${params.page
+                        }&rpp=${params.rpp
+                        }&unproccessed=${params.unprocessed ? "true" : "false"
+                        }${params.verified ? params.verified == 1 ? "&verified=true" : "&verified=false" : ""
+                        }&search=${params.search
+                        }`,
                     method: HttpMethods.POST,
                 };
 
@@ -76,11 +69,9 @@ export const tutorService = baseService.injectEndpoints({
         getAvailableTutors: builder.query<ITutorAvailable, IParams>({
             query: (params) => {
                 const queryData = {
-                    url: `${URL}/available-tutors?rpp=${params.rpp}&page=${params.page}${params.subject ? '&subjectId=' + params.subject : ''}${
-                        params.level ? '&levelId=' + params.level : ''
-                    }${params.dayOfWeek ? '&dayOfWeek=' + params.dayOfWeek : ''}${params.timeOfDay ? '&timeOfDay=' + params.timeOfDay : ''}${
-                        params.sort ? '&sort=' + params.sort : ''
-                    }`,
+                    url: `${URL}/available-tutors?rpp=${params.rpp}&page=${params.page}${params.subject ? '&subjectId=' + params.subject : ''}${params.level ? '&levelId=' + params.level : ''
+                        }${params.dayOfWeek ? '&dayOfWeek=' + params.dayOfWeek : ''}${params.timeOfDay ? '&timeOfDay=' + params.timeOfDay : ''}${params.sort ? '&sort=' + params.sort : ''
+                        }`,
                     method: HttpMethods.GET,
                 };
 
@@ -176,6 +167,18 @@ export const tutorService = baseService.injectEndpoints({
                 };
             },
         }),
+        disableTutor: builder.query<void, void>({
+            query: () => ({
+                url: `${URL}/disable-tutor`,
+                method: HttpMethods.PUT,
+            }),
+        }),
+        enableTutor: builder.query<void, void>({
+            query: () => ({
+                url: `${URL}/enable-tutor`,
+                method: HttpMethods.PUT,
+            }),
+        }),
         // postTutorsubject: builder.mutation<void, >
     }),
 });
@@ -194,6 +197,8 @@ export const {
     useApproveTutorMutation,
     useDenyTutorMutation,
     useDeleteTutorMutation,
+    useLazyDisableTutorQuery,
+    useLazyEnableTutorQuery,
 } = tutorService;
 
 export function getUserRoleAbbrv() {
