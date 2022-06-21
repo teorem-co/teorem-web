@@ -112,7 +112,7 @@ const AsideWrapper = (props: Props) => {
                             imgUrl: 'https://' + (user?.id != chatConversationItem.user?.userId ? 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg' : chatConversationItem.tutor?.userImage) + '',
                             name: (user?.id != chatConversationItem.user?.userId ? chatConversationItem.user?.userNickname : chatConversationItem.tutor?.userNickname) + '',
                             lastMessage: "<i>Send a message to start a conversation</i>",
-                            lastMessageTime: moment(chatConversationItem.messages[chatConversationItem.messages.length - 1].message.createdAt).format('DD.MMM.YYYY'),
+                            lastMessageTime: '',
                             unread: chatConversationItem.unreadMessageCount > 0
                         };
 
@@ -147,7 +147,7 @@ const AsideWrapper = (props: Props) => {
                             imgUrl: 'https://' + (user?.id != chatConversationItem.user?.userId ? 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg' : chatConversationItem.tutor?.userImage) + '',
                             name: (user?.id != chatConversationItem.user?.userId ? chatConversationItem.user?.userNickname : chatConversationItem.tutor?.userNickname) + '',
                             lastMessage: "<i>Send a message to start a conversation</i>",
-                            lastMessageTime: moment(chatConversationItem.messages[chatConversationItem.messages.length - 1].message.createdAt).format('DD.MMM.YYYY'),
+                            lastMessageTime: '',
                             unread: chatConversationItem.unreadMessageCount > 0
                         };
 
