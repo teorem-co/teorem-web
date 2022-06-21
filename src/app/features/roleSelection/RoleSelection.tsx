@@ -20,7 +20,7 @@ const RoleSelection: React.FC = () => {
     const { t } = useTranslation();
 
     const handleRoleSelection = (roleId: number) => {
-        const options: { [key: number]: RoleOptions } = {
+        const options: { [key: number]: RoleOptions; } = {
             0: RoleOptions.Student,
             1: RoleOptions.Parent,
             2: RoleOptions.Tutor,
@@ -39,7 +39,21 @@ const RoleSelection: React.FC = () => {
         <>
             <div className="role-selection">
                 <div className="role-selection__aside">
-                    <img src={heroImg} alt="Hero Img" />
+                    {/* <img src={heroImg} alt="Hero Img" />*/}
+                    <div className="teorem-area">
+                        <ul className="teorem-circles">
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                        </ul>
+                    </div >
                 </div>
                 <div className="role-selection__content">
                     <div className="flex--grow w--448--max">
@@ -60,8 +74,8 @@ const RoleSelection: React.FC = () => {
                                                     id === 0
                                                         ? 'ROLE_SELECTION.STUDENT_TITLE'
                                                         : id === 1
-                                                        ? 'ROLE_SELECTION.PARENT_TITLE'
-                                                        : 'ROLE_SELECTION.TUTOR_TITLE'
+                                                            ? 'ROLE_SELECTION.PARENT_TITLE'
+                                                            : 'ROLE_SELECTION.TUTOR_TITLE'
                                                 )}
                                             </div>
                                             <div className="type--color--secondary">
@@ -69,8 +83,8 @@ const RoleSelection: React.FC = () => {
                                                     id === 0
                                                         ? 'ROLE_SELECTION.STUDENT_DESCRIPTION'
                                                         : id === 1
-                                                        ? 'ROLE_SELECTION.PARENT_DESCRIPTION'
-                                                        : 'ROLE_SELECTION.TUTOR_DESCRIPTION'
+                                                            ? 'ROLE_SELECTION.PARENT_DESCRIPTION'
+                                                            : 'ROLE_SELECTION.TUTOR_DESCRIPTION'
                                                 )}
                                             </div>
                                         </div>

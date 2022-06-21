@@ -221,7 +221,21 @@ const Register: React.FC = () => {
         <>
             <div className="login">
                 <div className="login__aside">
-                    <img src={heroImg} alt="Hero Img" />
+                    {/* <img src={heroImg} alt="Hero Img" />*/}
+                    <div className="teorem-area">
+                        <ul className="teorem-circles">
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                        </ul>
+                    </div >
                 </div>
                 <div className="login__content">
                     <div className="flex--grow w--448--max">
@@ -239,7 +253,7 @@ const Register: React.FC = () => {
                                         name="firstName"
                                         id="firstName"
                                         placeholder={t('REGISTER.FORM.FIRST_NAME_PLACEHOLDER')}
-                                        // disabled={isLoading}
+                                    // disabled={isLoading}
                                     />
                                 </div>
                                 <div className="field">
@@ -250,7 +264,7 @@ const Register: React.FC = () => {
                                         name="lastName"
                                         id="lastName"
                                         placeholder={t('REGISTER.FORM.LAST_NAME_PLACEHOLDER')}
-                                        // disabled={isLoading}
+                                    // disabled={isLoading}
                                     />
                                 </div>
                                 <div className="field">
@@ -267,7 +281,7 @@ const Register: React.FC = () => {
                                         id="email"
                                         placeholder={t('REGISTER.FORM.EMAIL_PLACEHOLDER')}
                                         additionalValidation={checkMailValidation}
-                                        // disabled={isLoading}
+                                    // disabled={isLoading}
                                     />
                                 </div>
                                 <div className="field">

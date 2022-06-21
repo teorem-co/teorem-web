@@ -480,6 +480,8 @@ export const EN_US = {
         CARD_DETAILS: {
             TITLE: 'Card details',
             DESCRIPTION: 'Select default payment method or add new one.',
+            TITLE_TUTOR: 'Payment details',
+            DESCRIPTION_TUTOR: 'Select how you would like to get paid for tutoring.',
             ADD_NEW: 'Add new Card',
             ADD_NEW_DESC: 'Select to add new Card',
         },

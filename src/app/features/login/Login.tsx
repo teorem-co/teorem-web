@@ -125,7 +125,21 @@ const Login: React.FC = () => {
         <>
             <div className="login">
                 <div className="login__aside">
-                    <img src={heroImg} alt="Hero Img" />
+                    {/* <img src={heroImg} alt="Hero Img" />*/}
+                    <div className="teorem-area">
+                        <ul className="teorem-circles">
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                        </ul>
+                    </div >
                 </div>
                 <div className="login__content">
                     <div className="flex--grow w--448--max">

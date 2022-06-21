@@ -385,8 +385,8 @@ const ProfileAccount = () => {
                         {userRole != RoleOptions.SuperAdmin &&
                             <div className="card--profile__section">
                                 <div>
-                                    <div className="mb-2 type--wgt--bold">{t('ACCOUNT.CARD_DETAILS.TITLE')}</div>
-                                    <div className="type--color--tertiary w--200--max">{t('ACCOUNT.CARD_DETAILS.DESCRIPTION')}</div>
+                                    <div className="mb-2 type--wgt--bold">{userRole == RoleOptions.Tutor ? t('ACCOUNT.CARD_DETAILS.TITLE_TUTOR') : t('ACCOUNT.CARD_DETAILS.TITLE')}</div>
+                                    <div className="type--color--tertiary w--200--max">{userRole == RoleOptions.Tutor ? t('ACCOUNT.CARD_DETAILS.DESCRIPTION_TUTOR') : t('ACCOUNT.CARD_DETAILS.DESCRIPTION')}</div>
                                 </div>
                                 <div>
                                     {userRole === RoleOptions.Tutor ? (

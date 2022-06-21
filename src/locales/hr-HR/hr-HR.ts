@@ -480,6 +480,8 @@ export const HR_HR = {
         CARD_DETAILS: {
             TITLE: 'Plaćanje',
             DESCRIPTION: 'Odaberite osnovnu metodu plaćanja ili dodajte novu.',
+            TITLE_TUTOR: 'Detalji placanja',
+            DESCRIPTION_TUTOR: 'Odaberi kako zelis biti placen za instrukcije.',
             ADD_NEW: 'Dodajte novu karticu',
             ADD_NEW_DESC: 'Izaberite za dodavanje nove kartice',
         },
