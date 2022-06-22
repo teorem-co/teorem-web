@@ -309,7 +309,7 @@ export const EN_US = {
             PHONE_NUMBER: 'Phone Number*',
             PHONE_INFO: 'Your phone number will not be visible to the public, we use it in case of support.',
             DATE_OF_BIRTH: 'Date of Birth*',
-            PROFILE_IMAGE: 'Profile Image*',
+            PROFILE_IMAGE: 'Profile Image',
             CHILD_NAME: "Child's Name",
             CHILD_NAME_PLACEHOLDER: "Enter Child's Name",
             CHILD_DATE_OF_BIRTH: "Child's Date of Birth*",

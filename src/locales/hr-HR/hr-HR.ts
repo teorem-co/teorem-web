@@ -309,7 +309,7 @@ export const HR_HR = {
             PHONE_NUMBER: 'Broj telefona*',
             PHONE_INFO: 'Vaš broj telefona neće biti vidljiv javnosti, koristimo ga u slučaju podrške.',
             DATE_OF_BIRTH: 'Datum rođenja*',
-            PROFILE_IMAGE: 'Slika profila*',
+            PROFILE_IMAGE: 'Slika profila',
             CHILD_NAME: "Ime djeteta",
             CHILD_NAME_PLACEHOLDER: "Unesite ime djeteta",
             CHILD_DATE_OF_BIRTH: "Datum rođenja djeteta*",
