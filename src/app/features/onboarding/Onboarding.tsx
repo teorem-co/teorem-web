@@ -58,14 +58,16 @@ const Onboarding = () => {
         } else if (step === 2) {
             dispatch(resetParentRegister());
             dispatch(resetSelectedRole());
-            history.push(PATHS.LOGIN);
+            setEmailConfirmationModalOpen(true);
+            // history.push(PATHS.LOGIN);
         }
     };
 
     const handleNextStepStudent = () => {
         dispatch(resetStudentRegister());
         dispatch(resetSelectedRole());
-        history.push(PATHS.LOGIN);
+        setEmailConfirmationModalOpen(true);
+        // history.push(PATHS.LOGIN);
     };
     const showDesc = (data: boolean) => {
         setShow(data);

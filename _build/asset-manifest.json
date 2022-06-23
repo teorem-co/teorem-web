@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/static/css/main.6971bade.css",
-    "main.js": "/static/js/main.dce8755c.js",
-    "static/media/call-1.png": "/static/media/call-1.9ab97c470a2e8e82fb9b.png",
+    "main.css": "/static/css/main.b56a4a15.css",
+    "main.js": "/static/js/main.dc87e0cc.js",
     "static/media/landing_tutor_list.png": "/static/media/landing_tutor_list.d1e9478f77ab6b423475.png",
     "static/media/chat.png": "/static/media/chat.3732ffd75f23f8b254b5.png",
+    "static/media/call-1.jpg": "/static/media/call-1.6afe20fb25d3a7e70570.jpg",
     "static/media/hero-img.png": "/static/media/hero-img.16286e6fffcad705d999.png",
     "static/media/not-found.png": "/static/media/not-found.fe3738691b641fc528c1.png",
     "static/media/note.png": "/static/media/note.92516be2aa1c6cd5954d.png",
@@ -85,11 +85,11 @@
     "static/media/chevron-left.svg": "/static/media/chevron-left.ecb1281f15bae859a514.svg",
     "static/media/minus.svg": "/static/media/minus.b336ee1cee0f5b0679c1.svg",
     "static/media/plus.svg": "/static/media/plus.e58463d3548722340437.svg",
-    "main.6971bade.css.map": "/static/css/main.6971bade.css.map",
-    "main.dce8755c.js.map": "/static/js/main.dce8755c.js.map"
+    "main.b56a4a15.css.map": "/static/css/main.b56a4a15.css.map",
+    "main.dc87e0cc.js.map": "/static/js/main.dc87e0cc.js.map"
   },
   "entrypoints": [
-    "static/css/main.6971bade.css",
-    "static/js/main.dce8755c.js"
+    "static/css/main.b56a4a15.css",
+    "static/js/main.dc87e0cc.js"
   ]
 }

@@ -1,4 +1,1 @@
-[Tue Jun 07 06:40:16.261273 2022] [authz_core:error] [pid 2293040:tid 140303126214400] [client 139.144.17.13:42562] AH01630: client denied by server configuration: /var/www/teoremweb/server-status
-[Tue Jun 07 06:40:25.019867 2022] [core:error] [pid 2293040:tid 140303394617088] [client 193.106.191.48:51648] AH00126: Invalid URI in request POST /cgi-bin/.%2e/.%2e/.%2e/.%2e/bin/sh HTTP/1.1
-[Tue Jun 07 12:39:52.976394 2022] [authz_core:error] [pid 2293040:tid 140303495329536] [client 178.62.75.94:35082] AH01630: client denied by server configuration: /var/www/teoremweb/server-status
-[Tue Jun 07 17:33:06.642954 2022] [core:error] [pid 2293041:tid 140302547412736] [client 193.106.191.48:59472] AH00126: Invalid URI in request POST /cgi-bin/.%2e/.%2e/.%2e/.%2e/bin/sh HTTP/1.1
+[Wed Jun 22 04:48:23.105289 2022] [core:error] [pid 3157048:tid 140303470151424] [client 185.7.214.104:57602] AH00126: Invalid URI in request POST /cgi-bin/.%2e/.%2e/.%2e/.%2e/bin/sh HTTP/1.1

@@ -3,6 +3,7 @@ import { FC, useEffect, useState } from 'react';
 import PhoneInput from 'react-phone-input-2';
 
 import { useLazyGetCountriesQuery } from '../../features/onboarding/services/countryService';
+import { PATHS } from '../../routes';
 
 interface TextFieldType extends FieldProps {
     className?: string;
@@ -31,8 +32,8 @@ const MyPhoneInput: FC<TextFieldType> = (props: any) => {
     };
 
     useEffect(()=>{
-        window && window.location.pathname === "/onboarding" && updateCountry();
-    }, [props.form.values.countryId]);
+        window && window.location.pathname === PATHS.ONBOARDING && updateCountry();
+    }, [form.values.countryId]);
 
     return (
         <>
