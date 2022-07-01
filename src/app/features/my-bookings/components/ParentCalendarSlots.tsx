@@ -36,7 +36,7 @@ interface Values {
 }
 
 const ParentCalendarSlots: React.FC<IProps> = (props) => {
-    const { start, end, handleClose, positionClass } = props;
+    const { start, end, handleClose, positionClass, setSidebarOpen } = props;
     const { tutorId } = useParams();
 
     const [getChildOptions, { data: childOptions }] = useLazyGetChildQuery();
@@ -82,11 +82,15 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
             const res = await getUser(userId!).unwrap();
             const defaultSource = res.invoice_settings.default_payment_method;
             if (!defaultSource) {
-                toastService.creditCard(t('ERROR_HANDLING.DEFAULT_CARD_MISSING'));
+                setSidebarOpen(true);
+                setIsCreateBookingLoading(false);
+                //toastService.creditCard(t('ERROR_HANDLING.DEFAULT_CARD_MISSING'));
                 return;
             }
         } else {
-            toastService.creditCard(t('ERROR_HANDLING.CREDIT_CARD_MISSING'));
+            setSidebarOpen(true);
+            setIsCreateBookingLoading(false);
+            //toastService.creditCard(t('ERROR_HANDLING.CREDIT_CARD_MISSING'));
             return;
         }
 
@@ -278,9 +282,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
             </div>
             {!isCreateBookingLoading ? (
                 <div className="modal--parent__footer">
-                    <button
-                        className="btn btn--base btn--primary type--wgt--extra-bold mb-1" onClick={() => handleSubmitForm()}
-                    >
+                    <button className="btn btn--base btn--primary type--wgt--extra-bold mb-1" onClick={() => handleSubmitForm()}>
                         {t('BOOK.FORM.SUBMIT')}
                     </button>
                     <button
@@ -292,7 +294,8 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                     >
                         {t('BOOK.FORM.CANCEL')}
                     </button>
-                </div>) : (
+                </div>
+            ) : (
                 <div className="flex flex--jc--center flex--primary--center mb-6">
                     <LoaderPrimary small />
                 </div>

@@ -11,13 +11,13 @@ import { useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { useLazyGetTutorBookingsQuery, useLazyGetTutorProfileDataQuery } from '../../../services/tutorService';
+import { addStripeId } from '../../../slices/authSlice';
 import { RoleOptions } from '../../../slices/roleSlice';
-import ExpDateField from '../../components/form/ExpDateField';
 import TextField from '../../components/form/TextField';
 import MainWrapper from '../../components/MainWrapper';
 import Sidebar from '../../components/Sidebar';
 import LoaderSecondary from '../../components/skeleton-loaders/LoaderSecondary';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import toastService from '../../services/toastService';
 import { calcModalPosition } from '../../utils/calcModalPosition';
 import ParentCalendarSlots from '../my-bookings/components/ParentCalendarSlots';
@@ -25,7 +25,16 @@ import ParentEventModal from '../my-bookings/components/ParentEventModal';
 import UpdateBooking from '../my-bookings/components/UpdateBooking';
 import { useLazyGetBookingByIdQuery, useLazyGetBookingsQuery } from '../my-bookings/services/bookingService';
 import { useLazyGetUnavailableBookingsQuery } from '../my-bookings/services/unavailabilityService';
+import AddCreditCard, { Values as CreditCardValues } from '../my-profile/components/AddCreditCard';
 import LearnCubeModal from '../my-profile/components/LearnCubeModal';
+import IAddCustomerPost from '../my-profile/interfaces/IAddCustomerPost';
+import ICardPost from '../my-profile/interfaces/ICardPost';
+import {
+    useAddCustomerMutation,
+    useAddCustomerSourceMutation,
+    useLazyGetCreditCardsQuery,
+    useSetDefaultCreditCardMutation,
+} from '../my-profile/services/stripeService';
 
 interface IBookingTransformed {
     id: string;
@@ -65,6 +74,13 @@ const TutorBookings = () => {
         }),
     });
     const [getBookingById, { data: booking }] = useLazyGetBookingByIdQuery();
+    const [addCustomerSource] = useAddCustomerSourceMutation();
+    const [addStripeCustomer, { data: dataStripeCustomer, isSuccess: isSuccessDataStripeCustomer, isError: isErrorDataStripeCustomer }] =
+        useAddCustomerMutation();
+    const [getCreditCards, { data: creditCards, isLoading: creditCardLoading, isUninitialized: creditCardUninitialized }] =
+        useLazyGetCreditCardsQuery();
+    const [setDefaultCreditCard, { isSuccess: isSuccessSetDefaultCreditCard }] = useSetDefaultCreditCardMutation();
+    const dispatch = useAppDispatch();
 
     const [selectedStart, setSelectedStart] = useState<string>('');
     const [selectedEnd, setSelectedEnd] = useState<string>('');
@@ -88,6 +104,8 @@ const TutorBookings = () => {
     const positionClass = moment(selectedStart).format('dddd');
     const userRole = useAppSelector((state) => state.auth.user?.Role?.abrv);
     const userId = useAppSelector((state) => state.auth.user?.id);
+    const stripeCustomerId = useAppSelector((state) => state.auth.user?.stripeCustomerId);
+    const userInfo = useAppSelector((state) => state.auth.user);
     const { tutorId } = useParams();
     const { t } = useTranslation();
     const defaultScrollTime = new Date(new Date().setHours(7, 45, 0));
@@ -98,9 +116,30 @@ const TutorBookings = () => {
     const filteredBookings = uniqBy(totalBookings, 'id');
     const tileRef = useRef<HTMLDivElement>(null);
     const tileElement = tileRef.current as HTMLDivElement;
-    const initialValues = {
-        test: '',
+
+    interface Values {
+        cardFirstName: string;
+        cardLastName: string;
+        city: string;
+        line1: string;
+        line2: string;
+        cardNumber: string;
+        expiryDate: string;
+        cvv: string;
+        zipCode: string;
+    }
+    const initialValues: Values = {
+        cardFirstName: '',
+        cardLastName: '',
+        city: '',
+        line1: '',
+        line2: '',
+        cardNumber: '',
+        expiryDate: '',
+        cvv: '',
+        zipCode: '',
     };
+
     const isLoading = isLoadingTutorBookings || isLoadingBookings || isLoadingUnavailableBookings;
 
     const CustomHeader = (date: any) => {
@@ -220,17 +259,96 @@ const TutorBookings = () => {
 
     const formik = useFormik({
         initialValues: initialValues,
-        onSubmit: () => handleSubmit(),
+        onSubmit: (values) => handleSubmit(values),
         validateOnBlur: true,
         validateOnChange: false,
         enableReinitialize: true,
-        validationSchema: Yup.object(),
+        validationSchema: Yup.object().shape({
+            cardFirstName: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            cardLastName: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            city: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            line1: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            line2: Yup.string(),
+            cardNumber: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            expiryDate: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            cvv: Yup.string().max(3, t('FORM_VALIDATION.TOO_LONG')).required(t('FORM_VALIDATION.REQUIRED')),
+            zipCode: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+        }),
     });
 
     //use for creadit card information sidebar
-    const handleSubmit = () => {
+    const handleSubmit = async (values: any) => {
         setSidebarOpen(false);
+        if (!stripeCustomerId) {
+            //If user has not added any card to the stripe yet
+            //    - add user to stripe
+            //    - add stripeID to redux
+            //    - set Added credit card to be default
+            const toSend: IAddCustomerPost = {
+                userId: userInfo!.id,
+                customer: {
+                    address: {
+                        city: values.city,
+                        country: document.documentElement.lang,
+                        line1: values.line1,
+                        line2: values.line2,
+                        postal_code: Number(values.zipCode),
+                        state: values.city,
+                    },
+                    description: ' ',
+                    email: userInfo!.email,
+                    name: values.cardFirstName + ' ' + values.cardLastName,
+                    phone: userInfo!.phoneNumber,
+                },
+            };
+            await addStripeCustomer(toSend).unwrap();
+        }
+
+        const toSend: ICardPost = {
+            object: 'card',
+            number: values.cardNumber.toString(),
+            exp_month: Number(values.expiryDate.split('/')[0]),
+            exp_year: Number('20' + values.expiryDate.split('/')[1]),
+            cvc: Number(values.cvv),
+            name: 'creditCard',
+            address_line1: values.line1,
+            address_city: values.city,
+            address_zip: values.zipCode,
+            address_country: document.documentElement.lang,
+        };
+
+        const toSendCustomerSource = {
+            userId: userInfo!.id,
+            card: toSend,
+        };
+
+        addCustomerSource(toSendCustomerSource)
+            .unwrap()
+            .then(() => {
+                fetchData();
+                setSidebarOpen(false);
+            });
     };
+
+    useEffect(() => {
+        if (isSuccessDataStripeCustomer) {
+            dispatch(addStripeId(dataStripeCustomer.id));
+            const waitForCreditCard = async () => {
+                setTimeout(() => {
+                    getCreditCards(dataStripeCustomer.id)
+                        .unwrap()
+                        .then(() => {
+                            setDefaultCreditCard({
+                                userId: userInfo!.id,
+                                sourceId: dataStripeCustomer.id,
+                            });
+                        });
+                }, 1000);
+            };
+        } else if (isErrorDataStripeCustomer) {
+            toastService.success(t('PROFILE_ACCOUNT.STRIPE_DEFAULT_PAYMENT_METHOD_UPDATED'));
+        }
+    }, [isSuccessDataStripeCustomer, isErrorDataStripeCustomer]);
 
     const handleUpdateModal = (isOpen: boolean) => {
         setOpenUpdateModal(isOpen);
@@ -457,58 +575,74 @@ const TutorBookings = () => {
                             children={
                                 <FormikProvider value={formik}>
                                     <Form>
-                                        {/* <div>{JSON.stringify(formikStepTwo.values, null, 2)}</div> */}
                                         <div className="field">
                                             <label htmlFor="cardFirstName" className="field__label">
-                                                {t('REGISTER.CARD_DETAILS.FIRST_NAME')}
+                                                {t('ACCOUNT.NEW_CARD.NAME')}
                                             </label>
-                                            <TextField
-                                                name="cardFirstName"
-                                                id="cardFirstName"
-                                                placeholder="Enter First Name"
-                                                // disabled={isLoading}
-                                            />
+                                            <TextField name="cardFirstName" id="cardFirstName" placeholder={t('ACCOUNT.NEW_CARD.NAME_PLACEHOLDER')} />
                                         </div>
                                         <div className="field">
                                             <label htmlFor="cardLastName" className="field__label">
-                                                {t('REGISTER.CARD_DETAILS.LAST_NAME')}
+                                                {t('ACCOUNT.NEW_CARD.SURNAME')}
                                             </label>
                                             <TextField
                                                 name="cardLastName"
                                                 id="cardLastName"
-                                                placeholder="Enter Last Name"
-                                                // disabled={isLoading}
+                                                placeholder={t('ACCOUNT.NEW_CARD.SURNAME_PLACEHOLDER')}
                                             />
                                         </div>
                                         <div className="field">
+                                            <label htmlFor="city" className="field__label">
+                                                {t('ACCOUNT.NEW_CARD.CITY')}
+                                            </label>
+                                            <TextField name="city" id="city" placeholder={t('ACCOUNT.NEW_CARD.CITY_PLACEHOLDER')} />
+                                        </div>
+                                        <div className="field">
+                                            <label htmlFor="line1" className="field__label">
+                                                {t('ACCOUNT.NEW_CARD.ADDRESS1')}
+                                            </label>
+                                            <TextField
+                                                name="line1"
+                                                id="line1"
+                                                placeholder={t('ACCOUNT.NEW_CARD.ADDRESS1_PLACEHOLDER')}
+                                                withoutErr={formik.errors.line1 && formik.touched.line1 ? false : true}
+                                            />
+                                        </div>
+                                        <div className="field">
+                                            <label htmlFor="line2" className="field__label">
+                                                {t('ACCOUNT.NEW_CARD.ADDRESS2')}
+                                            </label>
+                                            <TextField name="line2" id="line2" placeholder={t('ACCOUNT.NEW_CARD.ADDRESS2_PLACEHOLDER')} />
+                                        </div>
+                                        <div className="field">
                                             <label htmlFor="cardNumber" className="field__label">
-                                                {t('REGISTER.CARD_DETAILS.CARD_NUMBER')}
+                                                {t('ACCOUNT.NEW_CARD.CARD_NUMBER')}
                                             </label>
                                             <TextField
                                                 type="number"
                                                 name="cardNumber"
                                                 id="cardNumber"
-                                                placeholder="**** **** **** ****"
-                                                // disabled={isLoading}
+                                                placeholder={t('ACCOUNT.NEW_CARD.CARD_NUMBER_PLACEHOLDER')}
                                             />
                                         </div>
                                         <div className="field field__file">
                                             <div className="flex">
                                                 <div className="field w--100 mr-6">
                                                     <label htmlFor="expiryDate" className="field__label">
-                                                        {t('REGISTER.CARD_DETAILS.EXPIRY_DATE')}
+                                                        {t('ACCOUNT.NEW_CARD.EXPIRY')}
                                                     </label>
-                                                    <ExpDateField
+                                                    <TextField
+                                                        type="text"
                                                         name="expiryDate"
                                                         id="expiryDate"
-                                                        placeholder="MM / YY"
-                                                        // disabled={isLoading}
+                                                        placeholder={t('ACCOUNT.NEW_CARD.EXPIRY_PLACEHOLDER')}
+                                                        mask={[/\d/, /\d/, '/', /\d/, /\d/]}
                                                     />
                                                 </div>
 
                                                 <div className="field w--100">
                                                     <label htmlFor="cvv" className="field__label">
-                                                        {t('REGISTER.CARD_DETAILS.CVV')}
+                                                        {t('ACCOUNT.NEW_CARD.CVV')}
                                                     </label>
                                                     <TextField
                                                         max={3}
@@ -516,8 +650,7 @@ const TutorBookings = () => {
                                                         type="number"
                                                         name="cvv"
                                                         id="cvv"
-                                                        placeholder="***"
-                                                        // disabled={isLoading}
+                                                        placeholder={t('ACCOUNT.NEW_CARD.CVV_PLACEHOLDER')}
                                                     />
                                                 </div>
                                             </div>
@@ -525,14 +658,13 @@ const TutorBookings = () => {
 
                                         <div className="field">
                                             <label htmlFor="zipCode" className="field__label">
-                                                {t('REGISTER.CARD_DETAILS.ZIP_CODE')}
+                                                {t('ACCOUNT.NEW_CARD.ZIP')}
                                             </label>
                                             <TextField
                                                 type="number"
                                                 name="zipCode"
                                                 id="zipCode"
-                                                placeholder="Enter ZIP / Postal Code"
-                                                // disabled={isLoading}
+                                                placeholder={t('ACCOUNT.NEW_CARD.ZIP_PLACEHOLDER')}
                                             />
                                         </div>
                                     </Form>

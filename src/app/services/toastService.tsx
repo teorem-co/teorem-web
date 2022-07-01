@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Dispatch } from 'redux';
+
 import ToastFreeConsultationMessage from '../components/ToastFreeConsultationMessage';
 import { IState, setActiveChatRoom, setFreeConsultation, setLink } from '../features/chat/slices/chatSlice';
 import { useAppSelector } from '../hooks';
-
 import { PATHS, PROFILE_PATHS } from '../routes';
 
 class ToastService {
@@ -62,8 +62,10 @@ class ToastService {
     };
 
     freeConsultation = (buffer: any, accept: () => void, deny: () => void): React.ReactText => {
-
-        return toast.warning(<ToastFreeConsultationMessage buffer={buffer} accept={accept} deny={deny} />, Object.assign({}, ToastService.freeConsultationOpts));
+        return toast.warning(
+            <ToastFreeConsultationMessage buffer={buffer} accept={accept} deny={deny} />,
+            Object.assign({}, ToastService.freeConsultationOpts)
+        );
     };
 
     creditCard = (message: string): void => {

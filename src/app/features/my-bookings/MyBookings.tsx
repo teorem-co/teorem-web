@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Calendar as BigCalendar, momentLocalizer, SlotInfo } from 'react-big-calendar';
 import Calendar from 'react-calendar';
 import { useHistory } from 'react-router';
-import { useLocation } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
 
 import { RoleOptions } from '../../../slices/roleSlice';
 import MainWrapper from '../../components/MainWrapper';
@@ -29,9 +29,7 @@ import {
 } from './services/bookingService';
 import { useLazyGetUnavailableBookingsQuery } from './services/unavailabilityService';
 
-i18n.language !== 'en' && 
-    Array.from(languageOptions.map(l => l.path)).includes(i18n.language) &&
-    require(`moment/locale/${i18n.language}.js`);
+i18n.language !== 'en' && Array.from(languageOptions.map((l) => l.path)).includes(i18n.language) && require(`moment/locale/${i18n.language}.js`);
 
 interface ICoords {
     x: number;
@@ -63,7 +61,7 @@ const MyBookings: React.FC = (props: any) => {
     const [openEventDetails, setOpenEventDetails] = useState<boolean>(false);
     const [openTutorCalendarModal, setOpenTutorCalendarModal] = useState<boolean>(false);
     const location = useLocation();
-    const [value, onChange] = useState(location.state? new Date(location.state.value) : new Date());
+    const [value, onChange] = useState(location.state ? new Date(location.state.value) : new Date());
     const [calChange, setCalChange] = useState<boolean>(false);
     const [learnCubeModal, setLearnCubeModal] = useState<boolean>(false);
     const [currentlyActiveBooking, setCurentlyActiveBooking] = useState<string>('');
@@ -196,7 +194,7 @@ const MyBookings: React.FC = (props: any) => {
     };
 
     const goToTutorCalendar = () => {
-        history.push(`${t('PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS')}${booking?.tutorId}`);
+        history.push(`${t('PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS').replace(':tutorId', booking?.tutorId || '')}`);
     };
 
     const handleSelectedSlot = (e: SlotInfo) => {
