@@ -112,7 +112,12 @@ const AddCreditCard = (props: Props) => {
                                 <label htmlFor="cardNumber" className="field__label">
                                     {t('ACCOUNT.NEW_CARD.CARD_NUMBER')}
                                 </label>
-                                <TextField type="number" name="cardNumber" id="cardNumber" placeholder={t('ACCOUNT.NEW_CARD.CARD_NUMBER_PLACEHOLDER')} />
+                                <TextField
+                                    type="number"
+                                    name="cardNumber"
+                                    id="cardNumber"
+                                    placeholder={t('ACCOUNT.NEW_CARD.CARD_NUMBER_PLACEHOLDER')}
+                                />
                             </div>
                             <div className="field field__file">
                                 <div className="flex">
@@ -120,14 +125,27 @@ const AddCreditCard = (props: Props) => {
                                         <label htmlFor="expiryDate" className="field__label">
                                             {t('ACCOUNT.NEW_CARD.EXPIRY')}
                                         </label>
-                                        <TextField type="text" name="expiryDate" id="expiryDate" placeholder={t('ACCOUNT.NEW_CARD.EXPIRY_PLACEHOLDER')} />
+                                        <TextField
+                                            type="text"
+                                            name="expiryDate"
+                                            id="expiryDate"
+                                            placeholder={t('ACCOUNT.NEW_CARD.EXPIRY_PLACEHOLDER')}
+                                            mask={[/\d/, /\d/, '/', /\d/, /\d/]}
+                                        />
                                     </div>
 
                                     <div className="field w--100">
                                         <label htmlFor="cvv" className="field__label">
                                             {t('ACCOUNT.NEW_CARD.CVV')}
                                         </label>
-                                        <TextField max={3} maxLength={3} type="number" name="cvv" id="cvv" placeholder={t('ACCOUNT.NEW_CARD.CVV_PLACEHOLDER')} />
+                                        <TextField
+                                            max={3}
+                                            maxLength={3}
+                                            type="number"
+                                            name="cvv"
+                                            id="cvv"
+                                            placeholder={t('ACCOUNT.NEW_CARD.CVV_PLACEHOLDER')}
+                                        />
                                     </div>
                                 </div>
                             </div>

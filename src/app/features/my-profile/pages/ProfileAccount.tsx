@@ -40,9 +40,10 @@ interface Values {
 
 const ProfileAccount = () => {
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
-    const [addStripeCustomer, { data: dataStripeCustomer, isSuccess: isSuccessDataStripeCustomer, isError: isErrorDataStripeCustomer }] = useAddCustomerMutation();
+    const [addStripeCustomer, { data: dataStripeCustomer, isSuccess: isSuccessDataStripeCustomer, isError: isErrorDataStripeCustomer }] =
+        useAddCustomerMutation();
     const [addCustomerSource] = useAddCustomerSourceMutation();
-    const [setDefaultCreditCard] = useSetDefaultCreditCardMutation();
+    const [setDefaultCreditCard, { isSuccess: isSuccessSetDefaultCreditCard }] = useSetDefaultCreditCardMutation();
     const [getCustomerById] = useLazyGetCustomerByIdQuery();
     const [getCreditCards, { data: creditCards, isLoading: creditCardLoading, isUninitialized: creditCardUninitialized }] =
         useLazyGetCreditCardsQuery();
@@ -223,7 +224,7 @@ const ProfileAccount = () => {
         await setDefaultCreditCard(toSend)
             .unwrap()
             .then(() => {
-                toastService.success(t("MY_PROFILE.PROFILE_ACCOUNT.STRIPE_DEFAULT_PAYMENT_METHOD_UPDATED"));
+                toastService.success(t('MY_PROFILE.PROFILE_ACCOUNT.STRIPE_DEFAULT_PAYMENT_METHOD_UPDATED'));
                 setActiveDefaultPaymentMethod(cardId);
             });
     };
@@ -281,21 +282,24 @@ const ProfileAccount = () => {
     };
 
     useEffect(() => {
-
         if (isSuccessDataStripeCustomer) {
             dispatch(addStripeId(dataStripeCustomer.id));
-            setDefaultCreditCard({
-                userId: userInfo!.id,
-                sourceId: dataStripeCustomer.id,
-            });
+            const waitForCreditCard = async () => {
+                setTimeout(() => {
+                    getCreditCards(dataStripeCustomer.id)
+                        .unwrap()
+                        .then(() => {
+                            setDefaultCreditCard({
+                                userId: userInfo!.id,
+                                sourceId: dataStripeCustomer.id,
+                            });
+                        });
+                }, 1000);
+            };
         } else if (isErrorDataStripeCustomer) {
-            toastService.error(t("PROFILE_ACCOUNT.STRIPE_CARD_DECLINED"));
+            toastService.error(t('PROFILE_ACCOUNT.STRIPE_CARD_DECLINED'));
         }
-    },
-        [
-            isSuccessDataStripeCustomer,
-            isErrorDataStripeCustomer
-        ]);
+    }, [isSuccessDataStripeCustomer, isErrorDataStripeCustomer]);
 
     useEffect(() => {
         fetchProgress();
@@ -375,18 +379,29 @@ const ProfileAccount = () => {
                                             <label htmlFor="confirmPassword" className="field__label">
                                                 {t('ACCOUNT.CHANGE_PASSWORD.CONFIRM_PASSWORD')}
                                             </label>
-                                            <TextField name="confirmPassword" id="confirmPassword" placeholder={t('ACCOUNT.CHANGE_PASSWORD.NEW_PASSWORD_PLACEHOLDER')} password={true} />
+                                            <TextField
+                                                name="confirmPassword"
+                                                id="confirmPassword"
+                                                placeholder={t('ACCOUNT.CHANGE_PASSWORD.NEW_PASSWORD_PLACEHOLDER')}
+                                                password={true}
+                                            />
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        {userRole != RoleOptions.SuperAdmin &&
+                        {userRole != RoleOptions.SuperAdmin && (
                             <div className="card--profile__section">
                                 <div>
-                                    <div className="mb-2 type--wgt--bold">{userRole == RoleOptions.Tutor ? t('ACCOUNT.CARD_DETAILS.TITLE_TUTOR') : t('ACCOUNT.CARD_DETAILS.TITLE')}</div>
-                                    <div className="type--color--tertiary w--200--max">{userRole == RoleOptions.Tutor ? t('ACCOUNT.CARD_DETAILS.DESCRIPTION_TUTOR') : t('ACCOUNT.CARD_DETAILS.DESCRIPTION')}</div>
+                                    <div className="mb-2 type--wgt--bold">
+                                        {userRole == RoleOptions.Tutor ? t('ACCOUNT.CARD_DETAILS.TITLE_TUTOR') : t('ACCOUNT.CARD_DETAILS.TITLE')}
+                                    </div>
+                                    <div className="type--color--tertiary w--200--max">
+                                        {userRole == RoleOptions.Tutor
+                                            ? t('ACCOUNT.CARD_DETAILS.DESCRIPTION_TUTOR')
+                                            : t('ACCOUNT.CARD_DETAILS.DESCRIPTION')}
+                                    </div>
                                 </div>
                                 <div>
                                     {userRole === RoleOptions.Tutor ? (
@@ -417,8 +432,9 @@ const ProfileAccount = () => {
                                                     return (
                                                         <div className="dash-wrapper__item" onClick={() => handleDefaultCreditCard(item.id)}>
                                                             <div
-                                                                className={`dash-wrapper__item__element ${item.id === activeDefaultPaymentMethod && 'active'
-                                                                    }`}
+                                                                className={`dash-wrapper__item__element ${
+                                                                    item.id === activeDefaultPaymentMethod && 'active'
+                                                                }`}
                                                             >
                                                                 <div className="flex--primary cur--pointer">
                                                                     <div>
@@ -444,7 +460,7 @@ const ProfileAccount = () => {
                                     )}
                                 </div>
                             </div>
-                        }
+                        )}
                     </Form>
                 </FormikProvider>
                 <>{stripeModalOpen && <StripeModal handleClose={() => setStripeModalOpen(false)} />}</>

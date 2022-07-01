@@ -1,5 +1,6 @@
 import { FieldAttributes, useField } from 'formik';
 import React, { useEffect, useRef, useState } from 'react';
+import MaskedInput from 'react-text-mask';
 
 type TextFieldType = {
     min?: number;
@@ -8,6 +9,7 @@ type TextFieldType = {
     wrapperClassName?: string;
     withoutErr?: boolean;
     additionalValidation?: string;
+    mask?: any[];
 } & FieldAttributes<{}>;
 
 //const TextField: React.FC<TextFieldType> = ( { type, placeholder, id, disabled, min, onChange, ...props } ) =>
@@ -38,9 +40,7 @@ const TextField: React.FC<TextFieldType> = (props: any) => {
         }
     }, [field.value]);
 
-    const handleCharacterCount = (
-        e: React.KeyboardEvent<HTMLInputElement>
-    ) => {
+    const handleCharacterCount = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.currentTarget.textContent) {
             const textareaLength = e.currentTarget.textContent.length;
             setCharacterCount(textareaLength);
@@ -49,17 +49,33 @@ const TextField: React.FC<TextFieldType> = (props: any) => {
     return (
         <>
             <div className={`pos--rel ${props.wrapperClassName}`}>
-                <input
-                    ref={textInputRef}
-                    onKeyUp={(e) => handleCharacterCount(e)}
-                    type={`${password ? 'password' : 'text'}`}
-                    {...field}
-                    {...props}
-                    className={`${props.className ?? 'input input--base input--text'} ${errorText ? 'input__border--error' : ''}`}
-                />
-                {maxLength && <div className="input--textarea__counter">
-                    {characterCount}/{maxLength}
-                </div>}
+                {props.mask ? (
+                    <MaskedInput
+                        type={props.text}
+                        id={props.id}
+                        placeholder={props.placeholder}
+                        mask={props.mask}
+                        keepCharPositions={true}
+                        guide={false}
+                        {...field}
+                        {...props}
+                        className={`${props.className ?? 'input input--base input--text'} ${errorText ? 'input__border--error' : ''}`}
+                    />
+                ) : (
+                    <input
+                        ref={textInputRef}
+                        onKeyUp={(e) => handleCharacterCount(e)}
+                        type={`${password ? 'password' : 'text'}`}
+                        {...field}
+                        {...props}
+                        className={`${props.className ?? 'input input--base input--text'} ${errorText ? 'input__border--error' : ''}`}
+                    />
+                )}
+                {maxLength && (
+                    <div className="input--textarea__counter">
+                        {characterCount}/{maxLength}
+                    </div>
+                )}
                 {
                     /* toggle password visibility */
                     props.password ? (

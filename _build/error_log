@@ -1,1 +1,2 @@
 [Wed Jun 22 04:48:23.105289 2022] [core:error] [pid 3157048:tid 140303470151424] [client 185.7.214.104:57602] AH00126: Invalid URI in request POST /cgi-bin/.%2e/.%2e/.%2e/.%2e/bin/sh HTTP/1.1
+[Thu Jun 23 04:23:44.306115 2022] [core:error] [pid 2654267:tid 139636089284352] [client 185.7.214.104:56478] AH00126: Invalid URI in request POST /cgi-bin/.%2e/.%2e/.%2e/.%2e/bin/sh HTTP/1.1
