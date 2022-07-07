@@ -37,7 +37,9 @@ import TutorManagment from './features/tutor-managment/TutorManagment';
 import TutorManagmentProfile from './features/tutor-managment/TutorProfile';
 import { useAppSelector } from './hooks';
 import { Role } from './lookups/role';
+import EmailConfirmed from './pages/EmailConfirmed';
 import NotFound from './pages/NotFound';
+import StripeConnected from './pages/StripeConnected';
 import PermissionsGate from './PermissionGate';
 import { getUserRoleAbrv } from './utils/getUserRoleAbrv';
 
@@ -62,6 +64,8 @@ export const PATHS = {
     PRIVACY: t('PATHS.PRIVACY'),
     TUTOR_MANAGMENT: t('PATHS.TUTOR_MANAGMENT'),
     TUTOR_MANAGMENT_TUTOR_PROFILE: t('PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE'),
+    EMAIL_CONFIRMED: t('PATHS.EMAIL_CONFIRMED'),
+    STRIPE_CONNECTED: t('PATHS.STRIPE_CONNECTED'),
 };
 
 export const LANDING_PATHS = {
@@ -339,6 +343,18 @@ export const ROUTES: any = [
             </PermissionsGate>
         ),
     },
+    {
+        path: PATHS.EMAIL_CONFIRMED,
+        key: 'EMAIL_CONFIRMED',
+        exact: true,
+        component: () => <EmailConfirmed />,
+    },
+    {
+        path: PATHS.STRIPE_CONNECTED,
+        key: 'STRIPE_CONNECTED',
+        exact: true,
+        component: () => <StripeConnected />,
+    },
 ];
 //handle subroutes by <RenderRoutes {...props} /> inside PermissionGate if needed
 
@@ -357,16 +373,15 @@ export function RenderRoutes(routesObj: any) {
     const [locationKeys, setLocationKeys] = useState<(string | undefined)[]>([]);
 
     const syncLanguage = () => {
+        const match = '/:lang(' + Array.from(languageOptions.map((l) => l.path)).join('|') + ')';
 
-        const match = '/:lang(' + Array.from(languageOptions.map(l => l.path)).join('|') + ')';
-
-        if (matchPath(
-            location.pathname, {
-            path: match
-        })) {
-            const lang = matchPath(
-                location.pathname, {
-                path: match
+        if (
+            matchPath(location.pathname, {
+                path: match,
+            })
+        ) {
+            const lang = matchPath(location.pathname, {
+                path: match,
             })?.params.lang;
 
             document.documentElement.lang = lang;

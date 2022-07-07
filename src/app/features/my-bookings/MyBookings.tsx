@@ -87,8 +87,8 @@ const MyBookings: React.FC = (props: any) => {
         setCalChange(true);
         return (
             <>
-                <div className="mb-2">{moment(date.date).format('dddd')}</div>
-                <div className="type--color--tertiary">{moment(date.date).format('DD/MMM')}</div>
+                <div className="type--capitalize mb-2">{moment(date.date).format('dddd')}</div>
+                <div className="type--color--tertiary type--capitalize">{moment(date.date).format('DD MMM').replace('.', '')}</div>
             </>
         );
     };
@@ -406,6 +406,12 @@ const MyBookings: React.FC = (props: any) => {
                             value={value}
                             prevLabel={<PrevIcon />}
                             nextLabel={<NextIcon />}
+                            formatMonthYear={(locale: any, date: any) => {
+                                return moment(date).format('MMM YYYY')[0].toUpperCase() + moment(date).format('MMM YYYY').slice(1).replace('.', '');
+                            }}
+                            formatDay={(locale: any, date: any) => {
+                                return moment(date).format('D');
+                            }}
                         />
                         <div
                             ref={tileRef}

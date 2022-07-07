@@ -1,4 +1,5 @@
-import { t } from "i18next";
+import { t } from 'i18next';
+import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import gradientCircle from '../../assets/images/gradient-circle.svg';
@@ -23,21 +24,46 @@ const Navbar = () => {
 
     const user = useAppSelector((state) => state.auth?.user);
 
+    const [textCopiedToClipboard, setTextCopiedToClipboard] = useState<boolean>(false);
+    const shareProfile = () => {
+        navigator.clipboard.writeText('URL_GOES_HERE');
+        setTextCopiedToClipboard(true);
+    };
+    useEffect(() => {
+        textCopiedToClipboard && setTimeout(() => setTextCopiedToClipboard(false), 800);
+    }, [textCopiedToClipboard]);
+
     return (
         <div className="navbar">
             <NavLink
                 className="d--b"
-                to={`${user?.Role?.abrv === RoleOptions.SuperAdmin ?
-                    PATHS.TUTOR_MANAGMENT :
-                    user?.Role?.abrv === RoleOptions.Tutor ?
-                        PATHS.DASHBOARD :
-                        PATHS.MY_BOOKINGS}`}
+                to={`${
+                    user?.Role?.abrv === RoleOptions.SuperAdmin
+                        ? PATHS.TUTOR_MANAGMENT
+                        : user?.Role?.abrv === RoleOptions.Tutor
+                        ? PATHS.DASHBOARD
+                        : PATHS.MY_BOOKINGS
+                }`}
             >
                 <img className="navbar__logo" src={logo} alt="logo" />
             </NavLink>
             <div className="flex--grow">
                 <RenderMenuLinks></RenderMenuLinks>
             </div>
+            {user?.Role.abrv === RoleOptions.Tutor && (
+                <div className="navbar__bottom navbar__bottom__share" onClick={shareProfile}>
+                    <div className="navbar__bottom__share-profile">
+                        <div className="navbar__bottom__share--icon">
+                            <i className={`icon icon--base icon--grey ${textCopiedToClipboard ? 'icon--check' : 'icon--share'}`}></i>
+                        </div>
+                        <div className="navbar__bottom__user-info">
+                            <div className="type--color--tertiary type--wgt--bold type--break">
+                                {textCopiedToClipboard ? t('NAVIGATION.TEXT_COPIED') : t('NAVIGATION.SHARE_PROFILE')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
             <div className="navbar__bottom">
                 {/* Don't show user profile settings to child role */}
                 {(user?.Role?.abrv === RoleOptions.Child && (
@@ -57,25 +83,25 @@ const Navbar = () => {
                         </div>
                     </div>
                 )) || (
-                        <NavLink to={PROFILE_PATHS.MY_PROFILE_INFO_PERSONAL} className="navbar__bottom__my-profile" activeClassName="active">
-                            <div className="navbar__bottom__avatar pos--rel">
-                                {user?.Role?.abrv === RoleOptions.Tutor ? (
-                                    <img src={user?.profileImage ? 'https://' + user?.profileImage : gradientCircle} alt="avatar" />
-                                ) : (
-                                    <ImageCircle initials={`${user?.firstName.charAt(0)}${user?.lastName.charAt(0)}`} />
-                                )}
-                                <div className="navbar__bottom--settings">
-                                    <i className="icon icon--base icon--white icon--settings"></i>
-                                </div>
+                    <NavLink to={PROFILE_PATHS.MY_PROFILE_INFO_PERSONAL} className="navbar__bottom__my-profile" activeClassName="active">
+                        <div className="navbar__bottom__avatar pos--rel">
+                            {user?.Role?.abrv === RoleOptions.Tutor ? (
+                                <img src={user?.profileImage ? 'https://' + user?.profileImage : gradientCircle} alt="avatar" />
+                            ) : (
+                                <ImageCircle initials={`${user?.firstName.charAt(0)}${user?.lastName.charAt(0)}`} />
+                            )}
+                            <div className="navbar__bottom--settings">
+                                <i className="icon icon--base icon--white icon--settings"></i>
                             </div>
-                            <div className="navbar__bottom__user-info">
-                                <div className="type--color--primary type--wgt--bold type--break">
-                                    {user?.firstName} {user?.lastName}
-                                </div>
-                                <div className="type--xs type--color--secondary type--wgt--regular ">{t("ROLES." + user?.Role?.abrv)}</div>
+                        </div>
+                        <div className="navbar__bottom__user-info">
+                            <div className="type--color--primary type--wgt--bold type--break">
+                                {user?.firstName} {user?.lastName}
                             </div>
-                        </NavLink>
-                    )}
+                            <div className="type--xs type--color--secondary type--wgt--regular ">{t('ROLES.' + user?.Role?.abrv)}</div>
+                        </div>
+                    </NavLink>
+                )}
 
                 <NavLink to={PATHS.LOGIN} onClick={handleLogout} className="d--ib">
                     <i className="icon icon--logout icon--sm icon--grey"></i>

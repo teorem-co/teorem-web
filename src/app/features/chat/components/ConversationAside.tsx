@@ -12,13 +12,12 @@ interface Props {
 }
 
 const ConversationAside = (props: Props) => {
-
     const { t } = useTranslation();
     const { imgUrl, name, lastMessage, lastMessageTime, unread } = props.data;
 
     const messageRef = useRef<HTMLDivElement>(null);
 
-    const [messageDisplay, setMessageDisplay] = useState<string>("");
+    const [messageDisplay, setMessageDisplay] = useState<string>('');
     const dispatch = useDispatch();
 
     const selectChat = () => {
@@ -26,9 +25,7 @@ const ConversationAside = (props: Props) => {
     };
 
     useEffect(() => {
-
         if (messageRef.current) {
-
             let message: string;
             const child = messageRef.current.firstElementChild;
 
@@ -39,8 +36,7 @@ const ConversationAside = (props: Props) => {
             }
 
             if (message.length > 80) {
-                message = message.substring(0, 80) + "...";
-
+                message = message.substring(0, 80) + '...';
 
                 if (child) {
                     child.innerHTML = message;
@@ -49,11 +45,9 @@ const ConversationAside = (props: Props) => {
                 }
             }
         }
-    },
-        [messageRef]);
+    }, [messageRef]);
 
     useEffect(() => {
-
         let textMessage = lastMessage;
         textMessage = textMessage.replace(/stringTranslate=\{(.*?)\}/g, function (match: any, token: any) {
             return t(token);
@@ -63,30 +57,19 @@ const ConversationAside = (props: Props) => {
         });
 
         setMessageDisplay(textMessage);
-
     }, [lastMessage]);
 
     return (
-
-
-        <div className={`chat__conversation${props.active ? " chat__conversation__active" : ""}`} onClick={selectChat}>
-            <img
-                className="chat__conversation__avatar"
-                src={imgUrl}
-                alt="user avatar"
-            />
+        <div className={`chat__conversation${props.active ? ' chat__conversation__active' : ''}`} onClick={selectChat}>
+            <img className="chat__conversation__avatar" src={imgUrl} alt="user avatar" />
             {/* <div className="chat__conversation__avatar"></div> */}
             <div className="flex flex--col flex--jc--center flex--grow ml-2">
                 <div className="type--wgt--bold">{name}</div>
                 <div ref={messageRef} className="aside-conversation-message" dangerouslySetInnerHTML={{ __html: messageDisplay }}></div>
             </div>
             <div className="flex flex--col flex--jc--center flex--shrink flex--end">
-                <div>
-                    {unread && <div className="chat__conversation__dot"></div>}
-                </div>
-                <div className="type--color--secondary mt-3">
-                    {lastMessageTime}
-                </div>
+                <div className="type--sm type--color--secondary mt-3">{lastMessageTime}</div>
+                <div>{unread && <div className="chat__conversation__dot mt-3"></div>}</div>
             </div>
         </div>
     );

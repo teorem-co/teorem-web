@@ -25,7 +25,7 @@ export const HR_HR = {
     ONBOARDING: {
         NAVIGATION: {
             TITLE: 'Dobrodošli na Teorem!',
-            DESCRIPTION: "Molimo Vas pratite proces kako biste završili izradu profila. Trajati će samo nekoliko minuta.",
+            DESCRIPTION: 'Molimo Vas pratite proces kako biste završili izradu profila. Trajati će samo nekoliko minuta.',
             STEP_ONE: {
                 TITLE: 'Osobni podatci',
                 DESCRIPTION: 'Dopustite nam da Vas upoznamo malo bolje',
@@ -33,17 +33,17 @@ export const HR_HR = {
             TUTOR: {
                 STEP_TWO: {
                     TITLE: 'Podatci za plaćanje',
-                    DESCRIPTION: "Nikada nije previše podataka",
+                    DESCRIPTION: 'Nikada nije previše podataka',
                 },
             },
             PARENT: {
                 STEP_TWO: {
-                    TITLE: "Podatci o djeci",
+                    TITLE: 'Podatci o djeci',
                     DESCRIPTION: 'Ispunite podatke za Vaše dijete i odredite njegove/njene podatke za prijavu.',
                 },
             },
         },
-        EDIT_CHILD_DETAILS: "Izmijenite podatke o djetetu",
+        EDIT_CHILD_DETAILS: 'Izmijenite podatke o djetetu',
     },
     FORM_VALIDATION: {
         INVALID_EMAIL: 'Neispravan email',
@@ -88,6 +88,8 @@ export const HR_HR = {
         CHAT: 'Razgovor',
         DASHBOARD: 'Upravljačka ploča',
         EARNINGS: 'Prihod',
+        SHARE_PROFILE: 'Podijeli profil',
+        TEXT_COPIED: 'Profil kopiran!',
     },
     SEARCH_TUTORS: {
         AVAILABILITY: {
@@ -168,7 +170,7 @@ export const HR_HR = {
             EMAIL: 'EMAIL',
             COUNTRY: 'DRŽAVA',
             DATE_OF_BIRTH: 'DATUM ROĐENJA',
-            PREVIEW_PROFILE: 'Pregled profila'
+            PREVIEW_PROFILE: 'Pregled profila',
         },
         ACTIONS: {
             APPROVE: 'Odobri',
@@ -182,8 +184,8 @@ export const HR_HR = {
         },
         NOTE: 'Bilješka',
         NOTE_PLACEHOLDER: 'Unesi bilješku...',
-        DETAILS: " DETALJI",
-        SEARCH_PLACEHOLDER: 'Pronađi instruktora'
+        DETAILS: ' DETALJI',
+        SEARCH_PLACEHOLDER: 'Pronađi instruktora',
     },
     CHAT: {
         PLACEHOLDER: 'Pošaljite poruku kako biste započeli razgovor',
@@ -195,7 +197,6 @@ export const HR_HR = {
         DENY_FREE_CONSULTATION: 'Odustanite od poziva',
         CHAT_REQUEST_TITLE: 'Dolazni videopoziv',
         CHAT_MISSED_CALL: '<span class="chat-missed-incoming-message">Propušten poziv od korisnika userInsert={user}</span>',
-
     },
     ROLE_SELECTION: {
         TITLE: 'Registracija',
@@ -250,7 +251,7 @@ export const HR_HR = {
             NOT_FOUND: 'Korisnik nije pronađen',
             USERNAME_CONFLICT: 'Korisničko ime već postoji',
             PROFILE_NOT_ACTIVE: {
-                SENT_AGAIN: 'Molimo potvrdite vašu e-mail adresu.'
+                SENT_AGAIN: 'Molimo potvrdite vašu e-mail adresu.',
             },
         },
         LEVEL: {
@@ -310,9 +311,9 @@ export const HR_HR = {
             PHONE_INFO: 'Vaš broj telefona neće biti vidljiv javnosti, koristimo ga u slučaju podrške.',
             DATE_OF_BIRTH: 'Datum rođenja*',
             PROFILE_IMAGE: 'Slika profila',
-            CHILD_NAME: "Ime djeteta",
-            CHILD_NAME_PLACEHOLDER: "Unesite ime djeteta",
-            CHILD_DATE_OF_BIRTH: "Datum rođenja djeteta*",
+            CHILD_NAME: 'Ime djeteta',
+            CHILD_NAME_PLACEHOLDER: 'Unesite ime djeteta',
+            CHILD_DATE_OF_BIRTH: 'Datum rođenja djeteta*',
             USERNAME: 'Korisničko ime*',
         },
         CARD_DETAILS: {
@@ -431,7 +432,7 @@ export const HR_HR = {
             DAY: ' dan',
             DAYS: ' dana',
             TODAY: ' danas',
-        }
+        },
     },
     COMPLETED_LESSONS: {
         TITLE: 'Završene lekcije',
@@ -453,8 +454,8 @@ export const HR_HR = {
         REVIEW: 'Recenzija',
         SUBMIT: 'Objavi',
         CANCEL: 'Odustani',
-        HEADING_PLACEHOLDER: "Napišite naslov svoje recenzije",
-        TEXT_PLACEHOLDER: "Opišite svoje cjelokupno iskustvo s ovom lekcijom",
+        HEADING_PLACEHOLDER: 'Napišite naslov svoje recenzije',
+        TEXT_PLACEHOLDER: 'Opišite svoje cjelokupno iskustvo s ovom lekcijom',
     },
     COMPLETE_PROFILE: {
         TITLE: 'Završite svoj profil',
@@ -589,7 +590,7 @@ export const HR_HR = {
             SUBTITLE: 'Profil se prikazuje',
             YES: 'Da',
             NO: 'Ne',
-        }
+        },
     },
     DASHBOARD: {
         TITLE: 'Upravljačka ploča',
@@ -623,12 +624,12 @@ export const HR_HR = {
         TITLE: 'Sve obavijesti',
         EMPTY: 'Nema obavijesti',
         BOOKING_CLASS_STARTING: {
-            DESCRIPTION: "Predavanje započinje uskoro",
-            TITLE: "Predavanje započinje uskoro"
+            DESCRIPTION: 'Predavanje započinje uskoro',
+            TITLE: 'Predavanje započinje uskoro',
         },
         CHAT_MISSED_CALL: {
-            DESCRIPTION: "Propušten videopoziv od",
-            TITLE: "Propušten videopoziv"
+            DESCRIPTION: 'Propušten videopoziv od',
+            TITLE: 'Propušten videopoziv',
         },
         BOOKING: {
             STUDENT: 'Učenik',
@@ -652,7 +653,7 @@ export const HR_HR = {
         BOOKING_CANCELED: {
             TITLE: 'Rezervacija otkazana',
             DESCRIPTION: '',
-            CANCEL_TEXT: 'je otkazao/la'
+            CANCEL_TEXT: 'je otkazao/la',
         },
         BOOKING_DELETED: {
             TITLE: 'Neprihvaćena rezervacija uklonjena',
@@ -747,7 +748,8 @@ export const HR_HR = {
     HOW_IT_WORKS: {
         HERO: {
             TITLE: 'Online instrukcije koje oslobađaju potencijal',
-            SUBTITLE: 'Privatna 1-na-1 online predavanja od 50 minuta jedinstveno skrojena za svakog učenika. Svi školski predmeti i dobne skupine pokrivene.',
+            SUBTITLE:
+                'Privatna 1-na-1 online predavanja od 50 minuta jedinstveno skrojena za svakog učenika. Svi školski predmeti i dobne skupine pokrivene.',
         },
         SUBTITLE_1: 'Predstavljeno diljem svijeta',
         SUBTITLE_2: 'Često postavljena pitanja',
@@ -852,7 +854,8 @@ export const HR_HR = {
         },
         CARD_3: {
             TITLE: 'Sigurno plaćanje',
-            SUBTITLE: 'Sigurno i pouzdano plaćanje u suradnji sa Stripe-om. Bez skrivenih naknada, plaćaju se samo satovi instrukcija, a moguć je i povrat novca.',
+            SUBTITLE:
+                'Sigurno i pouzdano plaćanje u suradnji sa Stripe-om. Bez skrivenih naknada, plaćaju se samo satovi instrukcija, a moguć je i povrat novca.',
         },
         CARD_4: {
             TITLE: 'Podrška',
@@ -900,7 +903,8 @@ export const HR_HR = {
             ANSWER_4:
                 'Vi nudite nezavisne instrukcije koristeći Teorem platformu. Nema radnog odnosa te ste sami odgovorni za sve porezne kontribucije.',
             QUESTION_5: 'Što razlikuje Teorem od ostalih platformi?',
-            ANSWER_5: 'Mi Vam garantiramo stabilan dotok novih učenika te se brinemo o svemu tako da se Vi možete u potpunosti posvetiti predavanjima.',
+            ANSWER_5:
+                'Mi Vam garantiramo stabilan dotok novih učenika te se brinemo o svemu tako da se Vi možete u potpunosti posvetiti predavanjima.',
         },
         CARD_1: {
             TITLE: '"Remote" rad',
@@ -929,6 +933,16 @@ export const HR_HR = {
         STEP_1: 'Stvorite svoj korisnički račun i ispunite podatke.',
         STEP_2: 'Učitajte kratak video da dokažete svoj identitet.',
         STEP_3: 'Dovršite svoj profil i počnite podučavati!',
+    },
+    EMAIL_CONFIRMED: {
+        WELCOME: 'Dobrodošli na Teorem!',
+        DESCRIPTION: 'Vaš e-mail je uspješno potvrđen.',
+        BUTTON: 'Log in',
+    },
+    STRIPE_CONNECTED: {
+        WELCOME: 'Uspjeh!',
+        DESCRIPTION: 'Stripe je uspješno povezan.',
+        BUTTON: 'Nastavi',
     },
     SUBJECTS: {
         biology: 'Biologija',
@@ -1070,6 +1084,8 @@ export const HR_HR = {
             MY_PROFILE_ACCOUNT: '/hr/moj-profil/korisnicki-racun',
             MY_PROFILE_CHILD_INFO: '/hr/moj-profil/djeca',
         },
+        EMAIL_CONFIRMED: '/hr/email-potvrden',
+        STRIPE_CONNECTED: '/hr/stripe-povezan',
     },
     SEO: {
         FALLBACK: {

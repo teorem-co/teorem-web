@@ -88,6 +88,8 @@ export const EN_US = {
         CHAT: 'Chat',
         DASHBOARD: 'Dashboard',
         EARNINGS: 'Earnings',
+        SHARE_PROFILE: 'Share profile',
+        TEXT_COPIED: 'Profile copied to clipboard!',
     },
     SEARCH_TUTORS: {
         AVAILABILITY: {
@@ -169,7 +171,7 @@ export const EN_US = {
             COUNTRY: 'COUNTRY',
             USERNAME: 'USERNAME',
             DATE_OF_BIRTH: 'DATE OF BIRTH',
-            PREVIEW_PROFILE: 'Preview profile'
+            PREVIEW_PROFILE: 'Preview profile',
         },
         ACTIONS: {
             APPROVE: 'Approve',
@@ -183,8 +185,8 @@ export const EN_US = {
         },
         NOTE: 'Note',
         NOTE_PLACEHOLDER: 'Enter a note here...',
-        DETAILS: " DETAILS",
-        SEARCH_PLACEHOLDER: 'Search tutors'
+        DETAILS: ' DETAILS',
+        SEARCH_PLACEHOLDER: 'Search tutors',
     },
     CHAT: {
         PLACEHOLDER: 'Send a message to start a conversation',
@@ -250,7 +252,7 @@ export const EN_US = {
             NOT_FOUND: 'User not found',
             USERNAME_CONFLICT: 'Username already exists',
             PROFILE_NOT_ACTIVE: {
-                SENT_AGAIN: 'Please confirm your e-mail address.'
+                SENT_AGAIN: 'Please confirm your e-mail address.',
             },
         },
         LEVEL: {
@@ -431,7 +433,7 @@ export const EN_US = {
             DAY: ' day ago',
             DAYS: ' days ago',
             TODAY: ' today',
-        }
+        },
     },
     COMPLETED_LESSONS: {
         TITLE: 'Completed Lessons',
@@ -453,8 +455,8 @@ export const EN_US = {
         REVIEW: 'Review',
         SUBMIT: 'Post',
         CANCEL: 'Cancel',
-        HEADING_PLACEHOLDER: "Write title of your review",
-        TEXT_PLACEHOLDER: "Describe your overall experience with this lesson",
+        HEADING_PLACEHOLDER: 'Write title of your review',
+        TEXT_PLACEHOLDER: 'Describe your overall experience with this lesson',
     },
     COMPLETE_PROFILE: {
         TITLE: 'Complete my profile',
@@ -589,7 +591,7 @@ export const EN_US = {
             SUBTITLE: 'Profile is visible',
             YES: 'Yes',
             NO: 'No',
-        }
+        },
     },
     DASHBOARD: {
         TITLE: 'Dashboard',
@@ -623,12 +625,12 @@ export const EN_US = {
         TITLE: 'All Notifications',
         EMPTY: 'There are no notifications',
         BOOKING_CLASS_STARTING: {
-            DESCRIPTION: "Class starting soon",
-            TITLE: "Booking starting soon"
+            DESCRIPTION: 'Class starting soon',
+            TITLE: 'Booking starting soon',
         },
         CHAT_MISSED_CALL: {
-            DESCRIPTION: "Missed call from",
-            TITLE: "Missed call"
+            DESCRIPTION: 'Missed call from',
+            TITLE: 'Missed call',
         },
         BOOKING: {
             STUDENT: 'Student',
@@ -652,13 +654,13 @@ export const EN_US = {
         BOOKING_CANCELED: {
             TITLE: 'Booking canceled',
             DESCRIPTION: '',
-            CANCEL_TEXT: 'canceled booking for'
+            CANCEL_TEXT: 'canceled booking for',
         },
         BOOKING_DELETED: {
             TITLE: 'Deleted unaccepted booking',
             DESCRIPTION: {
                 PART1: 'Booking is deleted because',
-                PART2: 'didn\'t accept it.',
+                PART2: "didn't accept it.",
             },
         },
         CHAT_HAS_MISSED_CALL: ' has missed your call',
@@ -930,6 +932,16 @@ export const EN_US = {
         STEP_2: 'Upload a short video to prove your identity.',
         STEP_3: 'Complete your profile and start tutoring!',
     },
+    EMAIL_CONFIRMED: {
+        WELCOME: 'Welcome to Teorem!',
+        DESCRIPTION: 'Your email is confirmed.',
+        BUTTON: 'Log in',
+    },
+    STRIPE_CONNECTED: {
+        WELCOME: 'Success!',
+        DESCRIPTION: 'Stripe connected successfully.',
+        BUTTON: 'Continue',
+    },
     SUBJECTS: {
         biology: 'Biology',
         chemistry: 'Chemistry',
@@ -1070,6 +1082,8 @@ export const EN_US = {
             MY_PROFILE_ACCOUNT: '/en/my-profile/account',
             MY_PROFILE_CHILD_INFO: '/en/my-profile/childs',
         },
+        EMAIL_CONFIRMED: '/en/email-confirmed',
+        STRIPE_CONNECTED: '/en/stripe-connected',
     },
     SEO: {
         FALLBACK: {

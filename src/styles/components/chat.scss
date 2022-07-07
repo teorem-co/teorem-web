@@ -49,6 +49,14 @@
             background:#7e6cf2;
             margin: 0 auto;
         }
+
+        & > div:last-of-type > .type--sm {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            text-align: right;
+            text-transform: capitalize;
+        }
     }
 
     &__spacer {

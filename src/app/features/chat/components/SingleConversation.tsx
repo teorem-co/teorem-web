@@ -1,6 +1,6 @@
 import { t } from 'i18next';
 import { debounce } from 'lodash';
-import moment from "moment";
+import moment from 'moment';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -11,7 +11,17 @@ import { Role } from '../../../lookups/role';
 import { PATHS } from '../../../routes';
 import { useLazyGetFreeConsultationLinkQuery } from '../../../services/learnCubeService';
 import { IChatMessagesQuery, useLazyGetChatMessagesQuery } from '../services/chatService';
-import { addChatRoom, getMessagesById, IChatRoom, ISendChatMessage, readMessage, setBuffer, setConsultationInitialized, setFreeConsultation, setLink } from '../slices/chatSlice';
+import {
+    addChatRoom,
+    getMessagesById,
+    IChatRoom,
+    ISendChatMessage,
+    readMessage,
+    setBuffer,
+    setConsultationInitialized,
+    setFreeConsultation,
+    setLink,
+} from '../slices/chatSlice';
 import FreeConsultationModal from './FreeConsultationModal';
 import SendMessageForm from './SendMessageForm';
 
@@ -20,7 +30,6 @@ interface Props {
 }
 
 const SingleConversation = (props: Props) => {
-
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const chatRef = useRef<HTMLDivElement>(null);
 
@@ -45,9 +54,7 @@ const SingleConversation = (props: Props) => {
     const dispatch = useDispatch();
 
     const scrollToBottomSmooth = () => {
-
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
-
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     };
 
     let lastMessageUserId: string = '';
@@ -56,8 +63,7 @@ const SingleConversation = (props: Props) => {
         scrollToBottomSmooth();
     }, []);
     useEffect(() => {
-
-        chat.socket.on("onAcceptedFreeConsultation", (buffer: any) => {
+        chat.socket.on('onAcceptedFreeConsultation', (buffer: any) => {
             dispatch(setConsultationInitialized(true));
             setFreeConsultationClicked(false);
             dispatch(setFreeConsultation(true));
@@ -65,15 +71,14 @@ const SingleConversation = (props: Props) => {
             dispatch(setBuffer(buffer));
         });
 
-        chat.socket.on("onDeniedFreeConsultation", (buffer: any) => {
+        chat.socket.on('onDeniedFreeConsultation', (buffer: any) => {
             setFreeCallCancelled(true);
             handleChatInit();
         });
 
-        chat.socket.on("onCloseActiveFreeConsultation", (buffer: any) => {
+        chat.socket.on('onCloseActiveFreeConsultation', (buffer: any) => {
             handleChatInit();
         });
-
     }, []);
 
     useEffect(() => {
@@ -84,23 +89,20 @@ const SingleConversation = (props: Props) => {
 
     useEffect(() => {
         if (chatMessages && props.data)
-            dispatch(getMessagesById({
-                userId: props.data.user?.userId + '',
-                tutorId: props.data?.tutor?.userId + '',
-                messages: chatMessages,
-            }));
+            dispatch(
+                getMessagesById({
+                    userId: props.data.user?.userId + '',
+                    tutorId: props.data?.tutor?.userId + '',
+                    messages: chatMessages,
+                })
+            );
     }, [chatMessages]);
 
     useEffect(() => {
-
         if (props.data) {
-
             for (let i = 0; i < chat.chatRooms.length; i++) {
-
                 if (chat.chatRooms[i].tutor?.userId == props.data.tutor?.userId && chat.chatRooms[i].user?.userId == props.data.user?.userId) {
-
                     for (let j = 0; j < chat.chatRooms[i].messages.length; j++) {
-
                         if (userActive?.id !== chat.chatRooms[i].messages[j].senderId) {
                             dispatch(readMessage(chat.chatRooms[i].messages[j]));
                         }
@@ -108,12 +110,10 @@ const SingleConversation = (props: Props) => {
                 }
             }
         }
-
     }, [props.data]);
 
     useEffect(() => {
         if (userActive && props.data && page > 1) {
-
             const getMessagesObject: IChatMessagesQuery = {
                 userId: (userActive.id == props.data?.user?.userId ? props.data.tutor?.userId : props.data?.user?.userId) || '',
                 page: page,
@@ -124,29 +124,26 @@ const SingleConversation = (props: Props) => {
     }, [page]);
 
     useEffect(() => {
-
         if (freeConsultationIsSuccess) {
-
-            chat.socket.emit("joinFreeConsultation", {
+            chat.socket.emit('joinFreeConsultation', {
                 userId: props.data?.user?.userId,
                 tutorId: props.data?.tutor?.userId,
                 senderId: userActive?.id,
-                link: freeConsultationLink
+                link: freeConsultationLink,
             });
         }
-
     }, [freeConsultationLink]);
 
     useEffect(() => {
-
         if (user2Data && user2Data2 && freeCallCancel) {
-
-            let messageText = "userInsert={username} stringTranslate={NOTIFICATIONS.CHAT_HAS_MISSED_CALL}";
+            let messageText = 'userInsert={username} stringTranslate={NOTIFICATIONS.CHAT_HAS_MISSED_CALL}';
             messageText = messageText.replace(/stringTranslate=\{(.*?)\}/g, function (match: any, token: any) {
                 return t(token);
             });
             messageText = messageText.replace(/userInsert=\{(.*?)\}/g, function (match: any, token: any) {
-                return userActive?.id !== user2Data.id ? user2Data.firstName + ' ' + user2Data?.lastName : user2Data2.firstName + ' ' + user2Data2?.lastName;
+                return userActive?.id !== user2Data.id
+                    ? user2Data.firstName + ' ' + user2Data?.lastName
+                    : user2Data2.firstName + ' ' + user2Data2?.lastName;
             });
 
             const message = {
@@ -176,7 +173,7 @@ const SingleConversation = (props: Props) => {
                     userNickname: user2Data2.firstName + ' ' + user2Data2?.lastName,
                 },
                 messages: [message],
-                unreadMessageCount: 0
+                unreadMessageCount: 0,
             };
 
             dispatch(addChatRoom(chatRoom));
@@ -185,7 +182,7 @@ const SingleConversation = (props: Props) => {
                 userId: user2Data.id + '',
                 tutorId: user2Data2.id + '',
                 message: {
-                    message: "userInsert={username} stringTranslate={NOTIFICATIONS.CHAT_HAS_MISSED_CALL}",
+                    message: 'userInsert={username} stringTranslate={NOTIFICATIONS.CHAT_HAS_MISSED_CALL}',
                     createdAt: new Date(),
                     isRead: true,
                     messageId: '',
@@ -201,44 +198,37 @@ const SingleConversation = (props: Props) => {
     }, [user2Data, user2Data2, freeCallCancel]);
 
     useEffect(() => {
-
         if (freeCallExpired && !freeCallCancelled && !chat.freeConsultation) {
-
             if (props.data) {
-                chat.socket.emit("cancelFreeConsultation", {
+                chat.socket.emit('cancelFreeConsultation', {
                     userId: props.data?.user?.userId,
                     tutorId: props.data?.tutor?.userId,
                     senderId: userActive?.id,
                     link: freeConsultationLink,
-                    expired: true
+                    expired: true,
                 });
-            }
-            else if (chat.buffer) {
-                chat.socket.emit("cancelFreeConsultation", {
+            } else if (chat.buffer) {
+                chat.socket.emit('cancelFreeConsultation', {
                     userId: chat.buffer.userId,
                     tutorId: chat.buffer.tutorId,
                     senderId: chat.buffer.senderId,
                     link: chat.buffer.link,
-                    expired: true
+                    expired: true,
                 });
             }
 
             handleChatInit();
             setFreeCallCancelled(false);
-
         }
-    },
-        [freeCallExpired]);
+    }, [freeCallExpired]);
 
     useEffect(() => {
-
         if (freeConsultationClicked) {
             setTimeout(() => {
                 setFreeCallExpired(true);
                 dispatch(setConsultationInitialized(false));
             }, 10000);
         }
-
     }, [freeConsultationClicked]);
 
     const handleChatInit = (freeConsultation: boolean = false) => {
@@ -265,7 +255,6 @@ const SingleConversation = (props: Props) => {
 
     //scroll to bottom alerter
     const handleScroll = (e: HTMLDivElement) => {
-
         const scrollPosition = 0;
 
         if (props.data && !hideLoadMore() && e.scrollTop === scrollPosition && props.data?.messages.length > 0) {
@@ -278,7 +267,6 @@ const SingleConversation = (props: Props) => {
     };
 
     const onFreeConsultation = () => {
-
         if (freeConsultationClicked == false) {
             getFreeConsultationLink(props.data?.tutor?.userId + '');
             setFreeConsultationClicked(true);
@@ -288,21 +276,20 @@ const SingleConversation = (props: Props) => {
     };
 
     const onFreeConsultationClose = () => {
-
         if (props.data)
-            chat.socket.emit("closeActiveFreeConsultation", {
+            chat.socket.emit('closeActiveFreeConsultation', {
                 userId: props.data?.user?.userId,
                 tutorId: props.data?.tutor?.userId,
                 senderId: userActive?.id,
                 link: freeConsultationLink,
-                expired: true
+                expired: true,
             });
         else if (chat.buffer)
-            chat.socket.emit("closeActiveFreeConsultation", {
+            chat.socket.emit('closeActiveFreeConsultation', {
                 userId: chat.buffer.userId,
                 tutorId: chat.buffer.tutorId,
                 senderId: userActive?.id,
-                link: chat.buffer.link
+                link: chat.buffer.link,
             });
 
         handleChatInit(true);
@@ -310,14 +297,12 @@ const SingleConversation = (props: Props) => {
     };
 
     const onCancelFreeConsultation = () => {
-
         if (freeConsultationIsSuccess) {
-
-            chat.socket.emit("cancelFreeConsultation", {
+            chat.socket.emit('cancelFreeConsultation', {
                 userId: props.data?.user?.userId,
                 tutorId: props.data?.tutor?.userId,
                 senderId: userActive?.id,
-                link: freeConsultationLink
+                link: freeConsultationLink,
             });
 
             handleChatInit();
@@ -337,58 +322,102 @@ const SingleConversation = (props: Props) => {
         <div className="content">
             <div className="content__header content__header--chat">
                 <div className="flex flex--center">
-                    {props.data && userActive?.Role.abrv != Role.Tutor &&
-
+                    {props.data && userActive?.Role.abrv != Role.Tutor && (
                         <Link
                             className="chat-single-conversation-link"
-                            to={`${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(":tutorId", `${props.data.tutor?.userId}`)}`}
+                            to={`${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(':tutorId', `${props.data.tutor?.userId}`)}`}
                         >
-                            {props.data &&
-                                <img className="chat__conversation__avatar" src={props.data ? ('https://' + (userActive?.id != props.data.tutor?.userId ? props.data.tutor?.userImage : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')) : "teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg"} alt="chat avatar" />
-                            }
+                            {props.data && (
+                                <img
+                                    className="chat__conversation__avatar"
+                                    src={
+                                        props.data
+                                            ? 'https://' +
+                                              (userActive?.id != props.data.tutor?.userId
+                                                  ? props.data.tutor?.userImage
+                                                  : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')
+                                            : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg'
+                                    }
+                                    alt="chat avatar"
+                                />
+                            )}
 
-                            <div className="ml-3 type--wgt--bold">{props.data ? (userActive?.id != props.data.tutor?.userId ? props.data.tutor?.userNickname : props.data.user?.userNickname) : "Odaberite osobu za razgovor"}</div>
+                            <div className="ml-3 type--wgt--bold">
+                                {props.data
+                                    ? userActive?.id != props.data.tutor?.userId
+                                        ? props.data.tutor?.userNickname
+                                        : props.data.user?.userNickname
+                                    : 'Odaberite osobu za razgovor'}
+                            </div>
                         </Link>
-                    }
+                    )}
 
-                    {props.data && userActive?.Role.abrv == Role.Tutor &&
-                        <img className="chat__conversation__avatar" src={props.data ? ('https://' + (userActive?.id != props.data.tutor?.userId ? props.data.tutor?.userImage : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')) : "teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg"} alt="chat avatar" />
-                    }
+                    {props.data && userActive?.Role.abrv == Role.Tutor && (
+                        <img
+                            className="chat__conversation__avatar"
+                            src={
+                                props.data
+                                    ? 'https://' +
+                                      (userActive?.id != props.data.tutor?.userId
+                                          ? props.data.tutor?.userImage
+                                          : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')
+                                    : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg'
+                            }
+                            alt="chat avatar"
+                        />
+                    )}
 
-                    {props.data && userActive?.Role.abrv == Role.Tutor && <div className="ml-3 type--wgt--bold">{props.data ? (userActive?.id != props.data.tutor?.userId ? props.data.tutor?.userNickname : props.data.user?.userNickname) : "Odaberite osobu za razgovor"}</div>}
+                    {props.data && userActive?.Role.abrv == Role.Tutor && (
+                        <div className="ml-3 type--wgt--bold">
+                            {props.data
+                                ? userActive?.id != props.data.tutor?.userId
+                                    ? props.data.tutor?.userNickname
+                                    : props.data.user?.userNickname
+                                : 'Odaberite osobu za razgovor'}
+                        </div>
+                    )}
                 </div>
 
-                <div className='button-group-chat-header'>
-
-                    {!chat.consultationInitialized && chat.activeChatRoom && <button
+                <div className="button-group-chat-header">
+                    {/*!chat.consultationInitialized && chat.activeChatRoom && <button
                         className={`btn btn--primary btn--base free-consultation-btn ${freeConsultationClicked && "free-consultation-btn-pressed"}`}
                         onClick={onFreeConsultation}>
                         {t('CHAT.FREE_CONSULTATION')}
-                    </button>}
+                    </button>
+                    */}
 
-                    {freeConsultationClicked &&
+                    {/*
+                    freeConsultationClicked &&
                         <div className={`btn btn--primary btn--base free-consultation-btn ${freeConsultationClicked && "free-consultation-btn-pressed"}`}>
                             <i className={`icon--loader chat-load-more-small`}></i>
                         </div>
-                    }
-                    {chat.activeChatRoom && freeConsultationClicked && <button
-                        className={`btn btn--error btn--base free-consultation-btn ${freeConsultationClicked && "free-consultation-btn-pressed"}`}
-                        onClick={onCancelFreeConsultation}>
-                        {t('CHAT.DENY_FREE_CONSULTATION')}
-                    </button>
-                    }
-                    {props.data && (userActive?.id == props.data.user?.userId) && <Link
-                        className="btn btn--primary btn--base"
-                        to={t(PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS.replace(`:tutorId`, `${props.data.tutor?.userId}`))} >
-                        {t('CHAT.BOOK_SESSION')}
-                    </Link>}
+                    */}
+                    {/*chat.activeChatRoom && freeConsultationClicked && (
+                        <button
+                            className={`btn btn--error btn--base free-consultation-btn ${freeConsultationClicked && 'free-consultation-btn-pressed'}`}
+                            onClick={onCancelFreeConsultation}
+                        >
+                            {t('CHAT.DENY_FREE_CONSULTATION')}
+                        </button>
+                    )*/}
+                    {props.data && userActive?.id == props.data.user?.userId && (
+                        <Link
+                            className="btn btn--primary btn--base"
+                            to={t(PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS.replace(`:tutorId`, `${props.data.tutor?.userId}`))}
+                        >
+                            {t('CHAT.BOOK_SESSION')}
+                        </Link>
+                    )}
                 </div>
             </div>
 
             <div ref={chatRef} onScroll={(e: any) => debouncedScrollHandler(e.target)} className="content__main">
-
-                {props.data && props.data.messages.length >= 20 && !hideLoadMore() && <div><i className={`icon--loader chat-load-more`}></i></div>}
-                {props.data && props.data.messages.length == 0 &&
+                {props.data && props.data.messages.length >= 20 && !hideLoadMore() && (
+                    <div>
+                        <i className={`icon--loader chat-load-more`}></i>
+                    </div>
+                )}
+                {props.data && props.data.messages.length == 0 && (
                     <div className={`chat_message_init_new`}>
                         <div className={`message-full-width flex flex--col flex--center`}>
                             <div className="type--right w--80--max">
@@ -398,101 +427,151 @@ const SingleConversation = (props: Props) => {
                             </div>
                         </div>
                     </div>
-                }
-                {props.data && props.data.messages.length > 0 && props.data.messages.map((message: ISendChatMessage, index: number) => {
+                )}
+                {props.data &&
+                    props.data.messages.length > 0 &&
+                    props.data.messages.map((message: ISendChatMessage, index: number) => {
+                        let img = false;
 
+                        const temDat = new Date(message.message.createdAt);
 
-                    let img = false;
+                        const tempDate = temDat.getDate() + '-' + temDat.getMonth() + '-' + temDat.getUTCFullYear();
 
-                    const temDat = new Date(message.message.createdAt);
+                        let sameDate = true;
 
-                    const tempDate = temDat.getDate() + "-" + temDat.getMonth() + "-" + temDat.getUTCFullYear();
+                        if (lastDate != tempDate) {
+                            sameDate = false;
 
-                    let sameDate = true;
+                            lastDate = tempDate;
+                        }
 
-                    if (lastDate != tempDate) {
-                        sameDate = false;
+                        if (message.senderId !== lastMessageUserId) {
+                            img = true;
+                            lastMessageUserId = message.senderId + '';
+                        }
 
-                        lastDate = tempDate;
-                    }
+                        if (props.data && index == props.data.messages.length - 1) {
+                            //scrollToBottomSmooth();
+                        }
 
-                    if (message.senderId !== lastMessageUserId) {
-                        img = true;
-                        lastMessageUserId = message.senderId + '';
-                    }
+                        if (message.message.messageMissedCall && userActive?.id == message.senderId) return <></>;
 
-                    if (props.data && index == props.data.messages.length - 1) {
-                        //scrollToBottomSmooth();
-                    }
+                        let messageText = message.message.message || '';
+                        messageText = messageText.replace(/stringTranslate=\{(.*?)\}/g, function (match: any, token: any) {
+                            return t(token);
+                        });
+                        messageText = messageText.replace(/userInsert=\{(.*?)\}/g, function (match: any, token: any) {
+                            return message.senderId == message.tutorId ? `${props.data?.tutor?.userNickname}` : `${props.data?.user?.userNickname}`;
+                        });
 
-                    if (message.message.messageMissedCall && userActive?.id == message.senderId)
-                        return <></>;
-
-                    let messageText = message.message.message || '';
-                    messageText = messageText.replace(/stringTranslate=\{(.*?)\}/g, function (match: any, token: any) {
-                        return t(token);
-                    });
-                    messageText = messageText.replace(/userInsert=\{(.*?)\}/g, function (match: any, token: any) {
-                        return message.senderId == message.tutorId ? `${props.data?.tutor?.userNickname}` : `${props.data?.user?.userNickname}`;
-                    });
-
-                    if (userActive && userActive.id == message.senderId)
+                        if (userActive && userActive.id == message.senderId)
+                            return (
+                                <>
+                                    {!sameDate && (
+                                        <div className={`message-full-width flex flex--col flex--end`}>
+                                            <span>{moment(message.message.createdAt).format('DD.MMM.YYYY')}</span>
+                                        </div>
+                                    )}
+                                    <div
+                                        key={index}
+                                        className={`chat__message chat__message--logged${img ? ' chat__message__margin-top' : ''}${
+                                            img ? '' : ' chat__message__margin-right'
+                                        }`}
+                                    >
+                                        {img && (
+                                            <img
+                                                className="chat__conversation__avatar chat__conversation__avatar--small"
+                                                src={
+                                                    props.data
+                                                        ? 'https://' +
+                                                          (message.senderId == props.data.tutor?.userId
+                                                              ? props.data.tutor?.userImage
+                                                              : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')
+                                                        : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg'
+                                                }
+                                                alt={'profile avatar'}
+                                            />
+                                        )}
+                                        <div key={`sub-${index}`} className={`message-full-width flex flex--col flex--end`}>
+                                            <div key={`sub-sub-${index}`} className="type--right w--80--max">
+                                                <div
+                                                    key={`sub-sub-sub-${index}`}
+                                                    className={`chat__message__item__end chat__message__item chat__message__item--logged${
+                                                        message.message.isFile ? ' chat-file-outline' : ''
+                                                    }`}
+                                                    dangerouslySetInnerHTML={{
+                                                        __html:
+                                                            (message.message.isFile ? '<i class="icon--attachment chat-file-icon"></i>' : '') +
+                                                            messageText,
+                                                    }}
+                                                ></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </>
+                            );
                         return (
                             <>
-                                {!sameDate &&
+                                {!sameDate && (
                                     <div className={`message-full-width flex flex--col flex--end`}>
                                         <span>{moment(message.message.createdAt).format('DD.MMM.YYYY')}</span>
                                     </div>
-                                }
-                                <div key={index} className={`chat__message chat__message--logged${img ? " chat__message__margin-top" : ""}${img ? "" : " chat__message__margin-right"}`}>
-                                    {img && <img
-                                        className="chat__conversation__avatar chat__conversation__avatar--small"
-                                        src={props.data ? ('https://' + (message.senderId == props.data.tutor?.userId ? props.data.tutor?.userImage : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')) : "teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg"}
-                                        alt={'profile avatar'} />
-                                    }
-                                    <div key={`sub-${index}`} className={`message-full-width flex flex--col flex--end`}>
-                                        <div key={`sub-sub-${index}`} className="type--right w--80--max">
-                                            <div key={`sub-sub-sub-${index}`} className={`chat__message__item__end chat__message__item chat__message__item--logged${message.message.isFile ? " chat-file-outline" : ""}`} dangerouslySetInnerHTML={{ __html: (message.message.isFile ? '<i class="icon--attachment chat-file-icon"></i>' : '') + messageText }}>
-                                            </div>
+                                )}
+                                <div
+                                    key={index}
+                                    className={`chat__message chat__message--other${img ? ' chat__message__margin-top' : ''}${
+                                        img ? '' : ' chat__message__margin-left'
+                                    }`}
+                                >
+                                    {img && (
+                                        <img
+                                            className="chat__conversation__avatar chat__conversation__avatar--small"
+                                            src={
+                                                props.data
+                                                    ? 'https://' +
+                                                      (message.senderId == props.data.tutor?.userId
+                                                          ? props.data.tutor?.userImage
+                                                          : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')
+                                                    : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg'
+                                            }
+                                            alt={'profile avatar'}
+                                        />
+                                    )}
+                                    <div key={`sub-${index}`} className={`message-full-width flex flex--col`}>
+                                        <div key={`sub-sub-${index}`} className="w--80--max">
+                                            <div
+                                                key={`sub-sub-sub-${index}`}
+                                                className={`chat__message__item chat__message__item--other${
+                                                    message.message.isFile ? ' chat-file-outline' : ''
+                                                }`}
+                                                dangerouslySetInnerHTML={{
+                                                    __html:
+                                                        (message.message.isFile ? '<i class="icon--attachment chat-file-icon"></i>' : '') +
+                                                        messageText,
+                                                }}
+                                            ></div>
                                         </div>
                                     </div>
                                 </div>
                             </>
                         );
-                    return (
-                        <>
-                            {!sameDate &&
-                                <div className={`message-full-width flex flex--col flex--end`}>
-                                    <span>{moment(message.message.createdAt).format('DD.MMM.YYYY')}</span>
-                                </div>
-                            }
-                            <div key={index} className={`chat__message chat__message--other${img ? " chat__message__margin-top" : ""}${img ? "" : " chat__message__margin-left"}`}>
-
-                                {img && <img
-                                    className="chat__conversation__avatar chat__conversation__avatar--small"
-                                    src={props.data ? ('https://' + (message.senderId == props.data.tutor?.userId ? props.data.tutor?.userImage : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')) : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg'}
-                                    alt={'profile avatar'} />
-                                }
-                                <div key={`sub-${index}`} className={`message-full-width flex flex--col`}>
-                                    <div key={`sub-sub-${index}`} className="w--80--max">
-                                        <div key={`sub-sub-sub-${index}`} className={`chat__message__item chat__message__item--other${message.message.isFile ? " chat-file-outline" : ""}`} dangerouslySetInnerHTML={{ __html: (message.message.isFile ? '<i class="icon--attachment chat-file-icon"></i>' : '') + messageText }}>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </>
-                    );
-
-                })}
+                    })}
                 <div style={{ marginTop: 80 }} ref={messagesEndRef} />
             </div>
             {props.data && <SendMessageForm data={props.data} scrollOnSend={scrollToBottomSmooth} />}
-            {freeConsultationClicked && <div className='chat__overlay__free__consultation' onClick={(event: any) => { event.preventDefault(); event.stopPropagation(); }}></div>}
+            {freeConsultationClicked && (
+                <div
+                    className="chat__overlay__free__consultation"
+                    onClick={(event: any) => {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }}
+                ></div>
+            )}
 
             {chat.freeConsultation && chat.link && <FreeConsultationModal link={chat.link} handleClose={onFreeConsultationClose} />}
-        </div >
+        </div>
     );
 };
 
 export default SingleConversation;
-

@@ -191,6 +191,10 @@
     &--search {
         mask-image: url('./../../assets/icons/search.svg');
     }
+    &--share {
+        mask-image: url('./../../assets/icons/share.svg');
+        mask-size: contain;
+    }
 
     //flags
     &--af {

@@ -189,5 +189,39 @@
             flex-grow: 1;
             margin-left: calc($unit * 2);
         }
+
+        &__share-profile {
+            display: flex;
+            flex-grow: 1;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        &__share {
+            margin: 0 0 calc($unit * 2) 0;
+            a:last-child {
+                margin-left: 0;
+            }
+            &--icon {
+                width: 52px;
+                height: 52px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                & .icon--share {
+                    transition: unset;
+                }
+            }
+
+            &:hover {
+                & .type--color--tertiary {
+                    color: $color-primary;
+                }
+                & .icon--share{
+                    background-color: $color-primary;
+                }
+            }
+        }
     }
 }
