@@ -17,6 +17,7 @@ import {
     IChatRoom,
     ISendChatMessage,
     readMessage,
+    readMessages,
     setBuffer,
     setConsultationInitialized,
     setFreeConsultation,
@@ -100,15 +101,11 @@ const SingleConversation = (props: Props) => {
 
     useEffect(() => {
         if (props.data) {
-            for (let i = 0; i < chat.chatRooms.length; i++) {
-                if (chat.chatRooms[i].tutor?.userId == props.data.tutor?.userId && chat.chatRooms[i].user?.userId == props.data.user?.userId) {
-                    for (let j = 0; j < chat.chatRooms[i].messages.length; j++) {
-                        if (userActive?.id !== chat.chatRooms[i].messages[j].senderId) {
-                            dispatch(readMessage(chat.chatRooms[i].messages[j]));
-                        }
-                    }
-                }
-            }
+
+            dispatch(readMessages({
+                userId: props.data.user?.userId + '',
+                tutorId: props.data?.tutor?.userId + '',
+            }));
         }
     }, [props.data]);
 
@@ -325,7 +322,7 @@ const SingleConversation = (props: Props) => {
                     {props.data && userActive?.Role.abrv != Role.Tutor && (
                         <Link
                             className="chat-single-conversation-link"
-                            to={`${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(':tutorId', `${props.data.tutor?.userId}`)}`}
+                            to={`${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(':tutorSlug', `${props.data.tutor?.userId}`)}`}
                         >
                             {props.data && (
                                 <img
@@ -333,9 +330,9 @@ const SingleConversation = (props: Props) => {
                                     src={
                                         props.data
                                             ? 'https://' +
-                                              (userActive?.id != props.data.tutor?.userId
-                                                  ? props.data.tutor?.userImage
-                                                  : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')
+                                            (userActive?.id != props.data.tutor?.userId
+                                                ? props.data.tutor?.userImage
+                                                : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')
                                             : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg'
                                     }
                                     alt="chat avatar"
@@ -358,9 +355,9 @@ const SingleConversation = (props: Props) => {
                             src={
                                 props.data
                                     ? 'https://' +
-                                      (userActive?.id != props.data.tutor?.userId
-                                          ? props.data.tutor?.userImage
-                                          : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')
+                                    (userActive?.id != props.data.tutor?.userId
+                                        ? props.data.tutor?.userImage
+                                        : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')
                                     : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg'
                             }
                             alt="chat avatar"
@@ -403,7 +400,7 @@ const SingleConversation = (props: Props) => {
                     {props.data && userActive?.id == props.data.user?.userId && (
                         <Link
                             className="btn btn--primary btn--base"
-                            to={t(PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS.replace(`:tutorId`, `${props.data.tutor?.userId}`))}
+                            to={t(PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS.replace(`:tutorSlug`, `${props.data.tutor?.userId}`))}
                         >
                             {t('CHAT.BOOK_SESSION')}
                         </Link>
@@ -474,9 +471,8 @@ const SingleConversation = (props: Props) => {
                                     )}
                                     <div
                                         key={index}
-                                        className={`chat__message chat__message--logged${img ? ' chat__message__margin-top' : ''}${
-                                            img ? '' : ' chat__message__margin-right'
-                                        }`}
+                                        className={`chat__message chat__message--logged${img ? ' chat__message__margin-top' : ''}${img ? '' : ' chat__message__margin-right'
+                                            }`}
                                     >
                                         {img && (
                                             <img
@@ -484,9 +480,9 @@ const SingleConversation = (props: Props) => {
                                                 src={
                                                     props.data
                                                         ? 'https://' +
-                                                          (message.senderId == props.data.tutor?.userId
-                                                              ? props.data.tutor?.userImage
-                                                              : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')
+                                                        (message.senderId == props.data.tutor?.userId
+                                                            ? props.data.tutor?.userImage
+                                                            : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')
                                                         : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg'
                                                 }
                                                 alt={'profile avatar'}
@@ -496,9 +492,8 @@ const SingleConversation = (props: Props) => {
                                             <div key={`sub-sub-${index}`} className="type--right w--80--max">
                                                 <div
                                                     key={`sub-sub-sub-${index}`}
-                                                    className={`chat__message__item__end chat__message__item chat__message__item--logged${
-                                                        message.message.isFile ? ' chat-file-outline' : ''
-                                                    }`}
+                                                    className={`chat__message__item__end chat__message__item chat__message__item--logged${message.message.isFile ? ' chat-file-outline' : ''
+                                                        }`}
                                                     dangerouslySetInnerHTML={{
                                                         __html:
                                                             (message.message.isFile ? '<i class="icon--attachment chat-file-icon"></i>' : '') +
@@ -519,9 +514,8 @@ const SingleConversation = (props: Props) => {
                                 )}
                                 <div
                                     key={index}
-                                    className={`chat__message chat__message--other${img ? ' chat__message__margin-top' : ''}${
-                                        img ? '' : ' chat__message__margin-left'
-                                    }`}
+                                    className={`chat__message chat__message--other${img ? ' chat__message__margin-top' : ''}${img ? '' : ' chat__message__margin-left'
+                                        }`}
                                 >
                                     {img && (
                                         <img
@@ -529,9 +523,9 @@ const SingleConversation = (props: Props) => {
                                             src={
                                                 props.data
                                                     ? 'https://' +
-                                                      (message.senderId == props.data.tutor?.userId
-                                                          ? props.data.tutor?.userImage
-                                                          : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')
+                                                    (message.senderId == props.data.tutor?.userId
+                                                        ? props.data.tutor?.userImage
+                                                        : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')
                                                     : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg'
                                             }
                                             alt={'profile avatar'}
@@ -541,9 +535,8 @@ const SingleConversation = (props: Props) => {
                                         <div key={`sub-sub-${index}`} className="w--80--max">
                                             <div
                                                 key={`sub-sub-sub-${index}`}
-                                                className={`chat__message__item chat__message__item--other${
-                                                    message.message.isFile ? ' chat-file-outline' : ''
-                                                }`}
+                                                className={`chat__message__item chat__message__item--other${message.message.isFile ? ' chat-file-outline' : ''
+                                                    }`}
                                                 dangerouslySetInnerHTML={{
                                                     __html:
                                                         (message.message.isFile ? '<i class="icon--attachment chat-file-icon"></i>' : '') +

@@ -2,7 +2,7 @@ import { baseService } from '../../../baseService';
 import { HttpMethods } from '../../../lookups/httpMethods';
 import { IUnavailability } from '../interfaces/IUnavailability';
 
-//bookings/week/:tutorId
+//bookings/week/:tutorSlug
 
 const URL = '/tutor-unavailabilities';
 

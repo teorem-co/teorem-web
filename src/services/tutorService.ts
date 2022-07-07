@@ -10,6 +10,10 @@ import IParams from '../interfaces/IParams';
 import ITutor from '../interfaces/ITutor';
 import { RoleOptions } from '../slices/roleSlice';
 
+interface ITutorId {
+    userId: string;
+}
+
 interface ITutorAvailable {
     count: number;
     rows: ITutor[];
@@ -108,6 +112,12 @@ export const tutorService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
+        getTutorIdByTutorSlug: builder.query<ITutorId, string>({
+            query: (userId) => ({
+                url: `${URL}/get-tutor-id-by-slug/${userId}`,
+                method: HttpMethods.GET,
+            }),
+        }),
         getTutorBookings: builder.query<IBookingTransformed[], IBookingsByIdPayload>({
             query: (data) => ({
                 url: `${URL}/${data.tutorId}?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}`,
@@ -199,6 +209,7 @@ export const {
     useDeleteTutorMutation,
     useLazyDisableTutorQuery,
     useLazyEnableTutorQuery,
+    useLazyGetTutorIdByTutorSlugQuery,
 } = tutorService;
 
 export function getUserRoleAbbrv() {

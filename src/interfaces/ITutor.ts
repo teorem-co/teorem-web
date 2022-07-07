@@ -16,4 +16,5 @@ export default interface ITutor {
     completedLessons: number;
     Bookings: IBooking[];
     disabled: boolean;
+    slug: string;
 }

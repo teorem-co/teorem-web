@@ -102,12 +102,12 @@ const TutorItem: FC<Props> = (props: Props) => {
                         </div>
                     </div>
                     <div className="type--center">
-                        <Link className="btn btn--primary btn--base w--100 mb-3" to={`${PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS.replace(':tutorId', tutor.userId)}`}>
+                        <Link className="btn btn--primary btn--base w--100 mb-3" to={`${PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS.replace(':tutorSlug', tutor.slug)}`}>
                             {t('SEARCH_TUTORS.BOOK_LESSON')}
                         </Link>
                         <Link
                             className="btn btn--base btn--ghost--bordered w--100 type--wgt--extra-bold"
-                            to={`${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(":tutorId", tutor.userId)}`}
+                            to={`${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(":tutorSlug", tutor.slug)}`}
                         >
                             {t('SEARCH_TUTORS.VIEW_PROFILE')}
                         </Link>

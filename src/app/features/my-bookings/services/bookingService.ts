@@ -8,7 +8,7 @@ import IBooking from '../interfaces/IBooking';
 import ICompletedLesson from '../interfaces/ICompletedLesson';
 import IUpcomingLessons from '../interfaces/IUpcomingLessons';
 
-//bookings/week/:tutorId
+//bookings/week/:tutorSlug
 
 const URL = '/bookings';
 

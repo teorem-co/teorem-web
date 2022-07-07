@@ -194,7 +194,7 @@ const MyBookings: React.FC = (props: any) => {
     };
 
     const goToTutorCalendar = () => {
-        history.push(`${t('PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS').replace(':tutorId', booking?.tutorId || '')}`);
+        history.push(`${t('PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS').replace(':tutorSlug', booking?.tutorId || '')}`);
     };
 
     const handleSelectedSlot = (e: SlotInfo) => {

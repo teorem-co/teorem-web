@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';;
 import { useDispatch } from 'react-redux';
 
 import MainWrapper from '../../../components/MainWrapper';
@@ -19,13 +19,13 @@ const Chat = () => {
     useEffect(() => {
         if (!chat.activeChatRoom) {
 
-            for (let i = 0; i < chat.chatRooms.length; i++) {
+            /*for (let i = 0; i < chat.chatRooms.length; i++) {
 
                 if (i == 0) {
                     dispatch(setActiveChatRoomById({ userId: chat.chatRooms[0].user?.userId + '', tutorId: chat.chatRooms[0].tutor?.userId + '' }));
                     break;
                 }
-            }
+            }*/
         }
 
     }, []);

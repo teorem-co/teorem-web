@@ -380,6 +380,31 @@ const chatSlice = createSlice({
             }
         },
 
+        readMessages(state, action: PayloadAction<IChatRoomIdSet | null>) {
+
+            if (action.payload) {
+
+                for (let i = 0; i < state.chatRooms.length; i++) {
+                    if (state.chatRooms[i].user?.userId == action.payload.userId && state.chatRooms[i].tutor?.userId == action.payload.tutorId) {
+                        state.socket.emit('readMessages', { ...action.payload, reader: state.user?.userId });
+                        state.chatRooms[i].unreadMessageCount = 0;
+                    }
+
+
+                    for (let j = 0; j < state.chatRooms[i].messages.length; j++) {
+
+                        state.chatRooms[i].messages[j].message.isRead = true;
+
+
+                        if (state.newMessages != null)
+                            state.newMessages -= 1;
+                        else
+                            state.newMessages = 0;
+                    }
+                }
+            }
+        },
+
         addChatRoom(state, action: PayloadAction<IChatRoom | null>) {
 
             if (action.payload) {
@@ -457,6 +482,7 @@ export const {
     getMessagesById,
     addMessage,
     readMessage,
+    readMessages,
     addChatRoom
 } = chatSlice.actions;
 export default chatSlice.reducer;

@@ -8,7 +8,7 @@ import { Link, useParams } from 'react-router-dom';
 
 import ITutor from '../../../interfaces/ITutor';
 import ITutorSubject from '../../../interfaces/ITutorSubject';
-import { useLazyGetTutorProfileDataQuery } from '../../../services/tutorService';
+import { useLazyGetTutorIdByTutorSlugQuery, useLazyGetTutorProfileDataQuery } from '../../../services/tutorService';
 import { RoleOptions } from '../../../slices/roleSlice';
 import MainWrapper from '../../components/MainWrapper';
 import LoaderPrimary from '../../components/skeleton-loaders/LoaderPrimary';
@@ -31,10 +31,21 @@ import { useLazyGetMyReviewsQuery, useLazyGetStatisticsQuery } from '../myReview
 const TutorProfile = () => {
     const { t } = useTranslation();
 
+    const [getTutorIdByTutorSlug] = useLazyGetTutorIdByTutorSlugQuery();
+
     const [getOrCreateNewChat, { isLoading: createChatLoading }] = useGetOrCreateChatMutation();
     const [getTutorById] = useLazyGetTutorProfileDataQuery();
 
-    const { tutorId } = useParams();
+    const [tutorId, setTutorId] = useState('');
+    const [tutorPath, setTutorPath] = useState('');
+
+    const { tutorSlug } = useParams();
+
+    useEffect(() => {
+        getTutorIdByTutorSlug(tutorSlug).unwrap().then((tutorIdObj: any) => {
+            setTutorId(tutorIdObj.userId);
+        });
+    }, []);
     const history = useHistory();
 
     const dispatch = useDispatch();
@@ -59,17 +70,22 @@ const TutorProfile = () => {
     const [getTutorAvailability, { data: tutorAvailability }] = useLazyGetTutorAvailabilityQuery();
 
     useEffect(() => {
-        const myReviewsGetObj: IGetMyReviews = {
-            tutorId: tutorId,
-            page: params.page,
-            rpp: params.rpp,
-        };
+        if (tutorId.length) {
 
-        getTutorProfileData(tutorId);
-        getMyReviews(myReviewsGetObj);
-        getStatistics(tutorId);
-        getTutorAvailability(tutorId);
-    }, []);
+            setTutorPath(PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS.replace(":tutorSlug", tutorId));
+
+            const myReviewsGetObj: IGetMyReviews = {
+                tutorId: tutorId,
+                page: params.page,
+                rpp: params.rpp,
+            };
+
+            getTutorProfileData(tutorId);
+            getMyReviews(myReviewsGetObj);
+            getStatistics(tutorId);
+            getTutorAvailability(tutorId);
+        }
+    }, [tutorId]);
 
     useEffect(() => {
         const currentReviews = cloneDeep(loadedMyReviews);
@@ -79,13 +95,15 @@ const TutorProfile = () => {
     }, [myReviews]);
 
     useEffect(() => {
-        const myReviewsGetObj: IGetMyReviews = {
-            tutorId: tutorId,
-            page: params.page,
-            rpp: params.rpp,
-        };
-        getMyReviews(myReviewsGetObj);
-    }, [params]);
+        if (tutorId.length) {
+            const myReviewsGetObj: IGetMyReviews = {
+                tutorId: tutorId,
+                page: params.page,
+                rpp: params.rpp,
+            };
+            getMyReviews(myReviewsGetObj);
+        }
+    }, [params, tutorId]);
 
     const renderTableCells = (column: string | boolean, index: number) => {
         if (typeof column === 'boolean') {
@@ -94,15 +112,15 @@ const TutorProfile = () => {
                     <i className={`icon icon--base ${column ? 'icon--check icon--primary' : 'icon--close icon--grey'} `}></i>
                 </td>
             );
-        } else if(column == ''){
+        } else if (column == '') {
             return <td key={index}></td>;
-        } else if(column == 'Pre 12 pm'){
+        } else if (column == 'Pre 12 pm') {
             return <td key={index}>{t(`TUTOR_PROFILE.PRE12`)}</td>;
-        } else if(column == '12 - 5 pm'){
+        } else if (column == '12 - 5 pm') {
             return <td key={index}>{t(`TUTOR_PROFILE.ON12`)}</td>;
-        } else if(column == 'After 5 pm'){
+        } else if (column == 'After 5 pm') {
             return <td key={index}>{t(`TUTOR_PROFILE.AFTER5`)}</td>;
-        } 
+        }
         else {
             return <td key={index}>{t(`CONSTANTS.DAYS_SHORT.${column.toUpperCase()}`)}</td>;
         }
@@ -174,8 +192,6 @@ const TutorProfile = () => {
     };
 
     const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
-
-    const tutorPath = PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS.replace(":tutorId", tutorId);
 
     return (
         <MainWrapper>
@@ -410,4 +426,3 @@ const TutorProfile = () => {
 };
 
 export default TutorProfile;
-

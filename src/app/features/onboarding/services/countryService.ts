@@ -1,7 +1,7 @@
 import { baseService } from '../../../baseService';
 import { HttpMethods } from '../../../lookups/httpMethods';
 
-//bookings/week/:tutorId
+//bookings/week/:tutorSlug
 
 const URL = '/countries';
 
