@@ -1082,7 +1082,7 @@ export const EN_US = {
             MY_PROFILE_ACCOUNT: '/en/my-profile/account',
             MY_PROFILE_CHILD_INFO: '/en/my-profile/childs',
         },
-        EMAIL_CONFIRMED: '/en/email-confirmed',
+        EMAIL_CONFIRMED: '/en/account-activated',
         STRIPE_CONNECTED: '/en/stripe-connected',
     },
     SEO: {
