@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 import gradientCircle from '../../assets/images/gradient-circle.svg';
 import logo from '../../assets/images/logo.svg';
+import { useLazyGetTutorProfileDataQuery } from '../../services/tutorService';
 import { logout } from '../../slices/authSlice';
 import { RoleOptions } from '../../slices/roleSlice';
 import { logoutUser } from '../../slices/userSlice';
@@ -24,9 +25,12 @@ const Navbar = () => {
 
     const user = useAppSelector((state) => state.auth?.user);
 
+    const [getTutorProfileData] = useLazyGetTutorProfileDataQuery();
+
     const [textCopiedToClipboard, setTextCopiedToClipboard] = useState<boolean>(false);
-    const shareProfile = () => {
-        navigator.clipboard.writeText('URL_GOES_HERE');
+    const shareProfile = async () => {
+        const tutorSlug = (await getTutorProfileData(user?.id || '').unwrap()).slug;
+        navigator.clipboard.writeText('https://teorem.co' + t('PATHS.SEARCH_TUTORS_TUTOR_PROFILE').replace(':tutorSlug', tutorSlug));
         setTextCopiedToClipboard(true);
     };
     useEffect(() => {

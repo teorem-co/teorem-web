@@ -1052,7 +1052,7 @@ export const EN_US = {
         LOGIN: '/en/login',
         MY_BOOKINGS: '/en/my-bookings',
         SEARCH_TUTORS: '/en/search-tutors',
-        SEARCH_TUTORS_TUTOR_PROFILE: '/en/search-tutors/profile/:tutorSlug',
+        SEARCH_TUTORS_TUTOR_PROFILE: '/en/profile/:tutorSlug',
         SEARCH_TUTORS_TUTOR_BOOKINGS: '/en/search-tutors/bookings/:tutorSlug',
         ONBOARDING: '/en/onboarding',
         MY_REVIEWS: '/en/my-reviews',
