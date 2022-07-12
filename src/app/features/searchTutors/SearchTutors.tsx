@@ -209,8 +209,8 @@ const SearchTutors = () => {
         const urlQueries: IParams = getUrlParams(history.location.search.replace('?', ''));
 
         if (Object.keys(urlQueries).length > 0) {
-            urlQueries.subject && formik.setFieldValue('subject', urlQueries.subject) && setIsInitialSubject(true);
-            urlQueries.level && formik.setFieldValue('level', urlQueries.level);
+            urlQueries.subject && await formik.setFieldValue('subject', urlQueries.subject) && setIsInitialSubject(true);
+            urlQueries.level && await formik.setFieldValue('level', urlQueries.level);
             urlQueries.dayOfWeek && setDayOfWeekArray(urlQueries.dayOfWeek.split(','));
             urlQueries.timeOfDay && setTimeOfDayArray(urlQueries.timeOfDay.split(','));
 

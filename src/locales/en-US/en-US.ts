@@ -562,6 +562,9 @@ export const EN_US = {
         },
         PROFILE_ACCOUNT: {
             STRIPE: 'Go to Stripe',
+            STRIPE_ALREADY_CONNECTED: 'Stripe account  has already been connected, if you wish to connect to other account, then press again',
+            STRIPE_CONNECTED: 'Connected',
+            STRIPE_DISCONNECTED: 'Disconnected',
             STRIPE_CARD_DECLINED: 'Error creating Stripe account',
             SUCCESS_PASSWORD: 'You successfully changed a password',
             STRIPE_DEFAULT_PAYMENT_METHOD_UPDATED: 'Default payment method is updated',

@@ -405,9 +405,24 @@ const ProfileAccount = () => {
                                 </div>
                                 <div>
                                     {userRole === RoleOptions.Tutor ? (
-                                        <div onClick={() => setStripeModalOpen(true)} className="btn btn--primary btn--base">
-                                            {t('MY_PROFILE.PROFILE_ACCOUNT.STRIPE')}
-                                        </div>
+                                        <>
+                                            {userInfo?.stripeConnected &&
+                                                <label htmlFor="connectToStripeTutor" className="field__label">{t('MY_PROFILE.PROFILE_ACCOUNT.STRIPE_ALREADY_CONNECTED')}</label>
+                                            }
+                                            <div className="flex">
+                                                <div className="flex--inline flex--jc--cente mr-4" >
+                                                    <div style={{ lineHeight: '40px' }} className="type--wgt--bold type--center">
+                                                        {userInfo?.stripeConnected ?
+                                                            t('MY_PROFILE.PROFILE_ACCOUNT.STRIPE_CONNECTED') : t('MY_PROFILE.PROFILE_ACCOUNT.STRIPE_DISCONNECTED')
+                                                        }
+                                                    </div>
+                                                    <span className={`stripe-dot ${userInfo?.stripeConnected ? 'stripe-dot-connected' : 'stripe-dot-disconnected'}`}></span>
+                                                </div>
+                                                <div id={`connectToStripeTutor`} onClick={() => setStripeModalOpen(true)} className="btn btn--primary btn--base">
+                                                    {t('MY_PROFILE.PROFILE_ACCOUNT.STRIPE')}
+                                                </div>
+                                            </div>
+                                        </>
                                     ) : (
                                         <div className="dash-wrapper">
                                             <div className="dash-wrapper__item">
@@ -432,9 +447,8 @@ const ProfileAccount = () => {
                                                     return (
                                                         <div className="dash-wrapper__item" onClick={() => handleDefaultCreditCard(item.id)}>
                                                             <div
-                                                                className={`dash-wrapper__item__element ${
-                                                                    item.id === activeDefaultPaymentMethod && 'active'
-                                                                }`}
+                                                                className={`dash-wrapper__item__element ${item.id === activeDefaultPaymentMethod && 'active'
+                                                                    }`}
                                                             >
                                                                 <div className="flex--primary cur--pointer">
                                                                     <div>
@@ -466,7 +480,7 @@ const ProfileAccount = () => {
                 <>{stripeModalOpen && <StripeModal handleClose={() => setStripeModalOpen(false)} />}</>
             </div>
             <AddCreditCard handleSubmit={handleSubmitCreditCard} closeSidebar={closeAddCardSidebar} sideBarIsOpen={addSidebarOpen} />
-        </MainWrapper>
+        </MainWrapper >
     );
 };
 

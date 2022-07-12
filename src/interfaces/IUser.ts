@@ -20,5 +20,6 @@ export default interface IUser {
     childIds: string[];
     stripeCustomerId: string;
     stripeAccountId: string;
+    stripeConnected: boolean;
     Country: ICountry;
 }

@@ -561,6 +561,9 @@ export const HR_HR = {
         },
         PROFILE_ACCOUNT: {
             STRIPE: 'Idi na Stripe',
+            STRIPE_ALREADY_CONNECTED: 'Stripe račun je već povezan,ukoliko želite povezati drugi račun, ponovo pritisnite tipku ispod',
+            STRIPE_CONNECTED: 'Povezano',
+            STRIPE_DISCONNECTED: 'Nije Povezano',
             STRIPE_CARD_DECLINED: 'Greška prilikom izrade Stripe računa',
             SUCCESS_PASSWORD: 'Lozinka je uspješno izmijenjena',
             STRIPE_DEFAULT_PAYMENT_METHOD_UPDATED: 'Primarna metoda plaćanja je izmijenjena',
