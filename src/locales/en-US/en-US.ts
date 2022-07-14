@@ -1114,4 +1114,8 @@ export const EN_US = {
             META: 'One of our main priorities at Teorem is the privacy of our visitors. This Privacy Policy  contains types of information that is collected and recorded by Teorem and how we use it.',
         },
     },
+    LANGUAGE_MODAL: {
+        WELCOME: 'Welcome to Teorem!',
+        ABOUT: 'Please choose your location.',
+    },
 };

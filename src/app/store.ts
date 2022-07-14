@@ -7,6 +7,7 @@ import storage from 'redux-persist/lib/storage';
 import myProfileProgressReducer from '../app/features/my-profile/slices/myProfileSlice';
 import authReducer from '../slices/authSlice';
 import childrenReducer from '../slices/childrenSlice';
+import langReducer from '../slices/langSlice';
 import parentRegisterReducer from '../slices/parentRegisterSlice';
 import roleReducer from '../slices/roleSlice';
 import studentRegisterReducer from '../slices/studentRegisterSlice';
@@ -22,7 +23,7 @@ const persistConfig = {
     key: 'root',
     version: 1,
     storage,
-    whitelist: ['auth', 'user', 'role', 'user', 'myReviews', 'tutorRegister', 'parentRegisterSlice', 'myProfileProgress'],
+    whitelist: ['auth', 'user', 'role', 'user', 'myReviews', 'tutorRegister', 'parentRegisterSlice', 'myProfileProgress', 'lang'],
 };
 
 const appReducer = combineReducers({
@@ -38,6 +39,7 @@ const appReducer = combineReducers({
     children: childrenReducer,
     myProfileProgress: myProfileProgressReducer,
     chat: chatReducer,
+    lang: langReducer,
 });
 
 const rootReducer = (state: any, action: any) => {

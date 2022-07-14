@@ -1116,4 +1116,8 @@ export const HR_HR = {
             META: 'Jedan od naših glavnih prioriteta u Teoremu je privatnost naših posjetitelja. Ova Politika privatnosti sadrži tipove podataka koji su skupljani i spremani od strane Teorema, te na koji ih način koristimo.',
         },
     },
+    LANGUAGE_MODAL: {
+        WELCOME: 'Dobrodošli na Teorem!',
+        ABOUT: 'Molimo odaberite Vašu lokaciju.',
+    },
 };
