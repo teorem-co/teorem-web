@@ -945,6 +945,11 @@ export const EN_US = {
         DESCRIPTION: 'Stripe connected successfully.',
         BUTTON: 'Continue',
     },
+    STRIPE_FAIL: {
+        WELCOME: 'Something went wrong.',
+        DESCRIPTION: 'Stripe connection failed, please try again.',
+        BUTTON: 'Continue',
+    },
     SUBJECTS: {
         biology: 'Biology',
         chemistry: 'Chemistry',
@@ -1087,6 +1092,7 @@ export const EN_US = {
         },
         EMAIL_CONFIRMED: '/en/account-activated',
         STRIPE_CONNECTED: '/en/stripe-connected',
+        STRIPE_FAIL: '/en/stripe-fail',
     },
     SEO: {
         FALLBACK: {

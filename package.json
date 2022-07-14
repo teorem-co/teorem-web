@@ -3,6 +3,8 @@
     "version": "1.0.0",
     "private": true,
     "dependencies": {
+        "@babel/cli": "^7.18.6",
+        "@babel/core": "^7.18.6",
         "@reduxjs/toolkit": "^1.7.0",
         "@testing-library/jest-dom": "^4.2.4",
         "@testing-library/react": "^9.5.0",
@@ -13,6 +15,7 @@
         "@types/react-helmet": "^6.1.5",
         "@types/react-redux": "^7.1.20",
         "axios": "^0.24.0",
+        "babel-node": "^0.0.1-security",
         "chart.js": "^3.7.1",
         "dropzone": "^6.0.0-beta.2",
         "formik": "^2.2.9",
@@ -55,7 +58,8 @@
         "eject": "react-scripts eject",
         "format": "npx prettier --write .",
         "lint": "eslint **/*.ts --ignore-path .gitignore",
-        "lint:autofix": "npm run lint -- --fix"
+        "lint:autofix": "npm run lint -- --fix",
+        "sitemap": "babel-node ./sitemap.js"
     },
     "eslintConfig": {
         "extends": "react-app"
@@ -73,6 +77,9 @@
         ]
     },
     "devDependencies": {
+        "@babel/node": "^7.18.6",
+        "@babel/preset-env": "^7.18.6",
+        "@babel/preset-react": "^7.18.6",
         "@types/react-big-calendar": "^0.36.2",
         "@types/react-calendar": "^3.4.4",
         "@types/react-dom": "^17.0.11",
@@ -80,12 +87,17 @@
         "@types/react-text-mask": "^5.4.11",
         "@typescript-eslint/eslint-plugin": "^5.4.0",
         "@typescript-eslint/parser": "^5.4.0",
+        "babel-preset-es2015": "^6.24.1",
+        "babel-preset-react": "^6.24.1",
+        "babel-preset-typescript": "^7.0.0-alpha.19",
+        "babel-register": "^6.26.0",
         "eslint": "^8.2.0",
         "eslint-config-airbnb-base": "^15.0.0",
         "eslint-config-airbnb-typescript": "^15.0.0",
         "eslint-config-prettier": "^8.3.0",
         "eslint-plugin-import": "^2.25.2",
         "eslint-plugin-prettier": "^4.0.0",
-        "eslint-plugin-simple-import-sort": "^7.0.0"
+        "eslint-plugin-simple-import-sort": "^7.0.0",
+        "react-router-sitemap": "^1.2.0"
     }
 }

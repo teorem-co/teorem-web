@@ -40,6 +40,7 @@ import { Role } from './lookups/role';
 import EmailConfirmed from './pages/EmailConfirmed';
 import NotFound from './pages/NotFound';
 import StripeConnected from './pages/StripeConnected';
+import StripeFail from './pages/StripeFail';
 import PermissionsGate from './PermissionGate';
 import { getUserRoleAbrv } from './utils/getUserRoleAbrv';
 
@@ -66,6 +67,7 @@ export const PATHS = {
     TUTOR_MANAGMENT_TUTOR_PROFILE: t('PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE'),
     EMAIL_CONFIRMED: t('PATHS.EMAIL_CONFIRMED'),
     STRIPE_CONNECTED: t('PATHS.STRIPE_CONNECTED'),
+    STRIPE_FAIL: t('PATHS.STRIPE_FAIL'),
 };
 
 export const LANDING_PATHS = {
@@ -354,6 +356,12 @@ export const ROUTES: any = [
         key: 'STRIPE_CONNECTED',
         exact: true,
         component: () => <StripeConnected />,
+    },
+    {
+        path: PATHS.STRIPE_FAIL,
+        key: 'STRIPE_FAIL',
+        exact: true,
+        component: () => <StripeFail />,
     },
 ];
 //handle subroutes by <RenderRoutes {...props} /> inside PermissionGate if needed
