@@ -52,7 +52,6 @@
         right: 0;
 
         background-color: $background-overlay;
-        z-index: 10;
     }
 
     &--parent {
@@ -172,5 +171,47 @@
 
     &--language {
         overflow: visible;
+        width: unset;
+        padding: 40px 40px 24px;
+        z-index: 31;
+
+        &--overlay {
+            z-index: 30;
+            background-color: $background-overlay-grey;
+        }
+
+
+        .btn{
+            color: $black;
+            
+            &--ghost--grey {
+                .icon--check {
+                    display: none;
+                }
+            }
+
+            .image {
+                background-image: unset;
+                background-color: $grey-d8;
+                border-radius: 50%;
+                color: $color-primary;
+            }
+            .icon {
+                transition: none;
+            }
+            
+            &:hover {
+                color: $color-primary;
+
+                .icon--language {
+                    background-color: $white;
+                }
+
+                .image {
+                    background-color: $color-primary;
+                    color: $white;
+                }
+            }
+        }
     }
 }

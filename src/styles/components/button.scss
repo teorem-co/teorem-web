@@ -92,6 +92,14 @@
         color: $color-primary;
         border: 1px solid $color-primary;
 
+        &--grey {
+            border: 1px solid $grey-d8;
+
+            &:hover {
+                border: 1px solid $color-primary;
+            }
+        }
+
         &--error {
             border-color: $color-error;
             color: $color-error;

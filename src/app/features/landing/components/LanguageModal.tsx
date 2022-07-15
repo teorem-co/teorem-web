@@ -40,42 +40,56 @@ const LanguageModal = () => {
             label: 'International',
             value: 'en-US',
             path: 'en',
+            short: 'EN',
         },
         {
             label: 'Croatian',
             value: 'hr-HR',
             path: 'hr',
+            short: 'HR',
         },
         {
             label: 'Polish',
             value: 'en-US',
             path: 'en',
+            short: 'PL',
         },
     ];
 
     return (
         <>
-            <div className="modal__overlay"></div>
+            <div className="modal__overlay modal--language--overlay"></div>
             <div className="modal modal--language" style={{ height: 'auto' }}>
                 <div className="flex flex--col flex--jc--space-evenly flex--center h--200--min">
-                    <div className="type-md">{t('LANGUAGE_MODAL.WELCOME')}</div>
-                    <div className="type-md">{t('LANGUAGE_MODAL.ABOUT')}</div>
+                    <div className="type--lg mt-3 mb-1">{t('LANGUAGE_MODAL.WELCOME')}</div>
+                    <div className="type--color--secondary type-md mb-1">{t('LANGUAGE_MODAL.ABOUT')}</div>
 
-                    <div ref={languageRef} className={`language`} onClick={() => setIsActive(!isActive)}>
-                        <i className="icon icon--base icon--language icon--grey"></i>
-                        <span className="language__label">{selectLanguage}</span>
-
-                        {isActive && (
-                            <div className="language__dropdown">
-                                {countryOptions.map((option: ILanguageOption) => {
-                                    return (
-                                        <div key={option.value} className="language__dropdown__item" onClick={() => handleChange(option)}>
-                                            {option.label}
+                    <div onClick={() => setIsActive(!isActive)}>
+                        <div className="flex flex--center flex--col mt-6">
+                            {countryOptions.map((option: any) => {
+                                return (
+                                    <div
+                                        key={option.short}
+                                        className={`btn btn--${
+                                            option.short === 'EN' ? 'ghost' : 'ghost--grey'
+                                        } w--350 mb-4 p-3 flex flex--center flex--jc--space-between`}
+                                        onClick={() => handleChange(option)}
+                                    >
+                                        <div className="flex flex--center">
+                                            <div className={`image flex flex--center flex--jc--center`}>
+                                                {option.short === 'EN' ? (
+                                                    <i className="icon icon--base icon--language icon--primary"></i>
+                                                ) : (
+                                                    option.short.toUpperCase()
+                                                )}
+                                            </div>
+                                            <div className="ml-3">{option.label}</div>
                                         </div>
-                                    );
-                                })}
-                            </div>
-                        )}
+                                        <i className="icon icon--base icon--check icon--primary"></i>
+                                    </div>
+                                );
+                            })}
+                        </div>
                     </div>
                 </div>
             </div>

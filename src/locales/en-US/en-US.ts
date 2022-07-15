@@ -1092,7 +1092,7 @@ export const EN_US = {
         },
         EMAIL_CONFIRMED: '/en/account-activated',
         STRIPE_CONNECTED: '/en/stripe-connected',
-        STRIPE_FAIL: '/en/stripe-fail',
+        STRIPE_FAIL: '/en/stripe-failed',
     },
     SEO: {
         FALLBACK: {
@@ -1122,6 +1122,6 @@ export const EN_US = {
     },
     LANGUAGE_MODAL: {
         WELCOME: 'Welcome to Teorem!',
-        ABOUT: 'Please choose your location.',
+        ABOUT: 'Please select your country preferences.',
     },
 };

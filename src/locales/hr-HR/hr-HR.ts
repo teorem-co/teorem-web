@@ -1092,9 +1092,9 @@ export const HR_HR = {
             MY_PROFILE_ACCOUNT: '/hr/moj-profil/korisnicki-racun',
             MY_PROFILE_CHILD_INFO: '/hr/moj-profil/djeca',
         },
-        EMAIL_CONFIRMED: '/en/account-activated',
-        STRIPE_CONNECTED: '/en/stripe-connected',
-        STRIPE_FAIL: '/en/stripe-fail',
+        EMAIL_CONFIRMED: '/hr/email-povezan',
+        STRIPE_CONNECTED: '/hr/racun-povezan',
+        STRIPE_FAIL: '/hr/racun-pogreska',
     },
     SEO: {
         FALLBACK: {
