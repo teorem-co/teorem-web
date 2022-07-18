@@ -548,7 +548,9 @@
         }
 
         &__logo {
-            width: 293px;
+            @media (min-width: $responsive-xl) {
+                width: 293px;
+            }
             img {
                 width: 94px;
 
