@@ -26,6 +26,7 @@ interface IProps {
     setSidebarOpen: (isOpen: boolean) => void;
     positionClass: string;
     clearEmptyBookings: () => void;
+    tutorId: string;
 }
 
 interface Values {
@@ -37,7 +38,9 @@ interface Values {
 
 const ParentCalendarSlots: React.FC<IProps> = (props) => {
     const { start, end, handleClose, positionClass, setSidebarOpen } = props;
-    const { tutorId } = useParams();
+
+    const tutorId = props.tutorId;
+
 
     const [getChildOptions, { data: childOptions }] = useLazyGetChildQuery();
     const [getUser] = useLazyGetCustomerByIdQuery();

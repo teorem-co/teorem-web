@@ -10,7 +10,7 @@ import { useHistory } from 'react-router';
 import { useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 
-import { useLazyGetTutorBookingsQuery, useLazyGetTutorProfileDataQuery } from '../../../services/tutorService';
+import { useLazyGetTutorBookingsQuery, useLazyGetTutorIdByTutorSlugQuery, useLazyGetTutorProfileDataQuery } from '../../../services/tutorService';
 import { addStripeId } from '../../../slices/authSlice';
 import { RoleOptions } from '../../../slices/roleSlice';
 import TextField from '../../components/form/TextField';
@@ -106,7 +106,16 @@ const TutorBookings = () => {
     const userId = useAppSelector((state) => state.auth.user?.id);
     const stripeCustomerId = useAppSelector((state) => state.auth.user?.stripeCustomerId);
     const userInfo = useAppSelector((state) => state.auth.user);
-    const { tutorId } = useParams();
+
+
+    const [getTutorIdByTutorSlug] = useLazyGetTutorIdByTutorSlugQuery();
+    const [tutorId, setTutorId] = useState('');
+    const { tutorSlug } = useParams();
+    useEffect(() => {
+        getTutorIdByTutorSlug(tutorSlug).unwrap().then((tutorIdObj: any) => {
+            setTutorId(tutorIdObj.userId);
+        });
+    }, []);
     const { t } = useTranslation();
     const defaultScrollTime = new Date(new Date().setHours(7, 45, 0));
     const highlightRef = useRef<HTMLDivElement>(null);
@@ -445,9 +454,8 @@ const TutorBookings = () => {
                                 </div>
                             </div>
                             <h2 className="type--lg  ml-6">
-                                {`${t('MY_BOOKINGS.TITLE')} - ${tutorData.firstName ? tutorData.firstName : ''} ${
-                                    tutorData.lastName ? tutorData.lastName : ''
-                                }`}
+                                {`${t('MY_BOOKINGS.TITLE')} - ${tutorData.firstName ? tutorData.firstName : ''} ${tutorData.lastName ? tutorData.lastName : ''
+                                    }`}
                             </h2>
                         </div>
                         <BigCalendar
@@ -480,7 +488,7 @@ const TutorBookings = () => {
                             onSelectEvent={(e) =>
                                 userRole === RoleOptions.Parent || userRole === RoleOptions.Student ? handleSelectedEvent(e) : null
                             }
-                            // onSelecting={(range: { start: ; end: 'test'; }) => false}
+                        // onSelecting={(range: { start: ; end: 'test'; }) => false}
                         />
                         {openSlot ? (
                             <ParentCalendarSlots
@@ -490,6 +498,7 @@ const TutorBookings = () => {
                                 end={`${selectedEnd}`}
                                 handleClose={(e) => setOpenSlot(e)}
                                 positionClass={calcModalPosition(positionClass)}
+                                tutorId={tutorId}
                             />
                         ) : openEventDetails ? (
                             <ParentEventModal
@@ -511,6 +520,7 @@ const TutorBookings = () => {
                                 end={`${selectedEnd}`}
                                 handleClose={(e: any) => setOpenUpdateModal(e)}
                                 positionClass={calcModalPosition(positionClass)}
+                                tutorId={tutorId}
                             />
                         ) : (
                             <></>

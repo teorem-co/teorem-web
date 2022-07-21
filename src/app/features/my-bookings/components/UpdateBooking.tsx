@@ -27,6 +27,7 @@ interface IProps {
     positionClass: string;
     clearEmptyBookings: () => void;
     booking: IBooking | null;
+    tutorId: string;
 }
 
 interface Values {
@@ -34,10 +35,11 @@ interface Values {
     subject: string;
     child: string;
     timeFrom: string;
+
 }
 const UpdateBooking: React.FC<IProps> = (props) => {
     const { start, end, handleClose, positionClass, setSidebarOpen, clearEmptyBookings, booking } = props;
-    const { tutorId } = useParams();
+    const tutorId = props.tutorId;
     const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
 
     const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
