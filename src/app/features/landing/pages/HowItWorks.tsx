@@ -15,9 +15,9 @@ import LandingWrapper from '../components/LandingWrapper';
 import ReviewCard from '../components/ReviewCard';
 import TextCard from '../components/TextCard';
 import IFAQItem from '../interfaces/IFAQItem';
-import profileIllustration2 from './../../../../assets/images/profile-illustration2.jpg';
-import profileIllustration3 from './../../../../assets/images/profile-illustration3.jpg';
-import profileIllustration1 from './../../../../assets/images/sandra.jpeg';
+import profileIllustration2 from './../../../../assets/images/majka_renata.jpg';
+import profileIllustration3 from './../../../../assets/images/student-ivan.jpg';
+import profileIllustration1 from './../../../../assets/images/majka_sandra.jpg';
 
 //add fluid typography
 //add trasnlations so text props are passed as translation item

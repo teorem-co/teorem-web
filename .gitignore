@@ -11,6 +11,7 @@
 # production
 /build
 /_build
+/web old
 
 # misc
 .DS_Store

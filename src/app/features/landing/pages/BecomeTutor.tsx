@@ -21,8 +21,8 @@ import grid3 from './../../../../assets/images/grid3.jpg';
 import grid4 from './../../../../assets/images/grid4.jpg';
 import grid5 from './../../../../assets/images/grid5.jpg';
 import grid6 from './../../../../assets/images/grid6.jpg';
-import profileIllustration2 from './../../../../assets/images/profile-illustration2.jpg';
-import profileIllustration3 from './../../../../assets/images/profile-illustration3.jpg';
+import profileIllustration1 from './../../../../assets/images/instruktor-ante.jpg';
+import profileIllustration2 from './../../../../assets/images/instruktorica-dunja.jpg';
 
 const BecomeTutor = () => {
     const cardText1 = {
@@ -146,7 +146,7 @@ const BecomeTutor = () => {
                 </div>
             </div>
 
-            <ReviewCard className="mt-30" data={cardText1} img={profileIllustration3} />
+            <ReviewCard className="mt-30" data={cardText1} img={profileIllustration1} />
 
             <TextCard className="mt-30" title={t('BECOME_A_TUTOR.TEXT_CARD_1.TITLE')} desc={t('BECOME_A_TUTOR.TEXT_CARD_1.SUBTITLE')} />
             <div className="landing__section mt-30 w--100">
