@@ -906,6 +906,8 @@ export const EN_US = {
                 'You offer independent tutoring via Teorem’s platform. There is no employment relationship. You are responsible for any taxes and National Insurance contributions.',
             QUESTION_5: 'What makes Teorem different from other portals?',
             ANSWER_5: 'We guarantee you a steady stream of students. We also take care of everything so that you can focus 100% on teaching.',
+            QUESTION_6: 'How does Teorem make money?',
+            ANSWER_6: 'Teorem charges a 12% commission to the tutor.',
         },
         CARD_1: {
             TITLE: 'Fully remote',

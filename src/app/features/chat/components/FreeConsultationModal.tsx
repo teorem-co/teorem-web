@@ -1,21 +1,65 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
 import { useAppSelector } from '../../../hooks';
 import { useLazyGetRoomLinkQuery } from '../../../services/learnCubeService';
 
 interface Props {
     handleClose: () => void;
-    link: string;
+    myStream: any;
+    guestStream: any;
 }
 
 const FreeConsultationModal = (props: Props) => {
 
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
+    const guestStream = props.guestStream;
+    const myStream = props.myStream;
+
+    const videoRef = useRef<any>(null);
+    const videoRef2 = useRef<any>(null);
+
     const onIframeLoad = () => {
 
         setIsLoading(false);
     };
+
+    useEffect(() => {
+
+        if (myStream) {
+            videoRef.current.muted = true;
+
+            if ('srcObject' in videoRef.current) {
+                videoRef.current.srcObject = myStream;
+            } else {
+                videoRef.current.src = window.URL.createObjectURL(myStream); // for older browsers
+            }
+            videoRef.current.addEventListener("loadedmetadata", () => {
+                videoRef.current.play();
+            });
+        }
+
+        console.log(myStream);
+
+    }, [myStream]);
+
+    useEffect(() => {
+
+        if (guestStream) {
+
+            if ('srcObject' in videoRef2.current) {
+                videoRef2.current.srcObject = guestStream;
+            } else {
+                videoRef2.current.src = window.URL.createObjectURL(guestStream); // for older browsers
+            }
+            videoRef2.current.addEventListener("loadedmetadata", () => {
+                videoRef2.current.play();
+            });
+        }
+
+        console.log(guestStream);
+
+    }, [guestStream]);
 
     return (
         <>
@@ -24,9 +68,8 @@ const FreeConsultationModal = (props: Props) => {
                     <i className="icon icon--base icon--close modal__close" onClick={props.handleClose}></i>
 
                     <div className="modal__body">
-                        {
-                            <iframe style={{ width: '100%' }} id="frame" onLoad={onIframeLoad} src={props.link} allow="camera;microphone"></iframe>
-                        }
+                        <video ref={videoRef} style={{ width: '50%' }} id="video-host" onLoad={onIframeLoad}></video>
+                        <video ref={videoRef2} style={{ width: '50%' }} id="video-guest" onLoad={onIframeLoad}></video>
                     </div>
                 </div>
             </div>

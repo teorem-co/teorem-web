@@ -62,6 +62,11 @@ const BecomeTutor = () => {
             question: t('BECOME_A_TUTOR.FAQ.QUESTION_5'),
             answer: t('BECOME_A_TUTOR.FAQ.ANSWER_5'),
         },
+        {
+            id: 'faq-6',
+            question: t('BECOME_A_TUTOR.FAQ.QUESTION_6'),
+            answer: t('BECOME_A_TUTOR.FAQ.ANSWER_6'),
+        },
     ];
 
     const history = useHistory();

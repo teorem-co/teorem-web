@@ -25,15 +25,18 @@ import {
 } from '../slices/chatSlice';
 import FreeConsultationModal from './FreeConsultationModal';
 import SendMessageForm from './SendMessageForm';
+import Peer from "simple-peer";
 
 interface Props {
     data: IChatRoom | null;
 }
 
 const SingleConversation = (props: Props) => {
+
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const chatRef = useRef<HTMLDivElement>(null);
 
+    const connectionRef = useRef<any>(null);
     const userActive = useAppSelector((state) => state.auth.user);
 
     const chat = useAppSelector((state) => state.chat);
@@ -47,6 +50,9 @@ const SingleConversation = (props: Props) => {
     const [freeCallExpired, setFreeCallExpired] = useState<boolean>(false);
     const [freeCallCancelled, setFreeCallCancelled] = useState<boolean | null>(null);
     const [freeCallCancel, setFreeCallCancel] = useState<boolean>(false);
+
+    const [myStream, setMyStream] = useState<any>(null);
+    const [guestStream, setGuestStream] = useState<any>(null);
 
     const [getChatMessages, { data: chatMessages }] = useLazyGetChatMessagesQuery();
 
@@ -63,6 +69,61 @@ const SingleConversation = (props: Props) => {
     useEffect(() => {
         scrollToBottomSmooth();
     }, []);
+
+    useEffect(() => {
+
+        navigator.mediaDevices.getUserMedia({
+            video: true,
+            audio: true,
+        }).then((stream) => {
+            setMyStream(stream);
+        }).catch((err) => {
+            console.log("error: " + err);
+        });
+    }, []);
+
+    useEffect(() => {
+
+        if (chat.buffer && chat.consultationInitialized) {
+
+            const peer = new Peer({
+                initiator: false,
+                trickle: false,
+                stream: myStream,
+                config: {
+                    iceServers: [
+                        {
+                            urls: "stun:stun.teorem.rerootdev.xyz",
+                            username: "teorem",
+                            credential: "dev"
+                        }
+                    ]
+                }
+            });
+            peer.on("signal", (data) => {
+
+                const buff = {
+                    userId: chat.buffer?.userId,
+                    tutorId: chat.buffer?.tutorId,
+                    senderId: chat.buffer?.senderId,
+                    link: chat.buffer?.link,
+                    signalData: data,
+                };
+
+                chat.socket.emit("acceptedFreeConsultation", buff);
+            });
+            peer.on("stream", (stream) => {
+                console.log(stream);
+                setGuestStream(stream);
+            });
+
+            if (chat.buffer.signalData)
+                peer.signal(chat.buffer.signalData ? chat.buffer.signalData : '');
+            connectionRef.current = peer;
+        }
+
+    }, [chat.buffer, chat.consultationInitialized]);
+
     useEffect(() => {
         chat.socket.on('onAcceptedFreeConsultation', (buffer: any) => {
             dispatch(setConsultationInitialized(true));
@@ -70,6 +131,10 @@ const SingleConversation = (props: Props) => {
             dispatch(setFreeConsultation(true));
             dispatch(setLink(buffer.link + userActive?.id));
             dispatch(setBuffer(buffer));
+
+            if (connectionRef.current) {
+                connectionRef.current.signal(buffer.signalData);
+            }
         });
 
         chat.socket.on('onDeniedFreeConsultation', (buffer: any) => {
@@ -79,6 +144,7 @@ const SingleConversation = (props: Props) => {
 
         chat.socket.on('onCloseActiveFreeConsultation', (buffer: any) => {
             handleChatInit();
+            connectionRef.current.destroy();
         });
     }, []);
 
@@ -265,10 +331,36 @@ const SingleConversation = (props: Props) => {
 
     const onFreeConsultation = () => {
         if (freeConsultationClicked == false) {
+
+            const peer = new Peer({
+                initiator: true,
+                trickle: false,
+                stream: myStream
+            });
+            peer.on("signal", (data) => {
+                chat.socket.emit('joinFreeConsultation', {
+                    userId: props.data?.user?.userId,
+                    tutorId: props.data?.tutor?.userId,
+                    senderId: userActive?.id,
+                    link: freeConsultationLink,
+                    signalData: data,
+                });
+            });
+            peer.on("stream", (stream) => {
+
+                setGuestStream(stream);
+
+            });
+            chat.socket.on("callAccepted", (signal) => {
+                peer.signal(signal);
+            });
+
             getFreeConsultationLink(props.data?.tutor?.userId + '');
             setFreeConsultationClicked(true);
             dispatch(setConsultationInitialized(true));
             setFreeCallExpired(false);
+
+            connectionRef.current = peer;
         }
     };
 
@@ -376,27 +468,27 @@ const SingleConversation = (props: Props) => {
                 </div>
 
                 <div className="button-group-chat-header">
-                    {/*!chat.consultationInitialized && chat.activeChatRoom && <button
+                    {!chat.consultationInitialized && chat.activeChatRoom && <button
                         className={`btn btn--primary btn--base free-consultation-btn ${freeConsultationClicked && "free-consultation-btn-pressed"}`}
                         onClick={onFreeConsultation}>
                         {t('CHAT.FREE_CONSULTATION')}
                     </button>
-                    */}
+                    }
 
-                    {/*
-                    freeConsultationClicked &&
+                    {
+                        freeConsultationClicked &&
                         <div className={`btn btn--primary btn--base free-consultation-btn ${freeConsultationClicked && "free-consultation-btn-pressed"}`}>
                             <i className={`icon--loader chat-load-more-small`}></i>
                         </div>
-                    */}
-                    {/*chat.activeChatRoom && freeConsultationClicked && (
+                    }
+                    {chat.activeChatRoom && freeConsultationClicked && (
                         <button
                             className={`btn btn--error btn--base free-consultation-btn ${freeConsultationClicked && 'free-consultation-btn-pressed'}`}
                             onClick={onCancelFreeConsultation}
                         >
                             {t('CHAT.DENY_FREE_CONSULTATION')}
                         </button>
-                    )*/}
+                    )}
                     {props.data && userActive?.id == props.data.user?.userId && (
                         <Link
                             className="btn btn--primary btn--base"
@@ -562,7 +654,7 @@ const SingleConversation = (props: Props) => {
                 ></div>
             )}
 
-            {chat.freeConsultation && chat.link && <FreeConsultationModal link={chat.link} handleClose={onFreeConsultationClose} />}
+            {chat.freeConsultation && chat.link && <FreeConsultationModal guestStream={guestStream} myStream={myStream} handleClose={onFreeConsultationClose} />}
         </div>
     );
 };

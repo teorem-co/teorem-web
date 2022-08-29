@@ -908,6 +908,8 @@ export const HR_HR = {
             QUESTION_5: 'Što razlikuje Teorem od ostalih platformi?',
             ANSWER_5:
                 'Mi Vam garantiramo stabilan dotok novih učenika te se brinemo o svemu tako da se Vi možete u potpunosti posvetiti predavanjima.',
+            QUESTION_6: 'Kako Teorem zarađuje?',
+            ANSWER_6: 'Teorem uzima proviziju od 12% od instruktora.',
         },
         CARD_1: {
             TITLE: '"Remote" rad',

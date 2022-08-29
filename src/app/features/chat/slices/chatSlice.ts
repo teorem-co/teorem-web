@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { stat } from 'fs';
 import { StaticRouter } from 'react-router';
+import { SignalData } from "simple-peer";
 import { io, Socket } from 'socket.io-client';
 
 const serverUrl = `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_API_PORT}`;
@@ -10,6 +11,7 @@ export interface IVideoChatBuffer {
     tutorId: string;
     senderId: string;
     link: string;
+    signalData?: SignalData;
 }
 
 export interface IChatProfile {
