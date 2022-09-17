@@ -14,6 +14,7 @@ export interface Values {
     cardFirstName: string;
     cardLastName: string;
     city: string;
+    country: string;
     line1: string;
     line2: string;
     cardNumber: string;
@@ -29,6 +30,7 @@ const AddCreditCard = (props: Props) => {
         cardFirstName: '',
         cardLastName: '',
         city: '',
+        country: '',
         line1: '',
         line2: '',
         cardNumber: '',
@@ -50,6 +52,7 @@ const AddCreditCard = (props: Props) => {
             cardFirstName: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             cardLastName: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             city: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            country: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             line1: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             line2: Yup.string(),
             cardNumber: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
@@ -90,6 +93,12 @@ const AddCreditCard = (props: Props) => {
                                     {t('ACCOUNT.NEW_CARD.CITY')}
                                 </label>
                                 <TextField name="city" id="city" placeholder={t('ACCOUNT.NEW_CARD.CITY_PLACEHOLDER')} />
+                            </div>
+                            <div className="field">
+                                <label htmlFor="country" className="field__label">
+                                    {t('ACCOUNT.NEW_CARD.COUNTRY')}
+                                </label>
+                                <TextField name="country" id="country" placeholder={t('ACCOUNT.NEW_CARD.COUNTRY_PLACEHOLDER')} />
                             </div>
                             <div className="field">
                                 <label htmlFor="line1" className="field__label">

@@ -37,25 +37,25 @@ const GeneralAvailability = () => {
     const loading = availabilityUninitialized || availabilityLoading;
 
     const renderTableCells = (column: string | boolean, availabilityIndex: IAvailabilityIndex) => {
-        
+
         if (typeof column === 'boolean') {
             return (
-                <td 
-                className={`${column ? 'table--availability--check' : 'table--availability--close'}`}
-                onClick={()=>handleAvailabilityClick(availabilityIndex.column, availabilityIndex.row, column)}
+                <td
+                    className={`${column ? 'table--availability--check' : 'table--availability--close'}`}
+                    onClick={() => handleAvailabilityClick(availabilityIndex.column, availabilityIndex.row, column)}
                 >
                     <i className={`icon icon--base ${column ? 'icon--check icon--primary' : 'icon--close icon--grey'} `}></i>
                 </td>
             );
-        } else if(column == ''){
+        } else if (column == '') {
             return <td></td>;
-        } else if(column == 'Pre 12 pm'){
+        } else if (column == 'Pre 12 pm') {
             return <td>{t(`TUTOR_PROFILE.PRE12`)}</td>;
-        } else if(column == '12 - 5 pm'){
+        } else if (column == '12 - 5 pm') {
             return <td>{t(`TUTOR_PROFILE.ON12`)}</td>;
-        } else if(column == 'After 5 pm'){
+        } else if (column == 'After 5 pm') {
             return <td>{t(`TUTOR_PROFILE.AFTER5`)}</td>;
-        } 
+        }
         else {
             return <td>{t(`CONSTANTS.DAYS_SHORT.${column.toUpperCase()}`)}</td>;
         }
@@ -64,7 +64,7 @@ const GeneralAvailability = () => {
     const renderAvailabilityTable = () => {
         const update: boolean = currentAvailabilities.length > 0 && currentAvailabilities[1].length > 1;
 
-        const availabilityToMap = update ? currentAvailabilities : availabilityTable;
+        const availabilityToMap = update ? currentAvailabilities : currentAvailabilities;
 
         return availabilityToMap.map((row: (string | boolean)[], rowIndex: number) => {
             return (

@@ -1095,6 +1095,7 @@ export const EN_US = {
         EMAIL_CONFIRMED: '/en/account-activated',
         STRIPE_CONNECTED: '/en/stripe-connected',
         STRIPE_FAIL: '/en/stripe-failed',
+        RESEND_ACTIVATION_TOKEN: '/en/reset-token'
     },
     SEO: {
         FALLBACK: {

@@ -1097,6 +1097,8 @@ export const HR_HR = {
         EMAIL_CONFIRMED: '/hr/email-povezan',
         STRIPE_CONNECTED: '/hr/racun-povezan',
         STRIPE_FAIL: '/hr/racun-pogreska',
+        RESEND_ACTIVATION_TOKEN: '/hr/ponovna-aktivacija'
+
     },
     SEO: {
         FALLBACK: {

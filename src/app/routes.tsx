@@ -1,8 +1,7 @@
 import { t } from 'i18next';
-import { forEach } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { BrowserRouter, matchPath, NavLink, Redirect, Route, Switch, useHistory } from 'react-router-dom';
+import { matchPath, NavLink, Redirect, Route, Switch, useHistory } from 'react-router-dom';
 
 import languageOptions from './constants/languageOptions';
 import { SEO } from './constants/seo';
@@ -38,7 +37,7 @@ import TutorManagmentProfile from './features/tutor-managment/TutorProfile';
 import { useAppSelector } from './hooks';
 import { Role } from './lookups/role';
 import EmailConfirmed from './pages/EmailConfirmed';
-import NotFound from './pages/NotFound';
+import ResetToken from "./pages/ResetToken";
 import StripeConnected from './pages/StripeConnected';
 import StripeFail from './pages/StripeFail';
 import PermissionsGate from './PermissionGate';
@@ -66,6 +65,7 @@ export const PATHS = {
     TUTOR_MANAGMENT: t('PATHS.TUTOR_MANAGMENT'),
     TUTOR_MANAGMENT_TUTOR_PROFILE: t('PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE'),
     EMAIL_CONFIRMED: t('PATHS.EMAIL_CONFIRMED'),
+    RESEND_ACTIVATION_TOKEN: t('PATHS.RESEND_ACTIVATION_TOKEN'),
     STRIPE_CONNECTED: t('PATHS.STRIPE_CONNECTED'),
     STRIPE_FAIL: t('PATHS.STRIPE_FAIL'),
 };
@@ -350,6 +350,12 @@ export const ROUTES: any = [
         key: 'EMAIL_CONFIRMED',
         exact: true,
         component: () => <EmailConfirmed />,
+    },
+    {
+        path: PATHS.RESEND_ACTIVATION_TOKEN,
+        key: 'RESEND_ACTIVATION_TOKEN',
+        exact: true,
+        component: () => <ResetToken />,
     },
     {
         path: PATHS.STRIPE_CONNECTED,

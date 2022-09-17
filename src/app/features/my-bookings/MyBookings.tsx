@@ -29,6 +29,7 @@ import {
 } from './services/bookingService';
 import { useLazyGetUnavailableBookingsQuery } from './services/unavailabilityService';
 
+
 i18n.language !== 'en' && Array.from(languageOptions.map((l) => l.path)).includes(i18n.language) && require(`moment/locale/${i18n.language}.js`);
 
 interface ICoords {

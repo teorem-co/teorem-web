@@ -168,7 +168,7 @@ export const authService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
-        resendActivationEmail: builder.mutation<void, IResendEmail>({
+        resendActivationEmail: builder.mutation<string, IResendEmail>({
             query: (body) => ({
                 url: `${URL}/resend-activation-email`,
                 method: HttpMethods.POST,

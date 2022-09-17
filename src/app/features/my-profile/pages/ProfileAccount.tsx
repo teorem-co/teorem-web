@@ -461,7 +461,7 @@ const ProfileAccount = () => {
                                                                                 e.stopPropagation();
                                                                                 handleDeleteCreditCard(item.id);
                                                                             }}
-                                                                            className="icon icon--base icon--delete icon--primary"
+                                                                            className="icon icon--base icon--edit icon--primary"
                                                                         ></i>
                                                                     </div>
                                                                 </div>

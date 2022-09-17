@@ -70,7 +70,7 @@ const SingleConversation = (props: Props) => {
         scrollToBottomSmooth();
     }, []);
 
-    useEffect(() => {
+    /*useEffect(() => {
 
         navigator.mediaDevices.getUserMedia({
             video: true,
@@ -80,7 +80,7 @@ const SingleConversation = (props: Props) => {
         }).catch((err) => {
             console.log("error: " + err);
         });
-    }, []);
+    }, []);*/
 
     useEffect(() => {
 
@@ -468,27 +468,27 @@ const SingleConversation = (props: Props) => {
                 </div>
 
                 <div className="button-group-chat-header">
-                    {!chat.consultationInitialized && chat.activeChatRoom && <button
+                    {/*!chat.consultationInitialized && chat.activeChatRoom && <button
                         className={`btn btn--primary btn--base free-consultation-btn ${freeConsultationClicked && "free-consultation-btn-pressed"}`}
                         onClick={onFreeConsultation}>
                         {t('CHAT.FREE_CONSULTATION')}
                     </button>
-                    }
+                            */}
 
-                    {
+                    {/*
                         freeConsultationClicked &&
                         <div className={`btn btn--primary btn--base free-consultation-btn ${freeConsultationClicked && "free-consultation-btn-pressed"}`}>
                             <i className={`icon--loader chat-load-more-small`}></i>
                         </div>
-                    }
-                    {chat.activeChatRoom && freeConsultationClicked && (
+                    */}
+                    {/*chat.activeChatRoom && freeConsultationClicked && (
                         <button
                             className={`btn btn--error btn--base free-consultation-btn ${freeConsultationClicked && 'free-consultation-btn-pressed'}`}
                             onClick={onCancelFreeConsultation}
                         >
                             {t('CHAT.DENY_FREE_CONSULTATION')}
                         </button>
-                    )}
+                    )*/}
                     {props.data && userActive?.id == props.data.user?.userId && (
                         <Link
                             className="btn btn--primary btn--base"

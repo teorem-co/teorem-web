@@ -1,3 +1,4 @@
+import { defaultMaxListeners } from "events";
 import { Form, FormikProvider, useFormik } from 'formik';
 import i18n from 'i18next';
 import { uniqBy } from 'lodash';
@@ -35,6 +36,7 @@ import {
     useLazyGetCreditCardsQuery,
     useSetDefaultCreditCardMutation,
 } from '../my-profile/services/stripeService';
+import { useLazyGetTutorAvailableDaysQuery } from "../my-profile/services/tutorAvailabilityService";
 
 interface IBookingTransformed {
     id: string;
@@ -73,6 +75,8 @@ const TutorBookings = () => {
             isLoading,
         }),
     });
+    const [getTutorAvability, { data: tutorAvability, isLoading: tutorAvabilityLoading }] = useLazyGetTutorAvailableDaysQuery();
+
     const [getBookingById, { data: booking }] = useLazyGetBookingByIdQuery();
     const [addCustomerSource] = useAddCustomerSourceMutation();
     const [addStripeCustomer, { data: dataStripeCustomer, isSuccess: isSuccessDataStripeCustomer, isError: isErrorDataStripeCustomer }] =
@@ -114,8 +118,16 @@ const TutorBookings = () => {
     useEffect(() => {
         getTutorIdByTutorSlug(tutorSlug).unwrap().then((tutorIdObj: any) => {
             setTutorId(tutorIdObj.userId);
+
         });
     }, []);
+
+    useEffect(() => {
+        if (tutorId) {
+            fetchData();
+        }
+    }, [tutorId]);
+
     const { t } = useTranslation();
     const defaultScrollTime = new Date(new Date().setHours(7, 45, 0));
     const highlightRef = useRef<HTMLDivElement>(null);
@@ -130,6 +142,7 @@ const TutorBookings = () => {
         cardFirstName: string;
         cardLastName: string;
         city: string;
+        country: string;
         line1: string;
         line2: string;
         cardNumber: string;
@@ -141,6 +154,7 @@ const TutorBookings = () => {
         cardFirstName: '',
         cardLastName: '',
         city: '',
+        country: '',
         line1: '',
         line2: '',
         cardNumber: '',
@@ -149,7 +163,7 @@ const TutorBookings = () => {
         zipCode: '',
     };
 
-    const isLoading = isLoadingTutorBookings || isLoadingBookings || isLoadingUnavailableBookings;
+    const isLoading = isLoadingTutorBookings || isLoadingBookings || isLoadingUnavailableBookings || tutorAvabilityLoading;
 
     const CustomHeader = (date: any) => {
         setCalChange(true);
@@ -201,19 +215,51 @@ const TutorBookings = () => {
         const existingBooking =
             existingBookings && existingBookings.filter((date) => moment(date.start).format('YYYY/MM/DD') === moment(e.start).format('YYYY/MM/DD'));
 
+        let isAvailableBooking = false;
+
+        const endDat = moment(e.end).toDate();
+
+        tutorAvability && tutorAvability.forEach((index, item) => {
+
+            if (item > 0) {
+                index.forEach((day, dayOfWeek) => {
+
+                    if (dayOfWeek > 0 && endDat.getDay() == dayOfWeek - 1 && day) {
+                        switch (index[0]) {
+                            case "Pre 12 pm":
+                                if (endDat.getHours() < 12)
+                                    isAvailableBooking = true;
+                                break;
+                            case "12 - 5 pm":
+                                if (endDat.getHours() > 12 && endDat.getHours() < 17)
+                                    isAvailableBooking = true;
+                                break;
+                            case "After 5 pm":
+                                if (endDat.getHours() > 17)
+                                    isAvailableBooking = true;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                });
+            }
+        });
+
         const flagArr = [];
         if (existingBooking) {
             const checkHours = !moment(e.start).isBefore(moment().add(3, 'hours'));
             existingBooking.forEach((booking) => {
                 const isBetweenStart = moment(e.start).isBetween(moment(booking.start), moment(booking.end));
                 const isBetweenEnd = moment(e.start).add(1, 'hours').isBetween(moment(booking.start), moment(booking.end));
+
                 const currentFlag = checkHours && isBetweenStart === false && isBetweenEnd === false;
                 if (currentFlag) {
                     flagArr.push(true);
                 }
             });
         }
-        if (flagArr.length === existingBooking?.length && !moment(e.start).isBefore(moment().add(3, 'hours'))) {
+        if (flagArr.length === existingBooking?.length && !moment(e.start).isBefore(moment().add(3, 'hours')) && isAvailableBooking) {
             // setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));     MMMM format doesn't work with different languages!
             setSelectedStart(moment(e.start).format());
             setSelectedEnd(moment(e.start).add(1, 'hours').format('HH:mm'));
@@ -276,6 +322,7 @@ const TutorBookings = () => {
             cardFirstName: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             cardLastName: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             city: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            country: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             line1: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             line2: Yup.string(),
             cardNumber: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
@@ -298,7 +345,7 @@ const TutorBookings = () => {
                 customer: {
                     address: {
                         city: values.city,
-                        country: document.documentElement.lang,
+                        country: values.country,
                         line1: values.line1,
                         line2: values.line2,
                         postal_code: Number(values.zipCode),
@@ -323,7 +370,7 @@ const TutorBookings = () => {
             address_line1: values.line1,
             address_city: values.city,
             address_zip: values.zipCode,
-            address_country: document.documentElement.lang,
+            address_country: values.country,
         };
 
         const toSendCustomerSource = {
@@ -394,12 +441,14 @@ const TutorBookings = () => {
                 dateFrom: moment(value).startOf('isoWeek').toISOString(),
                 dateTo: moment(value).endOf('isoWeek').toISOString(),
             }).unwrap();
+
+            await getTutorAvability(tutorId).unwrap();
         }
     };
 
-    useEffect(() => {
+    /*useEffect(() => {
         fetchData();
-    }, []);
+    }, []);*/
 
     useEffect(() => {
         calcPosition();
@@ -606,6 +655,12 @@ const TutorBookings = () => {
                                                 {t('ACCOUNT.NEW_CARD.CITY')}
                                             </label>
                                             <TextField name="city" id="city" placeholder={t('ACCOUNT.NEW_CARD.CITY_PLACEHOLDER')} />
+                                        </div>
+                                        <div className="field">
+                                            <label htmlFor="country" className="field__label">
+                                                {t('ACCOUNT.NEW_CARD.COUNTRY')}
+                                            </label>
+                                            <TextField name="country" id="country" placeholder={t('ACCOUNT.NEW_CARD.COUNTRY_PLACEHOLDER')} />
                                         </div>
                                         <div className="field">
                                             <label htmlFor="line1" className="field__label">
