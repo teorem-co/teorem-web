@@ -5,6 +5,7 @@ import MainWrapper from '../../../components/MainWrapper';
 import { useAppSelector } from '../../../hooks';
 import AsideWrapper from '../components/AsideWrapper';
 import SingleConversation from '../components/SingleConversation';
+import { ContextProvider } from "../contexts/Context";
 import { IChatRoom, setActiveChatRoomById } from '../slices/chatSlice';
 
 
@@ -49,12 +50,14 @@ const Chat = () => {
     }, [chat.chatRooms]);
 
     return (
-        <MainWrapper>
-            <div className="card--chat card--primary--shadow">
-                <AsideWrapper data={tempChatRooms} />
-                <SingleConversation data={chat.activeChatRoom} />
-            </div>
-        </MainWrapper>
+        <ContextProvider>
+            <MainWrapper>
+                <div className="card--chat card--primary--shadow">
+                    <AsideWrapper data={tempChatRooms} />
+                    <SingleConversation data={chat.activeChatRoom} />
+                </div>
+            </MainWrapper>
+        </ContextProvider>
     );
 };
 

@@ -37,6 +37,7 @@ const TutorProfile = () => {
     const [getTutorById] = useLazyGetTutorProfileDataQuery();
 
     const [tutorId, setTutorId] = useState('');
+    const [pathTutorId, setPathTutorId] = useState('');
     const [tutorPath, setTutorPath] = useState('');
 
     const { tutorSlug } = useParams();
@@ -70,9 +71,13 @@ const TutorProfile = () => {
     const [getTutorAvailability, { data: tutorAvailability }] = useLazyGetTutorAvailabilityQuery();
 
     useEffect(() => {
-        if (tutorId.length) {
+        if (tutorSlug?.length) {
+            setTutorPath(PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS.replace(":tutorSlug", tutorSlug));
+        }
+    }, [tutorSlug]);
 
-            setTutorPath(PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS.replace(":tutorSlug", tutorId));
+    useEffect(() => {
+        if (tutorId.length) {
 
             const myReviewsGetObj: IGetMyReviews = {
                 tutorId: tutorId,

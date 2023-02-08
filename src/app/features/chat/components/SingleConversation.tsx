@@ -82,7 +82,7 @@ const SingleConversation = (props: Props) => {
         });
     }, []);*/
 
-    useEffect(() => {
+    /*useEffect(() => {
 
         if (chat.buffer && chat.consultationInitialized) {
 
@@ -122,9 +122,9 @@ const SingleConversation = (props: Props) => {
             connectionRef.current = peer;
         }
 
-    }, [chat.buffer, chat.consultationInitialized]);
+    }, [chat.buffer, chat.consultationInitialized]);*/
 
-    useEffect(() => {
+    /*useEffect(() => {
         chat.socket.on('onAcceptedFreeConsultation', (buffer: any) => {
             dispatch(setConsultationInitialized(true));
             setFreeConsultationClicked(false);
@@ -146,7 +146,7 @@ const SingleConversation = (props: Props) => {
             handleChatInit();
             connectionRef.current.destroy();
         });
-    }, []);
+    }, []);*/
 
     useEffect(() => {
         if (props.data && chatRef.current && props.data.messages.length <= chat.rpp) {
@@ -186,7 +186,7 @@ const SingleConversation = (props: Props) => {
         }
     }, [page]);
 
-    useEffect(() => {
+    /*useEffect(() => {
         if (freeConsultationIsSuccess) {
             chat.socket.emit('joinFreeConsultation', {
                 userId: props.data?.user?.userId,
@@ -195,7 +195,7 @@ const SingleConversation = (props: Props) => {
                 link: freeConsultationLink,
             });
         }
-    }, [freeConsultationLink]);
+    }, [freeConsultationLink]);*/
 
     useEffect(() => {
         if (user2Data && user2Data2 && freeCallCancel) {
@@ -241,7 +241,7 @@ const SingleConversation = (props: Props) => {
 
             dispatch(addChatRoom(chatRoom));
 
-            chat.socket.emit('onMissedFreeConsultation', {
+            /*chat.socket.emit('onMissedFreeConsultation', {
                 userId: user2Data.id + '',
                 tutorId: user2Data2.id + '',
                 message: {
@@ -254,13 +254,13 @@ const SingleConversation = (props: Props) => {
                     messageMissedCall: true,
                 },
                 senderId: (userActive?.id || chat.buffer?.senderId) == user2Data.id ? user2Data.id : user2Data2.id,
-            });
+            });*/
 
-            setFreeCallCancel(false);
+            //setFreeCallCancel(false);
         }
     }, [user2Data, user2Data2, freeCallCancel]);
 
-    useEffect(() => {
+    /*useEffect(() => {
         if (freeCallExpired && !freeCallCancelled && !chat.freeConsultation) {
             if (props.data) {
                 chat.socket.emit('cancelFreeConsultation', {
@@ -292,7 +292,7 @@ const SingleConversation = (props: Props) => {
                 dispatch(setConsultationInitialized(false));
             }, 10000);
         }
-    }, [freeConsultationClicked]);
+    }, [freeConsultationClicked]);*/
 
     const handleChatInit = (freeConsultation: boolean = false) => {
         dispatch(setConsultationInitialized(false));
@@ -331,39 +331,14 @@ const SingleConversation = (props: Props) => {
 
     const onFreeConsultation = () => {
         if (freeConsultationClicked == false) {
-
-            const peer = new Peer({
-                initiator: true,
-                trickle: false,
-                stream: myStream
-            });
-            peer.on("signal", (data) => {
-                chat.socket.emit('joinFreeConsultation', {
-                    userId: props.data?.user?.userId,
-                    tutorId: props.data?.tutor?.userId,
-                    senderId: userActive?.id,
-                    link: freeConsultationLink,
-                    signalData: data,
-                });
-            });
-            peer.on("stream", (stream) => {
-
-                setGuestStream(stream);
-
-            });
-            chat.socket.on("callAccepted", (signal) => {
-                peer.signal(signal);
-            });
-
-            getFreeConsultationLink(props.data?.tutor?.userId + '');
+            dispatch(setFreeConsultation(true));
+            //getFreeConsultationLink(props.data?.tutor?.userId + '');
             setFreeConsultationClicked(true);
             dispatch(setConsultationInitialized(true));
             setFreeCallExpired(false);
-
-            connectionRef.current = peer;
         }
     };
-
+    /*
     const onFreeConsultationClose = () => {
         if (props.data)
             chat.socket.emit('closeActiveFreeConsultation', {
@@ -401,7 +376,7 @@ const SingleConversation = (props: Props) => {
             getUserById(props.data?.user?.userId + '');
             getUserById2(props.data?.tutor?.userId + '');
         }
-    };
+    };*/
 
     const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
 
@@ -468,12 +443,11 @@ const SingleConversation = (props: Props) => {
                 </div>
 
                 <div className="button-group-chat-header">
-                    {/*!chat.consultationInitialized && chat.activeChatRoom && <button
+                    {!chat.consultationInitialized && chat.activeChatRoom && <button
                         className={`btn btn--primary btn--base free-consultation-btn ${freeConsultationClicked && "free-consultation-btn-pressed"}`}
                         onClick={onFreeConsultation}>
                         {t('CHAT.FREE_CONSULTATION')}
-                    </button>
-                            */}
+                    </button>}
 
                     {/*
                         freeConsultationClicked &&
@@ -644,17 +618,17 @@ const SingleConversation = (props: Props) => {
                 <div style={{ marginTop: 80 }} ref={messagesEndRef} />
             </div>
             {props.data && <SendMessageForm data={props.data} scrollOnSend={scrollToBottomSmooth} />}
-            {freeConsultationClicked && (
-                <div
-                    className="chat__overlay__free__consultation"
-                    onClick={(event: any) => {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }}
-                ></div>
-            )}
 
-            {chat.freeConsultation && chat.link && <FreeConsultationModal guestStream={guestStream} myStream={myStream} handleClose={onFreeConsultationClose} />}
+            {/*<div*/}
+            {/*    className={`chat__overlay__free__consultation ${freeConsultationClicked ? '' : 'chat-overlay-disabled'}`}*/}
+            {/*    onClick={(event: any) => {*/}
+            {/*        event.preventDefault();*/}
+            {/*        event.stopPropagation();*/}
+            {/*    }}*/}
+            {/*>*/}
+            {/*    <VideoPlayerModal videoChatActivated={freeConsultationClicked} callId={props.data?.user?.userId + "-" + props.data?.tutor?.userId} />*/}
+            {/*</div>*/}
+
         </div>
     );
 };

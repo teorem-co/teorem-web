@@ -31,7 +31,6 @@ const ResetToken = () => {
                 </div>
                 <div className="type--lg type--wgt--bold mb-4">{t('TOKEN_EXPIRED.WELCOME')}</div>
                 <div className="type--color--secondary mb-8 w--448--max">{t('TOKEN_EXPIRED.DESCRIPTION')}</div>
-                {false && <div className="btn btn--primary btn--lg mt-6 mb-4">{t('TOKEN_EXPIRED.EXPIRATION')}</div>}
                 <div>
 
                     <div className="type--color--secondary mb-8 w--448--max">{isSuccessResendActivationEmail && t('TOKEN_EXPIRED.RESEND_ACTIVATION_MESSAGE')}</div>

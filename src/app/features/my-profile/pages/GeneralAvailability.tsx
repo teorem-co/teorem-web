@@ -43,21 +43,22 @@ const GeneralAvailability = () => {
                 <td
                     className={`${column ? 'table--availability--check' : 'table--availability--close'}`}
                     onClick={() => handleAvailabilityClick(availabilityIndex.column, availabilityIndex.row, column)}
+                    key={availabilityIndex.column}
                 >
                     <i className={`icon icon--base ${column ? 'icon--check icon--primary' : 'icon--close icon--grey'} `}></i>
                 </td>
             );
         } else if (column == '') {
-            return <td></td>;
+            return <td key={availabilityIndex.column}></td>;
         } else if (column == 'Pre 12 pm') {
-            return <td>{t(`TUTOR_PROFILE.PRE12`)}</td>;
+            return <td key={availabilityIndex.column}>{t(`TUTOR_PROFILE.PRE12`)}</td>;
         } else if (column == '12 - 5 pm') {
-            return <td>{t(`TUTOR_PROFILE.ON12`)}</td>;
+            return <td key={availabilityIndex.column}>{t(`TUTOR_PROFILE.ON12`)}</td>;
         } else if (column == 'After 5 pm') {
-            return <td>{t(`TUTOR_PROFILE.AFTER5`)}</td>;
+            return <td key={availabilityIndex.column}>{t(`TUTOR_PROFILE.AFTER5`)}</td>;
         }
         else {
-            return <td>{t(`CONSTANTS.DAYS_SHORT.${column.toUpperCase()}`)}</td>;
+            return <td key={availabilityIndex.column}>{t(`CONSTANTS.DAYS_SHORT.${column.toUpperCase()}`)}</td>;
         }
     };
 
@@ -68,7 +69,7 @@ const GeneralAvailability = () => {
 
         return availabilityToMap.map((row: (string | boolean)[], rowIndex: number) => {
             return (
-                <tr>
+                <tr key={rowIndex}>
                     {row.map((column: string | boolean, columnIndex: number) => {
                         const availabilityIndex: IAvailabilityIndex = {
                             row: rowIndex,
@@ -112,6 +113,65 @@ const GeneralAvailability = () => {
             toSend.push(obj);
         }
 
+        // const toSend : ITutorAvailability[] = [
+        //     {
+        //         id: "e15d58f4-9ebe-4022-ae09-64bc84305308",
+        //         tutorId: "28346eca-3bc3-4fc2-8754-a6ec00d21c4e",
+        //         afterFive: true,
+        //         beforeNoon: true,
+        //         noonToFive: true,
+        //         dayOfWeek: "mon",
+        //     },
+        //     {
+        //         id: "e15d58f4-9ebe-4022-ae09-64bc84305309",
+        //         tutorId: "28346eca-3bc3-4fc2-8754-a6ec00d21c4e",
+        //         afterFive: true,
+        //         beforeNoon: true,
+        //         noonToFive: true,
+        //         dayOfWeek: "tue",
+        //     },
+        //     {
+        //         id: "e15d58f4-9ebe-4022-ae09-64bc84305310",
+        //         tutorId: "28346eca-3bc3-4fc2-8754-a6ec00d21c4e",
+        //         afterFive: true,
+        //         beforeNoon: true,
+        //         noonToFive: true,
+        //         dayOfWeek: "wed",
+        //     },
+        //     {
+        //         id: "e15d58f4-9ebe-4022-ae09-64bc84305311",
+        //         tutorId: "28346eca-3bc3-4fc2-8754-a6ec00d21c4e",
+        //         afterFive: true,
+        //         beforeNoon: true,
+        //         noonToFive: true,
+        //         dayOfWeek: "thu",
+        //     },
+        //     {
+        //         id: "e15d58f4-9ebe-4022-ae09-64bc84305312",
+        //         tutorId: "28346eca-3bc3-4fc2-8754-a6ec00d21c4e",
+        //         afterFive: true,
+        //         beforeNoon: true,
+        //         noonToFive: true,
+        //         dayOfWeek: "fri",
+        //     },
+        //     {
+        //         id: "e15d58f4-9ebe-4022-ae09-64bc84305313",
+        //         tutorId: "28346eca-3bc3-4fc2-8754-a6ec00d21c4e",
+        //         afterFive: true,
+        //         beforeNoon: true,
+        //         noonToFive: true,
+        //         dayOfWeek: "sat",
+        //     },
+        //     {
+        //         id: "e15d58f4-9ebe-4022-ae09-64bc84305314",
+        //         tutorId: "28346eca-3bc3-4fc2-8754-a6ec00d21c4e",
+        //         afterFive: true,
+        //         beforeNoon: true,
+        //         noonToFive: true,
+        //         dayOfWeek: "sun",
+        //     }
+        // ];
+
         if (tutorAvailability && tutorAvailability[1].length > 1) {
             await updateTutorAvailability({ tutorAvailability: toSend });
             toastService.success(t('MY_PROFILE.GENERAL_AVAILABILITY.UPDATED'));
@@ -131,6 +191,7 @@ const GeneralAvailability = () => {
     const fetchData = async () => {
         if (userId) {
             const tutorAvailabilityResponse = await getTutorAvailability(userId).unwrap();
+            console.log(tutorAvailabilityResponse);
             setCurrentAvailabilities(tutorAvailabilityResponse);
 
             //If there is no state in redux for profileProgress fetch data and save result to redux
@@ -164,6 +225,8 @@ const GeneralAvailability = () => {
         }
     }, [tutorAvailability]);
 
+    console.log(currentAvailabilities);
+
     return (
         <MainWrapper>
             <RouterPrompt
@@ -192,16 +255,16 @@ const GeneralAvailability = () => {
                         <div>
                             <div className="mb-2 type--wgt--bold">{t('MY_PROFILE.GENERAL_AVAILABILITY.TITLE')}</div>
                             <div className="type--color--tertiary w--200--max">{t('MY_PROFILE.GENERAL_AVAILABILITY.DESCRIPTION')}</div>
-                            {saveBtnActive ? (
+                            {/*{saveBtnActive ? (*/}
                                 <button onClick={() => handleSubmit()} className="btn btn--base btn--primary mt-4">
                                     {t('MY_PROFILE.SUBMIT')}
                                 </button>
-                            ) : (
-                                <></>
-                            )}
+                            {/*) : (*/}
+                            {/*    <></>*/}
+                            {/*)}*/}
                         </div>
                         <div>
-                            <table className="table table--availability">{renderAvailabilityTable()}</table>
+                            <table className="table table--availability"><tbody>{renderAvailabilityTable()}</tbody></table>
                         </div>
                     </div>
                 )}

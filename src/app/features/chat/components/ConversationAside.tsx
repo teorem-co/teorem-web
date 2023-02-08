@@ -48,7 +48,7 @@ const ConversationAside = (props: Props) => {
     }, [messageRef]);
 
     useEffect(() => {
-        let textMessage = lastMessage;
+        let textMessage = lastMessage.substring(0, 70) + "...";
         textMessage = textMessage.replace(/stringTranslate=\{(.*?)\}/g, function (match: any, token: any) {
             return t(token);
         });
@@ -60,7 +60,7 @@ const ConversationAside = (props: Props) => {
     }, [lastMessage]);
 
     return (
-        <div className={`chat__conversation${props.active ? ' chat__conversation__active' : ''}`} onClick={selectChat}>
+        <div className={`chat__conversation${props.active ? ' chat__conversation__active' : ''}`} onClick={selectChat} style={{position: "relative"}}>
             <img className="chat__conversation__avatar" src={imgUrl} alt="user avatar" />
             {/* <div className="chat__conversation__avatar"></div> */}
             <div className="flex flex--col flex--jc--center flex--grow ml-2">

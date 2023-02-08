@@ -57,8 +57,8 @@ const AddSubjectSidebar = (props: Props) => {
         res.forEach(c => {
             if (c.id === countryId) {
                 setCurrency(c.currencyCode);
-                if (c.currencyCode == "HRK")
-                    setMinPrice(60);
+                if (c.currencyCode == "EUR")
+                    setMinPrice(10);
                 if (c.currencyCode == "PLZ")
                     setMinPrice(47);
             }

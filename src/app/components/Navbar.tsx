@@ -12,6 +12,7 @@ import { useAppDispatch, useAppSelector } from '../hooks';
 import { PATHS, PROFILE_PATHS, RenderMenuLinks } from '../routes';
 import { persistor } from '../store';
 import ImageCircle from './ImageCircle';
+import { useLazyGetUserQuery } from '../../services/userService';
 
 const Navbar = () => {
     const dispatch = useAppDispatch();
@@ -36,6 +37,23 @@ const Navbar = () => {
     useEffect(() => {
         textCopiedToClipboard && setTimeout(() => setTextCopiedToClipboard(false), 800);
     }, [textCopiedToClipboard]);
+
+    // console.log(user);
+
+    const [getUser, { isLoading: isLoadingUser, isUninitialized: userUninitialized, isFetching: userFetching }] = useLazyGetUserQuery();
+    const [profileImageURL, setProfileImageURL] = useState(user?.profileImage);
+
+    useEffect(() => {
+        async function getUserInfo() {
+            if (user) {
+                const userResponse = await getUser(user.id).unwrap();
+                if (userResponse.profileImage) {
+                    setProfileImageURL(userResponse.profileImage);
+                }
+            }
+        }
+        getUserInfo();
+    }, [user]);
 
     return (
         <div className="navbar">
@@ -90,7 +108,7 @@ const Navbar = () => {
                     <NavLink to={PROFILE_PATHS.MY_PROFILE_INFO_PERSONAL} className="navbar__bottom__my-profile" activeClassName="active">
                         <div className="navbar__bottom__avatar pos--rel">
                             {user?.Role?.abrv === RoleOptions.Tutor ? (
-                                <img src={user?.profileImage ? 'https://' + user?.profileImage : gradientCircle} alt="avatar" />
+                                <img src={profileImageURL ? 'https://' + profileImageURL : gradientCircle} alt="avatar" />
                             ) : (
                                 <ImageCircle initials={`${user?.firstName.charAt(0)}${user?.lastName.charAt(0)}`} />
                             )}

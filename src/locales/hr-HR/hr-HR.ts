@@ -819,7 +819,7 @@ export const HR_HR = {
         TEXT_CARD_1: {
             TITLE: 'Koja je cijena online instrukcija?',
             SUBTITLE:
-                'Teoremovi instruktori sami određuju svoje cijene, ovisno o njihovom iskustvu i dostupnosti. Cijene instrukcija kreću se od 60 HRK, s prosječnom cijenom od 80 HRK. ',
+                'Teoremovi instruktori sami određuju svoje cijene, ovisno o njihovom iskustvu i dostupnosti. Cijene instrukcija kreću se od 10 EUR.',
         },
         FAQ: {
             QUESTION_1: 'Koja je cijena instruktora?',
@@ -1129,5 +1129,10 @@ export const HR_HR = {
     LANGUAGE_MODAL: {
         WELCOME: 'Dobrodošli na Teorem!',
         ABOUT: 'Molimo odaberite Vašu lokaciju.',
+    },
+    TOKEN_EXPIRED: {
+        RESEND_ACTIVATION_MESSAGE: 'RESEND_ACTIVATION_MESSAGE',
+        WELCOME: 'WELCOME',
+        DESCRIPTION: 'DESCRIPTION',
     },
 };

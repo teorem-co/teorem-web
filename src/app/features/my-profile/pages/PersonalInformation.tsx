@@ -296,11 +296,12 @@ const PersonalInformation = () => {
 
         i18n.changeLanguage(option.path);
 
-        console.log(pushPath);
         history.push(t(pushPath));
         window.location.reload();
 
     };
+
+    console.log(user?.profileImage, formik.values.profileImage);
 
     return (
         <>
@@ -450,7 +451,7 @@ const PersonalInformation = () => {
                                                 return (
                                                     <div
                                                         key={option.path}
-                                                        className={`btn btn--base btn--${option.path !== i18n.language ? 'primary' : 'disabled'} mr-2`}
+                                                        className={`btn btn--base btn--${option.path === i18n.language ? 'primary' : 'disabled'} mr-2`}
                                                         onClick={() => {
                                                             changeLanguage(option);
                                                         }}
@@ -471,13 +472,13 @@ const PersonalInformation = () => {
                                             <div className="w--800--max">
 
                                                 <div className={`btn btn--base btn--${tutorDisabled ? 'primary' : 'disabled'} mr-2`} onClick={() => {
-                                                    setTutorDisabled(false);
+                                                    setTutorDisabled(true);
                                                 }}
                                                 >
                                                     {t('MY_PROFILE.TUTOR_DISABLE.NO')}
                                                 </div>
                                                 <div className={`btn btn--base btn--${!tutorDisabled ? 'primary' : 'disabled'} mr-2`} onClick={() => {
-                                                    setTutorDisabled(true);
+                                                    setTutorDisabled(false);
                                                 }}
                                                 >
                                                     {t('MY_PROFILE.TUTOR_DISABLE.YES')}
