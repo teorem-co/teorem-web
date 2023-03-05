@@ -124,7 +124,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
                     }
 
                     return false;
-                }),
+                }).required("Please provide a profile image"),
         }),
     });
 

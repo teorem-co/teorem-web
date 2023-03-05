@@ -3,6 +3,12 @@ import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
 import TextField from '../../../components/form/TextField';
+import MySelectField, { OptionType } from '../../../components/form/MySelectField';
+import { countryInput } from '../../../constants/countryInput';
+import { countryOption } from '../../../constants/countryOption';
+import MySelect from '../../../components/form/MySelectField';
+import { ICountry, useLazyGetCountriesQuery } from '../../onboarding/services/countryService';
+import { useEffect, useState } from 'react';
 
 interface Props {
     sideBarIsOpen: boolean;
@@ -25,6 +31,65 @@ export interface Values {
 
 const AddCreditCard = (props: Props) => {
     const { sideBarIsOpen, closeSidebar } = props;
+
+    const countryOptions = [
+        { label: 'Argentina', value: 'AR' },
+        { label: 'Australia', value: 'AU' },
+        { label: 'Austria', value: 'AT' },
+        { label: 'Belgium', value: 'BE' },
+        { label: 'Bolivia', value: 'BO' },
+        { label: 'Brazil', value: 'BR' },
+        { label: 'Bulgaria', value: 'BG' },
+        { label: 'Canada', value: 'CA' },
+        { label: 'Chile', value: 'CL' },
+        { label: 'Colombia', value: 'CO' },
+        { label: 'Costa Rica', value: 'CR' },
+        { label: 'Croatia', value: 'HR' },
+        { label: 'Cyprus', value: 'CY' },
+        { label: 'Czech Republic', value: 'CZ' },
+        { label: 'Denmark', value: 'DK' },
+        { label: 'Dominican Republic', value: 'DO' },
+        { label: 'Estonia', value: 'EE' },
+        { label: 'Finland', value: 'FI' },
+        { label: 'France', value: 'FR' },
+        { label: 'Germany', value: 'DE' },
+        { label: 'Greece', value: 'GR' },
+        { label: 'Hong Kong SAR China', value: 'HK' },
+        { label: 'Hungary', value: 'HU' },
+        { label: 'Iceland', value: 'IS' },
+        { label: 'India', value: 'IN' },
+        { label: 'Indonesia', value: 'ID' },
+        { label: 'Ireland', value: 'IE' },
+        { label: 'Israel', value: 'IL' },
+        { label: 'Italy', value: 'IT' },
+        { label: 'Japan', value: 'JP' },
+        { label: 'Latvia', value: 'LV' },
+        { label: 'Liechtenstein', value: 'LI' },
+        { label: 'Lithuania', value: 'LT' },
+        { label: 'Luxembourg', value: 'LU' },
+        { label: 'Malta', value: 'MT' },
+        { label: 'Mexico ', value: 'MX' },
+        { label: 'Netherlands', value: 'NL' },
+        { label: 'New Zealand', value: 'NZ' },
+        { label: 'Norway', value: 'NO' },
+        { label: 'Paraguay', value: 'PY' },
+        { label: 'Peru', value: 'PE' },
+        { label: 'Poland', value: 'PL' },
+        { label: 'Portugal', value: 'PT' },
+        { label: 'Romania', value: 'RO' },
+        { label: 'Singapore', value: 'SG' },
+        { label: 'Slovakia', value: 'SK' },
+        { label: 'Slovenia', value: 'SI' },
+        { label: 'Spain', value: 'ES' },
+        { label: 'Sweden', value: 'SE' },
+        { label: 'Switzerland', value: 'CH' },
+        { label: 'Thailand', value: 'TH' },
+        { label: 'Trinidad & Tobago', value: 'TT' },
+        { label: 'United Arab Emirates', value: 'AE' },
+        { label: 'United Kingdom', value: 'GB' },
+        { label: 'United States', value: 'US' },
+        { label: 'Uruguay', value: 'UY' }
+    ];
 
     const initialValues: Values = {
         cardFirstName: '',
@@ -98,7 +163,18 @@ const AddCreditCard = (props: Props) => {
                                 <label htmlFor="country" className="field__label">
                                     {t('ACCOUNT.NEW_CARD.COUNTRY')}
                                 </label>
-                                <TextField name="country" id="country" placeholder={t('ACCOUNT.NEW_CARD.COUNTRY_PLACEHOLDER')} />
+                                <MySelect
+                                    form={formik}
+                                    field={formik.getFieldProps('country')}
+                                    meta={formik.getFieldMeta('country')}
+                                    isMulti={false}
+                                    classNamePrefix="onboarding-select"
+                                    options={countryOptions}
+                                    placeholder={t('ACCOUNT.NEW_CARD.COUNTRY_PLACEHOLDER')}
+                                    customInputField={countryInput}
+                                    customOption={countryOption}
+                                    isDisabled={countryOptions.length < 1}
+                                />
                             </div>
                             <div className="field">
                                 <label htmlFor="line1" className="field__label">

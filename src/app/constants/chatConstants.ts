@@ -1,5 +1,5 @@
 export interface IChatConversationItem {
-    imgUrl: string;
+    imgUrl: string | boolean;
     name: string;
     lastMessage: string;
     lastMessageTime: string;

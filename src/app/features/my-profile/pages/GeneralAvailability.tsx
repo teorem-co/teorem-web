@@ -113,65 +113,6 @@ const GeneralAvailability = () => {
             toSend.push(obj);
         }
 
-        // const toSend : ITutorAvailability[] = [
-        //     {
-        //         id: "e15d58f4-9ebe-4022-ae09-64bc84305308",
-        //         tutorId: "28346eca-3bc3-4fc2-8754-a6ec00d21c4e",
-        //         afterFive: true,
-        //         beforeNoon: true,
-        //         noonToFive: true,
-        //         dayOfWeek: "mon",
-        //     },
-        //     {
-        //         id: "e15d58f4-9ebe-4022-ae09-64bc84305309",
-        //         tutorId: "28346eca-3bc3-4fc2-8754-a6ec00d21c4e",
-        //         afterFive: true,
-        //         beforeNoon: true,
-        //         noonToFive: true,
-        //         dayOfWeek: "tue",
-        //     },
-        //     {
-        //         id: "e15d58f4-9ebe-4022-ae09-64bc84305310",
-        //         tutorId: "28346eca-3bc3-4fc2-8754-a6ec00d21c4e",
-        //         afterFive: true,
-        //         beforeNoon: true,
-        //         noonToFive: true,
-        //         dayOfWeek: "wed",
-        //     },
-        //     {
-        //         id: "e15d58f4-9ebe-4022-ae09-64bc84305311",
-        //         tutorId: "28346eca-3bc3-4fc2-8754-a6ec00d21c4e",
-        //         afterFive: true,
-        //         beforeNoon: true,
-        //         noonToFive: true,
-        //         dayOfWeek: "thu",
-        //     },
-        //     {
-        //         id: "e15d58f4-9ebe-4022-ae09-64bc84305312",
-        //         tutorId: "28346eca-3bc3-4fc2-8754-a6ec00d21c4e",
-        //         afterFive: true,
-        //         beforeNoon: true,
-        //         noonToFive: true,
-        //         dayOfWeek: "fri",
-        //     },
-        //     {
-        //         id: "e15d58f4-9ebe-4022-ae09-64bc84305313",
-        //         tutorId: "28346eca-3bc3-4fc2-8754-a6ec00d21c4e",
-        //         afterFive: true,
-        //         beforeNoon: true,
-        //         noonToFive: true,
-        //         dayOfWeek: "sat",
-        //     },
-        //     {
-        //         id: "e15d58f4-9ebe-4022-ae09-64bc84305314",
-        //         tutorId: "28346eca-3bc3-4fc2-8754-a6ec00d21c4e",
-        //         afterFive: true,
-        //         beforeNoon: true,
-        //         noonToFive: true,
-        //         dayOfWeek: "sun",
-        //     }
-        // ];
-
         if (tutorAvailability && tutorAvailability[1].length > 1) {
             await updateTutorAvailability({ tutorAvailability: toSend });
             toastService.success(t('MY_PROFILE.GENERAL_AVAILABILITY.UPDATED'));

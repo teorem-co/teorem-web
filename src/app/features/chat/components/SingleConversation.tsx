@@ -26,6 +26,7 @@ import {
 import FreeConsultationModal from './FreeConsultationModal';
 import SendMessageForm from './SendMessageForm';
 import Peer from "simple-peer";
+import ImageCircle from '../../../components/ImageCircle';
 
 interface Props {
     data: IChatRoom | null;
@@ -382,13 +383,15 @@ const SingleConversation = (props: Props) => {
 
     let lastDate = '';
 
+    console.log(props.data);
+
     return (
         <div className="content">
             <div className="content__header content__header--chat">
                 <div className="flex flex--center">
                     {props.data && userActive?.Role.abrv != Role.Tutor && (
                         <Link
-                            className="chat-single-conversation-link"
+                            className="chat-single-conversation-link flex flex--center"
                             to={`${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(':tutorSlug', `${props.data.tutor?.userId}`)}`}
                         >
                             {props.data && (
@@ -416,20 +419,26 @@ const SingleConversation = (props: Props) => {
                         </Link>
                     )}
 
-                    {props.data && userActive?.Role.abrv == Role.Tutor && (
-                        <img
-                            className="chat__conversation__avatar"
-                            src={
-                                props.data
-                                    ? 'https://' +
-                                    (userActive?.id != props.data.tutor?.userId
-                                        ? props.data.tutor?.userImage
-                                        : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')
-                                    : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg'
-                            }
-                            alt="chat avatar"
-                        />
-                    )}
+                    {
+                        props.data && userActive?.Role.abrv == Role.Tutor && (
+                            <ImageCircle initials={`${props.data.user?.userNickname.charAt(0)}${props.data.user?.userNickname?.split(" ")[1]?.charAt(0)}`} />
+                        )
+                    }
+
+                    {/*{props.data && userActive?.Role.abrv == Role.Tutor && (*/}
+                    {/*    <img*/}
+                    {/*        className="chat__conversation__avatar"*/}
+                    {/*        src={*/}
+                    {/*            props.data*/}
+                    {/*                ? 'https://' +*/}
+                    {/*                (userActive?.id != props.data.tutor?.userId*/}
+                    {/*                    ? props.data.tutor?.userImage*/}
+                    {/*                    : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')*/}
+                    {/*                : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg'*/}
+                    {/*        }*/}
+                    {/*        alt="chat avatar"*/}
+                    {/*    />*/}
+                    {/*)}*/}
 
                     {props.data && userActive?.Role.abrv == Role.Tutor && (
                         <div className="ml-3 type--wgt--bold">
@@ -442,12 +451,12 @@ const SingleConversation = (props: Props) => {
                     )}
                 </div>
 
-                <div className="button-group-chat-header">
-                    {!chat.consultationInitialized && chat.activeChatRoom && <button
-                        className={`btn btn--primary btn--base free-consultation-btn ${freeConsultationClicked && "free-consultation-btn-pressed"}`}
-                        onClick={onFreeConsultation}>
-                        {t('CHAT.FREE_CONSULTATION')}
-                    </button>}
+                {/*<div className="button-group-chat-header">*/}
+                    {/*{!chat.consultationInitialized && chat.activeChatRoom && <button*/}
+                    {/*    className={`btn btn--primary btn--base free-consultation-btn ${freeConsultationClicked && "free-consultation-btn-pressed"}`}*/}
+                    {/*    onClick={onFreeConsultation}>*/}
+                    {/*    {t('CHAT.FREE_CONSULTATION')}*/}
+                    {/*</button>}*/}
 
                     {/*
                         freeConsultationClicked &&
@@ -463,15 +472,15 @@ const SingleConversation = (props: Props) => {
                             {t('CHAT.DENY_FREE_CONSULTATION')}
                         </button>
                     )*/}
-                    {props.data && userActive?.id == props.data.user?.userId && (
-                        <Link
-                            className="btn btn--primary btn--base"
-                            to={t(PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS.replace(`:tutorSlug`, `${props.data.tutor?.userId}`))}
-                        >
-                            {t('CHAT.BOOK_SESSION')}
-                        </Link>
-                    )}
-                </div>
+                    {/*{props.data && userActive?.id == props.data.user?.userId && (*/}
+                    {/*    <Link*/}
+                    {/*        className="btn btn--primary btn--base"*/}
+                    {/*        to={t(PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS.replace(`:tutorSlug`, `${props.data.tutor?.userId}`))}*/}
+                    {/*    >*/}
+                    {/*        {t('CHAT.BOOK_SESSION')}*/}
+                    {/*    </Link>*/}
+                    {/*)}*/}
+                {/*</div>*/}
             </div>
 
             <div ref={chatRef} onScroll={(e: any) => debouncedScrollHandler(e.target)} className="content__main">
@@ -531,8 +540,8 @@ const SingleConversation = (props: Props) => {
                             return (
                                 <>
                                     {!sameDate && (
-                                        <div className={`message-full-width flex flex--col flex--end`}>
-                                            <span>{moment(message.message.createdAt).format('DD.MMM.YYYY')}</span>
+                                        <div className={`message-full-width flex flex--col flex--center`}>
+                                            <span>{moment(message.message.createdAt).format('DD MMM YYYY')}</span>
                                         </div>
                                     )}
                                     <div
@@ -541,19 +550,34 @@ const SingleConversation = (props: Props) => {
                                             }`}
                                     >
                                         {img && (
-                                            <img
-                                                className="chat__conversation__avatar chat__conversation__avatar--small"
-                                                src={
-                                                    props.data
-                                                        ? 'https://' +
-                                                        (message.senderId == props.data.tutor?.userId
-                                                            ? props.data.tutor?.userImage
-                                                            : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')
-                                                        : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg'
-                                                }
-                                                alt={'profile avatar'}
-                                            />
+                                            props.data && (
+                                                message.senderId == props.data.tutor?.userId ? (
+                                                    <img
+                                                        className="chat__conversation__avatar chat__conversation__avatar--small"
+                                                        src={'https://' + props.data.tutor?.userImage}
+                                                        alt={'profile avatar'}
+                                                    />
+                                                ) : (
+                                                    <div style={{width: 40, height: 40}}>
+                                                        <ImageCircle initials={`${userActive?.firstName.charAt(0)}${userActive?.lastName.charAt(0)}`} style={{width: 40, height: 40 }} fontSize={20} />
+                                                    </div>
+                                                )
+                                            )
                                         )}
+                                        {/*{img && (*/}
+                                        {/*    <img*/}
+                                        {/*        className="chat__conversation__avatar chat__conversation__avatar--small"*/}
+                                        {/*        src={*/}
+                                        {/*            props.data*/}
+                                        {/*                ? 'https://' +*/}
+                                        {/*                (message.senderId == props.data.tutor?.userId*/}
+                                        {/*                    ? props.data.tutor?.userImage*/}
+                                        {/*                    : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')*/}
+                                        {/*                : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg'*/}
+                                        {/*        }*/}
+                                        {/*        alt={'profile avatar'}*/}
+                                        {/*    />*/}
+                                        {/*)}*/}
                                         <div key={`sub-${index}`} className={`message-full-width flex flex--col flex--end`}>
                                             <div key={`sub-sub-${index}`} className="type--right w--80--max">
                                                 <div
@@ -574,8 +598,8 @@ const SingleConversation = (props: Props) => {
                         return (
                             <>
                                 {!sameDate && (
-                                    <div className={`message-full-width flex flex--col flex--end`}>
-                                        <span>{moment(message.message.createdAt).format('DD.MMM.YYYY')}</span>
+                                    <div className={`message-full-width flex flex--col flex--center`}>
+                                        <span>{moment(message.message.createdAt).format('DD MMM YYYY')}</span>
                                     </div>
                                 )}
                                 <div
@@ -584,19 +608,34 @@ const SingleConversation = (props: Props) => {
                                         }`}
                                 >
                                     {img && (
-                                        <img
-                                            className="chat__conversation__avatar chat__conversation__avatar--small"
-                                            src={
-                                                props.data
-                                                    ? 'https://' +
-                                                    (message.senderId == props.data.tutor?.userId
-                                                        ? props.data.tutor?.userImage
-                                                        : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')
-                                                    : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg'
-                                            }
-                                            alt={'profile avatar'}
-                                        />
+                                        props.data && (
+                                            message.senderId == props.data.tutor?.userId ? (
+                                                <img
+                                                    className="chat__conversation__avatar chat__conversation__avatar--small"
+                                                    src={'https://' + props.data.tutor?.userImage}
+                                                    alt={'profile avatar'}
+                                                />
+                                            ) : (
+                                                <div style={{width: 40, height: 40}}>
+                                                    <ImageCircle initials={`${props.data.user?.userNickname.split(" ")[0].charAt(0)}${props.data.user?.userNickname.split(" ")[1].charAt(0)}`} style={{width: 40, height: 40 }} fontSize={20} />
+                                                </div>
+                                            )
+                                        )
                                     )}
+                                    {/*{img && (*/}
+                                    {/*    <img*/}
+                                    {/*        className="chat__conversation__avatar chat__conversation__avatar--small"*/}
+                                    {/*        src={*/}
+                                    {/*            props.data*/}
+                                    {/*                ? 'https://' +*/}
+                                    {/*                (message.senderId == props.data.tutor?.userId*/}
+                                    {/*                    ? props.data.tutor?.userImage*/}
+                                    {/*                    : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')*/}
+                                    {/*                : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg'*/}
+                                    {/*        }*/}
+                                    {/*        alt={'profile avatar'}*/}
+                                    {/*    />*/}
+                                    {/*)}*/}
                                     <div key={`sub-${index}`} className={`message-full-width flex flex--col`}>
                                         <div key={`sub-sub-${index}`} className="w--80--max">
                                             <div

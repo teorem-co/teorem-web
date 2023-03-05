@@ -34,7 +34,7 @@ import TutorProfile from './features/searchTutors/TutorProfile';
 import TutorBookings from './features/tutor-bookings/TutorBookings';
 import TutorManagment from './features/tutor-managment/TutorManagment';
 import TutorManagmentProfile from './features/tutor-managment/TutorProfile';
-import { useAppSelector } from './hooks';
+import { useAppDispatch, useAppSelector } from './hooks';
 import { Role } from './lookups/role';
 import EmailConfirmed from './pages/EmailConfirmed';
 import ResetToken from "./pages/ResetToken";
@@ -42,6 +42,7 @@ import StripeConnected from './pages/StripeConnected';
 import StripeFail from './pages/StripeFail';
 import PermissionsGate from './PermissionGate';
 import { getUserRoleAbrv } from './utils/getUserRoleAbrv';
+import { setLang } from '../slices/langSlice';
 
 export const PATHS = {
     ROLE_SELECTION: t('PATHS.ROLE_SELECTION'),
@@ -385,6 +386,7 @@ export function RenderRoutes(routesObj: any) {
     const { i18n } = useTranslation();
     const history = useHistory();
     const [locationKeys, setLocationKeys] = useState<(string | undefined)[]>([]);
+    const dispatch = useAppDispatch();
 
     const syncLanguage = () => {
         const match = '/:lang(' + Array.from(languageOptions.map((l) => l.path)).join('|') + ')';
@@ -399,13 +401,20 @@ export function RenderRoutes(routesObj: any) {
             })?.params.lang;
 
             document.documentElement.lang = lang;
+            dispatch(setLang(lang));
 
             if (lang !== i18n.language) {
                 i18n.changeLanguage(lang);
                 window.location.reload();
             }
+
+            if (location.pathname.replaceAll("/", "") === lang) {
+                history.push(t('PATHS.LANDING_PATHS.HOW_IT_WORKS'));
+            }
         } else {
-            i18n.changeLanguage(i18n.languages[i18n.languages.length - 1]);
+            const lang = i18n.languages[i18n.languages.length - 1];
+            i18n.changeLanguage(lang);
+            dispatch(setLang(lang));
 
             location.pathname.length > 1
                 ? history.push(`/${i18n.languages[i18n.languages.length - 1]}${location.pathname}`)
@@ -441,6 +450,7 @@ export function RenderRoutes(routesObj: any) {
                     return <RouteWithSubRoutes key={route.key} {...route} />;
                 })}
                 {/*<Route component={() => <NotFound />} />*/}
+                <Redirect to='/' />
             </Switch>
             <SEO />
         </>

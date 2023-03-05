@@ -171,6 +171,7 @@ export const HR_HR = {
             COUNTRY: 'DRŽAVA',
             DATE_OF_BIRTH: 'DATUM ROĐENJA',
             PREVIEW_PROFILE: 'Pregled profila',
+            PHONE_NUMBER: "BROJ TELEFONA"
         },
         ACTIONS: {
             APPROVE: 'Odobri',
@@ -508,6 +509,8 @@ export const HR_HR = {
             CANCEL_BUTTON: 'Odustani',
             ZIP: 'Zip',
             ZIP_PLACEHOLDER: '12345',
+            COUNTRY: 'Država',
+            COUNTRY_PLACEHOLDER: 'Izaberite državu',
         },
         SUBMIT: 'Spremi',
     },
@@ -959,6 +962,7 @@ export const HR_HR = {
         chemistry: 'Kemija',
         economics: 'Ekonomija',
         english: 'Engleski jezik',
+        croatian: 'Hrvatski jezik',
         geography: 'Geografija',
         german: 'Njemački jezik',
         history: 'Povijest',

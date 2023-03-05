@@ -151,7 +151,7 @@ const TutorManagment = () => {
                                         <td className="type--color--secondary mb-3 mb-xl-0">{t('TUTOR_MANAGMENT.TABLE.LAST_NAME')}</td>
                                         <td className="type--color--secondary mb-3 mb-xl-0">{t('TUTOR_MANAGMENT.TABLE.EMAIL')}</td>
                                         <td className="type--color--secondary mb-3 mb-xl-0">{t('TUTOR_MANAGMENT.TABLE.COUNTRY')}</td>
-                                        <td className="type--color--secondary mb-3 mb-xl-0">{t('TUTOR_MANAGMENT.TABLE.DATE_OF_BIRTH')}</td>
+                                        <td className="type--color--secondary mb-3 mb-xl-0">{t('TUTOR_MANAGMENT.TABLE.PHONE_NUMBER')}</td>
                                     </tr>
                                     {loadedTutorItems.map((tutor, key) => <tr key={key}>
                                         <td onClick={() => {
@@ -183,7 +183,7 @@ const TutorManagment = () => {
                                                 history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug)) :
                                                 setSelectedTutor(tutor);
                                         }}
-                                        >{tutor.User.dateOfBirth}</td>
+                                        >{tutor.User.phoneNumber}</td>
                                         {tutor.verified == null ? (
                                             <td className='approve-deny'>
                                                 <button

@@ -87,11 +87,9 @@ const AsideWrapper = (props: Props) => {
 
                               const chatConversation = {
                                   imgUrl:
-                                      'https://' +
                                       (user?.id != chatConversationItem.user?.userId
-                                          ? 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg'
-                                          : chatConversationItem.tutor?.userImage) +
-                                      '',
+                                          ? false
+                                          :  'https://' + chatConversationItem.tutor?.userImage),
                                   name:
                                       (user?.id != chatConversationItem.user?.userId
                                           ? chatConversationItem.user?.userNickname
@@ -112,11 +110,9 @@ const AsideWrapper = (props: Props) => {
                           } else {
                               const chatConversation = {
                                   imgUrl:
-                                      'https://' +
                                       (user?.id != chatConversationItem.user?.userId
-                                          ? 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg'
-                                          : chatConversationItem.tutor?.userImage) +
-                                      '',
+                                          ? false
+                                          : 'https://' +chatConversationItem.tutor?.userImage),
                                   name:
                                       (user?.id != chatConversationItem.user?.userId
                                           ? chatConversationItem.user?.userNickname
@@ -153,11 +149,9 @@ const AsideWrapper = (props: Props) => {
 
                               const chatConversation = {
                                   imgUrl:
-                                      'https://' +
                                       (user?.id != chatConversationItem.user?.userId
-                                          ? 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg'
-                                          : chatConversationItem.tutor?.userImage) +
-                                      '',
+                                          ? false
+                                          : 'https://' + chatConversationItem.tutor?.userImage),
                                   name:
                                       (user?.id != chatConversationItem.user?.userId
                                           ? chatConversationItem.user?.userNickname
@@ -178,11 +172,9 @@ const AsideWrapper = (props: Props) => {
                           } else {
                               const chatConversation = {
                                   imgUrl:
-                                      'https://' +
                                       (user?.id != chatConversationItem.user?.userId
-                                          ? 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg'
-                                          : chatConversationItem.tutor?.userImage) +
-                                      '',
+                                          ? false
+                                          : 'https://' + chatConversationItem.tutor?.userImage),
                                   name:
                                       (user?.id != chatConversationItem.user?.userId
                                           ? chatConversationItem.user?.userNickname

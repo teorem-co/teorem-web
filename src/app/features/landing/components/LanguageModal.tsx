@@ -47,12 +47,14 @@ const LanguageModal = () => {
             value: 'hr-HR',
             path: 'hr',
             short: 'HR',
+            flag: '🇭🇷'
         },
         {
             label: 'Polish',
             value: 'en-US',
             path: 'en',
             short: 'PL',
+            flag: '🇵🇱'
         },
     ];
 
@@ -80,7 +82,8 @@ const LanguageModal = () => {
                                                 {option.short === 'EN' ? (
                                                     <i className="icon icon--base icon--language icon--primary"></i>
                                                 ) : (
-                                                    option.short.toUpperCase()
+                                                    // option.short.toUpperCase()
+                                                    <span style={{fontSize: 20}}>{option.flag}</span>
                                                 )}
                                             </div>
                                             <div className="ml-3">{option.label}</div>

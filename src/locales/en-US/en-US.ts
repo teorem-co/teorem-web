@@ -172,6 +172,7 @@ export const EN_US = {
             USERNAME: 'USERNAME',
             DATE_OF_BIRTH: 'DATE OF BIRTH',
             PREVIEW_PROFILE: 'Preview profile',
+            PHONE_NUMBER: "PHONE NUMBER",
         },
         ACTIONS: {
             APPROVE: 'Approve',
@@ -509,6 +510,8 @@ export const EN_US = {
             CANCEL_BUTTON: 'Cancel',
             ZIP: 'Zip',
             ZIP_PLACEHOLDER: '12345',
+            COUNTRY: "Country",
+            COUNTRY_PLACEHOLDER: 'Choose your country',
         },
         SUBMIT: 'Save',
     },
@@ -957,6 +960,7 @@ export const EN_US = {
         chemistry: 'Chemistry',
         economics: 'Economics',
         english: 'English',
+        croatian: 'Croatian',
         geography: 'Geography',
         german: 'German',
         history: 'History',
@@ -1124,8 +1128,8 @@ export const EN_US = {
         },
     },
     LANGUAGE_MODAL: {
-        WELCOME: 'Welcome to Teorem!',
-        ABOUT: 'Please select your country preferences.',
+        WELCOME: 'Welcome to Teorem’s online tutoring platform!',
+        ABOUT: 'Please select your country.',
     },
     TOKEN_EXPIRED: {
         RESEND_ACTIVATION_MESSAGE: 'RESEND_ACTIVATION_MESSAGE',
