@@ -1,11 +1,12 @@
 interface Props {
     progressNumber: number;
+    size?: number;
 }
 
 const CircularProgress = (props: Props) => {
-    const { progressNumber } = props;
+    const { progressNumber, size} = props;
     return (
-        <div className="flex flex--justify-center flex--center spc--top--lg">
+        <div className="flex flex--justify-center flex--center spc--top--lg" style={size ? {width: size, height: size} : undefined}>
             <svg
                 className="progress--circular spc--right--md"
                 x="0px"

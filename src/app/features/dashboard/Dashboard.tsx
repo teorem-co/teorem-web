@@ -5,7 +5,7 @@ import TimePicker from 'rc-time-picker';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { io } from 'socket.io-client';
 
 import note from '../../../assets/images/note.png';
@@ -16,11 +16,14 @@ import { useLazyGetDashboardQuery, useLazyGetUserQuery } from '../../../services
 import { RoleOptions } from '../../../slices/roleSlice';
 import MainWrapper from '../../components/MainWrapper';
 import { useAppSelector } from '../../hooks';
-import { PATHS } from '../../routes';
+import { PATHS, PROFILE_PATHS } from '../../routes';
 import { IChatMessage, IChatRoom, ISendChatMessage, setActiveChatRoomById } from '../chat/slices/chatSlice';
 import IBooking from '../my-bookings/interfaces/IBooking';
 import LearnCubeModal from '../my-profile/components/LearnCubeModal';
 import NotificationItem from '../notifications/components/NotificationItem';
+import CircularProgress from '../my-profile/components/CircularProgress';
+import { setMyProfileProgress } from '../my-profile/slices/myProfileSlice';
+import { useLazyGetProfileProgressQuery } from '../../../services/tutorService';
 
 interface IGroupedDashboardData {
     [date: string]: IBooking[];
@@ -32,6 +35,7 @@ const Dashboard = () => {
     const [getDashboardData] = useLazyGetDashboardQuery();
     const [getUserById0, { data: userDataFirst }] = useLazyGetUserQuery();
     const [getUserById1, { data: userDataSecond }] = useLazyGetUserQuery();
+    const [getProfileProgress] = useLazyGetProfileProgressQuery();
 
     const [groupedUpcomming, setGroupedUpcomming] = useState<IGroupedDashboardData>({});
     const [todayScheduled, setTodayScheduled] = useState<IBooking[]>([]);
@@ -47,8 +51,17 @@ const Dashboard = () => {
     const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
     const chatrooms = useAppSelector((state) => state.chat.chatRooms);
     const socket = useAppSelector((state) => state.chat.socket);
+    const profileProgressState = useAppSelector((state) => state.myProfileProgress);
     const history = useHistory();
     const dispatch = useDispatch();
+
+    const fetchProgress = async () => {
+        //If there is no state in redux for profileProgress fetch data and save result to redux
+        if (profileProgressState.percentage === 0) {
+            const progressResponse = await getProfileProgress().unwrap();
+            dispatch(setMyProfileProgress(progressResponse));
+        }
+    };
 
     const fetchData = async () => {
         await getUnreadNotifications().unwrap();
@@ -94,8 +107,11 @@ const Dashboard = () => {
                 tutorId: activeChatRoom.tutor?.userId + '',
             }
         ));
-
     };
+
+    useEffect(() => {
+        fetchProgress();
+    }, []);
 
     useEffect(() => {
         const tmpCr: any = [];
@@ -212,11 +228,75 @@ const Dashboard = () => {
         });
     }, []);
 
+    function getPercentage(obj: any) {
+        let trueValues = 0;
+        Object.values(obj).map(val => (typeof val === 'boolean' && val) ? trueValues = trueValues + 1 : undefined);
+        return trueValues/4 * 100;
+    }
+
+    const percentage = getPercentage(profileProgressState);
 
     return (
         <MainWrapper>
             <div className="layout--primary">
                 <div>
+                        {userRole == RoleOptions.Tutor && percentage < 100 ? (
+                            <div className="card--dashboard mb-6">
+                                <div>
+                                    <div className="row">
+                                        <div className="col col-12 col-xl-6">
+                                            <div className="flex">
+                                                <div className="flex flex--center flex--shrink">
+                                                    <CircularProgress progressNumber={percentage ? percentage : 0} size={80} />
+                                                </div>
+                                                <div className="flex flex--col flex--jc--center ml-6">
+                                                    <h4 className="type--md mb-2">{t(`COMPLETE_TUTOR_PROFILE_CARD.TITLE`)}</h4>
+                                                    <p>{t(`COMPLETE_TUTOR_PROFILE_CARD.DESCRIPTION`)}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col col-12 col-xl-6">
+                                            <div className="flex flex--center flex--jc--space-between flex--wrap dashboard-complete-profile-btns" style={{height: '100%', gap: 16}}>
+                                                <NavLink exact to={PROFILE_PATHS.MY_PROFILE_INFO_AVAILABILITY} className="nav-link--profile" activeClassName="active">
+                                                    <div className="flex flex--col flex--center">
+                                                        <div className="nav-link--profile__wrapper">
+                                                            <i className={`icon icon--base icon--${profileProgressState.generalAvailability ? 'check' : 'calendar'} nav-link--profile__icon`}></i>
+                                                        </div>
+                                                        <div className="nav-link--profile__label type--center mt-4 pl-2 pr-2">
+                                                            {t('COMPLETE_PROFILE.GENERAL_AVAILABILITY')}
+                                                        </div>
+                                                    </div>
+                                                </NavLink>
+                                                <NavLink exact to={PROFILE_PATHS.MY_PROFILE_INFO_TEACHINGS} className="nav-link--profile" activeClassName="active">
+                                                    <div className="flex flex--col flex--center">
+                                                        <div className="nav-link--profile__wrapper">
+                                                            <i className={`icon icon--base icon--${profileProgressState.myTeachings ? 'check' : 'subject'} nav-link--profile__icon`}></i>
+                                                        </div>
+                                                        <div className="nav-link--profile__label type--center mt-4 pl-2 pr-2">{t('COMPLETE_PROFILE.MY_TEACHINGS')}</div>
+                                                    </div>
+                                                </NavLink>
+                                                <NavLink exact to={PROFILE_PATHS.MY_PROFILE_INFO_ADDITIONAL} className="nav-link--profile" activeClassName="active">
+                                                    <div className="flex flex--col flex--center">
+                                                        <div className="nav-link--profile__wrapper">
+                                                            <i className={`icon icon--base icon--${profileProgressState.aboutMe ? 'check' : 'profile'} nav-link--profile__icon`}></i>
+                                                        </div>
+                                                        <div className="nav-link--profile__label type--center mt-4 pl-2 pr-2" style={{whiteSpace: "nowrap"}}>{t('COMPLETE_PROFILE.ABOUT_ME')}</div>
+                                                    </div>
+                                                </NavLink>
+                                                <NavLink exact to={PROFILE_PATHS.MY_PROFILE_ACCOUNT} className="nav-link--profile" activeClassName="active">
+                                                    <div className="flex flex--col flex--center">
+                                                        <div className="nav-link--profile__wrapper">
+                                                            <i className={`icon icon--base icon--${profileProgressState.payment ? 'check' : 'pricing'} nav-link--profile__icon`}></i>
+                                                        </div>
+                                                        <div className="nav-link--profile__label type--center mt-4 pl-2 pr-2">{t('COMPLETE_PROFILE.EARNINGS')}</div>
+                                                    </div>
+                                                </NavLink>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ) : null}
                     <div className="card--secondary card--secondary--alt">
                         <div className="card--secondary__head">
                             <h2 className="type--wgt--bold type--lg">{t('DASHBOARD.TITLE')}</h2>

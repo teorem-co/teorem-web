@@ -468,6 +468,11 @@ export const EN_US = {
         ABOUT_ME: 'About me',
         ACCOUNT: 'Account',
         CHILD_INFO: 'Child information',
+        EARNINGS: "Earnings"
+    },
+    COMPLETE_TUTOR_PROFILE_CARD: {
+        TITLE: "Complete your profile!",
+        DESCRIPTION: "Please complete the rest of your profile data to start tutoring.",
     },
     ACCOUNT: {
         CHANGE_PASSWORD: {

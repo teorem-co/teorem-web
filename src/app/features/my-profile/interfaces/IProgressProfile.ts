@@ -3,4 +3,5 @@ export default interface IProgressProfile {
     myTeachings: boolean;
     aboutMe: boolean;
     percentage: number;
+    payment: boolean;
 }

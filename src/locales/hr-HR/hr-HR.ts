@@ -467,6 +467,11 @@ export const HR_HR = {
         ABOUT_ME: 'O meni',
         ACCOUNT: 'Korisnički račun',
         CHILD_INFO: 'Informacije o djetetu',
+        EARNINGS: "Zarada",
+    },
+    COMPLETE_TUTOR_PROFILE_CARD: {
+        TITLE: "Završi svoj profil!",
+        DESCRIPTION: "Molimo ispunite ostatak podataka o svojem profilu kako bi počeli predavati.",
     },
     ACCOUNT: {
         CHANGE_PASSWORD: {
