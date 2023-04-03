@@ -27,6 +27,7 @@ import FreeConsultationModal from './FreeConsultationModal';
 import SendMessageForm from './SendMessageForm';
 import Peer from "simple-peer";
 import ImageCircle from '../../../components/ImageCircle';
+import { useLazyGetTutorProfileDataQuery } from '../../../../services/tutorService';
 
 interface Props {
     data: IChatRoom | null;
@@ -39,6 +40,7 @@ const SingleConversation = (props: Props) => {
 
     const connectionRef = useRef<any>(null);
     const userActive = useAppSelector((state) => state.auth.user);
+    const [getTutorById] = useLazyGetTutorProfileDataQuery();
 
     const chat = useAppSelector((state) => state.chat);
 
@@ -383,7 +385,16 @@ const SingleConversation = (props: Props) => {
 
     let lastDate = '';
 
-    console.log(props.data);
+    const [tutorSlug, setTutorSlug] = useState('');
+    async function getTutorSlug() {
+        if (props.data && props.data.tutor) {
+            const tutorData = await getTutorById(props.data.tutor.userId).unwrap();
+            setTutorSlug(tutorData.slug);
+        }
+    }
+    useEffect(() => {
+        getTutorSlug();
+    }, [props?.data?.tutor?.userId]);
 
     return (
         <div className="content">
@@ -392,7 +403,7 @@ const SingleConversation = (props: Props) => {
                     {props.data && userActive?.Role.abrv != Role.Tutor && (
                         <Link
                             className="chat-single-conversation-link flex flex--center"
-                            to={`${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(':tutorSlug', `${props.data.tutor?.userId}`)}`}
+                            to={`${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(':tutorSlug', `${tutorSlug}`)}`}
                         >
                             {props.data && (
                                 <img

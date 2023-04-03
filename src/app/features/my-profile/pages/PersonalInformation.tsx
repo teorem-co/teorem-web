@@ -301,8 +301,6 @@ const PersonalInformation = () => {
 
     };
 
-    console.log(user?.profileImage, formik.values.profileImage);
-
     return (
         <>
             <RouterPrompt

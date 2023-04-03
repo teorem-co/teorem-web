@@ -9,6 +9,11 @@ export interface ITutorAvailabilityToSend {
     tutorAvailability: ITutorAvailability[];
 }
 
+export interface ITutorAvailabilityAdminToSend {
+    tutorAvailability: ITutorAvailability[];
+    tutorId: string;
+}
+
 export const tutorAvailabilityService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         getTutorAvailability: builder.query<(string | boolean)[][], string>({
@@ -104,6 +109,17 @@ export const tutorAvailabilityService = baseService.injectEndpoints({
             }),
             invalidatesTags: ['userAvailability'],
         }),
+        updateTutorAvailabilityAdmin: builder.mutation<
+            void,
+            ITutorAvailabilityAdminToSend
+        >({
+            query: (body) => ({
+                url: `${URL}/tutor-availability-admin`,
+                method: HttpMethods.PUT,
+                body: body,
+            }),
+            invalidatesTags: ['userAvailability'],
+        }),
         createTutorAvailability: builder.mutation<
             void,
             ITutorAvailabilityToSend
@@ -122,5 +138,6 @@ export const {
     useLazyGetTutorAvailabilityQuery,
     useLazyGetTutorAvailableDaysQuery,
     useUpdateTutorAvailabilityMutation,
+    useUpdateTutorAvailabilityAdminMutation,
     useCreateTutorAvailabilityMutation,
 } = tutorAvailabilityService;

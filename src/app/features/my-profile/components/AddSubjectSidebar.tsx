@@ -18,6 +18,7 @@ interface Props {
     sideBarIsOpen: boolean;
     closeSidebar: () => void;
     handleGetData: () => void;
+    tutorId?: string;
 }
 
 interface Values {
@@ -69,6 +70,7 @@ const AddSubjectSidebar = (props: Props) => {
         await createSubject({
             subjectId: values.subject,
             price: Number(values.price),
+            tutorId: props.tutorId || '',
         });
         handleGetData();
         closeSidebar();

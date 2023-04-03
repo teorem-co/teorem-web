@@ -23,6 +23,9 @@ import IMyReview from '../myReviews/interfaces/IMyReview';
 import IMyReviewParams from '../myReviews/interfaces/IMyReviewParams';
 import { IGetMyReviews } from '../myReviews/MyReviews';
 import { useLazyGetMyReviewsQuery, useLazyGetStatisticsQuery } from '../myReviews/services/myReviewsService';
+import { EditTutor } from './components/EditTutor';
+import { EditTutorAvailability } from './components/EditTutorAvailability';
+import { EditTutorSubjects } from './components/EditTutorSubjects';
 
 const TutorProfile = () => {
     const { t } = useTranslation();
@@ -66,6 +69,8 @@ const TutorProfile = () => {
     const [getStatistics, { data: tutorStatistics }] = useLazyGetStatisticsQuery();
     const [getTutorAvailability, { data: tutorAvailability }] = useLazyGetTutorAvailabilityQuery();
 
+    const [refetch, setRefetch] = useState(0);
+
     useEffect(() => {
         if (tutorId.length) {
 
@@ -82,7 +87,7 @@ const TutorProfile = () => {
             getStatistics(tutorId);
             getTutorAvailability(tutorId);
         }
-    }, [tutorId]);
+    }, [tutorId, refetch]);
 
     useEffect(() => {
         const currentReviews = cloneDeep(loadedMyReviews);
@@ -250,41 +255,42 @@ const TutorProfile = () => {
                                     </div>
                                     <div className="mb-10">
                                         <div className="type--wgt--bold mb-2">{t('TUTOR_PROFILE.SUBJECTS.TITLE')}</div>
-                                        <table className="table table--primary">
-                                            <thead>
-                                                <tr>
-                                                    <th>{t('TUTOR_PROFILE.SUBJECTS.SUBJECT')}</th>
-                                                    <th>{t('TUTOR_PROFILE.SUBJECTS.QUALIFICATION')}</th>
-                                                    <th>{t('TUTOR_PROFILE.SUBJECTS.PRICE')}</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {tutorData.TutorSubjects.length > 0 ? (
-                                                    tutorData.TutorSubjects.map((item: ITutorSubject) => {
-                                                        return (
-                                                            <tr key={item.id}>
-                                                                <td>
-                                                                    {t(`SUBJECTS.${item.Subject.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
-                                                                </td>
-                                                                <td>
-                                                                    {t(`LEVELS.${item.Level.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
-                                                                </td>
-                                                                <td>
-                                                                    {item.price}
-                                                                    <span className="type--color--tertiary">
-                                                                        /{t('TUTOR_PROFILE.SUBJECTS.HOUR_ABRV')}
-                                                                    </span>
-                                                                </td>
-                                                            </tr>
-                                                        );
-                                                    })
-                                                ) : (
-                                                    <tr>
-                                                        <td colSpan={3}>{t('TUTOR_PROFILE.SUBJECTS.EMPTY')}</td>
-                                                    </tr>
-                                                )}
-                                            </tbody>
-                                        </table>
+                                        <EditTutorSubjects tutorId={tutorData.User.id} />
+                                        {/*<table className="table table--primary">*/}
+                                        {/*    <thead>*/}
+                                        {/*        <tr>*/}
+                                        {/*            <th>{t('TUTOR_PROFILE.SUBJECTS.SUBJECT')}</th>*/}
+                                        {/*            <th>{t('TUTOR_PROFILE.SUBJECTS.QUALIFICATION')}</th>*/}
+                                        {/*            <th>{t('TUTOR_PROFILE.SUBJECTS.PRICE')}</th>*/}
+                                        {/*        </tr>*/}
+                                        {/*    </thead>*/}
+                                        {/*    <tbody>*/}
+                                        {/*        {tutorData.TutorSubjects.length > 0 ? (*/}
+                                        {/*            tutorData.TutorSubjects.map((item: ITutorSubject) => {*/}
+                                        {/*                return (*/}
+                                        {/*                    <tr key={item.id}>*/}
+                                        {/*                        <td>*/}
+                                        {/*                            {t(`SUBJECTS.${item.Subject.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}*/}
+                                        {/*                        </td>*/}
+                                        {/*                        <td>*/}
+                                        {/*                            {t(`LEVELS.${item.Level.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}*/}
+                                        {/*                        </td>*/}
+                                        {/*                        <td>*/}
+                                        {/*                            {item.price}*/}
+                                        {/*                            <span className="type--color--tertiary">*/}
+                                        {/*                                /{t('TUTOR_PROFILE.SUBJECTS.HOUR_ABRV')}*/}
+                                        {/*                            </span>*/}
+                                        {/*                        </td>*/}
+                                        {/*                    </tr>*/}
+                                        {/*                );*/}
+                                        {/*            })*/}
+                                        {/*        ) : (*/}
+                                        {/*            <tr>*/}
+                                        {/*                <td colSpan={3}>{t('TUTOR_PROFILE.SUBJECTS.EMPTY')}</td>*/}
+                                        {/*            </tr>*/}
+                                        {/*        )}*/}
+                                        {/*    </tbody>*/}
+                                        {/*</table>*/}
                                     </div>
                                     <div className="mb-10">
                                         <div className="type--wgt--bold mb-2">{t('TUTOR_PROFILE.RATING.TITLE')}</div>
@@ -402,6 +408,8 @@ const TutorProfile = () => {
                                             {createChatLoading && <LoaderPrimary small={true} />}
                                             <span>{t('TUTOR_PROFILE.SEND')}</span>
                                         </Link>
+                                        <EditTutor tutorData={tutorData} setRefetch={setRefetch} />
+                                        <EditTutorAvailability tutorId={tutorData.User.id} />
                                     </>
                                 )}
                             </div>

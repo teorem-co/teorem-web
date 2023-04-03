@@ -9,6 +9,7 @@ import { getAppState } from '../app/utils/getAppState';
 import IParams from '../interfaces/IParams';
 import ITutor from '../interfaces/ITutor';
 import { RoleOptions } from '../slices/roleSlice';
+import typeToFormData from '../app/utils/typeToFormData';
 
 interface ITutorId {
     userId: string;
@@ -189,7 +190,13 @@ export const tutorService = baseService.injectEndpoints({
                 method: HttpMethods.PUT,
             }),
         }),
-        // postTutorsubject: builder.mutation<void, >
+        editTutor: builder.mutation<void, any>({
+            query: (body) => ({
+                url: `${URL}/edit-tutor`,
+                method: HttpMethods.PUT,
+                body: typeToFormData(body)
+            }),
+        }),
     }),
 });
 
@@ -209,6 +216,7 @@ export const {
     useDeleteTutorMutation,
     useLazyDisableTutorQuery,
     useLazyEnableTutorQuery,
+    useEditTutorMutation,
     useLazyGetTutorIdByTutorSlugQuery,
 } = tutorService;
 

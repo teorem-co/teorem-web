@@ -24,6 +24,7 @@ interface ICreateSubject {
     subjectId: string;
     price: number;
     objectId?: string;
+    tutorId?: string;
 }
 
 interface ITutorSubject {

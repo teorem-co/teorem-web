@@ -166,8 +166,6 @@ const GeneralAvailability = () => {
         }
     }, [tutorAvailability]);
 
-    console.log(currentAvailabilities);
-
     return (
         <MainWrapper>
             <RouterPrompt

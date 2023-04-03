@@ -406,9 +406,9 @@ const ProfileAccount = () => {
                                 <div>
                                     {userRole === RoleOptions.Tutor ? (
                                         <>
-                                            {userInfo?.stripeConnected &&
-                                                <label htmlFor="connectToStripeTutor" className="field__label">{t('MY_PROFILE.PROFILE_ACCOUNT.STRIPE_ALREADY_CONNECTED')}</label>
-                                            }
+                                            {/*{userInfo?.stripeConnected &&*/}
+                                            {/*    <label htmlFor="connectToStripeTutor" className="field__label">{t('MY_PROFILE.PROFILE_ACCOUNT.STRIPE_ALREADY_CONNECTED')}</label>*/}
+                                            {/*}*/}
                                             <div className="flex">
                                                 <div className="flex--inline flex--jc--cente mr-4" >
                                                     <div style={{ lineHeight: '40px' }} className="type--wgt--bold type--center">
@@ -418,9 +418,15 @@ const ProfileAccount = () => {
                                                     </div>
                                                     <span className={`stripe-dot ${userInfo?.stripeConnected ? 'stripe-dot-connected' : 'stripe-dot-disconnected'}`}></span>
                                                 </div>
-                                                <div id={`connectToStripeTutor`} onClick={() => setStripeModalOpen(true)} className="btn btn--primary btn--base">
-                                                    {t('MY_PROFILE.PROFILE_ACCOUNT.STRIPE')}
-                                                </div>
+                                                {userInfo?.stripeConnected ? (
+                                                    <a href="https://dashboard.stripe.com/dashboard" target="_blank" rel="noopener" id={`connectToStripeTutorDashboardLink`} className="btn btn--primary btn--base">
+                                                        {t('MY_PROFILE.PROFILE_ACCOUNT.STRIPE')}
+                                                    </a>
+                                                ) : (
+                                                    <div id={`connectToStripeTutor`} onClick={() => setStripeModalOpen(true)} className="btn btn--primary btn--base">
+                                                        {t('MY_PROFILE.PROFILE_ACCOUNT.STRIPE')}
+                                                    </div>
+                                                )}
                                             </div>
                                         </>
                                     ) : (

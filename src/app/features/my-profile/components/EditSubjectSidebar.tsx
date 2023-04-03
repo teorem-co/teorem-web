@@ -26,6 +26,7 @@ interface Props {
     sideBarIsOpen: boolean;
     closeSidebar: () => void;
     handleGetData: () => void;
+    tutorId?: string;
 }
 
 const EditSubjectSidebar = (props: Props) => {
@@ -98,6 +99,7 @@ const EditSubjectSidebar = (props: Props) => {
             subjectId: values.subject,
             price: Number(values.price),
             objectId: selectedSubject?.id,
+            tutorId: props.tutorId || '',
         });
     };
 
@@ -138,7 +140,7 @@ const EditSubjectSidebar = (props: Props) => {
     }, [subjectsData]);
 
     useEffect(() => {
-        getProfileData(tutorId ? tutorId : '');
+        getProfileData(props.tutorId ? props.tutorId : tutorId ? tutorId : "");
     }, []);
 
     useEffect(() => {
