@@ -450,7 +450,7 @@ export function RenderRoutes(routesObj: any) {
                     return <RouteWithSubRoutes key={route.key} {...route} />;
                 })}
                 {/*<Route component={() => <NotFound />} />*/}
-                <Redirect to='/' />
+                {/*<Redirect to='/' />*/}
             </Switch>
             <SEO />
         </>
