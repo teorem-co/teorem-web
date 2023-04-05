@@ -106,6 +106,7 @@ export const authService = baseService.injectEndpoints({
                 body: {
                     password: body.password,
                     confirmPassword: body.repeatPassword,
+                    token: body.token
                 },
             }),
         }),
