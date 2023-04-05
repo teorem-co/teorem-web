@@ -417,7 +417,7 @@ export function RenderRoutes(routesObj: any) {
             dispatch(setLang(lang));
 
             location.pathname.length > 1
-                ? history.push(`/${i18n.languages[i18n.languages.length - 1]}${location.pathname}`)
+                ? history.push(`/${i18n.languages[i18n.languages.length - 1]}${location.pathname}${location.search ? location.search : ''}`)
                 : history.push(t('PATHS.LANDING_PATHS.HOW_IT_WORKS'));
         }
     };
