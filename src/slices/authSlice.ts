@@ -31,6 +31,13 @@ export const authSlice = createSlice({
         addStripeId(state, action: PayloadAction<string>) {
             state.user!.stripeCustomerId = action.payload;
         },
+        connectStripe(state, action: PayloadAction<{
+            stripeConnected: boolean;
+            stripeAccountId: string;
+        }>) {
+            state.user!.stripeConnected = action.payload.stripeConnected;
+            state.user!.stripeAccountId = action.payload.stripeAccountId;
+        },
         setServerVersion(state, action: PayloadAction<string>) {
             state.serverVersion = action.payload;
         },
@@ -44,5 +51,5 @@ export const authSlice = createSlice({
     },
 });
 
-export const { logout, addStripeId, setServerVersion } = authSlice.actions;
+export const { logout, addStripeId, connectStripe, setServerVersion } = authSlice.actions;
 export default authSlice.reducer;
