@@ -6,13 +6,12 @@ import IDeleteCreditCard from '../interfaces/IDeleteCreditCard';
 import IGetCreditCards from '../interfaces/IGetCreditCards';
 import ISetDefaultCreditCard from '../interfaces/ISetDefaultCreditCard';
 import IStripeConnectAccount from '../interfaces/IStripeConnectAccount';
-import IStripeResponse from '../interfaces/IStripeResponse';
 
 const URL = '/stripe';
 
 export const stripeService = baseService.injectEndpoints({
     endpoints: (builder) => ({
-        connectAccount: builder.mutation<IStripeResponse, IStripeConnectAccount>({
+        connectAccount: builder.mutation<string, IStripeConnectAccount>({
             query: (body) => ({
                 url: `${URL}/connect-account/${body.userId}`,
                 method: HttpMethods.POST,
