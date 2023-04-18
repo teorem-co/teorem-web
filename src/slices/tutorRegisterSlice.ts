@@ -10,6 +10,8 @@ interface IRegister {
 }
 
 interface IStepOne {
+    firstName: string;
+    lastName: string;
     countryId: string;
     phoneNumber: string;
     dateOfBirth: string;
@@ -84,8 +86,10 @@ export const tutorRegisterSlice = createSlice({
             state.roleSelection = roleSelection;
         },
         setStepOne(state, action: PayloadAction<IStepOne>) {
-            const { countryId, phoneNumber, dateOfBirth, profileImage } =
+            const { countryId, phoneNumber, dateOfBirth, profileImage, firstName, lastName } =
                 action.payload;
+            state.firstName = firstName;
+            state.lastName = lastName;
             state.countryId = countryId;
             state.phoneNumber = phoneNumber;
             state.dateOfBirth = dateOfBirth;
