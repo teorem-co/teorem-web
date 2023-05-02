@@ -197,6 +197,12 @@ export const tutorService = baseService.injectEndpoints({
                 body: typeToFormData(body)
             }),
         }),
+        disconnectStripeTutor: builder.mutation<void, any>({
+            query: (tutorId) => ({
+                url: `${URL}/disconnect-tutor-stripe/?tutorId=${tutorId}`,
+                method: HttpMethods.PUT,
+            }),
+        }),
     }),
 });
 
@@ -217,6 +223,7 @@ export const {
     useLazyDisableTutorQuery,
     useLazyEnableTutorQuery,
     useEditTutorMutation,
+    useDisconnectStripeTutorMutation,
     useLazyGetTutorIdByTutorSlugQuery,
 } = tutorService;
 
