@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { t } from 'i18next';
-import { Form, FormikProvider, useFormik, Field } from 'formik';
+import { Form, FormikProvider, useFormik } from 'formik';
 import TextField from '../../../components/form/TextField';
 import { useEffect, useState } from 'react';
 import MyPhoneInput from '../../../components/form/MyPhoneInput';
@@ -12,7 +12,6 @@ import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyTextArea from '../../../components/form/MyTextArea';
 import { useEditTutorMutation } from '../../../../services/tutorService';
 import UploadFile from '../../../components/form/MyUploadField';
-import { isEqual } from 'lodash';
 import moment from 'moment/moment';
 
 export function EditTutor({ tutorData, setRefetch }: any) {
@@ -35,7 +34,7 @@ export function EditTutor({ tutorData, setRefetch }: any) {
       aboutLessons: tutorData.aboutLessons,
     },
     onSubmit: (values) => {
-      editTutor({ ...values, tutorId: tutorData.User.id, dateOfBirth: moment(values.dateOfBirth).toISOString() }).then(() => {
+      editTutor({ ...values, tutorId: tutorData.User.id, dateOfBirth: moment(values.dateOfBirth).format('YYYY-MM-DD') }).then(() => {
         setOpened(false);
         setRefetch((prevState: number) => prevState + 1);
       });

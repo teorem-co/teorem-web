@@ -83,7 +83,7 @@ const PersonalInformation = () => {
       lastName: values.lastName,
       phoneNumber: values.phoneNumber,
       countryId: values.countryId,
-      dateOfBirth: moment(values.dateOfBirth).toISOString(),
+      dateOfBirth: moment(values.dateOfBirth).format('YYYY-MM-DD'),
     };
 
     if (userRole === RoleOptions.Tutor) {
@@ -172,7 +172,7 @@ const PersonalInformation = () => {
         lastName: formik.values.lastName,
         phoneNumber: formik.values.phoneNumber,
         countryId: formik.values.countryId,
-        dateOfBirth: moment(formik.values.dateOfBirth).toISOString(),
+        dateOfBirth: moment(formik.values.dateOfBirth).format('YYYY-MM-DD'),
         profileImage: formik.values.profileImage,
       });
       return true;
