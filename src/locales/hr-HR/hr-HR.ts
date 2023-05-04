@@ -972,7 +972,7 @@ export const HR_HR = {
         IBAN_CONFIRM: "IBAN",
         SAVE: "Spremi",
         CANCEL: "Odustani",
-        TERMS: '<div>Klikom na gumb \'Pošalji\' slažete se s <a href="https://stripe.com/legal/connect-account">Uvjetima pružanja usluge</a> i <a href="https://stripe.com/privacy">Politikom privatnosti</a></div>',
+        TERMS: '<div>Klikom na gumb \'Pošalji\' slažete se s <a href="https://stripe.com/legal/connect-account" target="_blank">Uvjetima pružanja usluge</a> i <a href="https://stripe.com/privacy" target="_blank">Politikom privatnosti</a></div>',
         SUCCESS: 'Račun za plaćanje povezan',
     },
     SUBJECTS: {
