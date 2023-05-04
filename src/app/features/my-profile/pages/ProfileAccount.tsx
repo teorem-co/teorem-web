@@ -479,6 +479,12 @@ const ProfileAccount = () => {
                 stripeAccountId: accountId,
               })
             );
+            dispatch(
+              setMyProfileProgress({
+                ...profileProgressState,
+                payment: true,
+              })
+            );
           }}
           sideBarIsOpen={stripeModalOpen}
           closeSidebar={() => setStripeModalOpen(false)}
