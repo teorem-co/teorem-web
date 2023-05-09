@@ -64,6 +64,7 @@ export const HR_HR = {
         PASSWORD_STRENGTH: 'Lozinka mora ispunjavati uvjete',
         PRICE: 'Cijena ne može biti ispod ',
         FUTURE_DATE: 'Datum ne može biti u budućnosti',
+        VALID_DATE: "Datum je nevažeći",
         PHONE_NUMBER: 'Neispravan broj telefona',
         TUTOR_AGE: 'Instruktor mora imati više od 18 godina',
         WRONG_REQUIREMENTS: 'Niste ispunili sva potrebna polja',

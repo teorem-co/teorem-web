@@ -64,6 +64,7 @@ export const EN_US = {
         PASSWORD_STRENGTH: 'Password must meet the conditions',
         PRICE: 'Price can`t be lower than ',
         FUTURE_DATE: 'Date can`t be in the future',
+        VALID_DATE: 'Date is invalid',
         PHONE_NUMBER: 'Invalid phone number',
         TUTOR_AGE: 'Tutor must have more than 18 years old',
         WRONG_REQUIREMENTS: 'You didn`t fulfill all field requirements',

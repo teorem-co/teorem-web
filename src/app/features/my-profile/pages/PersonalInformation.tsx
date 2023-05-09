@@ -179,6 +179,14 @@ const PersonalInformation = () => {
     }
   };
 
+  const isValidDate = (dateString: string | undefined) => {
+    const dateFormat = 'YYYY-MM-DD';
+    const date = moment(dateString, dateFormat, true);
+
+    // Check if the date is valid and the year is greater than 1900
+    return date.isValid() && date.year() > 1900;
+  };
+
   const generateValidation = () => {
     const validation: any = {
       firstName: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
@@ -188,12 +196,14 @@ const PersonalInformation = () => {
         .required(t('FORM_VALIDATION.REQUIRED'))
         .test('dateOfBirth', t('FORM_VALIDATION.FUTURE_DATE'), (value) => {
           const dateDiff = moment(value).diff(moment(), 'days');
-
           if (dateDiff < 0) {
             return true;
           } else {
             return false;
           }
+        })
+        .test('dateOfBirth', t('FORM_VALIDATION.VALID_DATE'), (value) => {
+          return !isValidDate(value);
         }),
       countryId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
     };
