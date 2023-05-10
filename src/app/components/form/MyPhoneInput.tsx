@@ -6,52 +6,51 @@ import { useLazyGetCountriesQuery } from '../../features/onboarding/services/cou
 import { PATHS } from '../../routes';
 
 interface TextFieldType extends FieldProps {
-    className?: string;
-    inputType?: string;
-    name: string;
-    disabled?: boolean;
-    openTooltip?: () => void;
+  className?: string;
+  inputType?: string;
+  name: string;
+  disabled?: boolean;
+  openTooltip?: () => void;
 }
 
 const MyPhoneInput: FC<TextFieldType> = (props: any) => {
-    const { form, className, name } = props;
-    const [field, meta] = useField(props);
-    const errorText = meta.error && meta.touched ? meta.error : '';
+  const { form, className, name } = props;
+  const [field, meta] = useField(props);
+  const errorText = meta.error && meta.touched ? meta.error : '';
 
-    const currentValue = form.values.phoneNumber;
+  const currentValue = form.values.phoneNumber;
 
-    const [getCountries] = useLazyGetCountriesQuery();
-    const [country, setCountry] = useState('pl');
+  const [getCountries] = useLazyGetCountriesQuery();
+  const [country, setCountry] = useState('hr');
 
-    const updateCountry = async () => {
-        const res = await getCountries().unwrap();
-        res.forEach(country => {
-            country.id === form.values.countryId &&
-                setCountry((country.abrv.toLowerCase()));
-        });
-    };
+  const updateCountry = async () => {
+    const res = await getCountries().unwrap();
+    res.forEach((country) => {
+      country.id === form.values.countryId && setCountry(country.abrv.toLowerCase());
+    });
+  };
 
-    useEffect(()=>{
-        window && window.location.pathname === PATHS.ONBOARDING && updateCountry();
-    }, [form.values.countryId]);
+  useEffect(() => {
+    window && window.location.pathname === PATHS.ONBOARDING && updateCountry();
+  }, [form.values.countryId]);
 
-    return (
-        <>
-            <PhoneInput
-                {...field}
-                {...props}
-                name={name}
-                country={country}
-                value={currentValue}
-                className={`${className ?? 'input input--base input--text'}`}
-                onChange={(phone) => form.setFieldValue('phoneNumber', phone)}
-                onBlur={() => form.setFieldTouched(field.name)}
-                disabled={props.disabled}
-                onClick={() => props.openTooltip()}
-            />
-            <div className="field__validation">{errorText}</div>
-        </>
-    );
+  return (
+    <>
+      <PhoneInput
+        {...field}
+        {...props}
+        name={name}
+        country={country}
+        value={currentValue}
+        className={`${className ?? 'input input--base input--text'}`}
+        onChange={(phone) => form.setFieldValue('phoneNumber', phone)}
+        onBlur={() => form.setFieldTouched(field.name)}
+        disabled={props.disabled}
+        onClick={() => props.openTooltip()}
+      />
+      <div className="field__validation">{errorText}</div>
+    </>
+  );
 };
 
 export default MyPhoneInput;

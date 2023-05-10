@@ -12,6 +12,8 @@ interface IRegister {
 }
 
 interface IStepOne {
+    firstName: string;
+    lastName: string;
     countryId: string;
     dateOfBirth: string;
     phoneNumber: string;
@@ -87,7 +89,9 @@ export const parentRegisterSlice = createSlice({
             state.skip = action.payload;
         },
         setStepOne(state, action: PayloadAction<IStepOne>) {
-            const { countryId, dateOfBirth, phoneNumber } = action.payload;
+            const { countryId, dateOfBirth, phoneNumber, firstName, lastName } = action.payload;
+            state.firstName = firstName;
+            state.lastName = lastName;
             state.countryId = countryId;
             state.dateOfBirth = dateOfBirth;
             state.phoneNumber = phoneNumber;

@@ -64,6 +64,7 @@ export const HR_HR = {
         PASSWORD_STRENGTH: 'Lozinka mora ispunjavati uvjete',
         PRICE: 'Cijena ne može biti ispod ',
         FUTURE_DATE: 'Datum ne može biti u budućnosti',
+        VALID_DATE: "Datum je nevažeći",
         PHONE_NUMBER: 'Neispravan broj telefona',
         TUTOR_AGE: 'Instruktor mora imati više od 18 godina',
         WRONG_REQUIREMENTS: 'Niste ispunili sva potrebna polja',
@@ -972,7 +973,7 @@ export const HR_HR = {
         IBAN_CONFIRM: "IBAN",
         SAVE: "Spremi",
         CANCEL: "Odustani",
-        TERMS: '<div>Klikom na gumb \'Pošalji\' slažete se s <a href="https://stripe.com/legal/connect-account">Uvjetima pružanja usluge</a> i <a href="https://stripe.com/privacy">Politikom privatnosti</a></div>',
+        TERMS: '<div>Klikom na gumb \'Pošalji\' slažete se s <a href="https://stripe.com/legal/connect-account" target="_blank">Uvjetima pružanja usluge</a> i <a href="https://stripe.com/privacy" target="_blank">Politikom privatnosti</a></div>',
         SUCCESS: 'Račun za plaćanje povezan',
     },
     SUBJECTS: {

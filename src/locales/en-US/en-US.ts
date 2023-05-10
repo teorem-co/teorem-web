@@ -64,6 +64,7 @@ export const EN_US = {
         PASSWORD_STRENGTH: 'Password must meet the conditions',
         PRICE: 'Price can`t be lower than ',
         FUTURE_DATE: 'Date can`t be in the future',
+        VALID_DATE: 'Date is invalid',
         PHONE_NUMBER: 'Invalid phone number',
         TUTOR_AGE: 'Tutor must have more than 18 years old',
         WRONG_REQUIREMENTS: 'You didn`t fulfill all field requirements',
@@ -970,7 +971,7 @@ export const EN_US = {
         IBAN_CONFIRM: "IBAN confirmation",
         SAVE: "Submit",
         CANCEL: "Cancel",
-        TERMS: '<div>By clicking on the "Submit" button, you agree to the <a href="https://stripe.com/legal/connect-account">Terms of Service</a> and <a href="https://stripe.com/privacy">Privacy Policy</a></div>',
+        TERMS: '<div>By clicking on the "Submit" button, you agree to the <a href="https://stripe.com/legal/connect-account" target="_blank">Terms of Service</a> and <a href="https://stripe.com/privacy" target="_blank">Privacy Policy</a></div>',
         SUCCESS: "Payment account connected",
     },
     SUBJECTS: {
