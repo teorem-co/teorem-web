@@ -17,7 +17,10 @@ import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
 import { useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import { useLazyGetCustomerByIdQuery } from '../../my-profile/services/stripeService';
-import { useCreatebookingMutation } from '../services/bookingService';
+import { useCreatebookingMutation, useCreateBookingMutation } from '../services/bookingService';
+import { loadStripe } from '@stripe/stripe-js';
+
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY!);
 
 interface IProps {
   start?: string;
@@ -45,6 +48,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
   const [getUser] = useLazyGetCustomerByIdQuery();
   const [getSubjectOptionsByLevel, { data: subjectsData, isSuccess: isSuccessSubjects }] = useLazyGetTutorSubjectsByTutorLevelQuery();
   const [createBooking, { isSuccess: createBookingSuccess }] = useCreatebookingMutation();
+  const [createBookingMutation, { isSuccess: isCreateBookingSuccess }] = useCreateBookingMutation();
   const [isCreateBookingLoading, setIsCreateBookingLoading] = useState<boolean>(false); // isLoading from Mutation is too slow;
   const { data: levelOptions } = useGetTutorLevelsQuery(tutorId);
 
@@ -60,6 +64,10 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
   const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
   const userId = useAppSelector((state) => state.auth.user?.id);
   const stripeCustomerId = useAppSelector((state) => state.auth.user?.stripeCustomerId);
+
+  const [stripe, setStripe] = useState<any>(null);
+
+  stripePromise.then((res) => setStripe(res));
 
   const generateValidationSchema = () => {
     const validationSchema: any = {
@@ -99,24 +107,52 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     const splitString = values.timeFrom.split(':');
     props.setSidebarOpen(false);
     if (userRole === RoleOptions.Parent) {
-      await createBooking({
+      const response: any = await createBooking({
         startTime: moment(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
         subjectId: values.subject,
         studentId: values.child,
         tutorId: tutorId,
       });
-      props.clearEmptyBookings();
+      if (response.data.requiresAuthentication) {
+        const res = await stripe.confirmCardPayment(response.data.clientSecret);
+        if (res.paymentIntent?.status === 'succeeded') {
+          await createBookingMutation({
+            ...res,
+            startTime: moment(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
+            subjectId: values.subject,
+            studentId: values.child,
+            tutorId: tutorId,
+          });
+        }
+      }
     } else {
-      await createBooking({
+      const response: any = await createBooking({
         startTime: moment(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
         subjectId: values.subject,
         tutorId: tutorId,
       });
-      props.clearEmptyBookings();
+      if (response.data.requiresAuthentication) {
+        const res = await stripe.confirmCardPayment(response.data.clientSecret);
+        if (res.paymentIntent?.status === 'succeeded') {
+          await createBookingMutation({
+            ...res,
+            startTime: moment(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
+            subjectId: values.subject,
+            tutorId: tutorId,
+          });
+        }
+      }
     }
-
     setIsCreateBookingLoading(false);
   };
+
+  useEffect(() => {
+    if (isCreateBookingSuccess) {
+      toastService.success(t('BOOKING.SUCCESS'));
+      props.clearEmptyBookings();
+      handleClose ? handleClose(false) : false;
+    }
+  }, [isCreateBookingSuccess]);
 
   const handleChange = (e: any) => {
     setSelectedTime(e);
@@ -166,12 +202,12 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     formik.setFieldValue('timeFrom', moment(start).format('HH:mm'));
   }, [start]);
 
-  useEffect(() => {
-    if (createBookingSuccess) {
-      toastService.success('Booking created');
-      handleClose ? handleClose(false) : false;
-    }
-  }, [createBookingSuccess]);
+  // useEffect(() => {
+  //   if (createBookingSuccess) {
+  //     toastService.success('Booking created');
+  //     handleClose ? handleClose(false) : false;
+  //   }
+  // }, [createBookingSuccess]);
 
   return (
     <div className={`modal--parent modal--parent--${positionClass}`}>

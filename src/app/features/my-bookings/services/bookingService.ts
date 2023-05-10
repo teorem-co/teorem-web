@@ -116,6 +116,14 @@ export const bookingService = baseService.injectEndpoints({
             }),
             invalidatesTags: ['tutorBookings'],
         }),
+        createBooking: builder.mutation<void, any>({
+            query: (data) => ({
+                url: `${URL}/create/${data.tutorId}`,
+                method: HttpMethods.POST,
+                body: data,
+            }),
+            invalidatesTags: ['tutorBookings'],
+        }),
         updateBooking: builder.mutation<void, IUpdateBooking>({
             query: (data) => ({
                 url: `${URL}/${data.bookingId}`,
@@ -158,6 +166,7 @@ export const {
     useLazyGetNotificationForLessonsQuery,
     useLazyGetBookingsByIdQuery,
     useCreatebookingMutation,
+    useCreateBookingMutation,
     useLazyGetBookingByIdQuery,
     useUpdateBookingMutation,
     useLazyGetCompletedLessonsQuery,
