@@ -30,7 +30,7 @@ const MyDatePicker = ({ field, form }: CustomSelectProps) => {
         clearIcon={null}
         disableCalendar
         format="d/M/y"
-        minDate={new Date(1990, 0, 1)}
+        minDate={new Date(1900, 0, 1)}
         onCalendarClose={() => form.setFieldTouched(field.name)}
       />
 
