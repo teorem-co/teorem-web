@@ -122,12 +122,6 @@ const StudentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep }) =
     })
   });
 
-  const testHandle = async () =>{
-    console.log("Test");
-  };
-
-
-
   useEffect(() => {
     if (isSuccess) {
       dispatch(resetTutorRegister());
@@ -215,7 +209,7 @@ const StudentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep }) =
             onClick={() => formik.handleSubmit}
             onSubmit={() =>formik.handleSubmit}
           >
-            {t('REGISTER.FINISH')} {formik.isValid ? "Valid" : "Not"}
+            {t('REGISTER.FINISH')}
           </button>
 
           <div className="flex flex--jc--center">
