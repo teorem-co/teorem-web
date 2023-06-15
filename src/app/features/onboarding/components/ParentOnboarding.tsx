@@ -160,6 +160,8 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
     validateOnChange: false,
     enableReinitialize: true,
     validationSchema: Yup.object().shape({
+      firstName: Yup.string().min(2, t('FORM_VALIDATION.TOO_SHORT')).max(100, t('FORM_VALIDATION.TOO_LONG')).required(t('FORM_VALIDATION.REQUIRED')),
+      lastName: Yup.string().min(2, t('FORM_VALIDATION.TOO_SHORT')).max(100, t('FORM_VALIDATION.TOO_LONG')).required(t('FORM_VALIDATION.REQUIRED')),
       countryId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
       phoneNumber: Yup.string().min(6, t('FORM_VALIDATION.TOO_SHORT')).required(t('FORM_VALIDATION.REQUIRED')),
       dateOfBirth: Yup.string()

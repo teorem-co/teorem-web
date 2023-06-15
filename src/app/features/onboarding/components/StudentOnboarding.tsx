@@ -20,6 +20,7 @@ import toastService from '../../../services/toastService';
 import useOutsideAlerter from '../../../utils/useOutsideAlerter';
 import { ICountry, useLazyGetCountriesQuery } from '../services/countryService';
 import TextField from '../../../components/form/TextField';
+import { values } from 'lodash';
 
 interface StepOneValues {
   firstName: string;
@@ -67,33 +68,10 @@ const StudentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep }) =
   const initialValuesOne: StepOneValues = {
     firstName: '',
     lastName: '',
-    countryId: countryOptions?.find((option) => option.label === 'Croatia')?.value || '',
+    countryId: countryOptions?.find((option) => option.label === 'Croatia')?.value || 'f47ac10b-58cc-4372-a567-0e02b2c3d479',
     phoneNumber: '',
     dateOfBirth: '',
   };
-
-  const formik = useFormik({
-    initialValues: initialValuesOne,
-    onSubmit: (values) => handleSubmit(values),
-    validateOnBlur: true,
-    validateOnChange: false,
-    enableReinitialize: true,
-    validationSchema: Yup.object().shape({
-      countryId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-      phoneNumber: Yup.string().min(6, t('FORM_VALIDATION.TOO_SHORT')).required(t('FORM_VALIDATION.REQUIRED')),
-      dateOfBirth: Yup.string()
-        .required(t('FORM_VALIDATION.REQUIRED'))
-        .test('dateOfBirth', t('FORM_VALIDATION.FUTURE_DATE'), (value) => {
-          const test = moment(value).diff(moment(), 'days');
-
-          if (test < 0) {
-            return true;
-          } else {
-            return false;
-          }
-        }),
-    }),
-  });
 
   const handleSubmit = async (values: StepOneValues) => {
     /*
@@ -119,6 +97,31 @@ const StudentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep }) =
       email: email,
     }).unwrap();
   };
+
+  const formik = useFormik({
+    initialValues: initialValuesOne,
+    onSubmit: (values ) => handleSubmit(values),
+    validateOnBlur: true,
+    validateOnChange: false,
+    enableReinitialize: true,
+    validationSchema: Yup.object().shape({
+      firstName: Yup.string().min(2, t('FORM_VALIDATION.TOO_SHORT')).max(100, t('FORM_VALIDATION.TOO_LONG')).required(t('FORM_VALIDATION.REQUIRED')),
+      lastName: Yup.string().min(2, t('FORM_VALIDATION.TOO_SHORT')).max(100, t('FORM_VALIDATION.TOO_LONG')).required(t('FORM_VALIDATION.REQUIRED')),
+      countryId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+      phoneNumber: Yup.string().min(6, t('FORM_VALIDATION.TOO_SHORT')).required(t('FORM_VALIDATION.REQUIRED')),
+      dateOfBirth: Yup.string()
+        .required(t('FORM_VALIDATION.REQUIRED'))
+        .test('dateOfBirth', t('FORM_VALIDATION.FUTURE_DATE'), (value) => {
+          const test = moment(value).diff(moment(), 'days');
+
+          if (test < 0) {
+            return true;
+          } else {
+            return false;
+          }
+        }),
+    })
+  });
 
   useEffect(() => {
     if (isSuccess) {
@@ -202,12 +205,14 @@ const StudentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep }) =
             </label>
             <MyDatePicker form={formik} field={formik.getFieldProps('dateOfBirth')} meta={formik.getFieldMeta('dateOfBirth')} />
           </div>
-          <div
+          <button
             className={`btn btn--base btn--${isLoading ? 'disabled' : 'primary'} type--center w--100 mb-2 mt-6 type--wgt--extra-bold`}
-            onClick={() => formik.handleSubmit()}
+            onClick={() => formik.handleSubmit}
+            onSubmit={() =>formik.handleSubmit}
           >
             {t('REGISTER.FINISH')}
-          </div>
+          </button>
+
           <div className="flex flex--jc--center">
             <div onClick={() => handleGoBack()} className="btn btn--clear btn--base type--color--brand type--wgt--extra-bold">
               <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>
