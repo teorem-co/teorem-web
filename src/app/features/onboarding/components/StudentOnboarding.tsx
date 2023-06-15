@@ -85,7 +85,6 @@ const StudentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep }) =
 
         addUserQuery(toSend).unwrap();
         */
-    console.log("Handling");
     await registerStudent({
       firstName: values.firstName,
       lastName: values.lastName,
