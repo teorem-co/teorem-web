@@ -91,36 +91,36 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
     validateOnBlur: true,
     validateOnChange: false,
     enableReinitialize: true,
-    validationSchema: Yup.object().shape({
-      firstName: Yup.string().min(2, t('FORM_VALIDATION.TOO_SHORT')).max(100, t('FORM_VALIDATION.TOO_LONG')).required(t('FORM_VALIDATION.REQUIRED')),
-      lastName: Yup.string().min(2, t('FORM_VALIDATION.TOO_SHORT')).max(100, t('FORM_VALIDATION.TOO_LONG')).required(t('FORM_VALIDATION.REQUIRED')),
-      countryId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-      phoneNumber: Yup.string()
-        .required(t('FORM_VALIDATION.REQUIRED'))
-        .matches(
-          /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/gm,
-          t('FORM_VALIDATION.PHONE_NUMBER')
-        ),
-      dateOfBirth: Yup.string()
-        .required(t('FORM_VALIDATION.REQUIRED'))
-        .test('dateOfBirth', t('FORM_VALIDATION.FUTURE_DATE'), (value) => {
-          const dateDiff = moment(value).diff(moment(), 'days');
-
-          if (dateDiff < 0) {
-            return true;
-          } else {
-            return false;
-          }
-        })
-        .test('dateOfBirth', t('FORM_VALIDATION.TUTOR_AGE'), (value) => {
-          const dateDiff = moment(value).diff(moment().subtract(18, 'years'), 'days');
-
-          if (dateDiff < 0) {
-            return true;
-          } else {
-            return false;
-          }
-        }),
+    // validationSchema: Yup.object().shape({
+    //   firstName: Yup.string().min(2, t('FORM_VALIDATION.TOO_SHORT')).max(100, t('FORM_VALIDATION.TOO_LONG')).required(t('FORM_VALIDATION.REQUIRED')),
+    //   lastName: Yup.string().min(2, t('FORM_VALIDATION.TOO_SHORT')).max(100, t('FORM_VALIDATION.TOO_LONG')).required(t('FORM_VALIDATION.REQUIRED')),
+    //   countryId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+    //   phoneNumber: Yup.string()
+    //     .required(t('FORM_VALIDATION.REQUIRED'))
+    //     .matches(
+    //       /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/gm,
+    //       t('FORM_VALIDATION.PHONE_NUMBER')
+    //     ),
+    //   dateOfBirth: Yup.string()
+    //     .required(t('FORM_VALIDATION.REQUIRED'))
+    //     .test('dateOfBirth', t('FORM_VALIDATION.FUTURE_DATE'), (value) => {
+    //       const dateDiff = moment(value).diff(moment(), 'days');
+    //
+    //       if (dateDiff < 0) {
+    //         return true;
+    //       } else {
+    //         return false;
+    //       }
+    //     })
+    //     .test('dateOfBirth', t('FORM_VALIDATION.TUTOR_AGE'), (value) => {
+    //       const dateDiff = moment(value).diff(moment().subtract(18, 'years'), 'days');
+    //
+    //       if (dateDiff < 0) {
+    //         return true;
+    //       } else {
+    //         return false;
+    //       }
+    //     }),
       // profileImage: Yup.mixed()
       //     .test('profileImage', 'Image has to be either jpg,png,jpeg or svg and less than 2MB in size.', (value) => {
       //         if (!value)
@@ -133,7 +133,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
       //
       //         return false;
       //     }).required("Please provide a profile image"),
-    }),
+    // }),
   });
 
   const handleSubmitStepOne = async (values: StepOneValues) => {
@@ -287,18 +287,18 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
     validateOnChange: false,
     enableReinitialize: true,
     validationSchema: Yup.object().shape({
-      cardFirstName: Yup.string()
-        .min(2, t('FORM_VALIDATION.TOO_SHORT'))
-        .max(100, t('FORM_VALIDATION.TOO_LONG'))
-        .required(t('FORM_VALIDATION.REQUIRED')),
-      cardLastName: Yup.string()
-        .min(2, t('FORM_VALIDATION.TOO_SHORT'))
-        .max(100, t('FORM_VALIDATION.TOO_LONG'))
-        .required(t('FORM_VALIDATION.REQUIRED')),
-      cardNumber: Yup.string().min(19, t('FORM_VALIDATION.TOO_SHORT')).max(19, t('FORM_VALIDATION.TOO_LONG')).required(t('FORM_VALIDATION.REQUIRED')),
-      expiryDate: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-      cvv: Yup.string().max(3, t('FORM_VALIDATION.TOO_LONG')).required(t('FORM_VALIDATION.REQUIRED')),
-      zipCode: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+      // cardFirstName: Yup.string()
+      //   .min(2, t('FORM_VALIDATION.TOO_SHORT'))
+      //   .max(100, t('FORM_VALIDATION.TOO_LONG'))
+      //   .required(t('FORM_VALIDATION.REQUIRED')),
+      // cardLastName: Yup.string()
+      //   .min(2, t('FORM_VALIDATION.TOO_SHORT'))
+      //   .max(100, t('FORM_VALIDATION.TOO_LONG'))
+      //   .required(t('FORM_VALIDATION.REQUIRED')),
+      // cardNumber: Yup.string().min(19, t('FORM_VALIDATION.TOO_SHORT')).max(19, t('FORM_VALIDATION.TOO_LONG')).required(t('FORM_VALIDATION.REQUIRED')),
+      // expiryDate: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+      // cvv: Yup.string().max(3, t('FORM_VALIDATION.TOO_LONG')).required(t('FORM_VALIDATION.REQUIRED')),
+      // zipCode: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
     }),
   });
 

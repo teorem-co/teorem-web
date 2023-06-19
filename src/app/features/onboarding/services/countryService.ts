@@ -1,5 +1,5 @@
-import { baseService } from '../../../baseService';
-import { HttpMethods } from '../../../lookups/httpMethods';
+import {baseService} from '../../../baseService';
+import {HttpMethods} from '../../../lookups/httpMethods';
 
 //bookings/week/:tutorSlug
 
@@ -20,11 +20,11 @@ export const countryService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         getCountries: builder.query<ICountry[], void>({
             query: () => ({
-                url: `${URL}`,
+                url: `http://localhost:8080/api/v1${URL}`,
                 method: HttpMethods.GET,
             }),
         }),
     }),
 });
 
-export const { useLazyGetCountriesQuery } = countryService;
+export const {useLazyGetCountriesQuery} = countryService;
