@@ -1,8 +1,9 @@
-import { baseService } from '../app/baseService';
-import { HttpMethods } from '../app/lookups/httpMethods';
+import {baseService} from '../app/baseService';
+import {HttpMethods} from '../app/lookups/httpMethods';
 import typeToFormData from '../app/utils/typeToFormData';
 import IGenerateUsername from '../interfaces/IGenerateUsername';
 import IRole from '../interfaces/IRole';
+import {IChild} from "../interfaces/IChild";
 
 interface ILogin {
     email: string;
@@ -39,7 +40,7 @@ interface IRegisterParent {
     countryId: string;
     phoneNumber: string;
     dateOfBirth: string;
-    children?: string;
+    children?: IChild[];
 }
 
 interface IRegisterStudent {
@@ -123,30 +124,29 @@ export const authService = baseService.injectEndpoints({
         }),
         registerTutor: builder.mutation<void, IRegisterTutor>({
             query: (body) => ({
-                url: `${URL}/register`,
+                url: `http://localhost:8080/api/v1/users/register`,
                 method: HttpMethods.POST,
-                body: typeToFormData(body),
+                body: body,
             }),
         }),
         registerParent: builder.mutation<void, IRegisterParent>({
             query: (body) => ({
-                url: `${URL}/register`,
+                url: `http://localhost:8080/api/v1/users/register`,
                 method: HttpMethods.POST,
-                body: typeToFormData(body),
+                body: body,
             }),
         }),
         registerStudent: builder.mutation<void, IRegisterStudent>({
             query: (body) => ({
-                url: `${URL}/register`,
+                url: `http://localhost:8080/api/v1/users/register`,
                 method: HttpMethods.POST,
-                body: typeToFormData(body),
+                body: body,
             }),
         }),
         checkMail: builder.mutation<boolean, ICheckMail>({
             query: (body) => ({
-                url: `${URL}/check-email`,
-                method: HttpMethods.POST,
-                body: body,
+                url: `http://localhost:8080/api/v1/users/check-email?mail=` + body.email,
+                method: HttpMethods.GET,
             }),
         }),
         checkUsername: builder.mutation<boolean, ICheckUsername>({
