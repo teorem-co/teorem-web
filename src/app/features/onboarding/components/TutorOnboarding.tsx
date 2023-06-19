@@ -91,49 +91,54 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
     validateOnBlur: true,
     validateOnChange: false,
     enableReinitialize: true,
-    // validationSchema: Yup.object().shape({
-    //   firstName: Yup.string().min(2, t('FORM_VALIDATION.TOO_SHORT')).max(100, t('FORM_VALIDATION.TOO_LONG')).required(t('FORM_VALIDATION.REQUIRED')),
-    //   lastName: Yup.string().min(2, t('FORM_VALIDATION.TOO_SHORT')).max(100, t('FORM_VALIDATION.TOO_LONG')).required(t('FORM_VALIDATION.REQUIRED')),
-    //   countryId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-    //   phoneNumber: Yup.string()
-    //     .required(t('FORM_VALIDATION.REQUIRED'))
-    //     .matches(
-    //       /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/gm,
-    //       t('FORM_VALIDATION.PHONE_NUMBER')
-    //     ),
-    //   dateOfBirth: Yup.string()
-    //     .required(t('FORM_VALIDATION.REQUIRED'))
-    //     .test('dateOfBirth', t('FORM_VALIDATION.FUTURE_DATE'), (value) => {
-    //       const dateDiff = moment(value).diff(moment(), 'days');
-    //
-    //       if (dateDiff < 0) {
-    //         return true;
-    //       } else {
-    //         return false;
-    //       }
-    //     })
-    //     .test('dateOfBirth', t('FORM_VALIDATION.TUTOR_AGE'), (value) => {
-    //       const dateDiff = moment(value).diff(moment().subtract(18, 'years'), 'days');
-    //
-    //       if (dateDiff < 0) {
-    //         return true;
-    //       } else {
-    //         return false;
-    //       }
-    //     }),
-      // profileImage: Yup.mixed()
-      //     .test('profileImage', 'Image has to be either jpg,png,jpeg or svg and less than 2MB in size.', (value) => {
-      //         if (!value)
-      //             return true;
-      //
-      //         if (value && value.size > 2000000) return false;
-      //         if (value && value.type === 'image/jpg' || value.type === 'image/jpeg' || value.type === 'image/png' || value.type === 'image/svg') {
-      //             return true;
-      //         }
-      //
-      //         return false;
-      //     }).required("Please provide a profile image"),
-    // }),
+    validationSchema: Yup.object().shape({
+      firstName: Yup.string().min(2, t('FORM_VALIDATION.TOO_SHORT')).max(100, t('FORM_VALIDATION.TOO_LONG')).required(t('FORM_VALIDATION.REQUIRED')),
+      lastName: Yup.string().min(2, t('FORM_VALIDATION.TOO_SHORT')).max(100, t('FORM_VALIDATION.TOO_LONG')).required(t('FORM_VALIDATION.REQUIRED')),
+      countryId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+      phoneNumber: Yup.string()
+        .required(t('FORM_VALIDATION.REQUIRED'))
+        .matches(
+          /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/gm,
+          t('FORM_VALIDATION.PHONE_NUMBER')
+        ),
+      dateOfBirth: Yup.string()
+          .required(t('FORM_VALIDATION.REQUIRED'))
+        .test('dateOfBirth', t('FORM_VALIDATION.FUTURE_DATE'), (value) => {
+          const dateDiff = moment(value).diff(moment(), 'days');
+
+          if (dateDiff < 0) {
+            return true;
+          } else {
+            return false;
+          }
+        })
+        .test('dateOfBirth', t('FORM_VALIDATION.TUTOR_AGE'), (value) => {
+          const dateDiff = moment(value).diff(moment().subtract(18, 'years'), 'days');
+
+          if (dateDiff < 0) {
+            return true;
+          } else {
+            return false;
+          }
+        }),
+
+      // TODO: check why this needs to be commented
+        /*
+      profileImage: Yup.mixed()
+          .test('profileImage', 'Image has to be either jpg,png,jpeg or svg and less than 2MB in size.', (value) => {
+              if (!value)
+                  return true;
+
+              if (value && value.size > 2000000) return false;
+              if (value && value.type === 'image/jpg' || value.type === 'image/jpeg' || value.type === 'image/png' || value.type === 'image/svg') {
+                  return true;
+              }
+
+              return false;
+          }).required("Please provide a profile image"),
+    */
+    }),
+
   });
 
   const handleSubmitStepOne = async (values: StepOneValues) => {
@@ -287,18 +292,18 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
     validateOnChange: false,
     enableReinitialize: true,
     validationSchema: Yup.object().shape({
-      // cardFirstName: Yup.string()
-      //   .min(2, t('FORM_VALIDATION.TOO_SHORT'))
-      //   .max(100, t('FORM_VALIDATION.TOO_LONG'))
-      //   .required(t('FORM_VALIDATION.REQUIRED')),
-      // cardLastName: Yup.string()
-      //   .min(2, t('FORM_VALIDATION.TOO_SHORT'))
-      //   .max(100, t('FORM_VALIDATION.TOO_LONG'))
-      //   .required(t('FORM_VALIDATION.REQUIRED')),
-      // cardNumber: Yup.string().min(19, t('FORM_VALIDATION.TOO_SHORT')).max(19, t('FORM_VALIDATION.TOO_LONG')).required(t('FORM_VALIDATION.REQUIRED')),
-      // expiryDate: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-      // cvv: Yup.string().max(3, t('FORM_VALIDATION.TOO_LONG')).required(t('FORM_VALIDATION.REQUIRED')),
-      // zipCode: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+       cardFirstName: Yup.string()
+         .min(2, t('FORM_VALIDATION.TOO_SHORT'))
+         .max(100, t('FORM_VALIDATION.TOO_LONG'))
+         .required(t('FORM_VALIDATION.REQUIRED')),
+       cardLastName: Yup.string()
+         .min(2, t('FORM_VALIDATION.TOO_SHORT'))
+      .max(100, t('FORM_VALIDATION.TOO_LONG'))
+        .required(t('FORM_VALIDATION.REQUIRED')),
+      cardNumber: Yup.string().min(19, t('FORM_VALIDATION.TOO_SHORT')).max(19, t('FORM_VALIDATION.TOO_LONG')).required(t('FORM_VALIDATION.REQUIRED')),
+      expiryDate: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+      cvv: Yup.string().max(3, t('FORM_VALIDATION.TOO_LONG')).required(t('FORM_VALIDATION.REQUIRED')),
+       zipCode: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
     }),
   });
 
@@ -409,12 +414,12 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
               // disabled={isLoading}
             />
           </div>
-          <div
+          <button
             className={`btn btn--base btn--${isLoading ? 'disabled' : 'primary'} type--wgt--extra-bold type--center w--100 mb-2 mt-6`}
             onClick={() => formikStepTwo.handleSubmit()}
           >
             {t('REGISTER.FINISH')}
-          </div>
+          </button>
           <div className="flex flex--jc--center">
             <div onClick={() => handleGoBack()} className="btn btn--clear btn--base type--color--brand type--wgt--extra-bold">
               <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i> {t('REGISTER.BACK_TO_STEP_TWO')}
