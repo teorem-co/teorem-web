@@ -110,7 +110,7 @@ export const bookingService = baseService.injectEndpoints({
         }),
         createbooking: builder.mutation<void, ICreateBooking>({
             query: (data) => ({
-                url: `${URL}/${data.tutorId}`,
+                url: `localhost:8080/api/v1/booking`, // `${URL}/${data.tutorId}`
                 method: HttpMethods.POST,
                 body: data,
             }),
