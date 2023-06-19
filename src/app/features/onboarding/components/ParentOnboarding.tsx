@@ -161,7 +161,7 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
     validationSchema: Yup.object().shape({
       firstName: Yup.string().min(2, t('FORM_VALIDATION.TOO_SHORT')).max(100, t('FORM_VALIDATION.TOO_LONG')).required(t('FORM_VALIDATION.REQUIRED')),
       lastName: Yup.string().min(2, t('FORM_VALIDATION.TOO_SHORT')).max(100, t('FORM_VALIDATION.TOO_LONG')).required(t('FORM_VALIDATION.REQUIRED')),
-      countryId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+      //countryId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
       phoneNumber: Yup.string().min(6, t('FORM_VALIDATION.TOO_SHORT')).required(t('FORM_VALIDATION.REQUIRED')),
       dateOfBirth: Yup.string()
         .required(t('FORM_VALIDATION.REQUIRED'))
@@ -383,49 +383,49 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
     validateOnBlur: true,
     validateOnChange: false,
     enableReinitialize: true,
-    // validationSchema: Yup.object().shape({
-    //   childFirstName: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-    //   childDateOfBirth: Yup.string()
-    //     .required(t('FORM_VALIDATION.REQUIRED'))
-    //     .test('dateOfBirth', t('FORM_VALIDATION.FUTURE_DATE'), (value) => {
-    //       const currentDate = moment(value).diff(moment(), 'days');
-    //
-    //       if (currentDate < 0) {
-    //         return true;
-    //       } else {
-    //         return false;
-    //       }
-    //     }),
-    //   username: Yup.string()
-    //     .test('username', 'Username already exists', async (value: any) => {
-    //       if (value) {
-    //         //filter all without selected child(on edit)
-    //         const filteredArray = child.filter((x) => x.username !== childUsername);
-    //
-    //         //check backend usernames
-    //         const isValid = await checkUsername({
-    //           username: value,
-    //         }).unwrap();
-    //
-    //         //check local usernames
-    //         const checkCurrent = filteredArray.find((x) => x.username === value);
-    //         //set validation boolean
-    //         const finalValid = isValid || checkCurrent ? true : false;
-    //
-    //         return !finalValid;
-    //       }
-    //       return true;
-    //     })
-    //     .required(t('FORM_VALIDATION.REQUIRED')),
-    //   childPassword: Yup.string()
-    //     .min(8, t('FORM_VALIDATION.TOO_SHORT'))
-    //     .max(128, t('FORM_VALIDATION.TOO_LONG'))
-    //     .matches(
-    //       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_/+\-=[\]{};':"\\|,.<>?])[A-Za-z\d!@#$%^&*()_/+\-=[\]{};':"\\|,.<>?]{8,128}$/gm,
-    //       t('FORM_VALIDATION.PASSWORD_STRENGTH')
-    //     )
-    //     .required(t('FORM_VALIDATION.REQUIRED')),
-    // }),
+     validationSchema: Yup.object().shape({
+       childFirstName: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+       childDateOfBirth: Yup.string()
+         .required(t('FORM_VALIDATION.REQUIRED'))
+         .test('dateOfBirth', t('FORM_VALIDATION.FUTURE_DATE'), (value) => {
+           const currentDate = moment(value).diff(moment(), 'days');
+
+           if (currentDate < 0) {
+             return true;
+           } else {
+             return false;
+           }
+         }),
+       username: Yup.string()
+         .test('username', 'Username already exists', async (value: any) => {
+           if (value) {
+             //filter all without selected child(on edit)
+             const filteredArray = child.filter((x) => x.username !== childUsername);
+
+             //check backend usernames
+             const isValid = await checkUsername({
+               username: value,
+             }).unwrap();
+
+             //check local usernames
+             const checkCurrent = filteredArray.find((x) => x.username === value);
+             //set validation boolean
+             const finalValid = isValid || checkCurrent ? true : false;
+
+             return !finalValid;
+           }
+           return true;
+         })
+         .required(t('FORM_VALIDATION.REQUIRED')),
+       childPassword: Yup.string()
+         .min(8, t('FORM_VALIDATION.TOO_SHORT'))
+         .max(128, t('FORM_VALIDATION.TOO_LONG'))
+         .matches(
+           /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_/+\-=[\]{};':"\\|,.<>?])[A-Za-z\d!@#$%^&*()_/+\-=[\]{};':"\\|,.<>?]{8,128}$/gm,
+           t('FORM_VALIDATION.PASSWORD_STRENGTH')
+         )
+         .required(t('FORM_VALIDATION.REQUIRED')),
+     }),
   });
 
   const checkUsernameExistance = async () => {
@@ -642,6 +642,7 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
         })
       : [];
     setCountryOptions(currentCountries);
+    console.log("GETTING COUNTRIES: ", currentCountries);
   }, [countries]);
 
   useEffect(() => {
