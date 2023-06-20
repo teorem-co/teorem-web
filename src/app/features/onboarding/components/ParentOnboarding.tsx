@@ -583,10 +583,10 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
   const generateChildUsername = async () => {
     const nameForGenerator = formikStepThree.values.childFirstName;
     if (nameForGenerator) {
-      const response = await generateChildUsernamePost({
+      const response= await generateChildUsernamePost({
         username: nameForGenerator,
       }).unwrap();
-      formikStepThree.setFieldValue('username', response.toLowerCase());
+      formikStepThree.setFieldValue('username', response.username.toLowerCase());
       formikStepThree.validateField('username');
     }
   };

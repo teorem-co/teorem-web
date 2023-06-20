@@ -151,16 +151,14 @@ export const authService = baseService.injectEndpoints({
         }),
         checkUsername: builder.mutation<boolean, ICheckUsername>({
             query: (body) => ({
-                url: `${URL}/check-username`,
-                method: HttpMethods.POST,
-                body: body,
+                url: `http://localhost:8080/api/v1/users/check-username?username=` + body.username,
+                method: HttpMethods.GET,
             }),
         }),
-        generateChildUsername: builder.mutation<string, IGenerateUsername>({
+        generateChildUsername: builder.mutation<IGenerateUsername, IGenerateUsername>({
             query: (body) => ({
-                url: `${URL}/generate-username`,
-                method: HttpMethods.POST,
-                body: body,
+                url: `http://localhost:8080/api/v1/users/generate-username?username=` + body.username,
+                method: HttpMethods.GET,
             }),
         }),
         getServerVersion: builder.query<string, void>({
