@@ -1,13 +1,13 @@
-import { Form, FormikProvider, useFormik } from 'formik';
-import { t } from 'i18next';
+import {Form, FormikProvider, useFormik} from 'formik';
+import {t} from 'i18next';
 import moment from 'moment';
-import { useState } from 'react';
+import {useState} from 'react';
 import * as Yup from 'yup';
 
 import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyTimePicker from '../../../components/form/MyTimePicker';
 import toastService from '../../../services/toastService';
-import { IPostUnavailability, useCreateTutorUnavailabilityMutation } from '../services/unavailabilityService';
+import {IPostUnavailability, useCreateTutorUnavailabilityMutation} from '../services/unavailabilityService';
 
 interface Props {
     handleClose?: (close: boolean) => void;
@@ -59,6 +59,7 @@ const UnavailabilityModal: React.FC<Props> = (props) => {
             await createTutorUnavailability(toSend).unwrap();
             handleClose && handleClose(false);
         } else {
+            console.log("UnavailabilityModal");
             toastService.error(t('MY_BOOKINGS.UNABLE_MESSAGE'));
         }
     };
