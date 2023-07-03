@@ -39,7 +39,6 @@ const Chat = () => {
                 if (a.messages.length == 0 || b.messages.length == 0)
                     return -1;
 
-
                 const lastMessageA: Date = new Date(a.messages[a.messages.length - 1].message.createdAt);
                 const lastMessageB: Date = new Date(b.messages[b.messages.length - 1].message.createdAt);
 

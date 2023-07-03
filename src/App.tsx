@@ -139,6 +139,8 @@ function App() {
                 return sendMessageObject.callerName;
             });
 
+            console.log("ID poruke: ",sendMessageObject.messageObj.id);
+
             const message = {
                 userId: user2Data1.id + '',
                 tutorId: user2Data3.id + '',
@@ -170,7 +172,7 @@ function App() {
             };
             dispatch(addChatRoom(chatRoom));
 
-            //dispatch(addMessage());
+            //dispatch(addMessage(message));
         }
     },
         [user2Data1, user2Data3, sendMessageObject]);
@@ -205,6 +207,7 @@ function App() {
         chat.socket.on('messageReceive', (sendMessageObject: any) => {
 
             setSendMessageObjectSet(true);
+            console.log("PRIMIO SAM PORUKU:", sendMessageObject);
             setSendMessageObject(sendMessageObject);
         });
 

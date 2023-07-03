@@ -3,9 +3,11 @@ import { stat } from 'fs';
 import { StaticRouter } from 'react-router';
 import { SignalData } from "simple-peer";
 import { io, Socket } from 'socket.io-client';
+import { compileString } from 'sass';
 
 const serverUrl = `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_API_PORT}`;
-
+const javaServerUrl = "http://localhost:8085";
+const token = 'token'; // TODO: set token (jwt?)
 export interface IVideoChatBuffer {
     userId: string;
     tutorId: string;
@@ -75,7 +77,7 @@ const initialState: IState = {
     chatRooms: [],
     newMessages: 0,
     activeChatRoom: null,
-    socket: io(serverUrl),
+    socket: io(`${serverUrl}`),//io(`${javaServerUrl}?token=${token}`), //io(`${serverUrl}`),
     rpp: 20,
     freeConsultation: false,
     link: null,
@@ -294,7 +296,6 @@ const chatSlice = createSlice({
         },
 
         addMessage(state, action: PayloadAction<ISendChatMessage | null>) {
-
             if (action.payload) {
 
                 for (let i = 0; i < state.chatRooms.length; i++) {
@@ -305,7 +306,10 @@ const chatSlice = createSlice({
                         }
                     }
 
+                    console.log("Dodajem novu poruku u addMessage: ", state.chatRooms[i].messages);
+
                     if (state.chatRooms[i].tutor?.userId == action.payload.tutorId && state.chatRooms[i].user?.userId == action.payload.userId) {
+                        console.log("USAO SAM UNUTRA");
                         state.chatRooms[i].messages.push(action.payload);
 
                         if (state.chatRooms[i].tutor?.userId == state.activeChatRoom?.tutor?.userId && state.chatRooms[i].user?.userId == state.activeChatRoom?.user?.userId) {
@@ -344,6 +348,7 @@ const chatSlice = createSlice({
                             else
                                 state.newMessages = 1;
                         }
+                        console.log("Nakon sto sam dodao novu poruku u addMessage: ", state.chatRooms[i].messages);
                         return;
                     }
                 }
@@ -408,7 +413,6 @@ const chatSlice = createSlice({
         },
 
         addChatRoom(state, action: PayloadAction<IChatRoom | null>) {
-
             if (action.payload) {
 
                 let missedCall = false;
@@ -429,7 +433,7 @@ const chatSlice = createSlice({
                                     missedCall = true;
                                 }
 
-                                return x.message.messageId == action.payload?.messages[j].message.messageId
+                                return  x.message.messageId == action.payload?.messages[j].message.messageId
                                     && !action.payload?.messages[j].message.messageMissedCall
                                     && action.payload?.messages[j].message.messageNew;
                             });
@@ -437,12 +441,13 @@ const chatSlice = createSlice({
                             if (missedCall)
                                 break;
                         }
+                        console.log("Dodajem novu poruku u addChatRoom: ", state.chatRooms[i].messages);
 
                         state.chatRooms[i].messages = filterArrayUniqueMessages(state.chatRooms[i].messages.concat(action.payload?.messages)).sort((a: ISendChatMessage, b: ISendChatMessage) =>
-
                             new Date(a.message.createdAt) > new Date(b.message.createdAt) ? 1 : -1
                         );
 
+                        console.log("Nakon sto sam dodao novu poruku u addChatRoom: ", state.chatRooms[i].messages);
 
                         state.activeChatRoom = state.chatRooms[i];
                         break;
