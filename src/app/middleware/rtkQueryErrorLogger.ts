@@ -5,6 +5,7 @@ import toastService from '../services/toastService';
 
 export const rtkQueryErrorLogger: Middleware =
     (_api: MiddlewareAPI) => (next) => (action) => {
+        console.log(action);
         if (isRejectedWithValue(action)) {
             if (action.payload.data && action.payload.data.message) {
                 //this excludes toast erros on login enpoints
