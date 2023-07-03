@@ -166,6 +166,7 @@ const SingleConversation = (props: Props) => {
                     messages: chatMessages,
                 })
             );
+        console.log("PORUKE U useeffectu: ", props.data?.messages);
     }, [chatMessages]);
 
     useEffect(() => {
