@@ -9,7 +9,7 @@ export const rtkQueryErrorLogger: Middleware =
             if (action.payload.data && action.payload.data.message) {
                 //this excludes toast erros on login enpoints
                 if (action.meta.arg.endpointName !== 'login') {
-                  console.log("rtkWuerry error logger")
+                  console.log("rtkWuerry error logger");
                     toastService.error(i18next.t(action.payload.data.message));
                 }
             } else {
