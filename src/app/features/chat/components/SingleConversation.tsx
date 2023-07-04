@@ -515,6 +515,7 @@ const SingleConversation = (props: Props) => {
                 {props.data &&
                     props.data.messages.length > 0 &&
                     props.data.messages.map((message: ISendChatMessage, index: number) => {
+                        console.log("poruke kod pisanja",props.data?.messages);
                         let img = false;
 
                         const temDat = new Date(message.message.createdAt);

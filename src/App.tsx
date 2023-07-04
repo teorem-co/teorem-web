@@ -272,8 +272,9 @@ function App() {
 
         if (userId) {
 
+            console.log('KORISNIK: ', userData.user);
             if (userData.user?.Role.abrv == Role.Child)
-                getChildBookingTutors();
+                 getChildBookingTutors();
 
             getChatRooms({
                 limitMessages: 20,
