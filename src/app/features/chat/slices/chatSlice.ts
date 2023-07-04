@@ -152,7 +152,7 @@ const chatSlice = createSlice({
         },
 
         addChatRooms(state, action: PayloadAction<Array<IChatRoom> | null>) {
-
+            console.log('AddChatRooms', action.payload);
             if (action.payload) {
 
                 let unreadMessages = 0;
@@ -182,6 +182,7 @@ const chatSlice = createSlice({
 
             }
         },
+
         getMessage(state, action: PayloadAction<ISendChatMessage | null>) {
 
             if (action.payload) {
@@ -211,10 +212,10 @@ const chatSlice = createSlice({
                 }
             }
         },
+
         getMessages(state, action: PayloadAction<ISendChatMessage[] | null>) {
 
             if (action.payload) {
-
 
                 for (let i = 0; i < state.chatRooms.length; i++) {
 
@@ -262,7 +263,6 @@ const chatSlice = createSlice({
         },
 
         getMessagesById(state, action: PayloadAction<IGetMessagesIdSet>) {
-
             for (let i = 0; i < state.chatRooms.length; i++) {
 
                 if (state.chatRooms[i].user?.userId == action.payload.userId && state.chatRooms[i].tutor?.userId == action.payload.tutorId) {
@@ -296,6 +296,7 @@ const chatSlice = createSlice({
         },
 
         addMessage(state, action: PayloadAction<ISendChatMessage | null>) {
+            console.log('AddMessage', action.payload);
             if (action.payload) {
 
                 for (let i = 0; i < state.chatRooms.length; i++) {
@@ -306,10 +307,8 @@ const chatSlice = createSlice({
                         }
                     }
 
-                    console.log("Dodajem novu poruku u addMessage: ", state.chatRooms[i].messages);
 
                     if (state.chatRooms[i].tutor?.userId == action.payload.tutorId && state.chatRooms[i].user?.userId == action.payload.userId) {
-                        console.log("USAO SAM UNUTRA");
                         state.chatRooms[i].messages.push(action.payload);
 
                         if (state.chatRooms[i].tutor?.userId == state.activeChatRoom?.tutor?.userId && state.chatRooms[i].user?.userId == state.activeChatRoom?.user?.userId) {
@@ -348,7 +347,6 @@ const chatSlice = createSlice({
                             else
                                 state.newMessages = 1;
                         }
-                        console.log("Nakon sto sam dodao novu poruku u addMessage: ", state.chatRooms[i].messages);
                         return;
                     }
                 }
@@ -357,7 +355,7 @@ const chatSlice = createSlice({
         },
 
         readMessage(state, action: PayloadAction<ISendChatMessage | null>) {
-
+            console.log('ReadMessage', action.payload);
             if (action.payload) {
 
                 for (let i = 0; i < state.chatRooms.length; i++) {
@@ -393,7 +391,7 @@ const chatSlice = createSlice({
 
                 for (let i = 0; i < state.chatRooms.length; i++) {
                     if (state.chatRooms[i].user?.userId == action.payload.userId && state.chatRooms[i].tutor?.userId == action.payload.tutorId) {
-                        state.socket.emit('readMessages', { ...action.payload, reader: state.user?.userId });
+                        state.socket.emit('readMessages', { ...action.payload, readerId: state.user?.userId });
                         state.chatRooms[i].unreadMessageCount = 0;
                     }
 
@@ -410,6 +408,7 @@ const chatSlice = createSlice({
         },
 
         addChatRoom(state, action: PayloadAction<IChatRoom | null>) {
+            console.log('AddChatRooM', action.payload);
             if (action.payload) {
 
                 let missedCall = false;
@@ -438,13 +437,11 @@ const chatSlice = createSlice({
                             if (missedCall)
                                 break;
                         }
-                        console.log("Dodajem novu poruku u addChatRoom: ", state.chatRooms[i].messages);
 
                         state.chatRooms[i].messages = filterArrayUniqueMessages(state.chatRooms[i].messages.concat(action.payload?.messages)).sort((a: ISendChatMessage, b: ISendChatMessage) =>
                             new Date(a.message.createdAt) > new Date(b.message.createdAt) ? 1 : -1
                         );
 
-                        console.log("Nakon sto sam dodao novu poruku u addChatRoom: ", state.chatRooms[i].messages);
 
                         state.activeChatRoom = state.chatRooms[i];
                         break;
