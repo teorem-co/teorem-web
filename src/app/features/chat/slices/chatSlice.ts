@@ -77,7 +77,7 @@ const initialState: IState = {
     chatRooms: [],
     newMessages: 0,
     activeChatRoom: null,
-    socket: io(`${serverUrl}`),//io(`${javaServerUrl}?token=${token}`), //io(`${serverUrl}`),
+    socket: io(`${javaServerUrl}?token=${token}`), //io(`${serverUrl}`),
     rpp: 20,
     freeConsultation: false,
     link: null,
@@ -397,11 +397,8 @@ const chatSlice = createSlice({
                         state.chatRooms[i].unreadMessageCount = 0;
                     }
 
-
                     for (let j = 0; j < state.chatRooms[i].messages.length; j++) {
-
                         state.chatRooms[i].messages[j].message.isRead = true;
-
 
                         if (state.newMessages != null)
                             state.newMessages -= 1;
