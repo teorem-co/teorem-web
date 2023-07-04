@@ -139,8 +139,6 @@ function App() {
                 return sendMessageObject.callerName;
             });
 
-            console.log("ID poruke: ",sendMessageObject.messageObj.id);
-
             const message = {
                 userId: user2Data1.id + '',
                 tutorId: user2Data3.id + '',
@@ -207,7 +205,6 @@ function App() {
         chat.socket.on('messageReceive', (sendMessageObject: any) => {
 
             setSendMessageObjectSet(true);
-            console.log("PRIMIO SAM PORUKU:", sendMessageObject);
             setSendMessageObject(sendMessageObject);
         });
 
@@ -272,7 +269,6 @@ function App() {
 
         if (userId) {
 
-            console.log('KORISNIK: ', userData.user);
             if (userData.user?.Role.abrv == Role.Child)
                  getChildBookingTutors();
 
