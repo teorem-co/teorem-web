@@ -164,8 +164,6 @@ const PersonalInformation = () => {
 
   const handleUpdateOnRouteChange = () => {
     if (Object.keys(formik.errors).length > 0) {
-      console.log(formik.errors);
-      console.log("PersonalInformation");
       toastService.error(t('FORM_VALIDATION.WRONG_REQUIREMENTS'));
       return false;
     } else {

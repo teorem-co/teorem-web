@@ -297,7 +297,6 @@ const ProfileAccount = () => {
         }, 1000);
       };
     } else if (isErrorDataStripeCustomer) {
-      console.log("Peofile Acconut");
       toastService.error(t('PROFILE_ACCOUNT.STRIPE_CARD_DECLINED'));
     }
   }, [isSuccessDataStripeCustomer, isErrorDataStripeCustomer]);

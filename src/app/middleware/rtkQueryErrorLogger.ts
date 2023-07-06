@@ -5,16 +5,13 @@ import toastService from '../services/toastService';
 
 export const rtkQueryErrorLogger: Middleware =
     (_api: MiddlewareAPI) => (next) => (action) => {
-        console.log(action);
         if (isRejectedWithValue(action)) {
             if (action.payload.data && action.payload.data.message) {
                 //this excludes toast erros on login enpoints
                 if (action.meta.arg.endpointName !== 'login') {
-                  console.log("rtkWuerry error logger");
                     toastService.error(i18next.t(action.payload.data.message));
                 }
             } else {
-              console.log("rtkQueryErrorLogger");
               toastService.error(i18next.t('ERROR_HANDLING.UNHANDLED_ERROR'));
             }
         }

@@ -42,7 +42,6 @@ class ToastService {
 
     error = (message: string): void => {
         const globalErrorMessage = message ? message : i18next.t('ERROR_HANDLING.UNHANDLED_ERROR');
-        console.log(message);
         toast.error(globalErrorMessage, Object.assign({}, ToastService.opts, { toastId: 'errorId' }));
     };
 

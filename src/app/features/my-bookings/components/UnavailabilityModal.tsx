@@ -59,7 +59,6 @@ const UnavailabilityModal: React.FC<Props> = (props) => {
             await createTutorUnavailability(toSend).unwrap();
             handleClose && handleClose(false);
         } else {
-            console.log("UnavailabilityModal");
             toastService.error(t('MY_BOOKINGS.UNABLE_MESSAGE'));
         }
     };

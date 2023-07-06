@@ -603,7 +603,6 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
       showDesc(detailsOpen);
       setChildUsername(currentChild.username);
     } else {
-      console.log("hahahahaha");
       toastService.error(t('ERROR_HANDLING.NO_CHILD_USERNAME'));
     }
   };
