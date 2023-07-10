@@ -28,13 +28,13 @@ export const chatService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         getChatRooms: builder.query<IChatRoom[], IChatRoomsQuery>({
             query: (body) => ({
-                url: `${URL}/get-chat-rooms?rpp=${body.rpp}&page=${body.page}&limitMessages=${body.limitMessages}`,
+                url: `http://localhost:8080/api/v1/chat/rooms?rpp=${body.rpp}&page=${body.page}&limitMessages=${body.limitMessages}`,
                 method: HttpMethods.GET,
             }),
         }),
         getChatMessages: builder.query<ISendChatMessage[], IChatMessagesQuery>({
             query: (body) => ({
-                url: `${URL}/get-chat-messages?userId=${body.userId}&rpp=${body.rpp}&page=${body.page}`,
+                url: `http://localhost:8080/api/v1/chat/messages?userId=${body.userId}&rpp=${body.rpp}&page=${body.page}`,//`${URL}/get-chat-messages?userId=${body.userId}&rpp=${body.rpp}&page=${body.page}`,
                 method: HttpMethods.GET,
             }),
         }),

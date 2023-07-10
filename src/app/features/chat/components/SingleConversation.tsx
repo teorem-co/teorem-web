@@ -16,18 +16,17 @@ import {
     getMessagesById,
     IChatRoom,
     ISendChatMessage,
-    readMessage,
     readMessages,
-    setBuffer,
     setConsultationInitialized,
     setFreeConsultation,
     setLink,
 } from '../slices/chatSlice';
-import FreeConsultationModal from './FreeConsultationModal';
 import SendMessageForm from './SendMessageForm';
-import Peer from "simple-peer";
 import ImageCircle from '../../../components/ImageCircle';
 import { useLazyGetTutorProfileDataQuery } from '../../../../services/tutorService';
+import 'react-tooltip/dist/react-tooltip.css';
+import { Tooltip } from 'react-tooltip';
+import { POSITION } from 'react-toastify/dist/utils';
 
 interface Props {
     data: IChatRoom | null;
@@ -44,7 +43,7 @@ const SingleConversation = (props: Props) => {
 
     const chat = useAppSelector((state) => state.chat);
 
-    const [page, setPage] = useState<number>(1);
+    const [page, setPage] = useState<number>(0);
 
     const [getUserById, { data: user2Data }] = useLazyGetUserQuery();
     const [getUserById2, { data: user2Data2 }] = useLazyGetUserQuery();
@@ -159,7 +158,6 @@ const SingleConversation = (props: Props) => {
 
     useEffect(() => {
         if (chatMessages && props.data){
-            console.log('==============Dohvacam po ideju');
             dispatch(
                 getMessagesById({
                     userId: props.data.user?.userId + '',
@@ -182,7 +180,7 @@ const SingleConversation = (props: Props) => {
     }, [props.data]);
 
     useEffect(() => {
-        if (userActive && props.data && page > 1) {
+        if (userActive && props.data && page > 0) {
             const getMessagesObject: IChatMessagesQuery = {
                 userId: (userActive.id == props.data?.user?.userId ? props.data.tutor?.userId : props.data?.user?.userId) || '',
                 page: page,
@@ -244,7 +242,7 @@ const SingleConversation = (props: Props) => {
                 messages: [message],
                 unreadMessageCount: 0,
             };
-
+            
             dispatch(addChatRoom(chatRoom));
 
             /*chat.socket.emit('onMissedFreeConsultation', {
@@ -308,6 +306,7 @@ const SingleConversation = (props: Props) => {
     };
 
     const handleLoadMore = () => {
+        console.log("handling more. Page: ", page);
         setPage(page + 1);
     };
 
@@ -387,6 +386,8 @@ const SingleConversation = (props: Props) => {
     const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
 
     let lastDate = '';
+    let lastMessageTime: Date;
+    let groupTimestamp = '';
 
     const [tutorSlug, setTutorSlug] = useState('');
     async function getTutorSlug() {
@@ -398,6 +399,15 @@ const SingleConversation = (props: Props) => {
     useEffect(() => {
         getTutorSlug();
     }, [props?.data?.tutor?.userId]);
+
+    function formatTime(hours:number, minutes:number) {
+        // Pad single-digit hours and minutes with leading zeros
+        const formattedHours = String(hours).padStart(2, '0');
+        const formattedMinutes = String(minutes).padStart(2, '0');
+
+        // Combine the formatted hours and minutes with a colon separator
+        return `${formattedHours}:${formattedMinutes}`;
+    }
 
     return (
         <div className="content">
@@ -521,9 +531,27 @@ const SingleConversation = (props: Props) => {
 
                         const temDat = new Date(message.message.createdAt);
 
-                        const tempDate = temDat.getDate() + '-' + temDat.getMonth() + '-' + temDat.getUTCFullYear();
+                        if(lastMessageTime == undefined){
+                          lastMessageTime = temDat;
+                        }
+
+                        if(groupTimestamp == ''){
+                            groupTimestamp = formatTime(temDat.getHours(),temDat.getMinutes());
+                        }
+
+                        const difference = temDat.getTime() - lastMessageTime.getTime();
+                        if (difference >= (30 * 60 * 1000)) {
+                            groupTimestamp = formatTime(temDat.getHours(),temDat.getMinutes());
+                        }
+
+                        lastMessageTime = temDat;
+
+                        const messageTime = formatTime(temDat.getHours(),temDat.getMinutes());
+
+                        const tempDate = temDat.getDate() + '-' + temDat.getMonth() + '-' + temDat.getUTCFullYear() + ',' + groupTimestamp;
 
                         let sameDate = true;
+
 
                         if (lastDate != tempDate) {
                             sameDate = false;
@@ -553,9 +581,18 @@ const SingleConversation = (props: Props) => {
                         if (userActive && userActive.id == message.senderId)
                             return (
                                 <>
+                                    <Tooltip
+                                        id="my-tooltip"
+                                        place={'top-start'}
+                                        positionStrategy={'absolute'}
+                                        float={true}
+                                        style={{ backgroundColor: "rgba(211, 211, 211, 0.1)", color: 'black', fontSize:'smaller' }}
+
+
+                                    />
                                     {!sameDate && (
                                         <div className={`message-full-width flex flex--col flex--center`}>
-                                            <span>{moment(message.message.createdAt).format('DD MMM YYYY')}</span>
+                                            <span>{moment(message.message.createdAt).format('DD MMM YYYY')}, {messageTime}</span>
                                         </div>
                                     )}
                                     <div
@@ -594,7 +631,7 @@ const SingleConversation = (props: Props) => {
                                         {/*)}*/}
                                         <div key={`sub-${index}`} className={`message-full-width flex flex--col flex--end`}>
                                             <div key={`sub-sub-${index}`} className="type--right w--80--max">
-                                                <div
+                                                <div data-tooltip-id="my-tooltip" data-tooltip-content={`Sent: ${messageTime}`}
                                                     key={`sub-sub-sub-${index}`}
                                                     className={`chat__message__item__end chat__message__item chat__message__item--logged${message.message.isFile ? ' chat-file-outline' : ''
                                                         }`}
@@ -613,7 +650,7 @@ const SingleConversation = (props: Props) => {
                             <>
                                 {!sameDate && (
                                     <div className={`message-full-width flex flex--col flex--center`}>
-                                        <span>{moment(message.message.createdAt).format('DD MMM YYYY')}</span>
+                                        <span>{moment(message.message.createdAt).format('DD MMM YYYY')}, {messageTime}</span>
                                     </div>
                                 )}
                                 <div

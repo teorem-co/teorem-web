@@ -203,7 +203,6 @@ function App() {
         });
 
         chat.socket.on('messageReceive', (sendMessageObject: any) => {
-
             setSendMessageObjectSet(true);
             setSendMessageObject(sendMessageObject);
         });
