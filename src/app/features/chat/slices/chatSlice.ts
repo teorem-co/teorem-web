@@ -107,17 +107,19 @@ const chatSlice = createSlice({
     reducers: {
 
         setUser(state, action: PayloadAction<IChatProfile | null>) {
+            console.log('Set user');
             state.user = action.payload;
         },
 
         setActiveChatRoom(state, action: PayloadAction<IChatRoom | null>) {
-
+            console.log('Set active chat room');
             if (action.payload)
                 state.activeChatRoom = action.payload;
 
         },
 
         setActiveChatRoomById(state, action: PayloadAction<IChatRoomIdSet | null>) {
+            console.log('Set active chat room by id');
 
             if (action.payload) {
 
@@ -147,7 +149,7 @@ const chatSlice = createSlice({
         },
 
         setBuffer(state, action: PayloadAction<IVideoChatBuffer>) {
-
+            console.log('Set buffer');
             state.buffer = action.payload;
         },
 
@@ -162,9 +164,7 @@ const chatSlice = createSlice({
                     for (let i = 0; i < state.chatRooms.length; i++) {
 
                         if (state.chatRooms[i].tutor?.userId == action.payload[j].tutor?.userId && state.chatRooms[i].user?.userId == action.payload[j].user?.userId) {
-
                             state.chatRooms[i].messages = filterArrayUniqueMessages(state.chatRooms[i].messages.concat(action.payload[j].messages));
-
                             inside = true;
                         }
                     }
@@ -184,7 +184,7 @@ const chatSlice = createSlice({
         },
 
         getMessage(state, action: PayloadAction<ISendChatMessage | null>) {
-
+            console.log('Get message');
             if (action.payload) {
 
                 for (let i = 0; i < state.chatRooms.length; i++) {
@@ -214,7 +214,7 @@ const chatSlice = createSlice({
         },
 
         getMessages(state, action: PayloadAction<ISendChatMessage[] | null>) {
-
+            console.log('Get messages');
             if (action.payload) {
 
                 for (let i = 0; i < state.chatRooms.length; i++) {
@@ -263,6 +263,7 @@ const chatSlice = createSlice({
         },
 
         getMessagesById(state, action: PayloadAction<IGetMessagesIdSet>) {
+            console.log('Get Messages by id');
             for (let i = 0; i < state.chatRooms.length; i++) {
 
                 if (state.chatRooms[i].user?.userId == action.payload.userId && state.chatRooms[i].tutor?.userId == action.payload.tutorId) {
@@ -283,9 +284,10 @@ const chatSlice = createSlice({
                     });
 
                     messages.sort((a: ISendChatMessage, b: ISendChatMessage) =>
-
                         new Date(a.message.createdAt) > new Date(b.message.createdAt) ? 1 : -1
                     );
+
+                    console.log("Messages:", messages);
 
                     state.chatRooms[i].messages = messages;
 
@@ -386,7 +388,7 @@ const chatSlice = createSlice({
         },
 
         readMessages(state, action: PayloadAction<IChatRoomIdSet | null>) {
-
+            console.log('Read messageS');
             if (action.payload) {
 
                 for (let i = 0; i < state.chatRooms.length; i++) {
@@ -438,10 +440,13 @@ const chatSlice = createSlice({
                                 break;
                         }
 
-                        state.chatRooms[i].messages = filterArrayUniqueMessages(state.chatRooms[i].messages.concat(action.payload?.messages)).sort((a: ISendChatMessage, b: ISendChatMessage) =>
+                        // state.chatRooms[i].messages = filterArrayUniqueMessages(state.chatRooms[i].messages.concat(action.payload?.messages)).sort((a: ISendChatMessage, b: ISendChatMessage) =>
+                        //     new Date(a.message.createdAt) > new Date(b.message.createdAt) ? 1 : -1
+                        // );
+
+                        state.chatRooms[i].messages = state.chatRooms[i].messages.concat(action.payload?.messages).sort((a: ISendChatMessage, b: ISendChatMessage) =>
                             new Date(a.message.createdAt) > new Date(b.message.createdAt) ? 1 : -1
                         );
-
 
                         state.activeChatRoom = state.chatRooms[i];
                         break;

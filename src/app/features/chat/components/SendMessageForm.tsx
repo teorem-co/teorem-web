@@ -60,6 +60,15 @@ const SendMessageForm = (props: Props) => {
         }
     };
 
+    function randomUUIDFromArray(uuidArray:any) {
+        if (!Array.isArray(uuidArray) || uuidArray.length === 0) {
+            return null;
+        }
+
+        const randomIndex = Math.floor(Math.random() * uuidArray.length);
+        return uuidArray[randomIndex];
+    }
+
     const onFileUpload = (event: any) => {
 
         if (fileRef.current?.files && fileRef.current?.files.length > 0)

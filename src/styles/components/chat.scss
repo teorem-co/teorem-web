@@ -85,7 +85,9 @@
             border-radius: 50px;
             padding: calc($unit * 2) calc($unit * 6);
             margin-top: 6px;
-            display: inline-block;
+            width: fit-content;
+            display: flex;
+            flex-direction: column;
 
             &--other {
                 color: $black;
@@ -238,6 +240,16 @@ form.chat-file-send-form{
     margin-left: -2px;
 }
 
+.chat-message-timestamp-receiver {
+    font-size: 10px;
+    color: #888;
+}
+
+.chat-message-timestamp-sender {
+    font-size: 10px;
+    color: #dfdfdf;
+    text-align: right;
+}
 
 .chat__overlay__free__consultation{
     position: fixed;
