@@ -163,7 +163,7 @@ export const authService = baseService.injectEndpoints({
         }),
         getServerVersion: builder.query<string, void>({
             query: () => ({
-                url: `/get-server-version`,
+                url: 'http://localhost:8080/get-server-version',//`/get-server-version`,
                 method: HttpMethods.GET,
             }),
         }),

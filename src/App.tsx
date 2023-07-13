@@ -139,17 +139,19 @@ function App() {
                 return sendMessageObject.callerName;
             });
 
+            console.log(sendMessageObject);
+
             const message = {
                 userId: user2Data1.id + '',
                 tutorId: user2Data3.id + '',
                 message: {
                     message: messageText,
-                    createdAt: sendMessageObject.messageObj.createdAt,
-                    isRead: sendMessageObject.messageObj.isRead,
-                    messageId: sendMessageObject.messageObj.id,
-                    isFile: sendMessageObject.messageObj.isFile,
-                    messageNew: sendMessageObject.messageObj.messageNew,
-                    messageMissedCall: sendMessageObject.messageObj.missedCall,
+                    createdAt: sendMessageObject.createdAt,
+                    isRead: sendMessageObject.isRead,
+                    messageId: sendMessageObject.id,
+                    isFile: sendMessageObject.isFile,
+                    messageNew: sendMessageObject.messageNew,
+                    messageMissedCall: sendMessageObject.missedCall,
                 },
                 senderId: sendMessageObject.senderId,
             };
@@ -221,6 +223,8 @@ function App() {
             }
 
         });
+
+        //TODO: set listener on message read ==> when both users are online
 
         chat.socket.on("acceptFreeConsultation", (buffer: any) => {
 
