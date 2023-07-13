@@ -1,7 +1,7 @@
 import { t } from 'i18next';
 import { debounce } from 'lodash';
 import moment from 'moment';
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -26,7 +26,16 @@ import ImageCircle from '../../../components/ImageCircle';
 import { useLazyGetTutorProfileDataQuery } from '../../../../services/tutorService';
 import 'react-tooltip/dist/react-tooltip.css';
 import { Tooltip } from 'react-tooltip';
+import { saveAs } from 'file-saver';
+import "bootstrap-icons/font/bootstrap-icons.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import { POSITION } from 'react-toastify/dist/utils';
+import { IoCheckmarkCircleOutline, IoCheckmarkDone, IoCheckmarkDoneCircleSharp } from 'react-icons/io5';
+import { BsCheck, BsCheckAll, BsDownload, BsFillFileEarmarkFill } from 'react-icons/bs';
+import { FaFileDownload } from 'react-icons/fa';
+import { BiCheckCircle } from 'react-icons/bi';
+
 
 interface Props {
     data: IChatRoom | null;
@@ -67,6 +76,7 @@ const SingleConversation = (props: Props) => {
     };
 
     let lastMessageUserId: string = '';
+
 
     useEffect(() => {
         scrollToBottomSmooth();
@@ -171,7 +181,6 @@ const SingleConversation = (props: Props) => {
 
     useEffect(() => {
         if (props.data) {
-
             dispatch(readMessages({
                 userId: props.data.user?.userId + '',
                 tutorId: props.data?.tutor?.userId + '',
@@ -408,6 +417,35 @@ const SingleConversation = (props: Props) => {
         // Combine the formatted hours and minutes with a colon separator
         return `${formattedHours}:${formattedMinutes}`;
     }
+    const downloadFile = (documentId: string | undefined)  => {
+        //console.log('Dohvacam dokument s idjem: ', documentId);
+        fetch(`http://localhost:8080/api/v1/chat/download/${documentId}`)
+            .then(response => {
+                const contentDisposition = response.headers.get('Content-Disposition');
+                const fileName = contentDisposition?.split('=')[1];
+
+                response.blob().then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = fileName + '';
+                    a.click();
+                });
+            });
+    };
+
+    function downloadFile2(documentId: string | undefined) {
+        fetch(`http://localhost:8080/api/v1/chat/chat-file/${documentId}`)
+            .then(response => {
+                const contentDisposition = response.headers.get('Content-Disposition');
+                const fileName = contentDisposition?.split('=')[1];
+
+                response.blob().then(blob => {
+                    saveAs(blob, fileName);
+                });
+            });
+    }
+
 
     return (
         <div className="content">
@@ -586,9 +624,8 @@ const SingleConversation = (props: Props) => {
                                         place={'top-start'}
                                         positionStrategy={'absolute'}
                                         float={true}
-                                        style={{ backgroundColor: "rgba(211, 211, 211, 0.1)", color: 'black', fontSize:'smaller' }}
-
-
+                                        delayShow={1000}
+                                        style={{ backgroundColor: "rgba(70,70,70, 0.9)", color: 'white', fontSize:'smaller' }}
                                     />
                                     {!sameDate && (
                                         <div className={`message-full-width flex flex--col flex--center`}>
@@ -629,18 +666,64 @@ const SingleConversation = (props: Props) => {
                                         {/*        alt={'profile avatar'}*/}
                                         {/*    />*/}
                                         {/*)}*/}
+
                                         <div key={`sub-${index}`} className={`message-full-width flex flex--col flex--end`}>
                                             <div key={`sub-sub-${index}`} className="type--right w--80--max">
-                                                <div data-tooltip-id="my-tooltip" data-tooltip-content={`Sent: ${messageTime}`}
+                                                <div
+                                                    data-tooltip-id="my-tooltip"
+                                                    data-tooltip-html={`Sent: ${messageTime} <br/>${message.message.isFile ? `File name: ${message.message.message}` : '' }`}
                                                     key={`sub-sub-sub-${index}`}
-                                                    className={`chat__message__item__end chat__message__item chat__message__item--logged${message.message.isFile ? ' chat-file-outline' : ''
-                                                        }`}
-                                                    dangerouslySetInnerHTML={{
-                                                        __html:
-                                                            (message.message.isFile ? '<i class="icon--attachment chat-file-icon"></i>' : '') +
-                                                            messageText,
-                                                    }}
-                                                ></div>
+                                                    className={`d-inline-flex  chat__message__item__end chat__message__item chat__message__item--logged${message.message.isFile ? ' chat-file-outline' : ''}`}
+                                                >{
+                                                    (message.message.isFile ?
+                                                            <div className='d-flex flex-row justify-content-between align-items-end'>
+                                                                <BsFillFileEarmarkFill className='text-primary align-self-center'/>
+
+                                                                <div className='d-flex flex-row justify-content-between'>
+                                                                    <div className='text-break text-black align-self-center ml-2'>
+                                                                        {message.message.message.length > 30 ?
+                                                                                `${message.message.message.slice(0, 30)}...`
+                                                                                :
+                                                                                message.message.message}
+                                                                    </div>
+
+                                                                    <div role='button'
+                                                                         className='d-inline-block h-auto shadow-sm align-self-center mx-2'
+                                                                         onClick={()=>downloadFile(message.message.messageId)}
+                                                                    >
+                                                                        <BsDownload className='border-hover text-black'/>
+                                                                    </div>
+
+                                                                    {
+                                                                        message.message.isRead ?
+                                                                            <BsCheckAll className='align-self-end text-black'/>
+                                                                            :
+                                                                            <BsCheck className='align-self-end text-black'/>
+
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                            :
+                                                            <div className='d-flex flex--start'>
+                                                                <div className='mx-1'>
+                                                                    {message.message.message}
+                                                                </div>
+                                                                {
+                                                                    message.message.isRead ?
+                                                                        <BsCheckAll className='align-self-end'/>
+                                                                        :
+                                                                        <BsCheck className='align-self-end'/>
+                                                                }
+                                                            </div>
+                                                    )
+                                                }
+                                                    {/*dangerouslySetInnerHTML={{*/}
+                                                    {/*    __html:*/}
+                                                    {/*        (message.message.isFile ? '<i class="icon--attachment chat-file-icon" ></i>' : '') +*/}
+                                                    {/*        messageText,*/}
+                                                    {/*}}*/}
+
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -673,32 +756,44 @@ const SingleConversation = (props: Props) => {
                                             )
                                         )
                                     )}
-                                    {/*{img && (*/}
-                                    {/*    <img*/}
-                                    {/*        className="chat__conversation__avatar chat__conversation__avatar--small"*/}
-                                    {/*        src={*/}
-                                    {/*            props.data*/}
-                                    {/*                ? 'https://' +*/}
-                                    {/*                (message.senderId == props.data.tutor?.userId*/}
-                                    {/*                    ? props.data.tutor?.userImage*/}
-                                    {/*                    : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')*/}
-                                    {/*                : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg'*/}
-                                    {/*        }*/}
-                                    {/*        alt={'profile avatar'}*/}
-                                    {/*    />*/}
-                                    {/*)}*/}
+
                                     <div key={`sub-${index}`} className={`message-full-width flex flex--col`}>
                                         <div key={`sub-sub-${index}`} className="w--80--max">
                                             <div
+                                                data-tooltip-id="my-tooltip"
+                                                data-tooltip-html={`Sent: ${messageTime} <br/>${message.message.isFile ? `File name: ${message.message.message}` : '' }`}
                                                 key={`sub-sub-sub-${index}`}
-                                                className={`chat__message__item chat__message__item--other${message.message.isFile ? ' chat-file-outline' : ''
-                                                    }`}
-                                                dangerouslySetInnerHTML={{
-                                                    __html:
-                                                        (message.message.isFile ? '<i class="icon--attachment chat-file-icon"></i>' : '') +
-                                                        messageText,
-                                                }}
-                                            ></div>
+                                                className={`chat__message__item chat__message__item--other${message.message.isFile ? ' chat-file-outline' : ''}`}
+                                            >
+                                               {
+                                                   (message.message.isFile ?
+                                                       <div className='d-flex flex-row justify-content-between align-items-end'>
+                                                           <div className='d-inline-block'>
+                                                               <i className="bi bi-file-earmark-fill text-primary"></i>
+                                                           </div>
+                                                           <div className='col d-inline-block text-truncate'>
+                                                               {message.message.message.length > 30 ?
+                                                                       `${message.message.message.slice(0, 30)}...`
+                                                                           :
+                                                                       message.message.message}
+                                                           </div>
+                                                           <div role='button'
+                                                                className='d-inline-block h-auto shadow-sm'
+                                                                onClick={()=>downloadFile(message.message.messageId)}
+                                                           >
+                                                               <i className="bi border-hover bi-download"></i>
+                                                           </div>
+                                                       </div>
+                                                       :
+                                                        <div>
+                                                            <i className="icon--attachment chat-file-icon"/>
+                                                            {message.message.message}
+                                                        </div>
+                                                   )
+                                               }
+
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>

@@ -398,7 +398,8 @@ const chatSlice = createSlice({
                     }
 
                     for (let j = 0; j < state.chatRooms[i].messages.length; j++) {
-                        state.chatRooms[i].messages[j].message.isRead = true;
+                        state.chatRooms[i].messages[j].message.isRead = true;   //TODO: check this because it sets that messages are read,
+                                                                                // but sometimes are not
 
                         if (state.newMessages != null)
                             state.newMessages -= 1;
@@ -457,7 +458,6 @@ const chatSlice = createSlice({
 
                 if (!missedCall) {
 
-
                     if (!inside) {
                         state.chatRooms.push(action.payload);
                         state.activeChatRoom = state.chatRooms[state.chatRooms.length - 1];
@@ -471,6 +471,10 @@ const chatSlice = createSlice({
                 }
             }
         },
+
+        setMessagesAsRead(state, action:any){
+            //TODO: mark messages as read for chatroom with this user (needs to receive userID for chatroom through action)
+        }
     },
 });
 

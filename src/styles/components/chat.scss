@@ -212,7 +212,6 @@ form.chat-file-send-form{
 
 .chat-single-conversation-link{
     display: flex;
-
 }
 
 .chat-load-more{
@@ -298,4 +297,10 @@ form.chat-file-send-form{
 
 .video-chat-wrapper{
     
+}
+
+.border-hover:hover{
+    border: lightslategray solid 1px;
+    border-radius: 5px;
+    //box-shadow: black ;
 }

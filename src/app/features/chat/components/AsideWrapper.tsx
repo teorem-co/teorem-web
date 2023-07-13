@@ -49,6 +49,7 @@ const AsideWrapper = (props: Props) => {
     const onSearch = () => {
         if (searchInputRef.current?.value && searchInputRef.current?.value.length > 0) {
             getSearchChat({
+                limitMessages: 20,
                 search: searchInputRef.current?.value,
                 page: page,
                 rpp: 20,

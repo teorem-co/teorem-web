@@ -19,6 +19,7 @@ export interface IChatMessagesQuery {
 }
 
 export interface ISearchChatQuery {
+    limitMessages: number;
     search: string;
     rpp: number;
     page: number
@@ -40,14 +41,14 @@ export const chatService = baseService.injectEndpoints({
         }),
         postUploadFile: builder.mutation<ISendChatMessage, FormData>({
             query: (body) => ({
-                url: `${URL}/post-file`,
+                url:`http://localhost:8080/api/v1/chat/chat-file`, //`${URL}/post-file`,
                 method: HttpMethods.POST,
                 body: body
             }),
         }),
         getOnSearchChatRooms: builder.query<IChatRoom[], ISearchChatQuery>({
             query: (body) => ({
-                url: `${URL}/search-chat-rooms?search=${body.search}&rpp=${body.rpp}&page=${body.page}`,
+                url: `http://localhost:8080/api/v1/chat/search-rooms?search=${body.search}&rpp=${body.rpp}&page=${body.page}&limitMessages=${body.limitMessages}`,
                 method: HttpMethods.GET,
             }),
         }),
