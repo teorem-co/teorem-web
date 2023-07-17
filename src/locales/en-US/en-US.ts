@@ -566,6 +566,8 @@ export const EN_US = {
             PHONE: 'Phone Number*',
             COUNTRY: 'Country*',
             BIRTHDAY: 'Date of Birth*',
+            IBAN: 'IBAN',
+            IBAN_PLACEHOLDER: 'Enter your IBAN',
             IMAGE: 'Profile Image*',
             UPLOAD_IMAGE: 'Drag and drop to upload',
         },
