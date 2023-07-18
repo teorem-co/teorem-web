@@ -5,7 +5,16 @@ import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 
 import { useLazyGetChatRoomsQuery, useLazyGetChildBookingTutorsQuery } from './app/features/chat/services/chatService';
-import { addChatRoom, addChatRooms, addMessage, IChatRoom, setBuffer, setConsultationInitialized, setUser } from './app/features/chat/slices/chatSlice';
+import {
+    addChatRoom,
+    addChatRooms,
+    addMessage,
+    IChatRoom, IReadMessagePair,
+    readMessages,
+    setBuffer,
+    setConsultationInitialized, setMessagesAsRead,
+    setUser,
+} from './app/features/chat/slices/chatSlice';
 import { useAppSelector } from './app/hooks';
 import { Role } from './app/lookups/role';
 import ROUTES, { RenderRoutes } from './app/routes';
@@ -139,8 +148,6 @@ function App() {
                 return sendMessageObject.callerName;
             });
 
-            console.log(sendMessageObject);
-
             const message = {
                 userId: user2Data1.id + '',
                 tutorId: user2Data3.id + '',
@@ -171,7 +178,6 @@ function App() {
                 unreadMessageCount: 1
             };
             dispatch(addChatRoom(chatRoom));
-
             //dispatch(addMessage(message));
         }
     },
@@ -224,7 +230,9 @@ function App() {
 
         });
 
-        //TODO: set listener on message read ==> when both users are online
+        chat.socket.on("markMessagesRead", (messagePair: IReadMessagePair) =>{
+            dispatch(setMessagesAsRead(messagePair));
+        });
 
         chat.socket.on("acceptFreeConsultation", (buffer: any) => {
 
@@ -258,12 +266,7 @@ function App() {
     useEffect(() => {
 
         if (document && userId) {
-
-            if (chat.newMessages != null && chat.newMessages > 0) {
-                document.title = "Inbox(" + (chat.newMessages > 9 ? "9+" : chat.newMessages) + ") - Teorem";
-            } else if (chat.newMessages == 0) {
-                document.title = "Teorem";
-            }
+            document.title = "Teorem";
         }
 
     }, [chat.newMessages]);

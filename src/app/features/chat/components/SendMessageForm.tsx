@@ -6,6 +6,8 @@ import { useAppSelector } from "../../../hooks";
 import { usePostUploadFileMutation } from "../services/chatService";
 import { addMessage, IChatRoom, ISendChatMessage } from "../slices/chatSlice";
 import { saveAs } from 'file-saver';
+import { ImAttachment } from 'react-icons/im';
+import { IconContext } from "react-icons";
 
 interface Props {
     data: IChatRoom | null;
@@ -67,15 +69,14 @@ const SendMessageForm = (props: Props) => {
             setFileToSend(fileRef.current?.files[0]);
     };
 
-    const onCancelFileSend = async (event: any) => {
-
-        if (fileToSend && fileRef.current?.form) {
-            fileRef.current.form.reset();
-            setFileToSend(undefined);
+    useEffect(() => {
+        if (fileToSend) {
+            onFileSend();
         }
-    };
+    }, [fileToSend]);
 
-    const onFileSend = async (event: any) => {
+
+    const onFileSend = async () => {
 
 
         if (fileToSend) {
@@ -103,8 +104,6 @@ const SendMessageForm = (props: Props) => {
                     "fileExt": "." + fileExt || ""
                 };
 
-                console.log("sending message via socket", data);
-                //chat.socket.emit("fileSent", data);
                 postFile(fd);
             }
         }
@@ -114,14 +113,12 @@ const SendMessageForm = (props: Props) => {
 
         if (isSuccessPostFile) {
 
-            console.log("SUCCESSFUL JE BILO");
             if (fileRef.current?.form) {
                 fileRef.current.form.reset();
                 setFileToSend(undefined);
             }
 
             if (postFileData) {
-                console.log(postFileData);
                 dispatch(addMessage({
                     userId: postFileData.userId,
                     tutorId: postFileData.tutorId,
@@ -141,39 +138,34 @@ const SendMessageForm = (props: Props) => {
 
     }, [isSuccessPostFile]);
 
-    function downloadFile2() {
-        fetch(`http://localhost:8080/api/v1/chat/chat-file/3b4ca35d-c972-41c7-9a36-e27f95181f59`)
-            .then(response => {
-                const contentDisposition = response.headers.get('Content-Disposition');
-                const fileName = contentDisposition?.split('=')[1];
-
-                response.blob().then(blob => {
-                    saveAs(blob, fileName);
-                });
-            });
-    };
-
     return (
         <>
-            {fileToSend && <div className="chat-file-message-send"><button className="close-button-popup" onClick={onCancelFileSend}><i className="icon--close"></i></button><p>{fileToSend.name}</p><button onClick={onFileSend}><i className="icon--upload"></i></button></div>}
+            {/*{fileToSend && <div className="chat-file-message-send"><button className="close-button-popup" onClick={onCancelFileSend}><i className="icon--close"></i></button><p>{fileToSend.name}</p><button onClick={onFileSend}><i className="icon--upload"></i></button></div>}*/}
             <div className="content__footer content__footer--chat">
 
                 <form className="chat-file-send-form" method="POST" action="" onSubmit={onSubmit}>
-                    <div className="flex--shrink input-file-relative">
-                        <div role='button'>
 
-                            <label role='button' htmlFor="file-input">
-                                <i className="icon icon--base icon--attachment icon--black"></i>
-                            </label>
-                            <input ref={fileRef} type="file" name="uploadFile" className="input-file-hidden" onInput={onFileUpload} />
+                    <label htmlFor="uploadFile" className="file-upload-label">
 
-                        </div>
-                    </div>
+                        <ImAttachment className="border-hover" size='25' />
 
+                        <input
+                            ref={fileRef}
+                            type="file"
+                            id="uploadFile"
+                            name="uploadFile"
+                            onChange={onFileUpload}
+                            style={{display: "none"}}
+                        />
+                    </label>
 
-                    {/*<div role='button' onClick={downloadFile2}>*/}
-                    {/*    PREUZMI*/}
+                    {/*<div className="flex--shrink input-file-relative">*/}
+                    {/*    <ImAttachment className="border-hover text-primary"/>*/}
+                    {/*        <input ref={fileRef} type="file" name="uploadFile" onInput={onFileUpload} />*/}
+                    {/*/!*    className="input-file-hidden"*!/*/}
                     {/*</div>*/}
+
+
                     <input ref={newMessageRef} type="textArea" className="input ml-5 p-2" />
                 </form>
             </div>

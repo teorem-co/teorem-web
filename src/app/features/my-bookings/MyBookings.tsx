@@ -70,6 +70,14 @@ const MyBookings: React.FC = (props: any) => {
     y: 0,
   });
 
+  const bookin: IBookingTransformed = {
+    id: "2d4cfeb3-9cad-475d-8953-f54e844253c9",
+      label: "Label",
+      start: new Date(1689341221000),
+      end: new Date(1689344819000),
+      allDay: false
+  };
+
   const history = useHistory();
   const localizer = momentLocalizer(moment);
   const positionClass = moment(selectedStart).format('dddd');
@@ -80,7 +88,7 @@ const MyBookings: React.FC = (props: any) => {
   const tileElement = tileRef.current as HTMLDivElement;
   const userId = useAppSelector((state) => state.auth.user?.id);
   const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
-  const allBookings = bookings?.concat(unavailableBookings ? unavailableBookings : []);
+  const allBookings = bookings?.concat(unavailableBookings ? unavailableBookings : [bookin]);
   const isLoading = bookingsLoading || unavailableBookingsLoading;
 
   const CustomHeader = (date: any) => {

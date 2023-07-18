@@ -10,7 +10,6 @@ import IUpcomingLessons from '../interfaces/IUpcomingLessons';
 
 //bookings/week/:tutorSlug
 
-const URL = '/bookings';
 
 interface IBookingTransformed {
     id: string;
@@ -50,11 +49,13 @@ interface IUpdateBooking {
     bookingId: string;
 }
 
+const URL = '/api/v1/bookings';
+
 export const bookingService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         getBookings: builder.query<IBookingTransformed[], IDateRange>({
             query: (data) => ({
-                url: `${URL}/?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}`,
+                url: `${URL}/?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}`,//`${URL}/?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}`,
                 method: HttpMethods.GET,
             }),
             transformResponse: (response: IBooking[]) => {
@@ -110,7 +111,7 @@ export const bookingService = baseService.injectEndpoints({
         }),
         createbooking: builder.mutation<void, ICreateBooking>({
             query: (data) => ({
-                url: `localhost:8080/api/v1/booking`, // `${URL}/${data.tutorId}`
+                url: `${URL}`, // `${URL}/${data.tutorId}`
                 method: HttpMethods.POST,
                 body: data,
             }),
@@ -118,7 +119,7 @@ export const bookingService = baseService.injectEndpoints({
         }),
         createBooking: builder.mutation<void, any>({
             query: (data) => ({
-                url: `${URL}/create/${data.tutorId}`,
+                url: `${URL}`,//`${URL}/create/${data.tutorId}`,
                 method: HttpMethods.POST,
                 body: data,
             }),
@@ -134,7 +135,7 @@ export const bookingService = baseService.injectEndpoints({
         }),
         getBookingById: builder.query<IBooking, string>({
             query: (bookingId) => ({
-                url: `${URL}/${bookingId}`,
+                url: `${URL}/${bookingId}`,//`${URL}/${bookingId}`,
             }),
         }),
         getCompletedLessons: builder.query<ICompletedLesson[], void>({

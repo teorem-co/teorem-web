@@ -8,7 +8,7 @@ import IChildUpdate from '../interfaces/IChildUpdate';
 import IDashboard from '../interfaces/IDashboard';
 import IUser from '../interfaces/IUser';
 
-const URL = '/users';
+const URL = '/api/v1/users';
 
 export interface IUpdateUserInformation {
     firstName: string;
@@ -37,7 +37,7 @@ export const userService = baseService.injectEndpoints({
         }),
         getUser: builder.query<IUser, string>({
             query: (userId) => ({
-                url: `http://localhost:8080/api/v1${URL}/${userId}`,
+                url: `${URL}/${userId}`,
                 method: HttpMethods.GET,
             }),
         }),

@@ -83,12 +83,12 @@ interface IResendEmail {
     email: string;
 }
 
-const URL = '/membership';
+const URL = '/api/v1/users';
 export const authService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         login: builder.mutation<ILoginResponse, ILogin>({
             query: (body) => ({
-                url: `${URL}/login`,
+                url: `${URL}/login`,//"http://localhost:8080/api/v1/users/login",
                 method: HttpMethods.POST,
                 body,
             }),
@@ -145,25 +145,25 @@ export const authService = baseService.injectEndpoints({
         }),
         checkMail: builder.mutation<boolean, ICheckMail>({
             query: (body) => ({
-                url: `http://localhost:8080/api/v1/users/check-email?mail=` + body.email,
+                url: `${URL}/check-email?mail=` + body.email,
                 method: HttpMethods.GET,
             }),
         }),
         checkUsername: builder.mutation<boolean, ICheckUsername>({
             query: (body) => ({
-                url: `http://localhost:8080/api/v1/users/check-username?username=` + body.username,
+                url: `${URL}/check-username?username=` + body.username,
                 method: HttpMethods.GET,
             }),
         }),
         generateChildUsername: builder.mutation<IGenerateUsername, IGenerateUsername>({
             query: (body) => ({
-                url: `http://localhost:8080/api/v1/users/generate-username?username=` + body.username,
+                url: `${URL}/generate-username?username=` + body.username,
                 method: HttpMethods.GET,
             }),
         }),
         getServerVersion: builder.query<string, void>({
             query: () => ({
-                url: 'http://localhost:8080/get-server-version',//`/get-server-version`,
+                url: '/get-server-version',//`/get-server-version`,
                 method: HttpMethods.GET,
             }),
         }),
