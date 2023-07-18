@@ -4,7 +4,7 @@ import { RootState } from './store';
 
 export const baseService = createApi({
     baseQuery: fetchBaseQuery({
-        baseUrl: `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_API_PORT}/${process.env.REACT_APP_API}/`,
+        baseUrl: `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_HOST}/`,
         prepareHeaders: (headers, { getState }) => {
             const token = (getState() as RootState).auth.token;
 
