@@ -7,8 +7,8 @@ import { compileString } from 'sass';
 import { RootState, store } from '../../../store';
 import { useSelector } from 'react-redux';
 
-const serverUrl = `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_API_PORT}`;
-const javaSocketServerUrl = "http://localhost:8085";
+const serverUrl = `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_API_PORT}`; //TODO: set to our
+const javaSocketServerUrl = "https://localhost:8085";
 const token = 'token'; // TODO: set token (jwt?)
 //const token = store.getState().auth.token;
 export interface IVideoChatBuffer {
