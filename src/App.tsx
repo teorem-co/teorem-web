@@ -5,7 +5,16 @@ import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 
 import { useLazyGetChatRoomsQuery, useLazyGetChildBookingTutorsQuery } from './app/features/chat/services/chatService';
-import { addChatRoom, addChatRooms, addMessage, IChatRoom, setBuffer, setConsultationInitialized, setUser } from './app/features/chat/slices/chatSlice';
+import {
+    addChatRoom,
+    addChatRooms,
+    addMessage,
+    IChatRoom, IReadMessagePair,
+    readMessages,
+    setBuffer,
+    setConsultationInitialized, setMessagesAsRead,
+    setUser,
+} from './app/features/chat/slices/chatSlice';
 import { useAppSelector } from './app/hooks';
 import { Role } from './app/lookups/role';
 import ROUTES, { RenderRoutes } from './app/routes';
@@ -144,12 +153,12 @@ function App() {
                 tutorId: user2Data3.id + '',
                 message: {
                     message: messageText,
-                    createdAt: sendMessageObject.messageObj.createdAt,
-                    isRead: sendMessageObject.messageObj.isRead,
-                    messageId: sendMessageObject.messageObj.id,
-                    isFile: sendMessageObject.messageObj.isFile,
-                    messageNew: sendMessageObject.messageObj.messageNew,
-                    messageMissedCall: sendMessageObject.messageObj.missedCall,
+                    createdAt: sendMessageObject.createdAt,
+                    isRead: sendMessageObject.isRead,
+                    messageId: sendMessageObject.id,
+                    isFile: sendMessageObject.isFile,
+                    messageNew: sendMessageObject.messageNew,
+                    messageMissedCall: sendMessageObject.missedCall,
                 },
                 senderId: sendMessageObject.senderId,
             };
@@ -169,8 +178,7 @@ function App() {
                 unreadMessageCount: 1
             };
             dispatch(addChatRoom(chatRoom));
-
-            //dispatch(addMessage());
+            //dispatch(addMessage(message));
         }
     },
         [user2Data1, user2Data3, sendMessageObject]);
@@ -203,7 +211,6 @@ function App() {
         });
 
         chat.socket.on('messageReceive', (sendMessageObject: any) => {
-
             setSendMessageObjectSet(true);
             setSendMessageObject(sendMessageObject);
         });
@@ -221,6 +228,10 @@ function App() {
                 setMissedCallBuffer(buffer);
             }
 
+        });
+
+        chat.socket.on("markMessagesRead", (messagePair: IReadMessagePair) =>{
+            dispatch(setMessagesAsRead(messagePair));
         });
 
         chat.socket.on("acceptFreeConsultation", (buffer: any) => {
@@ -255,12 +266,7 @@ function App() {
     useEffect(() => {
 
         if (document && userId) {
-
-            if (chat.newMessages != null && chat.newMessages > 0) {
-                document.title = "Inbox(" + (chat.newMessages > 9 ? "9+" : chat.newMessages) + ") - Teorem";
-            } else if (chat.newMessages == 0) {
-                document.title = "Teorem";
-            }
+            document.title = "Teorem";
         }
 
     }, [chat.newMessages]);
@@ -270,7 +276,7 @@ function App() {
         if (userId) {
 
             if (userData.user?.Role.abrv == Role.Child)
-                getChildBookingTutors();
+                 getChildBookingTutors();
 
             getChatRooms({
                 limitMessages: 20,

@@ -1,9 +1,9 @@
-import { baseService } from '../../../baseService';
-import { HttpMethods } from '../../../lookups/httpMethods';
+import {baseService} from '../../../baseService';
+import {HttpMethods} from '../../../lookups/httpMethods';
 
 //bookings/week/:tutorSlug
 
-const URL = '/countries';
+const URL = '/api/v1/countries';
 
 export interface ICountry {
     id: string;
@@ -27,4 +27,4 @@ export const countryService = baseService.injectEndpoints({
     }),
 });
 
-export const { useLazyGetCountriesQuery } = countryService;
+export const {useLazyGetCountriesQuery} = countryService;

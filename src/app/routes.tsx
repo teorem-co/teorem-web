@@ -44,6 +44,8 @@ import PermissionsGate from './PermissionGate';
 import { getUserRoleAbrv } from './utils/getUserRoleAbrv';
 import { setLang } from '../slices/langSlice';
 import IUser from '../interfaces/IUser';
+import { Badge } from '@mui/material';
+import classes from '*.module.sass';
 
 export const PATHS = {
   ROLE_SELECTION: t('PATHS.ROLE_SELECTION'),
@@ -604,6 +606,36 @@ export function RenderMenuLinks() {
 
   const { t } = useTranslation();
 
+  const badgeStyle = {
+    "& .MuiBadge-badge": {
+      color: 'white',
+      backgroundColor: '#7E6CF2',
+    }
+  };
+
+  const [showBadge, setShowBadge] = useState(false);
+  const [doAnimation, setDoAnimation] = useState(true);
+  // Function to trigger the badge pop-up animation
+
+  useEffect(() => {
+    if(chat.newMessages){
+
+        if(chat.newMessages == 0){
+          setDoAnimation(true);
+        }
+
+        if(chat.newMessages > 0 && doAnimation){
+          setShowBadge(true);
+
+          setTimeout(() => {
+            setShowBadge(false);
+          }, 1800);
+
+          setDoAnimation(false);
+      }
+    }
+  }, [chat.newMessages]);
+
   if (userRole) {
     return (
       <>
@@ -637,9 +669,18 @@ export function RenderMenuLinks() {
                 return true;
               }}
             >
-              <i className={`icon icon--base navbar__item__icon navbar__item--${route.icon}`}></i>
+
+              {(route.key == 'CHAT' && chat.newMessages != null && chat.newMessages > 0) ?
+                  <Badge badgeContent={chat.newMessages}
+                         className={showBadge ? 'badge-pulse' : ''}
+                         sx={badgeStyle}
+                         max={10}>
+                    <i className={`icon icon--base navbar__item__icon navbar__item--${route.icon}`}></i>
+                  </Badge>
+                  :
+                  <i className={`icon icon--base navbar__item__icon navbar__item--${route.icon}`}></i>
+              }
               <span className={`navbar__item__label`}>{t(`NAVIGATION.${route.name}`)}</span>
-              {route.key == 'CHAT' && chat.newMessages != null && chat.newMessages > 0 && <i className={`navbar__item__unread`}></i>}
             </NavLink>
           )
         )}

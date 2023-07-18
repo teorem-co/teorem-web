@@ -1,13 +1,9 @@
-import i18next, { t } from 'i18next';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { Dispatch } from 'redux';
+import i18next from 'i18next';
+import {Link} from 'react-router-dom';
+import {toast} from 'react-toastify';
 
 import ToastFreeConsultationMessage from '../components/ToastFreeConsultationMessage';
-import { IState, setActiveChatRoom, setFreeConsultation, setLink } from '../features/chat/slices/chatSlice';
-import { useAppSelector } from '../hooks';
-import { PATHS, PROFILE_PATHS } from '../routes';
+import {PROFILE_PATHS} from '../routes';
 
 class ToastService {
     private static opts: object = {

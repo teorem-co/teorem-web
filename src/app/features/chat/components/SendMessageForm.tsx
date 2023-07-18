@@ -5,6 +5,9 @@ import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../../hooks";
 import { usePostUploadFileMutation } from "../services/chatService";
 import { addMessage, IChatRoom, ISendChatMessage } from "../slices/chatSlice";
+import { saveAs } from 'file-saver';
+import { ImAttachment } from 'react-icons/im';
+import { IconContext } from "react-icons";
 
 interface Props {
     data: IChatRoom | null;
@@ -66,15 +69,14 @@ const SendMessageForm = (props: Props) => {
             setFileToSend(fileRef.current?.files[0]);
     };
 
-    const onCancelFileSend = async (event: any) => {
-
-        if (fileToSend && fileRef.current?.form) {
-            fileRef.current.form.reset();
-            setFileToSend(undefined);
+    useEffect(() => {
+        if (fileToSend) {
+            onFileSend();
         }
-    };
+    }, [fileToSend]);
 
-    const onFileSend = async (event: any) => {
+
+    const onFileSend = async () => {
 
 
         if (fileToSend) {
@@ -84,14 +86,23 @@ const SendMessageForm = (props: Props) => {
             const fileName = fileSplit.join(".");
 
             if (fileRef.current?.form) {
+
                 const fd = new FormData(fileRef.current?.form);
-                //fd.append("uploadFile", fileToSend);
+                fd.append("uploadFile", fileToSend);
                 fd.append("userId", chat.activeChatRoom?.user?.userId || '');
                 fd.append("tutorId", chat.activeChatRoom?.tutor?.userId || '');
                 fd.append("senderId", chat.user?.userId || '');
-                fd.append("isFile", "true");
                 fd.append("fileName", fileName || '');
                 fd.append("fileExt", '.' + fileExt || '');
+
+                const data = {
+                    "uploadFile": fileToSend,
+                    "userId": chat.activeChatRoom?.user?.userId || "",
+                    "tutorId": chat.activeChatRoom?.tutor?.userId || "",
+                    "senderId": chat.user?.userId || "",
+                    "fileName": fileName || "",
+                    "fileExt": "." + fileExt || ""
+                };
 
                 postFile(fd);
             }
@@ -129,14 +140,33 @@ const SendMessageForm = (props: Props) => {
 
     return (
         <>
-            {fileToSend && <div className="chat-file-message-send"><button className="close-button-popup" onClick={onCancelFileSend}><i className="icon--close"></i></button><p>{fileToSend.name}</p><button onClick={onFileSend}><i className="icon--upload"></i></button></div>}
+            {/*{fileToSend && <div className="chat-file-message-send"><button className="close-button-popup" onClick={onCancelFileSend}><i className="icon--close"></i></button><p>{fileToSend.name}</p><button onClick={onFileSend}><i className="icon--upload"></i></button></div>}*/}
             <div className="content__footer content__footer--chat">
+
                 <form className="chat-file-send-form" method="POST" action="" onSubmit={onSubmit}>
-                    <div className="flex--shrink input-file-relative">
-                        <input ref={fileRef} type="file" name="uploadFile" className="input-file-hidden" onInput={onFileUpload} />
-                        <i className="icon icon--base icon--attachment icon--black"></i>
-                    </div>
-                    <input ref={newMessageRef} type="text" className="input ml-5 p-2" />
+
+                    <label htmlFor="uploadFile" className="file-upload-label">
+
+                        <ImAttachment className="border-hover" size='25' />
+
+                        <input
+                            ref={fileRef}
+                            type="file"
+                            id="uploadFile"
+                            name="uploadFile"
+                            onChange={onFileUpload}
+                            style={{display: "none"}}
+                        />
+                    </label>
+
+                    {/*<div className="flex--shrink input-file-relative">*/}
+                    {/*    <ImAttachment className="border-hover text-primary"/>*/}
+                    {/*        <input ref={fileRef} type="file" name="uploadFile" onInput={onFileUpload} />*/}
+                    {/*/!*    className="input-file-hidden"*!/*/}
+                    {/*</div>*/}
+
+
+                    <input ref={newMessageRef} type="textArea" className="input ml-5 p-2" />
                 </form>
             </div>
         </>

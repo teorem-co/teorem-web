@@ -123,11 +123,13 @@ const Navbar = () => {
                             <div className="type--xs type--color--secondary type--wgt--regular ">{t('ROLES.' + user?.Role?.abrv)}</div>
                         </div>
                     </NavLink>
+
                 )}
 
                 <NavLink to={PATHS.LOGIN} onClick={handleLogout} className="d--ib">
                     <i className="icon icon--logout icon--sm icon--grey"></i>
                 </NavLink>
+
             </div>
         </div>
     );

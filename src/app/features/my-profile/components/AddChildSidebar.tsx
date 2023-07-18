@@ -204,7 +204,7 @@ const AddChildSidebar = (props: Props) => {
       const response = await generateChildUsernamePost({
         username: nameForGenerator,
       }).unwrap();
-      formik.setFieldValue('username', response.toLowerCase());
+      formik.setFieldValue('username', response.username.toLowerCase());
       formik.validateField('username');
     }
   };

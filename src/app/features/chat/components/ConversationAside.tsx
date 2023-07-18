@@ -49,7 +49,7 @@ const ConversationAside = (props: Props) => {
     }, [messageRef]);
 
     useEffect(() => {
-        let textMessage = lastMessage.substring(0, 70) + "...";
+        let textMessage = lastMessage.substring(0, 10) + "...";
         textMessage = textMessage.replace(/stringTranslate=\{(.*?)\}/g, function (match: any, token: any) {
             return t(token);
         });
