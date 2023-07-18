@@ -1,7 +1,7 @@
 import { t } from 'i18next';
 import { debounce } from 'lodash';
 import moment from 'moment';
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -16,18 +16,34 @@ import {
     getMessagesById,
     IChatRoom,
     ISendChatMessage,
-    readMessage,
     readMessages,
-    setBuffer,
     setConsultationInitialized,
     setFreeConsultation,
     setLink,
 } from '../slices/chatSlice';
-import FreeConsultationModal from './FreeConsultationModal';
 import SendMessageForm from './SendMessageForm';
-import Peer from "simple-peer";
 import ImageCircle from '../../../components/ImageCircle';
 import { useLazyGetTutorProfileDataQuery } from '../../../../services/tutorService';
+import 'react-tooltip/dist/react-tooltip.css';
+import { Tooltip } from 'react-tooltip';
+import { saveAs } from 'file-saver';
+import "bootstrap-icons/font/bootstrap-icons.css";
+// import 'bootstrap/dist/css/bootstrap.min.css';
+import '../../../../styles/base/vars.scss';
+
+import { POSITION } from 'react-toastify/dist/utils';
+import { IoCheckmarkCircleOutline, IoCheckmarkDone, IoCheckmarkDoneCircleSharp } from 'react-icons/io5';
+import {
+    BsCheck,
+    BsCheckAll,
+    BsDownload,
+    BsFileEarmark,
+    BsFileEarmarkFill,
+    BsFillFileEarmarkFill,
+} from 'react-icons/bs';
+import { FaFileDownload } from 'react-icons/fa';
+import { BiCheckCircle } from 'react-icons/bi';
+
 
 interface Props {
     data: IChatRoom | null;
@@ -44,7 +60,7 @@ const SingleConversation = (props: Props) => {
 
     const chat = useAppSelector((state) => state.chat);
 
-    const [page, setPage] = useState<number>(1);
+    const [page, setPage] = useState<number>(0);
 
     const [getUserById, { data: user2Data }] = useLazyGetUserQuery();
     const [getUserById2, { data: user2Data2 }] = useLazyGetUserQuery();
@@ -68,6 +84,7 @@ const SingleConversation = (props: Props) => {
     };
 
     let lastMessageUserId: string = '';
+
 
     useEffect(() => {
         scrollToBottomSmooth();
@@ -158,7 +175,7 @@ const SingleConversation = (props: Props) => {
     });
 
     useEffect(() => {
-        if (chatMessages && props.data)
+        if (chatMessages && props.data){
             dispatch(
                 getMessagesById({
                     userId: props.data.user?.userId + '',
@@ -166,11 +183,12 @@ const SingleConversation = (props: Props) => {
                     messages: chatMessages,
                 })
             );
+        }
+
     }, [chatMessages]);
 
     useEffect(() => {
         if (props.data) {
-
             dispatch(readMessages({
                 userId: props.data.user?.userId + '',
                 tutorId: props.data?.tutor?.userId + '',
@@ -179,7 +197,7 @@ const SingleConversation = (props: Props) => {
     }, [props.data]);
 
     useEffect(() => {
-        if (userActive && props.data && page > 1) {
+        if (userActive && props.data && page > 0) {
             const getMessagesObject: IChatMessagesQuery = {
                 userId: (userActive.id == props.data?.user?.userId ? props.data.tutor?.userId : props.data?.user?.userId) || '',
                 page: page,
@@ -241,7 +259,7 @@ const SingleConversation = (props: Props) => {
                 messages: [message],
                 unreadMessageCount: 0,
             };
-
+            
             dispatch(addChatRoom(chatRoom));
 
             /*chat.socket.emit('onMissedFreeConsultation', {
@@ -384,6 +402,8 @@ const SingleConversation = (props: Props) => {
     const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
 
     let lastDate = '';
+    let lastMessageTime: Date;
+    let groupTimestamp = '';
 
     const [tutorSlug, setTutorSlug] = useState('');
     async function getTutorSlug() {
@@ -395,6 +415,31 @@ const SingleConversation = (props: Props) => {
     useEffect(() => {
         getTutorSlug();
     }, [props?.data?.tutor?.userId]);
+
+    function formatTime(hours:number, minutes:number) {
+        // Pad single-digit hours and minutes with leading zeros
+        const formattedHours = String(hours).padStart(2, '0');
+        const formattedMinutes = String(minutes).padStart(2, '0');
+
+        // Combine the formatted hours and minutes with a colon separator
+        return `${formattedHours}:${formattedMinutes}`;
+    }
+    const downloadFile = (documentId: string | undefined)  => {
+
+        fetch(`http://localhost:8080/api/v1/chat/download/${documentId}`)
+            .then(response => {
+                const contentDisposition = response.headers.get('Content-Disposition');
+                const fileName = contentDisposition?.split('=')[1];
+
+                response.blob().then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = fileName + '';
+                    a.click();
+                });
+            });
+    };
 
     return (
         <div className="content">
@@ -518,9 +563,27 @@ const SingleConversation = (props: Props) => {
 
                         const temDat = new Date(message.message.createdAt);
 
-                        const tempDate = temDat.getDate() + '-' + temDat.getMonth() + '-' + temDat.getUTCFullYear();
+                        if(lastMessageTime == undefined){
+                          lastMessageTime = temDat;
+                        }
+
+                        if(groupTimestamp == ''){
+                            groupTimestamp = formatTime(temDat.getHours(),temDat.getMinutes());
+                        }
+
+                        const difference = temDat.getTime() - lastMessageTime.getTime();
+                        if (difference >= (30 * 60 * 1000)) {
+                            groupTimestamp = formatTime(temDat.getHours(),temDat.getMinutes());
+                        }
+
+                        lastMessageTime = temDat;
+
+                        const messageTime = formatTime(temDat.getHours(),temDat.getMinutes());
+
+                        const tempDate = temDat.getDate() + '-' + temDat.getMonth() + '-' + temDat.getUTCFullYear() + ',' + groupTimestamp;
 
                         let sameDate = true;
+
 
                         if (lastDate != tempDate) {
                             sameDate = false;
@@ -533,8 +596,12 @@ const SingleConversation = (props: Props) => {
                             lastMessageUserId = message.senderId + '';
                         }
 
+                        if(!sameDate){
+                            img = true;
+                        }
+
                         if (props.data && index == props.data.messages.length - 1) {
-                            //scrollToBottomSmooth();
+                            scrollToBottomSmooth();
                         }
 
                         if (message.message.messageMissedCall && userActive?.id == message.senderId) return <></>;
@@ -550,9 +617,17 @@ const SingleConversation = (props: Props) => {
                         if (userActive && userActive.id == message.senderId)
                             return (
                                 <>
+                                    <Tooltip
+                                        id="my-tooltip"
+                                        place={'top-start'}
+                                        positionStrategy={'absolute'}
+                                        float={true}
+                                        delayShow={1000}
+                                        style={{ backgroundColor: "rgba(70,70,70, 0.9)", color: 'white', fontSize:'smaller' }}
+                                    />
                                     {!sameDate && (
                                         <div className={`message-full-width flex flex--col flex--center`}>
-                                            <span>{moment(message.message.createdAt).format('DD MMM YYYY')}</span>
+                                            <span>{moment(message.message.createdAt).format('DD MMM YYYY')}, {messageTime}</span>
                                         </div>
                                     )}
                                     <div
@@ -589,18 +664,65 @@ const SingleConversation = (props: Props) => {
                                         {/*        alt={'profile avatar'}*/}
                                         {/*    />*/}
                                         {/*)}*/}
+
                                         <div key={`sub-${index}`} className={`message-full-width flex flex--col flex--end`}>
                                             <div key={`sub-sub-${index}`} className="type--right w--80--max">
                                                 <div
+                                                    data-tooltip-id="my-tooltip"
+                                                    data-tooltip-html={`Sent: ${messageTime} <br/>${message.message.isFile ? `File name: ${message.message.message}` : '' }`}
                                                     key={`sub-sub-sub-${index}`}
-                                                    className={`chat__message__item__end chat__message__item chat__message__item--logged${message.message.isFile ? ' chat-file-outline' : ''
-                                                        }`}
-                                                    dangerouslySetInnerHTML={{
-                                                        __html:
-                                                            (message.message.isFile ? '<i class="icon--attachment chat-file-icon"></i>' : '') +
-                                                            messageText,
-                                                    }}
-                                                ></div>
+                                                    className={`d-inline-flex  chat__message__item chat__message__item__end chat__message__item--logged${message.message.isFile ? ' chat-file-outline' : ''}`}
+                                                >{
+                                                    (message.message.isFile ?
+
+                                                            <div className='file-message-container'>
+
+                                                                <BsFillFileEarmarkFill className='text-primary align-self-center'/>
+                                                                <div className='file-message-container'>
+                                                                    <div className='text-break text-black align-self-center ml-2'>
+                                                                        {message.message.message.length > 30 ?
+                                                                                `${message.message.message.slice(0, 30)}...`
+                                                                                :
+                                                                                message.message.message}
+                                                                    </div>
+
+                                                                    <div role='button'
+                                                                         className='d-inline-block h-auto shadow-sm align-self-center mx-2'
+                                                                         onClick={()=>downloadFile(message.message.messageId)}
+                                                                    >
+                                                                        <BsDownload className='border-hover text-black'/>
+                                                                    </div>
+
+                                                                    {
+                                                                        message.message.isRead ?
+                                                                            <BsCheckAll className='align-self-end text-black'/>
+                                                                            :
+                                                                            <BsCheck className='align-self-end text-black'/>
+
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                            :
+                                                            <div className='message-container'>
+                                                                <div className='mx-1'>
+                                                                    {message.message.message}
+                                                                </div>
+                                                                {
+                                                                    message.message.isRead ?
+                                                                        <BsCheckAll className='align-self-end'/>
+                                                                        :
+                                                                        <BsCheck className='align-self-end'/>
+                                                                }
+                                                            </div>
+                                                    )
+                                                }
+                                                    {/*dangerouslySetInnerHTML={{*/}
+                                                    {/*    __html:*/}
+                                                    {/*        (message.message.isFile ? '<i class="icon--attachment chat-file-icon" ></i>' : '') +*/}
+                                                    {/*        messageText,*/}
+                                                    {/*}}*/}
+
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -610,7 +732,7 @@ const SingleConversation = (props: Props) => {
                             <>
                                 {!sameDate && (
                                     <div className={`message-full-width flex flex--col flex--center`}>
-                                        <span>{moment(message.message.createdAt).format('DD MMM YYYY')}</span>
+                                        <span>{moment(message.message.createdAt).format('DD MMM YYYY')}, {messageTime}</span>
                                     </div>
                                 )}
                                 <div
@@ -633,32 +755,41 @@ const SingleConversation = (props: Props) => {
                                             )
                                         )
                                     )}
-                                    {/*{img && (*/}
-                                    {/*    <img*/}
-                                    {/*        className="chat__conversation__avatar chat__conversation__avatar--small"*/}
-                                    {/*        src={*/}
-                                    {/*            props.data*/}
-                                    {/*                ? 'https://' +*/}
-                                    {/*                (message.senderId == props.data.tutor?.userId*/}
-                                    {/*                    ? props.data.tutor?.userImage*/}
-                                    {/*                    : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')*/}
-                                    {/*                : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg'*/}
-                                    {/*        }*/}
-                                    {/*        alt={'profile avatar'}*/}
-                                    {/*    />*/}
-                                    {/*)}*/}
+
                                     <div key={`sub-${index}`} className={`message-full-width flex flex--col`}>
                                         <div key={`sub-sub-${index}`} className="w--80--max">
                                             <div
+                                                data-tooltip-id="my-tooltip"
+                                                data-tooltip-html={`Sent: ${messageTime} <br/>${message.message.isFile ? `File name: ${message.message.message}` : '' }`}
                                                 key={`sub-sub-sub-${index}`}
-                                                className={`chat__message__item chat__message__item--other${message.message.isFile ? ' chat-file-outline' : ''
-                                                    }`}
-                                                dangerouslySetInnerHTML={{
-                                                    __html:
-                                                        (message.message.isFile ? '<i class="icon--attachment chat-file-icon"></i>' : '') +
-                                                        messageText,
-                                                }}
-                                            ></div>
+                                                className={`chat__message__item chat__message__item--other${message.message.isFile ? ' chat-file-outline' : ''}`}
+                                            >
+                                               {
+                                                   (message.message.isFile ?
+                                                       <div className='file-message-container'>
+                                                               <BsFillFileEarmarkFill className='text-primary align-self-center'/>
+                                                           <div className='file-container mx-2'>
+                                                               {message.message.message.length > 30 ?
+                                                                       `${message.message.message.slice(0, 30)}...`
+                                                                           :
+                                                                       message.message.message}
+                                                           </div>
+                                                           <div role='button'
+                                                                className='d-inline-block h-auto shadow-sm'
+                                                                onClick={()=>downloadFile(message.message.messageId)}
+                                                           >
+                                                               <BsDownload className='border-hover align-self-center text-black'/>
+                                                           </div>
+                                                       </div>
+                                                       :
+                                                        <div>
+                                                            {message.message.message}
+                                                        </div>
+                                                   )
+                                               }
+
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>

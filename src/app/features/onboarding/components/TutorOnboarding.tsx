@@ -102,7 +102,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
           t('FORM_VALIDATION.PHONE_NUMBER')
         ),
       dateOfBirth: Yup.string()
-        .required(t('FORM_VALIDATION.REQUIRED'))
+          .required(t('FORM_VALIDATION.REQUIRED'))
         .test('dateOfBirth', t('FORM_VALIDATION.FUTURE_DATE'), (value) => {
           const dateDiff = moment(value).diff(moment(), 'days');
 
@@ -121,19 +121,24 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
             return false;
           }
         }),
-      // profileImage: Yup.mixed()
-      //     .test('profileImage', 'Image has to be either jpg,png,jpeg or svg and less than 2MB in size.', (value) => {
-      //         if (!value)
-      //             return true;
-      //
-      //         if (value && value.size > 2000000) return false;
-      //         if (value && value.type === 'image/jpg' || value.type === 'image/jpeg' || value.type === 'image/png' || value.type === 'image/svg') {
-      //             return true;
-      //         }
-      //
-      //         return false;
-      //     }).required("Please provide a profile image"),
+
+      // TODO: check why this needs to be commented
+        /*
+      profileImage: Yup.mixed()
+          .test('profileImage', 'Image has to be either jpg,png,jpeg or svg and less than 2MB in size.', (value) => {
+              if (!value)
+                  return true;
+
+              if (value && value.size > 2000000) return false;
+              if (value && value.type === 'image/jpg' || value.type === 'image/jpeg' || value.type === 'image/png' || value.type === 'image/svg') {
+                  return true;
+              }
+
+              return false;
+          }).required("Please provide a profile image"),
+    */
     }),
+
   });
 
   const handleSubmitStepOne = async (values: StepOneValues) => {
@@ -287,18 +292,18 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
     validateOnChange: false,
     enableReinitialize: true,
     validationSchema: Yup.object().shape({
-      cardFirstName: Yup.string()
-        .min(2, t('FORM_VALIDATION.TOO_SHORT'))
-        .max(100, t('FORM_VALIDATION.TOO_LONG'))
-        .required(t('FORM_VALIDATION.REQUIRED')),
-      cardLastName: Yup.string()
-        .min(2, t('FORM_VALIDATION.TOO_SHORT'))
-        .max(100, t('FORM_VALIDATION.TOO_LONG'))
+       cardFirstName: Yup.string()
+         .min(2, t('FORM_VALIDATION.TOO_SHORT'))
+         .max(100, t('FORM_VALIDATION.TOO_LONG'))
+         .required(t('FORM_VALIDATION.REQUIRED')),
+       cardLastName: Yup.string()
+         .min(2, t('FORM_VALIDATION.TOO_SHORT'))
+      .max(100, t('FORM_VALIDATION.TOO_LONG'))
         .required(t('FORM_VALIDATION.REQUIRED')),
       cardNumber: Yup.string().min(19, t('FORM_VALIDATION.TOO_SHORT')).max(19, t('FORM_VALIDATION.TOO_LONG')).required(t('FORM_VALIDATION.REQUIRED')),
       expiryDate: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
       cvv: Yup.string().max(3, t('FORM_VALIDATION.TOO_LONG')).required(t('FORM_VALIDATION.REQUIRED')),
-      zipCode: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+       zipCode: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
     }),
   });
 
@@ -409,12 +414,12 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
               // disabled={isLoading}
             />
           </div>
-          <div
+          <button
             className={`btn btn--base btn--${isLoading ? 'disabled' : 'primary'} type--wgt--extra-bold type--center w--100 mb-2 mt-6`}
             onClick={() => formikStepTwo.handleSubmit()}
           >
             {t('REGISTER.FINISH')}
-          </div>
+          </button>
           <div className="flex flex--jc--center">
             <div onClick={() => handleGoBack()} className="btn btn--clear btn--base type--color--brand type--wgt--extra-bold">
               <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i> {t('REGISTER.BACK_TO_STEP_TWO')}

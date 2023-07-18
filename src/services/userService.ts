@@ -1,14 +1,14 @@
-import { baseService } from '../app/baseService';
-import { OptionType } from '../app/components/form/MySelectField';
+import {baseService} from '../app/baseService';
+import {OptionType} from '../app/components/form/MySelectField';
 import IChangePassword from '../app/features/my-profile/interfaces/IChangePassword';
-import { HttpMethods } from '../app/lookups/httpMethods';
+import {HttpMethods} from '../app/lookups/httpMethods';
 import typeToFormData from '../app/utils/typeToFormData';
-import { IChild } from '../interfaces/IChild';
+import {IChild} from '../interfaces/IChild';
 import IChildUpdate from '../interfaces/IChildUpdate';
 import IDashboard from '../interfaces/IDashboard';
 import IUser from '../interfaces/IUser';
 
-const URL = '/users';
+const URL = '/api/v1/users';
 
 export interface IUpdateUserInformation {
     firstName: string;
