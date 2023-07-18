@@ -28,11 +28,19 @@ import 'react-tooltip/dist/react-tooltip.css';
 import { Tooltip } from 'react-tooltip';
 import { saveAs } from 'file-saver';
 import "bootstrap-icons/font/bootstrap-icons.css";
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
+import '../../../../styles/base/vars.scss';
 
 import { POSITION } from 'react-toastify/dist/utils';
 import { IoCheckmarkCircleOutline, IoCheckmarkDone, IoCheckmarkDoneCircleSharp } from 'react-icons/io5';
-import { BsCheck, BsCheckAll, BsDownload, BsFillFileEarmarkFill } from 'react-icons/bs';
+import {
+    BsCheck,
+    BsCheckAll,
+    BsDownload,
+    BsFileEarmark,
+    BsFileEarmarkFill,
+    BsFillFileEarmarkFill,
+} from 'react-icons/bs';
 import { FaFileDownload } from 'react-icons/fa';
 import { BiCheckCircle } from 'react-icons/bi';
 
@@ -315,7 +323,6 @@ const SingleConversation = (props: Props) => {
     };
 
     const handleLoadMore = () => {
-        console.log("handling more. Page: ", page);
         setPage(page + 1);
     };
 
@@ -418,7 +425,7 @@ const SingleConversation = (props: Props) => {
         return `${formattedHours}:${formattedMinutes}`;
     }
     const downloadFile = (documentId: string | undefined)  => {
-        //console.log('Dohvacam dokument s idjem: ', documentId);
+
         fetch(`http://localhost:8080/api/v1/chat/download/${documentId}`)
             .then(response => {
                 const contentDisposition = response.headers.get('Content-Disposition');
@@ -433,19 +440,6 @@ const SingleConversation = (props: Props) => {
                 });
             });
     };
-
-    function downloadFile2(documentId: string | undefined) {
-        fetch(`http://localhost:8080/api/v1/chat/chat-file/${documentId}`)
-            .then(response => {
-                const contentDisposition = response.headers.get('Content-Disposition');
-                const fileName = contentDisposition?.split('=')[1];
-
-                response.blob().then(blob => {
-                    saveAs(blob, fileName);
-                });
-            });
-    }
-
 
     return (
         <div className="content">
@@ -602,8 +596,12 @@ const SingleConversation = (props: Props) => {
                             lastMessageUserId = message.senderId + '';
                         }
 
+                        if(!sameDate){
+                            img = true;
+                        }
+
                         if (props.data && index == props.data.messages.length - 1) {
-                            //scrollToBottomSmooth();
+                            scrollToBottomSmooth();
                         }
 
                         if (message.message.messageMissedCall && userActive?.id == message.senderId) return <></>;
@@ -673,13 +671,14 @@ const SingleConversation = (props: Props) => {
                                                     data-tooltip-id="my-tooltip"
                                                     data-tooltip-html={`Sent: ${messageTime} <br/>${message.message.isFile ? `File name: ${message.message.message}` : '' }`}
                                                     key={`sub-sub-sub-${index}`}
-                                                    className={`d-inline-flex  chat__message__item__end chat__message__item chat__message__item--logged${message.message.isFile ? ' chat-file-outline' : ''}`}
+                                                    className={`d-inline-flex  chat__message__item chat__message__item__end chat__message__item--logged${message.message.isFile ? ' chat-file-outline' : ''}`}
                                                 >{
                                                     (message.message.isFile ?
-                                                            <div className='d-flex flex-row justify-content-between align-items-end'>
-                                                                <BsFillFileEarmarkFill className='text-primary align-self-center'/>
 
-                                                                <div className='d-flex flex-row justify-content-between'>
+                                                            <div className='file-message-container'>
+
+                                                                <BsFillFileEarmarkFill className='text-primary align-self-center'/>
+                                                                <div className='file-message-container'>
                                                                     <div className='text-break text-black align-self-center ml-2'>
                                                                         {message.message.message.length > 30 ?
                                                                                 `${message.message.message.slice(0, 30)}...`
@@ -704,7 +703,7 @@ const SingleConversation = (props: Props) => {
                                                                 </div>
                                                             </div>
                                                             :
-                                                            <div className='d-flex flex--start'>
+                                                            <div className='message-container'>
                                                                 <div className='mx-1'>
                                                                     {message.message.message}
                                                                 </div>
@@ -767,11 +766,9 @@ const SingleConversation = (props: Props) => {
                                             >
                                                {
                                                    (message.message.isFile ?
-                                                       <div className='d-flex flex-row justify-content-between align-items-end'>
-                                                           <div className='d-inline-block'>
-                                                               <i className="bi bi-file-earmark-fill text-primary"></i>
-                                                           </div>
-                                                           <div className='col d-inline-block text-truncate'>
+                                                       <div className='file-message-container'>
+                                                               <BsFillFileEarmarkFill className='text-primary align-self-center'/>
+                                                           <div className='file-container mx-2'>
                                                                {message.message.message.length > 30 ?
                                                                        `${message.message.message.slice(0, 30)}...`
                                                                            :
@@ -781,12 +778,11 @@ const SingleConversation = (props: Props) => {
                                                                 className='d-inline-block h-auto shadow-sm'
                                                                 onClick={()=>downloadFile(message.message.messageId)}
                                                            >
-                                                               <i className="bi border-hover bi-download"></i>
+                                                               <BsDownload className='border-hover align-self-center text-black'/>
                                                            </div>
                                                        </div>
                                                        :
                                                         <div>
-                                                            <i className="icon--attachment chat-file-icon"/>
                                                             {message.message.message}
                                                         </div>
                                                    )

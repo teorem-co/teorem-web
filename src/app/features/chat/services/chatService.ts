@@ -5,7 +5,7 @@ import { HttpMethods } from '../../../lookups/httpMethods';
 import typeToFormData from '../../../utils/typeToFormData';
 import { IChatRoom, ISendChatMessage } from '../slices/chatSlice';
 
-const URL = '/chat';
+
 export interface IChatRoomsQuery {
     limitMessages: number;
     rpp: number;
@@ -25,30 +25,33 @@ export interface ISearchChatQuery {
     page: number
 }
 
+const URL = '/api/v1/chat';
+
+
 export const chatService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         getChatRooms: builder.query<IChatRoom[], IChatRoomsQuery>({
             query: (body) => ({
-                url: `http://localhost:8080/api/v1/chat/rooms?rpp=${body.rpp}&page=${body.page}&limitMessages=${body.limitMessages}`,
+                url: `${URL}/rooms?rpp=${body.rpp}&page=${body.page}&limitMessages=${body.limitMessages}`,
                 method: HttpMethods.GET,
             }),
         }),
         getChatMessages: builder.query<ISendChatMessage[], IChatMessagesQuery>({
             query: (body) => ({
-                url: `http://localhost:8080/api/v1/chat/messages?userId=${body.userId}&rpp=${body.rpp}&page=${body.page}`,//`${URL}/get-chat-messages?userId=${body.userId}&rpp=${body.rpp}&page=${body.page}`,
+                url: `${URL}/messages?userId=${body.userId}&rpp=${body.rpp}&page=${body.page}`,//`${URL}/get-chat-messages?userId=${body.userId}&rpp=${body.rpp}&page=${body.page}`,
                 method: HttpMethods.GET,
             }),
         }),
         postUploadFile: builder.mutation<ISendChatMessage, FormData>({
             query: (body) => ({
-                url:`http://localhost:8080/api/v1/chat/chat-file`, //`${URL}/post-file`,
+                url:`${URL}/chat-file`, //`${URL}/post-file`,
                 method: HttpMethods.POST,
                 body: body
             }),
         }),
         getOnSearchChatRooms: builder.query<IChatRoom[], ISearchChatQuery>({
             query: (body) => ({
-                url: `http://localhost:8080/api/v1/chat/search-rooms?search=${body.search}&rpp=${body.rpp}&page=${body.page}&limitMessages=${body.limitMessages}`,
+                url: `${URL}/search-rooms?search=${body.search}&rpp=${body.rpp}&page=${body.page}&limitMessages=${body.limitMessages}`,
                 method: HttpMethods.GET,
             }),
         }),

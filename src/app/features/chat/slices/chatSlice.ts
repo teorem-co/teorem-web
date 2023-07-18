@@ -4,10 +4,13 @@ import { StaticRouter } from 'react-router';
 import { SignalData } from "simple-peer";
 import { io, Socket } from 'socket.io-client';
 import { compileString } from 'sass';
+import { RootState, store } from '../../../store';
+import { useSelector } from 'react-redux';
 
 const serverUrl = `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_API_PORT}`;
-const javaServerUrl = "http://localhost:8085";
+const javaSocketServerUrl = "http://localhost:8085";
 const token = 'token'; // TODO: set token (jwt?)
+//const token = store.getState().auth.token;
 export interface IVideoChatBuffer {
     userId: string;
     tutorId: string;
@@ -72,12 +75,17 @@ export interface IGetMessagesIdSet {
     messages: ISendChatMessage[];
 }
 
+export interface IReadMessagePair{
+    tutorId: string,
+    studentId: string
+}
+
 const initialState: IState = {
     user: null,
     chatRooms: [],
     newMessages: 0,
     activeChatRoom: null,
-    socket: io(`${javaServerUrl}?token=${token}`), //io(`${serverUrl}`),
+    socket: io(`${javaSocketServerUrl}?token=${token}`), //io(`${serverUrl}`),
     rpp: 20,
     freeConsultation: false,
     link: null,
@@ -107,20 +115,16 @@ const chatSlice = createSlice({
     reducers: {
 
         setUser(state, action: PayloadAction<IChatProfile | null>) {
-            console.log('Set user');
             state.user = action.payload;
         },
 
         setActiveChatRoom(state, action: PayloadAction<IChatRoom | null>) {
-            console.log('Set active chat room');
             if (action.payload)
                 state.activeChatRoom = action.payload;
 
         },
 
         setActiveChatRoomById(state, action: PayloadAction<IChatRoomIdSet | null>) {
-            console.log('Set active chat room by id');
-
             if (action.payload) {
 
                 for (let i = 0; i < state.chatRooms.length; i++) {
@@ -149,12 +153,10 @@ const chatSlice = createSlice({
         },
 
         setBuffer(state, action: PayloadAction<IVideoChatBuffer>) {
-            console.log('Set buffer');
             state.buffer = action.payload;
         },
 
         addChatRooms(state, action: PayloadAction<Array<IChatRoom> | null>) {
-            console.log('AddChatRooms', action.payload);
             if (action.payload) {
 
                 let unreadMessages = 0;
@@ -184,7 +186,6 @@ const chatSlice = createSlice({
         },
 
         getMessage(state, action: PayloadAction<ISendChatMessage | null>) {
-            console.log('Get message');
             if (action.payload) {
 
                 for (let i = 0; i < state.chatRooms.length; i++) {
@@ -214,7 +215,6 @@ const chatSlice = createSlice({
         },
 
         getMessages(state, action: PayloadAction<ISendChatMessage[] | null>) {
-            console.log('Get messages');
             if (action.payload) {
 
                 for (let i = 0; i < state.chatRooms.length; i++) {
@@ -263,7 +263,6 @@ const chatSlice = createSlice({
         },
 
         getMessagesById(state, action: PayloadAction<IGetMessagesIdSet>) {
-            console.log('Get Messages by id');
             for (let i = 0; i < state.chatRooms.length; i++) {
 
                 if (state.chatRooms[i].user?.userId == action.payload.userId && state.chatRooms[i].tutor?.userId == action.payload.tutorId) {
@@ -287,8 +286,6 @@ const chatSlice = createSlice({
                         new Date(a.message.createdAt) > new Date(b.message.createdAt) ? 1 : -1
                     );
 
-                    console.log("Messages:", messages);
-
                     state.chatRooms[i].messages = messages;
 
                     if (state.activeChatRoom)
@@ -298,7 +295,6 @@ const chatSlice = createSlice({
         },
 
         addMessage(state, action: PayloadAction<ISendChatMessage | null>) {
-            console.log('AddMessage', action.payload);
             if (action.payload) {
 
                 for (let i = 0; i < state.chatRooms.length; i++) {
@@ -357,7 +353,6 @@ const chatSlice = createSlice({
         },
 
         readMessage(state, action: PayloadAction<ISendChatMessage | null>) {
-            console.log('ReadMessage', action.payload);
             if (action.payload) {
 
                 for (let i = 0; i < state.chatRooms.length; i++) {
@@ -370,9 +365,11 @@ const chatSlice = createSlice({
                             state.chatRooms[i].messages[j].message.isRead = true;
                             state.chatRooms[i].unreadMessageCount = Math.max(0, state.chatRooms[i].unreadMessageCount - 1);
 
-                            if (state.newMessages != null)
+                            if (state.newMessages != null){
                                 state.newMessages -= 1;
-                            else
+                            }
+
+                        else
                                 state.newMessages = 0;
                             if (!(state.chatRooms[i].messages[j].message.messageNew && !state.chatRooms[i].messages[j].message.messageMissedCall) && state.activeChatRoom?.tutor?.userId == state.chatRooms[i].messages[j].tutorId && state.activeChatRoom?.user?.userId == state.chatRooms[i].messages[j].userId) {
                                 state.activeChatRoom.unreadMessageCount = Math.max(0, state.activeChatRoom.unreadMessageCount - 1);
@@ -388,37 +385,37 @@ const chatSlice = createSlice({
         },
 
         readMessages(state, action: PayloadAction<IChatRoomIdSet | null>) {
-            console.log('Read messageS');
             if (action.payload) {
 
                 for (let i = 0; i < state.chatRooms.length; i++) {
                     if (state.chatRooms[i].user?.userId == action.payload.userId && state.chatRooms[i].tutor?.userId == action.payload.tutorId) {
                         state.socket.emit('readMessages', { ...action.payload, readerId: state.user?.userId });
                         state.chatRooms[i].unreadMessageCount = 0;
-                    }
 
-                    for (let j = 0; j < state.chatRooms[i].messages.length; j++) {
-                        state.chatRooms[i].messages[j].message.isRead = true;   //TODO: check this because it sets that messages are read,
-                                                                                // but sometimes are not
+                        for (let j = 0; j < state.chatRooms[i].messages.length; j++) {
+                            state.chatRooms[i].messages[j].message.isRead;   //TODO: check this because it sets that messages are read,
+                                                                                    // but sometimes are not
 
-                        if (state.newMessages != null)
-                            state.newMessages -= 1;
-                        else
-                            state.newMessages = 0;
+                            if (state.newMessages != null && state.newMessages != 0){
+                                state.newMessages -= 1;
+                            }
+
+                            else
+                                state.newMessages = 0;
+                        }
                     }
                 }
+                return state;
             }
         },
 
         addChatRoom(state, action: PayloadAction<IChatRoom | null>) {
-            console.log('AddChatRooM', action.payload);
             if (action.payload) {
 
                 let missedCall = false;
                 let inside = false;
 
                 for (let i = 0; i < state.chatRooms.length; i++) {
-
 
                     if (state.chatRooms[i].tutor?.userId == action.payload.tutor?.userId && state.chatRooms[i].user?.userId == action.payload.user?.userId) {
 
@@ -429,6 +426,7 @@ const chatSlice = createSlice({
                             state.chatRooms[i].messages.find((x: ISendChatMessage) => {
 
                                 if (action.payload?.messages[j].message.messageMissedCall && action.payload?.messages[j].message.messageNew) {
+
                                     missedCall = true;
                                 }
 
@@ -463,17 +461,39 @@ const chatSlice = createSlice({
                         state.activeChatRoom = state.chatRooms[state.chatRooms.length - 1];
                     }
                 }
+
                 if (state.newMessages) {
                     if (action.payload.unreadMessageCount > 0)
                         state.newMessages += action.payload.unreadMessageCount;
                 } else {
                     state.newMessages = action.payload.unreadMessageCount;
                 }
+
             }
         },
 
-        setMessagesAsRead(state, action:any){
-            //TODO: mark messages as read for chatroom with this user (needs to receive userID for chatroom through action)
+        setMessagesAsRead(state,action: PayloadAction<IReadMessagePair | null>){
+
+            const tutorId = action.payload?.tutorId;
+            const studentId = action.payload?.studentId;
+
+            if (action.payload) {
+
+                for (let i = 0; i < state.chatRooms.length; i++) {
+                    if (state.chatRooms[i].user?.userId == studentId && state.chatRooms[i].tutor?.userId == tutorId) {
+                        //state.socket.emit('readMessages', { ...action.payload, readerId: state.user?.userId });
+                        state.chatRooms[i].unreadMessageCount = 0;
+
+                        for (let j = 0; j < state.chatRooms[i].messages.length; j++) {
+                            if(state.activeChatRoom){
+                                for (let j = 0; j < state.activeChatRoom.messages.length; j++) {
+                                    state.activeChatRoom.messages[j].message.isRead = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
 });
@@ -493,6 +513,7 @@ export const {
     addMessage,
     readMessage,
     readMessages,
-    addChatRoom
+    addChatRoom,
+    setMessagesAsRead
 } = chatSlice.actions;
 export default chatSlice.reducer;

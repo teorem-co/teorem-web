@@ -3,7 +3,7 @@ import {HttpMethods} from '../../../lookups/httpMethods';
 
 //bookings/week/:tutorSlug
 
-const URL = '/countries';
+const URL = '/api/v1/countries';
 
 export interface ICountry {
     id: string;
@@ -20,7 +20,7 @@ export const countryService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         getCountries: builder.query<ICountry[], void>({
             query: () => ({
-                url: `http://localhost:8080/api/v1${URL}`,
+                url: `${URL}`,
                 method: HttpMethods.GET,
             }),
         }),
