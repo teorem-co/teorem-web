@@ -55,7 +55,7 @@ export const bookingService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         getBookings: builder.query<IBookingTransformed[], IDateRange>({
             query: (data) => ({
-                url: `${URL}/?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}`,//`${URL}/?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}`,
+                url: `${URL}?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}`,//`${URL}/?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}`,
                 method: HttpMethods.GET,
             }),
             transformResponse: (response: IBooking[]) => {
@@ -97,7 +97,7 @@ export const bookingService = baseService.injectEndpoints({
         }),
         getUpcomingLessons: builder.query<IUpcomingLessons[], string>({
             query: (userId) => ({
-                url: `${URL}/${userId}/upcoming`,
+                url: `${URL}/upcoming?userId=${userId}`,
                 method: HttpMethods.GET,
             }),
             providesTags: ['upcomingLessons'],

@@ -70,6 +70,14 @@ const MyBookings: React.FC = (props: any) => {
     y: 0,
   });
 
+  const bookin:IBookingTransformed={
+    id: "f605bca0-bb0d-4cb0-b237-3881c5ce2794",
+    label: "label",
+    start: new Date("2023-07-19T12:17:50.118Z"),
+    end: new Date( "2023-07-19T13:18:04.817Z"),
+    allDay: false,
+  };
+
   const history = useHistory();
   const localizer = momentLocalizer(moment);
   const positionClass = moment(selectedStart).format('dddd');
@@ -80,8 +88,14 @@ const MyBookings: React.FC = (props: any) => {
   const tileElement = tileRef.current as HTMLDivElement;
   const userId = useAppSelector((state) => state.auth.user?.id);
   const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
-  const allBookings = bookings?.concat(unavailableBookings ? unavailableBookings : []);
+  const allBookings = bookings?.concat(unavailableBookings ? unavailableBookings : [bookin]);
   const isLoading = bookingsLoading || unavailableBookingsLoading;
+
+  useEffect(() => {
+    console.log('Bookings have changed:', bookings);
+    console.log('BOOKIN: ' , bookin);
+  }, [bookings]);
+
 
   const CustomHeader = (date: any) => {
     setCalChange(true);
