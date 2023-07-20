@@ -78,9 +78,11 @@ const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
                             </button>
                         )}
 
-                        {event.isAccepted &&
-                        moment(event.startTime).subtract(10, 'minutes').isBefore(moment()) &&
-                        moment(event.endTime).isAfter(moment()) ? (
+                        {event.isAccepted
+                            //&&
+                        // moment(event.startTime).subtract(10, 'minutes').isBefore(moment()) &&
+                        // moment(event.endTime).isAfter(moment())
+                            ? (
                             <button className="btn btn--base btn--primary mt-4" onClick={() => openLearnCube && openLearnCube()}>
                                 {t('BOOK.JOIN')}
                             </button>

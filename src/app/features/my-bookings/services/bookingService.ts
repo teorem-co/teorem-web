@@ -59,6 +59,8 @@ export const bookingService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
             transformResponse: (response: IBooking[]) => {
+                console.log("transforming response");
+
                 const bookings: IBookingTransformed[] = response.map((x) => {
                     return {
                         id: x.id,
@@ -71,6 +73,7 @@ export const bookingService = baseService.injectEndpoints({
                     };
                 });
 
+                console.log("bookings: ", bookings);
                 return bookings;
             },
             providesTags: ['bookings'],

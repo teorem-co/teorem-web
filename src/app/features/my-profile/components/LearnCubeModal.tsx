@@ -26,7 +26,7 @@ const LearnCubeModal = (props: Props) => {
             bookingId: bookingId,
         };
         const res = await getRoomLink(toSend).unwrap();
-        setRoomLink(res);
+        setRoomLink(res.meetingUrl);
     };
 
     useEffect(() => {

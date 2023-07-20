@@ -84,7 +84,7 @@ const initialState: IState = {
     chatRooms: [],
     newMessages: 0,
     activeChatRoom: null,
-    socket: io(`${serverUrl}`), //io(`${serverUrl}`),
+    socket: io(`${serverUrl}?token=token`), //io(`${serverUrl}`),
     rpp: 20,
     freeConsultation: false,
     link: null,

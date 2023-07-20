@@ -6,9 +6,12 @@ import { HttpMethods } from '../lookups/httpMethods';
 //const URL = '/learn-cube';
 const URL = '/api/v1/meeting';
 
+interface IMeetingUrl{
+    meetingUrl: string;
+}
 export const stripeService = baseService.injectEndpoints({
     endpoints: (builder) => ({
-        getRoomLink: builder.query<any, IGetRoomLink>({
+        getRoomLink: builder.query<IMeetingUrl, IGetRoomLink>({
             query: (params) => ({
                 url: `${URL}/get-room-link/?userId=${params.userId}&bookingId=${params.bookingId}`,//`${URL}/get-room-link/?userId=${params.userId}&bookingId=${params.bookingId}`,
                 method: HttpMethods.GET,
