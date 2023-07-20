@@ -44,8 +44,6 @@ import {
 import { FaFileDownload } from 'react-icons/fa';
 import { BiCheckCircle } from 'react-icons/bi';
 
-import {useLazyGetChatFileQuery} from '../services/chatService';
-
 interface Props {
     data: IChatRoom | null;
 }
@@ -81,7 +79,6 @@ const SingleConversation = (props: Props) => {
 
     const [getFreeConsultationLink, { data: freeConsultationLink, isSuccess: freeConsultationIsSuccess }] = useLazyGetFreeConsultationLinkQuery();
 
-    const [getChatFile, {data: blob}] = useLazyGetChatFileQuery();
     const userToken = useAppSelector((state) => state.auth.token);
     const dispatch = useDispatch();
 

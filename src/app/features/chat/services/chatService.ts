@@ -25,12 +25,7 @@ export interface ISearchChatQuery {
     page: number
 }
 
-export interface IChatMessageDownloadQuery {
-    documentId: string;
-}
-
 const URL = '/api/v1/chat';
-
 
 export const chatService = baseService.injectEndpoints({
     endpoints: (builder) => ({
