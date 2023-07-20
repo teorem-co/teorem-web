@@ -27,7 +27,6 @@ export interface ISearchChatQuery {
 
 const URL = '/api/v1/chat';
 
-
 export const chatService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         getChatRooms: builder.query<IChatRoom[], IChatRoomsQuery>({
@@ -61,6 +60,13 @@ export const chatService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
+        getChatFile: builder.query<any, string>({
+            query: (documentId) => ({
+                url: `${URL}/download/${documentId}`,
+                method: HttpMethods.GET,
+            }),
+        }),
+
 
     }),
 });
@@ -70,5 +76,6 @@ export const {
     useLazyGetChatMessagesQuery,
     usePostUploadFileMutation,
     useLazyGetOnSearchChatRoomsQuery,
-    useLazyGetChildBookingTutorsQuery
+    useLazyGetChildBookingTutorsQuery,
+    useLazyGetChatFileQuery
 } = chatService;
