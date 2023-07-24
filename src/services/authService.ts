@@ -88,7 +88,7 @@ export const authService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         login: builder.mutation<ILoginResponse, ILogin>({
             query: (body) => ({
-                url: `${URL}/login`,//"http://localhost:8080/api/v1/users/login",
+                url: "http://localhost:8080/api/v1/users/login", //`${URL}/login`
                 method: HttpMethods.POST,
                 body,
             }),
@@ -163,7 +163,7 @@ export const authService = baseService.injectEndpoints({
         }),
         getServerVersion: builder.query<string, void>({
             query: () => ({
-                url: '/get-server-version',//`/get-server-version`,
+                url: 'http://localhost:8080/get-server-version',//`/get-server-version`,
                 method: HttpMethods.GET,
             }),
         }),

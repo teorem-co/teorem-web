@@ -16,12 +16,15 @@
     .flag-dropdown {
         background-color: transparent;
         border-color: transparent;
+        //todo: attempt to remove flag dropdown from tab order
+        tab-index: "-1";
 
         .selected-flag {
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 0;
+            tab-index: -1;
         }
         .arrow {
             display: none;
