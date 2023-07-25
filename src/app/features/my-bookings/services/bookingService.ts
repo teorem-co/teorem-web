@@ -44,6 +44,14 @@ interface ICreateBooking {
     tutorId?: string;
 }
 
+interface ICreateBookingDTO {
+    requesterId?: string;
+    subjectId: string;
+    studentId?: string;
+    startTime: string;
+    tutorId?: string;
+}
+
 interface IUpdateBooking {
     startTime: string;
     bookingId: string;
@@ -59,8 +67,6 @@ export const bookingService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
             transformResponse: (response: IBooking[]) => {
-                console.log("Transforming bookings");
-
                 const bookings: IBookingTransformed[] = response.map((x) => {
                     const startTwoHoursBefore = new Date(x.startTime);
                     startTwoHoursBefore.setHours(startTwoHoursBefore.getHours() - 2);
@@ -79,7 +85,6 @@ export const bookingService = baseService.injectEndpoints({
                     };
                 });
 
-                console.log("bookings: ", bookings);
                 return bookings;
             },
             providesTags: ['bookings'],
@@ -118,7 +123,7 @@ export const bookingService = baseService.injectEndpoints({
             }),
             providesTags: ['lessonCount'],
         }),
-        createbooking: builder.mutation<void, ICreateBooking>({
+        createbooking: builder.mutation<void, ICreateBookingDTO>({
             query: (data) => ({
                 url: `${URL}`, // `${URL}/${data.tutorId}`
                 method: HttpMethods.POST,

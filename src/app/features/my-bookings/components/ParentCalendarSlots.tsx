@@ -108,7 +108,8 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     props.setSidebarOpen(false);
     if (userRole === RoleOptions.Parent) {
       const response: any = await createBooking({
-        startTime: moment(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
+        requesterId: userId,
+        startTime: moment.utc(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
         subjectId: values.subject,
         studentId: values.child,
         tutorId: tutorId,
@@ -118,7 +119,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
         if (res.paymentIntent?.status === 'succeeded') {
           await createBookingMutation({
             ...res,
-            startTime: moment(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
+            startTime: moment.utc(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
             subjectId: values.subject,
             studentId: values.child,
             tutorId: tutorId,
@@ -127,7 +128,9 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
       }
     } else {
       const response: any = await createBooking({
-        startTime: moment(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
+        requesterId: userId,
+        studentId: userId,
+        startTime: moment.utc(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
         subjectId: values.subject,
         tutorId: tutorId,
       });
@@ -143,6 +146,8 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
         }
       }
     }
+    console.log("HANDLED SUBMIT");
+
     setIsCreateBookingLoading(false);
   };
 
@@ -153,6 +158,14 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
       handleClose ? handleClose(false) : false;
     }
   }, [isCreateBookingSuccess]);
+
+  useEffect(() => {
+    if (createBookingSuccess) {
+      toastService.success(t('BOOKING.SUCCESS'));
+      props.clearEmptyBookings();
+      handleClose ? handleClose(false) : false;
+    }
+  }, [createBookingSuccess]);
 
   const handleChange = (e: any) => {
     setSelectedTime(e);

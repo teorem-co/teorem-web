@@ -7,7 +7,7 @@ import IGetCreditCards from '../interfaces/IGetCreditCards';
 import ISetDefaultCreditCard from '../interfaces/ISetDefaultCreditCard';
 import IStripeConnectAccount from '../interfaces/IStripeConnectAccount';
 
-const URL = '/stripe';
+const URL = 'api/v1/stripe';
 
 export const stripeService = baseService.injectEndpoints({
     endpoints: (builder) => ({

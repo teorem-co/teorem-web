@@ -131,13 +131,19 @@ export const tutorService = baseService.injectEndpoints({
                 console.log("UNUTAR TRANSFORM", response);
                 const userRole = getUserRoleAbbrv();
                 const bookings: IBookingTransformed[] = response.map((x) => {
+                    const startTwoHoursBefore = new Date(x.startTime);
+                    startTwoHoursBefore.setHours(startTwoHoursBefore.getHours() - 2);
+
+                    const endTwoHoursBefore = new Date(x.endTime);
+                    endTwoHoursBefore.setHours(endTwoHoursBefore.getHours() - 2);
+
                     if (userRole === RoleOptions.Parent) {
                         return {
                             id: x.id,
                             label: x.Subject ? t(`SUBJECTS.${x.Subject.abrv.replace('-', '').replace(' ', '')}`) : 'No title',
                             userId: x.User ? x.User.parentId : '',
-                            start: new Date(x.startTime),
-                            end: new Date(x.endTime),
+                            start: startTwoHoursBefore,
+                            end: endTwoHoursBefore,
                             isAccepted: x.isAccepted,
                             allDay: false,
                         };
@@ -146,8 +152,8 @@ export const tutorService = baseService.injectEndpoints({
                             id: x.id,
                             label: x.Subject ? t(`SUBJECTS.${x.Subject.abrv.replace('-', '').replace(' ', '')}`) : 'No title',
                             userId: x.studentId ? x.studentId : '',
-                            start: new Date(x.startTime),
-                            end: new Date(x.endTime),
+                            start: startTwoHoursBefore,
+                            end: endTwoHoursBefore,
                             isAccepted: x.isAccepted,
                             allDay: false,
                         };
