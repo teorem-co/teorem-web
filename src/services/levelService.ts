@@ -5,13 +5,8 @@ import { OptionType } from '../app/components/form/MySelectField';
 import { HttpMethods } from '../app/lookups/httpMethods';
 import ILevel from '../interfaces/ILevel';
 
-const URL = 'levels';
-const tutorLevelsUrl = 'tutor-subjects';
-
-interface ITutorLevel {
-    Level: ILevel;
-    levelId: string;
-}
+const URL = 'api/v1/levels';
+const TUTOR_SUBJECT_URL = 'api/v1/tutor-subjects';
 
 export const levelService = baseService.injectEndpoints({
     endpoints: (builder) => ({
@@ -37,13 +32,14 @@ export const levelService = baseService.injectEndpoints({
         }),
         getTutorLevels: builder.query<OptionType[], string>({
             query: (tutorId) => ({
-                url: `${tutorLevelsUrl}/${URL}/${tutorId}`,
+                url: `${TUTOR_SUBJECT_URL}/levels/${tutorId}`,
                 method: HttpMethods.GET,
             }),
-            transformResponse: (response: ITutorLevel[]) => {
+            transformResponse: (response: ILevel[]) => {
+                console.log("RESPONSE:", response);
                 const tutorLevels: OptionType[] = response.map((level) => ({
-                    value: level.levelId,
-                    label: t(`LEVELS.${level.Level.abrv.replace('-', '').toLowerCase()}`),
+                    value: level.id,
+                    label: t(`LEVELS.${level.abrv.replace('-', '').toLowerCase()}`),
                 }));
 
                 return tutorLevels;

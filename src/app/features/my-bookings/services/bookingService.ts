@@ -59,6 +59,7 @@ export const bookingService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
             transformResponse: (response: IBooking[]) => {
+                console.log("Transforming bookings");
 
                 const bookings: IBookingTransformed[] = response.map((x) => {
                     const startTwoHoursBefore = new Date(x.startTime);

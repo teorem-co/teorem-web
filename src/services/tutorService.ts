@@ -10,6 +10,7 @@ import IParams from '../interfaces/IParams';
 import ITutor from '../interfaces/ITutor';
 import { RoleOptions } from '../slices/roleSlice';
 import typeToFormData from '../app/utils/typeToFormData';
+import IBooking from '../app/features/my-bookings/interfaces/IBooking';
 
 interface ITutorId {
     userId: string;
@@ -38,7 +39,8 @@ interface IBookingTransformed {
 
 // interface ICreateTutorSubject {}
 
-const URL = 'tutors';
+const URL = 'api/v1/tutors';
+const BOOKING_URL = 'api/v1/bookings';
 
 export const tutorService = baseService.injectEndpoints({
     endpoints: (builder) => ({
@@ -119,14 +121,16 @@ export const tutorService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
+        //TODO: extract this to booking service
         getTutorBookings: builder.query<IBookingTransformed[], IBookingsByIdPayload>({
             query: (data) => ({
-                url: `${URL}/${data.tutorId}?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}`,
+                url: `${BOOKING_URL}/${data.tutorId}/?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}`,
                 method: HttpMethods.GET,
             }),
-            transformResponse: (response: ITutor) => {
+            transformResponse: (response: IBooking[]) => {
+                console.log("UNUTAR TRANSFORM", response);
                 const userRole = getUserRoleAbbrv();
-                const bookings: IBookingTransformed[] = response.Bookings.map((x) => {
+                const bookings: IBookingTransformed[] = response.map((x) => {
                     if (userRole === RoleOptions.Parent) {
                         return {
                             id: x.id,

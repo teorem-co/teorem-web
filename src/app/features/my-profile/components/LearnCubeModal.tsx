@@ -35,7 +35,7 @@ const LearnCubeModal = (props: Props) => {
 
     return (
         <>
-            <div className="modal__overlay">
+            <div className="modal__overlay" style={{ width: '100%' }}>
                 <div className="modal modal--stripe">
                     <i className="icon icon--base icon--close modal__close" onClick={handleClose}></i>
 
