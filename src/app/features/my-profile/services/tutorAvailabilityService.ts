@@ -3,7 +3,7 @@ import { HttpMethods } from '../../../lookups/httpMethods';
 import IPartOfDayOption from '../interfaces/IPartOfDayOption';
 import ITutorAvailability from '../interfaces/ITutorAvailability';
 
-const URL = '/tutor-availabilities';
+const URL = 'api/v1/tutor-availability';
 
 export interface ITutorAvailabilityToSend {
     tutorAvailability: ITutorAvailability[];

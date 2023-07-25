@@ -37,7 +37,7 @@ const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
                                     {event.Tutor.User.firstName} {event.Tutor.User.lastName}
                                 </div>
                                 <div className="type--color--secondary">
-                                    {moment(event.startTime).format('DD/MM/YYYY, HH:mm')} - {moment(event.endTime).add(1, 'minutes').format('HH:mm')}
+                                    {moment.utc(event.startTime).format('DD/MM/YYYY, HH:mm')} - {moment.utc(event.endTime).add(1, 'minutes').format('HH:mm')}
                                 </div>
                             </div>
                             <div className="mb-6">
@@ -78,9 +78,11 @@ const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
                             </button>
                         )}
 
-                        {event.isAccepted &&
-                        moment(event.startTime).subtract(10, 'minutes').isBefore(moment()) &&
-                        moment(event.endTime).isAfter(moment()) ? (
+                        {event.isAccepted
+                            //&&
+                        // moment(event.startTime).subtract(10, 'minutes').isBefore(moment()) &&
+                        // moment(event.endTime).isAfter(moment())
+                            ? (
                             <button className="btn btn--base btn--primary mt-4" onClick={() => openLearnCube && openLearnCube()}>
                                 {t('BOOK.JOIN')}
                             </button>

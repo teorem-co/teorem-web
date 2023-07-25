@@ -46,6 +46,9 @@ interface IBookingTransformed {
 }
 
 const MyBookings: React.FC = (props: any) => {
+  const userId = useAppSelector((state) => state.auth.user?.id);
+  const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
+  // TODO: something like this conditional selecting OR inside method maybe =>> CANNOT REALLY DO THAT i need some other way
   const [getBookings, { data: bookings, isLoading: bookingsLoading }] = useLazyGetBookingsQuery();
   const [getNotificationForLessons, { data: lessonsCount }] = useLazyGetNotificationForLessonsQuery();
   const [getBookingById, { data: booking }] = useLazyGetBookingByIdQuery();
@@ -78,10 +81,9 @@ const MyBookings: React.FC = (props: any) => {
   const highlightRef = useRef<HTMLDivElement>(null);
   const tileRef = useRef<HTMLDivElement>(null);
   const tileElement = tileRef.current as HTMLDivElement;
-  const userId = useAppSelector((state) => state.auth.user?.id);
-  const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
   const allBookings = bookings?.concat(unavailableBookings ? unavailableBookings : []);
   const isLoading = bookingsLoading || unavailableBookingsLoading;
+
 
   const CustomHeader = (date: any) => {
     setCalChange(true);
@@ -223,6 +225,7 @@ const MyBookings: React.FC = (props: any) => {
       setHighlightCoords({ x: finalX, y: finalY });
     }
   };
+
 
   const hideShowHighlight = (date: Date) => {
     if (tileElement) {

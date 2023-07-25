@@ -211,12 +211,14 @@ const TutorBookings = () => {
   };
 
   const slotSelect = (e: SlotInfo) => {
+
+
     const existingBooking =
-      existingBookings && existingBookings.filter((date) => moment(date.start).format('YYYY/MM/DD') === moment(e.start).format('YYYY/MM/DD'));
+      existingBookings && existingBookings.filter((date) => moment.utc(date.start).format('YYYY/MM/DD') === moment.utc(e.start).format('YYYY/MM/DD'));
 
     let isAvailableBooking = false;
 
-    const endDat = moment(e.end).toDate();
+    const endDat = moment.utc(e.end).toDate();
 
     tutorAvability &&
       tutorAvability.forEach((index, item) => {
@@ -254,7 +256,14 @@ const TutorBookings = () => {
         }
       });
     }
-    if (flagArr.length === existingBooking?.length && !moment(e.start).isBefore(moment().add(3, 'hours')) && isAvailableBooking) {
+
+    console.log("FIRST: ",flagArr.length === existingBooking?.length);
+    console.log("SECOND: ", !moment.utc(e.start).isBefore(moment().add(3, 'hours')));
+    console.log("THIRD: ", isAvailableBooking);
+
+    const firstCheck = flagArr.length === existingBooking?.length;
+    // TODO: add first heck
+    if (firstCheck && !moment.utc(e.start).isBefore(moment().add(3, 'hours')) && isAvailableBooking) {
       // setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));     MMMM format doesn't work with different languages!
       setSelectedStart(moment(e.start).format());
       setSelectedEnd(moment(e.start).add(1, 'hours').format('HH:mm'));
@@ -283,6 +292,7 @@ const TutorBookings = () => {
   const handleSelectedEvent = (e: IBookingTransformed) => {
     setCurentlyActiveBooking(e.id);
     // check whole date not only hours this is a bug
+
     if (e.userId === userId) {
       if (moment(e.start).isBefore(moment()) || emptyBookings.length > 0) {
         return;
@@ -296,8 +306,8 @@ const TutorBookings = () => {
         //     allDay: e.allDay,
         //     label: e.label,
         // });
-        setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
-        setSelectedEnd(moment(e.end).format('HH:mm'));
+        setSelectedStart(moment.utc(e.start).format('DD/MMMM/YYYY, HH:mm'));
+        setSelectedEnd(moment.utc(e.end).format('HH:mm'));
         // if (booking && booking.id) {
         //     setOpenSlot(true);
         // }
