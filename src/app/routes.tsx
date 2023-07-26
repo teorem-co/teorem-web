@@ -11,11 +11,6 @@ import Dashboard from './features/dashboard/Dashboard';
 import Earnings from './features/earnings/Earnings';
 import ForgotPassword from './features/forgot-password/ForgotPassword';
 import ResetPassword from './features/forgot-password/ResetPassword';
-import BecomeTutor from './features/landing/pages/BecomeTutor';
-import HowItWorks from './features/landing/pages/HowItWorks';
-import Pricing from './features/landing/pages/Pricing';
-import Privacy from './features/landing/pages/Privacy';
-import Terms from './features/landing/pages/Terms';
 import Login from './features/login/Login';
 import MyBookings from './features/my-bookings/MyBookings';
 import AdditionalInformation from './features/my-profile/pages/AdditionalInformation';
@@ -116,36 +111,6 @@ export const ROUTES: any = [
     key: 'REGISTER',
     exact: true,
     component: () => <Register />,
-  },
-  {
-    path: LANDING_PATHS.HOW_IT_WORKS,
-    key: 'HOW_IT_WORKS',
-    exact: true,
-    component: () => <HowItWorks />,
-  },
-  {
-    path: LANDING_PATHS.BECOME_TUTOR,
-    key: 'BECOME_TUTOR',
-    exact: true,
-    component: () => <BecomeTutor />,
-  },
-  {
-    path: LANDING_PATHS.PRICING,
-    key: 'PRICING',
-    exact: true,
-    component: () => <Pricing />,
-  },
-  {
-    path: PATHS.TERMS,
-    key: 'TERMS',
-    exact: true,
-    component: () => <Terms />,
-  },
-  {
-    path: PATHS.PRIVACY,
-    key: 'PRIVACY',
-    exact: true,
-    component: () => <Privacy />,
   },
   {
     path: PATHS.ONBOARDING,
@@ -413,7 +378,7 @@ export function RenderRoutes(routesObj: any) {
       }
 
       if (location.pathname.replaceAll('/', '') === lang) {
-        history.push(t('PATHS.LANDING_PATHS.HOW_IT_WORKS'));
+        history.push(t('PATHS.LOGIN'));
       }
     } else {
       const lang = i18n.languages[i18n.languages.length - 1];
@@ -422,7 +387,7 @@ export function RenderRoutes(routesObj: any) {
 
       location.pathname.length > 1
         ? history.push(`/${i18n.languages[i18n.languages.length - 1]}${location.pathname}${location.search ? location.search : ''}`)
-        : history.push(t('PATHS.LANDING_PATHS.HOW_IT_WORKS'));
+        : history.push(t('PATHS.LOGIN'));
     }
   };
 
