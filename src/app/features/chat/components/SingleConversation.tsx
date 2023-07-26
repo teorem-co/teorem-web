@@ -434,6 +434,7 @@ const SingleConversation = (props: Props) => {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${userToken}`,
+                Accept: 'application/octet-stream',
             },
         })
             .then(response => {
