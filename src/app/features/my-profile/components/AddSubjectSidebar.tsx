@@ -5,7 +5,11 @@ import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
 import { useGetLevelOptionsQuery } from '../../../../services/levelService';
-import { useCreateSubjectMutation, useLazyGetSubjectsByLevelAndSubjectQuery } from '../../../../services/subjectService';
+import {
+    useCreateSubjectMutation,
+    useLazyGetSubjectOptionsByLevelQuery,
+    useLazyGetSubjectsByLevelAndSubjectQuery,
+} from '../../../../services/subjectService';
 import { useLazyGetProfileProgressQuery } from '../../../../services/tutorService';
 import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import TextField from '../../../components/form/TextField';
@@ -32,8 +36,12 @@ const AddSubjectSidebar = (props: Props) => {
 
     const { data: levelOptions, isLoading: isLoadingLevels } = useGetLevelOptionsQuery();
     const [createSubject] = useCreateSubjectMutation();
-    const [getSubjectOptionsByLevel, { data: subjectsData, isLoading: isLoadingSubjects, isSuccess: isSuccessSubjects }] =
-        useLazyGetSubjectsByLevelAndSubjectQuery();
+
+    const [
+        getSubjectOptionsByLevel,
+        { data: subjectsData, isLoading: isLoadingSubjects, isSuccess: isSuccessSubjects, isFetching: isFetchingSubjects },
+    ] = useLazyGetSubjectOptionsByLevelQuery();
+
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
 
     const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
@@ -107,9 +115,7 @@ const AddSubjectSidebar = (props: Props) => {
     useEffect(() => {
         formik.setFieldValue('subject', '');
         if (formik.values.level !== '') {
-            getSubjectOptionsByLevel({
-                levelId: formik.values.level,
-            });
+            getSubjectOptionsByLevel(formik.values.level);
         }
     }, [formik.values.level]);
 
@@ -134,7 +140,7 @@ const AddSubjectSidebar = (props: Props) => {
                                     form={formik}
                                     meta={formik.getFieldMeta('level')}
                                     isMulti={false}
-                                    options={levelOptions ? levelOptions : []}
+                                    options={subjectOptions} //options={levelOptions ? levelOptions : []}
                                     isDisabled={levelDisabled}
                                     placeholder={t('SEARCH_TUTORS.PLACEHOLDER.LEVEL')}
                                     classNamePrefix="onboarding-select"
@@ -148,7 +154,7 @@ const AddSubjectSidebar = (props: Props) => {
                                     form={formik}
                                     meta={formik.getFieldMeta('subject')}
                                     isMulti={false}
-                                    options={subjectOptions}
+                                    options={levelOptions ? levelOptions : []}//options={subjectOptions}
                                     isDisabled={levelDisabled || isLoadingSubjects}
                                     noOptionsMessage={() => t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')}
                                     placeholder={t('SEARCH_TUTORS.PLACEHOLDER.SUBJECT')}
@@ -166,9 +172,8 @@ const AddSubjectSidebar = (props: Props) => {
                                         t('MY_PROFILE.MY_TEACHINGS.PRICING_PLACEHOLDER') +
                                         minPrice + ' ' + currency + '/h'}
                                     withoutErr={
-                                        formik.errors.price &&
-                                            formik.touched.price ?
-                                            false : true}
+                                        !(formik.errors.price &&
+                                            formik.touched.price)}
                                     type="number"
                                 />
                             </div>
