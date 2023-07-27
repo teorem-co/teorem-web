@@ -100,7 +100,7 @@ export const tutorAvailabilityService = baseService.injectEndpoints({
         }),
         updateTutorAvailability: builder.mutation<
             void,
-            ITutorAvailabilityToSend
+            ITutorAvailability[]
         >({
             query: (body) => ({
                 url: `${URL}`,

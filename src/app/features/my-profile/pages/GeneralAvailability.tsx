@@ -114,7 +114,8 @@ const GeneralAvailability = () => {
         }
 
         if (tutorAvailability && tutorAvailability[1].length > 1) {
-            await updateTutorAvailability({ tutorAvailability: toSend });
+            //await updateTutorAvailability({ tutorAvailability: toSend });
+            await updateTutorAvailability( toSend);
             toastService.success(t('MY_PROFILE.GENERAL_AVAILABILITY.UPDATED'));
         } else {
             await createTutorAvailability({ tutorAvailability: toSend });
