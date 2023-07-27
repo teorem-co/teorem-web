@@ -140,7 +140,7 @@ const AddSubjectSidebar = (props: Props) => {
                                     form={formik}
                                     meta={formik.getFieldMeta('level')}
                                     isMulti={false}
-                                    options={subjectOptions} //options={levelOptions ? levelOptions : []}
+                                    options={levelOptions ? levelOptions : []}
                                     isDisabled={levelDisabled}
                                     placeholder={t('SEARCH_TUTORS.PLACEHOLDER.LEVEL')}
                                     classNamePrefix="onboarding-select"
@@ -154,7 +154,7 @@ const AddSubjectSidebar = (props: Props) => {
                                     form={formik}
                                     meta={formik.getFieldMeta('subject')}
                                     isMulti={false}
-                                    options={levelOptions ? levelOptions : []}//options={subjectOptions}
+                                    options={subjectOptions}
                                     isDisabled={levelDisabled || isLoadingSubjects}
                                     noOptionsMessage={() => t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')}
                                     placeholder={t('SEARCH_TUTORS.PLACEHOLDER.SUBJECT')}

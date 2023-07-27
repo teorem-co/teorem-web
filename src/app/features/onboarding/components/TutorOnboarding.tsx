@@ -171,7 +171,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
       roleAbrv: roleAbrv ? roleAbrv : '',
       countryId: values.countryId,
       phoneNumber: values.phoneNumber,
-      dateOfBirth: moment(dateOfBirth).toISOString(),
+      dateOfBirth: moment(dateOfBirth).format('YYYY-MM-DD'),
       email: email,
       profileImage: values.profileImage,
     }).unwrap();
@@ -326,7 +326,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
       roleAbrv: roleAbrv ? roleAbrv : '',
       countryId: countryId,
       phoneNumber: phoneNumber,
-      dateOfBirth: moment(dateOfBirth).toISOString(),
+      dateOfBirth: moment(dateOfBirth).format('YYYY-MM-DD'),
       email: email,
       profileImage: profileImage,
     });

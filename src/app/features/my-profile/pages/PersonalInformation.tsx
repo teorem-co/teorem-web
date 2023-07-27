@@ -181,9 +181,15 @@ const PersonalInformation = () => {
 
   const isValidDate = (dateString: string | undefined) => {
     const dateFormat = 'YYYY-MM-DD';
-    const date = moment(dateString, dateFormat, true);
-
+    console.log(dateString);
+    const formattedDate = moment(dateString).format('YYYY-MM-DD');
+    console.log(formattedDate);
+    const date = moment(formattedDate, dateFormat, true);
+    console.log(date);
     // Check if the date is valid and the year is greater than 1900
+    console.log(date.isValid());
+    console.log(date.year() > 1900);
+
     return date.isValid() && date.year() > 1900;
   };
 
@@ -196,14 +202,11 @@ const PersonalInformation = () => {
         .required(t('FORM_VALIDATION.REQUIRED'))
         .test('dateOfBirth', t('FORM_VALIDATION.FUTURE_DATE'), (value) => {
           const dateDiff = moment(value).diff(moment(), 'days');
-          if (dateDiff < 0) {
-            return true;
-          } else {
-            return false;
-          }
+          console.log("Date diff: ", dateDiff < 0);
+          return dateDiff < 0;
         })
         .test('dateOfBirth', t('FORM_VALIDATION.VALID_DATE'), (value) => {
-          return !isValidDate(value);
+          return isValidDate(value);
         }),
       countryId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
     };
