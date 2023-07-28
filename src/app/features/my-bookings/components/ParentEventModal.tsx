@@ -56,7 +56,10 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                                 {moment(bookingStart).isSame(moment(), 'day') ? (
                                     <></>
                                 ) : (
-                                    <i className="icon icon--base icon--grey icon--delete mr-4" onClick={() => handleDeleteBooking()}></i>
+                                    <>
+                                        <i className="icon icon--base icon--grey icon--delete mr-4" onClick={() => handleDeleteBooking()}></i>
+                                    </>
+
                                 )}
                                 <i
                                     className="icon icon--base icon--grey icon--close"

@@ -118,7 +118,7 @@ export const bookingService = baseService.injectEndpoints({
         }),
         getNotificationForLessons: builder.query<number, INotificationForLessons>({
             query: (data) => ({
-                url: `${URL}/${data.userId}/${data.date}/count`,
+                url: `${URL}/${data.userId}/count?endTime=${data.date}`,
                 method: HttpMethods.GET,
             }),
             providesTags: ['lessonCount'],

@@ -1158,4 +1158,8 @@ export const HR_HR = {
         WELCOME: 'WELCOME',
         DESCRIPTION: 'DESCRIPTION',
     },
+
+    BOOKING:{
+        SUCCESS: 'Rezervacija uspješna!'
+    }
 };
