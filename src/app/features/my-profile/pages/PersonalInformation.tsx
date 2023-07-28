@@ -87,7 +87,11 @@ const PersonalInformation = () => {
     };
 
     if (userRole === RoleOptions.Tutor) {
-      toSend['profileImage'] = values.profileImage;
+      if (typeof values.profileImage === 'string') {
+        delete toSend.profileImage;
+      }else {
+        toSend['profileImage'] = values.profileImage;
+      }
     }
 
     await updateUserInformation(toSend);
@@ -202,7 +206,6 @@ const PersonalInformation = () => {
         .required(t('FORM_VALIDATION.REQUIRED'))
         .test('dateOfBirth', t('FORM_VALIDATION.FUTURE_DATE'), (value) => {
           const dateDiff = moment(value).diff(moment(), 'days');
-          console.log("Date diff: ", dateDiff < 0);
           return dateDiff < 0;
         })
         .test('dateOfBirth', t('FORM_VALIDATION.VALID_DATE'), (value) => {

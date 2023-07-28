@@ -197,6 +197,7 @@ const TutorProfile = () => {
     };
 
     const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
+    const cacheBuster = Date.now();
 
     return (
         <MainWrapper>
@@ -359,7 +360,7 @@ const TutorProfile = () => {
                         <div>
                             <div className="card--primary p-4 pt-6">
                                 <div className="tutor-list__item__img align--center">
-                                    <img className="align--center d--b mb-4" src={'https://' + tutorData.User.profileImage} alt="tutor-profile-pic" />
+                                    <img className="align--center d--b mb-4" src={'https://' +`${tutorData.User.profileImage}&v=${cacheBuster}`} alt="tutor-profile-pic" />
                                 </div>
                                 <div className="type--md type--center mb-1">
                                     {tutorData.User.firstName}&nbsp;

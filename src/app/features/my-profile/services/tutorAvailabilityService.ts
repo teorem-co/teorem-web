@@ -59,7 +59,7 @@ export const tutorAvailabilityService = baseService.injectEndpoints({
         }),
         getTutorAvailableDays: builder.query<(string | boolean)[][], string>({
             query: (tutorId) => ({
-                url: `${URL}/available/${tutorId}`,
+                url: `${URL}/${tutorId}`,//`${URL}/available/${tutorId}`,
                 method: HttpMethods.GET,
             }),
             providesTags: ['userAvailability'],
