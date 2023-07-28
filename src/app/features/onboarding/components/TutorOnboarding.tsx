@@ -213,23 +213,6 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
               // disabled={isLoading}
             />
           </div>
-          {/*<div className="field">*/}
-          {/*  <label htmlFor="countryId" className="field__label">*/}
-          {/*    {t('REGISTER.FORM.COUNTRY')}*/}
-          {/*  </label>*/}
-
-          {/*  <MySelect*/}
-          {/*    form={formikStepOne}*/}
-          {/*    field={formikStepOne.getFieldProps('countryId')}*/}
-          {/*    meta={formikStepOne.getFieldMeta('countryId')}*/}
-          {/*    isMulti={false}*/}
-          {/*    classNamePrefix="onboarding-select"*/}
-          {/*    options={countryOptions.filter((option) => option.label === 'Croatia')}*/}
-          {/*    placeholder={t('REGISTER.FORM.COUNTRY_PLACEHOLDER')}*/}
-          {/*    customInputField={countryInput}*/}
-          {/*    customOption={countryOption}*/}
-          {/*  />*/}
-          {/*</div>*/}
           <div className="field" ref={rangeSetterRef}>
             <label htmlFor="phoneNumber" className="field__label">
               {t('REGISTER.FORM.PHONE_NUMBER')}
@@ -249,7 +232,11 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
             <label className="field__label" htmlFor="dateOfBirth">
               {t('REGISTER.FORM.DATE_OF_BIRTH')}
             </label>
-            <MyDatePicker form={formikStepOne} field={formikStepOne.getFieldProps('dateOfBirth')} meta={formikStepOne.getFieldMeta('dateOfBirth')} />
+            <MyDatePicker
+                form={formikStepOne}
+                field={formikStepOne.getFieldProps('dateOfBirth')}
+                meta={formikStepOne.getFieldMeta('dateOfBirth')}
+            />
           </div>
           {/*<div className="field field__file">*/}
           {/*  <label className="field__label" htmlFor="profileImage">*/}
@@ -257,7 +244,6 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
           {/*  </label>*/}
           {/*  <UploadFile setFieldValue={formikStepOne.setFieldValue} id="profileImage" name="profileImage" />*/}
           {/*</div>*/}
-
           <div
             className="btn btn--base btn--primary type--center w--100 mb-2 mt-6 type--wgt--extra-bold"
             onClick={() => formikStepOne.handleSubmit()}
