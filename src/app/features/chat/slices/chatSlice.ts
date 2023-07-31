@@ -1,13 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { stat } from 'fs';
-import { StaticRouter } from 'react-router';
-import { SignalData } from "simple-peer";
+import { SignalData } from 'simple-peer';
 import { io, Socket } from 'socket.io-client';
-import { compileString } from 'sass';
-import { RootState, store } from '../../../store';
-import { useSelector } from 'react-redux';
 
-const serverUrl = `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_HOST}`;
+const serverUrl = `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_CHAT_HOST}`;
 const token = 'token'; // TODO: set token (jwt?)
 //const token = store.getState().auth.token;
 export interface IVideoChatBuffer {

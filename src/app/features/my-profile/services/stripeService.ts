@@ -46,11 +46,8 @@ export const stripeService = baseService.injectEndpoints({
         }),
         removeCreditCard: builder.mutation<any, IDeleteCreditCard>({
             query: (deleteCreditCard) => ({
-                url: `${URL}/remove-customer-source/${deleteCreditCard.userId}`,
-                method: HttpMethods.POST,
-                body: {
-                    sourceId: deleteCreditCard.sourceId,
-                },
+                url: `${URL}/remove-customer-source/${deleteCreditCard.userId}?sourceId=${deleteCreditCard.sourceId}`,
+                method: HttpMethods.DELETE,
             }),
         }),
         setDefaultCreditCard: builder.mutation<any, ISetDefaultCreditCard>({
