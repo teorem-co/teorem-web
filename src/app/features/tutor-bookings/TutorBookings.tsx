@@ -266,7 +266,7 @@ const TutorBookings = () => {
 
     if (firstCheck && !moment.utc(e.start).isBefore(moment().add(3, 'hours')) && isAvailableBooking) {
       // setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));     MMMM format doesn't work with different languages!
-      setSelectedStart(moment(e.start).format());
+      setSelectedStart(moment.utc(e.start).format());
       setSelectedEnd(moment(e.start).add(1, 'hours').format('HH:mm'));
       setOpenSlot(true);
       setOpenUpdateModal(false);

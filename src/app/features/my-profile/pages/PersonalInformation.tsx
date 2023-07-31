@@ -103,8 +103,11 @@ const PersonalInformation = () => {
   };
 
   const handleBlur = () => {
-    const initialValueImgSplit = initialValues.profileImage.split('/');
-    const initialValueImg = initialValueImgSplit[initialValueImgSplit.length - 1];
+    let initialValueImg = '';
+    if (typeof formik.values.profileImage === 'string') {
+      const initialValueImgSplit = initialValues.profileImage.split('/');
+      initialValueImg = initialValueImgSplit[initialValueImgSplit.length - 1];
+    }
 
     let formikImgSplit = [];
     let formikImg = '';

@@ -20,12 +20,12 @@ const ProfileCompletion = (props: Props) => {
 
     return (
         <div className="card--profile__progress flex--primary p-6 mb-20">
-            {percentage && percentage !== 100 && userRole === RoleOptions.Tutor && (
+            {percentage !== 100 && userRole === RoleOptions.Tutor && (
                 <div className="flex">
                     {/* Maybe change later to use custom component instead of library component */}
                     <div className="flex flex--center flex--shrink w--105">
                         {/* PROGRESS BAR */}
-                        <CircularProgress progressNumber={percentage ? percentage : 0} />
+                        <CircularProgress progressNumber={percentage ? percentage : 0} size={80}  />
                     </div>
                     <div className="flex flex--col flex--jc--center ml-6">
                         <div className="type--md mb-2">{t('COMPLETE_PROFILE.TITLE')}</div>

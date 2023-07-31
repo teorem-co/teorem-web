@@ -141,7 +141,7 @@ export const bookingService = baseService.injectEndpoints({
         }),
         updateBooking: builder.mutation<void, IUpdateBooking>({
             query: (data) => ({
-                url: `${URL}/${data.bookingId}`,
+                url: `${URL}/${data.bookingId}?startTime=${data.startTime}`,
                 method: HttpMethods.PUT,
                 body: data,
             }),
