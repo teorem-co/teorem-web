@@ -9,7 +9,7 @@ import { logout } from '../../slices/authSlice';
 import { RoleOptions } from '../../slices/roleSlice';
 import { logoutUser } from '../../slices/userSlice';
 import { useAppDispatch, useAppSelector } from '../hooks';
-import { PATHS, PROFILE_PATHS, RenderMenuLinks } from '../routes';
+import { LANDING_PATHS, PATHS, PROFILE_PATHS, RenderMenuLinks } from '../routes';
 import { persistor } from '../store';
 import ImageCircle from './ImageCircle';
 import { useLazyGetUserQuery } from '../../services/userService';
@@ -24,6 +24,7 @@ const Navbar = () => {
         dispatch({ type: 'USER_LOGOUT' });
     };
 
+    const landingHostName = process.env.REACT_APP_LANDING_HOSTNAME || 'https://www.teorem.com';
     const user = useAppSelector((state) => state.auth?.user);
 
     const [getTutorProfileData] = useLazyGetTutorProfileDataQuery();
@@ -34,6 +35,9 @@ const Navbar = () => {
         navigator.clipboard.writeText('https://teorem.co' + t('PATHS.SEARCH_TUTORS_TUTOR_PROFILE').replace(':tutorSlug', tutorSlug));
         setTextCopiedToClipboard(true);
     };
+
+    const landingPath = LANDING_PATHS.HOW_IT_WORKS;
+
     useEffect(() => {
         textCopiedToClipboard && setTimeout(() => setTextCopiedToClipboard(false), 800);
     }, [textCopiedToClipboard]);
@@ -107,29 +111,32 @@ const Navbar = () => {
                     </div>
                 )) || (
                     <NavLink to={PROFILE_PATHS.MY_PROFILE_INFO_PERSONAL} className="navbar__bottom__my-profile" activeClassName="active">
-                        <div className="navbar__bottom__avatar pos--rel">
+                        <div className='navbar__bottom__avatar pos--rel'>
                             {user?.Role?.abrv === RoleOptions.Tutor ? (
-                                <img src={profileImageURL ? 'https://' + `${profileImageURL}&v=${cacheBuster}` : gradientCircle} alt="avatar" />
+                                <img src={profileImageURL ? 'https://' + `${profileImageURL}&v=${cacheBuster}` : gradientCircle}
+                                     alt='avatar' />
                             ) : (
                                 <ImageCircle initials={`${user?.firstName.charAt(0)}${user?.lastName.charAt(0)}`} />
                             )}
-                            <div className="navbar__bottom--settings">
-                                <i className="icon icon--base icon--white icon--settings"></i>
+                            <div className='navbar__bottom--settings'>
+                                <i className='icon icon--base icon--white icon--settings'></i>
                             </div>
                         </div>
-                        <div className="navbar__bottom__user-info">
-                            <div className="type--color--primary type--wgt--bold type--break">
+                        <div className='navbar__bottom__user-info'>
+                            <div className='type--color--primary type--wgt--bold type--break'>
                                 {user?.firstName} {user?.lastName}
                             </div>
-                            <div className="type--xs type--color--secondary type--wgt--regular ">{t('ROLES.' + user?.Role?.abrv)}</div>
+                            <div
+                                className='type--xs type--color--secondary type--wgt--regular '>{t('ROLES.' + user?.Role?.abrv)}</div>
                         </div>
                     </NavLink>
 
                 )}
 
-                <NavLink to={PATHS.LOGIN} onClick={handleLogout} className="d--ib">
-                    <i className="icon icon--logout icon--sm icon--grey"></i>
-                </NavLink>
+
+                <a href={`${landingHostName}${landingPath}`} onClick={handleLogout} className='d--ib'>
+                    <i className='icon icon--logout icon--sm icon--grey'></i>
+                </a>
 
             </div>
         </div>
