@@ -5,7 +5,7 @@ import IMyReviews from '../interfaces/IMyReviews';
 import ITutorStatistics from '../interfaces/ITutorStatistics';
 import { IGetMyReviews } from '../MyReviews';
 
-const URL = 'reviews';
+const URL = 'api/v1/reviews';
 
 export const myReviewsService = baseService.injectEndpoints({
     endpoints: (builder) => ({

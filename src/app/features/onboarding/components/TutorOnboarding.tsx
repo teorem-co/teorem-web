@@ -104,6 +104,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
       dateOfBirth: Yup.string()
           .required(t('FORM_VALIDATION.REQUIRED'))
         .test('dateOfBirth', t('FORM_VALIDATION.FUTURE_DATE'), (value) => {
+
           const dateDiff = moment(value).diff(moment(), 'days');
 
           if (dateDiff < 0) {
@@ -142,6 +143,9 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
   });
 
   const handleSubmitStepOne = async (values: StepOneValues) => {
+    console.log(values.dateOfBirth);
+    console.log("MOMENT: ", moment(dateOfBirth));
+    console.log("FORMAT: ", moment(dateOfBirth).format('YYYY-MM-DD'));
     dispatch(
       setStepOne({
         firstName: values.firstName,
@@ -171,7 +175,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
       roleAbrv: roleAbrv ? roleAbrv : '',
       countryId: values.countryId,
       phoneNumber: values.phoneNumber,
-      dateOfBirth: moment(dateOfBirth).format('YYYY-MM-DD'),
+      dateOfBirth: moment(values.dateOfBirth).toISOString().substring(0, 10),
       email: email,
       profileImage: values.profileImage,
     }).unwrap();

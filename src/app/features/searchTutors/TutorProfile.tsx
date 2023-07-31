@@ -87,7 +87,7 @@ const TutorProfile = () => {
 
             getTutorProfileData(tutorId);
             getMyReviews(myReviewsGetObj);
-            getStatistics(tutorId);
+            //getStatistics(tutorId);   //TODO: fix
             getTutorAvailability(tutorId);
         }
     }, [tutorId]);

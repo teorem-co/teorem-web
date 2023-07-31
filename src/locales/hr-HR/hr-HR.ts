@@ -1093,7 +1093,7 @@ export const HR_HR = {
         MY_REVIEWS: '/hr/moje-recenzije',
         COMPLETED_LESSONS: '/hr/zavrsene-lekcije',
         CHAT: '/hr/razgovor',
-        DASHBOARD: '/hr/glavna-ploca',
+        DASHBOARD: '/hr/dashboard',
         NOTIFICATIONS: '/hr/glavna-ploca/obavijesti',
         EARNINGS: '/hr/prihod',
         TERMS: '/hr/uvjeti-koristenja',
