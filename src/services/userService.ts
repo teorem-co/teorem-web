@@ -23,7 +23,7 @@ export const userService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         updateUserInformation: builder.mutation<IUser, IUpdateUserInformation>({
             query: (body) => ({
-                url: `${URL}`,
+                url: `${URL}/profile`,
                 method: HttpMethods.PUT,
                 body: typeToFormData(body),
             }),

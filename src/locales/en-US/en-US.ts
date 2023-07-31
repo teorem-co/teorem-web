@@ -1155,4 +1155,8 @@ export const EN_US = {
         WELCOME: 'WELCOME',
         DESCRIPTION: 'DESCRIPTION',
     },
+
+    BOOKING:{
+        SUCCESS: 'Booking successful!'
+    }
 };

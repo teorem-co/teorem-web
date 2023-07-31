@@ -10,21 +10,22 @@ interface Props {
     percentage: number | undefined;
     generalAvailability: boolean | undefined;
     myTeachings: boolean | undefined;
-    aditionalInformation: boolean | undefined;
+    additionalInformation: boolean | undefined;
+    payment: boolean | undefined;
 }
 
 const ProfileCompletion = (props: Props) => {
-    const { percentage, generalAvailability, myTeachings, aditionalInformation } = props;
+    const { percentage, generalAvailability, myTeachings, additionalInformation, payment } = props;
     const userRole: string = useAppSelector((state) => state.auth.user?.Role.abrv) || '';
 
     return (
         <div className="card--profile__progress flex--primary p-6 mb-20">
-            {percentage && percentage !== 100 && userRole === RoleOptions.Tutor && (
+            {percentage !== 100 && userRole === RoleOptions.Tutor && (
                 <div className="flex">
                     {/* Maybe change later to use custom component instead of library component */}
                     <div className="flex flex--center flex--shrink w--105">
                         {/* PROGRESS BAR */}
-                        <CircularProgress progressNumber={percentage ? percentage : 0} />
+                        <CircularProgress progressNumber={percentage ? percentage : 0} size={80}  />
                     </div>
                     <div className="flex flex--col flex--jc--center ml-6">
                         <div className="type--md mb-2">{t('COMPLETE_PROFILE.TITLE')}</div>
@@ -65,7 +66,7 @@ const ProfileCompletion = (props: Props) => {
                         <NavLink exact to={PROFILE_PATHS.MY_PROFILE_INFO_ADDITIONAL} className="nav-link--profile" activeClassName="active">
                             <div className="flex flex--col flex--center">
                                 <div className="nav-link--profile__wrapper">
-                                    <i className={`icon icon--base icon--${aditionalInformation ? 'check' : 'edit'} nav-link--profile__icon`}></i>
+                                    <i className={`icon icon--base icon--${additionalInformation ? 'check' : 'edit'} nav-link--profile__icon`}></i>
                                 </div>
                                 <div className="nav-link--profile__label type--center mt-4 pl-2 pr-2">{t('COMPLETE_PROFILE.ABOUT_ME')}</div>
                             </div>
@@ -87,7 +88,7 @@ const ProfileCompletion = (props: Props) => {
                 <NavLink exact to={PROFILE_PATHS.MY_PROFILE_ACCOUNT} className="nav-link--profile" activeClassName="active">
                     <div className="flex flex--col flex--center">
                         <div className="nav-link--profile__wrapper">
-                            <i className="icon icon--base icon--check nav-link--profile__icon"></i>
+                            <i className={`icon icon--base icon--${payment ? 'check' : 'edit'} nav-link--profile__icon`}></i>
                         </div>
                         <div className="nav-link--profile__label type--center mt-4 pl-2 pr-2">{t('COMPLETE_PROFILE.ACCOUNT')}</div>
                     </div>

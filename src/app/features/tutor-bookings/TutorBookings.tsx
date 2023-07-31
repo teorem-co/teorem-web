@@ -74,7 +74,7 @@ const TutorBookings = () => {
       isLoading,
     }),
   });
-  const [getTutorAvability, { data: tutorAvability, isLoading: tutorAvabilityLoading }] = useLazyGetTutorAvailableDaysQuery();
+  const [getTutorAvailability, { data: tutorAvailability, isLoading: tutorAvailabilityLoading }] = useLazyGetTutorAvailableDaysQuery();
 
   const [getBookingById, { data: booking }] = useLazyGetBookingByIdQuery();
   const [addCustomerSource] = useAddCustomerSourceMutation();
@@ -162,7 +162,7 @@ const TutorBookings = () => {
     zipCode: '',
   };
 
-  const isLoading = isLoadingTutorBookings || isLoadingBookings || isLoadingUnavailableBookings || tutorAvabilityLoading;
+  const isLoading = isLoadingTutorBookings || isLoadingBookings || isLoadingUnavailableBookings || tutorAvailabilityLoading;
 
   const CustomHeader = (date: any) => {
     setCalChange(true);
@@ -220,17 +220,18 @@ const TutorBookings = () => {
 
     const endDat = moment.utc(e.end).toDate();
 
-    tutorAvability &&
-      tutorAvability.forEach((index, item) => {
+    tutorAvailability &&
+      tutorAvailability.forEach((index, item) => {
         if (item > 0) {
           index.forEach((day, dayOfWeek) => {
-            if (dayOfWeek > 0 && endDat.getDay() == dayOfWeek - 1 && day) {
+
+            if (dayOfWeek > 0 && endDat.getDay() == dayOfWeek && day) {
               switch (index[0]) {
                 case 'Pre 12 pm':
-                  if (endDat.getHours() < 12) isAvailableBooking = true;
+                  if (endDat.getHours() <= 12) isAvailableBooking = true;
                   break;
                 case '12 - 5 pm':
-                  if (endDat.getHours() > 12 && endDat.getHours() < 17) isAvailableBooking = true;
+                  if (endDat.getHours() > 12 && endDat.getHours() <= 17) isAvailableBooking = true;
                   break;
                 case 'After 5 pm':
                   if (endDat.getHours() > 17) isAvailableBooking = true;
@@ -262,10 +263,10 @@ const TutorBookings = () => {
     console.log("THIRD: ", isAvailableBooking);
 
     const firstCheck = flagArr.length === existingBooking?.length;
-    // TODO: add first heck
+
     if (firstCheck && !moment.utc(e.start).isBefore(moment().add(3, 'hours')) && isAvailableBooking) {
       // setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));     MMMM format doesn't work with different languages!
-      setSelectedStart(moment(e.start).format());
+      setSelectedStart(moment.utc(e.start).format());
       setSelectedEnd(moment(e.start).add(1, 'hours').format('HH:mm'));
       setOpenSlot(true);
       setOpenUpdateModal(false);
@@ -447,7 +448,7 @@ const TutorBookings = () => {
         dateTo: moment(value).endOf('isoWeek').toISOString(),
       }).unwrap();
 
-      await getTutorAvability(tutorId).unwrap();
+      await getTutorAvailability(tutorId).unwrap();
     }
   };
 

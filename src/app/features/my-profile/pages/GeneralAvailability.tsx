@@ -7,7 +7,6 @@ import MainWrapper from '../../../components/MainWrapper';
 import RouterPrompt from '../../../components/RouterPrompt';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
 import availabilityTable from '../../../constants/availabilityTable';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
@@ -19,14 +18,16 @@ import {
     useUpdateTutorAvailabilityMutation,
 } from '../services/tutorAvailabilityService';
 import { setMyProfileProgress } from '../slices/myProfileSlice';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+
 
 const GeneralAvailability = () => {
     //const { data: profileProgress } = useGetProfileProgressQuery();
-    const [getProfileProgress] = useLazyGetProfileProgressQuery();
     const [getTutorAvailability, { data: tutorAvailability, isUninitialized: availabilityUninitialized, isLoading: availabilityLoading }] =
         useLazyGetTutorAvailabilityQuery();
     const [updateTutorAvailability] = useUpdateTutorAvailabilityMutation();
     const [createTutorAvailability] = useCreateTutorAvailabilityMutation();
+    const [getProfileProgress] = useLazyGetProfileProgressQuery();
 
     const [currentAvailabilities, setCurrentAvailabilities] = useState<(string | boolean)[][]>([]);
     const [saveBtnActive, setSaveBtnActive] = useState(false);
@@ -116,6 +117,8 @@ const GeneralAvailability = () => {
         if (tutorAvailability && tutorAvailability[1].length > 1) {
             //await updateTutorAvailability({ tutorAvailability: toSend });
             await updateTutorAvailability( toSend);
+            const progressResponse = await getProfileProgress().unwrap();
+            dispatch(setMyProfileProgress(progressResponse));
             toastService.success(t('MY_PROFILE.GENERAL_AVAILABILITY.UPDATED'));
         } else {
             await createTutorAvailability({ tutorAvailability: toSend });
@@ -184,9 +187,10 @@ const GeneralAvailability = () => {
                 {/* PROGRESS */}
                 <ProfileCompletion
                     generalAvailability={profileProgressState.generalAvailability}
-                    aditionalInformation={profileProgressState.aboutMe}
+                    additionalInformation={profileProgressState.aboutMe}
                     myTeachings={profileProgressState.myTeachings}
                     percentage={profileProgressState.percentage}
+                    payment={profileProgressState.payment}
                 />
 
                 {/* AVAILABILITY */}

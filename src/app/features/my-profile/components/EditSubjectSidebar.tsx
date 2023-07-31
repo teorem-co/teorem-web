@@ -195,7 +195,7 @@ const EditSubjectSidebar = (props: Props) => {
                                     form={formik}
                                     meta={formik.getFieldMeta('level')}
                                     isMulti={false}
-                                    options={subjectsData}
+                                    options={levelOptions}
                                     noOptionsMessage={() => t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')}
                                     placeholder={t('SEARCH_TUTORS.PLACEHOLDER.LEVEL')}
                                     classNamePrefix="onboarding-select"
@@ -208,7 +208,7 @@ const EditSubjectSidebar = (props: Props) => {
                                     form={formik}
                                     meta={formik.getFieldMeta('subject')}
                                     isMulti={false}
-                                    options={levelOptions}
+                                    options={subjectsData}
                                     placeholder={t('SEARCH_TUTORS.PLACEHOLDER.SUBJECT')}
                                     classNamePrefix="onboarding-select"
                                 />

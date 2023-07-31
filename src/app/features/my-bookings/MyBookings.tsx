@@ -193,7 +193,7 @@ const MyBookings: React.FC = (props: any) => {
   };
 
   const goToTutorCalendar = () => {
-    history.push(`${t('PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS').replace(':tutorSlug', booking?.tutorId || '')}`);
+    history.push(`${t('PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS').replace(':tutorSlug', booking?.Tutor.slug || '')}`);
   };
 
   const handleSelectedSlot = (e: SlotInfo) => {

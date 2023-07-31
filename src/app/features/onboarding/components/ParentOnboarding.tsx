@@ -1,5 +1,5 @@
 import {Form, FormikProvider, useFormik} from 'formik';
-import {cloneDeep} from 'lodash';
+import { cloneDeep, values } from 'lodash';
 import moment from 'moment';
 import {useEffect, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
@@ -315,7 +315,7 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
         email: email,
         password: password,
         confirmPassword: passwordRepeat,
-        dateOfBirth: moment(dateOfBirth).toISOString(),
+        dateOfBirth: moment(dateOfBirth).toISOString().substring(0,10),
         phoneNumber: phoneNumber,
         countryId: countryId,
         children: child,

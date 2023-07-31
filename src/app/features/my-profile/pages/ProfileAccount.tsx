@@ -319,9 +319,10 @@ const ProfileAccount = () => {
         {/* PROGRESS */}
         <ProfileCompletion
           generalAvailability={profileProgressState.generalAvailability}
-          aditionalInformation={profileProgressState.aboutMe}
+          additionalInformation={profileProgressState.aboutMe}
           myTeachings={profileProgressState.myTeachings}
           percentage={profileProgressState.percentage}
+          payment={profileProgressState.payment}
         />
 
         {/* PERSONAL INFO */}

@@ -1093,7 +1093,7 @@ export const HR_HR = {
         MY_REVIEWS: '/hr/moje-recenzije',
         COMPLETED_LESSONS: '/hr/zavrsene-lekcije',
         CHAT: '/hr/razgovor',
-        DASHBOARD: '/hr/glavna-ploca',
+        DASHBOARD: '/hr/dashboard',
         NOTIFICATIONS: '/hr/glavna-ploca/obavijesti',
         EARNINGS: '/hr/prihod',
         TERMS: '/hr/uvjeti-koristenja',
@@ -1117,7 +1117,7 @@ export const HR_HR = {
             MY_PROFILE_ACCOUNT: '/hr/moj-profil/korisnicki-racun',
             MY_PROFILE_CHILD_INFO: '/hr/moj-profil/djeca',
         },
-        EMAIL_CONFIRMED: '/hr/email-povezan',
+        EMAIL_CONFIRMED: '/hr/account-activated',
         STRIPE_CONNECTED: '/hr/racun-povezan',
         STRIPE_FAIL: '/hr/racun-pogreska',
         RESEND_ACTIVATION_TOKEN: '/hr/ponovna-aktivacija'
@@ -1158,4 +1158,8 @@ export const HR_HR = {
         WELCOME: 'WELCOME',
         DESCRIPTION: 'DESCRIPTION',
     },
+
+    BOOKING:{
+        SUCCESS: 'Rezervacija uspješna!'
+    }
 };
