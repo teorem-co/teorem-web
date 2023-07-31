@@ -24,7 +24,7 @@ const Navbar = () => {
         dispatch({ type: 'USER_LOGOUT' });
     };
 
-    const landingHostName = process.env.REACT_APP_LANDING_HOSTNAME || 'https://www.teorem.com';
+    const landingHostName = process.env.REACT_APP_LANDING_HOSTNAME || 'https://www.teorem.co';
     const user = useAppSelector((state) => state.auth?.user);
 
     const [getTutorProfileData] = useLazyGetTutorProfileDataQuery();
