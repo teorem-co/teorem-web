@@ -71,7 +71,7 @@
         "start": "react-scripts start",
         "build": "CI=false react-scripts build",
         "start-dev": "env-cmd -f dev.env npm start",
-        "build-dev": "env-cmd -f dev.env react-scripts build",
+        "build-dev": "CI=false env-cmd -f dev.env react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
         "format": "npx prettier --write .",
