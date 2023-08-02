@@ -7,7 +7,7 @@ import IGetCreditCards from '../interfaces/IGetCreditCards';
 import ISetDefaultCreditCard from '../interfaces/ISetDefaultCreditCard';
 import IStripeConnectAccount from '../interfaces/IStripeConnectAccount';
 
-const URL = '/stripe';
+const URL = 'api/v1/stripe';
 
 export const stripeService = baseService.injectEndpoints({
     endpoints: (builder) => ({
@@ -46,11 +46,8 @@ export const stripeService = baseService.injectEndpoints({
         }),
         removeCreditCard: builder.mutation<any, IDeleteCreditCard>({
             query: (deleteCreditCard) => ({
-                url: `${URL}/remove-customer-source/${deleteCreditCard.userId}`,
-                method: HttpMethods.POST,
-                body: {
-                    sourceId: deleteCreditCard.sourceId,
-                },
+                url: `${URL}/remove-customer-source/${deleteCreditCard.userId}?sourceId=${deleteCreditCard.sourceId}`,
+                method: HttpMethods.DELETE,
             }),
         }),
         setDefaultCreditCard: builder.mutation<any, ISetDefaultCreditCard>({

@@ -87,7 +87,11 @@ const PersonalInformation = () => {
     };
 
     if (userRole === RoleOptions.Tutor) {
-      toSend['profileImage'] = values.profileImage;
+      if (typeof values.profileImage === 'string') {
+        delete toSend.profileImage;
+      }else {
+        toSend['profileImage'] = values.profileImage;
+      }
     }
 
     await updateUserInformation(toSend);
@@ -99,8 +103,11 @@ const PersonalInformation = () => {
   };
 
   const handleBlur = () => {
-    const initialValueImgSplit = initialValues.profileImage.split('/');
-    const initialValueImg = initialValueImgSplit[initialValueImgSplit.length - 1];
+    let initialValueImg = '';
+    if (typeof formik.values.profileImage === 'string') {
+      const initialValueImgSplit = initialValues.profileImage.split('/');
+      initialValueImg = initialValueImgSplit[initialValueImgSplit.length - 1];
+    }
 
     let formikImgSplit = [];
     let formikImg = '';
@@ -181,9 +188,15 @@ const PersonalInformation = () => {
 
   const isValidDate = (dateString: string | undefined) => {
     const dateFormat = 'YYYY-MM-DD';
-    const date = moment(dateString, dateFormat, true);
-
+    console.log(dateString);
+    const formattedDate = moment(dateString).format('YYYY-MM-DD');
+    console.log(formattedDate);
+    const date = moment(formattedDate, dateFormat, true);
+    console.log(date);
     // Check if the date is valid and the year is greater than 1900
+    console.log(date.isValid());
+    console.log(date.year() > 1900);
+
     return date.isValid() && date.year() > 1900;
   };
 
@@ -196,14 +209,10 @@ const PersonalInformation = () => {
         .required(t('FORM_VALIDATION.REQUIRED'))
         .test('dateOfBirth', t('FORM_VALIDATION.FUTURE_DATE'), (value) => {
           const dateDiff = moment(value).diff(moment(), 'days');
-          if (dateDiff < 0) {
-            return true;
-          } else {
-            return false;
-          }
+          return dateDiff < 0;
         })
         .test('dateOfBirth', t('FORM_VALIDATION.VALID_DATE'), (value) => {
-          return !isValidDate(value);
+          return isValidDate(value);
         }),
       countryId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
     };
@@ -329,9 +338,10 @@ const PersonalInformation = () => {
               {/* PROGRESS */}
               <ProfileCompletion
                 generalAvailability={profileProgressState.generalAvailability}
-                aditionalInformation={profileProgressState.aboutMe}
+                additionalInformation={profileProgressState.aboutMe}
                 myTeachings={profileProgressState.myTeachings}
                 percentage={profileProgressState.percentage}
+                payment={profileProgressState.payment}
               />
 
               {/* PERSONAL INFO */}

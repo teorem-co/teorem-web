@@ -144,9 +144,10 @@ const AdditionalInformation = () => {
                 {/* PROGRESS */}
                 <ProfileCompletion
                     generalAvailability={profileProgressState.generalAvailability}
-                    aditionalInformation={profileProgressState.aboutMe}
+                    additionalInformation={profileProgressState.aboutMe}
                     myTeachings={profileProgressState.myTeachings}
                     percentage={profileProgressState.percentage}
+                    payment={profileProgressState.payment}
                 />
 
                 {/* ADDITIONAL INFO */}
@@ -191,7 +192,6 @@ const AdditionalInformation = () => {
                                                     {t('MY_PROFILE.ABOUT_ME.YEARS')}
                                                 </label>
                                                 <TextField
-                                                    maxLength={50}
                                                     id="yearsOfExperience"
                                                     wrapperClassName="flex--grow"
                                                     name="yearsOfExperience"

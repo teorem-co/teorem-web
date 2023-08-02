@@ -219,7 +219,7 @@ const Dashboard = () => {
         [chatrooms, userDataFirst, userDataSecond]);
 
     useEffect(() => {
-        fetchData();
+        //fetchData(); //TODO: IMPORTANT! uncomment this later, this gets dashboard data
 
         socket.on('showNotification', (notification: ISocketNotification) => {
             if (userId && notification.userId === userId) {

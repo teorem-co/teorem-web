@@ -24,7 +24,7 @@ const Navbar = () => {
         dispatch({ type: 'USER_LOGOUT' });
     };
 
-    const landingHostName = process.env.REACT_APP_LANDING_HOSTNAME || 'https://www.teorem.com';
+    const landingHostName = process.env.REACT_APP_LANDING_HOSTNAME || 'https://www.teorem.co';
     const user = useAppSelector((state) => state.auth?.user);
 
     const [getTutorProfileData] = useLazyGetTutorProfileDataQuery();
@@ -46,6 +46,7 @@ const Navbar = () => {
 
     const [getUser, { isLoading: isLoadingUser, isUninitialized: userUninitialized, isFetching: userFetching }] = useLazyGetUserQuery();
     const [profileImageURL, setProfileImageURL] = useState(user?.profileImage);
+    const cacheBuster = Date.now();
 
     useEffect(() => {
         async function getUserInfo() {
@@ -112,7 +113,7 @@ const Navbar = () => {
                     <NavLink to={PROFILE_PATHS.MY_PROFILE_INFO_PERSONAL} className="navbar__bottom__my-profile" activeClassName="active">
                         <div className='navbar__bottom__avatar pos--rel'>
                             {user?.Role?.abrv === RoleOptions.Tutor ? (
-                                <img src={profileImageURL ? 'https://' + profileImageURL : gradientCircle}
+                                <img src={profileImageURL ? 'https://' + `${profileImageURL}&v=${cacheBuster}` : gradientCircle}
                                      alt='avatar' />
                             ) : (
                                 <ImageCircle initials={`${user?.firstName.charAt(0)}${user?.lastName.charAt(0)}`} />

@@ -93,7 +93,7 @@ const StudentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep }) =
       roleAbrv: roleAbrv ? roleAbrv : '',
       countryId: values.countryId,
       phoneNumber: values.phoneNumber,
-      dateOfBirth: moment(values.dateOfBirth).toISOString(),
+      dateOfBirth: moment(values.dateOfBirth).toISOString().substring(0, 10),
       email: email,
     }).unwrap();
   };

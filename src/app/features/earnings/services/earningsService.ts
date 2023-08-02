@@ -2,7 +2,7 @@ import { baseService } from '../../../baseService';
 import { HttpMethods } from '../../../lookups/httpMethods';
 import IEarnings from '../interfaces/IEarnings';
 
-const URL = 'tutors';
+const URL = '/api/v1/tutors';
 
 export const earningsService = baseService.injectEndpoints({
     endpoints: (builder) => ({

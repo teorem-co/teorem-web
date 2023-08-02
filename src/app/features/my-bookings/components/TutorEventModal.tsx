@@ -42,7 +42,7 @@ const TutorEventModal: React.FC<IProps> = (props) => {
                                         t('MY_BOOKINGS.MODAL.DELETED_USER')}
                                 </div>
                                 <div className="type--color--secondary">
-                                    {moment(event.startTime).format('DD/MM/YYYY, HH:mm')} - {moment(event.endTime).add(1, 'minutes').format('HH:mm')}
+                                    {moment.utc(event.startTime).format('DD/MM/YYYY, HH:mm')} - {moment.utc(event.endTime).add(1, 'minutes').format('HH:mm')}
                                 </div>
                             </div>
                             <div className="mb-6">
@@ -100,9 +100,12 @@ const TutorEventModal: React.FC<IProps> = (props) => {
                                 <button className="btn btn--base btn--clear type--wgt--extra-bold">{t('MY_BOOKINGS.MODAL.PROPOSE')}</button> */}
                             </>
                         )}
-                        {event.isAccepted &&
-                            moment(event.startTime).subtract(10, 'minutes').isBefore(moment()) &&
-                            moment(event.endTime).isAfter(moment()) && (
+                        {event.isAccepted
+                            &&
+                           // moment(event.startTime).subtract(10, 'minutes').isBefore(moment()) &&
+                           // moment(event.endTime).isAfter(moment()) &&
+
+                            (
                                 <button className="btn btn--base btn--primary" onClick={() => openLearnCube && openLearnCube()}>
                                     {t('BOOK.JOIN')}
                                 </button>

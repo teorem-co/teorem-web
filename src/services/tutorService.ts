@@ -10,6 +10,7 @@ import IParams from '../interfaces/IParams';
 import ITutor from '../interfaces/ITutor';
 import { RoleOptions } from '../slices/roleSlice';
 import typeToFormData from '../app/utils/typeToFormData';
+import IBooking from '../app/features/my-bookings/interfaces/IBooking';
 
 interface ITutorId {
     userId: string;
@@ -38,16 +39,19 @@ interface IBookingTransformed {
 
 // interface ICreateTutorSubject {}
 
-const URL = 'tutors';
+const URL = 'api/v1/tutors';
+const BOOKING_URL = 'api/v1/bookings';
+const TUTOR_MANAGEMENT_URL = 'api/v1/tutor-management';
 
 export const tutorService = baseService.injectEndpoints({
     endpoints: (builder) => ({
+        // TODO: this one sends request for Admin page
         getTutors: builder.query({
             query: (params: any) => {
                 const queryData = {
                     url: `${URL}/?page=${params.page
                         }&rpp=${params.rpp
-                        }&unproccessed=${params.unprocessed ? "true" : "false"
+                        }&unprocessed=${params.unprocessed ? "true" : "false"
                         }${params.verified ? params.verified == 1 ? "&verified=true" : "&verified=false" : ""}
                     `,
                     method: HttpMethods.GET,
@@ -61,7 +65,7 @@ export const tutorService = baseService.injectEndpoints({
                 const queryData = {
                     url: `${URL}/search-tutors/?page=${params.page
                         }&rpp=${params.rpp
-                        }&unproccessed=${params.unprocessed ? "true" : "false"
+                        }&unprocessed=${params.unprocessed ? "true" : "false"
                         }${params.verified ? params.verified == 1 ? "&verified=true" : "&verified=false" : ""
                         }&search=${params.search
                         }`,
@@ -119,21 +123,29 @@ export const tutorService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
+        //TODO: extract this to booking service
         getTutorBookings: builder.query<IBookingTransformed[], IBookingsByIdPayload>({
             query: (data) => ({
-                url: `${URL}/${data.tutorId}?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}`,
+                url: `${BOOKING_URL}/${data.tutorId}/?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}`,
                 method: HttpMethods.GET,
             }),
-            transformResponse: (response: ITutor) => {
+            transformResponse: (response: IBooking[]) => {
+                console.log("UNUTAR TRANSFORM", response);
                 const userRole = getUserRoleAbbrv();
-                const bookings: IBookingTransformed[] = response.Bookings.map((x) => {
+                const bookings: IBookingTransformed[] = response.map((x) => {
+                    const startTwoHoursBefore = new Date(x.startTime);
+                    startTwoHoursBefore.setHours(startTwoHoursBefore.getHours() - 2);
+
+                    const endTwoHoursBefore = new Date(x.endTime);
+                    endTwoHoursBefore.setHours(endTwoHoursBefore.getHours() - 2);
+
                     if (userRole === RoleOptions.Parent) {
                         return {
                             id: x.id,
                             label: x.Subject ? t(`SUBJECTS.${x.Subject.abrv.replace('-', '').replace(' ', '')}`) : 'No title',
                             userId: x.User ? x.User.parentId : '',
-                            start: new Date(x.startTime),
-                            end: new Date(x.endTime),
+                            start: startTwoHoursBefore,
+                            end: endTwoHoursBefore,
                             isAccepted: x.isAccepted,
                             allDay: false,
                         };
@@ -142,8 +154,8 @@ export const tutorService = baseService.injectEndpoints({
                             id: x.id,
                             label: x.Subject ? t(`SUBJECTS.${x.Subject.abrv.replace('-', '').replace(' ', '')}`) : 'No title',
                             userId: x.studentId ? x.studentId : '',
-                            start: new Date(x.startTime),
-                            end: new Date(x.endTime),
+                            start: startTwoHoursBefore,
+                            end: endTwoHoursBefore,
                             isAccepted: x.isAccepted,
                             allDay: false,
                         };
@@ -157,7 +169,7 @@ export const tutorService = baseService.injectEndpoints({
         approveTutor: builder.mutation({
             query(tutorID) {
                 return {
-                    url: `${URL}/verify-tutor/?tutorId=${tutorID}`,
+                    url: `${URL}/verify?tutorId=${tutorID}`,
                     method: 'PUT',
                 };
             },
@@ -165,7 +177,7 @@ export const tutorService = baseService.injectEndpoints({
         denyTutor: builder.mutation({
             query(data) {
                 return {
-                    url: `${URL}/unverify-tutor/?tutorId=${data.tutorId}&message=${data.message}`,
+                    url: `${URL}/decline?tutorId=${data.tutorId}&message=${data.message}`,
                     method: 'PUT',
                 };
             },

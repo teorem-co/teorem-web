@@ -74,7 +74,7 @@ const TutorBookings = () => {
       isLoading,
     }),
   });
-  const [getTutorAvability, { data: tutorAvability, isLoading: tutorAvabilityLoading }] = useLazyGetTutorAvailableDaysQuery();
+  const [getTutorAvailability, { data: tutorAvailability, isLoading: tutorAvailabilityLoading }] = useLazyGetTutorAvailableDaysQuery();
 
   const [getBookingById, { data: booking }] = useLazyGetBookingByIdQuery();
   const [addCustomerSource] = useAddCustomerSourceMutation();
@@ -162,7 +162,7 @@ const TutorBookings = () => {
     zipCode: '',
   };
 
-  const isLoading = isLoadingTutorBookings || isLoadingBookings || isLoadingUnavailableBookings || tutorAvabilityLoading;
+  const isLoading = isLoadingTutorBookings || isLoadingBookings || isLoadingUnavailableBookings || tutorAvailabilityLoading;
 
   const CustomHeader = (date: any) => {
     setCalChange(true);
@@ -211,24 +211,27 @@ const TutorBookings = () => {
   };
 
   const slotSelect = (e: SlotInfo) => {
+
+
     const existingBooking =
-      existingBookings && existingBookings.filter((date) => moment(date.start).format('YYYY/MM/DD') === moment(e.start).format('YYYY/MM/DD'));
+      existingBookings && existingBookings.filter((date) => moment.utc(date.start).format('YYYY/MM/DD') === moment.utc(e.start).format('YYYY/MM/DD'));
 
     let isAvailableBooking = false;
 
-    const endDat = moment(e.end).toDate();
+    const endDat = moment.utc(e.end).toDate();
 
-    tutorAvability &&
-      tutorAvability.forEach((index, item) => {
+    tutorAvailability &&
+      tutorAvailability.forEach((index, item) => {
         if (item > 0) {
           index.forEach((day, dayOfWeek) => {
-            if (dayOfWeek > 0 && endDat.getDay() == dayOfWeek - 1 && day) {
+
+            if (dayOfWeek > 0 && endDat.getDay() == dayOfWeek && day) {
               switch (index[0]) {
                 case 'Pre 12 pm':
-                  if (endDat.getHours() < 12) isAvailableBooking = true;
+                  if (endDat.getHours() <= 12) isAvailableBooking = true;
                   break;
                 case '12 - 5 pm':
-                  if (endDat.getHours() > 12 && endDat.getHours() < 17) isAvailableBooking = true;
+                  if (endDat.getHours() > 12 && endDat.getHours() <= 17) isAvailableBooking = true;
                   break;
                 case 'After 5 pm':
                   if (endDat.getHours() > 17) isAvailableBooking = true;
@@ -254,9 +257,16 @@ const TutorBookings = () => {
         }
       });
     }
-    if (flagArr.length === existingBooking?.length && !moment(e.start).isBefore(moment().add(3, 'hours')) && isAvailableBooking) {
+
+    console.log("FIRST: ",flagArr.length === existingBooking?.length);
+    console.log("SECOND: ", !moment.utc(e.start).isBefore(moment().add(3, 'hours')));
+    console.log("THIRD: ", isAvailableBooking);
+
+    const firstCheck = flagArr.length === existingBooking?.length;
+
+    if (firstCheck && !moment.utc(e.start).isBefore(moment().add(3, 'hours')) && isAvailableBooking) {
       // setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));     MMMM format doesn't work with different languages!
-      setSelectedStart(moment(e.start).format());
+      setSelectedStart(moment.utc(e.start).format());
       setSelectedEnd(moment(e.start).add(1, 'hours').format('HH:mm'));
       setOpenSlot(true);
       setOpenUpdateModal(false);
@@ -283,6 +293,7 @@ const TutorBookings = () => {
   const handleSelectedEvent = (e: IBookingTransformed) => {
     setCurentlyActiveBooking(e.id);
     // check whole date not only hours this is a bug
+
     if (e.userId === userId) {
       if (moment(e.start).isBefore(moment()) || emptyBookings.length > 0) {
         return;
@@ -296,8 +307,8 @@ const TutorBookings = () => {
         //     allDay: e.allDay,
         //     label: e.label,
         // });
-        setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
-        setSelectedEnd(moment(e.end).format('HH:mm'));
+        setSelectedStart(moment.utc(e.start).format('DD/MMMM/YYYY, HH:mm'));
+        setSelectedEnd(moment.utc(e.end).format('HH:mm'));
         // if (booking && booking.id) {
         //     setOpenSlot(true);
         // }
@@ -437,7 +448,7 @@ const TutorBookings = () => {
         dateTo: moment(value).endOf('isoWeek').toISOString(),
       }).unwrap();
 
-      await getTutorAvability(tutorId).unwrap();
+      await getTutorAvailability(tutorId).unwrap();
     }
   };
 

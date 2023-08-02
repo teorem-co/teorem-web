@@ -104,6 +104,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
       dateOfBirth: Yup.string()
           .required(t('FORM_VALIDATION.REQUIRED'))
         .test('dateOfBirth', t('FORM_VALIDATION.FUTURE_DATE'), (value) => {
+
           const dateDiff = moment(value).diff(moment(), 'days');
 
           if (dateDiff < 0) {
@@ -142,6 +143,9 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
   });
 
   const handleSubmitStepOne = async (values: StepOneValues) => {
+    console.log(values.dateOfBirth);
+    console.log("MOMENT: ", moment(dateOfBirth));
+    console.log("FORMAT: ", moment(dateOfBirth).format('YYYY-MM-DD'));
     dispatch(
       setStepOne({
         firstName: values.firstName,
@@ -171,7 +175,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
       roleAbrv: roleAbrv ? roleAbrv : '',
       countryId: values.countryId,
       phoneNumber: values.phoneNumber,
-      dateOfBirth: moment(values.dateOfBirth).toISOString(),
+      dateOfBirth: moment(values.dateOfBirth).toISOString().substring(0, 10),
       email: email,
       profileImage: values.profileImage,
     }).unwrap();
@@ -213,23 +217,6 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
               // disabled={isLoading}
             />
           </div>
-          {/*<div className="field">*/}
-          {/*  <label htmlFor="countryId" className="field__label">*/}
-          {/*    {t('REGISTER.FORM.COUNTRY')}*/}
-          {/*  </label>*/}
-
-          {/*  <MySelect*/}
-          {/*    form={formikStepOne}*/}
-          {/*    field={formikStepOne.getFieldProps('countryId')}*/}
-          {/*    meta={formikStepOne.getFieldMeta('countryId')}*/}
-          {/*    isMulti={false}*/}
-          {/*    classNamePrefix="onboarding-select"*/}
-          {/*    options={countryOptions.filter((option) => option.label === 'Croatia')}*/}
-          {/*    placeholder={t('REGISTER.FORM.COUNTRY_PLACEHOLDER')}*/}
-          {/*    customInputField={countryInput}*/}
-          {/*    customOption={countryOption}*/}
-          {/*  />*/}
-          {/*</div>*/}
           <div className="field" ref={rangeSetterRef}>
             <label htmlFor="phoneNumber" className="field__label">
               {t('REGISTER.FORM.PHONE_NUMBER')}
@@ -249,7 +236,11 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
             <label className="field__label" htmlFor="dateOfBirth">
               {t('REGISTER.FORM.DATE_OF_BIRTH')}
             </label>
-            <MyDatePicker form={formikStepOne} field={formikStepOne.getFieldProps('dateOfBirth')} meta={formikStepOne.getFieldMeta('dateOfBirth')} />
+            <MyDatePicker
+                form={formikStepOne}
+                field={formikStepOne.getFieldProps('dateOfBirth')}
+                meta={formikStepOne.getFieldMeta('dateOfBirth')}
+            />
           </div>
           {/*<div className="field field__file">*/}
           {/*  <label className="field__label" htmlFor="profileImage">*/}
@@ -257,7 +248,6 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
           {/*  </label>*/}
           {/*  <UploadFile setFieldValue={formikStepOne.setFieldValue} id="profileImage" name="profileImage" />*/}
           {/*</div>*/}
-
           <div
             className="btn btn--base btn--primary type--center w--100 mb-2 mt-6 type--wgt--extra-bold"
             onClick={() => formikStepOne.handleSubmit()}
@@ -326,7 +316,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
       roleAbrv: roleAbrv ? roleAbrv : '',
       countryId: countryId,
       phoneNumber: phoneNumber,
-      dateOfBirth: moment(dateOfBirth).toISOString(),
+      dateOfBirth: moment(dateOfBirth).format('YYYY-MM-DD'),
       email: email,
       profileImage: profileImage,
     });

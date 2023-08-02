@@ -44,10 +44,12 @@ import {
 import { FaFileDownload } from 'react-icons/fa';
 import { BiCheckCircle } from 'react-icons/bi';
 
-
 interface Props {
     data: IChatRoom | null;
 }
+
+const fileUrl = 'api/v1/chat/download';
+const url = `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_HOST}/${fileUrl}`;
 
 const SingleConversation = (props: Props) => {
 
@@ -77,6 +79,7 @@ const SingleConversation = (props: Props) => {
 
     const [getFreeConsultationLink, { data: freeConsultationLink, isSuccess: freeConsultationIsSuccess }] = useLazyGetFreeConsultationLinkQuery();
 
+    const userToken = useAppSelector((state) => state.auth.token);
     const dispatch = useDispatch();
 
     const scrollToBottomSmooth = () => {
@@ -424,9 +427,16 @@ const SingleConversation = (props: Props) => {
         // Combine the formatted hours and minutes with a colon separator
         return `${formattedHours}:${formattedMinutes}`;
     }
+
     const downloadFile = (documentId: string | undefined)  => {
 
-        fetch(`http://localhost:8080/api/v1/chat/download/${documentId}`)
+        fetch(`${url}/${documentId}`,{
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${userToken}`,
+                Accept: 'application/octet-stream',
+            },
+        })
             .then(response => {
                 const contentDisposition = response.headers.get('Content-Disposition');
                 const fileName = contentDisposition?.split('=')[1];
@@ -440,6 +450,7 @@ const SingleConversation = (props: Props) => {
                 });
             });
     };
+
 
     return (
         <div className="content">

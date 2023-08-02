@@ -47,7 +47,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
     level: '',
     subject: '',
     child: '',
-    timeFrom: moment(start).format('HH:mm'),
+    timeFrom: moment.utc(start).format('HH:mm'),
   });
 
   const [getChildOptions, { data: childOptions }] = useLazyGetChildQuery();
@@ -61,7 +61,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
 
     if (!isEqual(values.timeFrom, initialValues.timeFrom)) {
       updateBooking({
-        startTime: moment(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
+        startTime: moment.utc(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
         bookingId: booking ? booking.id : '',
       });
     }
@@ -82,6 +82,8 @@ const UpdateBooking: React.FC<IProps> = (props) => {
   });
 
   useEffect(() => {
+    console.log("START TIME: ", start);
+
     if (userRole === RoleOptions.Parent) {
       getChildOptions();
     }
@@ -115,7 +117,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
         level: booking.Level.id,
         subject: booking.subjectId,
         child: booking.User.id,
-        timeFrom: moment(booking.startTime).format('HH:mm'),
+        timeFrom: moment.utc(booking.startTime).format('HH:mm'),
       };
       setInitialValues(values);
     }
@@ -212,7 +214,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
                     field={formik.getFieldProps('timeFrom')}
                     form={formik}
                     meta={formik.getFieldMeta('timeFrom')}
-                    defaultValue={moment(formik.values.timeFrom, 'HH:mm')}
+                    defaultValue={moment.utc(formik.values.timeFrom, 'HH:mm')}
                     onChangeCustom={(e) => handleChange(moment(e, 'HH:mm').format('HH:mm'))}
                   />
                 </div>
@@ -223,7 +225,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
                     name="time"
                     id="time"
                     disabled={true}
-                    value={moment(formik.values.timeFrom, 'HH:mm').add(1, 'hour').format('HH:mm')}
+                    value={moment.utc(formik.values.timeFrom, 'HH:mm').add(1, 'hour').format('HH:mm')}
                   />
                 </div>
               </div>

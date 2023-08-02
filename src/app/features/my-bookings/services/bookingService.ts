@@ -44,6 +44,14 @@ interface ICreateBooking {
     tutorId?: string;
 }
 
+interface ICreateBookingDTO {
+    requesterId?: string;
+    subjectId: string;
+    studentId?: string;
+    startTime: string;
+    tutorId?: string;
+}
+
 interface IUpdateBooking {
     startTime: string;
     bookingId: string;
@@ -55,17 +63,23 @@ export const bookingService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         getBookings: builder.query<IBookingTransformed[], IDateRange>({
             query: (data) => ({
-                url: `${URL}/?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}`,//`${URL}/?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}`,
+                url: `${URL}?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}`,//`${URL}/?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}`,
                 method: HttpMethods.GET,
             }),
             transformResponse: (response: IBooking[]) => {
                 const bookings: IBookingTransformed[] = response.map((x) => {
+                    const startTwoHoursBefore = new Date(x.startTime);
+                    startTwoHoursBefore.setHours(startTwoHoursBefore.getHours() - 2);
+
+                    const endTwoHoursBefore = new Date(x.endTime);
+                    endTwoHoursBefore.setHours(endTwoHoursBefore.getHours() - 2);
+
                     return {
                         id: x.id,
                         label: x.Subject ? t(`SUBJECTS.${x.Subject.abrv.replace('-', '').replace(' ', '')}`) : 'No title',
                         tutor: x.Tutor ? x.Tutor.User.firstName + ' ' + x.Tutor.User.lastName : 'No tutor name',
-                        start: new Date(x.startTime),
-                        end: new Date(x.endTime),
+                        start: startTwoHoursBefore, //new Date(x.startTime),
+                        end: endTwoHoursBefore, //new Date(x.endTime),
                         isAccepted: x.isAccepted,
                         allDay: false,
                     };
@@ -97,19 +111,19 @@ export const bookingService = baseService.injectEndpoints({
         }),
         getUpcomingLessons: builder.query<IUpcomingLessons[], string>({
             query: (userId) => ({
-                url: `${URL}/${userId}/upcoming`,
+                url: `${URL}/upcoming?userId=${userId}`,
                 method: HttpMethods.GET,
             }),
             providesTags: ['upcomingLessons'],
         }),
         getNotificationForLessons: builder.query<number, INotificationForLessons>({
             query: (data) => ({
-                url: `${URL}/${data.userId}/${data.date}/count`,
+                url: `${URL}/${data.userId}/count?endTime=${data.date}`,
                 method: HttpMethods.GET,
             }),
             providesTags: ['lessonCount'],
         }),
-        createbooking: builder.mutation<void, ICreateBooking>({
+        createbooking: builder.mutation<void, ICreateBookingDTO>({
             query: (data) => ({
                 url: `${URL}`, // `${URL}/${data.tutorId}`
                 method: HttpMethods.POST,
@@ -127,7 +141,7 @@ export const bookingService = baseService.injectEndpoints({
         }),
         updateBooking: builder.mutation<void, IUpdateBooking>({
             query: (data) => ({
-                url: `${URL}/${data.bookingId}`,
+                url: `${URL}/${data.bookingId}?startTime=${data.startTime}`,
                 method: HttpMethods.PUT,
                 body: data,
             }),

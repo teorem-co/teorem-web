@@ -61,9 +61,9 @@ const CompletedLessons = () => {
   };
 
   const fetchData = async () => {
-    const completedLessonsResponse = await getCompletedLessons().unwrap();
-    setCompletedLessonsState(completedLessonsResponse);
-    setActiveLesson(completedLessonsResponse[0]);
+    // const completedLessonsResponse = await getCompletedLessons().unwrap();
+    // setCompletedLessonsState(completedLessonsResponse);
+    // setActiveLesson(completedLessonsResponse[0]);
   };
 
   const onReviewSubmit = async (lessonId: string) => {

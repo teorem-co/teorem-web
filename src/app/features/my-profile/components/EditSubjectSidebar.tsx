@@ -161,6 +161,7 @@ const EditSubjectSidebar = (props: Props) => {
                     subject: selectedSubject.subjectId,
                     price: selectedSubject.price.toString(),
                 };
+                console.log("SETTING INITIAL VALUES", values);
                 setInitialValues(values);
                 // initialValues.level = selectedSubject.levelId;
                 // initialValues.subject = selectedSubject.subjectId;
@@ -188,26 +189,26 @@ const EditSubjectSidebar = (props: Props) => {
                     <FormikProvider value={formik}>
                         <Form noValidate>
                             <div>
-                                <label htmlFor="level">{t('MY_PROFILE.MY_TEACHINGS.SUBJECT')}*</label>
+                                <label htmlFor="level">{t('MY_PROFILE.MY_TEACHINGS.LEVEL')}*</label>
                                 <MySelect
                                     field={formik.getFieldProps('level')}
                                     form={formik}
                                     meta={formik.getFieldMeta('level')}
                                     isMulti={false}
                                     options={levelOptions}
+                                    noOptionsMessage={() => t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')}
                                     placeholder={t('SEARCH_TUTORS.PLACEHOLDER.LEVEL')}
                                     classNamePrefix="onboarding-select"
                                 />
                             </div>
                             <div>
-                                <label htmlFor="subject">{t('MY_PROFILE.MY_TEACHINGS.LEVEL')}*</label>
+                                <label htmlFor="subject">{t('MY_PROFILE.MY_TEACHINGS.SUBJECT')}*</label>
                                 <MySelect
                                     field={formik.getFieldProps('subject')}
                                     form={formik}
                                     meta={formik.getFieldMeta('subject')}
                                     isMulti={false}
                                     options={subjectsData}
-                                    noOptionsMessage={() => t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')}
                                     placeholder={t('SEARCH_TUTORS.PLACEHOLDER.SUBJECT')}
                                     classNamePrefix="onboarding-select"
                                 />
@@ -220,7 +221,7 @@ const EditSubjectSidebar = (props: Props) => {
                                     name="price"
                                     id="price"
                                     placeholder={`€0/${t('MY_PROFILE.MY_TEACHINGS.HOUR_ABRV')}`}
-                                    withoutErr={formik.errors.price && formik.touched.price ? false : true}
+                                    withoutErr={!(formik.errors.price && formik.touched.price)}
                                     type="number"
                                 />
                             </div>

@@ -5,9 +5,12 @@ import { OptionType } from '../app/components/form/MySelectField';
 import { HttpMethods } from '../app/lookups/httpMethods';
 import ISubject from '../interfaces/ISubject';
 
-const URL = 'subjects';
+const URL = 'api/v1/subjects';
 
-const mutationURL = 'tutor-subjects';
+const mutationURL = 'api/v1/tutor-subjects';
+
+const TUTOR_SUBJECT_URL = 'api/v1/tutor-subjects';
+
 
 interface IGetSubject {
     id: string;
@@ -25,11 +28,6 @@ interface ICreateSubject {
     price: number;
     objectId?: string;
     tutorId?: string;
-}
-
-interface ITutorSubject {
-    price: number;
-    Subject: ISubject;
 }
 
 interface ITutorSubjectId {
@@ -97,14 +95,14 @@ export const subjectService = baseService.injectEndpoints({
             ITutorSubjectId
         >({
             query: (data) => ({
-                url: `${mutationURL}/${URL}/${data.tutorId}?levelId=${data.levelId}`,
+                url: `${TUTOR_SUBJECT_URL}/subjects/${data.tutorId}?levelId=${data.levelId}`,
                 method: HttpMethods.GET,
             }),
-            transformResponse: (response: ITutorSubject[]) => {
+            transformResponse: (response: ISubject[]) => {
                 const subjectOptions: OptionType[] = response.map(
                     (subject) => ({
-                        value: subject.Subject.id,
-                        label: t(`SUBJECTS.${subject.Subject.abrv.replace('-', '').toLowerCase()}`),
+                        value: subject.id,
+                        label: t(`SUBJECTS.${subject.abrv.replace('-', '').toLowerCase()}`),
                     })
                 );
                 return subjectOptions;

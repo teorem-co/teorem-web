@@ -3,7 +3,7 @@ import { HttpMethods } from '../../../lookups/httpMethods';
 import IPartOfDayOption from '../interfaces/IPartOfDayOption';
 import ITutorAvailability from '../interfaces/ITutorAvailability';
 
-const URL = '/tutor-availabilities';
+const URL = 'api/v1/tutor-availability';
 
 export interface ITutorAvailabilityToSend {
     tutorAvailability: ITutorAvailability[];
@@ -59,7 +59,7 @@ export const tutorAvailabilityService = baseService.injectEndpoints({
         }),
         getTutorAvailableDays: builder.query<(string | boolean)[][], string>({
             query: (tutorId) => ({
-                url: `${URL}/available/${tutorId}`,
+                url: `${URL}/${tutorId}`,//`${URL}/available/${tutorId}`,
                 method: HttpMethods.GET,
             }),
             providesTags: ['userAvailability'],
@@ -100,7 +100,7 @@ export const tutorAvailabilityService = baseService.injectEndpoints({
         }),
         updateTutorAvailability: builder.mutation<
             void,
-            ITutorAvailabilityToSend
+            ITutorAvailability[]
         >({
             query: (body) => ({
                 url: `${URL}`,

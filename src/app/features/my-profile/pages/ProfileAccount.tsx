@@ -319,9 +319,10 @@ const ProfileAccount = () => {
         {/* PROGRESS */}
         <ProfileCompletion
           generalAvailability={profileProgressState.generalAvailability}
-          aditionalInformation={profileProgressState.aboutMe}
+          additionalInformation={profileProgressState.aboutMe}
           myTeachings={profileProgressState.myTeachings}
           percentage={profileProgressState.percentage}
+          payment={profileProgressState.payment}
         />
 
         {/* PERSONAL INFO */}
@@ -439,8 +440,8 @@ const ProfileAccount = () => {
                         <LoaderSecondary full={false} />
                       ) : (
                         creditCards &&
-                        !Array.isArray(creditCards) &&
-                        creditCards.data.map((item: ICreditCard) => {
+                        Array.isArray(creditCards) &&
+                        creditCards.map((item: ICreditCard) => {
                           return (
                             <div className="dash-wrapper__item" onClick={() => handleDefaultCreditCard(item.id)}>
                               <div className={`dash-wrapper__item__element ${item.id === activeDefaultPaymentMethod && 'active'}`}>
@@ -455,7 +456,7 @@ const ProfileAccount = () => {
                                         e.stopPropagation();
                                         handleDeleteCreditCard(item.id);
                                       }}
-                                      className="icon icon--base icon--edit icon--primary"
+                                      className="icon icon--base icon--delete icon--primary"
                                     ></i>
                                   </div>
                                 </div>
