@@ -10,6 +10,8 @@ import { cloneDeep } from 'lodash';
 import availabilityTable from '../../../constants/availabilityTable';
 import ITutorAvailability from '../../my-profile/interfaces/ITutorAvailability';
 import toastService from '../../../services/toastService';
+import { setMyProfileProgress } from '../../my-profile/slices/myProfileSlice';
+import { useLazyGetProfileProgressQuery } from '../../../../services/tutorService';
 
 export function EditTutorAvailability({tutorId}: any) {
 

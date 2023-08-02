@@ -50,6 +50,14 @@ interface ICreateBookingDTO {
     tutorId?: string;
 }
 
+interface ICreateBookingDTO {
+    requesterId?: string;
+    subjectId: string;
+    studentId?: string;
+    startTime: string;
+    tutorId?: string;
+}
+
 interface IUpdateBooking {
     startTime: string;
     bookingId: string;

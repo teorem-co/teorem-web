@@ -5,12 +5,12 @@ import * as Yup from 'yup';
 
 import { useGetLevelOptionsQuery } from '../../../../services/levelService';
 import {
-  useCreateSubjectMutation,
-  useLazyGetSubjectOptionsByLevelQuery,
-} from '../../../../services/subjectService';
+  useLazyGetProfileProgressQuery} from '../../../../services/tutorService';
 import {
-  useLazyGetProfileProgressQuery,
-} from '../../../../services/tutorService';
+    useCreateSubjectMutation,
+    useLazyGetSubjectOptionsByLevelQuery,
+    useLazyGetSubjectsByLevelAndSubjectQuery,
+} from '../../../../services/subjectService';
 import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import TextField from '../../../components/form/TextField';
 import {

@@ -42,7 +42,6 @@ import {
   BsDownload,
   BsFillFileEarmarkFill,
 } from 'react-icons/bs';
-
 interface Props {
   data: IChatRoom | null;
 }
@@ -81,7 +80,7 @@ const SingleConversation = (props: Props) => {
     isSuccess: freeConsultationIsSuccess,
   }] = useLazyGetFreeConsultationLinkQuery();
 
-  const userToken = useAppSelector((state) => state.auth.token);
+    const userToken = useAppSelector((state) => state.auth.token);
   const dispatch = useDispatch();
 
   const scrollToBottomSmooth = () => {
