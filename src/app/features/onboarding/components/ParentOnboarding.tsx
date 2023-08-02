@@ -190,10 +190,17 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
     handleNextStep();
   };
 
+  const handleEnterKeyOne = (event: React.KeyboardEvent<HTMLFormElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      formikStepOne.handleSubmit();
+    }
+  };
+
   const stepOne = () => {
     return (
       <FormikProvider value={formikStepOne}>
-        <Form>
+        <Form onKeyPress={handleEnterKeyOne}>
           <div className="field">
             <label htmlFor="firstName" className="field__label">
               {t('REGISTER.FORM.FIRST_NAME')}
@@ -324,11 +331,18 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
     }
   };
 
+  const handleEnterKeyTwo = (event: React.KeyboardEvent<HTMLFormElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      formikStepTwo.handleSubmit();
+    }
+  };
+
   const stepTwo = () => {
     return (
       <>
         <FormikProvider value={formikStepTwo}>
-          <Form id="formSubmit">
+          <Form id="formSubmit" onKeyPress={handleEnterKeyTwo}>
             <div className="role-selection__form">
               <div
                 className="role-selection__item"

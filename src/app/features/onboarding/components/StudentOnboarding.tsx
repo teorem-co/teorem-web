@@ -141,10 +141,17 @@ const StudentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep }) =
 
   useOutsideAlerter(rangeSetterRef, hideTooltip);
 
+  const handleEnterKey = (event: React.KeyboardEvent<HTMLFormElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      formik.handleSubmit();
+    }
+  };
+
   return (
     <>
       <FormikProvider value={formik}>
-        <Form>
+        <Form onKeyPress={handleEnterKey}>
           <div className="field">
             <label htmlFor="firstName" className="field__label">
               {t('REGISTER.FORM.FIRST_NAME')}

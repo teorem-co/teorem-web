@@ -191,10 +191,17 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
 
   useOutsideAlerter(rangeSetterRef, hideTooltip);
 
+  const handleEnterKeyOne = (event: React.KeyboardEvent<HTMLFormElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      formikStepOne.handleSubmit();
+    }
+  };
+
   const stepOne = () => {
     return (
       <FormikProvider value={formikStepOne}>
-        <Form>
+        <Form onKeyPress={handleEnterKeyOne}>
           <div className="field">
             <label htmlFor="firstName" className="field__label">
               {t('REGISTER.FORM.FIRST_NAME')}
@@ -323,10 +330,17 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
     dispatch(resetTutorImageUploadState());
   };
 
+  const handleEnterKeyTwo = (event: React.KeyboardEvent<HTMLFormElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      formikStepTwo.handleSubmit();
+    }
+  };
+
   const stepTwo = () => {
     return (
       <FormikProvider value={formikStepTwo}>
-        <Form>
+        <Form onKeyPress={handleEnterKeyTwo}>
           {/* <div>{JSON.stringify(formikStepTwo.values, null, 2)}</div> */}
           <div className="field">
             <label htmlFor="cardFirstName" className="field__label">
