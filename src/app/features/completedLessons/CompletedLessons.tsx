@@ -27,7 +27,7 @@ const CompletedLessons = () => {
   const [activeReviewModal, setActiveReviewModal] = useState<boolean>(false);
 
   const userRole = useAppSelector((state) => state.auth.user!.Role.abrv);
-  const loadingList = listLoading || listUninitialized;
+  const loadingList = false; //listLoading || listUninitialized; //TODO: uncomment this
 
   const handleActiveLessons = async (lessonId: string) => {
     if (completedLessonsState) {

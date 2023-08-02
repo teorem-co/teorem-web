@@ -25,7 +25,7 @@ export interface IChatMessage {
     messageNew?: boolean;
     messageMissedCall?: boolean;
     message: string;
-    createdAt: Date;
+    createdAt: string;//createdAt: Date;
     isRead: boolean;
     isFile?: boolean;
 }

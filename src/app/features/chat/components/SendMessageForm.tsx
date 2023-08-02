@@ -36,13 +36,15 @@ const SendMessageForm = (props: Props) => {
             const text: string = newMessageRef.current?.value + '';
 
             if (text.length > 0) {
+                const date = new Date();
+
                 const message: ISendChatMessage = {
                     tutorId: props.data.tutor?.userId + '',
                     userId: props.data.user?.userId + '',
                     message: {
                         messageNew: true,
                         message: text,
-                        createdAt: new Date(),
+                        createdAt: date.toISOString(),
                         isRead: false,
                         messageId: '',
                         messageMissedCall:false,
@@ -52,7 +54,6 @@ const SendMessageForm = (props: Props) => {
                 };
 
                 chat.socket.emit('messageSent', message);
-
                 dispatch(addMessage(message));
 
                 props.scrollOnSend();

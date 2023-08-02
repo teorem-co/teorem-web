@@ -238,7 +238,7 @@ const SingleConversation = (props: Props) => {
                 tutorId: user2Data2.id + '',
                 message: {
                     message: messageText,
-                    createdAt: new Date(),
+                    createdAt: new Date().toISOString(),
                     isRead: true,
                     messageId: '',
                     isFile: false,
@@ -571,7 +571,6 @@ const SingleConversation = (props: Props) => {
                     props.data.messages.length > 0 &&
                     props.data.messages.map((message: ISendChatMessage, index: number) => {
                         let img = false;
-
                         const temDat = new Date(message.message.createdAt);
 
                         if(lastMessageTime == undefined){

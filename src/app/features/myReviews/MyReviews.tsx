@@ -28,7 +28,7 @@ const MyReviews = () => {
 
     const tutorId = useAppSelector((state) => state.auth.user?.id);
     const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
-    const isLoading = myReviewsLoading || reviewsUninitialized || statisticsLoading || statisticsUninitialized;
+    const isLoading = false; //myReviewsLoading || reviewsUninitialized || statisticsLoading || statisticsUninitialized; //TODO: uncomment this later
 
     const handleLoadMore = () => {
         let newParams = { ...params };
