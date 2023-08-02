@@ -243,11 +243,12 @@ const Dashboard = () => {
 
     const percentage = getPercentage(profileProgressState);
 
+
     return (
         <MainWrapper>
             <div className="layout--primary">
                 <div>
-                        {userRole == RoleOptions.Tutor && percentage < 100 ? (
+                        {userRole == RoleOptions.Tutor && profileProgressState.percentage && profileProgressState.percentage < 100 ? (
                             <div className="card--dashboard mb-6">
                                 <div>
                                     <div className="row">
