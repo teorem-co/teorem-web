@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import {
-    useLazyGetTutorAvailabilityQuery, useUpdateTutorAvailabilityAdminMutation,
+  useLazyGetTutorAvailabilityQuery,
+  useUpdateTutorAvailabilityAdminMutation,
 } from '../../my-profile/services/tutorAvailabilityService';
 import IAvailabilityIndex from '../../my-profile/interfaces/IAvailabilityIndex';
 import { t } from 'i18next';

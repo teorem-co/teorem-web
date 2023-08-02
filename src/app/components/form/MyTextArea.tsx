@@ -1,4 +1,3 @@
-import { kMaxLength } from 'buffer';
 import { FieldAttributes, useField } from 'formik';
 import React, { useEffect, useRef, useState } from 'react';
 
@@ -39,7 +38,7 @@ const TextArea: React.FC<TextFieldType> = (props: any) => {
             setCharacterCount(textareaLength);
         }
     };
-    
+
     return (
         <>
             <div className="pos--rel">

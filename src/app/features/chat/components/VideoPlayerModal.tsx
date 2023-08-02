@@ -1,7 +1,9 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { ContextType, IVideoPlayerModalProps } from "../../../../interfaces/IVideoChat";
-import { SocketContext } from "../contexts/Context";
-import VideoPlayer from "./VideoPlayer";
+import React, { useContext } from 'react';
+import {
+  ContextType,
+  IVideoPlayerModalProps,
+} from '../../../../interfaces/IVideoChat';
+import { SocketContext } from '../contexts/Context';
 
 const VideoPlayerModal = (props: IVideoPlayerModalProps) => {
 

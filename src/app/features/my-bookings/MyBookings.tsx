@@ -1,10 +1,13 @@
 import 'moment/locale/en-gb';
 
 import i18n, { t } from 'i18next';
-import { slice } from 'lodash';
 import moment from 'moment';
 import { useEffect, useRef, useState } from 'react';
-import { Calendar as BigCalendar, momentLocalizer, SlotInfo } from 'react-big-calendar';
+import {
+  Calendar as BigCalendar,
+  momentLocalizer,
+  SlotInfo,
+} from 'react-big-calendar';
 import Calendar from 'react-calendar';
 import { useHistory } from 'react-router';
 import { useLocation } from 'react-router-dom';
@@ -27,7 +30,9 @@ import {
   useLazyGetNotificationForLessonsQuery,
   useLazyGetUpcomingLessonsQuery,
 } from './services/bookingService';
-import { useLazyGetUnavailableBookingsQuery } from './services/unavailabilityService';
+import {
+  useLazyGetUnavailableBookingsQuery,
+} from './services/unavailabilityService';
 
 i18n.language !== 'en' && Array.from(languageOptions.map((l) => l.path)).includes(i18n.language) && require(`moment/locale/${i18n.language}.js`);
 

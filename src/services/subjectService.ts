@@ -1,4 +1,4 @@
-import i18n, { t } from 'i18next';
+import { t } from 'i18next';
 
 import { baseService } from '../app/baseService';
 import { OptionType } from '../app/components/form/MySelectField';

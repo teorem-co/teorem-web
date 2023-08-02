@@ -1,11 +1,13 @@
 import { t } from 'i18next';
-import { cloneDeep, debounce, groupBy, orderBy, sortBy } from 'lodash';
+import { debounce, groupBy, orderBy } from 'lodash';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 
 import INotification from '../../../interfaces/notification/INotification';
-import { useLazyGetAllNotificationsQuery } from '../../../services/notificationService';
+import {
+  useLazyGetAllNotificationsQuery,
+} from '../../../services/notificationService';
 import MainWrapper from '../../components/MainWrapper';
 import LoaderPrimary from '../../components/skeleton-loaders/LoaderPrimary';
 import NotificationItem from './components/NotificationItem';

@@ -9,7 +9,12 @@ import { logout } from '../../slices/authSlice';
 import { RoleOptions } from '../../slices/roleSlice';
 import { logoutUser } from '../../slices/userSlice';
 import { useAppDispatch, useAppSelector } from '../hooks';
-import { LANDING_PATHS, PATHS, PROFILE_PATHS, RenderMenuLinks } from '../routes';
+import {
+  LANDING_PATHS,
+  PATHS,
+  PROFILE_PATHS,
+  RenderMenuLinks,
+} from '../routes';
 import { persistor } from '../store';
 import ImageCircle from './ImageCircle';
 import { useLazyGetUserQuery } from '../../services/userService';
@@ -113,7 +118,7 @@ const Navbar = () => {
                     <NavLink to={PROFILE_PATHS.MY_PROFILE_INFO_PERSONAL} className="navbar__bottom__my-profile" activeClassName="active">
                         <div className='navbar__bottom__avatar pos--rel'>
                             {user?.Role?.abrv === RoleOptions.Tutor ? (
-                                <img src={profileImageURL ? 'https://' + `${profileImageURL}&v=${cacheBuster}` : gradientCircle}
+                                <img src={profileImageURL ? `${profileImageURL}&v=${cacheBuster}` : gradientCircle}
                                      alt='avatar' />
                             ) : (
                                 <ImageCircle initials={`${user?.firstName.charAt(0)}${user?.lastName.charAt(0)}`} />

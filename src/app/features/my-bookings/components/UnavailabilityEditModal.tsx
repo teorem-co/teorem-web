@@ -2,7 +2,9 @@ import { t } from 'i18next';
 import moment from 'moment';
 
 import toastService from '../../../services/toastService';
-import { useDeleteTutorUnavailabilityMutation } from '../services/unavailabilityService';
+import {
+  useDeleteTutorUnavailabilityMutation,
+} from '../services/unavailabilityService';
 
 interface Props {
     handleClose?: (close: boolean) => void;

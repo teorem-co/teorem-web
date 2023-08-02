@@ -3,25 +3,25 @@ import moment from 'moment';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
-
-import IChatEnginePost from '../../../../interfaces/IChatEnginePost';
 import { useRegisterTutorMutation } from '../../../../services/authService';
 import { resetParentRegister } from '../../../../slices/parentRegisterSlice';
 import { resetStudentRegister } from '../../../../slices/studentRegisterSlice';
-import { resetTutorRegister, setStepOne, setStepTwo } from '../../../../slices/tutorRegisterSlice';
+import {
+  resetTutorRegister,
+  setStepOne,
+  setStepTwo,
+} from '../../../../slices/tutorRegisterSlice';
 import CreditCardfield from '../../../components/CreditCardField';
 import ExpDateField from '../../../components/form/ExpDateField';
 import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyPhoneInput from '../../../components/form/MyPhoneInput';
-import MySelect, { OptionType } from '../../../components/form/MySelectField';
-import UploadFile from '../../../components/form/MyUploadField';
+import { OptionType } from '../../../components/form/MySelectField';
 import TextField from '../../../components/form/TextField';
-import { countryInput } from '../../../constants/countryInput';
-import { countryOption } from '../../../constants/countryOption';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { useAddUserMutation } from '../../../services/chatEngineService';
 import toastService from '../../../services/toastService';
-import { resetTutorImageUploadState } from '../../../slices/tutorImageUploadSlice';
+import {
+  resetTutorImageUploadState,
+} from '../../../slices/tutorImageUploadSlice';
 import useOutsideAlerter from '../../../utils/useOutsideAlerter';
 import { ICountry, useLazyGetCountriesQuery } from '../services/countryService';
 

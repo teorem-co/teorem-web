@@ -1,9 +1,10 @@
-import { InteractionMode } from 'chart.js';
-import i18n, { t } from 'i18next';
+import { t } from 'i18next';
 
 import { baseService } from '../app/baseService';
-import IProgressProfile from '../app/features/my-profile/interfaces/IProgressProfile';
-import IUpdateAdditionalInfo from '../app/features/my-profile/interfaces/IUpdateAdditionalInfo';
+import IProgressProfile
+  from '../app/features/my-profile/interfaces/IProgressProfile';
+import IUpdateAdditionalInfo
+  from '../app/features/my-profile/interfaces/IUpdateAdditionalInfo';
 import { HttpMethods } from '../app/lookups/httpMethods';
 import { getAppState } from '../app/utils/getAppState';
 import IParams from '../interfaces/IParams';
@@ -192,13 +193,13 @@ export const tutorService = baseService.injectEndpoints({
         }),
         disableTutor: builder.query<void, void>({
             query: () => ({
-                url: `${URL}/disable-tutor`,
+                url: `${URL}/disable`,
                 method: HttpMethods.PUT,
             }),
         }),
         enableTutor: builder.query<void, void>({
             query: () => ({
-                url: `${URL}/enable-tutor`,
+                url: `${URL}/enable`,
                 method: HttpMethods.PUT,
             }),
         }),

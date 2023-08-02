@@ -4,17 +4,24 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
-import { useChangeCurrentPasswordMutation } from '../../../../services/authService';
-import { useLazyGetProfileProgressQuery } from '../../../../services/tutorService';
+import {
+  useChangeCurrentPasswordMutation,
+} from '../../../../services/authService';
+import {
+  useLazyGetProfileProgressQuery,
+} from '../../../../services/tutorService';
 import { addStripeId, connectStripe } from '../../../../slices/authSlice';
 import { RoleOptions } from '../../../../slices/roleSlice';
 import TextField from '../../../components/form/TextField';
 import MainWrapper from '../../../components/MainWrapper';
-import LoaderSecondary from '../../../components/skeleton-loaders/LoaderSecondary';
+import LoaderSecondary
+  from '../../../components/skeleton-loaders/LoaderSecondary';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import TooltipPassword from '../../register/TooltipPassword';
-import AddCreditCard, { Values as CreadiCardValues } from '../components/AddCreditCard';
+import AddCreditCard, {
+  Values as CreadiCardValues,
+} from '../components/AddCreditCard';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
 import IAddCustomerPost from '../interfaces/IAddCustomerPost';

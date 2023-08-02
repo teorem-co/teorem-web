@@ -2,7 +2,9 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import EditSubjectSidebar from '../../my-profile/components/EditSubjectSidebar';
 import AddSubjectSidebar from '../../my-profile/components/AddSubjectSidebar';
-import { useLazyGetTutorProfileDataQuery } from '../../../../services/tutorService';
+import {
+  useLazyGetTutorProfileDataQuery,
+} from '../../../../services/tutorService';
 import SubjectList from '../../my-profile/components/SubjectList';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';

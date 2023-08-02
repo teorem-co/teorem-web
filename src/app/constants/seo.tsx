@@ -1,4 +1,4 @@
-import i18n, { t } from 'i18next';
+import { t } from 'i18next';
 import { Helmet } from 'react-helmet';
 import { matchPath } from 'react-router-dom';
 
@@ -27,9 +27,9 @@ export const SEO = () => {
         <Helmet>
             <meta charSet="utf-8" />
             <title>{t(`SEO.${currentRoute.key}.TITLE`)}</title>
-            <meta 
-                name="description" 
-                content={t(`SEO.${currentRoute.key}.META`)} 
+            <meta
+                name="description"
+                content={t(`SEO.${currentRoute.key}.META`)}
             />
         </Helmet>
     );

@@ -1,12 +1,14 @@
-import { useEffect, useState } from 'react';;
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import MainWrapper from '../../../components/MainWrapper';
 import { useAppSelector } from '../../../hooks';
 import AsideWrapper from '../components/AsideWrapper';
 import SingleConversation from '../components/SingleConversation';
-import { ContextProvider } from "../contexts/Context";
-import { IChatRoom, setActiveChatRoomById } from '../slices/chatSlice';
+import { ContextProvider } from '../contexts/Context';
+import { IChatRoom } from '../slices/chatSlice';
+
+;
 
 
 const Chat = () => {

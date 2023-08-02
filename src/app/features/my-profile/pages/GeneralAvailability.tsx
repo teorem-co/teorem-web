@@ -2,7 +2,9 @@ import { t } from 'i18next';
 import { cloneDeep, isEqual } from 'lodash';
 import { useEffect, useState } from 'react';
 
-import { useLazyGetProfileProgressQuery } from '../../../../services/tutorService';
+import {
+  useLazyGetProfileProgressQuery,
+} from '../../../../services/tutorService';
 import MainWrapper from '../../../components/MainWrapper';
 import RouterPrompt from '../../../components/RouterPrompt';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
@@ -13,9 +15,9 @@ import ProfileHeader from '../components/ProfileHeader';
 import IAvailabilityIndex from '../interfaces/IAvailabilityIndex';
 import ITutorAvailability from '../interfaces/ITutorAvailability';
 import {
-    useCreateTutorAvailabilityMutation,
-    useLazyGetTutorAvailabilityQuery,
-    useUpdateTutorAvailabilityMutation,
+  useCreateTutorAvailabilityMutation,
+  useLazyGetTutorAvailabilityQuery,
+  useUpdateTutorAvailabilityMutation,
 } from '../services/tutorAvailabilityService';
 import { setMyProfileProgress } from '../slices/myProfileSlice';
 import { useAppDispatch, useAppSelector } from '../../../hooks';

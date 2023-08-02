@@ -4,28 +4,31 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 
-import { useLazyGetChatRoomsQuery, useLazyGetChildBookingTutorsQuery } from './app/features/chat/services/chatService';
 import {
-    addChatRoom,
-    addChatRooms,
-    addMessage,
-    IChatRoom, IReadMessagePair,
-    readMessages,
-    setBuffer,
-    setConsultationInitialized, setMessagesAsRead,
-    setUser,
+  useLazyGetChatRoomsQuery,
+  useLazyGetChildBookingTutorsQuery,
+} from './app/features/chat/services/chatService';
+import {
+  addChatRoom,
+  addChatRooms,
+  IChatRoom,
+  IReadMessagePair,
+  setBuffer,
+  setConsultationInitialized,
+  setMessagesAsRead,
+  setUser,
 } from './app/features/chat/slices/chatSlice';
 import { useAppSelector } from './app/hooks';
 import { Role } from './app/lookups/role';
 import ROUTES, { RenderRoutes } from './app/routes';
 import toastService from './app/services/toastService';
-import { persistor } from "./app/store";
+import { persistor } from './app/store';
 import { NotificationType } from './interfaces/notification/INotification';
 import ISocketNotification from './interfaces/notification/ISocketNotification';
-import { useLazyGetServerVersionQuery } from "./services/authService";
+import { useLazyGetServerVersionQuery } from './services/authService';
 import { useLazyGetUserQuery } from './services/userService';
-import { logout, setServerVersion } from "./slices/authSlice";
-import { logoutUser } from "./slices/userSlice";
+import { logout, setServerVersion } from './slices/authSlice';
+import { logoutUser } from './slices/userSlice';
 
 function App() {
 
@@ -159,6 +162,7 @@ function App() {
                     isFile: sendMessageObject.isFile,
                     messageNew: sendMessageObject.messageNew,
                     messageMissedCall: sendMessageObject.missedCall,
+                    file: sendMessageObject.file
                 },
                 senderId: sendMessageObject.senderId,
             };

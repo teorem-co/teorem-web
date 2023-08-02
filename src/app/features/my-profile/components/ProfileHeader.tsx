@@ -6,7 +6,9 @@ import { RoleOptions } from '../../../../slices/roleSlice';
 import { useAppSelector } from '../../../hooks';
 import { PATHS } from '../../../routes';
 import { getUserId } from '../../../utils/getUserId';
-import { useLazyGetTutorProfileDataQuery } from '../../../../services/tutorService';
+import {
+  useLazyGetTutorProfileDataQuery,
+} from '../../../../services/tutorService';
 
 interface Props {
   className?: string;

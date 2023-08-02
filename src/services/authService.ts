@@ -1,9 +1,8 @@
-import {baseService} from '../app/baseService';
-import {HttpMethods} from '../app/lookups/httpMethods';
-import typeToFormData from '../app/utils/typeToFormData';
+import { baseService } from '../app/baseService';
+import { HttpMethods } from '../app/lookups/httpMethods';
 import IGenerateUsername from '../interfaces/IGenerateUsername';
 import IRole from '../interfaces/IRole';
-import {IChild} from "../interfaces/IChild";
+import { IChild } from '../interfaces/IChild';
 
 interface ILogin {
     email: string;

@@ -4,9 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
-
-import heroImg from '../../../assets/images/hero-img.png';
-import { useLazyGetServerVersionQuery, useLoginMutation, useResendActivationEmailMutation } from '../../../services/authService';
+import {
+  useLazyGetServerVersionQuery,
+  useLoginMutation,
+  useResendActivationEmailMutation,
+} from '../../../services/authService';
 import TextField from '../../components/form/TextField';
 import { useAppSelector } from '../../hooks';
 import { Role } from '../../lookups/role';

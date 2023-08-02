@@ -1,19 +1,21 @@
 import { Form, FormikProvider, useFormik } from 'formik';
-import { values } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
 import { useGetLevelOptionsQuery } from '../../../../services/levelService';
 import {
+  useLazyGetProfileProgressQuery} from '../../../../services/tutorService';
+import {
     useCreateSubjectMutation,
     useLazyGetSubjectOptionsByLevelQuery,
     useLazyGetSubjectsByLevelAndSubjectQuery,
 } from '../../../../services/subjectService';
-import { useLazyGetProfileProgressQuery } from '../../../../services/tutorService';
 import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import TextField from '../../../components/form/TextField';
-import { useLazyGetCountriesQuery } from '../../../features/onboarding/services/countryService';
+import {
+  useLazyGetCountriesQuery,
+} from '../../../features/onboarding/services/countryService';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import { setMyProfileProgress } from '../slices/myProfileSlice';

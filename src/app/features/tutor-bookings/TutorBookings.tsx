@@ -1,17 +1,24 @@
-import { defaultMaxListeners } from 'events';
 import { Form, FormikProvider, useFormik } from 'formik';
 import i18n from 'i18next';
 import { uniqBy } from 'lodash';
 import moment from 'moment';
 import { useEffect, useRef, useState } from 'react';
-import { Calendar as BigCalendar, momentLocalizer, SlotInfo } from 'react-big-calendar';
+import {
+  Calendar as BigCalendar,
+  momentLocalizer,
+  SlotInfo,
+} from 'react-big-calendar';
 import Calendar from 'react-calendar';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import { useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 
-import { useLazyGetTutorBookingsQuery, useLazyGetTutorIdByTutorSlugQuery, useLazyGetTutorProfileDataQuery } from '../../../services/tutorService';
+import {
+  useLazyGetTutorBookingsQuery,
+  useLazyGetTutorIdByTutorSlugQuery,
+  useLazyGetTutorProfileDataQuery,
+} from '../../../services/tutorService';
 import { addStripeId } from '../../../slices/authSlice';
 import { RoleOptions } from '../../../slices/roleSlice';
 import TextField from '../../components/form/TextField';
@@ -24,9 +31,13 @@ import { calcModalPosition } from '../../utils/calcModalPosition';
 import ParentCalendarSlots from '../my-bookings/components/ParentCalendarSlots';
 import ParentEventModal from '../my-bookings/components/ParentEventModal';
 import UpdateBooking from '../my-bookings/components/UpdateBooking';
-import { useLazyGetBookingByIdQuery, useLazyGetBookingsQuery } from '../my-bookings/services/bookingService';
-import { useLazyGetUnavailableBookingsQuery } from '../my-bookings/services/unavailabilityService';
-import AddCreditCard, { Values as CreditCardValues } from '../my-profile/components/AddCreditCard';
+import {
+  useLazyGetBookingByIdQuery,
+  useLazyGetBookingsQuery,
+} from '../my-bookings/services/bookingService';
+import {
+  useLazyGetUnavailableBookingsQuery,
+} from '../my-bookings/services/unavailabilityService';
 import LearnCubeModal from '../my-profile/components/LearnCubeModal';
 import IAddCustomerPost from '../my-profile/interfaces/IAddCustomerPost';
 import ICardPost from '../my-profile/interfaces/ICardPost';
@@ -36,7 +47,9 @@ import {
   useLazyGetCreditCardsQuery,
   useSetDefaultCreditCardMutation,
 } from '../my-profile/services/stripeService';
-import { useLazyGetTutorAvailableDaysQuery } from '../my-profile/services/tutorAvailabilityService';
+import {
+  useLazyGetTutorAvailableDaysQuery,
+} from '../my-profile/services/tutorAvailabilityService';
 
 interface IBookingTransformed {
   id: string;

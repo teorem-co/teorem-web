@@ -12,8 +12,11 @@ import {
     useLazyGetProfileProgressQuery,
     useLazyGetTutorProfileDataQuery,
 } from '../../../../services/tutorService';
-import {useLazyGetUserQuery, useUpdateUserInformationMutation} from '../../../../services/userService';
-import {RoleOptions} from '../../../../slices/roleSlice';
+import {
+  useLazyGetUserQuery,
+  useUpdateUserInformationMutation,
+} from '../../../../services/userService';
+import { RoleOptions } from '../../../../slices/roleSlice';
 import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyPhoneInput from '../../../components/form/MyPhoneInput';
 import MySelect, {OptionType} from '../../../components/form/MySelectField';
@@ -22,14 +25,19 @@ import TextField from '../../../components/form/TextField';
 import MainWrapper from '../../../components/MainWrapper';
 import RouterPrompt from '../../../components/RouterPrompt';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
-import {countryInput} from '../../../constants/countryInput';
-import {countryOption} from '../../../constants/countryOption';
-import languageOptions, {ILanguageOption} from '../../../constants/languageOptions';
-import {useAppDispatch, useAppSelector} from '../../../hooks';
-import {PROFILE_PATHS} from '../../../routes';
+import { countryInput } from '../../../constants/countryInput';
+import { countryOption } from '../../../constants/countryOption';
+import languageOptions, {
+  ILanguageOption,
+} from '../../../constants/languageOptions';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { PROFILE_PATHS } from '../../../routes';
 import toastService from '../../../services/toastService';
-import {getUserId} from '../../../utils/getUserId';
-import {ICountry, useLazyGetCountriesQuery} from '../../onboarding/services/countryService';
+import { getUserId } from '../../../utils/getUserId';
+import {
+  ICountry,
+  useLazyGetCountriesQuery,
+} from '../../onboarding/services/countryService';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
 import {setMyProfileProgress} from '../slices/myProfileSlice';
@@ -100,8 +108,10 @@ const PersonalInformation = () => {
         if (userRole === RoleOptions.Tutor) {
             if (typeof values.profileImage === 'string') {
         delete toSend.profileImage;
-      }else {toSend['profileImage'] = values.profileImage;
-        }}
+      }else {
+        toSend['profileImage'] = values.profileImage;
+      }
+    }
 
         await updateUserInformation(toSend);
 
@@ -113,8 +123,9 @@ const PersonalInformation = () => {
 
     const handleBlur = () => {
         let initialValueImg = '';
-    if (typeof formik.values.profileImage === 'string') {const initialValueImgSplit = initialValues.profileImage.split('/');
-         initialValueImg = initialValueImgSplit[initialValueImgSplit.length - 1];
+    if (typeof formik.values.profileImage === 'string') {
+      const initialValueImgSplit = initialValues.profileImage.split('/');
+      initialValueImg = initialValueImgSplit[initialValueImgSplit.length - 1];
     }
 
         let formikImgSplit = [];
@@ -198,17 +209,13 @@ const PersonalInformation = () => {
         }
     };
 
-    const isValidDate = (dateString: string | undefined) => {
-        const dateFormat = 'YYYY-MM-DD';
-        console.log(dateString);
+  const isValidDate = (dateString: string | undefined) => {
+    const dateFormat = 'YYYY-MM-DD';
     const formattedDate = moment(dateString).format('YYYY-MM-DD');
-    console.log(formattedDate);
     const date = moment(formattedDate, dateFormat, true);
-    console.log(date);
-        // Check if the date is valid and the year is greater than 1900console.log(date.isValid());
-    console.log(date.year() > 1900);
-        return date.isValid() && date.year() > 1900;
-    };
+
+    return date.isValid() && date.year() > 1900;
+  };
 
     const generateValidation = () => {
         const validation: any = {
@@ -349,9 +356,9 @@ const PersonalInformation = () => {
                             <ProfileCompletion
                                 generalAvailability={profileProgressState.generalAvailability}
                                 additionalInformation={profileProgressState.aboutMe}
-                                myTeachings={profileProgressState.myTeachings}
-                                percentage={profileProgressState.percentage}
-                            payment={profileProgressState.payment}
+                myTeachings={profileProgressState.myTeachings}
+                percentage={profileProgressState.percentage}
+                payment={profileProgressState.payment}
               />
 
                             {/* PERSONAL INFO */}

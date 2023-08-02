@@ -3,8 +3,6 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import * as Yup from 'yup';
-
-import heroImg from '../../../assets/images/hero-img.png';
 import { useCheckMailMutation } from '../../../services/authService';
 import { setSelectedRole } from '../../../slices/roleSlice';
 import { setRegister } from '../../../slices/tutorRegisterSlice';

@@ -6,11 +6,20 @@ import { useHistory } from 'react-router';
 import * as Yup from 'yup';
 
 import { useGetLevelOptionsQuery } from '../../../../services/levelService';
-import { useDeleteSubjectMutation, useLazyGetSubjectsByLevelAndSubjectQuery, useUpdateSubjectMutation } from '../../../../services/subjectService';
-import { useLazyGetProfileProgressQuery, useLazyGetTutorProfileDataQuery } from '../../../../services/tutorService';
+import {
+  useDeleteSubjectMutation,
+  useLazyGetSubjectsByLevelAndSubjectQuery,
+  useUpdateSubjectMutation,
+} from '../../../../services/subjectService';
+import {
+  useLazyGetProfileProgressQuery,
+  useLazyGetTutorProfileDataQuery,
+} from '../../../../services/tutorService';
 import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import TextField from '../../../components/form/TextField';
-import { useLazyGetCountriesQuery } from '../../../features/onboarding/services/countryService';
+import {
+  useLazyGetCountriesQuery,
+} from '../../../features/onboarding/services/countryService';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import getUrlParams from '../../../utils/getUrlParams';

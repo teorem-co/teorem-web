@@ -1,10 +1,17 @@
-import { t } from "i18next";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import { useLazyGetUserQuery } from "../../services/userService";
-import { addChatRoom, addMessage, setActiveChatRoom, setConsultationInitialized, setFreeConsultation, setLink } from "../features/chat/slices/chatSlice";
-import { useAppSelector } from "../hooks";
-import { PATHS } from "../routes";
+import { t } from 'i18next';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { useLazyGetUserQuery } from '../../services/userService';
+import {
+  addChatRoom,
+  addMessage,
+  setActiveChatRoom,
+  setConsultationInitialized,
+  setFreeConsultation,
+  setLink,
+} from '../features/chat/slices/chatSlice';
+import { useAppSelector } from '../hooks';
+import { PATHS } from '../routes';
 
 interface Props {
     buffer: any;

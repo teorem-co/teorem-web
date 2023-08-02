@@ -1,6 +1,4 @@
-import i18n, { t } from 'i18next';
-import { url } from 'inspector';
-import { method } from 'lodash';
+import { t } from 'i18next';
 
 import { baseService } from '../../../baseService';
 import { HttpMethods } from '../../../lookups/httpMethods';
@@ -38,6 +36,14 @@ interface IBookingsByIdPayload {
 }
 
 interface ICreateBooking {
+    subjectId: string;
+    studentId?: string;
+    startTime: string;
+    tutorId?: string;
+}
+
+interface ICreateBookingDTO {
+    requesterId?: string;
     subjectId: string;
     studentId?: string;
     startTime: string;

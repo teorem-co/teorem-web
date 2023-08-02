@@ -1,4 +1,4 @@
-import IMyReview from "./IMyReview";
+import IMyReview from './IMyReview';
 
 interface IMyReviews {
     count: number;

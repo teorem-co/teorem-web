@@ -1,13 +1,10 @@
-import { useEffect, useRef, useState } from "react";
-import { useDropzone } from "react-dropzone";
-import { useDispatch } from "react-redux";
+import { useEffect, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
-import { useAppSelector } from "../../../hooks";
-import { usePostUploadFileMutation } from "../services/chatService";
-import { addMessage, IChatRoom, ISendChatMessage } from "../slices/chatSlice";
-import { saveAs } from 'file-saver';
+import { useAppSelector } from '../../../hooks';
+import { usePostUploadFileMutation } from '../services/chatService';
+import { addMessage, IChatRoom, ISendChatMessage } from '../slices/chatSlice';
 import { ImAttachment } from 'react-icons/im';
-import { IconContext } from "react-icons";
 
 interface Props {
     data: IChatRoom | null;
@@ -35,14 +32,16 @@ const SendMessageForm = (props: Props) => {
 
             const text: string = newMessageRef.current?.value + '';
 
-            if (text.length > 0) {
+            if (text.trim().length > 0) {
+                const date = new Date();
+
                 const message: ISendChatMessage = {
                     tutorId: props.data.tutor?.userId + '',
                     userId: props.data.user?.userId + '',
                     message: {
                         messageNew: true,
                         message: text,
-                        createdAt: new Date(),
+                        createdAt: date.toISOString(),
                         isRead: false,
                         messageId: '',
                         messageMissedCall:false,
@@ -52,7 +51,6 @@ const SendMessageForm = (props: Props) => {
                 };
 
                 chat.socket.emit('messageSent', message);
-
                 dispatch(addMessage(message));
 
                 props.scrollOnSend();

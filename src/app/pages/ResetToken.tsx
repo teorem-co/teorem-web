@@ -1,9 +1,9 @@
 import { t } from 'i18next';
-import { useState } from "react";
+import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import logo from '../../assets/images/logo.svg';
-import { useResendActivationEmailMutation } from "../../services/authService";
+import { useResendActivationEmailMutation } from '../../services/authService';
 
 const ResetToken = () => {
     const search = useLocation().search;

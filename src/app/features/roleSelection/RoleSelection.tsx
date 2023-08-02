@@ -1,8 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
-
-import heroImg from '../../../assets/images/hero-img.png';
 import IRoleSelectionOption from '../../../interfaces/IRoleSelectionOption';
 import { resetParentRegister } from '../../../slices/parentRegisterSlice';
 import { RoleOptions, setSelectedRole } from '../../../slices/roleSlice';

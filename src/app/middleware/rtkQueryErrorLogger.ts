@@ -1,4 +1,8 @@
-import {isRejectedWithValue, Middleware, MiddlewareAPI,} from '@reduxjs/toolkit';
+import {
+  isRejectedWithValue,
+  Middleware,
+  MiddlewareAPI,
+} from '@reduxjs/toolkit';
 import i18next from 'i18next';
 
 import toastService from '../services/toastService';
