@@ -67,6 +67,7 @@
         "yup": "^0.32.11"
     },
     "scripts": {
+        "install": "env-cmd -f dev.env react-scripts build",
         "start": "react-scripts start",
         "build": "CI=false react-scripts build",
         "start-dev": "env-cmd -f dev.env npm start",
