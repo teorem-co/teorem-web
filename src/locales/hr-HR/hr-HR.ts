@@ -565,6 +565,8 @@ export const HR_HR = {
             PHONE: 'Broj telefona*',
             COUNTRY: 'Država*',
             BIRTHDAY: 'Datum rođenja*',
+            IBAN: 'IBAN',
+            IBAN_PLACEHOLDER: 'Unesite svoj IBAN',
             IMAGE: '<Profilna slika>*',
             UPLOAD_IMAGE: 'Povucite i ispustite za učitavanje',
         },

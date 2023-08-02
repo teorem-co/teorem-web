@@ -17,6 +17,7 @@ export interface IUpdateUserInformation {
     countryId: string;
     dateOfBirth: string;
     profileImage: string;
+    iban: string;
 }
 
 export const userService = baseService.injectEndpoints({
