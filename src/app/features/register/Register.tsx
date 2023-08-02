@@ -73,16 +73,16 @@ const Register: React.FC = () => {
       //     return false;
       // }),
       password: Yup.string()
-        .required(t('FORM_VALIDATION.REQUIRED'))
-        .min(8, t('FORM_VALIDATION.TOO_SHORT'))
-        .max(128, t('FORM_VALIDATION.TOO_LONG'))
-        .matches(
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_/+\-=[\]{};':"\\|,.<>?])[A-Za-z\d!@#$%^&*()_/+\-=[\]{};':"\\|,.<>?]{8,128}$/gm,
-          t('FORM_VALIDATION.PASSWORD_STRENGTH')
-        ),
+          .required(t('FORM_VALIDATION.REQUIRED'))
+          .min(8, t('FORM_VALIDATION.TOO_SHORT'))
+          .max(128, t('FORM_VALIDATION.TOO_LONG'))
+          .matches(
+              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_/+\-=[\]{};':"\\|,.<>?])[A-Za-z\d!@#$%^&*()_/+\-=[\]{};':"\\|,.<>?]{8,128}$/gm,
+              t('FORM_VALIDATION.PASSWORD_STRENGTH')
+          ),
       passwordRepeat: Yup.string()
-        .required(t('FORM_VALIDATION.REQUIRED'))
-        .oneOf([Yup.ref('password'), null], t('FORM_VALIDATION.PASSWORD_MATCH')),
+          .required(t('FORM_VALIDATION.REQUIRED'))
+          .oneOf([Yup.ref('password'), null], t('FORM_VALIDATION.PASSWORD_MATCH')),
     }),
   });
 
@@ -102,14 +102,14 @@ const Register: React.FC = () => {
     //checkMailValidation -> if checkEmailExistence return error, dont submit form
     if (roleSelection && !checkMailValidation) {
       dispatch(
-        setRegister({
-          firstName: values.firstName,
-          lastName: values.lastName,
-          email: values.email,
-          password: values.password,
-          passwordRepeat: values.passwordRepeat,
-          roleSelection: roleSelection,
-        })
+          setRegister({
+            firstName: values.firstName,
+            lastName: values.lastName,
+            email: values.email,
+            password: values.password,
+            passwordRepeat: values.passwordRepeat,
+            roleSelection: roleSelection,
+          })
       );
       dispatch(setSelectedRole(roleSelection));
       history.push(PATHS.ONBOARDING);
@@ -211,129 +211,137 @@ const Register: React.FC = () => {
     }
   };
 
-  return (
-    <>
-      <div className="login">
-        {/*<div className="login__aside">*/}
-        {/*  /!* <img src={heroImg} alt="Hero Img" />*!/*/}
-        {/*  <div className="teorem-area">*/}
-        {/*    <ul className="teorem-circles">*/}
-        {/*      <li></li>*/}
-        {/*      <li></li>*/}
-        {/*      <li></li>*/}
-        {/*      <li></li>*/}
-        {/*      <li></li>*/}
-        {/*      <li></li>*/}
-        {/*      <li></li>*/}
-        {/*      <li></li>*/}
-        {/*      <li></li>*/}
-        {/*      <li></li>*/}
-        {/*    </ul>*/}
-        {/*  </div>*/}
-        {/*</div>*/}
-        <div className="login__content">
-          <div className="flex--grow w--448--max">
-            <div className="mb-22">
-              <img className="w--128" src={logo} alt="Teorem" />
-            </div>
-            <div className="type--lg type--wgt--bold mb-4">{t('REGISTER.TITLE', { role: roleSelection })}</div>
-            <FormikProvider value={formik}>
-              <Form>
-                {/*<div className="field">*/}
-                {/*  <label htmlFor="firstName" className="field__label">*/}
-                {/*    {t('REGISTER.FORM.FIRST_NAME')}*/}
-                {/*  </label>*/}
-                {/*  <TextField*/}
-                {/*    name="firstName"*/}
-                {/*    id="firstName"*/}
-                {/*    placeholder={t('REGISTER.FORM.FIRST_NAME_PLACEHOLDER')}*/}
-                {/*    // disabled={isLoading}*/}
-                {/*  />*/}
-                {/*</div>*/}
-                {/*<div className="field">*/}
-                {/*  <label htmlFor="lastName" className="field__label">*/}
-                {/*    {t('REGISTER.FORM.LAST_NAME')}*/}
-                {/*  </label>*/}
-                {/*  <TextField*/}
-                {/*    name="lastName"*/}
-                {/*    id="lastName"*/}
-                {/*    placeholder={t('REGISTER.FORM.LAST_NAME_PLACEHOLDER')}*/}
-                {/*    // disabled={isLoading}*/}
-                {/*  />*/}
-                {/*</div>*/}
-                <div className="field">
-                  <label className="field__label" htmlFor="email">
-                    {t('REGISTER.FORM.EMAIL')}
-                  </label>
-                  <TextField
-                    onBlur={(e: any) => {
-                      formik.handleBlur(e);
-                      //formik.validateForm();
-                      checkEmailExistence();
-                    }}
-                    name="email"
-                    id="email"
-                    placeholder={t('REGISTER.FORM.EMAIL_PLACEHOLDER')}
-                    additionalValidation={checkMailValidation}
-                    // disabled={isLoading}
-                  />
-                </div>
-                <div className="field">
-                  <label className="field__label" htmlFor="password">
-                    {t('REGISTER.FORM.PASSWORD')}
-                  </label>
-                  <TextField
-                    name="password"
-                    id="password"
-                    placeholder={t('REGISTER.FORM.PASSWORD_PLACEHOLDER')}
-                    className="input input--base input--text input--icon"
-                    password={true}
-                    // disabled={isLoading}
-                    onFocus={handlePasswordFocus}
-                    onBlur={(e: any) => {
-                      handlePasswordBlur();
-                      formik.handleBlur(e);
-                    }}
-                    onKeyUp={handleKeyUp}
-                  />
+  const handleEnterKey = (event: React.KeyboardEvent<HTMLFormElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      formik.handleSubmit();
+    }
+  };
 
-                  <TooltipPassword passTooltip={passTooltip} />
-                </div>
-                <div className="field">
-                  <label className="field__label" htmlFor="passwordRepeat">
-                    {t('REGISTER.FORM.CONFIRM_PASSWORD')}
-                  </label>
-                  <TextField
-                    name="passwordRepeat"
-                    id="passwordRepeat"
-                    placeholder={t('REGISTER.FORM.CONFIRM_PASSWORD_PLACEHOLDER')}
-                    // disabled={isLoading}
-                    className="input input--base input--text input--icon"
-                    password={true}
-                  />
-                </div>
-                <div
-                  className="btn btn--base btn--primary w--100 type--center type--wgt--extra-bold mb-2 mt-6"
-                  // type="submit"
-                  onClick={() => formik.handleSubmit()}
-                >
-                  {t('REGISTER.FORM.SUBMIT_BUTTON')}
-                </div>
-                <div className="flex flex--jc--center">
-                  <div onClick={() => handleGoBack()} className="btn btn--clear btn--base type--color--brand type--wgt--extra-bold">
-                    <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i> {t('REGISTER.BACK_BUTTON')}
+  return (
+      <>
+        <div className="login">
+          {/*<div className="login__aside">*/}
+          {/*  /!* <img src={heroImg} alt="Hero Img" />*!/*/}
+          {/*  <div className="teorem-area">*/}
+          {/*    <ul className="teorem-circles">*/}
+          {/*      <li></li>*/}
+          {/*      <li></li>*/}
+          {/*      <li></li>*/}
+          {/*      <li></li>*/}
+          {/*      <li></li>*/}
+          {/*      <li></li>*/}
+          {/*      <li></li>*/}
+          {/*      <li></li>*/}
+          {/*      <li></li>*/}
+          {/*      <li></li>*/}
+          {/*    </ul>*/}
+          {/*  </div>*/}
+          {/*</div>*/}
+          <div className="login__content">
+            <div className="flex--grow w--448--max">
+              <div className="mb-22">
+                <img className="w--128" src={logo} alt="Teorem" />
+              </div>
+              <div className="type--lg type--wgt--bold mb-4">{t('REGISTER.TITLE', { role: roleSelection })}</div>
+              <FormikProvider value={formik}>
+                <Form onKeyPress={handleEnterKey}>
+                  {/*<div className="field">*/}
+                  {/*  <label htmlFor="firstName" className="field__label">*/}
+                  {/*    {t('REGISTER.FORM.FIRST_NAME')}*/}
+                  {/*  </label>*/}
+                  {/*  <TextField*/}
+                  {/*    name="firstName"*/}
+                  {/*    id="firstName"*/}
+                  {/*    placeholder={t('REGISTER.FORM.FIRST_NAME_PLACEHOLDER')}*/}
+                  {/*    // disabled={isLoading}*/}
+                  {/*  />*/}
+                  {/*</div>*/}
+                  {/*<div className="field">*/}
+                  {/*  <label htmlFor="lastName" className="field__label">*/}
+                  {/*    {t('REGISTER.FORM.LAST_NAME')}*/}
+                  {/*  </label>*/}
+                  {/*  <TextField*/}
+                  {/*    name="lastName"*/}
+                  {/*    id="lastName"*/}
+                  {/*    placeholder={t('REGISTER.FORM.LAST_NAME_PLACEHOLDER')}*/}
+                  {/*    // disabled={isLoading}*/}
+                  {/*  />*/}
+                  {/*</div>*/}
+                  <div className="field">
+                    <label className="field__label" htmlFor="email">
+                      {t('REGISTER.FORM.EMAIL')}
+                    </label>
+                    <TextField
+                        onBlur={(e: any) => {
+                          formik.handleBlur(e);
+                          //formik.validateForm();
+                          checkEmailExistence();
+                        }}
+                        name="email"
+                        id="email"
+                        placeholder={t('REGISTER.FORM.EMAIL_PLACEHOLDER')}
+                        additionalValidation={checkMailValidation}
+                        // disabled={isLoading}
+                    />
                   </div>
-                </div>
-              </Form>
-            </FormikProvider>
-          </div>
-          <div className="mt-8">
-            <div className="type--color--tertiary"> {t('WATERMARK')}</div>
+                  <div className="field">
+                    <label className="field__label" htmlFor="password">
+                      {t('REGISTER.FORM.PASSWORD')}
+                    </label>
+                    <TextField
+                        name="password"
+                        id="password"
+                        placeholder={t('REGISTER.FORM.PASSWORD_PLACEHOLDER')}
+                        className="input input--base input--text input--icon"
+                        password={true}
+                        // disabled={isLoading}
+                        onFocus={handlePasswordFocus}
+                        onBlur={(e: any) => {
+                          handlePasswordBlur();
+                          formik.handleBlur(e);
+                        }}
+                        onKeyUp={handleKeyUp}
+                    />
+
+                    <TooltipPassword passTooltip={passTooltip} />
+                  </div>
+                  <div className="field">
+                    <label className="field__label" htmlFor="passwordRepeat">
+                      {t('REGISTER.FORM.CONFIRM_PASSWORD')}
+                    </label>
+                    <TextField
+                        name="passwordRepeat"
+                        id="passwordRepeat"
+                        placeholder={t('REGISTER.FORM.CONFIRM_PASSWORD_PLACEHOLDER')}
+                        // disabled={isLoading}
+                        className="input input--base input--text input--icon"
+                        password={true}
+                    />
+                  </div>
+                  <div
+                      className="btn btn--base btn--primary w--100 type--center type--wgt--extra-bold mb-2 mt-6"
+                      // type="submit"
+                      onClick={() => formik.handleSubmit()}
+                  >
+                    {t('REGISTER.FORM.SUBMIT_BUTTON')}
+                  </div>
+                  <div className="flex flex--jc--center">
+                    <div onClick={() => handleGoBack()} className="btn btn--clear btn--base type--color--brand type--wgt--extra-bold">
+                      <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i> {t('REGISTER.BACK_BUTTON')}
+                    </div>
+                  </div>
+                </Form>
+              </FormikProvider>
+            </div>
+            <div className="mt-8">
+              <div className="type--color--tertiary"> {t('WATERMARK')}</div>
+            </div>
           </div>
         </div>
-      </div>
-    </>
+      </>
   );
 };
 
 export default Register;
+

@@ -1,7 +1,6 @@
 import { FieldProps, useField } from 'formik';
 import { FC, useEffect, useState } from 'react';
 import PhoneInput from 'react-phone-input-2';
-
 import { useLazyGetCountriesQuery } from '../../features/onboarding/services/countryService';
 import { PATHS } from '../../routes';
 
@@ -31,26 +30,35 @@ const MyPhoneInput: FC<TextFieldType> = (props: any) => {
   };
 
   useEffect(() => {
+    const selectedFlag = document.getElementsByClassName('selected-flag');
+    for(let i=0; i <selectedFlag.length; i++) {
+      const element = selectedFlag[i] as HTMLElement;
+      element.tabIndex = -1;
+    }
+  });
+
+  useEffect(() => {
     window && window.location.pathname === PATHS.ONBOARDING && updateCountry();
   }, [form.values.countryId]);
 
   return (
-    <>
-      <PhoneInput
-        {...field}
-        {...props}
-        name={name}
-        country={country}
-        value={currentValue}
-        className={`${className ?? 'input input--base input--text'}`}
-        onChange={(phone) => form.setFieldValue('phoneNumber', phone)}
-        onBlur={() => form.setFieldTouched(field.name)}
-        disabled={props.disabled}
-        onClick={() => props.openTooltip()}
-      />
-      <div className="field__validation">{errorText}</div>
-    </>
+      <>
+        <PhoneInput
+            {...field}
+            {...props}
+            name={name}
+            country={country}
+            value={currentValue}
+            className={`${className ?? 'input input--base input--text'}`}
+            onChange={(phone) => form.setFieldValue('phoneNumber', phone)}
+            onBlur={() => form.setFieldTouched(field.name)}
+            disabled={props.disabled}
+            onClick={() => props.openTooltip()}
+        />
+        <div className="field__validation">{errorText}</div>
+      </>
   );
 };
 
 export default MyPhoneInput;
+
