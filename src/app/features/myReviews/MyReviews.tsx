@@ -4,13 +4,17 @@ import { useEffect, useState } from 'react';
 
 import MainWrapper from '../../components/MainWrapper';
 import LoaderMyReviews from '../../components/skeleton-loaders/LoaderMyReviews';
-import LoaderStatistics from '../../components/skeleton-loaders/LoaderStatistics';
+import LoaderStatistics
+  from '../../components/skeleton-loaders/LoaderStatistics';
 import { useAppSelector } from '../../hooks';
 import Ratings from './components/Ratings';
 import ReviewItem from './components/ReviewItem';
 import IMyReview from './interfaces/IMyReview';
 import IMyReviewParams from './interfaces/IMyReviewParams';
-import { useLazyGetMyReviewsQuery, useLazyGetStatisticsQuery } from './services/myReviewsService';
+import {
+  useLazyGetMyReviewsQuery,
+  useLazyGetStatisticsQuery,
+} from './services/myReviewsService';
 
 export interface IGetMyReviews {
     rpp: number;

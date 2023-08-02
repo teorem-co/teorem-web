@@ -1,6 +1,4 @@
-import i18n, { t } from 'i18next';
-import { url } from 'inspector';
-import { method } from 'lodash';
+import { t } from 'i18next';
 
 import { baseService } from '../../../baseService';
 import { HttpMethods } from '../../../lookups/httpMethods';

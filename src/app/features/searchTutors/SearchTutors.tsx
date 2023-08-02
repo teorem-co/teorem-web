@@ -8,7 +8,9 @@ import Select, { components, MenuProps } from 'react-select';
 import IParams from '../../../interfaces/IParams';
 import ITutor from '../../../interfaces/ITutor';
 import { useLazyGetLevelOptionsQuery } from '../../../services/levelService';
-import { useLazyGetSubjectOptionsByLevelQuery } from '../../../services/subjectService';
+import {
+  useLazyGetSubjectOptionsByLevelQuery,
+} from '../../../services/subjectService';
 import { useLazyGetAvailableTutorsQuery } from '../../../services/tutorService';
 import CustomCheckbox from '../../components/form/CustomCheckbox';
 import MySelect, { OptionType } from '../../components/form/MySelectField';

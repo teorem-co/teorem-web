@@ -4,25 +4,32 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
-
-import ITutorSubject from '../../../interfaces/ITutorSubject';
-import { useLazyGetTutorIdByTutorSlugQuery, useLazyGetTutorProfileDataQuery } from '../../../services/tutorService';
+import {
+  useLazyGetTutorIdByTutorSlugQuery,
+  useLazyGetTutorProfileDataQuery,
+} from '../../../services/tutorService';
 import { RoleOptions } from '../../../slices/roleSlice';
 import MainWrapper from '../../components/MainWrapper';
 import LoaderPrimary from '../../components/skeleton-loaders/LoaderPrimary';
-import LoaderTutorProfile from '../../components/skeleton-loaders/LoaderTutorProfile';
+import LoaderTutorProfile
+  from '../../components/skeleton-loaders/LoaderTutorProfile';
 import { useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
 import { useGetOrCreateChatMutation } from '../../services/chatEngineService';
 import handleRatingStars from '../../utils/handleRatingStarts';
 import { addChatRoom, IChatRoom } from '../chat/slices/chatSlice';
-import { useLazyGetTutorAvailabilityQuery } from '../my-profile/services/tutorAvailabilityService';
+import {
+  useLazyGetTutorAvailabilityQuery,
+} from '../my-profile/services/tutorAvailabilityService';
 import Ratings from '../myReviews/components/Ratings';
 import ReviewItem from '../myReviews/components/ReviewItem';
 import IMyReview from '../myReviews/interfaces/IMyReview';
 import IMyReviewParams from '../myReviews/interfaces/IMyReviewParams';
 import { IGetMyReviews } from '../myReviews/MyReviews';
-import { useLazyGetMyReviewsQuery, useLazyGetStatisticsQuery } from '../myReviews/services/myReviewsService';
+import {
+  useLazyGetMyReviewsQuery,
+  useLazyGetStatisticsQuery,
+} from '../myReviews/services/myReviewsService';
 import { EditTutor } from './components/EditTutor';
 import { EditTutorAvailability } from './components/EditTutorAvailability';
 import { EditTutorSubjects } from './components/EditTutorSubjects';

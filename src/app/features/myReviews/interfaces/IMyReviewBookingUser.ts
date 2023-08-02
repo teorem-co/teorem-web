@@ -1,4 +1,4 @@
-import IMyReviewBookingUserRole from "./IMyReviewBookingUserRole";
+import IMyReviewBookingUserRole from './IMyReviewBookingUserRole';
 
 interface IMyReviewBookingUser {
     firstName: string;

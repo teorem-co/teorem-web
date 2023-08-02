@@ -1,32 +1,36 @@
-import { use } from 'i18next';
 import { cloneDeep, debounce } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
-
-import ITutor from '../../../interfaces/ITutor';
 import ITutorSubject from '../../../interfaces/ITutorSubject';
-import { useLazyGetTutorIdByTutorSlugQuery, useLazyGetTutorProfileDataQuery } from '../../../services/tutorService';
+import {
+  useLazyGetTutorIdByTutorSlugQuery,
+  useLazyGetTutorProfileDataQuery,
+} from '../../../services/tutorService';
 import { RoleOptions } from '../../../slices/roleSlice';
 import MainWrapper from '../../components/MainWrapper';
 import LoaderPrimary from '../../components/skeleton-loaders/LoaderPrimary';
-import LoaderSecondary from '../../components/skeleton-loaders/LoaderSecondary';
-import LoaderTutorProfile from '../../components/skeleton-loaders/LoaderTutorProfile';
+import LoaderTutorProfile
+  from '../../components/skeleton-loaders/LoaderTutorProfile';
 import { useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
 import { useGetOrCreateChatMutation } from '../../services/chatEngineService';
-import toastService from '../../services/toastService';
 import handleRatingStars from '../../utils/handleRatingStarts';
-import { addChatRoom, addMessage, IChatRoom, ISendChatMessage } from '../chat/slices/chatSlice';
-import { useLazyGetTutorAvailabilityQuery } from '../my-profile/services/tutorAvailabilityService';
+import { addChatRoom, IChatRoom } from '../chat/slices/chatSlice';
+import {
+  useLazyGetTutorAvailabilityQuery,
+} from '../my-profile/services/tutorAvailabilityService';
 import Ratings from '../myReviews/components/Ratings';
 import ReviewItem from '../myReviews/components/ReviewItem';
 import IMyReview from '../myReviews/interfaces/IMyReview';
 import IMyReviewParams from '../myReviews/interfaces/IMyReviewParams';
 import { IGetMyReviews } from '../myReviews/MyReviews';
-import { useLazyGetMyReviewsQuery, useLazyGetStatisticsQuery } from '../myReviews/services/myReviewsService';
+import {
+  useLazyGetMyReviewsQuery,
+  useLazyGetStatisticsQuery,
+} from '../myReviews/services/myReviewsService';
 
 const TutorProfile = () => {
     const { t } = useTranslation();

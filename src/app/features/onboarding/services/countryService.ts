@@ -1,5 +1,5 @@
-import {baseService} from '../../../baseService';
-import {HttpMethods} from '../../../lookups/httpMethods';
+import { baseService } from '../../../baseService';
+import { HttpMethods } from '../../../lookups/httpMethods';
 
 //bookings/week/:tutorSlug
 

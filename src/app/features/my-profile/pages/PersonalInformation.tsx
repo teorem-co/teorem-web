@@ -4,7 +4,6 @@ import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
-import { optionCSS } from 'react-select/dist/declarations/src/components/Option';
 import * as Yup from 'yup';
 
 import {
@@ -13,7 +12,10 @@ import {
   useLazyGetProfileProgressQuery,
   useLazyGetTutorProfileDataQuery,
 } from '../../../../services/tutorService';
-import { useLazyGetUserQuery, useUpdateUserInformationMutation } from '../../../../services/userService';
+import {
+  useLazyGetUserQuery,
+  useUpdateUserInformationMutation,
+} from '../../../../services/userService';
 import { RoleOptions } from '../../../../slices/roleSlice';
 import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyPhoneInput from '../../../components/form/MyPhoneInput';
@@ -25,12 +27,17 @@ import RouterPrompt from '../../../components/RouterPrompt';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
 import { countryInput } from '../../../constants/countryInput';
 import { countryOption } from '../../../constants/countryOption';
-import languageOptions, { ILanguageOption } from '../../../constants/languageOptions';
+import languageOptions, {
+  ILanguageOption,
+} from '../../../constants/languageOptions';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { PROFILE_PATHS } from '../../../routes';
 import toastService from '../../../services/toastService';
 import { getUserId } from '../../../utils/getUserId';
-import { ICountry, useLazyGetCountriesQuery } from '../../onboarding/services/countryService';
+import {
+  ICountry,
+  useLazyGetCountriesQuery,
+} from '../../onboarding/services/countryService';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
 import { setMyProfileProgress } from '../slices/myProfileSlice';

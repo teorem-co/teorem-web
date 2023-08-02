@@ -1,6 +1,6 @@
-import IMyReviewBookingLevel from "./IMyReviewBookingLevel";
-import IMyReviewBookingSubject from "./IMyReviewBookingSubject";
-import IMyReviewBookingUser from "./IMyReviewBookingUser";
+import IMyReviewBookingLevel from './IMyReviewBookingLevel';
+import IMyReviewBookingSubject from './IMyReviewBookingSubject';
+import IMyReviewBookingUser from './IMyReviewBookingUser';
 
 interface IMyReviewBooking {
     id: string;

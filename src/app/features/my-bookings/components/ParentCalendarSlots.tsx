@@ -1,14 +1,14 @@
 import { Form, FormikProvider, useFormik } from 'formik';
 import { t } from 'i18next';
-import { isEqual } from 'lodash';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { useGetTutorLevelsQuery } from '../../../../services/levelService';
-import { useLazyGetTutorSubjectsByTutorLevelQuery } from '../../../../services/subjectService';
-import { useLazyGetChildQuery, useLazyGetUserQuery } from '../../../../services/userService';
+import {
+  useLazyGetTutorSubjectsByTutorLevelQuery,
+} from '../../../../services/subjectService';
+import { useLazyGetChildQuery } from '../../../../services/userService';
 import { RoleOptions } from '../../../../slices/roleSlice';
 import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import MyTimePicker from '../../../components/form/MyTimePicker';
@@ -16,8 +16,13 @@ import TextField from '../../../components/form/TextField';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
 import { useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
-import { useLazyGetCustomerByIdQuery } from '../../my-profile/services/stripeService';
-import { useCreatebookingMutation, useCreateBookingMutation } from '../services/bookingService';
+import {
+  useLazyGetCustomerByIdQuery,
+} from '../../my-profile/services/stripeService';
+import {
+  useCreatebookingMutation,
+  useCreateBookingMutation,
+} from '../services/bookingService';
 import { loadStripe } from '@stripe/stripe-js';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY!);

@@ -2,7 +2,10 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 
-import { resetParentRegister, setSkip } from '../../../slices/parentRegisterSlice';
+import {
+  resetParentRegister,
+  setSkip,
+} from '../../../slices/parentRegisterSlice';
 import { resetSelectedRole, RoleOptions } from '../../../slices/roleSlice';
 import { resetStudentRegister } from '../../../slices/studentRegisterSlice';
 import { resetTutorRegister } from '../../../slices/tutorRegisterSlice';
@@ -11,9 +14,6 @@ import { PATHS } from '../../routes';
 import EmailConfirmationModal from '../register/EmailConfirmationModal';
 import TrialPopup from '../register/TrialPopup';
 import logo from './../../../assets/images/logo.svg';
-import NavigationParent from './components/NavigationParent';
-import NavigationStudent from './components/NavigationStudent';
-import NavigationTutor from './components/NavigationTutor';
 import ParentOnboarding from './components/ParentOnboarding';
 import StudentOnboarding from './components/StudentOnboarding';
 import TutorOnboarding from './components/TutorOnboarding';

@@ -3,12 +3,9 @@ import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
 import TextField from '../../../components/form/TextField';
-import MySelectField, { OptionType } from '../../../components/form/MySelectField';
+import MySelect from '../../../components/form/MySelectField';
 import { countryInput } from '../../../constants/countryInput';
 import { countryOption } from '../../../constants/countryOption';
-import MySelect from '../../../components/form/MySelectField';
-import { ICountry, useLazyGetCountriesQuery } from '../../onboarding/services/countryService';
-import { useEffect, useState } from 'react';
 
 interface Props {
   sideBarIsOpen: boolean;

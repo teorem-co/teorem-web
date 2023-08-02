@@ -2,7 +2,10 @@ import { t } from 'i18next';
 import moment from 'moment';
 
 import IBooking from '../interfaces/IBooking';
-import { useAcceptBookingMutation, useDeleteBookingMutation } from '../services/bookingService';
+import {
+  useAcceptBookingMutation,
+  useDeleteBookingMutation,
+} from '../services/bookingService';
 
 interface IProps {
     handleClose?: (close: boolean) => void;
@@ -62,7 +65,7 @@ const TutorEventModal: React.FC<IProps> = (props) => {
                         <div className="flex flex--center mb-4">
                             <i className="icon icon--base icon--subject icon--grey mr-4"></i>
                             <div className="type--color--secondary">
-                                {t(`SUBJECTS.${event.Subject.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)} - 
+                                {t(`SUBJECTS.${event.Subject.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)} -
                                 {t(`LEVELS.${event.Level.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
                             </div>
                         </div>
@@ -95,7 +98,7 @@ const TutorEventModal: React.FC<IProps> = (props) => {
                                     {event.isAccepted ? t('MY_BOOKINGS.MODAL.DELETE') : t('MY_BOOKINGS.MODAL.DENY')}
                                 </button>
 
-                                {/* 
+                                {/*
                                 //COMING SOON
                                 <button className="btn btn--base btn--clear type--wgt--extra-bold">{t('MY_BOOKINGS.MODAL.PROPOSE')}</button> */}
                             </>

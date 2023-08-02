@@ -1,9 +1,10 @@
-import { InteractionMode } from 'chart.js';
-import i18n, { t } from 'i18next';
+import { t } from 'i18next';
 
 import { baseService } from '../app/baseService';
-import IProgressProfile from '../app/features/my-profile/interfaces/IProgressProfile';
-import IUpdateAdditionalInfo from '../app/features/my-profile/interfaces/IUpdateAdditionalInfo';
+import IProgressProfile
+  from '../app/features/my-profile/interfaces/IProgressProfile';
+import IUpdateAdditionalInfo
+  from '../app/features/my-profile/interfaces/IUpdateAdditionalInfo';
 import { HttpMethods } from '../app/lookups/httpMethods';
 import { getAppState } from '../app/utils/getAppState';
 import IParams from '../interfaces/IParams';

@@ -1,23 +1,30 @@
 import { t } from 'i18next';
 import { groupBy } from 'lodash';
 import moment from 'moment';
-import TimePicker from 'rc-time-picker';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { Link, NavLink } from 'react-router-dom';
-import { io } from 'socket.io-client';
-
-import note from '../../../assets/images/note.png';
 import INotification from '../../../interfaces/notification/INotification';
-import ISocketNotification from '../../../interfaces/notification/ISocketNotification';
-import { useLazyGetAllUnreadNotificationsQuery, useMarkAllAsReadMutation } from '../../../services/notificationService';
-import { useLazyGetDashboardQuery, useLazyGetUserQuery } from '../../../services/userService';
+import ISocketNotification
+  from '../../../interfaces/notification/ISocketNotification';
+import {
+  useLazyGetAllUnreadNotificationsQuery,
+  useMarkAllAsReadMutation,
+} from '../../../services/notificationService';
+import {
+  useLazyGetDashboardQuery,
+  useLazyGetUserQuery,
+} from '../../../services/userService';
 import { RoleOptions } from '../../../slices/roleSlice';
 import MainWrapper from '../../components/MainWrapper';
 import { useAppSelector } from '../../hooks';
 import { PATHS, PROFILE_PATHS } from '../../routes';
-import { IChatMessage, IChatRoom, ISendChatMessage, setActiveChatRoomById } from '../chat/slices/chatSlice';
+import {
+  IChatRoom,
+  ISendChatMessage,
+  setActiveChatRoomById,
+} from '../chat/slices/chatSlice';
 import IBooking from '../my-bookings/interfaces/IBooking';
 import LearnCubeModal from '../my-profile/components/LearnCubeModal';
 import NotificationItem from '../notifications/components/NotificationItem';

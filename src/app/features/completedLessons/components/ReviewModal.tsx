@@ -9,7 +9,9 @@ import TextField from '../../../components/form/TextField';
 import toastService from '../../../services/toastService';
 import ICompletedLesson from '../../my-bookings/interfaces/ICompletedLesson';
 import IAddReview from '../../myReviews/interfaces/IAddReview';
-import { useAddReviewMutation } from '../../myReviews/services/myReviewsService';
+import {
+  useAddReviewMutation,
+} from '../../myReviews/services/myReviewsService';
 
 interface Props {
     activeLesson: ICompletedLesson | null;

@@ -1,10 +1,13 @@
-import { FieldAttributes, FieldInputProps, useField } from 'formik';
+import { FieldAttributes, useField } from 'formik';
 import { t } from 'i18next';
 import { FC, useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { resetTutorImageUploadState, setFile } from '../../slices/tutorImageUploadSlice';
+import {
+  resetTutorImageUploadState,
+  setFile,
+} from '../../slices/tutorImageUploadSlice';
 
 interface PreviewFileType {
     preview: string | null;

@@ -6,17 +6,18 @@ import { Link } from 'react-router-dom';
 import note from '../../../assets/images/note.png';
 import { RoleOptions } from '../../../slices/roleSlice';
 import MainWrapper from '../../components/MainWrapper';
-import LoaderAvailableLessons from '../../components/skeleton-loaders/LoaderAvailableLessons';
-import completedLessonsList, { IVideoLesson } from '../../constants/completedLessonsList';
+import LoaderAvailableLessons
+  from '../../components/skeleton-loaders/LoaderAvailableLessons';
 import { useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
 import { useLazyGetRecordedRoomsQuery } from '../../services/learnCubeService';
 import ICompletedLesson from '../my-bookings/interfaces/ICompletedLesson';
-import { useLazyGetCompletedLessonsQuery } from '../my-bookings/services/bookingService';
+import {
+  useLazyGetCompletedLessonsQuery,
+} from '../my-bookings/services/bookingService';
 import CompletedLessonsItem from './components/CompletedLessonsItem';
 import GroupedLessons from './components/GroupedLessons';
 import ReviewModal from './components/ReviewModal';
-import VideoLessonItem from './components/VideoLessonItem';
 
 const CompletedLessons = () => {
   const [getCompletedLessons, { isLoading: listLoading, isUninitialized: listUninitialized }] = useLazyGetCompletedLessonsQuery();
@@ -170,7 +171,7 @@ const CompletedLessons = () => {
                                             <div className="dash-wrapper">
                                                 {completedLessonsList[0].lessons.map((videoLesson: IVideoLesson) => {
                                                     return <VideoLessonItem key={videoLesson.id} videoLesson={videoLesson} />;
-                                                })} 
+                                                })}
                                             </div>
                                         */}
                     <div className="card card--primary w--100 pl-6">

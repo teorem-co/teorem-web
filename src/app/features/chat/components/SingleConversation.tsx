@@ -9,40 +9,39 @@ import { useLazyGetUserQuery } from '../../../../services/userService';
 import { useAppSelector } from '../../../hooks';
 import { Role } from '../../../lookups/role';
 import { PATHS } from '../../../routes';
-import { useLazyGetFreeConsultationLinkQuery } from '../../../services/learnCubeService';
-import { IChatMessagesQuery, useLazyGetChatMessagesQuery } from '../services/chatService';
 import {
-    addChatRoom,
-    getMessagesById,
-    IChatRoom,
-    ISendChatMessage,
-    readMessages,
-    setConsultationInitialized,
-    setFreeConsultation,
-    setLink,
+  useLazyGetFreeConsultationLinkQuery,
+} from '../../../services/learnCubeService';
+import {
+  IChatMessagesQuery,
+  useLazyGetChatMessagesQuery,
+} from '../services/chatService';
+import {
+  addChatRoom,
+  getMessagesById,
+  IChatRoom,
+  ISendChatMessage,
+  readMessages,
+  setConsultationInitialized,
+  setFreeConsultation,
+  setLink,
 } from '../slices/chatSlice';
 import SendMessageForm from './SendMessageForm';
 import ImageCircle from '../../../components/ImageCircle';
-import { useLazyGetTutorProfileDataQuery } from '../../../../services/tutorService';
+import {
+  useLazyGetTutorProfileDataQuery,
+} from '../../../../services/tutorService';
 import 'react-tooltip/dist/react-tooltip.css';
 import { Tooltip } from 'react-tooltip';
-import { saveAs } from 'file-saver';
-import "bootstrap-icons/font/bootstrap-icons.css";
+import 'bootstrap-icons/font/bootstrap-icons.css';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../../../styles/base/vars.scss';
-
-import { POSITION } from 'react-toastify/dist/utils';
-import { IoCheckmarkCircleOutline, IoCheckmarkDone, IoCheckmarkDoneCircleSharp } from 'react-icons/io5';
 import {
-    BsCheck,
-    BsCheckAll,
-    BsDownload,
-    BsFileEarmark,
-    BsFileEarmarkFill,
-    BsFillFileEarmarkFill,
+  BsCheck,
+  BsCheckAll,
+  BsDownload,
+  BsFillFileEarmarkFill,
 } from 'react-icons/bs';
-import { FaFileDownload } from 'react-icons/fa';
-import { BiCheckCircle } from 'react-icons/bi';
 
 interface Props {
     data: IChatRoom | null;
@@ -83,7 +82,7 @@ const SingleConversation = (props: Props) => {
     const dispatch = useDispatch();
 
     const scrollToBottomSmooth = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     };
 
     let lastMessageUserId: string = '';
@@ -262,7 +261,7 @@ const SingleConversation = (props: Props) => {
                 messages: [message],
                 unreadMessageCount: 0,
             };
-            
+
             dispatch(addChatRoom(chatRoom));
 
             /*chat.socket.emit('onMissedFreeConsultation', {

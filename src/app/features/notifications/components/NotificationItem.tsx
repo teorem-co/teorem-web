@@ -2,10 +2,13 @@ import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
-import { isBreakStatement, setConstantValue } from 'typescript';
 
-import INotification, { NotificationType } from '../../../../interfaces/notification/INotification';
-import { useMarkAsReadMutation } from '../../../../services/notificationService';
+import INotification, {
+  NotificationType,
+} from '../../../../interfaces/notification/INotification';
+import {
+  useMarkAsReadMutation,
+} from '../../../../services/notificationService';
 import { PATHS } from '../../../routes';
 
 interface Props {

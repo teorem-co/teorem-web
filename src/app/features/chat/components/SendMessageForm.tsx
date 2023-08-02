@@ -1,13 +1,10 @@
-import { useEffect, useRef, useState } from "react";
-import { useDropzone } from "react-dropzone";
-import { useDispatch } from "react-redux";
+import { useEffect, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
-import { useAppSelector } from "../../../hooks";
-import { usePostUploadFileMutation } from "../services/chatService";
-import { addMessage, IChatRoom, ISendChatMessage } from "../slices/chatSlice";
-import { saveAs } from 'file-saver';
+import { useAppSelector } from '../../../hooks';
+import { usePostUploadFileMutation } from '../services/chatService';
+import { addMessage, IChatRoom, ISendChatMessage } from '../slices/chatSlice';
 import { ImAttachment } from 'react-icons/im';
-import { IconContext } from "react-icons";
 
 interface Props {
     data: IChatRoom | null;

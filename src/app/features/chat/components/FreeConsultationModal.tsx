@@ -1,7 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
-import { useAppSelector } from '../../../hooks';
-import { useLazyGetRoomLinkQuery } from '../../../services/learnCubeService';
 
 interface Props {
     handleClose: () => void;

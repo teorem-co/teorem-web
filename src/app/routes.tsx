@@ -1,7 +1,13 @@
 import { t } from 'i18next';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { matchPath, NavLink, Redirect, Route, Switch, useHistory } from 'react-router-dom';
+import {
+  matchPath,
+  NavLink,
+  Route,
+  Switch,
+  useHistory,
+} from 'react-router-dom';
 
 import languageOptions from './constants/languageOptions';
 import { SEO } from './constants/seo';
@@ -13,11 +19,14 @@ import ForgotPassword from './features/forgot-password/ForgotPassword';
 import ResetPassword from './features/forgot-password/ResetPassword';
 import Login from './features/login/Login';
 import MyBookings from './features/my-bookings/MyBookings';
-import AdditionalInformation from './features/my-profile/pages/AdditionalInformation';
+import AdditionalInformation
+  from './features/my-profile/pages/AdditionalInformation';
 import ChildInformations from './features/my-profile/pages/ChildInformations';
-import GeneralAvailability from './features/my-profile/pages/GeneralAvailability';
+import GeneralAvailability
+  from './features/my-profile/pages/GeneralAvailability';
 import MyTeachings from './features/my-profile/pages/MyTeachings';
-import PersonalInformation from './features/my-profile/pages/PersonalInformation';
+import PersonalInformation
+  from './features/my-profile/pages/PersonalInformation';
 import ProfileAccount from './features/my-profile/pages/ProfileAccount';
 import MyReviews from './features/myReviews/MyReviews';
 import Notifications from './features/notifications/Notifications';
@@ -38,9 +47,7 @@ import StripeFail from './pages/StripeFail';
 import PermissionsGate from './PermissionGate';
 import { getUserRoleAbrv } from './utils/getUserRoleAbrv';
 import { setLang } from '../slices/langSlice';
-import IUser from '../interfaces/IUser';
 import { Badge } from '@mui/material';
-import classes from '*.module.sass';
 
 export const PATHS = {
   ROLE_SELECTION: t('PATHS.ROLE_SELECTION'),

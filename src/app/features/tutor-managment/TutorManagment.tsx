@@ -1,18 +1,17 @@
-import { Form, FormikProvider, useFormik } from 'formik';
-import { networkInterfaces, userInfo } from 'os';
 import { useEffect, useRef, useState } from 'react';
-import { Navigate } from 'react-big-calendar';
 import { useTranslation } from 'react-i18next';
-import { Link, useHistory } from "react-router-dom";
-
-import searchIcon from '../../../assets/icons/search-tutors.svg';
+import { Link, useHistory } from 'react-router-dom';
 import IParams from '../../../interfaces/IParams';
-import { useApproveTutorMutation, useDeleteTutorMutation, useDenyTutorMutation, useLazyGetTutorsQuery, useLazySearchTutorsQuery } from '../../../services/tutorService';
-import TextField from '../../components/form/TextField';
+import {
+  useApproveTutorMutation,
+  useDeleteTutorMutation,
+  useDenyTutorMutation,
+  useLazyGetTutorsQuery,
+  useLazySearchTutorsQuery,
+} from '../../../services/tutorService';
 import MainWrapper from '../../components/MainWrapper';
 import Sidebar from '../../components/Sidebar';
 import LoaderTutor from '../../components/skeleton-loaders/LoaderTutor';
-import { useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
 
 const TutorManagment = () => {

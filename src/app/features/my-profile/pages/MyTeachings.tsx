@@ -2,7 +2,10 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 
-import { useLazyGetProfileProgressQuery, useLazyGetTutorProfileDataQuery } from '../../../../services/tutorService';
+import {
+  useLazyGetProfileProgressQuery,
+  useLazyGetTutorProfileDataQuery,
+} from '../../../../services/tutorService';
 import MainWrapper from '../../../components/MainWrapper';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
@@ -51,7 +54,7 @@ const MyTeachings = () => {
 
             const tutorCurrency = await (await getProfileData(tutorId).unwrap()).User.Country.currencyCode;
             setCurrency(tutorCurrency);
-            
+
             //If there is no state in redux for profileProgress fetch data and save result to redux
             if (profileProgressState.percentage === 0) {
                 const progressResponse = await getProfileProgress().unwrap();

@@ -1,28 +1,32 @@
-import {Form, FormikProvider, useFormik} from 'formik';
-import { cloneDeep, values } from 'lodash';
+import { Form, FormikProvider, useFormik } from 'formik';
+import { cloneDeep } from 'lodash';
 import moment from 'moment';
-import {useEffect, useRef, useState} from 'react';
-import {useTranslation} from 'react-i18next';
+import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
-import {IChild} from '../../../../interfaces/IChild';
+import { IChild } from '../../../../interfaces/IChild';
 import {
   useCheckUsernameMutation,
   useGenerateChildUsernameMutation,
-  useRegisterParentMutation
+  useRegisterParentMutation,
 } from '../../../../services/authService';
-import {resetParentRegister, setChildList, setStepOne} from '../../../../slices/parentRegisterSlice';
-import {resetStudentRegister} from '../../../../slices/studentRegisterSlice';
-import {resetTutorRegister} from '../../../../slices/tutorRegisterSlice';
+import {
+  resetParentRegister,
+  setChildList,
+  setStepOne,
+} from '../../../../slices/parentRegisterSlice';
+import { resetStudentRegister } from '../../../../slices/studentRegisterSlice';
+import { resetTutorRegister } from '../../../../slices/tutorRegisterSlice';
 import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyPhoneInput from '../../../components/form/MyPhoneInput';
-import {OptionType} from '../../../components/form/MySelectField';
+import { OptionType } from '../../../components/form/MySelectField';
 import TextField from '../../../components/form/TextField';
 import ImageCircle from '../../../components/ImageCircle';
-import {useAppDispatch, useAppSelector} from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import useOutsideAlerter from '../../../utils/useOutsideAlerter';
 import TooltipPassword from '../../register/TooltipPassword';
-import {ICountry, useLazyGetCountriesQuery} from '../services/countryService';
+import { ICountry, useLazyGetCountriesQuery } from '../services/countryService';
 
 interface StepOneValues {
   firstName: string;

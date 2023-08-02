@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import { IProps, ContextType } from "../../../../interfaces/IVideoChat";
-import { SocketContext } from "../contexts/Context";
+import { ContextType, IProps } from '../../../../interfaces/IVideoChat';
+import { SocketContext } from '../contexts/Context';
 
 
 const VideoPlayer = (props: IProps) => {
