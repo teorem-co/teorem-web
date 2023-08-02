@@ -193,13 +193,13 @@ export const tutorService = baseService.injectEndpoints({
         }),
         disableTutor: builder.query<void, void>({
             query: () => ({
-                url: `${URL}/disable-tutor`,
+                url: `${URL}/disable`,
                 method: HttpMethods.PUT,
             }),
         }),
         enableTutor: builder.query<void, void>({
             query: () => ({
-                url: `${URL}/enable-tutor`,
+                url: `${URL}/enable`,
                 method: HttpMethods.PUT,
             }),
         }),
