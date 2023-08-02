@@ -17,7 +17,7 @@ const CompletedLessonsItem = (props: Props) => {
             className={`lessons-list__item ${activeLesson === lesson.id ? 'active' : ''}`}
             onClick={() => handleActiveLessons(lesson.id)}
         >
-            <img className="lessons-list__item__img" src={'https://' + lesson.Tutor.User.profileImage} alt="tutor profile picture" />
+            <img className="lessons-list__item__img" src={ lesson.Tutor.User.profileImage} alt="tutor profile picture" />
             <div className="lessons-list__item__info">
                 <div className="type--wgt--bold">
                     {lesson.Tutor.User.firstName}&nbsp;{lesson.Tutor.User.lastName}

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { IChatConversation } from '../../../constants/chatConstants';
+import ImageCircle from '../../../components/ImageCircle';
 
 interface Props {
   data: IChatConversation;

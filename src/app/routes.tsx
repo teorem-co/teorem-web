@@ -587,16 +587,18 @@ export function RenderMenuLinks() {
 
   const [showBadge, setShowBadge] = useState(false);
   const [doAnimation, setDoAnimation] = useState(true);
+  const [oldNumOfNewMessages, setoldNumOfNewMessages] = useState(chat.newMessages);
   // Function to trigger the badge pop-up animation
 
   useEffect(() => {
+    console.log("NEW MESSAGES UPDATED", chat.newMessages);
     if(chat.newMessages){
 
         if(chat.newMessages == 0){
           setDoAnimation(true);
         }
 
-        if(chat.newMessages > 0 && doAnimation){
+        if(chat.newMessages > 0 && doAnimation && oldNumOfNewMessages != chat.newMessages){
           setShowBadge(true);
 
           setTimeout(() => {
@@ -604,6 +606,7 @@ export function RenderMenuLinks() {
           }, 1800);
 
           setDoAnimation(false);
+          setoldNumOfNewMessages(chat.newMessages);
       }
     }
   }, [chat.newMessages]);

@@ -60,7 +60,7 @@ const UploadFile: FC<UploadFileType> = ({ setFieldValue, removePreviewOnUnmount,
             <div className="flex flex--center">
                 {preview.preview || props.imagePreview ? (
                     <aside className="upload__images mr-6">
-                        <img alt="profile" src={preview.preview || 'https://' + props.imagePreview} />
+                        <img alt="profile" src={preview.preview ||  props.imagePreview} />
                     </aside>
                 ) : (
                     <div className="upload__placeholder">

@@ -101,7 +101,7 @@ const AsideWrapper = (props: Props) => {
                 imgUrl:
                   (user?.id != chatConversationItem.user?.userId
                     ? false
-                    : 'https://' + chatConversationItem.tutor?.userImage),
+                    : chatConversationItem.tutor?.userImage),
                 name:
                   (user?.id != chatConversationItem.user?.userId
                     ? chatConversationItem.user?.userNickname
@@ -126,7 +126,7 @@ const AsideWrapper = (props: Props) => {
                 imgUrl:
                   (user?.id != chatConversationItem.user?.userId
                     ? false
-                    : 'https://' + chatConversationItem.tutor?.userImage),
+                    : chatConversationItem.tutor?.userImage),
                 name:
                   (user?.id != chatConversationItem.user?.userId
                     ? chatConversationItem.user?.userNickname
@@ -167,7 +167,7 @@ const AsideWrapper = (props: Props) => {
                 imgUrl:
                   (user?.id != chatConversationItem.user?.userId
                     ? false
-                    : 'https://' + chatConversationItem.tutor?.userImage),
+                    : chatConversationItem.tutor?.userImage),
                 name:
                   (user?.id != chatConversationItem.user?.userId
                     ? chatConversationItem.user?.userNickname
@@ -192,7 +192,7 @@ const AsideWrapper = (props: Props) => {
                 imgUrl:
                   (user?.id != chatConversationItem.user?.userId
                     ? false
-                    : 'https://' + chatConversationItem.tutor?.userImage),
+                    :  chatConversationItem.tutor?.userImage),
                 name:
                   (user?.id != chatConversationItem.user?.userId
                     ? chatConversationItem.user?.userNickname

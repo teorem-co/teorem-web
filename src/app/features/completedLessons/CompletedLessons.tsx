@@ -138,7 +138,7 @@ const CompletedLessons = () => {
                       <div className="flex flex--center">
                         <img
                           className="image__profile image__profile--md mr-4"
-                          src={'https://' + activeLesson.Tutor.User.profileImage}
+                          src={activeLesson.Tutor.User.profileImage}
                           alt="tutor profile picture"
                         />
                         <div>

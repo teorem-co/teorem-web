@@ -32,7 +32,7 @@ const SendMessageForm = (props: Props) => {
 
             const text: string = newMessageRef.current?.value + '';
 
-            if (text.length > 0) {
+            if (text.trim().length > 0) {
                 const date = new Date();
 
                 const message: ISendChatMessage = {

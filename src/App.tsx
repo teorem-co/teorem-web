@@ -162,6 +162,7 @@ function App() {
                     isFile: sendMessageObject.isFile,
                     messageNew: sendMessageObject.messageNew,
                     messageMissedCall: sendMessageObject.missedCall,
+                    file: sendMessageObject.file
                 },
                 senderId: sendMessageObject.senderId,
             };

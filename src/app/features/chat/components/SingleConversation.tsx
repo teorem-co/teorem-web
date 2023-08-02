@@ -1,5 +1,5 @@
 import { t } from 'i18next';
-import { debounce } from 'lodash';
+import { debounce, divide } from 'lodash';
 import moment from 'moment';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -473,7 +473,7 @@ const SingleConversation = (props: Props) => {
                   className='chat__conversation__avatar'
                   src={
                     props.data
-                      ? 'https://' +
+                      ?
                       (userActive?.id != props.data.tutor?.userId
                         ? props.data.tutor?.userImage
                         : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')
@@ -665,7 +665,7 @@ const SingleConversation = (props: Props) => {
                         message.senderId == props.data.tutor?.userId ? (
                           <img
                             className='chat__conversation__avatar chat__conversation__avatar--small'
-                            src={'https://' + props.data.tutor?.userImage}
+                            src={props.data.tutor?.userImage}
                             alt={'profile avatar'}
                           />
                         ) : (
@@ -698,11 +698,11 @@ const SingleConversation = (props: Props) => {
                            className='type--right w--80--max'>
                         <div
                           data-tooltip-id='my-tooltip'
-                          data-tooltip-html={`Sent: ${messageTime} <br/>${message.message.isFile ? `File name: ${message.message.message}` : ''}`}
+                          data-tooltip-html={`Sent: ${messageTime} <br/>${message.message.isFile || message.message.file? `File name: ${message.message.message}` : ''}`}
                           key={`sub-sub-sub-${index}`}
                           className={`d-inline-flex  chat__message__item chat__message__item__end chat__message__item--logged${message.message.isFile ? ' chat-file-outline' : ''}`}
                         >{
-                          (message.message.isFile ?
+                          (message.message.isFile || message.message.file ?
 
                               <div className='file-message-container'>
 
@@ -780,7 +780,7 @@ const SingleConversation = (props: Props) => {
                       message.senderId == props.data.tutor?.userId ? (
                         <img
                           className='chat__conversation__avatar chat__conversation__avatar--small'
-                          src={'https://' + props.data.tutor?.userImage}
+                          src={ props.data.tutor?.userImage}
                           alt={'profile avatar'}
                         />
                       ) : (
@@ -798,12 +798,12 @@ const SingleConversation = (props: Props) => {
                     <div key={`sub-sub-${index}`} className='w--80--max'>
                       <div
                         data-tooltip-id='my-tooltip'
-                        data-tooltip-html={`Sent: ${messageTime} <br/>${message.message.isFile ? `File name: ${message.message.message}` : ''}`}
+                        data-tooltip-html={`Sent: ${messageTime} <br/>${message.message.isFile || message.message.file? `File name: ${message.message.message}` : ''}`}
                         key={`sub-sub-sub-${index}`}
-                        className={`chat__message__item chat__message__item--other${message.message.isFile ? ' chat-file-outline' : ''}`}
+                        className={`chat__message__item chat__message__item--other${message.message.isFile || message.message.file ? ' chat-file-outline' : ''}`}
                       >
                         {
-                          (message.message.isFile ?
+                          (message.message.isFile || message.message.file ?
                               <div className='file-message-container'>
                                 <BsFillFileEarmarkFill
                                   className='text-primary align-self-center' />

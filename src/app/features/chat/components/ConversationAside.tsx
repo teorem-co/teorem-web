@@ -64,9 +64,11 @@ const ConversationAside = (props: Props) => {
     <div
       className={`chat__conversation${props.active ? ' chat__conversation__active' : ''}`}
       onClick={selectChat} style={{ position: 'relative' }}>
-      {typeof imgUrl === 'string' ? (
-        <img className='chat__conversation__avatar' src={imgUrl}
-             alt='user avatar' />) : (
+      {(typeof imgUrl === 'string' && imgUrl) ? (
+          <img className='chat__conversation__avatar'
+               src={imgUrl}
+               alt='user avatar' />
+      ) : (
         <ImageCircle
           initials={`${props.chat.user?.userNickname.split(' ')[0].charAt(0)}${props.chat.user?.userNickname.split(' ')[1].charAt(0)}`} />
       )}
