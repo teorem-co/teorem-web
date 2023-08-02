@@ -3,8 +3,8 @@ name: Azure Static Web Apps CI/CD
 on:
   push:
     branches:
-      - dev-develop
-      - deploy
+      - develop
+      - dev-deploy
   workflow_dispatch:
 
 
