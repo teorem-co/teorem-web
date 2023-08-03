@@ -74,7 +74,7 @@ const Navbar = () => {
                         ? PATHS.TUTOR_MANAGMENT
                         : user?.Role?.abrv === RoleOptions.Tutor
                         ? PATHS.DASHBOARD
-                        : PATHS.MY_BOOKINGS
+                        : PATHS.DASHBOARD
                 }`}
             >
                 <img className="navbar__logo" src={logo} alt="logo" />
