@@ -222,12 +222,6 @@ export const tutorService = baseService.injectEndpoints({
                 method: HttpMethods.PUT,
             }),
         }),
-      getTutorVerified: builder.mutation<ITutorVerified, any>({
-        query: (tutorId) =>({
-          url: `${URL}/check-verified?tutorId=${tutorId}`,
-          method: HttpMethods.GET,
-        })
-      })
     }),
 });
 
@@ -250,7 +244,6 @@ export const {
     useEditTutorMutation,
     useDisconnectStripeTutorMutation,
     useLazyGetTutorIdByTutorSlugQuery,
-    useGetTutorVerifiedMutation
 } = tutorService;
 
 export function getUserRoleAbbrv() {
