@@ -72,8 +72,10 @@ const AsideWrapper = (props: Props) => {
     }
   };
 
-  return (
-    <div className='card--chat__aside'>
+  const cacheBuster = new Date();
+
+    return (
+        <div className='card--chat__aside'>
       <div className='p-4'>
         <div className='type--wgt--bold type--lg'>Chat</div>
         <input ref={searchInputRef} type='text' onKeyUp={onSearch}
@@ -97,21 +99,21 @@ const AsideWrapper = (props: Props) => {
                   : `${chatConversationItem.tutor?.userNickname}`;
               });
 
-              const chatConversation = {
-                imgUrl:
-                  (user?.id != chatConversationItem.user?.userId
-                    ? false
-                    : chatConversationItem.tutor?.userImage),
-                name:
-                  (user?.id != chatConversationItem.user?.userId
-                    ? chatConversationItem.user?.userNickname
-                    : chatConversationItem.tutor?.userNickname) + '',
-                lastMessage: messageText,
-                lastMessageTime: moment(chatConversationItem.messages[chatConversationItem.messages.length - 1].message.createdAt)
-                  .format('DD MMM YYYY')
-                  .replace('.', ''),
-                unread: chatConversationItem.unreadMessageCount > 0,
-              };
+                              const chatConversation = {
+                                  imgUrl:
+                                      (user?.id != chatConversationItem.user?.userId
+                                          ? false
+                                          :  `${chatConversationItem.tutor?.userImage}&v=${cacheBuster}`),
+                                  name:
+                                      (user?.id != chatConversationItem.user?.userId
+                                          ? chatConversationItem.user?.userNickname
+                                          : chatConversationItem.tutor?.userNickname) + '',
+                                  lastMessage: messageText,
+                                  lastMessageTime: moment(chatConversationItem.messages[chatConversationItem.messages.length - 1].message.createdAt)
+                                      .format('DD MMM YYYY')
+                                      .replace('.', ''),
+                                  unread: chatConversationItem.unreadMessageCount > 0,
+                              };
 
               return chatConversationItem.tutor?.userId == activeChat?.tutor?.userId &&
               chatConversationItem.user?.userId == activeChat?.user?.userId ? (
