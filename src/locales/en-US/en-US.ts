@@ -475,6 +475,10 @@ export const EN_US = {
         TITLE: "Complete your profile!",
         DESCRIPTION: "Please complete the rest of your profile data to start tutoring.",
     },
+    TUTOR_VERIFIED_NOTE: {
+      TITLE: "Your account must be verified by the administrator before it can be displayed in search results.",
+      DESCRIPTION: "You will receive an email with updates on your account status."
+    },
     ACCOUNT: {
         CHANGE_PASSWORD: {
             TITLE: 'Change password',

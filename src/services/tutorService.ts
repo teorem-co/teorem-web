@@ -38,11 +38,17 @@ interface IBookingTransformed {
     isAccepted?: boolean;
 }
 
+interface ITutorVerified {
+  verified: boolean
+}
+
 // interface ICreateTutorSubject {}
 
 const URL = 'api/v1/tutors';
 const BOOKING_URL = 'api/v1/bookings';
 const TUTOR_MANAGEMENT_URL = 'api/v1/tutor-management';
+
+
 
 export const tutorService = baseService.injectEndpoints({
     endpoints: (builder) => ({
@@ -216,6 +222,12 @@ export const tutorService = baseService.injectEndpoints({
                 method: HttpMethods.PUT,
             }),
         }),
+      getTutorVerified: builder.mutation<ITutorVerified, any>({
+        query: (tutorId) =>({
+          url: `${URL}/check-verified?tutorId=${tutorId}`,
+          method: HttpMethods.GET,
+        })
+      })
     }),
 });
 
@@ -238,6 +250,7 @@ export const {
     useEditTutorMutation,
     useDisconnectStripeTutorMutation,
     useLazyGetTutorIdByTutorSlugQuery,
+    useGetTutorVerifiedMutation
 } = tutorService;
 
 export function getUserRoleAbbrv() {

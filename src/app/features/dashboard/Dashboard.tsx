@@ -30,7 +30,7 @@ import LearnCubeModal from '../my-profile/components/LearnCubeModal';
 import NotificationItem from '../notifications/components/NotificationItem';
 import CircularProgress from '../my-profile/components/CircularProgress';
 import { setMyProfileProgress } from '../my-profile/slices/myProfileSlice';
-import { useLazyGetProfileProgressQuery } from '../../../services/tutorService';
+import { useLazyGetProfileProgressQuery, useGetTutorVerifiedMutation } from '../../../services/tutorService';
 
 interface IGroupedDashboardData {
     [date: string]: IBooking[];
@@ -43,6 +43,7 @@ const Dashboard = () => {
     const [getUserById0, { data: userDataFirst }] = useLazyGetUserQuery();
     const [getUserById1, { data: userDataSecond }] = useLazyGetUserQuery();
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
+    const [getTutorVerified, {data: tutorVerified }] = useGetTutorVerifiedMutation();
 
     const [groupedUpcomming, setGroupedUpcomming] = useState<IGroupedDashboardData>({});
     const [todayScheduled, setTodayScheduled] = useState<IBooking[]>([]);
@@ -68,6 +69,10 @@ const Dashboard = () => {
             const progressResponse = await getProfileProgress().unwrap();
             dispatch(setMyProfileProgress(progressResponse));
         }
+    };
+
+    const fetchVerified = async () =>{
+      dispatch(getTutorVerified(userId));
     };
 
     const fetchData = async () => {
@@ -118,6 +123,9 @@ const Dashboard = () => {
 
     useEffect(() => {
         fetchProgress();
+
+        if(userRole == RoleOptions.Tutor)
+          fetchVerified();
     }, []);
 
     useEffect(() => {
@@ -248,6 +256,12 @@ const Dashboard = () => {
         <MainWrapper>
             <div className="layout--primary">
                 <div>
+                  {userRole === RoleOptions.Tutor && tutorVerified && !tutorVerified.verified ? (
+                    <div className="flex flex--col flex--jc--center mb-2 pb-2" style={{ borderRadius: '0.5em', backgroundColor:'#F27E6C'}}>
+                      <h4 className="type--md mb-2 ml-6">{t(`TUTOR_VERIFIED_NOTE.TITLE`)}</h4>
+                      <p className="ml-6">{t(`TUTOR_VERIFIED_NOTE.DESCRIPTION`)}</p>
+                    </div>
+                  ) : null}
                         {userRole == RoleOptions.Tutor && profileProgressState.percentage && profileProgressState.percentage < 100 ? (
                             <div className="card--dashboard mb-6">
                                 <div>
