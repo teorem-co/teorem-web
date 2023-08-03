@@ -14,7 +14,7 @@ interface Props {
 
 const ConversationAside = (props: Props) => {
   const { t } = useTranslation();
-  const { imgUrl, name, lastMessage, lastMessageTime, unread } = props.data;
+  const { imgUrl, name, lastMessage, lastMessageTime, unread, numberOfUnread } = props.data;
 
   const messageRef = useRef<HTMLDivElement>(null);
 
@@ -65,9 +65,9 @@ const ConversationAside = (props: Props) => {
       className={`chat__conversation${props.active ? ' chat__conversation__active' : ''}`}
       onClick={selectChat} style={{ position: 'relative' }}>
       {(typeof imgUrl === 'string' && imgUrl) ? (
-          <img className='chat__conversation__avatar'
-               src={imgUrl}
-               alt='user avatar' />
+        <img className='chat__conversation__avatar'
+             src={imgUrl}
+             alt='user avatar' />
       ) : (
         <ImageCircle
           initials={`${props.chat.user?.userNickname.split(' ')[0].charAt(0)}${props.chat.user?.userNickname.split(' ')[1].charAt(0)}`} />
@@ -81,8 +81,18 @@ const ConversationAside = (props: Props) => {
       <div className='flex flex--col flex--jc--center flex--shrink flex--end'>
         <div
           className='type--sm type--color--secondary mt-3'>{lastMessageTime}</div>
-        <div>{unread &&
-          <div className='chat__conversation__dot mt-3'></div>}</div>
+        <div>
+          {unread &&
+            <div className='chat__conversation__dot mt-3'>
+            </div>
+          }
+
+          {/*<div className="chat-circle-message-count-container">*/}
+          {/*  <div className="chat-circle-message-count-circle">*/}
+          {/*    <span className="chat-circle-message-count-number">{numberOfUnread}</span>*/}
+          {/*  </div>*/}
+          {/*</div>*/}
+        </div>
       </div>
     </div>
   );
