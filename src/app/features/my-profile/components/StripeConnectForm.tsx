@@ -6,6 +6,8 @@ import TextField from '../../../components/form/TextField';
 import { useConnectAccountMutation } from '../services/stripeService';
 import { useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
+import { useState } from 'react';
+import { ScaleLoader } from 'react-spinners';
 
 interface StripeConnectFormProps {
   sideBarIsOpen: boolean;
@@ -128,6 +130,7 @@ function StripeConnectForm({ sideBarIsOpen, closeSidebar, onConnect }: StripeCon
   const { t } = useTranslation();
   const [connectAccount, { isSuccess, isLoading, data }] = useConnectAccountMutation();
   const user = useAppSelector((state) => state.auth.user);
+  const [loading, setLoading] = useState(false);
   const formik = useFormik({
     initialValues: {
       addressLine1: '',
@@ -165,6 +168,7 @@ function StripeConnectForm({ sideBarIsOpen, closeSidebar, onConnect }: StripeCon
         .required('IBAN confirmation is required'),
     }),
     onSubmit: async (values) => {
+      setLoading(true);
       await connectAccount({
         ...values,
         userId: user!.id,
@@ -174,13 +178,16 @@ function StripeConnectForm({ sideBarIsOpen, closeSidebar, onConnect }: StripeCon
           onConnect(res);
           toastService.success(t('STRIPE_CONNECT.SUCCESS'));
         })
-        .then(() => formik.resetForm());
+        .then(() => {
+          formik.resetForm();
+          setLoading(false);
+          closeSidebar();
+        });
     },
   });
   return (
     <div>
       <div className={`cur--pointer sidebar__overlay ${!sideBarIsOpen ? 'sidebar__overlay--close' : ''}`} onClick={closeSidebar}></div>
-
       <div className={`sidebar sidebar--secondary sidebar--secondary ${!sideBarIsOpen ? 'sidebar--secondary--close' : ''}`}>
         <div className="flex--primary flex--shrink">
           <div className="type--color--secondary">{t('STRIPE_CONNECT.TITLE')}</div>
@@ -228,6 +235,9 @@ function StripeConnectForm({ sideBarIsOpen, closeSidebar, onConnect }: StripeCon
                 <TextField name="IBANConfirm" id="IBANConfirmField" />
               </div>
               <div dangerouslySetInnerHTML={{ __html: t('STRIPE_CONNECT.TERMS') }} />
+              <div className="flex flex--center align-self-center mt-3">
+                <ScaleLoader color={'#7e6cf2'} loading={loading} style={{margin: '0 auto'}}/>
+              </div>
             </Form>
           </FormikProvider>
         </div>
@@ -237,7 +247,6 @@ function StripeConnectForm({ sideBarIsOpen, closeSidebar, onConnect }: StripeCon
               className="btn btn--primary btn--base type--wgt--extra-bold"
               onClick={() => {
                 formik.handleSubmit();
-                closeSidebar();
               }}
             >
               {t('STRIPE_CONNECT.SAVE')}
