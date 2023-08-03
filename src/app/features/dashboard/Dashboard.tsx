@@ -257,9 +257,9 @@ const Dashboard = () => {
             <div className="layout--primary">
                 <div>
                   {userRole === RoleOptions.Tutor && tutorVerified && !tutorVerified.verified ? (
-                    <div className="flex flex--col flex--jc--center mb-2 pb-2" style={{ borderRadius: '0.5em', backgroundColor:'#F27E6C'}}>
-                      <h4 className="type--md mb-2 ml-6">{t(`TUTOR_VERIFIED_NOTE.TITLE`)}</h4>
-                      <p className="ml-6">{t(`TUTOR_VERIFIED_NOTE.DESCRIPTION`)}</p>
+                    <div className="flex flex--col flex--jc--center mb-2 p-2" style={{ borderRadius: '0.5em',color: 'white', backgroundColor:'#7e6cf2'}}>
+                      <h4 className="type--md mb-2 ml-6 align-self-center">{t(`TUTOR_VERIFIED_NOTE.TITLE`)}</h4>
+                      <p className="ml-6 align-self-center">{t(`TUTOR_VERIFIED_NOTE.DESCRIPTION`)}</p>
                     </div>
                   ) : null}
                         {userRole == RoleOptions.Tutor && profileProgressState.percentage && profileProgressState.percentage < 100 ? (
