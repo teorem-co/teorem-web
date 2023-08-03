@@ -88,11 +88,11 @@ const ConversationAside = (props: Props) => {
             </div>
           }
 
-          <div className="chat-circle-message-count-container">
-            <div className="chat-circle-message-count-circle">
-              <span className="chat-circle-message-count-number">{numberOfUnread}</span>
-            </div>
-          </div>
+          {/*<div className="chat-circle-message-count-container">*/}
+          {/*  <div className="chat-circle-message-count-circle">*/}
+          {/*    <span className="chat-circle-message-count-number">{numberOfUnread}</span>*/}
+          {/*  </div>*/}
+          {/*</div>*/}
         </div>
       </div>
     </div>
