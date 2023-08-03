@@ -475,7 +475,7 @@ export const HR_HR = {
         DESCRIPTION: "Molimo ispunite ostatak podataka o svojem profilu kako bi počeli predavati.",
     },
     TUTOR_VERIFIED_NOTE: {
-      TITLE: "Vaš račun mora potvrditi administrator, prije nego što se može prikazivati u rezultatima pretraživanja!",
+      TITLE: "Vaš račun mora potvrditi administrator, prije nego što se može prikazivati u rezultatima pretraživanja.",
       DESCRIPTION: "Primit ćete e-mail o statusu vašeg računa."
     },
     ACCOUNT: {

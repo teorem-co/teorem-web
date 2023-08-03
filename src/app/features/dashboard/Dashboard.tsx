@@ -30,7 +30,7 @@ import LearnCubeModal from '../my-profile/components/LearnCubeModal';
 import NotificationItem from '../notifications/components/NotificationItem';
 import CircularProgress from '../my-profile/components/CircularProgress';
 import { setMyProfileProgress } from '../my-profile/slices/myProfileSlice';
-import { useLazyGetProfileProgressQuery } from '../../../services/tutorService';
+import { useLazyGetProfileProgressQuery, useGetTutorVerifiedMutation } from '../../../services/tutorService';
 
 interface IGroupedDashboardData {
     [date: string]: IBooking[];
@@ -43,6 +43,7 @@ const Dashboard = () => {
     const [getUserById0, { data: userDataFirst }] = useLazyGetUserQuery();
     const [getUserById1, { data: userDataSecond }] = useLazyGetUserQuery();
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
+    const [getTutorVerified, {data: tutorVerified }] = useGetTutorVerifiedMutation();
 
     const [groupedUpcomming, setGroupedUpcomming] = useState<IGroupedDashboardData>({});
     const [todayScheduled, setTodayScheduled] = useState<IBooking[]>([]);
@@ -68,6 +69,10 @@ const Dashboard = () => {
             const progressResponse = await getProfileProgress().unwrap();
             dispatch(setMyProfileProgress(progressResponse));
         }
+    };
+
+    const fetchVerified = async () =>{
+      dispatch(getTutorVerified(userId));
     };
 
     const fetchData = async () => {
@@ -118,6 +123,9 @@ const Dashboard = () => {
 
     useEffect(() => {
         fetchProgress();
+
+        if(userRole == RoleOptions.Tutor)
+          fetchVerified();
     }, []);
 
     useEffect(() => {
