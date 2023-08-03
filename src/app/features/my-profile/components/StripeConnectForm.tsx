@@ -131,6 +131,8 @@ function StripeConnectForm({ sideBarIsOpen, closeSidebar, onConnect }: StripeCon
   const [connectAccount, { isSuccess, isLoading, data }] = useConnectAccountMutation();
   const user = useAppSelector((state) => state.auth.user);
   const [loading, setLoading] = useState(false);
+  const removeWhitespaces = (value: string) => value.replace(/\s+/g, '');
+
   const formik = useFormik({
     initialValues: {
       addressLine1: '',
@@ -141,10 +143,10 @@ function StripeConnectForm({ sideBarIsOpen, closeSidebar, onConnect }: StripeCon
       IBANConfirm: '',
     },
     validationSchema: yup.object({
-      addressLine1: yup.string().required('Address is required'),
-      addressLine2: yup.string(),
-      postalCode: yup.string().required('Postal code is required'),
-      city: yup.string().required('City is required'),
+      addressLine1: yup.string().required('Address is required').trim(),
+      addressLine2: yup.string().trim(),
+      postalCode: yup.string().required('Postal code is required').trim(),
+      city: yup.string().required('City is required').trim(),
       IBAN: yup
         .string()
         .test('valid-iban', 'IBAN is invalid', function (value) {
@@ -152,6 +154,12 @@ function StripeConnectForm({ sideBarIsOpen, closeSidebar, onConnect }: StripeCon
             return true;
           }
           return isValidIBANNumber(value);
+        })
+        .test('valid-iban', 'IBAN must not contain whitespaces', function(value){
+          if(!value){
+            return false;
+          }
+          return !value?.includes(' ');
         })
         .required('IBAN is required'),
       IBANConfirm: yup
@@ -170,15 +178,18 @@ function StripeConnectForm({ sideBarIsOpen, closeSidebar, onConnect }: StripeCon
     onSubmit: async (values) => {
       setLoading(true);
       await connectAccount({
-        ...values,
+        addressLine1:values.addressLine1,
+        addressLine2: values.addressLine2,
+        postalCode: values.postalCode,
+        city: values.city,
+        IBAN: removeWhitespaces(values.IBAN),
+        IBANConfirm: removeWhitespaces(values.IBANConfirm),
         userId: user!.id,
       })
         .unwrap()
         .then((res) => {
           onConnect(res);
           toastService.success(t('STRIPE_CONNECT.SUCCESS'));
-        })
-        .then(() => {
           formik.resetForm();
           setLoading(false);
           closeSidebar();
