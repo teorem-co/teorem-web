@@ -4,4 +4,5 @@ export default interface IProgressProfile {
     aboutMe: boolean;
     percentage: number;
     payment: boolean;
+    verified: boolean;
 }

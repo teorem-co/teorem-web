@@ -38,11 +38,17 @@ interface IBookingTransformed {
     isAccepted?: boolean;
 }
 
+interface ITutorVerified {
+  verified: boolean
+}
+
 // interface ICreateTutorSubject {}
 
 const URL = 'api/v1/tutors';
 const BOOKING_URL = 'api/v1/bookings';
 const TUTOR_MANAGEMENT_URL = 'api/v1/tutor-management';
+
+
 
 export const tutorService = baseService.injectEndpoints({
     endpoints: (builder) => ({

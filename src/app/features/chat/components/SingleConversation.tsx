@@ -457,6 +457,7 @@ const SingleConversation = (props: Props) => {
       });
   };
 
+    const cacheBuster = new Date();
 
   return (
     <div className='content'>
@@ -474,7 +475,7 @@ const SingleConversation = (props: Props) => {
                     props.data
                       ?
                       (userActive?.id != props.data.tutor?.userId
-                        ? props.data.tutor?.userImage
+                        ? `${props.data.tutor?.userImage}&v=${cacheBuster}`
                         : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')
                       : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg'
                   }
@@ -633,63 +634,56 @@ const SingleConversation = (props: Props) => {
               return message.senderId == message.tutorId ? `${props.data?.tutor?.userNickname}` : `${props.data?.user?.userNickname}`;
             });
 
-            if (userActive && userActive.id == message.senderId)
-              return (
-                <>
-                  <Tooltip
-                    id='my-tooltip'
-                    place={'top-start'}
-                    positionStrategy={'absolute'}
-                    float={true}
-                    delayShow={1000}
-                    style={{
-                      backgroundColor: 'rgba(70,70,70, 0.9)',
-                      color: 'white',
-                      fontSize: 'smaller',
-                    }}
-                  />
-                  {!sameDate && (
-                    <div
-                      className={`message-full-width flex flex--col flex--center`}>
-                      <span>{moment(message.message.createdAt).format('DD MMM YYYY')}, {messageTime}</span>
-                    </div>
-                  )}
-                  <div
-                    key={index}
-                    className={`chat__message chat__message--logged${img ? ' chat__message__margin-top' : ''}${img ? '' : ' chat__message__margin-right'
-                    }`}
-                  >
-                    {img && (
-                      props.data && (
-                        message.senderId == props.data.tutor?.userId ? (
-                          <img
-                            className='chat__conversation__avatar chat__conversation__avatar--small'
-                            src={props.data.tutor?.userImage}
-                            alt={'profile avatar'}
-                          />
-                        ) : (
-                          <div style={{ width: 40, height: 40 }}>
-                            <ImageCircle
-                              initials={`${userActive?.firstName.charAt(0)}${userActive?.lastName.charAt(0)}`}
-                              style={{ width: 40, height: 40 }} fontSize={20} />
-                          </div>
-                        )
-                      )
-                    )}
-                    {/*{img && (*/}
-                    {/*    <img*/}
-                    {/*        className="chat__conversation__avatar chat__conversation__avatar--small"*/}
-                    {/*        src={*/}
-                    {/*            props.data*/}
-                    {/*                ? 'https://' +*/}
-                    {/*                (message.senderId == props.data.tutor?.userId*/}
-                    {/*                    ? props.data.tutor?.userImage*/}
-                    {/*                    : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')*/}
-                    {/*                : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg'*/}
-                    {/*        }*/}
-                    {/*        alt={'profile avatar'}*/}
-                    {/*    />*/}
-                    {/*)}*/}
+                        if (userActive && userActive.id == message.senderId)
+                            return (
+                                <>
+                                    <Tooltip
+                                        id="my-tooltip"
+                                        place={'top-start'}
+                                        positionStrategy={'absolute'}
+                                        float={true}
+                                        delayShow={1000}
+                                        style={{ backgroundColor: "rgba(70,70,70, 0.9)", color: 'white', fontSize:'smaller' }}
+                                    />
+                                    {!sameDate && (
+                                        <div className={`message-full-width flex flex--col flex--center`}>
+                                            <span>{moment(message.message.createdAt).format('DD MMM YYYY')}, {messageTime}</span>
+                                        </div>
+                                    )}
+                                    <div
+                                        key={index}
+                                        className={`chat__message chat__message--logged${img ? ' chat__message__margin-top' : ''}${img ? '' : ' chat__message__margin-right'
+                                            }`}
+                                    >
+                                        {img && (
+                                            props.data && (
+                                                message.senderId == props.data.tutor?.userId ? (
+                                                    <img
+                                                        className="chat__conversation__avatar chat__conversation__avatar--small"
+                                                        src={`${props.data.tutor?.userImage}&v=${cacheBuster}`}
+                                                        alt={'profile avatar'}
+                                                    />
+                                                ) : (
+                                                    <div style={{width: 40, height: 40}}>
+                                                        <ImageCircle initials={`${userActive?.firstName.charAt(0)}${userActive?.lastName.charAt(0)}`} style={{width: 40, height: 40 }} fontSize={20} />
+                                                    </div>
+                                                )
+                                            )
+                                        )}
+                                        {/*{img && (*/}
+                                        {/*    <img*/}
+                                        {/*        className="chat__conversation__avatar chat__conversation__avatar--small"*/}
+                                        {/*        src={*/}
+                                        {/*            props.data*/}
+                                        {/*                ? 'https://' +*/}
+                                        {/*                (message.senderId == props.data.tutor?.userId*/}
+                                        {/*                    ? props.data.tutor?.userImage*/}
+                                        {/*                    : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')*/}
+                                        {/*                : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg'*/}
+                                        {/*        }*/}
+                                        {/*        alt={'profile avatar'}*/}
+                                        {/*    />*/}
+                                        {/*)}*/}
 
                     <div key={`sub-${index}`}
                          className={`message-full-width flex flex--col flex--end`}>
@@ -755,42 +749,39 @@ const SingleConversation = (props: Props) => {
                           {/*        messageText,*/}
                           {/*}}*/}
 
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </>
-              );
-            return (
-              <>
-                {!sameDate && (
-                  <div
-                    className={`message-full-width flex flex--col flex--center`}>
-                    <span>{moment(message.message.createdAt).format('DD MMM YYYY')}, {messageTime}</span>
-                  </div>
-                )}
-                <div
-                  key={index}
-                  className={`chat__message chat__message--other${img ? ' chat__message__margin-top' : ''}${img ? '' : ' chat__message__margin-left'
-                  }`}
-                >
-                  {img && (
-                    props.data && (
-                      message.senderId == props.data.tutor?.userId ? (
-                        <img
-                          className='chat__conversation__avatar chat__conversation__avatar--small'
-                          src={ props.data.tutor?.userImage}
-                          alt={'profile avatar'}
-                        />
-                      ) : (
-                        <div style={{ width: 40, height: 40 }}>
-                          <ImageCircle
-                            initials={`${props.data.user?.userNickname.split(' ')[0].charAt(0)}${props.data.user?.userNickname.split(' ')[1].charAt(0)}`}
-                            style={{ width: 40, height: 40 }} fontSize={20} />
-                        </div>
-                      )
-                    )
-                  )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </>
+                            );
+                        return (
+                            <>
+                                {!sameDate && (
+                                    <div className={`message-full-width flex flex--col flex--center`}>
+                                        <span>{moment(message.message.createdAt).format('DD MMM YYYY')}, {messageTime}</span>
+                                    </div>
+                                )}
+                                <div
+                                    key={index}
+                                    className={`chat__message chat__message--other${img ? ' chat__message__margin-top' : ''}${img ? '' : ' chat__message__margin-left'
+                                        }`}
+                                >
+                                    {img && (
+                                        props.data && (
+                                            message.senderId == props.data.tutor?.userId ? (
+                                                <img
+                                                    className="chat__conversation__avatar chat__conversation__avatar--small"
+                                                    src={`${props.data.tutor?.userImage}&v=${cacheBuster}`}
+                                                    alt={'profile avatar'}
+                                                />
+                                            ) : (
+                                                <div style={{width: 40, height: 40}}>
+                                                    <ImageCircle initials={`${props.data.user?.userNickname.split(" ")[0].charAt(0)}${props.data.user?.userNickname.split(" ")[1].charAt(0)}`} style={{width: 40, height: 40 }} fontSize={20} />
+                                                </div>
+                                            )
+                                        )
+                                    )}
 
                   <div key={`sub-${index}`}
                        className={`message-full-width flex flex--col`}>
