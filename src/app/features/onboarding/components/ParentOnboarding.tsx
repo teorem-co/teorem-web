@@ -498,10 +498,17 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
     showDesc(detailsOpen);
   };
 
+  const handleEnterKeyThree = (event: React.KeyboardEvent<HTMLFormElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      formikStepThree.handleSubmit();
+    }
+  };
+
   const stepThree = () => {
     return (
       <FormikProvider value={formikStepThree}>
-        <Form>
+        <Form onKeyPress={handleEnterKeyThree}>
           <div className="field">
             <label htmlFor="childFirstName" className="field__label">
               {t('REGISTER.FORM.CHILD_NAME')}
