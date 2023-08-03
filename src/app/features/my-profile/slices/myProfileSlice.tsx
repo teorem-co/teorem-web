@@ -8,6 +8,7 @@ const initialState: IProgressProfile = {
     myTeachings: false,
     percentage: 0,
     payment: false,
+    verified: true
 };
 
 export const myProfileSlice = createSlice({

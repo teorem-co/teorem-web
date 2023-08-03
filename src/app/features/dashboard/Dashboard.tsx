@@ -30,7 +30,7 @@ import LearnCubeModal from '../my-profile/components/LearnCubeModal';
 import NotificationItem from '../notifications/components/NotificationItem';
 import CircularProgress from '../my-profile/components/CircularProgress';
 import { setMyProfileProgress } from '../my-profile/slices/myProfileSlice';
-import { useLazyGetProfileProgressQuery, useGetTutorVerifiedMutation } from '../../../services/tutorService';
+import { useLazyGetProfileProgressQuery } from '../../../services/tutorService';
 
 interface IGroupedDashboardData {
     [date: string]: IBooking[];
@@ -43,7 +43,6 @@ const Dashboard = () => {
     const [getUserById0, { data: userDataFirst }] = useLazyGetUserQuery();
     const [getUserById1, { data: userDataSecond }] = useLazyGetUserQuery();
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
-    const [getTutorVerified, {data: tutorVerified }] = useGetTutorVerifiedMutation();
 
     const [groupedUpcomming, setGroupedUpcomming] = useState<IGroupedDashboardData>({});
     const [todayScheduled, setTodayScheduled] = useState<IBooking[]>([]);
@@ -69,10 +68,6 @@ const Dashboard = () => {
             const progressResponse = await getProfileProgress().unwrap();
             dispatch(setMyProfileProgress(progressResponse));
         }
-    };
-
-    const fetchVerified = async () =>{
-      dispatch(getTutorVerified(userId));
     };
 
     const fetchData = async () => {
@@ -123,9 +118,6 @@ const Dashboard = () => {
 
     useEffect(() => {
         fetchProgress();
-
-        if(userRole == RoleOptions.Tutor)
-          fetchVerified();
     }, []);
 
     useEffect(() => {
@@ -243,20 +235,11 @@ const Dashboard = () => {
         });
     }, []);
 
-    function getPercentage(obj: any) {
-        let trueValues = 0;
-        Object.values(obj).map(val => (typeof val === 'boolean' && val) ? trueValues = trueValues + 1 : undefined);
-        return trueValues/4 * 100;
-    }
-
-    const percentage = getPercentage(profileProgressState);
-
-
     return (
         <MainWrapper>
             <div className="layout--primary">
                 <div>
-                  {userRole === RoleOptions.Tutor && tutorVerified && !tutorVerified.verified ? (
+                  {userRole === RoleOptions.Tutor && profileProgressState && !profileProgressState.verified ? (
                     <div className="flex flex--col flex--jc--center mb-2 p-2" style={{ borderRadius: '0.5em',color: 'white', backgroundColor:'#7e6cf2'}}>
                       <h4 className="type--md mb-2 ml-6 align-self-center">{t(`TUTOR_VERIFIED_NOTE.TITLE`)}</h4>
                       <p className="ml-6 align-self-center">{t(`TUTOR_VERIFIED_NOTE.DESCRIPTION`)}</p>
@@ -269,7 +252,7 @@ const Dashboard = () => {
                                         <div className="col col-12 col-xl-6">
                                             <div className="flex">
                                                 <div className="flex flex--center flex--shrink">
-                                                    <CircularProgress progressNumber={percentage ? percentage : 0} size={80} />
+                                                    <CircularProgress progressNumber={profileProgressState.percentage ? profileProgressState.percentage : 0} size={80} />
                                                 </div>
                                                 <div className="flex flex--col flex--jc--center ml-6">
                                                     <h4 className="type--md mb-2">{t(`COMPLETE_TUTOR_PROFILE_CARD.TITLE`)}</h4>
