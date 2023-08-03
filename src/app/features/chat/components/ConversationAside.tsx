@@ -84,7 +84,6 @@ const ConversationAside = (props: Props) => {
         <div>
           {unread &&
             <div className='chat__conversation__dot mt-3'>
-              =={numberOfUnread}==
             </div>
           }
 
