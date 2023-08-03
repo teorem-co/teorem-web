@@ -37,7 +37,7 @@ const Navbar = () => {
     const [textCopiedToClipboard, setTextCopiedToClipboard] = useState<boolean>(false);
     const shareProfile = async () => {
         const tutorSlug = (await getTutorProfileData(user?.id || '').unwrap()).slug;
-        navigator.clipboard.writeText('https://teorem.co' + t('PATHS.SEARCH_TUTORS_TUTOR_PROFILE').replace(':tutorSlug', tutorSlug));
+        navigator.clipboard.writeText('https://app.teorem.co' + t('PATHS.SEARCH_TUTORS_TUTOR_PROFILE').replace(':tutorSlug', tutorSlug));
         setTextCopiedToClipboard(true);
     };
 
