@@ -100,8 +100,6 @@ const AsideWrapper = (props: Props) => {
               });
               const lastMessageTime = chatConversationItem.messages[chatConversationItem.messages.length - 1].message.createdAt;
 
-              console.log("NEPROCITANE PORUKE: ", chatConversationItem.unreadMessageCount);
-
                               const chatConversation = {
                                   imgUrl:
                                       (user?.id != chatConversationItem.user?.userId
@@ -112,6 +110,7 @@ const AsideWrapper = (props: Props) => {
                                           ? chatConversationItem.user?.userNickname
                                           : chatConversationItem.tutor?.userNickname) + '',
                                   lastMessage: messageText,
+
                                   lastMessageTime: moment(lastMessageTime).isSame(moment(), 'day') ?
                   moment(lastMessageTime).format('HH:mm')
                   :
@@ -120,6 +119,7 @@ const AsideWrapper = (props: Props) => {
                                   unread: chatConversationItem.unreadMessageCount > 0,
                               numberOfUnread: chatConversationItem.unreadMessageCount
               };
+          
 
               return chatConversationItem.tutor?.userId == activeChat?.tutor?.userId &&
               chatConversationItem.user?.userId == activeChat?.user?.userId ? (
