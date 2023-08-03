@@ -74,8 +74,8 @@ const AsideWrapper = (props: Props) => {
 
   const cacheBuster = new Date();
 
-    return (
-        <div className='card--chat__aside'>
+  return (
+    <div className='card--chat__aside'>
       <div className='p-4'>
         <div className='type--wgt--bold type--lg'>Chat</div>
         <input ref={searchInputRef} type='text' onKeyUp={onSearch}
@@ -98,22 +98,29 @@ const AsideWrapper = (props: Props) => {
                   ? `${chatConversationItem.user?.userNickname}`
                   : `${chatConversationItem.tutor?.userNickname}`;
               });
+              const lastMessageTime = chatConversationItem.messages[chatConversationItem.messages.length - 1].message.createdAt;
 
-                              const chatConversation = {
-                                  imgUrl:
-                                      (user?.id != chatConversationItem.user?.userId
-                                          ? false
-                                          :  `${chatConversationItem.tutor?.userImage}&v=${cacheBuster}`),
-                                  name:
-                                      (user?.id != chatConversationItem.user?.userId
-                                          ? chatConversationItem.user?.userNickname
-                                          : chatConversationItem.tutor?.userNickname) + '',
-                                  lastMessage: messageText,
-                                  lastMessageTime: moment(chatConversationItem.messages[chatConversationItem.messages.length - 1].message.createdAt)
-                                      .format('DD MMM YYYY')
-                                      .replace('.', ''),
-                                  unread: chatConversationItem.unreadMessageCount > 0,
-                              };
+              console.log("NEPROCITANE PORUKE: ", chatConversationItem.unreadMessageCount);
+
+              const chatConversation = {
+                imgUrl:
+                  (user?.id != chatConversationItem.user?.userId
+                    ? false
+                    : `${chatConversationItem.tutor?.userImage}&v=${cacheBuster}`),
+                name:
+                  (user?.id != chatConversationItem.user?.userId
+                    ? chatConversationItem.user?.userNickname
+                    : chatConversationItem.tutor?.userNickname) + '',
+                lastMessage: messageText,
+                lastMessageTime: moment(lastMessageTime).isSame(moment(), 'day') ?
+                  moment(lastMessageTime).format('HH:mm')
+                  :
+                  moment(lastMessageTime).format('DD MMM YYYY')
+                    .replace('.', ''),
+
+                unread: chatConversationItem.unreadMessageCount > 0,
+                numberOfUnread: chatConversationItem.unreadMessageCount
+              };
 
               return chatConversationItem.tutor?.userId == activeChat?.tutor?.userId &&
               chatConversationItem.user?.userId == activeChat?.user?.userId ? (
@@ -194,7 +201,7 @@ const AsideWrapper = (props: Props) => {
                 imgUrl:
                   (user?.id != chatConversationItem.user?.userId
                     ? false
-                    :  chatConversationItem.tutor?.userImage),
+                    : chatConversationItem.tutor?.userImage),
                 name:
                   (user?.id != chatConversationItem.user?.userId
                     ? chatConversationItem.user?.userNickname
