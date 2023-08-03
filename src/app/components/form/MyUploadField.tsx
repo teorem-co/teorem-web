@@ -55,12 +55,14 @@ const UploadFile: FC<UploadFileType> = ({ setFieldValue, removePreviewOnUnmount,
         },
     });
 
+    const cacheBuster = new Date();
+
     return (
         <>
             <div className="flex flex--center">
                 {preview.preview || props.imagePreview ? (
                     <aside className="upload__images mr-6">
-                        <img alt="profile" src={preview.preview ||  props.imagePreview} />
+                        <img alt="profile" src={preview.preview || `${props.imagePreview}&v=${cacheBuster}`} />
                     </aside>
                 ) : (
                     <div className="upload__placeholder">
