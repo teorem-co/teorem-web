@@ -47,7 +47,7 @@ interface Props {
 }
 
 const fileUrl = 'api/v1/chat/download';
-const url = `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_HOST}/${fileUrl}`;
+const url = `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_CHAT_FILE_DOWNLOAD_HOST}/${fileUrl}`;
 
 const SingleConversation = (props: Props) => {
 
