@@ -4,7 +4,7 @@ import { HttpMethods } from '../app/lookups/httpMethods';
 import INotification from '../interfaces/notification/INotification';
 import INotifications from '../interfaces/notification/INotifications';
 
-const URL = 'notifications';
+const URL = 'api/v1/notifications';
 
 export const notificationService = baseService.injectEndpoints({
     endpoints: (builder) => ({

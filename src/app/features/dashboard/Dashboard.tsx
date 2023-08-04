@@ -226,7 +226,7 @@ const Dashboard = () => {
         [chatrooms, userDataFirst, userDataSecond]);
 
     useEffect(() => {
-        //fetchData(); //TODO: IMPORTANT! uncomment this later, this gets dashboard data
+        fetchData(); //TODO: IMPORTANT! uncomment this later, this gets dashboard data
 
         socket.on('showNotification', (notification: ISocketNotification) => {
             if (userId && notification.userId === userId) {
@@ -552,6 +552,7 @@ const Dashboard = () => {
                     {notificationsData && notificationsData.find((x) => x.isRead === false) ? (
                         notificationsData.map((notification: INotification) => {
                             if (!notification.isRead) {
+                              console.log(notification.id);
                                 return <NotificationItem key={notification.id} notificationData={notification} />;
                             }
                         })
