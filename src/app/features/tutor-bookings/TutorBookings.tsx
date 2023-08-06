@@ -12,6 +12,7 @@ import Calendar from 'react-calendar';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import { useParams } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 import * as Yup from 'yup';
 
 import {
@@ -140,10 +141,150 @@ const TutorBookings = () => {
     }
   }, [tutorId]);
 
+  const arrayDataToUnavailabilityObjects = (arrayData: any, startMonday: Date): IBookingTransformed[] => {
+
+    startMonday = moment(startMonday).startOf('week').toDate();
+    const unavailabilityObjects: IBookingTransformed[] = [];
+
+    // for each day of the week
+    for (let col = 1; col < arrayData[0].length; col++) {
+      let previousObj: IBookingTransformed | null = null;
+
+      // skip the first row (header) of arrayData
+      for (let row = 1; row < arrayData.length; row++) {
+        const timeslot = arrayData[row];
+        const isAvailable = timeslot[col] as boolean;
+
+        // we only need objects where the value is false (unavailable)
+        if (!isAvailable) {
+          const dayOfWeek = timeslot[0] as string; // e.g. 'Pre 12 pm', '12 - 5 pm', 'After 5 pm'
+          let start: Date;
+          let end: Date;
+
+          // calculate start and end based on the dayOfWeek
+          if (dayOfWeek === 'Pre 12 pm') {
+            start = new Date(startMonday);
+            end = new Date(startMonday);
+            start.setDate(start.getDate() + (col - 1));
+            end.setDate(end.getDate() + (col - 1));
+            start.setHours(0, 0, 0, 0);
+            end.setHours(11, 59, 59, 999);
+          } else if (dayOfWeek === '12 - 5 pm') {
+            start = new Date(startMonday);
+            end = new Date(startMonday);
+            start.setDate(start.getDate() + (col - 1));
+            end.setDate(end.getDate() + (col - 1));
+            start.setHours(12, 0, 0, 0);
+            end.setHours(16, 59, 59, 999);
+          } else { // 'After 5 pm'
+            start = new Date(startMonday);
+            end = new Date(startMonday);
+            start.setDate(start.getDate() + (col - 1));
+            end.setDate(end.getDate() + (col - 1));
+            start.setHours(17, 0, 0, 0);
+            end.setHours(23, 59, 59, 999);
+          }
+
+          if (previousObj) {
+            // If current unavailability is continuous with the previous one, update the end of the previous unavailability
+            previousObj.end = end;
+          } else {
+            // create the unavailability object and add it to the array
+            const obj: IBookingTransformed = {
+              start: start,
+              end: end,
+              id: uuidv4(),
+              label: 'unavailable',
+              allDay: false
+            };
+            unavailabilityObjects.push(obj);
+            previousObj = obj;
+          }
+        } else {
+          previousObj = null; // Reset for non-continuous unavailability
+        }
+      }
+    }
+
+    return unavailabilityObjects;
+  };
+
+
+
+  // const arrayDataToUnavailabilityObjects = (arrayData: any, startMonday: Date): IBookingTransformed[] => {
+  //
+  //   startMonday = moment(startMonday).startOf('week').toDate();
+  //   const unavailabilityObjects: IBookingTransformed[] = [];
+  //
+  //   // skip the first row (header) of arrayData
+  //   for (let row = 1; row < arrayData.length; row++) {
+  //     const timeslot = arrayData[row];
+  //
+  //     // for each day of the week
+  //     for (let col = 1; col < timeslot.length; col++) {
+  //       const isAvailable = timeslot[col] as boolean;
+  //
+  //       // we only need objects where the value is false (unavailable)
+  //       if (!isAvailable) {
+  //         const dayOfWeek = timeslot[0] as string; // e.g. 'Pre 12 pm', '12 - 5 pm', 'After 5 pm'
+  //         let start: Date;
+  //         let end: Date;
+  //
+  //         // calculate start and end based on the dayOfWeek
+  //         if (dayOfWeek === 'Pre 12 pm') {
+  //           start = new Date(startMonday);
+  //           end = new Date(startMonday);
+  //           start.setDate(start.getDate() + (col - 1));
+  //           end.setDate(end.getDate() + (col - 1));
+  //           start.setHours(0, 0, 0, 0);
+  //           end.setHours(11, 59, 59, 999);
+  //         } else if (dayOfWeek === '12 - 5 pm') {
+  //           start = new Date(startMonday);
+  //           end = new Date(startMonday);
+  //           start.setDate(start.getDate() + (col - 1));
+  //           end.setDate(end.getDate() + (col - 1));
+  //           start.setHours(12, 0, 0, 0);
+  //           end.setHours(16, 59, 59, 999);
+  //         } else { // 'After 5 pm'
+  //           start = new Date(startMonday);
+  //           end = new Date(startMonday);
+  //           start.setDate(start.getDate() + (col - 1));
+  //           end.setDate(end.getDate() + (col - 1));
+  //           start.setHours(17, 0, 0, 0);
+  //           end.setHours(23, 59, 59, 999);
+  //         }
+  //
+  //         // create the unavailability object and add it to the array
+  //         const obj: IBookingTransformed = {
+  //           start: start,
+  //           end: end,
+  //           id: uuidv4(),
+  //           label: 'unavailable',
+  //           allDay: false
+  //         };
+  //         unavailabilityObjects.push(obj);
+  //       }
+  //     }
+  //   }
+  //
+  //   return unavailabilityObjects;
+  // };
+
+  const arrayData: any = [
+    ["", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    ["Pre 12 pm", false, true, false, false, false, false, false],
+    ["12 - 5 pm", true, true, false, false, false, false, false],
+    ["After 5 pm", true, true, false, false, false, false, false]
+  ];
+
+  const startMonday = new Date('2023-08-07');
+  const [firstDayOfSelectedWeek, setFirstDayOfSelectedWeek] = useState<Date>(new Date());
+
+
   const { t } = useTranslation();
   const defaultScrollTime = new Date(new Date().setHours(7, 45, 0));
   const highlightRef = useRef<HTMLDivElement>(null);
-  const allBookings = tutorBookings && tutorBookings.concat(emptyBookings, unavailableBookings ? unavailableBookings : []);
+  const allBookings = tutorBookings && tutorBookings.concat(emptyBookings, unavailableBookings ? unavailableBookings : []).concat(tutorAvailability ? arrayDataToUnavailabilityObjects(tutorAvailability, firstDayOfSelectedWeek) : []);
   const existingBookings = tutorBookings && tutorBookings.concat(unavailableBookings ? unavailableBookings : []);
   const totalBookings = allBookings && allBookings.concat(bookings ? bookings : []);
   const filteredBookings = uniqBy(totalBookings, 'id');
@@ -237,17 +378,18 @@ const TutorBookings = () => {
       tutorAvailability.forEach((index, item) => {
         if (item > 0) {
           index.forEach((day, dayOfWeek) => {
-
-            if (dayOfWeek > 0 && endDat.getDay() == dayOfWeek && day) {
+            if (dayOfWeek >= 0 && endDat.getDay() == dayOfWeek && day) {
               switch (index[0]) {
                 case 'Pre 12 pm':
-                  if (endDat.getHours() <= 12) isAvailableBooking = true;
+                  if (endDat.getHours() <= 12){
+                    isAvailableBooking = true;
+                  }
                   break;
                 case '12 - 5 pm':
-                  if (endDat.getHours() > 12 && endDat.getHours() <= 17) isAvailableBooking = true;
+                  if (endDat.getHours() >= 12 && endDat.getHours() <= 17) isAvailableBooking = true;
                   break;
                 case 'After 5 pm':
-                  if (endDat.getHours() > 17) isAvailableBooking = true;
+                  if (endDat.getHours() >= 17) isAvailableBooking = true;
                   break;
                 default:
                   break;
@@ -472,6 +614,7 @@ const TutorBookings = () => {
   useEffect(() => {
     calcPosition();
     hideShowHighlight(value);
+    printSelectedDateFirstDayOfWeek(value);
   }, [value]);
 
   useEffect(() => {
@@ -503,8 +646,25 @@ const TutorBookings = () => {
     }
   }, [value, tutorId]);
 
+
+  useEffect(() => {
+   console.log('changed first new monday');
+   //TODO: map and add new events
+  }, [firstDayOfSelectedWeek]);
+
+
+  const printSelectedDateFirstDayOfWeek = (date:Date) =>{
+    if(calculateFirstDayOfWeek(firstDayOfSelectedWeek) != calculateFirstDayOfWeek(date))
+      setFirstDayOfSelectedWeek(date);
+  };
+
+  const calculateFirstDayOfWeek = (date: Date): number => {
+    return moment(date).startOf('week').date();
+  };
+
   return (
     <MainWrapper>
+      <p>First day displayed in the calendar: {moment(firstDayOfSelectedWeek).startOf('week').date()}</p>
       <div className="layout--primary">
         {isLoading ? <LoaderSecondary /> : <></>}
         <div>
