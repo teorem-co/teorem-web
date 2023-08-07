@@ -127,6 +127,8 @@ const TutorBookings = () => {
   const [getTutorIdByTutorSlug] = useLazyGetTutorIdByTutorSlugQuery();
   const [tutorId, setTutorId] = useState('');
   const { tutorSlug } = useParams();
+  const [minimumUnavailability, setminimumUnavailability] = useState<IBookingTransformed>();
+
   useEffect(() => {
     getTutorIdByTutorSlug(tutorSlug)
       .unwrap()
@@ -270,23 +272,19 @@ const TutorBookings = () => {
   //   return unavailabilityObjects;
   // };
 
-  const arrayData: any = [
-    ["", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-    ["Pre 12 pm", false, true, false, false, false, false, false],
-    ["12 - 5 pm", true, true, false, false, false, false, false],
-    ["After 5 pm", true, true, false, false, false, false, false]
-  ];
-
-  const startMonday = new Date('2023-08-07');
   const [firstDayOfSelectedWeek, setFirstDayOfSelectedWeek] = useState<Date>(new Date());
-
-
   const { t } = useTranslation();
   const defaultScrollTime = new Date(new Date().setHours(7, 45, 0));
   const highlightRef = useRef<HTMLDivElement>(null);
-  const allBookings = tutorBookings && tutorBookings.concat(emptyBookings, unavailableBookings ? unavailableBookings : []).concat(tutorAvailability ? arrayDataToUnavailabilityObjects(tutorAvailability, firstDayOfSelectedWeek) : []);
+  const allBookings =
+    tutorBookings &&
+    tutorBookings
+      .concat(emptyBookings, unavailableBookings ? unavailableBookings : [])
+      .concat(tutorAvailability ? arrayDataToUnavailabilityObjects(tutorAvailability, firstDayOfSelectedWeek) : [])
+      .concat(minimumUnavailability ? minimumUnavailability : []);
+  const [allBookings2, setAllBookings2] = useState<IBookingTransformed[]>(mergeOverlappingEvents(allBookings ? allBookings : []));
   const existingBookings = tutorBookings && tutorBookings.concat(unavailableBookings ? unavailableBookings : []);
-  const totalBookings = allBookings && allBookings.concat(bookings ? bookings : []);
+  const totalBookings = allBookings2 && allBookings2.concat(bookings ? bookings : []); //allBookings && allBookings.concat(bookings ? bookings : []) &&
   const filteredBookings = uniqBy(totalBookings, 'id');
   const tileRef = useRef<HTMLDivElement>(null);
   const tileElement = tileRef.current as HTMLDivElement;
@@ -441,7 +439,7 @@ const TutorBookings = () => {
     } else {
       setOpenSlot(false);
       setEmptybookings([]);
-      toastService.info("You can't book a lesson at selected time");
+      toastService.info(`${t('BOOKING.TOAST_CANT_BOOK')}`);
     }
   };
 
@@ -610,6 +608,93 @@ const TutorBookings = () => {
   /*useEffect(() => {
         fetchData();
     }, []);*/
+
+  let unavailability: IBookingTransformed | null = null;
+  const [hasRunThisMinute, setHasRunThisMinute] = useState(false);
+
+  function calculateAndSetMinimumUnavailability() {
+    if (!hasRunThisMinute) {
+      const currentDate = new Date();
+      console.log('running calculate');
+      if (unavailability) {
+        // Update start time to the current time
+        unavailability.start = new Date(currentDate);
+
+        // Update end time to 3 hours after the start time
+        unavailability.end = new Date(currentDate.getTime() + 3 * 60 * 60 * 1000);
+
+        // Call the function to set the time (I'm assuming you have this function defined elsewhere)
+        setminimumUnavailability(unavailability);
+      } else {
+        // Create the initial unavailability object if it doesn't exist
+        const endHours = currentDate.getHours() + 3;
+        unavailability = {
+          start: new Date(currentDate),
+          end: new Date(currentDate.getTime() + 3 * 60 * 60 * 1000),
+          id: uuidv4(),
+          label: 'unavailable',
+          allDay: false,
+        };
+
+        // Call the function to set the time (I'm assuming you have this function defined elsewhere)
+        setminimumUnavailability(unavailability);
+      }
+
+      // Set the flag to true indicating that the function has run for this minute
+      setHasRunThisMinute(true);
+
+      // Reset the flag after 1 minute (60000 milliseconds)
+      setTimeout(() => {
+        setHasRunThisMinute(false);
+      }, 60000);
+    }
+  }
+
+
+  function mergeOverlappingEvents(events: IBookingTransformed[]): IBookingTransformed[] {
+    events.sort((a, b) => a.start.getTime() - b.start.getTime());
+    const mergedEvents: IBookingTransformed[] = [];
+    let currentEvent = events[0];
+
+    for(let i = 1; i < events.length; i++) {
+      const nextEvent = events[i];
+
+      // Check if the events overlap and have the same label
+      if(currentEvent.end.getTime() >= nextEvent.start.getTime() && currentEvent.label === 'unavailable' && nextEvent.label === 'unavailable') {
+        currentEvent.end = new Date(Math.max(currentEvent.end.getTime(), nextEvent.end.getTime()));
+      } else {
+        mergedEvents.push(currentEvent);
+        currentEvent = nextEvent;
+      }
+    }
+
+    mergedEvents.push(currentEvent);
+    return mergedEvents;
+  }
+
+  useEffect(() => {
+    if(!hasRunThisMinute){
+      calculateAndSetMinimumUnavailability();
+    }
+  });
+
+  useEffect(() =>{
+    const tutBookings = tutorBookings &&  tutorBookings
+      .concat(emptyBookings, unavailableBookings ? unavailableBookings : [])
+      .concat(tutorAvailability ? arrayDataToUnavailabilityObjects(tutorAvailability, firstDayOfSelectedWeek) : [])
+      .concat(minimumUnavailability ? minimumUnavailability : []);
+
+    let transformedBookings;
+    if(tutBookings){
+      transformedBookings = mergeOverlappingEvents(tutBookings);
+      console.log('Transforming bookings');
+      console.log(transformedBookings);
+      setAllBookings2(transformedBookings ? transformedBookings : []);
+    }
+
+  }, [tutorBookings, minimumUnavailability, tutorAvailability]);
+
+
 
   useEffect(() => {
     calcPosition();

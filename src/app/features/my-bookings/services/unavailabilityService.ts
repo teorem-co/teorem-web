@@ -36,7 +36,7 @@ export const unavailabilityService = baseService.injectEndpoints({
                 const bookings: IUnavailabilityTransformed[] = response.map((x) => {
                     return {
                         id: x.id,
-                        label: 'Unavailable',
+                        label: 'unavailable',
                         start: new Date(x.startTime),
                         end: new Date(x.endTime),
                         allDay: false,

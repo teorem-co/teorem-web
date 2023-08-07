@@ -1163,6 +1163,7 @@ export const EN_US = {
     },
 
     BOOKING:{
-        SUCCESS: 'Booking successful!'
+        SUCCESS: 'Booking successful!',
+        TOAST_CANT_BOOK: 'You can\'t book a lesson at selected time!'
     }
 };
