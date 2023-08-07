@@ -267,20 +267,40 @@ const TutorBookings = () => {
     );
   };
 
+  function test(){
+    console.log("test");
+  }
+
   const CustomEvent = (event: any) => {
     if (event.event?.userId !== userId) {
       return (
         <>
-          <div className="event--unavailable">
-            <div className="type--color--primary type--wgt--bold" style={{fontSize: 'smaller', textAlign: 'center'}}>
-              {event.event.label === 'unavailableHoursBefore' ?
-                t('BOOKING.CANT_BOOK_MESSAGE')
-              :
-                null
-              }
+          {event.event.label !== 'unavailableHoursBefore' ?
+            <div className="event--unavailable">
+              <div className="type--color--primary type--wgt--bold" style={{fontSize: 'smaller', textAlign: 'center'}}>
+                {event.event.label === 'unavailableHoursBefore' ?
+                  t('BOOKING.CANT_BOOK_MESSAGE')
+                  :
+                  null
+                }
 
+              </div>
             </div>
-          </div>
+
+            :
+
+            <div className="event--unavailable-min-time" onClick={test}>
+              <div className="type--color--primary type--wgt--bold" style={{fontSize: 'smaller', textAlign: 'center'}}>
+                {event.event.label === 'unavailableHoursBefore' ?
+                  t('BOOKING.CANT_BOOK_MESSAGE')
+                  :
+                  null
+                }
+
+              </div>
+            </div>
+          }
+
         </>
       );
     } else {
@@ -625,7 +645,7 @@ const TutorBookings = () => {
             start: new Date(start),
             end: currentDate,
             id: uuidv4(),
-            label: 'unavailable',
+            label: 'unavailablePrevious',
             allDay: false,
           };
 
@@ -676,14 +696,20 @@ const TutorBookings = () => {
       const nextEvent = {...events[i]}; // Create a new object rather than referencing the original one
 
       // Check if the events overlap and have the same label
-      if(currentEvent.end.getTime() >= nextEvent.start.getTime()
-        &&
-        (((currentEvent.label === 'unavailable' || currentEvent.label === 'unavailableHoursBefore')
-            && (nextEvent.label === 'unavailable' || nextEvent.label === 'unavailableHoursBefore'))
+      if(
+        currentEvent.end.getTime() >= nextEvent.start.getTime() &&
+        (((currentEvent.label === 'unavailable' || currentEvent.label === 'unavailableHoursBefore' || currentEvent.label === 'unavailablePrevious')
+            && (nextEvent.label === 'unavailable' || nextEvent.label === 'unavailableHoursBefore') || currentEvent.label === 'unavailablePrevious')
         ||(currentEvent.label === 'unavailableCustom' && nextEvent.label === 'unavailableCustom'))
 
       ) {
-        currentEvent = {...currentEvent, label: 'unavailable', end: new Date(Math.max(currentEvent.end.getTime(), nextEvent.end.getTime()))};
+        if(currentEvent.label === 'unavailablePrevious'){
+          if(nextEvent.label !== 'unavailableHoursBefore'){
+            currentEvent = {...currentEvent, label: 'unavailable', end: new Date(Math.max(currentEvent.end.getTime(), nextEvent.end.getTime()))};
+          }else{
+            mergedEvents.push(nextEvent);
+          }
+        }
       } else {
         mergedEvents.push(currentEvent);
         currentEvent = nextEvent;
