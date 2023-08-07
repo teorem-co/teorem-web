@@ -182,7 +182,7 @@ $rbc-calendar-width: 200px;
                 border-top-left-radius: 0;
                 border-top-right-radius: 0;
                 border: none;
-                border-top: 2px solid $color-status-blue;
+                //border-top: 2px solid $color-status-blue;
                 padding: calc(#{$unit} * 4) calc(#{$unit} * 2);
 
                 &-label {

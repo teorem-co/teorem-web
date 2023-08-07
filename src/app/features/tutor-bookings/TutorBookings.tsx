@@ -1,5 +1,5 @@
 import { Form, FormikProvider, useFormik } from 'formik';
-import i18n from 'i18next';
+import i18n, { t } from 'i18next';
 import { uniqBy } from 'lodash';
 import moment from 'moment';
 import { useEffect, useRef, useState } from 'react';
@@ -211,67 +211,6 @@ const TutorBookings = () => {
     return unavailabilityObjects;
   };
 
-
-
-  // const arrayDataToUnavailabilityObjects = (arrayData: any, startMonday: Date): IBookingTransformed[] => {
-  //
-  //   startMonday = moment(startMonday).startOf('week').toDate();
-  //   const unavailabilityObjects: IBookingTransformed[] = [];
-  //
-  //   // skip the first row (header) of arrayData
-  //   for (let row = 1; row < arrayData.length; row++) {
-  //     const timeslot = arrayData[row];
-  //
-  //     // for each day of the week
-  //     for (let col = 1; col < timeslot.length; col++) {
-  //       const isAvailable = timeslot[col] as boolean;
-  //
-  //       // we only need objects where the value is false (unavailable)
-  //       if (!isAvailable) {
-  //         const dayOfWeek = timeslot[0] as string; // e.g. 'Pre 12 pm', '12 - 5 pm', 'After 5 pm'
-  //         let start: Date;
-  //         let end: Date;
-  //
-  //         // calculate start and end based on the dayOfWeek
-  //         if (dayOfWeek === 'Pre 12 pm') {
-  //           start = new Date(startMonday);
-  //           end = new Date(startMonday);
-  //           start.setDate(start.getDate() + (col - 1));
-  //           end.setDate(end.getDate() + (col - 1));
-  //           start.setHours(0, 0, 0, 0);
-  //           end.setHours(11, 59, 59, 999);
-  //         } else if (dayOfWeek === '12 - 5 pm') {
-  //           start = new Date(startMonday);
-  //           end = new Date(startMonday);
-  //           start.setDate(start.getDate() + (col - 1));
-  //           end.setDate(end.getDate() + (col - 1));
-  //           start.setHours(12, 0, 0, 0);
-  //           end.setHours(16, 59, 59, 999);
-  //         } else { // 'After 5 pm'
-  //           start = new Date(startMonday);
-  //           end = new Date(startMonday);
-  //           start.setDate(start.getDate() + (col - 1));
-  //           end.setDate(end.getDate() + (col - 1));
-  //           start.setHours(17, 0, 0, 0);
-  //           end.setHours(23, 59, 59, 999);
-  //         }
-  //
-  //         // create the unavailability object and add it to the array
-  //         const obj: IBookingTransformed = {
-  //           start: start,
-  //           end: end,
-  //           id: uuidv4(),
-  //           label: 'unavailable',
-  //           allDay: false
-  //         };
-  //         unavailabilityObjects.push(obj);
-  //       }
-  //     }
-  //   }
-  //
-  //   return unavailabilityObjects;
-  // };
-
   const [firstDayOfSelectedWeek, setFirstDayOfSelectedWeek] = useState<Date>(new Date());
   const { t } = useTranslation();
   const defaultScrollTime = new Date(new Date().setHours(7, 45, 0));
@@ -328,7 +267,20 @@ const TutorBookings = () => {
 
   const CustomEvent = (event: any) => {
     if (event.event?.userId !== userId) {
-      return <div className="my-bookings--unavailable"></div>;
+      return (
+        <>
+          <div className="event--unavailable">
+            <div className="type--color--primary type--wgt--bold" style={{fontSize: 'smaller', textAlign: 'center'}}>
+              {event.event.label === 'unavailableHoursBefore' ?
+                t('BOOKING.CANT_BOOK_MESSAGE')
+              :
+                null
+              }
+
+            </div>
+          </div>
+        </>
+      );
     } else {
       if (event.event?.isAccepted === false) {
         return (
@@ -439,6 +391,7 @@ const TutorBookings = () => {
     } else {
       setOpenSlot(false);
       setEmptybookings([]);
+
       toastService.info(`${t('BOOKING.TOAST_CANT_BOOK')}`);
     }
   };
@@ -632,18 +585,15 @@ const TutorBookings = () => {
           start: new Date(currentDate),
           end: new Date(currentDate.getTime() + 3 * 60 * 60 * 1000),
           id: uuidv4(),
-          label: 'unavailable',
+          label: 'unavailableHoursBefore',
           allDay: false,
         };
 
-        // Call the function to set the time (I'm assuming you have this function defined elsewhere)
         setminimumUnavailability(unavailability);
       }
 
-      // Set the flag to true indicating that the function has run for this minute
       setHasRunThisMinute(true);
 
-      // Reset the flag after 1 minute (60000 milliseconds)
       setTimeout(() => {
         setHasRunThisMinute(false);
       }, 60000);
@@ -651,17 +601,47 @@ const TutorBookings = () => {
   }
 
 
+  // function mergeOverlappingEvents(events: IBookingTransformed[]): IBookingTransformed[] {
+  //   events.sort((a, b) => a.start.getTime() - b.start.getTime());
+  //   const mergedEvents: IBookingTransformed[] = [];
+  //   let currentEvent = events[0];
+  //
+  //   for(let i = 1; i < events.length; i++) {
+  //     const nextEvent = events[i];
+  //
+  //     // Check if the events overlap and have the same label
+  //     if(currentEvent.end.getTime() >= nextEvent.start.getTime() && currentEvent.label === 'unavailable' && nextEvent.label === 'unavailable') {
+  //       console.log(currentEvent);
+  //       currentEvent.end = new Date(Math.max(currentEvent.end.getTime(), nextEvent.end.getTime()));
+  //     } else {
+  //       mergedEvents.push(currentEvent);
+  //       currentEvent = nextEvent;
+  //     }
+  //   }
+  //
+  //   mergedEvents.push(currentEvent);
+  //   return mergedEvents;
+  // }
+
   function mergeOverlappingEvents(events: IBookingTransformed[]): IBookingTransformed[] {
     events.sort((a, b) => a.start.getTime() - b.start.getTime());
+
     const mergedEvents: IBookingTransformed[] = [];
-    let currentEvent = events[0];
+
+    let currentEvent = {...events[0]};  // Create a new object rather than referencing the original one
 
     for(let i = 1; i < events.length; i++) {
-      const nextEvent = events[i];
+      const nextEvent = {...events[i]}; // Create a new object rather than referencing the original one
 
       // Check if the events overlap and have the same label
-      if(currentEvent.end.getTime() >= nextEvent.start.getTime() && currentEvent.label === 'unavailable' && nextEvent.label === 'unavailable') {
-        currentEvent.end = new Date(Math.max(currentEvent.end.getTime(), nextEvent.end.getTime()));
+      if(currentEvent.end.getTime() >= nextEvent.start.getTime()
+        &&
+        (((currentEvent.label === 'unavailable' || currentEvent.label === 'unavailableHoursBefore')
+            && (nextEvent.label === 'unavailable' || nextEvent.label === 'unavailableHoursBefore'))
+        ||(currentEvent.label === 'unavailableCustom' && nextEvent.label === 'unavailableCustom'))
+
+      ) {
+        currentEvent = {...currentEvent, label: 'unavailable', end: new Date(Math.max(currentEvent.end.getTime(), nextEvent.end.getTime()))};
       } else {
         mergedEvents.push(currentEvent);
         currentEvent = nextEvent;
@@ -669,6 +649,7 @@ const TutorBookings = () => {
     }
 
     mergedEvents.push(currentEvent);
+
     return mergedEvents;
   }
 
@@ -687,12 +668,10 @@ const TutorBookings = () => {
     let transformedBookings;
     if(tutBookings){
       transformedBookings = mergeOverlappingEvents(tutBookings);
-      console.log('Transforming bookings');
-      console.log(transformedBookings);
       setAllBookings2(transformedBookings ? transformedBookings : []);
     }
 
-  }, [tutorBookings, minimumUnavailability, tutorAvailability]);
+  }, [tutorBookings, minimumUnavailability, tutorAvailability, emptyBookings]);
 
 
 
@@ -731,13 +710,6 @@ const TutorBookings = () => {
     }
   }, [value, tutorId]);
 
-
-  useEffect(() => {
-   console.log('changed first new monday');
-   //TODO: map and add new events
-  }, [firstDayOfSelectedWeek]);
-
-
   const printSelectedDateFirstDayOfWeek = (date:Date) =>{
     if(calculateFirstDayOfWeek(firstDayOfSelectedWeek) != calculateFirstDayOfWeek(date))
       setFirstDayOfSelectedWeek(date);
@@ -749,7 +721,6 @@ const TutorBookings = () => {
 
   return (
     <MainWrapper>
-      <p>First day displayed in the calendar: {moment(firstDayOfSelectedWeek).startOf('week').date()}</p>
       <div className="layout--primary">
         {isLoading ? <LoaderSecondary /> : <></>}
         <div>

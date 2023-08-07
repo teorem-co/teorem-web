@@ -1,6 +1,6 @@
 import 'moment/locale/en-gb';
 
-import i18n, { t } from 'i18next';
+import i18n, { t, use } from 'i18next';
 import moment from 'moment';
 import { useEffect, useRef, useState } from 'react';
 import {
@@ -33,6 +33,10 @@ import {
 import {
   useLazyGetUnavailableBookingsQuery,
 } from './services/unavailabilityService';
+import {
+  useLazyGetTutorAvailableDaysQuery
+} from '../my-profile/services/tutorAvailabilityService';
+import { v4 as uuidv4 } from 'uuid';
 
 i18n.language !== 'en' && Array.from(languageOptions.map((l) => l.path)).includes(i18n.language) && require(`moment/locale/${i18n.language}.js`);
 
@@ -51,6 +55,12 @@ interface IBookingTransformed {
 }
 
 const MyBookings: React.FC = (props: any) => {
+
+  //const [allBookings2, setAllBookings2] = useState<IBookingTransformed[]>(mergeOverlappingEvents(allBookings ? allBookings : []));
+  const [getTutorAvailability, { data: tutorAvailability, isLoading: tutorAvailabilityLoading }] = useLazyGetTutorAvailableDaysQuery();
+
+
+
   const userId = useAppSelector((state) => state.auth.user?.id);
   const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
   // TODO: something like this conditional selecting OR inside method maybe =>> CANNOT REALLY DO THAT i need some other way
@@ -86,9 +96,88 @@ const MyBookings: React.FC = (props: any) => {
   const highlightRef = useRef<HTMLDivElement>(null);
   const tileRef = useRef<HTMLDivElement>(null);
   const tileElement = tileRef.current as HTMLDivElement;
-  const allBookings = bookings?.concat(unavailableBookings ? unavailableBookings : []);
+
+  const arrayDataToUnavailabilityObjects = (arrayData: any, startMonday: Date): IBookingTransformed[] => {
+
+    startMonday = moment(startMonday).startOf('week').toDate();
+    const unavailabilityObjects: IBookingTransformed[] = [];
+
+    // for each day of the week
+    for (let col = 1; col < arrayData[0].length; col++) {
+      let previousObj: IBookingTransformed | null = null;
+
+      // skip the first row (header) of arrayData
+      for (let row = 1; row < arrayData.length; row++) {
+        const timeslot = arrayData[row];
+        const isAvailable = timeslot[col] as boolean;
+
+        // we only need objects where the value is false (unavailable)
+        if (!isAvailable) {
+          const dayOfWeek = timeslot[0] as string; // e.g. 'Pre 12 pm', '12 - 5 pm', 'After 5 pm'
+          let start: Date;
+          let end: Date;
+
+          // calculate start and end based on the dayOfWeek
+          if (dayOfWeek === 'Pre 12 pm') {
+            start = new Date(startMonday);
+            end = new Date(startMonday);
+            start.setDate(start.getDate() + (col - 1));
+            end.setDate(end.getDate() + (col - 1));
+            start.setHours(0, 0, 0, 0);
+            end.setHours(11, 59, 59, 999);
+          } else if (dayOfWeek === '12 - 5 pm') {
+            start = new Date(startMonday);
+            end = new Date(startMonday);
+            start.setDate(start.getDate() + (col - 1));
+            end.setDate(end.getDate() + (col - 1));
+            start.setHours(12, 0, 0, 0);
+            end.setHours(16, 59, 59, 999);
+          } else { // 'After 5 pm'
+            start = new Date(startMonday);
+            end = new Date(startMonday);
+            start.setDate(start.getDate() + (col - 1));
+            end.setDate(end.getDate() + (col - 1));
+            start.setHours(17, 0, 0, 0);
+            end.setHours(23, 59, 59, 999);
+          }
+
+          if (previousObj) {
+            // If current unavailability is continuous with the previous one, update the end of the previous unavailability
+            previousObj.end = end;
+          } else {
+            // create the unavailability object and add it to the array
+            const obj: IBookingTransformed = {
+              start: start,
+              end: end,
+              id: uuidv4(),
+              label: 'unavailableInTable',
+              allDay: false
+            };
+            unavailabilityObjects.push(obj);
+            previousObj = obj;
+          }
+        } else {
+          previousObj = null; // Reset for non-continuous unavailability
+        }
+      }
+    }
+
+    return unavailabilityObjects;
+  };
+  const [firstDayOfSelectedWeek, setFirstDayOfSelectedWeek] = useState<Date>(new Date());
+  const allBookings =
+    bookings?.concat(unavailableBookings ? unavailableBookings : [])
+      .concat(tutorAvailability ? arrayDataToUnavailabilityObjects(tutorAvailability, firstDayOfSelectedWeek) : []);
   const isLoading = bookingsLoading || unavailableBookingsLoading;
 
+  const calculateFirstDayOfWeek = (date: Date): number => {
+    return moment(date).startOf('week').date();
+  };
+
+  const printSelectedDateFirstDayOfWeek = (date:Date) =>{
+    if(calculateFirstDayOfWeek(firstDayOfSelectedWeek) != calculateFirstDayOfWeek(date))
+      setFirstDayOfSelectedWeek(date);
+  };
 
   const CustomHeader = (date: any) => {
     setCalChange(true);
@@ -109,7 +198,7 @@ const MyBookings: React.FC = (props: any) => {
             <div className="type--wgt--bold">{event.event.label}</div>
           </div>
         );
-      } else if (event.event.id === 'currentUnavailableItem' || (unavailableBookings && unavailableBookings.find((x) => x.id === event.event.id))) {
+      } else if(event.event.label === 'unavailableCustom'){
         return (
           <>
             <div className="event--unavailable">
@@ -117,7 +206,19 @@ const MyBookings: React.FC = (props: any) => {
             </div>
           </>
         );
-      } else {
+
+      }else if (event.event.id === 'currentUnavailableItem'
+        || event.event.label === 'unavailableInTable'
+        || event.event.label === 'unavailable'
+        || (unavailableBookings && unavailableBookings.find((x) => x.id === event.event.id))) {
+        return (
+          <>
+            <div className="event--unavailable">
+              <div className="type--color--primary type--wgt--bold"></div>
+            </div>
+          </>
+        );
+      }else {
         return (
           <>
             <div className="event event--pending">
@@ -158,7 +259,8 @@ const MyBookings: React.FC = (props: any) => {
         //close createNewUnavailability
         setOpenUnavailabilityModal(false);
         setUnavailableCurrentEvent([]);
-        if (e.label === 'Unavailable') {
+        console.log(e.label);
+        if (e.label === 'unavailableCustom') {
           //open unavailability modal
           setOpenUnavailabilityEditModal(true);
           setSelectedUnavailability(e.id);
@@ -172,7 +274,8 @@ const MyBookings: React.FC = (props: any) => {
         }
         //return;
       } else {
-        if (e.label === 'Unavailable') {
+        console.log(e.label);
+        if (e.label === 'unavailableCustom') {
           //close createNewUnavailability
           setOpenUnavailabilityModal(false);
           setUnavailableCurrentEvent([]);
@@ -181,7 +284,7 @@ const MyBookings: React.FC = (props: any) => {
           setSelectedUnavailability(e.id);
           setSelectedSlot(e.start);
           setOpenEventDetails(false);
-        } else {
+        } else if(e.label !== 'unavailableInTable'){
           setOpenUnavailabilityEditModal(false);
           getBookingById(e.id);
           setOpenEventDetails(true);
@@ -264,6 +367,7 @@ const MyBookings: React.FC = (props: any) => {
           dateFrom: moment(value).startOf('isoWeek').toISOString(),
           dateTo: moment(value).endOf('isoWeek').toISOString(),
         }).unwrap();
+        await getTutorAvailability(userId).unwrap();
       }
     }
   };
@@ -271,6 +375,7 @@ const MyBookings: React.FC = (props: any) => {
   useEffect(() => {
     calcPosition();
     hideShowHighlight(value);
+    printSelectedDateFirstDayOfWeek(value);
   }, [value]);
 
   useEffect(() => {
