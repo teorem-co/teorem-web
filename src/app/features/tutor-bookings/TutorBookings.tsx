@@ -128,6 +128,8 @@ const TutorBookings = () => {
   const [tutorId, setTutorId] = useState('');
   const { tutorSlug } = useParams();
   const [minimumUnavailability, setminimumUnavailability] = useState<IBookingTransformed>();
+  const [pastUnavailability, setPastUnavailability] = useState<IBookingTransformed>();
+
 
   useEffect(() => {
     getTutorIdByTutorSlug(tutorSlug)
@@ -568,7 +570,6 @@ const TutorBookings = () => {
   function calculateAndSetMinimumUnavailability() {
     if (!hasRunThisMinute) {
       const currentDate = new Date();
-      console.log('running calculate');
       if (unavailability) {
         // Update start time to the current time
         unavailability.start = new Date(currentDate);
@@ -598,6 +599,47 @@ const TutorBookings = () => {
         setHasRunThisMinute(false);
       }, 60000);
     }
+  }
+
+  let pastUnava: IBookingTransformed | null = null;
+  function calculateAndSetPastUnavailability(){
+    const currentDateTime = moment();
+    const firstDay = firstDayOfSelectedWeek;
+    const start = firstDay.setHours(0, 0, 0, 0);
+
+    if(moment(start).isBefore(moment(currentDateTime))){
+      if (!hasRunThisMinute) {
+        const currentDate = new Date();
+        if (pastUnava) {
+          // Update start time to the current time
+          pastUnava.start = new Date(start);
+
+          // Update end time to 3 hours after the start time
+          pastUnava.end = new Date(currentDate.getTime());
+
+          // Call the function to set the time (I'm assuming you have this function defined elsewhere)
+          setPastUnavailability(pastUnava);
+        } else {
+          // Create the initial unavailability object if it doesn't exist
+          pastUnava = {
+            start: new Date(start),
+            end: currentDate,
+            id: uuidv4(),
+            label: 'unavailable',
+            allDay: false,
+          };
+
+          setPastUnavailability(pastUnava);
+        }
+
+        setHasRunThisMinute(true);
+
+        setTimeout(() => {
+          setHasRunThisMinute(false);
+        }, 60000);
+      }
+    }
+
   }
 
 
@@ -656,6 +698,7 @@ const TutorBookings = () => {
   useEffect(() => {
     if(!hasRunThisMinute){
       calculateAndSetMinimumUnavailability();
+      calculateAndSetPastUnavailability();
     }
   });
 
@@ -663,7 +706,9 @@ const TutorBookings = () => {
     const tutBookings = tutorBookings &&  tutorBookings
       .concat(emptyBookings, unavailableBookings ? unavailableBookings : [])
       .concat(tutorAvailability ? arrayDataToUnavailabilityObjects(tutorAvailability, firstDayOfSelectedWeek) : [])
-      .concat(minimumUnavailability ? minimumUnavailability : []);
+      .concat(minimumUnavailability ? minimumUnavailability : [])
+      .concat(pastUnavailability ? pastUnavailability : [])
+    ;
 
     let transformedBookings;
     if(tutBookings){
@@ -671,7 +716,7 @@ const TutorBookings = () => {
       setAllBookings2(transformedBookings ? transformedBookings : []);
     }
 
-  }, [tutorBookings, minimumUnavailability, tutorAvailability, emptyBookings]);
+  }, [tutorBookings, minimumUnavailability, tutorAvailability, emptyBookings, pastUnavailability]);
 
 
 

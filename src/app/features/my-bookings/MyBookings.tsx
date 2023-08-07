@@ -201,7 +201,7 @@ const MyBookings: React.FC = (props: any) => {
       } else if(event.event.label === 'unavailableCustom'){
         return (
           <>
-            <div className="event--unavailable">
+            <div className="event--unavailable-custom" >
               <div className="type--color--primary type--wgt--bold">{t('MY_BOOKINGS.UNAVAILABLE')}</div>
             </div>
           </>

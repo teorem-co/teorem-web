@@ -28,7 +28,25 @@
         align-items: center;
         justify-content: center;
         height: 100%;
+        cursor: not-allowed;
     }
+    &--unavailable-custom {
+      position: absolute;
+      //border-top:1px solid #88bfff;
+      background: repeating-linear-gradient(45deg, #f7f7f7, #f7f7f7 10px, #fcfcfc 10px, #fcfcfc 20px);
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+
+  &--unavailable-custom:hover {
+    border-top:2px solid #c9e2ff;
+  }
     &--pending {
         background: #c9e2ff;
         color: $white;
