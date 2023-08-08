@@ -1,32 +1,30 @@
 import { baseService } from '../app/baseService';
 import { HttpMethods } from '../app/lookups/httpMethods';
 import IGenerateUsername from '../interfaces/IGenerateUsername';
-import IRole from '../interfaces/IRole';
 import { IChild } from '../interfaces/IChild';
+import IUser from '../interfaces/IUser';
 
 interface ILogin {
     email: string;
     password: string;
 }
 
-interface ILoginResponse {
-    token: string;
-    user: {
-        id: string;
-        role: IRole;
-    };
+interface ILoginPayload {
+  token: string;
+  user: IUser;
 }
+
 interface IRegisterTutor {
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-    confirmPassword: string;
-    roleAbrv: string;
-    countryId: string;
-    phoneNumber: string;
-    dateOfBirth: string;
-    profileImage: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  roleAbrv: string;
+  countryId: string;
+  phoneNumber: string;
+  dateOfBirth: string;
+  profileImage: string;
 }
 
 interface IRegisterParent {
@@ -85,23 +83,23 @@ interface IResendEmail {
 const URL = '/api/v1/users';
 export const authService = baseService.injectEndpoints({
     endpoints: (builder) => ({
-        login: builder.mutation<ILoginResponse, ILogin>({
-            query: (body) => ({
-                url: `${URL}/login`,//"http://localhost:8080/api/v1/users/login",
-                method: HttpMethods.POST,
-                body,
-            }),
+      login: builder.mutation<ILoginPayload, ILogin>({
+        query: (body) => ({
+          url: `/api/v1/auth/login`,
+          method: HttpMethods.POST,
+          body,
         }),
-        resetPassword: builder.mutation<void, IResetPassword>({
-            query: (body) => ({
-                url: `/request-reset-password`,
-                method: HttpMethods.POST,
-                body,
-            }),
+      }),
+      resetPassword: builder.mutation<void, IResetPassword>({
+        query: (body) => ({
+          url: `/request-reset-password`,
+          method: HttpMethods.POST,
+          body,
         }),
-        changePassword: builder.mutation<void, IChangePassword>({
-            query: (body) => ({
-                url: `/reset-password`,
+      }),
+      changePassword: builder.mutation<void, IChangePassword>({
+        query: (body) => ({
+          url: `/reset-password`,
                 method: HttpMethods.PUT,
                 body: {
                     password: body.password,
