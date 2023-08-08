@@ -14,6 +14,8 @@ import { useAppSelector } from '../../hooks';
 import { Role } from '../../lookups/role';
 import { PATHS } from '../../routes';
 import logo from './../../../assets/images/logo.svg';
+import { useDispatch } from 'react-redux';
+import { setToken } from '../../../slices/authSlice';
 
 interface Values {
   email: string;
@@ -27,13 +29,23 @@ const Login: React.FC = () => {
   const [loginSentAgainMessage, setLoginSentAgainMessage] = useState<boolean>();
   const [loginUserNotActive, setLoginUserNotActive] = useState<boolean>(false);
 
-  const [login, { data: loginData, isSuccess: isSuccessLogin, isLoading: isLoadingLogin, error: errorLogin }] = useLoginMutation();
-  const [getServerVersion, { data: serverVersion, isSuccess: isSuccessServerVersion }] = useLazyGetServerVersionQuery();
+  const [login, {
+    data: loginData,
+    isSuccess: isSuccessLogin,
+    isLoading: isLoadingLogin,
+    error: errorLogin,
+  }] = useLoginMutation();
+  const [getServerVersion, {
+    data: serverVersion,
+    isSuccess: isSuccessServerVersion,
+  }] = useLazyGetServerVersionQuery();
   const [resendEmail, setResendEmail] = useState<string>('');
 
   const [resendActivationEmailPost, { isSuccess: isSuccessResendActivationEmail }] = useResendActivationEmailMutation();
   const userRoleAbrv = useAppSelector((state) => state.auth.user?.Role?.abrv);
   const userToken = useAppSelector((state) => state.auth.token);
+
+  const dispatch = useDispatch();
 
   const initialValues: Values = {
     email: '',
@@ -54,7 +66,10 @@ const Login: React.FC = () => {
 
       setResendEmail(values.email);
 
-      login(data);
+      login(data).unwrap().then(resp => {
+        dispatch(setToken(resp));
+      });
+
       getServerVersion();
     },
     validationSchema: Yup.object().shape({
