@@ -620,8 +620,7 @@ const TutorBookings = () => {
   let pastUnava: IBookingTransformed | null = null;
   function calculateAndSetPastUnavailability(){
     const currentDateTime = moment();
-    const firstDay = firstDayOfSelectedWeek;
-    const start = firstDay.setHours(0, 0, 0, 0);
+    const start = moment(new Date()).startOf('week').toDate();
 
     if(moment(start).isBefore(moment(currentDateTime))){
       if (!hasRunThisMinute) {
