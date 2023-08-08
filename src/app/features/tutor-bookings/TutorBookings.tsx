@@ -267,10 +267,6 @@ const TutorBookings = () => {
     );
   };
 
-  function test(){
-    console.log("test");
-  }
-
   const CustomEvent = (event: any) => {
     if (event.event?.userId !== userId) {
       return (
@@ -289,7 +285,7 @@ const TutorBookings = () => {
 
             :
 
-            <div className="event--unavailable-min-time" onClick={test}>
+            <div className="event--unavailable-min-time">
               <div className="type--color--primary type--wgt--bold" style={{fontSize: 'smaller', textAlign: 'center'}}>
                 {event.event.label === 'unavailableHoursBefore' ?
                   t('BOOKING.CANT_BOOK_MESSAGE')
@@ -663,28 +659,6 @@ const TutorBookings = () => {
   }
 
 
-  // function mergeOverlappingEvents(events: IBookingTransformed[]): IBookingTransformed[] {
-  //   events.sort((a, b) => a.start.getTime() - b.start.getTime());
-  //   const mergedEvents: IBookingTransformed[] = [];
-  //   let currentEvent = events[0];
-  //
-  //   for(let i = 1; i < events.length; i++) {
-  //     const nextEvent = events[i];
-  //
-  //     // Check if the events overlap and have the same label
-  //     if(currentEvent.end.getTime() >= nextEvent.start.getTime() && currentEvent.label === 'unavailable' && nextEvent.label === 'unavailable') {
-  //       console.log(currentEvent);
-  //       currentEvent.end = new Date(Math.max(currentEvent.end.getTime(), nextEvent.end.getTime()));
-  //     } else {
-  //       mergedEvents.push(currentEvent);
-  //       currentEvent = nextEvent;
-  //     }
-  //   }
-  //
-  //   mergedEvents.push(currentEvent);
-  //   return mergedEvents;
-  // }
-
   function mergeOverlappingEvents(events: IBookingTransformed[]): IBookingTransformed[] {
     events.sort((a, b) => a.start.getTime() - b.start.getTime());
 
@@ -749,7 +723,7 @@ const TutorBookings = () => {
   useEffect(() => {
     calcPosition();
     hideShowHighlight(value);
-    printSelectedDateFirstDayOfWeek(value);
+    setSelectedDateFirstDayOfWeek(value);
   }, [value]);
 
   useEffect(() => {
@@ -781,7 +755,7 @@ const TutorBookings = () => {
     }
   }, [value, tutorId]);
 
-  const printSelectedDateFirstDayOfWeek = (date:Date) =>{
+  const setSelectedDateFirstDayOfWeek = (date:Date) =>{
     if(calculateFirstDayOfWeek(firstDayOfSelectedWeek) != calculateFirstDayOfWeek(date))
       setFirstDayOfSelectedWeek(date);
   };

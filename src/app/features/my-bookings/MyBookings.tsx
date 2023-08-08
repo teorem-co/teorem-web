@@ -56,10 +56,7 @@ interface IBookingTransformed {
 
 const MyBookings: React.FC = (props: any) => {
 
-  //const [allBookings2, setAllBookings2] = useState<IBookingTransformed[]>(mergeOverlappingEvents(allBookings ? allBookings : []));
   const [getTutorAvailability, { data: tutorAvailability, isLoading: tutorAvailabilityLoading }] = useLazyGetTutorAvailableDaysQuery();
-
-
 
   const userId = useAppSelector((state) => state.auth.user?.id);
   const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
@@ -174,7 +171,7 @@ const MyBookings: React.FC = (props: any) => {
     return moment(date).startOf('week').date();
   };
 
-  const printSelectedDateFirstDayOfWeek = (date:Date) =>{
+  const setSelectedDateFirstDayOfWeek = (date:Date) =>{
     if(calculateFirstDayOfWeek(firstDayOfSelectedWeek) != calculateFirstDayOfWeek(date))
       setFirstDayOfSelectedWeek(date);
   };
@@ -259,7 +256,6 @@ const MyBookings: React.FC = (props: any) => {
         //close createNewUnavailability
         setOpenUnavailabilityModal(false);
         setUnavailableCurrentEvent([]);
-        console.log(e.label);
         if (e.label === 'unavailableCustom') {
           //open unavailability modal
           setOpenUnavailabilityEditModal(true);
@@ -274,7 +270,6 @@ const MyBookings: React.FC = (props: any) => {
         }
         //return;
       } else {
-        console.log(e.label);
         if (e.label === 'unavailableCustom') {
           //close createNewUnavailability
           setOpenUnavailabilityModal(false);
@@ -375,7 +370,7 @@ const MyBookings: React.FC = (props: any) => {
   useEffect(() => {
     calcPosition();
     hideShowHighlight(value);
-    printSelectedDateFirstDayOfWeek(value);
+    setSelectedDateFirstDayOfWeek(value);
   }, [value]);
 
   useEffect(() => {
