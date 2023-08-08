@@ -1165,6 +1165,6 @@ export const EN_US = {
     BOOKING:{
         SUCCESS: 'Booking successful!',
         TOAST_CANT_BOOK: 'You can\'t book a lesson at selected time!',
-      CANT_BOOK_MESSAGE: 'You can\'t book a lesson for the next 3 hours!'
+      CANT_BOOK_MESSAGE: 'You can\'t book less than 3 hours in advance!'
     }
 };
