@@ -581,15 +581,19 @@ const TutorBookings = () => {
     }, []);*/
 
   let unavailability: IBookingTransformed | null = null;
+  let pastUnava: IBookingTransformed | null = null;
   const [hasRunThisMinute, setHasRunThisMinute] = useState(false);
+  const [hasRunThisMinutePastUnavailability, sethasRunThisMinutePastUnavailability] = useState(false);
+
 
   function calculateAndSetMinimumUnavailability() {
     if (!hasRunThisMinute) {
       const currentDate = new Date();
+
+
       if (unavailability) {
         // Update start time to the current time
         unavailability.start = new Date(currentDate);
-
         // Update end time to 3 hours after the start time
         unavailability.end = new Date(currentDate.getTime() + 3 * 60 * 60 * 1000);
 
@@ -597,7 +601,7 @@ const TutorBookings = () => {
         setminimumUnavailability(unavailability);
       } else {
         // Create the initial unavailability object if it doesn't exist
-        const endHours = currentDate.getHours() + 3;
+
         unavailability = {
           start: new Date(currentDate),
           end: new Date(currentDate.getTime() + 3 * 60 * 60 * 1000),
@@ -609,6 +613,30 @@ const TutorBookings = () => {
         setminimumUnavailability(unavailability);
       }
 
+      // FOR GRAYING OUT PAST TIME
+      const start = moment(currentDate).startOf('week').toDate();
+      if (pastUnava) {
+        // Update start time to the current time
+        pastUnava.start = new Date(start);
+
+        // Update end time to 3 hours after the start time
+        pastUnava.end = new Date(currentDate.getTime());
+
+        // Call the function to set the time (I'm assuming you have this function defined elsewhere)
+        setPastUnavailability(pastUnava);
+      } else {
+        // Create the initial unavailability object if it doesn't exist
+        pastUnava = {
+          start: new Date(start),
+          end: currentDate,
+          id: uuidv4(),
+          label: 'unavailablePrevious',
+          allDay: false,
+        };
+
+        setPastUnavailability(pastUnava);
+      }
+
       setHasRunThisMinute(true);
 
       setTimeout(() => {
@@ -617,45 +645,7 @@ const TutorBookings = () => {
     }
   }
 
-  let pastUnava: IBookingTransformed | null = null;
-  function calculateAndSetPastUnavailability(){
-    const currentDateTime = moment();
-    const start = moment(new Date()).startOf('week').toDate();
 
-    if(moment(start).isBefore(moment(currentDateTime))){
-      if (!hasRunThisMinute) {
-        const currentDate = new Date();
-        if (pastUnava) {
-          // Update start time to the current time
-          pastUnava.start = new Date(start);
-
-          // Update end time to 3 hours after the start time
-          pastUnava.end = new Date(currentDate.getTime());
-
-          // Call the function to set the time (I'm assuming you have this function defined elsewhere)
-          setPastUnavailability(pastUnava);
-        } else {
-          // Create the initial unavailability object if it doesn't exist
-          pastUnava = {
-            start: new Date(start),
-            end: currentDate,
-            id: uuidv4(),
-            label: 'unavailablePrevious',
-            allDay: false,
-          };
-
-          setPastUnavailability(pastUnava);
-        }
-
-        setHasRunThisMinute(true);
-
-        setTimeout(() => {
-          setHasRunThisMinute(false);
-        }, 60000);
-      }
-    }
-
-  }
 
 
   function mergeOverlappingEvents(events: IBookingTransformed[]): IBookingTransformed[] {
@@ -697,9 +687,9 @@ const TutorBookings = () => {
   useEffect(() => {
     if(!hasRunThisMinute){
       calculateAndSetMinimumUnavailability();
-      calculateAndSetPastUnavailability();
     }
   });
+
 
   useEffect(() =>{
     const tutBookings = tutorBookings &&  tutorBookings
