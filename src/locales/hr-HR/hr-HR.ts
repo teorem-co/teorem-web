@@ -1168,6 +1168,6 @@ export const HR_HR = {
     BOOKING:{
         SUCCESS: 'Rezervacija uspješna!',
         TOAST_CANT_BOOK: 'Ne možete rezervirati lekciju u odabrano vrijeme!',
-        CANT_BOOK_MESSAGE: 'Ne možete rezervirati manje od 3 sata unaprijed!'
+        CANT_BOOK_MESSAGE: 'Molimo rezervirajte minimalno 3 sata unaprijed'
     }
 };
