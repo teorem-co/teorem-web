@@ -1,5 +1,5 @@
 interface IParams {
-    rpp: number;
+    size: number;
     page: number;
 }
 

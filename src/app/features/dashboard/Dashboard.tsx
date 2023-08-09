@@ -543,15 +543,15 @@ const Dashboard = () => {
                 <div className="overflow--auto">
                     <div className="flex--primary mb-2">
                         <div className="type--color--tertiary">{t('DASHBOARD.NOTIFICATIONS.TITLE')}</div>
-                        {notificationsData && notificationsData.length > 0 && (
+                        {notificationsData?.content && notificationsData.content.length > 0 && (
                             <div className="type--color--brand type--wgt--bold cur--pointer" onClick={() => markAllAsRead()}>
                                 {t('DASHBOARD.NOTIFICATIONS.CLEAR')}
                             </div>
                         )}
                     </div>
-                    {notificationsData && notificationsData.find((x) => x.isRead === false) ? (
-                        notificationsData.map((notification: INotification) => {
-                            if (!notification.isRead) {
+                    {notificationsData?.content && notificationsData.content.find((x) => x.read === false) ? (
+                        notificationsData.content.map((notification: INotification) => {
+                            if (!notification.read) {
                                 return <NotificationItem key={notification.id} notificationData={notification} />;
                             }
                         })
