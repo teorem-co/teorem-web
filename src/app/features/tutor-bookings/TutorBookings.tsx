@@ -212,7 +212,7 @@ const TutorBookings = () => {
 
     return unavailabilityObjects;
   };
-
+  const [flag, setFlag] = useState(true);
   const [firstDayOfSelectedWeek, setFirstDayOfSelectedWeek] = useState<Date>(new Date());
   const { t } = useTranslation();
   const defaultScrollTime = new Date(new Date().setHours(7, 45, 0));
@@ -224,7 +224,7 @@ const TutorBookings = () => {
       .concat(tutorAvailability ? arrayDataToUnavailabilityObjects(tutorAvailability, firstDayOfSelectedWeek) : [])
       .concat(minimumUnavailability ? minimumUnavailability : []);
   const [allBookings2, setAllBookings2] = useState<IBookingTransformed[]>(mergeOverlappingEvents(allBookings ? allBookings : []));
-  const existingBookings = tutorBookings && tutorBookings.concat(unavailableBookings ? unavailableBookings : []);
+  const existingBookings = tutorBookings && tutorBookings.concat(unavailableBookings ? unavailableBookings : []).concat(tutorAvailability ? arrayDataToUnavailabilityObjects(tutorAvailability, firstDayOfSelectedWeek) : []);
   const totalBookings = allBookings2 && allBookings2.concat(bookings ? bookings : []); //allBookings && allBookings.concat(bookings ? bookings : []) &&
   const filteredBookings = uniqBy(totalBookings, 'id');
   const tileRef = useRef<HTMLDivElement>(null);
@@ -287,7 +287,7 @@ const TutorBookings = () => {
 
             <div className="event--unavailable-min-time">
               <div className="type--color--primary type--wgt--bold" style={{fontSize: 'smaller', textAlign: 'center'}}>
-                {event.event.label === 'unavailableHoursBefore' ?
+                {(event.event.label === 'unavailableHoursBefore' ) ?
                   t('BOOKING.CANT_BOOK_MESSAGE')
                   :
                   null
@@ -585,7 +585,6 @@ const TutorBookings = () => {
   const [hasRunThisMinute, setHasRunThisMinute] = useState(false);
   const [hasRunThisMinutePastUnavailability, sethasRunThisMinutePastUnavailability] = useState(false);
 
-
   function calculateAndSetMinimumUnavailability() {
     if (!hasRunThisMinute) {
       const currentDate = new Date();
@@ -646,8 +645,6 @@ const TutorBookings = () => {
   }
 
 
-
-
   function mergeOverlappingEvents(events: IBookingTransformed[]): IBookingTransformed[] {
     events.sort((a, b) => a.start.getTime() - b.start.getTime());
 
@@ -657,22 +654,31 @@ const TutorBookings = () => {
 
     for(let i = 1; i < events.length; i++) {
       const nextEvent = {...events[i]}; // Create a new object rather than referencing the original one
-
-      // Check if the events overlap and have the same label
       if(
-        currentEvent.end.getTime() >= nextEvent.start.getTime() &&
-        (((currentEvent.label === 'unavailable' || currentEvent.label === 'unavailableHoursBefore' || currentEvent.label === 'unavailablePrevious')
-            && (nextEvent.label === 'unavailable' || nextEvent.label === 'unavailableHoursBefore') || currentEvent.label === 'unavailablePrevious')
-        ||(currentEvent.label === 'unavailableCustom' && nextEvent.label === 'unavailableCustom'))
-
+        currentEvent.end.getTime() >= nextEvent.start.getTime() && (currentEvent.label !== 'Book event' && nextEvent.label !== 'Book event')
       ) {
-        if(currentEvent.label === 'unavailablePrevious'){
-          if(nextEvent.label !== 'unavailableHoursBefore'){
-            currentEvent = {...currentEvent, label: 'unavailable', end: new Date(Math.max(currentEvent.end.getTime(), nextEvent.end.getTime()))};
-          }else{
-            mergedEvents.push(nextEvent);
+          if(nextEvent.label === 'unavailableHoursBefore'){
+            const nextNextEvent = {...events[i +1]};
+
+            if(
+              nextNextEvent
+              &&
+              (
+                !moment(nextEvent.end).isSame(moment(nextNextEvent.start), 'day')
+                || moment(nextEvent.end).isBefore(moment(nextNextEvent.start))
+              )
+              &&
+              !(currentEvent.end.getTime() > nextEvent.start.getTime())
+            ){
+              console.log("unutar ifa");
+              mergedEvents.push(nextEvent);
+              //setFlag(false);
+              continue;
+            }
           }
-        }
+
+        currentEvent = {...currentEvent, label: 'unavailable', end: new Date(Math.max(currentEvent.end.getTime(), nextEvent.end.getTime()))};
+
       } else {
         mergedEvents.push(currentEvent);
         currentEvent = nextEvent;
