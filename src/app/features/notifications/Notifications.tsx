@@ -19,7 +19,7 @@ const Notifications = () => {
 
     const [groupedNotifications, setGroupedNotifications] = useState<IGroupedNotifications>({});
     const [loadedNotifications, setLoadedNotifications] = useState<INotification[]>([]);
-    const [params, setParams] = useState<IParams>({ page: 1, rpp: 10 });
+    const [params, setParams] = useState<IParams>({ page: 1, size: 10, sort:"createdAt", sortDirection:"desc" });
 
     const history = useHistory();
     const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
@@ -28,7 +28,9 @@ const Notifications = () => {
         let newParams = { ...params };
         newParams = {
             page: params.page + 1,
-            rpp: params.rpp,
+            size: params.size,
+          sort: params.sort,
+          sortDirection: params.sortDirection
         };
 
         setParams(newParams);
@@ -37,9 +39,8 @@ const Notifications = () => {
     const hideLoadMore = () => {
         let returnValue: boolean = false;
         if (notificationsData) {
-            const totalPages = Math.ceil(notificationsData.count / params.rpp);
-
-            if (params.page === totalPages) returnValue = true;
+            //const totalPages = Math.ceil(notificationsData.count / params.size);
+            if (notificationsData.last) returnValue = true;
         }
         return returnValue;
     };
@@ -54,8 +55,8 @@ const Notifications = () => {
     };
 
     const fetchData = async (params: IParams) => {
-        const res = await getNotifications(params).unwrap();
-        setLoadedNotifications(res.rows.concat(loadedNotifications));
+      const res = await getNotifications(params).unwrap();
+      setLoadedNotifications(res.content.concat(loadedNotifications));
     };
 
     const groupNotifications = (notifications: INotification[]) => {

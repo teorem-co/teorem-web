@@ -10,7 +10,7 @@ interface INotification {
     title: string;
     description: string;
     createdAt: Date;
-    isRead: boolean;
+    read: boolean;
     type: NotificationType;
 }
 

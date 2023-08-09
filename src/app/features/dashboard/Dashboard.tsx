@@ -31,6 +31,7 @@ import NotificationItem from '../notifications/components/NotificationItem';
 import CircularProgress from '../my-profile/components/CircularProgress';
 import { setMyProfileProgress } from '../my-profile/slices/myProfileSlice';
 import { useLazyGetProfileProgressQuery } from '../../../services/tutorService';
+import IParams from "../notifications/interfaces/IParams";
 
 interface IGroupedDashboardData {
     [date: string]: IBooking[];
@@ -51,8 +52,9 @@ const Dashboard = () => {
     const [currentlyActiveBooking, setCurentlyActiveBooking] = useState<string>('');
     const [activeIndex, setActiveIndex] = useState<number>(0);
     const [activeMsgIndex, setActiveMsgIndex] = useState<number>(0);
+  const [params, setParams] = useState<IParams>({ page: 1, size: 10, sort:"createdAt", sortDirection:"desc", read: false });
 
-    const userData = useAppSelector((state) => state.user);
+  const userData = useAppSelector((state) => state.user);
 
     const userId = useAppSelector((state) => state.auth.user?.id);
     const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
@@ -71,7 +73,7 @@ const Dashboard = () => {
     };
 
     const fetchData = async () => {
-        await getUnreadNotifications().unwrap();
+        await getUnreadNotifications(params).unwrap();
         const res = await getDashboardData().unwrap();
         const groupedDashboardData: IGroupedDashboardData = groupBy(res.upcoming, (e) => moment(e.startTime).format('DD/MM/YYYY'));
         setGroupedUpcomming(groupedDashboardData);
@@ -226,11 +228,11 @@ const Dashboard = () => {
         [chatrooms, userDataFirst, userDataSecond]);
 
     useEffect(() => {
-        //fetchData(); //TODO: IMPORTANT! uncomment this later, this gets dashboard data
+        fetchData(); //TODO: IMPORTANT! uncomment this later, this gets dashboard data
 
         socket.on('showNotification', (notification: ISocketNotification) => {
             if (userId && notification.userId === userId) {
-                getUnreadNotifications();
+                getUnreadNotifications(params);
             }
         });
     }, []);
@@ -543,15 +545,15 @@ const Dashboard = () => {
                 <div className="overflow--auto">
                     <div className="flex--primary mb-2">
                         <div className="type--color--tertiary">{t('DASHBOARD.NOTIFICATIONS.TITLE')}</div>
-                        {notificationsData && notificationsData.length > 0 && (
+                        {notificationsData?.content && notificationsData.content.length > 0 && (
                             <div className="type--color--brand type--wgt--bold cur--pointer" onClick={() => markAllAsRead()}>
                                 {t('DASHBOARD.NOTIFICATIONS.CLEAR')}
                             </div>
                         )}
                     </div>
-                    {notificationsData && notificationsData.find((x) => x.isRead === false) ? (
-                        notificationsData.map((notification: INotification) => {
-                            if (!notification.isRead) {
+                    {notificationsData?.content && notificationsData.content.find((x) => x.read === false) ? (
+                        notificationsData.content.map((notification: INotification) => {
+                            if (!notification.read) {
                                 return <NotificationItem key={notification.id} notificationData={notification} />;
                             }
                         })

@@ -1,23 +1,22 @@
 import { baseService } from '../app/baseService';
 import IParams from '../app/features/notifications/interfaces/IParams';
 import { HttpMethods } from '../app/lookups/httpMethods';
-import INotification from '../interfaces/notification/INotification';
-import INotifications from '../interfaces/notification/INotifications';
+import IPage from "../interfaces/notification/IPage";
 
-const URL = 'notifications';
+const URL = 'api/v1/notifications';
 
 export const notificationService = baseService.injectEndpoints({
     endpoints: (builder) => ({
-        getAllNotifications: builder.query<INotifications, IParams>({
+        getAllNotifications: builder.query<IPage, IParams>({
             query: (params) => ({
-                url: `${URL}?rpp=${params.rpp}&page=${params.page}`,
+                url: `${URL}?size=${params.size}&page=${params.page-1}&sort=${params.sort},${params.sortDirection}`,
                 method: HttpMethods.GET,
             }),
             providesTags: ['notifications'],
         }),
-        getAllUnreadNotifications: builder.query<INotification[], void>({
-            query: () => ({
-                url: `${URL}/unread`,
+        getAllUnreadNotifications: builder.query<IPage, IParams>({
+            query: (params) => ({
+                url: `${URL}?size=${params.size}&page=${params.page-1}&read=${params.read}&sort=${params.sort},${params.sortDirection}`,
                 method: HttpMethods.GET,
             }),
             providesTags: ['notificationsUnread'],
