@@ -18,7 +18,7 @@ interface Props {
 const NotificationItem = (props: Props) => {
 
     const { t } = useTranslation();
-    const { createdAt, title, description, isRead, id, type } = props.notificationData;
+    const { createdAt, title, description, read, id, type } = props.notificationData;
     const [descriptionData, setDescriptData] = useState<string>(description);
     const [titleData, setTitleData] = useState<string>(title);
 
@@ -67,7 +67,7 @@ const NotificationItem = (props: Props) => {
         <div className="card--primary card--primary--shadow mb-4 cur--pointer" onClick={() => handleClick()}>
             <div className="flex--primary mb-2">
                 <div className="type--wgt--bold">
-                    {isRead ? '' : <span className="status--primary status--primary--purple d--ib mr-1" style={{ marginBottom: '1px' }}></span>}
+                    {read ? '' : <span className="status--primary status--primary--purple d--ib mr-1" style={{ marginBottom: '1px' }}></span>}
                     {titleData}
                 </div>
                 <div className="type--color--tertiary type--sm">{moment(createdAt).format('HH:mm')}</div>
