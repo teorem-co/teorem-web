@@ -76,7 +76,7 @@ const MyReviews = () => {
             };
 
             await getMyReviews(obj).unwrap();
-            //await getStatistics(tutorId).unwrap(); //TODO: uncomment
+            await getStatistics(tutorId).unwrap();
         }
     };
 
