@@ -52,7 +52,7 @@ const Dashboard = () => {
     const [currentlyActiveBooking, setCurentlyActiveBooking] = useState<string>('');
     const [activeIndex, setActiveIndex] = useState<number>(0);
     const [activeMsgIndex, setActiveMsgIndex] = useState<number>(0);
-  const [params, setParams] = useState<IParams>({ page: 1, size: 10, read: false });
+  const [params, setParams] = useState<IParams>({ page: 1, size: 10, sort:"createdAt", sortDirection:"desc", read: false });
 
   const userData = useAppSelector((state) => state.user);
 

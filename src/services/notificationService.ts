@@ -9,14 +9,14 @@ export const notificationService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         getAllNotifications: builder.query<IPage, IParams>({
             query: (params) => ({
-                url: `${URL}?size=${params.size}&page=${params.page-1}`,
+                url: `${URL}?size=${params.size}&page=${params.page-1}&sort=${params.sort},${params.sortDirection}`,
                 method: HttpMethods.GET,
             }),
             providesTags: ['notifications'],
         }),
         getAllUnreadNotifications: builder.query<IPage, IParams>({
             query: (params) => ({
-                url: `${URL}?size=${params.size}&page=${params.page-1}&read=${params.read}`,
+                url: `${URL}?size=${params.size}&page=${params.page-1}&read=${params.read}&sort=${params.sort},${params.sortDirection}`,
                 method: HttpMethods.GET,
             }),
             providesTags: ['notificationsUnread'],

@@ -19,7 +19,7 @@ const Notifications = () => {
 
     const [groupedNotifications, setGroupedNotifications] = useState<IGroupedNotifications>({});
     const [loadedNotifications, setLoadedNotifications] = useState<INotification[]>([]);
-    const [params, setParams] = useState<IParams>({ page: 1, size: 10 });
+    const [params, setParams] = useState<IParams>({ page: 1, size: 10, sort:"createdAt", sortDirection:"desc" });
 
     const history = useHistory();
     const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
@@ -29,6 +29,8 @@ const Notifications = () => {
         newParams = {
             page: params.page + 1,
             size: params.size,
+          sort: params.sort,
+          sortDirection: params.sortDirection
         };
 
         setParams(newParams);
