@@ -670,9 +670,8 @@ const TutorBookings = () => {
               &&
               !(currentEvent.end.getTime() > nextEvent.start.getTime())
             ){
-              console.log("unutar ifa");
+
               mergedEvents.push(nextEvent);
-              //setFlag(false);
               continue;
             }
           }
