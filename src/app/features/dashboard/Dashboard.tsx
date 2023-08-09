@@ -228,7 +228,6 @@ const Dashboard = () => {
         [chatrooms, userDataFirst, userDataSecond]);
 
     useEffect(() => {
-      console.log("useEffect");
         fetchData(); //TODO: IMPORTANT! uncomment this later, this gets dashboard data
 
         socket.on('showNotification', (notification: ISocketNotification) => {
