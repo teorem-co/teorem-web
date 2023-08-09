@@ -212,7 +212,7 @@ const TutorBookings = () => {
 
     return unavailabilityObjects;
   };
-  const [flag, setFlag] = useState(true);
+
   const [firstDayOfSelectedWeek, setFirstDayOfSelectedWeek] = useState<Date>(new Date());
   const { t } = useTranslation();
   const defaultScrollTime = new Date(new Date().setHours(7, 45, 0));
