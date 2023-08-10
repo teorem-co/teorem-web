@@ -89,7 +89,7 @@ export const userService = baseService.injectEndpoints({
         }),
         getDashboard: builder.query<IDashboard, void>({
             query: () => ({
-                url: `${URL}/dashboard`,
+                url: `api/v1/dashboard`,
                 method: HttpMethods.GET,
             }),
         }),
