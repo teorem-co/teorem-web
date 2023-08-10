@@ -504,7 +504,7 @@ const Dashboard = () => {
                                                             <div>
                                                                 {item.User.firstName}&nbsp;{item.User.lastName}
                                                             </div>
-                                                            <div>{t(`ROLES.${item.User.Role.abrv}`)}</div>
+                                                            <div>{t(`LEVELS.${item.Level.abrv.toLowerCase().replace("-", "")}`)}</div>
                                                             <div>
                                                                 <span className="tag tag--primary">{t(`SUBJECTS.${item.Subject.abrv.replace('-', '')}`)}</span>
                                                             </div>
@@ -554,7 +554,7 @@ const Dashboard = () => {
                     {notificationsData?.content && notificationsData.content.find((x) => x.read === false) ? (
                         notificationsData.content.map((notification: INotification) => {
                             if (!notification.read) {
-                                return <NotificationItem key={notification.id} notificationData={notification} />;
+                                return <NotificationItem key={notification.id} notificationData={notification}/>;
                             }
                         })
                     ) : (
