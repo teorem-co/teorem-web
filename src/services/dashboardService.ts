@@ -6,9 +6,15 @@ const URL = '/api/v1/dashboard';
 
 export const dashboardService = baseService.injectEndpoints({
   endpoints: (builder) => ({
+    getRequests: builder.query<IBooking[], void>({
+      query: () => ({
+        url: `${URL}/upcoming?accepted=false`,
+        method: HttpMethods.GET,
+      }),
+    }),
     getUpcoming: builder.query<IBooking[], void>({
       query: () => ({
-        url: `${URL}/upcoming`,
+        url: `${URL}/upcoming?accepted=true`,
         method: HttpMethods.GET,
       }),
     }),
@@ -23,5 +29,6 @@ export const dashboardService = baseService.injectEndpoints({
 
 export const {
   useLazyGetUpcomingQuery,
+  useLazyGetRequestsQuery,
   useLazyGetTodayScheduleQuery,
 } = dashboardService;

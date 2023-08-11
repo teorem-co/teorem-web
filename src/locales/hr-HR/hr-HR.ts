@@ -612,6 +612,10 @@ export const HR_HR = {
     },
     DASHBOARD: {
         TITLE: 'Upravljačka ploča',
+      REQUESTS: {
+        TITLE: 'ZAHTJEVI ZA PREDAVANJIMA',
+        EMPTY: 'Nema novih zahtjeva',
+      },
         SCHEDULE: {
             TITLE: 'DANAŠNJI RASPORED',
             BUTTON: 'Spajanje',

@@ -12,8 +12,7 @@ $rbc-calendar-width: 200px;
         min-width: $rbc-calendar-width;
         .rbc-time-header {
             &-gutter {
-                background-color: $rbc-color-header;
-                background: repeating-linear-gradient(45deg, $grey-f7, $grey-f7 10px, $grey-fc 10px, $grey-fc 20px);
+              background: #FFFFFF;
             }
             &-content {
                 background-color: $rbc-color-header;

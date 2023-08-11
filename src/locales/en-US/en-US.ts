@@ -613,6 +613,10 @@ export const EN_US = {
     },
     DASHBOARD: {
         TITLE: 'Dashboard',
+        REQUESTS: {
+          TITLE: 'LESSON REQUESTS',
+          EMPTY: 'No new requests',
+        },
         SCHEDULE: {
             TITLE: 'TODAY`S SCHEDULE',
             BUTTON: 'Join',
