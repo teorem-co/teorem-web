@@ -623,7 +623,8 @@ export const HR_HR = {
             EMPTY: 'Nema nepročitanih poruka',
         },
         BOOKINGS: {
-            TOTAL: 'Ukupno',
+          TITLE: 'NADOLAZEĆI TERMINI',
+          TOTAL: 'Ukupno',
             EMPTY: 'Nema zakazanih termina',
             EMPTY_SUBTITLE: 'Hmm, izgleda da za sada nemate zakazanih termina.',
         },
