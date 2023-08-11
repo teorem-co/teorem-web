@@ -6,7 +6,6 @@ import { HttpMethods } from '../app/lookups/httpMethods';
 import typeToFormData from '../app/utils/typeToFormData';
 import { IChild } from '../interfaces/IChild';
 import IChildUpdate from '../interfaces/IChildUpdate';
-import IDashboard from '../interfaces/IDashboard';
 import IUser from '../interfaces/IUser';
 
 const URL = '/api/v1/users';
@@ -87,12 +86,6 @@ export const userService = baseService.injectEndpoints({
                 return childOptions;
             },
         }),
-        getDashboard: builder.query<IDashboard, void>({
-            query: () => ({
-                url: `${URL}/dashboard`,
-                method: HttpMethods.GET,
-            }),
-        }),
     }),
 });
 
@@ -106,5 +99,4 @@ export const {
     useUpdateChildMutation,
     useDeleteChildMutation,
     useCreateChildMutation,
-    useLazyGetDashboardQuery,
 } = userService;

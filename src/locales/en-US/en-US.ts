@@ -624,6 +624,7 @@ export const EN_US = {
             EMPTY: 'No unread messages',
         },
         BOOKINGS: {
+            TITLE: 'UPCOMING BOOKINGS',
             TOTAL: 'Total',
             EMPTY: 'No bookings',
             EMPTY_SUBTITLE: 'Hmm, looks like there are no bookings yet.',

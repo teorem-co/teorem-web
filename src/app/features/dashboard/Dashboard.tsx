@@ -13,7 +13,6 @@ import {
   useMarkAllAsReadMutation,
 } from '../../../services/notificationService';
 import {
-  useLazyGetDashboardQuery,
   useLazyGetUserQuery,
 } from '../../../services/userService';
 import { RoleOptions } from '../../../slices/roleSlice';
@@ -32,6 +31,10 @@ import CircularProgress from '../my-profile/components/CircularProgress';
 import { setMyProfileProgress } from '../my-profile/slices/myProfileSlice';
 import { useLazyGetProfileProgressQuery } from '../../../services/tutorService';
 import IParams from "../notifications/interfaces/IParams";
+import {
+  useLazyGetTodayScheduleQuery,
+  useLazyGetUpcomingQuery
+} from "../../../services/dashboardService";
 
 interface IGroupedDashboardData {
     [date: string]: IBooking[];
@@ -40,10 +43,11 @@ interface IGroupedDashboardData {
 const Dashboard = () => {
     const [getUnreadNotifications, { data: notificationsData }] = useLazyGetAllUnreadNotificationsQuery();
     const [markAllAsRead] = useMarkAllAsReadMutation();
-    const [getDashboardData] = useLazyGetDashboardQuery();
     const [getUserById0, { data: userDataFirst }] = useLazyGetUserQuery();
     const [getUserById1, { data: userDataSecond }] = useLazyGetUserQuery();
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
+    const [getUpcoming] = useLazyGetUpcomingQuery();
+    const [getTodaySchedule] = useLazyGetTodayScheduleQuery();
 
     const [groupedUpcomming, setGroupedUpcomming] = useState<IGroupedDashboardData>({});
     const [todayScheduled, setTodayScheduled] = useState<IBooking[]>([]);
@@ -74,10 +78,11 @@ const Dashboard = () => {
 
     const fetchData = async () => {
         await getUnreadNotifications(params).unwrap();
-        const res = await getDashboardData().unwrap();
-        const groupedDashboardData: IGroupedDashboardData = groupBy(res.upcoming, (e) => moment(e.startTime).format('DD/MM/YYYY'));
+        const upcoming = await getUpcoming().unwrap();
+        const groupedDashboardData: IGroupedDashboardData = groupBy(upcoming, (e) => moment(e.startTime).format('DD/MM/YYYY'));
         setGroupedUpcomming(groupedDashboardData);
-        setTodayScheduled(res.todaySchedule);
+        const todaySchedule = await getTodaySchedule().unwrap();
+        setTodayScheduled(todaySchedule);
     };
 
     const handleNextIndex = () => {
@@ -488,7 +493,8 @@ const Dashboard = () => {
                                 </div>
                             </div>
                             <div className="dashboard__list">
-                                {groupedUpcomming && Object.keys(groupedUpcomming).length > 0 ? (
+                              <div className="type--color--tertiary mb-2">{t('DASHBOARD.BOOKINGS.TITLE')}</div>
+                              {groupedUpcomming && Object.keys(groupedUpcomming).length > 0 ? (
                                     Object.keys(groupedUpcomming).map((key: string) => {
                                         return (
                                             <React.Fragment key={key}>
@@ -504,7 +510,7 @@ const Dashboard = () => {
                                                             <div>
                                                                 {item.User.firstName}&nbsp;{item.User.lastName}
                                                             </div>
-                                                            <div>{t(`ROLES.${item.User.Role.abrv}`)}</div>
+                                                            <div>{t(`LEVELS.${item.Level.abrv.toLowerCase().replace("-", "")}`)}</div>
                                                             <div>
                                                                 <span className="tag tag--primary">{t(`SUBJECTS.${item.Subject.abrv.replace('-', '')}`)}</span>
                                                             </div>
@@ -554,7 +560,7 @@ const Dashboard = () => {
                     {notificationsData?.content && notificationsData.content.find((x) => x.read === false) ? (
                         notificationsData.content.map((notification: INotification) => {
                             if (!notification.read) {
-                                return <NotificationItem key={notification.id} notificationData={notification} />;
+                                return <NotificationItem key={notification.id} notificationData={notification}/>;
                             }
                         })
                     ) : (
