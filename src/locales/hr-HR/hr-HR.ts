@@ -612,6 +612,10 @@ export const HR_HR = {
     },
     DASHBOARD: {
         TITLE: 'Upravljačka ploča',
+      REQUESTS: {
+        TITLE: 'ZAHTJEVI ZA PREDAVANJIMA',
+        EMPTY: 'Nema novih zahtjeva',
+      },
         SCHEDULE: {
             TITLE: 'DANAŠNJI RASPORED',
             BUTTON: 'Spajanje',
@@ -623,7 +627,8 @@ export const HR_HR = {
             EMPTY: 'Nema nepročitanih poruka',
         },
         BOOKINGS: {
-            TOTAL: 'Ukupno',
+          TITLE: 'NADOLAZEĆI TERMINI',
+          TOTAL: 'Ukupno',
             EMPTY: 'Nema zakazanih termina',
             EMPTY_SUBTITLE: 'Hmm, izgleda da za sada nemate zakazanih termina.',
         },

@@ -13,7 +13,6 @@ import {
   useMarkAllAsReadMutation,
 } from '../../../services/notificationService';
 import {
-  useLazyGetDashboardQuery,
   useLazyGetUserQuery,
 } from '../../../services/userService';
 import { RoleOptions } from '../../../slices/roleSlice';
@@ -32,6 +31,15 @@ import CircularProgress from '../my-profile/components/CircularProgress';
 import { setMyProfileProgress } from '../my-profile/slices/myProfileSlice';
 import { useLazyGetProfileProgressQuery } from '../../../services/tutorService';
 import IParams from "../notifications/interfaces/IParams";
+import {
+  useLazyGetRequestsQuery,
+  useLazyGetTodayScheduleQuery,
+  useLazyGetUpcomingQuery
+} from "../../../services/dashboardService";
+import {
+  useAcceptBookingMutation,
+  useDeleteBookingMutation
+} from "../my-bookings/services/bookingService";
 
 interface IGroupedDashboardData {
     [date: string]: IBooking[];
@@ -40,13 +48,18 @@ interface IGroupedDashboardData {
 const Dashboard = () => {
     const [getUnreadNotifications, { data: notificationsData }] = useLazyGetAllUnreadNotificationsQuery();
     const [markAllAsRead] = useMarkAllAsReadMutation();
-    const [getDashboardData] = useLazyGetDashboardQuery();
     const [getUserById0, { data: userDataFirst }] = useLazyGetUserQuery();
     const [getUserById1, { data: userDataSecond }] = useLazyGetUserQuery();
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
+    const [getUpcoming] = useLazyGetUpcomingQuery();
+    const [getTodaySchedule] = useLazyGetTodayScheduleQuery();
+    const [getRequests] = useLazyGetRequestsQuery();
+    const [acceptRequest] = useAcceptBookingMutation();
+    const [denyRequest] = useDeleteBookingMutation();
 
     const [groupedUpcomming, setGroupedUpcomming] = useState<IGroupedDashboardData>({});
-    const [todayScheduled, setTodayScheduled] = useState<IBooking[]>([]);
+  const [groupedRequests, setGroupedRequests] = useState<IGroupedDashboardData>({});
+  const [todayScheduled, setTodayScheduled] = useState<IBooking[]>([]);
     const [unreadChatrooms, setUnreadChatrooms] = useState<any[]>([]);
     const [learnCubeModal, setLearnCubeModal] = useState<boolean>(false);
     const [currentlyActiveBooking, setCurentlyActiveBooking] = useState<string>('');
@@ -74,10 +87,14 @@ const Dashboard = () => {
 
     const fetchData = async () => {
         await getUnreadNotifications(params).unwrap();
-        const res = await getDashboardData().unwrap();
-        const groupedDashboardData: IGroupedDashboardData = groupBy(res.upcoming, (e) => moment(e.startTime).format('DD/MM/YYYY'));
+        const upcoming = await getUpcoming().unwrap();
+        const groupedDashboardData: IGroupedDashboardData = groupBy(upcoming, (e) => moment(e.startTime).format('DD/MM/YYYY'));
         setGroupedUpcomming(groupedDashboardData);
-        setTodayScheduled(res.todaySchedule);
+        const todaySchedule = await getTodaySchedule().unwrap();
+        setTodayScheduled(todaySchedule);
+        const requests = await getRequests().unwrap();
+      const groupedRequestData: IGroupedDashboardData = groupBy(requests, (e) => moment(e.startTime).format('DD/MM/YYYY'));
+      setGroupedRequests(groupedRequestData);
     };
 
     const handleNextIndex = () => {
@@ -85,6 +102,16 @@ const Dashboard = () => {
             setActiveIndex(activeIndex + 1);
         }
     };
+
+    const handleAccept = (id: string) => {
+      acceptRequest(id);
+      fetchData();
+    };
+
+  const handleDeny = (id: string) => {
+    denyRequest(id);
+    fetchData();
+  };
 
     const handlePrevIndex = () => {
         if (activeIndex > 0) {
@@ -309,6 +336,55 @@ const Dashboard = () => {
                             <h2 className="type--wgt--bold type--lg">{t('DASHBOARD.TITLE')}</h2>
                         </div>
                         <div className="card--secondary__body">
+                          {userRole === RoleOptions.Tutor ? (
+                            <div className="dashboard__requests">
+                              <div className="type--color--tertiary mb-2">{t('DASHBOARD.REQUESTS.TITLE')}</div>
+                              {groupedRequests && Object.keys(groupedRequests).length > 0 ? (
+                                Object.keys(groupedRequests).map((key: string) => {
+                                  return (
+                                    <React.Fragment key={key}>
+                                      {groupedRequests[key].map((item: IBooking) => {
+                                        return (
+                                          <div className="dashboard__requests__item" key={item.id}>
+                                            <div>
+                                              {item.User.firstName}&nbsp;{item.User.lastName}
+                                            </div>
+                                            <div>{t(`LEVELS.${item.Level.abrv.toLowerCase().replace("-", "")}`)}</div>
+                                            <div>
+                                              <span className="tag tag--primary">{t(`SUBJECTS.${item.Subject.abrv.replace('-', '')}`)}</span>
+                                            </div>
+                                            <div>{key}</div>
+                                            <div>
+                                              {moment(item.startTime).format('HH:mm')} -{' '}
+                                              {moment(item.endTime).add(1, 'minute').format('HH:mm')}
+                                            </div>
+                                            <div
+                                              onClick={() => {
+                                                handleAccept(item.id);
+                                              }
+                                              }>
+                                              <i className="icon icon--base icon--check icon--primary"></i>
+                                            </div>
+                                            <div
+                                              onClick={() => {
+                                                handleDeny(item.id);
+                                              }
+                                              }>
+                                              <i className="icon icon--base icon--close-request icon--primary"></i>
+                                            </div>
+                                          </div>
+                                        );
+                                      })}
+                                    </React.Fragment>
+                                  );
+                                })
+                              ) : (
+                                <div className="tutor-list__no-results mt-30">
+                                  <p className="dashboard__requests__title">{t('DASHBOARD.REQUESTS.EMPTY')}</p>
+                                </div>
+                              )}
+                            </div>
+                          ) : null}
                             <div className="row">
                                 <div className="col col-12 col-xl-5">
                                     <div className="type--color--tertiary mb-2">{t('DASHBOARD.SCHEDULE.TITLE')}</div>
@@ -488,7 +564,8 @@ const Dashboard = () => {
                                 </div>
                             </div>
                             <div className="dashboard__list">
-                                {groupedUpcomming && Object.keys(groupedUpcomming).length > 0 ? (
+                              <div className="type--color--tertiary mb-2">{t('DASHBOARD.BOOKINGS.TITLE')}</div>
+                              {groupedUpcomming && Object.keys(groupedUpcomming).length > 0 ? (
                                     Object.keys(groupedUpcomming).map((key: string) => {
                                         return (
                                             <React.Fragment key={key}>

@@ -83,6 +83,10 @@
     &--close {
         mask-image: url('../../assets/icons/close.svg');
     }
+  &--close-request {
+    mask-image: url('../../assets/icons/close.svg');
+    margin-left: 10px;
+  }
     &--completed-lessons {
         mask-image: url('../../assets/icons/completed-lessons.svg');
     }

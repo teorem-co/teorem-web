@@ -613,6 +613,10 @@ export const EN_US = {
     },
     DASHBOARD: {
         TITLE: 'Dashboard',
+        REQUESTS: {
+          TITLE: 'LESSON REQUESTS',
+          EMPTY: 'No new requests',
+        },
         SCHEDULE: {
             TITLE: 'TODAY`S SCHEDULE',
             BUTTON: 'Join',
@@ -624,6 +628,7 @@ export const EN_US = {
             EMPTY: 'No unread messages',
         },
         BOOKINGS: {
+            TITLE: 'UPCOMING BOOKINGS',
             TOTAL: 'Total',
             EMPTY: 'No bookings',
             EMPTY_SUBTITLE: 'Hmm, looks like there are no bookings yet.',
