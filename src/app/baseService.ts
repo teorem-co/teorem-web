@@ -4,9 +4,8 @@ import { RootState } from './store';
 import { BaseQueryApi } from '@reduxjs/toolkit/src/query/baseQueryTypes';
 import { logout, setToken } from '../slices/authSlice';
 
-let isRefreshing = false;
-const refreshQueue: (() => Promise<void>)[] = [];
 
+let refreshInProgress: Promise<void> | null = null;
 
 const baseQuery = fetchBaseQuery({
   baseUrl: `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_API_PORT}/`,
@@ -21,49 +20,48 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
-const baseQueryWithReauth = async (
-  args: any,
-  api: BaseQueryApi,
-  extraOptions: any,
-) => {
+const baseQueryWithReauth = async (args: any, api: BaseQueryApi, extraOptions: any) => {
+  if (refreshInProgress) {
+    // Wait for the refresh to complete
+    await refreshInProgress;
+  }
+
   let result = await baseQuery(args, api, extraOptions);
 
   if (result?.error?.status === 403) {
-    if (!isRefreshing) {
-      // If a refresh is not already in progress, start the refresh
-      isRefreshing = true;
-      try {
-        const refreshResult = await baseQuery('/api/v1/auth/refresh', api, extraOptions);
-        if (refreshResult?.data) {
-          api.dispatch(setToken({
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            token: refreshResult?.data.token,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            user: refreshResult?.data.user,
-          }));
-          // Retry all enqueued requests after token refresh
-          while (refreshQueue.length > 0) {
-            const nextRequest = refreshQueue.shift();
-            nextRequest && nextRequest();
-          }
-        } else {
-          api.dispatch(logout());
-        }
-      } finally {
-        isRefreshing = false;
-      }
-    } else {
-      // If a refresh is already in progress, wait here
-      await new Promise<void>((resolve) => {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        refreshQueue.push(() => {
-          resolve();
-        });
+    if (!refreshInProgress) {
+      // Declare that a refresh is in progress
+      let resolveRefresh: (() => void) | undefined;
+      refreshInProgress = new Promise(resolve => {
+        resolveRefresh = resolve;
       });
-      // Retry the original request after refresh
+
+      const refreshResult = await baseQuery('/api/v1/auth/refresh', api, extraOptions);
+
+      if (refreshResult?.data) {
+        api.dispatch(setToken({
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          token: refreshResult?.data.token,
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          user: refreshResult?.data.user,
+        }));
+        result = await baseQuery(args, api, extraOptions);
+      } else {
+        api.dispatch(logout());
+        window.location.href = `${window.location.origin}/en/login`;
+      }
+
+      // Declare end of refresh
+      if (resolveRefresh) {
+        resolveRefresh();
+      }
+
+      refreshInProgress = null;
+    } else {
+      // If another query is already refreshing the token, wait for it to finish
+      await refreshInProgress;
       result = await baseQuery(args, api, extraOptions);
     }
   }
