@@ -76,7 +76,6 @@ interface ICoords {
 
 const TutorBookings = () => {
   const [getTutorBookings, { data: tutorBookings, isLoading: isLoadingTutorBookings }] = useLazyGetTutorBookingsQuery();
-  const [getBookings, { data: bookings, isLoading: isLoadingBookings }] = useLazyGetBookingsQuery();
   const [getTutorUnavailableBookings, { data: unavailableBookings, isLoading: isLoadingUnavailableBookings }] = useLazyGetUnavailableBookingsQuery();
   const [getTutorData, { data: tutorData }] = useLazyGetTutorProfileDataQuery({
     selectFromResult: ({ data, isSuccess, isLoading }) => ({
@@ -102,7 +101,7 @@ const TutorBookings = () => {
   const [selectedStart, setSelectedStart] = useState<string>('');
   const [selectedEnd, setSelectedEnd] = useState<string>('');
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
-  const [emptyBookings, setEmptybookings] = useState<IBookingTransformed[]>([]);
+  const [emptyBookings, setEmptyBookings] = useState<IBookingTransformed[]>([]);
   const [openSlot, setOpenSlot] = useState<boolean>(false);
   //const [eventDetails, setEventDetails] = useState<IEvent>();
   const [openEventDetails, setOpenEventDetails] = useState<boolean>(false);
@@ -225,7 +224,7 @@ const TutorBookings = () => {
       .concat(minimumUnavailability ? minimumUnavailability : []);
   const [allBookings2, setAllBookings2] = useState<IBookingTransformed[]>(mergeOverlappingEvents(allBookings ? allBookings : []));
   const existingBookings = tutorBookings && tutorBookings.concat(unavailableBookings ? unavailableBookings : []).concat(tutorAvailability ? arrayDataToUnavailabilityObjects(tutorAvailability, firstDayOfSelectedWeek) : []);
-  const totalBookings = allBookings2 && allBookings2.concat(bookings ? bookings : []); //allBookings && allBookings.concat(bookings ? bookings : []) &&
+  const totalBookings = allBookings2 && allBookings2.concat([]); //allBookings && allBookings.concat(bookings ? bookings : []) &&
   const filteredBookings = uniqBy(totalBookings, 'id');
   const tileRef = useRef<HTMLDivElement>(null);
   const tileElement = tileRef.current as HTMLDivElement;
@@ -255,7 +254,7 @@ const TutorBookings = () => {
     zipCode: '',
   };
 
-  const isLoading = isLoadingTutorBookings || isLoadingBookings || isLoadingUnavailableBookings || tutorAvailabilityLoading;
+  const isLoading = isLoadingTutorBookings || isLoadingUnavailableBookings || tutorAvailabilityLoading;
 
   const CustomHeader = (date: any) => {
     setCalChange(true);
@@ -395,7 +394,7 @@ const TutorBookings = () => {
       setOpenUpdateModal(false);
       setOpenEventDetails(false);
 
-      setEmptybookings([
+      setEmptyBookings([
         {
           id: '',
           start: moment(e.start).toDate(),
@@ -408,7 +407,7 @@ const TutorBookings = () => {
       return CustomEvent(e.slots);
     } else {
       setOpenSlot(false);
-      setEmptybookings([]);
+      setEmptyBookings([]);
 
       toastService.info(`${t('BOOKING.TOAST_CANT_BOOK')}`);
     }
@@ -731,15 +730,6 @@ const TutorBookings = () => {
   }, [calChange]);
 
   useEffect(() => {
-    if (userId) {
-      getBookings({
-        dateFrom: moment(value).startOf('isoWeek').toISOString(),
-        dateTo: moment(value).endOf('isoWeek').toISOString(),
-      });
-    }
-  }, [value, userId]);
-
-  useEffect(() => {
     if (tutorId) {
       getTutorBookings({
         dateFrom: moment(value).startOf('isoWeek').toISOString(),
@@ -812,7 +802,7 @@ const TutorBookings = () => {
             />
             {openSlot ? (
               <ParentCalendarSlots
-                clearEmptyBookings={() => setEmptybookings([])}
+                clearEmptyBookings={() => setEmptyBookings([])}
                 setSidebarOpen={(e) => setSidebarOpen(e)}
                 start={`${selectedStart}`}
                 end={`${selectedEnd}`}
@@ -834,7 +824,7 @@ const TutorBookings = () => {
             ) : openUpdateModal ? (
               <UpdateBooking
                 booking={booking ? booking : null}
-                clearEmptyBookings={() => setEmptybookings([])}
+                clearEmptyBookings={() => setEmptyBookings([])}
                 setSidebarOpen={(e: any) => setSidebarOpen(e)}
                 start={`${selectedStart}`}
                 end={`${selectedEnd}`}
