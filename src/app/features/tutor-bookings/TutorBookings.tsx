@@ -731,15 +731,6 @@ const TutorBookings = () => {
   }, [calChange]);
 
   useEffect(() => {
-    if (userId) {
-      getBookings({
-        dateFrom: moment(value).startOf('isoWeek').toISOString(),
-        dateTo: moment(value).endOf('isoWeek').toISOString(),
-      });
-    }
-  }, [value, userId]);
-
-  useEffect(() => {
     if (tutorId) {
       getTutorBookings({
         dateFrom: moment(value).startOf('isoWeek').toISOString(),
