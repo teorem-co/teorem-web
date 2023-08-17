@@ -23,6 +23,8 @@ import ReviewModal from './components/ReviewModal';
 import StudentBookingInfoItem from './StudentBookingInfoItem';
 import IParams from '../notifications/interfaces/IParams';
 import { IChatMessagesQuery } from '../chat/services/chatService';
+import moment from 'moment';
+import React from 'react';
 
 const CompletedLessons = () => {
   const [studentCompletedBookings, setStudentCompletedBookings] = useState<IBookingInfo[]>([]);
@@ -170,6 +172,10 @@ const CompletedLessons = () => {
     fetchData();
   }, []);
 
+  const getMonthFromStartTime = (startTime: string) => {
+    return moment(startTime).format('MMMM'); // Returns the full name of the month
+  };
+
   return (
     <>
       <MainWrapper>
@@ -276,9 +282,26 @@ const CompletedLessons = () => {
                     {/*</div>*/}
 
                     <div>
-                      {studentCompletedBookings.map((booking, index) => (
-                        <StudentBookingInfoItem key={index} bookingInfo={booking} activeLesson={activeLesson}/>
-                      ))}
+                      {/*{studentCompletedBookings.map((booking, index) => (*/}
+                      {/*  <StudentBookingInfoItem key={index} bookingInfo={booking} activeLesson={activeLesson}/>*/}
+                      {/*))}*/}
+
+                      {studentCompletedBookings.map((booking, index) => {
+                        const currentMonth = getMonthFromStartTime(booking.startTime);
+                        const previousBooking = studentCompletedBookings[index - 1];
+                        const previousMonth = previousBooking ? getMonthFromStartTime(previousBooking.startTime) : null;
+
+                        return (
+                          <React.Fragment key={index}>
+                            {(index === 0 || currentMonth !== previousMonth) && (
+                              <div className="separation-line">
+                                {currentMonth}
+                              </div>
+                            )}
+                            <StudentBookingInfoItem bookingInfo={booking} activeLesson={activeLesson} />
+                          </React.Fragment>
+                        );
+                      })}
                     </div>
                   </div>
                 </>

@@ -449,7 +449,9 @@ export const HR_HR = {
         LINK: 'Idi na kalendar',
         COUNT_EXTENSION: 'Lekcije',
         TOOLTIP_DOWNLOAD_INVOICE:'Preuzmi račun',
-        TOOLTIP_DOWNLOAD_LESSON: 'Preuzmi video'
+        TOOLTIP_DOWNLOAD_LESSON: 'Preuzmi video',
+        DATE_TITLE: 'Datum',
+        DATE_AT_WORD: 'u'
     },
     WRITE_REVIEW: {
         SECTION_TITLE: 'Napišite recenziju',

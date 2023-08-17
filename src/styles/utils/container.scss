@@ -4,3 +4,23 @@
     justify-content: space-around;
 
 }
+
+.separation-line {
+  position: relative;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  z-index: 1;
+}
+
+.separation-line:before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 37.5%; /* Centering the line to 50% width */
+  width: 25%;
+  height: 1px;
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.3) 0%, black 50%, rgba(0, 0, 0, 0.2) 100%);
+  z-index: -1;
+}
+

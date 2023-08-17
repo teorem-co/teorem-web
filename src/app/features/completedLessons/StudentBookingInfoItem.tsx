@@ -51,13 +51,13 @@ const StudentBookingInfoItem: React.FC<Props> = ({ bookingInfo , activeLesson}) 
             {t(`LEVELS.${activeLesson.level.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
           </div>
 
-          <div className="type--color--brand">
+          <div className="type--wgt--light">
             {
-              'Datum: ' +
-              moment(bookingInfo.startTime).toDate().getDay()+ '.' +
-              moment(bookingInfo.startTime).toDate().getDate() + '.' +
-              moment(bookingInfo.startTime).toDate().getFullYear() + ' u ' +
-              moment(bookingInfo.startTime).format('HH:mm:ss')+ ''
+              `${t(`COMPLETED_LESSONS.DATE_TITLE`)}: ` +
+              moment(bookingInfo.startTime).toDate().getDate()+ '.' +
+              `${moment(bookingInfo.startTime).toDate().getMonth() + 1}` + '.' +
+              moment(bookingInfo.startTime).toDate().getFullYear() +  ` ${t('COMPLETED_LESSONS.DATE_AT_WORD')} ` +
+              moment(bookingInfo.startTime).format('HH:mm')+ ''
             }
           </div>
         </div>
