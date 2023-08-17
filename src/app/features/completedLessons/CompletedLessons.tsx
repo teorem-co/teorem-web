@@ -1,6 +1,6 @@
 import { t } from 'i18next';
-import { cloneDeep, groupBy } from 'lodash';
-import { useEffect, useState } from 'react';
+import { cloneDeep, debounce, groupBy } from 'lodash';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import note from '../../../assets/images/note.png';
@@ -21,21 +21,83 @@ import CompletedLessonsItem from './components/CompletedLessonsItem';
 import GroupedLessons from './components/GroupedLessons';
 import ReviewModal from './components/ReviewModal';
 import StudentBookingInfoItem from './StudentBookingInfoItem';
+import IParams from '../notifications/interfaces/IParams';
+import { IChatMessagesQuery } from '../chat/services/chatService';
 
 const CompletedLessons = () => {
+  const [studentCompletedBookings, setStudentCompletedBookings] = useState<IBookingInfo[]>([]);
+  const [page, setPage] = useState<number>(0);
+  const lessonsRpp = 10;
+  const [activeLesson, setActiveLesson] = useState<ICompletedLesson | null>(null);
+  const studentBookingsRef = useRef<HTMLDivElement>(null);
+  const asideContainerRef = useRef<HTMLDivElement>(null);
+  const [params, setParams] = useState<IParams>({ size: lessonsRpp, page: 0 });
+  const [scrollTopOffset, setScrollTopOffset] = useState<number | null>(null);
+  const bookingDebouncedScrollHandler = debounce((e) => handleBookingsScroll(e), 500);
+  const asideDebouncedScrollHandler = debounce((e) => handleAsideScroll(e), 500);
+
   const [getCompletedLessons, { isLoading: listLoading, isUninitialized: listUninitialized }] = useLazyGetCompletedLessonsQuery();
   const [getRecordedRooms] = useLazyGetRecordedRoomsQuery();
   const [getCompletedLessonsBookingInfo] = useLazyGetCompletedLessonsBookingInfoQuery();
-
-  const [activeLesson, setActiveLesson] = useState<ICompletedLesson | null>(null);
   const [completedLessonsState, setCompletedLessonsState] = useState<ICompletedLesson[]>([]);
   const [activeReviewModal, setActiveReviewModal] = useState<boolean>(false);
 
-  const [studentCompletedBookings, setStudentCompletedBookings] = useState<IBookingInfo[]>([]);
   const userRole = useAppSelector((state) => state.auth.user!.Role.abrv);
-  const loadingList = false; //listLoading || listUninitialized; //TODO: uncomment this
+  const loadingList = listLoading || listUninitialized;
+
+  const handleBookingsScroll = async (e: HTMLDivElement) => {
+    console.log("handling booking scroll");
+
+    if (studentCompletedBookings.length !== activeLesson?.count && activeLesson) {
+      const innerHeight = e.scrollHeight;
+      const scrollPosition = e.scrollTop + e.clientHeight;
+
+      if (innerHeight === scrollPosition ) {
+        //action to do on scroll to bottom
+        const newParams = { ...params };
+        newParams.page++;
+
+        const currentScrollTop = e.scrollTop;
+        setScrollTopOffset(currentScrollTop);
+
+        const toSend: IGetBookingInfo = {
+          subjectId: activeLesson?.subjectId,
+          tutorId: activeLesson?.tutorId,
+          studentId: activeLesson?.studentId,
+          page: newParams.page,
+          rpp: newParams.size
+        };
+
+        const completedLessonsResponse = await getCompletedLessonsBookingInfo(toSend).unwrap();
+        setStudentCompletedBookings(studentCompletedBookings.concat(completedLessonsResponse));
+      }
+    }
+  };
+
+  const handleAsideScroll = async (e: HTMLDivElement) => {
+    console.log("handling aside scroll");
+    //TODO: do pagination as for bookings
+  };
+
+  useEffect(() => {
+    if (activeLesson && page > 0) {
+      const toSend: IGetBookingInfo = {
+        subjectId: activeLesson?.subjectId,
+        tutorId: activeLesson?.tutorId,
+        studentId: activeLesson?.studentId,
+        page: page,
+        rpp: lessonsRpp
+      };
+
+      getCompletedLessonsBookingInfo(toSend).unwrap().then(res =>{
+        setStudentCompletedBookings(res);
+      });
+
+    }
+  }, [page]);
 
   const handleActiveLessons = async (lessonId: string) => {
+
     if (completedLessonsState) {
       const currentlyActiveLesson = completedLessonsState.find((currentLessonId: ICompletedLesson) => currentLessonId.id === lessonId);
       setActiveLesson(currentlyActiveLesson ? currentlyActiveLesson : null);
@@ -46,8 +108,9 @@ const CompletedLessons = () => {
           subjectId: currentlyActiveLesson?.subjectId,
           tutorId: currentlyActiveLesson?.tutorId,
           studentId: currentlyActiveLesson?.studentId,
+          page: 0,
+          rpp: lessonsRpp
         };
-        //const res = await getRecordedRooms(toSend).unwrap();
 
         const res = await  getCompletedLessonsBookingInfo(toSend).unwrap();
         setStudentCompletedBookings(res);
@@ -80,6 +143,8 @@ const CompletedLessons = () => {
         subjectId: currentlyActiveLesson?.subjectId,
         tutorId: currentlyActiveLesson?.tutorId,
         studentId: currentlyActiveLesson?.studentId,
+        page: 0,
+        rpp: lessonsRpp
       };
 
       const res = await  getCompletedLessonsBookingInfo(toSend).unwrap();
@@ -113,7 +178,7 @@ const CompletedLessons = () => {
             <div>{t('COMPLETED_LESSONS.TITLE')}</div>
           </div>
           <div className="card--lessons__body">
-            <div className="card--lessons__body__aside">
+            <div className="card--lessons__body__aside" ref={asideContainerRef} onScroll={(e: any) => asideDebouncedScrollHandler(e.target)}>
               {/*hide lesson counter if parent is logged in*/}
               {userRole !== RoleOptions.Parent && (
                 <div className="mt-10 mb-10 ml-6 mr-6">
@@ -151,7 +216,7 @@ const CompletedLessons = () => {
                 )}
               </div>
             </div>
-            <div className="card--lessons__body__main">
+            <div className="card--lessons__body__main"  ref={studentBookingsRef} onScroll={(e: any) => bookingDebouncedScrollHandler(e.target)}>
               {activeLesson  && studentCompletedBookings.length > 0 ? (
                 <>
                   <div>
@@ -188,16 +253,16 @@ const CompletedLessons = () => {
                   </div>
                   <div className="mt-10">
                     {/*play/download lessons*/}
-                    <div className="mb-2">{t('COMPLETED_LESSONS.VIDEOS_TITLE')} ILI JOS NEKE STVARI</div>
+                    <div className="mb-2 text-align--center">{t('COMPLETED_LESSONS.VIDEOS_TITLE')}</div>
                     {/*
-                                            //add completed lessons from learncube
+                          //add completed lessons from learncube
 
-                                            <div className="dash-wrapper">
-                                                {completedLessonsList[0].lessons.map((videoLesson: IVideoLesson) => {
-                                                    return <VideoLessonItem key={videoLesson.id} videoLesson={videoLesson} />;
-                                                })}
-                                            </div>
-                                        */}
+                          <div className="dash-wrapper">
+                              {completedLessonsList[0].lessons.map((videoLesson: IVideoLesson) => {
+                                  return <VideoLessonItem key={videoLesson.id} videoLesson={videoLesson} />;
+                              })}
+                          </div>
+                      */}
                     {/*<div className="card card--primary w--100 pl-6">*/}
                     {/*  <div className="flex--primary">*/}
                     {/*    <div>*/}
@@ -209,7 +274,6 @@ const CompletedLessons = () => {
                     {/*    </div>*/}
                     {/*  </div>*/}
                     {/*</div>*/}
-                    <div></div>
 
                     <div>
                       {studentCompletedBookings.map((booking, index) => (

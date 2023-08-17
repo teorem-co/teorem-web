@@ -7,7 +7,7 @@ interface ICompletedLesson {
     tutorId: string;
     subjectId: string;
     studentId: string;
-    count: string;
+    count: number;
     Tutor: ITutor;
     User: IUser;
     Subject: ISubject;

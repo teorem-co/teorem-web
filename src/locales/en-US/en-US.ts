@@ -445,7 +445,7 @@ export const EN_US = {
         EMPTY_LESSONS_TITLE: 'No Lessons',
         LEAVE_REVIEW: 'Leave review',
         VIEW_CALENDAR: 'View Calendar',
-        VIDEOS_TITLE: 'Play / Download Lessons',
+        VIDEOS_TITLE: 'Download invoices and video lessons',
         EMPTY_VIDEOS: 'There is no completed lessons available to select',
         LINK: 'Go to Calendar',
         COUNT_EXTENSION: 'Lessons',

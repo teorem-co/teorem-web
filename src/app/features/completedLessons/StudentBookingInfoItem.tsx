@@ -42,6 +42,7 @@ const StudentBookingInfoItem: React.FC<Props> = ({ bookingInfo , activeLesson}) 
     >
       <div className="completed-lessons-list__item__info completed-booking-info-container">
 
+
         <div>
           <div className="type--wgt--bold">
             {t(`SUBJECTS.${activeLesson.Subject.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
@@ -66,10 +67,11 @@ const StudentBookingInfoItem: React.FC<Props> = ({ bookingInfo , activeLesson}) 
           place={'top-end'}
           positionStrategy={'absolute'}
           float={true}
-          delayShow={700}
+          delayShow={500}
           style={{ backgroundColor: "rgba(70,70,70, 0.9)", color: 'white', fontSize:'smaller' }}
         />
 
+        <div className="container--flex--space-around">
           <LiaFileInvoiceDollarSolid
             className="completed-booking-pointer"
             size={30}
@@ -87,6 +89,7 @@ const StudentBookingInfoItem: React.FC<Props> = ({ bookingInfo , activeLesson}) 
             data-tooltip-html={t('COMPLETED_LESSONS.TOOLTIP_DOWNLOAD_LESSON')}
             onClick={handleLessonDownload}
           />
+        </div>
 
       </div>
 

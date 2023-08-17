@@ -16,8 +16,6 @@ const GroupedLessons = (props: Props) => {
     const { groupedList, activeLesson, studentId, index, handleActiveLessons } = props;
     const [isCollapsed, setIsCollapsed] = useState(index === 0 ? false : true);
 
-    console.log('=======rendering grouped lessons======');
-
     return (
         <>
             <>
