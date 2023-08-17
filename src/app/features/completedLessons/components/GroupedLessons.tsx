@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import ICompletedLesson from '../../my-bookings/interfaces/ICompletedLesson';
 import IGroupedList from '../interfaces/IGroupedList';
@@ -15,6 +15,8 @@ interface Props {
 const GroupedLessons = (props: Props) => {
     const { groupedList, activeLesson, studentId, index, handleActiveLessons } = props;
     const [isCollapsed, setIsCollapsed] = useState(index === 0 ? false : true);
+
+    console.log('=======rendering grouped lessons======');
 
     return (
         <>

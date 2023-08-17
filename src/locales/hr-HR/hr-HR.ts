@@ -448,6 +448,8 @@ export const HR_HR = {
         EMPTY_VIDEOS: 'Nema dostupnih završenih lekcija za odabir',
         LINK: 'Idi na kalendar',
         COUNT_EXTENSION: 'Lekcije',
+        TOOLTIP_DOWNLOAD_INVOICE:'Preuzmi račun',
+        TOOLTIP_DOWNLOAD_LESSON: 'Preuzmi video'
     },
     WRITE_REVIEW: {
         SECTION_TITLE: 'Napišite recenziju',

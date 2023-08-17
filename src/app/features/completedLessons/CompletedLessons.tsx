@@ -13,20 +13,25 @@ import { PATHS } from '../../routes';
 import { useLazyGetRecordedRoomsQuery } from '../../services/learnCubeService';
 import ICompletedLesson from '../my-bookings/interfaces/ICompletedLesson';
 import {
+  IBookingInfo, IGetBookingInfo,
+  useLazyGetCompletedLessonsBookingInfoQuery,
   useLazyGetCompletedLessonsQuery,
-} from '../my-bookings/services/bookingService';
+} from '../my-bookings/services/completedLessonsService';
 import CompletedLessonsItem from './components/CompletedLessonsItem';
 import GroupedLessons from './components/GroupedLessons';
 import ReviewModal from './components/ReviewModal';
+import StudentBookingInfoItem from './StudentBookingInfoItem';
 
 const CompletedLessons = () => {
   const [getCompletedLessons, { isLoading: listLoading, isUninitialized: listUninitialized }] = useLazyGetCompletedLessonsQuery();
   const [getRecordedRooms] = useLazyGetRecordedRoomsQuery();
+  const [getCompletedLessonsBookingInfo] = useLazyGetCompletedLessonsBookingInfoQuery();
 
   const [activeLesson, setActiveLesson] = useState<ICompletedLesson | null>(null);
   const [completedLessonsState, setCompletedLessonsState] = useState<ICompletedLesson[]>([]);
   const [activeReviewModal, setActiveReviewModal] = useState<boolean>(false);
 
+  const [studentCompletedBookings, setStudentCompletedBookings] = useState<IBookingInfo[]>([]);
   const userRole = useAppSelector((state) => state.auth.user!.Role.abrv);
   const loadingList = false; //listLoading || listUninitialized; //TODO: uncomment this
 
@@ -37,12 +42,15 @@ const CompletedLessons = () => {
 
       //get recorded lessons:
       if (currentlyActiveLesson) {
-        const toSend = {
-          subjectId: currentlyActiveLesson?.Subject.id,
+        const toSend: IGetBookingInfo = {
+          subjectId: currentlyActiveLesson?.subjectId,
           tutorId: currentlyActiveLesson?.tutorId,
-          studentId: currentlyActiveLesson?.User.id,
+          studentId: currentlyActiveLesson?.studentId,
         };
-        const res = await getRecordedRooms(toSend).unwrap();
+        //const res = await getRecordedRooms(toSend).unwrap();
+
+        const res = await  getCompletedLessonsBookingInfo(toSend).unwrap();
+        setStudentCompletedBookings(res);
       }
     }
   };
@@ -64,7 +72,20 @@ const CompletedLessons = () => {
   const fetchData = async () => {
      const completedLessonsResponse = await getCompletedLessons().unwrap();
      setCompletedLessonsState(completedLessonsResponse);
-     setActiveLesson(completedLessonsResponse[0]);
+    const currentlyActiveLesson = completedLessonsResponse[0];
+    setActiveLesson(completedLessonsResponse[0]);
+
+    if (currentlyActiveLesson) {
+      const toSend: IGetBookingInfo = {
+        subjectId: currentlyActiveLesson?.subjectId,
+        tutorId: currentlyActiveLesson?.tutorId,
+        studentId: currentlyActiveLesson?.studentId,
+      };
+
+      const res = await  getCompletedLessonsBookingInfo(toSend).unwrap();
+      setStudentCompletedBookings(res);
+    }
+
   };
 
   const onReviewSubmit = async (lessonId: string) => {
@@ -131,9 +152,11 @@ const CompletedLessons = () => {
               </div>
             </div>
             <div className="card--lessons__body__main">
-              {activeLesson ? (
+              {activeLesson  && studentCompletedBookings.length > 0 ? (
                 <>
                   <div>
+                    <div>
+                    </div>
                     <div className="flex--primary">
                       <div className="flex flex--center">
                         <img
@@ -164,7 +187,8 @@ const CompletedLessons = () => {
                     </div>
                   </div>
                   <div className="mt-10">
-                    <div className="mb-2">{t('COMPLETED_LESSONS.VIDEOS_TITLE')}</div>
+                    {/*play/download lessons*/}
+                    <div className="mb-2">{t('COMPLETED_LESSONS.VIDEOS_TITLE')} ILI JOS NEKE STVARI</div>
                     {/*
                                             //add completed lessons from learncube
 
@@ -174,16 +198,23 @@ const CompletedLessons = () => {
                                                 })}
                                             </div>
                                         */}
-                    <div className="card card--primary w--100 pl-6">
-                      <div className="flex--primary">
-                        <div>
-                          <div className="mb-2 type--lg type--wgt--bold">{t('DASHBOARD.COMING_SOON.TITLE')}</div>
-                          <div className="type--color--secondary">{t('DASHBOARD.COMING_SOON.SUBTITLE')}</div>
-                        </div>
-                        <div>
-                          <img className="w--170" src={note} alt="coming soon" />
-                        </div>
-                      </div>
+                    {/*<div className="card card--primary w--100 pl-6">*/}
+                    {/*  <div className="flex--primary">*/}
+                    {/*    <div>*/}
+                    {/*      <div className="mb-2 type--lg type--wgt--bold">{t('DASHBOARD.COMING_SOON.TITLE')}</div>*/}
+                    {/*      <div className="type--color--secondary">{t('DASHBOARD.COMING_SOON.SUBTITLE')}</div>*/}
+                    {/*    </div>*/}
+                    {/*    <div>*/}
+                    {/*      <img className="w--170" src={note} alt="coming soon" />*/}
+                    {/*    </div>*/}
+                    {/*  </div>*/}
+                    {/*</div>*/}
+                    <div></div>
+
+                    <div>
+                      {studentCompletedBookings.map((booking, index) => (
+                        <StudentBookingInfoItem key={index} bookingInfo={booking} activeLesson={activeLesson}/>
+                      ))}
                     </div>
                   </div>
                 </>

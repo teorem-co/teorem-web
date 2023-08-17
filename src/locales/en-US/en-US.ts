@@ -449,6 +449,8 @@ export const EN_US = {
         EMPTY_VIDEOS: 'There is no completed lessons available to select',
         LINK: 'Go to Calendar',
         COUNT_EXTENSION: 'Lessons',
+        TOOLTIP_DOWNLOAD_INVOICE:'Download invoice',
+        TOOLTIP_DOWNLOAD_LESSON: 'Download video lesson'
     },
     WRITE_REVIEW: {
         SECTION_TITLE: 'Write a review',
