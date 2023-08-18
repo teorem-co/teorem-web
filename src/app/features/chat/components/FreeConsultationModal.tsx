@@ -36,8 +36,6 @@ const FreeConsultationModal = (props: Props) => {
       });
     }
 
-    console.log(myStream);
-
   }, [myStream]);
 
   useEffect(() => {
@@ -53,8 +51,6 @@ const FreeConsultationModal = (props: Props) => {
         videoRef2.current.play();
       });
     }
-
-    console.log(guestStream);
 
   }, [guestStream]);
 

@@ -151,7 +151,6 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
         }
       }
     }
-    console.log("HANDLED SUBMIT");
 
     setIsCreateBookingLoading(false);
   };

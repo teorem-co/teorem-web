@@ -48,7 +48,6 @@ const CompletedLessons = () => {
   const loadingList = listLoading || listUninitialized;
 
   const handleBookingsScroll = async (e: HTMLDivElement) => {
-    console.log("handling booking scroll");
 
     if (studentCompletedBookings.length !== activeLesson?.count && activeLesson) {
       const innerHeight = e.scrollHeight;
@@ -77,7 +76,6 @@ const CompletedLessons = () => {
   };
 
   const handleAsideScroll = async (e: HTMLDivElement) => {
-    console.log("handling aside scroll");
     //TODO: do pagination in form of scroll
   };
 

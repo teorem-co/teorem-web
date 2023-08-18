@@ -143,9 +143,6 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
   });
 
   const handleSubmitStepOne = async (values: StepOneValues) => {
-    console.log(values.dateOfBirth);
-    console.log("MOMENT: ", moment(dateOfBirth));
-    console.log("FORMAT: ", moment(dateOfBirth).format('YYYY-MM-DD'));
     dispatch(
       setStepOne({
         firstName: values.firstName,
