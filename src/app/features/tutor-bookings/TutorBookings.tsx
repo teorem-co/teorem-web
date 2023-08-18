@@ -16,9 +16,7 @@ import { v4 as uuidv4 } from 'uuid';
 import * as Yup from 'yup';
 
 import {
-  useLazyGetTutorBookingsQuery,
-  useLazyGetTutorIdByTutorSlugQuery,
-  useLazyGetTutorProfileDataQuery,
+  useLazyGetTutorBookingsQuery, useLazyGetTutorByTutorSlugQuery,
 } from '../../../services/tutorService';
 import { addStripeId } from '../../../slices/authSlice';
 import { RoleOptions } from '../../../slices/roleSlice';
@@ -77,7 +75,7 @@ interface ICoords {
 const TutorBookings = () => {
   const [getTutorBookings, { data: tutorBookings, isLoading: isLoadingTutorBookings }] = useLazyGetTutorBookingsQuery();
   const [getTutorUnavailableBookings, { data: unavailableBookings, isLoading: isLoadingUnavailableBookings }] = useLazyGetUnavailableBookingsQuery();
-  const [getTutorData, { data: tutorData }] = useLazyGetTutorProfileDataQuery({
+  const [getTutorData, { data: tutorData }] = useLazyGetTutorByTutorSlugQuery({
     selectFromResult: ({ data, isSuccess, isLoading }) => ({
       data: {
         firstName: data?.User.firstName,
@@ -123,7 +121,6 @@ const TutorBookings = () => {
   const stripeCustomerId = useAppSelector((state) => state.auth.user?.stripeCustomerId);
   const userInfo = useAppSelector((state) => state.auth.user);
 
-  const [getTutorIdByTutorSlug] = useLazyGetTutorIdByTutorSlugQuery();
   const [tutorId, setTutorId] = useState('');
   const { tutorSlug } = useParams();
   const [minimumUnavailability, setminimumUnavailability] = useState<IBookingTransformed>();
@@ -131,7 +128,7 @@ const TutorBookings = () => {
 
 
   useEffect(() => {
-    getTutorIdByTutorSlug(tutorSlug)
+    getTutorData(tutorSlug)
       .unwrap()
       .then((tutorIdObj: any) => {
         setTutorId(tutorIdObj.userId);
@@ -564,7 +561,6 @@ const TutorBookings = () => {
 
   const fetchData = async () => {
     if (tutorId) {
-      await getTutorData(tutorId).unwrap();
       await getTutorUnavailableBookings({
         tutorId: tutorId,
         dateFrom: moment(value).startOf('isoWeek').toISOString(),

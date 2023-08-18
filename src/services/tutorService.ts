@@ -124,12 +124,18 @@ export const tutorService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
-        getTutorIdByTutorSlug: builder.query<ITutorId, string>({
-            query: (userId) => ({
-                url: `${URL}/get-tutor-id-by-slug/${userId}`,
+        getTutorByTutorSlug: builder.query<ITutor, string>({
+            query: (userSlug) => ({
+                url: `${URL}?slug=${userSlug}`,
                 method: HttpMethods.GET,
             }),
         }),
+      getTutorById: builder.query<ITutor, string>({
+        query: (userId) => ({
+          url: `${URL}?tutorId=${userId}`,
+          method: HttpMethods.GET,
+        }),
+      }),
         //TODO: extract this to booking service
         getTutorBookings: builder.query<IBookingTransformed[], IBookingsByIdPayload>({
             query: (data) => ({
@@ -243,7 +249,7 @@ export const {
     useLazyEnableTutorQuery,
     useEditTutorMutation,
     useDisconnectStripeTutorMutation,
-    useLazyGetTutorIdByTutorSlugQuery,
+    useLazyGetTutorByTutorSlugQuery,
 } = tutorService;
 
 export function getUserRoleAbbrv() {
