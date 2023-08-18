@@ -7,7 +7,7 @@ import { useAppSelector } from '../../../hooks';
 import { PATHS } from '../../../routes';
 import { getUserId } from '../../../utils/getUserId';
 import {
-  useLazyGetTutorProfileDataQuery,
+  useLazyGetTutorByIdQuery,
 } from '../../../../services/tutorService';
 
 interface Props {
@@ -20,7 +20,7 @@ const ProfileHeader: FC<Props> = (props: Props) => {
   const tutorId = getUserId();
   const userRole: string = useAppSelector((state) => state.auth.user?.Role.abrv) || '';
 
-  const [getTutor, { data: tutorData }] = useLazyGetTutorProfileDataQuery();
+  const [getTutor, { data: tutorData }] = useLazyGetTutorByIdQuery();
 
   useEffect(() => {
     if (userRole === RoleOptions.Tutor && !!tutorId) {

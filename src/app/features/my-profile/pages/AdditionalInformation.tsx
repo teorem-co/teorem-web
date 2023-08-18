@@ -5,8 +5,7 @@ import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
 import {
-  useLazyGetProfileProgressQuery,
-  useLazyGetTutorProfileDataQuery,
+  useLazyGetProfileProgressQuery, useLazyGetTutorByIdQuery,
   useUpdateAditionalInfoMutation,
 } from '../../../../services/tutorService';
 import MyTextArea from '../../../components/form/MyTextArea';
@@ -25,7 +24,7 @@ import { setMyProfileProgress } from '../slices/myProfileSlice';
 const AdditionalInformation = () => {
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
     const [getProfileData, { isLoading: isLoadingGetInfo, isLoading: dataLoading, isUninitialized: dataUninitialized }] =
-        useLazyGetTutorProfileDataQuery();
+        useLazyGetTutorByIdQuery();
     const [updateAditionalInfo, { isLoading: isUpdatingInfo, isSuccess: isSuccessUpdateInfo }] = useUpdateAditionalInfoMutation();
 
     const isLoading = isLoadingGetInfo || isUpdatingInfo;
