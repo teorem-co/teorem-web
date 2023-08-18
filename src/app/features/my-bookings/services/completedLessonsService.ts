@@ -28,7 +28,7 @@ export const completedLessonsService = baseService.injectEndpoints({
 
     getCompletedLessonsBookingInfo: builder.query<IBookingInfo[], IGetBookingInfo>({
       query: (params) =>({
-        url: `${URL}/booking-info?studentId=${params.studentId}&tutorId=${params.tutorId}&subjectId=${params.subjectId}&page=${params.page}&rpp=${params.rpp}`,
+        url: `${URL}/booking-info?studentId=${params.studentId}&tutorId=${params.tutorId}&subjectId=${params.subjectId}&page=${params.page}&size=${params.rpp}`,
         method: HttpMethods.GET
       })
     })
