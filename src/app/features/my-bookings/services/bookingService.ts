@@ -158,12 +158,6 @@ export const bookingService = baseService.injectEndpoints({
                 url: `${URL}/${bookingId}`,//`${URL}/${bookingId}`,
             }),
         }),
-        getCompletedLessons: builder.query<ICompletedLesson[], void>({
-            query: () => ({
-                url: `${URL}/completed-lessons`,
-                method: HttpMethods.GET,
-            }),
-        }),
         acceptBooking: builder.mutation<void, string>({
             query: (bookingId) => ({
                 url: `${URL}/accept/${bookingId}`,
@@ -190,7 +184,6 @@ export const {
     useCreateBookingMutation,
     useLazyGetBookingByIdQuery,
     useUpdateBookingMutation,
-    useLazyGetCompletedLessonsQuery,
     useAcceptBookingMutation,
     useDeleteBookingMutation,
 } = bookingService;

@@ -82,7 +82,6 @@ const UpdateBooking: React.FC<IProps> = (props) => {
   });
 
   useEffect(() => {
-    console.log("START TIME: ", start);
 
     if (userRole === RoleOptions.Parent) {
       getChildOptions();

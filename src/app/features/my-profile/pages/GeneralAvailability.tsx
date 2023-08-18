@@ -138,7 +138,6 @@ const GeneralAvailability = () => {
     const fetchData = async () => {
         if (userId) {
             const tutorAvailabilityResponse = await getTutorAvailability(userId).unwrap();
-            console.log(tutorAvailabilityResponse);
             setCurrentAvailabilities(tutorAvailabilityResponse);
 
             //If there is no state in redux for profileProgress fetch data and save result to redux

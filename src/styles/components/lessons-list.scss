@@ -90,3 +90,49 @@
         transform: rotate3d(0, 0, 1, 180deg);
     }
 }
+
+
+.completed-lessons-list {
+  margin-right: calc(#{$unit} * 8);
+  margin-left: calc(#{$unit} * 6);
+
+  &__item {
+    display: flex;
+    align-items: center;
+    border: 1px solid $grey-ed;
+    border-radius: $border-rounded;
+
+    margin-bottom: calc(#{$unit} * 4);
+    padding: calc(#{$unit} * 4);
+    box-shadow: 2px 4px 16px 0 rgba(0, 0, 0, 0.05);
+
+    &__info {
+      flex-grow: 1;
+      margin: 0 calc(#{$unit} * 2);
+    }
+  }
+}
+
+.completed-booking-info-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.completed-booking-info-container > div {
+  flex: 0 0 calc(10% - 5px); /* Subtract 5px for spacing */
+  margin-right: 10px;
+}
+
+.completed-booking-info-container > div:first-child {
+  flex: 0 0 80%;
+}
+
+.completed-booking-pointer{
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.completed-booking-pointer:hover {
+  transform: scale(1.2); /* Increase the size by 20% */
+}

@@ -1,5 +1,5 @@
 import { cloneDeep, debounce } from 'lodash';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
@@ -30,6 +30,7 @@ import {
   useLazyGetMyReviewsQuery,
   useLazyGetStatisticsQuery,
 } from '../myReviews/services/myReviewsService';
+import ImageCircle from '../../components/ImageCircle';
 
 const TutorProfile = () => {
     const { t } = useTranslation();
@@ -54,7 +55,7 @@ const TutorProfile = () => {
 
     const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
     const user = useAppSelector((state) => state.auth.user);
-    const [params, setParams] = useState<IMyReviewParams>({ page: 1, rpp: 3 });
+    const [params, setParams] = useState<IMyReviewParams>({ page: 1, rpp: 5 });
     const [loadedMyReviews, setLoadedMyReviews] = useState<IMyReview[]>([]);
 
     // const { tutorData } = useGetTutorProfileDataQuery(
@@ -86,7 +87,7 @@ const TutorProfile = () => {
             };
 
             getMyReviews(myReviewsGetObj);
-            //getStatistics(tutorId);   //TODO: fix
+            getStatistics(tutorId);
             getTutorAvailability(tutorId);
         }
     }, [tutorId]);
@@ -358,7 +359,20 @@ const TutorProfile = () => {
                         <div>
                             <div className="card--primary p-4 pt-6">
                                 <div className="tutor-list__item__img align--center">
-                                    <img className="align--center d--b mb-4" src={`${tutorData.User.profileImage}&v=${cacheBuster}`} alt="tutor-profile-pic" />
+                                  {tutorData.User?.profileImage ? (
+                                    <img
+                                      className="align--center d--b mb-4"
+                                      src={`${tutorData.User.profileImage}&v=${cacheBuster}`}
+                                      alt="tutor-profile-pic" />
+                                  ) : (
+                                    <ImageCircle
+                                      className="align--center d--b mb-4"
+                                      imageBig={true}
+                                      initials={`${tutorData.User?.firstName.charAt(0)}${tutorData.User?.lastName.charAt(0)}`}
+                                    />
+                                  )}
+
+
                                 </div>
                                 <div className="type--md type--center mb-1">
                                     {tutorData.User.firstName}&nbsp;

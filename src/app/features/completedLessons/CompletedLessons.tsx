@@ -1,6 +1,6 @@
 import { t } from 'i18next';
-import { cloneDeep, groupBy } from 'lodash';
-import { useEffect, useState } from 'react';
+import { cloneDeep, debounce, groupBy } from 'lodash';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import note from '../../../assets/images/note.png';
@@ -13,36 +13,108 @@ import { PATHS } from '../../routes';
 import { useLazyGetRecordedRoomsQuery } from '../../services/learnCubeService';
 import ICompletedLesson from '../my-bookings/interfaces/ICompletedLesson';
 import {
+  IBookingInfo, IGetBookingInfo,
+  useLazyGetCompletedLessonsBookingInfoQuery,
   useLazyGetCompletedLessonsQuery,
-} from '../my-bookings/services/bookingService';
+} from '../my-bookings/services/completedLessonsService';
 import CompletedLessonsItem from './components/CompletedLessonsItem';
 import GroupedLessons from './components/GroupedLessons';
 import ReviewModal from './components/ReviewModal';
+import StudentBookingInfoItem from './StudentBookingInfoItem';
+import IParams from '../notifications/interfaces/IParams';
+import { IChatMessagesQuery } from '../chat/services/chatService';
+import moment from 'moment';
+import React from 'react';
+import ImageCircle from '../../components/ImageCircle';
 
 const CompletedLessons = () => {
+  const [studentCompletedBookings, setStudentCompletedBookings] = useState<IBookingInfo[]>([]);
+  const [page, setPage] = useState<number>(0);
+  const lessonsRpp = 10;
+  const [activeLesson, setActiveLesson] = useState<ICompletedLesson | null>(null);
+  const studentBookingsRef = useRef<HTMLDivElement>(null);
+  const asideContainerRef = useRef<HTMLDivElement>(null);
+  const [params, setParams] = useState<IParams>({ size: lessonsRpp, page: 0 });
+  const [scrollTopOffset, setScrollTopOffset] = useState<number | null>(null);
+  const bookingDebouncedScrollHandler = debounce((e) => handleBookingsScroll(e), 500);
+  const asideDebouncedScrollHandler = debounce((e) => handleAsideScroll(e), 500);
+
   const [getCompletedLessons, { isLoading: listLoading, isUninitialized: listUninitialized }] = useLazyGetCompletedLessonsQuery();
   const [getRecordedRooms] = useLazyGetRecordedRoomsQuery();
-
-  const [activeLesson, setActiveLesson] = useState<ICompletedLesson | null>(null);
+  const [getCompletedLessonsBookingInfo] = useLazyGetCompletedLessonsBookingInfoQuery();
   const [completedLessonsState, setCompletedLessonsState] = useState<ICompletedLesson[]>([]);
   const [activeReviewModal, setActiveReviewModal] = useState<boolean>(false);
 
   const userRole = useAppSelector((state) => state.auth.user!.Role.abrv);
-  const loadingList = false; //listLoading || listUninitialized; //TODO: uncomment this
+  const loadingList = listLoading || listUninitialized;
+
+  const handleBookingsScroll = async (e: HTMLDivElement) => {
+
+    if (studentCompletedBookings.length !== activeLesson?.count && activeLesson) {
+      const innerHeight = e.scrollHeight;
+      const scrollPosition = e.scrollTop + e.clientHeight;
+
+      if (innerHeight === scrollPosition ) {
+        //action to do on scroll to bottom
+        const newParams = { ...params };
+        newParams.page++;
+
+        const currentScrollTop = e.scrollTop;
+        setScrollTopOffset(currentScrollTop);
+
+        const toSend: IGetBookingInfo = {
+          subjectId: activeLesson?.subjectId,
+          tutorId: activeLesson?.tutorId,
+          studentId: activeLesson?.studentId,
+          page: newParams.page,
+          rpp: newParams.size
+        };
+
+        const completedLessonsResponse = await getCompletedLessonsBookingInfo(toSend).unwrap();
+        setStudentCompletedBookings(studentCompletedBookings.concat(completedLessonsResponse));
+      }
+    }
+  };
+
+  const handleAsideScroll = async (e: HTMLDivElement) => {
+    //TODO: do pagination in form of scroll
+  };
+
+  useEffect(() => {
+    if (activeLesson && page > 0) {
+      const toSend: IGetBookingInfo = {
+        subjectId: activeLesson?.subjectId,
+        tutorId: activeLesson?.tutorId,
+        studentId: activeLesson?.studentId,
+        page: page,
+        rpp: lessonsRpp
+      };
+
+      getCompletedLessonsBookingInfo(toSend).unwrap().then(res =>{
+        setStudentCompletedBookings(res);
+      });
+
+    }
+  }, [page]);
 
   const handleActiveLessons = async (lessonId: string) => {
+
     if (completedLessonsState) {
       const currentlyActiveLesson = completedLessonsState.find((currentLessonId: ICompletedLesson) => currentLessonId.id === lessonId);
       setActiveLesson(currentlyActiveLesson ? currentlyActiveLesson : null);
 
       //get recorded lessons:
       if (currentlyActiveLesson) {
-        const toSend = {
-          subjectId: currentlyActiveLesson?.Subject.id,
+        const toSend: IGetBookingInfo = {
+          subjectId: currentlyActiveLesson?.subjectId,
           tutorId: currentlyActiveLesson?.tutorId,
-          studentId: currentlyActiveLesson?.User.id,
+          studentId: currentlyActiveLesson?.studentId,
+          page: 0,
+          rpp: lessonsRpp
         };
-        const res = await getRecordedRooms(toSend).unwrap();
+
+        const res = await  getCompletedLessonsBookingInfo(toSend).unwrap();
+        setStudentCompletedBookings(res);
       }
     }
   };
@@ -62,9 +134,24 @@ const CompletedLessons = () => {
   };
 
   const fetchData = async () => {
-    // const completedLessonsResponse = await getCompletedLessons().unwrap();
-    // setCompletedLessonsState(completedLessonsResponse);
-    // setActiveLesson(completedLessonsResponse[0]);
+     const completedLessonsResponse = await getCompletedLessons().unwrap();
+     setCompletedLessonsState(completedLessonsResponse);
+    const currentlyActiveLesson = completedLessonsResponse[0];
+    setActiveLesson(completedLessonsResponse[0]);
+
+    if (currentlyActiveLesson) {
+      const toSend: IGetBookingInfo = {
+        subjectId: currentlyActiveLesson?.subjectId,
+        tutorId: currentlyActiveLesson?.tutorId,
+        studentId: currentlyActiveLesson?.studentId,
+        page: 0,
+        rpp: lessonsRpp
+      };
+
+      const res = await  getCompletedLessonsBookingInfo(toSend).unwrap();
+      setStudentCompletedBookings(res);
+    }
+
   };
 
   const onReviewSubmit = async (lessonId: string) => {
@@ -84,6 +171,11 @@ const CompletedLessons = () => {
     fetchData();
   }, []);
 
+  const getMonthFromStartTime = (startTime: string) => {
+
+    return moment(startTime).format('MMMM').charAt(0).toUpperCase() + moment(startTime).format('MMMM').slice(1);
+  };
+
   return (
     <>
       <MainWrapper>
@@ -92,7 +184,7 @@ const CompletedLessons = () => {
             <div>{t('COMPLETED_LESSONS.TITLE')}</div>
           </div>
           <div className="card--lessons__body">
-            <div className="card--lessons__body__aside">
+            <div className="card--lessons__body__aside" ref={asideContainerRef} onScroll={(e: any) => asideDebouncedScrollHandler(e.target)}>
               {/*hide lesson counter if parent is logged in*/}
               {userRole !== RoleOptions.Parent && (
                 <div className="mt-10 mb-10 ml-6 mr-6">
@@ -130,23 +222,48 @@ const CompletedLessons = () => {
                 )}
               </div>
             </div>
-            <div className="card--lessons__body__main">
-              {activeLesson ? (
+            <div className="card--lessons__body__main"  ref={studentBookingsRef} onScroll={(e: any) => bookingDebouncedScrollHandler(e.target)}>
+              {activeLesson  && studentCompletedBookings.length > 0 ? (
                 <>
                   <div>
+                    <div>
+                    </div>
                     <div className="flex--primary">
                       <div className="flex flex--center">
-                        <img
-                          className="image__profile image__profile--md mr-4"
-                          src={activeLesson.Tutor.User.profileImage}
-                          alt="tutor profile picture"
-                        />
+                        <Link
+                          className=""
+                          to={`${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(':tutorSlug', `${activeLesson.Tutor.slug}`)}`}
+                        >
+                          {activeLesson.Tutor.User?.profileImage ? (
+                            <img
+                              className="image__profile image__profile--md mr-4"
+                              src={activeLesson.Tutor.User.profileImage}
+                              alt="tutor profile picture"
+                            />
+                          ) : (
+                            <ImageCircle
+                              style={{border: '11px solid $color-primary-lighter'}}
+                              className="image__profile--md mr-4"
+                              imageBig={true}
+                              fontSize={30}
+                              initials={`${activeLesson.Tutor.User?.firstName.charAt(0)}${activeLesson.Tutor.User?.lastName.charAt(0)}`}
+                            />
+                          )}
+                        </Link>
                         <div>
-                          <div className="type--md mb-1">
-                            {activeLesson.Tutor.User.firstName}&nbsp;{activeLesson.Tutor.User.lastName}
-                          </div>
-                          <div className="type--color--brand">
+                          <Link
+                            className="text__no-decoration"
+                            to={`${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(':tutorSlug', `${activeLesson.Tutor.slug}`)}`}
+                          >
+                            <div className="type--md mb-1">
+                              {activeLesson.Tutor.User.firstName}&nbsp;{activeLesson.Tutor.User.lastName}
+                            </div>
+                          </Link>
+                          <div>
                             {t(`SUBJECTS.${activeLesson.Subject.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
+                          </div>
+                          <div>
+                            {t(`LEVELS.${activeLesson.level.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
                           </div>
                         </div>
                       </div>
@@ -157,33 +274,32 @@ const CompletedLessons = () => {
                           </button>
                         )}
 
-                        <Link className="btn btn--primary btn--base" to={`${PATHS.SEARCH_TUTORS}/bookings/${activeLesson.Tutor.slug}`}>
+                        <Link className="btn btn--primary btn--base" to={`${PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS.replace(":tutorSlug", activeLesson.Tutor.slug)}`}>
                           {t('COMPLETED_LESSONS.VIEW_CALENDAR')}
                         </Link>
                       </div>
                     </div>
                   </div>
                   <div className="mt-10">
-                    <div className="mb-2">{t('COMPLETED_LESSONS.VIDEOS_TITLE')}</div>
-                    {/*
-                                            //add completed lessons from learncube
+                    {/*play/download lessons*/}
 
-                                            <div className="dash-wrapper">
-                                                {completedLessonsList[0].lessons.map((videoLesson: IVideoLesson) => {
-                                                    return <VideoLessonItem key={videoLesson.id} videoLesson={videoLesson} />;
-                                                })}
-                                            </div>
-                                        */}
-                    <div className="card card--primary w--100 pl-6">
-                      <div className="flex--primary">
-                        <div>
-                          <div className="mb-2 type--lg type--wgt--bold">{t('DASHBOARD.COMING_SOON.TITLE')}</div>
-                          <div className="type--color--secondary">{t('DASHBOARD.COMING_SOON.SUBTITLE')}</div>
-                        </div>
-                        <div>
-                          <img className="w--170" src={note} alt="coming soon" />
-                        </div>
-                      </div>
+                    <div>
+                      {studentCompletedBookings.map((booking, index) => {
+                        const currentMonth = getMonthFromStartTime(booking.startTime);
+                        const previousBooking = studentCompletedBookings[index - 1];
+                        const previousMonth = previousBooking ? getMonthFromStartTime(previousBooking.startTime) : null;
+
+                        return (
+                          <React.Fragment key={index}>
+                            {(index === 0 || currentMonth !== previousMonth) && (
+                              <div className="text-align--center mb-4 mt-2 primary-color">
+                                {currentMonth} {moment(booking.startTime).year()}
+                              </div>
+                            )}
+                            <StudentBookingInfoItem bookingInfo={booking} activeLesson={activeLesson} />
+                          </React.Fragment>
+                        );
+                      })}
                     </div>
                   </div>
                 </>

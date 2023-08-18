@@ -591,7 +591,6 @@ export function RenderMenuLinks() {
   // Function to trigger the badge pop-up animation
 
   useEffect(() => {
-    console.log("NEW MESSAGES UPDATED", chat.newMessages);
     if(chat.newMessages){
 
         if(chat.newMessages == 0){

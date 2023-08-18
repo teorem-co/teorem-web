@@ -54,13 +54,10 @@ export const axiosBaseQuery =
 const isoDateFormat = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d*)?(?:[-+]\d{2}:?\d{2}|Z)?$/;
 
 function isIsoDateString(value: any): boolean {
-    console.log("Checking if string ins date");
     return value && typeof value === "string" && isoDateFormat.test(value);
 }
 
 export function handleDates(body: any) {
-    console.log("HANDLING DATEE");
-
     if (body === null || body === undefined || typeof body !== "object")
         return body;
 

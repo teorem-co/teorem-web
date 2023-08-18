@@ -169,7 +169,6 @@ const EditSubjectSidebar = (props: Props) => {
                     subject: selectedSubject.subjectId,
                     price: selectedSubject.price.toString(),
                 };
-                console.log("SETTING INITIAL VALUES", values);
                 setInitialValues(values);
                 // initialValues.level = selectedSubject.levelId;
                 // initialValues.subject = selectedSubject.subjectId;

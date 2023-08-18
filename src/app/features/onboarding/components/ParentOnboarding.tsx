@@ -667,7 +667,6 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
         })
       : [];
     setCountryOptions(currentCountries);
-    console.log("GETTING COUNTRIES: ", currentCountries);
   }, [countries]);
 
   useEffect(() => {

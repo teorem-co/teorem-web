@@ -36,7 +36,7 @@ export const levelService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
             transformResponse: (response: ILevel[]) => {
-                console.log("RESPONSE:", response);
+
                 const tutorLevels: OptionType[] = response.map((level) => ({
                     value: level.id,
                     label: t(`LEVELS.${level.abrv.replace('-', '').toLowerCase()}`),

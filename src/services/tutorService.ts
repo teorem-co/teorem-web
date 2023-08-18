@@ -137,7 +137,6 @@ export const tutorService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
             transformResponse: (response: IBooking[]) => {
-                console.log("UNUTAR TRANSFORM", response);
                 const userRole = getUserRoleAbbrv();
                 const bookings: IBookingTransformed[] = response.map((x) => {
                     const startTwoHoursBefore = new Date(x.startTime);
