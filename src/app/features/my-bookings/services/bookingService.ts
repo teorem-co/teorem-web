@@ -64,7 +64,6 @@ interface IUpdateBooking {
 }
 
 const URL = '/api/v1/bookings';
-const COMPLETED_LESSONS_URL = '/api/v1/completed-lessons';
 
 export const bookingService = baseService.injectEndpoints({
     endpoints: (builder) => ({
@@ -159,12 +158,6 @@ export const bookingService = baseService.injectEndpoints({
                 url: `${URL}/${bookingId}`,//`${URL}/${bookingId}`,
             }),
         }),
-        // getCompletedLessons: builder.query<ICompletedLesson[], void>({
-        //     query: () => ({
-        //         url: `${COMPLETED_LESSONS_URL}`,
-        //         method: HttpMethods.GET,
-        //     }),
-        // }),
         acceptBooking: builder.mutation<void, string>({
             query: (bookingId) => ({
                 url: `${URL}/accept/${bookingId}`,
@@ -191,7 +184,6 @@ export const {
     useCreateBookingMutation,
     useLazyGetBookingByIdQuery,
     useUpdateBookingMutation,
-    // useLazyGetCompletedLessonsQuery,
     useAcceptBookingMutation,
     useDeleteBookingMutation,
 } = bookingService;

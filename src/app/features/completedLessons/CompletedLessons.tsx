@@ -273,32 +273,8 @@ const CompletedLessons = () => {
                   <div className="mt-10">
                     {/*play/download lessons*/}
                     <div className="mb-2 text-align--center">{t('COMPLETED_LESSONS.VIDEOS_TITLE')}</div>
-                    {/*
-                          //add completed lessons from learncube
-
-                          <div className="dash-wrapper">
-                              {completedLessonsList[0].lessons.map((videoLesson: IVideoLesson) => {
-                                  return <VideoLessonItem key={videoLesson.id} videoLesson={videoLesson} />;
-                              })}
-                          </div>
-                      */}
-                    {/*<div className="card card--primary w--100 pl-6">*/}
-                    {/*  <div className="flex--primary">*/}
-                    {/*    <div>*/}
-                    {/*      <div className="mb-2 type--lg type--wgt--bold">{t('DASHBOARD.COMING_SOON.TITLE')}</div>*/}
-                    {/*      <div className="type--color--secondary">{t('DASHBOARD.COMING_SOON.SUBTITLE')}</div>*/}
-                    {/*    </div>*/}
-                    {/*    <div>*/}
-                    {/*      <img className="w--170" src={note} alt="coming soon" />*/}
-                    {/*    </div>*/}
-                    {/*  </div>*/}
-                    {/*</div>*/}
 
                     <div>
-                      {/*{studentCompletedBookings.map((booking, index) => (*/}
-                      {/*  <StudentBookingInfoItem key={index} bookingInfo={booking} activeLesson={activeLesson}/>*/}
-                      {/*))}*/}
-
                       {studentCompletedBookings.map((booking, index) => {
                         const currentMonth = getMonthFromStartTime(booking.startTime);
                         const previousBooking = studentCompletedBookings[index - 1];

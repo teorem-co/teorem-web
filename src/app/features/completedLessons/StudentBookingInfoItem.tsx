@@ -17,11 +17,7 @@ interface Props {
   bookingInfo: IBookingInfo,
   activeLesson: ICompletedLesson
 }
-// <div className="lessons-list">
-//   <p>{activeLesson.Subject.name}</p>
-//   <p>{activeLesson.level.name}</p>
-//   <p>Start Time: {bookingInfo.startTime}</p>
-// </div>
+
 const StudentBookingInfoItem: React.FC<Props> = ({ bookingInfo , activeLesson}) => {
 
   function handleInvoiceDownload(){
@@ -42,8 +38,6 @@ const StudentBookingInfoItem: React.FC<Props> = ({ bookingInfo , activeLesson}) 
       className={`completed-lessons-list__item`}
     >
       <div className="completed-lessons-list__item__info completed-booking-info-container">
-
-
         <div>
           <div className="type--wgt--bold">
             {t(`SUBJECTS.${activeLesson.Subject.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
