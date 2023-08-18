@@ -269,7 +269,7 @@ const TutorBookings = () => {
         <>
           {event.event.label !== 'unavailableHoursBefore' ?
             <div className="event--unavailable">
-              <div className="type--color--primary type--wgt--bold" style={{fontSize: 'smaller', textAlign: 'center'}}>
+              <div className="type--color--primary type--wgt--extra-bold" style={{fontSize: 'small', textAlign: 'center'}}>
                 {event.event.label === 'unavailableHoursBefore' ?
                   t('BOOKING.CANT_BOOK_MESSAGE')
                   :
@@ -282,7 +282,7 @@ const TutorBookings = () => {
             :
 
             <div className="event--unavailable-min-time">
-              <div className="type--color--primary type--wgt--bold" style={{fontSize: 'smaller', textAlign: 'center'}}>
+              <div className="type--color--primary type--wgt--extra-bold" style={{fontSize: 'small', textAlign: 'center'}}>
                 {(event.event.label === 'unavailableHoursBefore' ) ?
                   t('BOOKING.CANT_BOOK_MESSAGE')
                   :
