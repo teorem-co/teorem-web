@@ -1,5 +1,5 @@
 import { cloneDeep, debounce } from 'lodash';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
@@ -31,6 +31,7 @@ import {
   useLazyGetMyReviewsQuery,
   useLazyGetStatisticsQuery,
 } from '../myReviews/services/myReviewsService';
+import ImageCircle from '../../components/ImageCircle';
 
 const TutorProfile = () => {
     const { t } = useTranslation();
@@ -364,7 +365,20 @@ const TutorProfile = () => {
                         <div>
                             <div className="card--primary p-4 pt-6">
                                 <div className="tutor-list__item__img align--center">
-                                    <img className="align--center d--b mb-4" src={`${tutorData.User.profileImage}&v=${cacheBuster}`} alt="tutor-profile-pic" />
+                                  {tutorData.User?.profileImage ? (
+                                    <img
+                                      className="align--center d--b mb-4"
+                                      src={`${tutorData.User.profileImage}&v=${cacheBuster}`}
+                                      alt="tutor-profile-pic" />
+                                  ) : (
+                                    <ImageCircle
+                                      className="align--center d--b mb-4"
+                                      imageBig={true}
+                                      initials={`${tutorData.User?.firstName.charAt(0)}${tutorData.User?.lastName.charAt(0)}`}
+                                    />
+                                  )}
+
+
                                 </div>
                                 <div className="type--md type--center mb-1">
                                     {tutorData.User.firstName}&nbsp;

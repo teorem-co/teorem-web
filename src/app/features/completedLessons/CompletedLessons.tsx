@@ -25,6 +25,7 @@ import IParams from '../notifications/interfaces/IParams';
 import { IChatMessagesQuery } from '../chat/services/chatService';
 import moment from 'moment';
 import React from 'react';
+import ImageCircle from '../../components/ImageCircle';
 
 const CompletedLessons = () => {
   const [studentCompletedBookings, setStudentCompletedBookings] = useState<IBookingInfo[]>([]);
@@ -229,11 +230,21 @@ const CompletedLessons = () => {
                     </div>
                     <div className="flex--primary">
                       <div className="flex flex--center">
-                        <img
-                          className="image__profile image__profile--md mr-4"
-                          src={activeLesson.Tutor.User.profileImage}
-                          alt="tutor profile picture"
-                        />
+                        {activeLesson.Tutor.User?.profileImage ? (
+                          <img
+                            className="image__profile image__profile--md mr-4"
+                            src={activeLesson.Tutor.User.profileImage}
+                            alt="tutor profile picture"
+                          />
+                        ) : (
+                          <ImageCircle
+                            style={{border: '11px solid $color-primary-lighter'}}
+                            className="image__profile--md mr-4"
+                            imageBig={true}
+                            fontSize={30}
+                            initials={`${activeLesson.Tutor.User?.firstName.charAt(0)}${activeLesson.Tutor.User?.lastName.charAt(0)}`}
+                          />
+                        )}
                         <div>
                           <div className="type--md mb-1">
                             {activeLesson.Tutor.User.firstName}&nbsp;{activeLesson.Tutor.User.lastName}
