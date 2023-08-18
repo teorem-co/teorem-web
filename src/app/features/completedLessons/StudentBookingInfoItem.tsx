@@ -67,7 +67,7 @@ const StudentBookingInfoItem: React.FC<Props> = ({ bookingInfo , activeLesson}) 
 
         <div className="container--flex--space-around">
           <LiaFileInvoiceDollarSolid
-            className="completed-booking-pointer"
+            className="completed-booking-pointer primary-color"
             size={30}
             data-tip="Click to view invoice"
             data-tooltip-id='booking-info-tooltip'
@@ -76,7 +76,7 @@ const StudentBookingInfoItem: React.FC<Props> = ({ bookingInfo , activeLesson}) 
           />
 
           <RiVideoDownloadFill
-            className="completed-booking-pointer"
+            className="completed-booking-pointer primary-color"
             size={30}
             data-tip="Click to view invoice"
             data-tooltip-id='booking-info-tooltip'

@@ -230,29 +230,39 @@ const CompletedLessons = () => {
                     </div>
                     <div className="flex--primary">
                       <div className="flex flex--center">
-                        {activeLesson.Tutor.User?.profileImage ? (
-                          <img
-                            className="image__profile image__profile--md mr-4"
-                            src={activeLesson.Tutor.User.profileImage}
-                            alt="tutor profile picture"
-                          />
-                        ) : (
-                          <ImageCircle
-                            style={{border: '11px solid $color-primary-lighter'}}
-                            className="image__profile--md mr-4"
-                            imageBig={true}
-                            fontSize={30}
-                            initials={`${activeLesson.Tutor.User?.firstName.charAt(0)}${activeLesson.Tutor.User?.lastName.charAt(0)}`}
-                          />
-                        )}
+                        <Link
+                          className=""
+                          to={`${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(':tutorSlug', `${activeLesson.Tutor.slug}`)}`}
+                        >
+                          {activeLesson.Tutor.User?.profileImage ? (
+                            <img
+                              className="image__profile image__profile--md mr-4"
+                              src={activeLesson.Tutor.User.profileImage}
+                              alt="tutor profile picture"
+                            />
+                          ) : (
+                            <ImageCircle
+                              style={{border: '11px solid $color-primary-lighter'}}
+                              className="image__profile--md mr-4"
+                              imageBig={true}
+                              fontSize={30}
+                              initials={`${activeLesson.Tutor.User?.firstName.charAt(0)}${activeLesson.Tutor.User?.lastName.charAt(0)}`}
+                            />
+                          )}
+                        </Link>
                         <div>
-                          <div className="type--md mb-1">
-                            {activeLesson.Tutor.User.firstName}&nbsp;{activeLesson.Tutor.User.lastName}
-                          </div>
-                          <div className="type--color--brand">
+                          <Link
+                            className="text__no-decoration"
+                            to={`${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(':tutorSlug', `${activeLesson.Tutor.slug}`)}`}
+                          >
+                            <div className="type--md mb-1">
+                              {activeLesson.Tutor.User.firstName}&nbsp;{activeLesson.Tutor.User.lastName}
+                            </div>
+                          </Link>
+                          <div>
                             {t(`SUBJECTS.${activeLesson.Subject.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
                           </div>
-                          <div className="type--color--brand">
+                          <div>
                             {t(`LEVELS.${activeLesson.level.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
                           </div>
                         </div>
@@ -264,7 +274,7 @@ const CompletedLessons = () => {
                           </button>
                         )}
 
-                        <Link className="btn btn--primary btn--base" to={`${PATHS.SEARCH_TUTORS}/bookings/${activeLesson.Tutor.slug}`}>
+                        <Link className="btn btn--primary btn--base" to={`${PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS.replace(":tutorSlug", activeLesson.Tutor.slug)}`}>
                           {t('COMPLETED_LESSONS.VIEW_CALENDAR')}
                         </Link>
                       </div>
@@ -272,7 +282,6 @@ const CompletedLessons = () => {
                   </div>
                   <div className="mt-10">
                     {/*play/download lessons*/}
-                    <div className="mb-2 text-align--center">{t('COMPLETED_LESSONS.VIDEOS_TITLE')}</div>
 
                     <div>
                       {studentCompletedBookings.map((booking, index) => {
@@ -283,7 +292,7 @@ const CompletedLessons = () => {
                         return (
                           <React.Fragment key={index}>
                             {(index === 0 || currentMonth !== previousMonth) && (
-                              <div className="separation-line">
+                              <div className="text-align--center mb-4 mt-2 primary-color">
                                 {currentMonth} {moment(booking.startTime).year()}
                               </div>
                             )}
