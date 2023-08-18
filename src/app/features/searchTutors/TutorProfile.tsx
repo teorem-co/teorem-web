@@ -6,8 +6,7 @@ import { useHistory } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
 import ITutorSubject from '../../../interfaces/ITutorSubject';
 import {
-  useLazyGetTutorIdByTutorSlugQuery,
-  useLazyGetTutorProfileDataQuery,
+  useLazyGetTutorByTutorSlugQuery,
 } from '../../../services/tutorService';
 import { RoleOptions } from '../../../slices/roleSlice';
 import MainWrapper from '../../components/MainWrapper';
@@ -36,11 +35,9 @@ import ImageCircle from '../../components/ImageCircle';
 const TutorProfile = () => {
     const { t } = useTranslation();
 
-    const [getTutorIdByTutorSlug] = useLazyGetTutorIdByTutorSlugQuery();
+    const [getTutorProfileData, { data: tutorData, isLoading: tutorDataLoading }] = useLazyGetTutorByTutorSlugQuery();
 
     const [getOrCreateNewChat, { isLoading: createChatLoading }] = useGetOrCreateChatMutation();
-    const [getTutorById] = useLazyGetTutorProfileDataQuery();
-
     const [tutorId, setTutorId] = useState('');
     const [pathTutorId, setPathTutorId] = useState('');
     const [tutorPath, setTutorPath] = useState('');
@@ -48,7 +45,7 @@ const TutorProfile = () => {
     const { tutorSlug } = useParams();
 
     useEffect(() => {
-        getTutorIdByTutorSlug(tutorSlug).unwrap().then((tutorIdObj: any) => {
+        getTutorProfileData(tutorSlug).unwrap().then((tutorIdObj: any) => {
             setTutorId(tutorIdObj.userId);
         });
     }, []);
@@ -70,7 +67,6 @@ const TutorProfile = () => {
     //     }
     // );
 
-    const [getTutorProfileData, { data: tutorData, isLoading: tutorDataLoading }] = useLazyGetTutorProfileDataQuery();
     const [getMyReviews, { data: myReviews }] = useLazyGetMyReviewsQuery();
     const [getStatistics, { data: tutorStatistics }] = useLazyGetStatisticsQuery();
     const [getTutorAvailability, { data: tutorAvailability }] = useLazyGetTutorAvailabilityQuery();
@@ -90,7 +86,6 @@ const TutorProfile = () => {
                 rpp: params.rpp,
             };
 
-            getTutorProfileData(tutorId);
             getMyReviews(myReviewsGetObj);
             getStatistics(tutorId);
             getTutorAvailability(tutorId);
@@ -158,8 +153,7 @@ const TutorProfile = () => {
     };
 
     const createNewChat = async () => {
-        const tutorData = await getTutorById(tutorId).unwrap();
-
+        const tutorData = await getTutorProfileData(tutorSlug).unwrap();
 
         const toSend: IChatRoom = {
             user: {

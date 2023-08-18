@@ -118,18 +118,18 @@ export const tutorService = baseService.injectEndpoints({
         //         };
         //     },
         // }),
-        getTutorProfileData: builder.query<ITutor, string>({
-            query: (userId) => ({
-                url: `${URL}/${userId}`,
+        getTutorByTutorSlug: builder.query<ITutor, string>({
+            query: (userSlug) => ({
+                url: `${URL}?slug=${userSlug}`,
                 method: HttpMethods.GET,
             }),
         }),
-        getTutorIdByTutorSlug: builder.query<ITutorId, string>({
-            query: (userId) => ({
-                url: `${URL}/get-tutor-id-by-slug/${userId}`,
-                method: HttpMethods.GET,
-            }),
+      getTutorById: builder.query<ITutor, string>({
+        query: (userId) => ({
+          url: `${URL}?tutorId=${userId}`,
+          method: HttpMethods.GET,
         }),
+      }),
         //TODO: extract this to booking service
         getTutorBookings: builder.query<IBookingTransformed[], IBookingsByIdPayload>({
             query: (data) => ({
@@ -231,10 +231,9 @@ export const {
     useGetAvailableTutorsQuery,
     useGetProfileProgressQuery,
     useLazyGetProfileProgressQuery,
-    useLazyGetTutorProfileDataQuery,
     useUpdateAditionalInfoMutation,
-    useGetTutorProfileDataQuery,
     useLazyGetTutorBookingsQuery,
+    useLazyGetTutorByIdQuery,
     useApproveTutorMutation,
     useDenyTutorMutation,
     useDeleteTutorMutation,
@@ -242,7 +241,7 @@ export const {
     useLazyEnableTutorQuery,
     useEditTutorMutation,
     useDisconnectStripeTutorMutation,
-    useLazyGetTutorIdByTutorSlugQuery,
+    useLazyGetTutorByTutorSlugQuery,
 } = tutorService;
 
 export function getUserRoleAbbrv() {

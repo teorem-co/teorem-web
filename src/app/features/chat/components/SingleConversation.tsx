@@ -29,7 +29,7 @@ import {
 import SendMessageForm from './SendMessageForm';
 import ImageCircle from '../../../components/ImageCircle';
 import {
-  useLazyGetTutorProfileDataQuery,
+  useLazyGetTutorByIdQuery,
 } from '../../../../services/tutorService';
 import 'react-tooltip/dist/react-tooltip.css';
 import { Tooltip } from 'react-tooltip';
@@ -56,7 +56,7 @@ const SingleConversation = (props: Props) => {
 
   const connectionRef = useRef<any>(null);
   const userActive = useAppSelector((state) => state.auth.user);
-  const [getTutorById] = useLazyGetTutorProfileDataQuery();
+  const [getTutorById] = useLazyGetTutorByIdQuery();
 
   const chat = useAppSelector((state) => state.chat);
 

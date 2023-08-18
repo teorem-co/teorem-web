@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import EditSubjectSidebar from '../../my-profile/components/EditSubjectSidebar';
 import AddSubjectSidebar from '../../my-profile/components/AddSubjectSidebar';
 import {
-  useLazyGetTutorProfileDataQuery,
+  useLazyGetTutorByIdQuery,
 } from '../../../../services/tutorService';
 import SubjectList from '../../my-profile/components/SubjectList';
 import { useHistory } from 'react-router-dom';
@@ -16,7 +16,7 @@ export function EditTutorSubjects({tutorId}: any) {
     const [addOpen, setAddOpen] = useState(false);
     const [currency, setCurrency] = useState('');
     const [getProfileData, { data: myTeachingsData }] =
-        useLazyGetTutorProfileDataQuery();
+        useLazyGetTutorByIdQuery();
     const fetchData = async () => {
         if (tutorId) {
             getProfileData(tutorId);
