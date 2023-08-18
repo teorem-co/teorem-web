@@ -7,6 +7,7 @@ import { LiaFileInvoiceDollarSolid } from 'react-icons/lia';
 import { BiSolidDownload } from 'react-icons/bi';
 import { Tooltip } from 'react-tooltip';
 import toastService from '../../services/toastService';
+import { RiVideoDownloadFill } from 'react-icons/ri';
 export interface IBookingInfo {
   bookingId: string;
   startTime: string;
@@ -81,7 +82,7 @@ const StudentBookingInfoItem: React.FC<Props> = ({ bookingInfo , activeLesson}) 
             onClick={handleInvoiceDownload}
           />
 
-          <BiSolidDownload
+          <RiVideoDownloadFill
             className="completed-booking-pointer"
             size={30}
             data-tip="Click to view invoice"

@@ -1,6 +1,7 @@
 import { t } from 'i18next';
 
 import ICompletedLesson from '../../my-bookings/interfaces/ICompletedLesson';
+import React from 'react';
 
 interface Props {
     lesson: ICompletedLesson;
@@ -22,10 +23,15 @@ const CompletedLessonsItem = (props: Props) => {
                 <div className="type--wgt--bold">
                     {lesson.Tutor.User.firstName}&nbsp;{lesson.Tutor.User.lastName}
                 </div>
-                <div className="type--color--brand">{t(`SUBJECTS.${lesson.Subject.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}</div>
+                <div className="type--color--brand">
+                  {t(`SUBJECTS.${lesson.Subject.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
+                </div>
+                <div className="type--color--brand">
+                  {t(`LEVELS.${lesson.level.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
+                </div>
             </div>
             <div>
-                {lesson.count}&nbsp;{t('COMPLETED_LESSONS.COUNT_EXTENSION')}
+               {t('COMPLETED_LESSONS.COUNT_EXTENSION')  + ': '}{lesson.count}&nbsp;
             </div>
         </div>
     );

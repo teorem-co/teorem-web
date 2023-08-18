@@ -78,7 +78,7 @@ const CompletedLessons = () => {
 
   const handleAsideScroll = async (e: HTMLDivElement) => {
     console.log("handling aside scroll");
-    //TODO: do pagination as for bookings
+    //TODO: do pagination in form of scroll
   };
 
   useEffect(() => {
@@ -173,7 +173,8 @@ const CompletedLessons = () => {
   }, []);
 
   const getMonthFromStartTime = (startTime: string) => {
-    return moment(startTime).format('MMMM'); // Returns the full name of the month
+
+    return moment(startTime).format('MMMM').charAt(0).toUpperCase() + moment(startTime).format('MMMM').slice(1);
   };
 
   return (
@@ -242,6 +243,9 @@ const CompletedLessons = () => {
                           <div className="type--color--brand">
                             {t(`SUBJECTS.${activeLesson.Subject.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
                           </div>
+                          <div className="type--color--brand">
+                            {t(`LEVELS.${activeLesson.level.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
+                          </div>
                         </div>
                       </div>
                       <div>
@@ -295,7 +299,7 @@ const CompletedLessons = () => {
                           <React.Fragment key={index}>
                             {(index === 0 || currentMonth !== previousMonth) && (
                               <div className="separation-line">
-                                {currentMonth}
+                                {currentMonth} {moment(booking.startTime).year()}
                               </div>
                             )}
                             <StudentBookingInfoItem bookingInfo={booking} activeLesson={activeLesson} />

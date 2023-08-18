@@ -447,7 +447,7 @@ export const HR_HR = {
         VIDEOS_TITLE: 'Preuzmite račune i video lekcije',
         EMPTY_VIDEOS: 'Nema dostupnih završenih lekcija za odabir',
         LINK: 'Idi na kalendar',
-        COUNT_EXTENSION: 'Lekcije',
+        COUNT_EXTENSION: 'Lekcija',
         TOOLTIP_DOWNLOAD_INVOICE:'Preuzmi račun',
         TOOLTIP_DOWNLOAD_LESSON: 'Preuzmi video',
         DATE_TITLE: 'Datum',

@@ -57,7 +57,7 @@ const TutorProfile = () => {
 
     const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
     const user = useAppSelector((state) => state.auth.user);
-    const [params, setParams] = useState<IMyReviewParams>({ page: 1, rpp: 3 });
+    const [params, setParams] = useState<IMyReviewParams>({ page: 1, rpp: 5 });
     const [loadedMyReviews, setLoadedMyReviews] = useState<IMyReview[]>([]);
 
     // const { tutorData } = useGetTutorProfileDataQuery(
