@@ -30,7 +30,6 @@ const StudentBookingInfoItem: React.FC<Props> = ({ bookingInfo , activeLesson}) 
     toastService.info(t('COMPLETED_LESSONS.TOOLTIP_DOWNLOAD_LESSON'));
   }
 
-
   return (
 
     <div
@@ -85,10 +84,7 @@ const StudentBookingInfoItem: React.FC<Props> = ({ bookingInfo , activeLesson}) 
             onClick={handleLessonDownload}
           />
         </div>
-
       </div>
-
-
     </div>
   );
 };
