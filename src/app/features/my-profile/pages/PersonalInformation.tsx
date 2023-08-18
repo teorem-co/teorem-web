@@ -7,10 +7,9 @@ import {useHistory} from 'react-router';
 import * as Yup from 'yup';
 
 import {
-    useLazyDisableTutorQuery,
-    useLazyEnableTutorQuery,
-    useLazyGetProfileProgressQuery,
-    useLazyGetTutorProfileDataQuery,
+  useLazyDisableTutorQuery,
+  useLazyEnableTutorQuery,
+  useLazyGetProfileProgressQuery, useLazyGetTutorByIdQuery,
 } from '../../../../services/tutorService';
 import {
   useLazyGetUserQuery,
@@ -68,7 +67,7 @@ const PersonalInformation = () => {
         isFetching: userFetching
     }] = useLazyGetUserQuery();
 
-    const [getTutor, {data: tutorData, isSuccess: isSuccessTutor}] = useLazyGetTutorProfileDataQuery();
+    const [getTutor, {data: tutorData, isSuccess: isSuccessTutor}] = useLazyGetTutorByIdQuery();
     const [updateTutorDisabled] = useLazyDisableTutorQuery();
     const [updateTutorEnabled] = useLazyEnableTutorQuery();
 

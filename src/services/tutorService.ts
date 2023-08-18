@@ -118,12 +118,6 @@ export const tutorService = baseService.injectEndpoints({
         //         };
         //     },
         // }),
-        getTutorProfileData: builder.query<ITutor, string>({
-            query: (userId) => ({
-                url: `${URL}/${userId}`,
-                method: HttpMethods.GET,
-            }),
-        }),
         getTutorByTutorSlug: builder.query<ITutor, string>({
             query: (userSlug) => ({
                 url: `${URL}?slug=${userSlug}`,
@@ -238,10 +232,9 @@ export const {
     useGetAvailableTutorsQuery,
     useGetProfileProgressQuery,
     useLazyGetProfileProgressQuery,
-    useLazyGetTutorProfileDataQuery,
     useUpdateAditionalInfoMutation,
-    useGetTutorProfileDataQuery,
     useLazyGetTutorBookingsQuery,
+    useLazyGetTutorByIdQuery,
     useApproveTutorMutation,
     useDenyTutorMutation,
     useDeleteTutorMutation,

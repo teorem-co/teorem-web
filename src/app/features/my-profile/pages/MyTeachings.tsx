@@ -3,8 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 
 import {
-  useLazyGetProfileProgressQuery,
-  useLazyGetTutorProfileDataQuery,
+  useLazyGetProfileProgressQuery, useLazyGetTutorByIdQuery,
 } from '../../../../services/tutorService';
 import MainWrapper from '../../../components/MainWrapper';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
@@ -20,7 +19,7 @@ import { setMyProfileProgress } from '../slices/myProfileSlice';
 const MyTeachings = () => {
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
     const [getProfileData, { data: myTeachingsData, isLoading: myTeachingsLoading, isUninitialized: myTeachingsUninitialized }] =
-        useLazyGetTutorProfileDataQuery();
+        useLazyGetTutorByIdQuery();
 
     const [addSidebarOpen, setAddSidebarOpen] = useState(false);
     const [editSidebarOpen, setEditSidebarOpen] = useState(false);

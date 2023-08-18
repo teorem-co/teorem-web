@@ -12,8 +12,7 @@ import {
   useUpdateSubjectMutation,
 } from '../../../../services/subjectService';
 import {
-  useLazyGetProfileProgressQuery,
-  useLazyGetTutorProfileDataQuery,
+  useLazyGetProfileProgressQuery, useLazyGetTutorByIdQuery,
 } from '../../../../services/tutorService';
 import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import TextField from '../../../components/form/TextField';
@@ -48,7 +47,7 @@ const EditSubjectSidebar = (props: Props) => {
     const [getSubjectOptionsByLevel, { data: subjectsData, isSuccess: isSuccessSubjects }] = useLazyGetSubjectsByLevelAndSubjectQuery();
     const countryId = useAppSelector((state) => state?.user?.user?.countryId);
     const [getCountries] = useLazyGetCountriesQuery();
-    const [getProfileData, { data: myTeachingsData }] = useLazyGetTutorProfileDataQuery({
+    const [getProfileData, { data: myTeachingsData }] = useLazyGetTutorByIdQuery({
         selectFromResult: ({ data, isSuccess, isLoading }) => ({
             data: {
                 occupation: data?.currentOccupation,

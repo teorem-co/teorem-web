@@ -6,7 +6,6 @@ import { useHistory } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
 import {
   useLazyGetTutorByTutorSlugQuery,
-  useLazyGetTutorProfileDataQuery,
 } from '../../../services/tutorService';
 import { RoleOptions } from '../../../slices/roleSlice';
 import MainWrapper from '../../components/MainWrapper';
@@ -41,7 +40,6 @@ const TutorProfile = () => {
   const [getTutorProfileData, { data: tutorData, isLoading: tutorDataLoading }] = useLazyGetTutorByTutorSlugQuery();
 
   const [getOrCreateNewChat, { isLoading: createChatLoading }] = useGetOrCreateChatMutation();
-  const [getTutorById] = useLazyGetTutorProfileDataQuery();
 
   const [tutorId, setTutorId] = useState('');
   const [tutorPath, setTutorPath] = useState('');
@@ -157,7 +155,7 @@ const TutorProfile = () => {
   };
 
   const createNewChat = async () => {
-    const tutorData = await getTutorById(tutorId).unwrap();
+    const tutorData = await getTutorProfileData(tutorSlug).unwrap();
 
     const toSend: IChatRoom = {
       user: {
