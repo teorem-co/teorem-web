@@ -646,14 +646,19 @@ const TutorBookings = () => {
     const mergedEvents: IBookingTransformed[] = [];
 
     let currentEvent = {...events[0]};  // Create a new object rather than referencing the original one
-
     for(let i = 1; i < events.length; i++) {
       const nextEvent = {...events[i]}; // Create a new object rather than referencing the original one
       if(
         currentEvent.end.getTime() >= nextEvent.start.getTime() && (currentEvent.label !== 'Book event' && nextEvent.label !== 'Book event')
       ) {
-          if(nextEvent.label === 'unavailableHoursBefore'){
+
+          if(nextEvent.label === 'unavailableHoursBefore' ){
             const nextNextEvent = {...events[i +1]};
+
+            if(i == events.length-1 && !(currentEvent.end.getTime() > nextEvent.start.getTime())){
+              mergedEvents.push(nextEvent);
+              continue;
+            }
 
             if(
               nextNextEvent
