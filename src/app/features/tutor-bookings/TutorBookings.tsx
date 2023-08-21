@@ -48,7 +48,6 @@ import {
 } from '../my-profile/services/stripeService';
 import {
   useLazyGetTutorAvailabilityQuery,
-  // useLazyGetTutorAvailableDaysQuery,
 } from '../my-profile/services/tutorAvailabilityService';
 
 interface IBookingTransformed {
