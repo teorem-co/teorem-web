@@ -3,8 +3,8 @@ import { HttpMethods } from '../../../lookups/httpMethods';
 import IPartOfDayOption from '../interfaces/IPartOfDayOption';
 import ITutorAvailability from '../interfaces/ITutorAvailability';
 
-const URL = 'api/v1/tutor-availability';
-
+const URL = 'api/v1/tutors/availability';
+const TUTORS_URL = "api/v1/tutors";
 export interface ITutorAvailabilityToSend {
     tutorAvailability: ITutorAvailability[];
 }
@@ -18,48 +18,7 @@ export const tutorAvailabilityService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         getTutorAvailability: builder.query<(string | boolean)[][], string>({
             query: (tutorId) => ({
-                url: `${URL}/${tutorId}`,
-                method: HttpMethods.GET,
-            }),
-            providesTags: ['userAvailability'],
-            transformResponse: (response: ITutorAvailability[]) => {
-                const partsOfDay = [
-                    { value: 'beforeNoon', label: 'Pre 12 pm' },
-                    { value: 'noonToFive', label: '12 - 5 pm' },
-                    { value: 'afterFive', label: 'After 5 pm' },
-                ];
-                const firstRow: string[] = [
-                    '',
-                    'Mon',
-                    'Tue',
-                    'Wed',
-                    'Thu',
-                    'Fri',
-                    'Sat',
-                    'Sun',
-                ];
-
-                const availabilityTableData: (string | boolean)[][] = [];
-
-                partsOfDay.forEach((partOfDay: IPartOfDayOption) => {
-                    const row: (string | boolean)[] = response.map(
-                        (item: any) => {
-                            return item[partOfDay.value];
-                        }
-                    );
-                    row.unshift(partOfDay.label);
-
-                    availabilityTableData.push(row);
-                });
-
-                availabilityTableData.unshift(firstRow);
-
-                return availabilityTableData;
-            },
-        }),
-        getTutorAvailableDays: builder.query<(string | boolean)[][], string>({
-            query: (tutorId) => ({
-                url: `${URL}/${tutorId}`,//`${URL}/available/${tutorId}`,
+                url: `${TUTORS_URL}/${tutorId}/availability`,
                 method: HttpMethods.GET,
             }),
             providesTags: ['userAvailability'],
@@ -136,7 +95,6 @@ export const tutorAvailabilityService = baseService.injectEndpoints({
 
 export const {
     useLazyGetTutorAvailabilityQuery,
-    useLazyGetTutorAvailableDaysQuery,
     useUpdateTutorAvailabilityMutation,
     useUpdateTutorAvailabilityAdminMutation,
     useCreateTutorAvailabilityMutation,
