@@ -4,7 +4,7 @@ import { IUnavailability } from '../interfaces/IUnavailability';
 
 //bookings/week/:tutorSlug
 
-const URL = 'api/v1/tutor-unavailability';
+const URL = 'api/v1/tutors/unavailability';
 
 interface IUnavailabilityTransformed {
     id: string;

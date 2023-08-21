@@ -34,7 +34,7 @@ import {
   useLazyGetUnavailableBookingsQuery,
 } from './services/unavailabilityService';
 import {
-  useLazyGetTutorAvailableDaysQuery
+  useLazyGetTutorAvailabilityQuery
 } from '../my-profile/services/tutorAvailabilityService';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -56,7 +56,7 @@ interface IBookingTransformed {
 
 const MyBookings: React.FC = (props: any) => {
 
-  const [getTutorAvailability, { data: tutorAvailability, isLoading: tutorAvailabilityLoading }] = useLazyGetTutorAvailableDaysQuery();
+  const [getTutorAvailability, { data: tutorAvailability, isLoading: tutorAvailabilityLoading }] = useLazyGetTutorAvailabilityQuery();
 
   const userId = useAppSelector((state) => state.auth.user?.id);
   const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);

@@ -47,7 +47,8 @@ import {
   useSetDefaultCreditCardMutation,
 } from '../my-profile/services/stripeService';
 import {
-  useLazyGetTutorAvailableDaysQuery,
+  useLazyGetTutorAvailabilityQuery,
+  // useLazyGetTutorAvailableDaysQuery,
 } from '../my-profile/services/tutorAvailabilityService';
 
 interface IBookingTransformed {
@@ -85,7 +86,7 @@ const TutorBookings = () => {
       isLoading,
     }),
   });
-  const [getTutorAvailability, { data: tutorAvailability, isLoading: tutorAvailabilityLoading }] = useLazyGetTutorAvailableDaysQuery();
+  const [getTutorAvailability, { data: tutorAvailability, isLoading: tutorAvailabilityLoading }] = useLazyGetTutorAvailabilityQuery();//useLazyGetTutorAvailableDaysQuery();
 
   const [getBookingById, { data: booking }] = useLazyGetBookingByIdQuery();
   const [addCustomerSource] = useAddCustomerSourceMutation();
