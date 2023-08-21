@@ -10,7 +10,7 @@ import LoaderAvailableLessons
   from '../../components/skeleton-loaders/LoaderAvailableLessons';
 import { useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
-import { useLazyGetRecordedRoomsQuery } from '../../services/learnCubeService';
+import { useLazyGetRecordingLinksQuery } from '../../services/hiLinkService';
 import ICompletedLesson from '../my-bookings/interfaces/ICompletedLesson';
 import {
   IBookingInfo, IGetBookingInfo,
@@ -43,7 +43,7 @@ const CompletedLessons = () => {
   const asideDebouncedScrollHandler = debounce((e) => handleAsideScroll(e), 500);
 
   const [getCompletedLessons, { isLoading: listLoading, isUninitialized: listUninitialized }] = useLazyGetCompletedLessonsQuery();
-  const [getRecordedRooms] = useLazyGetRecordedRoomsQuery();
+  const [getRecordedRooms] = useLazyGetRecordingLinksQuery();
   const [getCompletedLessonsBookingInfo] = useLazyGetCompletedLessonsBookingInfoQuery();
   const [completedLessonsState, setCompletedLessonsState] = useState<ICompletedLesson[]>([]);
   const [activeReviewModal, setActiveReviewModal] = useState<boolean>(false);
@@ -332,7 +332,6 @@ const CompletedLessons = () => {
           <></>
         )}
 
-        {lessonRecordingModal ?  <LessonRecordingModal recordingUrl={videoSrc} handleClose={() => setLessonRecordingModal(false)} /> : <></>}
       </MainWrapper>
     </>
   );

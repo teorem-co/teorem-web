@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
 import { useAppSelector } from '../../../hooks';
-import { useLazyGetRoomLinkQuery } from '../../../services/learnCubeService';
+import { useLazyGetRoomLinkQuery } from '../../../services/hiLinkService';
 
 interface Props {
     handleClose: () => void;

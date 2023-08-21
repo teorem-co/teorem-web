@@ -10,6 +10,7 @@ import { PiPlayBold } from 'react-icons/pi';
 export interface IBookingInfo {
   bookingId: string;
   startTime: string;
+  meetingId: string;
 }
 
 interface Props {
@@ -87,7 +88,7 @@ const StudentBookingInfoItem: React.FC<Props> = ({ bookingInfo , activeLesson}) 
           />
         </div>
       </div>
-      {lessonRecordingModal ? <LessonRecordingModal recordingUrl={videoSrc} handleClose={() => setLessonRecordingModal(false)} /> : <></>}
+      {lessonRecordingModal ? <LessonRecordingModal meetingId={bookingInfo.meetingId} recordingUrl={videoSrc} handleClose={() => setLessonRecordingModal(false)} /> : <></>}
     </div>
   );
 };
