@@ -4,7 +4,7 @@ import IPartOfDayOption from '../interfaces/IPartOfDayOption';
 import ITutorAvailability from '../interfaces/ITutorAvailability';
 
 const URL = 'api/v1/tutors/availability';
-
+const TUTORS_URL = "api/v1/tutors";
 export interface ITutorAvailabilityToSend {
     tutorAvailability: ITutorAvailability[];
 }
@@ -18,7 +18,7 @@ export const tutorAvailabilityService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         getTutorAvailability: builder.query<(string | boolean)[][], string>({
             query: (tutorId) => ({
-                url: `${URL}/${tutorId}`,
+                url: `${TUTORS_URL}/${tutorId}/availability`,
                 method: HttpMethods.GET,
             }),
             providesTags: ['userAvailability'],

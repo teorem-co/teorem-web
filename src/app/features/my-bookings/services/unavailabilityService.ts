@@ -5,6 +5,7 @@ import { IUnavailability } from '../interfaces/IUnavailability';
 //bookings/week/:tutorSlug
 
 const URL = 'api/v1/tutors/unavailability';
+const TUTORS_URL= 'api/v1/tutors';
 
 interface IUnavailabilityTransformed {
     id: string;
@@ -29,7 +30,7 @@ export const unavailabilityService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         getUnavailableBookings: builder.query<IUnavailabilityTransformed[], IGetUnavailabilities>({
             query: (data) => ({
-                url: `${URL}/${data.tutorId}?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}`,
+                url: `${TUTORS_URL}/${data.tutorId}/unavailability?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}`,
                 method: HttpMethods.GET,
             }),
             transformResponse: (response: IUnavailability[]) => {
