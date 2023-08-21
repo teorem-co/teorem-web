@@ -166,6 +166,10 @@
                 height: 100%;
                 width: 100%;
             }
+
+            video {
+              border: 1px solid black;
+            }
         }
     }
 
@@ -183,7 +187,7 @@
 
         .btn{
             color: $black;
-            
+
             &--ghost--grey {
                 .icon--check {
                     display: none;
@@ -199,7 +203,7 @@
             .icon {
                 transition: none;
             }
-            
+
             &:hover {
                 color: $color-primary;
 
@@ -215,3 +219,39 @@
         }
     }
 }
+
+.video-modal__overlay {
+  z-index: 10;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: $background-overlay;
+}
+
+
+.video-modal__content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.video-modal__video-container {
+  position: relative;
+  display: inline-block; /* This ensures the container wraps around the video and icon */
+  margin-top: 10px; /* Adjust as needed */
+}
+
+.video-icon--close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+}
+
+
