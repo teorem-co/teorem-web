@@ -85,7 +85,7 @@ const TutorBookings = () => {
       isLoading,
     }),
   });
-  const [getTutorAvailability, { data: tutorAvailability, isLoading: tutorAvailabilityLoading }] = useLazyGetTutorAvailabilityQuery();//useLazyGetTutorAvailableDaysQuery();
+  const [getTutorAvailability, { data: tutorAvailability, isLoading: tutorAvailabilityLoading }] = useLazyGetTutorAvailabilityQuery();
 
   const [getBookingById, { data: booking }] = useLazyGetBookingByIdQuery();
   const [addCustomerSource] = useAddCustomerSourceMutation();
