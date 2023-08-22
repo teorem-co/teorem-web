@@ -237,14 +237,14 @@
 
 .video-modal__content {
   position: relative;
-  width: 100%;
-  height: 100%;
+  width: 100px; //100%;
+  height: 100px;//100%;
 }
 
 .video-modal__video-container {
   position: relative;
-  display: inline-block; /* This ensures the container wraps around the video and icon */
-  margin-top: 10px; /* Adjust as needed */
+  display: inline-block;
+  margin-top: 10px;
 }
 
 .video-icon--close {
@@ -252,6 +252,14 @@
   top: 0;
   right: 0;
   cursor: pointer;
+}
+
+.video-modal-title{
+  background-color: white;
+  padding: 10px;
+  align-content:start;
+  text-align: center;
+  border-radius: 10px;
 }
 
 

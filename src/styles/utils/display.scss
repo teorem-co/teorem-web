@@ -57,3 +57,14 @@
         }
     }
 }
+
+.d {
+
+  &__hidden {
+    visibility: hidden;
+  }
+
+  &__visible {
+    visibility: visible;
+  }
+}

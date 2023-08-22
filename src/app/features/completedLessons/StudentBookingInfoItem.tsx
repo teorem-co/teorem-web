@@ -29,6 +29,7 @@ const StudentBookingInfoItem: React.FC<Props> = ({ bookingInfo , activeLesson}) 
 
   function handleLessonDownload(){
     //TODO: Complete this
+    console.log("Pressing");
     setLessonRecordingModal(true);
     //toastService.info(t('COMPLETED_LESSONS.TOOLTIP_DOWNLOAD_LESSON'));
   }
