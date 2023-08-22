@@ -52,8 +52,6 @@ const LessonRecordingModal = (props: Props) => {
 
   function setNewVideoUrl() {
     if(recordings && recordings.length > 1 && currentVideoIndex < recordings.length){
-      console.log('setting new videoUrl');
-      console.log(recordings);
       setVideoUrl(recordings[currentVideoIndex].videoUrl);
       setCurrentVideoIndex(currentVideoIndex + 1);
     }
