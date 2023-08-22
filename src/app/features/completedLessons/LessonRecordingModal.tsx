@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 
 import IGetRecordingLinks from '../../../interfaces/IGetRecordingLinks';
-import { useLazyGetRecordingLinksQuery } from '../../services/hiLinkService';
+import {
+  IMeetRecording,
+  useLazyGetRecordingLinksQuery,
+} from '../../services/hiLinkService';
 import { ClipLoader } from 'react-spinners';
 
 interface Props {
@@ -13,6 +16,8 @@ interface Props {
 const LessonRecordingModal = (props: Props) => {
   const {meetingId, handleClose } = props;
   const [meetingTitle, setMeetingTitle] = useState<string>();
+  const [recordings, setRecordings] = useState<IMeetRecording[]>();
+  const [currentVideoIndex, setCurrentVideoIndex] = useState<number>(1);
   const [videoUrl, setVideoUrl] = useState<string>();
   const [isLoading, setIsLoading] = useState(true);
   const [isVideoReady, setIsVideoReady] = useState(false);
@@ -39,12 +44,22 @@ const LessonRecordingModal = (props: Props) => {
 
     try{
       const res = await getRecordingLinks(toSend).unwrap();
+      setRecordings(res);
       setVideoUrl(res[0].videoUrl); // TODO: this is getting url only of first recording
       setMeetingTitle(res[0].meetingTitle);
       setIsLoading(false);
     }catch (e){
       setIsVideoReady(true); // turn of spinner if there is error
       handleClose();
+    }
+  }
+
+  function setNewVideoUrl() {
+    if(recordings && recordings.length > 1 && currentVideoIndex < recordings.length){
+      console.log('setting new videoUrl');
+      console.log(recordings);
+      setVideoUrl(recordings[currentVideoIndex].videoUrl);
+      setCurrentVideoIndex(currentVideoIndex + 1);
     }
   }
 
@@ -57,23 +72,30 @@ const LessonRecordingModal = (props: Props) => {
         </div>
       }
       {!isLoading ?
-        <div className={`video-modal__overlay d__${isVideoReady ? 'visible' : 'hidden'}`}>
-        {meetingTitle &&
-            <div className='type--lg video-modal-title'>
-            {meetingTitle}
-          </div>}
-            <div className="video-modal__video-container">
+        <div className={`d__${isVideoReady ? 'visible' : 'hidden'}`}>
+            <div className="video-modal__overlay" style={{backgroundColor: 'white'}}>
               <video
+                key={videoUrl}
+                width='auto'
+                height='100%'
                 controls
                 preload='metadata'
+                autoPlay={true}
                 onLoadedMetadata={() => {
                   setIsVideoReady(true);
+                }}
+                onEnded={() =>{
+                  setNewVideoUrl();
                 }}
               >
                 <source src={videoUrl} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
-              <i onClick={handleClose} className="icon icon--md icon--close video-icon--close icon--grey"></i>
+
+              <div className="video-icon--close" style={{display:'flex', flexDirection:'row', alignContent:'baseline' }}>
+                <img  className="video-modal-logo mt-2 mr-2" src='/logo.png' alt='logo'></img>
+                <i onClick={handleClose} className="icon icon--md icon--close icon--grey mt-2 mr-2"></i>
+              </div>
           </div>
         </div>
         :

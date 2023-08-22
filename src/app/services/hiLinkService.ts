@@ -9,7 +9,7 @@ interface IMeetingUrl{
     meetingUrl: string;
 }
 
-interface IMeetRecording{
+export interface IMeetRecording{
   videoUrl: string,
   meetingTitle: string
   videoTitle: string
@@ -18,7 +18,7 @@ export const hiLinkService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         getRoomLink: builder.query<IMeetingUrl, IGetRoomLink>({
             query: (params) => ({
-                url: `${URL}/get-room-link/?userId=${params.userId}&bookingId=${params.bookingId}`,//`${URL}/get-room-link/?userId=${params.userId}&bookingId=${params.bookingId}`,
+                url: `${URL}/get-room-link/?userId=${params.userId}&bookingId=${params.bookingId}`,
                 method: HttpMethods.GET,
             }),
         }),
