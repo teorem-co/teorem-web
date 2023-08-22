@@ -11,7 +11,7 @@ import { Role } from '../../../lookups/role';
 import { PATHS } from '../../../routes';
 import {
   useLazyGetFreeConsultationLinkQuery,
-} from '../../../services/learnCubeService';
+} from '../../../services/hiLinkService';
 import {
   IChatMessagesQuery,
   useLazyGetChatMessagesQuery,

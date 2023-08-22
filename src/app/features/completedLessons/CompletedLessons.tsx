@@ -10,7 +10,6 @@ import LoaderAvailableLessons
   from '../../components/skeleton-loaders/LoaderAvailableLessons';
 import { useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
-import { useLazyGetRecordedRoomsQuery } from '../../services/learnCubeService';
 import ICompletedLesson from '../my-bookings/interfaces/ICompletedLesson';
 import {
   IBookingInfo, IGetBookingInfo,
@@ -26,6 +25,9 @@ import { IChatMessagesQuery } from '../chat/services/chatService';
 import moment from 'moment';
 import React from 'react';
 import ImageCircle from '../../components/ImageCircle';
+import IBooking from '../my-bookings/interfaces/IBooking';
+import LearnCubeModal from '../my-profile/components/LearnCubeModal';
+import LessonRecordingModal from './LessonRecordingModal';
 
 const CompletedLessons = () => {
   const [studentCompletedBookings, setStudentCompletedBookings] = useState<IBookingInfo[]>([]);
@@ -40,7 +42,6 @@ const CompletedLessons = () => {
   const asideDebouncedScrollHandler = debounce((e) => handleAsideScroll(e), 500);
 
   const [getCompletedLessons, { isLoading: listLoading, isUninitialized: listUninitialized }] = useLazyGetCompletedLessonsQuery();
-  const [getRecordedRooms] = useLazyGetRecordedRoomsQuery();
   const [getCompletedLessonsBookingInfo] = useLazyGetCompletedLessonsBookingInfoQuery();
   const [completedLessonsState, setCompletedLessonsState] = useState<ICompletedLesson[]>([]);
   const [activeReviewModal, setActiveReviewModal] = useState<boolean>(false);

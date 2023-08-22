@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ICompletedLesson from '../my-bookings/interfaces/ICompletedLesson';
 import { t } from 'i18next';
 import moment from 'moment';
-import { divide } from 'lodash';
 import { LiaFileInvoiceDollarSolid } from 'react-icons/lia';
-import { BiSolidDownload } from 'react-icons/bi';
 import { Tooltip } from 'react-tooltip';
 import toastService from '../../services/toastService';
-import { RiVideoDownloadFill } from 'react-icons/ri';
+import LessonRecordingModal from './LessonRecordingModal';
+import { PiPlayBold } from 'react-icons/pi';
 export interface IBookingInfo {
   bookingId: string;
   startTime: string;
+  meetingId: string;
 }
 
 interface Props {
@@ -19,6 +19,7 @@ interface Props {
 }
 
 const StudentBookingInfoItem: React.FC<Props> = ({ bookingInfo , activeLesson}) => {
+  const [lessonRecordingModal, setLessonRecordingModal] = useState<boolean>(false);
 
   function handleInvoiceDownload(){
     //TODO: Complete this
@@ -26,8 +27,7 @@ const StudentBookingInfoItem: React.FC<Props> = ({ bookingInfo , activeLesson}) 
   }
 
   function handleLessonDownload(){
-    //TODO: Complete this
-    toastService.info(t('COMPLETED_LESSONS.TOOLTIP_DOWNLOAD_LESSON'));
+    setLessonRecordingModal(true);
   }
 
   return (
@@ -75,7 +75,7 @@ const StudentBookingInfoItem: React.FC<Props> = ({ bookingInfo , activeLesson}) 
             onClick={handleInvoiceDownload}
           />
 
-          <RiVideoDownloadFill
+          <PiPlayBold
             className="completed-booking-pointer primary-color"
             size={30}
             data-tip="Click to view invoice"
@@ -85,6 +85,7 @@ const StudentBookingInfoItem: React.FC<Props> = ({ bookingInfo , activeLesson}) 
           />
         </div>
       </div>
+      {lessonRecordingModal ? <LessonRecordingModal meetingId={bookingInfo.meetingId}  handleClose={() => setLessonRecordingModal(false)} /> : <></>}
     </div>
   );
 };

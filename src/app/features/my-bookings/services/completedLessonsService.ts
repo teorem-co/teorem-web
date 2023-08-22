@@ -6,7 +6,8 @@ const URL = '/api/v1/completed-lessons';
 
 export interface IBookingInfo{
   bookingId: string,
-  startTime: string
+  startTime: string,
+  meetingId: string
 }
 
 export interface IGetBookingInfo{
