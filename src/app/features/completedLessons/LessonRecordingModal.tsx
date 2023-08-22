@@ -10,12 +10,10 @@ import { ClipLoader } from 'react-spinners';
 interface Props {
   handleClose: () => void;
   meetingId: string;
-  recordingUrl: string;
 }
 
 const LessonRecordingModal = (props: Props) => {
   const {meetingId, handleClose } = props;
-  const [meetingTitle, setMeetingTitle] = useState<string>();
   const [recordings, setRecordings] = useState<IMeetRecording[]>();
   const [currentVideoIndex, setCurrentVideoIndex] = useState<number>(1);
   const [videoUrl, setVideoUrl] = useState<string>();
@@ -46,7 +44,6 @@ const LessonRecordingModal = (props: Props) => {
       const res = await getRecordingLinks(toSend).unwrap();
       setRecordings(res);
       setVideoUrl(res[0].videoUrl); // TODO: this is getting url only of first recording
-      setMeetingTitle(res[0].meetingTitle);
       setIsLoading(false);
     }catch (e){
       setIsVideoReady(true); // turn of spinner if there is error
