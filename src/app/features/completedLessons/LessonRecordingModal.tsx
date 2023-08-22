@@ -89,7 +89,7 @@ const LessonRecordingModal = (props: Props) => {
               </video>
 
               <div className="video-icon--close" style={{display:'flex', flexDirection:'row', alignContent:'baseline' }}>
-                <img  className="video-modal-logo mt-2 mr-2" src='/logo.png' alt='logo'></img>
+                <img  className="video-modal-logo mt-2 mr-2" src='/logo-purple-text.png' alt='logo'></img>
                 <i onClick={handleClose} className="icon icon--md icon--close icon--grey mt-2 mr-2"></i>
               </div>
           </div>

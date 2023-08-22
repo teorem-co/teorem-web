@@ -179,7 +179,6 @@ const CompletedLessons = () => {
 
   return (
     <>
-
       <MainWrapper>
         <div className="card--lessons">
           <div className="card--lessons__head">
@@ -324,7 +323,6 @@ const CompletedLessons = () => {
         ) : (
           <></>
         )}
-
       </MainWrapper>
     </>
   );
