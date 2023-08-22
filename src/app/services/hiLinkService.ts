@@ -12,6 +12,7 @@ interface IMeetingUrl{
 interface IMeetRecording{
   videoUrl: string,
   meetingTitle: string
+  videoTitle: string
 }
 export const hiLinkService = baseService.injectEndpoints({
     endpoints: (builder) => ({
