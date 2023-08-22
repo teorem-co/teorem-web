@@ -22,7 +22,7 @@ export const hiLinkService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
-        getRecordingLinks: builder.query<IMeetRecording[], IGetRecordingLinks>({
+        getLessonRecordings: builder.query<IMeetRecording[], IGetRecordingLinks>({
             query: (params) => ({
                 url: `${URL}/recordings?meetingId=${params.meetingId}`,
                 method: HttpMethods.GET,
@@ -39,6 +39,6 @@ export const hiLinkService = baseService.injectEndpoints({
 
 export const {
     useLazyGetRoomLinkQuery,
-    useLazyGetRecordingLinksQuery,
+    useLazyGetLessonRecordingsQuery,
     useLazyGetFreeConsultationLinkQuery
 } = hiLinkService;

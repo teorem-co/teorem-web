@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 
 import IGetRecordingLinks from '../../../interfaces/IGetRecordingLinks';
 import {
-  IMeetRecording,
-  useLazyGetRecordingLinksQuery,
+  IMeetRecording, useLazyGetLessonRecordingsQuery,
 } from '../../services/hiLinkService';
 import { ClipLoader } from 'react-spinners';
 
@@ -19,7 +18,7 @@ const LessonRecordingModal = (props: Props) => {
   const [videoUrl, setVideoUrl] = useState<string>();
   const [isLoading, setIsLoading] = useState(true);
   const [isVideoReady, setIsVideoReady] = useState(false);
-  const [getRecordingLinks] = useLazyGetRecordingLinksQuery();
+  const [getRecordingLinks] = useLazyGetLessonRecordingsQuery();
   const handleEscKey = (event: KeyboardEvent) => {
     if (event.key === 'Escape') {
       handleClose();
