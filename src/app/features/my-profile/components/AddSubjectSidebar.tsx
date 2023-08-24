@@ -73,11 +73,12 @@ const AddSubjectSidebar = (props: Props) => {
 
     const handleSubmit = async (values: Values) => {
       let isError = false;
+      console.log('Called handle submit');
 
       await createSubject({
         subjectId: values.subject,
         price: Number(values.price),
-        tutorId: props.tutorId || getUserId(),
+        tutorId: props.tutorId || '',
         levelId: values.level
       }).then(res =>{
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
