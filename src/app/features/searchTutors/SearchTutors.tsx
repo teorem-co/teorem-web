@@ -20,6 +20,7 @@ import { SortDirection } from '../../lookups/sortDirection';
 import getUrlParams from '../../utils/getUrlParams';
 import PriceSort from './components/PriceSort';
 import TutorItem from './components/TutorItem';
+import ITutorItem from '../../../interfaces/ITutorItem';
 
 interface Values {
     subject: string;
@@ -48,7 +49,7 @@ const SearchTutors = () => {
     const [initialLoad, setInitialLoad] = useState<boolean>(true);
     const [dayOfWeekArray, setDayOfWeekArray] = useState<string[]>([]);
     const [timeOfDayArray, setTimeOfDayArray] = useState<string[]>([]);
-    const [loadedTutorItems, setLoadedTutorItems] = useState<ITutor[]>([]);
+    const [loadedTutorItems, setLoadedTutorItems] = useState<ITutorItem[]>([]);
     const [priceSortDirection, setPriceSortDirection] = useState<SortDirection>(SortDirection.None);
     const [scrollTopOffset, setScrollTopOffset] = useState<number | null>(null);
     //initialSubject is not reset on initial level change
@@ -435,7 +436,7 @@ const SearchTutors = () => {
                                 <LoaderTutor />
                             </div>
                         ) : loadedTutorItems.length > 0 ? (
-                            loadedTutorItems.map((tutor) => <TutorItem key={tutor.userId} tutor={tutor} />)
+                            loadedTutorItems.map((tutor) => <TutorItem key={tutor.id} tutor={tutor} />)
                         ) : (
                             <div className="tutor-list__no-results">
                                 <h1 className="tutor-list__no-results__title">{t('SEARCH_TUTORS.NO_RESULT.TITLE')}</h1>

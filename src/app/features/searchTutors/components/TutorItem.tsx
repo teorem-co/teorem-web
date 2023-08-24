@@ -1,43 +1,31 @@
 import { t } from 'i18next';
-import { uniqBy } from 'lodash';
+import { uniq, uniqBy } from 'lodash';
 import { FC, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-
-import ISubject from '../../../../interfaces/ISubject';
-import ITutor from '../../../../interfaces/ITutor';
-import ITutorSubject from '../../../../interfaces/ITutorSubject';
 import ImageCircle from '../../../components/ImageCircle';
 import { PATHS } from '../../../routes';
 import CustomSubjectList from './CustomSubjectList';
+import ITutorItem from '../../../../interfaces/ITutorItem';
 
 interface Props {
-    tutor: ITutor;
+    tutor: ITutorItem;
 }
 
 const TutorItem: FC<Props> = (props: Props) => {
     const { tutor } = props;
 
     // const [showMore, setShowMore] = useState<boolean>(false);
-    const [uniqueSubjects, setUniqueSubjects] = useState<ISubject[]>([]);
+    const [uniqueSubjects, setUniqueSubjects] = useState<string[]>([]);
 
     useEffect(() => {
-        if (tutor.TutorSubjects.length > 0) {
-            const tutorNames: ISubject[] = tutor.TutorSubjects.map((item: ITutorSubject) => {
-                const test = item.Subject;
-                return test;
-            });
-            setUniqueSubjects(tutorNames);
+        if (tutor.subjects.length > 0) {
+            setUniqueSubjects(tutor.subjects);
         }
     }, [tutor]);
 
     const handleLongText = (text: string) => {
         let showText: string = '';
-        // if (showMore) {
-        //     showText = text;
-        // } else {
         showText = text.slice(0, 300) + '...';
-        // }
-
         return <div className="type--break">{showText}</div>;
     };
 
@@ -46,11 +34,11 @@ const TutorItem: FC<Props> = (props: Props) => {
         <>
             <div className="tutor-list__item">
                 <div className="tutor-list__item__img">
-                    {tutor.User.profileImage ? (
-                        <img src={`${tutor.User.profileImage}&v=${cacheBuster}`} alt="tutor-list" />
+                    {tutor.profileImage ? (
+                        <img src={`${tutor.profileImage}&v=${cacheBuster}`} alt="tutor-list" />
                     ) : (
                         <ImageCircle
-                            initials={`${tutor.User.firstName ? tutor.User.firstName.charAt(0) : ''}${tutor.User.lastName ? tutor.User.lastName.charAt(0) : ''
+                            initials={`${tutor.firstName ? tutor.firstName.charAt(0) : ''}${tutor.lastName ? tutor.lastName.charAt(0) : ''
                                 }`}
                             imageBig={true}
                         />
@@ -58,10 +46,10 @@ const TutorItem: FC<Props> = (props: Props) => {
                 </div>
                 <div className="tutor-list__item__info">
                     <div className="type--md mb-1">
-                        {tutor.User.firstName && tutor.User.lastName ? `${tutor.User.firstName} ${tutor.User.lastName}` : ''}
+                        {tutor.firstName && tutor.lastName ? `${tutor.firstName} ${tutor.lastName}` : ''}
                     </div>
                     <div className="type--color--brand mb-4">{tutor.currentOccupation ? tutor.currentOccupation : t('SEARCH_TUTORS.NOT_FILLED')}</div>
-                    <div className={`type--color--secondary ${tutor.TutorSubjects.length > 0 ? 'mb-6' : ''} w--632--max`}>
+                    <div className={`type--color--secondary ${tutor.subjects.length > 0 ? 'mb-6' : ''} w--632--max`}>
                         {tutor.aboutTutor
                             ? tutor.aboutTutor
                                 ? tutor.aboutTutor.length > 300
@@ -70,17 +58,17 @@ const TutorItem: FC<Props> = (props: Props) => {
                                 : ''
                             : t('SEARCH_TUTORS.NOT_FILLED')}
                     </div>
-                    {tutor.TutorSubjects.length > 0 ? <CustomSubjectList subjects={uniqBy(uniqueSubjects, 'name')} /> : <></>}
+                    {tutor.subjects.length > 0 ? <CustomSubjectList subjects={uniq(uniqueSubjects)} /> : <></>}
                 </div>
                 <div className="tutor-list__item__details">
                     <div className="flex--grow mb-6">
                         <div className="flex flex--center mb-3">
                             <i className="icon icon--pricing icon--base icon--grey"></i>
-                            {tutor.minimumPrice ? (
+                            {tutor.minPrice ? (
                                 <span className="d--ib ml-4">
-                                    {tutor.minimumPrice} {tutor.User.Country.currencyCode}
+                                    {tutor.minPrice} {tutor.currencyCode}
                                     &nbsp;-&nbsp;
-                                    {tutor.maximumPrice} {tutor.User.Country.currencyCode}&nbsp;/hr
+                                    {tutor.maxPrice} {tutor.currencyCode}&nbsp;/hr
                                 </span>
                             ) : (
                                 <span className="d--ib ml-4">There is no price</span>

@@ -5,7 +5,7 @@ import ISubject from '../../../../interfaces/ISubject';
 import useOutsideAlerter from '../../../utils/useOutsideAlerter';
 
 interface Props {
-    subjects: ISubject[];
+    subjects: string[];
 }
 
 const CustomSubjectList = (props: Props) => {
@@ -25,8 +25,8 @@ const CustomSubjectList = (props: Props) => {
     return (
         <div ref={rangeSetterRef} className="flex">
             {subjects.slice(0, 3).map((subject) => (
-                <span className="tag tag--primary" key={subject.id}>
-                    {t(`SUBJECTS.${subject.abrv.replace('-', '')}`)}
+                <span className="tag tag--primary" key={subject}>
+                    {t(`SUBJECTS.${subject.replace('-', '')}`)}
                 </span>
             ))}
 
@@ -48,9 +48,9 @@ const CustomSubjectList = (props: Props) => {
                         {subjects.slice(3).map((subject) => (
                             <span
                                 className="type--color--brand"
-                                key={subject.id}
+                                key={subject}
                             >
-                                {t(`SUBJECTS.${subject.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
+                                {t(`SUBJECTS.${subject.replace('-', '').replace(' ', '').toLowerCase()}`)}
                             </span>
                         ))}
                     </div>

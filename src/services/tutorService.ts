@@ -12,14 +12,12 @@ import ITutor from '../interfaces/ITutor';
 import { RoleOptions } from '../slices/roleSlice';
 import typeToFormData from '../app/utils/typeToFormData';
 import IBooking from '../app/features/my-bookings/interfaces/IBooking';
+import ITutorItem from '../interfaces/ITutorItem';
 
-interface ITutorId {
-    userId: string;
-}
 
 interface ITutorAvailable {
     count: number;
-    rows: ITutor[];
+    rows: ITutorItem[];
 }
 
 interface IBookingsByIdPayload {
@@ -56,8 +54,9 @@ export const tutorService = baseService.injectEndpoints({
         getTutors: builder.query({
             query: (params: any) => {
                 const queryData = {
-                    url: `${URL}/?page=${params.page
-                        }&rpp=${params.rpp
+                  //TODO: fix this page -1 problem
+                    url: `${URL}/?page=${params.page -1
+                        }&size=${params.rpp
                         }&unprocessed=${params.unprocessed ? "true" : "false"
                         }${params.verified ? params.verified == 1 ? "&verified=true" : "&verified=false" : ""}
                     `,
@@ -84,8 +83,9 @@ export const tutorService = baseService.injectEndpoints({
         }),
         getAvailableTutors: builder.query<ITutorAvailable, IParams>({
             query: (params) => {
+              //TODO: fix this -1 page problem
                 const queryData = {
-                    url: `${URL}/available-tutors?rpp=${params.rpp}&page=${params.page}${params.subject ? '&subjectId=' + params.subject : ''}${params.level ? '&levelId=' + params.level : ''
+                    url: `${URL}/available-tutors?size=${params.rpp}&page=${params.page-1}${params.subject ? '&subjectId=' + params.subject : ''}${params.level ? '&levelId=' + params.level : ''
                         }${params.dayOfWeek ? '&dayOfWeek=' + params.dayOfWeek : ''}${params.timeOfDay ? '&timeOfDay=' + params.timeOfDay : ''}${params.sort ? '&sort=' + params.sort : ''
                         }`,
                     method: HttpMethods.GET,

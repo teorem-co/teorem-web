@@ -5,10 +5,11 @@ import { OptionType } from '../app/components/form/MySelectField';
 import { HttpMethods } from '../app/lookups/httpMethods';
 import ISubject from '../interfaces/ISubject';
 
+const NEW_URL = 'api/v1/tutors/subjects';
+const URL_TUTORS = 'api/v1/tutors';
+
 const URL = 'api/v1/subjects';
-
 const mutationURL = 'api/v1/tutor-subjects';
-
 const TUTOR_SUBJECT_URL = 'api/v1/tutor-subjects';
 
 
@@ -25,14 +26,27 @@ interface IId {
 
 interface ICreateSubject {
     subjectId: string;
-    price: number;
-    objectId?: string;
+    levelId?: string;     //TODO remove ? to make it mandatory
     tutorId?: string;
+    objectId?: string;
+    price: number;
 }
 
 interface ITutorSubjectId {
     tutorId: string;
     levelId: string;
+}
+
+export interface ITutorSubjectLevelPair {
+  subjectId: string;
+  subjectAbrv: string;
+  levelId: string;
+  levelAbrv:string;
+}
+
+export interface ITutorSubjectLevelPair2 {
+  subject: OptionType;
+  level: OptionType;
 }
 
 export const subjectService = baseService.injectEndpoints({
@@ -67,7 +81,7 @@ export const subjectService = baseService.injectEndpoints({
         updateSubject: builder.mutation<void, ICreateSubject>({
             query(body) {
                 return {
-                    url: `${mutationURL}/${body.objectId}`,
+                    url: `${NEW_URL}/${body.objectId}`,
                     method: 'PUT',
                     body,
                 };
@@ -76,7 +90,7 @@ export const subjectService = baseService.injectEndpoints({
         createSubject: builder.mutation<void, ICreateSubject>({
             query(body) {
                 return {
-                    url: `${mutationURL}/`,
+                    url: `${NEW_URL}/`,
                     method: 'POST',
                     body,
                 };
@@ -85,7 +99,7 @@ export const subjectService = baseService.injectEndpoints({
         deleteSubject: builder.mutation<void, string>({
             query(objectId) {
                 return {
-                    url: `${mutationURL}/${objectId}`,
+                    url: `${NEW_URL}/${objectId}`,
                     method: HttpMethods.DELETE,
                 };
             },
@@ -108,6 +122,26 @@ export const subjectService = baseService.injectEndpoints({
                 return subjectOptions;
             },
         }),
+        getTutorSubjectLevelPairs: builder.query<ITutorSubjectLevelPair2[], string>({
+          query: (tutorId) => ({
+            url: `${URL_TUTORS}/${tutorId}/subjects`,
+            method: HttpMethods.GET,
+          }),
+          transformResponse: (response: ITutorSubjectLevelPair[]) => {
+            const subjectLevelPairs: ITutorSubjectLevelPair2[] = response.map((subjectLevelPair) => ({
+              subject: {
+                value: subjectLevelPair.subjectId,
+                label: t(`SUBJECTS.${subjectLevelPair.subjectAbrv.replace(' ', '').replace('-', '').toLowerCase()}`),
+              },
+              level: {
+                value: subjectLevelPair.levelId,
+                label: t(`LEVELS.${subjectLevelPair.levelAbrv.replace(' ', '').replace('-', '').toLowerCase()}`),
+              }
+            }));
+            return subjectLevelPairs;
+          },
+        }),
+
     }),
 });
 
@@ -118,4 +152,5 @@ export const {
     useCreateSubjectMutation,
     useDeleteSubjectMutation,
     useLazyGetTutorSubjectsByTutorLevelQuery,
+    useGetTutorSubjectLevelPairsQuery
 } = subjectService;
