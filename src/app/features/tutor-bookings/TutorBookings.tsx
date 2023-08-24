@@ -421,6 +421,7 @@ const TutorBookings = () => {
         setOpenSlot(false);
         setOpenEventDetails(true);
         getBookingById(e.id);
+        console.log(`getting booking by id: ${e.id}`);
         // setEventDetails({
         //     start: moment(e.start).format('DD/MMMM/YYYY, HH:mm'),
         //     end: moment(e.end).format('HH:mm'),

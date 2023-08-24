@@ -3,13 +3,13 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
-import { useGetLevelOptionsQuery } from '../../../../services/levelService';
+import {
+  useGetLevelsQuery,
+} from '../../../../services/levelService';
 import {
   useLazyGetProfileProgressQuery} from '../../../../services/tutorService';
 import {
-    useCreateSubjectMutation,
-    useLazyGetSubjectOptionsByLevelQuery,
-    useLazyGetSubjectsByLevelAndSubjectQuery,
+  useCreateSubjectMutation, useGetSubjectsQuery,
 } from '../../../../services/subjectService';
 import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import TextField from '../../../components/form/TextField';
@@ -36,17 +36,11 @@ interface Values {
 const AddSubjectSidebar = (props: Props) => {
     const { closeSidebar, sideBarIsOpen, handleGetData } = props;
 
-    const { data: levelOptions, isLoading: isLoadingLevels } = useGetLevelOptionsQuery();
+    const { data: subjectOptions, isLoading: isLoadingSubjects } = useGetSubjectsQuery();
+    const { data: levelOptions, isLoading: isLoadingLevels } = useGetLevelsQuery();
+
     const [createSubject] = useCreateSubjectMutation();
-
-    const [
-        getSubjectOptionsByLevel,
-        { data: subjectsData, isLoading: isLoadingSubjects, isSuccess: isSuccessSubjects, isFetching: isFetchingSubjects },
-    ] = useLazyGetSubjectOptionsByLevelQuery();
-
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
-
-    const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
 
     const levelDisabled = !levelOptions || isLoadingLevels;
     const { t } = useTranslation();
@@ -57,7 +51,6 @@ const AddSubjectSidebar = (props: Props) => {
         subject: '',
         price: '',
     };
-
 
     const [currency, setCurrency] = useState('PZL');
     const [minPrice, setMinPrice] = useState(47);
@@ -76,22 +69,35 @@ const AddSubjectSidebar = (props: Props) => {
         });
     };
 
+
     const handleSubmit = async (values: Values) => {
-        await createSubject({
-            subjectId: values.subject,
-            price: Number(values.price),
-            tutorId: props.tutorId || '',
-        });
-        handleGetData();
-        closeSidebar();
-        formik.resetForm();
+      let isError = false;
+      console.log('Called handle submit');
+
+      await createSubject({
+        subjectId: values.subject,
+        price: Number(values.price),
+        tutorId: props.tutorId || '',
+        levelId: values.level
+      }).then(res =>{
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        if(!res.ok){
+          isError = true;
+        }
+      });
+      handleGetData();
+      closeSidebar();
+      formik.resetForm();
+
+      if(!isError)
         toastService.success(t('MY_PROFILE.MY_TEACHINGS.CREATED'));
 
-        //handle profile progress
-        if (!profileProgressState.myTeachings) {
-            const progressResponse = await getProfileProgress().unwrap();
-            dispatch(setMyProfileProgress(progressResponse));
-        }
+      //handle profile progress
+      if (!profileProgressState.myTeachings) {
+        const progressResponse = await getProfileProgress().unwrap();
+        dispatch(setMyProfileProgress(progressResponse));
+      }
     };
 
     const formik = useFormik({
@@ -108,18 +114,18 @@ const AddSubjectSidebar = (props: Props) => {
         getCurrency();
     }, []);
 
-    useEffect(() => {
-        if (subjectsData && isSuccessSubjects && formik.values.level !== '') {
-            setSubjectOptions(subjectsData);
-        }
-    }, [subjectsData]);
+    // useEffect(() => {
+    //     if (subjectOptions && !isLoadingSubjects && formik.values.level !== '') {
+    //         setSubjectOptions(subjectsData);
+    //     }
+    // }, [subjectsData]);
 
-    useEffect(() => {
-        formik.setFieldValue('subject', '');
-        if (formik.values.level !== '') {
-            getSubjectOptionsByLevel(formik.values.level);
-        }
-    }, [formik.values.level]);
+    // useEffect(() => {
+    //     formik.setFieldValue('subject', '');
+    //     if (formik.values.level !== '') {
+    //         //getSubjectOptionsByLevel(formik.values.level);
+    //     }
+    // }, [formik.values.level]);
 
     return (
         <div>

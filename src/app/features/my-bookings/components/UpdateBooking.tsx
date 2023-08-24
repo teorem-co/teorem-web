@@ -5,10 +5,6 @@ import moment from 'moment';
 import { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 
-import { useGetTutorLevelsQuery } from '../../../../services/levelService';
-import {
-  useLazyGetTutorSubjectsByTutorLevelQuery,
-} from '../../../../services/subjectService';
 import { useLazyGetChildQuery } from '../../../../services/userService';
 import { RoleOptions } from '../../../../slices/roleSlice';
 import MySelect, { OptionType } from '../../../components/form/MySelectField';
@@ -37,11 +33,13 @@ interface Values {
   timeFrom: string;
 }
 const UpdateBooking: React.FC<IProps> = (props) => {
+
   const { start, end, handleClose, positionClass, setSidebarOpen, clearEmptyBookings, booking } = props;
-  const tutorId = props.tutorId;
   const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
 
-  const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
+  const [tutorLevelOptions, setTutorLevelOptions] = useState<OptionType[]>();
+  const [tutorSubjectOptions, setTutorSubjectOptions] = useState<OptionType[]>();
+
   const [selectedTime, setSelectedTime] = useState<string>('');
   const [initialValues, setInitialValues] = useState<Values>({
     level: '',
@@ -51,9 +49,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
   });
 
   const [getChildOptions, { data: childOptions }] = useLazyGetChildQuery();
-  const [getSubjectOptionsByLevel, { data: subjectsData, isSuccess: isSuccessSubjects }] = useLazyGetTutorSubjectsByTutorLevelQuery();
   const [updateBooking, { isSuccess: updateBookingSuccess }] = useUpdateBookingMutation();
-  const { data: levelOptions } = useGetTutorLevelsQuery(tutorId);
 
   const handleSubmit = (values: any) => {
     props.setSidebarOpen(false);
@@ -86,22 +82,28 @@ const UpdateBooking: React.FC<IProps> = (props) => {
     if (userRole === RoleOptions.Parent) {
       getChildOptions();
     }
+
+    // set options for level and subject
+    if(booking){
+      const subjectOptions:OptionType[] = [
+        {
+          value: booking.subjectId,
+          label: t(`SUBJECTS.${booking.Subject.abrv.replace(' ', '').replace('-', '').toLowerCase()}`),
+        }
+      ];
+      const levelOptions:OptionType[] = [
+        {
+          value: booking.levelId,
+          label: t(`LEVELS.${booking?.Level.abrv.replace(' ', '').replace('-', '').toLowerCase()}`),
+        }
+      ];
+
+      setTutorLevelOptions(levelOptions);
+      setTutorSubjectOptions(subjectOptions);
+    }
+
   }, []);
 
-  useEffect(() => {
-    if (formik.values.level !== '') {
-      getSubjectOptionsByLevel({
-        tutorId: tutorId,
-        levelId: formik.values.level,
-      });
-    }
-  }, [formik.values.level]);
-
-  useEffect(() => {
-    if (subjectsData && isSuccessSubjects && formik.values.level !== '') {
-      setSubjectOptions(subjectsData);
-    }
-  }, [subjectsData]);
 
   useEffect(() => {
     if (updateBookingSuccess) {
@@ -121,6 +123,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
       setInitialValues(values);
     }
   }, [booking]);
+
 
   return (
     <div className={`modal--parent modal--parent--${positionClass}`}>
@@ -161,7 +164,8 @@ const UpdateBooking: React.FC<IProps> = (props) => {
                 meta={formik.getFieldMeta('level')}
                 classNamePrefix="onboarding-select"
                 isMulti={false}
-                options={levelOptions ? levelOptions : []}
+                //options={levelOptions ? levelOptions : []}
+                options={tutorLevelOptions ? tutorLevelOptions : []}
                 isDisabled={booking?.id ? true : false}
                 placeholder={t('BOOK.FORM.LEVEL_PLACEHOLDER')}
               />
@@ -176,7 +180,8 @@ const UpdateBooking: React.FC<IProps> = (props) => {
                 form={formik}
                 meta={formik.getFieldMeta('subject')}
                 isMulti={false}
-                options={subjectsData}
+                //options={subjectsData}
+                options={tutorSubjectOptions}
                 classNamePrefix="onboarding-select"
                 isDisabled={booking?.id ? true : false}
                 noOptionsMessage={() => t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')}

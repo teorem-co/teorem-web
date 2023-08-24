@@ -6,10 +6,11 @@ import { useHistory } from 'react-router';
 import Select, { components, MenuProps } from 'react-select';
 
 import IParams from '../../../interfaces/IParams';
-import ITutor from '../../../interfaces/ITutor';
-import { useLazyGetLevelOptionsQuery } from '../../../services/levelService';
 import {
-  useLazyGetSubjectOptionsByLevelQuery,
+  useGetLevelsQuery,
+} from '../../../services/levelService';
+import {
+  useGetSubjectsQuery,
 } from '../../../services/subjectService';
 import { useLazyGetAvailableTutorsQuery } from '../../../services/tutorService';
 import CustomCheckbox from '../../components/form/CustomCheckbox';
@@ -39,11 +40,10 @@ const SearchTutors = () => {
             isFetching: availableTutorsFetching,
         },
     ] = useLazyGetAvailableTutorsQuery();
-    const [getLevelOptions, { data: levelOptions, isLoading: isLoadingLevels }] = useLazyGetLevelOptionsQuery();
-    const [
-        getSubjectOptionsByLevel,
-        { data: subjectsData, isLoading: isLoadingSubjects, isSuccess: isSuccessSubjects, isFetching: isFetchingSubjects },
-    ] = useLazyGetSubjectOptionsByLevelQuery();
+
+    const { data: subjects, isLoading: isLoadingSubjects } = useGetSubjectsQuery();
+    const { data: levelOptions, isLoading: isLoadingLevels } = useGetLevelsQuery();
+    const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
 
     const [params, setParams] = useState<IParams>({ rpp: 10, page: 1 });
     const [initialLoad, setInitialLoad] = useState<boolean>(true);
@@ -55,7 +55,7 @@ const SearchTutors = () => {
     //initialSubject is not reset on initial level change
     const [isInitialSubject, setIsInitialSubject] = useState<boolean>(false);
     //storing subjects in state so it can reset on Reset Filter
-    const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
+
 
     const history = useHistory();
     const { t } = useTranslation();
@@ -207,7 +207,6 @@ const SearchTutors = () => {
     };
 
     const fetchData = async () => {
-        getLevelOptions();
 
         const urlQueries: IParams = getUrlParams(history.location.search.replace('?', ''));
 
@@ -293,21 +292,6 @@ const SearchTutors = () => {
         formik.values.level == '' && formik.values.subject == '' && formik.values.dayOfWeek.length == 0 && formik.values.timeOfDay.length == 0;
 
     useEffect(() => {
-        if (formik.values.level) {
-            getSubjectOptionsByLevel(formik.values.level);
-
-            if (isInitialSubject) {
-                setIsInitialSubject(false);
-            } else {
-                formik.setFieldValue('subject', '');
-                const paramsObj = { ...params };
-                delete paramsObj.subject;
-                setParams({ ...paramsObj, level: formik.values.level });
-            }
-        }
-    }, [formik.values.level]);
-
-    useEffect(() => {
         if (priceSortDirection === SortDirection.None) {
             if (Object.keys(params).length > 0) {
                 const paramsObj = { ...params };
@@ -343,10 +327,10 @@ const SearchTutors = () => {
     }, [loadedTutorItems]);
 
     useEffect(() => {
-        if (subjectsData && isSuccessSubjects && formik.values.level && !isFetchingSubjects) {
-            setSubjectOptions(subjectsData);
+        if (subjects) {
+            setSubjectOptions(subjects);
         }
-    }, [subjectsData, isFetchingSubjects]);
+    }, [subjects]);
 
     useEffect(() => {
         if (formik.values.level && formik.values.subject) {
@@ -394,7 +378,7 @@ const SearchTutors = () => {
                                     className="ml-6"
                                     classNamePrefix="react-select--search-tutor"
                                     options={subjectOptions}
-                                    isDisabled={levelDisabled || isLoadingSubjects || isFetchingSubjects}
+                                    isDisabled={levelDisabled || isLoadingSubjects}
                                     noOptionsMessage={() => t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')}
                                     placeholder={t('SEARCH_TUTORS.PLACEHOLDER.SUBJECT')}
                                 ></MySelect>

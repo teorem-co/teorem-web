@@ -557,6 +557,7 @@ export const EN_US = {
             SAVE: 'Save information',
             DELETE: 'Delete',
             CANCEL: 'Cancel',
+            SUBJECT_ERROR: 'Subject for that level already exists'
         },
         GENERAL_AVAILABILITY: {
             TITLE: 'Availability',

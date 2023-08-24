@@ -49,7 +49,6 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
 
   const tutorId = props.tutorId;
 
-  //TODO: switch this to 2nd solution
   const { data: subjectLevelPairs, isSuccess: isSuccessSubjectsLevelPairs } = useGetTutorSubjectLevelPairsQuery(tutorId);
   const [tutorLevelOptions, setTutorLevelOptions] = useState<OptionType[]>();
   const [tutorSubjectOptions, setTutorSubjectOptions] = useState<OptionType[]>();
@@ -60,7 +59,6 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
   const [createBookingMutation, { isSuccess: isCreateBookingSuccess }] = useCreateBookingMutation();
   const [isCreateBookingLoading, setIsCreateBookingLoading] = useState<boolean>(false); // isLoading from Mutation is too slow;
 
-  const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
   const [selectedTime, setSelectedTime] = useState<string>('');
   const [initialValues, setInitialValues] = useState<Values>({
     level: '',
@@ -193,7 +191,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     validationSchema: Yup.object().shape(generateValidationSchema()),
   });
 
-  //============NEW CODE
+  //TODO: ============NEW CODE====================
   function filterSubjectsByLevelId(levelId: string) {
     if (subjectLevelPairs) {
       const subjectOptions: OptionType[] = subjectLevelPairs
@@ -221,7 +219,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     }
   }, [subjectLevelPairs]);
 
-//=================NEW CODE
+//TODO: ============NEW CODE====================
   useEffect(() => {
     if (formik.values.subject) {
       formik.setFieldValue('subject', '');
