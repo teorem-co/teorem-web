@@ -73,6 +73,7 @@ const AddSubjectSidebar = (props: Props) => {
 
     const handleSubmit = async (values: Values) => {
       let isError = false;
+      console.log('Called handle submit');
 
       await createSubject({
         subjectId: values.subject,
