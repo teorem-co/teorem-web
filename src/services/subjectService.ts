@@ -4,6 +4,8 @@ import { baseService } from '../app/baseService';
 import { OptionType } from '../app/components/form/MySelectField';
 import { HttpMethods } from '../app/lookups/httpMethods';
 import ISubject from '../interfaces/ISubject';
+import INotification from '../interfaces/notification/INotification';
+import ITutorItem from '../interfaces/ITutorItem';
 
 
 const URL = 'api/v1/subjects';

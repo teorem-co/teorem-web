@@ -46,7 +46,7 @@ const SearchTutors = () => {
     const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
     const [levelOptions, setLevelOptions] = useState<OptionType[]>([]);
 
-    const [params, setParams] = useState<IParams>({ rpp: 10, page: 0 });
+  const [params, setParams] = useState<IParams>({ rpp: 10, page: 0 });
     const [initialLoad, setInitialLoad] = useState<boolean>(true);
     const [dayOfWeekArray, setDayOfWeekArray] = useState<string[]>([]);
     const [timeOfDayArray, setTimeOfDayArray] = useState<string[]>([]);
@@ -354,6 +354,12 @@ const SearchTutors = () => {
         setSubjectOptions(subjects);
       }
     }, [subjects]);
+
+    useEffect(() => {
+      if (levels) {
+        setLevelOptions(levels);
+      }
+    }, []);
 
     useEffect(() => {
       if (levels) {
