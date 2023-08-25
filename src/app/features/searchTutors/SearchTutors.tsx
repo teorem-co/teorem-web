@@ -46,7 +46,7 @@ const SearchTutors = () => {
     const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
     const [levelOptions, setLevelOptions] = useState<OptionType[]>([]);
 
-  const [params, setParams] = useState<IParams>({ rpp: 10, page: 0 });
+    const [params, setParams] = useState<IParams>({ rpp: 10, page: 0 });
     const [initialLoad, setInitialLoad] = useState<boolean>(true);
     const [dayOfWeekArray, setDayOfWeekArray] = useState<string[]>([]);
     const [timeOfDayArray, setTimeOfDayArray] = useState<string[]>([]);
@@ -251,8 +251,7 @@ const SearchTutors = () => {
     };
 
     const handleScroll = async (e: HTMLDivElement) => {
-
-// console.log(availableTutors);
+      // console.log(availableTutors);
         if (availableTutors && loadedTutorItems.length != availableTutors.totalElements) {
           const innerHeight = e.scrollHeight;
             const scrollPosition = e.scrollTop + e.clientHeight;
