@@ -59,7 +59,6 @@ const CompletedLessons = () => {
         //action to do on scroll to bottom
         const newParams = { ...params };
         newParams.page++;
-
         const currentScrollTop = e.scrollTop;
         setScrollTopOffset(currentScrollTop);
 

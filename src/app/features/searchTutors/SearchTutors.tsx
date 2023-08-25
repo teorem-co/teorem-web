@@ -40,13 +40,13 @@ const SearchTutors = () => {
             isFetching: availableTutorsFetching,
         },
     ] = useLazyGetAvailableTutorsQuery();
-
+    const [page, setPage] = useState<number>(1);
     const [getSubjects, { data: subjects, isLoading: isLoadingSubjects }] = useLazyGetSubjectsQuery();
     const [getLevels, { data: levels, isLoading: isLoadingLevels }] = useLazyGetLevelsQuery();
     const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
     const [levelOptions, setLevelOptions] = useState<OptionType[]>([]);
 
-  const [params, setParams] = useState<IParams>({ rpp: 10, page: 1 });
+    const [params, setParams] = useState<IParams>({ rpp: 10, page: 0 });
     const [initialLoad, setInitialLoad] = useState<boolean>(true);
     const [dayOfWeekArray, setDayOfWeekArray] = useState<string[]>([]);
     const [timeOfDayArray, setTimeOfDayArray] = useState<string[]>([]);
@@ -246,22 +246,28 @@ const SearchTutors = () => {
         setLoadedTutorItems(tutorResponse.content);
     };
 
+    const handleLoadMore = () => {
+      setPage(page + 1);
+    };
+
     const handleScroll = async (e: HTMLDivElement) => {
-        if (loadedTutorItems.length !== availableTutors?.totalElements) {
-            const innerHeight = e.scrollHeight;
+      // console.log(availableTutors);
+        if (availableTutors && loadedTutorItems.length != availableTutors.totalElements) {
+          const innerHeight = e.scrollHeight;
             const scrollPosition = e.scrollTop + e.clientHeight;
 
             if (innerHeight === scrollPosition) {
+                handleLoadMore();
                 //action to do on scroll to bottom
                 const newParams = { ...params };
-                newParams.page++;
-
+                newParams.page = page;
                 const currentScrollTop = cardElement.scrollTop;
                 setScrollTopOffset(currentScrollTop);
 
                 const tutorResponse = await getAvailableTutors({
-                    ...newParams,
+                  ...newParams
                 }).unwrap();
+
                 setLoadedTutorItems(loadedTutorItems.concat(tutorResponse.content));
             }
         }
@@ -304,9 +310,9 @@ const SearchTutors = () => {
             if (params.sort) {
                 const paramsObj = { ...params };
                 delete paramsObj.sort;
-                setParams({ ...paramsObj, sort: priceSortDirection });
+                setParams({ ...paramsObj, sort: 'price,'+priceSortDirection });
             } else {
-                setParams({ ...params, sort: priceSortDirection });
+                setParams({ ...params, sort: 'price,'+priceSortDirection });
             }
         }
     }, [priceSortDirection]);

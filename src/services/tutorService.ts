@@ -94,7 +94,7 @@ export const tutorService = baseService.injectEndpoints({
             query: (params) => {
               //TODO: fix this -1 page problem
                 const queryData = {
-                    url: `${URL}/available-tutors?size=${params.rpp}&page=${params.page-1}${params.subject ? '&subjectId=' + params.subject : ''}${params.level ? '&levelId=' + params.level : ''
+                    url: `${URL}/available-tutors?size=${params.rpp}&page=${params.page}${params.subject ? '&subjectId=' + params.subject : ''}${params.level ? '&levelId=' + params.level : ''
                         }${params.dayOfWeek ? '&dayOfWeek=' + params.dayOfWeek : ''}${params.timeOfDay ? '&timeOfDay=' + params.timeOfDay : ''}${params.sort ? '&sort=' + params.sort : ''
                         }`,
                     method: HttpMethods.GET,
