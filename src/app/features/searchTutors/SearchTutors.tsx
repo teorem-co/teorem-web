@@ -7,10 +7,10 @@ import Select, { components, MenuProps } from 'react-select';
 
 import IParams from '../../../interfaces/IParams';
 import {
-  useGetLevelsQuery,
+  useGetLevelsQuery, useLazyGetLevelsQuery,
 } from '../../../services/levelService';
 import {
-  useGetSubjectsQuery,
+  useGetSubjectsQuery, useLazyGetSubjectsQuery,
 } from '../../../services/subjectService';
 import { useLazyGetAvailableTutorsQuery } from '../../../services/tutorService';
 import CustomCheckbox from '../../components/form/CustomCheckbox';
@@ -41,11 +41,12 @@ const SearchTutors = () => {
         },
     ] = useLazyGetAvailableTutorsQuery();
 
-    const { data: subjects, isLoading: isLoadingSubjects } = useGetSubjectsQuery();
-    const { data: levelOptions, isLoading: isLoadingLevels } = useGetLevelsQuery();
+    const [getSubjects, { data: subjects, isLoading: isLoadingSubjects }] = useLazyGetSubjectsQuery();
+    const [getLevels, { data: levels, isLoading: isLoadingLevels }] = useLazyGetLevelsQuery();
     const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
+    const [levelOptions, setLevelOptions] = useState<OptionType[]>([]);
 
-    const [params, setParams] = useState<IParams>({ rpp: 10, page: 1 });
+  const [params, setParams] = useState<IParams>({ rpp: 10, page: 1 });
     const [initialLoad, setInitialLoad] = useState<boolean>(true);
     const [dayOfWeekArray, setDayOfWeekArray] = useState<string[]>([]);
     const [timeOfDayArray, setTimeOfDayArray] = useState<string[]>([]);
@@ -62,7 +63,7 @@ const SearchTutors = () => {
     const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
     const cardRef = useRef<HTMLDivElement>(null);
     const cardElement = cardRef.current as HTMLDivElement;
-    const levelDisabled = !levelOptions || isLoadingLevels;
+    const levelDisabled = !levels || isLoadingLevels;
     const isLoading = isLoadingAvailableTutors || availableTutorsUninitialized || availableTutorsFetching;
     const initialValues: Values = {
         subject: '',
@@ -224,7 +225,7 @@ const SearchTutors = () => {
             }
         } else {
             const tutorResponse = await getAvailableTutors(params).unwrap();
-            setLoadedTutorItems(tutorResponse.rows);
+            setLoadedTutorItems(tutorResponse.content);
         }
 
         setInitialLoad(false);
@@ -242,11 +243,11 @@ const SearchTutors = () => {
         }
 
         const tutorResponse = await getAvailableTutors({ ...params }).unwrap();
-        setLoadedTutorItems(tutorResponse.rows);
+        setLoadedTutorItems(tutorResponse.content);
     };
 
     const handleScroll = async (e: HTMLDivElement) => {
-        if (loadedTutorItems.length !== availableTutors?.count) {
+        if (loadedTutorItems.length !== availableTutors?.totalElements) {
             const innerHeight = e.scrollHeight;
             const scrollPosition = e.scrollTop + e.clientHeight;
 
@@ -261,7 +262,7 @@ const SearchTutors = () => {
                 const tutorResponse = await getAvailableTutors({
                     ...newParams,
                 }).unwrap();
-                setLoadedTutorItems(loadedTutorItems.concat(tutorResponse.rows));
+                setLoadedTutorItems(loadedTutorItems.concat(tutorResponse.content));
             }
         }
     };
@@ -276,6 +277,7 @@ const SearchTutors = () => {
         setParams(paramsObj);
 
         setSubjectOptions([]);
+        setLevelOptions([]);
         setDayOfWeekArray([]);
         setTimeOfDayArray([]);
         formik.setValues(initialValues);
@@ -327,16 +329,39 @@ const SearchTutors = () => {
     }, [loadedTutorItems]);
 
     useEffect(() => {
-        if (subjects) {
-            setSubjectOptions(subjects);
-        }
+        getLevels();
+        getSubjects();
+    }, []);
+
+    useEffect(() => {
+      if(levels){
+        setLevelOptions(levels);
+      }
+    }, [levels]);
+
+    useEffect(() => {
+      if(subjects){
+        setSubjectOptions(subjects);
+      }
     }, [subjects]);
+
+    useEffect(() => {
+      if (levels) {
+        setLevelOptions(levels);
+      }
+    }, []);
 
     useEffect(() => {
         if (formik.values.level && formik.values.subject) {
             setParams({ ...params, subject: formik.values.subject });
         }
     }, [formik.values.subject]);
+
+    useEffect(() => {
+      if (formik.values.level) {
+        setParams({ ...params, level: formik.values.level });
+      }
+    }, [formik.values.level]);
 
     useEffect(() => {
         formik.setFieldValue('dayOfWeek', dayOfWeekArray);
@@ -403,7 +428,7 @@ const SearchTutors = () => {
                     <div className="mb-10 flex--primary">
                         <div>
                             <span className="type--uppercase type--color--tertiary">{t('SEARCH_TUTORS.TUTOR_AVAILABLE')}</span>
-                            <span className="tag--primary d--ib ml-2">{availableTutors ? availableTutors.count : '0'}</span>
+                            <span className="tag--primary d--ib ml-2">{availableTutors ? availableTutors.totalElements : '0'}</span>
                         </div>
                         <PriceSort
                             sortDirection={priceSortDirection}

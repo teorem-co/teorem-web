@@ -14,6 +14,14 @@ import typeToFormData from '../app/utils/typeToFormData';
 import IBooking from '../app/features/my-bookings/interfaces/IBooking';
 import ITutorItem from '../interfaces/ITutorItem';
 
+interface ITutorItemPage {
+  totalPages: number,
+  totalElements: number,
+  last: boolean,
+  number: number,
+  size: number,
+  content: ITutorItem[]
+}
 
 interface ITutorAvailable {
     count: number;
@@ -66,6 +74,7 @@ export const tutorService = baseService.injectEndpoints({
                 return queryData;
             },
         }),
+      // TODO: this one sends request for Admin page
         searchTutors: builder.query({
             query: (params: any) => {
                 const queryData = {
@@ -81,7 +90,7 @@ export const tutorService = baseService.injectEndpoints({
                 return queryData;
             },
         }),
-        getAvailableTutors: builder.query<ITutorAvailable, IParams>({
+        getAvailableTutors: builder.query<ITutorItemPage, IParams>({
             query: (params) => {
               //TODO: fix this -1 page problem
                 const queryData = {

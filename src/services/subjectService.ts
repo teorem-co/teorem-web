@@ -4,11 +4,12 @@ import { baseService } from '../app/baseService';
 import { OptionType } from '../app/components/form/MySelectField';
 import { HttpMethods } from '../app/lookups/httpMethods';
 import ISubject from '../interfaces/ISubject';
+import INotification from '../interfaces/notification/INotification';
+import ITutorItem from '../interfaces/ITutorItem';
 
 const URL_TUTOR_SUBJECTS = 'api/v1/tutors/subjects';
 const URL_TUTORS = 'api/v1/tutors';
 const URL_SUBJECTS = 'api/v1/subjects';
-
 
 interface IGetSubject {
     id: string;
@@ -113,6 +114,7 @@ export const subjectService = baseService.injectEndpoints({
 
 export const {
     useGetSubjectsQuery,
+    useLazyGetSubjectsQuery,
     useCreateSubjectMutation,
     useUpdateSubjectMutation,
     useDeleteSubjectMutation,
