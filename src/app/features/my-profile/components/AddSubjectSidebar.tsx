@@ -19,6 +19,7 @@ import {
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import { setMyProfileProgress } from '../slices/myProfileSlice';
+import { getUserId } from '../../../utils/getUserId';
 
 interface Props {
     sideBarIsOpen: boolean;
@@ -77,7 +78,7 @@ const AddSubjectSidebar = (props: Props) => {
       await createSubject({
         subjectId: values.subject,
         price: Number(values.price),
-        tutorId: props.tutorId || '',
+        tutorId: props.tutorId || getUserId(),
         levelId: values.level
       }).then(res =>{
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment

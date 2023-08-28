@@ -65,7 +65,7 @@ export const subjectService = baseService.injectEndpoints({
         updateSubject: builder.mutation<void, ICreateSubject>({
             query(body) {
                 return {
-                    url: `${URL_TUTOR_SUBJECTS}`,
+                    url: `${URL_TUTORS}/${body.tutorId}/subjects`,
                     method: 'PUT',
                     body,
                 };
@@ -74,7 +74,7 @@ export const subjectService = baseService.injectEndpoints({
         createSubject: builder.mutation<void, ICreateSubject>({
             query(body) {
                 return {
-                    url: `${URL_TUTOR_SUBJECTS}`,
+                    url: `${URL_TUTORS}/${body.tutorId}/subjects`,
                     method: 'POST',
                     body,
                 };

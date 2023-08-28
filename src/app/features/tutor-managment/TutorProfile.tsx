@@ -88,9 +88,9 @@ const TutorProfile = () => {
         rpp: params.rpp,
       };
 
-      getTutorProfileData(tutorId);
+      getTutorProfileData(tutorSlug);
       getMyReviews(myReviewsGetObj);
-      //getStatistics(tutorId);     //TODO: uncomment
+      getStatistics(tutorId);     //TODO: uncomment
       getTutorAvailability(tutorId);
     }
   }, [tutorId, refetch]);

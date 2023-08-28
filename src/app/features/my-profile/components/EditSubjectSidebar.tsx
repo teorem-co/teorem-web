@@ -24,6 +24,8 @@ import { useAppDispatch, useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import getUrlParams from '../../../utils/getUrlParams';
 import { setMyProfileProgress } from '../slices/myProfileSlice';
+import ITutorSubjectLevel from '../../../../interfaces/ITutorSubjectLevel';
+import { getUserId } from '../../../utils/getUserId';
 
 interface Values {
     level: string;
@@ -107,7 +109,7 @@ const EditSubjectSidebar = (props: Props) => {
             subjectId: values.subject,
             price: Number(values.price),
             id: selectedSubject?.id,
-            tutorId: props.tutorId || '',
+            tutorId: props.tutorId || getUserId(),
             levelId: values.level
         });
     };
