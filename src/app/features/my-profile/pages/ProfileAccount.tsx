@@ -62,7 +62,7 @@ const ProfileAccount = () => {
   //const [editSidebarOpen, setEditSidebarOpen] = useState(false);
   const [saveBtnActive, setSaveBtnActive] = useState(false);
   const [passTooltip, setPassTooltip] = useState<boolean>(false);
-  const [stripeModalOpen, setStripeModalOpen] = useState<boolean>(false);
+    const [stripeModalOpen, setStripeModalOpen] = useState<boolean>(false);
   const [activeDefaultPaymentMethod, setActiveDefaultPaymentMethod] = useState<string>('');
   const creditCardIsLoading = creditCardLoading || creditCardUninitialized;
 

@@ -13,20 +13,7 @@ import { RoleOptions } from '../slices/roleSlice';
 import typeToFormData from '../app/utils/typeToFormData';
 import IBooking from '../app/features/my-bookings/interfaces/IBooking';
 import ITutorItem from '../interfaces/ITutorItem';
-
-interface ITutorItemPage {
-  totalPages: number,
-  totalElements: number,
-  last: boolean,
-  number: number,
-  size: number,
-  content: ITutorItem[]
-}
-
-interface ITutorAvailable {
-    count: number;
-    rows: ITutorItem[];
-}
+import IPage from '../interfaces/notification/IPage';
 
 interface IBookingsByIdPayload {
     dateFrom: string;
@@ -44,53 +31,45 @@ interface IBookingTransformed {
     isAccepted?: boolean;
 }
 
-interface ITutorVerified {
-  verified: boolean
+export  interface ITutorAdminSearch{
+   userId: string;
+   slug: string;
+   firstName: string;
+   lastName: string;
+   email: string;
+   countryFlag: string;
+   countryName: string;
+   phoneNumber: string;
+   verified: boolean;
+   adminNote:string;
 }
 
 // interface ICreateTutorSubject {}
 
 const URL = 'api/v1/tutors';
 const BOOKING_URL = 'api/v1/bookings';
-const TUTOR_MANAGEMENT_URL = 'api/v1/tutor-management';
+const USERS_URL = 'api/v1/users/';
 
 
 
 export const tutorService = baseService.injectEndpoints({
     endpoints: (builder) => ({
-        // TODO: this one sends request for Admin page
-        getTutors: builder.query({
+        searchTutors: builder.query<IPage<ITutorAdminSearch>, any>({
             query: (params: any) => {
                 const queryData = {
-                  //TODO: fix this page -1 problem
-                    url: `${URL}/?page=${params.page -1
-                        }&size=${params.rpp
+                    url: `${URL}/admin-search?page=${params.page
+                        }&rpp=${params.rpp
                         }&unprocessed=${params.unprocessed ? "true" : "false"
-                        }${params.verified ? params.verified == 1 ? "&verified=true" : "&verified=false" : ""}
-                    `,
+                        }${params.verified ? params.verified == 1 ? "&verified=true" : "&verified=false" : ""
+                        }&search=${params.search
+                        }`,
                     method: HttpMethods.GET,
                 };
 
                 return queryData;
             },
         }),
-      // TODO: this one sends request for Admin page
-        searchTutors: builder.query({
-            query: (params: any) => {
-                const queryData = {
-                    url: `${URL}/search-tutors/?page=${params.page
-                        }&rpp=${params.rpp
-                        }&unprocessed=${params.unprocessed ? "true" : "false"
-                        }${params.verified ? params.verified == 1 ? "&verified=true" : "&verified=false" : ""
-                        }&search=${params.search
-                        }`,
-                    method: HttpMethods.POST,
-                };
-
-                return queryData;
-            },
-        }),
-        getAvailableTutors: builder.query<ITutorItemPage, IParams>({
+        getAvailableTutors: builder.query<IPage<ITutorItem>, IParams>({
             query: (params) => {
               //TODO: fix this -1 page problem
                 const queryData = {
@@ -219,22 +198,15 @@ export const tutorService = baseService.injectEndpoints({
         }),
         editTutor: builder.mutation<void, any>({
             query: (body) => ({
-                url: `${URL}/edit-tutor`,
+                url: `${URL}/${body.tutorId}/edit-tutor`,
                 method: HttpMethods.PUT,
                 body: typeToFormData(body)
-            }),
-        }),
-        disconnectStripeTutor: builder.mutation<void, any>({
-            query: (tutorId) => ({
-                url: `${URL}/disconnect-tutor-stripe/?tutorId=${tutorId}`,
-                method: HttpMethods.PUT,
             }),
         }),
     }),
 });
 
 export const {
-    useLazyGetTutorsQuery,
     useLazySearchTutorsQuery,
     useLazyGetAvailableTutorsQuery,
     useGetAvailableTutorsQuery,
@@ -249,7 +221,6 @@ export const {
     useLazyDisableTutorQuery,
     useLazyEnableTutorQuery,
     useEditTutorMutation,
-    useDisconnectStripeTutorMutation,
     useLazyGetTutorByTutorSlugQuery,
 } = tutorService;
 

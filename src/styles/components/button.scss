@@ -162,3 +162,13 @@
         padding: calc(#{$unit} * 3) calc(#{$unit} * 20);
     }
 }
+
+.btn-active {
+  border: 2px solid $color-primary;  /* Blue border for the active button */
+  color: $color-primary;            /* Blue text for the active button */
+}
+
+.background-red{
+  margin: 0 auto;
+
+}

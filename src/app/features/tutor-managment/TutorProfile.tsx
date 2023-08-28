@@ -33,8 +33,15 @@ import { EditTutor } from './components/EditTutor';
 import { EditTutorAvailability } from './components/EditTutorAvailability';
 import { EditTutorSubjects } from './components/EditTutorSubjects';
 import { DisconnectStripe } from './components/DisconnectStripe';
+import StripeConnectForm from '../my-profile/components/StripeConnectForm';
+import { connectStripe } from '../../../slices/authSlice';
+import { setMyProfileProgress } from '../my-profile/slices/myProfileSlice';
+import * as React from 'react';
+import AddCreditCard from '../my-profile/components/AddCreditCard';
 
 const TutorProfile = () => {
+
+  const [stripeModalOpen, setStripeModalOpen] = useState<boolean>(false);
   const { t } = useTranslation();
 
   const [getTutorProfileData, { data: tutorData, isLoading: tutorDataLoading }] = useLazyGetTutorByTutorSlugQuery();
@@ -404,6 +411,24 @@ const TutorProfile = () => {
                     <EditTutor tutorData={tutorData} setRefetch={setRefetch} />
                     <EditTutorAvailability tutorId={tutorData.User.id} />
                     {tutorData.User.stripeConnected && <DisconnectStripe tutorId={tutorData.User.id} setRefetch={setRefetch} />}
+                    {!tutorData.User.stripeConnected && userRole == 'admin' &&
+                      <button className="btn btn--base btn--success w--100 type--center flex flex--center flex--jc--center mt-2" onClick={() => setStripeModalOpen(true)}>
+                        <span>Connect Stripe</span>
+                      </button>
+                    }
+                    <StripeConnectForm
+                      onConnect={(accountId: string) => {
+                        dispatch(
+                          connectStripe({
+                            stripeConnected: true,
+                            stripeAccountId: accountId,
+                          })
+                        );
+                      }}
+                      sideBarIsOpen={stripeModalOpen}
+                      closeSidebar={() => setStripeModalOpen(false)}
+                    />
+                    {/*<AddCreditCard handleSubmit={handleSubmitCreditCard} closeSidebar={closeAddCardSidebar} sideBarIsOpen={addSidebarOpen} />*/}
                   </>
                 )}
               </div>

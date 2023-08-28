@@ -3,35 +3,30 @@ import { useTranslation } from 'react-i18next';
 import { Link, useHistory } from 'react-router-dom';
 import IParams from '../../../interfaces/IParams';
 import {
+  ITutorAdminSearch,
   useApproveTutorMutation,
   useDeleteTutorMutation,
   useDenyTutorMutation,
-  useLazyGetTutorsQuery,
   useLazySearchTutorsQuery,
 } from '../../../services/tutorService';
 import MainWrapper from '../../components/MainWrapper';
 import Sidebar from '../../components/Sidebar';
 import LoaderTutor from '../../components/skeleton-loaders/LoaderTutor';
 import { PATHS } from '../../routes';
+import IPage from '../../../interfaces/notification/IPage';
 
 const TutorManagment = () => {
     const history = useHistory();
     const [closeModal, setCloseModal] = useState<boolean>(true);
     const [tutorDenySent, setTutorDenySent] = useState<boolean>(false);
-    const [selectedTutor, setSelectedTutor] = useState<any>();
+    const [selectedTutor, setSelectedTutor] = useState<ITutorAdminSearch>();
     const [activeTab, setActiveTab] = useState<string>('unprocessed');
     const noteRef = useRef<HTMLTextAreaElement>(null);
     const editNoteRef = useRef<HTMLTextAreaElement>(null);
     const searchInputRef = useRef<HTMLInputElement>(null);
+    const [tutorResponse, setTutorResponse] = useState<IPage<ITutorAdminSearch>>();
+    const totalPages = tutorResponse?.totalPages ?? 3;
 
-    const [
-        getTutors,
-        {
-            isLoading: isLoadingAvailableTutors,
-            isUninitialized: availableTutorsUninitialized,
-            isFetching: availableTutorsFetching,
-        },
-    ] = useLazyGetTutorsQuery();
     const [
         searchTutors,
         {
@@ -59,34 +54,34 @@ const TutorManagment = () => {
 
     const [params, setParams] = useState<IParams>({
         rpp: 10,
-        page: 1,
+        page: 0,
         verified: 0,
         unprocessed: 1,
         search: '',
     });
-    const [loadedTutorItems, setLoadedTutorItems] = useState<any[]>([]);
+    const [loadedTutorItems, setLoadedTutorItems] = useState<ITutorAdminSearch[]>([]);
     const { t } = useTranslation();
     const cardRef = useRef<HTMLDivElement>(null);
-    const isLoading = isLoadingAvailableTutors || availableTutorsUninitialized || availableTutorsFetching || isLoadingSearchTutors || searchTutorsFetching;
+    const isLoading =  isLoadingSearchTutors || searchTutorsFetching;
 
     const fetchData = async () => {
-        const tutorResponse = params.search === '' ?
-            await getTutors(params).unwrap() :
-            await searchTutors(params).unwrap();
+        //TODO: refactor to use PageResponse<>
+        const tutorResponse = await searchTutors(params).unwrap();
 
-        setLoadedTutorItems(tutorResponse.rows);
+        setTutorResponse(tutorResponse);
+        setLoadedTutorItems(tutorResponse.content);
     };
 
     const switchTab = (tab: string) => {
         switch (tab) {
             case 'unprocessed':
-                setParams({ ...params, verified: 0, unprocessed: 1 });
+                setParams({ ...params, verified: 0, unprocessed: 1, page: 0});
                 break;
             case 'approved':
-                setParams({ ...params, verified: 1, unprocessed: 0 });
+                setParams({ ...params, verified: 1, unprocessed: 0, page: 0});
                 break;
             case 'denied':
-                setParams({ ...params, verified: 2, unprocessed: 0 });
+                setParams({ ...params, verified: 2, unprocessed: 0, page: 0});
                 break;
         }
         setActiveTab(tab);
@@ -151,42 +146,44 @@ const TutorManagment = () => {
                                 <td className="type--color--secondary mb-3 mb-xl-0">{t('TUTOR_MANAGMENT.TABLE.EMAIL')}</td>
                                 <td className="type--color--secondary mb-3 mb-xl-0">{t('TUTOR_MANAGMENT.TABLE.COUNTRY')}</td>
                                 <td className="type--color--secondary mb-3 mb-xl-0">{t('TUTOR_MANAGMENT.TABLE.PHONE_NUMBER')}</td>
+                                <td className="type--color--secondary mb-3 mb-xl-0"></td>
                               </tr>
                               </thead>
 
                               <tbody className="table-scrollable-tbody">
 
-                                    {loadedTutorItems.map((tutor, key) => <tr key={key}>
+                                    {loadedTutorItems.map((tutor: ITutorAdminSearch, key) => <tr key={key}>
+
                                         <td onClick={() => {
                                             activeTab == 'unprocessed' ?
                                                 history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug)) :
                                                 setSelectedTutor(tutor);
                                         }}
-                                        >{tutor.User.firstName}</td>
+                                        >{tutor.firstName}</td>
                                         <td onClick={() => {
                                             activeTab == 'unprocessed' ?
                                                 history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug)) :
                                                 setSelectedTutor(tutor);
                                         }}
-                                        >{tutor.User.lastName}</td>
+                                        >{tutor.lastName}</td>
                                         <td onClick={() => {
                                             activeTab == 'unprocessed' ?
                                                 history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug)) :
                                                 setSelectedTutor(tutor);
                                         }}
-                                        >{tutor.User.email}</td>
+                                        >{tutor.email}</td>
                                         <td onClick={() => {
                                             activeTab == 'unprocessed' ?
                                                 history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug)) :
                                                 setSelectedTutor(tutor);
                                         }}
-                                        ><img className="react-select__flag" src={tutor.User.Country.flag} />{tutor.User.Country.name}</td>
+                                        ><img className="react-select__flag" src={tutor.countryFlag} />{tutor.countryName}</td>
                                         <td onClick={() => {
                                             activeTab == 'unprocessed' ?
                                                 history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug)) :
                                                 setSelectedTutor(tutor);
                                         }}
-                                        >{tutor.User.phoneNumber}</td>
+                                        >{tutor.phoneNumber}</td>
                                         {tutor.verified == null ? (
                                             <td className='approve-deny'>
                                                 <button
@@ -244,28 +241,43 @@ const TutorManagment = () => {
                         {/*    <button className="btn btn--base ml-2" onClick={() => setParams(prevState => ({...prevState, page: prevState.page + 1}))}>next</button>*/}
                         {/*</div>*/}
 
-                      <div className="mt-6 flex">
+                      <div className="mt-6 flex--center">
                         {/* Previous Button */}
-                        <button className="btn btn--base" onClick={() => setParams(prevState => ({...prevState, page: prevState.page > 0 ? prevState.page - 1 : 1 }))} disabled={params.page <= 1}>
+                        <button
+                          className="btn btn--base"
+                          onClick={() => setParams(prevState => ({
+                            ...prevState,
+                            page: prevState.page > 0 ? prevState.page - 1 : 0
+                          }))}
+                          disabled={params.page <= 0}
+                        >
                           <span>←</span> prev
                         </button>
 
                         {/* Page Numbers */}
-                        {Array.from({length: 5}).map((_, index) => (
+                        {Array.from({length: totalPages }).map((_, index) => (
                           <button
                             key={index}
-                            className={`btn btn--base ml-2 ${params.page === index + 1 ? 'active' : ''}`}
-                            onClick={() => setParams(prevState => ({...prevState, page: index + 1}))}
+                            className={`btn--base ml-2 ${params.page === index ? 'btn-active' : ''}`}
+                            onClick={() => setParams({ ...params, page: index })}
                           >
                             {index + 1}
                           </button>
                         ))}
 
                         {/* Next Button */}
-                        <button className="btn btn--base ml-2" onClick={() => setParams(prevState => ({...prevState, page: prevState.page + 1}))} disabled={params.page >= 5}>
+                        <button
+                          className="btn btn--base ml-2"
+                          onClick={() => setParams(prevState => ({
+                            ...prevState,
+                            page: prevState.page + 1
+                          }))}
+                          disabled={params.page >= totalPages - 1}
+                        >
                           next <span>→</span>
                         </button>
                       </div>
+
                     </div>
                 </div>
             </div>
@@ -273,7 +285,7 @@ const TutorManagment = () => {
             <div className={`modal tutor--managment ${closeModal && 'closed'}`}>
                 <div className="tutors--table--tab--select card--secondary__head card--secondary__head--search-tutor">
                     <div className="type--md type--wgt--bold mb-4 mb-xl-0">{t('TUTOR_MANAGMENT.TITLE')}</div>
-                    <p className="type--color--secondary mb-3 mb-xl-0">{selectedTutor?.User.email}</p>
+                    <p className="type--color--secondary mb-3 mb-xl-0">{selectedTutor?.email}</p>
                 </div>
                 <div className="card--secondary__body tutor-managment-card">
                     <p className="type--color--primary mb-3 mb-xl-0">{t('TUTOR_MANAGMENT.NOTE')}</p>
@@ -341,8 +353,8 @@ const TutorManagment = () => {
                         </button>
                     </div>
                 } //: JSX.Element | JSX.Element[];
-                sideBarIsOpen={selectedTutor && closeModal} //: boolean;
-                title={selectedTutor?.User?.firstName.toUpperCase() + ' ' + selectedTutor?.User?.lastName.toUpperCase() + t('TUTOR_MANAGMENT.DETAILS')} //: string;
+                sideBarIsOpen={!!selectedTutor && closeModal} //: boolean;
+                title={selectedTutor?.firstName.toUpperCase() + ' ' + selectedTutor?.lastName.toUpperCase() + t('TUTOR_MANAGMENT.DETAILS')} //: string;
                 closeSidebar={() => { setSelectedTutor(undefined); }} //: () => void;
                 onSubmit={() => { approveTutor(selectedTutor?.userId); }} //: () => void;
                 onCancel={() => { deleteTutor(selectedTutor?.userId); }} //: () => void;
