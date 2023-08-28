@@ -49,7 +49,7 @@ const NotificationItem = (props: Props) => {
     useEffect(() => {
 
         let dat = description.replace(/date=\{(.*?)\}/g, function (match: any, token: any) {
-            return moment.utc(new Date(token)).format('HH:mm, DD/MMM/YYYY');
+            return moment.utc(new Date(token)).format('HH:mm, DD MMM YYYY');
         });
         dat = dat.replace(/stringTranslate=\{(.*?)\}/g, function (match, token) {
             return t(token);

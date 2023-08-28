@@ -266,7 +266,7 @@ const MyBookings: React.FC = (props: any) => {
           setOpenUnavailabilityEditModal(false);
           getBookingById(e.id);
           setOpenEventDetails(true);
-          setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
+          setSelectedStart(moment(e.start).format('DD MMM YYYY, HH:mm'));
         }
         //return;
       } else {
@@ -283,14 +283,14 @@ const MyBookings: React.FC = (props: any) => {
           setOpenUnavailabilityEditModal(false);
           getBookingById(e.id);
           setOpenEventDetails(true);
-          setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
+          setSelectedStart(moment(e.start).format('DD MMM YYYY, HH:mm'));
         }
       }
     } else if (userRole === RoleOptions.Parent || userRole === RoleOptions.Student || userRole === RoleOptions.Child) {
       if (e.label !== 'Unavailable') {
         getBookingById(e.id);
         setOpenTutorCalendarModal(true);
-        setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));
+        setSelectedStart(moment(e.start).format('DD MMM YYYY, HH:mm'));
       }
     }
   };

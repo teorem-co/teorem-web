@@ -204,7 +204,7 @@ function App() {
             const ifChildExists = childIds?.find((x) => x === notification.userId);
             if (userId && (notification.userId === userId || ifChildExists)) {
                 notification.description = notification.description.replace(/date=\{(.*?)\}/g, function (match, token) {
-                    return moment(new Date(token)).format('HH:mm, DD/MMM/YYYY');
+                    return moment(new Date(token)).format('HH:mm, DD MMM YYYY');
                 });
                 notification.description = notification.description.replace(/stringTranslate=\{(.*?)\}/g, function (match, token) {
                     return t(token);
