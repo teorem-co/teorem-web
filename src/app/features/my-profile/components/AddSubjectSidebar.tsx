@@ -73,7 +73,6 @@ const AddSubjectSidebar = (props: Props) => {
 
     const handleSubmit = async (values: Values) => {
       let isError = false;
-      console.log('Called handle submit');
 
       await createSubject({
         subjectId: values.subject,
@@ -114,19 +113,6 @@ const AddSubjectSidebar = (props: Props) => {
     useEffect(() => {
         getCurrency();
     }, []);
-
-    // useEffect(() => {
-    //     if (subjectOptions && !isLoadingSubjects && formik.values.level !== '') {
-    //         setSubjectOptions(subjectsData);
-    //     }
-    // }, [subjectsData]);
-
-    // useEffect(() => {
-    //     formik.setFieldValue('subject', '');
-    //     if (formik.values.level !== '') {
-    //         //getSubjectOptionsByLevel(formik.values.level);
-    //     }
-    // }, [formik.values.level]);
 
     return (
         <div>

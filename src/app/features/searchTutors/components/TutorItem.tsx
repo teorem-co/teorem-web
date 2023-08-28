@@ -13,8 +13,6 @@ interface Props {
 
 const TutorItem: FC<Props> = (props: Props) => {
     const { tutor } = props;
-
-    // const [showMore, setShowMore] = useState<boolean>(false);
     const [uniqueSubjects, setUniqueSubjects] = useState<string[]>([]);
 
     useEffect(() => {

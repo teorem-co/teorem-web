@@ -191,7 +191,6 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     validationSchema: Yup.object().shape(generateValidationSchema()),
   });
 
-  //TODO: ============NEW CODE====================
   function filterSubjectsByLevelId(levelId: string) {
     if (subjectLevelPairs) {
       const subjectOptions: OptionType[] = subjectLevelPairs
@@ -219,7 +218,6 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     }
   }, [subjectLevelPairs]);
 
-//TODO: ============NEW CODE====================
   useEffect(() => {
     if (formik.values.subject) {
       formik.setFieldValue('subject', '');
@@ -285,7 +283,6 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                 meta={formik.getFieldMeta('level')}
                 classNamePrefix="onboarding-select"
                 isMulti={false}
-                //options={levelOptions ? levelOptions : []} //TODO: remove if other way works
                 options={tutorLevelOptions ? tutorLevelOptions : []}
                 placeholder={t('BOOK.FORM.LEVEL_PLACEHOLDER')}
               />
@@ -300,7 +297,6 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                 form={formik}
                 meta={formik.getFieldMeta('subject')}
                 isMulti={false}
-                //options={subjectsData} // TODO: remove this later
                 options={tutorSubjectOptions}
                 classNamePrefix="onboarding-select"
                 noOptionsMessage={() => t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')}
