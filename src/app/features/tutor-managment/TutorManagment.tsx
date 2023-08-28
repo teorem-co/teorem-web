@@ -14,6 +14,8 @@ import Sidebar from '../../components/Sidebar';
 import LoaderTutor from '../../components/skeleton-loaders/LoaderTutor';
 import { PATHS } from '../../routes';
 import IPage from '../../../interfaces/notification/IPage';
+import { AiOutlineCheck, AiOutlineClose } from 'react-icons/ai';
+import { FiTrash } from 'react-icons/fi';
 
 const TutorManagment = () => {
     const history = useHistory();
@@ -210,18 +212,22 @@ const TutorManagment = () => {
                                                     <button
                                                         className="btn btn--base btn--clear"
                                                         onClick={() => !tutor.verified ? approveTutor(tutor.userId) : handleDenyTutor(tutor)}
+
                                                     >
-                                                        <i className={`icon icon--${tutor.verified ? 'close' : 'check'} icon--sm icon--grey`}></i>
-                                                        {!tutor.verified ?
-                                                            t('TUTOR_MANAGMENT.ACTIONS.APPROVE') :
-                                                            t('TUTOR_MANAGMENT.ACTIONS.DECLINE')}
+                                                      {tutor.verified ?  <AiOutlineClose color={'red'} size={20}/> : <AiOutlineCheck size={20} color={'green'}/>}
+
+                                                        <p
+                                                          className={tutor.verified ? 'ml-2 text-red' : 'ml-2 text-green'}>{!tutor.verified ?
+                                                          t('TUTOR_MANAGMENT.ACTIONS.APPROVE') :
+                                                          'Suspend'}
+                                                        </p>
                                                     </button>
                                                     <button
                                                         className="btn btn--base btn--clear"
                                                         onClick={() => { deleteTutor(tutor.userId); }}
                                                     >
-                                                        <i className="icon icon--delete icon--sm icon--red"></i>
-                                                        {t('TUTOR_MANAGMENT.ACTIONS.DELETE')}
+                                                        <FiTrash color={'red'} size={20}/>
+                                                        <p className='ml-2'>{t('TUTOR_MANAGMENT.ACTIONS.DELETE')}</p>
                                                     </button>
                                                 </div>
                                             </td>
