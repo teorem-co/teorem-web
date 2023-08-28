@@ -104,12 +104,12 @@ const Dashboard = () => {
     };
 
     const handleAccept = async (id: string) => {
-      await acceptRequest(id).unwrap().catch();
+      await acceptRequest(id);
       fetchData();
     };
 
   const handleDeny = async (id: string) => {
-    await denyRequest(id).unwrap().catch();
+    await denyRequest(id);
     fetchData();
   };
 
