@@ -144,14 +144,18 @@ const TutorManagment = () => {
                             </div>
                         ) : loadedTutorItems.length > 0 ? (
                             <table className="tutors-table">
-                                <tbody>
-                                    <tr>
-                                        <td className="type--color--secondary mb-3 mb-xl-0">{t('TUTOR_MANAGMENT.TABLE.FIRST_NAME')}</td>
-                                        <td className="type--color--secondary mb-3 mb-xl-0">{t('TUTOR_MANAGMENT.TABLE.LAST_NAME')}</td>
-                                        <td className="type--color--secondary mb-3 mb-xl-0">{t('TUTOR_MANAGMENT.TABLE.EMAIL')}</td>
-                                        <td className="type--color--secondary mb-3 mb-xl-0">{t('TUTOR_MANAGMENT.TABLE.COUNTRY')}</td>
-                                        <td className="type--color--secondary mb-3 mb-xl-0">{t('TUTOR_MANAGMENT.TABLE.PHONE_NUMBER')}</td>
-                                    </tr>
+                              <thead>
+                              <tr>
+                                <td className="type--color--secondary mb-3 mb-xl-0">{t('TUTOR_MANAGMENT.TABLE.FIRST_NAME')}</td>
+                                <td className="type--color--secondary mb-3 mb-xl-0">{t('TUTOR_MANAGMENT.TABLE.LAST_NAME')}</td>
+                                <td className="type--color--secondary mb-3 mb-xl-0">{t('TUTOR_MANAGMENT.TABLE.EMAIL')}</td>
+                                <td className="type--color--secondary mb-3 mb-xl-0">{t('TUTOR_MANAGMENT.TABLE.COUNTRY')}</td>
+                                <td className="type--color--secondary mb-3 mb-xl-0">{t('TUTOR_MANAGMENT.TABLE.PHONE_NUMBER')}</td>
+                              </tr>
+                              </thead>
+
+                              <tbody className="table-scrollable-tbody">
+
                                     {loadedTutorItems.map((tutor, key) => <tr key={key}>
                                         <td onClick={() => {
                                             activeTab == 'unprocessed' ?
@@ -235,10 +239,33 @@ const TutorManagment = () => {
                                 <p className="tutor-list__no-results__subtitle">{t('TUTOR_MANAGMENT.NO_RESULT.DESC')}</p>
                             </div>
                         )}
-                        <div className="mt-6 flex">
-                            <button className="btn btn--base" onClick={() => setParams(prevState => ({...prevState, page: prevState.page > 0 ? prevState.page - 1 : 1 }))} disabled={params.page - 1 < 1}>prev</button>
-                            <button className="btn btn--base ml-2" onClick={() => setParams(prevState => ({...prevState, page: prevState.page + 1}))}>next</button>
-                        </div>
+                        {/*<div className="mt-6 flex">*/}
+                        {/*    <button className="btn btn--base" onClick={() => setParams(prevState => ({...prevState, page: prevState.page > 0 ? prevState.page - 1 : 1 }))} disabled={params.page - 1 < 1}>prev</button>*/}
+                        {/*    <button className="btn btn--base ml-2" onClick={() => setParams(prevState => ({...prevState, page: prevState.page + 1}))}>next</button>*/}
+                        {/*</div>*/}
+
+                      <div className="mt-6 flex">
+                        {/* Previous Button */}
+                        <button className="btn btn--base" onClick={() => setParams(prevState => ({...prevState, page: prevState.page > 0 ? prevState.page - 1 : 1 }))} disabled={params.page <= 1}>
+                          <span>←</span> prev
+                        </button>
+
+                        {/* Page Numbers */}
+                        {Array.from({length: 5}).map((_, index) => (
+                          <button
+                            key={index}
+                            className={`btn btn--base ml-2 ${params.page === index + 1 ? 'active' : ''}`}
+                            onClick={() => setParams(prevState => ({...prevState, page: index + 1}))}
+                          >
+                            {index + 1}
+                          </button>
+                        ))}
+
+                        {/* Next Button */}
+                        <button className="btn btn--base ml-2" onClick={() => setParams(prevState => ({...prevState, page: prevState.page + 1}))} disabled={params.page >= 5}>
+                          next <span>→</span>
+                        </button>
+                      </div>
                     </div>
                 </div>
             </div>
