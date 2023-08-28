@@ -32,6 +32,7 @@
         "formik": "^2.2.9",
         "i18next": "^21.6.3",
         "i18next-browser-languagedetector": "^6.1.2",
+        "libphonenumber-js": "^1.10.43",
         "lodash": "^4.17.21",
         "moment": "^2.29.1",
         "nodemon": "^2.0.22",

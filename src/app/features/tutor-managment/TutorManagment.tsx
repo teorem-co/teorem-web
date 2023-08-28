@@ -16,6 +16,13 @@ import { PATHS } from '../../routes';
 import IPage from '../../../interfaces/notification/IPage';
 import { AiOutlineCheck, AiOutlineClose } from 'react-icons/ai';
 import { FiTrash } from 'react-icons/fi';
+import {
+  parsePhoneNumberFromString,
+  CountryCode,
+  AsYouType,
+  getCountries
+} from 'libphonenumber-js';
+
 
 const TutorManagment = () => {
     const history = useHistory();
@@ -102,6 +109,22 @@ const TutorManagment = () => {
         fetchData();
     }, [params, isSuccessDenyTutor, isSuccessApproveTutor, isSuccessDeleteTutors]);
 
+
+    function formatPhoneNumber(input: string, countryCode: string) {
+      const allCountryCodes = getCountries(); // get all valid country codes
+
+      if (!allCountryCodes.includes(countryCode as CountryCode)) {
+        console.error(`Invalid country code: ${countryCode}`);
+        return input; // or throw an error, or handle it however you want
+      }
+
+      const phoneNumber = parsePhoneNumberFromString(input, countryCode as CountryCode);
+      if (phoneNumber) {
+        return phoneNumber.formatInternational();
+      }
+      return input;
+  }
+
     return (
         <MainWrapper>
             <div className="card--secondary" ref={cardRef}>
@@ -154,6 +177,7 @@ const TutorManagment = () => {
 
                               <tbody className="table-scrollable-tbody">
 
+                                    <tr></tr>
                                     {loadedTutorItems.map((tutor: ITutorAdminSearch, key) => <tr key={key}>
 
                                         <td onClick={() => {
@@ -185,7 +209,7 @@ const TutorManagment = () => {
                                                 history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug)) :
                                                 setSelectedTutor(tutor);
                                         }}
-                                        >{tutor.phoneNumber}</td>
+                                        >{formatPhoneNumber(tutor.phoneNumber, tutor.countryAbrv)}</td>
                                         {tutor.verified == null ? (
                                             <td className='approve-deny'>
                                                 <button

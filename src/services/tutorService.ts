@@ -39,6 +39,7 @@ export  interface ITutorAdminSearch{
    email: string;
    countryFlag: string;
    countryName: string;
+   countryAbrv: string;
    phoneNumber: string;
    verified: boolean;
    adminNote:string;
@@ -48,9 +49,6 @@ export  interface ITutorAdminSearch{
 
 const URL = 'api/v1/tutors';
 const BOOKING_URL = 'api/v1/bookings';
-const USERS_URL = 'api/v1/users/';
-
-
 
 export const tutorService = baseService.injectEndpoints({
     endpoints: (builder) => ({
