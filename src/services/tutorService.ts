@@ -32,21 +32,23 @@ interface IBookingTransformed {
 }
 
 export  interface ITutorAdminSearch{
-  userId: string;
-  slug: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  countryFlag: string;
-  countryName: string;
-  countryAbrv: string;
-  phoneNumber: string;
-  verified: boolean;
-  adminNote:string;
+   userId: string;
+   slug: string;
+   firstName: string;
+   lastName: string;
+   email: string;
+   countryFlag: string;
+   countryName: string;
+   phoneNumber: string;
+   verified: boolean;
+   adminNote:string;
 }
 
 const URL = 'api/v1/tutors';
 const BOOKING_URL = 'api/v1/bookings';
+const USERS_URL = 'api/v1/users/';
+
+
 
 export const tutorService = baseService.injectEndpoints({
     endpoints: (builder) => ({

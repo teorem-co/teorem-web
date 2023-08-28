@@ -179,7 +179,6 @@ const TutorManagment = () => {
 
                                     <tr></tr>
                                     {loadedTutorItems.map((tutor: ITutorAdminSearch, key) => <tr key={key}>
-
                                         <td onClick={() => {
                                             activeTab == 'unprocessed' ?
                                                 history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug)) :
