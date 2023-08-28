@@ -251,7 +251,7 @@ const SearchTutors = () => {
     };
 
     const handleScroll = async (e: HTMLDivElement) => {
-      // console.log(availableTutors);
+
         if (availableTutors && loadedTutorItems.length != availableTutors.totalElements) {
           const innerHeight = e.scrollHeight;
             const scrollPosition = e.scrollTop + e.clientHeight;
