@@ -42,6 +42,8 @@ const AddSubjectSidebar = (props: Props) => {
     const { data: levelOptions, isLoading: isLoadingLevels } = useGetLevelsQuery();
 
     const [createSubject, {isError, error}] = useCreateSubjectMutation();
+
+
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
 
     const levelDisabled = !levelOptions || isLoadingLevels;
@@ -71,7 +73,9 @@ const AddSubjectSidebar = (props: Props) => {
         });
     };
 
+
     const handleSubmit = async (values: Values) => {
+
         await createSubject({
           subjectId: values.subject,
           price: Number(values.price),
@@ -79,11 +83,11 @@ const AddSubjectSidebar = (props: Props) => {
           levelId: values.level
         });
 
-      handleGetData();
-      closeSidebar();
-      formik.resetForm();
-      if(!isError) //TODO: check why this is one call behind
-        toastService.success(t('MY_PROFILE.MY_TEACHINGS.CREATED'));
+        handleGetData();
+        closeSidebar();
+        formik.resetForm();
+        if(!isError) //TODO: check why this is one call behind
+          toastService.success(t('MY_PROFILE.MY_TEACHINGS.CREATED'));
 
       //handle profile progress
       if (!profileProgressState.myTeachings) {

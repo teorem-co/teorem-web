@@ -11,6 +11,20 @@ const URL_TUTOR_SUBJECTS = 'api/v1/tutors/subjects';
 const URL_TUTORS = 'api/v1/tutors';
 const URL_SUBJECTS = 'api/v1/subjects';
 
+
+interface IGetSubject {
+    id: string;
+    abrv: string;
+    name: string;
+    levelId: string;
+}
+
+interface IId {
+    levelId: string;
+    subjectId?: string;
+}
+
+
 interface ICreateSubject {
     id?: string;
     subjectId: string;
@@ -18,6 +32,19 @@ interface ICreateSubject {
     tutorId?: string;
     price: number;
     objectId?: string;
+
+}
+
+export interface ITutorSubjectLevelPair {
+  subjectId: string;
+  subjectAbrv: string;
+  levelId: string;
+  levelAbrv:string;
+}
+
+export interface ITutorSubjectLevelPair2 {
+  subject: OptionType;
+  level: OptionType;
 }
 
 export interface ITutorSubjectLevelPair {
@@ -93,6 +120,7 @@ export const subjectService = baseService.injectEndpoints({
             return subjectLevelPairs;
           },
         }),
+
     }),
 });
 

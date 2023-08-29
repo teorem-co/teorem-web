@@ -13,7 +13,22 @@ import { RoleOptions } from '../slices/roleSlice';
 import typeToFormData from '../app/utils/typeToFormData';
 import IBooking from '../app/features/my-bookings/interfaces/IBooking';
 import ITutorItem from '../interfaces/ITutorItem';
+
 import IPage from '../interfaces/notification/IPage';
+
+interface ITutorItemPage {
+  totalPages: number,
+  totalElements: number,
+  last: boolean,
+  number: number,
+  size: number,
+  content: ITutorItem[]
+}
+
+interface ITutorAvailable {
+    count: number;
+    rows: ITutorItem[];
+}
 
 interface IBookingsByIdPayload {
     dateFrom: string;
@@ -30,6 +45,7 @@ interface IBookingTransformed {
     userId?: string;
     isAccepted?: boolean;
 }
+
 
 export  interface ITutorAdminSearch{
    userId: string;
@@ -52,6 +68,31 @@ const BOOKING_URL = 'api/v1/bookings';
 export const tutorService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         searchTutors: builder.query<IPage<ITutorAdminSearch>, any>({
+
+const URL = 'api/v1/tutors';
+const BOOKING_URL = 'api/v1/bookings';
+
+export const tutorService = baseService.injectEndpoints({
+    endpoints: (builder) => ({
+        // TODO: this one sends request for Admin page
+        getTutors: builder.query({
+            query: (params: any) => {
+                const queryData = {
+                  //TODO: fix this page -1 problem
+                    url: `${URL}/?page=${params.page
+                        }&size=${params.rpp
+                        }&unprocessed=${params.unprocessed ? "true" : "false"
+                        }${params.verified ? params.verified == 1 ? "&verified=true" : "&verified=false" : ""}
+                    `,
+                    method: HttpMethods.GET,
+                };
+
+                return queryData;
+            },
+        }),
+      // TODO: this one sends request for Admin page
+        searchTutors: builder.query({
+
             query: (params: any) => {
                 const queryData = {
                     url: `${URL}/admin-search?page=${params.page
@@ -66,6 +107,7 @@ export const tutorService = baseService.injectEndpoints({
                 return queryData;
             },
         }),
+
         getAvailableTutors: builder.query<IPage<ITutorItem>, IParams>({
             query: (params) => {
               //TODO: fix this -1 page problem

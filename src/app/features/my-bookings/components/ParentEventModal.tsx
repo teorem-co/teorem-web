@@ -44,6 +44,7 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                         <div className="flex flex--primary">
                             <div>
                                 <div className="type--wgt--bold type--md mb-1">{t(`SUBJECTS.${event.Subject.abrv.replace(' ', '').replace('-', '').toLowerCase()}`)}</div>
+
                                 <div className="type--color--secondary">
                                     {moment.utc(event.startTime).format(t('DATE_FORMAT') + ', HH:mm')} - {moment.utc(event.endTime).add(1, 'minutes').format('HH:mm')}
                                 </div>
@@ -84,6 +85,7 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                             <i className="icon icon--base icon--subject icon--grey mr-4"></i>
                             <div className="type--color--secondary">
                               {t(`SUBJECTS.${event.Subject.abrv.replace(' ', '').replace('-', '').toLowerCase()}`)} -
+
                                 {event.Level.name === 'IB (International Baccalaurate)' ?
                                     <td>{t('LEVELS.ib')}</td> :
                                     <td>{t(`LEVELS.${event.Level.name.replace('-', '').replace(' ', '').toLowerCase()}`)}</td>
