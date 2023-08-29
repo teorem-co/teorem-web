@@ -427,6 +427,7 @@ const TutorProfile = () => {
                       }}
                       sideBarIsOpen={stripeModalOpen}
                       closeSidebar={() => setStripeModalOpen(false)}
+                      userId={tutorId}
                     />
                     {/*<AddCreditCard handleSubmit={handleSubmitCreditCard} closeSidebar={closeAddCardSidebar} sideBarIsOpen={addSidebarOpen} />*/}
                   </>

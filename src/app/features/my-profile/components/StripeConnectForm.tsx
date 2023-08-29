@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { ScaleLoader } from 'react-spinners';
 
 interface StripeConnectFormProps {
+  userId?: string;
   sideBarIsOpen: boolean;
   closeSidebar: () => void;
   onConnect: (accountId: string) => void;
@@ -126,7 +127,7 @@ function mod97(string: string) {
   return checksum;
 }
 
-function StripeConnectForm({ sideBarIsOpen, closeSidebar, onConnect }: StripeConnectFormProps) {
+function StripeConnectForm({ sideBarIsOpen, closeSidebar, onConnect, userId }: StripeConnectFormProps) {
   const { t } = useTranslation();
   const [connectAccount, { isSuccess, isLoading, data }] = useConnectAccountMutation();
   const user = useAppSelector((state) => state.auth.user);
@@ -184,7 +185,7 @@ function StripeConnectForm({ sideBarIsOpen, closeSidebar, onConnect }: StripeCon
         city: values.city,
         IBAN: removeWhitespaces(values.IBAN),
         IBANConfirm: removeWhitespaces(values.IBANConfirm),
-        userId: user!.id,
+        userId:  userId ? userId : user!.id, //TODO: check if it works
       })
         .unwrap()
         .then((res) => {
