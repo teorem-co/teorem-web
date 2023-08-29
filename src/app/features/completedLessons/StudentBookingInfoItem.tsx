@@ -126,7 +126,7 @@ const StudentBookingInfoItem: React.FC<Props> = ({ bookingInfo , activeLesson}) 
         >
 
           {isLoading ? <BeatLoader size={10} color='#7e6cf2'/> : null }
-          {recordings?.map((recording, index) => {
+          {recordings?.map((recording) => {
 
             return (
 
