@@ -361,12 +361,6 @@ const SearchTutors = () => {
     }, []);
 
     useEffect(() => {
-      if (levels) {
-        setLevelOptions(levels);
-      }
-    }, []);
-
-    useEffect(() => {
         if (formik.values.subject) {
             setParams({ ...params, subject: formik.values.subject });
         }
