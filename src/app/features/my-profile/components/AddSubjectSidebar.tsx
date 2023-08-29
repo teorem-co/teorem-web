@@ -6,9 +6,7 @@ import * as Yup from 'yup';
 import {
   useGetLevelsQuery,
 } from '../../../../services/levelService';
-import {
-  useGetLevelsQuery,
-} from '../../../../services/levelService';
+
 import {
   useCreateSubjectMutation, useGetSubjectsQuery,
 } from '../../../../services/subjectService';
@@ -23,7 +21,6 @@ import { useAppDispatch, useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import { getUserId } from '../../../utils/getUserId';
 import { setMyProfileProgress } from '../slices/myProfileSlice';
-import { getUserId } from '../../../utils/getUserId';
 
 interface Props {
     sideBarIsOpen: boolean;
@@ -44,7 +41,7 @@ const AddSubjectSidebar = (props: Props) => {
     const { data: subjectOptions, isLoading: isLoadingSubjects } = useGetSubjectsQuery();
     const { data: levelOptions, isLoading: isLoadingLevels } = useGetLevelsQuery();
 
-    const [createSubject] = useCreateSubjectMutation();
+    const [createSubject, {isError, error}] = useCreateSubjectMutation();
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
 
     const levelDisabled = !levelOptions || isLoadingLevels;
@@ -74,27 +71,18 @@ const AddSubjectSidebar = (props: Props) => {
         });
     };
 
-
     const handleSubmit = async (values: Values) => {
-      let isError = false;
+        await createSubject({
+          subjectId: values.subject,
+          price: Number(values.price),
+          tutorId: props.tutorId || getUserId(),
+          levelId: values.level
+        });
 
-      await createSubject({
-        subjectId: values.subject,
-        price: Number(values.price),
-        tutorId: props.tutorId || getUserId(),
-        levelId: values.level
-      }).then(res =>{
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        if(res.status === 409){
-          isError = true;
-        }
-      });
       handleGetData();
       closeSidebar();
       formik.resetForm();
-
-      if(!isError)
+      if(!isError) //TODO: check why this is one call behind
         toastService.success(t('MY_PROFILE.MY_TEACHINGS.CREATED'));
 
       //handle profile progress

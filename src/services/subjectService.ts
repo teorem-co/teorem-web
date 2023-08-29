@@ -7,28 +7,9 @@ import ISubject from '../interfaces/ISubject';
 import INotification from '../interfaces/notification/INotification';
 import ITutorItem from '../interfaces/ITutorItem';
 
-
-const URL = 'api/v1/subjects';
-const mutationURL = 'api/v1/tutor-subjects';
-const TUTOR_SUBJECT_URL = 'api/v1/tutor-subjects';
-
-import INotification from '../interfaces/notification/INotification';
-import ITutorItem from '../interfaces/ITutorItem';
-
 const URL_TUTOR_SUBJECTS = 'api/v1/tutors/subjects';
 const URL_TUTORS = 'api/v1/tutors';
 const URL_SUBJECTS = 'api/v1/subjects';
-
-interface IGetSubject {
-    id: string;
-    abrv: string;
-    name: string;
-    levelId: string;
-}
-interface IId {
-    levelId: string;
-    subjectId?: string;
-}
 
 interface ICreateSubject {
     id?: string;
@@ -37,11 +18,6 @@ interface ICreateSubject {
     tutorId?: string;
     price: number;
     objectId?: string;
-}
-
-interface ITutorSubjectId {
-    tutorId: string;
-    levelId: string;
 }
 
 export interface ITutorSubjectLevelPair {
