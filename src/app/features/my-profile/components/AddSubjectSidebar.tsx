@@ -7,10 +7,10 @@ import {
   useGetLevelsQuery,
 } from '../../../../services/levelService';
 import {
-  useLazyGetProfileProgressQuery} from '../../../../services/tutorService';
-import {
   useCreateSubjectMutation, useGetSubjectsQuery,
 } from '../../../../services/subjectService';
+import {
+  useLazyGetProfileProgressQuery} from '../../../../services/tutorService';
 import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import TextField from '../../../components/form/TextField';
 import {
@@ -18,8 +18,8 @@ import {
 } from '../../../features/onboarding/services/countryService';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
-import { setMyProfileProgress } from '../slices/myProfileSlice';
 import { getUserId } from '../../../utils/getUserId';
+import { setMyProfileProgress } from '../slices/myProfileSlice';
 
 interface Props {
     sideBarIsOpen: boolean;
@@ -77,12 +77,12 @@ const AddSubjectSidebar = (props: Props) => {
       await createSubject({
         subjectId: values.subject,
         price: Number(values.price),
-        tutorId: props.tutorId || '',
+        tutorId: props.tutorId || getUserId(),
         levelId: values.level
       }).then(res =>{
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        if(!res.ok){
+        if(res.status === 409){
           isError = true;
         }
       });
