@@ -51,7 +51,10 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
 
   const [getChildOptions, { data: childOptions }] = useLazyGetChildQuery();
   const [getUser] = useLazyGetCustomerByIdQuery();
-  const [getSubjectOptionsByLevel, { data: subjectsData, isSuccess: isSuccessSubjects }] = useLazyGetTutorSubjectsByTutorLevelQuery();
+  const [getSubjectOptionsByLevel, {
+    data: subjectsData,
+    isSuccess: isSuccessSubjects,
+  }] = useLazyGetTutorSubjectsByTutorLevelQuery();
   const [createBooking, { isSuccess: createBookingSuccess }] = useCreatebookingMutation();
   const [createBookingMutation, { isSuccess: isCreateBookingSuccess }] = useCreateBookingMutation();
   const [isCreateBookingLoading, setIsCreateBookingLoading] = useState<boolean>(false); // isLoading from Mutation is too slow;
@@ -71,6 +74,8 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
   const stripeCustomerId = useAppSelector((state) => state.auth.user?.stripeCustomerId);
 
   const [stripe, setStripe] = useState<any>(null);
+  const [bookingSuccess, setBookingSuccess] = useState(false);
+
 
   stripePromise.then((res) => setStripe(res));
 
@@ -87,6 +92,8 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
 
     return validationSchema;
   };
+
+  // let isCreateBookingSuccess = false;
 
   const handleSubmit = async (values: any) => {
     setIsCreateBookingLoading(true);
@@ -111,45 +118,50 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
 
     const splitString = values.timeFrom.split(':');
     props.setSidebarOpen(false);
-    if (userRole === RoleOptions.Parent) {
-      const response: any = await createBooking({
-        requesterId: userId,
-        startTime: moment.utc(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
-        subjectId: values.subject,
-        studentId: values.child,
-        tutorId: tutorId,
-      });
-      if (response.data.requiresAuthentication) {
-        const res = await stripe.confirmCardPayment(response.data.clientSecret);
-        if (res.paymentIntent?.status === 'succeeded') {
-          await createBookingMutation({
-            ...res,
-            startTime: moment.utc(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
-            subjectId: values.subject,
-            studentId: values.child,
-            tutorId: tutorId,
-          });
-        }
+
+    function handleResponseSuccess(success: any) {
+      if (success) {
+        toastService.success(t('BOOKING.SUCCESS'));
+      } else {
+        toastService.error(t('BOOKING.FAILURE'));
+      }
+    }
+
+    const request: any = userRole === RoleOptions.Parent ? {
+      requesterId: userId,
+      startTime: moment.utc(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
+      subjectId: values.subject,
+      studentId: values.child,
+      tutorId: tutorId,
+    } : {
+      requesterId: userId,
+      studentId: userId,
+      startTime: moment.utc(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
+      subjectId: values.subject,
+      tutorId: tutorId,
+    };
+
+
+    const response: any = await createBooking(request);
+    if (response.data.success) {
+      handleResponseSuccess(true);
+    } else if (response.data.actionNeeded) {
+      const res = await stripe.confirmCardPayment(response.data.clientSecret);
+      if (res.error != null) {
+        const confirmationRes: any = await createBookingMutation({
+          paymentIntentId: res.error.payment_intent.id,
+          confirmationJobId: response.data.confirmationJobId,
+        });
+        handleResponseSuccess(confirmationRes.data.success);
+      } else {
+        const confirmationRes: any = await createBookingMutation({
+          paymentIntentId: res.paymentIntent.id,
+          confirmationJobId: response.data.confirmationJobId,
+        });
+        handleResponseSuccess(confirmationRes.data.success);
       }
     } else {
-      const response: any = await createBooking({
-        requesterId: userId,
-        studentId: userId,
-        startTime: moment.utc(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
-        subjectId: values.subject,
-        tutorId: tutorId,
-      });
-      if (response.data.requiresAuthentication) {
-        const res = await stripe.confirmCardPayment(response.data.clientSecret);
-        if (res.paymentIntent?.status === 'succeeded') {
-          await createBookingMutation({
-            ...res,
-            startTime: moment(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
-            subjectId: values.subject,
-            tutorId: tutorId,
-          });
-        }
-      }
+      handleResponseSuccess(false);
     }
 
     setIsCreateBookingLoading(false);
@@ -157,7 +169,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
 
   useEffect(() => {
     if (isCreateBookingSuccess) {
-      toastService.success(t('BOOKING.SUCCESS'));
+      // toastService.success(t('BOOKING.SUCCESS'));
       props.clearEmptyBookings();
       handleClose ? handleClose(false) : false;
     }
@@ -165,7 +177,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
 
   useEffect(() => {
     if (createBookingSuccess) {
-      toastService.success(t('BOOKING.SUCCESS'));
+      // toastService.success(t('BOOKING.SUCCESS'));
       props.clearEmptyBookings();
       handleClose ? handleClose(false) : false;
     }
@@ -218,13 +230,6 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
   useEffect(() => {
     formik.setFieldValue('timeFrom', moment(start).format('HH:mm'));
   }, [start]);
-
-  // useEffect(() => {
-  //   if (createBookingSuccess) {
-  //     toastService.success('Booking created');
-  //     handleClose ? handleClose(false) : false;
-  //   }
-  // }, [createBookingSuccess]);
 
   return (
     <div className={`modal--parent modal--parent--${positionClass}`}>

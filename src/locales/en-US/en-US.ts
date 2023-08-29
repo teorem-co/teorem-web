@@ -1173,7 +1173,8 @@ export const EN_US = {
 
     BOOKING:{
         SUCCESS: 'Booking successful!',
+      FAILURE: 'Booking was not successful!',
         TOAST_CANT_BOOK: 'You can\'t book a lesson at selected time!',
-      CANT_BOOK_MESSAGE: 'Please book at least 3 hours in advance'
+      CANT_BOOK_MESSAGE: 'Please book at least 3 hours in advance',
     }
 };

@@ -3,7 +3,6 @@ import { t } from 'i18next';
 import { baseService } from '../../../baseService';
 import { HttpMethods } from '../../../lookups/httpMethods';
 import IBooking from '../interfaces/IBooking';
-import ICompletedLesson from '../interfaces/ICompletedLesson';
 import IUpcomingLessons from '../interfaces/IUpcomingLessons';
 
 //bookings/week/:tutorSlug
@@ -33,13 +32,6 @@ interface IBookingsByIdPayload {
     dateFrom: string;
     dateTo: string;
     tutorId: string;
-}
-
-interface ICreateBooking {
-    subjectId: string;
-    studentId?: string;
-    startTime: string;
-    tutorId?: string;
 }
 
 interface ICreateBookingDTO {
@@ -139,9 +131,9 @@ export const bookingService = baseService.injectEndpoints({
         }),
         createBooking: builder.mutation<void, any>({
             query: (data) => ({
-                url: `${URL}`,//`${URL}/create/${data.tutorId}`,
-                method: HttpMethods.POST,
-                body: data,
+              url: `${URL}/confirm`,//`${URL}/create/${data.tutorId}`,
+              method: HttpMethods.POST,
+              body: data,
             }),
             invalidatesTags: ['tutorBookings'],
         }),
