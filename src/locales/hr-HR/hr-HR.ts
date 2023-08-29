@@ -1,7 +1,8 @@
 export const HR_HR = {
     MAIN_TITLE: 'Teorem',
     WATERMARK: '© Teorem',
-    ERROR_HANDLING: {
+  DATE_FORMAT: 'DD. MMM YYYY',
+  ERROR_HANDLING: {
         UNHANDLED_ERROR: 'Došlo je do neočekivane pogreške!',
         SUPPORT: 'Nešto je pošlo po zlu, molimo Vas kontaktirajte podršku',
         CREDIT_CARD_MISSING: 'Nedostaju podatci kartice. Molimo dodajte način plaćanja prije kreiranja rezervacije.',

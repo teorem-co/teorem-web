@@ -61,7 +61,7 @@ const Notifications = () => {
 
     const groupNotifications = (notifications: INotification[]) => {
         const sortedRes = orderBy(notifications, ['createdAt'], ['desc']);
-        const groupedRes = groupBy(sortedRes, (notification: INotification) => moment(notification['createdAt']).format('DD/MMM/YYYY'));
+        const groupedRes = groupBy(sortedRes, (notification: INotification) => moment(notification['createdAt']).format(t('DATE_FORMAT')));
         setGroupedNotifications(groupedRes);
     };
 
