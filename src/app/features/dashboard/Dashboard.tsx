@@ -103,13 +103,13 @@ const Dashboard = () => {
         }
     };
 
-    const handleAccept = (id: string) => {
-      acceptRequest(id);
+    const handleAccept = async (id: string) => {
+      await acceptRequest(id);
       fetchData();
     };
 
-  const handleDeny = (id: string) => {
-    denyRequest(id);
+  const handleDeny = async (id: string) => {
+    await denyRequest(id);
     fetchData();
   };
 
