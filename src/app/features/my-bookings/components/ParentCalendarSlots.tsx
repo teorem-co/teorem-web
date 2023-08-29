@@ -218,6 +218,8 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     }
   }, [subjectLevelPairs]);
 
+
+//=================NEW CODE
   useEffect(() => {
     if (formik.values.subject) {
       formik.setFieldValue('subject', '');

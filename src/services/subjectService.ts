@@ -4,6 +4,12 @@ import { baseService } from '../app/baseService';
 import { OptionType } from '../app/components/form/MySelectField';
 import { HttpMethods } from '../app/lookups/httpMethods';
 import ISubject from '../interfaces/ISubject';
+
+
+const URL = 'api/v1/subjects';
+const mutationURL = 'api/v1/tutor-subjects';
+const TUTOR_SUBJECT_URL = 'api/v1/tutor-subjects';
+
 import INotification from '../interfaces/notification/INotification';
 import ITutorItem from '../interfaces/ITutorItem';
 
@@ -28,6 +34,7 @@ interface ICreateSubject {
     levelId: string;
     tutorId?: string;
     price: number;
+    objectId?: string;
 }
 
 interface ITutorSubjectId {
@@ -108,7 +115,6 @@ export const subjectService = baseService.injectEndpoints({
             return subjectLevelPairs;
           },
         }),
-
     }),
 });
 

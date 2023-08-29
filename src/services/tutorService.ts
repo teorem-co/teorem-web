@@ -32,20 +32,18 @@ interface IBookingTransformed {
 }
 
 export  interface ITutorAdminSearch{
-   userId: string;
-   slug: string;
-   firstName: string;
-   lastName: string;
-   email: string;
-   countryFlag: string;
-   countryName: string;
-   countryAbrv: string;
-   phoneNumber: string;
-   verified: boolean;
-   adminNote:string;
+  userId: string;
+  slug: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  countryFlag: string;
+  countryName: string;
+  countryAbrv: string;
+  phoneNumber: string;
+  verified: boolean;
+  adminNote:string;
 }
-
-// interface ICreateTutorSubject {}
 
 const URL = 'api/v1/tutors';
 const BOOKING_URL = 'api/v1/bookings';
@@ -71,7 +69,7 @@ export const tutorService = baseService.injectEndpoints({
             query: (params) => {
               //TODO: fix this -1 page problem
                 const queryData = {
-                    url: `${URL}/available-tutors?size=${params.rpp}&page=${params.page}${params.subject ? '&subjectId=' + params.subject : ''}${params.level ? '&levelId=' + params.level : ''
+                    url: `${URL}/available-tutors?size=${params.rpp}&page=${params.page-1}${params.subject ? '&subjectId=' + params.subject : ''}${params.level ? '&levelId=' + params.level : ''
                         }${params.dayOfWeek ? '&dayOfWeek=' + params.dayOfWeek : ''}${params.timeOfDay ? '&timeOfDay=' + params.timeOfDay : ''}${params.sort ? '&sort=' + params.sort : ''
                         }`,
                     method: HttpMethods.GET,
