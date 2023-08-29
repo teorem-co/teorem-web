@@ -450,7 +450,8 @@ export const EN_US = {
         LINK: 'Go to Calendar',
         COUNT_EXTENSION: 'Lessons',
         TOOLTIP_DOWNLOAD_INVOICE:'Download invoice',
-        TOOLTIP_DOWNLOAD_LESSON: 'Play/Download video lesson',
+        TOOLTIP_DROPDOWN_LABEL: 'Show video lessons',
+        TOOLTIP_PLAY_LESSON: 'Play/download video lesson',
         DATE_TITLE: 'Date',
         DATE_AT_WORD: 'at'
     },

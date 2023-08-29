@@ -176,6 +176,10 @@ const CompletedLessons = () => {
     return moment(startTime).format('MMMM').charAt(0).toUpperCase() + moment(startTime).format('MMMM').slice(1);
   };
 
+
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+
+
   return (
     <>
       <MainWrapper>
@@ -296,7 +300,9 @@ const CompletedLessons = () => {
                                 {currentMonth} {moment(booking.startTime).year()}
                               </div>
                             )}
+
                             <StudentBookingInfoItem bookingInfo={booking} activeLesson={activeLesson} />
+
                           </React.Fragment>
                         );
                       })}

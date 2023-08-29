@@ -185,7 +185,7 @@ function StripeConnectForm({ sideBarIsOpen, closeSidebar, onConnect, userId }: S
         city: values.city,
         IBAN: removeWhitespaces(values.IBAN),
         IBANConfirm: removeWhitespaces(values.IBANConfirm),
-        userId:  userId ? userId : user!.id, //TODO: check if it works
+        userId:  userId ? userId : user!.id, //if userId is passed as prop, use it, else use state.auth.user
       })
         .unwrap()
         .then((res) => {
