@@ -384,7 +384,7 @@ const TutorBookings = () => {
     const firstCheck = flagArr.length === existingBooking?.length;
 
     if (firstCheck && !moment.utc(e.start).isBefore(moment().add(3, 'hours')) && isAvailableBooking) {
-      // setSelectedStart(moment(e.start).format('DD/MMMM/YYYY, HH:mm'));     MMMM format doesn't work with different languages!
+      // setSelectedStart(moment(e.start).format('t('DATE_FORMAT'), HH:mm'));     MMMM format doesn't work with different languages!
       setSelectedStart(moment.utc(e.start).format());
       setSelectedEnd(moment(e.start).add(1, 'hours').format('HH:mm'));
       setOpenSlot(true);
@@ -422,12 +422,12 @@ const TutorBookings = () => {
         setOpenEventDetails(true);
         getBookingById(e.id);
         // setEventDetails({
-        //     start: moment(e.start).format('DD/MMMM/YYYY, HH:mm'),
+        //     start: moment(e.start).format('t('DATE_FORMAT'), HH:mm'),
         //     end: moment(e.end).format('HH:mm'),
         //     allDay: e.allDay,
         //     label: e.label,
         // });
-        setSelectedStart(moment.utc(e.start).format('DD/MMMM/YYYY, HH:mm'));
+        setSelectedStart(moment.utc(e.start).format(t('DATE_FORMAT') + ', HH:mm'));
         setSelectedEnd(moment.utc(e.end).format('HH:mm'));
         // if (booking && booking.id) {
         //     setOpenSlot(true);

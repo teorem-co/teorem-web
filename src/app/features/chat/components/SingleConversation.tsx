@@ -647,7 +647,7 @@ const SingleConversation = (props: Props) => {
                                     />
                                     {!sameDate && (
                                         <div className={`message-full-width flex flex--col flex--center`}>
-                                            <span>{moment(message.message.createdAt).format('DD MMM YYYY')}, {messageTime}</span>
+                                            <span>{moment(message.message.createdAt).format(t('DATE_FORMAT'))}, {messageTime}</span>
                                         </div>
                                     )}
                                     <div
@@ -759,7 +759,7 @@ const SingleConversation = (props: Props) => {
                             <>
                                 {!sameDate && (
                                     <div className={`message-full-width flex flex--col flex--center`}>
-                                        <span>{moment(message.message.createdAt).format('DD MMM YYYY')}, {messageTime}</span>
+                                        <span>{moment(message.message.createdAt).format(t('DATE_FORMAT'))}, {messageTime}</span>
                                     </div>
                                 )}
                                 <div

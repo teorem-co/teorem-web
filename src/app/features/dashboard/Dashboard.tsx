@@ -88,12 +88,12 @@ const Dashboard = () => {
     const fetchData = async () => {
         await getUnreadNotifications(params).unwrap();
         const upcoming = await getUpcoming().unwrap();
-        const groupedDashboardData: IGroupedDashboardData = groupBy(upcoming, (e) => moment(e.startTime).format('DD/MM/YYYY'));
+        const groupedDashboardData: IGroupedDashboardData = groupBy(upcoming, (e) => moment(e.startTime).format(t('DATE_FORMAT')));
         setGroupedUpcomming(groupedDashboardData);
         const todaySchedule = await getTodaySchedule().unwrap();
         setTodayScheduled(todaySchedule);
         const requests = await getRequests().unwrap();
-      const groupedRequestData: IGroupedDashboardData = groupBy(requests, (e) => moment(e.startTime).format('DD/MM/YYYY'));
+      const groupedRequestData: IGroupedDashboardData = groupBy(requests, (e) => moment(e.startTime).format(t('DATE_FORMAT')));
       setGroupedRequests(groupedRequestData);
     };
 
