@@ -1,6 +1,7 @@
 export const EN_US = {
     MAIN_TITLE: 'Teorem',
     WATERMARK: '© Teorem',
+    DATE_FORMAT: 'Do MMM YYYY',
     ERROR_HANDLING: {
         UNHANDLED_ERROR: 'Unhandled error occured!',
         SUPPORT: 'Something gone wrong, please contact the support',

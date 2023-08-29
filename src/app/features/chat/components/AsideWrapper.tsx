@@ -114,12 +114,12 @@ const AsideWrapper = (props: Props) => {
                                   lastMessageTime: moment(lastMessageTime).isSame(moment(), 'day') ?
                   moment(lastMessageTime).format('HH:mm')
                   :
-                                      moment(lastMessageTime).format('DD MMM YYYY')
+                                      moment(lastMessageTime).format(t('DATE_FORMAT'))
                                       .replace('.', ''),
                                   unread: chatConversationItem.unreadMessageCount > 0,
                               numberOfUnread: chatConversationItem.unreadMessageCount
               };
-          
+
 
               return chatConversationItem.tutor?.userId == activeChat?.tutor?.userId &&
               chatConversationItem.user?.userId == activeChat?.user?.userId ? (
