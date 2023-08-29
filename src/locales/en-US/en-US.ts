@@ -1,6 +1,7 @@
 export const EN_US = {
     MAIN_TITLE: 'Teorem',
     WATERMARK: '© Teorem',
+    DATE_FORMAT: 'Do MMM YYYY',
     ERROR_HANDLING: {
         UNHANDLED_ERROR: 'Unhandled error occured!',
         SUPPORT: 'Something gone wrong, please contact the support',
@@ -557,6 +558,7 @@ export const EN_US = {
             SAVE: 'Save information',
             DELETE: 'Delete',
             CANCEL: 'Cancel',
+            SUBJECT_ERROR: 'Subject for that level already exists'
         },
         GENERAL_AVAILABILITY: {
             TITLE: 'Availability',

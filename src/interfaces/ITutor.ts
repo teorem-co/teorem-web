@@ -1,5 +1,5 @@
 import IBooking from '../app/features/my-bookings/interfaces/IBooking';
-import ITutorSubject from './ITutorSubject';
+import ITutorSubjectLevel from './ITutorSubjectLevel';
 import IUser from './IUser';
 
 export default interface ITutor {
@@ -9,7 +9,7 @@ export default interface ITutor {
     aboutTutor: string;
     aboutLessons: string;
     User: IUser;
-    TutorSubjects: ITutorSubject[];
+    TutorSubjects: ITutorSubjectLevel[];
     minimumPrice: number;
     maximumPrice: number;
     averageGrade: number;

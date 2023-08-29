@@ -1,9 +1,9 @@
 import { t } from 'i18next';
 
-import ITutorSubject from '../../../../interfaces/ITutorSubject';
+import ITutorSubjectLevel from '../../../../interfaces/ITutorSubjectLevel';
 
 interface IProps {
-    tutorSubjects: ITutorSubject[];
+    tutorSubjects: ITutorSubjectLevel[];
     currency: string;
     handleSendId: (objectId: string) => void;
 }

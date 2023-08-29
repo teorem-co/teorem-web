@@ -5,10 +5,11 @@ import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import * as Yup from 'yup';
 
-import { useGetLevelOptionsQuery } from '../../../../services/levelService';
 import {
-  useDeleteSubjectMutation,
-  useLazyGetSubjectsByLevelAndSubjectQuery,
+  useGetLevelsQuery,
+} from '../../../../services/levelService';
+import {
+  useDeleteSubjectMutation, useGetSubjectsQuery,
   useUpdateSubjectMutation,
 } from '../../../../services/subjectService';
 import {
@@ -18,11 +19,13 @@ import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import TextField from '../../../components/form/TextField';
 import {
   useLazyGetCountriesQuery,
-} from '../../../features/onboarding/services/countryService';
+} from '../../onboarding/services/countryService';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import getUrlParams from '../../../utils/getUrlParams';
 import { setMyProfileProgress } from '../slices/myProfileSlice';
+import ITutorSubjectLevel from '../../../../interfaces/ITutorSubjectLevel';
+import { getUserId } from '../../../utils/getUserId';
 
 interface Values {
     level: string;
@@ -40,11 +43,12 @@ interface Props {
 const EditSubjectSidebar = (props: Props) => {
     const { closeSidebar, sideBarIsOpen, handleGetData } = props;
 
-    const { data: levelOptions, isLoading: isLoadingLevels } = useGetLevelOptionsQuery();
+    const { data: subjectOptions, isLoading: isLoadingSubjects } = useGetSubjectsQuery();
+    const { data: levelOptions, isLoading: isLoadingLevels } = useGetLevelsQuery();
+
     const [updateSubject, { isSuccess: isSuccessUpdateSubject }] = useUpdateSubjectMutation();
     const [deleteSubject] = useDeleteSubjectMutation();
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
-    const [getSubjectOptionsByLevel, { data: subjectsData, isSuccess: isSuccessSubjects }] = useLazyGetSubjectsByLevelAndSubjectQuery();
     const countryId = useAppSelector((state) => state?.user?.user?.countryId);
     const [getCountries] = useLazyGetCountriesQuery();
     const [getProfileData, { data: myTeachingsData }] = useLazyGetTutorByIdQuery({
@@ -59,7 +63,6 @@ const EditSubjectSidebar = (props: Props) => {
         }),
     });
 
-    const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
     const [initialValues, setInitialValues] = useState<Values>({
         level: '',
         subject: '',
@@ -86,7 +89,6 @@ const EditSubjectSidebar = (props: Props) => {
     const tutorId = useAppSelector((state) => state.auth.user?.id);
     const urlQueries = getUrlParams(history.location.search.replace('?', ''));
     const selectedSubject = myTeachingsData.tutorSubjects && myTeachingsData.tutorSubjects.find((x) => x.subjectId === urlQueries.subjectId);
-    const levelDisabled = !levelOptions || isLoadingLevels;
     const { t } = useTranslation();
 
     const handleDeleteSubject = async (objectId: string) => {
@@ -106,8 +108,9 @@ const EditSubjectSidebar = (props: Props) => {
         updateSubject({
             subjectId: values.subject,
             price: Number(values.price),
-            objectId: selectedSubject?.id,
-            tutorId: props.tutorId || '',
+            id: selectedSubject?.id,
+            tutorId: props.tutorId || getUserId(),
+            levelId: values.level
         });
     };
 
@@ -120,20 +123,6 @@ const EditSubjectSidebar = (props: Props) => {
     });
 
     useEffect(() => {
-        if (!isEqual(formik.values.level, initialValues.level)) {
-            formik.setFieldValue('subject', '');
-        } else {
-            formik.setFieldValue('subject', selectedSubject?.subjectId);
-        }
-        if (selectedSubject?.subjectId) {
-            getSubjectOptionsByLevel({
-                levelId: formik.values.level,
-                subjectId: selectedSubject?.subjectId,
-            });
-        }
-    }, [formik.values.level, initialValues.subject]);
-
-    useEffect(() => {
         if (isSuccessUpdateSubject) {
             toastService.success('Subject updated');
             closeSidebar();
@@ -141,11 +130,6 @@ const EditSubjectSidebar = (props: Props) => {
         }
     }, [isSuccessUpdateSubject]);
 
-    useEffect(() => {
-        if (subjectsData && isSuccessSubjects && formik.values.level !== '') {
-            setSubjectOptions(subjectsData);
-        }
-    }, [subjectsData]);
 
     useEffect(() => {
         getProfileData(props.tutorId ? props.tutorId : tutorId ? tutorId : "");
@@ -215,7 +199,7 @@ const EditSubjectSidebar = (props: Props) => {
                                     form={formik}
                                     meta={formik.getFieldMeta('subject')}
                                     isMulti={false}
-                                    options={subjectsData}
+                                    options={subjectOptions}
                                     placeholder={t('SEARCH_TUTORS.PLACEHOLDER.SUBJECT')}
                                     classNamePrefix="onboarding-select"
                                 />

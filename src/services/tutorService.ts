@@ -12,14 +12,20 @@ import ITutor from '../interfaces/ITutor';
 import { RoleOptions } from '../slices/roleSlice';
 import typeToFormData from '../app/utils/typeToFormData';
 import IBooking from '../app/features/my-bookings/interfaces/IBooking';
+import ITutorItem from '../interfaces/ITutorItem';
 
-interface ITutorId {
-    userId: string;
+interface ITutorItemPage {
+  totalPages: number,
+  totalElements: number,
+  last: boolean,
+  number: number,
+  size: number,
+  content: ITutorItem[]
 }
 
 interface ITutorAvailable {
     count: number;
-    rows: ITutor[];
+    rows: ITutorItem[];
 }
 
 interface IBookingsByIdPayload {
@@ -38,17 +44,8 @@ interface IBookingTransformed {
     isAccepted?: boolean;
 }
 
-interface ITutorVerified {
-  verified: boolean
-}
-
-// interface ICreateTutorSubject {}
-
 const URL = 'api/v1/tutors';
 const BOOKING_URL = 'api/v1/bookings';
-const TUTOR_MANAGEMENT_URL = 'api/v1/tutor-management';
-
-
 
 export const tutorService = baseService.injectEndpoints({
     endpoints: (builder) => ({
@@ -56,8 +53,9 @@ export const tutorService = baseService.injectEndpoints({
         getTutors: builder.query({
             query: (params: any) => {
                 const queryData = {
+                  //TODO: fix this page -1 problem
                     url: `${URL}/?page=${params.page
-                        }&rpp=${params.rpp
+                        }&size=${params.rpp
                         }&unprocessed=${params.unprocessed ? "true" : "false"
                         }${params.verified ? params.verified == 1 ? "&verified=true" : "&verified=false" : ""}
                     `,
@@ -67,6 +65,7 @@ export const tutorService = baseService.injectEndpoints({
                 return queryData;
             },
         }),
+      // TODO: this one sends request for Admin page
         searchTutors: builder.query({
             query: (params: any) => {
                 const queryData = {
@@ -82,10 +81,11 @@ export const tutorService = baseService.injectEndpoints({
                 return queryData;
             },
         }),
-        getAvailableTutors: builder.query<ITutorAvailable, IParams>({
+        getAvailableTutors: builder.query<ITutorItemPage, IParams>({
             query: (params) => {
+              //TODO: fix this -1 page problem
                 const queryData = {
-                    url: `${URL}/available-tutors?rpp=${params.rpp}&page=${params.page}${params.subject ? '&subjectId=' + params.subject : ''}${params.level ? '&levelId=' + params.level : ''
+                    url: `${URL}/available-tutors?size=${params.rpp}&page=${params.page}${params.subject ? '&subjectId=' + params.subject : ''}${params.level ? '&levelId=' + params.level : ''
                         }${params.dayOfWeek ? '&dayOfWeek=' + params.dayOfWeek : ''}${params.timeOfDay ? '&timeOfDay=' + params.timeOfDay : ''}${params.sort ? '&sort=' + params.sort : ''
                         }`,
                     method: HttpMethods.GET,
