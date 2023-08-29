@@ -273,6 +273,8 @@ const SearchTutors = () => {
         }
     };
 
+
+  const [resetKey, setResetKey] = useState(false);
     const handleResetFilter = () => {
         //can't delete all params because reset button couldn't affect price sort
         const paramsObj = { ...params };
@@ -282,10 +284,10 @@ const SearchTutors = () => {
         delete paramsObj.timeOfDay;
         setParams(paramsObj);
 
-        setSubjectOptions([]);
-        setLevelOptions([]);
+        setResetKey(prevKey => !prevKey); // this is used to reset select subject and select lvl components
         setDayOfWeekArray([]);
         setTimeOfDayArray([]);
+
         formik.setValues(initialValues);
     };
 
@@ -323,6 +325,7 @@ const SearchTutors = () => {
 
     useEffect(() => {
         setScrollTopOffset(null);
+        console.log("Fetching filtered data because params changed");
         if (!initialLoad) {
             fetchFilteredData();
         }
@@ -358,7 +361,7 @@ const SearchTutors = () => {
     }, []);
 
     useEffect(() => {
-        if (formik.values.level && formik.values.subject) {
+        if (formik.values.subject) {
             setParams({ ...params, subject: formik.values.subject });
         }
     }, [formik.values.subject]);
@@ -377,6 +380,7 @@ const SearchTutors = () => {
         formik.setFieldValue('timeOfDay', timeOfDayArray);
     }, [timeOfDayArray]);
 
+
     return (
         <MainWrapper>
             <div onScroll={(e) => debouncedScrollHandler(e.target)} className="card--secondary" ref={cardRef}>
@@ -392,16 +396,18 @@ const SearchTutors = () => {
                         <FormikProvider value={formik}>
                             <Form className="flex" noValidate>
                                 <MySelect
+                                    key={`level-select-${resetKey}`}
                                     field={formik.getFieldProps('level')}
                                     form={formik}
                                     meta={formik.getFieldMeta('level')}
                                     classNamePrefix="react-select--search-tutor"
                                     isMulti={false}
-                                    options={levelOptions ? levelOptions : []}
+                                    options={levelOptions}
                                     isDisabled={levelDisabled}
                                     placeholder={t('SEARCH_TUTORS.PLACEHOLDER.LEVEL')}
                                 ></MySelect>
                                 <MySelect
+                                    key={`subject-select-${resetKey}`}
                                     field={formik.getFieldProps('subject')}
                                     form={formik}
                                     meta={formik.getFieldMeta('subject')}
