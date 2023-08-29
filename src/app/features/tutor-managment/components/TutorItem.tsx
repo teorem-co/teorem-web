@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 import ISubject from '../../../../interfaces/ISubject';
 import ITutor from '../../../../interfaces/ITutor';
-import ITutorSubject from '../../../../interfaces/ITutorSubject';
+import ITutorSubjectLevel from '../../../../interfaces/ITutorSubjectLevel';
 import ImageCircle from '../../../components/ImageCircle';
 import { PATHS } from '../../../routes';
 import CustomSubjectList from './CustomSubjectList';
@@ -22,7 +22,7 @@ const TutorItem: FC<Props> = (props: Props) => {
 
     useEffect(() => {
         if (tutor.TutorSubjects.length > 0) {
-            const tutorNames: ISubject[] = tutor.TutorSubjects.map((item: ITutorSubject) => {
+            const tutorNames: ISubject[] = tutor.TutorSubjects.map((item: ITutorSubjectLevel) => {
                 const test = item.Subject;
                 return test;
             });

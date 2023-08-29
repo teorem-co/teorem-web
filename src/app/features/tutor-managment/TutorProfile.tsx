@@ -62,16 +62,6 @@ const TutorProfile = () => {
   const user = useAppSelector((state) => state.auth.user);
   const [params, setParams] = useState<IMyReviewParams>({ page: 1, rpp: 3 });
   const [loadedMyReviews, setLoadedMyReviews] = useState<IMyReview[]>([]);
-
-  // const { tutorData } = useGetTutorProfileDataQuery(
-  //     (tutorId),
-  //     {
-  //         selectFromResult: ({ data }) => ({
-  //             tutorData: data?.rows.find((tutor) => tutor.userId === tutorId),
-  //         }),
-  //     }
-  // );
-
   const [getMyReviews, { data: myReviews }] = useLazyGetMyReviewsQuery();
   const [getStatistics, { data: tutorStatistics }] = useLazyGetStatisticsQuery();
   const [getTutorAvailability, { data: tutorAvailability }] = useLazyGetTutorAvailabilityQuery();
@@ -88,9 +78,9 @@ const TutorProfile = () => {
         rpp: params.rpp,
       };
 
-      getTutorProfileData(tutorId);
+      getTutorProfileData(tutorSlug);
       getMyReviews(myReviewsGetObj);
-      //getStatistics(tutorId);     //TODO: uncomment
+      getStatistics(tutorId);
       getTutorAvailability(tutorId);
     }
   }, [tutorId, refetch]);

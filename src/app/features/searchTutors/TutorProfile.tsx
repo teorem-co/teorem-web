@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
-import ITutorSubject from '../../../interfaces/ITutorSubject';
+import ITutorSubjectLevel from '../../../interfaces/ITutorSubjectLevel';
 import {
   useLazyGetTutorByTutorSlugQuery,
 } from '../../../services/tutorService';
@@ -268,7 +268,7 @@ const TutorProfile = () => {
                                             </thead>
                                             <tbody>
                                                 {tutorData.TutorSubjects.length > 0 ? (
-                                                    tutorData.TutorSubjects.map((item: ITutorSubject) => {
+                                                    tutorData.TutorSubjects.map((item: ITutorSubjectLevel) => {
                                                         return (
                                                             <tr key={item.id}>
                                                                 <td>{t(`SUBJECTS.${item.Subject.abrv.replace('-', '')}`)}</td>

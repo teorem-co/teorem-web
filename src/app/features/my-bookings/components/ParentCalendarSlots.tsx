@@ -4,9 +4,9 @@ import moment from 'moment';
 import { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 
-import { useGetTutorLevelsQuery } from '../../../../services/levelService';
+
 import {
-  useLazyGetTutorSubjectsByTutorLevelQuery,
+   useGetTutorSubjectLevelPairsQuery,
 } from '../../../../services/subjectService';
 import { useLazyGetChildQuery } from '../../../../services/userService';
 import { RoleOptions } from '../../../../slices/roleSlice';
@@ -49,15 +49,16 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
 
   const tutorId = props.tutorId;
 
+  const { data: subjectLevelPairs, isSuccess: isSuccessSubjectsLevelPairs } = useGetTutorSubjectLevelPairsQuery(tutorId);
+  const [tutorLevelOptions, setTutorLevelOptions] = useState<OptionType[]>();
+  const [tutorSubjectOptions, setTutorSubjectOptions] = useState<OptionType[]>();
+
   const [getChildOptions, { data: childOptions }] = useLazyGetChildQuery();
   const [getUser] = useLazyGetCustomerByIdQuery();
-  const [getSubjectOptionsByLevel, { data: subjectsData, isSuccess: isSuccessSubjects }] = useLazyGetTutorSubjectsByTutorLevelQuery();
   const [createBooking, { isSuccess: createBookingSuccess }] = useCreatebookingMutation();
   const [createBookingMutation, { isSuccess: isCreateBookingSuccess }] = useCreateBookingMutation();
   const [isCreateBookingLoading, setIsCreateBookingLoading] = useState<boolean>(false); // isLoading from Mutation is too slow;
-  const { data: levelOptions } = useGetTutorLevelsQuery(tutorId);
 
-  const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
   const [selectedTime, setSelectedTime] = useState<string>('');
   const [initialValues, setInitialValues] = useState<Values>({
     level: '',
@@ -90,7 +91,6 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
 
   const handleSubmit = async (values: any) => {
     setIsCreateBookingLoading(true);
-
     //if user didn't added credit card before adding a booking, show the message and redirect button
     if (stripeCustomerId) {
       //if user has stripe account but don't have default payment method
@@ -191,21 +191,39 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     validationSchema: Yup.object().shape(generateValidationSchema()),
   });
 
-  useEffect(() => {
-    if (subjectsData && isSuccessSubjects && formik.values.level !== '') {
-      setSubjectOptions(subjectsData);
+  function filterSubjectsByLevelId(levelId: string) {
+    if (subjectLevelPairs) {
+      const subjectOptions: OptionType[] = subjectLevelPairs
+        .filter(item => item.level.value === levelId)
+        .map(item => item.subject);
+
+      setTutorSubjectOptions(subjectOptions);
     }
-  }, [subjectsData]);
+  }
+
+  // set level options
+  useEffect(() => {
+    if (subjectLevelPairs && isSuccessSubjectsLevelPairs) {
+      const seen = new Set<string>();
+      const levelOptions: OptionType[] = [];
+
+      subjectLevelPairs.forEach(pair => {
+        if (!seen.has(pair.level.value)) {
+          seen.add(pair.level.value);
+          levelOptions.push(pair.level);
+        }
+      });
+
+      setTutorLevelOptions(levelOptions);
+    }
+  }, [subjectLevelPairs]);
 
   useEffect(() => {
     if (formik.values.subject) {
       formik.setFieldValue('subject', '');
     }
     if (formik.values.level !== '') {
-      getSubjectOptionsByLevel({
-        tutorId: tutorId,
-        levelId: formik.values.level,
-      });
+      filterSubjectsByLevelId(formik.values.level);
     }
   }, [formik.values.level]);
 
@@ -265,7 +283,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                 meta={formik.getFieldMeta('level')}
                 classNamePrefix="onboarding-select"
                 isMulti={false}
-                options={levelOptions ? levelOptions : []}
+                options={tutorLevelOptions ? tutorLevelOptions : []}
                 placeholder={t('BOOK.FORM.LEVEL_PLACEHOLDER')}
               />
             </div>
@@ -273,14 +291,13 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
               <label htmlFor="subject" className="field__label">
                 {t('BOOK.FORM.SUBJECT')}*
               </label>
-
               <MySelect
                 key={formik.values.subject}
                 field={formik.getFieldProps('subject')}
                 form={formik}
                 meta={formik.getFieldMeta('subject')}
                 isMulti={false}
-                options={subjectsData}
+                options={tutorSubjectOptions}
                 classNamePrefix="onboarding-select"
                 noOptionsMessage={() => t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')}
                 placeholder={t('SEARCH_TUTORS.PLACEHOLDER.SUBJECT')}

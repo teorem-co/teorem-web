@@ -557,6 +557,7 @@ export const HR_HR = {
             SAVE: 'Spremi podatke',
             DELETE: 'Izbriši',
             CANCEL: 'Odustani',
+            SUBJECT_ERROR: 'Predmet za tu razinu već postoji'
         },
         GENERAL_AVAILABILITY: {
             TITLE: 'Dostupnost',

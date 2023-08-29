@@ -4,13 +4,12 @@ import { baseService } from '../app/baseService';
 import { OptionType } from '../app/components/form/MySelectField';
 import { HttpMethods } from '../app/lookups/httpMethods';
 import ISubject from '../interfaces/ISubject';
+import INotification from '../interfaces/notification/INotification';
+import ITutorItem from '../interfaces/ITutorItem';
 
-const URL = 'api/v1/subjects';
-
-const mutationURL = 'api/v1/tutor-subjects';
-
-const TUTOR_SUBJECT_URL = 'api/v1/tutor-subjects';
-
+const URL_TUTOR_SUBJECTS = 'api/v1/tutors/subjects';
+const URL_TUTORS = 'api/v1/tutors';
+const URL_SUBJECTS = 'api/v1/subjects';
 
 interface IGetSubject {
     id: string;
@@ -24,10 +23,11 @@ interface IId {
 }
 
 interface ICreateSubject {
+    id?: string;
     subjectId: string;
-    price: number;
-    objectId?: string;
+    levelId: string;
     tutorId?: string;
+    price: number;
 }
 
 interface ITutorSubjectId {
@@ -35,39 +35,37 @@ interface ITutorSubjectId {
     levelId: string;
 }
 
+export interface ITutorSubjectLevelPair {
+  subjectId: string;
+  subjectAbrv: string;
+  levelId: string;
+  levelAbrv:string;
+}
+
+export interface ITutorSubjectLevelPair2 {
+  subject: OptionType;
+  level: OptionType;
+}
+
 export const subjectService = baseService.injectEndpoints({
     endpoints: (builder) => ({
-        getSubjectOptionsByLevel: builder.query<OptionType[], string>({
-            query: (levelId) => ({
-                url: `${URL}/${levelId}`,
-                method: HttpMethods.GET,
-            }),
-            transformResponse: (response: ISubject[]) => {
-                const subjectOptions: OptionType[] = response.map((level) => ({
-                    value: level.id,
-                    label: t(`SUBJECTS.${level.abrv.replace(' ', '').replace('-', '').toLowerCase()}`),
-                }));
-                return subjectOptions;
-            },
-        }),
-        getSubjectsByLevelAndSubject: builder.query<OptionType[], IId>({
-            query: (ids) => ({
-                url: `${URL}/filter/${ids.levelId}/?subjectId=${ids.subjectId ? ids.subjectId : ''
-                    }`,
-                method: HttpMethods.GET,
-            }),
-            transformResponse: (response: IGetSubject[]) => {
-                const subjectOptions: OptionType[] = response.map((level) => ({
-                    value: level.id,
-                    label: t(`SUBJECTS.${level.abrv.replace(' ', '').replace('-', '').toLowerCase()}`),
-                }));
-                return subjectOptions;
-            },
+        getSubjects: builder.query<OptionType[], void>({
+          query: () => ({
+            url: `${URL_SUBJECTS}`,
+            method: HttpMethods.GET,
+          }),
+          transformResponse: (response: ISubject[]) => {
+            const subjectOptions: OptionType[] = response.map((level) => ({
+              value: level.id,
+              label: t(`SUBJECTS.${level.abrv.replace(' ', '').replace('-', '').toLowerCase()}`),
+            }));
+            return subjectOptions;
+          },
         }),
         updateSubject: builder.mutation<void, ICreateSubject>({
             query(body) {
                 return {
-                    url: `${mutationURL}/${body.objectId}`,
+                    url: `${URL_TUTORS}/${body.tutorId}/subjects`,
                     method: 'PUT',
                     body,
                 };
@@ -76,7 +74,7 @@ export const subjectService = baseService.injectEndpoints({
         createSubject: builder.mutation<void, ICreateSubject>({
             query(body) {
                 return {
-                    url: `${mutationURL}/`,
+                    url: `${URL_TUTORS}/${body.tutorId}/subjects`,
                     method: 'POST',
                     body,
                 };
@@ -85,37 +83,40 @@ export const subjectService = baseService.injectEndpoints({
         deleteSubject: builder.mutation<void, string>({
             query(objectId) {
                 return {
-                    url: `${mutationURL}/${objectId}`,
+                    url: `${URL_TUTOR_SUBJECTS}/${objectId}`,
                     method: HttpMethods.DELETE,
                 };
             },
         }),
-        getTutorSubjectsByTutorLevel: builder.query<
-            OptionType[],
-            ITutorSubjectId
-        >({
-            query: (data) => ({
-                url: `${TUTOR_SUBJECT_URL}/subjects/${data.tutorId}?levelId=${data.levelId}`,
-                method: HttpMethods.GET,
-            }),
-            transformResponse: (response: ISubject[]) => {
-                const subjectOptions: OptionType[] = response.map(
-                    (subject) => ({
-                        value: subject.id,
-                        label: t(`SUBJECTS.${subject.abrv.replace('-', '').toLowerCase()}`),
-                    })
-                );
-                return subjectOptions;
-            },
+
+        getTutorSubjectLevelPairs: builder.query<ITutorSubjectLevelPair2[], string>({
+          query: (tutorId) => ({
+            url: `${URL_TUTORS}/${tutorId}/subjects`,
+            method: HttpMethods.GET,
+          }),
+          transformResponse: (response: ITutorSubjectLevelPair[]) => {
+            const subjectLevelPairs: ITutorSubjectLevelPair2[] = response.map((subjectLevelPair) => ({
+              subject: {
+                value: subjectLevelPair.subjectId,
+                label: t(`SUBJECTS.${subjectLevelPair.subjectAbrv.replace(' ', '').replace('-', '').toLowerCase()}`),
+              },
+              level: {
+                value: subjectLevelPair.levelId,
+                label: t(`LEVELS.${subjectLevelPair.levelAbrv.replace(' ', '').replace('-', '').toLowerCase()}`),
+              }
+            }));
+            return subjectLevelPairs;
+          },
         }),
+
     }),
 });
 
 export const {
-    useLazyGetSubjectOptionsByLevelQuery,
-    useLazyGetSubjectsByLevelAndSubjectQuery,
-    useUpdateSubjectMutation,
+    useGetSubjectsQuery,
+    useLazyGetSubjectsQuery,
     useCreateSubjectMutation,
+    useUpdateSubjectMutation,
     useDeleteSubjectMutation,
-    useLazyGetTutorSubjectsByTutorLevelQuery,
+    useGetTutorSubjectLevelPairsQuery
 } = subjectService;
