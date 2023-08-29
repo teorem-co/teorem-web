@@ -164,7 +164,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
                 meta={formik.getFieldMeta('level')}
                 classNamePrefix="onboarding-select"
                 isMulti={false}
-                //options={levelOptions ? levelOptions : []}
+                //options={tutorLevelOptions ? tutorLevelOptions : []}
                 options={tutorLevelOptions ? tutorLevelOptions : []}
                 isDisabled={booking?.id ? true : false}
                 placeholder={t('BOOK.FORM.LEVEL_PLACEHOLDER')}
@@ -180,7 +180,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
                 form={formik}
                 meta={formik.getFieldMeta('subject')}
                 isMulti={false}
-                //options={subjectsData}
+                //options={tutorSubjectOptions}
                 options={tutorSubjectOptions}
                 classNamePrefix="onboarding-select"
                 isDisabled={booking?.id ? true : false}

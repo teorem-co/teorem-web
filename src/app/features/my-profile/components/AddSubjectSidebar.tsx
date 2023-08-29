@@ -7,10 +7,13 @@ import {
   useGetLevelsQuery,
 } from '../../../../services/levelService';
 import {
-  useLazyGetProfileProgressQuery} from '../../../../services/tutorService';
+  useGetLevelsQuery,
+} from '../../../../services/levelService';
 import {
   useCreateSubjectMutation, useGetSubjectsQuery,
 } from '../../../../services/subjectService';
+import {
+  useLazyGetProfileProgressQuery} from '../../../../services/tutorService';
 import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import TextField from '../../../components/form/TextField';
 import {
@@ -18,6 +21,7 @@ import {
 } from '../../../features/onboarding/services/countryService';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
+import { getUserId } from '../../../utils/getUserId';
 import { setMyProfileProgress } from '../slices/myProfileSlice';
 import { getUserId } from '../../../utils/getUserId';
 
@@ -73,7 +77,6 @@ const AddSubjectSidebar = (props: Props) => {
 
     const handleSubmit = async (values: Values) => {
       let isError = false;
-      console.log('Called handle submit');
 
       await createSubject({
         subjectId: values.subject,
@@ -83,7 +86,7 @@ const AddSubjectSidebar = (props: Props) => {
       }).then(res =>{
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        if(!res.ok){
+        if(res.status === 409){
           isError = true;
         }
       });
@@ -114,19 +117,6 @@ const AddSubjectSidebar = (props: Props) => {
     useEffect(() => {
         getCurrency();
     }, []);
-
-    // useEffect(() => {
-    //     if (subjectOptions && !isLoadingSubjects && formik.values.level !== '') {
-    //         setSubjectOptions(subjectsData);
-    //     }
-    // }, [subjectsData]);
-
-    // useEffect(() => {
-    //     formik.setFieldValue('subject', '');
-    //     if (formik.values.level !== '') {
-    //         //getSubjectOptionsByLevel(formik.values.level);
-    //     }
-    // }, [formik.values.level]);
 
     return (
         <div>
