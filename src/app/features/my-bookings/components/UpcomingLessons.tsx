@@ -28,7 +28,7 @@ const UpcomingLessons: React.FC<Props> = (props: Props) => {
                                     &nbsp;{'-'}&nbsp;
                                     <span className="type--color--secondary">{moment(lesson.endTime).add(1, 'minute').format('HH:mm')}</span>
                                 </div>
-                                <div className="type--color--tertiary">{moment(lesson.startTime).format('DD MMM YYYY')}</div>
+                                <div className="type--color--tertiary">{moment(lesson.startTime).format(t('DATE_FORMAT'))}</div>
                             </div>
                             <>
                                 {lesson.User ? (
