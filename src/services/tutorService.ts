@@ -44,17 +44,8 @@ interface IBookingTransformed {
     isAccepted?: boolean;
 }
 
-interface ITutorVerified {
-  verified: boolean
-}
-
-// interface ICreateTutorSubject {}
-
 const URL = 'api/v1/tutors';
 const BOOKING_URL = 'api/v1/bookings';
-const TUTOR_MANAGEMENT_URL = 'api/v1/tutor-management';
-
-
 
 export const tutorService = baseService.injectEndpoints({
     endpoints: (builder) => ({
@@ -63,7 +54,7 @@ export const tutorService = baseService.injectEndpoints({
             query: (params: any) => {
                 const queryData = {
                   //TODO: fix this page -1 problem
-                    url: `${URL}/?page=${params.page -1
+                    url: `${URL}/?page=${params.page
                         }&size=${params.rpp
                         }&unprocessed=${params.unprocessed ? "true" : "false"
                         }${params.verified ? params.verified == 1 ? "&verified=true" : "&verified=false" : ""}

@@ -59,7 +59,7 @@ const TutorManagment = () => {
 
     const [params, setParams] = useState<IParams>({
         rpp: 10,
-        page: 1,
+        page: 0,
         verified: 0,
         unprocessed: 1,
         search: '',
