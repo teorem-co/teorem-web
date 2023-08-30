@@ -38,6 +38,7 @@ import { connectStripe } from '../../../slices/authSlice';
 import { setMyProfileProgress } from '../my-profile/slices/myProfileSlice';
 import * as React from 'react';
 import AddCreditCard from '../my-profile/components/AddCreditCard';
+import ImageCircle from '../../components/ImageCircle';
 
 const TutorProfile = () => {
 
@@ -195,6 +196,7 @@ const TutorProfile = () => {
   };
 
   const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
+  const cacheBuster = new Date();
 
   return (
     <MainWrapper>
@@ -346,7 +348,16 @@ const TutorProfile = () => {
             <div>
               <div className="card--primary p-4 pt-6">
                 <div className="tutor-list__item__img align--center">
-                  <img className="align--center d--b mb-4" src={tutorData.User.profileImage} alt="tutor-profile-pic" />
+                  {tutorData.User.profileImage ? (
+                    <img src={`${tutorData.User.profileImage}&v=${cacheBuster}`} alt="tutor-list" />
+                  ) : (
+                    <ImageCircle
+                      className="align--center"
+                      initials={`${tutorData.User.firstName ? tutorData.User.firstName.charAt(0) : ''}${tutorData.User.lastName ? tutorData.User.lastName.charAt(0) : ''
+                      }`}
+                      imageBig={true}
+                    />
+                  )}
                 </div>
                 <div className="type--md type--center mb-1">
                   {tutorData.User.firstName}&nbsp;

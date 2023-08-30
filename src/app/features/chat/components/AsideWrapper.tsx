@@ -104,7 +104,7 @@ const AsideWrapper = (props: Props) => {
                                   imgUrl:
                                       (user?.id != chatConversationItem.user?.userId
                                           ? false
-                                          :  `${chatConversationItem.tutor?.userImage}&v=${cacheBuster}`),
+                                          :  chatConversationItem.tutor?.userImage ? `${chatConversationItem.tutor?.userImage}&v=${cacheBuster}` : undefined),
                                   name:
                                       (user?.id != chatConversationItem.user?.userId
                                           ? chatConversationItem.user?.userNickname
@@ -134,7 +134,7 @@ const AsideWrapper = (props: Props) => {
                 imgUrl:
                   (user?.id != chatConversationItem.user?.userId
                     ? false
-                    : chatConversationItem.tutor?.userImage),
+                    :   chatConversationItem.tutor?.userImage ? `${chatConversationItem.tutor?.userImage}&v=${cacheBuster}` : undefined),
                 name:
                   (user?.id != chatConversationItem.user?.userId
                     ? chatConversationItem.user?.userNickname
@@ -175,7 +175,7 @@ const AsideWrapper = (props: Props) => {
                 imgUrl:
                   (user?.id != chatConversationItem.user?.userId
                     ? false
-                    : chatConversationItem.tutor?.userImage),
+                    :   chatConversationItem.tutor?.userImage ? `${chatConversationItem.tutor?.userImage}&v=${cacheBuster}` : undefined),
                 name:
                   (user?.id != chatConversationItem.user?.userId
                     ? chatConversationItem.user?.userNickname
@@ -200,7 +200,7 @@ const AsideWrapper = (props: Props) => {
                 imgUrl:
                   (user?.id != chatConversationItem.user?.userId
                     ? false
-                    : chatConversationItem.tutor?.userImage),
+                    :   chatConversationItem.tutor?.userImage ? `${chatConversationItem.tutor?.userImage}&v=${cacheBuster}` : undefined),
                 name:
                   (user?.id != chatConversationItem.user?.userId
                     ? chatConversationItem.user?.userNickname

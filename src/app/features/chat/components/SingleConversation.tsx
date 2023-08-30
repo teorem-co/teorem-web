@@ -29,6 +29,7 @@ import {
 import SendMessageForm from './SendMessageForm';
 import ImageCircle from '../../../components/ImageCircle';
 import {
+  getUserRoleAbbrv,
   useLazyGetTutorByIdQuery,
 } from '../../../../services/tutorService';
 import 'react-tooltip/dist/react-tooltip.css';
@@ -469,19 +470,20 @@ const SingleConversation = (props: Props) => {
               to={`${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(':tutorSlug', `${tutorSlug}`)}`}
             >
               {props.data && (
-                <img
-                  className='chat__conversation__avatar'
-                  src={
-                    props.data
-                      ?
-                      (userActive?.id != props.data.tutor?.userId
-                        ? `${props.data.tutor?.userImage}&v=${cacheBuster}`
-                        : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg')
-                      : 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg'
-                  }
-                  alt='chat avatar'
-                />
-              )}
+                (props.data.tutor?.userImage !== undefined) ? (
+                  <img className='chat__conversation__avatar'
+                       src={props.data.tutor?.userImage}
+                       alt='user avatar' />
+                ) : (
+                  <ImageCircle
+                    initials={
+                      getUserRoleAbbrv() === 'tutor'?
+                        `${props.data.user?.userNickname.split(' ')[0].charAt(0)}${props.data.user?.userNickname.split(' ')[1].charAt(0)}`
+                        :
+                        `${props.data.tutor?.userNickname.split(' ')[0].charAt(0)}${props.data.tutor?.userNickname.split(' ')[1].charAt(0)}`
+                    }
+                  />
+              ))}
 
               <div className='ml-3 type--wgt--bold'>
                 {props.data
@@ -658,13 +660,14 @@ const SingleConversation = (props: Props) => {
                                         {img && (
                                             props.data && (
                                                 message.senderId == props.data.tutor?.userId ? (
+
                                                     <img
                                                         className="chat__conversation__avatar chat__conversation__avatar--small"
                                                         src={`${props.data.tutor?.userImage}&v=${cacheBuster}`}
                                                         alt={'profile avatar'}
                                                     />
                                                 ) : (
-                                                    <div style={{width: 40, height: 40}}>
+                                                    <div>
                                                         <ImageCircle initials={`${userActive?.firstName.charAt(0)}${userActive?.lastName.charAt(0)}`} style={{width: 40, height: 40 }} fontSize={20} />
                                                     </div>
                                                 )
@@ -767,21 +770,24 @@ const SingleConversation = (props: Props) => {
                                     className={`chat__message chat__message--other${img ? ' chat__message__margin-top' : ''}${img ? '' : ' chat__message__margin-left'
                                         }`}
                                 >
-                                    {img && (
-                                        props.data && (
-                                            message.senderId == props.data.tutor?.userId ? (
-                                                <img
-                                                    className="chat__conversation__avatar chat__conversation__avatar--small"
-                                                    src={`${props.data.tutor?.userImage}&v=${cacheBuster}`}
-                                                    alt={'profile avatar'}
-                                                />
-                                            ) : (
-                                                <div style={{width: 40, height: 40}}>
-                                                    <ImageCircle initials={`${props.data.user?.userNickname.split(" ")[0].charAt(0)}${props.data.user?.userNickname.split(" ")[1].charAt(0)}`} style={{width: 40, height: 40 }} fontSize={20} />
-                                                </div>
+                                    {img && props.data && message.senderId == props.data.tutor?.userId && (
+                                              (props.data.tutor?.userImage !== undefined ?
+                                                  <img
+                                                  className="chat__conversation__avatar chat__conversation__avatar--small"
+                                                  src={`${props.data.tutor?.userImage}&v=${cacheBuster}`}
+                                                  alt={'profile avatar'}
+                                                  />
+                                              :
+                                                 <div>
+                                                   <ImageCircle
+                                                     className="image-40"
+                                                     fontSize={20}
+                                                     initials={`${props.data.tutor?.userNickname.split(" ")[0].charAt(0)}${props.data.tutor?.userNickname.split(" ")[1].charAt(0)}`}
+                                                   />
+                                                 </div>
+                                              )
                                             )
-                                        )
-                                    )}
+                                    }
 
                   <div key={`sub-${index}`}
                        className={`message-full-width flex flex--col`}>
