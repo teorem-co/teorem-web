@@ -27,22 +27,11 @@ export interface ITutorSubjectLevelPair {
   levelAbrv:string;
 }
 
-export interface ITutorSubjectLevelPair2 {
+export interface ITutorSubjectLevelOption {
   subject: OptionType;
   level: OptionType;
 }
 
-export interface ITutorSubjectLevelPair {
-  subjectId: string;
-  subjectAbrv: string;
-  levelId: string;
-  levelAbrv:string;
-}
-
-export interface ITutorSubjectLevelPair2 {
-  subject: OptionType;
-  level: OptionType;
-}
 
 export const subjectService = baseService.injectEndpoints({
     endpoints: (builder) => ({
@@ -86,13 +75,13 @@ export const subjectService = baseService.injectEndpoints({
             },
         }),
 
-        getTutorSubjectLevelPairs: builder.query<ITutorSubjectLevelPair2[], string>({
+        getTutorSubjectLevelPairs: builder.query<ITutorSubjectLevelOption[], string>({
           query: (tutorId) => ({
             url: `${URL_TUTORS}/${tutorId}/subjects`,
             method: HttpMethods.GET,
           }),
           transformResponse: (response: ITutorSubjectLevelPair[]) => {
-            const subjectLevelPairs: ITutorSubjectLevelPair2[] = response.map((subjectLevelPair) => ({
+            const subjectLevelPairs: ITutorSubjectLevelOption[] = response.map((subjectLevelPair) => ({
               subject: {
                 value: subjectLevelPair.subjectId,
                 label: t(`SUBJECTS.${subjectLevelPair.subjectAbrv.replace(' ', '').replace('-', '').toLowerCase()}`),

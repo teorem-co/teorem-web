@@ -121,8 +121,7 @@ const StudentBookingInfoItem: React.FC<Props> = ({ bookingInfo , activeLesson}) 
       </div>
       {dropdownVisible &&
         <div
-          style={{width: '100%', flexDirection:'column'}}
-          className={`completed-lessons-list__item dropdown-content ${dropdownVisible ? 'show-dropdown' : ''}`}
+          className={`container-dropdown completed-lessons-list__item dropdown-content ${dropdownVisible ? 'show-dropdown' : ''}`}
         >
 
           {isLoading ? <BeatLoader size={10} color='#7e6cf2'/> : null }
@@ -131,8 +130,7 @@ const StudentBookingInfoItem: React.FC<Props> = ({ bookingInfo , activeLesson}) 
             return (
 
               <div
-                style={{display:'flex', flexDirection:'row', alignContent:'center', alignItems:'center', fontSize:'medium', width:'100%'}}
-                className="p-3">
+                className="p-3 lesson-row">
                 <div className="mr-2">{recordings?.length > 1 ? recording.videoTitle : recording.meetingTitle}</div>
                 <PiPlayBold
                   className="completed-booking-pointer primary-color"

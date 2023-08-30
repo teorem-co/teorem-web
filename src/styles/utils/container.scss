@@ -10,3 +10,17 @@
   }
 }
 
+.lesson-row {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  font-size: medium;
+  width: 100%;
+}
+
+.container-dropdown{
+  width: 100%;
+  flex-direction:column;
+}
+

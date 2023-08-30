@@ -264,10 +264,6 @@ const TutorManagment = () => {
                                 <p className="tutor-list__no-results__subtitle">{t('TUTOR_MANAGMENT.NO_RESULT.DESC')}</p>
                             </div>
                         )}
-                        {/*<div className="mt-6 flex">*/}
-                        {/*    <button className="btn btn--base" onClick={() => setParams(prevState => ({...prevState, page: prevState.page > 0 ? prevState.page - 1 : 1 }))} disabled={params.page - 1 < 1}>prev</button>*/}
-                        {/*    <button className="btn btn--base ml-2" onClick={() => setParams(prevState => ({...prevState, page: prevState.page + 1}))}>next</button>*/}
-                        {/*</div>*/}
 
                       <div className="mt-6 flex--center">
                         {/* Previous Button */}
