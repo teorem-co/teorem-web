@@ -73,9 +73,7 @@ const AddSubjectSidebar = (props: Props) => {
         });
     };
 
-
     const handleSubmit = async (values: Values) => {
-
         await createSubject({
           subjectId: values.subject,
           price: Number(values.price),
@@ -86,8 +84,6 @@ const AddSubjectSidebar = (props: Props) => {
         handleGetData();
         closeSidebar();
         formik.resetForm();
-        if(!isError) //TODO: check why this is one call behind
-          toastService.success(t('MY_PROFILE.MY_TEACHINGS.CREATED'));
 
       //handle profile progress
       if (!profileProgressState.myTeachings) {

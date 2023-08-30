@@ -62,7 +62,7 @@ const TutorManagment = () => {
     };
 
     const [params, setParams] = useState<IParams>({
-        rpp: 10,
+        rpp: 20,
         page: 0,
         verified: 0,
         unprocessed: 1,
@@ -74,7 +74,6 @@ const TutorManagment = () => {
     const isLoading =  isLoadingSearchTutors || searchTutorsFetching;
 
     const fetchData = async () => {
-        //TODO: refactor to use PageResponse<>
         const tutorResponse = await searchTutors(params).unwrap();
 
         setTutorResponse(tutorResponse);
