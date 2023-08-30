@@ -347,15 +347,17 @@ const TutorProfile = () => {
             </div>
             <div>
               <div className="card--primary p-4 pt-6">
-                <div className="tutor-list__item__img align--center">
-                  {tutorData.User.profileImage ? (
-                    <img src={`${tutorData.User.profileImage}&v=${cacheBuster}`} alt="tutor-list" />
+                <div className="tutor-list__item__img align--center align-self-center">
+                  {tutorData.User?.profileImage ? (
+                    <img
+                      className="align--center d--b mb-4"
+                      src={`${tutorData.User.profileImage}&v=${cacheBuster}`}
+                      alt="tutor-profile-pic" />
                   ) : (
                     <ImageCircle
-                      className="align--center"
-                      initials={`${tutorData.User.firstName ? tutorData.User.firstName.charAt(0) : ''}${tutorData.User.lastName ? tutorData.User.lastName.charAt(0) : ''
-                      }`}
+                      className="align--center d--b mb-4"
                       imageBig={true}
+                      initials={`${tutorData.User?.firstName.charAt(0)}${tutorData.User?.lastName.charAt(0)}`}
                     />
                   )}
                 </div>
