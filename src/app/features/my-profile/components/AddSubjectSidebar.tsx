@@ -41,7 +41,7 @@ const AddSubjectSidebar = (props: Props) => {
     const { data: subjectOptions, isLoading: isLoadingSubjects } = useGetSubjectsQuery();
     const { data: levelOptions, isLoading: isLoadingLevels } = useGetLevelsQuery();
 
-    const [createSubject, {isError, error}] = useCreateSubjectMutation();
+    const [createSubject, {isSuccess}] = useCreateSubjectMutation();
 
 
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
@@ -91,6 +91,12 @@ const AddSubjectSidebar = (props: Props) => {
         dispatch(setMyProfileProgress(progressResponse));
       }
     };
+
+    useEffect(() => {
+      if(isSuccess){
+        toastService.success(t('MY_PROFILE.MY_TEACHINGS.CREATED'));
+      }
+    }, [isSuccess]);
 
     const formik = useFormik({
         initialValues: initialValues,
