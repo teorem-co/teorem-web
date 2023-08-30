@@ -1,24 +1,19 @@
 import { useEffect, useState } from 'react';
 
-import IGetRecordingLinks from '../../../interfaces/IGetRecordingLinks';
 import {
-  IMeetRecording, useLazyGetLessonRecordingsQuery,
+  IMeetRecording,
 } from '../../services/hiLinkService';
 import { ClipLoader } from 'react-spinners';
 
 interface Props {
   handleClose: () => void;
-  meetingId: string;
+  activeRecording: IMeetRecording;
 }
 
 const LessonRecordingModal = (props: Props) => {
-  const {meetingId, handleClose } = props;
-  const [recordings, setRecordings] = useState<IMeetRecording[]>();
-  const [currentVideoIndex, setCurrentVideoIndex] = useState<number>(1);
-  const [videoUrl, setVideoUrl] = useState<string>();
-  const [isLoading, setIsLoading] = useState(true);
+  const {activeRecording, handleClose } = props;
+
   const [isVideoReady, setIsVideoReady] = useState(false);
-  const [getRecordingLinks] = useLazyGetLessonRecordingsQuery();
   const handleEscKey = (event: KeyboardEvent) => {
     if (event.key === 'Escape') {
       handleClose();
@@ -26,7 +21,6 @@ const LessonRecordingModal = (props: Props) => {
   };
 
   useEffect(() => {
-    fetchData();
 
     document.addEventListener('keydown', handleEscKey);
     return () => {
@@ -34,28 +28,6 @@ const LessonRecordingModal = (props: Props) => {
     };
   }, []);
 
-  async function fetchData(){
-    const toSend: IGetRecordingLinks = {
-      meetingId
-    };
-
-    try{
-      const res = await getRecordingLinks(toSend).unwrap();
-      setRecordings(res);
-      setVideoUrl(res[0].videoUrl); // TODO: this is getting url only of first recording
-      setIsLoading(false);
-    }catch (e){
-      setIsVideoReady(true); // turn of spinner if there is error
-      handleClose();
-    }
-  }
-
-  function setNewVideoUrl() {
-    if(recordings && recordings.length > 1 && currentVideoIndex < recordings.length){
-      setVideoUrl(recordings[currentVideoIndex].videoUrl);
-      setCurrentVideoIndex(currentVideoIndex + 1);
-    }
-  }
 
   return (
     <>
@@ -65,11 +37,10 @@ const LessonRecordingModal = (props: Props) => {
           <ClipLoader size={80} color='#7e6cf2'/>
         </div>
       }
-      {!isLoading ?
         <div className={`d__${isVideoReady ? 'visible' : 'hidden'}`}>
             <div className="video-modal__overlay" style={{backgroundColor: 'white'}}>
               <video
-                key={videoUrl}
+                key={activeRecording.videoUrl}
                 width='auto'
                 height='100%'
                 controls
@@ -78,11 +49,8 @@ const LessonRecordingModal = (props: Props) => {
                 onLoadedMetadata={() => {
                   setIsVideoReady(true);
                 }}
-                onEnded={() =>{
-                  setNewVideoUrl();
-                }}
               >
-                <source src={videoUrl} type="video/mp4" />
+                <source src={activeRecording.videoUrl} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
 
@@ -92,10 +60,6 @@ const LessonRecordingModal = (props: Props) => {
               </div>
           </div>
         </div>
-        :
-        <></>
-      }
-
     </>
   );
 };

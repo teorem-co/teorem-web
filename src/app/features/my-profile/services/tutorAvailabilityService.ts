@@ -59,26 +59,26 @@ export const tutorAvailabilityService = baseService.injectEndpoints({
         }),
         updateTutorAvailability: builder.mutation<
             void,
-            ITutorAvailability[]
-        >({
-            query: (body) => ({
-                url: `${URL}`,
-                method: HttpMethods.PUT,
-                body: body,
-            }),
-            invalidatesTags: ['userAvailability'],
-        }),
-        updateTutorAvailabilityAdmin: builder.mutation<
-            void,
             ITutorAvailabilityAdminToSend
         >({
             query: (body) => ({
-                url: `${URL}/tutor-availability-admin`,
+                url: `${TUTORS_URL}/${body.tutorId}/availability`,
                 method: HttpMethods.PUT,
-                body: body,
+                body: body.tutorAvailability,
             }),
             invalidatesTags: ['userAvailability'],
         }),
+        // updateTutorAvailabilityAdmin: builder.mutation<
+        //     void,
+        //     ITutorAvailabilityAdminToSend
+        // >({
+        //     query: (body) => ({
+        //         url: `${URL}/tutor-availability-admin`,
+        //         method: HttpMethods.PUT,
+        //         body: body,
+        //     }),
+        //     invalidatesTags: ['userAvailability'],
+        // }),
         createTutorAvailability: builder.mutation<
             void,
             ITutorAvailabilityToSend
@@ -96,6 +96,5 @@ export const tutorAvailabilityService = baseService.injectEndpoints({
 export const {
     useLazyGetTutorAvailabilityQuery,
     useUpdateTutorAvailabilityMutation,
-    useUpdateTutorAvailabilityAdminMutation,
     useCreateTutorAvailabilityMutation,
 } = tutorAvailabilityService;

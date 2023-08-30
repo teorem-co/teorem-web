@@ -86,6 +86,12 @@ export const userService = baseService.injectEndpoints({
                 return childOptions;
             },
         }),
+        disconnectStripe: builder.mutation<void, any>({
+          query: (tutorId) => ({
+            url: `${URL}/${tutorId}/disconnect-stripe`,
+            method: HttpMethods.PUT,
+          }),
+        }),
     }),
 });
 
@@ -99,4 +105,5 @@ export const {
     useUpdateChildMutation,
     useDeleteChildMutation,
     useCreateChildMutation,
+    useDisconnectStripeMutation
 } = userService;

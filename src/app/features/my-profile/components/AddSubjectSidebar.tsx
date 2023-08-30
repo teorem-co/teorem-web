@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 import {
   useGetLevelsQuery,
 } from '../../../../services/levelService';
+
 import {
   useCreateSubjectMutation, useGetSubjectsQuery,
 } from '../../../../services/subjectService';
@@ -40,7 +41,9 @@ const AddSubjectSidebar = (props: Props) => {
     const { data: subjectOptions, isLoading: isLoadingSubjects } = useGetSubjectsQuery();
     const { data: levelOptions, isLoading: isLoadingLevels } = useGetLevelsQuery();
 
-    const [createSubject] = useCreateSubjectMutation();
+    const [createSubject, {isSuccess}] = useCreateSubjectMutation();
+
+
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
 
     const levelDisabled = !levelOptions || isLoadingLevels;
@@ -70,28 +73,17 @@ const AddSubjectSidebar = (props: Props) => {
         });
     };
 
-
     const handleSubmit = async (values: Values) => {
-      let isError = false;
+        await createSubject({
+          subjectId: values.subject,
+          price: Number(values.price),
+          tutorId: props.tutorId || getUserId(),
+          levelId: values.level
+        });
 
-      await createSubject({
-        subjectId: values.subject,
-        price: Number(values.price),
-        tutorId: props.tutorId || getUserId(),
-        levelId: values.level
-      }).then(res =>{
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        if(res.status === 409){
-          isError = true;
-        }
-      });
-      handleGetData();
-      closeSidebar();
-      formik.resetForm();
-
-      if(!isError)
-        toastService.success(t('MY_PROFILE.MY_TEACHINGS.CREATED'));
+        handleGetData();
+        closeSidebar();
+        formik.resetForm();
 
       //handle profile progress
       if (!profileProgressState.myTeachings) {
@@ -99,6 +91,12 @@ const AddSubjectSidebar = (props: Props) => {
         dispatch(setMyProfileProgress(progressResponse));
       }
     };
+
+    useEffect(() => {
+      if(isSuccess){
+        toastService.success(t('MY_PROFILE.MY_TEACHINGS.CREATED'));
+      }
+    }, [isSuccess]);
 
     const formik = useFormik({
         initialValues: initialValues,

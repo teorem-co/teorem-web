@@ -21,6 +21,7 @@ import {
 } from '../services/tutorAvailabilityService';
 import { setMyProfileProgress } from '../slices/myProfileSlice';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { getUserId } from '../../../utils/getUserId';
 
 
 const GeneralAvailability = () => {
@@ -118,7 +119,8 @@ const GeneralAvailability = () => {
 
         if (tutorAvailability && tutorAvailability[1].length > 1) {
             //await updateTutorAvailability({ tutorAvailability: toSend });
-            await updateTutorAvailability( toSend);
+            const tutorId = getUserId();
+            await updateTutorAvailability({ tutorId: tutorId ? tutorId : '', tutorAvailability: toSend });
             const progressResponse = await getProfileProgress().unwrap();
             dispatch(setMyProfileProgress(progressResponse));
             toastService.success(t('MY_PROFILE.GENERAL_AVAILABILITY.UPDATED'));

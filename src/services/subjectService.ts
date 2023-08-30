@@ -7,20 +7,8 @@ import ISubject from '../interfaces/ISubject';
 import INotification from '../interfaces/notification/INotification';
 import ITutorItem from '../interfaces/ITutorItem';
 
-const URL_TUTOR_SUBJECTS = 'api/v1/tutors/subjects';
 const URL_TUTORS = 'api/v1/tutors';
 const URL_SUBJECTS = 'api/v1/subjects';
-
-interface IGetSubject {
-    id: string;
-    abrv: string;
-    name: string;
-    levelId: string;
-}
-interface IId {
-    levelId: string;
-    subjectId?: string;
-}
 
 interface ICreateSubject {
     id?: string;
@@ -28,11 +16,8 @@ interface ICreateSubject {
     levelId: string;
     tutorId?: string;
     price: number;
-}
+    objectId?: string;
 
-interface ITutorSubjectId {
-    tutorId: string;
-    levelId: string;
 }
 
 export interface ITutorSubjectLevelPair {
@@ -42,10 +27,11 @@ export interface ITutorSubjectLevelPair {
   levelAbrv:string;
 }
 
-export interface ITutorSubjectLevelPair2 {
+export interface ITutorSubjectLevelOption {
   subject: OptionType;
   level: OptionType;
 }
+
 
 export const subjectService = baseService.injectEndpoints({
     endpoints: (builder) => ({
@@ -57,7 +43,7 @@ export const subjectService = baseService.injectEndpoints({
           transformResponse: (response: ISubject[]) => {
             const subjectOptions: OptionType[] = response.map((level) => ({
               value: level.id,
-              label: t(`SUBJECTS.${level.abrv.replace(' ', '').replace('-', '').toLowerCase()}`),
+              label: t(`SUBJECTS.${level.abrv.replace(' ', '').replaceAll('-', '').toLowerCase()}`),
             }));
             return subjectOptions;
           },
@@ -80,22 +66,22 @@ export const subjectService = baseService.injectEndpoints({
                 };
             },
         }),
-        deleteSubject: builder.mutation<void, string>({
-            query(objectId) {
+        deleteSubject: builder.mutation<void, any>({
+            query({tutorId, objectId } ) {
                 return {
-                    url: `${URL_TUTOR_SUBJECTS}/${objectId}`,
+                    url: `${URL_TUTORS}/${tutorId}/subjects/${objectId}`,
                     method: HttpMethods.DELETE,
                 };
             },
         }),
 
-        getTutorSubjectLevelPairs: builder.query<ITutorSubjectLevelPair2[], string>({
+        getTutorSubjectLevelPairs: builder.query<ITutorSubjectLevelOption[], string>({
           query: (tutorId) => ({
             url: `${URL_TUTORS}/${tutorId}/subjects`,
             method: HttpMethods.GET,
           }),
           transformResponse: (response: ITutorSubjectLevelPair[]) => {
-            const subjectLevelPairs: ITutorSubjectLevelPair2[] = response.map((subjectLevelPair) => ({
+            const subjectLevelPairs: ITutorSubjectLevelOption[] = response.map((subjectLevelPair) => ({
               subject: {
                 value: subjectLevelPair.subjectId,
                 label: t(`SUBJECTS.${subjectLevelPair.subjectAbrv.replace(' ', '').replace('-', '').toLowerCase()}`),

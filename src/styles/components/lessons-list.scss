@@ -136,3 +136,24 @@
 .completed-booking-pointer:hover {
   transform: scale(1.2); /* Increase the size by 20% */
 }
+
+.arrow-icon {
+  transition: transform 0.3s ease-in-out;
+}
+
+.rotated {
+  transform: rotate(180deg);
+}
+
+.dropdown-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  opacity: 0;
+}
+
+.show-dropdown {
+  max-height: 200px; /* This value can be adjusted based on your content size */
+  overflow-y: auto;
+  opacity: 1;
+}
