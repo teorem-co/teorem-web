@@ -1017,7 +1017,7 @@ export const HR_HR = {
         businessstudies: 'Poslovne studije',
         classicalgreek: 'Klasični grčki jezik',
         computing: 'Računarstvo',
-        designtechnology: 'Dizajn i tehnologija',
+        designandtechnology: 'Dizajn i tehnologija',
         drama: 'Drama',
         environmentalstudies: 'Zaštita okoliša',
         french: 'Francuski jezik',

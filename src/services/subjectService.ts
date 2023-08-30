@@ -7,23 +7,8 @@ import ISubject from '../interfaces/ISubject';
 import INotification from '../interfaces/notification/INotification';
 import ITutorItem from '../interfaces/ITutorItem';
 
-const URL_TUTOR_SUBJECTS = 'api/v1/tutors/subjects';
 const URL_TUTORS = 'api/v1/tutors';
 const URL_SUBJECTS = 'api/v1/subjects';
-
-
-interface IGetSubject {
-    id: string;
-    abrv: string;
-    name: string;
-    levelId: string;
-}
-
-interface IId {
-    levelId: string;
-    subjectId?: string;
-}
-
 
 interface ICreateSubject {
     id?: string;
@@ -69,7 +54,7 @@ export const subjectService = baseService.injectEndpoints({
           transformResponse: (response: ISubject[]) => {
             const subjectOptions: OptionType[] = response.map((level) => ({
               value: level.id,
-              label: t(`SUBJECTS.${level.abrv.replace(' ', '').replace('-', '').toLowerCase()}`),
+              label: t(`SUBJECTS.${level.abrv.replace(' ', '').replaceAll('-', '').toLowerCase()}`),
             }));
             return subjectOptions;
           },
@@ -92,10 +77,10 @@ export const subjectService = baseService.injectEndpoints({
                 };
             },
         }),
-        deleteSubject: builder.mutation<void, string>({
-            query(objectId) {
+        deleteSubject: builder.mutation<void, any>({
+            query({tutorId, objectId } ) {
                 return {
-                    url: `${URL_TUTOR_SUBJECTS}/${objectId}`,
+                    url: `${URL_TUTORS}/${tutorId}/subjects/${objectId}`,
                     method: HttpMethods.DELETE,
                 };
             },
