@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { IChatConversationItem } from '../../../constants/chatConstants';
 import { IChatRoom, setActiveChatRoom } from '../slices/chatSlice';
 import ImageCircle from '../../../components/ImageCircle';
+import { getUserRoleAbbrv } from '../../../../services/tutorService';
 
 interface Props {
   data: IChatConversationItem;
@@ -15,7 +16,6 @@ interface Props {
 const ConversationAside = (props: Props) => {
   const { t } = useTranslation();
   const { imgUrl, name, lastMessage, lastMessageTime, unread, numberOfUnread } = props.data;
-
   const messageRef = useRef<HTMLDivElement>(null);
 
   const [messageDisplay, setMessageDisplay] = useState<string>('');
@@ -64,13 +64,19 @@ const ConversationAside = (props: Props) => {
     <div
       className={`chat__conversation${props.active ? ' chat__conversation__active' : ''}`}
       onClick={selectChat} style={{ position: 'relative' }}>
-      {(typeof imgUrl === 'string' && imgUrl) ? (
-        <img className='chat__conversation__avatar'
-             src={imgUrl}
-             alt='user avatar' />
+      {(imgUrl !== undefined && typeof imgUrl === 'string') ? (
+         <img className='chat__conversation__avatar image'
+              src={imgUrl}
+              alt='user avatar' />
       ) : (
-        <ImageCircle
-          initials={`${props.chat.user?.userNickname.split(' ')[0].charAt(0)}${props.chat.user?.userNickname.split(' ')[1].charAt(0)}`} />
+         <ImageCircle
+           initials={
+             getUserRoleAbbrv() === 'tutor'?
+               `${props.chat.user?.userNickname.split(' ')[0].charAt(0)}${props.chat.user?.userNickname.split(' ')[1].charAt(0)}`
+               :
+               `${props.chat.tutor?.userNickname.split(' ')[0].charAt(0)}${props.chat.tutor?.userNickname.split(' ')[1].charAt(0)}`
+           }
+         />
       )}
       {/* <div className="chat__conversation__avatar"></div> */}
       <div className='flex flex--col flex--jc--center flex--grow ml-2'>
