@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import {
   useLazyGetTutorAvailabilityQuery,
-  useUpdateTutorAvailabilityAdminMutation,
+  useUpdateTutorAvailabilityMutation,
 } from '../../my-profile/services/tutorAvailabilityService';
 import IAvailabilityIndex from '../../my-profile/interfaces/IAvailabilityIndex';
 import { t } from 'i18next';
@@ -17,7 +17,7 @@ export function EditTutorAvailability({tutorId}: any) {
 
     const [opened, setOpened] = useState(false);
     const [getTutorAvailability, { data: tutorAvailability, isUninitialized: availabilityUninitialized, isLoading: availabilityLoading }] = useLazyGetTutorAvailabilityQuery();
-    const [updateTutorAvailability] = useUpdateTutorAvailabilityAdminMutation();
+    const [updateTutorAvailability] = useUpdateTutorAvailabilityMutation();
     const [currentAvailabilities, setCurrentAvailabilities] = useState<(string | boolean)[][]>([]);
 
     const fetchData = async () => {

@@ -92,7 +92,10 @@ const EditSubjectSidebar = (props: Props) => {
     const { t } = useTranslation();
 
     const handleDeleteSubject = async (objectId: string) => {
-        await deleteSubject(objectId);
+        await deleteSubject({
+          tutorId: props.tutorId || getUserId(),
+          objectId: objectId
+        });
         handleGetData();
         closeSidebar();
         toastService.success(t('MY_PROFILE.MY_TEACHINGS.DELETED'));

@@ -20,6 +20,7 @@
         border-radius: $border-rounded;
         margin: calc(#{$unit} * 6);
         border: 1px solid $grey-ed;
+      //background-color: red;
 
         &__head {
             z-index: 7;

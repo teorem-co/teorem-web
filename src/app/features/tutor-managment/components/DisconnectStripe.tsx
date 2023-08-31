@@ -1,12 +1,11 @@
 import * as React from 'react';
-import {
-  useDisconnectStripeTutorMutation,
-} from '../../../../services/tutorService';
+
 import toastService from '../../../services/toastService';
+import { useDisconnectStripeMutation } from '../../../../services/userService';
 
 export function DisconnectStripe({ tutorId, setRefetch }: { tutorId: string; setRefetch: React.Dispatch<React.SetStateAction<number>> }) {
   const [opened, setOpened] = React.useState(false);
-  const [disconnectStripe] = useDisconnectStripeTutorMutation();
+  const [disconnectStripe] = useDisconnectStripeMutation();
   return (
     <>
       {opened && (
@@ -42,6 +41,7 @@ export function DisconnectStripe({ tutorId, setRefetch }: { tutorId: string; set
                       if (!res?.error) {
                         toastService.success('Stripe disconnected successfully');
                         setRefetch((prevState: number) => prevState + 1);
+                        setOpened(false);
                       }
                     })
                   }

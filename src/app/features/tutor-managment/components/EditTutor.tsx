@@ -16,6 +16,8 @@ import MyTextArea from '../../../components/form/MyTextArea';
 import { useEditTutorMutation } from '../../../../services/tutorService';
 import UploadFile from '../../../components/form/MyUploadField';
 import moment from 'moment/moment';
+import { RoleOptions } from '../../../../slices/roleSlice';
+import toastService from '../../../services/toastService';
 
 export function EditTutor({ tutorData, setRefetch }: any) {
   const [getCountries, { data: countries }] = useLazyGetCountriesQuery();
@@ -37,10 +39,15 @@ export function EditTutor({ tutorData, setRefetch }: any) {
       aboutLessons: tutorData.aboutLessons,
     },
     onSubmit: (values) => {
+        if (typeof values.profileImage === 'string') {
+          delete values.profileImage;
+        }
+
       editTutor({ ...values, tutorId: tutorData.User.id, dateOfBirth: moment(values.dateOfBirth).format('YYYY-MM-DD') }).then(() => {
         setOpened(false);
         setRefetch((prevState: number) => prevState + 1);
       });
+        toastService.success(t('SEARCH_TUTORS.TUTOR_PROFILE.UPDATE_ADDITIONAL_INFO_SUCCESS'));
     },
   });
   useEffect(() => {

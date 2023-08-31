@@ -257,3 +257,26 @@
         }
     }
 }
+
+/* Fixed table header */
+.tutors-table thead th {
+  position: sticky;
+  top: 0;
+  background-color: white; /* Or the color of your choice */
+  z-index: 10;
+}
+
+/* Scrollable tbody */
+.table-scrollable-tbody {
+  display: block;
+  height: 600px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Make table rows display in block */
+.tutors-table tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}

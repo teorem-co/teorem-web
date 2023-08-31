@@ -450,7 +450,8 @@ export const HR_HR = {
         LINK: 'Idi na kalendar',
         COUNT_EXTENSION: 'Lekcija',
         TOOLTIP_DOWNLOAD_INVOICE:'Preuzmi račun',
-        TOOLTIP_DOWNLOAD_LESSON: 'Pogledaj/Preuzmi video lekciju',
+        TOOLTIP_DROPDOWN_LABEL: 'Prikaži video lekcije',
+        TOOLTIP_PLAY_LESSON: 'Pokreni/preuzmi video lekciju',
         DATE_TITLE: 'Datum',
         DATE_AT_WORD: 'u'
     },
@@ -1016,7 +1017,7 @@ export const HR_HR = {
         businessstudies: 'Poslovne studije',
         classicalgreek: 'Klasični grčki jezik',
         computing: 'Računarstvo',
-        designtechnology: 'Dizajn i tehnologija',
+        designandtechnology: 'Dizajn i tehnologija',
         drama: 'Drama',
         environmentalstudies: 'Zaštita okoliša',
         french: 'Francuski jezik',
