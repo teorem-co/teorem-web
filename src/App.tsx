@@ -83,52 +83,52 @@ function App() {
         }
     }, [version, isSuccessServerVersion]);
 
-    useEffect(() => {
-
-        if (user2Data && user2Data2 && missedCallBuffer) {
-
-            let messageText = missedCallBuffer.message;
-            messageText = messageText.replace(/stringTranslate=\{(.*?)\}/g, function (match: any, token: any) {
-                return t(token);
-            });
-            messageText = messageText.replace(/userInsert=\{(.*?)\}/g, function (match: any, token: any) {
-                return missedCallBuffer.callerName;
-            });
-
-            const message = {
-                userId: user2Data.id + '',
-                tutorId: user2Data2.id + '',
-                message: {
-                    message: messageText,
-                    createdAt: missedCallBuffer.createdAt,
-                    isRead: missedCallBuffer.isRead,
-                    messageId: missedCallBuffer.id,
-                    isFile: false,
-                    messageNew: true,
-                    messageMissedCall: true,
-                },
-                senderId: missedCallBuffer.senderId,
-            };
-
-            const chatRoom: IChatRoom = {
-                user: {
-                    userId: user2Data?.id + '',
-                    userImage: 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
-                    userNickname: user2Data?.firstName + ' ' + user2Data?.lastName,
-                },
-                tutor: {
-                    userId: user2Data2?.id + '',
-                    userImage: user2Data2?.profileImage || 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
-                    userNickname: user2Data2?.firstName + ' ' + user2Data2?.lastName,
-                },
-                messages: [message],
-                unreadMessageCount: 1
-            };
-
-            dispatch(addChatRoom(chatRoom));
-        }
-
-    }, [user2Data, user2Data2, missedCallBuffer]);
+    // useEffect(() => {
+    //
+    //     if (user2Data && user2Data2 && missedCallBuffer) {
+    //
+    //         let messageText = missedCallBuffer.message;
+    //         messageText = messageText.replace(/stringTranslate=\{(.*?)\}/g, function (match: any, token: any) {
+    //             return t(token);
+    //         });
+    //         messageText = messageText.replace(/userInsert=\{(.*?)\}/g, function (match: any, token: any) {
+    //             return missedCallBuffer.callerName;
+    //         });
+    //
+    //         const message = {
+    //             userId: user2Data.id + '',
+    //             tutorId: user2Data2.id + '',
+    //             message: {
+    //                 message: messageText,
+    //                 createdAt: missedCallBuffer.createdAt,
+    //                 isRead: missedCallBuffer.isRead,
+    //                 messageId: missedCallBuffer.id,
+    //                 isFile: false,
+    //                 messageNew: true,
+    //                 messageMissedCall: true,
+    //             },
+    //             senderId: missedCallBuffer.senderId,
+    //         };
+    //
+    //         const chatRoom: IChatRoom = {
+    //             user: {
+    //                 userId: user2Data?.id + '',
+    //                 userImage: 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
+    //                 userNickname: user2Data?.firstName + ' ' + user2Data?.lastName,
+    //             },
+    //             tutor: {
+    //                 userId: user2Data2?.id + '',
+    //                 userImage: user2Data2?.profileImage || 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
+    //                 userNickname: user2Data2?.firstName + ' ' + user2Data2?.lastName,
+    //             },
+    //             messages: [message],
+    //             unreadMessageCount: 1
+    //         };
+    //
+    //         dispatch(addChatRoom(chatRoom));
+    //     }
+    //
+    // }, [user2Data, user2Data2, missedCallBuffer]);
 
     useEffect(() => {
 
@@ -140,8 +140,9 @@ function App() {
 
 
     useEffect(() => {
-
         if (user2Data1 && user2Data3 && sendMessageObject) {
+            if (sendMessageObject.userId!= user2Data1.id)
+              return;
 
             let messageText = sendMessageObject.message;
             messageText = messageText.replace(/stringTranslate=\{(.*?)\}/g, function (match: any, token: any) {
@@ -181,11 +182,11 @@ function App() {
                 messages: [message],
                 unreadMessageCount: 1
             };
+            console.log("calling dispatch addcr", );
             dispatch(addChatRoom(chatRoom));
             //dispatch(addMessage(message));
         }
-    },
-        [user2Data1, user2Data3, sendMessageObject]);
+    }, [user2Data1, user2Data3, sendMessageObject]);
 
     useEffect(() => {
 
@@ -194,6 +195,18 @@ function App() {
             getUserById3(sendMessageObject.tutorId);
         }
     }, [sendMessageObject, sendMessageObjectSet]);
+
+  useEffect(() => {
+    console.log("send message object changed");
+  }, [sendMessageObject]);
+
+  useEffect(() => {
+    console.log("user2Data1 changed: ", user2Data1);
+  }, [user2Data1]);
+
+  useEffect(() => {
+    console.log("user2Data3 changed: ", user2Data3);
+  }, [user2Data3]);
 
     useEffect(() => {
 

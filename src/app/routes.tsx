@@ -597,7 +597,7 @@ export function RenderMenuLinks() {
           setDoAnimation(true);
         }
 
-        if(chat.newMessages > 0 && doAnimation && oldNumOfNewMessages != chat.newMessages){
+        if(chat.newMessages > 0 && doAnimation ){
           setShowBadge(true);
 
           setTimeout(() => {
