@@ -367,26 +367,24 @@ form.chat-file-send-form{
 }
 
 .chat-circle-message-count-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: #7e6cf2;
+  position: relative;
+  margin-top: 1.5em;
+  width: 24px;
+  height: 24px;
 }
 
 .chat-circle-message-count-circle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 30px;
-  height: 30px;
+  background-color: #7e6cf2;
   border-radius: 50%;
-  background-color: #ffffff;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .chat-circle-message-count-number {
-  font-size: 16px;
-  color: #7e6cf2;
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
 }

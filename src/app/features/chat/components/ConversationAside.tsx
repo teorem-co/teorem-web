@@ -63,7 +63,8 @@ const ConversationAside = (props: Props) => {
   return (
     <div
       className={`chat__conversation${props.active ? ' chat__conversation__active' : ''}`}
-      onClick={selectChat} style={{ position: 'relative' }}>
+      onClick={selectChat}
+      style={{ position: 'relative'}}>
       {(imgUrl !== undefined && typeof imgUrl === 'string') ? (
          <img className='chat__conversation__avatar image'
               src={imgUrl}
@@ -88,23 +89,10 @@ const ConversationAside = (props: Props) => {
         <div
           className='type--sm type--color--secondary mt-3'>{lastMessageTime}</div>
         <div>
-          {unread &&
-            <div className='chat__conversation__dot mt-3'>
-            </div>
-          }
-
-          { numberOfUnread !== 0 &&
+          { numberOfUnread !== 0 && numberOfUnread &&
             <div className="chat-circle-message-count-container">
               <div className="chat-circle-message-count-circle">
-                <span className="chat-circle-message-count-number">{numberOfUnread}</span>
-              </div>
-            </div>
-          }
-
-          { numberOfUnread === 0 &&
-            <div className="chat-circle-message-count-container">
-              <div className="chat-circle-message-count-circle">
-                <span className="chat-circle-message-count-number">NULA</span>
+                <span className="chat-circle-message-count-number">{numberOfUnread < 10 ? numberOfUnread : '10+'}</span>
               </div>
             </div>
           }
