@@ -152,15 +152,15 @@ export const bookingService = baseService.injectEndpoints({
         }),
         acceptBooking: builder.mutation<void, string>({
             query: (bookingId) => ({
-                url: `${URL}/accept/${bookingId}`,
+              url: `${URL}/${bookingId}/accept`,
                 method: HttpMethods.PUT,
             }),
             invalidatesTags: ['bookings'],
         }),
         deleteBooking: builder.mutation<void, string>({
             query: (bookingId) => ({
-                url: `${URL}/${bookingId}`,
-                method: HttpMethods.DELETE,
+              url: `${URL}/${bookingId}/cancel`,
+              method: HttpMethods.PUT,
             }),
             invalidatesTags: ['bookings', 'tutorBookings', 'upcomingLessons', 'lessonCount'],
         }),
