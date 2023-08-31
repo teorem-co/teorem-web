@@ -658,10 +658,11 @@ const SingleConversation = (props: Props) => {
                                             }`}
                                     >
                                         {img && (
+                                          //TODO: ovdje
                                             props.data && (
-                                                message.senderId == props.data.tutor?.userId ? (
-
-                                                    <img
+                                                message.senderId == props.data.tutor?.userId  &&
+                                                  props.data.tutor?.userImage !== undefined ? (
+                                                  <img
                                                         className="chat__conversation__avatar chat__conversation__avatar--small"
                                                         src={`${props.data.tutor?.userImage}&v=${cacheBuster}`}
                                                         alt={'profile avatar'}
@@ -770,8 +771,8 @@ const SingleConversation = (props: Props) => {
                                     className={`chat__message chat__message--other${img ? ' chat__message__margin-top' : ''}${img ? '' : ' chat__message__margin-left'
                                         }`}
                                 >
-                                    {img && props.data && message.senderId == props.data.tutor?.userId && (
-                                              (props.data.tutor?.userImage !== undefined ?
+                                    {img && props.data && (
+                                              (message.senderId == props.data.tutor?.userId && props.data.tutor?.userImage !== undefined ?
                                                   <img
                                                   className="chat__conversation__avatar chat__conversation__avatar--small"
                                                   src={`${props.data.tutor?.userImage}&v=${cacheBuster}`}
@@ -779,11 +780,19 @@ const SingleConversation = (props: Props) => {
                                                   />
                                               :
                                                  <div>
-                                                   <ImageCircle
-                                                     className="image-40"
-                                                     fontSize={20}
-                                                     initials={`${props.data.tutor?.userNickname.split(" ")[0].charAt(0)}${props.data.tutor?.userNickname.split(" ")[1].charAt(0)}`}
-                                                   />
+                                                   {message.senderId == props.data.tutor?.userId ?
+                                                     <ImageCircle
+                                                       className="image-40"
+                                                       fontSize={20}
+                                                       initials={`${props.data.tutor?.userNickname.split(" ")[0].charAt(0)}${props.data.tutor?.userNickname.split(" ")[1].charAt(0)}`}
+                                                     />
+                                                   :
+                                                     <ImageCircle
+                                                       className="image-40"
+                                                       fontSize={20}
+                                                       initials={`${props.data.user?.userNickname.split(" ")[0].charAt(0)}${props.data.user?.userNickname.split(" ")[1].charAt(0)}`}
+                                                     />
+                                                   }
                                                  </div>
                                               )
                                             )
