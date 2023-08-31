@@ -293,6 +293,14 @@ const chatSlice = createSlice({
       if (action.payload) {
 
         for (let i = 0; i < state.chatRooms.length; i++) {
+
+          if (state.chatRooms[i].tutor?.userId == action.payload?.tutorId && state.chatRooms[i].user?.userId == action.payload?.userId) {
+            console.log("UNUTAR IFA");
+            if(!action.payload?.message.isRead){
+              state.chatRooms[i].unreadMessageCount +=1;
+            }
+          }
+
           for (let j = 0; j < state.chatRooms[i].messages.length; j++) {
 
             if (!action.payload.message.messageMissedCall && !action.payload.message.messageNew && state.chatRooms[i].messages[j].message.messageId == action.payload.message.messageId) {
@@ -306,6 +314,10 @@ const chatSlice = createSlice({
 
             if (state.chatRooms[i].tutor?.userId == state.activeChatRoom?.tutor?.userId && state.chatRooms[i].user?.userId == state.activeChatRoom?.user?.userId) {
               state.activeChatRoom?.messages.push(action.payload);
+
+
+
+
 
               if ((action.payload.message.messageMissedCall && !action.payload.message.messageNew) && state.activeChatRoom) {
                 state.activeChatRoom.unreadMessageCount += 1;

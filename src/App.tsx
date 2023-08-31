@@ -10,7 +10,7 @@ import {
 } from './app/features/chat/services/chatService';
 import {
   addChatRoom,
-  addChatRooms,
+  addChatRooms, addMessage,
   IChatRoom,
   IReadMessagePair,
   setBuffer,
@@ -182,9 +182,17 @@ function App() {
                 messages: [message],
                 unreadMessageCount: 1
             };
+
+            let exists = false;
+          for (let i = 0; i < chat.chatRooms.length; i++) {
+            if (chat.chatRooms[i].tutor?.userId == sendMessageObject.tutorId && chat.chatRooms[i].user?.userId == sendMessageObject.userId)
+              exists = true;
+          }
+
             console.log("calling dispatch addcr", );
-            dispatch(addChatRoom(chatRoom));
-            //dispatch(addMessage(message));
+            exists ?
+            dispatch(addMessage(message)):
+              dispatch(addChatRoom(chatRoom));
         }
     }, [user2Data1, user2Data3, sendMessageObject]);
 
