@@ -204,6 +204,7 @@ const SingleConversation = (props: Props) => {
     }
   }, [props.data]);
 
+
   useEffect(() => {
     if (userActive && props.data && page > 0) {
       const getMessagesObject: IChatMessagesQuery = {
