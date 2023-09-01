@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { SignalData } from 'simple-peer';
 import { io, Socket } from 'socket.io-client';
+import { stat } from 'fs';
 
 const serverUrl = `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_CHAT_HOST}`;
 const token = 'token'; // TODO: set token (jwt?)
@@ -295,7 +296,6 @@ const chatSlice = createSlice({
         for (let i = 0; i < state.chatRooms.length; i++) {
 
           if (state.chatRooms[i].tutor?.userId == action.payload?.tutorId && state.chatRooms[i].user?.userId == action.payload?.userId) {
-            console.log("UNUTAR IFA");
             if(!action.payload?.message.isRead){
               state.chatRooms[i].unreadMessageCount +=1;
             }
@@ -315,22 +315,16 @@ const chatSlice = createSlice({
             if (state.chatRooms[i].tutor?.userId == state.activeChatRoom?.tutor?.userId && state.chatRooms[i].user?.userId == state.activeChatRoom?.user?.userId) {
               state.activeChatRoom?.messages.push(action.payload);
 
-
-
-
-
-              if ((action.payload.message.messageMissedCall && !action.payload.message.messageNew) && state.activeChatRoom) {
-                state.activeChatRoom.unreadMessageCount += 1;
-              }
+              // if ((action.payload.message.messageMissedCall && !action.payload.message.messageNew) && state.activeChatRoom) {
+              //   state.activeChatRoom.unreadMessageCount += 1;
+              // }
 
               if (action.payload.message.messageMissedCall && state.activeChatRoom) {
                 state.activeChatRoom.unreadMessageCount += 1;
               }
             }
 
-            if (!action.payload.message.messageNew) {
-              state.chatRooms[i].unreadMessageCount += 1;
-
+            if (action.payload.message.messageNew) {
               if (state.newMessages != null)
                 state.newMessages += 1;
               else
@@ -535,5 +529,6 @@ export const {
   readMessages,
   addChatRoom,
   setMessagesAsRead,
+  //reconnectSocket
 } = chatSlice.actions;
 export default chatSlice.reducer;

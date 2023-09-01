@@ -189,7 +189,6 @@ function App() {
               exists = true;
           }
 
-            console.log("calling dispatch addcr", );
             exists ?
             dispatch(addMessage(message)):
               dispatch(addChatRoom(chatRoom));
@@ -203,18 +202,6 @@ function App() {
             getUserById3(sendMessageObject.tutorId);
         }
     }, [sendMessageObject, sendMessageObjectSet]);
-
-  useEffect(() => {
-    console.log("send message object changed");
-  }, [sendMessageObject]);
-
-  useEffect(() => {
-    console.log("user2Data1 changed: ", user2Data1);
-  }, [user2Data1]);
-
-  useEffect(() => {
-    console.log("user2Data3 changed: ", user2Data3);
-  }, [user2Data3]);
 
     useEffect(() => {
 
@@ -281,6 +268,9 @@ function App() {
 
             dispatch(addChatRooms(chatRooms || null));
 
+            chat.socket.disconnect();
+            chat.socket.connect();
+            console.log("sending emit to chatEntered");
             chat.socket.emit('chatEntered', {
                 userId: userId
             });
