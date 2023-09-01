@@ -158,16 +158,18 @@ const TutorProfile = () => {
         const toSend: IChatRoom = {
             user: {
                 userId: user?.id + '',
-                userImage: 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg',
+                userImage: user?.profileImage,
                 userNickname: user?.firstName + ' ' + user?.lastName,
             },
             tutor: {
                 userId: tutorData?.userId + '',
-                userImage: tutorData?.User.profileImage || 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg',
+                userImage: tutorData?.User.profileImage,
                 userNickname: tutorData?.User.firstName + ' ' + tutorData?.User.lastName,
             },
             unreadMessageCount: 0,
-            messages: []
+            messages: [],
+            addToList: true,
+            setActive: true
         };
 
         dispatch(addChatRoom(toSend));

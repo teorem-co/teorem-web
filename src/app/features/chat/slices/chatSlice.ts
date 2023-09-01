@@ -17,7 +17,7 @@ export interface IVideoChatBuffer {
 export interface IChatProfile {
   userId: string;
   userNickname: string;
-  userImage: string;
+  userImage: string | undefined;
 }
 
 export interface IChatMessage {
@@ -44,6 +44,8 @@ export interface IChatRoom {
   user?: IChatProfile;
   messages: Array<ISendChatMessage>;
   unreadMessageCount: number;
+  setActive?: boolean;
+  addToList?:boolean;
 }
 
 export interface IState {
@@ -433,8 +435,9 @@ const chatSlice = createSlice({
         for (let i = 0; i < state.chatRooms.length; i++) {
 
           if (state.chatRooms[i].tutor?.userId == action.payload.tutor?.userId && state.chatRooms[i].user?.userId == action.payload.user?.userId) {
-
-            state.chatRooms[i].unreadMessageCount +=1;
+            if(!action.payload.addToList){
+              state.chatRooms[i].unreadMessageCount +=1;
+            }
             inside = true;
 
             for (let j = 0; j < action.payload.messages.length; j++) {
@@ -464,15 +467,18 @@ const chatSlice = createSlice({
             );
 
             //state.activeChatRoom = state.chatRooms[i];
+
             break;
           }
         }
 
         if (!missedCall) {
 
-          if (!inside) {
+          if (!inside && action.payload?.addToList ) {
             state.chatRooms.push(action.payload);
-            //state.activeChatRoom = state.chatRooms[state.chatRooms.length - 1];
+            if(action.payload?.setActive){
+              state.activeChatRoom = state.chatRooms[state.chatRooms.length - 1];
+            }
           }
         }
 

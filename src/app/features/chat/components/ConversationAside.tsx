@@ -92,7 +92,7 @@ const ConversationAside = (props: Props) => {
           { numberOfUnread !== 0 && numberOfUnread &&
             <div className="chat-circle-message-count-container">
               <div className="chat-circle-message-count-circle">
-                <span className="chat-circle-message-count-number">{numberOfUnread < 10 ? numberOfUnread : '10+'}</span>
+                <span className="chat-circle-message-count-number">{numberOfUnread <= 10 ? numberOfUnread : '10+'}</span>
               </div>
             </div>
           }

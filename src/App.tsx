@@ -66,7 +66,6 @@ function App() {
         if (isSuccessServerVersion) {
             if (version != serverVersion) {
 
-
                 if (userId) {
                     persistor.purge();
                     dispatch(logout());
@@ -83,52 +82,6 @@ function App() {
         }
     }, [version, isSuccessServerVersion]);
 
-    // useEffect(() => {
-    //
-    //     if (user2Data && user2Data2 && missedCallBuffer) {
-    //
-    //         let messageText = missedCallBuffer.message;
-    //         messageText = messageText.replace(/stringTranslate=\{(.*?)\}/g, function (match: any, token: any) {
-    //             return t(token);
-    //         });
-    //         messageText = messageText.replace(/userInsert=\{(.*?)\}/g, function (match: any, token: any) {
-    //             return missedCallBuffer.callerName;
-    //         });
-    //
-    //         const message = {
-    //             userId: user2Data.id + '',
-    //             tutorId: user2Data2.id + '',
-    //             message: {
-    //                 message: messageText,
-    //                 createdAt: missedCallBuffer.createdAt,
-    //                 isRead: missedCallBuffer.isRead,
-    //                 messageId: missedCallBuffer.id,
-    //                 isFile: false,
-    //                 messageNew: true,
-    //                 messageMissedCall: true,
-    //             },
-    //             senderId: missedCallBuffer.senderId,
-    //         };
-    //
-    //         const chatRoom: IChatRoom = {
-    //             user: {
-    //                 userId: user2Data?.id + '',
-    //                 userImage: 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
-    //                 userNickname: user2Data?.firstName + ' ' + user2Data?.lastName,
-    //             },
-    //             tutor: {
-    //                 userId: user2Data2?.id + '',
-    //                 userImage: user2Data2?.profileImage || 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
-    //                 userNickname: user2Data2?.firstName + ' ' + user2Data2?.lastName,
-    //             },
-    //             messages: [message],
-    //             unreadMessageCount: 1
-    //         };
-    //
-    //         dispatch(addChatRoom(chatRoom));
-    //     }
-    //
-    // }, [user2Data, user2Data2, missedCallBuffer]);
 
     useEffect(() => {
 
@@ -171,16 +124,18 @@ function App() {
             const chatRoom: IChatRoom = {
                 user: {
                     userId: user2Data1.id + '',
-                    userImage: 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
+                    userImage: user2Data1.profileImage,
                     userNickname: user2Data1?.firstName + ' ' + user2Data1?.lastName,
                 },
                 tutor: {
                     userId: user2Data3.id + '',
-                    userImage: user2Data3.profileImage || 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
+                    userImage: user2Data3.profileImage,
                     userNickname: user2Data3.firstName + ' ' + user2Data3.lastName,
                 },
                 messages: [message],
-                unreadMessageCount: 1
+                unreadMessageCount: 1,
+                addToList: true,
+                setActive: false
             };
 
             let exists = false;
@@ -190,7 +145,8 @@ function App() {
           }
 
             exists ?
-            dispatch(addMessage(message)):
+              dispatch(addMessage(message))
+              :
               dispatch(addChatRoom(chatRoom));
         }
     }, [user2Data1, user2Data3, sendMessageObject]);
