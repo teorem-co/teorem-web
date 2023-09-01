@@ -204,9 +204,6 @@ const SingleConversation = (props: Props) => {
     }
   }, [props.data]);
 
-  useEffect(() => {
-    console.log("PROPS_DATA SE PROMIJENIIO");
-  }, [props.data]);
 
   useEffect(() => {
     if (userActive && props.data && page > 0) {

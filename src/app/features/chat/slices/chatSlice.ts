@@ -386,13 +386,11 @@ const chatSlice = createSlice({
     },
 
     readMessages(state, action: PayloadAction<IChatRoomIdSet | null>) {
-      console.log("USAO SAM U READ MESSAGES");
       if (action.payload) {
         let counter = 0;
 
         for (let i = 0; i < state.chatRooms.length; i++) {
           if (state.chatRooms[i].user?.userId == action.payload.userId && state.chatRooms[i].tutor?.userId == action.payload.tutorId) {
-            console.log("============================");
             state.socket.emit('readMessages', {
               ...action.payload,
               readerId: state.user?.userId,
@@ -409,7 +407,6 @@ const chatSlice = createSlice({
 
               if (state.newMessages != null && state.newMessages != 0) {
                 if(!state.chatRooms[i].messages[j].message.isRead) {
-                  console.log("SMANJIO SAM UKUPNE NEPROCITANE");
                   state.newMessages -= 1;
                 }
               } else{
@@ -419,7 +416,6 @@ const chatSlice = createSlice({
               state.chatRooms[i].messages[j].message.isRead = true;   //TODO: check this because it sets that messages are read,
 
             }
-            console.log("COUNTER JE: ", counter);
           }
         }
         return state;

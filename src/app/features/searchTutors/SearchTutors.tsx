@@ -325,7 +325,6 @@ const SearchTutors = () => {
 
     useEffect(() => {
         setScrollTopOffset(null);
-        console.log("Fetching filtered data because params changed");
         if (!initialLoad) {
             fetchFilteredData();
         }

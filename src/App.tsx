@@ -226,7 +226,6 @@ function App() {
 
             chat.socket.disconnect();
             chat.socket.connect();
-            console.log("sending emit to chatEntered");
             chat.socket.emit('chatEntered', {
                 userId: userId
             });
