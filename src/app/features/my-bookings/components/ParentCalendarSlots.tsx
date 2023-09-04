@@ -237,8 +237,8 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
   }, [formik.values.level]);
 
   useEffect(() => {
-    if (userRole === RoleOptions.Parent) {
-      getChildOptions();
+    if (userRole === RoleOptions.Parent && userId) {
+      getChildOptions(userId);
     }
   }, []);
 

@@ -11,6 +11,8 @@ import {
   useGenerateChildUsernameMutation,
 } from '../../../../services/authService';
 import {
+  ICreateChildRequest,
+  IDeleteChildRequest,
   useCreateChildMutation,
   useDeleteChildMutation,
   useUpdateChildMutation,
@@ -35,6 +37,7 @@ const AddChildSidebar = (props: Props) => {
   const [deleteChild] = useDeleteChildMutation();
   const [checkUsername] = useCheckUsernameMutation();
   const [generateChildUsernamePost] = useGenerateChildUsernameMutation();
+  const userId = useAppSelector((state) => state.auth.user?.id);
 
   const [passTooltip, setPassTooltip] = useState<boolean>(false);
 
@@ -66,37 +69,55 @@ const AddChildSidebar = (props: Props) => {
   };
 
   const handleDelete = async () => {
-    await deleteChild(childData!.id!).unwrap();
+    if(!userId) return;
+
+    const toSend:IDeleteChildRequest = {
+      parentId: userId,
+      childId: childData!.id!
+    };
+
+    await deleteChild(toSend).unwrap();
     handleClose();
     toastService.success(t('FORM_VALIDATION.TOAST.DELETE'));
   };
 
   const handleSubmit = async (values: IChild) => {
-    if (childData) {
-      //edit
-      const toSend: IChildUpdate = {
-        childId: childData.id!,
-        dateOfBirth: moment(values.dateOfBirth).set('hours', 12).toISOString(),
-        firstName: values.firstName,
-        lastName: values.lastName!,
-        username: values.username,
-      };
-      if (values.password) {
-        toSend['password'] = values.password;
-      }
+    if(userId){
+      if (childData) {
+        //edit
+        const toSend: ICreateChildRequest = {
+          parentId: userId,
+          body: {
+            id: childData.id!,
+            dateOfBirth: moment(values.dateOfBirth).set('hours', 12).toISOString(),
+            firstName: values.firstName,
+            lastName: values.lastName!,
+            username: values.username,
+          }
+        };
 
-      await updateChild(toSend).unwrap();
-      toastService.success(t('FORM_VALIDATION.TOAST.UPDATE'));
-    } else {
-      //add
-      const toSend: IChild = {
-        dateOfBirth: moment(values.dateOfBirth).set('hours', 12).toISOString(),
-        firstName: values.firstName,
-        password: values.password,
-        username: values.username,
-      };
-      await createChild(toSend).unwrap();
-      toastService.success(t('FORM_VALIDATION.TOAST.CREATE'));
+        if (values.password) {
+          toSend.body['password'] = values.password;
+        }
+
+        await updateChild(toSend).unwrap();
+        toastService.success(t('FORM_VALIDATION.TOAST.UPDATE'));
+      } else {
+        //add
+
+        const toSend: ICreateChildRequest = {
+          parentId: userId,
+          body: {
+            dateOfBirth: moment(values.dateOfBirth).set('hours', 12).toISOString(),
+            firstName: values.firstName,
+            password: values.password,
+            username: values.username,
+          }
+        };
+
+        await createChild(toSend).unwrap();
+        toastService.success(t('FORM_VALIDATION.TOAST.CREATE'));
+      }
     }
     handleClose();
   };

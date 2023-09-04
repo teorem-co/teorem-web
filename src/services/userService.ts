@@ -20,6 +20,17 @@ export interface IUpdateUserInformation {
     iban: string;
 }
 
+export interface ICreateChildRequest{
+  parentId: string,
+  body: IChild
+}
+
+export interface IDeleteChildRequest{
+  parentId: string,
+  childId: string
+}
+
+
 export const userService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         updateUserInformation: builder.mutation<IUser, IUpdateUserInformation>({
@@ -42,39 +53,39 @@ export const userService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
-        getChildren: builder.query<IChild[], void>({
-            query: () => ({
-                url: `${URL}/children`,
+        getChildren: builder.query<IChild[], string>({
+            query: (userId) => ({
+                url: `${URL}/${userId}/children`,
                 method: HttpMethods.GET,
             }),
             providesTags: ['child'],
         }),
-        createChild: builder.mutation<void, IChild>({
-            query: (body) => ({
-                url: `${URL}/children`,
+        createChild: builder.mutation<void, ICreateChildRequest>({
+            query: (request) => ({
+                url: `${URL}/${request.parentId}/children`,
                 method: HttpMethods.POST,
-                body: body,
+                body: request.body,
             }),
             invalidatesTags: ['child'],
         }),
-        updateChild: builder.mutation<void, IChildUpdate>({
-            query: (body) => ({
-                url: `${URL}/children/${body.childId}`,
+        updateChild: builder.mutation<void, ICreateChildRequest>({
+            query: (request) => ({
+                url: `${URL}/${request.parentId}/children/${request.body.id}`,
                 method: HttpMethods.PUT,
-                body: body,
+                body: request.body,
             }),
             invalidatesTags: ['child'],
         }),
-        deleteChild: builder.mutation<void, string>({
-            query: (childId) => ({
-                url: `${URL}/children/${childId}`,
+        deleteChild: builder.mutation<void, IDeleteChildRequest>({
+            query: (request) => ({
+                url: `${URL}/${request.parentId}/children/${request.childId}`,
                 method: HttpMethods.DELETE,
             }),
             invalidatesTags: ['child'],
         }),
-        getChild: builder.query<OptionType[], void>({
-            query: () => ({
-                url: `${URL}/children`,
+        getChild: builder.query<OptionType[], string>({
+            query: (parentId) => ({
+                url: `${URL}/${parentId}/children`,
                 method: HttpMethods.GET,
             }),
             transformResponse: (response: IUser[]) => {
