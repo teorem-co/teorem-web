@@ -36,6 +36,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
 
   const { start, end, handleClose, positionClass, setSidebarOpen, clearEmptyBookings, booking } = props;
   const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
+  const userId = useAppSelector((state) => state.auth.user?.id);
 
   const [tutorLevelOptions, setTutorLevelOptions] = useState<OptionType[]>();
   const [tutorSubjectOptions, setTutorSubjectOptions] = useState<OptionType[]>();
@@ -79,8 +80,8 @@ const UpdateBooking: React.FC<IProps> = (props) => {
 
   useEffect(() => {
 
-    if (userRole === RoleOptions.Parent) {
-      getChildOptions();
+    if (userRole === RoleOptions.Parent && userId) {
+      getChildOptions(userId);
     }
 
     // set options for level and subject

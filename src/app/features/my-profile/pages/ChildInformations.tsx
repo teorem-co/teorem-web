@@ -15,11 +15,12 @@ import AddChildSidebar from '../components/AddChildSidebar';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
 import { setMyProfileProgress } from '../slices/myProfileSlice';
+import { userInfo } from 'os';
 
 const ChildInformations = () => {
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
     const [getChildren, { data: childrenData, isLoading: childrenLoading, isUninitialized: childrenUninitialized }] = useLazyGetChildrenQuery();
-
+    const userId = useAppSelector((state) => state.auth.user?.id);
     const [addSidebarOpen, setAddSidebarOpen] = useState(false);
     const [childForEdit, setChildForEdit] = useState<IChild | null>(null);
 
@@ -41,7 +42,9 @@ const ChildInformations = () => {
     };
 
     const fetchData = async () => {
-        await getChildren().unwrap();
+      if(userId){
+        await getChildren(userId).unwrap();
+      }
     };
 
     const handleAddNewchild = () => {

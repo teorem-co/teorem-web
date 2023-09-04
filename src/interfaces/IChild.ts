@@ -4,5 +4,5 @@ export interface IChild {
     id?: string;
     dateOfBirth: string;
     username: string;
-    password: string;
+    password?: string;
 }
