@@ -1101,7 +1101,7 @@ export const HR_HR = {
         ROLE_SELECTION: '/hr/odabir-uloge',
         REGISTER: '/hr/registracija',
         FORGOT_PASSWORD: '/hr/zaboravljena-lozinka',
-        RESET_PASSWORD: '/hr/resetiraj-lozinku',
+        RESET_PASSWORD: '/hr/reset-password',
         LOGIN: '/hr/login',
         MY_BOOKINGS: '/hr/kalendar',
         SEARCH_TUTORS: '/hr/pretraga-instruktora',
