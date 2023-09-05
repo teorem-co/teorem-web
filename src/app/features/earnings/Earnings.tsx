@@ -98,7 +98,7 @@ const Earnings = () => {
             </div>
             <div className="col col-12 col-md-6 col-xl-3">
               <div className="card--earnings">
-                <div className="card--earnings__title">{earningsData?.totalEarnings}.00</div>
+                <div className="card--earnings__title">{earningsData?.totalEarnings}.00 €</div>
                 <div>{t('EARNINGS.GENERAL.REVENUE')}</div>
                 <i className="icon icon--level cur--default"></i>
               </div>

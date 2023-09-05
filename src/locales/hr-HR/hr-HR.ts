@@ -702,7 +702,7 @@ export const HR_HR = {
             STUDENTS: 'Ukupno učenika',
             REVIEWS: 'Ukupno recenzija',
             REVENUE: 'Ukupan prihod',
-            CURRENCY: ' HRK',
+            CURRENCY: '€',
         },
         REVENUE: {
             TITLE: 'PRIHOD',
@@ -851,7 +851,7 @@ export const HR_HR = {
         FAQ: {
             QUESTION_1: 'Koja je cijena instruktora?',
             ANSWER_1:
-                'Teoremovi instruktori sami određuju svoje cijene, ovisno o njihovom iskustvu i dostupnosti. Cijene instrukcija kreću se od HRK 60. Možete vidjeti sve instruktore koji odgovaraju Vašem budžetu koristeći filtriranje prema cijeni u sekciji “Pretraga instruktora”.',
+                'Teoremovi instruktori sami određuju svoje cijene, ovisno o njihovom iskustvu i dostupnosti. Cijene instrukcija kreću se od 10€. Možete vidjeti sve instruktore koji odgovaraju Vašem budžetu koristeći filtriranje prema cijeni u sekciji “Pretraga instruktora”.',
             QUESTION_2: 'Kako pronaći instruktora?',
             ANSWER_2:
                 'Pronaći instruktora je jednostavno. Nakon što otvorite korisnički račun na Teoremu, možete tražiti instruktore i filtrirati rezultate pretraživanja prema predmetu, razini, cijeni i dostupnosti.',
@@ -1152,7 +1152,7 @@ export const HR_HR = {
         },
         PRICING: {
             TITLE: 'Cijene visokokvalitetnih online instrukcija | Teorem',
-            META: 'Cijene za 1-na-1 50-minutne instrukcije počinju od HRK 60, s prosječnom cijenom od HRK 80, ovisno o instruktoru i planu učenja. Saznajte više o cijenama tako da kontaktirate naše instruktore. ',
+            META: 'Cijene za 1-na-1 50-minutne instrukcije počinju od 10€, s prosječnom cijenom od 12€, ovisno o instruktoru i planu učenja. Saznajte više o cijenama tako da kontaktirate naše instruktore. ',
         },
         BECOME_TUTOR: {
             TITLE: 'Postani online instruktor | Teorem',
