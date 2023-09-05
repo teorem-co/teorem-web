@@ -4,6 +4,8 @@ import moment from 'moment';
 import { RoleOptions } from '../../../../slices/roleSlice';
 import { useAppSelector } from '../../../hooks';
 import IBooking from '../interfaces/IBooking';
+import React, { useState } from 'react';
+import { Tooltip } from 'react-tooltip';
 
 interface IEvent {
     id?: string;
@@ -25,8 +27,13 @@ const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
     const { handleClose, positionClass, event, goToTutorCalendar, openLearnCube } = props;
 
     const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
+    const [showInfo, setShowInfo] = useState(false);
 
-    return (
+    function handleShowInfo() {
+      setShowInfo(!showInfo);
+    }
+
+  return (
         <>
             {event ? (
                 <div className={`modal--parent modal--parent--${positionClass}`}>
@@ -41,6 +48,28 @@ const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
                                 </div>
                             </div>
                             <div className="mb-6">
+                               <i className="icon icon--base icon--grey icon--info"
+                                  // onClick={handleShowInfo}
+                                  data-tooltip-id='booking-info'
+                                  data-tooltip-html={"" +
+                                    "<div>Rescheduling info</div> " +
+                                    "<div>info 1</div>" +
+                                    "<div>info 2</div>" +
+                                    "<div>info 3</div>" +
+                                    "<div>info 4</div>" +
+                                    "<div>info 5</div>" +
+                                    ""}
+                               ></i>
+
+                                <Tooltip
+                                  clickable={true}
+                                  openOnClick={true}
+                                  id="booking-info"
+                                  place={'left-start'}
+                                  positionStrategy={'absolute'}
+                                  closeOnEsc={true}
+                                  style={{ zIndex: 9, fontSize:'14px'}}
+                                />
                                 <i
                                     className="icon icon--base icon--grey icon--close"
                                     onClick={() => {
@@ -91,6 +120,7 @@ const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
                         )}
                     </div>
                 </div>
+
             ) : (
                 <></>
             )}

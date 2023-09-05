@@ -408,7 +408,7 @@ export const HR_HR = {
             CHILD_PLACEHOLDER: 'Odabir djeteta',
             TIME: 'Vrijeme* (Lekcije traju 50min)',
             TIME_PLACEHOLDER: 'Vrijeme',
-            SUBMIT: 'Rezerviraj',
+            SUBMIT: 'Rezerviraj i plati',
             UPDATE: 'Ažuriraj rezervaciju',
             CANCEL: 'Otkaži',
         },

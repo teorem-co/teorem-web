@@ -409,7 +409,7 @@ export const EN_US = {
             CHILD_PLACEHOLDER: 'Select a child',
             TIME: 'Time* (Session length is 50min)',
             TIME_PLACEHOLDER: 'Time',
-            SUBMIT: 'Book',
+            SUBMIT: 'Book and pay',
             UPDATE: 'Update booking',
             CANCEL: 'Cancel',
         },
