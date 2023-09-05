@@ -8,9 +8,8 @@ import heroImg from '../../../assets/images/hero-img.png';
 import { useResetPasswordMutation } from '../../../services/authService';
 import TextField from '../../components/form/TextField';
 import { PATHS } from '../../routes';
-import logo from './../../../assets/images/logo.svg';
-import { toast } from 'react-toastify';
 import toastService from '../../services/toastService';
+import logo from './../../../assets/images/logo.svg';
 
 interface Values {
     email: string;

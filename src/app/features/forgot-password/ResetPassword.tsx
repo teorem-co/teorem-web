@@ -8,10 +8,10 @@ import heroImg from '../../../assets/images/hero-img.png';
 import { useChangePasswordMutation } from '../../../services/authService';
 import TextField from '../../components/form/TextField';
 import { PATHS } from '../../routes';
+import toastService from '../../services/toastService';
 import getUrlParams from '../../utils/getUrlParams';
 import TooltipPassword from '../register/TooltipPassword';
 import logo from './../../../assets/images/logo.svg';
-import toastService from '../../services/toastService';
 
 interface Values {
     password: string;
