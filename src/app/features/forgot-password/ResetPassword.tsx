@@ -120,7 +120,7 @@ const ResetPassword = () => {
         };
         await changePassword(toSend).unwrap();
         const delay = 2 * 1000; // 2 seconds in milliseconds
-        toastService.success("Lozinka uspjesno promijenjena", 2000, true);
+        toastService.success(t('RESET_PASSWORD.PASSWORD_CHANGED_SUCCESS'), delay, true);
 
         setTimeout(() => {
           history.push(PATHS.LOGIN);

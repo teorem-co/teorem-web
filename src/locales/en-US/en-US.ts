@@ -224,6 +224,8 @@ export const EN_US = {
             REPEAT_PASSWORD: 'Repeat password',
         },
         BACK_BTN: 'Back to Login',
+        PASSWORD_CHANGED_SUCCESS: 'Password changed successfully, you will be redirected to the login page',
+        EMAIL_SENT: 'E-mail sent, you will be redirected to the login page'
     },
     LOGIN: {
         TITLE: 'Log in',
@@ -256,6 +258,11 @@ export const EN_US = {
             USERNAME_CONFLICT: 'Username already exists',
             PROFILE_NOT_ACTIVE: {
                 SENT_AGAIN: 'Please confirm your e-mail address.',
+            },
+            PASSWORD_RESET:{
+              TOKEN_EXPIRED: 'Your token has expired, please request new e-email',
+              TOKEN_INVALID: 'Your token is invalid, please request new e-email',
+              MISMATCH: 'Passwords are not matching'
             },
         },
         LEVEL: {

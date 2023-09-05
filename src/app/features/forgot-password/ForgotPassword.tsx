@@ -46,7 +46,7 @@ const ForgotPassword = () => {
         if (isSuccess) {
           const delay = 2 * 1000; // 2 seconds in milliseconds
 
-          toastService.success("Email poslan. Biti cete prebaceni na login stranicu.", 2000, false);
+          toastService.success(t('RESET_PASSWORD.EMAIL_SENT'), delay, false);
 
           setTimeout(() => {
             history.push(PATHS.LOGIN);
