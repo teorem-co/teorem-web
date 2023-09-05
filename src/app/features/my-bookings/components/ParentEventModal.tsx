@@ -1,12 +1,13 @@
 import { t } from 'i18next';
 import moment from 'moment';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import { RoleOptions } from '../../../../slices/roleSlice';
 import { useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import IBooking from '../interfaces/IBooking';
 import { useDeleteBookingMutation } from '../services/bookingService';
+import { Tooltip } from 'react-tooltip';
 
 interface IProps {
     handleClose?: (close: boolean) => void;
@@ -50,6 +51,28 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                                 </div>
                             </div>
                             <div className="mb-6">
+                              <i className="icon icon--base icon--grey icon--info mr-4"
+                                // onClick={handleShowInfo}
+                                 data-tooltip-id='booking-info'
+                                 data-tooltip-html={"" +
+                                   "<div>Rescheduling info</div> " +
+                                   "<div>info 1</div>" +
+                                   "<div>info 2</div>" +
+                                   "<div>info 3</div>" +
+                                   "<div>info 4</div>" +
+                                   "<div>info 5</div>" +
+                                   ""}
+                              ></i>
+
+                              <Tooltip
+                                clickable={true}
+                                openOnClick={true}
+                                id="booking-info"
+                                place={'left-start'}
+                                positionStrategy={'absolute'}
+                                closeOnEsc={true}
+                                style={{ zIndex: 9, fontSize:'14px'}}
+                              />
                                 {!moment(event.startTime).isBefore(moment().add(3, 'hours')) && (
                                     <i className="icon icon--base icon--grey icon--edit mr-4" onClick={() => openEditModal(true)}></i>
                                 )}
