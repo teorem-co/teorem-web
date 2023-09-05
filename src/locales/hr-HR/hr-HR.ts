@@ -223,6 +223,8 @@ export const HR_HR = {
             REPEAT_PASSWORD: 'Ponovite lozinku',
         },
         BACK_BTN: 'Povratak na prijavu',
+        PASSWORD_CHANGED_SUCCESS: 'Lozinka uspjesno promijenjena, biti ćete prebačeni na stranicu za prijavu',
+        EMAIL_SENT: 'E-mail poslan, biti ćete prebačeni na stranicu za prijavu'
     },
     LOGIN: {
         TITLE: 'Prijava',
@@ -256,6 +258,11 @@ export const HR_HR = {
             PROFILE_NOT_ACTIVE: {
                 SENT_AGAIN: 'Molimo potvrdite vašu e-mail adresu.',
             },
+            PASSWORD_RESET:{
+                TOKEN_EXPIRED: 'Vaš token je istekao, molimo zatražite novi e-mail',
+                TOKEN_INVALID: 'Vaš token je neispravan, molimo zatražite novi e-mail',
+                MISMATCH: 'Lozinke se ne podudaraju'
+            }
         },
         LEVEL: {
             NOT_FOUND: 'Razina nije pronađena',
@@ -1101,7 +1108,7 @@ export const HR_HR = {
         ROLE_SELECTION: '/hr/odabir-uloge',
         REGISTER: '/hr/registracija',
         FORGOT_PASSWORD: '/hr/zaboravljena-lozinka',
-        RESET_PASSWORD: '/hr/resetiraj-lozinku',
+        RESET_PASSWORD: '/hr/reset-password',
         LOGIN: '/hr/login',
         MY_BOOKINGS: '/hr/kalendar',
         SEARCH_TUTORS: '/hr/pretraga-instruktora',

@@ -8,6 +8,7 @@ import heroImg from '../../../assets/images/hero-img.png';
 import { useResetPasswordMutation } from '../../../services/authService';
 import TextField from '../../components/form/TextField';
 import { PATHS } from '../../routes';
+import toastService from '../../services/toastService';
 import logo from './../../../assets/images/logo.svg';
 
 interface Values {
@@ -42,7 +43,13 @@ const ForgotPassword = () => {
 
     useEffect(() => {
         if (isSuccess) {
+          const delay = 2 * 1000; // 2 seconds in milliseconds
+
+          toastService.success(t('RESET_PASSWORD.EMAIL_SENT'), delay, false);
+
+          setTimeout(() => {
             history.push(PATHS.LOGIN);
+          }, delay);
         }
     }, [isSuccess]);
 

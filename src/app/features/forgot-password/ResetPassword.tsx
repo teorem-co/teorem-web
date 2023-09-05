@@ -8,6 +8,7 @@ import heroImg from '../../../assets/images/hero-img.png';
 import { useChangePasswordMutation } from '../../../services/authService';
 import TextField from '../../components/form/TextField';
 import { PATHS } from '../../routes';
+import toastService from '../../services/toastService';
 import getUrlParams from '../../utils/getUrlParams';
 import TooltipPassword from '../register/TooltipPassword';
 import logo from './../../../assets/images/logo.svg';
@@ -118,7 +119,13 @@ const ResetPassword = () => {
             repeatPassword: values.repeatPassword,
         };
         await changePassword(toSend).unwrap();
-        history.push(PATHS.LOGIN);
+        const delay = 2 * 1000; // 2 seconds in milliseconds
+        toastService.success(t('RESET_PASSWORD.PASSWORD_CHANGED_SUCCESS'), delay, true);
+
+        setTimeout(() => {
+          history.push(PATHS.LOGIN);
+        }, delay);
+
     };
 
     const handleGoBack = () => {

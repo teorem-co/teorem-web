@@ -33,8 +33,13 @@ class ToastService {
         progress: undefined,
     };
 
-    success = (message: string): void => {
-        toast.success(message, ToastService.opts);
+    success = (message: string, time = 3000, hideProgressBar=true): void => {
+        const opts: object = {
+          autoClose: time,
+          position: 'bottom-center',
+          hideProgressBar: hideProgressBar,
+        };
+        toast.success(message, opts);
     };
 
     error = (message: string): void => {
