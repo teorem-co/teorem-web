@@ -317,6 +317,14 @@ const MyBookings: React.FC = (props: any) => {
     }
   };
 
+  const getDayName = (date: Date | null): string => {
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    if(date !== null) {
+      return days[date?.getDay()];
+    }
+    return days[3];
+  };
+
   const calcPosition = () => {
     const childElement = document.querySelector('.react-calendar__tile--active');
     const rectParent = highlightRef.current && highlightRef.current.getBoundingClientRect();
@@ -479,7 +487,7 @@ const MyBookings: React.FC = (props: any) => {
                   setOpenUnavailabilityModal(false);
                   setUnavailableCurrentEvent([]);
                 }}
-                positionClass={calcModalPosition(unavailablePositionClass)}
+                positionClass={getDayName(selectedSlot).toLowerCase()}
               />
             )}
             {openUnavailabilityEditModal && (
