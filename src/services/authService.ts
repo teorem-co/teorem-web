@@ -100,7 +100,7 @@ export const authService = baseService.injectEndpoints({
       changePassword: builder.mutation<void, IChangePassword>({
         query: (body) => ({
           url: `${URL}/reset-password`,
-                method: HttpMethods.PUT,
+                method: HttpMethods.PATCH,
                 body: {
                     password: body.password,
                     confirmPassword: body.repeatPassword,

@@ -9,6 +9,8 @@ import { useResetPasswordMutation } from '../../../services/authService';
 import TextField from '../../components/form/TextField';
 import { PATHS } from '../../routes';
 import logo from './../../../assets/images/logo.svg';
+import { toast } from 'react-toastify';
+import toastService from '../../services/toastService';
 
 interface Values {
     email: string;
@@ -42,7 +44,13 @@ const ForgotPassword = () => {
 
     useEffect(() => {
         if (isSuccess) {
+          const delay = 2 * 1000; // 2 seconds in milliseconds
+
+          toastService.success("Email poslan. Biti cete prebaceni na login stranicu.", 2000, false);
+
+          setTimeout(() => {
             history.push(PATHS.LOGIN);
+          }, delay);
         }
     }, [isSuccess]);
 

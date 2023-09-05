@@ -11,6 +11,7 @@ import { PATHS } from '../../routes';
 import getUrlParams from '../../utils/getUrlParams';
 import TooltipPassword from '../register/TooltipPassword';
 import logo from './../../../assets/images/logo.svg';
+import toastService from '../../services/toastService';
 
 interface Values {
     password: string;
@@ -118,7 +119,13 @@ const ResetPassword = () => {
             repeatPassword: values.repeatPassword,
         };
         await changePassword(toSend).unwrap();
-        history.push(PATHS.LOGIN);
+        const delay = 2 * 1000; // 2 seconds in milliseconds
+        toastService.success("Lozinka uspjesno promijenjena", 2000, true);
+
+        setTimeout(() => {
+          history.push(PATHS.LOGIN);
+        }, delay);
+
     };
 
     const handleGoBack = () => {
