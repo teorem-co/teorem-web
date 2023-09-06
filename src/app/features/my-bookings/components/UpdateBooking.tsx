@@ -46,7 +46,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
     level: '',
     subject: '',
     child: '',
-    timeFrom: moment.utc(start).format('HH:mm'),
+    timeFrom: moment.utc(booking?.startTime).format('HH:mm'),
   });
 
   const [getChildOptions, { data: childOptions }] = useLazyGetChildQuery();
@@ -58,7 +58,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
 
     if (!isEqual(values.timeFrom, initialValues.timeFrom)) {
       updateBooking({
-        startTime: moment.utc(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
+        startTime: moment.utc(booking?.startTime).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
         bookingId: booking ? booking.id : '',
       });
     }
@@ -79,6 +79,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
   });
 
   useEffect(() => {
+    console.log("COMPONENT GOT TIME: ", start);
 
     if (userRole === RoleOptions.Parent && userId) {
       getChildOptions(userId);
@@ -136,16 +137,18 @@ const UpdateBooking: React.FC<IProps> = (props) => {
               {start} - {end}
             </div>
           </div>
-          <i
-            className="icon icon--base icon--grey icon--close mb-6"
-            onClick={() => {
-              handleClose ? handleClose(false) : false;
-              props.clearEmptyBookings();
-              formik.setFieldValue('level', '');
-              formik.setFieldValue('subject', '');
-              formik.setFieldValue('child', '');
-            }}
-          ></i>
+          <div>
+            <i
+              className="icon icon--base icon--grey icon--close mb-6"
+              onClick={() => {
+                handleClose ? handleClose(false) : false;
+                props.clearEmptyBookings();
+                formik.setFieldValue('level', '');
+                formik.setFieldValue('subject', '');
+                formik.setFieldValue('child', '');
+              }}
+            ></i>
+          </div>
         </div>
       </div>
 

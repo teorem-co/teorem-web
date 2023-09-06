@@ -23,6 +23,17 @@ interface IProps {
     goToTutorCalendar: () => void;
 }
 
+interface IProps2 {
+  handleClose?: (close: boolean) => void;
+  openLearnCube?: () => void;
+  positionClass: string;
+  event: IBooking | null;
+  tutorName: string;
+  openEditModal: (isOpen: boolean) => void;
+  bookingStart: string;
+  eventIsAccepted: boolean;
+}
+
 const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
     const { handleClose, positionClass, event, goToTutorCalendar, openLearnCube } = props;
 
@@ -35,6 +46,8 @@ const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
 
   return (
         <>
+            {/*TODO: ovo je komponenta na vlastitom kalendaru*/}
+
             {event ? (
                 <div className={`modal--parent modal--parent--${positionClass}`}>
                     <div className="modal--parent__header">
@@ -48,6 +61,16 @@ const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
                                 </div>
                             </div>
                             <div className="mb-6">
+                              <Tooltip
+                                clickable={true}
+                                openOnClick={true}
+                                id="booking-info"
+                                place={'left-start'}
+                                positionStrategy={'absolute'}
+                                closeOnEsc={true}
+                                style={{ zIndex: 9, fontSize:'14px'}}
+                              />
+
                                <i className="icon icon--base icon--grey icon--info"
                                   // onClick={handleShowInfo}
                                   data-tooltip-id='booking-info'
@@ -61,15 +84,6 @@ const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
                                     ""}
                                ></i>
 
-                                <Tooltip
-                                  clickable={true}
-                                  openOnClick={true}
-                                  id="booking-info"
-                                  place={'left-start'}
-                                  positionStrategy={'absolute'}
-                                  closeOnEsc={true}
-                                  style={{ zIndex: 9, fontSize:'14px'}}
-                                />
                                 <i
                                     className="icon icon--base icon--grey icon--close"
                                     onClick={() => {
@@ -108,6 +122,7 @@ const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
                         )}
 
                         {event.isAccepted
+                          //TODO: uncomment later or maybe show button but disable it
                             //&&
                         // moment(event.startTime).subtract(10, 'minutes').isBefore(moment()) &&
                         // moment(event.endTime).isAfter(moment())

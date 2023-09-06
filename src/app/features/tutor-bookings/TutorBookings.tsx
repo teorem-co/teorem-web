@@ -49,6 +49,7 @@ import {
 import {
   useLazyGetTutorAvailabilityQuery,
 } from '../my-profile/services/tutorAvailabilityService';
+import { InformationCard } from '../../components/InformationCard';
 
 interface IBookingTransformed {
   id: string;
@@ -424,7 +425,7 @@ const TutorBookings = () => {
         //     label: e.label,
         // });
         setSelectedStart(moment.utc(e.start).format(t('DATE_FORMAT') + ', HH:mm'));
-        setSelectedEnd(moment.utc(e.end).format('HH:mm'));
+        setSelectedEnd(moment.utc(e.start).add(1,'hour').format('HH:mm'));
         // if (booking && booking.id) {
         //     setOpenSlot(true);
         // }
@@ -798,6 +799,7 @@ const TutorBookings = () => {
               // onSelecting={(range: { start: ; end: 'test'; }) => false}
             />
             {openSlot ? (
+              //creating new booking
               <ParentCalendarSlots
                 clearEmptyBookings={() => setEmptyBookings([])}
                 setSidebarOpen={(e) => setSidebarOpen(e)}
@@ -808,6 +810,7 @@ const TutorBookings = () => {
                 tutorId={tutorId}
               />
             ) : openEventDetails ? (
+              //opening booking details
               <ParentEventModal
                 eventIsAccepted={booking ? booking.isAccepted : false}
                 bookingStart={booking ? booking.startTime : ''}
@@ -861,25 +864,12 @@ const TutorBookings = () => {
           </div>
           <div className="upcoming-lessons">
             <p className="upcoming-lessons__title">{t('MY_BOOKINGS.INFORMATION.TITLE')}</p>
-            <div className="card card--primary mb-2">
-              <div className="flex--primary mb-2">
-                <div className="flex--center">
-                  <span>{t('MY_BOOKINGS.INFORMATION.CARD1.TITLE')}</span>
-                  <div className="type--color--secondary mt-2">{t('MY_BOOKINGS.INFORMATION.CARD1.DESC')}</div>
-                </div>
-                <div className="type--color--tertiary"></div>
-              </div>
-            </div>
-            <div className="card card--primary mb-2">
-              <div className="flex--primary mb-2">
-                <div className="flex--center">
-                  <span>{t('MY_BOOKINGS.INFORMATION.CARD2.TITLE')}</span>
-                  <div className="type--color--secondary mt-2">{t('MY_BOOKINGS.INFORMATION.CARD2.DESC')}</div>
-                </div>
-                <div className="type--color--tertiary"></div>
-              </div>
-            </div>
+            <InformationCard title={t('MY_BOOKINGS.INFORMATION.CARD1.TITLE')} desc={t('MY_BOOKINGS.INFORMATION.CARD1.DESC')}/>
+            <InformationCard title={t('MY_BOOKINGS.INFORMATION.CARD2.TITLE')} desc={t('MY_BOOKINGS.INFORMATION.CARD2.DESC')}/>
+            <InformationCard title={"Tutor has to appruve"} desc={"malo opis o tome sto tutor mora sve napravit i tako to"}/>
+            <InformationCard title={"REFUND POLICY"} desc={"OVo je refund policy sto da ti kazem. Imas tu sve"}/>
           </div>
+
           {/* needs to be in this place because layout have nth-child selector */}
           {sidebarOpen ? (
             <Sidebar
