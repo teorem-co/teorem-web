@@ -257,6 +257,8 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
             </div>
           </div>
           <i
+            className="icon icon--base icon--grey icon--info mb-6"></i>
+          <i
             className="icon icon--base icon--grey icon--close mb-6"
             onClick={() => {
               handleClose ? handleClose(false) : false;

@@ -37,6 +37,8 @@ import {
   useLazyGetTutorAvailabilityQuery
 } from '../my-profile/services/tutorAvailabilityService';
 import { v4 as uuidv4 } from 'uuid';
+import ParentEventModal from './components/ParentEventModal';
+import UpdateBooking from './components/UpdateBooking';
 
 i18n.language !== 'en' && Array.from(languageOptions.map((l) => l.path)).includes(i18n.language) && require(`moment/locale/${i18n.language}.js`);
 
@@ -72,6 +74,7 @@ const MyBookings: React.FC = (props: any) => {
   const [unavailableCurrentEvent, setUnavailableCurrentEvent] = useState<IBookingTransformed[]>([]);
   const [selectedSlot, setSelectedSlot] = useState<Date | null>(null);
   const [selectedStart, setSelectedStart] = useState<string>('');
+  const [selectedEnd, setSelectedEnd] = useState<string>('');
   const [selectedUnavailability, setSelectedUnavailability] = useState<string>('');
   const [openEventDetails, setOpenEventDetails] = useState<boolean>(false);
   const [openTutorCalendarModal, setOpenTutorCalendarModal] = useState<boolean>(false);
@@ -291,6 +294,7 @@ const MyBookings: React.FC = (props: any) => {
         getBookingById(e.id);
         setOpenTutorCalendarModal(true);
         setSelectedStart(moment(e.start).format(t('DATE_FORMAT') + ', HH:mm'));
+        setSelectedEnd(moment(e.start).add(1, 'hour').format('HH:mm'));
       }
     }
   };
@@ -415,6 +419,23 @@ const MyBookings: React.FC = (props: any) => {
     return () => clearInterval(interval);
   }, [calChange]);
 
+  const [openUpdateModal, setOpenUpdateModal] = useState<boolean>(false);
+
+  function setSidebarOpen(e: any) {
+    return;
+  }
+
+  function setEmptyBookings(param: any[]) {
+    return;
+  }
+
+  const handleUpdateModal = (isOpen: boolean) => {
+    setOpenUpdateModal(isOpen);
+    console.log("clicked edit");
+    setOpenEventDetails(false);
+    setOpenTutorCalendarModal(false);
+  };
+
   return (
     <MainWrapper>
       <div className="layout--primary">
@@ -468,15 +489,39 @@ const MyBookings: React.FC = (props: any) => {
             ) : (
               <></>
             )}
-            {openTutorCalendarModal ? (
-              <OpenTutorCalendarModal
-                goToTutorCalendar={() => goToTutorCalendar()}
+            {openTutorCalendarModal && booking? (
+              // TODO: here should be ParentEventModal
+              // <OpenTutorCalendarModal
+              //   goToTutorCalendar={() => goToTutorCalendar()}
+              //   event={booking ? booking : null}
+              //   handleClose={(e) => setOpenTutorCalendarModal(e)}
+              //   positionClass={calcModalPosition(positionClass)}
+              //   openLearnCube={() => setLearnCubeModal(true)}
+              // />
+              <ParentEventModal
+                eventIsAccepted={booking ? booking.isAccepted : false}
+                bookingStart={booking ? booking.startTime : ''}
                 event={booking ? booking : null}
                 handleClose={(e) => setOpenTutorCalendarModal(e)}
                 positionClass={calcModalPosition(positionClass)}
                 openLearnCube={() => setLearnCubeModal(true)}
+
+                openEditModal={(isOpen) => handleUpdateModal(isOpen)}
+                tutorName={booking.Tutor.User.firstName && booking.Tutor.User.lastName ? booking.Tutor.User.firstName + ' ' + booking.Tutor.User.lastName : ''}
+
               />
-            ) : (
+            ) : openUpdateModal && booking ? (
+              <UpdateBooking
+                booking={booking ? booking : null}
+                clearEmptyBookings={() => setEmptyBookings([])}
+                setSidebarOpen={(e: any) => setSidebarOpen(e)}
+                start={`${selectedStart}`}
+                end={`${selectedEnd}`}
+                handleClose={(e: any) => setOpenUpdateModal(e)}
+                positionClass={calcModalPosition(positionClass)}
+                tutorId={booking?.tutorId}
+              />
+            ):(
               <></>
             )}
             {openUnavailabilityModal && (

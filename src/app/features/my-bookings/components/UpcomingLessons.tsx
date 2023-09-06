@@ -65,6 +65,18 @@ const UpcomingLessons: React.FC<Props> = (props: Props) => {
                     <div className="type--color--secondary">{t('UPCOMING_LESSONS.EMPTY')}</div>
                 </div>
             )}
+
+          <br/><br/><br/>
+          <p className="upcoming-lessons__title">INFORAMCIJE O PRIDRUZIVANJU NA SASTANAK</p>
+          <div className="card card--primary card--primary--shadow">
+            <p>info 1</p>
+            <p>info 2</p>
+            <p>info 3</p>
+            <p>info 4</p>
+            <p>info 5</p>
+            <p>info 6</p>
+            <p>info 7</p>
+          </div>
         </>
     );
 };
