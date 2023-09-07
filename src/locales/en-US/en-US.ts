@@ -394,6 +394,9 @@ export const EN_US = {
         CALENDAR: {
             TITLE: 'CALENDAR',
         },
+        ADDITIONAL_INFORMATION:{
+          TITLE: 'Information about joining meeting'
+        },
         MODAL: {
             DELETED_USER: 'Deleted user',
             ACCEPT: 'Accept',
@@ -429,7 +432,7 @@ export const EN_US = {
             CHILD_PLACEHOLDER: 'Select a child',
             TIME: 'Time* (Session length is 50min)',
             TIME_PLACEHOLDER: 'Time',
-            SUBMIT: 'Book and pay',
+            SUBMIT: 'Book and Pay',
             UPDATE: 'Update booking',
             CANCEL: 'Cancel',
         },

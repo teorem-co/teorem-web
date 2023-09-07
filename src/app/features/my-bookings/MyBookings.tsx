@@ -39,6 +39,7 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import ParentEventModal from './components/ParentEventModal';
 import UpdateBooking from './components/UpdateBooking';
+import { InformationCard } from '../../components/InformationCard';
 
 i18n.language !== 'en' && Array.from(languageOptions.map((l) => l.path)).includes(i18n.language) && require(`moment/locale/${i18n.language}.js`);
 
@@ -579,7 +580,10 @@ const MyBookings: React.FC = (props: any) => {
             ></div>
           </div>
           <div className="upcoming-lessons">
-            <UpcomingLessons upcomingLessons={upcomingLessons ? upcomingLessons : []} />
+            <InformationCard
+              title={t('MY_BOOKINGS.ADDITIONAL_INFORMATION.TITLE')}
+              desc={"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce rutrum pellentesque elit vitae commodo. Curabitur tincidunt accumsan nisl, vel mattis risus. Sed a lacus a urna sodales"}/>
+            {/*<UpcomingLessons upcomingLessons={upcomingLessons ? upcomingLessons : []} />*/}
           </div>
           {learnCubeModal && <LearnCubeModal bookingId={currentlyActiveBooking} handleClose={() => setLearnCubeModal(false)} />}
         </div>

@@ -393,6 +393,9 @@ export const HR_HR = {
         CALENDAR: {
             TITLE: 'KALENDAR',
         },
+        ADDITIONAL_INFORMATION:{
+          TITLE: 'Informacije o pridruživanju na sastanak'
+        },
         MODAL: {
             DELETED_USER: 'Izbrisani korisnik',
             ACCEPT: 'Prihvati',
@@ -428,7 +431,7 @@ export const HR_HR = {
             CHILD_PLACEHOLDER: 'Odabir djeteta',
             TIME: 'Vrijeme* (Lekcije traju 50min)',
             TIME_PLACEHOLDER: 'Vrijeme',
-            SUBMIT: 'Rezerviraj i plati',
+            SUBMIT: 'Rezerviraj i Plati',
             UPDATE: 'Ažuriraj rezervaciju',
             CANCEL: 'Otkaži',
         },
