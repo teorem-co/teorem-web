@@ -89,7 +89,7 @@ const Register: React.FC = () => {
       email: formik.values.email,
     }).unwrap();
     if (isValid) {
-      setCheckMailValidation('This email already exists');
+      setCheckMailValidation(t('REGISTER.EMAIL_CONFLICT'));
     } else {
       setCheckMailValidation('');
     }
