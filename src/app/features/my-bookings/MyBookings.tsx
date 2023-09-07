@@ -64,7 +64,7 @@ const MyBookings: React.FC = (props: any) => {
   const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
   const [getBookings, { data: bookings, isLoading: bookingsLoading }] = useLazyGetBookingsQuery();
   const [getNotificationForLessons, { data: lessonsCount }] = useLazyGetNotificationForLessonsQuery();
-  const [getBookingById, { data: booking }] = useLazyGetBookingByIdQuery();
+  const [getBookingById, { data: booking, isLoading: bookingIsLoading, isFetching:bookingIsFetching }] = useLazyGetBookingByIdQuery();
   const [getUpcomingLessons, { data: upcomingLessons }] = useLazyGetUpcomingLessonsQuery();
   const [getTutorUnavailableBookings, { data: unavailableBookings, isLoading: unavailableBookingsLoading }] = useLazyGetUnavailableBookingsQuery();
 
@@ -293,7 +293,7 @@ const MyBookings: React.FC = (props: any) => {
         getBookingById(e.id);
         setOpenTutorCalendarModal(true);
         setSelectedStart(moment(e.start).format(t('DATE_FORMAT') + ', HH:mm'));
-        setSelectedEnd(moment(e.start).add(1, 'hour').format('HH:mm'));
+        setSelectedEnd(moment(e.end).add(1, 'minute').format('HH:mm'));
       }
     }
   };
@@ -430,7 +430,6 @@ const MyBookings: React.FC = (props: any) => {
 
   const handleUpdateModal = (isOpen: boolean) => {
     setOpenUpdateModal(isOpen);
-    console.log("clicked edit");
     setOpenEventDetails(false);
     setOpenTutorCalendarModal(false);
   };
@@ -497,7 +496,7 @@ const MyBookings: React.FC = (props: any) => {
               //   positionClass={calcModalPosition(positionClass)}
               //   openLearnCube={() => setLearnCubeModal(true)}
               // />
-              <ParentEventModal
+              !bookingIsLoading && !bookingIsFetching && <ParentEventModal
                 eventIsAccepted={booking ? booking.isAccepted : false}
                 bookingStart={booking ? booking.startTime : ''}
                 event={booking ? booking : null}

@@ -23,17 +23,6 @@ interface IProps {
     goToTutorCalendar: () => void;
 }
 
-interface IProps2 {
-  handleClose?: (close: boolean) => void;
-  openLearnCube?: () => void;
-  positionClass: string;
-  event: IBooking | null;
-  tutorName: string;
-  openEditModal: (isOpen: boolean) => void;
-  bookingStart: string;
-  eventIsAccepted: boolean;
-}
-
 const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
     const { handleClose, positionClass, event, goToTutorCalendar, openLearnCube } = props;
 
@@ -84,6 +73,20 @@ const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
                                     ""}
                                ></i>
 
+                              <i className="icon icon--base icon--grey icon--info"
+                                // onClick={handleShowInfo}
+                                 data-tooltip-id='booking-info'
+                                 data-tooltip-html={"" +
+                                   "<div>Rescheduling info</div> " +
+                                   "<div>info 1</div>" +
+                                   "<div>info 2</div>" +
+                                   "<div>info 3</div>" +
+                                   "<div>info 4</div>" +
+                                   "<div>informacija</div>" +
+                                   ""}
+                              ></i>
+
+
                                 <i
                                     className="icon icon--base icon--grey icon--close"
                                     onClick={() => {
@@ -126,12 +129,10 @@ const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
                             //&&
                         // moment(event.startTime).subtract(10, 'minutes').isBefore(moment()) &&
                         // moment(event.endTime).isAfter(moment())
-                            ? (
+                            && (
                             <button className="btn btn--base btn--primary mt-4" onClick={() => openLearnCube && openLearnCube()}>
                                 {t('BOOK.JOIN')}
                             </button>
-                        ) : (
-                            <></>
                         )}
                     </div>
                 </div>
