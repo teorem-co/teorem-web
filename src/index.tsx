@@ -16,8 +16,6 @@ import { PersistGate } from 'redux-persist/integration/react';
 import App from './App';
 import { persistor, store } from './app/store';
 import * as serviceWorker from './serviceWorker';
-import moment from 'moment';
-moment.fn = moment.utc().constructor.prototype;
 
 ReactDOM.render(
     <Provider store={store}>

@@ -45,7 +45,7 @@ const TutorEventModal: React.FC<IProps> = (props) => {
                                         t('MY_BOOKINGS.MODAL.DELETED_USER')}
                                 </div>
                                 <div className="type--color--secondary">
-                                    {moment.utc(event.startTime).format(t('DATE_FORMAT') + ', HH:mm')} - {moment.utc(event.endTime).add(1, 'minutes').format('HH:mm')}
+                                    {moment(event.startTime).format(t('DATE_FORMAT') + ', HH:mm')} - {moment(event.endTime).add(1, 'minutes').format('HH:mm')}
                                 </div>
                             </div>
                             <div className="mb-6">

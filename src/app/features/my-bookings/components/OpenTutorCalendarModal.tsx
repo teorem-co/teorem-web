@@ -57,7 +57,7 @@ const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
                                     {event.Tutor.User.firstName} {event.Tutor.User.lastName}
                                 </div>
                                 <div className="type--color--secondary">
-                                    {moment.utc(event.startTime).format(t('DATE_FORMAT') + ', HH:mm')} - {moment.utc(event.endTime).add(1, 'minutes').format('HH:mm')}
+                                    {moment(event.startTime).format(t('DATE_FORMAT') + ', HH:mm')} - {moment(event.endTime).add(1, 'minutes').format('HH:mm')}
                                 </div>
                             </div>
                             <div className="mb-6">
@@ -80,7 +80,7 @@ const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
                                     "<div>info 2</div>" +
                                     "<div>info 3</div>" +
                                     "<div>info 4</div>" +
-                                    "<div>info 5</div>" +
+                                    "<div>informacija</div>" +
                                     ""}
                                ></i>
 

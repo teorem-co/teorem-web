@@ -333,11 +333,11 @@ const TutorBookings = () => {
 
 
     const existingBooking =
-      existingBookings && existingBookings.filter((date) => moment.utc(date.start).format('YYYY/MM/DD') === moment.utc(e.start).format('YYYY/MM/DD'));
+      existingBookings && existingBookings.filter((date) => moment(date.start).format('YYYY/MM/DD') === moment(e.start).format('YYYY/MM/DD'));
 
     let isAvailableBooking = false;
 
-    const endDat = moment.utc(e.end).toDate();
+    const endDat = moment(e.end).toDate();
 
     tutorAvailability &&
       tutorAvailability.forEach((index, item) => {
@@ -379,14 +379,14 @@ const TutorBookings = () => {
     }
 
     console.log("FIRST: ",flagArr.length === existingBooking?.length);
-    console.log("SECOND: ", !moment.utc(e.start).isBefore(moment().add(3, 'hours')));
+    console.log("SECOND: ", !moment(e.start).isBefore(moment().add(3, 'hours')));
     console.log("THIRD: ", isAvailableBooking);
 
     const firstCheck = flagArr.length === existingBooking?.length;
 
-    if (firstCheck && !moment.utc(e.start).isBefore(moment().add(3, 'hours')) && isAvailableBooking) {
+    if (firstCheck && !moment(e.start).isBefore(moment().add(3, 'hours')) && isAvailableBooking) {
       // setSelectedStart(moment(e.start).format('t('DATE_FORMAT'), HH:mm'));     MMMM format doesn't work with different languages!
-      setSelectedStart(moment.utc(e.start).format());
+      setSelectedStart(moment(e.start).format());
       setSelectedEnd(moment(e.start).add(1, 'hours').format('HH:mm'));
       setOpenSlot(true);
       setOpenUpdateModal(false);
@@ -428,8 +428,8 @@ const TutorBookings = () => {
         //     allDay: e.allDay,
         //     label: e.label,
         // });
-        setSelectedStart(moment.utc(e.start).format(t('DATE_FORMAT') + ', HH:mm'));
-        setSelectedEnd(moment.utc(e.start).add(1,'hour').format('HH:mm'));
+        setSelectedStart(moment(e.start).format(t('DATE_FORMAT') + ', HH:mm'));
+        setSelectedEnd(moment(e.start).add(1,'hour').format('HH:mm'));
         // if (booking && booking.id) {
         //     setOpenSlot(true);
         // }

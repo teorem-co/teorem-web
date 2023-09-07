@@ -126,14 +126,14 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
 
     const request: any = userRole === RoleOptions.Parent ? {
       requesterId: userId,
-      startTime: moment.utc(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
+      startTime: moment(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
       subjectId: values.subject,
       studentId: values.child,
       tutorId: tutorId,
     } : {
       requesterId: userId,
       studentId: userId,
-      startTime: moment.utc(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
+      startTime: moment(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
       subjectId: values.subject,
       tutorId: tutorId,
     };

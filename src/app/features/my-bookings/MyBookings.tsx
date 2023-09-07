@@ -62,7 +62,6 @@ const MyBookings: React.FC = (props: any) => {
 
   const userId = useAppSelector((state) => state.auth.user?.id);
   const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
-  // TODO: something like this conditional selecting OR inside method maybe =>> CANNOT REALLY DO THAT i need some other way
   const [getBookings, { data: bookings, isLoading: bookingsLoading }] = useLazyGetBookingsQuery();
   const [getNotificationForLessons, { data: lessonsCount }] = useLazyGetNotificationForLessonsQuery();
   const [getBookingById, { data: booking }] = useLazyGetBookingByIdQuery();
