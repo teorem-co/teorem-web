@@ -433,6 +433,7 @@ export const HR_HR = {
             CANCEL: 'Otkaži',
         },
         JOIN: 'Pridruži se',
+        JOIN_TOOLTIP: 'Sastanku se možete pridružiti najranije 5 minuta prije početka'
     },
     MY_REVIEWS: {
         TITLE: 'Moje recenzije',

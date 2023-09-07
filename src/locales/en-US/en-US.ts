@@ -434,6 +434,7 @@ export const EN_US = {
             CANCEL: 'Cancel',
         },
         JOIN: 'Join',
+        JOIN_TOOLTIP: 'You can join the meeting 5 minutes before the start'
     },
     MY_REVIEWS: {
         TITLE: 'My Reviews',

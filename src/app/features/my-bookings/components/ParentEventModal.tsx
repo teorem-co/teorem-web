@@ -53,7 +53,7 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                                 <div className="type--wgt--bold type--md mb-1">{t(`SUBJECTS.${event.Subject.abrv.replace(' ', '').replaceAll('-', '').toLowerCase()}`)}</div>
 
                                 <div className="type--color--secondary">
-                                    {moment.utc(event.startTime).format(t('DATE_FORMAT') + ', HH:mm')} - {moment.utc(event.endTime).add(1, 'minutes').format('HH:mm')}
+                                    {moment(event.startTime).format(t('DATE_FORMAT') + ', HH:mm')} - {moment(event.endTime).add(1, 'minutes').format('HH:mm')}
                                 </div>
                             </div>
                             <div className="mb-6">
@@ -76,7 +76,7 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                                    "<div>info 2</div>" +
                                    "<div>info 3</div>" +
                                    "<div>info 4</div>" +
-                                   "<div>info 5</div>" +
+                                   "<div>info 5321</div>" +
                                    ""}
                               ></i>
 
@@ -133,23 +133,22 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                     <div className="modal--parent__footer mt-6">
                       <Tooltip
                         id="join-meeting-button"
-                        place={'top-start'}
+                        place={'top-end'}
                         float={true}
                         positionStrategy={'absolute'}
                         closeOnEsc={true}
                         delayShow={500}
                         // style={{ zIndex: 9, fontSize:'14px'}}
-                        style={{ backgroundColor: "rgba(70,70,70, 0.9)", color: 'white', fontSize:'smaller'}}
+                        style={{ color: 'white', fontSize:'smaller'}}
                       />
 
-                        {/*TODO: add new message*/}
                         {eventIsAccepted &&
                           (
                                 <button
                                   id="join-meeting-button"
                                   data-tip="Click to view invoice"
                                   data-tooltip-id='join-meeting-button'
-                                  data-tooltip-html={"<div>DISABLAN je jer mozes samo</div>"}
+                                  data-tooltip-html={`<div>${t('BOOK.JOIN_TOOLTIP')}</div>`}
                                   disabled={isJoinButtonDisabled(event)}
                                   className="btn btn--base type--wgt--extra-bold btn--primary" onClick={() => openLearnCube && openLearnCube()}>
                                     {t('BOOK.JOIN')}
