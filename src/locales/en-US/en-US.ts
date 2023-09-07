@@ -79,6 +79,7 @@ export const EN_US = {
         LEVEL_REQUIRED: 'Level is required',
         SUBJECT_REQUIRED: 'Subject is required',
         CHILD_REQUIRED: 'Child is required',
+        AGREE_TERMS_REQUIRED: 'You must agree to terms and conditions'
     },
     NAVIGATION: {
         MY_BOOKINGS: 'Calendar',
@@ -326,6 +327,8 @@ export const EN_US = {
             CHILD_NAME_PLACEHOLDER: "Enter Child's Name",
             CHILD_DATE_OF_BIRTH: "Child's Date of Birth*",
             USERNAME: 'Username*',
+            EMAIL_CONFLICT: 'Email already in use',
+            TERMS_AND_CONDITIONS: 'I accept terms and conditions'
         },
         CARD_DETAILS: {
             FIRST_NAME: 'First Name*',
