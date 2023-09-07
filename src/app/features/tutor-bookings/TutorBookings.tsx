@@ -88,7 +88,7 @@ const TutorBookings = () => {
   });
   const [getTutorAvailability, { data: tutorAvailability, isLoading: tutorAvailabilityLoading }] = useLazyGetTutorAvailabilityQuery();
 
-  const [getBookingById, { data: booking }] = useLazyGetBookingByIdQuery();
+  const [getBookingById, { data: booking, isLoading: bookingIsLoading, isFetching:bookingIsFetching }] = useLazyGetBookingByIdQuery();
   const [addCustomerSource] = useAddCustomerSourceMutation();
   const [addStripeCustomer, { data: dataStripeCustomer, isSuccess: isSuccessDataStripeCustomer, isError: isErrorDataStripeCustomer }] =
     useAddCustomerMutation();
@@ -429,7 +429,7 @@ const TutorBookings = () => {
         //     label: e.label,
         // });
         setSelectedStart(moment(e.start).format(t('DATE_FORMAT') + ', HH:mm'));
-        setSelectedEnd(moment(e.start).add(1,'hour').format('HH:mm'));
+        setSelectedEnd(moment(e.end).add(1,'minute').format('HH:mm')); // one minute is added because in DATABASE we have like e.q HH:59:59
         // if (booking && booking.id) {
         //     setOpenSlot(true);
         // }
@@ -815,7 +815,7 @@ const TutorBookings = () => {
               />
             ) : openEventDetails ? (
               //opening booking details
-              <ParentEventModal
+                !bookingIsLoading && !bookingIsFetching && <ParentEventModal
                 eventIsAccepted={booking ? booking.isAccepted : false}
                 bookingStart={booking ? booking.startTime : ''}
                 openEditModal={(isOpen) => handleUpdateModal(isOpen)}

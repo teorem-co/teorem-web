@@ -1,6 +1,6 @@
 import { t } from 'i18next';
 import moment from 'moment';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { RoleOptions } from '../../../../slices/roleSlice';
 import { useAppSelector } from '../../../hooks';
@@ -42,7 +42,7 @@ const ParentEventModal: React.FC<IProps> = (props) => {
       return !(moment(bookingStart).subtract(10, 'minutes').isBefore(moment()) && moment(event.endTime).isAfter(moment()));
     }
 
-    return (
+  return (
         <>
             {/*TODO: ovo je kada otvoris kod tutora i takav bi trebao bit na vlastitom kalendaru*/}
             {event ? (
@@ -76,7 +76,7 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                                    "<div>info 2</div>" +
                                    "<div>info 3</div>" +
                                    "<div>info 4</div>" +
-                                   "<div>info 5321</div>" +
+                                   "<div>info 5</div>" +
                                    ""}
                               ></i>
 
@@ -142,18 +142,18 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                         style={{ color: 'white', fontSize:'smaller'}}
                       />
 
-                        {eventIsAccepted &&
-                          (
-                                <button
-                                  id="join-meeting-button"
-                                  data-tip="Click to view invoice"
-                                  data-tooltip-id='join-meeting-button'
-                                  data-tooltip-html={`<div>${t('BOOK.JOIN_TOOLTIP')}</div>`}
-                                  disabled={isJoinButtonDisabled(event)}
-                                  className="btn btn--base type--wgt--extra-bold btn--primary" onClick={() => openLearnCube && openLearnCube()}>
-                                    {t('BOOK.JOIN')}
-                                </button>
-                            )}
+                      {event.isAccepted &&
+                        (
+                              <button
+                                id="join-meeting-button"
+                                data-tip="Click to view invoice"
+                                data-tooltip-id='join-meeting-button'
+                                data-tooltip-html={`<div>${t('BOOK.JOIN_TOOLTIP')}</div>`}
+                                disabled={isJoinButtonDisabled(event)}
+                                className="btn btn--base type--wgt--extra-bold btn--primary" onClick={() => openLearnCube && openLearnCube()}>
+                                  {t('BOOK.JOIN')}
+                              </button>
+                          )}
                     </div>
                 </div>
             ) : (
