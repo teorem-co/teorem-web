@@ -79,6 +79,7 @@ export const HR_HR = {
         LEVEL_REQUIRED: 'Razina je obvezna',
         SUBJECT_REQUIRED: 'Predmet je obvezan',
         CHILD_REQUIRED: 'Dijete je obvezno',
+        AGREE_TERMS_REQUIRED: 'Morate prihvatiti odredbe i uvjete'
     },
     NAVIGATION: {
         MY_BOOKINGS: 'Kalendar',
@@ -325,6 +326,8 @@ export const HR_HR = {
             CHILD_NAME_PLACEHOLDER: 'Unesite ime djeteta',
             CHILD_DATE_OF_BIRTH: 'Datum rođenja djeteta*',
             USERNAME: 'Korisničko ime*',
+            EMAIL_CONFLICT: 'Email se već koristi',
+            TERMS_AND_CONDITIONS: 'Prihvaćam odredbe i uvjete'
         },
         CARD_DETAILS: {
             FIRST_NAME: 'Ime*',

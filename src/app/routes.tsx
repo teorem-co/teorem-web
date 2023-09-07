@@ -48,6 +48,15 @@ import PermissionsGate from './PermissionGate';
 import { getUserRoleAbrv } from './utils/getUserRoleAbrv';
 import { setLang } from '../slices/langSlice';
 import { Badge } from '@mui/material';
+import {
+  TutorSignupFirstStep
+} from './features/register/sign_up_rework/TutorSignupFirstStep';
+import {
+  TutorSignupSecondStep
+} from './features/register/sign_up_rework/TutorSignupSecondStep';
+import {
+  TutorSignupThirdStep
+} from './features/register/sign_up_rework/TutorSignupThirdStep';
 
 export const PATHS = {
   ROLE_SELECTION: t('PATHS.ROLE_SELECTION'),
@@ -107,6 +116,24 @@ interface IMenuPerRole {
 }
 
 export const ROUTES: any = [
+  {
+    path: '/en/3',
+    key: 'thirdStep',
+    exact: true,
+    component: () => <TutorSignupThirdStep />,
+  },
+  {
+    path: '/en/2',
+    key: 'secondStep',
+    exact: true,
+    component: () => <TutorSignupSecondStep />,
+  },
+  {
+    path: '/en/1',
+    key: 'firstStep',
+    exact: true,
+    component: () => <TutorSignupFirstStep />,
+  },
   {
     path: PATHS.ROLE_SELECTION,
     key: 'ROLE_SELECTION',
