@@ -57,6 +57,7 @@ import {
 import {
   TutorSignupThirdStep
 } from './features/register/sign_up_rework/TutorSignupThirdStep';
+import { TutorSignup } from './features/register/sign_up_rework/TutorSignup';
 
 export const PATHS = {
   ROLE_SELECTION: t('PATHS.ROLE_SELECTION'),
@@ -116,23 +117,23 @@ interface IMenuPerRole {
 }
 
 export const ROUTES: any = [
-  {
-    path: '/en/3',
-    key: 'thirdStep',
-    exact: true,
-    component: () => <TutorSignupThirdStep />,
-  },
-  {
-    path: '/en/2',
-    key: 'secondStep',
-    exact: true,
-    component: () => <TutorSignupSecondStep />,
-  },
+  // {
+  //   path: '/en/3',
+  //   key: 'thirdStep',
+  //   exact: true,
+  //   component: () => <TutorSignupThirdStep />,
+  // },
+  // {
+  //   path: '/en/2',
+  //   key: 'secondStep',
+  //   exact: true,
+  //   component: () => <TutorSignupSecondStep />,
+  // },
   {
     path: '/en/1',
     key: 'firstStep',
     exact: true,
-    component: () => <TutorSignupFirstStep />,
+    component: () => <TutorSignup />,
   },
   {
     path: PATHS.ROLE_SELECTION,
