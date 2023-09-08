@@ -14,7 +14,7 @@ interface ILoginPayload {
   user: IUser;
 }
 
-interface IRegisterTutor {
+export interface IRegisterTutor {
   firstName: string;
   lastName: string;
   email: string;
@@ -24,7 +24,7 @@ interface IRegisterTutor {
   countryId: string;
   phoneNumber: string;
   dateOfBirth: string;
-  profileImage: string;
+  profileImage?: string;
 }
 
 interface IRegisterParent {

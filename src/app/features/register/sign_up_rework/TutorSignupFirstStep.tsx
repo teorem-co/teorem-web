@@ -6,6 +6,9 @@ import * as Yup from 'yup';
 import MyDatePicker from '../../../components/form/MyDatePicker';
 import TextField from '../../../components/form/TextField';
 import { useAppSelector } from '../../../hooks';
+import { FormEvent } from 'react';
+import { useDispatch } from 'react-redux';
+import { setStepOne } from '../../../../slices/tutorSignUpSlice';
 
 interface StepOneValues {
   firstName: string;
@@ -13,18 +16,33 @@ interface StepOneValues {
   dateOfBirth: string;
 }
 
-export const TutorSignupFirstStep = () => {
-  const state = useAppSelector((state) => state.tutorRegister);
-  const { firstName, lastName, email, password, passwordRepeat, countryId, phoneNumber, dateOfBirth } = state;
+type StepOneProps = {
+  nextStep:() => void
+};
+
+export const TutorSignupFirstStep = ({nextStep}:StepOneProps) => {
+
+  const dispatch = useDispatch();
+  const state = useAppSelector((state) => state.tutorSignUp);
+  const { firstName, lastName,dateOfBirth } = state;
 
   const handleSubmitStepOne = async (values: StepOneValues) => {
-    console.log("handling submit step one");
+
+    dispatch(
+      setStepOne({
+        firstName: values.firstName,
+        lastName: values.lastName,
+        dateOfBirth: values.dateOfBirth
+        }
+      )
+    );
+    nextStep();
   };
 
   const initialValues: StepOneValues = {
-    firstName: '',
-    lastName: '',
-    dateOfBirth: '',
+    firstName: firstName,
+    lastName: lastName,
+    dateOfBirth: dateOfBirth,
   };
 
   const formik = useFormik({
@@ -55,51 +73,55 @@ export const TutorSignupFirstStep = () => {
       formik.handleSubmit();
     }
   };
+
   return (
-    <div
-      style={{width:"50%", margin:"3em auto"}}
-    >
-      <FormikProvider value={formik}>
-        <Form onKeyPress={handleEnterKeyOne}>
+      <div className="align-self-center sign-up-form-wrapper">
+        <FormikProvider value={formik}>
+          <Form onKeyPress={handleEnterKeyOne}>
 
-          {/*first name*/}
-          <div className="field">
-            <label htmlFor="firstName" className="field__label">
-              {t('REGISTER.FORM.FIRST_NAME')}
-            </label>
-            <TextField
-              name="firstName"
-              id="firstName"
-              placeholder={t('REGISTER.FORM.FIRST_NAME_PLACEHOLDER')}
-            />
-          </div>
+            {/*first name*/}
+            <div className="field">
+              <label htmlFor="firstName" className="field__label">
+                {t('REGISTER.FORM.FIRST_NAME')}
+              </label>
+              <TextField
+                name="firstName"
+                id="firstName"
+                placeholder={t('REGISTER.FORM.FIRST_NAME_PLACEHOLDER')}
+              />
+            </div>
 
-          {/*last name*/}
-          <div className="field">
-            <label htmlFor="lastName" className="field__label">
-              {t('REGISTER.FORM.LAST_NAME')}
-            </label>
-            <TextField
-              name="lastName"
-              id="lastName"
-              placeholder={t('REGISTER.FORM.LAST_NAME_PLACEHOLDER')}
-            />
-          </div>
+            {/*last name*/}
+            <div className="field">
+              <label htmlFor="lastName" className="field__label">
+                {t('REGISTER.FORM.LAST_NAME')}
+              </label>
+              <TextField
+                name="lastName"
+                id="lastName"
+                placeholder={t('REGISTER.FORM.LAST_NAME_PLACEHOLDER')}
+              />
+            </div>
 
-          {/*date of birth*/}
-          <div className="field">
-            <label className="field__label" htmlFor="dateOfBirth">
-              {t('REGISTER.FORM.DATE_OF_BIRTH')}
-            </label>
-            <MyDatePicker
-              form={formik}
-              field={formik.getFieldProps('dateOfBirth')}
-              meta={formik.getFieldMeta('dateOfBirth')}
-            />
-          </div>
+            {/*date of birth*/}
+            <div
+              className="field align--center field__w-fit-content">
+              <label className="field__label" htmlFor="dateOfBirth">
+                {t('REGISTER.FORM.DATE_OF_BIRTH')}
+              </label>
+              <MyDatePicker
+                form={formik}
+                field={formik.getFieldProps('dateOfBirth')}
+                meta={formik.getFieldMeta('dateOfBirth')}
+              />
+            </div>
 
-        </Form>
-      </FormikProvider>
-    </div>
+            <button
+              type="button"
+              className="btn--lg"
+              onClick={() => formik.handleSubmit()}>NEXT</button>
+          </Form>
+        </FormikProvider>
+      </div>
   );
 };

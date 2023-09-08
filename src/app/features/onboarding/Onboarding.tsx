@@ -67,7 +67,7 @@ const Onboarding = () => {
     dispatch(resetStudentRegister());
     dispatch(resetSelectedRole());
     setEmailConfirmationModalOpen(true);
-    // history.push(PATHS.LOGIN);
+    //history.push(PATHS.LOGIN);
   };
   const showDesc = (data: boolean) => {
     setShow(data);

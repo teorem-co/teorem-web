@@ -4,6 +4,9 @@ import { t } from 'i18next';
 import TextField from '../../../components/form/TextField';
 import TooltipPassword from '../TooltipPassword';
 import { useState } from 'react';
+import { useAppSelector } from '../../../hooks';
+import { useDispatch } from 'react-redux';
+import { setStepThree } from '../../../../slices/tutorSignUpSlice';
 
 interface StepThreeValues {
   password: string;
@@ -11,17 +14,34 @@ interface StepThreeValues {
   termsAndConditions: boolean;
 }
 
-export function TutorSignupThirdStep() {
+type StepThreeProps ={
+  nextStep:() => void
+};
+
+export function TutorSignupThirdStep({ nextStep }:StepThreeProps) {
+
+  const dispatch = useDispatch();
+  const store = useAppSelector((store) => store.tutorSignUp);
+  const{password, confirmPassword} = store;
   const [passTooltip, setPassTooltip] = useState<boolean>(false);
 
   const initialValues: StepThreeValues = {
-    password: '',
-    confirmPassword: '',
+    password: password,
+    confirmPassword: confirmPassword,
     termsAndConditions: false
   };
 
   const handleSubmit = async (values: StepThreeValues) => {
-    console.log("handling submit step one");
+    console.log("Handling submit step three: ", values.password);
+    await dispatch(
+      setStepThree(
+        {
+          password: values.password,
+          confirmPassword: values.confirmPassword
+        }
+      ));
+
+    nextStep();
   };
 
   const formik = useFormik({
@@ -117,72 +137,65 @@ export function TutorSignupThirdStep() {
 
   return (
     <>
-      <div
-        className="align-self-center"
-        style={{width:"50%", margin:"3em auto"}}
-      >
-        <FormikProvider value={formik}>
-          <Form>
-            <div
-              className="container--flex--space-around"
-              style={{flexDirection:"column"}}
-            >
+        <div className="sign-up-form-wrapper">
+          <FormikProvider value={formik}>
+            <Form>
+              <div
+                className="container--flex--space-around"
+                style={{flexDirection:"column"}}
+              >
 
-              {/*password*/}
-              <div className="field">
-                <label className="field__label" htmlFor="password">
-                  {t('REGISTER.FORM.PASSWORD')}
+                {/*password*/}
+                <div className="field">
+                  <label className="field__label" htmlFor="password">
+                    {t('REGISTER.FORM.PASSWORD')}
+                  </label>
+                  <TextField
+                    name="password"
+                    id="password"
+                    placeholder={t('REGISTER.FORM.PASSWORD_PLACEHOLDER')}
+                    className="input input--base input--text input--icon"
+                    password={true}
+                    // disabled={isLoading}
+                    onFocus={handlePasswordFocus}
+                    onBlur={(e: any) => {
+                      handlePasswordBlur();
+                      formik.handleBlur(e);
+                    }}
+                    onKeyUp={handleKeyUp}
+                  />
+                  <TooltipPassword passTooltip={passTooltip} />
+
+                  {/*confirm password*/}
+                </div>
+                <div className="field">
+                  <label className="field__label" htmlFor="confirmPassword">
+                    {t('REGISTER.FORM.CONFIRM_PASSWORD')}
+                  </label>
+                  <TextField
+                    name="confirmPassword"
+                    id="confirmPassword"
+                    placeholder={t('REGISTER.FORM.CONFIRM_PASSWORD_PLACEHOLDER')}
+                    className="input input--base input--text input--icon"
+                    password={true}
+                  />
+                </div>
+
+
+                <label className="align--center">
+                  <Field type="checkbox" name="termsAndConditions"/>
+                  {t('REGISTER.FORM.TERMS_AND_CONDITIONS')}
                 </label>
-                <TextField
-                  name="password"
-                  id="password"
-                  placeholder={t('REGISTER.FORM.PASSWORD_PLACEHOLDER')}
-                  className="input input--base input--text input--icon"
-                  password={true}
-                  // disabled={isLoading}
-                  onFocus={handlePasswordFocus}
-                  onBlur={(e: any) => {
-                    handlePasswordBlur();
-                    formik.handleBlur(e);
-                  }}
-                  onKeyUp={handleKeyUp}
-                />
-                <TooltipPassword passTooltip={passTooltip} />
+                {formik.touched.termsAndConditions && formik.errors.termsAndConditions ? (
+                  <div style={{color:'#e53e3e', fontSize:'12px'}}>{formik.errors.termsAndConditions}</div>
+                ) : null}
 
-                {/*confirm password*/}
-              </div>
-              <div className="field">
-                <label className="field__label" htmlFor="confirmPassword">
-                  {t('REGISTER.FORM.CONFIRM_PASSWORD')}
-                </label>
-                <TextField
-                  name="confirmPassword"
-                  id="confirmPassword"
-                  placeholder={t('REGISTER.FORM.CONFIRM_PASSWORD_PLACEHOLDER')}
-                  className="input input--base input--text input--icon"
-                  password={true}
-                />
+                <button type="button" onClick={() => formik.handleSubmit()}>FINISH</button>
               </div>
 
-
-              <label className="align--center">
-                <Field type="checkbox" name="termsAndConditions"/>
-                {t('REGISTER.FORM.TERMS_AND_CONDITIONS')}
-              </label>
-              {formik.touched.termsAndConditions && formik.errors.termsAndConditions ? (
-                <div style={{color:'#e53e3e', fontSize:'12px'}}>{formik.errors.termsAndConditions}</div>
-              ) : null}
-
-              <button className="mt-3 btn--primary btn--sm btn " type={'submit'}>
-                handle submit
-              </button>
-            </div>
-          </Form>
-        </FormikProvider>
-
-
-      </div>
-
+            </Form>
+          </FormikProvider>
+        </div>
     </>
   );
 }

@@ -27,7 +27,8 @@ const MyPhoneInput: FC<TextFieldType> = (props: any) => {
   const updateCountry = async () => {
     const res = await getCountries().unwrap();
     res.forEach((country) => {
-      country.id === form.values.countryId && setCountry(country.abrv.toLowerCase());
+      if(country.id === form.values.countryId)
+        setCountry(country.abrv.toLowerCase());
     });
   };
 
@@ -40,7 +41,7 @@ const MyPhoneInput: FC<TextFieldType> = (props: any) => {
   });
 
   useEffect(() => {
-    window && window.location.pathname === PATHS.ONBOARDING && updateCountry();
+     window && window.location.pathname === PATHS.ONBOARDING && updateCountry();
   }, [form.values.countryId]);
 
   return (
