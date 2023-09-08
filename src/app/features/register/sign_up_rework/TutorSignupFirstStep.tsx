@@ -80,7 +80,7 @@ export const TutorSignupFirstStep = ({nextStep}:StepOneProps) => {
           <Form onKeyPress={handleEnterKeyOne}>
 
             {/*first name*/}
-            <div className="field">
+            <div className="field__w-60 align--center">
               <label htmlFor="firstName" className="field__label">
                 {t('REGISTER.FORM.FIRST_NAME')}
               </label>
@@ -92,7 +92,7 @@ export const TutorSignupFirstStep = ({nextStep}:StepOneProps) => {
             </div>
 
             {/*last name*/}
-            <div className="field">
+            <div className="field__w-60 align--center">
               <label htmlFor="lastName" className="field__label">
                 {t('REGISTER.FORM.LAST_NAME')}
               </label>
@@ -119,6 +119,7 @@ export const TutorSignupFirstStep = ({nextStep}:StepOneProps) => {
             <button
               type="button"
               className="btn--lg"
+              style={{borderRadius:"25px"}}
               onClick={() => formik.handleSubmit()}>NEXT</button>
           </Form>
         </FormikProvider>
