@@ -6,15 +6,14 @@ interface Props {
     positionTop?: boolean;
 }
 
-const TooltipPassword: FC<Props> = (props: Props) => {
+const TooltipPasswordNew: FC<Props> = (props: Props) => {
     const { passTooltip, positionTop } = props;
 
     return (
         <>
             <div
-                className={`tooltip--password ${passTooltip ? 'active' : ''} ${
-                    positionTop ? 'tooltip--password--pos-top' : ''
-                }`}
+              style={{fontSize:'smaller'}}
+                className="text-align--start"
             >
                 <div className="mb-3">{t('FORM_VALIDATION.PASSWORD_MUST')}</div>
                 <div>
@@ -59,4 +58,4 @@ const TooltipPassword: FC<Props> = (props: Props) => {
     );
 };
 
-export default TooltipPassword;
+export default TooltipPasswordNew;

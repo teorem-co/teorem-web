@@ -7,6 +7,8 @@ import { useState } from 'react';
 import { useAppSelector } from '../../../hooks';
 import { useDispatch } from 'react-redux';
 import { setStepThree } from '../../../../slices/tutorSignUpSlice';
+import * as tty from 'tty';
+import TooltipPasswordNew from '../TooltipPasswordNew';
 
 interface StepThreeValues {
   password: string;
@@ -92,7 +94,7 @@ export function TutorSignupThirdStep({ nextStep }:StepThreeProps) {
       letter.classList.add('icon--success');
     } else {
       letter?.classList.remove('icon--success');
-      letter?.classList.add('icon--grey');
+      letter?.classList.add('icon--error');
     }
 
     // Validate capital letters
@@ -164,22 +166,22 @@ export function TutorSignupThirdStep({ nextStep }:StepThreeProps) {
                     }}
                     onKeyUp={handleKeyUp}
                   />
-                  <TooltipPassword passTooltip={passTooltip} />
+                  <TooltipPasswordNew passTooltip={true} positionTop={false}/>
 
                   {/*confirm password*/}
                 </div>
-                <div className="field">
-                  <label className="field__label" htmlFor="confirmPassword">
-                    {t('REGISTER.FORM.CONFIRM_PASSWORD')}
-                  </label>
-                  <TextField
-                    name="confirmPassword"
-                    id="confirmPassword"
-                    placeholder={t('REGISTER.FORM.CONFIRM_PASSWORD_PLACEHOLDER')}
-                    className="input input--base input--text input--icon"
-                    password={true}
-                  />
-                </div>
+                {/*<div className="field">*/}
+                {/*  <label className="field__label" htmlFor="confirmPassword">*/}
+                {/*    {t('REGISTER.FORM.CONFIRM_PASSWORD')}*/}
+                {/*  </label>*/}
+                {/*  <TextField*/}
+                {/*    name="confirmPassword"*/}
+                {/*    id="confirmPassword"*/}
+                {/*    placeholder={t('REGISTER.FORM.CONFIRM_PASSWORD_PLACEHOLDER')}*/}
+                {/*    className="input input--base input--text input--icon"*/}
+                {/*    password={true}*/}
+                {/*  />*/}
+                {/*</div>*/}
 
 
                 <label className="align--center">
