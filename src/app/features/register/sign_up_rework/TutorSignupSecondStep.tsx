@@ -7,16 +7,26 @@ import { useRef, useState } from 'react';
 import TextField from '../../../components/form/TextField';
 import { useCheckMailMutation } from '../../../../services/authService';
 import useOutsideAlerter from '../../../utils/useOutsideAlerter';
+import { useAppSelector } from '../../../hooks';
+import { useDispatch } from 'react-redux';
+import { setStepTwo } from '../../../../slices/tutorSignUpSlice';
 
 interface StepTwoValues {
   email: string;
   phoneNumber: string;
 }
 
-export const TutorSignupSecondStep = () => {
+type StepTwoProps ={
+  nextStep:() => void
+};
+
+export const TutorSignupSecondStep = ({ nextStep }:StepTwoProps) => {
+
+  const dispatch = useDispatch();
+  const state = useAppSelector((state) => state.tutorSignUp);
+  const {email, phoneNumber} = state;
   const rangeSetterRef = useRef<HTMLDivElement>(null);
   const [phoneTooltip, setPhoneTooltip] = useState<boolean>(false);
-  const [checkMailValidation, setCheckMailValidation] = useState<string>('');
   const [checkMail] = useCheckMailMutation();
 
   const hideTooltip = () => {
@@ -26,8 +36,8 @@ export const TutorSignupSecondStep = () => {
   useOutsideAlerter(rangeSetterRef, hideTooltip);
 
   const initialValues: StepTwoValues = {
-    email: '',
-    phoneNumber: '',
+    email: email,
+    phoneNumber: phoneNumber,
   };
 
   const formik = useFormik({
@@ -37,7 +47,14 @@ export const TutorSignupSecondStep = () => {
     validateOnChange: false,
     enableReinitialize: true,
     validationSchema: Yup.object().shape({
-      email: Yup.string().email(t('FORM_VALIDATION.INVALID_EMAIL')).required(t('FORM_VALIDATION.REQUIRED')),
+      email: Yup.string().email(t('FORM_VALIDATION.INVALID_EMAIL'))
+        .test('checkEmailExistence', t('REGISTER.FORM.EMAIL_CONFLICT'), async (value) => {
+          if (!value) return true;
+
+          const emailExists = await checkMail({ email: value }).unwrap();
+          return !emailExists;
+        })
+        .required(t('FORM_VALIDATION.REQUIRED')),
       phoneNumber: Yup.string()
         .required(t('FORM_VALIDATION.REQUIRED'))
         .matches(
@@ -54,31 +71,28 @@ export const TutorSignupSecondStep = () => {
     }
   };
 
-  const checkEmailExistence = async () => {
-    const isValid = await checkMail({
-      email: formik.values.email,
-    }).unwrap();
-    if (isValid) {
-      setCheckMailValidation(t('REGISTER.EMAIL_CONFLICT'));
-    } else {
-      setCheckMailValidation('');
-    }
-  };
-
   function handleSubmitStepTwo(values: StepTwoValues) {
-    return undefined;
+   dispatch(
+     setStepTwo(
+       {
+         email: values.email,
+         phoneNumber: values.phoneNumber,
+         countryId: 'da98ad50-5138-4f0d-b297-62c5cb101247' //TODO: figure out country id somehow, for now its HC to Croatia
+       }
+     )
+   );
+
+   nextStep();
   }
 
   return (
     <>
-      <div
-        style={{width:"50%", margin:"3em auto"}}
-      >
+      <div className='sign-up-form-wrapper'>
         <FormikProvider value={formik}>
           <Form onKeyPress={handleEnterKeyOne}>
 
             {/*phone number*/}
-            <div className="field" ref={rangeSetterRef}>
+            <div className="field__w-60 align--center" ref={rangeSetterRef}>
               <label htmlFor="phoneNumber" className="field__label">
                 {t('REGISTER.FORM.PHONE_NUMBER')}
               </label>
@@ -95,7 +109,7 @@ export const TutorSignupSecondStep = () => {
             </div>
 
             {/*email*/}
-            <div className="field">
+            <div className="field__w-60 align--center">
               <label className="field__label" htmlFor="email">
                 {t('REGISTER.FORM.EMAIL')}
               </label>
@@ -103,19 +117,21 @@ export const TutorSignupSecondStep = () => {
                 onBlur={(e: any) => {
                   formik.handleBlur(e);
                   //formik.validateForm();
-                  checkEmailExistence();
+                  // checkEmailExistence();
                 }}
                 name="email"
                 id="email"
                 placeholder={t('REGISTER.FORM.EMAIL_PLACEHOLDER')}
-                additionalValidation={checkMailValidation}
+                //additionalValidation={checkMailValidation}
               />
             </div>
-
+            <button
+              type="button"
+              className="btn--lg"
+              onClick={() => formik.handleSubmit()}>NEXT</button>
           </Form>
         </FormikProvider>
       </div>
-
     </>
   );
 };
