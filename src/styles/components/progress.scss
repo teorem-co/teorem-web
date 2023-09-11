@@ -33,3 +33,18 @@
         }
     }
 }
+
+@media (max-width: 767px) {
+  .progress-circle{
+    height: 55px;
+    width: 55px;
+  }
+}
+
+
+@media (min-width: 767px) {
+  .progress-circle{
+    height: 80px;
+    width: 80px;
+  }
+}

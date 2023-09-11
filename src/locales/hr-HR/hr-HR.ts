@@ -327,7 +327,12 @@ export const HR_HR = {
             CHILD_DATE_OF_BIRTH: 'Datum rođenja djeteta*',
             USERNAME: 'Korisničko ime*',
             EMAIL_CONFLICT: 'Email se već koristi',
-            TERMS_AND_CONDITIONS: 'Prihvaćam odredbe i uvjete'
+            TERMS_AND_CONDITIONS: '<div>Slažem se s <a href="https://teorem.co/en/terms" target="_blank">Uvjetima pružanja usluge</a> i <a href="https://teorem.co/hr/pravila-privatnosti" target="_blank">Politikom privatnosti</a></div>',
+            STEPS:{
+                FIRST: 'Unesite vaše <span class=primary-color> ime </span>?',
+                SECOND: 'Kako vas možemo <span class=primary-color>kontaktirati</span>?',
+                THIRD: 'Naposljetku, kreirajte <span class=primary-color>lozinku</span>'
+            }
         },
         CARD_DETAILS: {
             FIRST_NAME: 'Ime*',
@@ -1002,7 +1007,8 @@ export const HR_HR = {
         SAVE: "Spremi",
         CANCEL: "Odustani",
         TERMS: '<div>Klikom na gumb \'Pošalji\' slažete se s <a href="https://stripe.com/legal/connect-account" target="_blank">Uvjetima pružanja usluge</a> i <a href="https://stripe.com/privacy" target="_blank">Politikom privatnosti</a></div>',
-        SUCCESS: 'Račun za plaćanje povezan',
+
+      SUCCESS: 'Račun za plaćanje povezan',
     },
     SUBJECTS: {
         biology: 'Biologija',
