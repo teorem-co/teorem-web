@@ -32,6 +32,7 @@ const MyDatePicker = ({ field, form }: CustomSelectProps) => {
         format="d/M/y"
         minDate={new Date(1900, 0, 1)}
         onCalendarClose={() => form.setFieldTouched(field.name)}
+        className="bg__white"
       />
 
       <div className="field__validation">{errorText ? errorText : ''}</div>

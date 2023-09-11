@@ -16,11 +16,11 @@
         }
         .react-date-picker {
             &__inputGroup {
-                font-size: 14px !important;
+                font-size: large !important;
                 font-weight: 400 !important;
 
                 input::placeholder {
-                    font-size: 14px !important;
+                    font-size: large !important;
                     font-weight: 400 !important;
                 }
 
@@ -29,7 +29,7 @@
                 }
 
                 &__input::placeholder {
-                    font-size: 14px !important;
+                    font-size: large !important;
                     font-weight: 400 !important;
                 }
             }

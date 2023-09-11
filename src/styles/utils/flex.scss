@@ -30,6 +30,10 @@
         align-items: flex-start;
     }
 
+    &--baseline{
+      align-items: baseline;
+    }
+
     &--jc {
         &--space-between {
             justify-content: space-between;

@@ -80,11 +80,9 @@ export const TutorSignupFirstStep = ({nextStep}:StepOneProps) => {
           <Form onKeyPress={handleEnterKeyOne}>
 
             {/*first name*/}
-            <div className="field__w-60 align--center">
-              <label htmlFor="firstName" className="field__label">
-                {t('REGISTER.FORM.FIRST_NAME')}
-              </label>
+            <div className="align--center mb-5">
               <TextField
+                style={{background:'white'}}
                 name="firstName"
                 id="firstName"
                 placeholder={t('REGISTER.FORM.FIRST_NAME_PLACEHOLDER')}
@@ -92,11 +90,9 @@ export const TutorSignupFirstStep = ({nextStep}:StepOneProps) => {
             </div>
 
             {/*last name*/}
-            <div className="field__w-60 align--center">
-              <label htmlFor="lastName" className="field__label">
-                {t('REGISTER.FORM.LAST_NAME')}
-              </label>
+            <div className="align--center mb-5">
               <TextField
+                style={{background:'white'}}
                 name="lastName"
                 id="lastName"
                 placeholder={t('REGISTER.FORM.LAST_NAME_PLACEHOLDER')}
@@ -105,10 +101,7 @@ export const TutorSignupFirstStep = ({nextStep}:StepOneProps) => {
 
             {/*date of birth*/}
             <div
-              className="field align--center field__w-fit-content">
-              <label className="field__label" htmlFor="dateOfBirth">
-                {t('REGISTER.FORM.DATE_OF_BIRTH')}
-              </label>
+              className="field align--center field__w-fit-content mb-5">
               <MyDatePicker
                 form={formik}
                 field={formik.getFieldProps('dateOfBirth')}
@@ -118,8 +111,8 @@ export const TutorSignupFirstStep = ({nextStep}:StepOneProps) => {
 
             <button
               type="button"
-              className="btn--lg"
-              style={{borderRadius:"25px"}}
+              className="btn--lg btn--primary cur--pointer mt-5"
+              style={{borderRadius:"5px", fontWeight:'bolder'}}
               onClick={() => formik.handleSubmit()}>NEXT</button>
           </Form>
         </FormikProvider>

@@ -2,14 +2,44 @@
     components: field
 */
 
-.sign-up-form-wrapper{
-  margin: 0 auto;
-  text-align: center;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
+@media (max-width: 767px) {
+  .sign-up-form-wrapper {
+    font-size: xx-small;
+    width: 80%;
+  }
+
+  .field__w-60 {
+    width: 100%;
+  }
+
+  .signup-title{
+    font-size: 1em;
+  }
 }
 
+.signup-title{
+  font-size: 3em;
+}
+
+@media (min-width: 767px) {
+  .sign-up-form-wrapper {
+    width: 20%;
+  }
+}
+
+.sign-up-form-wrapper{
+  //margin: 0 auto;
+  text-align: center;
+  flex-direction: column;
+  //align-items: center;
+  //width: 30%;
+  font-size: large;
+  //background-color: red;
+}
+
+.password-tooltip{
+  font-size: x-small;
+}
 
 .field {
     position: relative;
@@ -35,6 +65,7 @@
       &-70{
         width: 70%;
       }
+
       &-fit-content{
         width: fit-content;
       }
