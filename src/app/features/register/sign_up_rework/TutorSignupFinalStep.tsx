@@ -1,6 +1,7 @@
 import React from 'react';
 
 import CircularProgress from '../../my-profile/components/CircularProgress';
+import { t } from 'i18next';
 
 
 export const TutorSignupFinalStep = () => {
@@ -12,7 +13,7 @@ export const TutorSignupFinalStep = () => {
       <div>
         Please confirm email adress by clicking link that we sent you
       </div>
-      <button>RESEND</button>
+      <button>{t('REGISTER.FINISH')}</button>
     </div>
     </>
   );

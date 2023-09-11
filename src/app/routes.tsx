@@ -130,6 +130,12 @@ export const ROUTES: any = [
   //   component: () => <TutorSignupSecondStep />,
   // },
   {
+    path: '/hr/1',
+    key: 'firstStephr',
+    exact: true,
+    component: () => <TutorSignup />,
+  },
+  {
     path: '/en/1',
     key: 'firstStep',
     exact: true,
