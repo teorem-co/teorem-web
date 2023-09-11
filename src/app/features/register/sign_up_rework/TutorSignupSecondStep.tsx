@@ -91,43 +91,38 @@ export const TutorSignupSecondStep = ({ nextStep }:StepTwoProps) => {
         <FormikProvider value={formik}>
           <Form onKeyPress={handleEnterKeyOne}>
 
+            {/*email*/}
+            <div className="align--center mb-5">
+              <TextField
+                style={{background:'white'}}
+                onBlur={(e: any) => {
+                  formik.handleBlur(e);
+                }}
+                name="email"
+                id="email"
+                placeholder={t('REGISTER.FORM.EMAIL_PLACEHOLDER')}
+              />
+            </div>
+
             {/*phone number*/}
-            <div className="field__w-60 align--center" ref={rangeSetterRef}>
-              <label htmlFor="phoneNumber" className="field__label">
-                {t('REGISTER.FORM.PHONE_NUMBER')}
-              </label>
+            <div
+              className="align--center mb-5"
+              ref={rangeSetterRef}>
               <MyPhoneInput
                 form={formik}
                 name="phoneNumber"
                 field={formik.getFieldProps('phoneNumber')}
                 meta={formik.getFieldMeta('phoneNumber')}
                 openTooltip={() => setPhoneTooltip(true)}
+
               />
-              <div className={`tooltip--phone ${phoneTooltip ? 'active' : ''}`}>
-                <div className="">{t('REGISTER.FORM.PHONE_INFO')}</div>
-              </div>
+              <div className="text-align--start password-tooltip">TODO: your phonenumber will not bee seen publicly</div>
             </div>
 
-            {/*email*/}
-            <div className="field__w-60 align--center">
-              <label className="field__label" htmlFor="email">
-                {t('REGISTER.FORM.EMAIL')}
-              </label>
-              <TextField
-                onBlur={(e: any) => {
-                  formik.handleBlur(e);
-                  //formik.validateForm();
-                  // checkEmailExistence();
-                }}
-                name="email"
-                id="email"
-                placeholder={t('REGISTER.FORM.EMAIL_PLACEHOLDER')}
-                //additionalValidation={checkMailValidation}
-              />
-            </div>
             <button
               type="button"
-              className="btn--lg"
+              className="btn--lg btn--primary cur--pointer"
+              style={{borderRadius:"10px", fontWeight:'bolder'}}
               onClick={() => formik.handleSubmit()}>NEXT</button>
           </Form>
         </FormikProvider>
