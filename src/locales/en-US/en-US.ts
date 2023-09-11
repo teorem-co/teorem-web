@@ -461,7 +461,9 @@ export const EN_US = {
         TOOLTIP_DROPDOWN_LABEL: 'Show video lessons',
         TOOLTIP_PLAY_LESSON: 'Play/download video lesson',
         DATE_TITLE: 'Date',
-        DATE_AT_WORD: 'at'
+      DATE_AT_WORD: 'at',
+      DOWNLOAD_INVOICE_SUCCESS: 'Invoice download succeeded!',
+      DOWNLOAD_INVOICE_FAIL: 'Invoice download failed!',
     },
     WRITE_REVIEW: {
         SECTION_TITLE: 'Write a review',
