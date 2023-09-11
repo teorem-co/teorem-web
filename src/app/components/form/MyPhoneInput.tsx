@@ -57,6 +57,8 @@ const MyPhoneInput: FC<TextFieldType> = (props: any) => {
             onBlur={() => form.setFieldTouched(field.name)}
             disabled={props.disabled}
             onClick={() => props.openTooltip()}
+            inputStyle={{fontSize:'large'}}
+            searchStyle={{fontSize:'large'}}
         />
         <div className="field__validation">{errorText}</div>
       </>

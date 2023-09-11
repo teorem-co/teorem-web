@@ -92,9 +92,13 @@ export function TutorSignupThirdStep({ nextStep }:StepThreeProps) {
     if (letter && myInput?.value.match(lowerCaseLetters)) {
       letter.classList.remove('icon--grey');
       letter.classList.add('icon--success');
+      letter.classList.remove('icon--close');
+      letter.classList.add('icon--check');
     } else {
       letter?.classList.remove('icon--success');
-      letter?.classList.add('icon--error');
+      letter?.classList.add('icon--grey');
+      letter?.classList.add('icon--close');
+      letter?.classList.remove('icon--check');
     }
 
     // Validate capital letters
@@ -102,9 +106,13 @@ export function TutorSignupThirdStep({ nextStep }:StepThreeProps) {
     if (myInput.value.match(upperCaseLetters)) {
       capital?.classList.remove('icon--grey');
       capital?.classList.add('icon--success');
+      capital?.classList.remove('icon--close');
+      capital?.classList.add('icon--check');
     } else {
       capital?.classList.remove('icon--success');
       capital?.classList.add('icon--grey');
+      capital?.classList.add('icon--close');
+      capital?.classList.remove('icon--check');
     }
 
     // Validate numbers
@@ -112,18 +120,25 @@ export function TutorSignupThirdStep({ nextStep }:StepThreeProps) {
     if (myInput.value.match(numbers)) {
       number?.classList.remove('icon--grey');
       number?.classList.add('icon--success');
+      number?.classList.remove('icon--close');
+      number?.classList.add('icon--check');
     } else {
       number?.classList.remove('icon--success');
       number?.classList.add('icon--grey');
+      number?.classList.add('icon--close');
+      number?.classList.remove('icon--check');
     }
-
     // Validate length
     if (myInput.value.length >= 8) {
       length?.classList.remove('icon--grey');
       length?.classList.add('icon--success');
+      length?.classList.remove('icon--close');
+      length?.classList.add('icon--check');
     } else {
       length?.classList.remove('icon--success');
       length?.classList.add('icon--grey');
+      length?.classList.add('icon--close');
+      length?.classList.remove('icon--check');
     }
 
     // Validate special characters
@@ -131,9 +146,13 @@ export function TutorSignupThirdStep({ nextStep }:StepThreeProps) {
     if (myInput.value.match(specialCharacters)) {
       special?.classList.remove('icon--grey');
       special?.classList.add('icon--success');
+      special?.classList.remove('icon--close');
+      special?.classList.add('icon--check');
     } else {
       special?.classList.remove('icon--success');
       special?.classList.add('icon--grey');
+      special?.classList.add('icon--close');
+      special?.classList.remove('icon--check');
     }
   };
 
@@ -148,11 +167,9 @@ export function TutorSignupThirdStep({ nextStep }:StepThreeProps) {
               >
 
                 {/*password*/}
-                <div className="field">
-                  <label className="field__label" htmlFor="password">
-                    {t('REGISTER.FORM.PASSWORD')}
-                  </label>
+                <div className="field mb-5">
                   <TextField
+                    style={{background:'white'}}
                     name="password"
                     id="password"
                     placeholder={t('REGISTER.FORM.PASSWORD_PLACEHOLDER')}
@@ -183,18 +200,22 @@ export function TutorSignupThirdStep({ nextStep }:StepThreeProps) {
                 {/*  />*/}
                 {/*</div>*/}
 
-
-                <label className="align--center">
+                <label className="align--center mb-5">
                   <Field type="checkbox" name="termsAndConditions"/>
                   {t('REGISTER.FORM.TERMS_AND_CONDITIONS')}
                 </label>
+
                 {formik.touched.termsAndConditions && formik.errors.termsAndConditions ? (
                   <div style={{color:'#e53e3e', fontSize:'12px'}}>{formik.errors.termsAndConditions}</div>
                 ) : null}
 
-                <button type="button" onClick={() => formik.handleSubmit()}>FINISH</button>
               </div>
 
+              <button
+                type="button"
+                className="btn--lg btn--primary cur--pointer"
+                style={{borderRadius:"25px"}}
+                onClick={() => formik.handleSubmit()}>NEXT</button>
             </Form>
           </FormikProvider>
         </div>

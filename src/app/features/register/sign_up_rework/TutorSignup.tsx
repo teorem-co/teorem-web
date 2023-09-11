@@ -37,9 +37,10 @@ export function TutorSignup() {
   } = state;
 
   const titles = [
-    "What's your name?",
-    "How do we contact you?",
-    "Lastly, create a password"
+    "What's your <span class='primary-color'>name</span>?",
+    // "What's your name?",
+    "How do we <span class='primary-color'>contact</span> you?",
+    "Lastly, create a <span class='primary-color'>password</span>"
   ];
 
   function nextStep() {
@@ -96,47 +97,37 @@ export function TutorSignup() {
   }, [currentStepIndex]);
   return (
     <>
-      <div className=' mb-20 '></div>
+      <div className='mb-20'></div>
 
       {!isLastStep &&
-        <div className='flex field__w-fit-content align--center'>
-          <div className='flex flex--center' >
+        <div className='flex field__w-fit-content align--center' >
+          <div className='flex flex--center'>
 
             {!isFirstStep &&
               <AiOutlineLeft
-                className="mr-6"
+                className="mr-6 cur--pointer"
                 size={"3em"}
                 onClick={back} />
             }
 
             <CircularProgress progressNumber={percentage} size={80} />
 
-            <h4 className=' ml-6' style={{fontSize:"1.5em"}}>
-              {titles[currentStepIndex]}
+            <h4 className='signup-title ml-6'>
+              <span dangerouslySetInnerHTML={{ __html: titles[currentStepIndex] }} />
+              {/*{titles[currentStepIndex]}*/}
             </h4>
 
-
             <AiOutlineClose
-              className="ml-6"
-              size={isFirstStep? "2.5em" : "3em" }
+              className="ml-6 cur--pointer"
+              size={isFirstStep? "3em" : "3.5em" }
               onClick={back}/>
           </div>
         </div>
       }
 
       <div
-        //this div
-        style={{
-          flexDirection: 'column',
-          alignItems: 'center',
-          // backgroundColor: 'red',
-          background: 'white', // Note: 'backgroundColor' and 'background' are conflicting. Use one.
-          padding: '2rem',
-          margin: '0 auto',
-          borderRadius: '.5rem',
-          fontFamily: 'Arial',
-          width: '100%', // This will set
-        }}>
+        style={{background:"#f8f4fe"}}
+        className="signup-container">
         {step}
       </div>
     </>

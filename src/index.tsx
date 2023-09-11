@@ -27,6 +27,7 @@ ReactDOM.render(
                     /* Empty callback to block the default browser prompt */
                 }}
             >
+
                 <App />
                 <ToastContainer />
             </Router>
