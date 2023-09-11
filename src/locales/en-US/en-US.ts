@@ -330,8 +330,14 @@ export const EN_US = {
             CHILD_DATE_OF_BIRTH: "Child's Date of Birth*",
             USERNAME: 'Username*',
             EMAIL_CONFLICT: 'Email already in use',
-            TERMS_AND_CONDITIONS: 'I accept terms and conditions'
-        },
+            TERMS_AND_CONDITIONS:'<div>I agree to the <a href="https://teorem.co/en/terms" target="_blank">Terms of Service</a> and <a href="https://teorem.co/en/privacy-policy" target="_blank">Privacy Policy</a></div>',
+            STEPS: {
+              FIRST: "What's your <span class='primary-color'>name</span>?",
+              SECOND: "How can we <span class='primary-color'>contact</span> you?",
+              THIRD: "Lastly, create a <span class='primary-color'>password</span>",
+            }
+
+},
         CARD_DETAILS: {
             FIRST_NAME: 'First Name*',
             LAST_NAME: 'Last Name*',

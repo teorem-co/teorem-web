@@ -111,9 +111,8 @@ export const TutorSignupFirstStep = ({nextStep}:StepOneProps) => {
 
             <button
               type="button"
-              className="btn--lg btn--primary cur--pointer mt-5"
-              style={{borderRadius:"5px", fontWeight:'bolder'}}
-              onClick={() => formik.handleSubmit()}>NEXT</button>
+              className="btn btn--lg btn--primary cur--pointer mt-5 btn-signup"
+              onClick={() => formik.handleSubmit()}>{t('REGISTER.NEXT_BUTTON')}</button>
           </Form>
         </FormikProvider>
       </div>

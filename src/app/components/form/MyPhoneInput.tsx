@@ -44,6 +44,10 @@ const MyPhoneInput: FC<TextFieldType> = (props: any) => {
      window && window.location.pathname === PATHS.ONBOARDING && updateCountry();
   }, [form.values.countryId]);
 
+  // set font size based on device
+  const isMobile = window.innerWidth <= 768;
+  const fontSize = isMobile ? 'medium' : 'medium';
+
   return (
       <>
         <PhoneInput
@@ -57,8 +61,8 @@ const MyPhoneInput: FC<TextFieldType> = (props: any) => {
             onBlur={() => form.setFieldTouched(field.name)}
             disabled={props.disabled}
             onClick={() => props.openTooltip()}
-            inputStyle={{fontSize:'large'}}
-            searchStyle={{fontSize:'large'}}
+            inputStyle={{fontSize:fontSize}}
+            searchStyle={{fontSize:fontSize}}
         />
         <div className="field__validation">{errorText}</div>
       </>

@@ -105,25 +105,23 @@ export const TutorSignupSecondStep = ({ nextStep }:StepTwoProps) => {
             </div>
 
             {/*phone number*/}
-            <div
-              className="align--center mb-5"
-              ref={rangeSetterRef}>
+            <div className="align--center mb-5" ref={rangeSetterRef}>
               <MyPhoneInput
                 form={formik}
                 name="phoneNumber"
                 field={formik.getFieldProps('phoneNumber')}
                 meta={formik.getFieldMeta('phoneNumber')}
                 openTooltip={() => setPhoneTooltip(true)}
-
               />
-              <div className="text-align--start password-tooltip">TODO: your phonenumber will not bee seen publicly</div>
+              <div className="password-tooltip font__sm text-align--center">{t('REGISTER.FORM.PHONE_INFO')}</div>
+
             </div>
 
             <button
               type="button"
-              className="btn--lg btn--primary cur--pointer"
-              style={{borderRadius:"10px", fontWeight:'bolder'}}
-              onClick={() => formik.handleSubmit()}>NEXT</button>
+              className="btn btn--lg btn--primary cur--pointer mt-5 btn-signup"
+              // style={{borderRadius:"10px", fontWeight:'bolder'}}
+              onClick={() => formik.handleSubmit()}>{t('REGISTER.NEXT_BUTTON')}</button>
           </Form>
         </FormikProvider>
       </div>

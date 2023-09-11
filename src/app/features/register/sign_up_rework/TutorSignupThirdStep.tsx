@@ -1,14 +1,13 @@
-import { Field, Form, FormikProvider, useFormik } from 'formik';
+import { ErrorMessage, Field, Form, FormikProvider, useFormik } from 'formik';
 import * as Yup from 'yup';
 import { t } from 'i18next';
 import TextField from '../../../components/form/TextField';
-import TooltipPassword from '../TooltipPassword';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useAppSelector } from '../../../hooks';
 import { useDispatch } from 'react-redux';
 import { setStepThree } from '../../../../slices/tutorSignUpSlice';
-import * as tty from 'tty';
-import TooltipPasswordNew from '../TooltipPasswordNew';
+
+import PasswordTooltip from '../PasswordTooltip';
 
 interface StepThreeValues {
   password: string;
@@ -61,9 +60,9 @@ export function TutorSignupThirdStep({ nextStep }:StepThreeProps) {
           /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_/+\-=[\]{};':"\\|,.<>?])[A-Za-z\d!@#$%^&*()_/+\-=[\]{};':"\\|,.<>?]{8,128}$/gm,
           t('FORM_VALIDATION.PASSWORD_STRENGTH')
         ),
-      confirmPassword: Yup.string()
-        .required(t('FORM_VALIDATION.REQUIRED'))
-        .oneOf([Yup.ref('password'), null], t('FORM_VALIDATION.PASSWORD_MATCH')),
+      // confirmPassword: Yup.string()
+      //   .required(t('FORM_VALIDATION.REQUIRED'))
+      //   .oneOf([Yup.ref('password'), null], t('FORM_VALIDATION.PASSWORD_MATCH')),
       termsAndConditions: Yup.boolean()
         .required(t('FORM_VALIDATION.REQUIRED'))
         .oneOf([true], t('FORM_VALIDATION.AGREE_TERMS_REQUIRED'))
@@ -183,10 +182,9 @@ export function TutorSignupThirdStep({ nextStep }:StepThreeProps) {
                     }}
                     onKeyUp={handleKeyUp}
                   />
-                  <TooltipPasswordNew passTooltip={true} positionTop={false}/>
-
-                  {/*confirm password*/}
+                  <PasswordTooltip className="password-tooltip" passTooltip={true} positionTop={false}/>
                 </div>
+                {/*confirm password*/}
                 {/*<div className="field">*/}
                 {/*  <label className="field__label" htmlFor="confirmPassword">*/}
                 {/*    {t('REGISTER.FORM.CONFIRM_PASSWORD')}*/}
@@ -200,22 +198,24 @@ export function TutorSignupThirdStep({ nextStep }:StepThreeProps) {
                 {/*  />*/}
                 {/*</div>*/}
 
-                <label className="align--center mb-5">
+                <div className="flex flex--row font__sm align--center">
                   <Field type="checkbox" name="termsAndConditions"/>
-                  {t('REGISTER.FORM.TERMS_AND_CONDITIONS')}
-                </label>
+                  <div className="text-align--start ml-5"  dangerouslySetInnerHTML={{ __html: t('REGISTER.FORM.TERMS_AND_CONDITIONS') }} />
+                </div>
 
-                {formik.touched.termsAndConditions && formik.errors.termsAndConditions ? (
-                  <div style={{color:'#e53e3e', fontSize:'12px'}}>{formik.errors.termsAndConditions}</div>
-                ) : null}
+                <ErrorMessage name="termsAndConditions">
+                  {msg => <div className="field__validation">{msg}</div>}
+                </ErrorMessage>
+
+
+
 
               </div>
 
               <button
                 type="button"
-                className="btn--lg btn--primary cur--pointer"
-                style={{borderRadius:"25px"}}
-                onClick={() => formik.handleSubmit()}>NEXT</button>
+                className="btn btn--lg btn--primary cur--pointer mt-5 btn-signup"
+                onClick={() => formik.handleSubmit()}>{t('REGISTER.NEXT_BUTTON')}</button>
             </Form>
           </FormikProvider>
         </div>
