@@ -26,14 +26,7 @@ export const TutorSignupSecondStep = ({ nextStep }:StepTwoProps) => {
   const state = useAppSelector((state) => state.tutorSignUp);
   const {email, phoneNumber} = state;
   const rangeSetterRef = useRef<HTMLDivElement>(null);
-  const [phoneTooltip, setPhoneTooltip] = useState<boolean>(false);
   const [checkMail] = useCheckMailMutation();
-
-  const hideTooltip = () => {
-    setPhoneTooltip(false);
-  };
-
-  useOutsideAlerter(rangeSetterRef, hideTooltip);
 
   const initialValues: StepTwoValues = {
     email: email,
@@ -111,7 +104,6 @@ export const TutorSignupSecondStep = ({ nextStep }:StepTwoProps) => {
                 name="phoneNumber"
                 field={formik.getFieldProps('phoneNumber')}
                 meta={formik.getFieldMeta('phoneNumber')}
-                openTooltip={() => setPhoneTooltip(true)}
               />
               <div className="password-tooltip font__sm text-align--center">{t('REGISTER.FORM.PHONE_INFO')}</div>
 

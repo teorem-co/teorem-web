@@ -267,3 +267,11 @@
     font-size: 50px;
   }
 }
+
+.signup-icon {
+  transition: transform 0.3s ease; /* Add a transition for the transform property */
+}
+
+.signup-icon:hover {
+  transform: scale(1.2); /* Scale the icon to 110% on hover */
+}
