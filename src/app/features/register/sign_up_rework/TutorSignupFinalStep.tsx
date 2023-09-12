@@ -1,19 +1,20 @@
+import { t } from 'i18next';
 import React from 'react';
 
-import CircularProgress from '../../my-profile/components/CircularProgress';
-import { t } from 'i18next';
-
-
 export const TutorSignupFinalStep = () => {
+  function resend(){
+    alert("RESENDING...");
+  }
+
   return (
     <>
-    <div className="flex flex--center  flex--col align--center">
-      <CircularProgress progressNumber={100} size={80} />
-      WELCOME TO TEOREM PLATFORM
-      <div>
-        Please confirm email adress by clicking link that we sent you
-      </div>
-      <button>{t('REGISTER.FINISH')}</button>
+    <div className="flex flex--center flex--col align--center sign-up-form-wrapper">
+
+      <p className='text-align--center'>{t('REGISTER.FORM.CONFIRM_EMAIL')}</p>
+      <button
+        className="btn btn-signup btn--primary btn--md mt-10"
+        onClick={resend}
+      >{t('REGISTER.FORM.RESEND')}</button>
     </div>
     </>
   );

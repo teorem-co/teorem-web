@@ -331,8 +331,11 @@ export const HR_HR = {
             STEPS:{
                 FIRST: 'Unesite vaše <span class=primary-color> ime </span>',
                 SECOND: 'Kako vas možemo <span class=primary-color>kontaktirati</span>?',
-                THIRD: 'Naposljetku, kreirajte <span class=primary-color>lozinku</span>'
-            }
+                THIRD: 'Naposljetku, kreirajte <span class=primary-color>lozinku</span>',
+                FINAL: '<span class=primary-color>Dobrodošli</span> na Teorem!'
+            },
+            CONFIRM_EMAIL: 'Molimo potvrdite svoju e-mail adresu klikom na verifikacijski link koji smo vam poslali',
+            RESEND: 'Ponovno pošalji link'
         },
         CARD_DETAILS: {
             FIRST_NAME: 'Ime*',

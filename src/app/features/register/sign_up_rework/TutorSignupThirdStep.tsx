@@ -215,7 +215,8 @@ export function TutorSignupThirdStep({ nextStep }:StepThreeProps) {
               <button
                 type="button"
                 className="btn btn--lg btn--primary cur--pointer mt-5 btn-signup"
-                onClick={() => formik.handleSubmit()}>{t('REGISTER.NEXT_BUTTON')}</button>
+                // onClick={() => formik.handleSubmit()}>{t('REGISTER.NEXT_BUTTON')}</button>
+                onClick={nextStep}>{t('REGISTER.NEXT_BUTTON')}</button>
             </Form>
           </FormikProvider>
         </div>

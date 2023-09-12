@@ -52,3 +52,16 @@
   width: 40px;
   height: 40px;
 }
+
+
+@media (max-width: 767px) {
+  .signup-logo{
+    width: 150px;
+  }
+}
+
+@media (min-width: 767px) {
+  .signup-logo{
+    width: 300px;
+  }
+}

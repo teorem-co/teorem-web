@@ -8,6 +8,10 @@
     font-size: small;
   }
 
+  &__md{
+    font-size: medium;
+  }
+
   &__lg{
     font-size: large;
   }
@@ -26,6 +30,10 @@
 
   &__xxxlg{
     font-size: xxx-large;
+  }
+
+  &__30{
+    font-size: 0.5em;
   }
 }
 

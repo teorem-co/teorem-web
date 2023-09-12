@@ -18,7 +18,7 @@ import { t } from 'i18next';
 import { NavLink } from 'react-router-dom';
 import { TutorSignupFinalStep } from './TutorSignupFinalStep';
 import { grey } from '@mui/material/colors';
-
+import logo from '../../../../assets/images/teorem_logo_purple.png';
 
 export function TutorSignup() {
 
@@ -38,7 +38,7 @@ export function TutorSignup() {
   } = state;
 
   const titles = [
-    "REGISTER.FORM.STEPS.FIRST", "REGISTER.FORM.STEPS.SECOND", "REGISTER.FORM.STEPS.THIRD"
+    "REGISTER.FORM.STEPS.FIRST", "REGISTER.FORM.STEPS.SECOND", "REGISTER.FORM.STEPS.THIRD", "REGISTER.FORM.STEPS.FINAL"
   ];
 
 
@@ -101,38 +101,40 @@ export function TutorSignup() {
   }, [currentStepIndex]);
   return (
     <>
+      <img
+        src={logo}
+        alt='logo'
+        className="mt-5 ml-5 signup-logo"
+      />
       <div className='mb-20'></div>
 
-      {!isLastStep &&
-        // <div className='flex field__w-fit-content align--center' >
-          <div className='flex field__w-fit-content align--center flex--center'>
+      {/*// <div className='flex field__w-fit-content align--center' >*/}
+        <div className='flex field__w-fit-content align--center flex--center'>
 
-            {!isFirstStep &&
-              <AiOutlineLeft
-              className={`ml-2 mr-6 cur--pointer signup-icon ${isFirstStep ? 'hide-icon' : ''}`}
-              color='grey'
-              onClick={back}
-            />}
+          {!isFirstStep && !isLastStep &&
+            <AiOutlineLeft
+            className={`ml-2 mr-6 cur--pointer signup-icon ${isFirstStep ? 'hide-icon' : ''}`}
+            color='grey'
+            onClick={back}
+          />}
 
-            <CircularProgress
-              className='progress-circle'
-              progressNumber={percentage}
-            />
+          <CircularProgress
+            className='progress-circle'
+            progressNumber={percentage}
+          />
 
-            <h4 className='signup-title ml-6 text-align--center '>
-              <span dangerouslySetInnerHTML={{ __html: t(titles[currentStepIndex]) }} />
-              {/*{titles[currentStepIndex]}*/}
-            </h4>
+          <h4 className='signup-title ml-6 text-align--center '>
+            <span dangerouslySetInnerHTML={{ __html: t(titles[currentStepIndex]) }} />
+          </h4>
 
+          {!isLastStep &&
             <AiOutlineClose
               className="mr-2 ml-6 cur--pointer signup-icon"
               color='grey'
               onClick={close}/>
-          </div>
-        // </div>
-      }
+          }
 
-
+        </div>
       <div
         style={{background:"#f8f4fe"}}
         className="signup-container">
