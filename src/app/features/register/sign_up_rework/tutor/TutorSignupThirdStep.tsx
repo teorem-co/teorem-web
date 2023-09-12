@@ -1,13 +1,13 @@
 import { ErrorMessage, Field, Form, FormikProvider, useFormik } from 'formik';
 import * as Yup from 'yup';
 import { t } from 'i18next';
-import TextField from '../../../components/form/TextField';
+import TextField from '../../../../components/form/TextField';
 import React, { useState } from 'react';
-import { useAppSelector } from '../../../hooks';
+import { useAppSelector } from '../../../../hooks';
 import { useDispatch } from 'react-redux';
-import { setStepThree } from '../../../../slices/tutorSignUpSlice';
+import { setStepThree } from '../../../../../slices/tutorSignUpSlice';
 
-import PasswordTooltip from '../PasswordTooltip';
+import PasswordTooltip from '../../PasswordTooltip';
 
 interface StepThreeValues {
   password: string;

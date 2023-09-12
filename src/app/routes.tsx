@@ -50,17 +50,20 @@ import { setLang } from '../slices/langSlice';
 import { Badge } from '@mui/material';
 import {
   TutorSignupFirstStep
-} from './features/register/sign_up_rework/TutorSignupFirstStep';
+} from './features/register/sign_up_rework/tutor/TutorSignupFirstStep';
 import {
   TutorSignupSecondStep
-} from './features/register/sign_up_rework/TutorSignupSecondStep';
+} from './features/register/sign_up_rework/tutor/TutorSignupSecondStep';
 import {
   TutorSignupThirdStep
-} from './features/register/sign_up_rework/TutorSignupThirdStep';
-import { TutorSignup } from './features/register/sign_up_rework/TutorSignup';
+} from './features/register/sign_up_rework/tutor/TutorSignupThirdStep';
+import { TutorSignup } from './features/register/sign_up_rework/tutor/TutorSignup';
 import {
   TutorSignupFinalStep
-} from './features/register/sign_up_rework/TutorSignupFinalStep';
+} from './features/register/sign_up_rework/tutor/TutorSignupFinalStep';
+import {
+  SignupRoleSelect
+} from './features/register/sign_up_rework/SignupRoleSelect';
 
 export const PATHS = {
   ROLE_SELECTION: t('PATHS.ROLE_SELECTION'),
@@ -136,7 +139,7 @@ export const ROUTES: any = [
     path: '/hr/final',
     key: 'firstStepfinalhr',
     exact: true,
-    component: () => <TutorSignupFinalStep />,
+    component: () => <SignupRoleSelect />,
   },
   {
     path: '/hr/1',

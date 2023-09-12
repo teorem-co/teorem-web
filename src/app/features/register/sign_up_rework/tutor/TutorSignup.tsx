@@ -1,24 +1,25 @@
-import { useMultistepForm } from './useMultiStepForm';
+import { useMultistepForm } from '../useMultiStepForm';
 import React, { FormEvent, useEffect, useState } from 'react';
 import { TutorSignupFirstStep } from './TutorSignupFirstStep';
 import { TutorSignupSecondStep } from './TutorSignupSecondStep';
 import { TutorSignupThirdStep } from './TutorSignupThirdStep';
-import { useAppSelector } from '../../../hooks';
+import { useAppSelector } from '../../../../hooks';
 import moment from 'moment/moment';
 import {
   IRegisterTutor,
   useRegisterTutorMutation,
-} from '../../../../services/authService';
-import { PATHS, PROFILE_PATHS } from '../../../routes';
+} from '../../../../../services/authService';
+import { PATHS, PROFILE_PATHS } from '../../../../routes';
 import { useHistory } from 'react-router';
-import MultiStepProgressBar from '../multi_step_progress_bar/MultistepProgressBar';
+import MultiStepProgressBar from '../../multi_step_progress_bar/MultistepProgressBar';
 import { AiOutlineClose, AiOutlineLeft } from 'react-icons/ai';
-import CircularProgress from '../../my-profile/components/CircularProgress';
+import CircularProgress from '../../../my-profile/components/CircularProgress';
 import { t } from 'i18next';
 import { NavLink } from 'react-router-dom';
 import { TutorSignupFinalStep } from './TutorSignupFinalStep';
 import { grey } from '@mui/material/colors';
-import logo from '../../../../assets/images/teorem_logo_purple.png';
+import logo from '../../../../../assets/images/teorem_logo_purple.png';
+import { SignupRoleSelect } from '../SignupRoleSelect';
 
 export function TutorSignup() {
 
@@ -106,7 +107,6 @@ export function TutorSignup() {
         alt='logo'
         className="mt-5 ml-5 signup-logo"
       />
-      <div className='mb-20'></div>
 
       {/*// <div className='flex field__w-fit-content align--center' >*/}
         <div className='flex field__w-fit-content align--center flex--center'>
