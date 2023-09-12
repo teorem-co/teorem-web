@@ -58,6 +58,9 @@ import {
   TutorSignupThirdStep
 } from './features/register/sign_up_rework/TutorSignupThirdStep';
 import { TutorSignup } from './features/register/sign_up_rework/TutorSignup';
+import {
+  TutorSignupFinalStep
+} from './features/register/sign_up_rework/TutorSignupFinalStep';
 
 export const PATHS = {
   ROLE_SELECTION: t('PATHS.ROLE_SELECTION'),
@@ -129,6 +132,12 @@ export const ROUTES: any = [
   //   exact: true,
   //   component: () => <TutorSignupSecondStep />,
   // },
+  {
+    path: '/hr/final',
+    key: 'firstStepfinalhr',
+    exact: true,
+    component: () => <TutorSignupFinalStep />,
+  },
   {
     path: '/hr/1',
     key: 'firstStephr',
