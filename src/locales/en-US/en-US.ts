@@ -335,9 +335,11 @@ export const EN_US = {
               FIRST: "What's your <span class='primary-color'>name</span>?",
               SECOND: "How can we <span class='primary-color'>contact</span> you?",
               THIRD: "Lastly, create a <span class='primary-color'>password</span>",
-            }
-
-},
+              FINAL: '<span class=primary-color>Welcome</span> to Teorem!'
+            },
+            CONFIRM_EMAIL: 'Please confirm your email address by clicking the verification link that we sent you',
+            RESEND: 'Resend link'
+        },
         CARD_DETAILS: {
             FIRST_NAME: 'First Name*',
             LAST_NAME: 'Last Name*',
