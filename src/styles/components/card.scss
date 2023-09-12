@@ -340,3 +340,19 @@
   background-color: #555;
 }
 
+.card-role-select{
+
+}
+
+@media (max-width: 767px) {
+  .card-role-select{
+    width: 100px;
+  }
+}
+
+@media (min-width: 767px) {
+  .card-role-select{
+    width: 200px;
+  }
+}
+

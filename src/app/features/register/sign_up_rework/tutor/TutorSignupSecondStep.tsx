@@ -2,14 +2,14 @@ import { Form, FormikProvider, useFormik } from 'formik';
 import * as Yup from 'yup';
 import { t } from 'i18next';
 import moment from 'moment';
-import MyPhoneInput from '../../../components/form/MyPhoneInput';
+import MyPhoneInput from '../../../../components/form/MyPhoneInput';
 import { useRef, useState } from 'react';
-import TextField from '../../../components/form/TextField';
-import { useCheckMailMutation } from '../../../../services/authService';
-import useOutsideAlerter from '../../../utils/useOutsideAlerter';
-import { useAppSelector } from '../../../hooks';
+import TextField from '../../../../components/form/TextField';
+import { useCheckMailMutation } from '../../../../../services/authService';
+import useOutsideAlerter from '../../../../utils/useOutsideAlerter';
+import { useAppSelector } from '../../../../hooks';
 import { useDispatch } from 'react-redux';
-import { setStepTwo } from '../../../../slices/tutorSignUpSlice';
+import { setStepTwo } from '../../../../../slices/tutorSignUpSlice';
 
 interface StepTwoValues {
   email: string;

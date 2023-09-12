@@ -3,12 +3,12 @@ import { t } from 'i18next';
 import moment from 'moment/moment';
 import * as Yup from 'yup';
 
-import MyDatePicker from '../../../components/form/MyDatePicker';
-import TextField from '../../../components/form/TextField';
-import { useAppSelector } from '../../../hooks';
+import MyDatePicker from '../../../../components/form/MyDatePicker';
+import TextField from '../../../../components/form/TextField';
+import { useAppSelector } from '../../../../hooks';
 import { FormEvent } from 'react';
 import { useDispatch } from 'react-redux';
-import { setStepOne } from '../../../../slices/tutorSignUpSlice';
+import { setStepOne } from '../../../../../slices/tutorSignUpSlice';
 
 interface StepOneValues {
   firstName: string;
