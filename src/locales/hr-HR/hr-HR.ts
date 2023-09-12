@@ -329,7 +329,7 @@ export const HR_HR = {
             EMAIL_CONFLICT: 'Email se već koristi',
             TERMS_AND_CONDITIONS: '<div>Slažem se s <a href="https://teorem.co/en/terms" target="_blank">Uvjetima pružanja usluge</a> i <a href="https://teorem.co/hr/pravila-privatnosti" target="_blank">Politikom privatnosti</a></div>',
             STEPS:{
-                FIRST: 'Unesite vaše <span class=primary-color> ime </span>?',
+                FIRST: 'Unesite vaše <span class=primary-color> ime </span>',
                 SECOND: 'Kako vas možemo <span class=primary-color>kontaktirati</span>?',
                 THIRD: 'Naposljetku, kreirajte <span class=primary-color>lozinku</span>'
             }

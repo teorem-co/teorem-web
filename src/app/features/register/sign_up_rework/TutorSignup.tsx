@@ -48,6 +48,11 @@ export function TutorSignup() {
     alert('Successful Account Creation');
   }
 
+  function close(){
+    const landingHostName = process.env.REACT_APP_LANDING_HOSTNAME || 'https://www.teorem.co';
+    window.location.href = landingHostName;
+  }
+
   async function sendRequest() {
     console.log('sending request');
 
@@ -114,7 +119,7 @@ export function TutorSignup() {
               progressNumber={percentage}
             />
 
-            <h4 className='signup-title ml-6'>
+            <h4 className='signup-title ml-6 text-align--center '>
               <span dangerouslySetInnerHTML={{ __html: t(titles[currentStepIndex]) }} />
               {/*{titles[currentStepIndex]}*/}
             </h4>
@@ -122,7 +127,7 @@ export function TutorSignup() {
             <AiOutlineClose
               className="mr-2 ml-6 cur--pointer signup-icon"
               color='grey'
-              onClick={back}/>
+              onClick={close}/>
           </div>
         // </div>
       }
