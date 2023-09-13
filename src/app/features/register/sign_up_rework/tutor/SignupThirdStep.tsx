@@ -5,7 +5,7 @@ import TextField from '../../../../components/form/TextField';
 import React, { useState } from 'react';
 import { useAppSelector } from '../../../../hooks';
 import { useDispatch } from 'react-redux';
-import { setStepThree } from '../../../../../slices/tutorSignUpSlice';
+import { setStepThree } from '../../../../../slices/signUpSlice';
 
 import PasswordTooltip from '../../PasswordTooltip';
 
@@ -19,10 +19,10 @@ type StepThreeProps ={
   nextStep:() => void
 };
 
-export function TutorSignupThirdStep({ nextStep }:StepThreeProps) {
+export function SignupThirdStep({ nextStep }:StepThreeProps) {
 
   const dispatch = useDispatch();
-  const store = useAppSelector((store) => store.tutorSignUp);
+  const store = useAppSelector((store) => store.signUp);
   const{password, confirmPassword} = store;
   const [passTooltip, setPassTooltip] = useState<boolean>(false);
 

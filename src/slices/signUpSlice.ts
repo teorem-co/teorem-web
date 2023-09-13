@@ -1,5 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+// first step for student or parent, tutor doesn't have this step
+
+interface IStepZero{
+  levelId: string;
+  subjectId: string;
+}
 
 interface IStepOne {
   firstName: string;
@@ -19,6 +25,9 @@ interface IStepThree{
 }
 
 interface IState{
+  roleAbrv: string;
+  levelId:string,
+  subjectId:string,
   firstName: string;
   lastName: string;
   dateOfBirth: string;
@@ -30,6 +39,9 @@ interface IState{
 }
 
 const initialState: IState = {
+  roleAbrv:'',
+  levelId:'',
+  subjectId:'',
   firstName: '',
   lastName: '',
   dateOfBirth:'',
@@ -41,10 +53,24 @@ const initialState: IState = {
 };
 
 
-export const tutorSignUpSlice = createSlice({
-  name: 'tutorSignup',
+export const signUpSlice = createSlice({
+  name: 'signup',
   initialState,
   reducers: {
+    setRole(state, action: PayloadAction<string>){
+      state.roleAbrv = action.payload;
+    },
+
+    setStepZero(state, action: PayloadAction<IStepZero>){
+      const {
+        levelId,
+        subjectId
+      } = action.payload;
+
+      state.levelId = levelId;
+      state.subjectId = subjectId;
+    },
+
     setStepOne(state, action: PayloadAction<IStepOne>) {
       const {
         firstName,
@@ -79,7 +105,10 @@ export const tutorSignUpSlice = createSlice({
       state.confirmPassword = confirmPassword;
     },
 
-    resetTutorSignUp(state) {
+    resetSignUp(state) {
+      state.roleAbrv = '';
+      state.levelId = '';
+      state.subjectId = '';
       state.firstName = '';
       state.lastName = '';
       state.email = '';
@@ -91,7 +120,7 @@ export const tutorSignUpSlice = createSlice({
   },
 });
 
-export const {  setStepOne, setStepTwo, setStepThree, resetTutorSignUp } =
-  tutorSignUpSlice.actions;
+export const {  setRole, setStepZero, setStepOne, setStepTwo, setStepThree, resetSignUp } =
+  signUpSlice.actions;
 
-export default tutorSignUpSlice.reducer;
+export default signUpSlice.reducer;

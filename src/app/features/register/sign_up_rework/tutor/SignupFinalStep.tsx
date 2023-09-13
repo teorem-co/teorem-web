@@ -1,7 +1,7 @@
 import { t } from 'i18next';
 import React from 'react';
 
-export const TutorSignupFinalStep = () => {
+export const SignupFinalStep = () => {
   function resend(){
     alert("RESENDING...");
   }

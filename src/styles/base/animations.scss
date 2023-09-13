@@ -6,16 +6,25 @@
     transform: scale(1.05);
   }
 
+  &--scale-110:hover {
+    transform: scale(1.1);
+  }
+
+  &--scale-115:hover {
+    transform: scale(1.15);
+  }
+
   &--scale-120:hover {
     transform: scale(1.2);
   }
+}
 
-  &--scale-130:hover {
-    transform: scale(1.3);
-  }
+.change-color-hover {
+  transition: transform 0.8s ease;
 
-  &--scale-140:hover {
-    transform: scale(1.4);
+  &--primary:hover {
+    background-color: #7C6AF4;
+    color: white;
   }
 }
 
@@ -40,3 +49,18 @@
   width: 100%;
 }
 
+
+.slide-in {
+  animation: slideInFromBottom 0.5s forwards; /* Adjust 0.5s to control speed */
+}
+
+@keyframes slideInFromBottom {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
