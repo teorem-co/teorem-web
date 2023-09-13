@@ -9,7 +9,7 @@ import { useCheckMailMutation } from '../../../../../services/authService';
 import useOutsideAlerter from '../../../../utils/useOutsideAlerter';
 import { useAppSelector } from '../../../../hooks';
 import { useDispatch } from 'react-redux';
-import { setStepTwo } from '../../../../../slices/tutorSignUpSlice';
+import { setStepTwo } from '../../../../../slices/signUpSlice';
 
 interface StepTwoValues {
   email: string;
@@ -20,10 +20,10 @@ type StepTwoProps ={
   nextStep:() => void
 };
 
-export const TutorSignupSecondStep = ({ nextStep }:StepTwoProps) => {
+export const SignupSecondStep = ({ nextStep }:StepTwoProps) => {
 
   const dispatch = useDispatch();
-  const state = useAppSelector((state) => state.tutorSignUp);
+  const state = useAppSelector((state) => state.signUp);
   const {email, phoneNumber} = state;
   const rangeSetterRef = useRef<HTMLDivElement>(null);
   const [checkMail] = useCheckMailMutation();

@@ -332,6 +332,7 @@ export const EN_US = {
             EMAIL_CONFLICT: 'Email already in use',
             TERMS_AND_CONDITIONS:'<div>I agree to the <a href="https://teorem.co/en/terms" target="_blank">Terms of Service</a> and <a href="https://teorem.co/en/privacy-policy" target="_blank">Privacy Policy</a></div>',
             STEPS: {
+              STUDENT_PARENT_FIRST: 'Which <span class=primary-color>subjects</span> can we help with?',
               FIRST: "What's your <span class='primary-color'>name</span>?",
               SECOND: "How can we <span class='primary-color'>contact</span> you?",
               THIRD: "Lastly, create a <span class='primary-color'>password</span>",

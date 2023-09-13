@@ -1,14 +1,13 @@
 import { Form, FormikProvider, useFormik } from 'formik';
 import { t } from 'i18next';
 import moment from 'moment/moment';
+import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 
+import { setStepOne } from '../../../../../slices/signUpSlice';
 import MyDatePicker from '../../../../components/form/MyDatePicker';
 import TextField from '../../../../components/form/TextField';
 import { useAppSelector } from '../../../../hooks';
-import { FormEvent } from 'react';
-import { useDispatch } from 'react-redux';
-import { setStepOne } from '../../../../../slices/tutorSignUpSlice';
 
 interface StepOneValues {
   firstName: string;
@@ -20,10 +19,10 @@ type StepOneProps = {
   nextStep:() => void
 };
 
-export const TutorSignupFirstStep = ({nextStep}:StepOneProps) => {
+export const SignupFirstStep = ({nextStep}:StepOneProps) => {
 
   const dispatch = useDispatch();
-  const state = useAppSelector((state) => state.tutorSignUp);
+  const state = useAppSelector((state) => state.signUp);
   const { firstName, lastName,dateOfBirth } = state;
 
   const handleSubmitStepOne = async (values: StepOneValues) => {

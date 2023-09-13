@@ -49,18 +49,18 @@ import { getUserRoleAbrv } from './utils/getUserRoleAbrv';
 import { setLang } from '../slices/langSlice';
 import { Badge } from '@mui/material';
 import {
-  TutorSignupFirstStep
-} from './features/register/sign_up_rework/tutor/TutorSignupFirstStep';
+  SignupFirstStep
+} from './features/register/sign_up_rework/tutor/SignupFirstStep';
 import {
-  TutorSignupSecondStep
-} from './features/register/sign_up_rework/tutor/TutorSignupSecondStep';
+  SignupSecondStep
+} from './features/register/sign_up_rework/tutor/SignupSecondStep';
 import {
-  TutorSignupThirdStep
-} from './features/register/sign_up_rework/tutor/TutorSignupThirdStep';
-import { TutorSignup } from './features/register/sign_up_rework/tutor/TutorSignup';
+  SignupThirdStep
+} from './features/register/sign_up_rework/tutor/SignupThirdStep';
+import { Signup } from './features/register/sign_up_rework/tutor/Signup';
 import {
-  TutorSignupFinalStep
-} from './features/register/sign_up_rework/tutor/TutorSignupFinalStep';
+  SignupFinalStep
+} from './features/register/sign_up_rework/tutor/SignupFinalStep';
 import {
   SignupRoleSelect
 } from './features/register/sign_up_rework/SignupRoleSelect';
@@ -145,25 +145,27 @@ export const ROUTES: any = [
     path: '/hr/1',
     key: 'firstStephr',
     exact: true,
-    component: () => <TutorSignup />,
+    component: () => <Signup />,
   },
   {
     path: '/en/1',
     key: 'firstStep',
     exact: true,
-    component: () => <TutorSignup />,
+    component: () => <Signup/>,
   },
   {
     path: PATHS.ROLE_SELECTION,
     key: 'ROLE_SELECTION',
     exact: true,
-    component: () => <RoleSelection />,
+    // component: () => <RoleSelection />,
+    component: () => <SignupRoleSelect />,
   },
   {
     path: PATHS.REGISTER,
     key: 'REGISTER',
     exact: true,
-    component: () => <Register />,
+    // component: () => <Register />,
+    component: () => <Signup />,
   },
   {
     path: PATHS.ONBOARDING,
