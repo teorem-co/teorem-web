@@ -328,13 +328,16 @@ export const HR_HR = {
             USERNAME: 'Korisničko ime*',
             EMAIL_CONFLICT: 'Email se već koristi',
             TERMS_AND_CONDITIONS: '<div>Slažem se s <a href="https://teorem.co/en/terms" target="_blank">Uvjetima pružanja usluge</a> i <a href="https://teorem.co/hr/pravila-privatnosti" target="_blank">Politikom privatnosti</a></div>',
+            SELECT_ROLE_TITLE: 'Jeste li <span class=primary-color>roditelj</span> ili <span class=primary-color>učenik</span>?',
+            LOAD_MORE_SUBJECTS: 'Učitaj više predmeta...',
             STEPS:{
-                STUDENT_PARENT_FIRST: 'S kojim <span class=primary-color>predmetima</span> Vam možemo pomoći?',
-                FIRST: 'Unesite vaše <span class=primary-color> ime </span>',
-                SECOND: 'Kako vas možemo <span class=primary-color>kontaktirati</span>?',
-                THIRD: 'Naposljetku, kreirajte <span class=primary-color>lozinku</span>',
-                FINAL: '<span class=primary-color>Dobrodošli</span> na Teorem!'
-            },
+                  STUDENT_PARENT_FIRST: 'S kojim <span class=primary-color>predmetima</span> Vam možemo pomoći?',
+                  FIRST: 'Unesite vaše <span class=primary-color> ime </span>',
+                  SECOND: 'Kako vas možemo <span class=primary-color>kontaktirati</span>?',
+                  THIRD: 'Naposljetku, kreirajte <span class=primary-color>lozinku</span>',
+                  FINAL: '<span class=primary-color>Dobrodošli</span> na Teorem!'
+              },
+            BECOME_A_TUTOR: 'Postanite instruktor',
             CONFIRM_EMAIL: 'Molimo potvrdite svoju e-mail adresu klikom na verifikacijski link koji smo vam poslali',
             RESEND: 'Ponovno pošalji link'
         },

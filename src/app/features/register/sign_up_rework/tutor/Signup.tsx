@@ -21,13 +21,12 @@ import { grey } from '@mui/material/colors';
 import logo from '../../../../../assets/images/teorem_logo_purple.png';
 import { SignupRoleSelect } from '../SignupRoleSelect';
 import { SignupSubjectSelect } from '../SignupSubjectSelect';
+import { useDispatch } from 'react-redux';
+import { resetSignUp } from '../../../../../slices/signUpSlice';
 
 export function Signup() {
-
-  const [percentage, setPercentage] = useState(25);
-  const history = useHistory();
   const state = useAppSelector((state) => state.signUp);
-  const [registerTutor, { isSuccess, isLoading }] = useRegisterTutorMutation();
+
   const {
     roleAbrv,
     firstName,
@@ -40,48 +39,6 @@ export function Signup() {
     confirmPassword,
   } = state;
 
-  const titles = [
-    ...(roleAbrv !== "TUTOR" ? ["REGISTER.FORM.STEPS.STUDENT_PARENT_FIRST"] : []),
-    "REGISTER.FORM.STEPS.FIRST",
-    "REGISTER.FORM.STEPS.SECOND",
-    "REGISTER.FORM.STEPS.THIRD",
-    "REGISTER.FORM.STEPS.FINAL"
-  ];
-
-
-  function nextStep() {
-    if (!isLastStep) return next();
-    sendRequest();
-    alert('Successful Account Creation');
-  }
-
-  function close(){
-    const landingHostName = process.env.REACT_APP_LANDING_HOSTNAME || 'https://www.teorem.co';
-    window.location.href = landingHostName;
-  }
-
-  async function sendRequest() {
-
-    const toSend: IRegisterTutor = {
-      firstName: firstName,
-      lastName: lastName,
-      dateOfBirth: moment(dateOfBirth).toISOString().substring(0, 10),
-      email: email,
-      phoneNumber: phoneNumber,
-      countryId: countryId,
-      password: password,
-      confirmPassword: confirmPassword,
-      roleAbrv: roleAbrv, //TODO: fix this don't use hardcoded value
-    };
-
-    //await registerTutor(toSend).unwrap(); //TODO: uncomment
-    if (isSuccess)
-      alert('SUCCESSFUL REGISTRATION');
-    //TODO: maybe add confirmation, or no, redirect to well done may men
-    history.push(PATHS.LOGIN);
-    //TODO: maybe clear storage
-  }
-
   const {
     steps,
     currentStepIndex,
@@ -93,12 +50,65 @@ export function Signup() {
     next,
   } =
     useMultistepForm([
-      ...(roleAbrv !== 'TUTOR' ? [<SignupSubjectSelect nextStep={nextStep}/>] : []),
+      ...(roleAbrv !== 'tutor' ? [<SignupSubjectSelect nextStep={nextStep}/>] : []),
       <SignupFirstStep nextStep={nextStep} />,
       <SignupSecondStep nextStep={nextStep} />,
       <SignupThirdStep nextStep={nextStep} />,
       <SignupFinalStep/>,
     ]);
+
+  const dispatch = useDispatch();
+  const [percentage, setPercentage] = useState(25);
+  const history = useHistory();
+  const [registerTutor, { isSuccess, isLoading, isError }] = useRegisterTutorMutation();
+  const penultimateIndex = steps.length - 2;
+  const titles = [
+    ...(roleAbrv !== "tutor" ? ["REGISTER.FORM.STEPS.STUDENT_PARENT_FIRST"] : []),
+    "REGISTER.FORM.STEPS.FIRST",
+    "REGISTER.FORM.STEPS.SECOND",
+    "REGISTER.FORM.STEPS.THIRD",
+    "REGISTER.FORM.STEPS.FINAL"
+  ];
+
+
+  function nextStep() {
+    console.log("Current step: ", currentStepIndex);
+    console.log("penultimateIndex: ", penultimateIndex);
+    if (currentStepIndex != penultimateIndex){
+      return next();
+    }else{
+      sendRequest();
+    }
+  }
+
+  function close(){
+    const landingHostName = process.env.REACT_APP_LANDING_HOSTNAME || 'https://www.teorem.co';
+    window.location.href = landingHostName;
+  }
+
+  async function sendRequest() {
+    console.log('Sending request...');
+    const toSend: IRegisterTutor = {
+      firstName: firstName,
+      lastName: lastName,
+      dateOfBirth: moment(dateOfBirth).toISOString().substring(0, 10),
+      email: email,
+      phoneNumber: phoneNumber,
+      countryId: countryId,
+      password: password,
+      confirmPassword: confirmPassword,
+      roleAbrv: roleAbrv,
+    };
+
+    await registerTutor(toSend).unwrap();
+
+    if (!isError){
+      dispatch(resetSignUp());
+      next();
+    }
+  }
+
+
 
 
 

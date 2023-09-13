@@ -96,6 +96,7 @@ export const signUpSlice = createSlice({
     },
 
     setStepThree(state, action: PayloadAction<IStepThree>) {
+      console.log("Setting state for password: ", action.payload.password);
       const {
         password,
         confirmPassword
