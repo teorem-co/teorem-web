@@ -1,17 +1,22 @@
 import img from './math.png';
+import { t } from 'i18next';
 
+interface ISubject{
+  id:string,
+  name:string,
+  abrv:string,
+  imgUrl:string
+}
 
 interface Props{
-  id?: string,
-  name: string,
-  imgUrl: string,
+  subject: ISubject,
   onClick?: () => void
   isSelected: boolean
 }
 
 export const SubjectCard = (props: Props) => {
 
-  const {id, name, imgUrl, onClick, isSelected} = props;
+  const {subject, onClick, isSelected} = props;
 
   return (
     <>
@@ -24,8 +29,8 @@ export const SubjectCard = (props: Props) => {
           color: isSelected? 'white' : 'black',
           // border: isSelected ? '3px solid #7e6cf2' : 'none',
         }}>
-        <img src={img} alt={name} className="subject-card-image"/>
-        <span className="text-align--center type--wgt--bold mt-1">{name}</span>
+        <img src={subject.imgUrl} alt={subject.name} className="subject-card-image"/>
+        <span className="text-align--center type--wgt--bold mt-1">{t(`SUBJECTS.${subject.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}</span>
       </div>
     </>
   );

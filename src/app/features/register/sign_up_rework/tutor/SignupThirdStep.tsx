@@ -1,12 +1,12 @@
 import { ErrorMessage, Field, Form, FormikProvider, useFormik } from 'formik';
-import * as Yup from 'yup';
 import { t } from 'i18next';
-import TextField from '../../../../components/form/TextField';
-import React, { useState } from 'react';
-import { useAppSelector } from '../../../../hooks';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setStepThree } from '../../../../../slices/signUpSlice';
+import * as Yup from 'yup';
 
+import { setStepThree } from '../../../../../slices/signUpSlice';
+import TextField from '../../../../components/form/TextField';
+import { useAppSelector } from '../../../../hooks';
 import PasswordTooltip from '../../PasswordTooltip';
 
 interface StepThreeValues {
@@ -24,7 +24,6 @@ export function SignupThirdStep({ nextStep }:StepThreeProps) {
   const dispatch = useDispatch();
   const store = useAppSelector((store) => store.signUp);
   const{password, confirmPassword} = store;
-  const [passTooltip, setPassTooltip] = useState<boolean>(false);
 
   const initialValues: StepThreeValues = {
     password: password,
@@ -33,17 +32,20 @@ export function SignupThirdStep({ nextStep }:StepThreeProps) {
   };
 
   const handleSubmit = async (values: StepThreeValues) => {
-    console.log("Handling submit step three: ", values.password);
     await dispatch(
       setStepThree(
         {
           password: values.password,
-          confirmPassword: values.confirmPassword
+          confirmPassword: values.password
         }
       ));
-
-    nextStep();
   };
+
+  useEffect(() => {
+    if(password){
+      nextStep();
+    }
+  }, [password]);
 
   const formik = useFormik({
     initialValues: initialValues,
@@ -68,15 +70,6 @@ export function SignupThirdStep({ nextStep }:StepThreeProps) {
         .oneOf([true], t('FORM_VALIDATION.AGREE_TERMS_REQUIRED'))
     }),
   });
-
-
-  const handlePasswordFocus = () => {
-    setPassTooltip(true);
-  };
-
-  const handlePasswordBlur = () => {
-    setPassTooltip(false);
-  };
 
   const myInput = document.getElementById('password') as HTMLInputElement;
   const letter = document.getElementById('letter');
@@ -175,11 +168,11 @@ export function SignupThirdStep({ nextStep }:StepThreeProps) {
                     className="input input--base input--text input--icon"
                     password={true}
                     // disabled={isLoading}
-                    onFocus={handlePasswordFocus}
-                    onBlur={(e: any) => {
-                      handlePasswordBlur();
-                      formik.handleBlur(e);
-                    }}
+                    // onFocus={handlePasswordFocus}
+                    // onBlur={(e: any) => {
+                    //   handlePasswordBlur();
+                    //   formik.handleBlur(e);
+                    // }}
                     onKeyUp={handleKeyUp}
                   />
                   <PasswordTooltip className="password-tooltip" passTooltip={true} positionTop={false}/>
@@ -207,16 +200,13 @@ export function SignupThirdStep({ nextStep }:StepThreeProps) {
                   {msg => <div className="field__validation">{msg}</div>}
                 </ErrorMessage>
 
-
-
-
               </div>
 
               <button
                 type="button"
                 className="btn btn--lg btn--primary cur--pointer mt-5 btn-signup"
                 // onClick={() => formik.handleSubmit()}>{t('REGISTER.NEXT_BUTTON')}</button>
-                onClick={nextStep}>{t('REGISTER.NEXT_BUTTON')}</button>
+                onClick={() => formik.handleSubmit()}>{t('REGISTER.NEXT_BUTTON')}</button>
             </Form>
           </FormikProvider>
         </div>

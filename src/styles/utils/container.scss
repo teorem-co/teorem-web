@@ -51,9 +51,13 @@
 .subject-card-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center; /* Centers the items */
+  gap: 5px;
+  //justify-content: ; /* Centers the items */
   width: 100%;
+}
+.subject-card-container > * {
+  flex: 0 0 calc(33.333% - 10px); /* Assuming you want three cards per row */
+  margin: 2.5px; /* half of the 5px gap on all sides */
 }
 
 @media (max-width: 767px) {

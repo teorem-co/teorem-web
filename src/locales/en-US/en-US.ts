@@ -331,6 +331,8 @@ export const EN_US = {
             USERNAME: 'Username*',
             EMAIL_CONFLICT: 'Email already in use',
             TERMS_AND_CONDITIONS:'<div>I agree to the <a href="https://teorem.co/en/terms" target="_blank">Terms of Service</a> and <a href="https://teorem.co/en/privacy-policy" target="_blank">Privacy Policy</a></div>',
+            SELECT_ROLE_TITLE: 'Are you a <span class=primary-color>parent</span> or a <span class=primary-color>student</span>?',
+            LOAD_MORE_SUBJECTS: 'Load more subjects...',
             STEPS: {
               STUDENT_PARENT_FIRST: 'Which <span class=primary-color>subjects</span> can we help with?',
               FIRST: "What's your <span class='primary-color'>name</span>?",
@@ -338,6 +340,7 @@ export const EN_US = {
               THIRD: "Lastly, create a <span class='primary-color'>password</span>",
               FINAL: '<span class=primary-color>Welcome</span> to Teorem!'
             },
+            BECOME_A_TUTOR: 'Apply to become a tutor',
             CONFIRM_EMAIL: 'Please confirm your email address by clicking the verification link that we sent you',
             RESEND: 'Resend link'
         },

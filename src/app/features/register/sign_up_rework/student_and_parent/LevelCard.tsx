@@ -1,13 +1,14 @@
+import ILevel from '../../../../../interfaces/ILevel';
+import { t } from 'i18next';
 
 interface Props{
-  id: string,
-  name: string,
+  level:ILevel,
   onClick?: () => void
   isSelected:boolean
 }
 
 export const LevelCard = (props: Props) => {
-  const {id,name, onClick, isSelected}= props;
+  const {level, onClick, isSelected}= props;
 
   return (
     <>
@@ -24,7 +25,7 @@ export const LevelCard = (props: Props) => {
           backgroundColor: isSelected ? '#7e6cf2' : 'white',
           color: isSelected? 'white' : 'black'}}
       >
-        <span className="font__lgr">{name}</span>
+        <span className="font__lgr"> {t(`LEVELS.${level.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}</span>
       </div>
     </>
   );

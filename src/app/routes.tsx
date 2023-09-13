@@ -123,36 +123,6 @@ interface IMenuPerRole {
 }
 
 export const ROUTES: any = [
-  // {
-  //   path: '/en/3',
-  //   key: 'thirdStep',
-  //   exact: true,
-  //   component: () => <TutorSignupThirdStep />,
-  // },
-  // {
-  //   path: '/en/2',
-  //   key: 'secondStep',
-  //   exact: true,
-  //   component: () => <TutorSignupSecondStep />,
-  // },
-  {
-    path: '/hr/final',
-    key: 'firstStepfinalhr',
-    exact: true,
-    component: () => <SignupRoleSelect />,
-  },
-  {
-    path: '/hr/1',
-    key: 'firstStephr',
-    exact: true,
-    component: () => <Signup />,
-  },
-  {
-    path: '/en/1',
-    key: 'firstStep',
-    exact: true,
-    component: () => <Signup/>,
-  },
   {
     path: PATHS.ROLE_SELECTION,
     key: 'ROLE_SELECTION',
