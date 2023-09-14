@@ -491,6 +491,10 @@ export const HR_HR = {
       TITLE: "Vaš račun mora potvrditi administrator, prije nego što se može prikazivati u rezultatima pretraživanja!",
       DESCRIPTION: "Primit ćete e-mail o statusu vašeg računa."
     },
+    CHILDLESS_PARENT_NOTE: {
+      TITLE: "Morate imati dijete kako biste mogli zatražiti instrukcije!",
+      DESCRIPTION: "Dijete možete dodati na postavkama profila."
+    },
     ACCOUNT: {
         CHANGE_PASSWORD: {
             TITLE: 'Promijenite lozinku',

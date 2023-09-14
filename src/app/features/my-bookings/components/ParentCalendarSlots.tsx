@@ -1,7 +1,7 @@
 import { Form, FormikProvider, useFormik } from 'formik';
 import { t } from 'i18next';
 import moment from 'moment';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 
 
@@ -24,6 +24,9 @@ import {
   useCreateBookingMutation,
 } from '../services/bookingService';
 import { loadStripe } from '@stripe/stripe-js';
+import {PROFILE_PATHS} from "../../../routes";
+import {Link} from "react-router-dom";
+import {NoticeProps, OptionProps} from "react-select";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY!);
 
@@ -318,6 +321,13 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                   classNamePrefix="onboarding-select"
                   isMulti={false}
                   options={childOptions ? childOptions : []}
+                  customOption={() => (<Link
+                    className="btn btn--base btn--tertiary w--100 mb-4 type--center"
+                    to={PROFILE_PATHS.MY_PROFILE_CHILD_INFO}
+                  >
+                    {t('MY_PROFILE.PROFILE_SETTINGS.DESCRIPTION')}
+                  </Link>)}
+                  noOptionsMessage={() => "Please add a child in your profile settings"}
                   placeholder={t('BOOK.FORM.CHILD_PLACEHOLDER')}
                 />
               </div>

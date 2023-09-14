@@ -492,6 +492,10 @@ export const EN_US = {
       TITLE: "Your account must be verified by the administrator before it can be displayed in search results!",
       DESCRIPTION: "You will receive an email with updates on your account status."
     },
+    CHILDLESS_PARENT_NOTE: {
+      TITLE: "You must have a child to request a booking!",
+      DESCRIPTION: "You can add a child on your profile settings."
+    },
     ACCOUNT: {
         CHANGE_PASSWORD: {
             TITLE: 'Change password',
@@ -1138,7 +1142,7 @@ export const EN_US = {
             MY_PROFILE_INFO_TEACHINGS: '/en/my-profile/info/teachings',
             MY_PROFILE_INFO_ADDITIONAL: '/en/my-profile/info/additional',
             MY_PROFILE_ACCOUNT: '/en/my-profile/account',
-            MY_PROFILE_CHILD_INFO: '/en/my-profile/childs',
+            MY_PROFILE_CHILD_INFO: '/en/my-profile/children',
         },
         EMAIL_CONFIRMED: '/en/account-activated',
         STRIPE_CONNECTED: '/en/stripe-connected',
