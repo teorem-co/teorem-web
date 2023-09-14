@@ -67,7 +67,7 @@ export const EN_US = {
         FUTURE_DATE: 'Date can`t be in the future',
         VALID_DATE: 'Date is invalid',
         PHONE_NUMBER: 'Invalid phone number',
-        TUTOR_AGE: 'Tutor must have more than 18 years old',
+        TUTOR_AGE: 'Tutor must be more than 18 years old',
         WRONG_REQUIREMENTS: 'You didn`t fulfill all field requirements',
         NEGATIVE: 'Can`t be a negative number',
         USERNAME_EXIST: 'Username already exists',
@@ -332,13 +332,16 @@ export const EN_US = {
             EMAIL_CONFLICT: 'Email already in use',
             TERMS_AND_CONDITIONS:'<div>I agree to the <a href="https://teorem.co/en/terms" target="_blank">Terms of Service</a> and <a href="https://teorem.co/en/privacy-policy" target="_blank">Privacy Policy</a></div>',
             SELECT_ROLE_TITLE: 'Are you a <span class=primary-color>parent</span> or a <span class=primary-color>student</span>?',
+            CHOOSE_SUBJECTS_TIP: 'You can choose more subjects later',
             LOAD_MORE_SUBJECTS: 'Load more subjects...',
+            HIDE_MORE_SUBJECTS: 'Show less subjects...',
+            RESEND_MAIL_BUTTON_TRY: 'Try again in: ',
             STEPS: {
-              STUDENT_PARENT_FIRST: 'Which <span class=primary-color>subjects</span> can we help with?',
+              STUDENT_PARENT_FIRST: 'Which <span class=primary-color>subject</span> can we help you with?',
               FIRST: "What's your <span class='primary-color'>name</span>?",
               SECOND: "How can we <span class='primary-color'>contact</span> you?",
               THIRD: "Lastly, create a <span class='primary-color'>password</span>",
-              FINAL: '<span class=primary-color>Welcome</span> to Teorem!'
+              FINAL: '<span class=primary-color>welcome</span> to Teorem!'
             },
             BECOME_A_TUTOR: 'Apply to become a tutor',
             CONFIRM_EMAIL: 'Please confirm your email address by clicking the verification link that we sent you',

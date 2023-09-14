@@ -48,7 +48,8 @@ export const SignupFirstStep = ({nextStep}:StepOneProps) => {
     initialValues: initialValues,
     onSubmit: (values) => handleSubmitStepOne(values),
     validateOnBlur: true,
-    validateOnChange: false,
+    validateOnChange: true,
+    validateOnMount:true,
     enableReinitialize: true,
     validationSchema: Yup.object().shape({
       firstName: Yup.string().min(2, t('FORM_VALIDATION.TOO_SHORT')).max(100, t('FORM_VALIDATION.TOO_LONG')).required(t('FORM_VALIDATION.REQUIRED')),
@@ -109,6 +110,7 @@ export const SignupFirstStep = ({nextStep}:StepOneProps) => {
             </div>
 
             <button
+              disabled={!formik.isValid}
               type="button"
               className="btn btn--lg btn--primary cur--pointer mt-5 btn-signup"
               onClick={() => formik.handleSubmit()}>{t('REGISTER.NEXT_BUTTON')}</button>

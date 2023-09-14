@@ -2,6 +2,11 @@
     components: field
 */
 
+.signup-title{
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+}
+
 @media (max-width: 767px) {
   .sign-up-form-wrapper {
     font-size: medium;

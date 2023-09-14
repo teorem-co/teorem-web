@@ -51,7 +51,8 @@ export function SignupThirdStep({ nextStep }:StepThreeProps) {
     initialValues: initialValues,
     onSubmit: (values) => handleSubmit(values),
     validateOnBlur: true,
-    validateOnChange: false,
+    validateOnChange: true,
+    validateOnMount:true,
     enableReinitialize: true,
     validationSchema: Yup.object().shape({
       password: Yup.string()
@@ -203,6 +204,7 @@ export function SignupThirdStep({ nextStep }:StepThreeProps) {
               </div>
 
               <button
+                disabled={!formik.isValid}
                 type="button"
                 className="btn btn--lg btn--primary cur--pointer mt-5 btn-signup"
                 // onClick={() => formik.handleSubmit()}>{t('REGISTER.NEXT_BUTTON')}</button>

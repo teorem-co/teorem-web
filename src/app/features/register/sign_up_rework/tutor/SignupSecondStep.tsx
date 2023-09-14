@@ -27,7 +27,8 @@ export const SignupSecondStep = ({ nextStep }:StepTwoProps) => {
   const {email, phoneNumber} = state;
   const rangeSetterRef = useRef<HTMLDivElement>(null);
   const [checkMail] = useCheckMailMutation();
-
+   const [checkMailValidation, setCheckMailValidation] = useState<string>('');
+  //
   const initialValues: StepTwoValues = {
     email: email,
     phoneNumber: phoneNumber,
@@ -38,6 +39,7 @@ export const SignupSecondStep = ({ nextStep }:StepTwoProps) => {
     onSubmit: (values) => handleSubmitStepTwo(values),
     validateOnBlur: true,
     validateOnChange: false,
+    validateOnMount:true,
     enableReinitialize: true,
     validationSchema: Yup.object().shape({
       email: Yup.string().email(t('FORM_VALIDATION.INVALID_EMAIL'))
@@ -87,12 +89,12 @@ export const SignupSecondStep = ({ nextStep }:StepTwoProps) => {
             {/*email*/}
             <div className="align--center mb-5">
               <TextField
+                id="email"
+                name="email"
                 style={{background:'white'}}
                 onBlur={(e: any) => {
                   formik.handleBlur(e);
                 }}
-                name="email"
-                id="email"
                 placeholder={t('REGISTER.FORM.EMAIL_PLACEHOLDER')}
               />
             </div>
@@ -110,6 +112,7 @@ export const SignupSecondStep = ({ nextStep }:StepTwoProps) => {
             </div>
 
             <button
+              disabled={!formik.isValid}
               type="button"
               className="btn btn--lg btn--primary cur--pointer mt-5 btn-signup"
               // style={{borderRadius:"10px", fontWeight:'bolder'}}
