@@ -1,19 +1,14 @@
 import { t } from 'i18next';
 import React, { useEffect, useState } from 'react';
-import { LevelCard } from './student_and_parent/LevelCard';
-import { SubjectCard } from './student_and_parent/SubjectCard';
 import { useDispatch } from 'react-redux';
-import { useAppSelector } from '../../../hooks';
-import { setStepZero } from '../../../../slices/signUpSlice';
-import ILevel from '../../../../interfaces/ILevel';
-import atom from './student_and_parent/atom.png';
-import bacteria from './student_and_parent/bacteria.png';
-import croatia from './student_and_parent/croatia.png';
-import enzyme from './student_and_parent/enzyme.png';
-import germany from './student_and_parent/germany.png';
-import math from './student_and_parent/math.png';
-import unitedKingdom from './student_and_parent/united-kingdom.png';
 
+import ISubject from '../../../../../interfaces/ISubject';
+import { setStepZero } from '../../../../../slices/signUpSlice';
+import { useAppSelector } from '../../../../hooks';
+import { LevelCard } from './LevelCard';
+import { levels } from './levels';
+import { SubjectCard } from './SubjectCard';
+import { allSubjects, popularSubjects } from './subjects';
 
 interface Props{
   nextStep:() => void
@@ -30,6 +25,8 @@ export const SignupSubjectSelect = (props:Props) => {
   const [animate, setAnimate] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [showSubjectCards, setShowSubjectCards] = useState(levelId !=='');
+  const [showLoadMoreSubjects, setShowLoadMoreSubjects] = useState(true);
+  const [subjects, setSubjects] = useState<ISubject[]>(popularSubjects);
 
   async function handleNextStep(){
     if(stateLevelId && stateSubjectId){
@@ -67,85 +64,29 @@ export const SignupSubjectSelect = (props:Props) => {
   }, [stateLevelId]);
 
 
-  const levels:ILevel[] = [
-    {
-      id: "6324ece3-5cc4-48f3-8e9b-be757549eb35",
-      abrv: "primary-school",
-      name:"Primary School"
-    },
-    {
-      id: "bb589332-eb38-4455-9259-1773bf88d60a",
-      abrv: "high-school",
-      name: "High School"
-    },
-    {
-      id: "86211553-d94f-47b7-990b-67587f8c91bc",
-      abrv:"university",
-      name: "Iniversity"
+  function addAdditionalSubjects() {
+    if(showLoadMoreSubjects){
+      setSubjects(prevSubjects => [...prevSubjects, ...allSubjects]);
+    }else{
+      setSubjects(prevSubjects =>
+        prevSubjects.filter(subject =>
+          !allSubjects.some(allSubject => allSubject.id === subject.id)
+        )
+      );
     }
-  ];
 
-  const subjects = [
-    {
-      id: "8caedad0-55e5-4220-a7e7-f4aab4a3fbb8",
-      name: "Physics",
-      abrv:"physics",
-      imgUrl: atom
-    },
-    {
-      id: "2da9dfdb-e9cc-479a-802d-fa2a9b906575",
-      name: "Maths",
-      abrv: "maths",
-      imgUrl:math
-    },
-    {
-      id: "0cfe5ab2-843d-44d3-bee6-718097044e15",
-      name: "English",
-      abrv: "english",
-      imgUrl:unitedKingdom
-    },
-    {
-      id: "0fedd928-bdca-47de-b8c7-3becb6520996",
-      name: "Chemistry",
-      abrv: "chemistry",
-      imgUrl: enzyme
-    },
-    {
-      id: "5",
-      name: "Croatian",
-      abrv: "croatian",
-      imgUrl:croatia
-    },
-    {
-      id: "6",
-      name: "German",
-      abrv: "german",
-      imgUrl:germany
-    },
-    {
-      id: "7",
-      name: "Biology",
-      abrv: "biology",
-      imgUrl:bacteria
-    },
-    {
-      id: "9",
-      name: "Biology",
-      abrv: "biology",
-      imgUrl:bacteria
-    },
-
-
-  ];
+    setShowLoadMoreSubjects(!showLoadMoreSubjects);
+  }
 
   return (
     <>
       <div className="signup-subject-container flex flex--center flex--col align--center sign-up-form-wrapper">
 
-        <div className="flex--row level-card-container mb-10"
+        <div className="flex--row level-card-container mb-4"
         style={{gap:'10px',width:'100%'}}>
           {levels.map((level) => (
             <LevelCard
+              className={'font-family__poppins fw-300'}
               onClick={() => setStateLevelId(level.id)}
               key={level.id}
               level={level}
@@ -153,8 +94,6 @@ export const SignupSubjectSelect = (props:Props) => {
             />
           ))}
         </div>
-
-        {/*<div className="mt-20"></div>*/}
 
         {showSubjectCards &&
           <div className={`${animate ? 'slide-in' : ''}`}>
@@ -166,6 +105,7 @@ export const SignupSubjectSelect = (props:Props) => {
             >
               {subjects.map((subject) =>
                 <SubjectCard
+                  className={'font-family__poppins fw-300'}
                   subject={subject}
                   key={subject.id}
                   isSelected={stateSubjectId === subject.id}
@@ -174,19 +114,20 @@ export const SignupSubjectSelect = (props:Props) => {
               )}
             </div>
 
-            <span onClick={()=> alert('SIKE!! You thought')} className="cur--pointer change-color-hover--primary">{t('REGISTER.FORM.LOAD_MORE_SUBJECTS')}</span>
+            {
+              <span onClick={()=> addAdditionalSubjects()} className="cur--pointer font__md change-color-hover--primary font-family__poppins fw-300">
+                {showLoadMoreSubjects ? t('REGISTER.FORM.LOAD_MORE_SUBJECTS') : t('REGISTER.FORM.HIDE_MORE_SUBJECTS')}
+              </span>
+            }
           </div>
-
 
         }
 
-
-
-        <button
+        {showSubjectCards && stateSubjectId && <button
           disabled={buttonDisabled}
           className="btn btn--lg btn--primary cur--pointer mt-5 btn-signup transition__05"
           onClick={handleNextStep}
-        >{t('REGISTER.NEXT_BUTTON')}</button>
+        >{t('REGISTER.NEXT_BUTTON')}</button>}
       </div>
     </>
   );

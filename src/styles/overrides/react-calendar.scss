@@ -4,106 +4,157 @@
 
 $rc-button-height: 48px;
 
-.onboarding-calendar {
-    .react-calendar {
-        &__navigation {
-        }
-    }
+
+//.react-date-picker {
+//  &__button{
+//    &__icon{
+//      stroke: red;
+//    }
+//  }
+//}
+
+  .date-picker-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+  }
+
+.react-date-picker__button:enabled:hover .react-date-picker__button__icon,
+.react-date-picker__button:enabled:focus .react-date-picker__button__icon {
+  stroke: #7C6AF4;
 }
 
-.react-calendar {
+.react-date-picker__button:disabled .react-date-picker__button__icon {
+  stroke: #6d6d6d;
+}
+
+  .onboarding-calendar {
+    //position: relative; // or 'relative' if that works in your case
+    //transform: translateX(-20%);
+    padding: 10px;
+    line-height: 1em;
+    font-size: small;
+
+    .react-calendar {
+      &__navigation{
+        &__label{
+          font-size: medium;
+        }
+      }
+      &__month-view{
+        margin: 10px;
+        &__days button{
+          height: 2.5em;
+        }
+        &__days {
+          &__day{
+
+          }
+        }
+      }
+      &__navigation {
+      }
+    }
+  }
+
+  .react-calendar {
     border: none;
     font-family: 'Lato', sans-serif;
 
     &__navigation {
-        &__prev2-button,
-        &__next2-button {
-            display: none;
-        }
-        button:enabled:hover,
-        button:enabled:focus {
-            background-color: $rbc-color-header;
-        }
+      &__prev2-button,
+      &__next2-button {
+        display: none;
+      }
+      button:enabled:hover,
+      button:enabled:focus {
+        background-color: $rbc-color-header;
+      }
 
-        &__label {
-            font-weight: 600;
-        }
+      &__label {
+        font-weight: 600;
+      }
     }
 
     &__tile {
-        z-index: 1;
+      z-index: 1;
+      &:enabled:hover,
+      &:enabled:focus {
+        background-color: $rbc-color-header;
+      }
+      &--active {
+        position: relative;
+        background-color: $color-primary !important;
+        border-radius: $border-rounded;
+        color: $white !important;
         &:enabled:hover,
         &:enabled:focus {
-            background-color: $rbc-color-header;
+          background-color: $color-primary;
         }
-        &--active {
-            position: relative;
-            background-color: $color-primary !important;
-            border-radius: $border-rounded;
-            color: $white !important;
-            &:enabled:hover,
-            &:enabled:focus {
-                background-color: $color-primary;
-            }
-            // &::before {
-            //     content: '';
-            //     position: absolute;
-            //     top: 0;
-            //     bottom: 0;
-            //     left: -300px;
-            //     width: 600px;
-            //     background-color: $color-primary-lighter;
-            //     z-index: 0 !important;
-            // }
-        }
-        &--now {
-            background: $rbc-color-header;
-            color: $color-text-primary;
-            border-radius: $border-rounded;
-        }
+        // &::before {
+        //     content: '';
+        //     position: absolute;
+        //     top: 0;
+        //     bottom: 0;
+        //     left: -300px;
+        //     width: 600px;
+        //     background-color: $color-primary-lighter;
+        //     z-index: 0 !important;
+        // }
+      }
+      &--now {
+        background: $rbc-color-header;
+        color: $color-text-primary;
+        border-radius: $border-rounded;
+      }
     }
 
     &__month-view {
-        &__weekdays {
-            margin-bottom: calc(#{$unit} * 3);
+      &__weekdays {
+        margin-bottom: calc(#{$unit} * 3);
 
-            &__weekday {
-                font-size: 14px;
-                font-weight: 400;
-                text-transform: capitalize;
-                color: $color-text-tertiary;
-                padding: 0;
+        &__weekday {
+          font-size: 14px;
+          font-weight: 400;
+          text-transform: capitalize;
+          color: $color-text-tertiary;
+          padding: 0;
 
-                abbr {
-                    text-decoration: none;
-                }
+          abbr {
+            text-decoration: none;
+          }
+        }
+      }
+
+      &__days {
+        &__day--weekend {
+          color: $color-text-primary;
+        }
+        // react-calendar__month-view__days__day--weekend
+        &__day {
+          &--neighboringMonth {
+            &.react-calendar__month-view__days__day--weekend {
+              color: #757575;
             }
+          }
         }
 
-        &__days {
-            &__day--weekend {
-                color: $color-text-primary;
-            }
-            // react-calendar__month-view__days__day--weekend
-            &__day {
-                &--neighboringMonth {
-                    &.react-calendar__month-view__days__day--weekend {
-                        color: #757575;
-                    }
-                }
-            }
-
-            button {
-                height: $rc-button-height;
-            }
+        button {
+          height: $rc-button-height;
         }
+      }
     }
-}
+  }
 
-.tile--row {
+  .tile--row {
     background: $color-primary-lighter;
     width: 600px;
     height: 47px;
     position: absolute;
     z-index: 0;
-}
+  }
+
+
+

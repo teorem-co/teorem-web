@@ -19,7 +19,8 @@ const MyDatePicker = ({ field, form }: CustomSelectProps) => {
 
   return (
     <>
-      <DatePicker
+      <div className="date-picker-container">
+        <DatePicker
         {...field}
         onChange={(value: any) => onChange(value ?? '')}
         name={field.name}
@@ -28,14 +29,15 @@ const MyDatePicker = ({ field, form }: CustomSelectProps) => {
         yearPlaceholder="YYYY"
         calendarClassName={'onboarding-calendar'}
         clearIcon={null}
-        disableCalendar
         format="d/M/y"
+        openCalendarOnFocus={false}
         minDate={new Date(1900, 0, 1)}
         onCalendarClose={() => form.setFieldTouched(field.name)}
-        className="bg__white"
+        className="bg__white date-picker-container"
       />
 
       <div className="field__validation">{errorText ? errorText : ''}</div>
+      </div>
     </>
   );
 };

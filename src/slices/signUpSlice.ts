@@ -25,7 +25,6 @@ interface IStepThree{
 }
 
 interface IState{
-  roleAbrv: string;
   levelId:string,
   subjectId:string,
   firstName: string;
@@ -39,7 +38,6 @@ interface IState{
 }
 
 const initialState: IState = {
-  roleAbrv:'',
   levelId:'',
   subjectId:'',
   firstName: '',
@@ -57,10 +55,6 @@ export const signUpSlice = createSlice({
   name: 'signup',
   initialState,
   reducers: {
-    setRole(state, action: PayloadAction<string>){
-      state.roleAbrv = action.payload;
-    },
-
     setStepZero(state, action: PayloadAction<IStepZero>){
       const {
         levelId,
@@ -96,7 +90,6 @@ export const signUpSlice = createSlice({
     },
 
     setStepThree(state, action: PayloadAction<IStepThree>) {
-      console.log("Setting state for password: ", action.payload.password);
       const {
         password,
         confirmPassword
@@ -107,7 +100,6 @@ export const signUpSlice = createSlice({
     },
 
     resetSignUp(state) {
-      state.roleAbrv = '';
       state.levelId = '';
       state.subjectId = '';
       state.firstName = '';
@@ -121,7 +113,7 @@ export const signUpSlice = createSlice({
   },
 });
 
-export const {  setRole, setStepZero, setStepOne, setStepTwo, setStepThree, resetSignUp } =
+export const {   setStepZero, setStepOne, setStepTwo, setStepThree, resetSignUp } =
   signUpSlice.actions;
 
 export default signUpSlice.reducer;

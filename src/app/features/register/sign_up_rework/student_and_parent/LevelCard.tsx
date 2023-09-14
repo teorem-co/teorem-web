@@ -4,17 +4,18 @@ import { t } from 'i18next';
 interface Props{
   level:ILevel,
   onClick?: () => void
-  isSelected:boolean
+  isSelected:boolean,
+  className?:string
 }
 
 export const LevelCard = (props: Props) => {
-  const {level, onClick, isSelected}= props;
+  const {level, onClick, isSelected, className}= props;
 
   return (
     <>
       <div
         onClick={onClick}
-        className="level-card flex card--primary cur--pointer scale-hover--scale-110 "
+        className={`${className} level-card flex card--primary cur--pointer scale-hover--scale-110`}
         style={{
           borderRadius: '10px',
           height:'60px',

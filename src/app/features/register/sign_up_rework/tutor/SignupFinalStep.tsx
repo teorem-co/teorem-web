@@ -1,33 +1,60 @@
 import { t } from 'i18next';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { PATHS } from '../../../../routes';
 import { useHistory } from 'react-router';
+import { useAppSelector } from '../../../../hooks';
+
+
 
 export const SignupFinalStep = () => {
-  const history = useHistory();
+  const store = useAppSelector(state => state.signUp);
+  const {email} = store;
+
+  const [isResendButton, setIsResendButton] = useState();
+
   function resend(){
-    alert("RESENDING...");
+    setButtonIsActive(true);
+    setSecondsLeft(40);
+    // alert("RESENDING... TO: " + email);
   }
 
-  function toLogin(){
-    history.push(PATHS.LOGIN);
-  }
+
+    const [buttonIsActive, setButtonIsActive] = useState(false);
+    const [secondsLeft, setSecondsLeft] = useState(40);
+
+    useEffect(() => {
+      let timerInterval: NodeJS.Timeout;
+
+      if (buttonIsActive && secondsLeft > 0) {
+        timerInterval = setInterval(() => {
+          setSecondsLeft((prevSeconds) => prevSeconds - 1);
+        }, 1000);
+      }
+
+      if (secondsLeft === 0) {
+        setButtonIsActive(false);
+      }
+
+      return () => {
+        clearInterval(timerInterval);
+      };
+    }, [buttonIsActive, secondsLeft]);
 
   return (
     <>
-    <div className="flex flex--center flex--col align--center sign-up-form-wrapper">
+    <div className="flex flex--center flex--col align--center sign-up-form-wrapper mt-5">
 
-      <p className='text-align--center mb-10'>{t('REGISTER.FORM.CONFIRM_EMAIL')}</p>
+      <img src='/images/mail-icon.svg' alt='' width="250px" />
 
-      <button
-        className="btn p-3 btn--primary cur--pointer mt-5 btn-signup transition__05"
-        onClick={toLogin}>{t('LOGIN.TITLE')}</button>
+      <p className='text-align--center mb-10 font-family__poppins font__md'>{t('REGISTER.FORM.CONFIRM_EMAIL')}</p>
 
       <button
+        disabled={buttonIsActive}
         className="btn p-3 btn--primary cur--pointer mt-5 btn-signup transition__05"
         onClick={resend}
-      >{t('REGISTER.FORM.RESEND')}</button>
+        style={{zIndex:11}}
 
+      >{buttonIsActive ? `${t('REGISTER.FORM.RESEND_MAIL_BUTTON_TRY')} ${secondsLeft}s` : t('REGISTER.FORM.RESEND')}</button>
     </div>
     </>
   );

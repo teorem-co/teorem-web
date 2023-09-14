@@ -6,26 +6,27 @@ import { useHistory } from 'react-router';
 import parent from '../../../../../src/assets/images/parent.svg';
 import student from '../../../../../src/assets/images/student.svg';
 import logo from '../../../../assets/images/teorem_logo_purple.png';
-import { resetSignUp, setRole } from '../../../../slices/signUpSlice';
+import { resetSignUp } from '../../../../slices/signUpSlice';
 import { PATHS } from '../../../routes';
 import { t } from 'i18next';
+import { RoleOptions, setSelectedRole } from '../../../../slices/roleSlice';
 
 export const SignupRoleSelect = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const PARENT = 'parent';
-  const TUTOR = 'tutor';
-  const STUDENT = 'student';
+  const PARENT = RoleOptions.Parent;
+  const TUTOR = RoleOptions.Tutor;
+  const STUDENT = RoleOptions.Student;
 
-  async function setRoleInStore(role: string){
-    await dispatch(setRole(role));
+  async function setRoleInStore(role: RoleOptions){
+    await dispatch(setSelectedRole(role));
     history.push(PATHS.REGISTER);
   }
 
+  useEffect(() => {
+    dispatch(resetSignUp());
+  }, []);
 
-  // useEffect(() => {
-  //   dispatch(resetSignUp());
-  // }, []);
   return (
     <>
       <div >

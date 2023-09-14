@@ -124,6 +124,13 @@ interface IMenuPerRole {
 
 export const ROUTES: any = [
   {
+    path: '/hr/2',
+    key: 'adw',
+    exact: true,
+    // component: () => <RoleSelection />,
+    component: () => <SignupFinalStep />,
+  },
+  {
     path: PATHS.ROLE_SELECTION,
     key: 'ROLE_SELECTION',
     exact: true,

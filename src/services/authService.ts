@@ -14,6 +14,20 @@ interface ILoginPayload {
   user: IUser;
 }
 
+export interface IRegister {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  roleAbrv: string;
+  countryId: string;
+  phoneNumber: string;
+  dateOfBirth: string;
+  subjectId:string;
+  levelId:string;
+}
+
 export interface IRegisterTutor {
   firstName: string;
   lastName: string;
@@ -171,6 +185,13 @@ export const authService = baseService.injectEndpoints({
                 body: body,
             }),
         }),
+        registerUser: builder.mutation<void, IRegister>({
+          query: (body) => ({
+            url: `${URL}/register`,
+            method: HttpMethods.POST,
+            body: body,
+          }),
+        }),
     }),
 });
 
@@ -187,4 +208,5 @@ export const {
     useChangeCurrentPasswordMutation,
     useLazyGetServerVersionQuery,
     useResendActivationEmailMutation,
+    useRegisterUserMutation
 } = authService;

@@ -1,34 +1,42 @@
 import { useMultistepForm } from '../useMultiStepForm';
-import React, { FormEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SignupFirstStep } from './SignupFirstStep';
 import { SignupSecondStep } from './SignupSecondStep';
 import { SignupThirdStep } from './SignupThirdStep';
 import { useAppSelector } from '../../../../hooks';
 import moment from 'moment/moment';
 import {
-  IRegisterTutor,
-  useRegisterTutorMutation,
+  IRegister, useRegisterUserMutation,
 } from '../../../../../services/authService';
-import { PATHS, PROFILE_PATHS } from '../../../../routes';
 import { useHistory } from 'react-router';
 
 import { AiOutlineClose, AiOutlineLeft } from 'react-icons/ai';
 import CircularProgress from '../../../my-profile/components/CircularProgress';
 import { t } from 'i18next';
-import { NavLink } from 'react-router-dom';
 import { SignupFinalStep } from './SignupFinalStep';
-import { grey } from '@mui/material/colors';
 import logo from '../../../../../assets/images/teorem_logo_purple.png';
-import { SignupRoleSelect } from '../SignupRoleSelect';
-import { SignupSubjectSelect } from '../SignupSubjectSelect';
+import { SignupSubjectSelect } from '../student_and_parent/SignupSubjectSelect';
 import { useDispatch } from 'react-redux';
-import { resetSignUp } from '../../../../../slices/signUpSlice';
+import ROUTES, { PATHS } from '../../../../routes';
+import { Role } from '../../../../lookups/role';
+import { RoleOptions } from '../../../../../slices/roleSlice';
+
+function ConfettiWrapper() {
+  const confettiElements = [];
+  for (let i = 150; i >= 0; i--) {
+    const className = `confetti-${i}`;
+    confettiElements.push(<div className={className} key={i}></div>);
+  }
+  return( <div className="wrapper">
+    {confettiElements}
+  </div>);
+}
 
 export function Signup() {
   const state = useAppSelector((state) => state.signUp);
+  const selectedRole = useAppSelector((state) => state.role.selectedRole);
 
   const {
-    roleAbrv,
     firstName,
     lastName,
     dateOfBirth,
@@ -37,6 +45,8 @@ export function Signup() {
     countryId,
     password,
     confirmPassword,
+    subjectId,
+    levelId
   } = state;
 
   const {
@@ -50,7 +60,7 @@ export function Signup() {
     next,
   } =
     useMultistepForm([
-      ...(roleAbrv !== 'tutor' ? [<SignupSubjectSelect nextStep={nextStep}/>] : []),
+      ...(selectedRole !== RoleOptions.Tutor ? [<SignupSubjectSelect nextStep={nextStep}/>] : []),
       <SignupFirstStep nextStep={nextStep} />,
       <SignupSecondStep nextStep={nextStep} />,
       <SignupThirdStep nextStep={nextStep} />,
@@ -60,10 +70,11 @@ export function Signup() {
   const dispatch = useDispatch();
   const [percentage, setPercentage] = useState(25);
   const history = useHistory();
-  const [registerTutor, { isSuccess, isLoading, isError }] = useRegisterTutorMutation();
+  // const [registerTutor, { isSuccess, isLoading, isError }] = useRegisterTutorMutation();
+  const [registerUser, { isSuccess, isLoading, isError }] = useRegisterUserMutation();
   const penultimateIndex = steps.length - 2;
   const titles = [
-    ...(roleAbrv !== "tutor" ? ["REGISTER.FORM.STEPS.STUDENT_PARENT_FIRST"] : []),
+    ...(selectedRole !== RoleOptions.Tutor ? ["REGISTER.FORM.STEPS.STUDENT_PARENT_FIRST"] : []),
     "REGISTER.FORM.STEPS.FIRST",
     "REGISTER.FORM.STEPS.SECOND",
     "REGISTER.FORM.STEPS.THIRD",
@@ -71,9 +82,12 @@ export function Signup() {
   ];
 
 
+  useEffect(() => {
+    if(!selectedRole)
+      history.push(PATHS.ROLE_SELECTION);
+  }, []);
+
   function nextStep() {
-    console.log("Current step: ", currentStepIndex);
-    console.log("penultimateIndex: ", penultimateIndex);
     if (currentStepIndex != penultimateIndex){
       return next();
     }else{
@@ -87,8 +101,8 @@ export function Signup() {
   }
 
   async function sendRequest() {
-    console.log('Sending request...');
-    const toSend: IRegisterTutor = {
+    if(!selectedRole) return;
+    const toSend: IRegister = {
       firstName: firstName,
       lastName: lastName,
       dateOfBirth: moment(dateOfBirth).toISOString().substring(0, 10),
@@ -97,27 +111,25 @@ export function Signup() {
       countryId: countryId,
       password: password,
       confirmPassword: confirmPassword,
-      roleAbrv: roleAbrv,
+      roleAbrv: selectedRole.toString(),
+      subjectId: subjectId,
+      levelId: levelId
     };
 
-    await registerTutor(toSend).unwrap();
+    await registerUser(toSend).unwrap();
 
     if (!isError){
-      dispatch(resetSignUp());
       next();
     }
   }
-
-
-
-
-
 
   useEffect(() => {
     setPercentage(((currentStepIndex + 1) / steps.length) * 100);
   }, [currentStepIndex]);
   return (
     <>
+
+      {/*=={selectedRole}==*/}
       <img
         src={logo}
         alt='logo'
@@ -140,9 +152,15 @@ export function Signup() {
           progressNumber={percentage}
         />
 
-        <h4 className='signup-title ml-6 text-align--center '>
-          <span dangerouslySetInnerHTML={{ __html: t(titles[currentStepIndex]) }} />
-        </h4>
+        {!isLastStep ?
+          <h4 className='signup-title ml-6 text-align--center '>
+            <span dangerouslySetInnerHTML={{ __html: t(titles[currentStepIndex]) }} />
+          </h4>
+        :
+          <h4 className='signup-title ml-6 text-align--center '>
+            <span dangerouslySetInnerHTML={{ __html: firstName +', ' +t(titles[currentStepIndex]) }} />
+          </h4>
+        }
 
         {!isLastStep &&
           <AiOutlineClose
@@ -150,14 +168,15 @@ export function Signup() {
             color='grey'
             onClick={close}/>
         }
-
       </div>
+      {selectedRole != RoleOptions.Tutor && isFirstStep && <p className='text-align--center font__md font-family__poppins fw-300'>{t('REGISTER.FORM.CHOOSE_SUBJECTS_TIP')}</p>}
 
       <div
         style={{background:"#f8f4fe"}}
         className="signup-container">
         {step}
       </div>
+
     </>
   );
 }
