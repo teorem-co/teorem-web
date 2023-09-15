@@ -79,6 +79,8 @@ export const EN_US = {
         LEVEL_REQUIRED: 'Level is required',
         SUBJECT_REQUIRED: 'Subject is required',
         CHILD_REQUIRED: 'Child is required',
+        CHILDLESS_CALENDAR_1: 'Please add a child in',
+        CHILDLESS_CALENDAR_2: 'profile settings'
     },
     NAVIGATION: {
         MY_BOOKINGS: 'Calendar',

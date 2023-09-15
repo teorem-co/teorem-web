@@ -79,6 +79,8 @@ export const HR_HR = {
         LEVEL_REQUIRED: 'Razina je obvezna',
         SUBJECT_REQUIRED: 'Predmet je obvezan',
         CHILD_REQUIRED: 'Dijete je obvezno',
+        CHILDLESS_CALENDAR_1: 'Dodajte dijete u',
+        CHILDLESS_CALENDAR_2: 'postavkama profila'
     },
     NAVIGATION: {
         MY_BOOKINGS: 'Kalendar',

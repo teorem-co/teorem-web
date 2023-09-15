@@ -1,5 +1,7 @@
 import { FieldProps, useField } from 'formik';
 import Select, { components } from 'react-select';
+import {PROFILE_PATHS} from "../../routes";
+import {t} from "i18next";
 
 export interface OptionType {
     label: string;
@@ -146,7 +148,16 @@ const MySelect = ({
                 closeMenuOnSelect={closeMenuOnSelect}
                 isDisabled={isDisabled}
                 isLoading={isLoading}
-                noOptionsMessage={noOptionsMessage}
+                noOptionsMessage={() => {
+                  if(noOptionsMessage?.toString().includes("childless", 6)) {
+                    console.log(noOptionsMessage);
+                    return (
+                      <div>
+                        {t('FORM_VALIDATION.CHILDLESS_CALENDAR_1')}
+                        <a href={PROFILE_PATHS.MY_PROFILE_CHILD_INFO}> {t('FORM_VALIDATION.CHILDLESS_CALENDAR_2')}</a>.
+                      </div>
+                    );
+                  }}}
                 isSearchable={isSearchable}
             />
             {withoutErr ? <></> : <div className="field__validation">{meta.error && meta.touched ? meta.error : ''}</div>}
