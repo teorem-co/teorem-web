@@ -11,7 +11,7 @@ interface Props{
 }
 
 export const SubjectCard = (props: Props) => {
-  const IMAGES_PATH = '/images/subjects/';
+  const IMAGES_PATH = '/images/subjects';
   const {subject, onClick, isSelected, className} = props;
 
   return (

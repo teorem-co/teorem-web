@@ -3,8 +3,6 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 
-import parent from '../../../../../src/assets/images/parent.svg';
-import student from '../../../../../src/assets/images/student.svg';
 import logo from '../../../../assets/images/teorem_logo_purple.png';
 import { resetSignUp } from '../../../../slices/signUpSlice';
 import { PATHS } from '../../../routes';
@@ -12,6 +10,8 @@ import { t } from 'i18next';
 import { RoleOptions, setSelectedRole } from '../../../../slices/roleSlice';
 
 export const SignupRoleSelect = () => {
+  const IMAGES_PATH = '/images';
+
   const dispatch = useDispatch();
   const history = useHistory();
   const PARENT = RoleOptions.Parent;
@@ -55,7 +55,7 @@ export const SignupRoleSelect = () => {
               onClick={() => setRoleInStore(PARENT)}
               className="flex--col card--primary scale-hover--scale-105 cur--pointer"
               style={{borderRadius:'10px'}}>
-              <img className="card-role-select" src={parent} alt='parent'/>
+              <img className="card-role-select" src={`${IMAGES_PATH}/parent.svg`} alt='parent'/>
               <p className="text-align--center">{t('ROLE_SELECTION.PARENT_TITLE')}</p>
             </div>
 
@@ -64,7 +64,7 @@ export const SignupRoleSelect = () => {
               onClick={() => setRoleInStore(STUDENT)}
               className="flex--col card--primary scale-hover--scale-105 cur--pointer"
               style={{borderRadius:'10px'}}>
-              <img className="card-role-select" src={student} alt='parent'/>
+              <img className="card-role-select" src={`${IMAGES_PATH}/student.svg`} alt='parent'/>
               <p className="text-align--center">{t('ROLE_SELECTION.STUDENT_TITLE')}</p>
             </div>
           </div>
