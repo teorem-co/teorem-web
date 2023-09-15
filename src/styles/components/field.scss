@@ -9,8 +9,9 @@
 
 @media (max-width: 767px) {
   .sign-up-form-wrapper {
-    font-size: medium;
+    font-size: small;
     width: 80%;
+    max-width: 300px;
   }
 
   .field__w-60 {
@@ -18,7 +19,7 @@
   }
 
   .signup-title{
-    font-size: 20px;
+    font-size: 18px;
   }
 
   .password-tooltip{
@@ -29,6 +30,7 @@
 @media (min-width: 767px) {
   .sign-up-form-wrapper {
     width: 20%;
+    min-width: 300px;
     font-size: medium;
   }
   .signup-title{

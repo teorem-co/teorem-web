@@ -22,6 +22,7 @@ interface IStepTwo {
 interface IStepThree{
   password: string;
   confirmPassword: string;
+  terms: boolean;
 }
 
 interface IState{
@@ -35,6 +36,7 @@ interface IState{
   phoneNumber: string;
   password: string;
   confirmPassword: string;
+  terms:boolean;
 }
 
 const initialState: IState = {
@@ -48,6 +50,7 @@ const initialState: IState = {
   countryId: '',
   password: '',
   confirmPassword: '',
+  terms: false
 };
 
 
@@ -92,11 +95,13 @@ export const signUpSlice = createSlice({
     setStepThree(state, action: PayloadAction<IStepThree>) {
       const {
         password,
-        confirmPassword
+        confirmPassword,
+        terms
       } = action.payload;
 
       state.password = password;
       state.confirmPassword = confirmPassword;
+      state.terms = terms;
     },
 
     resetSignUp(state) {
@@ -109,6 +114,7 @@ export const signUpSlice = createSlice({
       state.countryId = '';
       state.phoneNumber = '';
       state.dateOfBirth = '';
+      state.terms = false;
     },
   },
 });

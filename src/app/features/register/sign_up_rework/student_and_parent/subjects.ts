@@ -110,11 +110,6 @@ export const allSubjects:ISubject[] = [
     "name": "History"
   },
   {
-    "id": "eb57766b-bbec-4be8-bc20-64b9644063f1",
-    "abrv": "ict",
-    "name": "ICT"
-  },
-  {
     "id": "77e7a466-e6dd-4021-bca4-8b1218096ff4",
     "abrv": "science",
     "name": "Science"
@@ -135,19 +130,9 @@ export const allSubjects:ISubject[] = [
     "name": "Sociology"
   },
   {
-    "id": "bec3b802-8691-434a-8618-740d277cc8c6",
-    "abrv": "accounting",
-    "name": "Accounting"
-  },
-  {
     "id": "60a54517-e5b3-4309-be4c-92001ac17831",
     "abrv": "medicine",
     "name": "Medicine"
-  },
-  {
-    "id": "9151e694-25a0-40ff-91f8-6bc2be22f7ce",
-    "abrv": "chemical-engineering",
-    "name": "Chemical Engineering"
   },
   {
     "id": "50f53cc2-2209-4477-9ce2-397c697c69db",
@@ -160,19 +145,14 @@ export const allSubjects:ISubject[] = [
     "name": "IT"
   },
   {
-    "id": "17e00ac5-25b3-4124-a47f-126a4025a5a0",
-    "abrv": "business-studies",
-    "name": "Business Studies"
-  },
-  {
     "id": "3f74cfd7-a33d-45f3-afe5-27c798e9aa7d",
     "abrv": "law",
     "name": "Law"
   },
   {
-    "id": "4453024b-8415-4cfe-90b5-bfcbeb78de32",
-    "abrv": "music",
-    "name": "Music"
+    "id": "6bbb1ca4-dc86-4ffa-965c-71455720d871",
+    "abrv": "architecture",
+    "name": "Architecture"
   },
   {
     "id": "b5769e82-6cbb-4534-9f19-db628e0dd514",
@@ -190,9 +170,24 @@ export const allSubjects:ISubject[] = [
     "name": "Psychology"
   },
   {
-    "id": "6bbb1ca4-dc86-4ffa-965c-71455720d871",
-    "abrv": "architecture",
-    "name": "Architecture"
+    "id": "4453024b-8415-4cfe-90b5-bfcbeb78de32",
+    "abrv": "music",
+    "name": "Music"
+  },
+  {
+    "id": "17e00ac5-25b3-4124-a47f-126a4025a5a0",
+    "abrv": "business-studies",
+    "name": "Business Studies"
+  },
+  {
+    "id": "9151e694-25a0-40ff-91f8-6bc2be22f7ce",
+    "abrv": "chemical-engineering",
+    "name": "Chemical Engineering"
+  },
+  {
+    "id": "bec3b802-8691-434a-8618-740d277cc8c6",
+    "abrv": "accounting",
+    "name": "Accounting"
   },
   //TODO: uncomment when we have icon for that
   // {

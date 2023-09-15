@@ -23,12 +23,12 @@ export function SignupThirdStep({ nextStep }:StepThreeProps) {
 
   const dispatch = useDispatch();
   const store = useAppSelector((store) => store.signUp);
-  const{password, confirmPassword} = store;
+  const{password, confirmPassword, terms} = store;
 
   const initialValues: StepThreeValues = {
     password: password,
     confirmPassword: confirmPassword,
-    termsAndConditions: false
+    termsAndConditions: terms
   };
 
   const handleSubmit = async (values: StepThreeValues) => {
@@ -36,7 +36,8 @@ export function SignupThirdStep({ nextStep }:StepThreeProps) {
       setStepThree(
         {
           password: values.password,
-          confirmPassword: values.password
+          confirmPassword: values.password,
+          terms: values.termsAndConditions
         }
       ));
   };

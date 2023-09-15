@@ -1045,7 +1045,6 @@ export const EN_US = {
         environmentalstudies: 'Environmental Studies',
         french: 'French',
         governmentandpolitics: 'Government and Politics',
-        ict: 'ICT',
         latin: 'Latin',
         science: 'Science',
         art: 'Art',
