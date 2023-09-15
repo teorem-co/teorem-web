@@ -221,9 +221,7 @@ export const ROUTES: any = [
     key: 'SEARCH_TUTORS_TUTOR_PROFILE',
     exact: true,
     component: () => (
-      <PermissionsGate roles={[Role.Parent, Role.Student, Role.Tutor, Role.SuperAdmin]}>
         <TutorProfile />
-      </PermissionsGate>
     ),
   },
   {
