@@ -258,7 +258,7 @@ const TutorBookings = () => {
     return (
       <>
         <div className="mb-2">{moment(date.date).format('dddd')}</div>
-        <div className="type--color--tertiary">{moment(date.date).format('DD/MMM')}</div>
+        <div className="type--color--tertiary">{moment(date.date).format('DD MMM')}</div>
       </>
     );
   };
@@ -376,10 +376,6 @@ const TutorBookings = () => {
         }
       });
     }
-
-    console.log("FIRST: ",flagArr.length === existingBooking?.length);
-    console.log("SECOND: ", !moment.utc(e.start).isBefore(moment().add(3, 'hours')));
-    console.log("THIRD: ", isAvailableBooking);
 
     const firstCheck = flagArr.length === existingBooking?.length;
 

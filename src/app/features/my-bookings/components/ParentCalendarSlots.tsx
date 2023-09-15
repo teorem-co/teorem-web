@@ -1,7 +1,7 @@
 import { Form, FormikProvider, useFormik } from 'formik';
 import { t } from 'i18next';
 import moment from 'moment';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 
 
@@ -318,6 +318,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                   classNamePrefix="onboarding-select"
                   isMulti={false}
                   options={childOptions ? childOptions : []}
+                  noOptionsMessage={() => "childless"}
                   placeholder={t('BOOK.FORM.CHILD_PLACEHOLDER')}
                 />
               </div>

@@ -13,6 +13,7 @@ import {
   useMarkAllAsReadMutation,
 } from '../../../services/notificationService';
 import {
+  useLazyGetChildrenQuery,
   useLazyGetUserQuery,
 } from '../../../services/userService';
 import { RoleOptions } from '../../../slices/roleSlice';
@@ -56,18 +57,19 @@ const Dashboard = () => {
     const [getRequests] = useLazyGetRequestsQuery();
     const [acceptRequest] = useAcceptBookingMutation();
     const [denyRequest] = useDeleteBookingMutation();
+    const [getChildren, { data: childrenData, isLoading: childrenLoading}] = useLazyGetChildrenQuery();
 
-    const [groupedUpcomming, setGroupedUpcomming] = useState<IGroupedDashboardData>({});
-  const [groupedRequests, setGroupedRequests] = useState<IGroupedDashboardData>({});
-  const [todayScheduled, setTodayScheduled] = useState<IBooking[]>([]);
+    const [groupedUpcomming, setGroupedUpcoming] = useState<IGroupedDashboardData>({});
+    const [groupedRequests, setGroupedRequests] = useState<IGroupedDashboardData>({});
+    const [todayScheduled, setTodayScheduled] = useState<IBooking[]>([]);
     const [unreadChatrooms, setUnreadChatrooms] = useState<any[]>([]);
     const [learnCubeModal, setLearnCubeModal] = useState<boolean>(false);
-    const [currentlyActiveBooking, setCurentlyActiveBooking] = useState<string>('');
+    const [currentlyActiveBooking, setCurrentlyActiveBooking] = useState<string>('');
     const [activeIndex, setActiveIndex] = useState<number>(0);
     const [activeMsgIndex, setActiveMsgIndex] = useState<number>(0);
-  const [params, setParams] = useState<IParams>({ page: 1, size: 10, sort:"createdAt", sortDirection:"desc", read: false });
+    const [params, setParams] = useState<IParams>({ page: 1, size: 10, sort:"createdAt", sortDirection:"desc", read: false });
 
-  const userData = useAppSelector((state) => state.user);
+    const userData = useAppSelector((state) => state.user);
 
     const userId = useAppSelector((state) => state.auth.user?.id);
     const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
@@ -89,12 +91,15 @@ const Dashboard = () => {
         await getUnreadNotifications(params).unwrap();
         const upcoming = await getUpcoming().unwrap();
         const groupedDashboardData: IGroupedDashboardData = groupBy(upcoming, (e) => moment(e.startTime).format(t('DATE_FORMAT')));
-        setGroupedUpcomming(groupedDashboardData);
+        setGroupedUpcoming(groupedDashboardData);
         const todaySchedule = await getTodaySchedule().unwrap();
         setTodayScheduled(todaySchedule);
         const requests = await getRequests().unwrap();
       const groupedRequestData: IGroupedDashboardData = groupBy(requests, (e) => moment(e.startTime).format(t('DATE_FORMAT')));
       setGroupedRequests(groupedRequestData);
+      if(userRole === RoleOptions.Parent && userId !== undefined) {
+        await getChildren(userId).unwrap();
+      }
     };
 
     const handleNextIndex = () => {
@@ -108,10 +113,10 @@ const Dashboard = () => {
       fetchData();
     };
 
-  const handleDeny = async (id: string) => {
-    await denyRequest(id);
-    fetchData();
-  };
+    const handleDeny = async (id: string) => {
+      await denyRequest(id);
+      fetchData();
+    };
 
     const handlePrevIndex = () => {
         if (activeIndex > 0) {
@@ -132,7 +137,7 @@ const Dashboard = () => {
     };
 
     const handleJoinBooking = (event: IBooking) => {
-        setCurentlyActiveBooking(event.id);
+        setCurrentlyActiveBooking(event.id);
         setLearnCubeModal(true);
     };
 
@@ -269,9 +274,21 @@ const Dashboard = () => {
             <div className="layout--primary">
                 <div>
                   {userRole === RoleOptions.Tutor && profileProgressState && !profileProgressState.verified ? (
-                    <div className="flex flex--col flex--jc--center mb-2 p-2" style={{ borderRadius: '0.5em',color: 'white', backgroundColor:'#7e6cf2'}}>
+                    <div className="flex flex--col flex--jc--center mb-2 p-2" style={{ borderRadius: '0.5em', color: 'white', backgroundColor:'#7e6cf2'}}>
                       <h4 className="type--md mb-2 ml-6 align-self-center">{t(`TUTOR_VERIFIED_NOTE.TITLE`)}</h4>
                       <p className="ml-6 align-self-center">{t(`TUTOR_VERIFIED_NOTE.DESCRIPTION`)}</p>
+                    </div>
+                  ) : null}
+                  {userRole === RoleOptions.Parent && childrenData?.length === 0 ? (
+                    <div className="flex flex--col flex--jc--center mb-2 p-2" style={{ borderRadius: '0.5em', color: 'white', background:'#7e6cf2'}}>
+                      <h4 className="type--md mb-2 ml-6 align-self-center">{t(`CHILDLESS_PARENT_NOTE.TITLE`)}</h4>
+                      <p className="ml-6 align-self-center">{t(`CHILDLESS_PARENT_NOTE.DESCRIPTION`)}</p>
+                      <Link
+                        className="btn btn--base btn--tertiary w--100 mb-4 type--center"
+                        to={PROFILE_PATHS.MY_PROFILE_CHILD_INFO}
+                      >
+                        {t('MY_PROFILE.PROFILE_SETTINGS.DESCRIPTION')}
+                      </Link>
                     </div>
                   ) : null}
                         {userRole == RoleOptions.Tutor && profileProgressState.percentage && profileProgressState.percentage < 100 ? (

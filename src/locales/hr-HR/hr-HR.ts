@@ -79,6 +79,8 @@ export const HR_HR = {
         LEVEL_REQUIRED: 'Razina je obvezna',
         SUBJECT_REQUIRED: 'Predmet je obvezan',
         CHILD_REQUIRED: 'Dijete je obvezno',
+        CHILDLESS_CALENDAR_1: 'Dodajte dijete u',
+        CHILDLESS_CALENDAR_2: 'postavkama profila'
     },
     NAVIGATION: {
         MY_BOOKINGS: 'Kalendar',
@@ -490,6 +492,10 @@ export const HR_HR = {
     TUTOR_VERIFIED_NOTE: {
       TITLE: "Vaš račun mora potvrditi administrator, prije nego što se može prikazivati u rezultatima pretraživanja!",
       DESCRIPTION: "Primit ćete e-mail o statusu vašeg računa."
+    },
+    CHILDLESS_PARENT_NOTE: {
+      TITLE: "Morate imati dijete kako biste mogli zatražiti instrukcije!",
+      DESCRIPTION: "Dijete možete dodati na postavkama profila."
     },
     ACCOUNT: {
         CHANGE_PASSWORD: {

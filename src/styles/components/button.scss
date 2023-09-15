@@ -59,6 +59,25 @@
         }
     }
 
+    &--tertiary {
+      width: calc(#{$unit} * 150) !important;
+      place-self: center;
+      margin-top: 13px;
+      background-color: $grey-d8;
+      background: linear-gradient(226.69deg, rgba(240, 240, 240, 0.9) 4.52%, #ffffff 94.64%);
+      color: $color-text-primary;
+      text-align: center;
+      &:hover {
+        background-color: darken($grey-d8, 10%);
+      }
+      &:active {
+        background-color: darken($grey-d8, 15%);
+      }
+      &:focus {
+        --box-shadow-color: #{darken($grey-d8, 15%)};
+      }
+    }
+
     &--success {
         background-color: $color-success;
         color: $white;
