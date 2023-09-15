@@ -26,7 +26,7 @@ export const SubjectCard = (props: Props) => {
           // border: isSelected ? '3px solid #7e6cf2' : 'none',
         }}>
         <img src={`${IMAGES_PATH}/${subject.abrv}.png`} alt={subject.name} className="subject-card-image"/>
-        <span className="text-align--center mt-1">{t(`SUBJECTS.${subject.abrv.replaceAll('-', '').replace(' ', '').toLowerCase()}`)}</span>
+        <p className="text-align--center mt-1 no-overflow">{t(`SUBJECTS.${subject.abrv.replaceAll('-', '').replace(' ', '').toLowerCase()}`)}</p>
       </div>
     </>
   );

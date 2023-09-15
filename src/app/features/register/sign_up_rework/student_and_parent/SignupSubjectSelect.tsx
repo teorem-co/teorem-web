@@ -115,9 +115,9 @@ export const SignupSubjectSelect = (props:Props) => {
             </div>
 
             {
-              <span onClick={()=> addAdditionalSubjects()} className="cur--pointer font__md change-color-hover--primary font-family__poppins fw-300">
+              <p onClick={()=> addAdditionalSubjects()} className="cur--pointer change-color-hover--primary font-family__poppins fw-300 info-text">
                 {showLoadMoreSubjects ? t('REGISTER.FORM.LOAD_MORE_SUBJECTS') : t('REGISTER.FORM.HIDE_MORE_SUBJECTS')}
-              </span>
+              </p>
             }
           </div>
 

@@ -60,9 +60,17 @@
   margin: 2.5px; /* half of the 5px gap on all sides */
 }
 
-@media (max-width: 767px) {
+@media (min-width: 767px) {
   .signup-subject-container{
     width: 100%;
+  }
+
+  .mail-icon{
+    width: 250px;
+  }
+
+  .confirm-mail-message{
+    font-size: medium;
   }
 }
 
@@ -70,10 +78,57 @@
   .signup-subject-container{
     width: 30%;
   }
+
+  .subject-card{
+    font-size: medium;
+  }
+
+  .info-text{
+    font-size: medium;
+  }
+
+  .btn-signup{
+    font-size: medium;
+  }
 }
 
 @media (max-width: 767px) {
   .margin-mobile{
     margin-bottom: 40px;
   }
+
+  .mail-icon{
+    width: 100px;
+  }
+
+  .confirm-mail-message{
+    font-size: smaller;
+  }
+
+  .subject-card{
+    font-size: 2vw;
+  }
+
+  .level-card{
+    font-size: 2.5vw;
+  }
+
+  .info-text{
+    font-size: small;
+  }
+
+  .btn-signup{
+    font-size: small;
+  }
 }
+
+.no-overflow {
+  overflow-wrap: break-word;
+  //white-space: nowrap;
+  //overflow: hidden;
+  text-overflow: fade;
+  max-width: 100%;
+}
+
+
+

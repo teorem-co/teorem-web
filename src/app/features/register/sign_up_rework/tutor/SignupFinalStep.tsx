@@ -1,21 +1,21 @@
 import { t } from 'i18next';
 import React, { useEffect, useState } from 'react';
-import { PATHS } from '../../../../routes';
-import { useHistory } from 'react-router';
 import { useAppSelector } from '../../../../hooks';
-
+import {
+  useResendActivationEmailMutation
+} from '../../../../../services/authService';
 
 
 export const SignupFinalStep = () => {
   const store = useAppSelector(state => state.signUp);
   const {email} = store;
-
+  const [resendActivationEmailPost, { isSuccess: isSuccessResendActivationEmail }] = useResendActivationEmailMutation();
   const [isResendButton, setIsResendButton] = useState();
 
   function resend(){
     setButtonIsActive(true);
     setSecondsLeft(40);
-    // alert("RESENDING... TO: " + email);
+    resendActivationEmailPost({ email });
   }
 
 
@@ -44,9 +44,9 @@ export const SignupFinalStep = () => {
     <>
     <div className="flex flex--center flex--col align--center sign-up-form-wrapper mt-5">
 
-      <img src='/images/mail-icon.svg' alt='' width="250px" />
+      <img src='/images/mail-icon.svg' alt='' className="mail-icon"/>
 
-      <p className='text-align--center mb-10 font-family__poppins font__md'>{t('REGISTER.FORM.CONFIRM_EMAIL')}</p>
+      <p className='text-align--center mb-10 font-family__poppins info-text'>{t('REGISTER.FORM.CONFIRM_EMAIL')}</p>
 
       <button
         disabled={buttonIsActive}

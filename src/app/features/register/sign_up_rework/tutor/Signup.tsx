@@ -129,7 +129,6 @@ export function Signup() {
   return (
     <>
 
-      {/*=={selectedRole}==*/}
       <img
         src={logo}
         alt='logo'
@@ -148,7 +147,7 @@ export function Signup() {
         />}
 
         <CircularProgress
-          className='progress-circle'
+          className='progress-circle ml-1'
           progressNumber={percentage}
         />
 
@@ -169,7 +168,8 @@ export function Signup() {
             onClick={close}/>
         }
       </div>
-      {selectedRole != RoleOptions.Tutor && isFirstStep && <p className='text-align--center font__md font-family__poppins fw-300'>{t('REGISTER.FORM.CHOOSE_SUBJECTS_TIP')}</p>}
+
+      {selectedRole != RoleOptions.Tutor && isFirstStep && <p className='text-align--center font-family__poppins fw-300 info-text'>{t('REGISTER.FORM.CHOOSE_SUBJECTS_TIP')}</p>}
 
       <div
         style={{background:"#f8f4fe"}}

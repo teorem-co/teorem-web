@@ -40,16 +40,17 @@ export const SignupSecondStep = ({ nextStep }:StepTwoProps) => {
     validateOnBlur: true,
     validateOnChange: false,
     validateOnMount:true,
-    enableReinitialize: true,
+    enableReinitialize: false,
     validationSchema: Yup.object().shape({
       email: Yup.string().email(t('FORM_VALIDATION.INVALID_EMAIL'))
+        .required(t('FORM_VALIDATION.REQUIRED'))
         .test('checkEmailExistence', t('REGISTER.FORM.EMAIL_CONFLICT'), async (value) => {
-          if (!value) return true;
+          if (!value) return true;  // If value is not present, return true to skip further validation
 
           const emailExists = await checkMail({ email: value }).unwrap();
           return !emailExists;
-        })
-        .required(t('FORM_VALIDATION.REQUIRED')),
+        }),
+
       phoneNumber: Yup.string()
         .required(t('FORM_VALIDATION.REQUIRED'))
         .matches(
@@ -58,6 +59,7 @@ export const SignupSecondStep = ({ nextStep }:StepTwoProps) => {
         ),
     }),
   });
+
 
   const handleEnterKeyOne = (event: React.KeyboardEvent<HTMLFormElement>) => {
     if (event.key === 'Enter') {
@@ -107,7 +109,7 @@ export const SignupSecondStep = ({ nextStep }:StepTwoProps) => {
                 field={formik.getFieldProps('phoneNumber')}
                 meta={formik.getFieldMeta('phoneNumber')}
               />
-              <div className="password-tooltip font__sm text-align--center">{t('REGISTER.FORM.PHONE_INFO')}</div>
+              <div className="password-tooltip text-align--center info-text">{t('REGISTER.FORM.PHONE_INFO')}</div>
 
             </div>
 
