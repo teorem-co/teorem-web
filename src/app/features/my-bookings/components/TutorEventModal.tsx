@@ -127,10 +127,7 @@ const TutorEventModal: React.FC<IProps> = (props) => {
                         </div>
 
                         {
-                          event.isAccepted
-                            &&
-                           // moment(event.startTime).subtract(10, 'minutes').isBefore(moment()) &&
-                           // moment(event.endTime).isAfter(moment()) &&
+                          event.isAccepted &&
 
                             (
                                 <button

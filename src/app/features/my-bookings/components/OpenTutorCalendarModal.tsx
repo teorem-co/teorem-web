@@ -5,7 +5,6 @@ import { RoleOptions } from '../../../../slices/roleSlice';
 import { useAppSelector } from '../../../hooks';
 import IBooking from '../interfaces/IBooking';
 import React, { useState } from 'react';
-import { Tooltip } from 'react-tooltip';
 
 interface IEvent {
     id?: string;
@@ -24,6 +23,7 @@ interface IProps {
 }
 
 const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
+    const ALLOWED_MINUTES_TO_JOIN_BEFORE_MEETING = 5;
     const { handleClose, positionClass, event, goToTutorCalendar, openLearnCube } = props;
 
     const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
@@ -31,6 +31,11 @@ const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
 
     function handleShowInfo() {
       setShowInfo(!showInfo);
+    }
+
+    function isJoinButtonDisabled(event: IBooking){
+      // you can't join more than 5 minutes before start OR after meeting has ended
+      return !(moment(event.startTime).subtract(ALLOWED_MINUTES_TO_JOIN_BEFORE_MEETING, 'minutes').isBefore(moment()) && moment(event.endTime).isAfter(moment()));
     }
 
   return (
@@ -50,44 +55,6 @@ const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
                                 </div>
                             </div>
                             <div className="mb-6">
-                              {/* THIS IS FOR TOOLTIP ON MEETING MODAL*/}
-                              {/*<Tooltip*/}
-                              {/*  clickable={true}*/}
-                              {/*  openOnClick={true}*/}
-                              {/*  id="booking-info"*/}
-                              {/*  place={'left-start'}*/}
-                              {/*  positionStrategy={'absolute'}*/}
-                              {/*  closeOnEsc={true}*/}
-                              {/*  style={{ zIndex: 9, fontSize:'14px'}}*/}
-                              {/*/>*/}
-
-                              {/* <i className="icon icon--base icon--grey icon--info"*/}
-                              {/*    // onClick={handleShowInfo}*/}
-                              {/*    data-tooltip-id='booking-info'*/}
-                              {/*    data-tooltip-html={"" +*/}
-                              {/*      "<div>Rescheduling info</div> " +*/}
-                              {/*      "<div>info 1</div>" +*/}
-                              {/*      "<div>info 2</div>" +*/}
-                              {/*      "<div>info 3</div>" +*/}
-                              {/*      "<div>info 4</div>" +*/}
-                              {/*      "<div>informacija</div>" +*/}
-                              {/*      ""}*/}
-                              {/* ></i>*/}
-
-                              {/*<i className="icon icon--base icon--grey icon--info"*/}
-                              {/*  // onClick={handleShowInfo}*/}
-                              {/*   data-tooltip-id='booking-info'*/}
-                              {/*   data-tooltip-html={"" +*/}
-                              {/*     "<div>Rescheduling info</div> " +*/}
-                              {/*     "<div>info 1</div>" +*/}
-                              {/*     "<div>info 2</div>" +*/}
-                              {/*     "<div>info 3</div>" +*/}
-                              {/*     "<div>info 4</div>" +*/}
-                              {/*     "<div>informacija</div>" +*/}
-                              {/*     ""}*/}
-                              {/*></i>*/}
-
-
                                 <i
                                     className="icon icon--base icon--grey icon--close"
                                     onClick={() => {
@@ -126,12 +93,11 @@ const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
                         )}
 
                         {event.isAccepted
-                          //TODO: uncomment later or maybe show button but disable it
-                            //&&
-                        // moment(event.startTime).subtract(10, 'minutes').isBefore(moment()) &&
-                        // moment(event.endTime).isAfter(moment())
                             && (
-                            <button className="btn btn--base btn--primary mt-4" onClick={() => openLearnCube && openLearnCube()}>
+                            <button
+                              disabled={isJoinButtonDisabled(event)}
+                              className="btn btn--base btn--primary mt-4"
+                              onClick={() => openLearnCube && openLearnCube()}>
                                 {t('BOOK.JOIN')}
                             </button>
                         )}
