@@ -41,6 +41,7 @@ import {
   useAcceptBookingMutation,
   useDeleteBookingMutation
 } from "../my-bookings/services/bookingService";
+import ParentModal from "./ParentModal";
 
 interface IGroupedDashboardData {
     [date: string]: IBooking[];
@@ -280,15 +281,18 @@ const Dashboard = () => {
                     </div>
                   ) : null}
                   {userRole === RoleOptions.Parent && childrenData?.length === 0 ? (
-                    <div className="flex flex--col flex--jc--center mb-2 p-2" style={{ borderRadius: '0.5em', color: 'white', background:'#7e6cf2'}}>
-                      <h4 className="type--md mb-2 ml-6 align-self-center">{t(`CHILDLESS_PARENT_NOTE.TITLE`)}</h4>
-                      <p className="ml-6 align-self-center">{t(`CHILDLESS_PARENT_NOTE.DESCRIPTION`)}</p>
-                      <Link
-                        className="btn btn--base btn--tertiary w--100 mb-4 type--center"
-                        to={PROFILE_PATHS.MY_PROFILE_CHILD_INFO}
-                      >
-                        {t('MY_PROFILE.PROFILE_SETTINGS.DESCRIPTION')}
-                      </Link>
+                    <div>
+                      <ParentModal />
+                      <div className="flex flex--col flex--jc--center mb-2 p-2" style={{ borderRadius: '0.5em', color: 'white', background:'#7e6cf2'}}>
+                        <h4 className="type--md mb-2 ml-6 align-self-center">{t(`CHILDLESS_PARENT_NOTE.TITLE`)}</h4>
+                        <p className="ml-6 align-self-center">{t(`CHILDLESS_PARENT_NOTE.DESCRIPTION`)}</p>
+                        <Link
+                          className="btn btn--base btn--tertiary w--100 mb-4 type--center"
+                          to={PROFILE_PATHS.MY_PROFILE_CHILD_INFO}
+                        >
+                          {t('MY_PROFILE.PROFILE_SETTINGS.DESCRIPTION')}
+                        </Link>
+                      </div>
                     </div>
                   ) : null}
                         {userRole == RoleOptions.Tutor && profileProgressState.percentage && profileProgressState.percentage < 100 ? (
