@@ -78,6 +78,11 @@
       }
     }
 
+    &--modal {
+      background: transparent !important;
+      color: $white;
+    }
+
     &--success {
         background-color: $color-success;
         color: $white;

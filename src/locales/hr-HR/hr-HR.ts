@@ -497,6 +497,7 @@ export const HR_HR = {
       TITLE: "Morate imati dijete kako biste mogli zatražiti instrukcije!",
       DESCRIPTION: "Dijete možete dodati na postavkama profila."
     },
+    IGNORE: "Zanemari",
     ACCOUNT: {
         CHANGE_PASSWORD: {
             TITLE: 'Promijenite lozinku',

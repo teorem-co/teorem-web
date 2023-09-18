@@ -498,6 +498,7 @@ export const EN_US = {
       TITLE: "You must have a child to request a booking!",
       DESCRIPTION: "You can add a child on your profile settings."
     },
+    IGNORE: 'Ignore',
     ACCOUNT: {
         CHANGE_PASSWORD: {
             TITLE: 'Change password',
