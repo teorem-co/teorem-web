@@ -112,8 +112,8 @@ export function Signup() {
       password: password,
       confirmPassword: confirmPassword,
       roleAbrv: selectedRole.toString(),
-      subjectId: subjectId,
-      levelId: levelId
+      ...(subjectId ? { subjectId } : {}),
+      ...(levelId ? { levelId } : {})
     };
 
     await registerUser(toSend).unwrap();
