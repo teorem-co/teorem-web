@@ -256,8 +256,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
               {moment(start).format(t('DATE_FORMAT') + ', HH:mm')} - {end}
             </div>
           </div>
-          <i
-            className="icon icon--base icon--grey icon--info mb-6"></i>
+          {/*<i className="icon icon--base icon--grey icon--info mb-6"></i>*/}
           <i
             className="icon icon--base icon--grey icon--close mb-6"
             onClick={() => {

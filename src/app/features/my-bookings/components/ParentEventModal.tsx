@@ -81,7 +81,7 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                               {/*     ""}*/}
                               {/*></i>*/}
 
-                                {!moment(event.startTime).isBefore(moment().add(3, 'hours')) && (
+                                {!moment(event.startTime).isBefore(moment().add(1, 'hours')) && (
                                     <i className="icon icon--base icon--grey icon--edit mr-4" onClick={() => openEditModal(true)}/>
                                 )}
 
