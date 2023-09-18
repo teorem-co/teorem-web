@@ -66,18 +66,13 @@ export const bookingService = baseService.injectEndpoints({
             }),
             transformResponse: (response: IBooking[]) => {
                 const bookings: IBookingTransformed[] = response.map((x) => {
-                    const startTwoHoursBefore = new Date(x.startTime);
-                    startTwoHoursBefore.setHours(startTwoHoursBefore.getHours() - 2);
-
-                    const endTwoHoursBefore = new Date(x.endTime);
-                    endTwoHoursBefore.setHours(endTwoHoursBefore.getHours() - 2);
 
                     return {
                         id: x.id,
                         label: x.Subject ? t(`SUBJECTS.${x.Subject.abrv.replace('-', '').replace(' ', '')}`) : 'No title',
                         tutor: x.Tutor ? x.Tutor.User.firstName + ' ' + x.Tutor.User.lastName : 'No tutor name',
-                        start: startTwoHoursBefore, //new Date(x.startTime),
-                        end: endTwoHoursBefore, //new Date(x.endTime),
+                        start: new Date(x.startTime),
+                        end: new Date(x.endTime),
                         isAccepted: x.isAccepted,
                         allDay: false,
                     };

@@ -37,6 +37,9 @@ import {
   useLazyGetTutorAvailabilityQuery
 } from '../my-profile/services/tutorAvailabilityService';
 import { v4 as uuidv4 } from 'uuid';
+import ParentEventModal from './components/ParentEventModal';
+import UpdateBooking from './components/UpdateBooking';
+import { InformationCard } from '../../components/InformationCard';
 
 i18n.language !== 'en' && Array.from(languageOptions.map((l) => l.path)).includes(i18n.language) && require(`moment/locale/${i18n.language}.js`);
 
@@ -60,10 +63,9 @@ const MyBookings: React.FC = (props: any) => {
 
   const userId = useAppSelector((state) => state.auth.user?.id);
   const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
-  // TODO: something like this conditional selecting OR inside method maybe =>> CANNOT REALLY DO THAT i need some other way
   const [getBookings, { data: bookings, isLoading: bookingsLoading }] = useLazyGetBookingsQuery();
   const [getNotificationForLessons, { data: lessonsCount }] = useLazyGetNotificationForLessonsQuery();
-  const [getBookingById, { data: booking }] = useLazyGetBookingByIdQuery();
+  const [getBookingById, { data: booking, isLoading: bookingIsLoading, isFetching:bookingIsFetching }] = useLazyGetBookingByIdQuery();
   const [getUpcomingLessons, { data: upcomingLessons }] = useLazyGetUpcomingLessonsQuery();
   const [getTutorUnavailableBookings, { data: unavailableBookings, isLoading: unavailableBookingsLoading }] = useLazyGetUnavailableBookingsQuery();
 
@@ -72,6 +74,7 @@ const MyBookings: React.FC = (props: any) => {
   const [unavailableCurrentEvent, setUnavailableCurrentEvent] = useState<IBookingTransformed[]>([]);
   const [selectedSlot, setSelectedSlot] = useState<Date | null>(null);
   const [selectedStart, setSelectedStart] = useState<string>('');
+  const [selectedEnd, setSelectedEnd] = useState<string>('');
   const [selectedUnavailability, setSelectedUnavailability] = useState<string>('');
   const [openEventDetails, setOpenEventDetails] = useState<boolean>(false);
   const [openTutorCalendarModal, setOpenTutorCalendarModal] = useState<boolean>(false);
@@ -291,6 +294,7 @@ const MyBookings: React.FC = (props: any) => {
         getBookingById(e.id);
         setOpenTutorCalendarModal(true);
         setSelectedStart(moment(e.start).format(t('DATE_FORMAT') + ', HH:mm'));
+        setSelectedEnd(moment(e.end).add(1, 'minute').format('HH:mm'));
       }
     }
   };
@@ -415,6 +419,22 @@ const MyBookings: React.FC = (props: any) => {
     return () => clearInterval(interval);
   }, [calChange]);
 
+  const [openUpdateModal, setOpenUpdateModal] = useState<boolean>(false);
+
+  function setSidebarOpen(e: any) {
+    return;
+  }
+
+  function setEmptyBookings(param: any[]) {
+    return;
+  }
+
+  const handleUpdateModal = (isOpen: boolean) => {
+    setOpenUpdateModal(isOpen);
+    setOpenEventDetails(false);
+    setOpenTutorCalendarModal(false);
+  };
+
   return (
     <MainWrapper>
       <div className="layout--primary">
@@ -468,15 +488,40 @@ const MyBookings: React.FC = (props: any) => {
             ) : (
               <></>
             )}
-            {openTutorCalendarModal ? (
-              <OpenTutorCalendarModal
-                goToTutorCalendar={() => goToTutorCalendar()}
+            {openTutorCalendarModal && booking ? (
+              // TODO: here should be ParentEventModal
+              // <OpenTutorCalendarModal
+              //   goToTutorCalendar={() => goToTutorCalendar()}
+              //   event={booking ? booking : null}
+              //   handleClose={(e) => setOpenTutorCalendarModal(e)}
+              //   positionClass={calcModalPosition(positionClass)}
+              //   openLearnCube={() => setLearnCubeModal(true)}
+              // />
+              !bookingIsLoading && !bookingIsFetching && <ParentEventModal
+                eventIsAccepted={booking ? booking.isAccepted : false}
+                bookingStart={booking ? booking.startTime : ''}
                 event={booking ? booking : null}
                 handleClose={(e) => setOpenTutorCalendarModal(e)}
                 positionClass={calcModalPosition(positionClass)}
                 openLearnCube={() => setLearnCubeModal(true)}
+
+                openEditModal={(isOpen) => handleUpdateModal(isOpen)}
+                tutorName={booking.User.firstName && booking.User.lastName ? booking.User.firstName + ' ' + booking.User.lastName : ''}
+                // tutorName={booking.User ? booking.User.firstName : ''}
+
               />
-            ) : (
+            ) : openUpdateModal && booking ? (
+              <UpdateBooking
+                booking={booking ? booking : null}
+                clearEmptyBookings={() => setEmptyBookings([])}
+                setSidebarOpen={(e: any) => setSidebarOpen(e)}
+                start={`${selectedStart}`}
+                end={`${selectedEnd}`}
+                handleClose={(e: any) => setOpenUpdateModal(e)}
+                positionClass={calcModalPosition(positionClass)}
+                tutorId={booking?.tutorId}
+              />
+            ):(
               <></>
             )}
             {openUnavailabilityModal && (
@@ -536,7 +581,9 @@ const MyBookings: React.FC = (props: any) => {
             ></div>
           </div>
           <div className="upcoming-lessons">
-            <UpcomingLessons upcomingLessons={upcomingLessons ? upcomingLessons : []} />
+            <InformationCard title={t('MY_BOOKINGS.INFORMATION.CARD1.TITLE')} desc={t('MY_BOOKINGS.INFORMATION.CARD1.DESC')}/>
+            <InformationCard title={t('MY_BOOKINGS.INFORMATION.CARD2.TITLE')} desc={t('MY_BOOKINGS.INFORMATION.CARD2.DESC')}/>
+           {/*<UpcomingLessons upcomingLessons={upcomingLessons ? upcomingLessons : []} />*/}
           </div>
           {learnCubeModal && <LearnCubeModal bookingId={currentlyActiveBooking} handleClose={() => setLearnCubeModal(false)} />}
         </div>

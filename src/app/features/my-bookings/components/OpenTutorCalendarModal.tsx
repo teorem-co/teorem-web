@@ -4,6 +4,7 @@ import moment from 'moment';
 import { RoleOptions } from '../../../../slices/roleSlice';
 import { useAppSelector } from '../../../hooks';
 import IBooking from '../interfaces/IBooking';
+import React, { useState } from 'react';
 
 interface IEvent {
     id?: string;
@@ -22,12 +23,25 @@ interface IProps {
 }
 
 const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
+    const ALLOWED_MINUTES_TO_JOIN_BEFORE_MEETING = 5;
     const { handleClose, positionClass, event, goToTutorCalendar, openLearnCube } = props;
 
     const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
+    const [showInfo, setShowInfo] = useState(false);
 
-    return (
+    function handleShowInfo() {
+      setShowInfo(!showInfo);
+    }
+
+    function isJoinButtonDisabled(event: IBooking){
+      // you can't join more than 5 minutes before start OR after meeting has ended
+      return !(moment(event.startTime).subtract(ALLOWED_MINUTES_TO_JOIN_BEFORE_MEETING, 'minutes').isBefore(moment()) && moment(event.endTime).isAfter(moment()));
+    }
+
+  return (
         <>
+            {/*TODO: ovo je komponenta na vlastitom kalendaru*/}
+
             {event ? (
                 <div className={`modal--parent modal--parent--${positionClass}`}>
                     <div className="modal--parent__header">
@@ -37,7 +51,7 @@ const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
                                     {event.Tutor.User.firstName} {event.Tutor.User.lastName}
                                 </div>
                                 <div className="type--color--secondary">
-                                    {moment.utc(event.startTime).format(t('DATE_FORMAT') + ', HH:mm')} - {moment.utc(event.endTime).add(1, 'minutes').format('HH:mm')}
+                                    {moment(event.startTime).format(t('DATE_FORMAT') + ', HH:mm')} - {moment(event.endTime).add(1, 'minutes').format('HH:mm')}
                                 </div>
                             </div>
                             <div className="mb-6">
@@ -79,18 +93,17 @@ const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
                         )}
 
                         {event.isAccepted
-                            //&&
-                        // moment(event.startTime).subtract(10, 'minutes').isBefore(moment()) &&
-                        // moment(event.endTime).isAfter(moment())
-                            ? (
-                            <button className="btn btn--base btn--primary mt-4" onClick={() => openLearnCube && openLearnCube()}>
+                            && (
+                            <button
+                              disabled={isJoinButtonDisabled(event)}
+                              className="btn btn--base btn--primary mt-4"
+                              onClick={() => openLearnCube && openLearnCube()}>
                                 {t('BOOK.JOIN')}
                             </button>
-                        ) : (
-                            <></>
                         )}
                     </div>
                 </div>
+
             ) : (
                 <></>
             )}

@@ -1,12 +1,13 @@
 import { t } from 'i18next';
 import moment from 'moment';
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { RoleOptions } from '../../../../slices/roleSlice';
 import { useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import IBooking from '../interfaces/IBooking';
 import { useDeleteBookingMutation } from '../services/bookingService';
+import { Tooltip } from 'react-tooltip';
 
 interface IProps {
     handleClose?: (close: boolean) => void;
@@ -20,6 +21,7 @@ interface IProps {
 }
 
 const ParentEventModal: React.FC<IProps> = (props) => {
+    const ALLOWED_MINUTES_TO_JOIN_BEFORE_MEETING = 5;
     const { handleClose, positionClass, event, tutorName, openEditModal, bookingStart, eventIsAccepted, openLearnCube } = props;
     const [deleteBooking, { isSuccess: isSuccessDeleteBooking }] = useDeleteBookingMutation();
     const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
@@ -36,7 +38,12 @@ const ParentEventModal: React.FC<IProps> = (props) => {
         }
     }, [isSuccessDeleteBooking]);
 
-    return (
+    function isJoinButtonDisabled(event: IBooking){
+      // you can't join more than 5 minutes before start OR after meeting has ended
+      return !(moment(bookingStart).subtract(ALLOWED_MINUTES_TO_JOIN_BEFORE_MEETING, 'minutes').isBefore(moment()) && moment(event.endTime).isAfter(moment()));
+    }
+
+  return (
         <>
             {event ? (
                 <div className={`modal--parent modal--parent--${positionClass}`}>
@@ -46,19 +53,43 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                                 <div className="type--wgt--bold type--md mb-1">{t(`SUBJECTS.${event.Subject.abrv.replace(' ', '').replaceAll('-', '').toLowerCase()}`)}</div>
 
                                 <div className="type--color--secondary">
-                                    {moment.utc(event.startTime).format(t('DATE_FORMAT') + ', HH:mm')} - {moment.utc(event.endTime).add(1, 'minutes').format('HH:mm')}
+                                    {moment(event.startTime).format(t('DATE_FORMAT') + ', HH:mm')} - {moment(event.endTime).add(1, 'minutes').format('HH:mm')}
                                 </div>
                             </div>
                             <div className="mb-6">
-                                {!moment(event.startTime).isBefore(moment().add(3, 'hours')) && (
-                                    <i className="icon icon--base icon--grey icon--edit mr-4" onClick={() => openEditModal(true)}></i>
+                              {/*THIS IS FOR TOOLTIP*/}
+                              {/*<Tooltip*/}
+                              {/*  clickable={true}*/}
+                              {/*  openOnClick={true}*/}
+                              {/*  id="booking-info"*/}
+                              {/*  place={'left-start'}*/}
+                              {/*  positionStrategy={'absolute'}*/}
+                              {/*  closeOnEsc={true}*/}
+                              {/*  style={{ zIndex: 9, fontSize:'14px'}}*/}
+                              {/*/>*/}
+
+                              {/*<i className="icon icon--base icon--grey icon--info mr-4"*/}
+                              {/*  // onClick={handleShowInfo}*/}
+                              {/*   data-tooltip-id='booking-info'*/}
+                              {/*   data-tooltip-html={"" +*/}
+                              {/*     "<div>Rescheduling info</div> " +*/}
+                              {/*     "<div>info 1</div>" +*/}
+                              {/*     "<div>info 2</div>" +*/}
+                              {/*     "<div>info 3</div>" +*/}
+                              {/*     "<div>info 4</div>" +*/}
+                              {/*     "<div>info 5</div>" +*/}
+                              {/*     ""}*/}
+                              {/*></i>*/}
+
+                                {!moment(event.startTime).isBefore(moment().add(1, 'hours')) && (
+                                    <i className="icon icon--base icon--grey icon--edit mr-4" onClick={() => openEditModal(true)}/>
                                 )}
 
                                 {moment(bookingStart).isSame(moment(), 'day') ? (
                                     <></>
                                 ) : (
                                     <>
-                                        <i className="icon icon--base icon--grey icon--delete mr-4" onClick={() => handleDeleteBooking()}></i>
+                                        <i className="icon icon--base icon--grey icon--delete mr-4" onClick={() => handleDeleteBooking()}/>
                                     </>
 
                                 )}
@@ -67,8 +98,7 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                                     onClick={() => {
                                         handleClose ? handleClose(false) : false;
                                         openEditModal(false);
-                                    }}
-                                ></i>
+                                    }}/>
                             </div>
                         </div>
                     </div>
@@ -102,13 +132,29 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                         )}
                     </div>
                     <div className="modal--parent__footer mt-6">
-                        {eventIsAccepted &&
-                            moment(bookingStart).subtract(10, 'minutes').isBefore(moment()) &&
-                            moment(event.endTime).isAfter(moment()) && (
-                                <button className="btn btn--base type--wgt--extra-bold btn--primary" onClick={() => openLearnCube && openLearnCube()}>
-                                    {t('BOOK.JOIN')}
-                                </button>
-                            )}
+                      <Tooltip
+                        id="join-meeting-button"
+                        place={'top-end'}
+                        float={true}
+                        positionStrategy={'absolute'}
+                        closeOnEsc={true}
+                        delayShow={500}
+                        // style={{ zIndex: 9, fontSize:'14px'}}
+                        style={{ color: 'white', fontSize:'smaller'}}
+                      />
+
+                      {event.isAccepted &&
+                        (
+                              <button
+                                id="join-meeting-button"
+                                data-tip="Click to view invoice"
+                                data-tooltip-id='join-meeting-button'
+                                data-tooltip-html={`<div>${t('BOOK.JOIN_TOOLTIP')}</div>`}
+                                disabled={isJoinButtonDisabled(event)}
+                                className="btn btn--base type--wgt--extra-bold btn--primary" onClick={() => openLearnCube && openLearnCube()}>
+                                  {t('BOOK.JOIN')}
+                              </button>
+                          )}
                     </div>
                 </div>
             ) : (

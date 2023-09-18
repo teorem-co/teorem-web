@@ -48,19 +48,8 @@ import PermissionsGate from './PermissionGate';
 import { getUserRoleAbrv } from './utils/getUserRoleAbrv';
 import { setLang } from '../slices/langSlice';
 import { Badge } from '@mui/material';
-import {
-  SignupFirstStep
-} from './features/register/sign_up_rework/tutor/SignupFirstStep';
-import {
-  SignupSecondStep
-} from './features/register/sign_up_rework/tutor/SignupSecondStep';
-import {
-  SignupThirdStep
-} from './features/register/sign_up_rework/tutor/SignupThirdStep';
+
 import { Signup } from './features/register/sign_up_rework/tutor/Signup';
-import {
-  SignupFinalStep
-} from './features/register/sign_up_rework/tutor/SignupFinalStep';
 import {
   SignupRoleSelect
 } from './features/register/sign_up_rework/SignupRoleSelect';

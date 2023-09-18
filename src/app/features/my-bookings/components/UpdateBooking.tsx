@@ -46,7 +46,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
     level: '',
     subject: '',
     child: '',
-    timeFrom: moment.utc(start).format('HH:mm'),
+    timeFrom: moment(booking?.startTime).format('HH:mm'),
   });
 
   const [getChildOptions, { data: childOptions }] = useLazyGetChildQuery();
@@ -58,7 +58,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
 
     if (!isEqual(values.timeFrom, initialValues.timeFrom)) {
       updateBooking({
-        startTime: moment.utc(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
+        startTime: moment(booking?.startTime).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
         bookingId: booking ? booking.id : '',
       });
     }
@@ -79,7 +79,6 @@ const UpdateBooking: React.FC<IProps> = (props) => {
   });
 
   useEffect(() => {
-
     if (userRole === RoleOptions.Parent && userId) {
       getChildOptions(userId);
     }
@@ -119,7 +118,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
         level: booking.Level.id,
         subject: booking.subjectId,
         child: booking.User.id,
-        timeFrom: moment.utc(booking.startTime).format('HH:mm'),
+        timeFrom: moment(booking.startTime).format('HH:mm'),
       };
       setInitialValues(values);
     }
@@ -136,16 +135,18 @@ const UpdateBooking: React.FC<IProps> = (props) => {
               {start} - {end}
             </div>
           </div>
-          <i
-            className="icon icon--base icon--grey icon--close mb-6"
-            onClick={() => {
-              handleClose ? handleClose(false) : false;
-              props.clearEmptyBookings();
-              formik.setFieldValue('level', '');
-              formik.setFieldValue('subject', '');
-              formik.setFieldValue('child', '');
-            }}
-          ></i>
+          <div>
+            <i
+              className="icon icon--base icon--grey icon--close mb-6"
+              onClick={() => {
+                handleClose ? handleClose(false) : false;
+                props.clearEmptyBookings();
+                formik.setFieldValue('level', '');
+                formik.setFieldValue('subject', '');
+                formik.setFieldValue('child', '');
+              }}
+            ></i>
+          </div>
         </div>
       </div>
 
@@ -217,7 +218,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
                     field={formik.getFieldProps('timeFrom')}
                     form={formik}
                     meta={formik.getFieldMeta('timeFrom')}
-                    defaultValue={moment.utc(formik.values.timeFrom, 'HH:mm')}
+                    defaultValue={moment(formik.values.timeFrom, 'HH:mm')}
                     onChangeCustom={(e) => handleChange(moment(e, 'HH:mm').format('HH:mm'))}
                   />
                 </div>
@@ -228,7 +229,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
                     name="time"
                     id="time"
                     disabled={true}
-                    value={moment.utc(formik.values.timeFrom, 'HH:mm').add(1, 'hour').format('HH:mm')}
+                    value={moment(formik.values.timeFrom, 'HH:mm').add(1, 'hour').format('HH:mm')}
                   />
                 </div>
               </div>

@@ -126,14 +126,14 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
 
     const request: any = userRole === RoleOptions.Parent ? {
       requesterId: userId,
-      startTime: moment.utc(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
+      startTime: moment(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
       subjectId: values.subject,
       studentId: values.child,
       tutorId: tutorId,
     } : {
       requesterId: userId,
       studentId: userId,
-      startTime: moment.utc(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
+      startTime: moment(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
       subjectId: values.subject,
       tutorId: tutorId,
     };
@@ -256,6 +256,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
               {moment(start).format(t('DATE_FORMAT') + ', HH:mm')} - {end}
             </div>
           </div>
+          {/*<i className="icon icon--base icon--grey icon--info mb-6"></i>*/}
           <i
             className="icon icon--base icon--grey icon--close mb-6"
             onClick={() => {

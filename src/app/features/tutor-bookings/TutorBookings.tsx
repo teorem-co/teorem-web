@@ -49,6 +49,7 @@ import {
 import {
   useLazyGetTutorAvailabilityQuery,
 } from '../my-profile/services/tutorAvailabilityService';
+import { InformationCard } from '../../components/InformationCard';
 
 interface IBookingTransformed {
   id: string;
@@ -87,7 +88,7 @@ const TutorBookings = () => {
   });
   const [getTutorAvailability, { data: tutorAvailability, isLoading: tutorAvailabilityLoading }] = useLazyGetTutorAvailabilityQuery();
 
-  const [getBookingById, { data: booking }] = useLazyGetBookingByIdQuery();
+  const [getBookingById, { data: booking, isLoading: bookingIsLoading, isFetching:bookingIsFetching }] = useLazyGetBookingByIdQuery();
   const [addCustomerSource] = useAddCustomerSourceMutation();
   const [addStripeCustomer, { data: dataStripeCustomer, isSuccess: isSuccessDataStripeCustomer, isError: isErrorDataStripeCustomer }] =
     useAddCustomerMutation();
@@ -332,11 +333,11 @@ const TutorBookings = () => {
 
 
     const existingBooking =
-      existingBookings && existingBookings.filter((date) => moment.utc(date.start).format('YYYY/MM/DD') === moment.utc(e.start).format('YYYY/MM/DD'));
+      existingBookings && existingBookings.filter((date) => moment(date.start).format('YYYY/MM/DD') === moment(e.start).format('YYYY/MM/DD'));
 
     let isAvailableBooking = false;
 
-    const endDat = moment.utc(e.end).toDate();
+    const endDat = moment(e.end).toDate();
 
     tutorAvailability &&
       tutorAvailability.forEach((index, item) => {
@@ -377,11 +378,15 @@ const TutorBookings = () => {
       });
     }
 
+    console.log("FIRST: ",flagArr.length === existingBooking?.length);
+    console.log("SECOND: ", !moment(e.start).isBefore(moment().add(3, 'hours')));
+    console.log("THIRD: ", isAvailableBooking);
+
     const firstCheck = flagArr.length === existingBooking?.length;
 
-    if (firstCheck && !moment.utc(e.start).isBefore(moment().add(3, 'hours')) && isAvailableBooking) {
+    if (firstCheck && !moment(e.start).isBefore(moment().add(3, 'hours')) && isAvailableBooking) {
       // setSelectedStart(moment(e.start).format('t('DATE_FORMAT'), HH:mm'));     MMMM format doesn't work with different languages!
-      setSelectedStart(moment.utc(e.start).format());
+      setSelectedStart(moment(e.start).format());
       setSelectedEnd(moment(e.start).add(1, 'hours').format('HH:mm'));
       setOpenSlot(true);
       setOpenUpdateModal(false);
@@ -423,8 +428,8 @@ const TutorBookings = () => {
         //     allDay: e.allDay,
         //     label: e.label,
         // });
-        setSelectedStart(moment.utc(e.start).format(t('DATE_FORMAT') + ', HH:mm'));
-        setSelectedEnd(moment.utc(e.end).format('HH:mm'));
+        setSelectedStart(moment(e.start).format(t('DATE_FORMAT') + ', HH:mm'));
+        setSelectedEnd(moment(e.end).add(1,'minute').format('HH:mm')); // one minute is added because in DATABASE we have like e.q HH:59:59
         // if (booking && booking.id) {
         //     setOpenSlot(true);
         // }
@@ -798,6 +803,7 @@ const TutorBookings = () => {
               // onSelecting={(range: { start: ; end: 'test'; }) => false}
             />
             {openSlot ? (
+              //creating new booking
               <ParentCalendarSlots
                 clearEmptyBookings={() => setEmptyBookings([])}
                 setSidebarOpen={(e) => setSidebarOpen(e)}
@@ -808,7 +814,8 @@ const TutorBookings = () => {
                 tutorId={tutorId}
               />
             ) : openEventDetails ? (
-              <ParentEventModal
+              //opening booking details
+                !bookingIsLoading && !bookingIsFetching && <ParentEventModal
                 eventIsAccepted={booking ? booking.isAccepted : false}
                 bookingStart={booking ? booking.startTime : ''}
                 openEditModal={(isOpen) => handleUpdateModal(isOpen)}
@@ -861,25 +868,10 @@ const TutorBookings = () => {
           </div>
           <div className="upcoming-lessons">
             <p className="upcoming-lessons__title">{t('MY_BOOKINGS.INFORMATION.TITLE')}</p>
-            <div className="card card--primary mb-2">
-              <div className="flex--primary mb-2">
-                <div className="flex--center">
-                  <span>{t('MY_BOOKINGS.INFORMATION.CARD1.TITLE')}</span>
-                  <div className="type--color--secondary mt-2">{t('MY_BOOKINGS.INFORMATION.CARD1.DESC')}</div>
-                </div>
-                <div className="type--color--tertiary"></div>
-              </div>
-            </div>
-            <div className="card card--primary mb-2">
-              <div className="flex--primary mb-2">
-                <div className="flex--center">
-                  <span>{t('MY_BOOKINGS.INFORMATION.CARD2.TITLE')}</span>
-                  <div className="type--color--secondary mt-2">{t('MY_BOOKINGS.INFORMATION.CARD2.DESC')}</div>
-                </div>
-                <div className="type--color--tertiary"></div>
-              </div>
-            </div>
+            <InformationCard title={t('MY_BOOKINGS.INFORMATION.CARD1.TITLE')} desc={t('MY_BOOKINGS.INFORMATION.CARD1.DESC')}/>
+            <InformationCard title={t('MY_BOOKINGS.INFORMATION.CARD2.TITLE')} desc={t('MY_BOOKINGS.INFORMATION.CARD2.DESC')}/>
           </div>
+
           {/* needs to be in this place because layout have nth-child selector */}
           {sidebarOpen ? (
             <Sidebar

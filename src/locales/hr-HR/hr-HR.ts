@@ -393,6 +393,9 @@ export const HR_HR = {
         CALENDAR: {
             TITLE: 'KALENDAR',
         },
+        ADDITIONAL_INFORMATION:{
+          TITLE: 'Informacije o pridruživanju na sastanak'
+        },
         MODAL: {
             DELETED_USER: 'Izbrisani korisnik',
             ACCEPT: 'Prihvati',
@@ -408,11 +411,19 @@ export const HR_HR = {
         },
         INFORMATION: {
             TITLE: 'INFORMACIJE O REZERVACIJAMA',
-            CARD1: {
+            CARD1:{
+              TITLE:'Kako se rade rezervacije?',
+              DESC:'Nakon odabira vremena koje vam odgovara i rezervacije, instruktor ima 24 sata da prihvati vaš zahtjev za rezervaciju. Obavijestit ćemo vas e-poštom kada vaša lekcija bude prihvaćena.'
+            },
+            CARD2:{
+              TITLE:'Što ako mi moj termin predavanja vise ne odgovara?',
+              DESC:'Možete otkazati bilo koju rezervaciju i dobiti puni povrat novca 24 sata od trenutka kada ste izvršili uplatu. Nakon tog razdoblja možete iskljucivo zatražiti promjenu datuma ili vremena lekcije. Ako je do lekcije ostalo manje od 24 sata, instruktor može odbiti vaš zahtjev za promjenu vremena ili datuma.'
+            },
+            CARD3: {
                 TITLE: 'Kako rezervirati termin?',
                 DESC: 'Možete rezervirati termin s instruktorom odlaskom na njegov/njezin profil i pritiskom na "Rezervirajte lekciju". Moći ćete vidjeti instruktorovu dostupnost i izabrati vrijeme koje odgovara za oboje.',
             },
-            CARD2: {
+            CARD4: {
                 TITLE: 'Kako otkazati rezervaciju?',
                 DESC: 'Možete otkazati rezervaciju u Vašem kalendaru klikom na rezervaciju i zatim na "Otkaži". Ako otkažete rezervaciju više od 24 sata unaprijed, dobit ćete puni povrat novca.',
             },
@@ -428,11 +439,12 @@ export const HR_HR = {
             CHILD_PLACEHOLDER: 'Odabir djeteta',
             TIME: 'Vrijeme* (Lekcije traju 50min)',
             TIME_PLACEHOLDER: 'Vrijeme',
-            SUBMIT: 'Rezerviraj',
+            SUBMIT: 'Rezerviraj i Plati',
             UPDATE: 'Ažuriraj rezervaciju',
             CANCEL: 'Otkaži',
         },
         JOIN: 'Pridruži se',
+        JOIN_TOOLTIP: 'Sastanku se možete pridružiti najranije 5 minuta prije početka'
     },
     MY_REVIEWS: {
         TITLE: 'Moje recenzije',
