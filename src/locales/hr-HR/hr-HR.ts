@@ -480,7 +480,9 @@ export const HR_HR = {
         TOOLTIP_DROPDOWN_LABEL: 'Prikaži video lekcije',
         TOOLTIP_PLAY_LESSON: 'Pokreni/preuzmi video lekciju',
         DATE_TITLE: 'Datum',
-        DATE_AT_WORD: 'u'
+      DATE_AT_WORD: 'u',
+      DOWNLOAD_INVOICE_SUCCESS: 'Preuzimanje računa uspješno!',
+      DOWNLOAD_INVOICE_FAIL: 'Preuzimanje računa neuspješno!',
     },
     WRITE_REVIEW: {
         SECTION_TITLE: 'Napišite recenziju',
