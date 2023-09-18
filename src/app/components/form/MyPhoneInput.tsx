@@ -27,7 +27,8 @@ const MyPhoneInput: FC<TextFieldType> = (props: any) => {
   const updateCountry = async () => {
     const res = await getCountries().unwrap();
     res.forEach((country) => {
-      country.id === form.values.countryId && setCountry(country.abrv.toLowerCase());
+      if(country.id === form.values.countryId)
+        setCountry(country.abrv.toLowerCase());
     });
   };
 
@@ -40,8 +41,12 @@ const MyPhoneInput: FC<TextFieldType> = (props: any) => {
   });
 
   useEffect(() => {
-    window && window.location.pathname === PATHS.ONBOARDING && updateCountry();
+     window && window.location.pathname === PATHS.ONBOARDING && updateCountry();
   }, [form.values.countryId]);
+
+  // set font size based on device
+  const isMobile = window.innerWidth <= 768;
+  const fontSize = isMobile ? 'small' : 'medium';
 
   return (
       <>
@@ -52,10 +57,18 @@ const MyPhoneInput: FC<TextFieldType> = (props: any) => {
             country={country}
             value={currentValue}
             className={`${className ?? 'input input--base input--text'}`}
-            onChange={(phone) => form.setFieldValue('phoneNumber', phone)}
+            onChange={(phone) => {
+              form.setFieldValue('phoneNumber', phone);
+              // form.setFieldTouched('phoneNumber', true, false);
+              // form.validateField('phoneNumber');
+            }}
             onBlur={() => form.setFieldTouched(field.name)}
             disabled={props.disabled}
             onClick={() => props.openTooltip()}
+            inputStyle={{fontSize:fontSize}}
+            searchStyle={{fontSize:fontSize}}
+            dropdownStyle={{fontSize:fontSize, textAlign:'left'}}
+            // containerStyle={{textAlign:'left'}}
         />
         <div className="field__validation">{errorText}</div>
       </>

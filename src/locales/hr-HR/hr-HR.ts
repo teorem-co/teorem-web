@@ -79,6 +79,7 @@ export const HR_HR = {
         LEVEL_REQUIRED: 'Razina je obvezna',
         SUBJECT_REQUIRED: 'Predmet je obvezan',
         CHILD_REQUIRED: 'Dijete je obvezno',
+        AGREE_TERMS_REQUIRED: 'Morate prihvatiti odredbe i uvjete',
         CHILDLESS_CALENDAR_1: 'Dodajte dijete u',
         CHILDLESS_CALENDAR_2: 'postavkama profila'
     },
@@ -327,6 +328,23 @@ export const HR_HR = {
             CHILD_NAME_PLACEHOLDER: 'Unesite ime djeteta',
             CHILD_DATE_OF_BIRTH: 'Datum rođenja djeteta*',
             USERNAME: 'Korisničko ime*',
+            EMAIL_CONFLICT: 'Email se već koristi',
+            TERMS_AND_CONDITIONS: '<div>Slažem se s <a href="https://teorem.co/en/terms" target="_blank">Uvjetima pružanja usluge</a> i <a href="https://teorem.co/hr/pravila-privatnosti" target="_blank">Politikom privatnosti</a></div>',
+            SELECT_ROLE_TITLE: 'Jeste li <span class=primary-color>roditelj</span> ili <span class=primary-color>učenik</span>?',
+            CHOOSE_SUBJECTS_TIP: 'Kasnije možete odabrati više predmeta',
+            LOAD_MORE_SUBJECTS: 'Učitaj više predmeta...',
+            HIDE_MORE_SUBJECTS: 'Prikaži manje predmeta...',
+            RESEND_MAIL_BUTTON_TRY: 'Pokušajte ponovno za: ',
+            STEPS:{
+                  STUDENT_PARENT_FIRST: 'S kojim <span class=primary-color>predmetom</span> Vam možemo pomoći?',
+                  FIRST: 'Unesite vaše <span class=primary-color> ime </span>',
+                  SECOND: 'Kako vas možemo <span class=primary-color>kontaktirati</span>?',
+                  THIRD: 'Naposljetku, kreirajte <span class=primary-color>lozinku</span>',
+                  FINAL: '<span class=primary-color>dobrodošli</span> na Teorem!'
+              },
+            BECOME_A_TUTOR: 'Postanite instruktor',
+            CONFIRM_EMAIL: 'Molimo potvrdite svoju e-mail adresu klikom na verifikacijski link koji smo vam poslali',
+            RESEND: 'Ponovno pošalji link'
         },
         CARD_DETAILS: {
             FIRST_NAME: 'Ime*',
@@ -1005,7 +1023,8 @@ export const HR_HR = {
         SAVE: "Spremi",
         CANCEL: "Odustani",
         TERMS: '<div>Klikom na gumb \'Pošalji\' slažete se s <a href="https://stripe.com/legal/connect-account" target="_blank">Uvjetima pružanja usluge</a> i <a href="https://stripe.com/privacy" target="_blank">Politikom privatnosti</a></div>',
-        SUCCESS: 'Račun za plaćanje povezan',
+
+      SUCCESS: 'Račun za plaćanje povezan',
     },
     SUBJECTS: {
         biology: 'Biologija',
@@ -1016,7 +1035,7 @@ export const HR_HR = {
         geography: 'Geografija',
         german: 'Njemački jezik',
         history: 'Povijest',
-        it: 'IT (Informacijska tehnologija)',
+        it: 'IT',
         italian: 'Talijanski jezik',
         maths: 'Matematika',
         music: 'Glazbena kultura',
@@ -1035,7 +1054,6 @@ export const HR_HR = {
         environmentalstudies: 'Zaštita okoliša',
         french: 'Francuski jezik',
         governmentandpolitics: 'Politika i gospodarstvo',
-        ict: 'ICT (Informacijska i komunikacijska tehnologija)',
         latin: 'Latinski jezik',
         science: 'Znanost',
         art: 'Umjetnost',

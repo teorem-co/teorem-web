@@ -19,6 +19,10 @@
         flex-direction: column;
     }
 
+    &--row {
+      flex-direction: row;
+    }
+
     &--center {
         align-items: center;
     }
@@ -28,6 +32,10 @@
     }
     &--start {
         align-items: flex-start;
+    }
+
+    &--baseline{
+      align-items: baseline;
     }
 
     &--jc {

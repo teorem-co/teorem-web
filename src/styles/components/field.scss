@@ -2,9 +2,87 @@
     components: field
 */
 
+.signup-title{
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+}
+
+@media (max-width: 767px) {
+  .sign-up-form-wrapper {
+    font-size: small;
+    width: 80%;
+    max-width: 300px;
+  }
+
+  .field__w-60 {
+    width: 100%;
+  }
+
+  .signup-title{
+    font-size: 18px;
+  }
+
+  .password-tooltip{
+    font-size: 10px;
+  }
+}
+
+@media (min-width: 767px) {
+  .sign-up-form-wrapper {
+    width: 20%;
+    min-width: 300px;
+    font-size: medium;
+  }
+  .signup-title{
+    font-size: 35px;
+  }
+
+  .password-tooltip{
+    font-size: small;
+  }
+}
+
+.sign-up-form-wrapper{
+  //margin: 0 auto;
+  text-align: center;
+  flex-direction: column;
+  //align-items: center;
+  //width: 20%;
+  //font-size: large;
+  //background-color: red;
+}
+
+
+
 .field {
     position: relative;
     margin-bottom: calc(#{$unit} * 2);
+
+    &__w {
+      &-30{
+        width: 30%;
+      }
+
+       &-40{
+        width: 40%;
+      }
+
+      &-50{
+        width: 50%;
+      }
+
+      &-60{
+        width: 60%;
+      }
+
+      &-70{
+        width: 70%;
+      }
+
+      &-fit-content{
+        width: fit-content;
+      }
+    }
 
     &__label {
         display: block;
@@ -18,7 +96,7 @@
         color: $color-error;
         margin-top: calc(#{$unit} * 1);
         min-height: 15px;
-        font-size: $type-xs;
+        font-size: $type-sm;
     }
 
     &__file {

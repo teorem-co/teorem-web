@@ -1,0 +1,66 @@
+
+.scale-hover {
+  transition: transform 0.8s ease;
+
+  &--scale-105:hover {
+    transform: scale(1.05);
+  }
+
+  &--scale-110:hover {
+    transform: scale(1.1);
+  }
+
+  &--scale-115:hover {
+    transform: scale(1.15);
+  }
+
+  &--scale-120:hover {
+    transform: scale(1.2);
+  }
+}
+
+.change-color-hover {
+  transition: transform 0.8s ease;
+
+  &--primary:hover {
+    color: #7C6AF4;
+  }
+}
+
+.underline-hover {
+  position: relative;
+  display: inline-block; /* Makes sure the width is only as wide as the text. */
+}
+
+.underline-hover::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  background: #7C6AF4; /* Color of the underline. Adjust if needed. */
+  transition: width 0.3s;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.underline-hover:hover::after {
+  width: 100%;
+}
+
+
+.slide-in {
+  animation: slideInFromBottom 0.5s forwards; /* Adjust 0.5s to control speed */
+}
+
+@keyframes slideInFromBottom {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+

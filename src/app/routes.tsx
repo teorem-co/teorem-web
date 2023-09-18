@@ -48,6 +48,22 @@ import PermissionsGate from './PermissionGate';
 import { getUserRoleAbrv } from './utils/getUserRoleAbrv';
 import { setLang } from '../slices/langSlice';
 import { Badge } from '@mui/material';
+import {
+  SignupFirstStep
+} from './features/register/sign_up_rework/tutor/SignupFirstStep';
+import {
+  SignupSecondStep
+} from './features/register/sign_up_rework/tutor/SignupSecondStep';
+import {
+  SignupThirdStep
+} from './features/register/sign_up_rework/tutor/SignupThirdStep';
+import { Signup } from './features/register/sign_up_rework/tutor/Signup';
+import {
+  SignupFinalStep
+} from './features/register/sign_up_rework/tutor/SignupFinalStep';
+import {
+  SignupRoleSelect
+} from './features/register/sign_up_rework/SignupRoleSelect';
 
 export const PATHS = {
   ROLE_SELECTION: t('PATHS.ROLE_SELECTION'),
@@ -111,13 +127,15 @@ export const ROUTES: any = [
     path: PATHS.ROLE_SELECTION,
     key: 'ROLE_SELECTION',
     exact: true,
-    component: () => <RoleSelection />,
+    // component: () => <RoleSelection />,
+    component: () => <SignupRoleSelect />,
   },
   {
     path: PATHS.REGISTER,
     key: 'REGISTER',
     exact: true,
-    component: () => <Register />,
+    // component: () => <Register />,
+    component: () => <Signup />,
   },
   {
     path: PATHS.ONBOARDING,
