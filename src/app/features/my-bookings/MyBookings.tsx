@@ -585,7 +585,10 @@ const MyBookings: React.FC = (props: any) => {
             <InformationCard title={t('MY_BOOKINGS.INFORMATION.CARD2.TITLE')} desc={t('MY_BOOKINGS.INFORMATION.CARD2.DESC')}/>
            {/*<UpcomingLessons upcomingLessons={upcomingLessons ? upcomingLessons : []} />*/}
           </div>
-          {learnCubeModal && <LearnCubeModal bookingId={currentlyActiveBooking} handleClose={() => setLearnCubeModal(false)} />}
+          {learnCubeModal && <LearnCubeModal bookingId={currentlyActiveBooking} handleClose={() =>{
+            console.log('Zatvaram');
+            setLearnCubeModal(false);
+          }} />}
         </div>
       </div>
     </MainWrapper>

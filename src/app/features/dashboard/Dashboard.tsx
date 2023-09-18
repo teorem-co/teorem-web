@@ -659,7 +659,10 @@ const Dashboard = () => {
                             {t('DASHBOARD.NOTIFICATIONS.ALL')}
                         </Link>
                     </div>
-                    {learnCubeModal && <LearnCubeModal bookingId={currentlyActiveBooking} handleClose={() => setLearnCubeModal(false)} />}
+                    {learnCubeModal && <LearnCubeModal bookingId={currentlyActiveBooking} handleClose={() => {
+                      console.log("klikam");
+                      setLearnCubeModal(false);
+                    }} />}
                 </div>
             </div>
         </MainWrapper>

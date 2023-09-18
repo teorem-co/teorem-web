@@ -132,7 +132,7 @@ const TutorEventModal: React.FC<IProps> = (props) => {
                             (
                                 <button
                                   id="join-meeting-button"
-                                  disabled={isJoinButtonDisabled(event)}
+                                  // disabled={isJoinButtonDisabled(event)}
                                   className="btn btn--base btn--primary"
                                   onClick={() => openLearnCube && openLearnCube()}>
                                     {t('BOOK.JOIN')}
