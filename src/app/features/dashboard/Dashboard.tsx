@@ -660,7 +660,6 @@ const Dashboard = () => {
                         </Link>
                     </div>
                     {learnCubeModal && <LearnCubeModal bookingId={currentlyActiveBooking} handleClose={() => {
-                      console.log("klikam");
                       setLearnCubeModal(false);
                     }} />}
                 </div>
