@@ -21,6 +21,7 @@ interface IProps {
 }
 
 const ParentEventModal: React.FC<IProps> = (props) => {
+    const ALLOWED_MINUTES_TO_JOIN_BEFORE_MEETING = 5;
     const { handleClose, positionClass, event, tutorName, openEditModal, bookingStart, eventIsAccepted, openLearnCube } = props;
     const [deleteBooking, { isSuccess: isSuccessDeleteBooking }] = useDeleteBookingMutation();
     const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
@@ -38,13 +39,12 @@ const ParentEventModal: React.FC<IProps> = (props) => {
     }, [isSuccessDeleteBooking]);
 
     function isJoinButtonDisabled(event: IBooking){
-      // you can't join more than 10 minutes before start OR after meeting has ended
-      return !(moment(bookingStart).subtract(10, 'minutes').isBefore(moment()) && moment(event.endTime).isAfter(moment()));
+      // you can't join more than 5 minutes before start OR after meeting has ended
+      return !(moment(bookingStart).subtract(ALLOWED_MINUTES_TO_JOIN_BEFORE_MEETING, 'minutes').isBefore(moment()) && moment(event.endTime).isAfter(moment()));
     }
 
   return (
         <>
-            {/*TODO: ovo je kada otvoris kod tutora i takav bi trebao bit na vlastitom kalendaru*/}
             {event ? (
                 <div className={`modal--parent modal--parent--${positionClass}`}>
                     <div className="modal--parent__header">
@@ -57,28 +57,29 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                                 </div>
                             </div>
                             <div className="mb-6">
-                              <Tooltip
-                                clickable={true}
-                                openOnClick={true}
-                                id="booking-info"
-                                place={'left-start'}
-                                positionStrategy={'absolute'}
-                                closeOnEsc={true}
-                                style={{ zIndex: 9, fontSize:'14px'}}
-                              />
+                              {/*THIS IS FOR TOOLTIP*/}
+                              {/*<Tooltip*/}
+                              {/*  clickable={true}*/}
+                              {/*  openOnClick={true}*/}
+                              {/*  id="booking-info"*/}
+                              {/*  place={'left-start'}*/}
+                              {/*  positionStrategy={'absolute'}*/}
+                              {/*  closeOnEsc={true}*/}
+                              {/*  style={{ zIndex: 9, fontSize:'14px'}}*/}
+                              {/*/>*/}
 
-                              <i className="icon icon--base icon--grey icon--info mr-4"
-                                // onClick={handleShowInfo}
-                                 data-tooltip-id='booking-info'
-                                 data-tooltip-html={"" +
-                                   "<div>Rescheduling info</div> " +
-                                   "<div>info 1</div>" +
-                                   "<div>info 2</div>" +
-                                   "<div>info 3</div>" +
-                                   "<div>info 4</div>" +
-                                   "<div>info 5</div>" +
-                                   ""}
-                              ></i>
+                              {/*<i className="icon icon--base icon--grey icon--info mr-4"*/}
+                              {/*  // onClick={handleShowInfo}*/}
+                              {/*   data-tooltip-id='booking-info'*/}
+                              {/*   data-tooltip-html={"" +*/}
+                              {/*     "<div>Rescheduling info</div> " +*/}
+                              {/*     "<div>info 1</div>" +*/}
+                              {/*     "<div>info 2</div>" +*/}
+                              {/*     "<div>info 3</div>" +*/}
+                              {/*     "<div>info 4</div>" +*/}
+                              {/*     "<div>info 5</div>" +*/}
+                              {/*     ""}*/}
+                              {/*></i>*/}
 
                                 {!moment(event.startTime).isBefore(moment().add(3, 'hours')) && (
                                     <i className="icon icon--base icon--grey icon--edit mr-4" onClick={() => openEditModal(true)}/>

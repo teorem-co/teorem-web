@@ -6,6 +6,8 @@ import {
   useAcceptBookingMutation,
   useDeleteBookingMutation,
 } from '../services/bookingService';
+import { Tooltip } from 'react-tooltip';
+import React from 'react';
 
 interface IProps {
     handleClose?: (close: boolean) => void;
@@ -15,6 +17,7 @@ interface IProps {
 }
 
 const TutorEventModal: React.FC<IProps> = (props) => {
+    const ALLOWED_MINUTES_TO_JOIN_BEFORE_MEETING = 5;
     const { handleClose, positionClass, event, openLearnCube } = props;
     const [acceptBooking] = useAcceptBookingMutation();
     const [deleteBooking] = useDeleteBookingMutation();
@@ -29,6 +32,11 @@ const TutorEventModal: React.FC<IProps> = (props) => {
         acceptBooking(event ? event.id : '');
         handleClose ? handleClose(false) : false;
     };
+
+  function isJoinButtonDisabled(event: IBooking){
+    // you can't join more than 5 minutes before start OR after meeting has ended
+    return !(moment(event.startTime).subtract(ALLOWED_MINUTES_TO_JOIN_BEFORE_MEETING, 'minutes').isBefore(moment()) && moment(event.endTime).isAfter(moment()));
+  }
     return (
         <>
             {event ? (
@@ -83,6 +91,7 @@ const TutorEventModal: React.FC<IProps> = (props) => {
                         </div>
                     </div>
                     <div className="modal--tutor__footer mt-6">
+
                         {!event.isAccepted ? (
                             <button className="btn btn--base btn--clear type--wgt--extra-bold" onClick={() => handleAcceptBooking()}>
                                 {t('MY_BOOKINGS.MODAL.ACCEPT')}
@@ -103,13 +112,32 @@ const TutorEventModal: React.FC<IProps> = (props) => {
                                 <button className="btn btn--base btn--clear type--wgt--extra-bold">{t('MY_BOOKINGS.MODAL.PROPOSE')}</button> */}
                             </>
                         )}
-                        {event.isAccepted
+
+                        <div className="modal--parent__footer mt-6">
+                          <Tooltip
+                            id="join-meeting-button"
+                            place={'top-end'}
+                            float={true}
+                            positionStrategy={'absolute'}
+                            closeOnEsc={true}
+                            delayShow={500}
+                            // style={{ zIndex: 9, fontSize:'14px'}}
+                            style={{ color: 'white', fontSize:'smaller'}}
+                          />
+                        </div>
+
+                        {
+                          event.isAccepted
                             &&
                            // moment(event.startTime).subtract(10, 'minutes').isBefore(moment()) &&
                            // moment(event.endTime).isAfter(moment()) &&
 
                             (
-                                <button className="btn btn--base btn--primary" onClick={() => openLearnCube && openLearnCube()}>
+                                <button
+                                  id="join-meeting-button"
+                                  disabled={isJoinButtonDisabled(event)}
+                                  className="btn btn--base btn--primary"
+                                  onClick={() => openLearnCube && openLearnCube()}>
                                     {t('BOOK.JOIN')}
                                 </button>
                             )}

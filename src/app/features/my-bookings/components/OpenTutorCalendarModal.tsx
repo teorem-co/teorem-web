@@ -50,28 +50,29 @@ const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
                                 </div>
                             </div>
                             <div className="mb-6">
-                              <Tooltip
-                                clickable={true}
-                                openOnClick={true}
-                                id="booking-info"
-                                place={'left-start'}
-                                positionStrategy={'absolute'}
-                                closeOnEsc={true}
-                                style={{ zIndex: 9, fontSize:'14px'}}
-                              />
+                              {/* THIS IS FOR TOOLTIP ON MEETING MODAL*/}
+                              {/*<Tooltip*/}
+                              {/*  clickable={true}*/}
+                              {/*  openOnClick={true}*/}
+                              {/*  id="booking-info"*/}
+                              {/*  place={'left-start'}*/}
+                              {/*  positionStrategy={'absolute'}*/}
+                              {/*  closeOnEsc={true}*/}
+                              {/*  style={{ zIndex: 9, fontSize:'14px'}}*/}
+                              {/*/>*/}
 
-                               <i className="icon icon--base icon--grey icon--info"
-                                  // onClick={handleShowInfo}
-                                  data-tooltip-id='booking-info'
-                                  data-tooltip-html={"" +
-                                    "<div>Rescheduling info</div> " +
-                                    "<div>info 1</div>" +
-                                    "<div>info 2</div>" +
-                                    "<div>info 3</div>" +
-                                    "<div>info 4</div>" +
-                                    "<div>informacija</div>" +
-                                    ""}
-                               ></i>
+                              {/* <i className="icon icon--base icon--grey icon--info"*/}
+                              {/*    // onClick={handleShowInfo}*/}
+                              {/*    data-tooltip-id='booking-info'*/}
+                              {/*    data-tooltip-html={"" +*/}
+                              {/*      "<div>Rescheduling info</div> " +*/}
+                              {/*      "<div>info 1</div>" +*/}
+                              {/*      "<div>info 2</div>" +*/}
+                              {/*      "<div>info 3</div>" +*/}
+                              {/*      "<div>info 4</div>" +*/}
+                              {/*      "<div>informacija</div>" +*/}
+                              {/*      ""}*/}
+                              {/* ></i>*/}
 
                               <i className="icon icon--base icon--grey icon--info"
                                 // onClick={handleShowInfo}

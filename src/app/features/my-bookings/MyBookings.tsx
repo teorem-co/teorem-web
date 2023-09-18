@@ -488,7 +488,7 @@ const MyBookings: React.FC = (props: any) => {
             ) : (
               <></>
             )}
-            {openTutorCalendarModal && booking? (
+            {openTutorCalendarModal && booking ? (
               // TODO: here should be ParentEventModal
               // <OpenTutorCalendarModal
               //   goToTutorCalendar={() => goToTutorCalendar()}
@@ -506,7 +506,8 @@ const MyBookings: React.FC = (props: any) => {
                 openLearnCube={() => setLearnCubeModal(true)}
 
                 openEditModal={(isOpen) => handleUpdateModal(isOpen)}
-                tutorName={booking.Tutor.User.firstName && booking.Tutor.User.lastName ? booking.Tutor.User.firstName + ' ' + booking.Tutor.User.lastName : ''}
+                tutorName={booking.User.firstName && booking.User.lastName ? booking.User.firstName + ' ' + booking.User.lastName : ''}
+                // tutorName={booking.User ? booking.User.firstName : ''}
 
               />
             ) : openUpdateModal && booking ? (
@@ -580,10 +581,9 @@ const MyBookings: React.FC = (props: any) => {
             ></div>
           </div>
           <div className="upcoming-lessons">
-            <InformationCard
-              title={t('MY_BOOKINGS.ADDITIONAL_INFORMATION.TITLE')}
-              desc={"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce rutrum pellentesque elit vitae commodo. Curabitur tincidunt accumsan nisl, vel mattis risus. Sed a lacus a urna sodales"}/>
-            {/*<UpcomingLessons upcomingLessons={upcomingLessons ? upcomingLessons : []} />*/}
+            <InformationCard title={t('MY_BOOKINGS.INFORMATION.CARD1.TITLE')} desc={t('MY_BOOKINGS.INFORMATION.CARD1.DESC')}/>
+            <InformationCard title={t('MY_BOOKINGS.INFORMATION.CARD2.TITLE')} desc={t('MY_BOOKINGS.INFORMATION.CARD2.DESC')}/>
+           {/*<UpcomingLessons upcomingLessons={upcomingLessons ? upcomingLessons : []} />*/}
           </div>
           {learnCubeModal && <LearnCubeModal bookingId={currentlyActiveBooking} handleClose={() => setLearnCubeModal(false)} />}
         </div>

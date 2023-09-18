@@ -413,12 +413,20 @@ export const EN_US = {
         INFORMATION: {
             TITLE: 'BOOKING INFORMATION',
             CARD1: {
-                TITLE: 'How to book a slot?',
-                DESC: 'You can book a slot with a tutor by visiting their profile and clicking "Book Now". You will be able to see the tutor`s availability and select a time that works for both of you.',
+              TITLE: 'How does booking work?',
+              DESC: 'After selecting a time that works for you, and booking, the tutor has 24 hours to accept your booking request. We will notify you via email once your lesson has been accepted.',
             },
             CARD2: {
-                TITLE: 'How to cancel a booking?',
-                DESC: 'You can cancel a booking in your calendar by clicking on the booking and clicking "Cancel". If you cancel a booking 24 hours in advance, you will receive a full refund.',
+              TITLE: 'What if I can’t make it to my lesson?',
+              DESC: 'You can cancel any booking and get a full refund 24 hours from the moment you made the payment. After that period, you can only request to change the date or time of your lesson. If there is less than 24 hours to the lesson, the tutor can choose to reject your request to change the time or date.',
+            },
+            CARD3: {
+              TITLE: 'How to book a slot?',
+              DESC: 'You can book a slot with a tutor by visiting their profile and clicking "Book Now". You will be able to see the tutor`s availability and select a time that works for both of you.',
+            },
+            CARD4: {
+              TITLE: 'How to cancel a booking?',
+              DESC: 'You can cancel a booking in your calendar by clicking on the booking and clicking "Cancel". If you cancel a booking 24 hours in advance, you will receive a full refund.',
             },
         },
     },

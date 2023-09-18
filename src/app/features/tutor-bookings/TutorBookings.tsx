@@ -870,8 +870,6 @@ const TutorBookings = () => {
             <p className="upcoming-lessons__title">{t('MY_BOOKINGS.INFORMATION.TITLE')}</p>
             <InformationCard title={t('MY_BOOKINGS.INFORMATION.CARD1.TITLE')} desc={t('MY_BOOKINGS.INFORMATION.CARD1.DESC')}/>
             <InformationCard title={t('MY_BOOKINGS.INFORMATION.CARD2.TITLE')} desc={t('MY_BOOKINGS.INFORMATION.CARD2.DESC')}/>
-            <InformationCard title={"Tutor has to appruve"} desc={"malo opis o tome sto tutor mora sve napravit i tako to"}/>
-            <InformationCard title={"REFUND POLICY"} desc={"OVo je refund policy sto da ti kazem. Imas tu sve"}/>
           </div>
 
           {/* needs to be in this place because layout have nth-child selector */}
