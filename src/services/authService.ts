@@ -24,8 +24,8 @@ export interface IRegister {
   countryId: string;
   phoneNumber: string;
   dateOfBirth: string;
-  subjectId:string;
-  levelId:string;
+  subjectId?:string;
+  levelId?:string;
 }
 
 export interface IRegisterTutor {
