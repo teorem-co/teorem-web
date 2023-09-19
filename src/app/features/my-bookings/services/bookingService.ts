@@ -34,20 +34,13 @@ interface IBookingsByIdPayload {
     tutorId: string;
 }
 
-interface ICreateBookingDTO {
+export interface ICreateBookingDTO {
     requesterId?: string;
     subjectId: string;
     studentId?: string;
     startTime: string;
     tutorId?: string;
-}
-
-interface ICreateBookingDTO {
-    requesterId?: string;
-    subjectId: string;
-    studentId?: string;
-    startTime: string;
-    tutorId?: string;
+    levelId: string;
 }
 
 interface IUpdateBooking {
