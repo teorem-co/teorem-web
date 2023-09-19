@@ -20,6 +20,7 @@ import {
   useLazyGetCustomerByIdQuery,
 } from '../../my-profile/services/stripeService';
 import {
+  ICreateBookingDTO,
   useCreatebookingMutation,
   useCreateBookingMutation,
 } from '../services/bookingService';
@@ -124,18 +125,20 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
       }
     }
 
-    const request: any = userRole === RoleOptions.Parent ? {
+    const request: ICreateBookingDTO = userRole === RoleOptions.Parent ? {
       requesterId: userId,
       startTime: moment(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
       subjectId: values.subject,
       studentId: values.child,
       tutorId: tutorId,
+      levelId: values.level
     } : {
       requesterId: userId,
       studentId: userId,
       startTime: moment(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
       subjectId: values.subject,
       tutorId: tutorId,
+      levelId: values.level
     };
 
 
