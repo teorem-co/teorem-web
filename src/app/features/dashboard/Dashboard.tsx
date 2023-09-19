@@ -42,6 +42,7 @@ import {
   useDeleteBookingMutation
 } from "../my-bookings/services/bookingService";
 import AddChildModal from "../my-profile/pages/AddChildModal";
+import logo from "../../../assets/images/teorem_logo_purple.png";
 
 interface IGroupedDashboardData {
     [date: string]: IBooking[];
@@ -280,10 +281,16 @@ const Dashboard = () => {
 
     return (
       <>
-        <div>
           {userRole === RoleOptions.Parent && childrenData?.length === 0 && modal ? (
               <div>
+                <img
+                  src={logo}
+                  alt='logo'
+                  className="mt-5 ml-5 signup-logo"
+                />
+                <div className='flex field__w-fit-content align--center flex--center'>
                 <AddChildModal toggleModal={setModal}/>
+                </div>
               </div>
           ) : (<MainWrapper>
             <div className="layout--primary">
@@ -682,7 +689,6 @@ const Dashboard = () => {
               </div>
             </div>
           </MainWrapper>)}
-        </div>
         </>
     );
 };
