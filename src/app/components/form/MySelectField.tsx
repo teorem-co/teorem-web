@@ -1,6 +1,5 @@
 import { FieldProps, useField } from 'formik';
 import Select, { components } from 'react-select';
-import {PROFILE_PATHS} from "../../routes";
 import {t} from "i18next";
 
 export interface OptionType {
@@ -29,6 +28,7 @@ interface CustomSelectProps extends FieldProps {
     classNamePrefix?: string;
     customInputField?: (props: any) => JSX.Element;
     customOption?: (props: any) => JSX.Element;
+    setChildSidebarOpen?: (isOpen: boolean) => void;
     noOptionsMessage?: () => string;
     isSearchable?: boolean;
     withoutErr?: boolean;
@@ -49,6 +49,7 @@ const MySelect = ({
     customInputField,
     classNamePrefix,
     noOptionsMessage,
+    setChildSidebarOpen,
     customOption,
     menuIsOpen,
     isSearchable,
@@ -128,6 +129,12 @@ const MySelect = ({
         }
     };
 
+    const addNewChild = () =>  {
+      if (setChildSidebarOpen) {
+        setChildSidebarOpen(true);
+      }
+    };
+
     return (
         <>
             <Select
@@ -150,11 +157,12 @@ const MySelect = ({
                 isLoading={isLoading}
                 noOptionsMessage={() => {
                   if(noOptionsMessage?.toString().includes("childless", 6)) {
-                    console.log(noOptionsMessage);
                     return (
                       <div>
                         {t('FORM_VALIDATION.CHILDLESS_CALENDAR_1')}
-                        <a href={PROFILE_PATHS.MY_PROFILE_CHILD_INFO}> {t('FORM_VALIDATION.CHILDLESS_CALENDAR_2')}</a>.
+                        <button className="btn" style={{backgroundColor: "#fff", color: "#7e6cf2"}} onClick={addNewChild}>
+                          {t('FORM_VALIDATION.CHILDLESS_CALENDAR_2')}
+                        </button>
                       </div>
                     );
                   }}}

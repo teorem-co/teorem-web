@@ -50,6 +50,7 @@ import {
   useLazyGetTutorAvailabilityQuery,
 } from '../my-profile/services/tutorAvailabilityService';
 import { InformationCard } from '../../components/InformationCard';
+import AddChildSidebar from "../my-profile/components/AddChildSidebar";
 
 interface IBookingTransformed {
   id: string;
@@ -100,6 +101,7 @@ const TutorBookings = () => {
   const [selectedStart, setSelectedStart] = useState<string>('');
   const [selectedEnd, setSelectedEnd] = useState<string>('');
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
+  const [childSidebarOpen, setChildSidebarOpen] = useState<boolean>(false);
   const [emptyBookings, setEmptyBookings] = useState<IBookingTransformed[]>([]);
   const [openSlot, setOpenSlot] = useState<boolean>(false);
   //const [eventDetails, setEventDetails] = useState<IEvent>();
@@ -750,6 +752,10 @@ const TutorBookings = () => {
     return moment(date).startOf('week').date();
   };
 
+  const closeChildSidebar = () => {
+    setChildSidebarOpen(false);
+  };
+
   return (
     <MainWrapper>
       <div className="layout--primary">
@@ -804,15 +810,19 @@ const TutorBookings = () => {
             />
             {openSlot ? (
               //creating new booking
+              <div>
               <ParentCalendarSlots
                 clearEmptyBookings={() => setEmptyBookings([])}
                 setSidebarOpen={(e) => setSidebarOpen(e)}
+                setChildSidebarOpen={(e) => setChildSidebarOpen(e)}
                 start={`${selectedStart}`}
                 end={`${selectedEnd}`}
                 handleClose={(e) => setOpenSlot(e)}
                 positionClass={calcModalPosition(positionClass)}
                 tutorId={tutorId}
               />
+                <AddChildSidebar closeSidebar={closeChildSidebar} sideBarIsOpen={childSidebarOpen} childData={null} />
+              </div>
             ) : openEventDetails ? (
               //opening booking details
                 !bookingIsLoading && !bookingIsFetching && <ParentEventModal
