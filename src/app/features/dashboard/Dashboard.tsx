@@ -41,7 +41,7 @@ import {
   useAcceptBookingMutation,
   useDeleteBookingMutation
 } from "../my-bookings/services/bookingService";
-import ParentModal from "./ParentModal";
+import AddChildModal from "../my-profile/pages/AddChildModal";
 
 interface IGroupedDashboardData {
     [date: string]: IBooking[];
@@ -69,6 +69,14 @@ const Dashboard = () => {
     const [activeIndex, setActiveIndex] = useState<number>(0);
     const [activeMsgIndex, setActiveMsgIndex] = useState<number>(0);
     const [params, setParams] = useState<IParams>({ page: 1, size: 10, sort:"createdAt", sortDirection:"desc", read: false });
+    const [modal, setModal] = useState<boolean>(() => {
+      const storedValue = sessionStorage.getItem('myValue');
+      return storedValue !== null ? storedValue === 'true' : true;
+    });
+
+    useEffect(() => {
+      sessionStorage.setItem('myValue', String(modal));
+    }, [modal]);
 
     const userData = useAppSelector((state) => state.user);
 
@@ -271,273 +279,278 @@ const Dashboard = () => {
     }, []);
 
     return (
-        <MainWrapper>
+      <>
+        <div>
+          {userRole === RoleOptions.Parent && childrenData?.length === 0 && modal ? (
+              <div>
+                <AddChildModal toggleModal={setModal}/>
+              </div>
+          ) : (<MainWrapper>
             <div className="layout--primary">
-                <div>
-                  {userRole === RoleOptions.Tutor && profileProgressState && !profileProgressState.verified ? (
-                    <div className="flex flex--col flex--jc--center mb-2 p-2" style={{ borderRadius: '0.5em', color: 'white', backgroundColor:'#7e6cf2'}}>
-                      <h4 className="type--md mb-2 ml-6 align-self-center">{t(`TUTOR_VERIFIED_NOTE.TITLE`)}</h4>
-                      <p className="ml-6 align-self-center">{t(`TUTOR_VERIFIED_NOTE.DESCRIPTION`)}</p>
+              <div>
+                {userRole === RoleOptions.Tutor && profileProgressState && !profileProgressState.verified ? (
+                  <div className="flex flex--col flex--jc--center mb-2 p-2" style={{ borderRadius: '0.5em', color: 'white', backgroundColor:'#7e6cf2'}}>
+                    <h4 className="type--md mb-2 ml-6 align-self-center">{t(`TUTOR_VERIFIED_NOTE.TITLE`)}</h4>
+                    <p className="ml-6 align-self-center">{t(`TUTOR_VERIFIED_NOTE.DESCRIPTION`)}</p>
+                  </div>
+                ) : null}
+                {userRole === RoleOptions.Parent && childrenData?.length === 0 ? (
+                  <div>
+                    <div className="flex flex--col flex--jc--center mb-2 p-2" style={{ borderRadius: '0.5em', color: 'white', background:'#7e6cf2'}}>
+                      <h4 className="type--md mb-2 ml-6 align-self-center">{t(`CHILDLESS_PARENT_NOTE.TITLE`)}</h4>
+                      <p className="ml-6 align-self-center">{t(`CHILDLESS_PARENT_NOTE.DESCRIPTION`)}</p>
+                      <Link
+                        className="btn btn--base btn--tertiary w--100 mb-4 type--center"
+                        to={PROFILE_PATHS.MY_PROFILE_CHILD_INFO}
+                      >
+                        {t('MY_PROFILE.PROFILE_SETTINGS.DESCRIPTION')}
+                      </Link>
                     </div>
-                  ) : null}
-                  {userRole === RoleOptions.Parent && childrenData?.length === 0 ? (
+                  </div>
+                ) : null}
+                {userRole == RoleOptions.Tutor && profileProgressState.percentage && profileProgressState.percentage < 100 ? (
+                  <div className="card--dashboard mb-6">
                     <div>
-                      <ParentModal />
-                      <div className="flex flex--col flex--jc--center mb-2 p-2" style={{ borderRadius: '0.5em', color: 'white', background:'#7e6cf2'}}>
-                        <h4 className="type--md mb-2 ml-6 align-self-center">{t(`CHILDLESS_PARENT_NOTE.TITLE`)}</h4>
-                        <p className="ml-6 align-self-center">{t(`CHILDLESS_PARENT_NOTE.DESCRIPTION`)}</p>
-                        <Link
-                          className="btn btn--base btn--tertiary w--100 mb-4 type--center"
-                          to={PROFILE_PATHS.MY_PROFILE_CHILD_INFO}
-                        >
-                          {t('MY_PROFILE.PROFILE_SETTINGS.DESCRIPTION')}
-                        </Link>
+                      <div className="row">
+                        <div className="col col-12 col-xl-6">
+                          <div className="flex">
+                            <div className="flex flex--center flex--shrink">
+                              <CircularProgress progressNumber={profileProgressState.percentage ? profileProgressState.percentage : 0} size={80} />
+                            </div>
+                            <div className="flex flex--col flex--jc--center ml-6">
+                              <h4 className="type--md mb-2">{t(`COMPLETE_TUTOR_PROFILE_CARD.TITLE`)}</h4>
+                              <p>{t(`COMPLETE_TUTOR_PROFILE_CARD.DESCRIPTION`)}</p>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col col-12 col-xl-6">
+                          <div className="flex flex--center flex--jc--space-between flex--wrap dashboard-complete-profile-btns" style={{height: '100%', gap: 16}}>
+                            <NavLink exact to={PROFILE_PATHS.MY_PROFILE_INFO_AVAILABILITY} className="nav-link--profile" activeClassName="active">
+                              <div className="flex flex--col flex--center">
+                                <div className="nav-link--profile__wrapper">
+                                  <i className={`icon icon--base icon--${profileProgressState.generalAvailability ? 'check' : 'calendar'} nav-link--profile__icon`}></i>
+                                </div>
+                                <div className="nav-link--profile__label type--center mt-4 pl-2 pr-2">
+                                  {t('COMPLETE_PROFILE.GENERAL_AVAILABILITY')}
+                                </div>
+                              </div>
+                            </NavLink>
+                            <NavLink exact to={PROFILE_PATHS.MY_PROFILE_INFO_TEACHINGS} className="nav-link--profile" activeClassName="active">
+                              <div className="flex flex--col flex--center">
+                                <div className="nav-link--profile__wrapper">
+                                  <i className={`icon icon--base icon--${profileProgressState.myTeachings ? 'check' : 'subject'} nav-link--profile__icon`}></i>
+                                </div>
+                                <div className="nav-link--profile__label type--center mt-4 pl-2 pr-2">{t('COMPLETE_PROFILE.MY_TEACHINGS')}</div>
+                              </div>
+                            </NavLink>
+                            <NavLink exact to={PROFILE_PATHS.MY_PROFILE_INFO_ADDITIONAL} className="nav-link--profile" activeClassName="active">
+                              <div className="flex flex--col flex--center">
+                                <div className="nav-link--profile__wrapper">
+                                  <i className={`icon icon--base icon--${profileProgressState.aboutMe ? 'check' : 'profile'} nav-link--profile__icon`}></i>
+                                </div>
+                                <div className="nav-link--profile__label type--center mt-4 pl-2 pr-2" style={{whiteSpace: "nowrap"}}>{t('COMPLETE_PROFILE.ABOUT_ME')}</div>
+                              </div>
+                            </NavLink>
+                            <NavLink exact to={PROFILE_PATHS.MY_PROFILE_ACCOUNT} className="nav-link--profile" activeClassName="active">
+                              <div className="flex flex--col flex--center">
+                                <div className="nav-link--profile__wrapper">
+                                  <i className={`icon icon--base icon--${profileProgressState.payment ? 'check' : 'pricing'} nav-link--profile__icon`}></i>
+                                </div>
+                                <div className="nav-link--profile__label type--center mt-4 pl-2 pr-2">{t('COMPLETE_PROFILE.EARNINGS')}</div>
+                              </div>
+                            </NavLink>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  ) : null}
-                        {userRole == RoleOptions.Tutor && profileProgressState.percentage && profileProgressState.percentage < 100 ? (
-                            <div className="card--dashboard mb-6">
-                                <div>
-                                    <div className="row">
-                                        <div className="col col-12 col-xl-6">
-                                            <div className="flex">
-                                                <div className="flex flex--center flex--shrink">
-                                                    <CircularProgress progressNumber={profileProgressState.percentage ? profileProgressState.percentage : 0} size={80} />
-                                                </div>
-                                                <div className="flex flex--col flex--jc--center ml-6">
-                                                    <h4 className="type--md mb-2">{t(`COMPLETE_TUTOR_PROFILE_CARD.TITLE`)}</h4>
-                                                    <p>{t(`COMPLETE_TUTOR_PROFILE_CARD.DESCRIPTION`)}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col col-12 col-xl-6">
-                                            <div className="flex flex--center flex--jc--space-between flex--wrap dashboard-complete-profile-btns" style={{height: '100%', gap: 16}}>
-                                                <NavLink exact to={PROFILE_PATHS.MY_PROFILE_INFO_AVAILABILITY} className="nav-link--profile" activeClassName="active">
-                                                    <div className="flex flex--col flex--center">
-                                                        <div className="nav-link--profile__wrapper">
-                                                            <i className={`icon icon--base icon--${profileProgressState.generalAvailability ? 'check' : 'calendar'} nav-link--profile__icon`}></i>
-                                                        </div>
-                                                        <div className="nav-link--profile__label type--center mt-4 pl-2 pr-2">
-                                                            {t('COMPLETE_PROFILE.GENERAL_AVAILABILITY')}
-                                                        </div>
-                                                    </div>
-                                                </NavLink>
-                                                <NavLink exact to={PROFILE_PATHS.MY_PROFILE_INFO_TEACHINGS} className="nav-link--profile" activeClassName="active">
-                                                    <div className="flex flex--col flex--center">
-                                                        <div className="nav-link--profile__wrapper">
-                                                            <i className={`icon icon--base icon--${profileProgressState.myTeachings ? 'check' : 'subject'} nav-link--profile__icon`}></i>
-                                                        </div>
-                                                        <div className="nav-link--profile__label type--center mt-4 pl-2 pr-2">{t('COMPLETE_PROFILE.MY_TEACHINGS')}</div>
-                                                    </div>
-                                                </NavLink>
-                                                <NavLink exact to={PROFILE_PATHS.MY_PROFILE_INFO_ADDITIONAL} className="nav-link--profile" activeClassName="active">
-                                                    <div className="flex flex--col flex--center">
-                                                        <div className="nav-link--profile__wrapper">
-                                                            <i className={`icon icon--base icon--${profileProgressState.aboutMe ? 'check' : 'profile'} nav-link--profile__icon`}></i>
-                                                        </div>
-                                                        <div className="nav-link--profile__label type--center mt-4 pl-2 pr-2" style={{whiteSpace: "nowrap"}}>{t('COMPLETE_PROFILE.ABOUT_ME')}</div>
-                                                    </div>
-                                                </NavLink>
-                                                <NavLink exact to={PROFILE_PATHS.MY_PROFILE_ACCOUNT} className="nav-link--profile" activeClassName="active">
-                                                    <div className="flex flex--col flex--center">
-                                                        <div className="nav-link--profile__wrapper">
-                                                            <i className={`icon icon--base icon--${profileProgressState.payment ? 'check' : 'pricing'} nav-link--profile__icon`}></i>
-                                                        </div>
-                                                        <div className="nav-link--profile__label type--center mt-4 pl-2 pr-2">{t('COMPLETE_PROFILE.EARNINGS')}</div>
-                                                    </div>
-                                                </NavLink>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        ) : null}
-                    <div className="card--secondary card--secondary--alt">
-                        <div className="card--secondary__head">
-                            <h2 className="type--wgt--bold type--lg">{t('DASHBOARD.TITLE')}</h2>
-                        </div>
-                        <div className="card--secondary__body">
-                          {userRole === RoleOptions.Tutor ? (
-                            <div className="dashboard__requests">
-                              <div className="type--color--tertiary mb-2">{t('DASHBOARD.REQUESTS.TITLE')}</div>
-                              {groupedRequests && Object.keys(groupedRequests).length > 0 ? (
-                                Object.keys(groupedRequests).map((key: string) => {
+                  </div>
+                ) : null}
+                <div className="card--secondary card--secondary--alt">
+                  <div className="card--secondary__head">
+                    <h2 className="type--wgt--bold type--lg">{t('DASHBOARD.TITLE')}</h2>
+                  </div>
+                  <div className="card--secondary__body">
+                    {userRole === RoleOptions.Tutor ? (
+                      <div className="dashboard__requests">
+                        <div className="type--color--tertiary mb-2">{t('DASHBOARD.REQUESTS.TITLE')}</div>
+                        {groupedRequests && Object.keys(groupedRequests).length > 0 ? (
+                          Object.keys(groupedRequests).map((key: string) => {
+                            return (
+                              <React.Fragment key={key}>
+                                {groupedRequests[key].map((item: IBooking) => {
                                   return (
-                                    <React.Fragment key={key}>
-                                      {groupedRequests[key].map((item: IBooking) => {
-                                        return (
-                                          <div className="dashboard__requests__item" key={item.id}>
-                                            <div>
-                                              {item.User.firstName}&nbsp;{item.User.lastName}
-                                            </div>
-                                            <div>{t(`LEVELS.${item.Level.abrv.toLowerCase().replace("-", "")}`)}</div>
-                                            <div>
-                                              <span className="tag tag--primary">{t(`SUBJECTS.${item.Subject.abrv.replace('-', '')}`)}</span>
-                                            </div>
-                                            <div>{key}</div>
-                                            <div>
-                                              {moment(item.startTime).format('HH:mm')} -{' '}
-                                              {moment(item.endTime).add(1, 'minute').format('HH:mm')}
-                                            </div>
-                                            <div
-                                              onClick={() => {
-                                                handleAccept(item.id);
-                                              }
-                                              }>
-                                              <i className="icon icon--base icon--check icon--primary"></i>
-                                            </div>
-                                            <div
-                                              onClick={() => {
-                                                handleDeny(item.id);
-                                              }
-                                              }>
-                                              <i className="icon icon--base icon--close-request icon--primary"></i>
-                                            </div>
-                                          </div>
-                                        );
-                                      })}
-                                    </React.Fragment>
+                                    <div className="dashboard__requests__item" key={item.id}>
+                                      <div>
+                                        {item.User.firstName}&nbsp;{item.User.lastName}
+                                      </div>
+                                      <div>{t(`LEVELS.${item.Level.abrv.toLowerCase().replace("-", "")}`)}</div>
+                                      <div>
+                                        <span className="tag tag--primary">{t(`SUBJECTS.${item.Subject.abrv.replace('-', '')}`)}</span>
+                                      </div>
+                                      <div>{key}</div>
+                                      <div>
+                                        {moment(item.startTime).format('HH:mm')} -{' '}
+                                        {moment(item.endTime).add(1, 'minute').format('HH:mm')}
+                                      </div>
+                                      <div
+                                        onClick={() => {
+                                          handleAccept(item.id);
+                                        }
+                                        }>
+                                        <i className="icon icon--base icon--check icon--primary"></i>
+                                      </div>
+                                      <div
+                                        onClick={() => {
+                                          handleDeny(item.id);
+                                        }
+                                        }>
+                                        <i className="icon icon--base icon--close-request icon--primary"></i>
+                                      </div>
+                                    </div>
                                   );
-                                })
+                                })}
+                              </React.Fragment>
+                            );
+                          })
+                        ) : (
+                          <div className="tutor-list__no-results mt-30">
+                            <p className="dashboard__requests__title">{t('DASHBOARD.REQUESTS.EMPTY')}</p>
+                          </div>
+                        )}
+                      </div>
+                    ) : null}
+                    <div className="row">
+                      <div className="col col-12 col-xl-5">
+                        <div className="type--color--tertiary mb-2">{t('DASHBOARD.SCHEDULE.TITLE')}</div>
+                        {todayScheduled.length > 0 ? (
+                          <div className="card--dashboard card--dashboard--brand mb-xl-0 mb-4 h--200--min">
+                            <div className="flex--primary mb-2">
+                              <div>
+                                {todayScheduled[activeIndex].User.firstName}&nbsp;{todayScheduled[activeIndex].User.lastName}
+                              </div>
+                              <div className="flex--shrink">
+                                <button
+                                  className="btn card--dashboard__btn mr-2"
+                                  onClick={() => handlePrevIndex()}
+                                  disabled={activeIndex === 0}
+                                >
+                                  <i className="icon icon--base icon--chevron-left icon--white"></i>
+                                </button>
+                                <button
+                                  className="btn card--dashboard__btn"
+                                  onClick={() => handleNextIndex()}
+                                  disabled={activeIndex === todayScheduled.length - 1 || todayScheduled.length == 0}
+                                >
+                                  <i className="icon icon--base icon--chevron-right icon--white"></i>
+                                </button>
+                              </div>
+                            </div>
+                            <div className="card--dashboard__text">
+                              {t(`LEVELS.${todayScheduled[activeIndex].Level.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
+                              &nbsp;
+                              {t(`SUBJECTS.${todayScheduled[activeIndex].Subject.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
+                            </div>
+                            <div className="flex--primary">
+                              <div>
+                                {moment(todayScheduled[activeIndex].startTime).format('HH:mm')} -{' '}
+                                {moment(todayScheduled[activeIndex].endTime).add(1, 'minute').format('HH:mm')}
+                              </div>
+                              {todayScheduled[activeIndex].isAccepted &&
+                              moment(todayScheduled[activeIndex].startTime).subtract(10, 'minutes').isBefore(moment()) &&
+                              moment(todayScheduled[activeIndex].startTime).add(60, 'minutes').isAfter(moment()) ? (
+                                <button
+                                  className="btn btn--base card--dashboard__btn"
+                                  onClick={() => handleJoinBooking(todayScheduled[activeIndex])}
+                                >
+                                  {t('DASHBOARD.SCHEDULE.BUTTON')}
+                                </button>
                               ) : (
-                                <div className="tutor-list__no-results mt-30">
-                                  <p className="dashboard__requests__title">{t('DASHBOARD.REQUESTS.EMPTY')}</p>
-                                </div>
+                                <button
+                                  className="btn btn--base card--dashboard__btn"
+                                  style={{ visibility: 'hidden' }}
+                                >
+                                  {t('DASHBOARD.SCHEDULE.BUTTON')}
+                                </button>
                               )}
                             </div>
-                          ) : null}
-                            <div className="row">
-                                <div className="col col-12 col-xl-5">
-                                    <div className="type--color--tertiary mb-2">{t('DASHBOARD.SCHEDULE.TITLE')}</div>
-                                    {todayScheduled.length > 0 ? (
-                                        <div className="card--dashboard card--dashboard--brand mb-xl-0 mb-4 h--200--min">
-                                            <div className="flex--primary mb-2">
-                                                <div>
-                                                    {todayScheduled[activeIndex].User.firstName}&nbsp;{todayScheduled[activeIndex].User.lastName}
-                                                </div>
-                                                <div className="flex--shrink">
-                                                    <button
-                                                        className="btn card--dashboard__btn mr-2"
-                                                        onClick={() => handlePrevIndex()}
-                                                        disabled={activeIndex === 0}
-                                                    >
-                                                        <i className="icon icon--base icon--chevron-left icon--white"></i>
-                                                    </button>
-                                                    <button
-                                                        className="btn card--dashboard__btn"
-                                                        onClick={() => handleNextIndex()}
-                                                        disabled={activeIndex === todayScheduled.length - 1 || todayScheduled.length == 0}
-                                                    >
-                                                        <i className="icon icon--base icon--chevron-right icon--white"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div className="card--dashboard__text">
-                                                {t(`LEVELS.${todayScheduled[activeIndex].Level.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
-                                                &nbsp;
-                                                {t(`SUBJECTS.${todayScheduled[activeIndex].Subject.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
-                                            </div>
-                                            <div className="flex--primary">
-                                                <div>
-                                                    {moment(todayScheduled[activeIndex].startTime).format('HH:mm')} -{' '}
-                                                    {moment(todayScheduled[activeIndex].endTime).add(1, 'minute').format('HH:mm')}
-                                                </div>
-                                                {todayScheduled[activeIndex].isAccepted &&
-                                                    moment(todayScheduled[activeIndex].startTime).subtract(10, 'minutes').isBefore(moment()) &&
-                                                    moment(todayScheduled[activeIndex].startTime).add(60, 'minutes').isAfter(moment()) ? (
-                                                    <button
-                                                        className="btn btn--base card--dashboard__btn"
-                                                        onClick={() => handleJoinBooking(todayScheduled[activeIndex])}
-                                                    >
-                                                        {t('DASHBOARD.SCHEDULE.BUTTON')}
-                                                    </button>
-                                                ) : (
-                                                    <button
-                                                        className="btn btn--base card--dashboard__btn"
-                                                        style={{ visibility: 'hidden' }}
-                                                    >
-                                                        {t('DASHBOARD.SCHEDULE.BUTTON')}
-                                                    </button>
-                                                )}
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        <div className="card--dashboard card--dashboard--brand mb-xl-0 mb-4 h--200--min">
-                                            <div className="flex--primary mb-2">
-                                                <div>
-                                                    <div>{t('DASHBOARD.SCHEDULE.EMPTY')}</div>
-                                                </div>
-                                                <div className="flex--shrink">
-                                                    <button
-                                                        className="btn card--dashboard__btn mr-2"
-                                                        onClick={() => handlePrevIndex()}
-                                                        disabled={activeIndex === 0}
-                                                    >
-                                                        <i className="icon icon--base icon--chevron-left icon--white"></i>
-                                                    </button>
-                                                    <button
-                                                        className="btn card--dashboard__btn"
-                                                        onClick={() => handleNextIndex()}
-                                                        disabled={activeIndex === todayScheduled.length - 1 || todayScheduled.length == 0}
-                                                    >
-                                                        <i className="icon icon--base icon--chevron-right icon--white"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-                                <div className="col col-12 col-xl-7">
-                                    <div className="type--color--tertiary mb-2">{t('DASHBOARD.MESSAGES.TITLE')}</div>
+                          </div>
+                        ) : (
+                          <div className="card--dashboard card--dashboard--brand mb-xl-0 mb-4 h--200--min">
+                            <div className="flex--primary mb-2">
+                              <div>
+                                <div>{t('DASHBOARD.SCHEDULE.EMPTY')}</div>
+                              </div>
+                              <div className="flex--shrink">
+                                <button
+                                  className="btn card--dashboard__btn mr-2"
+                                  onClick={() => handlePrevIndex()}
+                                  disabled={activeIndex === 0}
+                                >
+                                  <i className="icon icon--base icon--chevron-left icon--white"></i>
+                                </button>
+                                <button
+                                  className="btn card--dashboard__btn"
+                                  onClick={() => handleNextIndex()}
+                                  disabled={activeIndex === todayScheduled.length - 1 || todayScheduled.length == 0}
+                                >
+                                  <i className="icon icon--base icon--chevron-right icon--white"></i>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      <div className="col col-12 col-xl-7">
+                        <div className="type--color--tertiary mb-2">{t('DASHBOARD.MESSAGES.TITLE')}</div>
 
-                                    {unreadChatrooms[activeMsgIndex] != undefined ? (
-                                        <div className="card--dashboard h--200--min">
-                                            <div className="flex--primary mb-2">
-                                                <div>
-                                                    {userRole === RoleOptions.Tutor ?
-                                                        unreadChatrooms[activeMsgIndex].user.userNickname :
-                                                        unreadChatrooms[activeMsgIndex].tutor.userNickname
-                                                    }
-                                                </div>
-                                                <div>
-                                                    <button
-                                                        className="btn card--dashboard__btn mr-2"
-                                                        onClick={() => handlePrevMsgIndex()}
-                                                        disabled={activeMsgIndex === 0}
-                                                    >
-                                                        <i className="icon icon--base icon--chevron-left icon--primary"></i>
-                                                    </button>
-                                                    <button
-                                                        className="btn card--dashboard__btn"
-                                                        onClick={() => handleNextMsgIndex()}
-                                                        disabled={activeMsgIndex === unreadChatrooms.length - 1 || unreadChatrooms.length == 0}
-                                                    >
-                                                        <i className="icon icon--base icon--chevron-right icon--primary"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div
-                                                className="card--dashboard__text card--dashboard__text--ellipsis"
-                                                dangerouslySetInnerHTML={{
-                                                    __html: (unreadChatrooms[activeMsgIndex].messages[unreadChatrooms[activeMsgIndex].messages.length - 1]?.isFile ?
-                                                        '<i class="icon--attachment chat-file-icon"></i>' : '') + unreadChatrooms[activeMsgIndex].messages[unreadChatrooms[activeMsgIndex].messages.length - 1]?.message?.message
-                                                }}
-                                            >
-                                            </div>
-                                            <div className="flex--primary">
-                                                <div className="type--color--secondary">
-                                                    {moment(unreadChatrooms[activeMsgIndex].messages[unreadChatrooms[activeMsgIndex].messages.length - 1]?.message?.createdAt).format('DD/MMM/yyy')}
-                                                </div>
-                                                <Link
-                                                    to={PATHS.CHAT}
-                                                    className="btn btn--base card--dashboard__btn"
-                                                    onClick={() => handleGoToChat(unreadChatrooms[activeMsgIndex])}
-                                                >
-                                                    {t('DASHBOARD.MESSAGES.BUTTON')}
-                                                </Link>
-                                            </div>
+                        {unreadChatrooms[activeMsgIndex] != undefined ? (
+                          <div className="card--dashboard h--200--min">
+                            <div className="flex--primary mb-2">
+                              <div>
+                                {userRole === RoleOptions.Tutor ?
+                                  unreadChatrooms[activeMsgIndex].user.userNickname :
+                                  unreadChatrooms[activeMsgIndex].tutor.userNickname
+                                }
+                              </div>
+                              <div>
+                                <button
+                                  className="btn card--dashboard__btn mr-2"
+                                  onClick={() => handlePrevMsgIndex()}
+                                  disabled={activeMsgIndex === 0}
+                                >
+                                  <i className="icon icon--base icon--chevron-left icon--primary"></i>
+                                </button>
+                                <button
+                                  className="btn card--dashboard__btn"
+                                  onClick={() => handleNextMsgIndex()}
+                                  disabled={activeMsgIndex === unreadChatrooms.length - 1 || unreadChatrooms.length == 0}
+                                >
+                                  <i className="icon icon--base icon--chevron-right icon--primary"></i>
+                                </button>
+                              </div>
+                            </div>
+                            <div
+                              className="card--dashboard__text card--dashboard__text--ellipsis"
+                              dangerouslySetInnerHTML={{
+                                __html: (unreadChatrooms[activeMsgIndex].messages[unreadChatrooms[activeMsgIndex].messages.length - 1]?.isFile ?
+                                  '<i class="icon--attachment chat-file-icon"></i>' : '') + unreadChatrooms[activeMsgIndex].messages[unreadChatrooms[activeMsgIndex].messages.length - 1]?.message?.message
+                              }}
+                            >
+                            </div>
+                            <div className="flex--primary">
+                              <div className="type--color--secondary">
+                                {moment(unreadChatrooms[activeMsgIndex].messages[unreadChatrooms[activeMsgIndex].messages.length - 1]?.message?.createdAt).format('DD/MMM/yyy')}
+                              </div>
+                              <Link
+                                to={PATHS.CHAT}
+                                className="btn btn--base card--dashboard__btn"
+                                onClick={() => handleGoToChat(unreadChatrooms[activeMsgIndex])}
+                              >
+                                {t('DASHBOARD.MESSAGES.BUTTON')}
+                              </Link>
+                            </div>
 
-                                            {/* <div className="flex--primary mb-2">
+                            {/* <div className="flex--primary mb-2">
                                                 <div>Elizabeth Betty</div>
                                                 <div>
                                                     <button className="btn card--dashboard__btn mr-2">
@@ -556,119 +569,121 @@ const Dashboard = () => {
                                                 <div className="type--color--secondary">9/Mar/2022</div>
                                                 <button className="btn btn--base card--dashboard__btn">{t('DASHBOARD.MESSAGES.BUTTON')}</button>
                                             </div> */}
-                                        </div>
-                                    ) : (
-                                        <div className="card--dashboard h--200--min">
-                                            <div className="flex--primary mb-2">
-                                                <div>
-                                                    {t('DASHBOARD.MESSAGES.EMPTY')}
-                                                </div>
-                                                <div>
-                                                    <button
-                                                        className="btn card--dashboard__btn mr-2"
-                                                        onClick={() => handlePrevMsgIndex()}
-                                                        disabled={activeMsgIndex === 0}
-                                                    >
-                                                        <i className="icon icon--base icon--chevron-left icon--primary"></i>
-                                                    </button>
-                                                    <button
-                                                        className="btn card--dashboard__btn"
-                                                        onClick={() => handleNextMsgIndex()}
-                                                        disabled={activeMsgIndex === unreadChatrooms.length - 1 || unreadChatrooms.length == 0}
-                                                    >
-                                                        <i className="icon icon--base icon--chevron-right icon--primary"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
+                          </div>
+                        ) : (
+                          <div className="card--dashboard h--200--min">
+                            <div className="flex--primary mb-2">
+                              <div>
+                                {t('DASHBOARD.MESSAGES.EMPTY')}
+                              </div>
+                              <div>
+                                <button
+                                  className="btn card--dashboard__btn mr-2"
+                                  onClick={() => handlePrevMsgIndex()}
+                                  disabled={activeMsgIndex === 0}
+                                >
+                                  <i className="icon icon--base icon--chevron-left icon--primary"></i>
+                                </button>
+                                <button
+                                  className="btn card--dashboard__btn"
+                                  onClick={() => handleNextMsgIndex()}
+                                  disabled={activeMsgIndex === unreadChatrooms.length - 1 || unreadChatrooms.length == 0}
+                                >
+                                  <i className="icon icon--base icon--chevron-right icon--primary"></i>
+                                </button>
+                              </div>
                             </div>
-                            <div className="dashboard__list">
-                              <div className="type--color--tertiary mb-2">{t('DASHBOARD.BOOKINGS.TITLE')}</div>
-                              {groupedUpcomming && Object.keys(groupedUpcomming).length > 0 ? (
-                                    Object.keys(groupedUpcomming).map((key: string) => {
-                                        return (
-                                            <React.Fragment key={key}>
-                                                <div className="flex--primary">
-                                                    <div className="mb-4 mt-6 type--wgt--bold">{key}</div>
-                                                    <div className="type--color--secondary">
-                                                        {t('DASHBOARD.BOOKINGS.TOTAL')}: {groupedUpcomming[key].length}:00h
-                                                    </div>
-                                                </div>
-                                                {groupedUpcomming[key].map((item: IBooking) => {
-                                                    return (
-                                                        <div className="dashboard__list__item" key={item.id}>
-                                                            <div>
-                                                                {item.User.firstName}&nbsp;{item.User.lastName}
-                                                            </div>
-                                                            <div>{t(`LEVELS.${item.Level.abrv.toLowerCase().replace("-", "")}`)}</div>
-                                                            <div>
-                                                                <span className="tag tag--primary">{t(`SUBJECTS.${item.Subject.abrv.replace('-', '')}`)}</span>
-                                                            </div>
-                                                            <div>
-                                                                {moment(item.startTime).format('HH:mm')} -{' '}
-                                                                {moment(item.endTime).add(1, 'minute').format('HH:mm')}
-                                                            </div>
-                                                            <div
-                                                                onClick={() => {
-                                                                    // history.push(PATHS.MY_BOOKINGS)
-
-                                                                    history.push({
-                                                                        pathname: t(PATHS.MY_BOOKINGS),
-                                                                        state: { value: new Date(item.startTime).toString() }
-                                                                    });
-                                                                }
-                                                                }>
-                                                                <i className="icon icon--base icon--chevron-right icon--primary"></i>
-                                                            </div>
-                                                        </div>
-                                                    );
-                                                })}
-                                            </React.Fragment>
-                                        );
-                                    })
-                                ) : (
-                                    <div className="tutor-list__no-results mt-30">
-                                        <h1 className="tutor-list__no-results__title">
-                                            <div>{t('DASHBOARD.BOOKINGS.EMPTY')}</div>
-                                        </h1>
-                                        <p className="tutor-list__no-results__subtitle">{t('DASHBOARD.BOOKINGS.EMPTY_SUBTITLE')}</p>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="overflow--auto">
-                    <div className="flex--primary mb-2">
-                        <div className="type--color--tertiary">{t('DASHBOARD.NOTIFICATIONS.TITLE')}</div>
-                        {notificationsData?.content && notificationsData.content.length > 0 && (
-                            <div className="type--color--brand type--wgt--bold cur--pointer" onClick={() => markAllAsRead()}>
-                                {t('DASHBOARD.NOTIFICATIONS.CLEAR')}
-                            </div>
+                          </div>
                         )}
+                      </div>
                     </div>
-                    {notificationsData?.content && notificationsData.content.find((x) => x.read === false) ? (
-                        notificationsData.content.map((notification: INotification) => {
-                            if (!notification.read) {
-                                return <NotificationItem key={notification.id} notificationData={notification}/>;
-                            }
+                    <div className="dashboard__list">
+                      <div className="type--color--tertiary mb-2">{t('DASHBOARD.BOOKINGS.TITLE')}</div>
+                      {groupedUpcomming && Object.keys(groupedUpcomming).length > 0 ? (
+                        Object.keys(groupedUpcomming).map((key: string) => {
+                          return (
+                            <React.Fragment key={key}>
+                              <div className="flex--primary">
+                                <div className="mb-4 mt-6 type--wgt--bold">{key}</div>
+                                <div className="type--color--secondary">
+                                  {t('DASHBOARD.BOOKINGS.TOTAL')}: {groupedUpcomming[key].length}:00h
+                                </div>
+                              </div>
+                              {groupedUpcomming[key].map((item: IBooking) => {
+                                return (
+                                  <div className="dashboard__list__item" key={item.id}>
+                                    <div>
+                                      {item.User.firstName}&nbsp;{item.User.lastName}
+                                    </div>
+                                    <div>{t(`LEVELS.${item.Level.abrv.toLowerCase().replace("-", "")}`)}</div>
+                                    <div>
+                                      <span className="tag tag--primary">{t(`SUBJECTS.${item.Subject.abrv.replace('-', '')}`)}</span>
+                                    </div>
+                                    <div>
+                                      {moment(item.startTime).format('HH:mm')} -{' '}
+                                      {moment(item.endTime).add(1, 'minute').format('HH:mm')}
+                                    </div>
+                                    <div
+                                      onClick={() => {
+                                        // history.push(PATHS.MY_BOOKINGS)
+
+                                        history.push({
+                                          pathname: t(PATHS.MY_BOOKINGS),
+                                          state: { value: new Date(item.startTime).toString() }
+                                        });
+                                      }
+                                      }>
+                                      <i className="icon icon--base icon--chevron-right icon--primary"></i>
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                            </React.Fragment>
+                          );
                         })
-                    ) : (
-                        <div className="card--primary card--primary--shadow">{t('DASHBOARD.NOTIFICATIONS.EMPTY')}</div>
-                    )}
-                    <div className="type--center mt-4">
-                        <Link to={t(PATHS.NOTIFICATIONS)} className="btn btn--clear">
-                            {t('DASHBOARD.NOTIFICATIONS.ALL')}
-                        </Link>
+                      ) : (
+                        <div className="tutor-list__no-results mt-30">
+                          <h1 className="tutor-list__no-results__title">
+                            <div>{t('DASHBOARD.BOOKINGS.EMPTY')}</div>
+                          </h1>
+                          <p className="tutor-list__no-results__subtitle">{t('DASHBOARD.BOOKINGS.EMPTY_SUBTITLE')}</p>
+                        </div>
+                      )}
                     </div>
-                    {learnCubeModal && <LearnCubeModal bookingId={currentlyActiveBooking} handleClose={() => {
+                  </div>
+                </div>
+              </div>
+              <div className="overflow--auto">
+                <div className="flex--primary mb-2">
+                  <div className="type--color--tertiary">{t('DASHBOARD.NOTIFICATIONS.TITLE')}</div>
+                  {notificationsData?.content && notificationsData.content.length > 0 && (
+                    <div className="type--color--brand type--wgt--bold cur--pointer" onClick={() => markAllAsRead()}>
+                      {t('DASHBOARD.NOTIFICATIONS.CLEAR')}
+                    </div>
+                  )}
+                </div>
+                {notificationsData?.content && notificationsData.content.find((x) => x.read === false) ? (
+                  notificationsData.content.map((notification: INotification) => {
+                    if (!notification.read) {
+                      return <NotificationItem key={notification.id} notificationData={notification}/>;
+                    }
+                  })
+                ) : (
+                  <div className="card--primary card--primary--shadow">{t('DASHBOARD.NOTIFICATIONS.EMPTY')}</div>
+                )}
+                <div className="type--center mt-4">
+                  <Link to={t(PATHS.NOTIFICATIONS)} className="btn btn--clear">
+                    {t('DASHBOARD.NOTIFICATIONS.ALL')}
+                  </Link>
+                </div>
+                {learnCubeModal && <LearnCubeModal bookingId={currentlyActiveBooking} handleClose={() => {
                       setLearnCubeModal(false);
                     }} />}
-                </div>
+              </div>
             </div>
-        </MainWrapper>
+          </MainWrapper>)}
+        </div>
+        </>
     );
 };
 
