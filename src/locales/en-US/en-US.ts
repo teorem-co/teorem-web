@@ -381,6 +381,8 @@ export const EN_US = {
         TITLE: 'Add new Child',
         DESCRIPTION: 'Select to Add new Child',
         SAVE: 'Save Child',
+        PART_1: 'Add new',
+        PART_2: 'child'
     },
     MY_BOOKINGS: {
         TITLE: 'Calendar',

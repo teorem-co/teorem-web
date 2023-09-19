@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { IChild } from '../../../../interfaces/IChild';
@@ -13,6 +13,7 @@ import { useAppDispatch, useAppSelector } from '../../../hooks';
 import AddChildSidebar from '../components/AddChildSidebar';
 import { setMyProfileProgress } from '../slices/myProfileSlice';
 import CircularProgress from "../components/CircularProgress";
+import {t} from "i18next";
 
 interface Props {
   toggleModal: (newValue: boolean) => void;
@@ -77,15 +78,17 @@ const AddChildModal = (props:Props) => {
 
   return (
     <>
-      <div className="card--profile">
+      <div>
         {/* HEADER */}
         <div style={{margin: "40px"}} className="flex">
           <div className="flex flex--center flex--shrink w--105">
-            <CircularProgress progressNumber={50} size={80}  />
+            <CircularProgress
+              className='progress-circle ml-1'
+              progressNumber={50}
+            />
           </div>
           <div className="flex flex--col flex--jc--center ml-6">
-            <div className="type--md mb-2">{t('COMPLETE_PROFILE.TITLE')}</div>
-            <div className="type--color--tertiary w--200--max">{t('COMPLETE_PROFILE.DESCRIPTION')}</div>
+            <h4 className='signup-title ml-6 text-align--center'>{t('ADD_CHILD.PART_1')} <span className='primary-color'>{t('ADD_CHILD.PART_2')}</span></h4>
           </div>
         </div>
         {(isLoading && <LoaderPrimary />) || (
@@ -94,6 +97,7 @@ const AddChildModal = (props:Props) => {
               <div className="dash-wrapper dash-wrapper--adaptive">
                 <div
                   className="dash-wrapper__item"
+                  style={{width: "95%"}}
                   onClick={() => {
                     handleAddNewchild();
                   }}
@@ -133,7 +137,8 @@ const AddChildModal = (props:Props) => {
             </div>
           </div>
         )}
-        <button onClick={closeModal} className="btn btn--base btn--ghost" style={{margin: "20px", float: "right"}}>
+        <button onClick={closeModal} className="btn btn--base btn--ghost" style={{margin: "0 auto", display: "flex",
+          justifyContent: "center"}}>
           {t('SKIP_FOR_NOW')}
         </button>
       </div>

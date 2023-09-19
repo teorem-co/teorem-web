@@ -380,6 +380,8 @@ export const HR_HR = {
         TITLE: 'Dodajte novo dijete',
         DESCRIPTION: 'Izaberite za dodavanje novog djeteta',
         SAVE: 'Spremi dijete',
+        PART_1: 'Dodajte novo',
+        PART_2: 'dijete'
     },
     MY_BOOKINGS: {
         TITLE: 'Kalendar',
