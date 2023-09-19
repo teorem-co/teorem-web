@@ -33,6 +33,7 @@ interface IProps {
   end?: string;
   handleClose?: (close: boolean) => void;
   setSidebarOpen: (isOpen: boolean) => void;
+  setChildSidebarOpen: (isOpen: boolean) => void;
   positionClass: string;
   clearEmptyBookings: () => void;
   tutorId: string;
@@ -46,7 +47,7 @@ interface Values {
 }
 
 const ParentCalendarSlots: React.FC<IProps> = (props) => {
-  const { start, end, handleClose, positionClass, setSidebarOpen } = props;
+  const { start, end, handleClose, positionClass, setSidebarOpen, setChildSidebarOpen } = props;
 
   const tutorId = props.tutorId;
 
@@ -321,6 +322,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                   meta={formik.getFieldMeta('child')}
                   classNamePrefix="onboarding-select"
                   isMulti={false}
+                  setChildSidebarOpen={setChildSidebarOpen}
                   options={childOptions ? childOptions : []}
                   noOptionsMessage={() => "childless"}
                   placeholder={t('BOOK.FORM.CHILD_PLACEHOLDER')}
