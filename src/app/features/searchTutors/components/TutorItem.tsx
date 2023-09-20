@@ -46,8 +46,8 @@ const TutorItem: FC<Props> = (props: Props) => {
                     <div className="type--md mb-1">
                         {tutor.firstName && tutor.lastName ? `${tutor.firstName} ${tutor.lastName}` : ''}
                     </div>
-                    <div className="type--color--brand mb-4">{tutor.currentOccupation ? tutor.currentOccupation : t('SEARCH_TUTORS.NOT_FILLED')}</div>
-                    <div className={`type--color--secondary ${tutor.subjects.length > 0 ? 'mb-6' : ''} w--632--max`}>
+                    <div className="type--color--brand mb-4">{tutor.currentOccupation ? tutor.currentOccupation : t('SEARCH_TUTORS.NOT_FILLED')} </div>
+                    <div className={`type--color--secondary w--632--max`}>
                         {tutor.aboutTutor
                             ? tutor.aboutTutor
                                 ? tutor.aboutTutor.length > 300
@@ -56,7 +56,10 @@ const TutorItem: FC<Props> = (props: Props) => {
                                 : ''
                             : t('SEARCH_TUTORS.NOT_FILLED')}
                     </div>
+                  <div className={`type--color--secondary mb-4 mt-2 ${tutor.subjects.length > 0 ? 'mb-6' : ''}`}>{t('SEARCH_TUTORS.YEARS_OF_EXPERIENCE')} {tutor.yearsOfExperience}</div>
+
                     {tutor.subjects.length > 0 ? <CustomSubjectList subjects={uniq(uniqueSubjects)} /> : <></>}
+
                 </div>
                 <div className="tutor-list__item__details">
                     <div className="flex--grow mb-6">
