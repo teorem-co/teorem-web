@@ -444,6 +444,7 @@ export const EN_US = {
             SUBMIT: 'Book and Pay',
             UPDATE: 'Update booking',
             CANCEL: 'Cancel',
+            TUTOR_DISABLED: 'Cannot make a booking. Tutor has marked profile as inactive'
         },
         JOIN: 'Join',
         JOIN_TOOLTIP: 'You can join the meeting 5 minutes before the start'

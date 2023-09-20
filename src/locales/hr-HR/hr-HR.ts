@@ -443,6 +443,7 @@ export const HR_HR = {
             SUBMIT: 'Rezerviraj i Plati',
             UPDATE: 'Ažuriraj rezervaciju',
             CANCEL: 'Otkaži',
+            TUTOR_DISABLED: 'Ne može se napraviti rezervacija. Instruktor je označio profil kao neaktivan'
         },
         JOIN: 'Pridruži se',
         JOIN_TOOLTIP: 'Sastanku se možete pridružiti najranije 5 minuta prije početka'

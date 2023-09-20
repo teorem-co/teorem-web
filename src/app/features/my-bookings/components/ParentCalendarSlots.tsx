@@ -25,6 +25,7 @@ import {
   useCreateBookingMutation,
 } from '../services/bookingService';
 import { loadStripe } from '@stripe/stripe-js';
+import { Tooltip } from 'react-tooltip';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY!);
 
@@ -36,6 +37,7 @@ interface IProps {
   positionClass: string;
   clearEmptyBookings: () => void;
   tutorId: string;
+  tutorDisabled: boolean | undefined;
 }
 
 interface Values {
@@ -46,7 +48,7 @@ interface Values {
 }
 
 const ParentCalendarSlots: React.FC<IProps> = (props) => {
-  const { start, end, handleClose, positionClass, setSidebarOpen } = props;
+  const { start, end, handleClose, positionClass, setSidebarOpen, tutorDisabled } = props;
 
   const tutorId = props.tutorId;
 
@@ -361,8 +363,23 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
       </div>
       {!isCreateBookingLoading ? (
         <div className="modal--parent__footer">
-          <button className="btn btn--base btn--primary type--wgt--extra-bold mb-1" onClick={() => handleSubmitForm()}>
-            {t('BOOK.FORM.SUBMIT')}
+
+          {tutorDisabled && <Tooltip
+            id="bookAndPayButton"
+            place={'top-end'}
+            positionStrategy={'absolute'}
+            float={true}
+            delayShow={1000}
+            style={{ backgroundColor: "rgba(70,70,70, 0.9)", color: 'white', fontSize:'smaller' }}
+          />}
+
+          <button
+            data-tooltip-id='bookAndPayButton'
+            data-tooltip-html={`${t('BOOK.FORM.TUTOR_DISABLED')}`}
+            disabled={tutorDisabled}
+            className="btn btn--base btn--primary type--wgt--extra-bold mb-1"
+            onClick={() => handleSubmitForm()}>
+            {tutorDisabled? t('BOOK.FORM.TUTOR_DISABLED') : t('BOOK.FORM.SUBMIT') }
           </button>
           <button
             className="btn btn--base type--wtg--extra-bold btn--clear"

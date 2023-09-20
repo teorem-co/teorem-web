@@ -81,6 +81,7 @@ const TutorBookings = () => {
       data: {
         firstName: data?.User.firstName,
         lastName: data?.User.lastName,
+        disabled: data?.disabled
       },
       isSuccess,
       isLoading,
@@ -812,6 +813,7 @@ const TutorBookings = () => {
                 handleClose={(e) => setOpenSlot(e)}
                 positionClass={calcModalPosition(positionClass)}
                 tutorId={tutorId}
+                tutorDisabled={tutorData.disabled}
               />
             ) : openEventDetails ? (
               //opening booking details
