@@ -780,6 +780,7 @@ export const EN_US = {
         RATING_TITLE: 'Rating',
         COMPLETED_LESSONS: 'Completed lessons',
         BOOK: 'Book a lesson',
+        TUTOR_DISABLED: 'Tutor marked profile as inactive',
         SEND: 'Send a message',
         EMPTY: 'User not found',
         SUBJECTS: {

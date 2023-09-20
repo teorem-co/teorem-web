@@ -779,6 +779,7 @@ export const HR_HR = {
         RATING_TITLE: 'Ocjena',
         COMPLETED_LESSONS: 'Odrađenih lekcija',
         BOOK: 'Rezerviraj lekciju',
+        TUTOR_DISABLED: 'Tutor je označio profil kao neaktivan',
         SEND: 'Pošalji poruku',
         EMPTY: 'Korisnik nije pronađen',
         SUBJECTS: {

@@ -421,12 +421,20 @@ const TutorProfile = () => {
                     </div>
                     {userRole !== RoleOptions.Tutor && (
                       <>
-                        <Link
-                          className="btn btn--base btn--primary w--100 mb-4 type--center"
-                          to={tutorPath}
-                        >
-                          {t('TUTOR_PROFILE.BOOK')}
-                        </Link>
+                        {tutorData.disabled ?
+
+                          <button
+                            disabled={tutorData.disabled}
+                            className="btn btn--base btn--primary w--100 mb-4 type--center"
+                          >{t('TUTOR_PROFILE.TUTOR_DISABLED')}</button>
+                          :
+                          <Link
+                            className="btn btn--base btn--primary w--100 mb-4 type--center"
+                            to={tutorPath}
+                          >
+                            {t('TUTOR_PROFILE.BOOK')}
+                          </Link>
+                        }
 
                         <Link
                           className="btn btn--base btn--ghost w--100 type--center flex flex--center flex--jc--center"

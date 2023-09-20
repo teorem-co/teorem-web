@@ -363,16 +363,14 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
       </div>
       {!isCreateBookingLoading ? (
         <div className="modal--parent__footer">
-
-          {tutorDisabled && <Tooltip
-            id="bookAndPayButton"
-            place={'top-end'}
-            positionStrategy={'absolute'}
-            float={true}
-            delayShow={1000}
-            style={{ backgroundColor: "rgba(70,70,70, 0.9)", color: 'white', fontSize:'smaller' }}
-          />}
-
+          {/*{tutorDisabled && <Tooltip*/}
+          {/*  id="bookAndPayButton"*/}
+          {/*  place={'top-end'}*/}
+          {/*  positionStrategy={'absolute'}*/}
+          {/*  float={true}*/}
+          {/*  delayShow={1000}*/}
+          {/*  style={{ backgroundColor: "rgba(70,70,70, 0.9)", color: 'white', fontSize:'smaller' }}*/}
+          {/*/>}*/}
           <button
             data-tooltip-id='bookAndPayButton'
             data-tooltip-html={`${t('BOOK.FORM.TUTOR_DISABLED')}`}
