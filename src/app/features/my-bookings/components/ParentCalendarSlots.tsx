@@ -56,7 +56,6 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
   const [tutorSubjectOptions, setTutorSubjectOptions] = useState<OptionType[]>();
 
   const [getChildOptions, { data: childOptions }] = useLazyGetChildQuery();
-  const [children, setChildren] = useState<OptionType[]>();
   const [getUser] = useLazyGetCustomerByIdQuery();
   const [createBooking, { isSuccess: createBookingSuccess }] = useCreatebookingMutation();
   const [createBookingMutation, { isSuccess: isCreateBookingSuccess }] = useCreateBookingMutation();
@@ -244,9 +243,8 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
   useEffect(() => {
     if (userRole === RoleOptions.Parent && userId) {
       getChildOptions(userId);
-      setChildren(childOptions);
     }
-  });
+  }, [setChildSidebarOpen]);
 
   useEffect(() => {
     formik.setFieldValue('timeFrom', moment(start).format('HH:mm'));
@@ -325,7 +323,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                   classNamePrefix="onboarding-select"
                   isMulti={false}
                   setChildSidebarOpen={setChildSidebarOpen}
-                  options={children}
+                  options={childOptions ? childOptions : []}
                   noOptionsMessage={() => "childless"}
                   placeholder={t('BOOK.FORM.CHILD_PLACEHOLDER')}
                 />
