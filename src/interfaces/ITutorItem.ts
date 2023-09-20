@@ -13,5 +13,6 @@ export default interface ITutorItem {
   aboutLessons: string;
   completedLessons: number;
   currencyCode: string;
+  yearsOfExperience: number;
   subjects: string[];
 }

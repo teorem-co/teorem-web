@@ -135,6 +135,7 @@ export const HR_HR = {
             DESC: ' Hmm, izgleda da nema instruktora za ovu određenu pretragu.',
         },
         NOT_FILLED: 'Ovi podatci još nisu ispunjeni',
+        YEARS_OF_EXPERIENCE: 'Godine iskustva: ',
         TUTOR_PROFILE: {
             ABOUT_ME: 'O meni',
             ABOUT_TEACHINGS: 'O mojim predavanjima',

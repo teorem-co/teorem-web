@@ -135,6 +135,7 @@ export const EN_US = {
             DESC: ' Hmm, looks like there are no tutors for this specific search.',
         },
         NOT_FILLED: 'This information is not filled out yet',
+        YEARS_OF_EXPERIENCE: 'Years of experience: ',
         TUTOR_PROFILE: {
             ABOUT_ME: 'About me',
             ABOUT_TEACHINGS: 'About subjects',
