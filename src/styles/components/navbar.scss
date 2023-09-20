@@ -82,7 +82,7 @@
         &--tutor-managment {
             mask-image: url('./../../assets/icons/tutor-managment.svg');
         }
-        
+
         &__label {
             // vertical-align: middle;
             margin-left: 18px;
@@ -127,6 +127,10 @@
             background-color: $grey-f7;
             border-radius: $border-circle;
         }
+        a:first-child.active {
+            background-color: $grey-f7;
+            border-radius: $border-circle;
+        }
         a:last-child {
             margin-left: calc(#{$unit} * 3);
         }
@@ -158,6 +162,20 @@
                 }
                 .navbar__bottom__avatar {
                     background-color: $color-primary-light;
+                }
+
+                .navbar__bottom--settings{
+                  position: absolute;
+                  left: 50%;
+                  top: 50%;
+                  transform: translate(-50%, -50%);
+                  background: linear-gradient(226.69deg, rgba(127, 95, 211, 0.5) 4.52%, #5c3ee8 94.64%);
+                  width: 90%;
+                  height: 90%;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  border-radius: $border-circle;
                 }
             }
         }
@@ -196,7 +214,7 @@
             align-items: center;
             cursor: pointer;
         }
-        
+
         &__share {
             margin: 0 0 calc($unit * 2) 0;
             a:last-child {
