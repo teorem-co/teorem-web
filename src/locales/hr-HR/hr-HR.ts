@@ -443,7 +443,7 @@ export const HR_HR = {
             SUBMIT: 'Rezerviraj i Plati',
             UPDATE: 'Ažuriraj rezervaciju',
             CANCEL: 'Otkaži',
-            TUTOR_DISABLED: 'Ne može se napraviti rezervacija. Instruktor je označio profil kao neaktivan'
+            TUTOR_DISABLED: 'Privremeno nedostupno'
         },
         JOIN: 'Pridruži se',
         JOIN_TOOLTIP: 'Sastanku se možete pridružiti najranije 5 minuta prije početka'
@@ -779,7 +779,7 @@ export const HR_HR = {
         RATING_TITLE: 'Ocjena',
         COMPLETED_LESSONS: 'Odrađenih lekcija',
         BOOK: 'Rezerviraj lekciju',
-        TUTOR_DISABLED: 'Tutor je označio profil kao neaktivan',
+        TUTOR_DISABLED: 'Privremeno nedostupno',
         SEND: 'Pošalji poruku',
         EMPTY: 'Korisnik nije pronađen',
         SUBJECTS: {
