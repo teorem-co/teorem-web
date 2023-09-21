@@ -444,6 +444,7 @@ export const EN_US = {
             SUBMIT: 'Book and Pay',
             UPDATE: 'Update booking',
             CANCEL: 'Cancel',
+            TUTOR_DISABLED: 'Currently unavailable'
         },
         JOIN: 'Join',
         JOIN_TOOLTIP: 'You can join the meeting 5 minutes before the start'
@@ -779,6 +780,7 @@ export const EN_US = {
         RATING_TITLE: 'Rating',
         COMPLETED_LESSONS: 'Completed lessons',
         BOOK: 'Book a lesson',
+        TUTOR_DISABLED: 'Currently unavailable',
         SEND: 'Send a message',
         EMPTY: 'User not found',
         SUBJECTS: {
