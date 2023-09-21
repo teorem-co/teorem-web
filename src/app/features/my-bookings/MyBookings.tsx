@@ -265,7 +265,7 @@ const MyBookings: React.FC = (props: any) => {
           setSelectedUnavailability(e.id);
           setSelectedSlot(e.start);
           setOpenEventDetails(false);
-        } else {
+        } else if(e.label != 'unavailableInTable') {
           setOpenUnavailabilityEditModal(false);
           getBookingById(e.id);
           setOpenEventDetails(true);
