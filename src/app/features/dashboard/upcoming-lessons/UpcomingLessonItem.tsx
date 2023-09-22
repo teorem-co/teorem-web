@@ -17,33 +17,36 @@ interface Props{
 
 export const UpcomingLessonItem = ({ firstName, id, lastName, levelAbrv, subjectAbrv, startTime, endTime }: Props) => {
   const history = useHistory();
+  const isMobile = window.innerWidth < 1200;
 
   return (
     <>
-      {/*<div className="dashboard__list__item" key={id}>*/}
-      {/*  <div>*/}
-      {/*    {firstName}&nbsp;{lastName}*/}
-      {/*  </div>*/}
-      {/*  <div>{t(`LEVELS.${levelAbrv.toLowerCase().replace("-", "")}`)}</div>*/}
-      {/*  <div>*/}
-      {/*    <span className="tag tag--primary">{t(`SUBJECTS.${subjectAbrv.replace('-', '')}`)}</span>*/}
-      {/*  </div>*/}
-      {/*  <div>*/}
-      {/*    {moment(startTime).format('HH:mm')} -{' '}*/}
-      {/*    {moment(endTime).add(1, 'minute').format('HH:mm')}*/}
-      {/*  </div>*/}
-      {/*  <div*/}
-      {/*    onClick={() => {*/}
-      {/*      history.push({*/}
-      {/*        pathname: t(PATHS.MY_BOOKINGS),*/}
-      {/*        state: { value: new Date(startTime).toString() }*/}
-      {/*      });*/}
-      {/*    }*/}
-      {/*    }>*/}
-      {/*    <i className="icon icon--base icon--chevron-right icon--primary"></i>*/}
-      {/*  </div>*/}
-      {/*</div>*/}
+    { !isMobile ? <div className="dashboard__list__item" key={id}>
+        <div>
+          {firstName}&nbsp;{lastName}
+        </div>
+        <div>{t(`LEVELS.${levelAbrv.toLowerCase().replace("-", "")}`)}</div>
+        <div>
+          <span className="tag tag--primary">{t(`SUBJECTS.${subjectAbrv.replace('-', '')}`)}</span>
+        </div>
+        <div>
+          {moment(startTime).format('HH:mm')} -{' '}
+          {moment(endTime).add(1, 'minute').format('HH:mm')}
+        </div>
+        <div
+          onClick={() => {
+            history.push({
+              pathname: t(PATHS.MY_BOOKINGS),
+              state: { value: new Date(startTime).toString() }
+            });
+          }
+          }>
+          <i className="icon icon--base icon--chevron-right icon--primary"></i>
+        </div>
+      </div>
 
+      :
+      // MOBILE
       <div className="dashboard-upcoming-item" key={id}>
         <div className="flex flex--row flex--ai--center flex--jc--space-between">
           <div className='flex flex--col'>
@@ -54,7 +57,7 @@ export const UpcomingLessonItem = ({ firstName, id, lastName, levelAbrv, subject
           </div>
 
           <div className='flex flex--col'>
-            <div className='flex flex--row flex--ai--center mb-1'>
+            <div className='flex flex--row flex--ai--center mb-2'>
               <p> {moment(startTime).format('HH:mm')} -{' '}
                 {moment(endTime).add(1, 'minute').format('HH:mm')}</p>
 
@@ -74,6 +77,7 @@ export const UpcomingLessonItem = ({ firstName, id, lastName, levelAbrv, subject
           </div>
         </div>
       </div>
+    }
     </>
   );
 };
