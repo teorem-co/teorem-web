@@ -87,3 +87,11 @@
         padding-top: 20px;
     }
 }
+
+.dashboard-upcoming-item{
+  width: 100%;
+  border: 1px solid $grey-ed;
+  border-radius: $border-rounded;
+  padding: 10px 20px;
+  margin-bottom: calc(#{$unit} * 2);
+}

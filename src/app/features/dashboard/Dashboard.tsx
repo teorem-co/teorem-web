@@ -41,6 +41,7 @@ import {
   useAcceptBookingMutation,
   useDeleteBookingMutation
 } from "../my-bookings/services/bookingService";
+import { UpcomingLessonItem } from './upcoming-lessons/UpcomingLessonItem';
 import AddChildModal from "../my-profile/pages/AddChildModal";
 import logo from "../../../assets/images/teorem_logo_purple.png";
 import LoaderPrimary from "../../components/skeleton-loaders/LoaderPrimary";
@@ -691,73 +692,58 @@ const Dashboard = () => {
                                                 <div className="type--color--secondary">9/Mar/2022</div>
                                                 <button className="btn btn--base card--dashboard__btn">{t('DASHBOARD.MESSAGES.BUTTON')}</button>
                                             </div> */}
-                          </div>
-                        ) : (
-                          <div className="card--dashboard h--200--min">
-                            <div className="flex--primary mb-2">
-                              <div>
-                                {t('DASHBOARD.MESSAGES.EMPTY')}
-                              </div>
-                              <div>
-                                <button
-                                  className="btn card--dashboard__btn mr-2"
-                                  onClick={() => handlePrevMsgIndex()}
-                                  disabled={activeMsgIndex === 0}
-                                >
-                                  <i className="icon icon--base icon--chevron-left icon--primary"></i>
-                                </button>
-                                <button
-                                  className="btn card--dashboard__btn"
-                                  onClick={() => handleNextMsgIndex()}
-                                  disabled={activeMsgIndex === unreadChatrooms.length - 1 || unreadChatrooms.length == 0}
-                                >
-                                  <i className="icon icon--base icon--chevron-right icon--primary"></i>
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                    <div className="dashboard__list">
-                      <div className="type--color--tertiary mb-2">{t('DASHBOARD.BOOKINGS.TITLE')}</div>
-                      {groupedUpcomming && Object.keys(groupedUpcomming).length > 0 ? (
-                        Object.keys(groupedUpcomming).map((key: string) => {
-                          return (
-                            <React.Fragment key={key}>
-                              <div className="flex--primary">
-                                <div className="mb-4 mt-6 type--wgt--bold">{key}</div>
-                                <div className="type--color--secondary">
-                                  {t('DASHBOARD.BOOKINGS.TOTAL')}: {groupedUpcomming[key].length}:00h
+                                        </div>
+                                    ) : (
+                                        <div className="card--dashboard h--200--min">
+                                            <div className="flex--primary mb-2">
+                                                <div>
+                                                    {t('DASHBOARD.MESSAGES.EMPTY')}
+                                                </div>
+                                                <div>
+                                                    <button
+                                                        className="btn card--dashboard__btn mr-2"
+                                                        onClick={() => handlePrevMsgIndex()}
+                                                        disabled={activeMsgIndex === 0}
+                                                    >
+                                                        <i className="icon icon--base icon--chevron-left icon--primary"></i>
+                                                    </button>
+                                                    <button
+                                                        className="btn card--dashboard__btn"
+                                                        onClick={() => handleNextMsgIndex()}
+                                                        disabled={activeMsgIndex === unreadChatrooms.length - 1 || unreadChatrooms.length == 0}
+                                                    >
+                                                        <i className="icon icon--base icon--chevron-right icon--primary"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
-                              </div>
-                              {groupedUpcomming[key].map((item: IBooking) => {
-                                return (
-                                  <div className="dashboard__list__item" key={item.id}>
-                                    <div>
-                                      {item.User.firstName}&nbsp;{item.User.lastName}
-                                    </div>
-                                    <div>{t(`LEVELS.${item.Level.abrv.toLowerCase().replace("-", "")}`)}</div>
-                                    <div>
-                                      <span className="tag tag--primary">{t(`SUBJECTS.${item.Subject.abrv.replace('-', '')}`)}</span>
-                                    </div>
-                                    <div>
-                                      {moment(item.startTime).format('HH:mm')} -{' '}
-                                      {moment(item.endTime).add(1, 'minute').format('HH:mm')}
-                                    </div>
-                                    <div
-                                      onClick={() => {
-                                        // history.push(PATHS.MY_BOOKINGS)
+                            </div>
+                            <div className="dashboard__list">
+                              <div className="type--color--tertiary mb-2">{t('DASHBOARD.BOOKINGS.TITLE')}</div>
+                              {groupedUpcomming && Object.keys(groupedUpcomming).length > 0 ? (
+                                    Object.keys(groupedUpcomming).map((key: string) => {
+                                        return (
+                                            <React.Fragment key={key}>
+                                                <div className="flex--primary">
+                                                    <div className="mb-4 mt-6 type--wgt--bold">{key}</div>
+                                                    <div className="type--color--secondary">
+                                                        {t('DASHBOARD.BOOKINGS.TOTAL')}: {groupedUpcomming[key].length}:00h
+                                                    </div>
+                                                </div>
+                                                {groupedUpcomming[key].map((item: IBooking) => {
+                                                    return (
 
-                                        history.push({
-                                          pathname: t(PATHS.MY_BOOKINGS),
-                                          state: { value: new Date(item.startTime).toString() }
-                                        });
-                                      }
-                                      }>
-                                      <i className="icon icon--base icon--chevron-right icon--primary"></i>
-                                    </div>
-                                  </div>
+                                                      <UpcomingLessonItem
+                                                        id={item.id}
+                                                        firstName={item.User.firstName}
+                                                        lastName={item.User.lastName}
+                                                        levelAbrv={item.Level.abrv}
+                                                        subjectAbrv={item.Subject.abrv}
+                                                        startTime={item.startTime}
+                                                        endTime={item.endTime}
+                                  />
                                 );
                               })}
                             </React.Fragment>
