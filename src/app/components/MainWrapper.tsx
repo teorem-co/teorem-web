@@ -15,7 +15,10 @@ const MainWrapper = (props: Props) => {
         <>
             <div className="layout">
                 <div className="layout__mobile">
-                    <div>{t('MAIN_TITLE')}</div>
+                    <div className="flex flex--row flex--ai--center">
+                      <img src='/logo-white.svg' alt='' className="" style={{height:'40px'}}/>
+                      <div className="font__lg">{t('MAIN_TITLE')}</div>
+                    </div>
                     <i className="icon icon--md icon--menu icon--white" onClick={() => setAsideActive(!asideActive)}>
                         hamburger
                     </i>
@@ -24,7 +27,9 @@ const MainWrapper = (props: Props) => {
                     <div className="layout__aside__close sidebar__close" onClick={() => setAsideActive(!asideActive)}>
                         <i className="icon icon--md icon--close icon--black"></i>
                     </div>
+                  <div className="font">
                     <Navbar />
+                  </div>
                 </div>
                 <div className="layout__main">{props.children}</div>
             </div>

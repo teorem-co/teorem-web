@@ -28,7 +28,7 @@ $mobile-height: 50px;
             position: fixed;
             top: 0;
             bottom: 0;
-            left: -100vw;
+            left: 100vw;
             width: 100vw;
             transition: left 300ms ease-in-out;
 
@@ -48,7 +48,7 @@ $mobile-height: 50px;
         justify-content: space-between;
 
         height: $mobile-height;
-        padding: calc(#{$unit} * 4);
+        padding: calc(#{$unit} * 2);
         border-bottom: 1px solid $border-color;
 
         background-color: $color-primary;
