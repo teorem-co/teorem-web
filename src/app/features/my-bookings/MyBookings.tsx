@@ -491,7 +491,7 @@ const MyBookings: React.FC = (props: any) => {
               date={value}
                onView={setView}
               view= {isMobile ? "day" : "week"}
-              style={{ height: 'calc(100% - 84px)', overflowY:'auto'}}
+              style={{ height: 'calc(100% - 84px)'}}
               startAccessor="start"
               endAccessor="end"
               // selectable={true}
@@ -510,7 +510,6 @@ const MyBookings: React.FC = (props: any) => {
               selectable={true}
               step={15}
               timeslots={4}
-              // longPressThreshold={10}
               onSelectSlot={(e) => handleSelectedSlot(e)}
               onSelectEvent={(e) => handleSelectedEvent(e)}
             />
