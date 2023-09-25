@@ -306,7 +306,8 @@ export const EN_US = {
         TITLE: 'UPCOMING EVENTS',
         EMPTY: 'There are no upcoming lessons',
     },
-    REGISTER: {
+  SKIP_FOR_NOW: 'Skip for now',
+  REGISTER: {
         TITLE: 'Register as {{role}}',
         FORM: {
             FIRST_NAME: 'First Name*',
@@ -382,6 +383,8 @@ export const EN_US = {
         TITLE: 'Add new Child',
         DESCRIPTION: 'Select to Add new Child',
         SAVE: 'Save Child',
+        PART_1: 'Add a',
+        PART_2: 'child',
     },
     MY_BOOKINGS: {
         TITLE: 'Calendar',
@@ -1143,6 +1146,7 @@ export const EN_US = {
         },
     },
     PATHS: {
+        ADD_CHILD: '/en/add-child',
         ROLE_SELECTION: '/en/role-selection',
         REGISTER: '/en/register',
         FORGOT_PASSWORD: '/en/forgot-password',
