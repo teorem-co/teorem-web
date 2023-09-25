@@ -469,37 +469,37 @@ const MyBookings: React.FC = (props: any) => {
             </div>
 
             <BigCalendar
-               min={minTime}
-               max={maxTime}
-              onSelecting={() => false}
-              localizer={localizer}
-              formats={{
-                timeGutterFormat: 'HH:mm',
-              }}
-              events={allBookings ? allBookings.concat(unavailableCurrentEvent) : []}
-              toolbar={true}
-              date={value}
+                min={minTime}
+                max={maxTime}
+                onSelecting={() => false}
+                localizer={localizer}
+               formats={{
+                 timeGutterFormat: 'HH:mm',
+               }}
+               events={allBookings ? allBookings.concat(unavailableCurrentEvent) : []}
+               toolbar={true}
+               date={value}
                onView={setView}
-              view= {isMobile ? "day" : "day"}
-              style={{ height: 'calc(100% - 84px)'}}
-              startAccessor="start"
-              endAccessor="end"
-              components={{
-                header: (date) => CustomHeader(date),
-                event: (event) => CustomEvent(event),
-                toolbar: () =>
-                  (isMobile ? <CustomToolbar
-                    value={value}
-                    onChangeDate={onChangeDate} /> : null)
-              }}
-              scrollToTime={defaultScrollTime}
-              showMultiDayTimes={true}
-              selectable={true}
-              step={15}
+               view= {isMobile ? "day" : "day"}
+               style={{ height: 'calc(100% - 84px)'}}
+               startAccessor="start"
+               endAccessor="end"
+               components={{
+                 header: (date) => CustomHeader(date),
+                 event: (event) => CustomEvent(event),
+                 toolbar: () =>
+                   (isMobile ? <CustomToolbar
+                     value={value}
+                     onChangeDate={onChangeDate} /> : null)
+               }}
+               scrollToTime={defaultScrollTime}
+               showMultiDayTimes={true}
+               step={15}
                longPressThreshold={250}
-              timeslots={4}
-              onSelectSlot={(e) => handleSelectedSlot(e)}
-              onSelectEvent={(e) => handleSelectedEvent(e)}
+               selectable={true}
+               timeslots={4}
+               onSelectSlot={(e) => handleSelectedSlot(e)}
+               onSelectEvent={(e) => handleSelectedEvent(e)}
             />
             {openEventDetails ? (
               <TutorEventModal
