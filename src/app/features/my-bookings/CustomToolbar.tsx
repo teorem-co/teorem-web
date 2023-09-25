@@ -5,38 +5,39 @@ import { t } from 'i18next';
 import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
 
 interface Props {
-  onBack: () => void,
-  onNext: () => void,
-  onToday: () => void,
-  date: Date
-  // value: Date,
-  // onChange: () => void,
-  // setCalChange: () => void
+  value: Date,
+  onChangeDate: (date: Date) => void,
 }
 
-export const CustomToolbar = (props: Props) => {
-  const {onBack, onNext, onToday, date} = props;
+// interface Props {
+//   onBack: () => void,
+//   onNext: () => void,
+//   onToday: () => void,
+//   date: Date
+// }
 
-  // function onBack() {
-  //   const prevDate = new Date(value);
-  //   prevDate.setDate(value.getDate() - 1);
-  //   onChange(prevDate);
-  //   setCalChange(!calChange);
-  // }
-  // function onNext() {
-  //   const nextDate = new Date(value);
-  //   nextDate.setDate(value.getDate() + 1);
-  //   onChange(nextDate);
-  //   setCalChange(!calChange);
-  // }
-  //
-  // function onToday(){
-  //   onChange(new Date());
-  //   setCalChange(!calChange);
-  // }
+export const CustomToolbar = (props: Props) => {
+  // const {onBack, onNext, onToday, date} = props;
+  const {value, onChangeDate} = props;
+
+  function onBack() {
+    const prevDate = new Date(value);
+    prevDate.setDate(value.getDate() - 1);
+    onChangeDate(prevDate);
+  }
+
+  function onNext() {
+    const nextDate = new Date(value);
+    nextDate.setDate(value.getDate() + 1);
+    onChangeDate(nextDate);
+  }
+
+  function onToday(){
+    onChangeDate(new Date());
+  }
 
   const label = () => {
-    const selectedDate = moment(date);
+    const selectedDate = moment(value);
     return (
       <div className="text-align--center flex flex--col">
         <span className="type--capitalize">{selectedDate.format('dddd')}</span>

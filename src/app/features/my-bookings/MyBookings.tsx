@@ -308,6 +308,7 @@ const MyBookings: React.FC = (props: any) => {
 
   const handleSelectedSlot = (e: SlotInfo) => {
     if (userRole === RoleOptions.Tutor) {
+      console.log('TUTOR SELECTING EVENT ON CALENDER');
       setOpenEventDetails(false);
       setOpenUnavailabilityEditModal(false);
       setUnavailableCurrentEvent([
@@ -445,21 +446,8 @@ const MyBookings: React.FC = (props: any) => {
   maxTime.setHours(23,0,0);
   const [view, setView] = useState<View>('week');
 
-  function onBack() {
-    const prevDate = new Date(value);
-    prevDate.setDate(value.getDate() - 1);
-    onChange(prevDate);
-    setCalChange(!calChange);
-  }
-  function onNext() {
-    const nextDate = new Date(value);
-    nextDate.setDate(value.getDate() + 1);
-    onChange(nextDate);
-    setCalChange(!calChange);
-  }
-
-  function onToday(){
-    onChange(new Date());
+  function onChangeDate(date: Date){
+    onChange(date);
     setCalChange(!calChange);
   }
 
@@ -490,25 +478,23 @@ const MyBookings: React.FC = (props: any) => {
               toolbar={true}
               date={value}
                onView={setView}
-              view= {isMobile ? "day" : "week"}
+              view= {isMobile ? "day" : "day"}
               style={{ height: 'calc(100% - 84px)'}}
               startAccessor="start"
               endAccessor="end"
-              // selectable={true}
               components={{
                 header: (date) => CustomHeader(date),
                 event: (event) => CustomEvent(event),
                 toolbar: () =>
                   (isMobile ? <CustomToolbar
-                    date={value}
-                    onBack={onBack}
-                    onNext={onNext}
-                    onToday={onToday}/> : null)
+                    value={value}
+                    onChangeDate={onChangeDate} /> : null)
               }}
               scrollToTime={defaultScrollTime}
               showMultiDayTimes={true}
               selectable={true}
               step={15}
+               longPressThreshold={100}
               timeslots={4}
               onSelectSlot={(e) => handleSelectedSlot(e)}
               onSelectEvent={(e) => handleSelectedEvent(e)}
