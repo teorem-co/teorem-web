@@ -396,6 +396,7 @@ export const HR_HR = {
         TIME_SAME: 'Vrijeme početka i vrijeme završetka ne mogu biti isti',
         CALENDAR: {
             TITLE: 'KALENDAR',
+            TODAY: 'Danas'
         },
         ADDITIONAL_INFORMATION:{
           TITLE: 'Informacije o pridruživanju na sastanak'

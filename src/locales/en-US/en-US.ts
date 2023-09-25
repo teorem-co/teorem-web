@@ -397,6 +397,7 @@ export const EN_US = {
         TIME_SAME: 'Start time and end time can`t be the same',
         CALENDAR: {
             TITLE: 'CALENDAR',
+            TODAY: 'Today'
         },
         ADDITIONAL_INFORMATION:{
           TITLE: 'Information about joining meeting'

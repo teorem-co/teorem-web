@@ -112,7 +112,7 @@ interface IMenuPerRole {
 }
 
 export const ROUTES: any = [
-  {
+ {
     path: PATHS.ROLE_SELECTION,
     key: 'ROLE_SELECTION',
     exact: true,
