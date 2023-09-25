@@ -307,6 +307,8 @@ const MyBookings: React.FC = (props: any) => {
   };
 
   const handleSelectedSlot = (e: SlotInfo) => {
+    console.log('selected time');
+
     if (userRole === RoleOptions.Tutor) {
       console.log('TUTOR SELECTING EVENT ON CALENDER');
       setOpenEventDetails(false);
@@ -494,7 +496,7 @@ const MyBookings: React.FC = (props: any) => {
               showMultiDayTimes={true}
               selectable={true}
               step={15}
-               longPressThreshold={100}
+               longPressThreshold={250}
               timeslots={4}
               onSelectSlot={(e) => handleSelectedSlot(e)}
               onSelectEvent={(e) => handleSelectedEvent(e)}
