@@ -510,7 +510,7 @@ const MyBookings: React.FC = (props: any) => {
               selectable={true}
               step={15}
               timeslots={4}
-              longPressThreshold={10}
+              // longPressThreshold={10}
               onSelectSlot={(e) => handleSelectedSlot(e)}
               onSelectEvent={(e) => handleSelectedEvent(e)}
             />
