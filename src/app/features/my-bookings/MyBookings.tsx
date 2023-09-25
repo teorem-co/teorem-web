@@ -490,9 +490,8 @@ const MyBookings: React.FC = (props: any) => {
               toolbar={true}
               date={value}
                onView={setView}
-              //view= {view}
               view= {isMobile ? "day" : "week"}
-              style={{ height: 'calc(100% - 84px)' }}
+              style={{ height: 'calc(100% - 84px)', overflowY:'auto'}}
               startAccessor="start"
               endAccessor="end"
               // selectable={true}
