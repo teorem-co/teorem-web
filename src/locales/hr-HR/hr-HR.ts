@@ -305,6 +305,7 @@ export const HR_HR = {
         TITLE: 'NADOLAZEĆI DOGAĐAJI',
         EMPTY: 'Nema nadolazećih lekcija',
     },
+    SKIP_FOR_NOW: 'Zanemari za sada',
     REGISTER: {
         TITLE: 'Registracija kao {{role}}',
         FORM: {
@@ -381,6 +382,8 @@ export const HR_HR = {
         TITLE: 'Dodajte novo dijete',
         DESCRIPTION: 'Izaberite za dodavanje novog djeteta',
         SAVE: 'Spremi dijete',
+        PART_1: 'Dodajte novo',
+        PART_2: 'dijete',
     },
     MY_BOOKINGS: {
         TITLE: 'Kalendar',
@@ -1144,6 +1147,7 @@ export const HR_HR = {
         },
     },
     PATHS: {
+        ADD_CHILD: '/hr/dodaj-dijete',
         ROLE_SELECTION: '/hr/odabir-uloge',
         REGISTER: '/hr/registracija',
         FORGOT_PASSWORD: '/hr/zaboravljena-lozinka',

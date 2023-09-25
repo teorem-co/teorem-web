@@ -31,6 +31,7 @@
 
         &:nth-child(n + 3) {
             padding-top: 0;
+          padding: calc($unit * 4);
         }
 
         @media (max-width: 300px) {
