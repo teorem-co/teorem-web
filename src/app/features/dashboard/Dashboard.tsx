@@ -117,11 +117,13 @@ const Dashboard = () => {
         const requests = await getRequests().unwrap();
         const groupedRequestData: IGroupedDashboardData = groupBy(requests, (e) => moment(e.startTime).format(t('DATE_FORMAT')));
         setGroupedRequests(groupedRequestData);
-        let children = [];
-        if(userRole === RoleOptions.Parent && userId !== undefined) {
+        let children = [];if(userRole === RoleOptions.Parent && userId !== undefined) {
           children = await getChildren(userId).unwrap().then();
         }
         if(!childrenLoading && (children.length === 0 || children.length === undefined)) {
+          setChildless(true);
+        }
+        if(!childrenLoading && (childrenData?.length === 0 || childrenData?.length === undefined)) {
           setChildless(true);
         }
     };
