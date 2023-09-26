@@ -43,6 +43,7 @@ import UpdateBooking from './components/UpdateBooking';
 import { InformationCard } from '../../components/InformationCard';
 import { ToolbarProps } from '@mui/material';
 import { CustomToolbar } from './CustomToolbar';
+import { divide } from 'lodash';
 
 i18n.language !== 'en' && Array.from(languageOptions.map((l) => l.path)).includes(i18n.language) && require(`moment/locale/${i18n.language}.js`);
 
@@ -255,9 +256,15 @@ const MyBookings: React.FC = (props: any) => {
     return <i className="icon icon--base icon--chevron-right"></i>;
   };
 
+  const onDoubleClickEvent = (e: any) =>{
+    console.log("Duble kliked");
+  };
+
   const handleSelectedEvent = (e: IBookingTransformed) => {
     setCurentlyActiveBooking(e.id);
     if (userRole === RoleOptions.Tutor) {
+      if(e.id ==='currentUnavailableItem') return;
+
       if (unavailableCurrentEvent.length > 0) {
         //close createNewUnavailability
         setOpenUnavailabilityModal(false);
@@ -471,7 +478,7 @@ const MyBookings: React.FC = (props: any) => {
             <BigCalendar
                 min={minTime}
                 max={maxTime}
-                onSelecting={() => false}
+                onSelecting={() => true}
                 localizer={localizer}
                formats={{
                  timeGutterFormat: 'HH:mm',
@@ -495,7 +502,7 @@ const MyBookings: React.FC = (props: any) => {
                scrollToTime={defaultScrollTime}
                showMultiDayTimes={true}
                step={15}
-               longPressThreshold={10}
+               longPressThreshold={20}
                selectable={true}
                timeslots={4}
                onSelectSlot={(e) => handleSelectedSlot(e)}
