@@ -61,6 +61,8 @@ $mobile-height: 50px;
         @media (max-width: $responsive-md) {
             display: flex;
         }
+
+        z-index: 0;
     }
 
     &__main {

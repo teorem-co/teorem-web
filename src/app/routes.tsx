@@ -53,6 +53,7 @@ import { Signup } from './features/register/sign_up_rework/tutor/Signup';
 import {
   SignupRoleSelect
 } from './features/register/sign_up_rework/SignupRoleSelect';
+import { CalendarTest } from './features/my-bookings/CalendarTest';
 
 export const PATHS = {
   ROLE_SELECTION: t('PATHS.ROLE_SELECTION'),
@@ -113,6 +114,12 @@ interface IMenuPerRole {
 
 export const ROUTES: any = [
  {
+    path: '/en/calendar-test',
+    key: 'calendar stset',
+    exact: true,
+    component: () => <CalendarTest />,
+  },
+  {
     path: PATHS.ROLE_SELECTION,
     key: 'ROLE_SELECTION',
     exact: true,

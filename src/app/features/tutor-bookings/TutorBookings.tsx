@@ -789,7 +789,6 @@ const TutorBookings = () => {
               events={filteredBookings ? filteredBookings : []}
               toolbar={false}
               date={value}
-              selectable={true}
               onSelecting={() => false}
               view={isMobile ? "day" : "week"}
               style={{ height: 'calc(100% - 84px)' }}
@@ -810,6 +809,7 @@ const TutorBookings = () => {
               showMultiDayTimes={true}
               step={15}
               timeslots={4}
+              selectable={true}
               longPressThreshold={10}
               onSelectSlot={(e) => (userRole === RoleOptions.Parent || userRole === RoleOptions.Student ? slotSelect(e) : null)}
               onSelectEvent={(e) => (userRole === RoleOptions.Parent || userRole === RoleOptions.Student ? handleSelectedEvent(e) : null)}
