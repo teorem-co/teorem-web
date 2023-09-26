@@ -502,7 +502,7 @@ const MyBookings: React.FC = (props: any) => {
                scrollToTime={defaultScrollTime}
                showMultiDayTimes={true}
                step={15}
-               longPressThreshold={500}
+               longPressThreshold={350}
                selectable={true}
                timeslots={4}
                onSelectSlot={(e) => handleSelectedSlot(e)}

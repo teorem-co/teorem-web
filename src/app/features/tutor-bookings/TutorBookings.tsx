@@ -789,7 +789,7 @@ const TutorBookings = () => {
               events={filteredBookings ? filteredBookings : []}
               toolbar={false}
               date={value}
-              onSelecting={() => false}
+              onSelecting={() => true}
               view={isMobile ? "day" : "week"}
               style={{ height: 'calc(100% - 84px)' }}
               startAccessor="start"
@@ -810,7 +810,7 @@ const TutorBookings = () => {
               step={15}
               timeslots={4}
               selectable={true}
-              longPressThreshold={10}
+              longPressThreshold={350}
               onSelectSlot={(e) => (userRole === RoleOptions.Parent || userRole === RoleOptions.Student ? slotSelect(e) : null)}
               onSelectEvent={(e) => (userRole === RoleOptions.Parent || userRole === RoleOptions.Student ? handleSelectedEvent(e) : null)}
               // onSelecting={(range: { start: ; end: 'test'; }) => false}
