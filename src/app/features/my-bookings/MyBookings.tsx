@@ -480,7 +480,7 @@ const MyBookings: React.FC = (props: any) => {
                toolbar={true}
                date={value}
                onView={setView}
-               view= {isMobile ? "day" : "day"}
+               view= {isMobile ? "day" : "week"}
                style={{ height: 'calc(100% - 84px)'}}
                startAccessor="start"
                endAccessor="end"
@@ -495,7 +495,7 @@ const MyBookings: React.FC = (props: any) => {
                scrollToTime={defaultScrollTime}
                showMultiDayTimes={true}
                step={15}
-               longPressThreshold={250}
+               longPressThreshold={20}
                selectable={true}
                timeslots={4}
                onSelectSlot={(e) => handleSelectedSlot(e)}

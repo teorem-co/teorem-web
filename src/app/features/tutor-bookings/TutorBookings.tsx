@@ -50,6 +50,7 @@ import {
   useLazyGetTutorAvailabilityQuery,
 } from '../my-profile/services/tutorAvailabilityService';
 import { InformationCard } from '../../components/InformationCard';
+import { CustomToolbar } from '../my-bookings/CustomToolbar';
 
 interface IBookingTransformed {
   id: string;
@@ -751,6 +752,13 @@ const TutorBookings = () => {
     return moment(date).startOf('week').date();
   };
 
+  const isMobile = window.innerWidth < 767;
+  function onChangeDate(date: Date){
+    onChange(date);
+    setCalChange(!calChange);
+  }
+
+
   return (
     <MainWrapper>
       <div className="layout--primary">
@@ -783,7 +791,7 @@ const TutorBookings = () => {
               date={value}
               selectable={true}
               onSelecting={() => false}
-              view="week"
+              view={isMobile ? "day" : "week"}
               style={{ height: 'calc(100% - 84px)' }}
               startAccessor="start"
               endAccessor="end"
@@ -792,6 +800,10 @@ const TutorBookings = () => {
                   header: (date) => CustomHeader(date),
                 },
                 event: (event) => CustomEvent(event),
+                toolbar: () =>
+                  (isMobile ? <CustomToolbar
+                    value={value}
+                    onChangeDate={onChangeDate} /> : null)
                 // timeSlotWrapper: (e) => CustomSlot(e),
               }}
               scrollToTime={defaultScrollTime}
