@@ -20,6 +20,7 @@ import myReviewsReducer from './features/myReviews/slices/MyReviewsSlice';
 import { rtkQueryErrorLogger } from './middleware/rtkQueryErrorLogger';
 import uploadFileReducer from './slices/tutorImageUploadSlice';
 import signUpReducer from '../slices/signUpSlice';
+import onboardingReducer from "../slices/onboardingSlice";
 import scrollReducer from '../slices/scrollSlice';
 
 const persistConfig = {
@@ -44,6 +45,7 @@ const appReducer = combineReducers({
     chat: chatReducer,
     lang: langReducer,
     signUp: signUpReducer,
+    onboarding: onboardingReducer,
     scroll: scrollReducer
 });
 

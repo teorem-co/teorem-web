@@ -48,6 +48,11 @@ import LoaderPrimary from "../../components/skeleton-loaders/LoaderPrimary";
 import {IChild} from "../../../interfaces/IChild";
 import ImageCircle from "../../components/ImageCircle";
 import AddChildSidebar from "../my-profile/components/AddChildSidebar";
+import AvailabilityPage from "../onboarding/tutorOnboardingNew/AvailabilityPage";
+import SubjectsPage from "../onboarding/tutorOnboardingNew/SubjectsPage";
+import {
+  OnboardingTutor
+} from "../onboarding/tutorOnboardingNew/OnboardingTutor";
 
 interface IGroupedDashboardData {
     [date: string]: IBooking[];
@@ -123,7 +128,7 @@ const Dashboard = () => {
         if(!childrenLoading && (children.length === 0 || children.length === undefined)) {
           setChildless(true);
         }
-        if(!childrenLoading && (childrenData?.length === 0 || childrenData?.length === undefined)) {
+        if(!childrenLoading && (children.length === 0 || children.length === undefined)) {
           setChildless(true);
         }
     };
@@ -299,28 +304,28 @@ const Dashboard = () => {
     },
         [chatrooms, userDataFirst, userDataSecond]);
 
-  const closeAddCardSidebar = () => {
-      setAddSidebarOpen(false);
-  };
-
-  const handleAddNewchild = () => {
-    setChildForEdit(null);
-    setAddSidebarOpen(true);
-    setChildlessButton(false);
-  };
-
-  const handleEditChild = (x: IChild) => {
-    const childObj: IChild = {
-      firstName: x.firstName,
-      username: x.username,
-      dateOfBirth: x.dateOfBirth,
-      password: x.password,
-      lastName: x.lastName,
-      id: x.id,
+    const closeAddCardSidebar = () => {
+        setAddSidebarOpen(false);
     };
-    setChildForEdit(childObj);
-    setAddSidebarOpen(true);
-  };
+
+    const handleAddNewchild = () => {
+      setChildForEdit(null);
+      setAddSidebarOpen(true);
+      setChildlessButton(false);
+    };
+
+    const handleEditChild = (x: IChild) => {
+      const childObj: IChild = {
+        firstName: x.firstName,
+        username: x.username,
+        dateOfBirth: x.dateOfBirth,
+        password: x.password,
+        lastName: x.lastName,
+        id: x.id,
+      };
+      setChildForEdit(childObj);
+      setAddSidebarOpen(true);
+    };
 
     const closeModal = () => {
       setModal(false);
@@ -329,6 +334,10 @@ const Dashboard = () => {
 
     return (
       <>
+        {userRole === RoleOptions.Tutor && profileProgressState.percentage !== 100 ? (
+          <OnboardingTutor/>
+          ) :
+          (<>
           {userRole === RoleOptions.Parent && childless && modal ? (
               <div>
                 <img
@@ -771,6 +780,7 @@ const Dashboard = () => {
               </div>
             </div>
           </MainWrapper>)}
+            </>)}
         </>
     );
 };

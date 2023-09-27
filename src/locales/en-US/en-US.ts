@@ -46,6 +46,10 @@ export const EN_US = {
         },
         EDIT_CHILD_DETAILS: "Edit child's details",
     },
+    TUTOR_ONBOARDING: {
+      TITLE: "Thank you for verifying your email address! Let's complete your tutor profile!",
+      SUBTITLE: 'This usually lasts 8 minutes.',
+    },
     FORM_VALIDATION: {
         INVALID_EMAIL: 'Invalid email',
         INVALID_IMAGE: 'Image has to be either jpg,png,jpeg or svg and less than 2MB in size.',
@@ -577,7 +581,7 @@ export const EN_US = {
             CVV_PLACEHOLDER: '***',
             ADD_BUTTON: 'Add New Card',
             CANCEL_BUTTON: 'Cancel',
-            ZIP: 'Zip',
+            ZIP: 'Zip*',
             ZIP_PLACEHOLDER: '12345',
             COUNTRY: "Country",
             COUNTRY_PLACEHOLDER: 'Choose your country',
@@ -587,8 +591,9 @@ export const EN_US = {
     MY_PROFILE: {
         TITLE: 'My Profile',
         PREVIEW: 'Preview profile',
-        ABOUT_ME: {
-            OCCUPATION: 'Yor current Occupation*',
+      PAYOUTS: 'Where do we send your payouts?',
+      ABOUT_ME: {
+            OCCUPATION: 'Your current Occupation*',
             OCCUPATION_PLACEHOLDER: 'What’s your current Occupation',
             YEARS: 'Years of professional experience (optional)',
             YEARS_PLACEHOLDER: 'How many years of professional experience you have',
@@ -631,6 +636,10 @@ export const EN_US = {
             COUNTRY: 'Country*',
             BIRTHDAY: 'Date of Birth*',
             IBAN: 'IBAN',
+            COMPANY_NAME: 'Company name*',
+            COMPANY_NAME_PLACEHOLDER: 'Enter company name',
+            COMPANY_OIB: 'Company OIB*',
+            COMPANY_OIB_PLACEHOLDER: 'Enter company OIB',
             IBAN_PLACEHOLDER: 'Enter your IBAN',
             IMAGE: 'Profile Image*',
             UPLOAD_IMAGE: 'Drag and drop to upload',

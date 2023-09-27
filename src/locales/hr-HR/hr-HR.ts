@@ -586,7 +586,8 @@ export const HR_HR = {
     MY_PROFILE: {
         TITLE: 'Moj profil',
         PREVIEW: 'Pregled profila',
-        ABOUT_ME: {
+      PAYOUTS: 'Gdje ti isplaćujemo zaradu?',
+      ABOUT_ME: {
             OCCUPATION: 'Vaše trenutno zanimanje*',
             OCCUPATION_PLACEHOLDER: 'Unesite Vaše trenutno zanimanje',
             YEARS: 'Broj godina profesionalnog iskustva (neobavezno)',
@@ -630,7 +631,11 @@ export const HR_HR = {
             COUNTRY: 'Država*',
             BIRTHDAY: 'Datum rođenja*',
             IBAN: 'IBAN',
-            IBAN_PLACEHOLDER: 'Unesite svoj IBAN',
+            COMPANY_NAME: 'Ime tvrtke*',
+            COMPANY_NAME_PLACEHOLDER: 'Unesite ime tvrtke',
+            COMPANY_OIB: 'OIB tvrtke*',
+            COMPANY_OIB_PLACEHOLDER: 'Unesite OIB tvrtke',
+          IBAN_PLACEHOLDER: 'Unesite svoj IBAN',
             IMAGE: '<Profilna slika>*',
             UPLOAD_IMAGE: 'Povucite i ispustite za učitavanje',
         },
