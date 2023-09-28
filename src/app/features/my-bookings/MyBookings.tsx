@@ -96,7 +96,7 @@ const MyBookings: React.FC = (props: any) => {
   const localizer = momentLocalizer(moment);
   const positionClass = moment(selectedStart).format('dddd');
   const unavailablePositionClass = moment(selectedSlot).format('dddd');
-  const defaultScrollTime = new Date(new Date().setHours(7, 45, 0));
+  const defaultScrollTime = new Date(new Date().setHours(7, 0, 0));
   const highlightRef = useRef<HTMLDivElement>(null);
   const tileRef = useRef<HTMLDivElement>(null);
   const tileElement = tileRef.current as HTMLDivElement;
@@ -254,10 +254,6 @@ const MyBookings: React.FC = (props: any) => {
 
   const NextIcon = () => {
     return <i className="icon icon--base icon--chevron-right"></i>;
-  };
-
-  const onDoubleClickEvent = (e: any) =>{
-    console.log("Duble kliked");
   };
 
   const handleSelectedEvent = (e: IBookingTransformed) => {
@@ -447,10 +443,6 @@ const MyBookings: React.FC = (props: any) => {
   };
 
   const isMobile = window.innerWidth < 767;
-  const minTime = new Date();
-  minTime.setHours(6, 0, 0);  // 6:00 AM
-  const maxTime = new Date();
-  maxTime.setHours(23,0,0);
   const [view, setView] = useState<View>('week');
 
   function onChangeDate(date: Date){
@@ -474,8 +466,8 @@ const MyBookings: React.FC = (props: any) => {
             </div>
 
             <BigCalendar
-                min={minTime}
-                max={maxTime}
+                // min={minTime}
+                // max={maxTime}
                 onSelecting={() => true}
                 localizer={localizer}
                formats={{
@@ -484,7 +476,6 @@ const MyBookings: React.FC = (props: any) => {
                events={allBookings ? allBookings.concat(unavailableCurrentEvent) : []}
                toolbar={true}
                date={value}
-               onView={setView}
                view= {isMobile ? "day" : "week"}
                style={{ height: 'calc(100% - 84px)'}}
                startAccessor="start"

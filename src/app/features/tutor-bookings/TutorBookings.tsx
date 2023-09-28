@@ -793,7 +793,6 @@ const TutorBookings = () => {
                   (isMobile ? <CustomToolbar
                     value={value}
                     onChangeDate={onChangeDate} /> : null)
-                // timeSlotWrapper: (e) => CustomSlot(e),
               }}
               scrollToTime={defaultScrollTime}
               showMultiDayTimes={true}
@@ -803,7 +802,6 @@ const TutorBookings = () => {
               longPressThreshold={50}
               onSelectSlot={(e) => (userRole === RoleOptions.Parent || userRole === RoleOptions.Student ? slotSelect(e) : null)}
               onSelectEvent={(e) => (userRole === RoleOptions.Parent || userRole === RoleOptions.Student ? handleSelectedEvent(e) : null)}
-              // onSelecting={(range: { start: ; end: 'test'; }) => false}
             />
             {openSlot ? (
               //creating new booking
