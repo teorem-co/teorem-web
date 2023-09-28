@@ -315,14 +315,6 @@ const TutorBookings = () => {
     }
   };
 
-  // const CustomSlot = (e: any) => {
-  //     if (moment(e.value).isBefore(moment())) {
-  //     return <div style={{ backgroundColor: '#fcfcfc', width: '100%', height: '25px' }}></div>;
-  //     } else {
-  //         return e.children;
-  //     }
-  // };
-
   const PrevIcon = () => {
     return <i className="icon icon--base icon--chevron-left"></i>;
   };
