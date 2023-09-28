@@ -332,8 +332,6 @@ const TutorBookings = () => {
   };
 
   const slotSelect = (e: SlotInfo) => {
-
-
     const existingBooking =
       existingBookings && existingBookings.filter((date) => moment(date.start).format('YYYY/MM/DD') === moment(e.start).format('YYYY/MM/DD'));
 
@@ -404,7 +402,7 @@ const TutorBookings = () => {
           userId: userId ? userId : '',
         },
       ]);
-      return CustomEvent(e.slots);
+      // return CustomEvent(e.slots);
     } else {
       setOpenSlot(false);
       setEmptyBookings([]);

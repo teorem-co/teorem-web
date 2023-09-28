@@ -314,10 +314,8 @@ const MyBookings: React.FC = (props: any) => {
   };
 
   const handleSelectedSlot = (e: SlotInfo) => {
-    console.log('selected time');
 
     if (userRole === RoleOptions.Tutor) {
-      console.log('TUTOR SELECTING EVENT ON CALENDER');
       setOpenEventDetails(false);
       setOpenUnavailabilityEditModal(false);
       setUnavailableCurrentEvent([
