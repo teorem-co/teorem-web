@@ -1,8 +1,8 @@
 import { Form, FormikProvider, useFormik } from 'formik';
 import i18n, { t } from 'i18next';
-import { uniqBy } from 'lodash';
+import { debounce, uniqBy } from 'lodash';
 import moment from 'moment';
-import { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import {
   Calendar as BigCalendar,
   momentLocalizer,
@@ -51,6 +51,7 @@ import {
 } from '../my-profile/services/tutorAvailabilityService';
 import { InformationCard } from '../../components/InformationCard';
 import { CustomToolbar } from '../my-bookings/CustomToolbar';
+import ScrollContext from '../../components/ScrollContext';
 
 interface IBookingTransformed {
   id: string;
@@ -75,6 +76,7 @@ interface ICoords {
 }
 
 const TutorBookings = () => {
+  const [scrollTopOffset, setScrollTopOffset] = useState<number>(0);
   const [getTutorBookings, { data: tutorBookings, isLoading: isLoadingTutorBookings }] = useLazyGetTutorBookingsQuery();
   const [getTutorUnavailableBookings, { data: unavailableBookings, isLoading: isLoadingUnavailableBookings }] = useLazyGetUnavailableBookingsQuery();
   const [getTutorData, { data: tutorData }] = useLazyGetTutorByTutorSlugQuery({
@@ -323,7 +325,15 @@ const TutorBookings = () => {
     return <i className="icon icon--base icon--chevron-right"></i>;
   };
 
+  const state = useAppSelector((state) => state.scroll);
+  const {topOffset} = state;
+
   const slotSelect = (e: SlotInfo) => {
+    if(e.bounds?.bottom){
+        console.log('WINDOW:', topOffset);
+        setScrollTopOffset(e.bounds?.bottom + topOffset);
+    }
+
     const existingBooking =
       existingBookings && existingBookings.filter((date) => moment(date.start).format('YYYY/MM/DD') === moment(e.start).format('YYYY/MM/DD'));
 
@@ -814,6 +824,7 @@ const TutorBookings = () => {
                 positionClass={calcModalPosition(positionClass)}
                 tutorId={tutorId}
                 tutorDisabled={tutorData.disabled}
+                topOffset={scrollTopOffset}
               />
             ) : openEventDetails ? (
               //opening booking details
