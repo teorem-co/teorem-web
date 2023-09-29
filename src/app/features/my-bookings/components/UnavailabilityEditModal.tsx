@@ -10,10 +10,11 @@ interface Props {
     handleClose?: (close: boolean) => void;
     positionClass: string;
     event: { startTime: Date; endTime: Date; id: string } | null;
+    topOffset: number;
 }
 
 const UnavailabilityEditModal: React.FC<Props> = (props) => {
-    const { handleClose, positionClass, event } = props;
+    const {topOffset, handleClose, positionClass, event } = props;
 
     const [deleteUnavailability] = useDeleteTutorUnavailabilityMutation();
 
@@ -24,10 +25,13 @@ const UnavailabilityEditModal: React.FC<Props> = (props) => {
         }
     };
 
+    const isMobile = window.innerWidth < 776;
+    const mobileStyles = isMobile? { top: `${topOffset}px` } : {};
+
     return (
         <>
             {event ? (
-                <div className={`modal--parent modal--parent--${positionClass}`}>
+              <div  style={mobileStyles}  className={`modal--parent  modal--parent--${isMobile ? '' : positionClass}`}>
                     <div className="modal--parent__header">
                         <div className="flex flex--primary">
                             <div>

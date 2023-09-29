@@ -761,6 +761,7 @@ const TutorBookings = () => {
   }
 
 
+
   return (
     <MainWrapper>
       <div className="layout--primary">
@@ -839,6 +840,7 @@ const TutorBookings = () => {
                 handleClose={(e) => setOpenEventDetails(e)}
                 positionClass={calcModalPosition(positionClass)}
                 openLearnCube={() => setLearnCubeModal(true)}
+                topOffset={scrollTopOffset}
               />
             ) : openUpdateModal ? (
               <UpdateBooking
@@ -850,6 +852,7 @@ const TutorBookings = () => {
                 handleClose={(e: any) => setOpenUpdateModal(e)}
                 positionClass={calcModalPosition(positionClass)}
                 tutorId={tutorId}
+                topOffset={scrollTopOffset}
               />
             ) : (
               <></>

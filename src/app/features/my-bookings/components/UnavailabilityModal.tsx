@@ -116,7 +116,6 @@ const UnavailabilityModal: React.FC<Props> = (props) => {
   const isMobile = window.innerWidth < 776;
   const mobileStyles = isMobile? { top: `${topOffset}px` } : {};
 
-
   return (
         <>
             {event ? (

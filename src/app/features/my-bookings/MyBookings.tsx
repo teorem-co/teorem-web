@@ -260,6 +260,9 @@ const MyBookings: React.FC = (props: any) => {
 
   const handleSelectedEvent = (e: IBookingTransformed) => {
     setCurentlyActiveBooking(e.id);
+    setScrollTopOffset(topOffset + 150); // add 150px so its closer because I dont get information where user clicked
+
+
     if (userRole === RoleOptions.Tutor) {
       if(e.id ==='currentUnavailableItem') return;
 
@@ -315,6 +318,8 @@ const MyBookings: React.FC = (props: any) => {
 
     if (userRole === RoleOptions.Tutor) {
       if(e.bounds?.bottom){
+        console.log('TOP OFSET: ',topOffset);
+        console.log('Bounds top: ',  e.bounds.top);
         const boundsTop = e.bounds?.top <= 300 ? e.bounds?.top + 500 : e.bounds?.top;
         setScrollTopOffset(topOffset + boundsTop  - 350);
       }
@@ -510,6 +515,7 @@ const MyBookings: React.FC = (props: any) => {
                 handleClose={(e) => setOpenEventDetails(e)}
                 positionClass={calcModalPosition(positionClass)}
                 openLearnCube={() => setLearnCubeModal(true)}
+                topOffset={scrollTopOffset}
               />
             ) : (
               <></>
@@ -534,7 +540,7 @@ const MyBookings: React.FC = (props: any) => {
                 openEditModal={(isOpen) => handleUpdateModal(isOpen)}
                 tutorName={booking.User.firstName && booking.User.lastName ? booking.User.firstName + ' ' + booking.User.lastName : ''}
                 // tutorName={booking.User ? booking.User.firstName : ''}
-
+                topOffset={scrollTopOffset}
               />
             ) : openUpdateModal && booking ? (
               <UpdateBooking
@@ -546,6 +552,7 @@ const MyBookings: React.FC = (props: any) => {
                 handleClose={(e: any) => setOpenUpdateModal(e)}
                 positionClass={calcModalPosition(positionClass)}
                 tutorId={booking?.tutorId}
+                topOffset={scrollTopOffset}
               />
             ):(
               <></>
@@ -570,6 +577,7 @@ const MyBookings: React.FC = (props: any) => {
                   setSelectedUnavailability('');
                 }}
                 positionClass={calcModalPosition(unavailablePositionClass)}
+                topOffset={scrollTopOffset}
               />
             )}
           </div>
