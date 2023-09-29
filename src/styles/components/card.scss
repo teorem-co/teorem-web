@@ -20,7 +20,10 @@
         border-radius: $border-rounded;
         margin: calc(#{$unit} * 6);
         border: 1px solid $grey-ed;
-      //background-color: red;
+        @media (max-width: 756px) {
+          margin: 0;
+        }
+
 
         &__head {
             z-index: 7;
@@ -46,6 +49,11 @@
 
         &__body {
             padding: calc(#{$unit} * 10) calc(#{$unit} * 6);
+
+          @media (max-width: 756px) {
+            padding-right: 5px;
+            padding-left: 5px;
+          }
         }
 
         &--alt {

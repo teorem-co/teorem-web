@@ -111,11 +111,13 @@ const TutorProfile = () => {
         }
     }, [params, tutorId]);
 
+
+    const isMobile = window.innerWidth < 768;
     const renderTableCells = (column: string | boolean, index: number) => {
         if (typeof column === 'boolean') {
             return (
                 <td key={index} className={`${column ? 'table--availability--check' : 'table--availability--close'}`}>
-                    <i className={`icon icon--base ${column ? 'icon--check icon--primary' : 'icon--close icon--grey'} `}></i>
+                    <i className={`icon icon--${isMobile ? 'sm' : 'base'} ${column ? 'icon--check icon--primary' : 'icon--close icon--grey'} `}></i>
                 </td>
             );
         } else if (column == '') {
