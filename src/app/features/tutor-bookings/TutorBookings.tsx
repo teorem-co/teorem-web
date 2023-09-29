@@ -77,6 +77,8 @@ interface ICoords {
 
 const TutorBookings = () => {
   const [scrollTopOffset, setScrollTopOffset] = useState<number>(0);
+  const scrollState = useAppSelector((state) => state.scroll);
+  const {topOffset} = scrollState;
   const [getTutorBookings, { data: tutorBookings, isLoading: isLoadingTutorBookings }] = useLazyGetTutorBookingsQuery();
   const [getTutorUnavailableBookings, { data: unavailableBookings, isLoading: isLoadingUnavailableBookings }] = useLazyGetUnavailableBookingsQuery();
   const [getTutorData, { data: tutorData }] = useLazyGetTutorByTutorSlugQuery({
@@ -325,13 +327,13 @@ const TutorBookings = () => {
     return <i className="icon icon--base icon--chevron-right"></i>;
   };
 
-  const state = useAppSelector((state) => state.scroll);
-  const {topOffset} = state;
 
   const slotSelect = (e: SlotInfo) => {
+
+    //calculating offset for modal
     if(e.bounds?.bottom){
-        console.log('WINDOW:', topOffset);
-        setScrollTopOffset(e.bounds?.bottom + topOffset);
+      const boundsTop = e.bounds?.top <= 300 ? e.bounds?.top + 500 : e.bounds?.top;
+      setScrollTopOffset(topOffset + boundsTop  - 350);
     }
 
     const existingBooking =

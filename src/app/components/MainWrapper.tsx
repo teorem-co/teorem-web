@@ -18,17 +18,17 @@ const MainWrapper = (props: Props) => {
   const topOffset = useAppSelector((state) => state.scroll.topOffset);
   const dispatch = useDispatch();
   const { t } = useTranslation();
-    const [asideActive, setAsideActive] = useState<boolean>(false);
+  const [asideActive, setAsideActive] = useState<boolean>(false);
 
-    const debouncedScrollHandler = debounce((e) => handleScroll(e), 1000);
+  const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
 
     const handleScroll = async (e: HTMLDivElement) => {
+      console.log("setting state");
       if(e.scrollTop)
         dispatch(
           setTopOffset(e.scrollTop)
         );
     };
-
 
   return (
         <>

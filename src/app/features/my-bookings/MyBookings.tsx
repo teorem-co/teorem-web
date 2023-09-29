@@ -91,7 +91,9 @@ const MyBookings: React.FC = (props: any) => {
     x: 0,
     y: 0,
   });
-
+  const [scrollTopOffset, setScrollTopOffset] = useState<number>(0);
+  const scrollState = useAppSelector((state) => state.scroll);
+  const {topOffset} = scrollState;
   const history = useHistory();
   const localizer = momentLocalizer(moment);
   const positionClass = moment(selectedStart).format('dddd');
@@ -312,6 +314,11 @@ const MyBookings: React.FC = (props: any) => {
   const handleSelectedSlot = (e: SlotInfo) => {
 
     if (userRole === RoleOptions.Tutor) {
+      if(e.bounds?.bottom){
+        const boundsTop = e.bounds?.top <= 300 ? e.bounds?.top + 500 : e.bounds?.top;
+        setScrollTopOffset(topOffset + boundsTop  - 350);
+      }
+
       setOpenEventDetails(false);
       setOpenUnavailabilityEditModal(false);
       setUnavailableCurrentEvent([
@@ -552,6 +559,7 @@ const MyBookings: React.FC = (props: any) => {
                   setUnavailableCurrentEvent([]);
                 }}
                 positionClass={getDayName(selectedSlot).toLowerCase()}
+                topOffset={scrollTopOffset}
               />
             )}
             {openUnavailabilityEditModal && (

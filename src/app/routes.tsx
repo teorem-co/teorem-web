@@ -53,6 +53,9 @@ import { Signup } from './features/register/sign_up_rework/tutor/Signup';
 import {
   SignupRoleSelect
 } from './features/register/sign_up_rework/SignupRoleSelect';
+import {
+  TutorItemMobile
+} from './features/searchTutors/components/TutorItemMobile';
 
 export const PATHS = {
   ROLE_SELECTION: t('PATHS.ROLE_SELECTION'),
@@ -112,6 +115,19 @@ interface IMenuPerRole {
 }
 
 export const ROUTES: any = [
+  {
+    path: '/en/mobile-tutor',
+    key: 'mobitiu',
+    exact: true,
+    // component: () => <RoleSelection />,
+    component: () =><div>
+
+      <TutorItemMobile/>
+      <TutorItemMobile/>
+      <TutorItemMobile/>
+
+    </div>,
+  },
   {
     path: PATHS.ROLE_SELECTION,
     key: 'ROLE_SELECTION',

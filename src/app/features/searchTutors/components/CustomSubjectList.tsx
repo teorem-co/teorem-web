@@ -23,7 +23,7 @@ const CustomSubjectList = (props: Props) => {
     useOutsideAlerter(rangeSetterRef, hideTooltip);
 
     return (
-        <div ref={rangeSetterRef} className="flex">
+        <div ref={rangeSetterRef} className="flex flex--wrap flex--ai--center">
             {subjects.slice(0, 3).map((subject) => (
                 <span className="tag tag--primary" key={subject}>
                     {t(`SUBJECTS.${subject.replace('-', '')}`)}

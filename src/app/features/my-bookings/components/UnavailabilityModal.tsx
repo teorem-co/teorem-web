@@ -16,6 +16,7 @@ interface Props {
     handleClose?: (close: boolean) => void;
     positionClass: string;
     event: Date | null;
+    topOffset: number;
 }
 
 interface IValues {
@@ -25,7 +26,7 @@ interface IValues {
 }
 
 const UnavailabilityModal: React.FC<Props> = (props) => {
-    const { handleClose, positionClass, event } = props;
+    const {topOffset, handleClose, positionClass, event } = props;
 
     const [createTutorUnavailability] = useCreateTutorUnavailabilityMutation();
 
@@ -112,10 +113,14 @@ const UnavailabilityModal: React.FC<Props> = (props) => {
         validationSchema: generateValidationSchema(),
     });
 
-    return (
+  const isMobile = window.innerWidth < 776;
+  const mobileStyles = isMobile? { top: `${topOffset}px` } : {};
+
+
+  return (
         <>
             {event ? (
-                <div className={`modal--parent modal--parent--${positionClass}`}>
+                <div style={mobileStyles}  className={`modal--parent  modal--parent--${isMobile ? '' : positionClass}`}>
                     <div className="modal--parent__header">
                         <div className="flex flex--primary">
                             <div>

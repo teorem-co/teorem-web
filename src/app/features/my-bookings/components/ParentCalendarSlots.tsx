@@ -253,11 +253,13 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     formik.setFieldValue('timeFrom', moment(start).format('HH:mm'));
   }, [start]);
 
-  const mobileStyles = window.innerWidth < 776 ? { top: `${topOffset}px` } : {};
+
+  const isMobile = window.innerWidth < 776;
+  const mobileStyles = isMobile? { top: `${topOffset}px` } : {};
 
   return (
 
-    <div style={mobileStyles} className={`modal--parent modal--parent--${positionClass}`}>
+    <div style={mobileStyles} className={`modal--parent modal--parent--${isMobile ? '' : positionClass}`}>
       <div className="modal--parent__header">
         <div className="flex flex--primary">
           <div>
