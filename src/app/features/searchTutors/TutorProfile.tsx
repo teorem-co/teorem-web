@@ -604,18 +604,6 @@ const TutorProfile = () => {
                                   <ReviewItem key={index} reviewItem={item} />
                                 ))}
                             </div>
-                            {/* {hideLoadMore() ? (
-                                                    <></>
-                                                ) : (
-                                                    <button
-                                                        onClick={() =>
-                                                            handleLoadMore()
-                                                        }
-                                                        className="btn btn--base btn--clear d--b align--center mt-6"
-                                                    >
-                                                        Load more
-                                                    </button>
-                                                )} */}
                           </>
                         ) : (
                           <div className="reviews-list">
@@ -629,90 +617,6 @@ const TutorProfile = () => {
                     </div>
                   </div>
                 </div>
-                  {/*<div className="card--primary p-4 pt-6">*/}
-                  {/*  <div className="tutor-list__item__img align--center">*/}
-                  {/*    {tutorData.User?.profileImage ? (*/}
-                  {/*      <img*/}
-                  {/*        className="align--center d--b mb-4"*/}
-                  {/*        src={`${tutorData.User.profileImage}&v=${cacheBuster}`}*/}
-                  {/*        alt="tutor-profile-pic" />*/}
-                  {/*    ) : (*/}
-                  {/*      <ImageCircle*/}
-                  {/*        className="align--center d--b mb-4"*/}
-                  {/*        imageBig={true}*/}
-                  {/*        initials={`${tutorData.User?.firstName.charAt(0)}${tutorData.User?.lastName.charAt(0)}`}*/}
-                  {/*      />*/}
-                  {/*    )}*/}
-
-
-                  {/*  </div>*/}
-                  {/*  <div className="type--md type--center mb-1">*/}
-                  {/*    {tutorData.User.firstName}&nbsp;*/}
-                  {/*    {tutorData.User.lastName}*/}
-                  {/*  </div>*/}
-                  {/*  <div className="type--color--brand type--center type--break">{tutorData.currentOccupation}</div>*/}
-                  {/*  <div className="mt-10 mb-10">*/}
-                  {/*    <div className="flex--primary mb-3">*/}
-                  {/*      <div>*/}
-                  {/*        <i className="icon icon--pricing icon--base icon--grey"></i>*/}
-                  {/*        <span className="d--ib ml-2 type--color--secondary">{t('TUTOR_PROFILE.PRICING')}:</span>*/}
-                  {/*      </div>*/}
-                  {/*      <span className="d--ib ml-4">*/}
-                  {/*                          /!* Add later *!/{tutorData.minimumPrice}*/}
-                  {/*        &nbsp;-&nbsp;*/}
-                  {/*        {tutorData.maximumPrice}&nbsp; {tutorData.User.Country.currencyCode} /{t('TUTOR_PROFILE.SUBJECTS.HOUR_ABRV')}*/}
-                  {/*                      </span>*/}
-                  {/*    </div>*/}
-                  {/*    <div className="flex--primary mb-3">*/}
-                  {/*      <div>*/}
-                  {/*        <i className="icon icon--star icon--base icon--grey"></i>*/}
-                  {/*        <span className="d--ib ml-2 type--color--secondary">{t('TUTOR_PROFILE.RATING_TITLE')}:</span>*/}
-                  {/*      </div>*/}
-
-                  {/*      <span className="d--ib ml-4">*/}
-                  {/*                          /!* Add later *!/*/}
-                  {/*        {tutorData.averageGrade ? tutorData.averageGrade.toFixed(1) : 0}*/}
-                  {/*                      </span>*/}
-                  {/*    </div>*/}
-                  {/*    <div className="flex--primary">*/}
-                  {/*      <div>*/}
-                  {/*        <i className="icon icon--completed-lessons icon--base icon--grey"></i>*/}
-                  {/*        <span className="d--ib ml-2 type--color--secondary">{t('TUTOR_PROFILE.COMPLETED_LESSONS')}:</span>*/}
-                  {/*      </div>*/}
-                  {/*      <span className="d--ib ml-4">*/}
-                  {/*                          /!* Add later *!/*/}
-                  {/*        {tutorData.completedLessons}*/}
-                  {/*                      </span>*/}
-                  {/*    </div>*/}
-                  {/*  </div>*/}
-                  {/*  {userRole !== RoleOptions.Tutor && (*/}
-                  {/*    <>*/}
-                  {/*      {tutorData.disabled ?*/}
-
-                  {/*        <button*/}
-                  {/*          disabled={tutorData.disabled}*/}
-                  {/*          className="btn btn--base btn--primary w--100 mb-4 type--center"*/}
-                  {/*        >{t('TUTOR_PROFILE.TUTOR_DISABLED')}</button>*/}
-                  {/*        :*/}
-                  {/*        <Link*/}
-                  {/*          className="btn btn--base btn--primary w--100 mb-4 type--center"*/}
-                  {/*          to={tutorPath}*/}
-                  {/*        >*/}
-                  {/*          {t('TUTOR_PROFILE.BOOK')}*/}
-                  {/*        </Link>*/}
-                  {/*      }*/}
-
-                  {/*      <Link*/}
-                  {/*        className="btn btn--base btn--ghost w--100 type--center flex flex--center flex--jc--center"*/}
-                  {/*        onClick={() => createNewChat()}*/}
-                  {/*        to={PATHS.CHAT}*/}
-                  {/*      >*/}
-                  {/*        {createChatLoading && <LoaderPrimary small={true} />}*/}
-                  {/*        <span>{t('TUTOR_PROFILE.SEND')}</span>*/}
-                  {/*      </Link>*/}
-                  {/*    </>*/}
-                  {/*  )}*/}
-                  {/*</div>*/}
               </>
             ) : (
               <div className="type--wgt--bold type--lg mt-5 ml-5">{t('TUTOR_PROFILE.EMPTY')}</div>
