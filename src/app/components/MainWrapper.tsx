@@ -10,11 +10,6 @@ import { useDispatch } from 'react-redux';
 import { setStepOne } from '../../slices/signUpSlice';
 import { setTopOffset } from '../../slices/scrollSlice';
 
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-
-import Navbar from './Navbar';
-
 
 interface Props {
     children: JSX.Element | JSX.Element[];
@@ -38,10 +33,6 @@ const MainWrapper = (props: Props) => {
         );
     };
 
-  return (
-    const { t } = useTranslation();
-    const [asideActive, setAsideActive] = useState<boolean>(false);
-
     return (
         <>
             <div className="layout">
@@ -62,6 +53,7 @@ const MainWrapper = (props: Props) => {
                   </div>
                 </div>
                 <div onScroll={(e) => debouncedScrollHandler(e.target)} className="layout__main">{props.children}</div>
+            </div>
         </>
     );
 };
