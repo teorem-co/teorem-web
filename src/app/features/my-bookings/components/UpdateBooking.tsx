@@ -24,7 +24,6 @@ interface IProps {
   clearEmptyBookings: () => void;
   booking: IBooking | null;
   tutorId: string;
-  topOffset?:number;
 }
 
 interface Values {
@@ -35,7 +34,7 @@ interface Values {
 }
 const UpdateBooking: React.FC<IProps> = (props) => {
 
-  const {topOffset, start, end, handleClose, positionClass, setSidebarOpen, clearEmptyBookings, booking } = props;
+  const { start, end, handleClose, positionClass, setSidebarOpen, clearEmptyBookings, booking } = props;
   const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
   const userId = useAppSelector((state) => state.auth.user?.id);
 
@@ -125,11 +124,9 @@ const UpdateBooking: React.FC<IProps> = (props) => {
     }
   }, [booking]);
 
-  const isMobile = window.innerWidth < 776;
-  const mobileStyles = isMobile? { top: `${topOffset}px` } : {};
 
   return (
-    <div  style={mobileStyles}  className={`modal--parent  modal--parent--${isMobile ? '' : positionClass}`}>
+    <div className={`modal--parent modal--parent--${positionClass}`}>
       <div className="modal--parent__header">
         <div className="flex flex--primary">
           <div>

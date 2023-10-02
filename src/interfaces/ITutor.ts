@@ -17,5 +17,4 @@ export default interface ITutor {
     Bookings: IBooking[];
     disabled: boolean;
     slug: string;
-    numberOfReviews?: number;
 }

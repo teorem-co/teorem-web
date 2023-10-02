@@ -18,12 +18,11 @@ interface IProps {
     openEditModal: (isOpen: boolean) => void;
     bookingStart: string;
     eventIsAccepted: boolean;
-    topOffset?:number;
 }
 
 const ParentEventModal: React.FC<IProps> = (props) => {
     const ALLOWED_MINUTES_TO_JOIN_BEFORE_MEETING = 5;
-    const {topOffset, handleClose, positionClass, event, tutorName, openEditModal, bookingStart, eventIsAccepted, openLearnCube } = props;
+    const { handleClose, positionClass, event, tutorName, openEditModal, bookingStart, eventIsAccepted, openLearnCube } = props;
     const [deleteBooking, { isSuccess: isSuccessDeleteBooking }] = useDeleteBookingMutation();
     const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
     const handleDeleteBooking = () => {
@@ -44,13 +43,10 @@ const ParentEventModal: React.FC<IProps> = (props) => {
       return !(moment(bookingStart).subtract(ALLOWED_MINUTES_TO_JOIN_BEFORE_MEETING, 'minutes').isBefore(moment()) && moment(event.endTime).isAfter(moment()));
     }
 
-    const isMobile = window.innerWidth < 776;
-    const mobileStyles = isMobile? { top: `${topOffset}px` } : {};
-
   return (
         <>
             {event ? (
-                <div  style={mobileStyles}  className={`modal--parent  modal--parent--${isMobile ? '' : positionClass}`}>
+                <div className={`modal--parent modal--parent--${positionClass}`}>
                     <div className="modal--parent__header">
                         <div className="flex flex--primary">
                             <div>

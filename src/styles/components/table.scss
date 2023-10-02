@@ -16,10 +16,6 @@
         max-width: 720px;
         border: 1px solid $grey-ed;
 
-        @media (max-width: $responsive-md) {
-          font-size: small;
-        }
-
         td {
             position: relative;
             padding: calc(#{$unit} * 4);
@@ -29,11 +25,6 @@
             text-align: center;
             vertical-align: middle;
             cursor: pointer;
-
-          @media (max-width: $responsive-sm){
-            padding: calc(#{$unit} * 2);
-          }
-
         }
 
         &--check {

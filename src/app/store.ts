@@ -20,7 +20,6 @@ import myReviewsReducer from './features/myReviews/slices/MyReviewsSlice';
 import { rtkQueryErrorLogger } from './middleware/rtkQueryErrorLogger';
 import uploadFileReducer from './slices/tutorImageUploadSlice';
 import signUpReducer from '../slices/signUpSlice';
-import scrollReducer from '../slices/scrollSlice';
 
 const persistConfig = {
     key: 'root',
@@ -43,8 +42,7 @@ const appReducer = combineReducers({
     myProfileProgress: myProfileProgressReducer,
     chat: chatReducer,
     lang: langReducer,
-    signUp: signUpReducer,
-    scroll: scrollReducer
+    signUp: signUpReducer
 });
 
 const rootReducer = (state: any, action: any) => {

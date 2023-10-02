@@ -26,7 +26,6 @@ import {
 } from '../services/bookingService';
 import { loadStripe } from '@stripe/stripe-js';
 import { Tooltip } from 'react-tooltip';
-import { isMobileDevice } from 'react-select/dist/declarations/src/utils';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY!);
 
@@ -39,7 +38,6 @@ interface IProps {
   clearEmptyBookings: () => void;
   tutorId: string;
   tutorDisabled: boolean | undefined;
-  topOffset: number;
 }
 
 interface Values {
@@ -50,7 +48,7 @@ interface Values {
 }
 
 const ParentCalendarSlots: React.FC<IProps> = (props) => {
-  const { topOffset, start, end, handleClose, positionClass, setSidebarOpen, tutorDisabled } = props;
+  const { start, end, handleClose, positionClass, setSidebarOpen, tutorDisabled } = props;
 
   const tutorId = props.tutorId;
 
@@ -253,13 +251,8 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     formik.setFieldValue('timeFrom', moment(start).format('HH:mm'));
   }, [start]);
 
-
-  const isMobile = window.innerWidth < 776;
-  const mobileStyles = isMobile? { top: `${topOffset}px` } : {};
-
   return (
-
-    <div style={mobileStyles} className={`modal--parent modal--parent--${isMobile ? '' : positionClass}`}>
+    <div className={`modal--parent modal--parent--${positionClass}`}>
       <div className="modal--parent__header">
         <div className="flex flex--primary">
           <div>

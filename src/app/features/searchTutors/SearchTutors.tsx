@@ -22,8 +22,6 @@ import getUrlParams from '../../utils/getUrlParams';
 import PriceSort from './components/PriceSort';
 import TutorItem from './components/TutorItem';
 import ITutorItem from '../../../interfaces/ITutorItem';
-import { isMobileDevice } from 'react-select/dist/declarations/src/utils';
-import { TutorItemMobile } from './components/TutorItemMobile';
 
 interface Values {
     subject: string;
@@ -382,8 +380,7 @@ const SearchTutors = () => {
     }, [timeOfDayArray]);
 
 
-  const isMobile = window.innerWidth < 1200;
-  return (
+    return (
         <MainWrapper>
             <div onScroll={(e) => debouncedScrollHandler(e.target)} className="card--secondary" ref={cardRef}>
                 {/* <button
@@ -459,13 +456,7 @@ const SearchTutors = () => {
                                 <LoaderTutor />
                             </div>
                         ) : loadedTutorItems.length > 0 ? (
-                            loadedTutorItems.map((tutor) =>
-                              isMobile ?
-                              <TutorItemMobile key={tutor.id} tutor={tutor}/>
-                                :
-                              <TutorItem key={tutor.id} tutor={tutor} />
-
-                            )
+                            loadedTutorItems.map((tutor) => <TutorItem key={tutor.id} tutor={tutor} />)
                         ) : (
                             <div className="tutor-list__no-results">
                                 <h1 className="tutor-list__no-results__title">{t('SEARCH_TUTORS.NO_RESULT.TITLE')}</h1>

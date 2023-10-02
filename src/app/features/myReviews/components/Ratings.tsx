@@ -3,7 +3,6 @@ import { reverse } from 'lodash';
 import { FC, useEffect, useState } from 'react';
 
 import ITutorStatisticsResult from '../interfaces/ITutorStatisticsResult';
-import { AiFillStar } from 'react-icons/ai';
 
 interface Props {
     ratings: ITutorStatisticsResult[];
@@ -40,9 +39,8 @@ const Ratings: FC<Props> = (props: Props) => {
                 statisticsPlaceholder.map((item: ITutorStatisticsResult, index: number) => {
                     return (
                         <div key={index} className="rating__item">
-                            <div className="mr-3 flex flex--row flex--ai--center">
-                              {item.mark}
-                              <AiFillStar/>
+                            <div className="mr-3">
+                                {t('MY_REVIEWS.STAR.' + item.mark)}
                             </div>
                             <div className="flex flex--center">
                                 <div className="rating__progress">
