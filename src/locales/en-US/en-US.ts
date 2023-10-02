@@ -804,6 +804,7 @@ export const EN_US = {
         PRE12: 'Pre 12 pm',
         ON12: '12 - 5 pm',
         AFTER5: 'After 5 pm',
+        REVIEWS: 'reviews'
     },
     LANDING: {
         HEADER: {

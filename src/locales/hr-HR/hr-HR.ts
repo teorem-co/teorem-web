@@ -803,6 +803,7 @@ export const HR_HR = {
         PRE12: '08-12h',
         ON12: '12-17h',
         AFTER5: '17-20h',
+        REVIEWS: 'recenzija'
     },
     LANDING: {
         HEADER: {

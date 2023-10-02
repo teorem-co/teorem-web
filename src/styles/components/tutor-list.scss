@@ -22,7 +22,7 @@ $tutor-list-details-width: 264px;
             width: $tutor-list-img-width;
             flex-shrink: 0;
             @media (max-width: $responsive-md) {
-              width: 0;
+              //width: 0;
             }
             img {
                 width: 154px;

@@ -222,7 +222,6 @@ const TutorProfile = () => {
                         <div className="card--secondary__head text-align--center flex--wrap flex--col flex--ai--center w--100">
 
                           <div className="flex flex--row flex--ai--center flex--jc--space-between w--100 mb-5">
-                            <div className='flex flex--jc--space-between flex--jc--center'>
                               <div className="tutor-list__item__img">
                                 {tutorData.User?.profileImage ? (
                                   <img
@@ -241,9 +240,8 @@ const TutorProfile = () => {
                                   />
                                 )}
                               </div>
-                            </div>
 
-                            <div className="flex flex--col w--50">
+                            <div className="flex flex--col w--80">
                               <div className="d--b type--md type--wgt--bold text-align--center type--break">
                                 {tutorData ? `${tutorData.User.firstName} ${tutorData.User.lastName}` : 'Go back'}
                               </div>
@@ -253,18 +251,18 @@ const TutorProfile = () => {
 
                           <div className="flex flex--row w--100 flex--jc--center flex--ai--center flex--gap-30 type--sm">
                             {
-                              tutorData.averageGrade && (tutorData.averageGrade > 0) ?
-                                <div className="flex flex--center tag tag--primary">
-                                  <i className="icon icon--star icon--base icon--primary"></i>
-                                  <span className="d--ib">
-                                  {tutorData.averageGrade ? tutorData.averageGrade.toFixed(1) : 0}
-                                  </span>
-                                </div>
-                                :
+                              <div className="flex flex--center tag tag--primary">
+                                <i className="icon icon--star icon--base icon--primary"></i>
+                                <span className="d--ib">
+                                  {tutorData.averageGrade && tutorData.numberOfReviews && (tutorData.averageGrade > 0) ?
+                                    tutorData.averageGrade ? tutorData.averageGrade.toFixed(1) : 0
+                                      + `(${tutorData.numberOfReviews} ${t('TUTOR_PROFILE.REVIEWS')} )`
+                                    :
+                                    t('SEARCH_TUTORS.NO_REVIEWS')
+                                  }
 
-                                <span><i>{t('SEARCH_TUTORS.NO_REVIEWS')}</i></span>
-                              // null
-
+                                </span>
+                              </div>
                             }
 
                             <div className="flex flex--center tag tag--primary">
@@ -298,9 +296,9 @@ const TutorProfile = () => {
                           </div>
 
 
-                          <div className="p-0 tutor-list__item__details border-none flex flex--col type--sm flex--ai--center">
+                          <div className="p-0 tutor-list__item__details border-none flex flex--col type--sm flex--ai--center w--100">
 
-                            <div className="flex flex--col profile-btn-container flex--jc--center ">
+                            <div className="flex flex--row profile-btn-container flex--jc--center w--100">
                               {userRole !== RoleOptions.Tutor && (
                                 <>
                                   {tutorData.disabled ?
@@ -319,7 +317,7 @@ const TutorProfile = () => {
                                   }
 
                                   <Link
-                                    className="btn btn--base btn--ghost type--center flex flex--center flex--jc--center mt-2"
+                                    className="btn btn--base btn--ghost type--center flex flex--center flex--jc--center ml-2"
                                     onClick={() => createNewChat()}
                                     to={PATHS.CHAT}
                                   >
@@ -352,8 +350,8 @@ const TutorProfile = () => {
                                 {tutorData.User?.profileImage ? (
                                   <img
                                     style={{
-                                      width: '120px',
-                                      height: '120px'
+                                      width: '160px',
+                                      height: '160px'
                                     }}
                                     className="align--center d--b"
                                     src={`${tutorData.User.profileImage}&v=${cacheBuster}`}
@@ -433,18 +431,19 @@ const TutorProfile = () => {
 
                         <div className="flex flex--row w--100 flex--jc--center flex--ai--center flex--gap-30">
                           {
-                            tutorData.averageGrade && (tutorData.averageGrade > 0) ?
+
                               <div className="flex flex--center tag tag--primary">
                                 <i className="icon icon--star icon--base icon--primary"></i>
                                 <span className="d--ib">
-                                {tutorData.averageGrade ? tutorData.averageGrade.toFixed(1) : 0}
+                                  {tutorData.averageGrade && tutorData.numberOfReviews && (tutorData.averageGrade > 0) ?
+                                    tutorData.averageGrade ? tutorData.averageGrade.toFixed(1) : 0
+                                    + `(${tutorData.numberOfReviews} ${t('TUTOR_PROFILE.REVIEWS')} )`
+                                    :
+                                    t('SEARCH_TUTORS.NO_REVIEWS')
+                                  }
+
                                 </span>
                               </div>
-                              :
-
-                              <span><i>{t('SEARCH_TUTORS.NO_REVIEWS')}</i></span>
-                              // null
-
                           }
 
                           <div className="flex flex--center tag tag--primary">
