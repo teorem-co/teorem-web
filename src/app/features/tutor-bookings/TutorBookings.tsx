@@ -51,7 +51,6 @@ import {
 } from '../my-profile/services/tutorAvailabilityService';
 import { InformationCard } from '../../components/InformationCard';
 import { CustomToolbar } from '../my-bookings/CustomToolbar';
-import ScrollContext from '../../components/ScrollContext';
 
 interface IBookingTransformed {
   id: string;
@@ -335,7 +334,6 @@ const TutorBookings = () => {
       const boundsTop = e.bounds?.top <= 300 ? e.bounds?.top + 500 : e.bounds?.top;
       setScrollTopOffset(topOffset + boundsTop  - 350);
     }
-
     const existingBooking =
       existingBookings && existingBookings.filter((date) => moment(date.start).format('YYYY/MM/DD') === moment(e.start).format('YYYY/MM/DD'));
 
@@ -759,7 +757,6 @@ const TutorBookings = () => {
     onChange(date);
     setCalChange(!calChange);
   }
-
 
 
   return (
