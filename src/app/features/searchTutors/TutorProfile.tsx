@@ -32,6 +32,7 @@ import {
 } from '../myReviews/services/myReviewsService';
 import ImageCircle from '../../components/ImageCircle';
 import PublicTutorProfile from "./PublicTutorProfile";
+import { t } from 'i18next';
 
 const TutorProfile = () => {
     const { t } = useTranslation();
@@ -215,17 +216,281 @@ const TutorProfile = () => {
               <>
                 <div>
                   <div onScroll={(e: any) => debouncedScrollHandler(e.target)} className="card--secondary card--secondary--alt">
-                    <div className="card--secondary__head">
-                      <div className="flex flex--center">
-                        <Link to={PATHS.SEARCH_TUTORS}>
-                          <div>
-                            <i className="icon icon--base icon--chevron-left icon--black"></i>
+                    <div className='flex flex--col flex--jc--center'>
+                      {isMobile ?
+                        /** mobile component **/
+                        <div className="card--secondary__head text-align--center flex--wrap flex--col flex--ai--center w--100">
+
+                          <div className="flex flex--row flex--ai--center flex--jc--space-between w--100 mb-5">
+                            <div className='flex flex--jc--space-between flex--jc--center'>
+                              <div className="tutor-list__item__img">
+                                {tutorData.User?.profileImage ? (
+                                  <img
+                                    style={{
+                                      width: '120px',
+                                      height: '120px'
+                                    }}
+                                    className="align--center d--b"
+                                    src={`${tutorData.User.profileImage}&v=${cacheBuster}`}
+                                    alt="tutor-profile-pic" />
+                                ) : (
+                                  <ImageCircle
+                                    className="align--center d--b mb-4"
+                                    imageBig={true}
+                                    initials={`${tutorData.User?.firstName.charAt(0)}${tutorData.User?.lastName.charAt(0)}`}
+                                  />
+                                )}
+                              </div>
+                            </div>
+
+                            <div className="flex flex--col w--50">
+                              <div className="d--b type--md type--wgt--bold text-align--center type--break">
+                                {tutorData ? `${tutorData.User.firstName} ${tutorData.User.lastName}` : 'Go back'}
+                              </div>
+                              <div className="type--color--brand type--sm type--center type--break">{tutorData.currentOccupation}</div>
+                            </div>
                           </div>
-                        </Link>
-                        <div className="type--lg type--wgt--bold ml-4">
-                          {tutorData ? `${tutorData.User.firstName} ${tutorData.User.lastName}` : 'Go back'}
+
+                          <div className="flex flex--row w--100 flex--jc--center flex--ai--center flex--gap-30 type--sm">
+                            {
+                              tutorData.averageGrade && (tutorData.averageGrade > 0) ?
+                                <div className="flex flex--center tag tag--primary">
+                                  <i className="icon icon--star icon--base icon--primary"></i>
+                                  <span className="d--ib">
+                                  {tutorData.averageGrade ? tutorData.averageGrade.toFixed(1) : 0}
+                                  </span>
+                                </div>
+                                :
+
+                                <span><i>{t('SEARCH_TUTORS.NO_REVIEWS')}</i></span>
+                              // null
+
+                            }
+
+                            <div className="flex flex--center tag tag--primary">
+                              <div className=" flex flex--center">
+                                <i className="icon icon--completed-lessons icon--base icon--primary"></i>
+                                <span className="d--ib mr-1">
+                                  {tutorData.completedLessons ? tutorData.completedLessons : 0}
+                                </span>
+                              </div>
+
+                              <span> {t('SEARCH_TUTORS.COMPLETED_LESSONS')}</span>
+                            </div>
+                          </div>
+
+                          <div className="flex flex--center mt-6 ">
+                            <i className="icon icon--pricing icon--md icon--grey"></i>
+                            {tutorData.minimumPrice ? (
+                              <span className="d--ib ml-4 type--md">
+                                  {tutorData.minimumPrice} {tutorData.User.Country.currencyCode}
+                                {tutorData.minimumPrice !== tutorData.maximumPrice && (
+                                  <>
+                                    &nbsp;-&nbsp;
+                                    {tutorData.maximumPrice} {tutorData.User.Country.currencyCode}
+                                  </>
+                                )}
+                                &nbsp;/hr
+                                </span>
+                            ) : (
+                              <span className="d--ib ml-4">There is no price</span>
+                            )}
+                          </div>
+
+
+                          <div className="p-0 tutor-list__item__details border-none flex flex--col type--sm flex--ai--center">
+
+                            <div className="flex flex--col profile-btn-container flex--jc--center ">
+                              {userRole !== RoleOptions.Tutor && (
+                                <>
+                                  {tutorData.disabled ?
+
+                                    <button
+                                      disabled={tutorData.disabled}
+                                      className="btn btn--lg btn--primary type--center"
+                                    >{t('TUTOR_PROFILE.TUTOR_DISABLED')}</button>
+                                    :
+                                    <Link
+                                      className="btn btn--base btn--primary type--center"
+                                      to={tutorPath}
+                                    >
+                                      {t('TUTOR_PROFILE.BOOK')}
+                                    </Link>
+                                  }
+
+                                  <Link
+                                    className="btn btn--base btn--ghost type--center flex flex--center flex--jc--center mt-2"
+                                    onClick={() => createNewChat()}
+                                    to={PATHS.CHAT}
+                                  >
+                                    {createChatLoading && <LoaderPrimary small={true} />}
+                                    <span>{t('TUTOR_PROFILE.SEND')}</span>
+                                  </Link>
+                                </>
+                              )}
+                            </div>
+                          </div>
                         </div>
+                        // end of mobile component
+
+                        :
+                        /** desktop component **/
+                        <div className="card--secondary__head text-align--center flex--wrap flex--col flex--ai--center w--100">
+                        <div className='flex flex--row flex--jc--space-between w--100 flex--ai--center'>
+
+                          <div className="w--260 flex flex--row flex--ai--center flex--jc--center ">
+                            {!isMobile &&
+                              <Link to={PATHS.SEARCH_TUTORS}>
+                                <div>
+                                  <i className="icon icon--lg icon--chevron-left icon--black"></i>
+                                </div>
+                              </Link>
+                            }
+
+                            <div className='flex flex--jc--space-between flex--jc--center'>
+                              <div className="tutor-list__item__img">
+                                {tutorData.User?.profileImage ? (
+                                  <img
+                                    style={{
+                                      width: '120px',
+                                      height: '120px'
+                                    }}
+                                    className="align--center d--b"
+                                    src={`${tutorData.User.profileImage}&v=${cacheBuster}`}
+                                    alt="tutor-profile-pic" />
+                                ) : (
+                                  <ImageCircle
+                                    className="align--center d--b mb-4"
+                                    imageBig={true}
+                                    initials={`${tutorData.User?.firstName.charAt(0)}${tutorData.User?.lastName.charAt(0)}`}
+                                  />
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="w--260 flex--col">
+                            <div className="d--b type--lg type--wgt--bold text-align--center type--break">
+                              {tutorData ? `${tutorData.User.firstName} ${tutorData.User.lastName}` : 'Go back'}
+                            </div>
+
+                            <div className="type--color--brand type--sm type--center type--break">{tutorData.currentOccupation}</div>
+                          </div>
+                          <div className="w--260 p-0 tutor-list__item__details border-none flex flex--row type--sm flex--jc--center">
+
+                          <div className="flex--grow">
+
+                            <div className="flex flex--center mt-2 mb-4">
+                              <i className="icon icon--pricing icon--md icon--grey"></i>
+                              {tutorData.minimumPrice ? (
+                                <span className="d--ib ml-4 type--md type--wgt--extra-bold">
+                                  {tutorData.minimumPrice} {tutorData.User.Country.currencyCode}
+                                  {tutorData.minimumPrice !== tutorData.maximumPrice && (
+                                    <>
+                                      &nbsp;-&nbsp;
+                                      {tutorData.maximumPrice} {tutorData.User.Country.currencyCode}
+                                    </>
+                                  )}
+                                  &nbsp;/hr
+                                </span>
+                              ) : (
+                                <span className="d--ib ml-4">There is no price</span>
+                              )}
+                            </div>
+
+                            <div className="flex flex--col profile-btn-container flex--jc--center ">
+                              {userRole !== RoleOptions.Tutor && (
+                                <>
+                                  {tutorData.disabled ?
+
+                                    <button
+                                      disabled={tutorData.disabled}
+                                      className="btn btn--lg btn--primary type--center"
+                                    >{t('TUTOR_PROFILE.TUTOR_DISABLED')}</button>
+                                    :
+                                    <Link
+                                      className="btn btn--base btn--primary type--center"
+                                      to={tutorPath}
+                                    >
+                                      {t('TUTOR_PROFILE.BOOK')}
+                                    </Link>
+                                  }
+
+                                  <Link
+                                    className="btn btn--base btn--ghost type--center flex flex--center flex--jc--center mt-2"
+                                    onClick={() => createNewChat()}
+                                    to={PATHS.CHAT}
+                                  >
+                                    {createChatLoading && <LoaderPrimary small={true} />}
+                                    <span>{t('TUTOR_PROFILE.SEND')}</span>
+                                  </Link>
+                                </>
+                              )}
+                            </div>
+
+                          </div>
+                        </div>
+                        </div>
+
+                        <div className="flex flex--row w--100 flex--jc--center flex--ai--center flex--gap-30">
+                          {
+                            tutorData.averageGrade && (tutorData.averageGrade > 0) ?
+                              <div className="flex flex--center tag tag--primary">
+                                <i className="icon icon--star icon--base icon--primary"></i>
+                                <span className="d--ib">
+                                {tutorData.averageGrade ? tutorData.averageGrade.toFixed(1) : 0}
+                                </span>
+                              </div>
+                              :
+
+                              <span><i>{t('SEARCH_TUTORS.NO_REVIEWS')}</i></span>
+                              // null
+
+                          }
+
+                          <div className="flex flex--center tag tag--primary">
+                            <div className=" flex flex--center">
+                              <i className="icon icon--completed-lessons icon--base icon--primary"></i>
+                              <span className="d--ib mr-1">
+                                {tutorData.completedLessons ? tutorData.completedLessons : 0}
+                              </span>
+                            </div>
+
+                            <span> {t('SEARCH_TUTORS.COMPLETED_LESSONS')}</span>
+                          </div>
+                        </div>
+
+                        {/*<div className="flex flex--row profile-btn-container flex--jc--center">*/}
+                        {/*  {userRole !== RoleOptions.Tutor && (*/}
+                        {/*    <>*/}
+                        {/*      {tutorData.disabled ?*/}
+
+                        {/*        <button*/}
+                        {/*          disabled={tutorData.disabled}*/}
+                        {/*          className="btn btn--lg btn--primary type--center w--50"*/}
+                        {/*        >{t('TUTOR_PROFILE.TUTOR_DISABLED')}</button>*/}
+                        {/*        :*/}
+                        {/*        <Link*/}
+                        {/*          className="btn btn--base btn--primary type--center w--50"*/}
+                        {/*          to={tutorPath}*/}
+                        {/*        >*/}
+                        {/*          {t('TUTOR_PROFILE.BOOK')}*/}
+                        {/*        </Link>*/}
+                        {/*      }*/}
+
+                        {/*      <Link*/}
+                        {/*        className="btn btn--base btn--ghost ml-4 type--center flex flex--center flex--jc--center w--50"*/}
+                        {/*        onClick={() => createNewChat()}*/}
+                        {/*        to={PATHS.CHAT}*/}
+                        {/*      >*/}
+                        {/*        {createChatLoading && <LoaderPrimary small={true} />}*/}
+                        {/*        <span>{t('TUTOR_PROFILE.SEND')}</span>*/}
+                        {/*      </Link>*/}
+                        {/*    </>*/}
+                        {/*  )}*/}
+                        {/*</div>*/}
                       </div>
+                        //   end of desktop component
+                      }
                     </div>
                     <div className="card--secondary__body">
                       <div className="mb-10">
@@ -364,92 +629,90 @@ const TutorProfile = () => {
                     </div>
                   </div>
                 </div>
-                <div>
-                  <div className="card--primary p-4 pt-6">
-                    <div className="tutor-list__item__img align--center">
-                      {tutorData.User?.profileImage ? (
-                        <img
-                          className="align--center d--b mb-4"
-                          src={`${tutorData.User.profileImage}&v=${cacheBuster}`}
-                          alt="tutor-profile-pic" />
-                      ) : (
-                        <ImageCircle
-                          className="align--center d--b mb-4"
-                          imageBig={true}
-                          initials={`${tutorData.User?.firstName.charAt(0)}${tutorData.User?.lastName.charAt(0)}`}
-                        />
-                      )}
+                  {/*<div className="card--primary p-4 pt-6">*/}
+                  {/*  <div className="tutor-list__item__img align--center">*/}
+                  {/*    {tutorData.User?.profileImage ? (*/}
+                  {/*      <img*/}
+                  {/*        className="align--center d--b mb-4"*/}
+                  {/*        src={`${tutorData.User.profileImage}&v=${cacheBuster}`}*/}
+                  {/*        alt="tutor-profile-pic" />*/}
+                  {/*    ) : (*/}
+                  {/*      <ImageCircle*/}
+                  {/*        className="align--center d--b mb-4"*/}
+                  {/*        imageBig={true}*/}
+                  {/*        initials={`${tutorData.User?.firstName.charAt(0)}${tutorData.User?.lastName.charAt(0)}`}*/}
+                  {/*      />*/}
+                  {/*    )}*/}
 
 
-                    </div>
-                    <div className="type--md type--center mb-1">
-                      {tutorData.User.firstName}&nbsp;
-                      {tutorData.User.lastName}
-                    </div>
-                    <div className="type--color--brand type--center type--break">{tutorData.currentOccupation}</div>
-                    <div className="mt-10 mb-10">
-                      <div className="flex--primary mb-3">
-                        <div>
-                          <i className="icon icon--pricing icon--base icon--grey"></i>
-                          <span className="d--ib ml-2 type--color--secondary">{t('TUTOR_PROFILE.PRICING')}:</span>
-                        </div>
-                        <span className="d--ib ml-4">
-                                            {/* Add later */}{tutorData.minimumPrice}
-                          &nbsp;-&nbsp;
-                          {tutorData.maximumPrice}&nbsp; {tutorData.User.Country.currencyCode} /{t('TUTOR_PROFILE.SUBJECTS.HOUR_ABRV')}
-                                        </span>
-                      </div>
-                      <div className="flex--primary mb-3">
-                        <div>
-                          <i className="icon icon--star icon--base icon--grey"></i>
-                          <span className="d--ib ml-2 type--color--secondary">{t('TUTOR_PROFILE.RATING_TITLE')}:</span>
-                        </div>
+                  {/*  </div>*/}
+                  {/*  <div className="type--md type--center mb-1">*/}
+                  {/*    {tutorData.User.firstName}&nbsp;*/}
+                  {/*    {tutorData.User.lastName}*/}
+                  {/*  </div>*/}
+                  {/*  <div className="type--color--brand type--center type--break">{tutorData.currentOccupation}</div>*/}
+                  {/*  <div className="mt-10 mb-10">*/}
+                  {/*    <div className="flex--primary mb-3">*/}
+                  {/*      <div>*/}
+                  {/*        <i className="icon icon--pricing icon--base icon--grey"></i>*/}
+                  {/*        <span className="d--ib ml-2 type--color--secondary">{t('TUTOR_PROFILE.PRICING')}:</span>*/}
+                  {/*      </div>*/}
+                  {/*      <span className="d--ib ml-4">*/}
+                  {/*                          /!* Add later *!/{tutorData.minimumPrice}*/}
+                  {/*        &nbsp;-&nbsp;*/}
+                  {/*        {tutorData.maximumPrice}&nbsp; {tutorData.User.Country.currencyCode} /{t('TUTOR_PROFILE.SUBJECTS.HOUR_ABRV')}*/}
+                  {/*                      </span>*/}
+                  {/*    </div>*/}
+                  {/*    <div className="flex--primary mb-3">*/}
+                  {/*      <div>*/}
+                  {/*        <i className="icon icon--star icon--base icon--grey"></i>*/}
+                  {/*        <span className="d--ib ml-2 type--color--secondary">{t('TUTOR_PROFILE.RATING_TITLE')}:</span>*/}
+                  {/*      </div>*/}
 
-                        <span className="d--ib ml-4">
-                                            {/* Add later */}
-                          {tutorData.averageGrade ? tutorData.averageGrade.toFixed(1) : 0}
-                                        </span>
-                      </div>
-                      <div className="flex--primary">
-                        <div>
-                          <i className="icon icon--completed-lessons icon--base icon--grey"></i>
-                          <span className="d--ib ml-2 type--color--secondary">{t('TUTOR_PROFILE.COMPLETED_LESSONS')}:</span>
-                        </div>
-                        <span className="d--ib ml-4">
-                                            {/* Add later */}
-                          {tutorData.completedLessons}
-                                        </span>
-                      </div>
-                    </div>
-                    {userRole !== RoleOptions.Tutor && (
-                      <>
-                        {tutorData.disabled ?
+                  {/*      <span className="d--ib ml-4">*/}
+                  {/*                          /!* Add later *!/*/}
+                  {/*        {tutorData.averageGrade ? tutorData.averageGrade.toFixed(1) : 0}*/}
+                  {/*                      </span>*/}
+                  {/*    </div>*/}
+                  {/*    <div className="flex--primary">*/}
+                  {/*      <div>*/}
+                  {/*        <i className="icon icon--completed-lessons icon--base icon--grey"></i>*/}
+                  {/*        <span className="d--ib ml-2 type--color--secondary">{t('TUTOR_PROFILE.COMPLETED_LESSONS')}:</span>*/}
+                  {/*      </div>*/}
+                  {/*      <span className="d--ib ml-4">*/}
+                  {/*                          /!* Add later *!/*/}
+                  {/*        {tutorData.completedLessons}*/}
+                  {/*                      </span>*/}
+                  {/*    </div>*/}
+                  {/*  </div>*/}
+                  {/*  {userRole !== RoleOptions.Tutor && (*/}
+                  {/*    <>*/}
+                  {/*      {tutorData.disabled ?*/}
 
-                          <button
-                            disabled={tutorData.disabled}
-                            className="btn btn--base btn--primary w--100 mb-4 type--center"
-                          >{t('TUTOR_PROFILE.TUTOR_DISABLED')}</button>
-                          :
-                          <Link
-                            className="btn btn--base btn--primary w--100 mb-4 type--center"
-                            to={tutorPath}
-                          >
-                            {t('TUTOR_PROFILE.BOOK')}
-                          </Link>
-                        }
+                  {/*        <button*/}
+                  {/*          disabled={tutorData.disabled}*/}
+                  {/*          className="btn btn--base btn--primary w--100 mb-4 type--center"*/}
+                  {/*        >{t('TUTOR_PROFILE.TUTOR_DISABLED')}</button>*/}
+                  {/*        :*/}
+                  {/*        <Link*/}
+                  {/*          className="btn btn--base btn--primary w--100 mb-4 type--center"*/}
+                  {/*          to={tutorPath}*/}
+                  {/*        >*/}
+                  {/*          {t('TUTOR_PROFILE.BOOK')}*/}
+                  {/*        </Link>*/}
+                  {/*      }*/}
 
-                        <Link
-                          className="btn btn--base btn--ghost w--100 type--center flex flex--center flex--jc--center"
-                          onClick={() => createNewChat()}
-                          to={PATHS.CHAT}
-                        >
-                          {createChatLoading && <LoaderPrimary small={true} />}
-                          <span>{t('TUTOR_PROFILE.SEND')}</span>
-                        </Link>
-                      </>
-                    )}
-                  </div>
-                </div>
+                  {/*      <Link*/}
+                  {/*        className="btn btn--base btn--ghost w--100 type--center flex flex--center flex--jc--center"*/}
+                  {/*        onClick={() => createNewChat()}*/}
+                  {/*        to={PATHS.CHAT}*/}
+                  {/*      >*/}
+                  {/*        {createChatLoading && <LoaderPrimary small={true} />}*/}
+                  {/*        <span>{t('TUTOR_PROFILE.SEND')}</span>*/}
+                  {/*      </Link>*/}
+                  {/*    </>*/}
+                  {/*  )}*/}
+                  {/*</div>*/}
               </>
             ) : (
               <div className="type--wgt--bold type--lg mt-5 ml-5">{t('TUTOR_PROFILE.EMPTY')}</div>

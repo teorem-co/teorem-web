@@ -39,6 +39,12 @@
             backdrop-filter: blur(20px);
             background-color: rgba(255, 255, 255, 0.8);
 
+            @media (max-width: $responsive-md) {
+              justify-content: center;
+              padding: calc(#{$unit} * 6) calc(#{$unit} * 4);
+            }
+
+
             &--search-tutor {
                 @media (max-width: $responsive-xl) {
                     flex-direction: column;
