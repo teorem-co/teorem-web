@@ -127,6 +127,7 @@ export const HR_HR = {
         RESET_FILTER: 'Resetiraj pretragu',
         TUTOR_AVAILABLE: 'Dostupni instruktori',
         COMPLETED_LESSONS: 'završenih lekcija',
+        NO_REVIEWS: 'Još nema recenzija',
         SUBJECT_LIST: {
             MORE: 'više',
         },
@@ -136,6 +137,7 @@ export const HR_HR = {
         },
         NOT_FILLED: 'Ovi podatci još nisu ispunjeni',
         YEARS_OF_EXPERIENCE: 'Godine iskustva: ',
+        NUMBER_OF_REVIEWS: 'ocjena',
         TUTOR_PROFILE: {
             ABOUT_ME: 'O meni',
             ABOUT_TEACHINGS: 'O mojim predavanjima',
@@ -801,6 +803,7 @@ export const HR_HR = {
         PRE12: '08-12h',
         ON12: '12-17h',
         AFTER5: '17-20h',
+        REVIEWS: 'recenzija'
     },
     LANDING: {
         HEADER: {

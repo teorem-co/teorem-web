@@ -136,6 +136,8 @@ export const EN_US = {
         },
         NOT_FILLED: 'This information is not filled out yet',
         YEARS_OF_EXPERIENCE: 'Years of experience: ',
+        NUMBER_OF_REVIEWS: 'reviews',
+        NO_REVIEWS: 'No reviews yet',
         TUTOR_PROFILE: {
             ABOUT_ME: 'About me',
             ABOUT_TEACHINGS: 'About subjects',
@@ -802,6 +804,7 @@ export const EN_US = {
         PRE12: 'Pre 12 pm',
         ON12: '12 - 5 pm',
         AFTER5: 'After 5 pm',
+        REVIEWS: 'reviews'
     },
     LANDING: {
         HEADER: {

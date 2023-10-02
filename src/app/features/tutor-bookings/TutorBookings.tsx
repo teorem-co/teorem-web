@@ -1,8 +1,8 @@
 import { Form, FormikProvider, useFormik } from 'formik';
 import i18n, { t } from 'i18next';
-import { uniqBy } from 'lodash';
+import { debounce, uniqBy } from 'lodash';
 import moment from 'moment';
-import { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import {
   Calendar as BigCalendar,
   momentLocalizer,
@@ -75,6 +75,9 @@ interface ICoords {
 }
 
 const TutorBookings = () => {
+  const [scrollTopOffset, setScrollTopOffset] = useState<number>(0);
+  const scrollState = useAppSelector((state) => state.scroll);
+  const {topOffset} = scrollState;
   const [getTutorBookings, { data: tutorBookings, isLoading: isLoadingTutorBookings }] = useLazyGetTutorBookingsQuery();
   const [getTutorUnavailableBookings, { data: unavailableBookings, isLoading: isLoadingUnavailableBookings }] = useLazyGetUnavailableBookingsQuery();
   const [getTutorData, { data: tutorData }] = useLazyGetTutorByTutorSlugQuery({
@@ -323,7 +326,14 @@ const TutorBookings = () => {
     return <i className="icon icon--base icon--chevron-right"></i>;
   };
 
+
   const slotSelect = (e: SlotInfo) => {
+
+    //calculating offset for modal
+    if(e.bounds?.bottom){
+      const boundsTop = e.bounds?.top <= 300 ? e.bounds?.top + 500 : e.bounds?.top;
+      setScrollTopOffset(topOffset + boundsTop  - 350);
+    }
     const existingBooking =
       existingBookings && existingBookings.filter((date) => moment(date.start).format('YYYY/MM/DD') === moment(e.start).format('YYYY/MM/DD'));
 
@@ -814,6 +824,7 @@ const TutorBookings = () => {
                 positionClass={calcModalPosition(positionClass)}
                 tutorId={tutorId}
                 tutorDisabled={tutorData.disabled}
+                topOffset={scrollTopOffset}
               />
             ) : openEventDetails ? (
               //opening booking details
@@ -826,6 +837,7 @@ const TutorBookings = () => {
                 handleClose={(e) => setOpenEventDetails(e)}
                 positionClass={calcModalPosition(positionClass)}
                 openLearnCube={() => setLearnCubeModal(true)}
+                topOffset={scrollTopOffset}
               />
             ) : openUpdateModal ? (
               <UpdateBooking
@@ -837,6 +849,7 @@ const TutorBookings = () => {
                 handleClose={(e: any) => setOpenUpdateModal(e)}
                 positionClass={calcModalPosition(positionClass)}
                 tutorId={tutorId}
+                topOffset={scrollTopOffset}
               />
             ) : (
               <></>

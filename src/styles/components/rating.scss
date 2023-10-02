@@ -16,6 +16,11 @@
         border-radius: $border-circle;
         background-color: $grey-ed;
         overflow: hidden;
+
+        @media (max-width: 1200px) {
+          width: 100px;
+        }
+
         &__bar {
             position: absolute;
             top: 0;

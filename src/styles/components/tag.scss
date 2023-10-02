@@ -6,7 +6,7 @@
     &--primary {
         background-color: $color-primary-lighter;
         color: $color-primary;
-        padding: calc(#{$unit} / 2) calc(#{$unit} * 4);
+        padding: calc(#{$unit} / 2) calc(#{$unit} * 2);
         border-radius: $border-rounded;
         margin-right: calc(#{$unit} * 2);
 

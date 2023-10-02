@@ -14,11 +14,12 @@ interface IProps {
     openLearnCube?: () => void;
     positionClass: string;
     event: IBooking | null;
+    topOffset?: number;
 }
 
 const TutorEventModal: React.FC<IProps> = (props) => {
     const ALLOWED_MINUTES_TO_JOIN_BEFORE_MEETING = 5;
-    const { handleClose, positionClass, event, openLearnCube } = props;
+    const { topOffset, handleClose, positionClass, event, openLearnCube } = props;
     const [acceptBooking] = useAcceptBookingMutation();
     const [deleteBooking] = useDeleteBookingMutation();
     const handleDeleteBooking = () => {
@@ -37,10 +38,14 @@ const TutorEventModal: React.FC<IProps> = (props) => {
     // you can't join more than 5 minutes before start OR after meeting has ended
     return !(moment(event.startTime).subtract(ALLOWED_MINUTES_TO_JOIN_BEFORE_MEETING, 'minutes').isBefore(moment()) && moment(event.endTime).isAfter(moment()));
   }
-    return (
+
+  const isMobile = window.innerWidth < 776;
+  const mobileStyles = isMobile? { top: `${topOffset}px` } : {};
+
+  return (
         <>
             {event ? (
-                <div className={`modal--parent modal--parent--${positionClass}`}>
+              <div  style={mobileStyles}  className={`modal--parent  modal--parent--${isMobile ? '' : positionClass}`}>
                     <div className="modal--parent__header">
                         <div className="flex flex--primary">
                             <div>
