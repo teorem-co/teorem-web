@@ -221,7 +221,7 @@ const TutorProfile = () => {
                         /** mobile component **/
                         <div className="card--secondary__head text-align--center flex--wrap flex--col flex--ai--center w--100">
 
-                          <div className="flex flex--row flex--ai--center flex--jc--space-between w--100 mb-5">
+                          <div className="flex flex--row flex--ai--center flex--jc--space-around w--100 mb-5">
                               <div className="tutor-list__item__img">
                                 {tutorData.User?.profileImage ? (
                                   <img
