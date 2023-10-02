@@ -50,6 +50,7 @@ import {
   useLazyGetTutorAvailabilityQuery,
 } from '../my-profile/services/tutorAvailabilityService';
 import { InformationCard } from '../../components/InformationCard';
+import { CustomToolbar } from '../my-bookings/CustomToolbar';
 
 interface IBookingTransformed {
   id: string;
@@ -314,14 +315,6 @@ const TutorBookings = () => {
     }
   };
 
-  // const CustomSlot = (e: any) => {
-  //     if (moment(e.value).isBefore(moment())) {
-  //     return <div style={{ backgroundColor: '#fcfcfc', width: '100%', height: '25px' }}></div>;
-  //     } else {
-  //         return e.children;
-  //     }
-  // };
-
   const PrevIcon = () => {
     return <i className="icon icon--base icon--chevron-left"></i>;
   };
@@ -331,8 +324,6 @@ const TutorBookings = () => {
   };
 
   const slotSelect = (e: SlotInfo) => {
-
-
     const existingBooking =
       existingBookings && existingBookings.filter((date) => moment(date.start).format('YYYY/MM/DD') === moment(e.start).format('YYYY/MM/DD'));
 
@@ -403,7 +394,7 @@ const TutorBookings = () => {
           userId: userId ? userId : '',
         },
       ]);
-      return CustomEvent(e.slots);
+      // return CustomEvent(e.slots);
     } else {
       setOpenSlot(false);
       setEmptyBookings([]);
@@ -751,6 +742,13 @@ const TutorBookings = () => {
     return moment(date).startOf('week').date();
   };
 
+  const isMobile = window.innerWidth < 767;
+  function onChangeDate(date: Date){
+    onChange(date);
+    setCalChange(!calChange);
+  }
+
+
   return (
     <MainWrapper>
       <div className="layout--primary">
@@ -779,11 +777,10 @@ const TutorBookings = () => {
                 timeGutterFormat: 'HH:mm',
               }}
               events={filteredBookings ? filteredBookings : []}
-              toolbar={false}
+              toolbar={true}
               date={value}
-              selectable={true}
-              onSelecting={() => false}
-              view="week"
+              onSelecting={() => true}
+              view={isMobile ? "day" : "week"}
               style={{ height: 'calc(100% - 84px)' }}
               startAccessor="start"
               endAccessor="end"
@@ -792,16 +789,19 @@ const TutorBookings = () => {
                   header: (date) => CustomHeader(date),
                 },
                 event: (event) => CustomEvent(event),
-                // timeSlotWrapper: (e) => CustomSlot(e),
+                toolbar: () =>
+                  (isMobile ? <CustomToolbar
+                    value={value}
+                    onChangeDate={onChangeDate} /> : null)
               }}
               scrollToTime={defaultScrollTime}
               showMultiDayTimes={true}
               step={15}
               timeslots={4}
-              longPressThreshold={10}
+              selectable={true}
+              longPressThreshold={50}
               onSelectSlot={(e) => (userRole === RoleOptions.Parent || userRole === RoleOptions.Student ? slotSelect(e) : null)}
               onSelectEvent={(e) => (userRole === RoleOptions.Parent || userRole === RoleOptions.Student ? handleSelectedEvent(e) : null)}
-              // onSelecting={(range: { start: ; end: 'test'; }) => false}
             />
             {openSlot ? (
               //creating new booking

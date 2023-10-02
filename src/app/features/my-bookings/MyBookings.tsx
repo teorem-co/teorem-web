@@ -2,11 +2,12 @@ import 'moment/locale/en-gb';
 
 import i18n, { t, use } from 'i18next';
 import moment from 'moment';
-import { useEffect, useRef, useState } from 'react';
+import { FunctionComponent, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Calendar as BigCalendar,
   momentLocalizer,
-  SlotInfo,
+  SlotInfo, View,
+  Views,
 } from 'react-big-calendar';
 import Calendar from 'react-calendar';
 import { useHistory } from 'react-router';
@@ -40,6 +41,9 @@ import { v4 as uuidv4 } from 'uuid';
 import ParentEventModal from './components/ParentEventModal';
 import UpdateBooking from './components/UpdateBooking';
 import { InformationCard } from '../../components/InformationCard';
+import { ToolbarProps } from '@mui/material';
+import { CustomToolbar } from './CustomToolbar';
+import { divide } from 'lodash';
 
 i18n.language !== 'en' && Array.from(languageOptions.map((l) => l.path)).includes(i18n.language) && require(`moment/locale/${i18n.language}.js`);
 
@@ -48,7 +52,7 @@ interface ICoords {
   y: number;
 }
 
-interface IBookingTransformed {
+export interface IBookingTransformed {
   id: string;
   label: string;
   start: Date;
@@ -92,7 +96,7 @@ const MyBookings: React.FC = (props: any) => {
   const localizer = momentLocalizer(moment);
   const positionClass = moment(selectedStart).format('dddd');
   const unavailablePositionClass = moment(selectedSlot).format('dddd');
-  const defaultScrollTime = new Date(new Date().setHours(7, 45, 0));
+  const defaultScrollTime = new Date(new Date().setHours(7, 0, 0));
   const highlightRef = useRef<HTMLDivElement>(null);
   const tileRef = useRef<HTMLDivElement>(null);
   const tileElement = tileRef.current as HTMLDivElement;
@@ -183,8 +187,8 @@ const MyBookings: React.FC = (props: any) => {
     setCalChange(true);
     return (
       <>
-        <div className="type--capitalize mb-2">{moment(date.date).format('dddd')}</div>
-        <div className="type--color--tertiary type--capitalize">{moment(date.date).format('DD MMM').replace('.', '')}</div>
+        <div className="type--capitalize mb-2">{moment(date.date).format(isMobile ? 'ddd' : 'dddd')}</div>
+        <div className="type--color--tertiary type--capitalize">{moment(date.date).format('DD.M')}</div>
       </>
     );
   };
@@ -255,6 +259,8 @@ const MyBookings: React.FC = (props: any) => {
   const handleSelectedEvent = (e: IBookingTransformed) => {
     setCurentlyActiveBooking(e.id);
     if (userRole === RoleOptions.Tutor) {
+      if(e.id ==='currentUnavailableItem') return;
+
       if (unavailableCurrentEvent.length > 0) {
         //close createNewUnavailability
         setOpenUnavailabilityModal(false);
@@ -304,6 +310,7 @@ const MyBookings: React.FC = (props: any) => {
   };
 
   const handleSelectedSlot = (e: SlotInfo) => {
+
     if (userRole === RoleOptions.Tutor) {
       setOpenEventDetails(false);
       setOpenUnavailabilityEditModal(false);
@@ -435,6 +442,14 @@ const MyBookings: React.FC = (props: any) => {
     setOpenTutorCalendarModal(false);
   };
 
+  const isMobile = window.innerWidth < 767;
+  const [view, setView] = useState<View>('week');
+
+  function onChangeDate(date: Date){
+    onChange(date);
+    setCalChange(!calChange);
+  }
+
   return (
     <MainWrapper>
       <div className="layout--primary">
@@ -449,34 +464,38 @@ const MyBookings: React.FC = (props: any) => {
                 &nbsp;{t('MY_BOOKINGS.NOTIFICATION_PART_2')}
               </div>
             </div>
+
             <BigCalendar
-              onSelecting={() => false}
-              localizer={localizer}
-              formats={{
-                timeGutterFormat: 'HH:mm',
-              }}
-              events={allBookings ? allBookings.concat(unavailableCurrentEvent) : []}
-              toolbar={false}
-              date={value}
-              view="week"
-              style={{ height: 'calc(100% - 84px)' }}
-              startAccessor="start"
-              endAccessor="end"
-              // selectable={true}
-              components={{
-                week: {
-                  header: (date) => CustomHeader(date),
-                },
-                event: (event) => CustomEvent(event),
-              }}
-              scrollToTime={defaultScrollTime}
-              showMultiDayTimes={true}
-              selectable={true}
-              step={15}
-              timeslots={4}
-              longPressThreshold={10}
-              onSelectSlot={(e) => handleSelectedSlot(e)}
-              onSelectEvent={(e) => handleSelectedEvent(e)}
+                // min={minTime}
+                // max={maxTime}
+                onSelecting={() => true}
+                localizer={localizer}
+               formats={{
+                 timeGutterFormat: 'HH:mm',
+               }}
+               events={allBookings ? allBookings.concat(unavailableCurrentEvent) : []}
+               toolbar={true}
+               date={value}
+               view= {isMobile ? "day" : "week"}
+               style={{ height: 'calc(100% - 84px)'}}
+               startAccessor="start"
+               endAccessor="end"
+               components={{
+                 header: (date) => CustomHeader(date),
+                 event: (event) => CustomEvent(event),
+                 toolbar: () =>
+                   (isMobile ? <CustomToolbar
+                     value={value}
+                     onChangeDate={onChangeDate} /> : null)
+               }}
+               scrollToTime={defaultScrollTime}
+               showMultiDayTimes={true}
+               step={15}
+               longPressThreshold={50}
+               selectable={true}
+               timeslots={4}
+               onSelectSlot={(e) => handleSelectedSlot(e)}
+               onSelectEvent={(e) => handleSelectedEvent(e)}
             />
             {openEventDetails ? (
               <TutorEventModal

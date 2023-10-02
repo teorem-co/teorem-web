@@ -595,6 +595,7 @@ export function RenderMenuLinks() {
   const [oldNumOfNewMessages, setoldNumOfNewMessages] = useState(chat.newMessages);
   // Function to trigger the badge pop-up animation
 
+  const  isMobile = window.innerWidth <1200;
 
   useEffect(() => {
     if(chat.newMessages){
@@ -660,7 +661,7 @@ export function RenderMenuLinks() {
                   :
                   <i className={`icon icon--base navbar__item__icon navbar__item--${route.icon}`}></i>
               }
-              <span className={`navbar__item__label`}>{t(`NAVIGATION.${route.name}`)}</span>
+              <span className={`navbar__item__label ${isMobile ? 'font__lg' : ''}`}>{t(`NAVIGATION.${route.name}`)}</span>
             </NavLink>
           )
         )}

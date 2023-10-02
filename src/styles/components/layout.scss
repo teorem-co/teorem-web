@@ -26,14 +26,18 @@ $mobile-height: 50px;
 
         @media (max-width: $responsive-md) {
             position: fixed;
+            visibility: hidden;
             top: 0;
             bottom: 0;
-            left: -100vw;
+            opacity: 0;
+            //left: 100vw;
             width: 100vw;
-            transition: left 300ms ease-in-out;
+            transition:  opacity 300ms ease-in-out;
 
             &.active {
-                left: 0;
+                //left: 0;
+              visibility: initial;
+                opacity: 1;
             }
 
             &__close {
@@ -48,21 +52,24 @@ $mobile-height: 50px;
         justify-content: space-between;
 
         height: $mobile-height;
-        padding: calc(#{$unit} * 4);
+        padding: calc(#{$unit} * 2);
         border-bottom: 1px solid $border-color;
 
-        background-color: $color-primary;
-        color: $white;
+        background-color: $white;
+        color: $black;
 
         @media (max-width: $responsive-md) {
             display: flex;
         }
+
+        z-index: 0;
     }
 
     &__main {
         position: relative;
         flex-grow: 1;
         height: 100vh;
+      width: 100vw;
         overflow-y: auto;
         background-color: $background-color;
 
@@ -116,7 +123,7 @@ $mobile-height: 50px;
     }
 
     &--primary {
-        padding: calc(#{$unit} * 6);
+        padding: calc(#{$unit} * 2);
         display: flex;
         height: 100%;
 
@@ -145,4 +152,9 @@ $mobile-height: 50px;
             }
         }
     }
+}
+
+.rbc-slot-selection{
+  background-color: red;
+  visibility: hidden;
 }
