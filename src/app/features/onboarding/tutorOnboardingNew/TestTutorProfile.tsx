@@ -32,7 +32,14 @@ import ImageCircle from "../../../components/ImageCircle";
 import {RoleOptions} from "../../../../slices/roleSlice";
 import LoaderPrimary from "../../../components/skeleton-loaders/LoaderPrimary";
 
-const TestTutorProfile = () => {
+type Props = {
+  occupation?: string;
+  yearsOfExperience?: string | null;
+  aboutTutor?: string;
+  aboutLessons?: string;
+};
+
+const TestTutorProfile = (props: Props) => {
   const {t} = useTranslation();
 
   const [getTutorProfileData, {
@@ -45,6 +52,7 @@ const TestTutorProfile = () => {
   const [pathTutorId, setPathTutorId] = useState('');
   const [tutorPath, setTutorPath] = useState('');
 
+  //TODO tutor data
   const tutorSlug = "Silvija.T43990";
 
   useEffect(() => {
@@ -256,7 +264,7 @@ const TestTutorProfile = () => {
                       className="type--color--brand type--center type--break"
                       style={{textAlign: "right", wordWrap: "break-word", marginLeft: "auto", float: "right"}}
                       dangerouslySetInnerHTML={{
-                        __html: breakTextAtWord(tutorData.currentOccupation, 25)
+                        __html: breakTextAtWord(props.occupation ? props.occupation : "", 25)
                       }}
                     ></div>
                   </div>
@@ -265,15 +273,15 @@ const TestTutorProfile = () => {
                       <div
                         className="type--wgt--bold mb-2">{t('SEARCH_TUTORS.TUTOR_PROFILE.ABOUT_ME')}</div>
                       <div className="type--color--secondary type--break">
-                        {tutorData ? tutorData.aboutTutor : <>{t('SEARCH_TUTORS.TUTOR_PROFILE.EMPTY_STATE_ABOUT')}</>}
+                        {props.aboutTutor ? props.aboutTutor : <>{t('SEARCH_TUTORS.TUTOR_PROFILE.EMPTY_STATE_ABOUT')}</>}
                       </div>
                     </div>
                     <div className="mb-10">
                       <div
                         className="type--wgt--bold mb-2">{t('SEARCH_TUTORS.TUTOR_PROFILE.ABOUT_TEACHINGS')}</div>
                       <div className="type--color--secondary type--break">
-                        {tutorData && tutorData.aboutLessons ? (
-                          tutorData.aboutLessons
+                        {props.aboutLessons ? (
+                          props.aboutLessons
                         ) : (
                           <>{t('SEARCH_TUTORS.TUTOR_PROFILE.EMPTY_STATE_LESSON')}</>
                         )}

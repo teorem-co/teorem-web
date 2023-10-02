@@ -26,6 +26,8 @@ type SubjectsProps ={
   backStep: () => void
 };
 
+//TODO: redesign like on TRM-93 image #2
+
 
 const SubjectsPage = ({ nextStep, backStep }:SubjectsProps) => {
 

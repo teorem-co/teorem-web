@@ -2,23 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useAppSelector } from '../../../hooks';
 import { useHistory } from 'react-router';
 
-import { AiOutlineClose, AiOutlineLeft } from 'react-icons/ai';
-import { t } from 'i18next';
 import logo from '../../../../assets/images/teorem_logo_purple.png';
 import { useDispatch } from 'react-redux';
 import {useMultistepForm} from "../../register/sign_up_rework/useMultiStepForm";
-import {
-  SignupThirdStep
-} from "../../register/sign_up_rework/tutor/SignupThirdStep";
-import {
-  SignupFinalStep
-} from "../../register/sign_up_rework/tutor/SignupFinalStep";
 import {PATHS} from "../../../routes";
-import CircularProgress from "../../my-profile/components/CircularProgress";
 import AvailabilityPage from "./AvailabilityPage";
 import SubjectsPage from "./SubjectsPage";
 import AdditionalInfoPage from "./AdditionalInfoPage";
 import PayoutsPage from "./PayoutsPage";
+import ImagePage from "./ImagePage";
 
 export function OnboardingTutor() {
   const state = useAppSelector((state) => state.onboarding);
@@ -54,7 +46,7 @@ export function OnboardingTutor() {
       <SubjectsPage nextStep={nextStep} backStep={backStep}/>,
       <AdditionalInfoPage nextStep={nextStep} backStep={backStep} />,
       <PayoutsPage nextStep={nextStep} backStep={backStep}/>,
-      <SignupFinalStep/>,
+      <ImagePage nextStep={nextStep} backStep={backStep}/>,
     ]);
 
   const dispatch = useDispatch();

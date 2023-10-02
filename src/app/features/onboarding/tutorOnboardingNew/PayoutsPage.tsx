@@ -9,10 +9,8 @@ import {
   useLazyGetTutorByIdQuery,
   useUpdateAditionalInfoMutation,
 } from '../../../../services/tutorService';
-import MyTextArea from '../../../components/form/MyTextArea';
 import TextField from '../../../components/form/TextField';
 import RouterPrompt from '../../../components/RouterPrompt';
-import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
 import {useAppDispatch, useAppSelector} from '../../../hooks';
 import toastService from '../../../services/toastService';
 import {getUserId} from '../../../utils/getUserId';
@@ -26,7 +24,8 @@ import TestTutorProfile from "./TestTutorProfile";
 import MySelect from "../../../components/form/MySelectField";
 import {countryInput} from "../../../constants/countryInput";
 import {countryOption} from "../../../constants/countryOption";
-import {t} from "i18next";
+
+//TODO: add saving to database
 
 interface AdditionalValues {
   currentOccupation: string;
@@ -92,6 +91,7 @@ const PayoutsPage = ({nextStep, backStep}: AdditionalProps) => {
     if (values.currentOccupation.length === 0 || values.aboutTutor.length === 0 || values.aboutLessons.length === 0) {
       setSaveBtnActive(false);
     }
+    nextStep();
   };
 
   const handleChangeForSave = () => {
@@ -474,7 +474,11 @@ const PayoutsPage = ({nextStep, backStep}: AdditionalProps) => {
         </div>
         <div>
           <div>Profile Preview</div>
-          <TestTutorProfile></TestTutorProfile>
+          <TestTutorProfile occupation={formik.values.currentOccupation}
+                            aboutTutor={formik.values.aboutTutor}
+                            aboutLessons={formik.values.aboutLessons}
+                            yearsOfExperience={formik.values.yearsOfExperience}
+          ></TestTutorProfile>
         </div>
       </div>
     </>

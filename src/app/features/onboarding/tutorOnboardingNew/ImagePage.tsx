@@ -1,4 +1,4 @@
-import {Form, FormikProvider, useFormik} from 'formik';
+import {useFormik} from 'formik';
 import {isEqual} from 'lodash';
 import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
@@ -9,10 +9,7 @@ import {
   useLazyGetTutorByIdQuery,
   useUpdateAditionalInfoMutation,
 } from '../../../../services/tutorService';
-import MyTextArea from '../../../components/form/MyTextArea';
-import TextField from '../../../components/form/TextField';
 import RouterPrompt from '../../../components/RouterPrompt';
-import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
 import {useAppDispatch, useAppSelector} from '../../../hooks';
 import toastService from '../../../services/toastService';
 import {getUserId} from '../../../utils/getUserId';
@@ -23,6 +20,9 @@ import {AiOutlineLeft} from "react-icons/ai";
 import CircularProgress from "../../my-profile/components/CircularProgress";
 import {setStepTwo} from "../../../../slices/onboardingSlice";
 import TestTutorProfile from "./TestTutorProfile";
+import UploadFile from "../../../components/form/MyUploadField";
+
+//TODO: update the additional values to only image
 
 interface AdditionalValues {
   currentOccupation: string;
@@ -36,7 +36,7 @@ type AdditionalProps = {
   backStep: () => void
 };
 
-const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
+const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
   const [getProfileProgress] = useLazyGetProfileProgressQuery();
   const [getProfileData, {
     isLoading: isLoadingGetInfo,
@@ -63,6 +63,8 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
     yearsOfExperience: null,
     currentOccupation: '',
   });
+
+  const user = useAppSelector((state) => state.auth.user);
 
   const handleSubmit = async (values: IUpdateAdditionalInfo) => {
     const toSend: IUpdateAdditionalInfo = {
@@ -145,6 +147,7 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
     }),
   });
 
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -186,7 +189,10 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
         alignItems: "start",
         gridTemplateColumns: "repeat(3, 1fr)"
       }}>
-        <div style={{gridColumn: "1/3"}}>
+        <div style={{
+          gridColumn: "1/3", top: "0", justifyContent: "center",
+          alignItems: "center"
+        }} className="align--center">
           <div className='flex field__w-fit-content align--center'>
             <div className="flex flex--col flex--jc--center ml-6">
               <div style={{margin: "40px"}} className="flex flex--center">
@@ -202,120 +208,38 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                 </div>
                 <div className="flex flex--col flex--jc--center ml-6">
                   <h4
-                    className='signup-title ml-6 text-align--center'>{t('SEARCH_TUTORS.TUTOR_PROFILE.ABOUT_ME')}</h4>
+                    className='signup-title ml-6 text-align--center'>{t('MY_PROFILE.PAYOUTS')}</h4>
                 </div>
               </div>
             </div>
           </div>
-          <div style={{
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column",
-          }}>
-            {/* ADDITIONAL INFO */}
-            <FormikProvider value={formik}>
-              <Form>
-                {(pageLoading && <LoaderPrimary/>) || (
-                  <div className="card--profile__section"
-                       style={{justifyContent: "center", alignItems: "center"}}>
-                    <div className="w--800--max">
-                      <div className="row">
-                        <div className="col col-12 col-xl-6">
-                          <div className="field">
-                            <label className="field__label"
-                                   htmlFor="currentOccupation">
-                              {t('MY_PROFILE.ABOUT_ME.OCCUPATION')}
-                            </label>
-                            <TextField
-                              maxLength={50}
-                              id="currentOccupation"
-                              wrapperClassName="flex--grow"
-                              name="currentOccupation"
-                              placeholder={t('MY_PROFILE.ABOUT_ME.OCCUPATION_PLACEHOLDER')}
-                              className="input input--base"
-                              disabled={isLoading}
-                            />
-                          </div>
-                        </div>
-                        <div className="col col-12 col-xl-6">
-                          <div className="field">
-                            <label className="field__label"
-                                   htmlFor="yearsOfExperience">
-                              {t('MY_PROFILE.ABOUT_ME.YEARS')}
-                            </label>
-                            <TextField
-                              id="yearsOfExperience"
-                              wrapperClassName="flex--grow"
-                              name="yearsOfExperience"
-                              placeholder={t('MY_PROFILE.ABOUT_ME.YEARS_PLACEHOLDER')}
-                              className="input input--base"
-                              type={'number'}
-                              disabled={isLoading}
-                            />
-                          </div>
-                        </div>
-                        <div className="col col-12">
-                          <div className="field">
-                            <label className="field__label"
-                                   htmlFor="aboutTutor">
-                              {t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_LABEL')}
-                            </label>
-                            <MyTextArea
-                              maxLength={2500}
-                              name="aboutTutor"
-                              placeholder={t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_PLACEHOLDER')}
-                              id="aboutTutor"
-                              disabled={isLoading}
-                            />
-                          </div>
-                        </div>
-                        <div className="col col-12">
-                          <div className="field">
-                            <label className="field__label"
-                                   htmlFor="aboutLessons">
-                              {t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_LABEL')}
-                            </label>
-                            <MyTextArea
-                              maxLength={2500}
-                              name="aboutLessons"
-                              placeholder={t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_PLACEHOLDER')}
-                              id="aboutLessons"
-                              disabled={isLoading}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </Form>
-            </FormikProvider>
-
-            <div className="flex--center" style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: "column"
-            }}>
-              <button onClick={() => handleSubmit(formik.values)}
-                      disabled={!saveBtnActive}
-                      className="btn btn--base btn--primary mt-4">
-                {t('REGISTER.NEXT_BUTTON')}
-              </button>
+          <div className="col col-12">
+            <div className="field field__file">
+              <label className="field__label" htmlFor="profileImage">
+                {/*t('MY_PROFILE.PROFILE_SETTINGS.IMAGE')*/}
+              </label>
+              <UploadFile
+                setFieldValue={formik.setFieldValue}
+                id="profileImage"
+                name="profileImage"
+                value={user?.profileImage ? user.profileImage : ''}
+                disabled={isLoading}
+                removePreviewOnUnmount={true}
+              />
             </div>
           </div>
-        </div>
-        <div>
-          <div>Profile Preview</div>
-          <TestTutorProfile occupation={formik.values.currentOccupation}
-                            aboutTutor={formik.values.aboutTutor}
-                            aboutLessons={formik.values.aboutLessons}
-                            yearsOfExperience={formik.values.yearsOfExperience}
-          ></TestTutorProfile>
+          <div>
+            <div>Profile Preview</div>
+            <TestTutorProfile occupation={formik.values.currentOccupation}
+                              aboutTutor={formik.values.aboutTutor}
+                              aboutLessons={formik.values.aboutLessons}
+                              yearsOfExperience={formik.values.yearsOfExperience}
+            ></TestTutorProfile>
+          </div>
         </div>
       </div>
-    </>
-  );
-};
+      </>
+      );
+      };
 
-export default AdditionalInfoPage;
+      export default ImagePage;
