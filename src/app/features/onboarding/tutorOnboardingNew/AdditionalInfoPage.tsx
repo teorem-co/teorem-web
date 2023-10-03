@@ -37,6 +37,9 @@ type AdditionalProps = {
 };
 
 const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
+  const state = useAppSelector((state) => state.onboarding);
+  const { currentOccupation, aboutYou,aboutYourLessons } = state;
+
   const [getProfileProgress] = useLazyGetProfileProgressQuery();
   const [getProfileData, {
     isLoading: isLoadingGetInfo,
@@ -82,9 +85,11 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
       aboutYou: values.aboutTutor,
       aboutYourLessons: values.aboutLessons,
     }));
+
     if (values.currentOccupation.length === 0 || values.aboutTutor.length === 0 || values.aboutLessons.length === 0) {
       setSaveBtnActive(false);
     }
+
     nextStep();
   };
 
@@ -98,7 +103,7 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
 
   const handleUpdateOnRouteChange = () => {
     if (Object.keys(formik.errors).length > 0) {
-      toastService.error(t('FORM_VALIDATION.WRONG_REQUIREMENTS'));
+      // toastService.error(t('FORM_VALIDATION.WRONG_REQUIREMENTS'));
       return false;
     } else {
       handleSubmit(formik.values);
@@ -108,6 +113,7 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
 
   const fetchData = async () => {
     if (tutorId) {
+      console.log(tutorId);
       const profileDataResponse = await getProfileData(tutorId).unwrap();
 
       if (profileDataResponse) {
@@ -180,13 +186,19 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
           return true;
         }}
       />
-      <div style={{
-        display: "grid",
-        justifyContent: "center",
-        alignItems: "start",
-        gridTemplateColumns: "repeat(3, 1fr)"
-      }}>
-        <div style={{gridColumn: "1/3"}}>
+      <div
+        className="flex flex--row flex--jc--space-between"
+      //   style={{
+      //   display: "grid",
+      //   justifyContent: "center",
+      //   alignItems: "start",
+      //   gridTemplateColumns: "repeat(3, 1fr)"
+      // }}
+      >
+        <div
+          // style={{gridColumn: "1/3"}}
+          className="w--50"
+        >
           <div className='flex field__w-fit-content align--center'>
             <div className="flex flex--col flex--jc--center ml-6">
               <div style={{margin: "40px"}} className="flex flex--center">
@@ -207,11 +219,13 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
               </div>
             </div>
           </div>
+
           <div style={{
             justifyContent: "center",
             alignItems: "center",
             flexDirection: "column",
           }}>
+
             {/* ADDITIONAL INFO */}
             <FormikProvider value={formik}>
               <Form>
@@ -288,6 +302,7 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                     </div>
                   </div>
                 )}
+
               </Form>
             </FormikProvider>
 
@@ -305,12 +320,13 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
             </div>
           </div>
         </div>
-        <div>
-          <div>Profile Preview</div>
-          <TestTutorProfile occupation={formik.values.currentOccupation}
-                            aboutTutor={formik.values.aboutTutor}
-                            aboutLessons={formik.values.aboutLessons}
-                            yearsOfExperience={formik.values.yearsOfExperience}
+        <div className="w--50">
+          <div className="text-align--center">Profile Preview</div>
+          <TestTutorProfile
+            occupation={formik.values.currentOccupation}
+            aboutTutor={formik.values.aboutTutor}
+            aboutLessons={formik.values.aboutLessons}
+            yearsOfExperience={formik.values.yearsOfExperience}
           ></TestTutorProfile>
         </div>
       </div>

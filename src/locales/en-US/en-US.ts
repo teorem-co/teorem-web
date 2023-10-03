@@ -48,13 +48,13 @@ export const EN_US = {
     },
     TUTOR_ONBOARDING: {
       TITLE: "Thank you for verifying your email address! Let's complete your tutor profile!",
-      SUBTITLE: 'This usually lasts 8 minutes.',
+      SUBTITLE: 'This usually takes 8 minutes.',
     },
     FORM_VALIDATION: {
         INVALID_EMAIL: 'Invalid email',
         INVALID_IMAGE: 'Image has to be either jpg,png,jpeg or svg and less than 2MB in size.',
         IMAGE_TYPE: 'Image has to be either jpg,png,jpeg or svg',
-        IMAGE_SIZE: 'Image has to be less than 2MB in size.',
+        IMAGE_SIZE: 'Image has to be less than 5MB in size.',
         TOO_SHORT: 'Too Short!',
         TOO_LONG: 'Too Long!',
         TOO_BIG: 'Number is too big',
@@ -592,6 +592,7 @@ export const EN_US = {
         TITLE: 'My Profile',
         PREVIEW: 'Preview profile',
       PAYOUTS: 'Where do we send your payouts?',
+      IMAGE: 'Add profile image',
       ABOUT_ME: {
             OCCUPATION: 'Your current Occupation*',
             OCCUPATION_PLACEHOLDER: 'What’s your current Occupation',

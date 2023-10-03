@@ -5,8 +5,9 @@ import {useDispatch} from 'react-redux';
 import {useHistory} from 'react-router';
 import {Link, useParams} from 'react-router-dom';
 import {
-  useLazyGetTutorByTutorSlugQuery
-} from "../../../../services/tutorService";
+  useLazyGetTutorByIdQuery,
+  useLazyGetTutorByTutorSlugQuery,
+} from '../../../../services/tutorService';
 import {useGetOrCreateChatMutation} from "../../../services/chatEngineService";
 import {useAppSelector} from "../../../hooks";
 import IMyReviewParams from "../../myReviews/interfaces/IMyReviewParams";
@@ -31,13 +32,21 @@ import ReviewItem from "../../myReviews/components/ReviewItem";
 import ImageCircle from "../../../components/ImageCircle";
 import {RoleOptions} from "../../../../slices/roleSlice";
 import LoaderPrimary from "../../../components/skeleton-loaders/LoaderPrimary";
+import {
+  resetTutorImageUploadState
+} from '../../../slices/tutorImageUploadSlice';
 
 type Props = {
   occupation?: string;
   yearsOfExperience?: string | null;
   aboutTutor?: string;
   aboutLessons?: string;
+  profileImage?:string;
 };
+
+interface PreviewFileType {
+  preview: string | null;
+}
 
 const TestTutorProfile = (props: Props) => {
   const {t} = useTranslation();
@@ -45,21 +54,15 @@ const TestTutorProfile = (props: Props) => {
   const [getTutorProfileData, {
     data: tutorData,
     isLoading: tutorDataLoading
-  }] = useLazyGetTutorByTutorSlugQuery();
+  }] = useLazyGetTutorByIdQuery();
+
+  const tutorId = useAppSelector((state) => state.auth.user?.id);
 
   const [getOrCreateNewChat, {isLoading: createChatLoading}] = useGetOrCreateChatMutation();
-  const [tutorId, setTutorId] = useState('');
   const [pathTutorId, setPathTutorId] = useState('');
   const [tutorPath, setTutorPath] = useState('');
 
   //TODO tutor data
-  const tutorSlug = "Silvija.T43990";
-
-  useEffect(() => {
-    getTutorProfileData(tutorSlug).unwrap().then((tutorIdObj: any) => {
-      setTutorId(tutorIdObj.userId);
-    });
-  }, []);
   const history = useHistory();
 
   const dispatch = useDispatch();
@@ -82,14 +85,15 @@ const TestTutorProfile = (props: Props) => {
   const [getStatistics, {data: tutorStatistics}] = useLazyGetStatisticsQuery();
   const [getTutorAvailability, {data: tutorAvailability}] = useLazyGetTutorAvailabilityQuery();
 
-  useEffect(() => {
-    if (tutorSlug?.length) {
-      setTutorPath(PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS.replace(":tutorSlug", tutorSlug));
-    }
-  }, [tutorSlug]);
 
   useEffect(() => {
-    if (tutorId.length) {
+    if(tutorId)
+      getTutorProfileData(tutorId);
+  }, []);
+
+
+  useEffect(() => {
+    if (tutorId) {
 
       const myReviewsGetObj: IGetMyReviews = {
         tutorId: tutorId,
@@ -111,7 +115,7 @@ const TestTutorProfile = (props: Props) => {
   }, [myReviews]);
 
   useEffect(() => {
-    if (tutorId.length) {
+    if (tutorId) {
       const myReviewsGetObj: IGetMyReviews = {
         tutorId: tutorId,
         page: params.page,
@@ -165,38 +169,6 @@ const TestTutorProfile = (props: Props) => {
     return returnValue;
   };
 
-  const createNewChat = async () => {
-    const tutorData = await getTutorProfileData(tutorSlug).unwrap();
-
-    const toSend: IChatRoom = {
-      user: {
-        userId: user?.id + '',
-        userImage: user?.profileImage,
-        userNickname: user?.firstName + ' ' + user?.lastName,
-      },
-      tutor: {
-        userId: tutorData?.userId + '',
-        userImage: tutorData?.User.profileImage,
-        userNickname: tutorData?.User.firstName + ' ' + tutorData?.User.lastName,
-      },
-      unreadMessageCount: 0,
-      messages: [],
-      addToList: true,
-      setActive: true
-    };
-
-    dispatch(addChatRoom(toSend));
-
-    /*await getOrCreateNewChat(toSend)
-        .unwrap()
-        .then(() => {
-            history.push(PATHS.CHAT);
-        })
-        .catch(() => {
-            toastService.error(`can't create a chat with ${tutorUserName}, please contact a support for more informations`);
-        });*/
-  };
-
   //scroll to bottom alerter
   const handleScroll = (e: HTMLDivElement) => {
     const innerHeight = e.scrollHeight;
@@ -204,10 +176,6 @@ const TestTutorProfile = (props: Props) => {
     if (!hideLoadMore() && innerHeight === scrollPosition && loadedMyReviews.length > 0) {
       handleLoadMore();
     }
-    // if (innerHeight === scrollPosition) {
-    //     //action to do on scroll to bottom
-    //
-    // }
   };
 
   const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
@@ -228,12 +196,25 @@ const TestTutorProfile = (props: Props) => {
     return `${part1}<br />${part2}`;
   }
 
+  const { file } = useAppSelector((state) => state.uploadFile);
+
+  const [preview, setImagePreview] = useState<PreviewFileType>({
+    preview: null,
+  });
+
+  useEffect(() => {
+    if (file) {
+      setImagePreview(Object.assign(file, { preview: URL.createObjectURL(file) }));
+    }
+
+  }, [file]);
+
   if (user === null) {
     return <PublicTutorProfile/>;
   } else {
     return (
       <>
-        <div className="layout--primary">
+        <div className="layout--primary p-0 m-0">
           {tutorDataLoading ? (
             <LoaderTutorProfile/>
           ) : tutorData ? (
@@ -242,23 +223,23 @@ const TestTutorProfile = (props: Props) => {
                 <div onScroll={(e: any) => debouncedScrollHandler(e.target)}
                      className="card--secondary card--secondary--alt">
                   <div className="card--secondary__head">
-                    <div className="flex--center flex" style={{alignItems: "center"}}>
-                      {tutorData.User?.profileImage ? (
+                    <div className="flex--center flex tutor-list__item__img" style={{alignItems: "center"}}>
+                      {tutorData.User?.profileImage || preview.preview ? (
                         <img
                           className="align--center d--b mb-4"
                           style={{alignSelf: "center"}}
-                          src={`${tutorData.User.profileImage}&v=${cacheBuster}`}
+                          src={ preview.preview ||  `${tutorData.User.profileImage}&v=${cacheBuster}` || `${props.profileImage}&v=${cacheBuster}`}
                           alt="tutor-profile-pic"/>
                       ) : (
                         <ImageCircle
                           className="align--center d--b mb-4"
-                          imageBig={false}
+                          imageBig={true}
                           initials={`${tutorData.User?.firstName.charAt(0)}${tutorData.User?.lastName.charAt(0)}`}
                         />
                       )}
-                      <div className="type--lg type--wgt--bold ml-4">
-                        {tutorData ? `${tutorData.User.firstName} ${tutorData.User.lastName}` : 'Go back'}
-                      </div>
+                    </div>
+                    <div className="type--lg type--wgt--bold ml-4">
+                      {tutorData ? `${tutorData.User.firstName} ${tutorData.User.lastName}` : 'Go back'}
                     </div>
                     <div
                       className="type--color--brand type--center type--break"

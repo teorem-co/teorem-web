@@ -9,8 +9,30 @@ import IStripeConnectAccount from '../interfaces/IStripeConnectAccount';
 
 const URL = 'api/v1/stripe';
 
+interface IStripeConnectCompanyAccount {
+  refreshUrl?: string;
+  returnUrl?: string;
+  userId: string;
+  IBAN?: string;
+  IBANConfirm?: string;
+  addressLine1?: string;
+  addressLine2?: string;
+  city?: string;
+  country?: string;
+  postalCode?: string;
+  companyName: string;
+  companyOIB: string;
+}
+
 export const stripeService = baseService.injectEndpoints({
     endpoints: (builder) => ({
+        connectCompanyAccount: builder.mutation<string, IStripeConnectCompanyAccount>({
+          query: (body) => ({
+            url: `${URL}/connect-company-account/${body.userId}`,
+            method: HttpMethods.POST,
+            body: body,
+          })
+        }),
         connectAccount: builder.mutation<string, IStripeConnectAccount>({
             query: (body) => ({
                 url: `${URL}/connect-account/${body.userId}`,
@@ -63,6 +85,7 @@ export const stripeService = baseService.injectEndpoints({
 });
 
 export const {
+  useConnectCompanyAccountMutation,
     useConnectAccountMutation,
     useAddCustomerMutation,
     useAddCustomerSourceMutation,

@@ -142,12 +142,12 @@ const AvailabilityPage = ({ nextStep }:AvailabilityProps) => {
       await updateTutorAvailability({ tutorId: tutorId ? tutorId : '', tutorAvailability: toSend });
       const progressResponse = await getProfileProgress().unwrap();
       dispatch(setMyProfileProgress(progressResponse));
-      toastService.success(t('MY_PROFILE.GENERAL_AVAILABILITY.UPDATED'));
+      // toastService.success(t('MY_PROFILE.GENERAL_AVAILABILITY.UPDATED'));
     } else {
       await createTutorAvailability({ tutorAvailability: toSend });
       const progressResponse = await getProfileProgress().unwrap();
       dispatch(setMyProfileProgress(progressResponse));
-      toastService.success(t('MY_PROFILE.GENERAL_AVAILABILITY.CREATED'));
+      // toastService.success(t('MY_PROFILE.GENERAL_AVAILABILITY.CREATED'));
     }
     dispatch(setStepZero({
       availability: toSend

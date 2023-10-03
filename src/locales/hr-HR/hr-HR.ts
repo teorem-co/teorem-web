@@ -50,7 +50,7 @@ export const HR_HR = {
         INVALID_EMAIL: 'Neispravan email',
         INVALID_IMAGE: 'Slika mora biti formata jpg, png, jpeg ili svg i manja od 2MB veličine.',
         IMAGE_TYPE: 'Slika mora biti formata jpg, png, jpeg ili svg',
-        IMAGE_SIZE: 'Slika mora biti manja od 2MB veličine.',
+        IMAGE_SIZE: 'Slika mora biti manja od 5MB veličine.',
         TOO_SHORT: 'Pretratko!',
         TOO_LONG: 'Predugo!',
         TOO_BIG: 'Broj je prevelik',
@@ -587,6 +587,7 @@ export const HR_HR = {
         TITLE: 'Moj profil',
         PREVIEW: 'Pregled profila',
       PAYOUTS: 'Gdje ti isplaćujemo zaradu?',
+      IMAGE: 'Dodaj svoju sliku profila',
       ABOUT_ME: {
             OCCUPATION: 'Vaše trenutno zanimanje*',
             OCCUPATION_PLACEHOLDER: 'Unesite Vaše trenutno zanimanje',

@@ -45,8 +45,8 @@ export function OnboardingTutor() {
       <AvailabilityPage nextStep={nextStep} />,
       <SubjectsPage nextStep={nextStep} backStep={backStep}/>,
       <AdditionalInfoPage nextStep={nextStep} backStep={backStep} />,
-      <PayoutsPage nextStep={nextStep} backStep={backStep}/>,
       <ImagePage nextStep={nextStep} backStep={backStep}/>,
+      <PayoutsPage nextStep={nextStep} backStep={backStep}/>,
     ]);
 
   const dispatch = useDispatch();
@@ -54,9 +54,14 @@ export function OnboardingTutor() {
   const penultimateIndex = steps.length - 2;
 
   function nextStep() {
-    if (currentStepIndex != penultimateIndex){
+    console.log("Calling next step");
+    console.log("Current: ", currentStepIndex);
+    console.log("Is last step: ",isLastStep );
+    console.log("Total steps: ", steps.length);
+    if (!isLastStep){
       return next();
     }else{
+      console.log("Pushing to dashboard");
       history.push(PATHS.DASHBOARD);
     }
   }
@@ -65,7 +70,7 @@ export function OnboardingTutor() {
     if (currentStepIndex != 0){
       return back();
     }else{
-      history.push(PATHS.DASHBOARD);
+      // history.push(PATHS.DASHBOARD);
     }
   }
 
