@@ -24,13 +24,6 @@ import TestTutorProfile from "./TestTutorProfile";
 import MySelect from "../../../components/form/MySelectField";
 import {countryInput} from "../../../constants/countryInput";
 import {countryOption} from "../../../constants/countryOption";
-import {
-  FormControlLabel,
-  Stack,
-  styled,
-  Switch,
-  Typography,
-} from '@mui/material';
 import * as yup from 'yup';
 import {
   useConnectAccountMutation, useConnectCompanyAccountMutation,
@@ -211,6 +204,7 @@ const PayoutsPage = ({nextStep, backStep}: AdditionalProps) => {
           IBAN: removeWhitespaces(values.IBAN),
           IBANConfirm: removeWhitespaces(values.IBANConfirm),
           userId:  tutorId, //if userId is passed as prop, use it, else use state.auth.user
+          accountType: 'private'
         }).unwrap()
           .then((res) => {
             dispatch(
@@ -236,6 +230,7 @@ const PayoutsPage = ({nextStep, backStep}: AdditionalProps) => {
           });
       }else{
         console.log('connecting company account');
+        setLoading(true);
         await connectCompanyAccount({
           addressLine1:values.addressLine1,
           addressLine2: values.addressLine2,
@@ -243,8 +238,9 @@ const PayoutsPage = ({nextStep, backStep}: AdditionalProps) => {
           city: values.city,
           IBAN: removeWhitespaces(values.IBAN),
           userId:  tutorId, //if userId is passed as prop, use it, else use state.auth.user
-          companyName: values.companyName,
-          companyOIB: values.companyOIB
+          name: values.companyName,
+          PID: values.companyOIB,
+          accountType: 'company'
         }).unwrap()
           .then((res) => {
             dispatch(
@@ -257,13 +253,17 @@ const PayoutsPage = ({nextStep, backStep}: AdditionalProps) => {
               setMyProfileProgress({
                 ...profileProgressState,
                 payment: true,
+                percentage: profileProgressState.percentage + 25,
               })
             );
             // toastService.success(t('STRIPE_CONNECT.SUCCESS'));
             formik.resetForm();
             setLoading(false);
             nextStep();
-          });
+          })
+          .catch((error) =>{
+            setLoading(false);
+        });
       }
   }
 
@@ -561,6 +561,9 @@ const PayoutsPage = ({nextStep, backStep}: AdditionalProps) => {
                           disabled={isLoading}
                         />
                       </div>
+                        <div className="flex flex--center align-self-center mt-3">
+                          <ScaleLoader color={'#7e6cf2'} loading={loading} style={{margin: '0 auto'}}/>
+                        </div>
                       <div className="flex--center" style={{
                         display: "flex",
                         justifyContent: "center",
@@ -570,7 +573,6 @@ const PayoutsPage = ({nextStep, backStep}: AdditionalProps) => {
                         <button type={'submit'} onClick={() => {
                           console.log('submitting', formik.values);
                           handleSubmit(formik.values);
-
                         }
                         }
                                 disabled={!saveBtnActive}

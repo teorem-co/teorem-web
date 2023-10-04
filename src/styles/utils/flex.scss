@@ -98,3 +98,15 @@
      }
    }
 }
+
+.flex-gap {
+  @each $modifier, $classModifier in $modifiers {
+    &#{$modifier} {
+      @each $i in $scale {
+        &-#{$i} {
+          gap#{$classModifier}: calc(#{$unit} * #{$i});
+        }
+      }
+    }
+  }
+}

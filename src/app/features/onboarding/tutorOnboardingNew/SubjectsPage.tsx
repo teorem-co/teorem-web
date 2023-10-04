@@ -16,6 +16,7 @@ import CircularProgress from "../../my-profile/components/CircularProgress";
 import ISubject from "../../../../interfaces/ISubject";
 import {AiOutlineLeft} from "react-icons/ai";
 import {setStepOne, setStepTwo} from "../../../../slices/onboardingSlice";
+import { CreateSubjectCard } from './CreateSubjectCard';
 
 interface SubjectsValues {
   subjects: ISubject[];
@@ -118,32 +119,38 @@ const SubjectsPage = ({ nextStep, backStep }:SubjectsProps) => {
             </div>
           </div>
         </div>
+
+
         <div style={{justifyContent: "center", alignItems: "center", flexDirection: "column"}}>
           {(isLoading && <LoaderPrimary />) || (
             <div className="flex--center"  style={{display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column"}}>
               <div>
-                <div className="dash-wrapper dash-wrapper--adaptive flex--grow" >
-                  <div className="dash-wrapper__item">
-                    <div className="dash-wrapper__item__element" onClick={() => setAddSidebarOpen(true)}>
-                      <div className="flex--primary cur--pointer">
-                        <div>
-                          <div className="type--wgt--bold">{t('MY_PROFILE.MY_TEACHINGS.ADD_NEW')}</div>
-                          <div>{t('MY_PROFILE.MY_TEACHINGS.ADD_DESC')}</div>
-                        </div>
-                        <div>
-                          <i className="icon icon--base icon--plus icon--primary"></i>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  {/* Map through subjects here */}
-                  {/* Test fields */}
+                <div className="dash-wrapper dash-wrapper--adaptive flex--grow flex--col" >
                   <SubjectList
                     handleSendId={handleSendId}
                     tutorSubjects={myTeachingsData && myTeachingsData.TutorSubjects ? myTeachingsData.TutorSubjects : []}
                     currency={currency}
                     key={myTeachingsData && myTeachingsData.TutorSubjects.length}
                   />
+
+                  <CreateSubjectCard
+                    // sideBarIsOpen={addSidebarOpen}
+                    // closeSidebar={closeAddSubjectSidebar}
+                    handleGetData={() => getProfileData(tutorId ? tutorId : '')}/>
+
+                  <div className="dash-wrapper__item w--100">
+                    <div className="dash-wrapper__item__element dash-border" onClick={() => setAddSidebarOpen(true)}>
+
+                      <div className="flex--primary cur--pointer flex-gap-10">
+                          <div className="type--wgt--bold">{t('MY_PROFILE.MY_TEACHINGS.ADD_NEW')}</div>
+                          <i className="icon icon--base icon--plus icon--primary"></i>
+                      </div>
+
+                    </div>
+                  </div>
+                  {/* Map through subjects here */}
+                  {/* Test fields */}
+
                 </div>
               </div>
             </div>
@@ -159,6 +166,8 @@ const SubjectsPage = ({ nextStep, backStep }:SubjectsProps) => {
             closeSidebar={closeAddSubjectSidebar}
             handleGetData={() => getProfileData(tutorId ? tutorId : '')}
           />
+
+
         </div>
           <div className="flex--center" style={{display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column"}}>
             <button onClick={() => handleSubmit()} disabled={!saveBtnActive} className="btn btn--base btn--primary mt-4">

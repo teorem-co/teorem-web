@@ -20,15 +20,16 @@ interface IStripeConnectCompanyAccount {
   city?: string;
   country?: string;
   postalCode?: string;
-  companyName: string;
-  companyOIB: string;
+  name: string;
+  PID: string;
+  accountType:string;
 }
 
 export const stripeService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         connectCompanyAccount: builder.mutation<string, IStripeConnectCompanyAccount>({
           query: (body) => ({
-            url: `${URL}/connect-company-account/${body.userId}`,
+            url: `${URL}/connect-account/${body.userId}`,
             method: HttpMethods.POST,
             body: body,
           })
