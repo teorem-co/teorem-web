@@ -48,6 +48,7 @@ const SubjectsPage = ({ nextStep, backStep }:SubjectsProps) => {
   const [btnDisabled, setBtnDisabled] = useState(true);
   const dispatch = useAppDispatch();
   const profileProgressState = useAppSelector((state) => state.myProfileProgress);
+  const [progressPercentage, setProgressPercentage] = useState(profileProgressState.percentage);
   const tutorId = getUserId();
   const [currency, setCurrency] = useState('');
   const { t } = useTranslation();
@@ -66,10 +67,12 @@ const SubjectsPage = ({ nextStep, backStep }:SubjectsProps) => {
 
       const tutorCurrency = await (await getProfileData(tutorId).unwrap()).User.Country.currencyCode;
       setCurrency(tutorCurrency);
-
+      const progressResponse = await getProfileProgress().unwrap();
+      setProgressPercentage(progressResponse.percentage);
       //If there is no state in redux for profileProgress fetch data and save result to redux
       if (profileProgressState.percentage === 0) {
         const progressResponse = await getProfileProgress().unwrap();
+        setProgressPercentage(progressResponse.percentage);
         dispatch(setMyProfileProgress(progressResponse));
       }
     }
@@ -108,25 +111,28 @@ const SubjectsPage = ({ nextStep, backStep }:SubjectsProps) => {
     }
   }, [myTeachingsData]);
 
-  const handleSubmit = () => {
+  async function handleSubmit(){
     if(tutorId) {
 
       dispatch(setStepOne({
         subjects: myTeachingsData?.TutorSubjects ? myTeachingsData.TutorSubjects : [],
       }));
 
-      const noChanges = areArraysEqual(oldSubjects, forms);
+      const oldAndNewSubjectsAreEqual = areArraysEqual(oldSubjects, forms);
 
       const mappedSubjects = mapToCreateSubject(forms);
-      if(!noChanges){
-        createSubjectsOnboarding({ tutorId: tutorId, subjects: mappedSubjects});
-        dispatch(
-          setMyProfileProgress({
-            ...profileProgressState,
-            myTeachings: true,
-            percentage: profileProgressState.percentage + 25,
-          })
-        );
+      if(!oldAndNewSubjectsAreEqual){
+       await createSubjectsOnboarding({ tutorId: tutorId, subjects: mappedSubjects});
+
+        if(oldSubjects.length == 0){
+          dispatch(
+            setMyProfileProgress({
+              ...profileProgressState,
+              myTeachings: true,
+              // percentage: profileProgressState.percentage + 25,
+            })
+          );
+        }
       }
 
     }
@@ -172,8 +178,17 @@ const SubjectsPage = ({ nextStep, backStep }:SubjectsProps) => {
       return false;
     }
 
-    return arr1.every(obj1 => arr2.some(obj2 => obj1.id === obj2.id)) &&
-      arr2.every(obj1 => arr1.some(obj2 => obj1.id === obj2.id));
+    return arr1.every(obj1 => arr2.some(
+      obj2 => obj1.id === obj2.id &&
+        obj1.subjectId === obj2.subjectId &&
+        obj1.levelId === obj2.levelId &&
+        obj1.price === obj2.price))
+      &&
+      arr2.every(obj1 => arr1.some(
+        obj2 => obj1.id === obj2.id &&
+         obj1.subjectId === obj2.subjectId &&
+         obj1.levelId === obj2.levelId &&
+        obj1.price === obj2.price));
   }
 
   useEffect(() => {
@@ -229,7 +244,7 @@ const SubjectsPage = ({ nextStep, backStep }:SubjectsProps) => {
                 onClick={backStep}
               />
               <div className="flex flex--center flex--shrink w--105">
-                <CircularProgress progressNumber={profileProgressState.percentage ? profileProgressState.percentage : 0} size={80}  />
+                <CircularProgress progressNumber={progressPercentage} size={80}  />
               </div>
               <div className="flex flex--col flex--jc--center ml-6">
                 <h4 className='signup-title ml-6 text-align--center'>{t('MY_PROFILE.MY_TEACHINGS.TITLE')}</h4>

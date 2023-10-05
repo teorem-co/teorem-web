@@ -36,7 +36,7 @@ type AvailabilityProps ={
 
 
 const AvailabilityPage = ({ nextStep }:AvailabilityProps) => {
-  //const { data: profileProgress } = useGetProfileProgressQuery();
+  // const { data: profileProgress } = useGetProfileProgressQuery();
   const [getTutorAvailability, { data: tutorAvailability, isUninitialized: availabilityUninitialized, isLoading: availabilityLoading }] =
     useLazyGetTutorAvailabilityQuery();
   const [updateTutorAvailability] = useUpdateTutorAvailabilityMutation();
@@ -48,6 +48,8 @@ const AvailabilityPage = ({ nextStep }:AvailabilityProps) => {
 
   const dispatch = useAppDispatch();
   const profileProgressState = useAppSelector((state) => state.myProfileProgress);
+  const [progressPercentage, setProgressPercentage] = useState(profileProgressState.percentage);
+
   const userId = useAppSelector((state) => state.auth.user?.id);
   const loading = availabilityUninitialized || availabilityLoading;
   const history = useHistory();
@@ -137,17 +139,16 @@ const AvailabilityPage = ({ nextStep }:AvailabilityProps) => {
     }
 
     if (tutorAvailability && tutorAvailability[1].length > 1) {
-      //await updateTutorAvailability({ tutorAvailability: toSend });
       const tutorId = getUserId();
       await updateTutorAvailability({ tutorId: tutorId ? tutorId : '', tutorAvailability: toSend });
       const progressResponse = await getProfileProgress().unwrap();
-      dispatch(setMyProfileProgress(progressResponse));
-      // toastService.success(t('MY_PROFILE.GENERAL_AVAILABILITY.UPDATED'));
+      setProgressPercentage(progressResponse.percentage);
+      await dispatch(setMyProfileProgress(progressResponse));
     } else {
       await createTutorAvailability({ tutorAvailability: toSend });
       const progressResponse = await getProfileProgress().unwrap();
-      dispatch(setMyProfileProgress(progressResponse));
-      // toastService.success(t('MY_PROFILE.GENERAL_AVAILABILITY.CREATED'));
+      setProgressPercentage(progressResponse.percentage);
+      await dispatch(setMyProfileProgress(progressResponse));
     }
     dispatch(setStepZero({
       availability: toSend
@@ -165,9 +166,13 @@ const AvailabilityPage = ({ nextStep }:AvailabilityProps) => {
       const tutorAvailabilityResponse = await getTutorAvailability(userId).unwrap();
       setCurrentAvailabilities(tutorAvailabilityResponse);
 
+      const progressResponse = await getProfileProgress().unwrap();
+      setProgressPercentage(progressResponse.percentage);
+      dispatch(setMyProfileProgress(progressResponse));
       //If there is no state in redux for profileProgress fetch data and save result to redux
       if (profileProgressState.percentage === 0) {
         const progressResponse = await getProfileProgress().unwrap();
+        setProgressPercentage(progressResponse.percentage);
         dispatch(setMyProfileProgress(progressResponse));
       }
     }
@@ -221,7 +226,8 @@ const AvailabilityPage = ({ nextStep }:AvailabilityProps) => {
               </div>
               <div style={{margin: "40px"}} className="flex">
                 <div className="flex flex--center flex--shrink w--105">
-                  <CircularProgress progressNumber={profileProgressState.percentage ? profileProgressState.percentage : 0} size={80}  />
+                  {/*<CircularProgress progressNumber={profileProgressState.percentage ? profileProgressState.percentage : 0} size={80}  />*/}
+                  <CircularProgress progressNumber={progressPercentage} size={80}  />
                 </div>
                 <div className="flex flex--col flex--jc--center ml-6">
                   <h4 className='signup-title ml-6 text-align--center'>{t('MY_PROFILE.GENERAL_AVAILABILITY.TITLE')}</h4>

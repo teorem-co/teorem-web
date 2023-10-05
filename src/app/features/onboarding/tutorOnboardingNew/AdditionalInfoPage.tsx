@@ -36,6 +36,7 @@ type AdditionalProps = {
 };
 
 const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
+
   const state = useAppSelector((state) => state.onboarding);
   const { currentOccupation, aboutYou,aboutYourLessons } = state;
 
@@ -57,6 +58,7 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
   const tutorId = getUserId();
   const dispatch = useAppDispatch();
   const profileProgressState = useAppSelector((state) => state.myProfileProgress);
+  const [progressPercentage, setProgressPercentage] = useState(profileProgressState.percentage);
 
   const [saveBtnActive, setSaveBtnActive] = useState(false);
   const [initialValues, setInitialValues] = useState<IUpdateAdditionalInfo>({
@@ -75,6 +77,7 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
     };
     await updateAditionalInfo(toSend);
     const progressResponse = await getProfileProgress().unwrap();
+    setProgressPercentage(progressResponse.percentage);
     dispatch(setMyProfileProgress(progressResponse));
     setSaveBtnActive(false);
     dispatch(setStepTwo({
@@ -124,8 +127,13 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
       }
 
       //If there is no state in redux for profileProgress fetch data and save result to redux
+      const progressResponse = await getProfileProgress().unwrap();
+      setProgressPercentage(progressResponse.percentage);
+      setProgressPercentage(progressResponse.percentage);
+      dispatch(setMyProfileProgress(progressResponse));
       if (profileProgressState.percentage === 0) {
         const progressResponse = await getProfileProgress().unwrap();
+        setProgressPercentage(progressResponse.percentage);
         dispatch(setMyProfileProgress(progressResponse));
       }
     }
@@ -198,7 +206,7 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                 />
                 <div className="flex flex--center flex--shrink w--105">
                   <CircularProgress
-                    progressNumber={profileProgressState.percentage ? profileProgressState.percentage : 0}
+                    progressNumber={progressPercentage}
                     size={80}/>
                 </div>
                 <div className="flex flex--col flex--jc--center ml-6">
@@ -310,7 +318,6 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
           </div>
         </div>
         <div className="w--50 mr-10">
-          <div className='text-align--center'>{t('TUTOR_ONBOARDING.PROFILE_PREVIEW')}</div>
           <TestTutorProfile
             occupation={formik.values.currentOccupation}
             aboutTutor={formik.values.aboutTutor}

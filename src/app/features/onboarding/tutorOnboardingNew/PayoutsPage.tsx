@@ -68,6 +68,7 @@ const PayoutsPage = ({nextStep, backStep}: AdditionalProps) => {
   const tutorId = getUserId();
   const dispatch = useAppDispatch();
   const profileProgressState = useAppSelector((state) => state.myProfileProgress);
+  const [progressPercentage, setProgressPercentage] = useState(profileProgressState.percentage);
 
   const [saveBtnActive, setSaveBtnActive] = useState(false);
   const [initialValues, setInitialValues] = useState<IUpdateAdditionalInfo>({
@@ -80,30 +81,6 @@ const PayoutsPage = ({nextStep, backStep}: AdditionalProps) => {
   const [individual, setIndividual] = useState(false);
   const [business, setBusiness] = useState(false);
 
-  // const handleSubmit = async (values: IUpdateAdditionalInfo) => {
-  //   const toSend: IUpdateAdditionalInfo = {
-  //     aboutLessons: values.aboutLessons,
-  //     aboutTutor: values.aboutTutor,
-  //     currentOccupation: values.currentOccupation,
-  //     yearsOfExperience: values.yearsOfExperience ? values.yearsOfExperience : null,
-  //   };
-  //   await updateAditionalInfo(toSend);
-  //   const progressResponse = await getProfileProgress().unwrap();
-  //   dispatch(setMyProfileProgress(progressResponse));
-  //   setSaveBtnActive(false);
-  //   toastService.success(t('SEARCH_TUTORS.TUTOR_PROFILE.UPDATE_ADDITIONAL_INFO_SUCCESS'));
-  //   dispatch(setStepTwo({
-  //     currentOccupation: values.currentOccupation,
-  //     yearsOfExperience: values.yearsOfExperience ? values.yearsOfExperience : "",
-  //     aboutYou: values.aboutTutor,
-  //     aboutYourLessons: values.aboutLessons,
-  //   }));
-  //   if (values.currentOccupation.length === 0 || values.aboutTutor.length === 0 || values.aboutLessons.length === 0) {
-  //     setSaveBtnActive(false);
-  //   }
-  //   nextStep();
-  // };
-
   const handleChangeForSave = () => {
     if (!isEqual(initialValues, formik.values)) {
       setSaveBtnActive(true);
@@ -112,15 +89,6 @@ const PayoutsPage = ({nextStep, backStep}: AdditionalProps) => {
     }
   };
 
-  const handleUpdateOnRouteChange = () => {
-    if (Object.keys(formik.errors).length > 0) {
-      toastService.error(t('FORM_VALIDATION.WRONG_REQUIREMENTS'));
-      return false;
-    } else {
-      // handleSubmit(formik.values);
-      return true;
-    }
-  };
 
   const fetchData = async () => {
     if (tutorId) {
@@ -135,6 +103,10 @@ const PayoutsPage = ({nextStep, backStep}: AdditionalProps) => {
         };
         setInitialValues(values);
       }
+
+      const progressResponse = await getProfileProgress().unwrap();
+      setProgressPercentage(progressResponse.percentage);
+      dispatch(setMyProfileProgress(progressResponse));
 
       //If there is no state in redux for profileProgress fetch data and save result to redux
       if (profileProgressState.percentage === 0) {
@@ -253,7 +225,7 @@ const PayoutsPage = ({nextStep, backStep}: AdditionalProps) => {
               setMyProfileProgress({
                 ...profileProgressState,
                 payment: true,
-                percentage: profileProgressState.percentage + 25,
+                //percentage: profileProgressState.percentage + 25,
               })
             );
             // toastService.success(t('STRIPE_CONNECT.SUCCESS'));
@@ -377,7 +349,7 @@ const PayoutsPage = ({nextStep, backStep}: AdditionalProps) => {
                 />
                 <div className="flex flex--center flex--shrink w--105">
                   <CircularProgress
-                    progressNumber={profileProgressState.percentage ? profileProgressState.percentage : 0}
+                    progressNumber={progressPercentage}
                     size={80}/>
                 </div>
                 <div className="flex flex--col flex--jc--center ml-6">
@@ -591,8 +563,7 @@ const PayoutsPage = ({nextStep, backStep}: AdditionalProps) => {
         </div>
 
 
-        <div className="w--50">
-          <div className='text-align--center'>{t('TUTOR_ONBOARDING.PROFILE_PREVIEW')}</div>
+        <div className="w--50 mr-10">
           <TestTutorProfile
             occupation={currentOccupation}
             aboutTutor={aboutYou}

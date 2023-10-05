@@ -76,6 +76,8 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
   const tutorId = getUserId();
   const dispatch = useAppDispatch();
   const profileProgressState = useAppSelector((state) => state.myProfileProgress);
+  const [progressPercentage, setProgressPercentage] = useState(profileProgressState.percentage);
+
   const [updateUserInformation, {isLoading: isLoadingUserUpdate}] = useUpdateUserInformationMutation();
 
 
@@ -134,8 +136,13 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
         setInitialValues(values);
       }
       //If there is no state in redux for profileProgress fetch data and save result to redux
+      const progressResponse = await getProfileProgress().unwrap();
+      setProgressPercentage(progressResponse.percentage);
+      dispatch(setMyProfileProgress(progressResponse));
+
       if (profileProgressState.percentage === 0) {
         const progressResponse = await getProfileProgress().unwrap();
+        setProgressPercentage(progressResponse.percentage);
         dispatch(setMyProfileProgress(progressResponse));
       }
 
@@ -246,7 +253,7 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
       {/*    return true;*/}
       {/*  }}*/}
       {/*/>*/}
-      <div className="flex flex--row flex--jc--space-evenly">
+      <div className="flex flex--row flex--jc--space-around">
         <FormikProvider value={formik}>
           <Form>
             <div style={{
@@ -272,7 +279,7 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
                       />
                       <div className="flex flex--center flex--shrink w--105">
                         <CircularProgress
-                          progressNumber={profileProgressState.percentage ? profileProgressState.percentage : 0}
+                          progressNumber={progressPercentage}
                           size={80}/>
                       </div>
                       <div className="flex flex--col flex--jc--center">
@@ -306,8 +313,6 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
                       {t('REGISTER.NEXT_BUTTON')}
                     </button>
 
-                    <span onClick={nextStep} className="primary-color type--sm mt-2 cur--pointer">  {t('SKIP_FOR_NOW')}</span>
-                    <span className="type--xs">{t('TUTOR_ONBOARDING.IMAGE_NOTE')}</span>
                   </div>
                 </div>
 
@@ -318,7 +323,6 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
         </FormikProvider>
 
         <div className="w--50">
-          <div className='text-align--center'>{t('TUTOR_ONBOARDING.PROFILE_PREVIEW')}</div>
           <TestTutorProfile
             profileImage={formik.values.profileImage}
             occupation={currentOccupation}
