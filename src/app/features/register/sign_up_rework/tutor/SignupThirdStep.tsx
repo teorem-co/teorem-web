@@ -24,6 +24,8 @@ export function SignupThirdStep({ nextStep }:StepThreeProps) {
   const dispatch = useDispatch();
   const store = useAppSelector((store) => store.signUp);
   const{password, confirmPassword, terms} = store;
+  const selectedRole = useAppSelector((state) => state.role.selectedRole);
+
 
   const initialValues: StepThreeValues = {
     password: password,
@@ -207,7 +209,7 @@ export function SignupThirdStep({ nextStep }:StepThreeProps) {
               <button
                 disabled={!formik.isValid}
                 type="button"
-                id={'next-button-third-step-tutor'}
+                id={`next-button-third-step-${selectedRole}`}
                 className="btn btn--lg btn--primary cur--pointer mt-5 btn-signup"
                 // onClick={() => formik.handleSubmit()}>{t('REGISTER.NEXT_BUTTON')}</button>
                 onClick={() => formik.handleSubmit()}>{t('REGISTER.NEXT_BUTTON')}</button>
