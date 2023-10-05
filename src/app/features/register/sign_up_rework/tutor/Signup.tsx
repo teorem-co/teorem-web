@@ -141,7 +141,7 @@ export function Signup() {
 
         {!isFirstStep && !isLastStep &&
           <AiOutlineLeft
-              id={`back-button-${currentStepIndex}`}
+              id={`back-button-${currentStepIndex}-${selectedRole}`}
           className={`ml-2 mr-6 cur--pointer signup-icon ${isFirstStep ? 'hide-icon' : ''}`}
           color='grey'
           onClick={back}
@@ -164,7 +164,7 @@ export function Signup() {
 
         {!isLastStep &&
           <AiOutlineClose
-              id={`close-button-${currentStepIndex}`}
+              id={`close-button-${currentStepIndex}-${selectedRole}`}
             className="mr-2 ml-6 cur--pointer signup-icon"
             color='grey'
             onClick={close}/>
