@@ -13,24 +13,6 @@ import PayoutsPage from "./PayoutsPage";
 import ImagePage from "./ImagePage";
 
 export function OnboardingTutor() {
-  const state = useAppSelector((state) => state.onboarding);
-
-  const {
-    availability,
-    subjects,
-    currentOccupation,
-    yearsOfExperience,
-    aboutYou,
-    aboutYourLessons,
-    address,
-    addressLine2,
-    postcode,
-    city,
-    country,
-    IBAN,
-    image,
-  } = state;
-
   const {
     steps,
     currentStepIndex,
@@ -49,28 +31,19 @@ export function OnboardingTutor() {
       <PayoutsPage nextStep={nextStep} backStep={backStep}/>,
     ]);
 
-  const dispatch = useDispatch();
   const history = useHistory();
-  const penultimateIndex = steps.length - 2;
-
   function nextStep() {
-    console.log("Calling next step");
-    console.log("Current: ", currentStepIndex);
-    console.log("Is last step: ",isLastStep );
-    console.log("Total steps: ", steps.length);
+
     if (!isLastStep){
       return next();
     }else{
-      console.log("Pushing to dashboard");
       history.push(PATHS.DASHBOARD);
     }
   }
 
   function backStep() {
     if (currentStepIndex != 0){
-      return back();
-    }else{
-      // history.push(PATHS.DASHBOARD);
+      back();
     }
   }
 
@@ -81,7 +54,6 @@ export function OnboardingTutor() {
 
   return (
     <>
-
       <img
         src={logo}
         alt='logo'

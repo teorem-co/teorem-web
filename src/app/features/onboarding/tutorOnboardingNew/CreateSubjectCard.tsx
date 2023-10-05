@@ -21,12 +21,19 @@ import { useAppDispatch, useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import { getUserId } from '../../../utils/getUserId';
 import { setMyProfileProgress } from '../../my-profile/slices/myProfileSlice';
+import { BiSolidTrash } from 'react-icons/bi';
+import { ITutorSubject } from '../../../../slices/onboardingSlice';
 
 interface Props {
   // sideBarIsOpen: boolean;
   // closeSidebar: () => void;
+  data: ITutorSubject;
+  isLastForm: boolean;
+  updateForm: (id:number|string, newValues: ITutorSubject) => void;
+  id:number | string;
   handleGetData: () => void;
   tutorId?: string;
+  removeItem: (id: number|string) => void;
 }
 
 interface Values {
@@ -35,7 +42,7 @@ interface Values {
   price: string;
 }
 export const CreateSubjectCard = (props: Props) => {
-      const { handleGetData } = props;
+      const {data, isLastForm, updateForm, id, removeItem, handleGetData } = props;
 
       const { data: subjectOptions, isLoading: isLoadingSubjects } = useGetSubjectsQuery();
       const { data: levelOptions, isLoading: isLoadingLevels } = useGetLevelsQuery();
@@ -50,9 +57,9 @@ export const CreateSubjectCard = (props: Props) => {
       const dispatch = useAppDispatch();
       const profileProgressState = useAppSelector((state) => state.myProfileProgress);
       const initialValues: Values = {
-      level: '',
-      subject: '',
-      price: '',
+      level: data.levelId,
+      subject: data.subjectId,
+      price: data.price,
     };
 
       const [currency, setCurrency] = useState('PZL');
@@ -66,8 +73,6 @@ export const CreateSubjectCard = (props: Props) => {
       setCurrency(c.currencyCode);
       if (c.currencyCode == "EUR")
       setMinPrice(10);
-      if (c.currencyCode == "PLZ")
-      setMinPrice(47);
     }
     });
     };
@@ -97,8 +102,10 @@ export const CreateSubjectCard = (props: Props) => {
     }, [isSuccess]);
 
       const formik = useFormik({
-      initialValues: initialValues,
       onSubmit: handleSubmit,
+      initialValues: initialValues,
+        validateOnChange: true,
+        validateOnBlur:true,
       validationSchema: Yup.object().shape({
       level: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
       subject: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
@@ -110,15 +117,26 @@ export const CreateSubjectCard = (props: Props) => {
       getCurrency();
     }, []);
 
-      return (
-      <div className="card--primary field__w-fit-content">
+
+  useEffect(() => {
+    updateForm(id, {
+      id: id,
+      price: formik.values.price,
+      subjectId:formik.values.subject,
+      levelId:formik.values.level
+    });
+  }, [formik.values]);
+
+  return (
+      <div className="card--primary mt-1">
             <FormikProvider value={formik}>
               <Form noValidate>
                 <div
                   style={{gap: '10px'}}
-                  className="flex flex--row field__w-fit-content">
+                  className="flex flex--row field__w-fit-content flex--ai--center flex--jc--space-around">
                   <div>
                     <MySelect
+                      className="flex--grow w--180--min"
                       field={formik.getFieldProps('level')}
                       form={formik}
                       meta={formik.getFieldMeta('level')}
@@ -132,6 +150,7 @@ export const CreateSubjectCard = (props: Props) => {
                   </div>
                   <div>
                     <MySelect
+                      className="w--200--min"
                       key={formik.values.subject}
                       field={formik.getFieldProps('subject')}
                       form={formik}
@@ -142,9 +161,10 @@ export const CreateSubjectCard = (props: Props) => {
                       noOptionsMessage={() => t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')}
                       placeholder={t('SEARCH_TUTORS.PLACEHOLDER.SUBJECT')}
                       classNamePrefix="onboarding-select"
+                      withoutErr={true}
                     />
                   </div>
-                  <div className="field">
+                  <div className="field m-0 w--100--px">
                     <TextField
                       name="price"
                       id="price"
@@ -157,6 +177,14 @@ export const CreateSubjectCard = (props: Props) => {
                       type="number"
                     />
                   </div>
+                  <BiSolidTrash
+                    size={18}
+                    className={` ${isLastForm ? 'disabled-color' : 'primary-color'}  cur--pointer icon-transition`}
+                    onClick={() => {
+                      if(!isLastForm)
+                        removeItem(id);
+                    }}
+                  />
                 </div>
               </Form>
             </FormikProvider>

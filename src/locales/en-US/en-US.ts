@@ -1107,7 +1107,7 @@ export const EN_US = {
     LEVELS: {
         primaryschool: 'Primary School',
         highschool: 'High School',
-        ib: 'IB (International Baccalaureate)',
+        ib: 'IB',
         maturaprep: 'Matura Prep',
         university: 'University',
     },

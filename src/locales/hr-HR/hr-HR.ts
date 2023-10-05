@@ -1099,7 +1099,7 @@ export const HR_HR = {
     LEVELS: {
         primaryschool: 'Osnovna škola',
         highschool: 'Srednja škola',
-        ib: 'IB (International Baccalaureate)',
+        ib: 'IB',
         maturaprep: 'Priprema za maturu',
         university: 'Fakultet',
     },

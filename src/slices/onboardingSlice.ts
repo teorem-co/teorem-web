@@ -4,6 +4,14 @@ import ITutorAvailability
 import ISubject from "../interfaces/ISubject";
 import ITutorSubjectLevel from "../interfaces/ITutorSubjectLevel";
 
+export interface ITutorSubject{
+  tutorId?:string,
+  id:string | number,
+  levelId:string,
+  subjectId:string,
+  price:string
+}
+
 interface IStepZero{
   availability: ITutorAvailability[];
 }

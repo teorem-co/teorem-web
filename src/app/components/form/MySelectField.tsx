@@ -150,7 +150,6 @@ const MySelect = ({
                 isLoading={isLoading}
                 noOptionsMessage={() => {
                   if(noOptionsMessage?.toString().includes("childless", 6)) {
-                    console.log(noOptionsMessage);
                     return (
                       <div>
                         {t('FORM_VALIDATION.CHILDLESS_CALENDAR_1')}
