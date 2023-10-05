@@ -46,6 +46,12 @@ export const HR_HR = {
         },
         EDIT_CHILD_DETAILS: 'Izmijenite podatke o djetetu',
     },
+    TUTOR_ONBOARDING: {
+      TITLE: "Hvala što ste potvrdili svoju adresu e-pošte! Dovršimo vaš profil!",
+      SUBTITLE: 'Ovo obično traje 8 minuta.',
+      IMAGE_NOTE: 'Za sada možete preskočiti, ali morat ćete dodati profilnu sliku prije nego što počnete podučavati.',
+      PROFILE_PREVIEW: 'Pregled profila'
+    },
     FORM_VALIDATION: {
         INVALID_EMAIL: 'Neispravan email',
         INVALID_IMAGE: 'Slika mora biti formata jpg, png, jpeg ili svg i manja od 2MB veličine.',
@@ -637,7 +643,7 @@ export const HR_HR = {
             COMPANY_OIB: 'OIB tvrtke*',
             COMPANY_OIB_PLACEHOLDER: 'Unesite OIB tvrtke',
           IBAN_PLACEHOLDER: 'Unesite svoj IBAN',
-            IMAGE: '<Profilna slika>*',
+            IMAGE: 'Profilna slika*',
             UPLOAD_IMAGE: 'Povucite i ispustite za učitavanje',
         },
         PROFILE_ACCOUNT: {
@@ -1166,8 +1172,7 @@ export const HR_HR = {
         RESET_PASSWORD: '/hr/reset-password',
         LOGIN: '/hr/login',
         MY_BOOKINGS: '/hr/kalendar',
-        SEARCH_TUTORS: '/hr/pretraga-instruktora',
-        SEARCH_TUTORS_TUTOR_PROFILE: '/hr/pretraga-instruktora/profil/:tutorSlug',
+        SEARCH_TUTORS: '/hr/pretraga-instruktora',PROFILE: '/hr/pretraga-instruktora/profil/:tutorSlug',
         SEARCH_TUTORS_TUTOR_BOOKINGS: '/hr/pretraga-instruktora/kalendar/:tutorSlug',
         ONBOARDING: '/hr/onboarding',
         MY_REVIEWS: '/hr/moje-recenzije',

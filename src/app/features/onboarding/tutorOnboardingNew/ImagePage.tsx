@@ -27,6 +27,7 @@ import {
 } from '../../../../services/userService';
 import moment from 'moment/moment';
 import { RoleOptions } from '../../../../slices/roleSlice';
+import { t } from 'i18next';
 
 //TODO: update the additional values to only image
 
@@ -305,8 +306,8 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
                       {t('REGISTER.NEXT_BUTTON')}
                     </button>
 
-                    <span onClick={nextStep} className="primary-color type--sm mt-2 cur--pointer">Skip for now</span>
-                    <span className="type--xs">You can skip for now, but you will need to add profile image to be able to show in search </span>
+                    <span onClick={nextStep} className="primary-color type--sm mt-2 cur--pointer">  {t('SKIP_FOR_NOW')}</span>
+                    <span className="type--xs">{t('TUTOR_ONBOARDING.IMAGE_NOTE')}</span>
                   </div>
                 </div>
 
@@ -317,7 +318,7 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
         </FormikProvider>
 
         <div className="w--50">
-          <div className='text-align--center'>Profile Preview</div>
+          <div className='text-align--center'>{t('TUTOR_ONBOARDING.PROFILE_PREVIEW')}</div>
           <TestTutorProfile
             profileImage={formik.values.profileImage}
             occupation={currentOccupation}

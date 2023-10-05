@@ -14,7 +14,6 @@ import TextField from '../../../components/form/TextField';
 import RouterPrompt from '../../../components/RouterPrompt';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
 import {useAppDispatch, useAppSelector} from '../../../hooks';
-import toastService from '../../../services/toastService';
 import {getUserId} from '../../../utils/getUserId';
 import IUpdateAdditionalInfo
   from "../../my-profile/interfaces/IUpdateAdditionalInfo";
@@ -78,7 +77,6 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
     const progressResponse = await getProfileProgress().unwrap();
     dispatch(setMyProfileProgress(progressResponse));
     setSaveBtnActive(false);
-    toastService.success(t('SEARCH_TUTORS.TUTOR_PROFILE.UPDATE_ADDITIONAL_INFO_SUCCESS'));
     dispatch(setStepTwo({
       currentOccupation: values.currentOccupation,
       yearsOfExperience: values.yearsOfExperience ? values.yearsOfExperience : "",
@@ -103,7 +101,6 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
 
   const handleUpdateOnRouteChange = () => {
     if (Object.keys(formik.errors).length > 0) {
-      // toastService.error(t('FORM_VALIDATION.WRONG_REQUIREMENTS'));
       return false;
     } else {
       handleSubmit(formik.values);
@@ -182,21 +179,13 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
         when={saveBtnActive}
         onOK={handleUpdateOnRouteChange}
         onCancel={() => {
-          //if you pass "false" router will be blocked and you will stay on the current page
           return true;
         }}
       />
       <div
-        className="flex flex--row flex--jc--space-between"
-      //   style={{
-      //   display: "grid",
-      //   justifyContent: "center",
-      //   alignItems: "start",
-      //   gridTemplateColumns: "repeat(3, 1fr)"
-      // }}
+        className="flex flex--row flex--jc--space-evenly"
       >
         <div
-          // style={{gridColumn: "1/3"}}
           className="w--50"
         >
           <div className='flex field__w-fit-content align--center'>
@@ -320,8 +309,8 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
             </div>
           </div>
         </div>
-        <div className="w--50">
-          <div className="text-align--center">Profile Preview</div>
+        <div className="w--50 mr-10">
+          <div className='text-align--center'>{t('TUTOR_ONBOARDING.PROFILE_PREVIEW')}</div>
           <TestTutorProfile
             occupation={formik.values.currentOccupation}
             aboutTutor={formik.values.aboutTutor}

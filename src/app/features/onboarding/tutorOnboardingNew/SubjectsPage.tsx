@@ -243,7 +243,7 @@ const SubjectsPage = ({ nextStep, backStep }:SubjectsProps) => {
             <div className="flex--center"  style={{display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column"}}>
               <div>
                 <div
-                  style={{ minWidth:'600px'}}
+                  style={{ minWidth:'600px', overflowY: 'unset'}}
                   className="dash-wrapper dash-wrapper--adaptive flex--grow flex--col flex--jc--space-between" >
                   <div>
 

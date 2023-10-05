@@ -49,6 +49,8 @@ export const EN_US = {
     TUTOR_ONBOARDING: {
       TITLE: "Thank you for verifying your email address! Let's complete your tutor profile!",
       SUBTITLE: 'This usually takes 8 minutes.',
+      IMAGE_NOTE: 'You can skip for now, but you will need to add profile image before you can start teaching.',
+      PROFILE_PREVIEW: 'Profile preview'
     },
     FORM_VALIDATION: {
         INVALID_EMAIL: 'Invalid email',

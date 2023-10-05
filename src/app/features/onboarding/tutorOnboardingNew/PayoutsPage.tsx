@@ -592,7 +592,7 @@ const PayoutsPage = ({nextStep, backStep}: AdditionalProps) => {
 
 
         <div className="w--50">
-          <div className="text-align--center">Profile Preview</div>
+          <div className='text-align--center'>{t('TUTOR_ONBOARDING.PROFILE_PREVIEW')}</div>
           <TestTutorProfile
             occupation={currentOccupation}
             aboutTutor={aboutYou}
