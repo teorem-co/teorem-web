@@ -111,6 +111,7 @@ export const SignupFirstStep = ({nextStep}:StepOneProps) => {
 
             <button
               disabled={!formik.isValid}
+              id={'next-button-first-step-tutor'}
               type="button"
               className="btn btn--lg btn--primary cur--pointer mt-5 btn-signup"
               onClick={() => formik.handleSubmit()}>{t('REGISTER.NEXT_BUTTON')}</button>

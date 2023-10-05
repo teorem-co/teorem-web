@@ -50,6 +50,7 @@ export const SignupFinalStep = () => {
 
       <button
         disabled={buttonIsActive}
+        id={'next-button-first-resend-tutor'}
         className="btn p-3 btn--primary cur--pointer mt-5 btn-signup transition__05"
         onClick={resend}
         style={{zIndex:11}}

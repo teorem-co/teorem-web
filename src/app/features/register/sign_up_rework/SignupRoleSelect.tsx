@@ -36,7 +36,7 @@ export const SignupRoleSelect = () => {
           className="mt-5 ml-5 signup-logo"
         />
 
-        <div className="flex flex--col mt-20">
+        <div className='flex flex--col mt-20' style={{ fontSize: '16px' }}>
           <h1 className="text-align--center mt-5 mb-5 signup-title">
             <span dangerouslySetInnerHTML={{ __html: t('REGISTER.FORM.SELECT_ROLE_TITLE') }}/>
           </h1>
@@ -53,9 +53,10 @@ export const SignupRoleSelect = () => {
             {/*parent*/}
             <div
               onClick={() => setRoleInStore(PARENT)}
-              className="flex--col card--primary scale-hover--scale-105 cur--pointer"
+              className='flex--col card--primary scale-hover--scale-105 cur--pointer '
               style={{borderRadius:'10px'}}>
-              <img className="card-role-select" src={`${IMAGES_PATH}/parent.svg`} alt='parent'/>
+              <img className='card-role-select' style={{ padding: '40px' }} src={`${IMAGES_PATH}/parent.svg`}
+                   alt='parent' />
               <p className="text-align--center">{t('ROLE_SELECTION.PARENT_TITLE')}</p>
             </div>
 
@@ -64,7 +65,8 @@ export const SignupRoleSelect = () => {
               onClick={() => setRoleInStore(STUDENT)}
               className="flex--col card--primary scale-hover--scale-105 cur--pointer"
               style={{borderRadius:'10px'}}>
-              <img className="card-role-select" src={`${IMAGES_PATH}/student.svg`} alt='parent'/>
+              <img className='card-role-select' style={{ padding: '40px' }} src={`${IMAGES_PATH}/student.svg`}
+                   alt='parent' />
               <p className="text-align--center">{t('ROLE_SELECTION.STUDENT_TITLE')}</p>
             </div>
           </div>

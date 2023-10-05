@@ -115,6 +115,7 @@ export const SignupSecondStep = ({ nextStep }:StepTwoProps) => {
 
             <button
               disabled={!formik.isValid}
+              id={'next-button-second-step-tutor'}
               type="button"
               className="btn btn--lg btn--primary cur--pointer mt-5 btn-signup"
               // style={{borderRadius:"10px", fontWeight:'bolder'}}
