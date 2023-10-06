@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
@@ -53,9 +52,16 @@ export const SignupRoleSelect = () => {
             {/*parent*/}
             <div
               onClick={() => setRoleInStore(PARENT)}
-              className='flex--col card--primary scale-hover--scale-105 cur--pointer '
-              style={{borderRadius:'10px'}}>
-              <img className='card-role-select' style={{ padding: '40px' }} src={`${IMAGES_PATH}/parent.svg`}
+              className='flex--col card--primary scale-hover--scale-105 cur--pointer'
+              style={{
+                borderRadius: '10px',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <img className='card-role-select' style={{ padding: '15%' }}
+                   src={`${IMAGES_PATH}/parent.svg`}
                    alt='parent' />
               <p className="text-align--center">{t('ROLE_SELECTION.PARENT_TITLE')}</p>
             </div>
@@ -64,8 +70,15 @@ export const SignupRoleSelect = () => {
             <div
               onClick={() => setRoleInStore(STUDENT)}
               className="flex--col card--primary scale-hover--scale-105 cur--pointer"
-              style={{borderRadius:'10px'}}>
-              <img className='card-role-select' style={{ padding: '40px' }} src={`${IMAGES_PATH}/student.svg`}
+              style={{
+                borderRadius: '10px',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <img className='card-role-select' style={{ padding: '15%' }}
+                   src={`${IMAGES_PATH}/student.svg`}
                    alt='parent' />
               <p className="text-align--center">{t('ROLE_SELECTION.STUDENT_TITLE')}</p>
             </div>
