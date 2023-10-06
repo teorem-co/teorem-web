@@ -27,6 +27,7 @@ export const SignupSubjectSelect = (props:Props) => {
   const [showSubjectCards, setShowSubjectCards] = useState(levelId !=='');
   const [showLoadMoreSubjects, setShowLoadMoreSubjects] = useState(true);
   const [subjects, setSubjects] = useState<ISubject[]>(popularSubjects);
+  const selectedRole = useAppSelector((state) => state.role.selectedRole);
 
   async function handleNextStep(){
     if(stateLevelId && stateSubjectId){
@@ -114,16 +115,27 @@ export const SignupSubjectSelect = (props:Props) => {
               )}
             </div>
 
-            {
-              <p onClick={()=> addAdditionalSubjects()} className="cur--pointer change-color-hover--primary font-family__poppins fw-300 info-text">
-                {showLoadMoreSubjects ? t('REGISTER.FORM.LOAD_MORE_SUBJECTS') : t('REGISTER.FORM.HIDE_MORE_SUBJECTS')}
+            {showLoadMoreSubjects &&
+                <p onClick={() => addAdditionalSubjects()}
+                   id={`show-more-subjects-${selectedRole}`}
+                   className='cur--pointer change-color-hover--primary font-family__poppins fw-300 info-text'>
+                  {t('REGISTER.FORM.LOAD_MORE_SUBJECTS')}
               </p>
+            }
+
+            {!showLoadMoreSubjects &&
+                <p onClick={() => addAdditionalSubjects()}
+                   id={`show-less-subjects-${selectedRole}`}
+                   className='cur--pointer change-color-hover--primary font-family__poppins fw-300 info-text'>
+                  {t('REGISTER.FORM.HIDE_MORE_SUBJECTS')}
+                </p>
             }
           </div>
 
         }
 
         {showSubjectCards && stateSubjectId && <button
+            id={`next-button-subjects-${selectedRole}`}
           disabled={buttonDisabled}
           className="btn btn--lg btn--primary cur--pointer mt-5 btn-signup transition__05"
           onClick={handleNextStep}

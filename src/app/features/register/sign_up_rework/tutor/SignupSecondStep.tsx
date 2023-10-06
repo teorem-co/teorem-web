@@ -28,7 +28,9 @@ export const SignupSecondStep = ({ nextStep }:StepTwoProps) => {
   const rangeSetterRef = useRef<HTMLDivElement>(null);
   const [checkMail] = useCheckMailMutation();
    const [checkMailValidation, setCheckMailValidation] = useState<string>('');
-  //
+    const selectedRole = useAppSelector((state) => state.role.selectedRole);
+
+    //
   const initialValues: StepTwoValues = {
     email: email,
     phoneNumber: phoneNumber,
@@ -115,7 +117,7 @@ export const SignupSecondStep = ({ nextStep }:StepTwoProps) => {
 
             <button
               disabled={!formik.isValid}
-              id={'next-button-second-step-tutor'}
+              id={`next-button-second-step-${selectedRole}`}
               type="button"
               className="btn btn--lg btn--primary cur--pointer mt-5 btn-signup"
               // style={{borderRadius:"10px", fontWeight:'bolder'}}
