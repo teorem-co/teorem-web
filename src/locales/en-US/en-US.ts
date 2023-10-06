@@ -1061,6 +1061,7 @@ export const EN_US = {
     },
     STRIPE_CONNECT: {
         TITLE: "Payments",
+        ADDRESS: 'Address',
         LINE_1: "Address line 1",
         LINE_2: "Address line 2",
         POST_CODE: "Post code",

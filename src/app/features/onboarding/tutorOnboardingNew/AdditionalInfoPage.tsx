@@ -308,7 +308,7 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
               </Form>
             </FormikProvider>
 
-            <div className="type--sm p-0 align--center field__w-fit-content mr-2">
+            <div className="type--sm p-0 align--center field__w-fit-content">
               <ul>
                 <li><span>{t('TUTOR_ONBOARDING.ABOUT_ME_TIPS.TIP_1')}</span></li>
                 <li> <span dangerouslySetInnerHTML={{__html: t('TUTOR_ONBOARDING.ABOUT_ME_TIPS.TIP_2')}}></span></li>

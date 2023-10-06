@@ -134,7 +134,7 @@ const TestTutorProfile = (props: Props) => {
         <td key={index}
             className={`${column ? 'table--availability--check' : 'table--availability--close'}`}>
           <i
-            className={`icon icon--base ${column ? 'icon--check icon--primary' : 'icon--close icon--grey'} `}></i>
+            className={`icon icon${isMobile ? '--sm' : '--base'} ${column ? 'icon--check icon--primary' : 'icon--close icon--grey'} `}></i>
         </td>
       );
     } else if (column == '') {
@@ -227,33 +227,33 @@ const TestTutorProfile = (props: Props) => {
               <div>
                 <div onScroll={(e: any) => debouncedScrollHandler(e.target)}
                      className="card--secondary card--secondary--alt">
-                  <div className="card--secondary__head">
-                    <div className="flex--center flex tutor-list__item__img" style={{alignItems: "center"}}>
-                      {tutorData.User?.profileImage || preview.preview ? (
-                        <img
-                          className="align--center d--b mb-4"
-                          style={{alignSelf: "center"}}
-                          src={ preview.preview ||  `${tutorData.User.profileImage}&v=${cacheBuster}` || `${props.profileImage}&v=${cacheBuster}`}
-                          alt="tutor-profile-pic"/>
-                      ) : (
-                        <ImageCircle
-                          className="align--center d--b mb-4"
-                          imageBig={!isMobile}
-                          initials={`${tutorData.User?.firstName.charAt(0)}${tutorData.User?.lastName.charAt(0)}`}
-                        />
-                      )}
+                    <div className="card--secondary__head flex flex--row flex--ai--center flex--jc--space-around w--100 mb-5">
+                      <div className="tutor-list__item__img">
+                        {tutorData.User?.profileImage ? (
+                          <img
+                            style={{
+                              width: '120px',
+                              height: '120px'
+                            }}
+                            className="align--center d--b"
+                            src={`${tutorData.User.profileImage}&v=${cacheBuster}`}
+                            alt="tutor-profile-pic" />
+                        ) : (
+                          <ImageCircle
+                            className="align--center d--b mb-4"
+                            imageBig={true}
+                            initials={`${tutorData.User?.firstName.charAt(0)}${tutorData.User?.lastName.charAt(0)}`}
+                          />
+                        )}
+                      </div>
+
+                      <div className="flex flex--col w--80">
+                        <div className="d--b type--md type--wgt--bold text-align--center type--break">
+                          {tutorData ? `${tutorData.User.firstName} ${tutorData.User.lastName}` : 'Go back'}
+                        </div>
+                        <div className="type--color--brand type--sm type--center type--break">{tutorData.currentOccupation}</div>
+                      </div>
                     </div>
-                    <div className="type--lg type--wgt--bold ml-4">
-                      {tutorData ? `${tutorData.User.firstName} ${tutorData.User.lastName}` : 'Go back'}
-                    </div>
-                    <div
-                      className="type--color--brand type--center type--break"
-                      style={{textAlign: "right", wordWrap: "break-word", marginLeft: "auto", float: "right"}}
-                      dangerouslySetInnerHTML={{
-                        __html: breakTextAtWord(props.occupation ? props.occupation : "", 25)
-                      }}
-                    ></div>
-                  </div>
                   <div className="card--secondary__body">
                     <div className="mb-10">
                       <div
@@ -298,15 +298,13 @@ const TestTutorProfile = (props: Props) => {
                       // style={{overflowX:'clip'}}
                       className="mb-10 w--100">
                       <div
-                        // style={{overflowX:'clip',maxWidth:'100%', textAlign:'center', textOverflow:'elipsis'}}
-
                         className="type--wgt--bold mb-2">{t('TUTOR_PROFILE.SUBJECTS.TITLE')}</div>
                       <table
                         style={{width:'100%', textAlign:'center'}}
 
                         className="table table--primary">
                         <thead>
-                        <tr>
+                        <tr className={`type--left ${isMobile ? 'type--sm' : ''}`}>
                           <th>{t('TUTOR_PROFILE.SUBJECTS.SUBJECT')}</th>
                           <th>{t('TUTOR_PROFILE.SUBJECTS.QUALIFICATION')}</th>
                           <th>{t('TUTOR_PROFILE.SUBJECTS.PRICE')}</th>
@@ -316,18 +314,18 @@ const TestTutorProfile = (props: Props) => {
                         {tutorData.TutorSubjects.length > 0 ? (
                           tutorData.TutorSubjects.map((item: ITutorSubjectLevel) => {
                             return (
-                              <tr key={item.id}>
-                                <td>{t(`SUBJECTS.${item.Subject.abrv.replace('-', '')}`)}</td>
+                              <tr key={item.id} className={`type--left ${isMobile ? 'type--sm p-0' : ''}`}>
+                                <td>{t(`SUBJECTS.${item.Subject.abrv.replaceAll('-', '')}`)}</td>
                                 {
                                   item.Level.name === 'IB (International Baccalaurate)' ?
                                     <td>{t('LEVELS.ib')}</td> :
-                                    <td>{t(`LEVELS.${item.Level.name.replace('-', '').replace(' ', '').toLowerCase()}`)}</td>
+                                    <td>{t(`LEVELS.${item.Level.name.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`)}</td>
                                 }
                                 <td>
                                   {item.price}
                                   <span className="type--color--tertiary">
-                                                                        {' ' + tutorData.User.Country.currencyCode}/{t('TUTOR_PROFILE.SUBJECTS.HOUR_ABRV')}
-                                                                    </span>
+                                    {' ' + tutorData.User.Country.currencyCode}/{t('TUTOR_PROFILE.SUBJECTS.HOUR_ABRV')}
+                                  </span>
                                 </td>
                               </tr>
                             );

@@ -1063,6 +1063,7 @@ export const HR_HR = {
     },
     STRIPE_CONNECT: {
         TITLE: "Isplate",
+        ADDRESS: 'Adresa',
         LINE_1: "Adresa linija 1",
         LINE_2: "Adresa linija 2",
         POST_CODE: "Poštanski broj",
