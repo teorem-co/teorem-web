@@ -23,6 +23,7 @@ import {
   ICreateSubjectOnboarding,
   useCreateSubjectsOnboardingMutation,
 } from '../../../../services/subjectService';
+import { t } from 'i18next';
 
 interface SubjectsValues {
   subjects: ISubject[];
@@ -232,6 +233,8 @@ const SubjectsPage = ({ nextStep, backStep }:SubjectsProps) => {
     setIsLastForm(forms.length == 1);
   }, [forms]);
 
+  const isMobile = window.innerWidth < 765;
+
   return (
     <>
       <div>
@@ -243,11 +246,14 @@ const SubjectsPage = ({ nextStep, backStep }:SubjectsProps) => {
                 color='grey'
                 onClick={backStep}
               />
-              <div className="flex flex--center flex--shrink w--105">
-                <CircularProgress progressNumber={progressPercentage} size={80}  />
-              </div>
-              <div className="flex flex--col flex--jc--center ml-6">
-                <h4 className='signup-title ml-6 text-align--center'>{t('MY_PROFILE.MY_TEACHINGS.TITLE')}</h4>
+
+              <div  className="flex flex--row flex--jc--center">
+                <div className="flex flex--center flex--shrink ">
+                  <CircularProgress progressNumber={progressPercentage} size={isMobile ? 65 : 80}  />
+                </div>
+                <div className="flex flex--col flex--jc--center">
+                  <h4 className='signup-title ml-6 text-align--center'>{t('MY_PROFILE.MY_TEACHINGS.TITLE')}</h4>
+                </div>
               </div>
             </div>
           </div>
@@ -258,7 +264,7 @@ const SubjectsPage = ({ nextStep, backStep }:SubjectsProps) => {
             <div className="flex--center"  style={{display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column"}}>
               <div>
                 <div
-                  style={{ minWidth:'600px', overflowY: 'unset'}}
+                  style={{ minWidth:'100px',maxWidth:'fit-content', overflowY: 'unset'}}
                   className="dash-wrapper dash-wrapper--adaptive flex--grow flex--col flex--jc--space-between" >
                   <div>
 
@@ -291,9 +297,10 @@ const SubjectsPage = ({ nextStep, backStep }:SubjectsProps) => {
         </div>
           <div className="flex--center" style={{display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column"}}>
             <button
+              id="tutor-onboarding-step-2"
               onClick={() => handleSubmit()}
               disabled={btnDisabled}
-              className="btn btn--base btn--primary mt-4">
+              className="btn btn--lg btn--primary mt-4">
               {t('REGISTER.NEXT_BUTTON')}
             </button>
           </div>

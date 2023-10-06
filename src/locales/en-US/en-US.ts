@@ -50,7 +50,20 @@ export const EN_US = {
       TITLE: "Thank you for verifying your email address! Let's complete your tutor profile!",
       SUBTITLE: 'This usually takes 8 minutes.',
       IMAGE_NOTE: 'You can skip for now, but you will need to add profile image before you can start teaching.',
-      PROFILE_PREVIEW: 'Profile preview'
+      ABOUT_ME_TIPS: {
+        TIP_1: 'Describe in detail your way of teaching and yourself.',
+        TIP_2:'The most effective profiles contain 100+ words in the rubrics <u><i>more about me</i></u> and <u><i>more about my lectures</i></u>.',
+      },
+      IMAGE_TIPS: {
+        TITLE: 'Tips for image:',
+        TIP_1: 'portrait form',
+        TIP_2: 'serious attitude with a smile',
+        TIP_3: 'high quality (min 500x500 pixels)'
+      },
+      PAYOUTS_BUTTON:{
+        PRIVATE: 'Private',
+        COMPANY: 'Company'
+      }
     },
     FORM_VALIDATION: {
         INVALID_EMAIL: 'Invalid email',

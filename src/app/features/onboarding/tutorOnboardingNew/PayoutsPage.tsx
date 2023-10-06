@@ -315,30 +315,15 @@ const PayoutsPage = ({nextStep, backStep}: AdditionalProps) => {
     handleChangeForSave();
   }, [formik.values]);
 
-
+  const isMobile = window.innerWidth < 765;
   return (
     <>
-      {/*<RouterPrompt*/}
-      {/*  when={saveBtnActive}*/}
-      {/*  onOK={handleUpdateOnRouteChange}*/}
-      {/*  onCancel={() => {*/}
-      {/*    //if you pass "false" router will be blocked and you will stay on the current page*/}
-      {/*    return true;*/}
-      {/*  }}*/}
-      {/*/>*/}
       <div
-        className="flex flex--row flex--jc--space-between"
-        //   style={{
-        //   display: "grid",
-        //   justifyContent: "center",
-        //   alignItems: "start",
-        //   gridTemplateColumns: "repeat(3, 1fr)"
-        // }}
-        >
+        className="subject-form-container flex--jc--space-around">
         <div
           style={{gridColumn: "1/3", top: "0", justifyContent: "center",
           alignItems: "center"}}
-          className="align--center w--50">
+          className="align--center profile-preview-wrapper">
           <div className='flex field__w-fit-content align--center'>
             <div className="flex flex--col flex--jc--center ml-6">
               <div style={{margin: "40px"}} className="flex flex--center">
@@ -347,19 +332,18 @@ const PayoutsPage = ({nextStep, backStep}: AdditionalProps) => {
                   color='grey'
                   onClick={backStep}
                 />
-                <div className="flex flex--center flex--shrink w--105">
-                  <CircularProgress
-                    progressNumber={progressPercentage}
-                    size={80}/>
-                </div>
-                <div className="flex flex--col flex--jc--center ml-6">
-                  <h4
-                    className='signup-title ml-6 text-align--center'>{t('MY_PROFILE.PAYOUTS')}</h4>
+                <div  className="flex flex--row flex--jc--center">
+                  <div className="flex flex--center flex--shrink ">
+                    <CircularProgress progressNumber={progressPercentage} size={isMobile ? 65 : 80}  />
+                  </div>
+                  <div className="flex flex--col flex--jc--center">
+                    <h4 className='signup-title ml-6 text-align--center'>{t('MY_PROFILE.PAYOUTS')}</h4>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="pl-8">
+          <div>
 
           <div style={{display: "flex", justifyContent: "center", gap:'10px'}}>
             <div
@@ -367,7 +351,7 @@ const PayoutsPage = ({nextStep, backStep}: AdditionalProps) => {
               style={{
                 borderRadius: '10px',
                 height:'60px',
-                width:'100px',
+                width:'fit-content',
                 alignContent:'center',
                 justifyContent:'center',
                 alignItems:'center',
@@ -375,7 +359,7 @@ const PayoutsPage = ({nextStep, backStep}: AdditionalProps) => {
                 color: individual ? 'white' : 'black',}}
                 onClick={() => {setIndividual(true); setBusiness(false);}}
             >
-              <span className="font__lgr">Private</span>
+              <span className="font__lgr">{t('TUTOR_ONBOARDING.PAYOUTS_BUTTON.PRIVATE')}</span>
             </div>
             <div
               className={`font-family__poppins fw-300 level-card flex card--primary cur--pointer scale-hover--scale-110`}
@@ -390,14 +374,14 @@ const PayoutsPage = ({nextStep, backStep}: AdditionalProps) => {
                 color: business ? 'white' : 'black',}}
               onClick={() => {setIndividual(false); setBusiness(true);}}
             >
-              <span className="font__lgr">Business</span>
+              <span className="font__lgr">{t('TUTOR_ONBOARDING.PAYOUTS_BUTTON.COMPANY')}</span>
             </div>
           </div>
             <div>
               {individual ? (
                 <>
                   <FormikProvider value={formik}>
-                    <Form>
+                    <Form className="mt-5">
                      <div className="w--80 align--center">
                        <div className="field">
                          <label htmlFor="addressLine1Field" className="field__label">
@@ -445,7 +429,7 @@ const PayoutsPage = ({nextStep, backStep}: AdditionalProps) => {
                          alignItems: "center",
                          flexDirection: "column"
                        }}>
-                         <button type='submit' disabled={!saveBtnActive} className="btn btn--base btn--primary mt-4">
+                         <button type='submit' disabled={!saveBtnActive} className="btn btn--lg btn--primary mt-4">
                            {t('REGISTER.NEXT_BUTTON')}
                          </button>
                        </div>
@@ -457,19 +441,13 @@ const PayoutsPage = ({nextStep, backStep}: AdditionalProps) => {
               {business ? (
                 <>
                   <FormikProvider value={formik}>
-                    <Form>
+                    <Form className="mt-5">
                       <div className="w--80 align--center">
                         <div className="field">
                           <label htmlFor="line1" className="field__label">
                             {t('ACCOUNT.NEW_CARD.ADDRESS1')}
                           </label>
                           <TextField name="addressLine1" id="addressLine1Field" placeholder={t('ACCOUNT.NEW_CARD.ADDRESS1_PLACEHOLDER')}/>
-                        </div>
-                        <div className="field">
-                          <label htmlFor="line2" className="field__label">
-                            {t('ACCOUNT.NEW_CARD.ADDRESS2')}
-                          </label>
-                          <TextField name="addressLine2" id="addressLine2Field" placeholder={t('ACCOUNT.NEW_CARD.ADDRESS2_PLACEHOLDER')} />
                         </div>
                         <div className="field">
                           <label htmlFor="zipCode" className="field__label">
@@ -483,23 +461,23 @@ const PayoutsPage = ({nextStep, backStep}: AdditionalProps) => {
                         </label>
                         <TextField name="city" id="city" placeholder={t('ACCOUNT.NEW_CARD.CITY_PLACEHOLDER')} />
                       </div>
-                      <div className="field">
-                        <label htmlFor="country" className="field__label">
-                          {t('MY_PROFILE.PROFILE_SETTINGS.COUNTRY')}
-                        </label>
-                        <MySelect
-                          form={formik}
-                          field={formik.getFieldProps('country')}
-                          meta={formik.getFieldMeta('country')}
-                          isMulti={false}
-                          classNamePrefix="onboarding-select"
-                          options={countryOptions}
-                          placeholder={t('ACCOUNT.NEW_CARD.COUNTRY_PLACEHOLDER')}
-                          customInputField={countryInput}
-                          customOption={countryOption}
-                          isDisabled={countryOptions.length < 1}
-                        />
-                      </div>
+                      {/*<div className="field">*/}
+                      {/*  <label htmlFor="country" className="field__label">*/}
+                      {/*    {t('MY_PROFILE.PROFILE_SETTINGS.COUNTRY')}*/}
+                      {/*  </label>*/}
+                      {/*  <MySelect*/}
+                      {/*    form={formik}*/}
+                      {/*    field={formik.getFieldProps('country')}*/}
+                      {/*    meta={formik.getFieldMeta('country')}*/}
+                      {/*    isMulti={false}*/}
+                      {/*    classNamePrefix="onboarding-select"*/}
+                      {/*    options={countryOptions}*/}
+                      {/*    placeholder={t('ACCOUNT.NEW_CARD.COUNTRY_PLACEHOLDER')}*/}
+                      {/*    customInputField={countryInput}*/}
+                      {/*    customOption={countryOption}*/}
+                      {/*    isDisabled={countryOptions.length < 1}*/}
+                      {/*  />*/}
+                      {/*</div>*/}
                       <div className="field">
                         <label htmlFor="iban" className="field__label">
                           IBAN*
@@ -542,13 +520,12 @@ const PayoutsPage = ({nextStep, backStep}: AdditionalProps) => {
                         alignItems: "center",
                         flexDirection: "column"
                       }}>
-                        <button type={'submit'} onClick={() => {
-                          console.log('submitting', formik.values);
+                        <button id="tutor-onboarding-step-5" type={'submit'} onClick={() => {
                           handleSubmit(formik.values);
                         }
                         }
                                 disabled={!saveBtnActive}
-                                className="btn btn--base btn--primary mt-4">
+                                className="btn btn--lg btn--primary mt-4">
                           {t('REGISTER.NEXT_BUTTON')}
                         </button>
                       </div>
@@ -563,7 +540,7 @@ const PayoutsPage = ({nextStep, backStep}: AdditionalProps) => {
         </div>
 
 
-        <div className="w--50 mr-10">
+        <div className="profile-preview-wrapper">
           <TestTutorProfile
             occupation={currentOccupation}
             aboutTutor={aboutYou}

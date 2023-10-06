@@ -61,6 +61,7 @@ const AvailabilityPage = ({ nextStep }:AvailabilityProps) => {
     availability: availability,
   };
 
+  const isMobile = window.innerWidth < 765;
   const renderTableCells = (column: string | boolean, availabilityIndex: IAvailabilityIndex) => {
 
     if (typeof column === 'boolean') {
@@ -70,7 +71,7 @@ const AvailabilityPage = ({ nextStep }:AvailabilityProps) => {
           onClick={() => handleAvailabilityClick(availabilityIndex.column, availabilityIndex.row, column)}
           key={availabilityIndex.column}
         >
-          <i className={`icon icon--base ${column ? 'icon--check icon--primary' : 'icon--close icon--grey'} `}></i>
+          <i className={`icon ${isMobile ? 'icon--sm' : 'icon--base'} ${column ? 'icon--check icon--primary' : 'icon--close icon--grey'} `}></i>
         </td>
       );
     } else if (column == '') {
@@ -209,36 +210,39 @@ const AvailabilityPage = ({ nextStep }:AvailabilityProps) => {
 
   return (
     <>
-      <RouterPrompt
-        when={saveBtnActive}
-        onOK={handleUpdateOnRouteChange}
-        onCancel={() => {
-          //if you pass "false" router will be blocked and you will stay on the current page
-          return true;
-        }}
-      />
+      {/*<RouterPrompt*/}
+      {/*  when={saveBtnActive}*/}
+      {/*  onOK={handleUpdateOnRouteChange}*/}
+      {/*  onCancel={() => {*/}
+      {/*    //if you pass "false" router will be blocked and you will stay on the current page*/}
+      {/*    return true;*/}
+      {/*  }}*/}
+      {/*/>*/}
       <div>
         <div className='flex field__w-fit-content align--center flex--center'>
-            <div className="flex flex--col flex--jc--center ml-6">
+            <div className="flex flex--col flex--jc--center">
               <div>
                 <p className='ml-6 text-align--center' style={{fontSize: "medium"}}>{t('TUTOR_ONBOARDING.TITLE')}</p>
                 <p className='ml-6 text-align--center' style={{fontSize: "small"}}>{t('TUTOR_ONBOARDING.SUBTITLE')}</p>
               </div>
-              <div style={{margin: "40px"}} className="flex">
-                <div className="flex flex--center flex--shrink w--105">
+              <div style={{margin: "40px"}} className="flex flex--row flex--jc--center">
+                <div className="flex flex--center flex--shrink ">
                   {/*<CircularProgress progressNumber={profileProgressState.percentage ? profileProgressState.percentage : 0} size={80}  />*/}
-                  <CircularProgress progressNumber={progressPercentage} size={80}  />
+                  <CircularProgress progressNumber={progressPercentage} size={isMobile ? 65 : 80}  />
                 </div>
-                <div className="flex flex--col flex--jc--center ml-6">
+                <div className="flex flex--col flex--jc--center">
                   <h4 className='signup-title ml-6 text-align--center'>{t('MY_PROFILE.GENERAL_AVAILABILITY.TITLE')}</h4>
                 </div>
               </div>
             </div>
         </div>
+
         {(loading && <LoaderPrimary />) || (
-          <div className="flex--center" style={{display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column"}}>
-            <table className="table table--availability"><tbody>{renderAvailabilityTable()}</tbody></table>
-            <button onClick={() => handleSubmit()} className="btn btn--base btn--primary mt-4" disabled={!saveBtnActive}>
+          <div className="flex--center m-2" style={{display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column"}}>
+            <table className="table table--availability "><tbody>{renderAvailabilityTable()}</tbody></table>
+            <button
+              id="tutor-onboarding-step-1"
+              onClick={() => handleSubmit()} className="btn btn--lg btn--primary mt-4" disabled={!saveBtnActive}>
               {t('REGISTER.NEXT_BUTTON')}
             </button>
           </div>

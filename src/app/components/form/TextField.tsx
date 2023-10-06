@@ -1,8 +1,10 @@
 import { FieldAttributes, useField } from 'formik';
 import React, { useEffect, useRef, useState } from 'react';
 import MaskedInput from 'react-text-mask';
+import { debounce } from 'lodash';
 
 type TextFieldType = {
+    onError?: () => void;
     min?: number;
     password?: boolean;
     className?: string;
@@ -32,6 +34,14 @@ const TextField: React.FC<TextFieldType> = (props: any) => {
         }
         return errorText;
     };
+
+    useEffect(() => {
+      if(meta.touched && meta.error && props.onError && errorText) {
+        // const debouncedOnError = debounce(props.onError, 500);
+        // debouncedOnError();
+        props.onError();
+      }
+    }, [props.onError]);
 
     useEffect(() => {
         if (textInputRef.current) {

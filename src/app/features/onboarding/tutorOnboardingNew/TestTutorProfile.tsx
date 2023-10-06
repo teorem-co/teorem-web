@@ -212,6 +212,8 @@ const TestTutorProfile = (props: Props) => {
 
   }, [file]);
 
+  const isMobile = window.innerWidth < 765;
+
   if (user === null) {
     return <PublicTutorProfile/>;
   } else {
@@ -236,7 +238,7 @@ const TestTutorProfile = (props: Props) => {
                       ) : (
                         <ImageCircle
                           className="align--center d--b mb-4"
-                          imageBig={true}
+                          imageBig={!isMobile}
                           initials={`${tutorData.User?.firstName.charAt(0)}${tutorData.User?.lastName.charAt(0)}`}
                         />
                       )}
@@ -292,10 +294,17 @@ const TestTutorProfile = (props: Props) => {
                         <>{t('TUTOR_PROFILE.AVAILABILITY_EMPTY')}</>
                       )}
                     </div>
-                    <div className="mb-10">
+                    <div
+                      // style={{overflowX:'clip'}}
+                      className="mb-10 w--100">
                       <div
+                        // style={{overflowX:'clip',maxWidth:'100%', textAlign:'center', textOverflow:'elipsis'}}
+
                         className="type--wgt--bold mb-2">{t('TUTOR_PROFILE.SUBJECTS.TITLE')}</div>
-                      <table className="table table--primary">
+                      <table
+                        style={{width:'100%', textAlign:'center'}}
+
+                        className="table table--primary">
                         <thead>
                         <tr>
                           <th>{t('TUTOR_PROFILE.SUBJECTS.SUBJECT')}</th>

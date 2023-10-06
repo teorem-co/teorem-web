@@ -128,15 +128,15 @@ export const CreateSubjectCard = (props: Props) => {
   }, [formik.values]);
 
   return (
-      <div className="card--primary mt-1">
+      <div className="card--primary mt-1 flex flex--jc--space-around">
             <FormikProvider value={formik}>
               <Form noValidate>
                 <div
                   style={{gap: '10px'}}
-                  className="flex flex--row field__w-fit-content flex--ai--center flex--jc--space-around">
+                  className="subject-form-container field__w-fit-content flex--ai--center ">
                   <div>
                     <MySelect
-                      className="flex--grow w--180--min"
+                      className="flex--grow w--220--min w--220--max"
                       field={formik.getFieldProps('level')}
                       form={formik}
                       meta={formik.getFieldMeta('level')}
@@ -150,7 +150,7 @@ export const CreateSubjectCard = (props: Props) => {
                   </div>
                   <div>
                     <MySelect
-                      className="w--200--min"
+                      className="w--220--min w--220--max "
                       key={formik.values.subject}
                       field={formik.getFieldProps('subject')}
                       form={formik}
@@ -164,18 +164,18 @@ export const CreateSubjectCard = (props: Props) => {
                       withoutErr={true}
                     />
                   </div>
-                  <div className="field m-0 w--100--px">
+                  <div className="field m-0 w--100--px flex flex--row flex--ai--center">
                     <TextField
                       name="price"
                       id="price"
                       placeholder={
                         t('MY_PROFILE.MY_TEACHINGS.PRICING_PLACEHOLDER') +
                         minPrice + ' ' + currency + '/h'}
-                      withoutErr={
-                        !(formik.errors.price &&
-                          formik.touched.price)}
+                      withoutErr={true}
+                      onError={()=> console.log("IMAMO EROR SA CIJENOM")}
                       type="number"
                     />
+                    <span className="ml-1">EUR/h</span>
                   </div>
                   <BiSolidTrash
                     size={18}

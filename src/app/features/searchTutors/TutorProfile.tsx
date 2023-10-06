@@ -457,36 +457,6 @@ const TutorProfile = () => {
                             <span> {t('SEARCH_TUTORS.COMPLETED_LESSONS')}</span>
                           </div>
                         </div>
-
-                        {/*<div className="flex flex--row profile-btn-container flex--jc--center">*/}
-                        {/*  {userRole !== RoleOptions.Tutor && (*/}
-                        {/*    <>*/}
-                        {/*      {tutorData.disabled ?*/}
-
-                        {/*        <button*/}
-                        {/*          disabled={tutorData.disabled}*/}
-                        {/*          className="btn btn--lg btn--primary type--center w--50"*/}
-                        {/*        >{t('TUTOR_PROFILE.TUTOR_DISABLED')}</button>*/}
-                        {/*        :*/}
-                        {/*        <Link*/}
-                        {/*          className="btn btn--base btn--primary type--center w--50"*/}
-                        {/*          to={tutorPath}*/}
-                        {/*        >*/}
-                        {/*          {t('TUTOR_PROFILE.BOOK')}*/}
-                        {/*        </Link>*/}
-                        {/*      }*/}
-
-                        {/*      <Link*/}
-                        {/*        className="btn btn--base btn--ghost ml-4 type--center flex flex--center flex--jc--center w--50"*/}
-                        {/*        onClick={() => createNewChat()}*/}
-                        {/*        to={PATHS.CHAT}*/}
-                        {/*      >*/}
-                        {/*        {createChatLoading && <LoaderPrimary small={true} />}*/}
-                        {/*        <span>{t('TUTOR_PROFILE.SEND')}</span>*/}
-                        {/*      </Link>*/}
-                        {/*    </>*/}
-                        {/*  )}*/}
-                        {/*</div>*/}
                       </div>
                         //   end of desktop component
                       }

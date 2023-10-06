@@ -139,3 +139,20 @@
   }
 }
 
+.subject-form-container{
+  display: flex;
+  flex-direction: row;
+
+  @media (max-width: 767px) {
+    flex-direction: column;
+  }
+}
+
+.profile-preview-wrapper{
+  width: 50%;
+  //margin: 2 * $unit;
+  @media (max-width: 767px) {
+    width: 100%;
+  }
+}
+

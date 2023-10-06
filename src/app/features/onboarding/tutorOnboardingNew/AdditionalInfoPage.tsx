@@ -157,6 +157,7 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
   });
 
   useEffect(() => {
+    window.scrollTo({top:0});
     fetchData();
   }, []);
 
@@ -181,37 +182,41 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
     }
   }, [formik.values]);
 
+
+  const isMobile = window.innerWidth < 765;
   return (
     <>
-      <RouterPrompt
-        when={saveBtnActive}
-        onOK={handleUpdateOnRouteChange}
-        onCancel={() => {
-          return true;
-        }}
-      />
+      {/*<RouterPrompt*/}
+      {/*  when={saveBtnActive}*/}
+      {/*  onOK={handleUpdateOnRouteChange}*/}
+      {/*  onCancel={() => {*/}
+      {/*    return true;*/}
+      {/*  }}*/}
+      {/*/>*/}
+
+
       <div
-        className="flex flex--row flex--jc--space-evenly"
+        className="subject-form-container flex--jc--space-evenly"
       >
         <div
-          className="w--50"
+          className={`${isMobile ? '' : 'w--50'} `}
         >
           <div className='flex field__w-fit-content align--center'>
-            <div className="flex flex--col flex--jc--center ml-6">
+            <div className="flex flex--col flex--jc--center">
               <div style={{margin: "40px"}} className="flex flex--center">
                 <AiOutlineLeft
                   className={`ml-2 mr-6 cur--pointer signup-icon`}
                   color='grey'
                   onClick={backStep}
                 />
-                <div className="flex flex--center flex--shrink w--105">
-                  <CircularProgress
-                    progressNumber={progressPercentage}
-                    size={80}/>
-                </div>
-                <div className="flex flex--col flex--jc--center ml-6">
-                  <h4
-                    className='signup-title ml-6 text-align--center'>{t('SEARCH_TUTORS.TUTOR_PROFILE.ABOUT_ME')}</h4>
+
+                <div  className="flex flex--row flex--jc--center">
+                  <div className="flex flex--center flex--shrink ">
+                    <CircularProgress progressNumber={progressPercentage} size={isMobile ? 65 : 80}  />
+                  </div>
+                  <div className="flex flex--col flex--jc--center">
+                    <h4 className='signup-title ml-6 text-align--center'>{t('SEARCH_TUTORS.TUTOR_PROFILE.ABOUT_ME')}</h4>
+                  </div>
                 </div>
               </div>
             </div>
@@ -303,21 +308,30 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
               </Form>
             </FormikProvider>
 
+            <div className="type--sm p-0 align--center field__w-fit-content mr-2">
+              <ul>
+                <li><span>{t('TUTOR_ONBOARDING.ABOUT_ME_TIPS.TIP_1')}</span></li>
+                <li> <span dangerouslySetInnerHTML={{__html: t('TUTOR_ONBOARDING.ABOUT_ME_TIPS.TIP_2')}}></span></li>
+              </ul>
+            </div>
+
             <div className="flex--center" style={{
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
               flexDirection: "column"
             }}>
-              <button onClick={() => handleSubmit(formik.values)}
-                      disabled={!saveBtnActive}
-                      className="btn btn--base btn--primary mt-4">
+              <button
+                id="tutor-onboarding-step-3"
+                onClick={() => handleSubmit(formik.values)}
+                disabled={!saveBtnActive}
+                className="btn btn--lg btn--primary mt-4">
                 {t('REGISTER.NEXT_BUTTON')}
               </button>
             </div>
           </div>
         </div>
-        <div className="w--50 mr-10">
+        <div className= {`profile-preview-wrapper ${isMobile ? 'mt-10' : ''} `}>
           <TestTutorProfile
             occupation={formik.values.currentOccupation}
             aboutTutor={formik.values.aboutTutor}

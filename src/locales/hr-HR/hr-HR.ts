@@ -50,7 +50,20 @@ export const HR_HR = {
       TITLE: "Hvala što ste potvrdili svoju adresu e-pošte! Dovršimo vaš profil!",
       SUBTITLE: 'Ovo obično traje 8 minuta.',
       IMAGE_NOTE: 'Za sada možete preskočiti, ali morat ćete dodati profilnu sliku prije nego što počnete podučavati.',
-      PROFILE_PREVIEW: 'Pregled profila'
+      ABOUT_ME_TIPS: {
+        TIP_1: 'Detaljno opišite svoj način predavanja i sebe.',
+        TIP_2:'Najučinkovitiji profili sadrže 100+ riječi u rubirkama <u><i>više o meni</i></u> i <u><i>više o mojim predavanjima</i></u>.',
+      },
+      IMAGE_TIPS: {
+        TITLE: 'Naputci za fotografiju',
+        TIP_1: 'portret oblik',
+        TIP_2: 'ozbiljnog stava s osmjehom',
+        TIP_3: 'visoke kvalitete (min 500x500 piksela)'
+      },
+      PAYOUTS_BUTTON:{
+        PRIVATE: 'Privatna osoba',
+        COMPANY: 'Tvrtka'
+      }
     },
     FORM_VALIDATION: {
         INVALID_EMAIL: 'Neispravan email',
@@ -1058,7 +1071,7 @@ export const HR_HR = {
         IBAN_CONFIRM: "IBAN",
         SAVE: "Spremi",
         CANCEL: "Odustani",
-        TERMS: '<div>Klikom na gumb \'Pošalji\' slažete se s <a href="https://stripe.com/legal/connect-account" target="_blank">Uvjetima pružanja usluge</a> i <a href="https://stripe.com/privacy" target="_blank">Politikom privatnosti</a></div>',
+        TERMS: '<div>Klikom na gumb slažete se s <a href="https://stripe.com/legal/connect-account" target="_blank">Uvjetima pružanja usluge</a> i <a href="https://stripe.com/privacy" target="_blank">Politikom privatnosti</a></div>',
 
       SUCCESS: 'Račun za plaćanje povezan',
     },

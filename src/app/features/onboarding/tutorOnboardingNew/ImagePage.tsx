@@ -218,6 +218,8 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
 
 
   useEffect(() => {
+    console.log("CALLING SCROLL");
+    window.scrollTo({top:0, left:0, behavior:'smooth'});
     fetchData();
   }, []);
 
@@ -234,61 +236,40 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
     handleChangeForSave();
   }, [formik.values]);
 
-
-  // useEffect(() => {
-  //   if (formik.values.aboutLessons.length !== 0 && formik.values.aboutTutor.length !== 0 && formik.values.currentOccupation.length !== 0) {
-  //     setSaveBtnActive(true);
-  //   } else {
-  //     setSaveBtnActive(false);
-  //   }
-  // }, [formik.values]);
+  const isMobile = window.innerWidth < 765;
 
   return (
     <>
-      {/*<RouterPrompt*/}
-      {/*  when={saveBtnActive}*/}
-      {/*  onOK={handleUpdateOnRouteChange}*/}
-      {/*  onCancel={() => {*/}
-      {/*    //if you pass "false" router will be blocked and you will stay on the current page*/}
-      {/*    return true;*/}
-      {/*  }}*/}
-      {/*/>*/}
-      <div className="flex flex--row flex--jc--space-around">
+      <div className="subject-form-container flex--jc--space-around">
         <FormikProvider value={formik}>
           <Form>
-            <div style={{
-              // display: "grid",
-              // justifyContent: "center",
-              // alignItems: "start",
-              // gridTemplateColumns: "repeat(3, 1fr)"
-            }}
-            >
+            <div>
               <div
                 style={{
                 gridColumn: "1/3", top: "0", justifyContent: "center",
                 alignItems: "center"
                 }}
-                className="align--center">
+                className="align--center m-2">
                 <div className='flex field__w-fit-content align--center'>
-                  <div className="flex flex--col flex--jc--center ml-6">
+                  <div className="flex flex--col flex--jc--center ">
                     <div style={{margin: "40px"}} className="flex flex--center">
                       <AiOutlineLeft
                         className={`ml-2 mr-6 cur--pointer signup-icon`}
                         color='grey'
                         onClick={backStep}
                       />
-                      <div className="flex flex--center flex--shrink w--105">
-                        <CircularProgress
-                          progressNumber={progressPercentage}
-                          size={80}/>
-                      </div>
-                      <div className="flex flex--col flex--jc--center">
-                        <h4
-                          className='signup-title ml-6 text-align--center'>{t('MY_PROFILE.IMAGE')}</h4>
+                      <div  className="flex flex--row flex--jc--center">
+                        <div className="flex flex--center flex--shrink ">
+                          <CircularProgress progressNumber={progressPercentage} size={isMobile ? 65 : 80}  />
+                        </div>
+                        <div className="flex flex--col flex--jc--center">
+                          <h4 className='signup-title ml-6 text-align--center'>{t('MY_PROFILE.IMAGE')}</h4>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
+
                 <div className="w--680--max align--center">
                   <div className="field field__file">
                     <label className="field__label" htmlFor="profileImage">
@@ -303,13 +284,26 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
                       removePreviewOnUnmount={true}
                     />
                   </div>
+
+                  <div className="field__w-fit-content type--sm ml-30">
+                    <span>{t('TUTOR_ONBOARDING.IMAGE_TIPS.TITLE')}</span>
+                    <ul>
+                      <li>{t('TUTOR_ONBOARDING.IMAGE_TIPS.TIP_1')}</li>
+                      <li>{t('TUTOR_ONBOARDING.IMAGE_TIPS.TIP_2')}</li>
+                      <li>{t('TUTOR_ONBOARDING.IMAGE_TIPS.TIP_3')}</li>
+                    </ul>
+                  </div>
                 </div>
+
+
                 <div className="flex flex--jc--center text-align--center">
 
                   <div className='flex flex--col'>
-                    <button onClick={() => handleSubmit(formik.values)}
+                    <button
+                      id="tutor-onboarding-step-4"
+                      onClick={() => handleSubmit(formik.values)}
                             disabled={!saveBtnActive}
-                            className="btn btn--base btn--primary mt-4 align--center">
+                            className="btn btn--lg btn--primary mt-4 align--center">
                       {t('REGISTER.NEXT_BUTTON')}
                     </button>
 
@@ -322,7 +316,7 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
           </Form>
         </FormikProvider>
 
-        <div className="w--50">
+        <div className="profile-preview-wrapper m-1">
           <TestTutorProfile
             profileImage={formik.values.profileImage}
             occupation={currentOccupation}
