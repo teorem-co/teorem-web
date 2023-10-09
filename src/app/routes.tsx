@@ -53,9 +53,6 @@ import { Signup } from './features/register/sign_up_rework/tutor/Signup';
 import {
   SignupRoleSelect
 } from './features/register/sign_up_rework/SignupRoleSelect';
-import {
-  TutorItemMobile
-} from './features/searchTutors/components/TutorItemMobile';
 
 export const PATHS = {
   ROLE_SELECTION: t('PATHS.ROLE_SELECTION'),
@@ -101,45 +98,6 @@ export const PROFILE_PATHS = {
   MY_PROFILE_CHILD_INFO: t('PATHS.PROFILE_PATHS.MY_PROFILE_CHILD_INFO'),
 };
 
-const tutor1 = {
-  id: "1",
-  firstName: "John",
-  lastName: "Doe",
-  profileImage: "https://avatars.sched.co/8/90/1938608/avatar.jpg?3fd",
-  slug: "john-doe",
-  currentOccupation: "Math Tutor",
-  aboutTutor: "Passionate about teaching and helping students achieve their potential.",
-  minPrice: 25,
-  maxPrice: 50,
-  averageGrade: 4.5,
-  aboutLessons: "Interactive lessons tailored to each student's needs.",
-  completedLessons: 1,
-  currencyCode: "USD",
-  yearsOfExperience: 5,
-  subjects: ["maths", "physics", "statistics", "economics"],
-  numberOfReviews: 2
-};
-
-const tutor2 = {
-  id: "2",
-  firstName: "Jane",
-  lastName: "Smith",
-  profileImage: "https://avatars.sched.co/8/90/1938608/avatar.jpg?3fd",
-  slug: "jane-smith",
-  currentOccupation: "English Tutor",
-  aboutTutor: "Dedicated to building a learning environment that fosters curiosity and confidence.",
-  minPrice: 45,
-  maxPrice: 45,
-  averageGrade: 4.8,
-  aboutLessons: "Engaging lessons focused on improving comprehension and communication skills.",
-  completedLessons: 200,
-  currencyCode: "USD",
-  yearsOfExperience: 6,
-  subjects: ["english", "croatian", "german"],
-  numberOfReviews: 31
-};
-
-
 interface IMenuItem {
   name: string;
   icon: string;
@@ -154,20 +112,6 @@ interface IMenuPerRole {
 }
 
 export const ROUTES: any = [
-  {
-    path: '/en/mobile-tutor',
-    key: 'mobitiu',
-    exact: true,
-    // component: () => <RoleSelection />,
-    component: () =><div>
-
-
-      <TutorItemMobile tutor={tutor1}/>
-      <TutorItemMobile tutor={tutor2}/>
-      <TutorItemMobile tutor={tutor1}/>
-
-    </div>,
-  },
   {
     path: PATHS.ROLE_SELECTION,
     key: 'ROLE_SELECTION',
