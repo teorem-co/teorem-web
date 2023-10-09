@@ -100,7 +100,11 @@ export const EN_US = {
         CHILD_REQUIRED: 'Child is required',
         AGREE_TERMS_REQUIRED: 'You must agree to terms and conditions',
         CHILDLESS_CALENDAR_1: 'Please add a child in',
-        CHILDLESS_CALENDAR_2: 'profile settings'
+        CHILDLESS_CALENDAR_2: 'profile settings',
+        INVALID_IBAN: 'Invalid IBAN',
+        IBAN_WHITESPACES: 'IBAN must not contain whitespaces',
+        IBAN_MATCH: 'IBANs must match'
+
     },
     NAVIGATION: {
         MY_BOOKINGS: 'Calendar',

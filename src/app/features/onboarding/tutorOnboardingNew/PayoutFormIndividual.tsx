@@ -48,13 +48,13 @@ export const PayoutFormIndividual = (props: Props) => {
       city: yup.string().required(t('FORM_VALIDATION.REQUIRED')).trim(),
       IBAN: yup
         .string()
-        .test('valid-iban', 'IBAN is invalid', function (value) {
+        .test('valid-iban', t('FORM_VALIDATION.INVALID_IBAN'), function (value) {
           if (!value) {
             return true;
           }
           return isValidIBANNumber(value);
         })
-        .test('valid-iban', 'IBAN must not contain whitespaces', function(value){
+        .test('valid-iban', t('FORM_VALIDATION.IBAN_WHITESPACES'), function(value){
           if(!value){
             return false;
           }
@@ -63,16 +63,16 @@ export const PayoutFormIndividual = (props: Props) => {
         .required('IBAN is required'),
       IBANConfirm: yup
         .string()
-        .test('valid-iban', 'IBAN is invalid', function (value) {
+        .test('valid-iban', t('FORM_VALIDATION.INVALID_IBAN'), function (value) {
           if (!value) {
             return true;
           }
           return isValidIBANNumber(value);
         })
-        .test('iban-match', 'IBANs must match', function (value) {
+        .test('iban-match', t('FORM_VALIDATION.IBAN_MATCH'), function (value) {
           return this.parent.IBAN === value;
         })
-        .required('IBAN confirmation is required'),
+        .required(t('FORM_VALIDATION.REQUIRED')),
     })
   });
 

@@ -100,7 +100,10 @@ export const HR_HR = {
         CHILD_REQUIRED: 'Dijete je obvezno',
         AGREE_TERMS_REQUIRED: 'Morate prihvatiti odredbe i uvjete',
         CHILDLESS_CALENDAR_1: 'Dodajte dijete u',
-        CHILDLESS_CALENDAR_2: 'postavkama profila'
+        CHILDLESS_CALENDAR_2: 'postavkama profila',
+        INVALID_IBAN: 'Neispravan IBAN',
+        IBAN_WHITESPACES: 'IBAN ne smije sadržavati prazne znakove',
+        IBAN_MATCH: 'IBANi se moraju podudarati'
     },
     NAVIGATION: {
         MY_BOOKINGS: 'Kalendar',
