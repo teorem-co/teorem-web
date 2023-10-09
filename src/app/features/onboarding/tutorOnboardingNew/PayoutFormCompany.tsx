@@ -105,7 +105,7 @@ export const PayoutFormCompany = (props: Props) => {
           setMyProfileProgress({
             ...profileProgressState,
             payment: true,
-            percentage: profileProgressState.percentage + 25,
+            percentage: profileProgressState.percentage + 20,
           })
         );
         // toastService.success(t('STRIPE_CONNECT.SUCCESS'));

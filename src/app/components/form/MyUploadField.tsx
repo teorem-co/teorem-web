@@ -17,9 +17,10 @@ type UploadFileType = {
     setFieldValue: (field: string, value: any) => void;
     removePreviewOnUnmount?: boolean;
     imagePreview?: string;
+    setPreview?: (img: string) => void;
 } & FieldAttributes<{}>;
 
-const UploadFile: FC<UploadFileType> = ({ setFieldValue, removePreviewOnUnmount, ...props }) => {
+const UploadFile: FC<UploadFileType> = ({ setPreview, setFieldValue, removePreviewOnUnmount, ...props }) => {
     const dispatch = useAppDispatch();
 
     const [field, meta, helper] = useField<{}>(props);
@@ -58,7 +59,13 @@ const UploadFile: FC<UploadFileType> = ({ setFieldValue, removePreviewOnUnmount,
 
     const cacheBuster = new Date();
 
-    return (
+
+  useEffect(() => {
+    if (setPreview) {
+      setPreview(preview.preview ? preview.preview : '');
+    }
+  }, [preview]);
+  return (
         <>
             <div className="flex flex--center">
                 {preview.preview || props.imagePreview ? (

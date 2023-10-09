@@ -238,6 +238,15 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
 
   const isMobile = window.innerWidth < 765;
 
+  const { file } = useAppSelector((state) => state.uploadFile);
+
+  const [image, setImage] = useState('');
+
+  function setImagePreview(preivewPath: string){
+    console.log('setting preview path: ', preivewPath);
+    setImage(preivewPath);
+  }
+
   return (
     <>
       <div className="subject-form-container flex--jc--space-around">
@@ -282,6 +291,7 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
                       value={user?.profileImage ? user.profileImage : ''}
                       disabled={isLoading}
                       removePreviewOnUnmount={true}
+                      setPreview={setImagePreview}
                     />
                   </div>
 
@@ -318,7 +328,8 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
 
         <div className="profile-preview-wrapper m-1">
           <TestTutorProfile
-            profileImage={formik.values.profileImage}
+            // profileImage={formik.values.profileImage}
+            profileImage={image}
             occupation={currentOccupation}
             aboutTutor={aboutYou}
             aboutLessons={aboutYourLessons}

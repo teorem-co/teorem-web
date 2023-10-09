@@ -229,14 +229,14 @@ const TestTutorProfile = (props: Props) => {
                      className="card--secondary card--secondary--alt">
                     <div className="card--secondary__head flex flex--row flex--ai--center flex--jc--space-around w--100 mb-5">
                       <div className="tutor-list__item__img">
-                        {tutorData.User?.profileImage ? (
+                        {props.profileImage ? (
                           <img
                             style={{
                               width: '120px',
                               height: '120px'
                             }}
                             className="align--center d--b"
-                            src={`${tutorData.User.profileImage}&v=${cacheBuster}`}
+                            src={`${props.profileImage}`}
                             alt="tutor-profile-pic" />
                         ) : (
                           <ImageCircle
