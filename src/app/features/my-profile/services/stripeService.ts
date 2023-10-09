@@ -21,7 +21,7 @@ interface IStripeConnectCompanyAccount {
   country?: string;
   postalCode?: string;
   name: string;
-  PID: string;
+  PIN: string;
   accountType:string;
 }
 

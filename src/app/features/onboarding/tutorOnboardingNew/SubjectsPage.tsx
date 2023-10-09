@@ -208,7 +208,7 @@ const SubjectsPage = ({ nextStep, backStep }:SubjectsProps) => {
 
 
 
-  const [nextId, setNextId] = useState(0);
+  const [nextId, setNextId] = useState(1);
 
   const handleAddForm = () => {
     console.log('adding new form and NEXT ID IS: ', nextId);

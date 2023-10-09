@@ -229,14 +229,14 @@ const TestTutorProfile = (props: Props) => {
                      className="card--secondary card--secondary--alt">
                     <div className="card--secondary__head flex flex--row flex--ai--center flex--jc--space-around w--100 mb-5">
                       <div className="tutor-list__item__img">
-                        {props.profileImage ? (
+                        {props.profileImage || tutorData?.User.profileImage ? (
                           <img
                             style={{
                               width: '120px',
                               height: '120px'
                             }}
                             className="align--center d--b"
-                            src={`${props.profileImage}`}
+                            src={`${props.profileImage ? props.profileImage : tutorData?.User.profileImage}`}
                             alt="tutor-profile-pic" />
                         ) : (
                           <ImageCircle
@@ -251,7 +251,7 @@ const TestTutorProfile = (props: Props) => {
                         <div className="d--b type--md type--wgt--bold text-align--center type--break">
                           {tutorData ? `${tutorData.User.firstName} ${tutorData.User.lastName}` : 'Go back'}
                         </div>
-                        <div className="type--color--brand type--sm type--center type--break">{tutorData.currentOccupation}</div>
+                        <div className="type--color--brand type--sm type--center type--break">{tutorData.currentOccupation || props.occupation}</div>
                       </div>
                     </div>
                   <div className="card--secondary__body">

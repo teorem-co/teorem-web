@@ -82,7 +82,7 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
     setSaveBtnActive(false);
     dispatch(setStepTwo({
       currentOccupation: values.currentOccupation,
-      yearsOfExperience: values.yearsOfExperience ? values.yearsOfExperience : "",
+      yearsOfExperience: values.yearsOfExperience ? values.yearsOfExperience : "0",
       aboutYou: values.aboutTutor,
       aboutYourLessons: values.aboutLessons,
     }));

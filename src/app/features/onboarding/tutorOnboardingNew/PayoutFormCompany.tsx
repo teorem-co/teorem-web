@@ -9,7 +9,7 @@ import TextField from '../../../components/form/TextField';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { getUserId } from '../../../utils/getUserId';
 import {
-  useConnectAccountMutation,
+  useConnectAccountMutation, useConnectCompanyAccountMutation,
 } from '../../my-profile/services/stripeService';
 import { setMyProfileProgress } from '../../my-profile/slices/myProfileSlice';
 
@@ -19,7 +19,7 @@ interface Props{
 
 export const PayoutFormCompany = (props: Props) => {
   const {nextStep} = props;
-  const [connectAccount, { isSuccess, isLoading, data }] = useConnectAccountMutation();
+  const [connectCompanyAccount, { isSuccess, isLoading, data }] = useConnectCompanyAccountMutation();
   const user = useAppSelector((state) => state.auth.user);
   const [loading, setLoading] = useState(false);
   const removeWhitespaces = (value: string) => value.replace(/\s+/g, '');
@@ -41,7 +41,7 @@ export const PayoutFormCompany = (props: Props) => {
       IBAN: '',
       IBANConfirm: '',
       companyName:'',
-      companyOIB:'' //PIN?
+      companyPIN:'' //PIN?
     },
     validationSchema: yup.object({
       addressLine1: yup.string().required(t('FORM_VALIDATION.REQUIRED')).trim(),
@@ -49,7 +49,7 @@ export const PayoutFormCompany = (props: Props) => {
       postalCode: yup.string().required(t('FORM_VALIDATION.REQUIRED')).trim(),
       city: yup.string().required(t('FORM_VALIDATION.REQUIRED')).trim(),
       companyName: yup.string().required(t('FORM_VALIDATION.REQUIRED')).trim(),
-      companyOIB: yup.number().required(t('FORM_VALIDATION.REQUIRED')),
+      companyPIN: yup.number().required(t('FORM_VALIDATION.REQUIRED')),
       IBAN: yup
         .string()
         .test('valid-iban', 'IBAN is invalid', function (value) {
@@ -85,14 +85,16 @@ export const PayoutFormCompany = (props: Props) => {
     if(!tutorId) return;
 
     setLoading(true);
-    await connectAccount({
+    await connectCompanyAccount({
       addressLine1:values.addressLine1,
       postalCode: values.postalCode,
       city: values.city,
       IBAN: removeWhitespaces(values.IBAN),
       IBANConfirm: removeWhitespaces(values.IBANConfirm),
       userId:  tutorId, //if userId is passed as prop, use it, else use state.auth.user
-      accountType: 'private'
+      accountType: 'company',
+      PIN: values.companyPIN,
+      name: values.companyName,
     }).unwrap()
       .then((res) => {
         dispatch(
@@ -170,8 +172,8 @@ export const PayoutFormCompany = (props: Props) => {
                 {t('MY_PROFILE.PROFILE_SETTINGS.COMPANY_OIB')}
               </label>
               <TextField
-                name="companyOIB"
-                id="companyOIB"
+                name="companyPIN"
+                id="companyPIN"
                 placeholder={t('MY_PROFILE.PROFILE_SETTINGS.COMPANY_OIB_PLACEHOLDER')}
                 disabled={isLoading}
               />
