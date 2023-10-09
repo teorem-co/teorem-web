@@ -44,6 +44,7 @@ const UploadFile: FC<UploadFileType> = ({ setFieldValue, removePreviewOnUnmount,
         }
     }, [file]);
 
+
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         maxFiles: 1,
         accept: 'image/jpg,image/png,image/jpeg,image/svg',
