@@ -63,7 +63,7 @@ const Dashboard = () => {
     const [markAllAsRead] = useMarkAllAsReadMutation();
     const [getUserById0, { data: userDataFirst }] = useLazyGetUserQuery();
     const [getUserById1, { data: userDataSecond }] = useLazyGetUserQuery();
-    const [getProfileProgress] = useLazyGetProfileProgressQuery();
+    const [getProfileProgress, {isSuccess}] = useLazyGetProfileProgressQuery();
     const [getUpcoming] = useLazyGetUpcomingQuery();
     const [getTodaySchedule] = useLazyGetTodayScheduleQuery();
     const [getRequests] = useLazyGetRequestsQuery();
@@ -335,7 +335,7 @@ const Dashboard = () => {
     return (
       <>
         {userRole === RoleOptions.Tutor && profileProgressState.percentage !== 100 ? (
-          <OnboardingTutor/>
+          (isSuccess && <OnboardingTutor/>)
           ) :
           (<>
           {userRole === RoleOptions.Parent && childless && modal ? (
