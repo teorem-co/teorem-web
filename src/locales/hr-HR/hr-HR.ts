@@ -46,11 +46,30 @@ export const HR_HR = {
         },
         EDIT_CHILD_DETAILS: 'Izmijenite podatke o djetetu',
     },
+    TUTOR_ONBOARDING: {
+      TITLE: "Hvala što ste potvrdili svoju adresu e-pošte! Dovršimo vaš profil!",
+      SUBTITLE: 'Ovo obično traje 8 minuta.',
+      IMAGE_NOTE: 'Za sada možete preskočiti, ali morat ćete dodati profilnu sliku prije nego što počnete podučavati.',
+      ABOUT_ME_TIPS: {
+        TIP_1: 'Detaljno opišite svoj način predavanja i sebe.',
+        TIP_2:'Najučinkovitiji profili sadrže 100+ riječi u rubirkama <u><i>više o meni</i></u> i <u><i>više o mojim predavanjima</i></u>.',
+      },
+      IMAGE_TIPS: {
+        TITLE: 'Naputci za fotografiju',
+        TIP_1: 'portret oblik',
+        TIP_2: 'ozbiljnog stava s osmjehom',
+        TIP_3: 'visoke kvalitete (min 500x500 piksela)'
+      },
+      PAYOUTS_BUTTON:{
+        PRIVATE: 'Privatna osoba',
+        COMPANY: 'Tvrtka'
+      }
+    },
     FORM_VALIDATION: {
         INVALID_EMAIL: 'Neispravan email',
         INVALID_IMAGE: 'Slika mora biti formata jpg, png, jpeg ili svg i manja od 2MB veličine.',
         IMAGE_TYPE: 'Slika mora biti formata jpg, png, jpeg ili svg',
-        IMAGE_SIZE: 'Slika mora biti manja od 2MB veličine.',
+        IMAGE_SIZE: 'Slika mora biti manja od 5MB veličine.',
         TOO_SHORT: 'Pretratko!',
         TOO_LONG: 'Predugo!',
         TOO_BIG: 'Broj je prevelik',
@@ -81,7 +100,10 @@ export const HR_HR = {
         CHILD_REQUIRED: 'Dijete je obvezno',
         AGREE_TERMS_REQUIRED: 'Morate prihvatiti odredbe i uvjete',
         CHILDLESS_CALENDAR_1: 'Dodajte dijete u',
-        CHILDLESS_CALENDAR_2: 'postavkama profila'
+        CHILDLESS_CALENDAR_2: 'postavkama profila',
+        INVALID_IBAN: 'Neispravan IBAN',
+        IBAN_WHITESPACES: 'IBAN ne smije sadržavati prazne znakove',
+        IBAN_MATCH: 'IBANi se moraju podudarati'
     },
     NAVIGATION: {
         MY_BOOKINGS: 'Kalendar',
@@ -586,7 +608,9 @@ export const HR_HR = {
     MY_PROFILE: {
         TITLE: 'Moj profil',
         PREVIEW: 'Pregled profila',
-        ABOUT_ME: {
+      PAYOUTS: 'Gdje ti isplaćujemo zaradu?',
+      IMAGE: 'Dodaj svoju sliku profila',
+      ABOUT_ME: {
             OCCUPATION: 'Vaše trenutno zanimanje*',
             OCCUPATION_PLACEHOLDER: 'Unesite Vaše trenutno zanimanje',
             YEARS: 'Broj godina profesionalnog iskustva (neobavezno)',
@@ -630,8 +654,12 @@ export const HR_HR = {
             COUNTRY: 'Država*',
             BIRTHDAY: 'Datum rođenja*',
             IBAN: 'IBAN',
-            IBAN_PLACEHOLDER: 'Unesite svoj IBAN',
-            IMAGE: '<Profilna slika>*',
+            COMPANY_NAME: 'Ime tvrtke*',
+            COMPANY_NAME_PLACEHOLDER: 'Unesite ime tvrtke',
+            COMPANY_OIB: 'OIB tvrtke*',
+            COMPANY_OIB_PLACEHOLDER: 'Unesite OIB tvrtke',
+          IBAN_PLACEHOLDER: 'Unesite svoj IBAN',
+            IMAGE: 'Profilna slika*',
             UPLOAD_IMAGE: 'Povucite i ispustite za učitavanje',
         },
         PROFILE_ACCOUNT: {
@@ -1038,6 +1066,7 @@ export const HR_HR = {
     },
     STRIPE_CONNECT: {
         TITLE: "Isplate",
+        ADDRESS: 'Adresa',
         LINE_1: "Adresa linija 1",
         LINE_2: "Adresa linija 2",
         POST_CODE: "Poštanski broj",
@@ -1046,7 +1075,7 @@ export const HR_HR = {
         IBAN_CONFIRM: "IBAN",
         SAVE: "Spremi",
         CANCEL: "Odustani",
-        TERMS: '<div>Klikom na gumb \'Pošalji\' slažete se s <a href="https://stripe.com/legal/connect-account" target="_blank">Uvjetima pružanja usluge</a> i <a href="https://stripe.com/privacy" target="_blank">Politikom privatnosti</a></div>',
+        TERMS: '<div>Klikom na gumb slažete se s <a href="https://stripe.com/legal/connect-account" target="_blank">Uvjetima pružanja usluge</a> i <a href="https://stripe.com/privacy" target="_blank">Politikom privatnosti</a></div>',
 
       SUCCESS: 'Račun za plaćanje povezan',
     },
@@ -1093,7 +1122,7 @@ export const HR_HR = {
     LEVELS: {
         primaryschool: 'Osnovna škola',
         highschool: 'Srednja škola',
-        ib: 'IB (International Baccalaureate)',
+        ib: 'IB',
         maturaprep: 'Priprema za maturu',
         university: 'Fakultet',
     },
@@ -1160,8 +1189,7 @@ export const HR_HR = {
         RESET_PASSWORD: '/hr/reset-password',
         LOGIN: '/hr/login',
         MY_BOOKINGS: '/hr/kalendar',
-        SEARCH_TUTORS: '/hr/pretraga-instruktora',
-        SEARCH_TUTORS_TUTOR_PROFILE: '/hr/pretraga-instruktora/profil/:tutorSlug',
+        SEARCH_TUTORS: '/hr/pretraga-instruktora',PROFILE: '/hr/pretraga-instruktora/profil/:tutorSlug',
         SEARCH_TUTORS_TUTOR_BOOKINGS: '/hr/pretraga-instruktora/kalendar/:tutorSlug',
         ONBOARDING: '/hr/onboarding',
         MY_REVIEWS: '/hr/moje-recenzije',

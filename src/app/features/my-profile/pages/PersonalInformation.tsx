@@ -106,11 +106,11 @@ const PersonalInformation = () => {
 
         if (userRole === RoleOptions.Tutor) {
             if (typeof values.profileImage === 'string') {
-        delete toSend.profileImage;
-      }else {
-        toSend['profileImage'] = values.profileImage;
+              delete toSend.profileImage;
+        }else {
+          toSend['profileImage'] = values.profileImage;
+        }
       }
-    }
 
         await updateUserInformation(toSend);
 
@@ -251,7 +251,7 @@ const PersonalInformation = () => {
                     if (typeof value === 'string') {
                         return true;
                     } else {
-                        if (value.size > 2000000) {
+                        if (value.size > 5000000) {
                             return false;
                         }
 
@@ -352,13 +352,13 @@ const PersonalInformation = () => {
                             <ProfileHeader className="mb-8"/>
 
                             {/* PROGRESS */}
-                            <ProfileCompletion
-                                generalAvailability={profileProgressState.generalAvailability}
-                                additionalInformation={profileProgressState.aboutMe}
-                myTeachings={profileProgressState.myTeachings}
-                percentage={profileProgressState.percentage}
-                payment={profileProgressState.payment}
-              />
+                                        <ProfileCompletion
+                                            generalAvailability={profileProgressState.generalAvailability}
+                                            additionalInformation={profileProgressState.aboutMe}
+                            myTeachings={profileProgressState.myTeachings}
+                            percentage={profileProgressState.percentage}
+                            payment={profileProgressState.payment}
+                          />
 
                             {/* PERSONAL INFO */}
                             {(pageLoading && <LoaderPrimary/>) || (

@@ -186,6 +186,7 @@ function StripeConnectForm({ sideBarIsOpen, closeSidebar, onConnect, userId }: S
         IBAN: removeWhitespaces(values.IBAN),
         IBANConfirm: removeWhitespaces(values.IBANConfirm),
         userId:  userId ? userId : user!.id, //if userId is passed as prop, use it, else use state.auth.user
+        accountType: 'private'
       })
         .unwrap()
         .then((res) => {

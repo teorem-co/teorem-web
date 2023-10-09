@@ -48,6 +48,11 @@ import LoaderPrimary from "../../components/skeleton-loaders/LoaderPrimary";
 import {IChild} from "../../../interfaces/IChild";
 import ImageCircle from "../../components/ImageCircle";
 import AddChildSidebar from "../my-profile/components/AddChildSidebar";
+import AvailabilityPage from "../onboarding/tutorOnboardingNew/AvailabilityPage";
+import SubjectsPage from "../onboarding/tutorOnboardingNew/SubjectsPage";
+import {
+  OnboardingTutor
+} from "../onboarding/tutorOnboardingNew/OnboardingTutor";
 
 interface IGroupedDashboardData {
     [date: string]: IBooking[];
@@ -58,7 +63,7 @@ const Dashboard = () => {
     const [markAllAsRead] = useMarkAllAsReadMutation();
     const [getUserById0, { data: userDataFirst }] = useLazyGetUserQuery();
     const [getUserById1, { data: userDataSecond }] = useLazyGetUserQuery();
-    const [getProfileProgress] = useLazyGetProfileProgressQuery();
+    const [getProfileProgress, {isSuccess}] = useLazyGetProfileProgressQuery();
     const [getUpcoming] = useLazyGetUpcomingQuery();
     const [getTodaySchedule] = useLazyGetTodayScheduleQuery();
     const [getRequests] = useLazyGetRequestsQuery();
@@ -117,9 +122,11 @@ const Dashboard = () => {
         const requests = await getRequests().unwrap();
         const groupedRequestData: IGroupedDashboardData = groupBy(requests, (e) => moment(e.startTime).format(t('DATE_FORMAT')));
         setGroupedRequests(groupedRequestData);
-        let children = [];
-        if(userRole === RoleOptions.Parent && userId !== undefined) {
+        let children = [];if(userRole === RoleOptions.Parent && userId !== undefined) {
           children = await getChildren(userId).unwrap().then();
+        }
+        if(!childrenLoading && (children.length === 0 || children.length === undefined)) {
+          setChildless(true);
         }
         if(!childrenLoading && (children.length === 0 || children.length === undefined)) {
           setChildless(true);
@@ -297,28 +304,28 @@ const Dashboard = () => {
     },
         [chatrooms, userDataFirst, userDataSecond]);
 
-  const closeAddCardSidebar = () => {
-      setAddSidebarOpen(false);
-  };
-
-  const handleAddNewchild = () => {
-    setChildForEdit(null);
-    setAddSidebarOpen(true);
-    setChildlessButton(false);
-  };
-
-  const handleEditChild = (x: IChild) => {
-    const childObj: IChild = {
-      firstName: x.firstName,
-      username: x.username,
-      dateOfBirth: x.dateOfBirth,
-      password: x.password,
-      lastName: x.lastName,
-      id: x.id,
+    const closeAddCardSidebar = () => {
+        setAddSidebarOpen(false);
     };
-    setChildForEdit(childObj);
-    setAddSidebarOpen(true);
-  };
+
+    const handleAddNewchild = () => {
+      setChildForEdit(null);
+      setAddSidebarOpen(true);
+      setChildlessButton(false);
+    };
+
+    const handleEditChild = (x: IChild) => {
+      const childObj: IChild = {
+        firstName: x.firstName,
+        username: x.username,
+        dateOfBirth: x.dateOfBirth,
+        password: x.password,
+        lastName: x.lastName,
+        id: x.id,
+      };
+      setChildForEdit(childObj);
+      setAddSidebarOpen(true);
+    };
 
     const closeModal = () => {
       setModal(false);
@@ -327,6 +334,10 @@ const Dashboard = () => {
 
     return (
       <>
+        {userRole === RoleOptions.Tutor && profileProgressState.percentage !== 100 ? (
+          (isSuccess && <OnboardingTutor/>)
+          ) :
+          (<>
           {userRole === RoleOptions.Parent && childless && modal ? (
               <div>
                 <img
@@ -769,6 +780,7 @@ const Dashboard = () => {
               </div>
             </div>
           </MainWrapper>)}
+            </>)}
         </>
     );
 };

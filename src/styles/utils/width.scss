@@ -22,6 +22,7 @@
         }
     }
     &--80 {
+      width: 80%;
         &--max {
             max-width: 80%;
         }
@@ -55,6 +56,10 @@
         &--max {
             max-width: 128px;
         }
+
+      &--min{
+        min-width: 128px;
+      }
     }
     &--136 {
         width: 136px;
@@ -70,18 +75,41 @@
         &--max {
             max-width: 156px;
         }
+        &--min{
+          min-width: 156px;
+        }
     }
 
     &--170 {
         width: 170px;
     }
 
+  &--180 {
+    &--max {
+      max-width: 180px;
+    }
+    &--min {
+      min-width: 180px;
+    }
+  }
+
     &--200 {
         &--max {
             max-width: 200px;
         }
+      &--min {
+        min-width: 200px;
+      }
     }
 
+    &--220 {
+      &--max {
+        max-width: 220px;
+      }
+      &--min {
+        min-width: 220px;
+      }
+    }
     &--260 {
         width: 260px;
         &--max {

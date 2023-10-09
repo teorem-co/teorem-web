@@ -8,7 +8,8 @@ const initialState: IProgressProfile = {
     myTeachings: false,
     percentage: 0,
     payment: false,
-    verified: true
+    verified: true,
+    profileImage: false
 };
 
 export const myProfileSlice = createSlice({
@@ -16,6 +17,7 @@ export const myProfileSlice = createSlice({
     initialState,
     reducers: {
         setMyProfileProgress(state, action: PayloadAction<IProgressProfile>) {
+          console.log("Payload: ", action.payload);
             return action.payload;
         },
         resetMyProfileProgress() {
