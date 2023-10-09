@@ -6,11 +6,7 @@ import TextField from '../../../components/form/TextField';
 import MySelect from '../../../components/form/MySelectField';
 import { countryInput } from '../../../constants/countryInput';
 import { countryOption } from '../../../constants/countryOption';
-import {
-  CardNumberElement,
-  useElements,
-  useStripe
-} from "@stripe/react-stripe-js";
+import {loadStripe} from "@stripe/stripe-js";
 
 interface Props {
   sideBarIsOpen: boolean;
@@ -33,8 +29,6 @@ export interface Values {
 
 const AddCreditCard = (props: Props) => {
   const { sideBarIsOpen, closeSidebar } = props;
-  const stripe = useStripe();
-  const elements = useElements();
 
   const countryOptions = [
     { label: 'Argentina', value: 'AR' },
@@ -108,27 +102,7 @@ const AddCreditCard = (props: Props) => {
     zipCode: '',
   };
 
-  const handleSubmit = async (values: Values) => {
-    console.log("submit");
-    const card = elements?.create("card");
-    console.log("created card");
-    if(card == undefined) {
-      console.log("card undefined");
-      return;
-    }
-
-    console.log("create token");
-    const tokenResult = await stripe?.createToken(card, {
-      name: formik.values.cardFirstName + " " + formik.values.cardLastName,
-      address_line1: formik.values.line1,
-      address_line2: formik.values.line2,
-      address_city: formik.values.city,
-      address_zip: formik.values.zipCode,
-      address_country: formik.values.country,
-      currency: 'EUR',
-    });
-    console.log("token created");
-    console.log(tokenResult);
+  const handleSubmit = (values: Values) => {
     props.handleSubmit(values);
   };
 
