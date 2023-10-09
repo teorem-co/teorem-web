@@ -335,7 +335,7 @@ const Dashboard = () => {
     return (
       <>
         {userRole === RoleOptions.Tutor && profileProgressState.percentage !== 100 ? (
-          (isSuccess && <OnboardingTutor/>)
+            <OnboardingTutor/>
           ) :
           (<>
           {userRole === RoleOptions.Parent && childless && modal ? (
