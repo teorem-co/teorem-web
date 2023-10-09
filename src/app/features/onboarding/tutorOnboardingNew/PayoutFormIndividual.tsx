@@ -161,6 +161,7 @@ export const PayoutFormIndividual = (props: Props) => {
               flexDirection: "column"
             }}>
               <button
+                id="tutor-onboarding-step-5"
                 type='submit'
                 disabled={!formik.isValid} className="btn btn--lg btn--primary mt-4">
                 {t('REGISTER.NEXT_BUTTON')}
