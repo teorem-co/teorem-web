@@ -87,7 +87,7 @@ const SubjectsPage = ({ nextStep, backStep }:SubjectsProps) => {
 
       if(myTeachingsData.TutorSubjects.length == 0){
         forms.push({
-          id:nextId,
+          id:0,
           levelId:'',
           subjectId:'',
           price:''
@@ -120,8 +120,9 @@ const SubjectsPage = ({ nextStep, backStep }:SubjectsProps) => {
       }));
 
       const oldAndNewSubjectsAreEqual = areArraysEqual(oldSubjects, forms);
-
+      console.log("predmeti koje mapiram: ", forms);
       const mappedSubjects = mapToCreateSubject(forms);
+      // console.log("Mapirani predmeti", mappedSubjects);
       if(!oldAndNewSubjectsAreEqual){
        await createSubjectsOnboarding({ tutorId: tutorId, subjects: mappedSubjects});
 
@@ -150,12 +151,14 @@ const SubjectsPage = ({ nextStep, backStep }:SubjectsProps) => {
 
     arr.forEach(subLev => {
       if(typeof subLev.id === 'number'){
+        console.log('HERE 1');
        result.push({
          subjectId: subLev.subjectId,
          levelId: subLev.levelId,
          price: subLev.price
        });
       }else if (subLev.id && !isValidUUID(subLev.id)) {
+        console.log('HERE 2');
         result.push({
           subjectId: subLev.subjectId,
           levelId: subLev.levelId,
@@ -205,9 +208,10 @@ const SubjectsPage = ({ nextStep, backStep }:SubjectsProps) => {
 
 
 
-  const [nextId, setNextId] = useState(1);
+  const [nextId, setNextId] = useState(0);
 
   const handleAddForm = () => {
+    console.log('adding new form and NEXT ID IS: ', nextId);
     setForms([...forms, { id: nextId, levelId: '', subjectId: '', price: ''}]);
     setNextId(prevState => prevState + 1);
   };
