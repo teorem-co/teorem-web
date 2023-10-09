@@ -44,7 +44,9 @@
 
     &--120 {
         width: 120px;
-
+      &--px {
+        width: 120px;
+      }
         &--max {
             max-width: 120px;
         }
@@ -67,11 +69,17 @@
         &--max {
             max-width: 136px;
         }
+      &--px {
+        width: 136px;
+      }
     }
 
     &--156 {
         width: 156px;
 
+      &--px {
+        width: 156px;
+      }
         &--max {
             max-width: 156px;
         }

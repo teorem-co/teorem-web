@@ -136,7 +136,7 @@ export const CreateSubjectCard = (props: Props) => {
                   className="subject-form-container field__w-fit-content flex--ai--center ">
                   <div>
                     <MySelect
-                      className="flex--grow w--220--min w--220--max"
+                      className="flex--grow w--220--min w--220--max mb-5"
                       field={formik.getFieldProps('level')}
                       form={formik}
                       meta={formik.getFieldMeta('level')}
@@ -150,7 +150,7 @@ export const CreateSubjectCard = (props: Props) => {
                   </div>
                   <div>
                     <MySelect
-                      className="w--220--min w--220--max "
+                      className="w--220--min w--220--max mb-5"
                       key={formik.values.subject}
                       field={formik.getFieldProps('subject')}
                       form={formik}
@@ -164,21 +164,21 @@ export const CreateSubjectCard = (props: Props) => {
                       withoutErr={true}
                     />
                   </div>
-                  <div className="field m-0 w--100--px flex flex--row flex--ai--center">
-                    <TextField
-                      name="price"
-                      id="price"
-                      placeholder={
-                        t('MY_PROFILE.MY_TEACHINGS.PRICING_PLACEHOLDER') +
-                        minPrice + ' ' + currency + '/h'}
-                      withoutErr={true}
-                      type="number"
-                    />
-                    <span className="ml-1">EUR/h</span>
+                  <div className="field m-0 w--156--px flex flex--row flex--ai--center">
+                   <div> <TextField
+                     name="price"
+                     id="price"
+                     placeholder={
+                       t('MY_PROFILE.MY_TEACHINGS.PRICING_PLACEHOLDER') +
+                       minPrice + ' ' + currency + '/h'}
+                     // withoutErr={true}
+                     type="number"
+                   /></div>
+                    <span className="ml-1 mb-5">EUR/h</span>
                   </div>
                   <BiSolidTrash
                     size={18}
-                    className={` ${isLastForm ? 'disabled-color' : 'primary-color'}  cur--pointer icon-transition`}
+                    className={` ${isLastForm ? 'disabled-color' : 'primary-color'}  cur--pointer icon-transition mb-5`}
                     onClick={() => {
                       if(!isLastForm)
                         removeItem(id);
