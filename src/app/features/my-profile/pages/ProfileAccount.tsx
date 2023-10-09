@@ -38,12 +38,16 @@ import {
 } from '../services/stripeService';
 import { setMyProfileProgress } from '../slices/myProfileSlice';
 import StripeConnectForm from '../components/StripeConnectForm';
+import {Elements, useElements} from "@stripe/react-stripe-js";
+import {loadStripe, StripeCardElement} from "@stripe/stripe-js";
 
 interface Values {
   currentPassword: string;
   newPassword: string;
   confirmPassword: string;
 }
+
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY!);
 
 const ProfileAccount = () => {
   const [getProfileProgress] = useLazyGetProfileProgressQuery();
@@ -202,12 +206,32 @@ const ProfileAccount = () => {
       card: toSend,
     };
 
-    addCustomerSource(toSendCustomerSource)
-      .unwrap()
-      .then(() => {
-        fetchData();
-        closeAddCardSidebar();
-      });
+    const cardInfo = {
+      number: toSend.number,
+      exp_month: toSend.exp_month,
+      exp_year: toSend.exp_year,
+      cvc: toSend.cvc
+    }
+
+    const stripe = await stripePromise;
+    const elements = useElements();
+    if(!stripe) return;
+    if(!elements) return;
+    var cardElement: StripeCardElement = elements.create('card');
+    stripe.createToken(cardElement, cardInfo)
+      .then((result) => {
+      if(result.error) {
+        console.error("error");
+      } else {
+        addCustomerSource(toSendCustomerSource)
+          .unwrap()
+          .then(() => {
+            fetchData();
+            closeAddCardSidebar();
+          });
+      }
+    });
+
   };
 
   const handleDeleteCreditCard = async (cardId: string) => {
@@ -498,7 +522,9 @@ const ProfileAccount = () => {
           closeSidebar={() => setStripeModalOpen(false)}
         />
       </div>
-      <AddCreditCard handleSubmit={handleSubmitCreditCard} closeSidebar={closeAddCardSidebar} sideBarIsOpen={addSidebarOpen} />
+      <Elements stripe={stripePromise}>
+        <AddCreditCard handleSubmit={handleSubmitCreditCard} closeSidebar={closeAddCardSidebar} sideBarIsOpen={addSidebarOpen} />
+      </Elements>
     </MainWrapper>
   );
 };
