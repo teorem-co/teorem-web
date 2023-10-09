@@ -218,7 +218,6 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
 
 
   useEffect(() => {
-    console.log("CALLING SCROLL");
     window.scrollTo({top:0, left:0, behavior:'smooth'});
     fetchData();
   }, []);
@@ -243,7 +242,6 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
   const [image, setImage] = useState('');
 
   function setImagePreview(preivewPath: string){
-    console.log('setting preview path: ', preivewPath);
     setImage(preivewPath);
   }
 

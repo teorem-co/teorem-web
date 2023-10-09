@@ -172,7 +172,6 @@ export const CreateSubjectCard = (props: Props) => {
                         t('MY_PROFILE.MY_TEACHINGS.PRICING_PLACEHOLDER') +
                         minPrice + ' ' + currency + '/h'}
                       withoutErr={true}
-                      onError={()=> console.log("IMAMO EROR SA CIJENOM")}
                       type="number"
                     />
                     <span className="ml-1">EUR/h</span>

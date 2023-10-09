@@ -83,7 +83,6 @@ const SubjectsPage = ({ nextStep, backStep }:SubjectsProps) => {
   const [oldSubjects, setOldSubjects] = useState<ITutorSubjectLevel[]>([]);
   useEffect(() => {
     if(myTeachingsData){
-      console.log("Fetched teachings", myTeachingsData.TutorSubjects);
 
       if(myTeachingsData.TutorSubjects.length == 0){
         forms.push({
@@ -120,9 +119,7 @@ const SubjectsPage = ({ nextStep, backStep }:SubjectsProps) => {
       }));
 
       const oldAndNewSubjectsAreEqual = areArraysEqual(oldSubjects, forms);
-      console.log("predmeti koje mapiram: ", forms);
       const mappedSubjects = mapToCreateSubject(forms);
-      // console.log("Mapirani predmeti", mappedSubjects);
       if(!oldAndNewSubjectsAreEqual){
        await createSubjectsOnboarding({ tutorId: tutorId, subjects: mappedSubjects});
 
@@ -151,14 +148,12 @@ const SubjectsPage = ({ nextStep, backStep }:SubjectsProps) => {
 
     arr.forEach(subLev => {
       if(typeof subLev.id === 'number'){
-        console.log('HERE 1');
        result.push({
          subjectId: subLev.subjectId,
          levelId: subLev.levelId,
          price: subLev.price
        });
       }else if (subLev.id && !isValidUUID(subLev.id)) {
-        console.log('HERE 2');
         result.push({
           subjectId: subLev.subjectId,
           levelId: subLev.levelId,
@@ -211,7 +206,6 @@ const SubjectsPage = ({ nextStep, backStep }:SubjectsProps) => {
   const [nextId, setNextId] = useState(1);
 
   const handleAddForm = () => {
-    console.log('adding new form and NEXT ID IS: ', nextId);
     setForms([...forms, { id: nextId, levelId: '', subjectId: '', price: ''}]);
     setNextId(prevState => prevState + 1);
   };
@@ -304,7 +298,7 @@ const SubjectsPage = ({ nextStep, backStep }:SubjectsProps) => {
               id="tutor-onboarding-step-2"
               onClick={() => handleSubmit()}
               disabled={btnDisabled}
-              className="btn btn--lg btn--primary mt-4">
+              className="btn btn--lg btn--primary mt-4 mb-4">
               {t('REGISTER.NEXT_BUTTON')}
             </button>
           </div>

@@ -318,8 +318,6 @@ const MyBookings: React.FC = (props: any) => {
 
     if (userRole === RoleOptions.Tutor) {
       if(e.bounds?.bottom){
-        console.log('TOP OFSET: ',topOffset);
-        console.log('Bounds top: ',  e.bounds.top);
         const boundsTop = e.bounds?.top <= 300 ? e.bounds?.top + 500 : e.bounds?.top;
         setScrollTopOffset(topOffset + boundsTop  - 350);
       }
