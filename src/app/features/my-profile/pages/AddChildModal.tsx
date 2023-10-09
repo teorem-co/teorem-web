@@ -83,7 +83,6 @@ const AddChildModal = (props:Props) => {
   const closeModal = () => {
     props.toggleModal(false);
     props.setChildless(false);
-    console.log("modal");
   };
 
   return (

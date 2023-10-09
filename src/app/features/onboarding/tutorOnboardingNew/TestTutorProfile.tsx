@@ -91,9 +91,6 @@ const TestTutorProfile = (props: Props) => {
       getTutorProfileData(tutorId);
   }, []);
 
-  useEffect(() => {
-    console.log("Getting tutor data, these are subjects: ",tutorData?.TutorSubjects);
-  }, [tutorData]);
 
   useEffect(() => {
     if (tutorId) {

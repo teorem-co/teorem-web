@@ -113,7 +113,6 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
 
   const fetchData = async () => {
     if (tutorId) {
-      console.log(tutorId);
       const profileDataResponse = await getProfileData(tutorId).unwrap();
 
       if (profileDataResponse) {
