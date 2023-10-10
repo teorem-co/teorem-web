@@ -206,7 +206,9 @@ const Login: React.FC = () => {
             <div className="type--color--tertiary">{t('WATERMARK')}</div>
             <div>
               {t('LOGIN.ACCOUNT')}{' '}
-              <Link className="type--wgt--extra-bold" to={!isLoadingLogin ? PATHS.ROLE_SELECTION : '#'}>
+              <Link
+                id='zapocni-danas-login-1'
+                className="type--wgt--extra-bold" to={!isLoadingLogin ? PATHS.ROLE_SELECTION : '#'}>
                 {t('LOGIN.REGISTER')}
               </Link>
             </div>
