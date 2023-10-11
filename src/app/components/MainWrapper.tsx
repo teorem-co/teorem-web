@@ -26,7 +26,6 @@ const MainWrapper = (props: Props) => {
   const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
 
     const handleScroll = async (e: HTMLDivElement) => {
-      console.log("setting state");
       if(e.scrollTop)
         dispatch(
           setTopOffset(e.scrollTop)

@@ -46,11 +46,30 @@ export const EN_US = {
         },
         EDIT_CHILD_DETAILS: "Edit child's details",
     },
+    TUTOR_ONBOARDING: {
+      TITLE: "Thank you for verifying your email address! Let's complete your tutor profile!",
+      SUBTITLE: 'This usually takes 8 minutes.',
+      IMAGE_NOTE: 'You can skip for now, but you will need to add profile image before you can start teaching.',
+      ABOUT_ME_TIPS: {
+        TIP_1: 'Describe in detail your way of teaching and yourself.',
+        TIP_2:'The most effective profiles contain 100+ words in the rubrics <u><i>more about me</i></u> and <u><i>more about my lectures</i></u>.',
+      },
+      IMAGE_TIPS: {
+        TITLE: 'Tips for image:',
+        TIP_1: 'portrait form',
+        TIP_2: 'serious attitude with a smile',
+        TIP_3: 'high quality (min 500x500 pixels)'
+      },
+      PAYOUTS_BUTTON:{
+        PRIVATE: 'Private',
+        COMPANY: 'Company'
+      }
+    },
     FORM_VALIDATION: {
         INVALID_EMAIL: 'Invalid email',
         INVALID_IMAGE: 'Image has to be either jpg,png,jpeg or svg and less than 2MB in size.',
         IMAGE_TYPE: 'Image has to be either jpg,png,jpeg or svg',
-        IMAGE_SIZE: 'Image has to be less than 2MB in size.',
+        IMAGE_SIZE: 'Image has to be less than 5MB in size.',
         TOO_SHORT: 'Too Short!',
         TOO_LONG: 'Too Long!',
         TOO_BIG: 'Number is too big',
@@ -81,7 +100,11 @@ export const EN_US = {
         CHILD_REQUIRED: 'Child is required',
         AGREE_TERMS_REQUIRED: 'You must agree to terms and conditions',
         CHILDLESS_CALENDAR_1: 'Please add a child in',
-        CHILDLESS_CALENDAR_2: 'profile settings'
+        CHILDLESS_CALENDAR_2: 'profile settings',
+        INVALID_IBAN: 'Invalid IBAN',
+        IBAN_WHITESPACES: 'IBAN must not contain whitespaces',
+        IBAN_MATCH: 'IBANs must match'
+
     },
     NAVIGATION: {
         MY_BOOKINGS: 'Calendar',
@@ -577,7 +600,7 @@ export const EN_US = {
             CVV_PLACEHOLDER: '***',
             ADD_BUTTON: 'Add New Card',
             CANCEL_BUTTON: 'Cancel',
-            ZIP: 'Zip',
+            ZIP: 'Zip*',
             ZIP_PLACEHOLDER: '12345',
             COUNTRY: "Country",
             COUNTRY_PLACEHOLDER: 'Choose your country',
@@ -587,8 +610,10 @@ export const EN_US = {
     MY_PROFILE: {
         TITLE: 'My Profile',
         PREVIEW: 'Preview profile',
-        ABOUT_ME: {
-            OCCUPATION: 'Yor current Occupation*',
+      PAYOUTS: 'Where do we send your payouts?',
+      IMAGE: 'Add profile image',
+      ABOUT_ME: {
+            OCCUPATION: 'Your current Occupation*',
             OCCUPATION_PLACEHOLDER: 'What’s your current Occupation',
             YEARS: 'Years of professional experience (optional)',
             YEARS_PLACEHOLDER: 'How many years of professional experience you have',
@@ -631,6 +656,10 @@ export const EN_US = {
             COUNTRY: 'Country*',
             BIRTHDAY: 'Date of Birth*',
             IBAN: 'IBAN',
+            COMPANY_NAME: 'Company name*',
+            COMPANY_NAME_PLACEHOLDER: 'Enter company name',
+            COMPANY_OIB: 'Company OIB*',
+            COMPANY_OIB_PLACEHOLDER: 'Enter company OIB',
             IBAN_PLACEHOLDER: 'Enter your IBAN',
             IMAGE: 'Profile Image*',
             UPLOAD_IMAGE: 'Drag and drop to upload',
@@ -1036,6 +1065,7 @@ export const EN_US = {
     },
     STRIPE_CONNECT: {
         TITLE: "Payments",
+        ADDRESS: 'Address',
         LINE_1: "Address line 1",
         LINE_2: "Address line 2",
         POST_CODE: "Post code",
@@ -1097,7 +1127,7 @@ export const EN_US = {
     LEVELS: {
         primaryschool: 'Primary School',
         highschool: 'High School',
-        ib: 'IB (International Baccalaureate)',
+        ib: 'IB',
         maturaprep: 'Matura Prep',
         university: 'University',
     },

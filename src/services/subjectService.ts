@@ -6,9 +6,22 @@ import { HttpMethods } from '../app/lookups/httpMethods';
 import ISubject from '../interfaces/ISubject';
 import INotification from '../interfaces/notification/INotification';
 import ITutorItem from '../interfaces/ITutorItem';
+import { ITutorSubject } from '../slices/onboardingSlice';
 
 const URL_TUTORS = 'api/v1/tutors';
 const URL_SUBJECTS = 'api/v1/subjects';
+
+interface ICreateSubjectsOnboarding{
+  tutorId:string;
+  subjects: ICreateSubjectOnboarding[];
+}
+
+export interface ICreateSubjectOnboarding{
+  id?:string,
+  levelId:string,
+  subjectId:string,
+  price:string
+}
 
 interface ICreateSubject {
     id?: string;
@@ -17,7 +30,6 @@ interface ICreateSubject {
     tutorId?: string;
     price: number;
     objectId?: string;
-
 }
 
 export interface ITutorSubjectLevelPair {
@@ -66,7 +78,17 @@ export const subjectService = baseService.injectEndpoints({
                 };
             },
         }),
-        deleteSubject: builder.mutation<void, any>({
+      createSubjectsOnboarding: builder.mutation<void, ICreateSubjectsOnboarding>({
+        query(body) {
+          return {
+            url: `${URL_TUTORS}/${body.tutorId}/subjects/onboarding`,
+            method: 'POST',
+            body: body.subjects,
+          };
+        },
+      }),
+
+      deleteSubject: builder.mutation<void, any>({
             query({tutorId, objectId } ) {
                 return {
                     url: `${URL_TUTORS}/${tutorId}/subjects/${objectId}`,
@@ -99,6 +121,7 @@ export const subjectService = baseService.injectEndpoints({
 });
 
 export const {
+  useCreateSubjectsOnboardingMutation,
     useGetSubjectsQuery,
     useLazyGetSubjectsQuery,
     useCreateSubjectMutation,

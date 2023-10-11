@@ -53,10 +53,18 @@
             border: 1px solid $grey-ed;
         }
         th {
-            padding: calc(#{$unit} * 6);
+          padding: calc(#{$unit} * 6);
+
+          @media (max-width: $responsive-md) {
+            padding: calc(#{$unit} * 2) calc(#{$unit} * 4);
+          }
         }
         td {
             padding: calc(#{$unit} * 4) calc(#{$unit} * 6);
+
+            @media (max-width: $responsive-md) {
+              padding: calc(#{$unit} * 2) calc(#{$unit} * 4);
+            }
         }
         &--zebra {
             tbody tr {

@@ -275,3 +275,7 @@
 .signup-icon:hover {
   transform: scale(1.1); /* Scale the icon to 110% on hover */
 }
+
+.icon-transition{
+  transition: color 200ms ease-in-out;
+}

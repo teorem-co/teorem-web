@@ -9,6 +9,7 @@ interface IStripeConnectAccount {
     city?: string;
     country?: string;
     postalCode?: string;
+    accountType: string;
 }
 
 export default IStripeConnectAccount;
