@@ -38,6 +38,8 @@ import {
 } from '../services/stripeService';
 import { setMyProfileProgress } from '../slices/myProfileSlice';
 import StripeConnectForm from '../components/StripeConnectForm';
+import {Elements} from "@stripe/react-stripe-js";
+import {loadStripe, StripeElementsOptions} from "@stripe/stripe-js";
 
 interface Values {
   currentPassword: string;
@@ -45,11 +47,13 @@ interface Values {
   confirmPassword: string;
 }
 
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY!);
+
 const ProfileAccount = () => {
   const [getProfileProgress] = useLazyGetProfileProgressQuery();
   const [addStripeCustomer, { data: dataStripeCustomer, isSuccess: isSuccessDataStripeCustomer, isError: isErrorDataStripeCustomer }] =
     useAddCustomerMutation();
-  const [addCustomerSource] = useAddCustomerSourceMutation();
+  const [addCustomerSource, {data: clientSecret}] = useAddCustomerSourceMutation();
   const [setDefaultCreditCard, { isSuccess: isSuccessSetDefaultCreditCard }] = useSetDefaultCreditCardMutation();
   const [getCustomerById] = useLazyGetCustomerByIdQuery();
   const [getCreditCards, { data: creditCards, isLoading: creditCardLoading, isUninitialized: creditCardUninitialized }] =
@@ -284,7 +288,7 @@ const ProfileAccount = () => {
     }
     if (userInfo && userRole !== RoleOptions.Tutor && stripeCustomerId) {
       const res = await getCustomerById(userInfo.id).unwrap();
-      setActiveDefaultPaymentMethod(res.invoice_settings.default_payment_method);
+      setActiveDefaultPaymentMethod(res.paymentMethods[0]);
     }
   };
 
@@ -316,6 +320,40 @@ const ProfileAccount = () => {
   useEffect(() => {
     handleChangeForSave();
   }, [formik.values]);
+
+  const options: StripeElementsOptions = {
+    mode: 'setup',
+    currency: 'eur',
+    appearance: {
+      theme: "stripe",
+      variables: {
+        fontFamily: '"Lato", sans-serif',
+        fontLineHeight: '1.5',
+        borderRadius: '10px',
+        colorBackground: '#F6F8FA',
+        colorPrimaryText: '#262626'
+      },
+      rules: {
+        '.Tab': {
+          border: '1px solid #E0E6EB',
+          boxShadow: '0px 1px 1px rgba(0, 0, 0, 0.03), 0px 3px 6px rgba(18, 42, 66, 0.02)',
+        },
+
+        '.Tab:hover': {
+          color: 'var(--colorText)',
+        },
+
+        '.Tab--selected': {
+          borderColor: '#E0E6EB',
+          boxShadow: '0px 1px 1px rgba(0, 0, 0, 0.03), 0px 3px 6px rgba(18, 42, 66, 0.02), 0 0 0 2px var(--colorPrimary)',
+        },
+
+        '.Input--invalid': {
+          boxShadow: '0 1px 1px 0 rgba(231, 76, 60, 1), 0 0 0 2px var(--colorDanger)',
+        },
+      }
+    },
+  };
 
   return (
     <MainWrapper>
@@ -498,7 +536,9 @@ const ProfileAccount = () => {
           closeSidebar={() => setStripeModalOpen(false)}
         />
       </div>
-      <AddCreditCard handleSubmit={handleSubmitCreditCard} closeSidebar={closeAddCardSidebar} sideBarIsOpen={addSidebarOpen} />
+      <Elements stripe={stripePromise} options={options}>
+        <AddCreditCard handleSubmit={handleSubmitCreditCard} closeSidebar={closeAddCardSidebar} sideBarIsOpen={addSidebarOpen} />
+      </Elements>
     </MainWrapper>
   );
 };

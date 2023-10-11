@@ -51,6 +51,9 @@ import {
 } from '../my-profile/services/tutorAvailabilityService';
 import { InformationCard } from '../../components/InformationCard';
 import { CustomToolbar } from '../my-bookings/CustomToolbar';
+import AddCreditCard from "../my-profile/components/AddCreditCard";
+import {loadStripe, StripeElementsOptions} from "@stripe/stripe-js";
+import {Elements} from "@stripe/react-stripe-js";
 
 interface IBookingTransformed {
   id: string;
@@ -73,6 +76,8 @@ interface ICoords {
   x: number;
   y: number;
 }
+
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY!);
 
 const TutorBookings = () => {
   const [scrollTopOffset, setScrollTopOffset] = useState<number>(0);
@@ -723,6 +728,10 @@ const TutorBookings = () => {
     setSelectedDateFirstDayOfWeek(value);
   }, [value]);
 
+  const closeAddCardSidebar = () => {
+    setSidebarOpen(false);
+  };
+
   useEffect(() => {
     const indicator: any = document.getElementsByClassName('rbc-current-time-indicator');
     indicator[0] && indicator[0].setAttribute('data-time', moment().format('HH:mm'));
@@ -758,6 +767,39 @@ const TutorBookings = () => {
     setCalChange(!calChange);
   }
 
+  const options: StripeElementsOptions = {
+    mode: 'setup',
+    currency: 'eur',
+    appearance: {
+      theme: "stripe",
+      variables: {
+        fontFamily: '"Lato", sans-serif',
+        fontLineHeight: '1.5',
+        borderRadius: '10px',
+        colorBackground: '#F6F8FA',
+        colorPrimaryText: '#262626'
+      },
+      rules: {
+        '.Tab': {
+          border: '1px solid #E0E6EB',
+          boxShadow: '0px 1px 1px rgba(0, 0, 0, 0.03), 0px 3px 6px rgba(18, 42, 66, 0.02)',
+        },
+
+        '.Tab:hover': {
+          color: 'var(--colorText)',
+        },
+
+        '.Tab--selected': {
+          borderColor: '#E0E6EB',
+          boxShadow: '0px 1px 1px rgba(0, 0, 0, 0.03), 0px 3px 6px rgba(18, 42, 66, 0.02), 0 0 0 2px var(--colorPrimary)',
+        },
+
+        '.Input--invalid': {
+          boxShadow: '0 1px 1px 0 rgba(231, 76, 60, 1), 0 0 0 2px var(--colorDanger)',
+        },
+      }
+    },
+  };
 
   return (
     <MainWrapper>
@@ -889,97 +931,9 @@ const TutorBookings = () => {
 
           {/* needs to be in this place because layout have nth-child selector */}
           {sidebarOpen ? (
-            <Sidebar
-              sideBarIsOpen={sidebarOpen}
-              title="ADD NEW CARD"
-              onSubmit={formik.handleSubmit}
-              closeSidebar={() => setSidebarOpen(false)}
-              cancelLabel="Cancel"
-              submitLabel="Add New Card"
-              children={
-                <FormikProvider value={formik}>
-                  <Form>
-                    <div className="field">
-                      <label htmlFor="cardFirstName" className="field__label">
-                        {t('ACCOUNT.NEW_CARD.NAME')}
-                      </label>
-                      <TextField name="cardFirstName" id="cardFirstName" placeholder={t('ACCOUNT.NEW_CARD.NAME_PLACEHOLDER')} />
-                    </div>
-                    <div className="field">
-                      <label htmlFor="cardLastName" className="field__label">
-                        {t('ACCOUNT.NEW_CARD.SURNAME')}
-                      </label>
-                      <TextField name="cardLastName" id="cardLastName" placeholder={t('ACCOUNT.NEW_CARD.SURNAME_PLACEHOLDER')} />
-                    </div>
-                    <div className="field">
-                      <label htmlFor="city" className="field__label">
-                        {t('ACCOUNT.NEW_CARD.CITY')}
-                      </label>
-                      <TextField name="city" id="city" placeholder={t('ACCOUNT.NEW_CARD.CITY_PLACEHOLDER')} />
-                    </div>
-                    <div className="field">
-                      <label htmlFor="country" className="field__label">
-                        {t('ACCOUNT.NEW_CARD.COUNTRY')}
-                      </label>
-                      <TextField name="country" id="country" placeholder={t('ACCOUNT.NEW_CARD.COUNTRY_PLACEHOLDER')} />
-                    </div>
-                    <div className="field">
-                      <label htmlFor="line1" className="field__label">
-                        {t('ACCOUNT.NEW_CARD.ADDRESS1')}
-                      </label>
-                      <TextField
-                        name="line1"
-                        id="line1"
-                        placeholder={t('ACCOUNT.NEW_CARD.ADDRESS1_PLACEHOLDER')}
-                        withoutErr={formik.errors.line1 && formik.touched.line1 ? false : true}
-                      />
-                    </div>
-                    <div className="field">
-                      <label htmlFor="line2" className="field__label">
-                        {t('ACCOUNT.NEW_CARD.ADDRESS2')}
-                      </label>
-                      <TextField name="line2" id="line2" placeholder={t('ACCOUNT.NEW_CARD.ADDRESS2_PLACEHOLDER')} />
-                    </div>
-                    <div className="field">
-                      <label htmlFor="cardNumber" className="field__label">
-                        {t('ACCOUNT.NEW_CARD.CARD_NUMBER')}
-                      </label>
-                      <TextField type="number" name="cardNumber" id="cardNumber" placeholder={t('ACCOUNT.NEW_CARD.CARD_NUMBER_PLACEHOLDER')} />
-                    </div>
-                    <div className="field field__file">
-                      <div className="flex">
-                        <div className="field w--100 mr-6">
-                          <label htmlFor="expiryDate" className="field__label">
-                            {t('ACCOUNT.NEW_CARD.EXPIRY')}
-                          </label>
-                          <TextField
-                            type="text"
-                            name="expiryDate"
-                            id="expiryDate"
-                            placeholder={t('ACCOUNT.NEW_CARD.EXPIRY_PLACEHOLDER')}
-                            mask={[/\d/, /\d/, '/', /\d/, /\d/]}
-                          />
-                        </div>
-
-                        <div className="field w--100">
-                          <label htmlFor="cvv" className="field__label">
-                            {t('ACCOUNT.NEW_CARD.CVV')}
-                          </label>
-                          <TextField max={3} maxLength={3} type="number" name="cvv" id="cvv" placeholder={t('ACCOUNT.NEW_CARD.CVV_PLACEHOLDER')} />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="field">
-                      <label htmlFor="zipCode" className="field__label">
-                        {t('ACCOUNT.NEW_CARD.ZIP')}
-                      </label>
-                      <TextField type="number" name="zipCode" id="zipCode" placeholder={t('ACCOUNT.NEW_CARD.ZIP_PLACEHOLDER')} />
-                    </div>
-                  </Form>
-                </FormikProvider>
-              }
-            />
+            <Elements stripe={stripePromise} options={options}>
+              <AddCreditCard sideBarIsOpen={sidebarOpen} closeSidebar={closeAddCardSidebar} handleSubmit={handleSubmit}/>
+            </Elements>
           ) : (
             <></>
           )}

@@ -104,7 +104,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     if (stripeCustomerId) {
       //if user has stripe account but don't have default payment method
       const res = await getUser(userId!).unwrap();
-      const defaultSource = res.invoice_settings.default_payment_method;
+      const defaultSource = res.paymentMethods[0];
       if (!defaultSource) {
         setSidebarOpen(true);
         setIsCreateBookingLoading(false);
