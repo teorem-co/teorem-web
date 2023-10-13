@@ -6,7 +6,6 @@
     &__item {
         display: flex;
         align-items: center;
-        margin-bottom: calc(#{$unit} * 4);
     }
     &__progress {
         position: relative;
