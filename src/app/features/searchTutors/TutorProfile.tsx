@@ -540,7 +540,7 @@ const TutorProfile = () => {
                         <div className="type--wgt--bold mb-2">{t('TUTOR_PROFILE.RATING.TITLE')}</div>
                         <div className="flex flex--jc--space-between">
                           <div>
-                            <div className="type--huge">
+                            <div className={isMobile ? "type--xxl" : 'type--huge'}>
                               {tutorStatistics?.statistic ? tutorStatistics.statistic.toFixed(1) : 0}
                             </div>
                             <div className="rating__stars mb-4">

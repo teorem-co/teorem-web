@@ -5,10 +5,19 @@
 .my-reviews {
     &__wrapper {
         display: flex;
+
+      @media (max-width: $responsive-sm) {
+        flex-direction: column-reverse;
+        order: revert;
+      }
     }
     &__aside {
         flex-shrink: 0;
         width: 320px;
+        @media (max-width: $responsive-sm) {
+          width: 100%;
+          margin-bottom: calc(4 * $unit);
+        }
     }
     &__main {
         flex-grow: 1;

@@ -105,10 +105,10 @@ const MyReviews = () => {
     return (
         <MainWrapper>
             <div onScroll={(e: any) => debouncedScrollHandler(e.target)} className="card--secondary">
-                <div className="card--secondary__head">
-                    <h2 className="type--wgt--bold type--lg">{t('MY_REVIEWS.TITLE')}</h2>
-                </div>
-                <div className="card--secondary__body my-reviews__wrapper">
+                  <div className="card--secondary__head">
+                      <h2 className="type--wgt--bold type--lg">{t('MY_REVIEWS.TITLE')}</h2>
+                  </div>
+                  <div className="card--secondary__body my-reviews__wrapper">
                     <div className="my-reviews__main">
                         <div className="mb-10 flex--primary">
                             <div>
@@ -139,15 +139,6 @@ const MyReviews = () => {
                                                 <ReviewItem reviewItem={item} />
                                             ))}
                                         </div>
-                                        {/* <Pagination
-                                            activePageClass={
-                                                'pagination--active'
-                                            }
-                                            currPage={params.page}
-                                            itemsPerPage={params.rpp}
-                                            totalItems={myReviews.count}
-                                            paginate={paginate}
-                                        /> */}
                                     </>
                                 ) : (
                                     <div className="reviews-list">
@@ -161,23 +152,26 @@ const MyReviews = () => {
                         )}
                     </div>
                     <div className="my-reviews__aside">
-                        <div className="mb-10">
-                            <span className="type--uppercase type--color--tertiary">{t('MY_REVIEWS.AVG_SCORE')}</span>
-                            <span className="tag--primary d--ib ml-2">
-                                {/* {getAvgRating(myReviews)
-                                    ? getAvgRating(myReviews).toFixed(1)
-                                    : 0} */}
-                                {tutorStatistics?.statistic ? tutorStatistics?.statistic.toFixed(1) : 0}
-                            </span>
+                      <div className="mb-10 flex flex--jc--center">
+                        <span className="type--uppercase type--color--tertiary">{t('MY_REVIEWS.AVG_SCORE')}</span>
+                        <span className="tag--primary d--ib ml-2">
+                                  {/* {getAvgRating(myReviews)
+                                      ? getAvgRating(myReviews).toFixed(1)
+                                      : 0} */}
+                          {tutorStatistics?.statistic ? tutorStatistics?.statistic.toFixed(1) : 0}
+                              </span>
+                      </div>
+                      {statisticsLoading ? (
+                        <div>
+                          <LoaderStatistics />
                         </div>
-                        {statisticsLoading ? (
-                            <div>
-                                <LoaderStatistics />
-                            </div>
-                        ) : (
-                            <Ratings ratings={tutorStatistics ? tutorStatistics.result : []} />
-                        )}
+                      ) : (
+                        <div className="flex flex--jc--center">
+                          <Ratings ratings={tutorStatistics ? tutorStatistics.result : []} />
+                        </div>
+                      )}
                     </div>
+
                 </div>
             </div>
         </MainWrapper>

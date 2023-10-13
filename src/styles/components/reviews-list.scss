@@ -12,6 +12,10 @@
             flex-direction: column;
         }
 
+        @media (max-width: $responsive-sm) {
+          padding: calc(#{$unit} * 6) 0;
+        }
+
         & > div:nth-child(1) {
             width: 232px;
             flex-shrink: 0;

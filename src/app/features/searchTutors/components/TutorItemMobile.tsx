@@ -21,7 +21,7 @@ export const TutorItemMobile = (props: Props) => {
         to={`${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(":tutorSlug", tutor.slug)}`}>
       <div
         // style={{backgroundColor: '#f8f7fe'}}
-        className="card--primary flex flex--row m-2 font__sm flex--ai--center font-family__montserrat  ">
+        className="card--primary flex flex--row m-2 font__sm flex--ai--center">
 
         <img
           className="mr-3 lessons-list__item__img lessons-list__item__img__search-tutor"

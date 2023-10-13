@@ -156,3 +156,26 @@
   }
 }
 
+.filters-container{
+  gap: 5px;
+}
+
+.availability-container{
+  display: flex;
+  flex-direction: row;
+
+  @media (max-width: $responsive-sm) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.availability-container-time{
+  display: flex;
+  flex-direction: row;
+
+  @media (max-width: $responsive-sm) {
+    display: flex;
+    flex-direction:column;
+  }
+}
