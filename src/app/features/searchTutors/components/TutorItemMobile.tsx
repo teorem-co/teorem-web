@@ -20,7 +20,6 @@ export const TutorItemMobile = (props: Props) => {
         style={{color:'black'}} //maybe not use inline style
         to={`${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(":tutorSlug", tutor.slug)}`}>
       <div
-        // style={{backgroundColor: '#f8f7fe'}}
         className="card--primary flex flex--row m-2 font__sm flex--ai--center">
 
         <img
@@ -53,7 +52,6 @@ export const TutorItemMobile = (props: Props) => {
                  <AiFillStar color={"#7e6cf2"} size={15}/>
                  <span>{tutor.averageGrade}</span>
                </div>
-               {/*<span className="pr-1 pl-1"> • </span>*/}
                <span className="d--b">{tutor.numberOfReviews} {t('SEARCH_TUTORS.NUMBER_OF_REVIEWS')}</span>
               </div>
              :
