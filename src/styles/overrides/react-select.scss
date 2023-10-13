@@ -128,6 +128,11 @@
 
             border: 1px solid $color-primary-light;
             border-radius: $border-rounded !important;
+
+            @media (min-width: $responsive-sm) {
+              width: 600px !important;
+              margin-left: 0;
+            }
         }
 
         &__indicator-separator {
