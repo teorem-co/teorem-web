@@ -21,6 +21,9 @@
     }
     &__main {
         flex-grow: 1;
+        padding-right: calc(#{$unit} * 1);
+      @media (min-width: $responsive-sm) {
         padding-right: calc(#{$unit} * 12);
+      }
     }
 }

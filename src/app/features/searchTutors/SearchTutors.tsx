@@ -98,7 +98,7 @@ const SearchTutors = () => {
 
     const CustomMenu = (props: MenuProps) => {
         return (
-            <components.Menu className="react-select--availability" {...props}>
+            <components.Menu className="react-select--availability availability-filter-width" {...props}>
                <div className="align--center">
                    <div className="type--uppercase type--color--tertiary mb-4 ">{t('SEARCH_TUTORS.TUTOR_AVAILABLE')}</div>
 

@@ -147,3 +147,19 @@
         letter-spacing: 1px;
     }
 }
+
+.review-mark-big{
+  font-size: xxx-large;
+
+  @media (max-width: $responsive-sm) {
+    font-size: xx-large;
+  }
+}
+
+.review-font-small{
+  font-size: small;
+
+  @media (max-width: $responsive-sm) {
+    font-size: x-small;
+  }
+}
