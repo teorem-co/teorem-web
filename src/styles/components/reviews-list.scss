@@ -16,6 +16,25 @@
         @media (max-width: $responsive-sm) {
           padding: calc(#{$unit} * 6) 0 calc(#{$unit} * 2) 10px;
         }
+
+        //& > div:nth-child(1) {
+        //    width: 232px;
+        //    flex-shrink: 0;
+        //    margin-bottom: calc(#{$unit} * 4);
+        //}
+        //& > div:nth-child(2) {
+        //    flex-grow: 1;
+        //}
+        //
+        //&:first-child {
+        //    padding-top: 0;
+        //}
+        //&:last-child {
+        //    padding-bottom: 0;
+        //    border: none;
+        //}
+    }
+}
     }
 }
 
