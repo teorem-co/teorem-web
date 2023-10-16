@@ -75,7 +75,7 @@ $mobile-height: 50px;
         background-color: $background-color;
 
         @media (max-width: $responsive-md) {
-            height: calc(100vh - #{$mobile-height});
+           // height: calc(100vh - #{$mobile-height});
         }
     }
 
