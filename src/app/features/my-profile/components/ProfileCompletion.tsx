@@ -19,7 +19,7 @@ const ProfileCompletion = (props: Props) => {
     const userRole: string = useAppSelector((state) => state.auth.user?.Role.abrv) || '';
 
     return (
-        <div className="card--profile__progress flex--primary p-6 mb-20 ">
+        <div className="card--profile__progress flex--primary p-6 mb-20">
             {percentage !== 100 && userRole === RoleOptions.Tutor && (
                 <div className="flex">
                     {/* Maybe change later to use custom component instead of library component */}
@@ -34,7 +34,7 @@ const ProfileCompletion = (props: Props) => {
                 </div>
             )}
 
-            <div className="card--profile__progress__links">
+            <div className="card--profile__progress__links background-blu">
                 <NavLink exact to={PROFILE_PATHS.MY_PROFILE_INFO_PERSONAL} className="nav-link--profile" activeClassName="active">
                     <div className="flex flex--col flex--center">
                         <div className="nav-link--profile__wrapper">
