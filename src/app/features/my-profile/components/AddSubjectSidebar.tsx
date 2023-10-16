@@ -100,6 +100,8 @@ const AddSubjectSidebar = (props: Props) => {
 
     const formik = useFormik({
         initialValues: initialValues,
+        validateOnChange:true,
+        validateOnBlur:true,
         onSubmit: handleSubmit,
         validationSchema: Yup.object().shape({
             level: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
@@ -112,7 +114,11 @@ const AddSubjectSidebar = (props: Props) => {
         getCurrency();
     }, []);
 
-    return (
+
+  useEffect(() => {
+    console.log(formik.values);
+  }, [formik.values]);
+  return (
         <div>
             <div className={`cur--pointer sidebar__overlay ${!sideBarIsOpen ? 'sidebar__overlay--close' : ''}`} onClick={closeSidebar}></div>
 
