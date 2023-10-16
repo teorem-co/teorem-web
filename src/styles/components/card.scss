@@ -172,6 +172,11 @@
 
         background-color: $white;
 
+        @media (max-width: $responsive-sm) {
+          margin: calc(#{$unit} * 1);
+          padding: calc(#{$unit} * 1);
+        }
+
         &__section {
             display: flex;
             border-bottom: 1px solid $grey-ed;
@@ -218,11 +223,20 @@
                 flex-grow: 1;
                 justify-content: space-evenly;
                 align-items: center;
-
                 width: 100%;
-
                 overflow-x: auto;
+
+                & > a {
+                 @media (max-width: $responsive-sm) {
+                   flex: 0 0 100px;
+
+                   &:first-child {
+                     margin-left: 50px;
+                   }
+                 }
+                }
             }
+
 
             //select first childs in section card and set their styles
             & > div {
