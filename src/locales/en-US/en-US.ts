@@ -177,6 +177,8 @@ export const EN_US = {
                 ABOUT_LESSONS_PLACEHOLDER: 'Describe your lessons, approach, way of teaching...',
                 SUBMIT_BTN: 'Save',
             },
+            NO_PRICE: 'There is no price',
+            HOUR: 'hr'
         },
         PRICE_SORT: 'Sort by',
         SORT_LOW: 'Low price',

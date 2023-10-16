@@ -176,6 +176,8 @@ export const HR_HR = {
                 ABOUT_LESSONS_PLACEHOLDER: 'Opišite Vaša predavanja, pristup učenju...',
                 SUBMIT_BTN: 'Spremanje',
             },
+            NO_PRICE: 'Cijena nije navedena',
+            HOUR: 'sat'
         },
         PRICE_SORT: 'Sortirati po',
         SORT_LOW: 'Najnižoj cijeni',

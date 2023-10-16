@@ -282,17 +282,17 @@ const TutorProfile = () => {
                             <i className="icon icon--pricing icon--md icon--grey"></i>
                             {tutorData.minimumPrice ? (
                               <span className="d--ib ml-4 type--md">
-                                  {tutorData.minimumPrice} {tutorData.User.Country.currencyCode}
+                                  {tutorData.minimumPrice} <span className="type--color--tertiary">{tutorData.User.Country.currencyCode}</span>
                                 {tutorData.minimumPrice !== tutorData.maximumPrice && (
                                   <>
                                     &nbsp;-&nbsp;
-                                    {tutorData.maximumPrice} {tutorData.User.Country.currencyCode}
+                                    {tutorData.maximumPrice} <span className="type--color--tertiary">{tutorData.User.Country.currencyCode}</span>
                                   </>
                                 )}
-                                &nbsp;/hr
+                                <span className="type--color--tertiary">/{t('SEARCH_TUTORS.TUTOR_PROFILE.HOUR')}</span>
                                 </span>
                             ) : (
-                              <span className="d--ib ml-4">There is no price</span>
+                              <span className="d--ib ml-4">{t('SEARCH_TUTORS.TUTOR_PROFILE.NO_PRICE')}</span>
                             )}
                           </div>
 
@@ -382,17 +382,17 @@ const TutorProfile = () => {
                               <i className="icon icon--pricing icon--md icon--grey"></i>
                               {tutorData.minimumPrice ? (
                                 <span className="d--ib ml-4 type--md type--wgt--extra-bold">
-                                  {tutorData.minimumPrice} {tutorData.User.Country.currencyCode}
+                                  {tutorData.minimumPrice} <span className="type--color--tertiary">{tutorData.User.Country.currencyCode}</span>
                                   {tutorData.minimumPrice !== tutorData.maximumPrice && (
                                     <>
                                       &nbsp;-&nbsp;
-                                      {tutorData.maximumPrice} {tutorData.User.Country.currencyCode}
+                                      {tutorData.maximumPrice} <span className="type--color--tertiary">{tutorData.User.Country.currencyCode}</span>
                                     </>
                                   )}
-                                  &nbsp;/hr
+                                  &nbsp;<span className="type--color--tertiary">/{t('SEARCH_TUTORS.TUTOR_PROFILE.HOUR')}</span>
                                 </span>
                               ) : (
-                                <span className="d--ib ml-4">There is no price</span>
+                                <span className="d--ib ml-4">{t('SEARCH_TUTORS.TUTOR_PROFILE.NO_PRICE')}</span>
                               )}
                             </div>
 

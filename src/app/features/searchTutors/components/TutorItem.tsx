@@ -77,7 +77,7 @@ const TutorItem: FC<Props> = (props: Props) => {
                                   &nbsp;/hr
                                 </span>
                             ) : (
-                                <span className="d--ib ml-4">There is no price</span>
+                                <span className="d--ib ml-4">{t('SEARCH_TUTORS.TUTOR_PROFILE.NO_PRICE')}</span>
                             )}
                         </div>
 
