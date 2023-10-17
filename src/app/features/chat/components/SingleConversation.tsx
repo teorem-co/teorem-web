@@ -17,7 +17,7 @@ import {
   useLazyGetChatMessagesQuery,
 } from '../services/chatService';
 import {
-  addChatRoom,
+  addChatRoom, clearActiveChatRoom,
   getMessagesById,
   IChatRoom,
   ISendChatMessage,
@@ -43,6 +43,9 @@ import {
   BsDownload,
   BsFillFileEarmarkFill,
 } from 'react-icons/bs';
+import MediaQuery from 'react-responsive';
+import { RiContractLeftFill } from 'react-icons/ri';
+import { AiOutlineLeft } from 'react-icons/ai';
 interface Props {
   data: IChatRoom | null;
 }
@@ -382,11 +385,18 @@ const SingleConversation = (props: Props) => {
   };
 
     const cacheBuster = new Date();
-
+  function removeActiveChatRoom() {
+    dispatch(clearActiveChatRoom());
+  }
   return (
     <div className='content'>
       <div className='content__header content__header--chat'>
+
         <div className='flex flex--center'>
+
+          <MediaQuery maxWidth={765}>
+             <AiOutlineLeft  className='signup-icon' color='grey' onClick={removeActiveChatRoom}/>
+          </MediaQuery>
           {props.data && userActive?.Role.abrv != Role.Tutor && (
             <Link
               className='chat-single-conversation-link flex flex--center'
