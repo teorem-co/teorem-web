@@ -502,7 +502,7 @@ const Dashboard = () => {
                         <div className="card--secondary__head">
                             <h2 className="type--wgt--bold type--lg">{t('DASHBOARD.TITLE')}</h2>
                         </div>
-                        <div className="card--secondary__body">
+                        <div className="card--secondary__body pl-3 pr-3">
                           {userRole === RoleOptions.Tutor ? (
                             <div className="dashboard__requests">
                               <div className="type--color--tertiary mb-2">{t('DASHBOARD.REQUESTS.TITLE')}</div>

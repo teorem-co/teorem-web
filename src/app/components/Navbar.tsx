@@ -134,7 +134,7 @@ const Navbar = () => {
                                 {user?.firstName} {user?.lastName}
                             </div>
                             <div
-                                className='type--xs type--color--secondary type--wgt--regular '>{t('ROLES.' + user?.Role?.abrv)}</div>
+                                className='type--xs type--color--secondary type--wgt--regular '>{t('ROLES.' + user?.Role?.abrv)}  {user?.Role?.abrv}</div>
                         </div>
                     </NavLink>
 

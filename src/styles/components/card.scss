@@ -57,8 +57,8 @@
             padding: calc(#{$unit} * 10) calc(#{$unit} * 6);
 
           @media (max-width: 756px) {
-            padding-right: 5px;
-            padding-left: 5px;
+            //padding-right: 5px;
+            //padding-left: 5px;
           }
         }
 
@@ -174,7 +174,7 @@
 
         @media (max-width: $responsive-sm) {
           margin: calc(#{$unit} * 1);
-          padding: calc(#{$unit} * 1);
+          padding: calc(#{$unit} * 1) calc(#{$unit} * 1) 20px;
         }
 
         &__section {
@@ -213,9 +213,16 @@
 
         &__progress {
             box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: calc($unit * 20);
 
             @media (max-width: $responsive-xl) {
-                flex-direction: column;
+                  flex-direction: column;
+            }
+
+            @media (max-width: $responsive-sm) {
+              margin-bottom: calc($unit * 10);
             }
 
             &__links {
@@ -226,8 +233,9 @@
                 overflow-x: auto;
 
                 @media (max-width: $responsive-sm) {
-                  justify-content: unset;
+                  justify-content: center;
                   align-items: unset;
+                  flex-wrap: wrap;
                 }
 
                 & > a {
