@@ -146,6 +146,10 @@
             display: flex;
             flex-direction: column;
             border-right: 1px solid $grey-ed;
+
+          @media (max-width: $responsive-sm) {
+            border-right: none;
+          }
         }
 
         &__content {

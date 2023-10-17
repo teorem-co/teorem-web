@@ -6,9 +6,9 @@ import { useAppSelector } from '../../../hooks';
 import AsideWrapper from '../components/AsideWrapper';
 import SingleConversation from '../components/SingleConversation';
 import { ContextProvider } from '../contexts/Context';
-import { IChatRoom } from '../slices/chatSlice';
-
-;
+import { clearActiveChatRoom, IChatRoom } from '../slices/chatSlice';
+import { setStepOne } from '../../../../slices/signUpSlice';
+import MediaQuery from 'react-responsive';
 
 
 const Chat = () => {
@@ -50,12 +50,41 @@ const Chat = () => {
         }
     }, [chat.chatRooms]);
 
-    return (
+    // const isMobile
+  return (
         <ContextProvider>
             <MainWrapper>
                 <div className="card--chat card--primary--shadow">
-                    <AsideWrapper data={tempChatRooms} />
-                    <SingleConversation data={chat.activeChatRoom} />
+
+                    <MediaQuery className="background-blue" minWidth={766}>
+                      <AsideWrapper data={tempChatRooms} />
+                      <SingleConversation data={chat.activeChatRoom}/>
+                    </MediaQuery>
+
+                    <MediaQuery className="background-red" maxWidth={765}>
+                      {chat.activeChatRoom ?
+                      <SingleConversation data={chat.activeChatRoom}/>
+                      :
+                      <AsideWrapper data={tempChatRooms} />}
+                    </MediaQuery>
+
+
+
+                  {/*{isMobile ?*/}
+                  {/*  <MediaQuery maxWidth={765}>*/}
+                  {/*    <SingleConversation data={chat.activeChatRoom}/>*/}
+                  {/*    <AsideWrapper data={tempChatRooms} />*/}
+                  {/*  </MediaQuery>*/}
+
+                  {/*  :*/}
+
+                  {/*  chat.activeChatRoom ?*/}
+                  {/*    <SingleConversation data={chat.activeChatRoom}/>*/}
+                  {/*    :*/}
+                  {/*    <AsideWrapper data={tempChatRooms} />*/}
+                  {/*}*/}
+
+
                 </div>
             </MainWrapper>
         </ContextProvider>

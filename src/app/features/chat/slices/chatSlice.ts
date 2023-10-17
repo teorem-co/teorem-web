@@ -511,6 +511,10 @@ const chatSlice = createSlice({
         }
       }
     },
+
+    clearActiveChatRoom(state){
+      state.activeChatRoom = null;
+    }
   },
 });
 
@@ -531,6 +535,7 @@ export const {
   readMessages,
   addChatRoom,
   setMessagesAsRead,
+  clearActiveChatRoom
   //reconnectSocket
 } = chatSlice.actions;
 export default chatSlice.reducer;
