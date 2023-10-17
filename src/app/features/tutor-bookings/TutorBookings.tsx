@@ -36,7 +36,6 @@ import {
 import LearnCubeModal from '../my-profile/components/LearnCubeModal';
 import {
   useAddCustomerMutation,
-  useAddCustomerSourceMutation,
   useLazyGetCreditCardsQuery,
   useSetDefaultCreditCardMutation,
 } from '../my-profile/services/stripeService';
@@ -98,7 +97,6 @@ const TutorBookings = () => {
     isLoading: bookingIsLoading,
     isFetching: bookingIsFetching
   }] = useLazyGetBookingByIdQuery();
-  const [addCustomerSource] = useAddCustomerSourceMutation();
   const [addStripeCustomer, {
     data: dataStripeCustomer,
     isSuccess: isSuccessDataStripeCustomer,
