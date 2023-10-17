@@ -502,7 +502,7 @@ export const HR_HR = {
         },
         NO_RESULT: {
             TITLE: 'Bez rezultata',
-            DESC: 'Još uvijek nemate recenzija.',
+            DESC: 'Još nema recenzija.',
             DESC_ADMIN: 'Još uvijek nema niti jedne recenzije.',
         },
         DATE_AGO: {
