@@ -54,12 +54,11 @@ export const stripeService = baseService.injectEndpoints({
                 body: body.customer,
             }),
         }),
-        addCustomerSource: builder.mutation<any, ICustomerSourcePost>({
-            query: (body) => ({
-                url: `${URL}/add-payment-method/${body.userId}`,
-                method: HttpMethods.POST,
-                body: body.card,
-            }),
+        addPaymentIntent: builder.mutation<string, string>({
+          query: (userId) => ({
+            url: `${URL}/create-payment-intent/${userId}`,
+            method: HttpMethods.POST,
+          }),
         }),
         getCreditCards: builder.query<IGetCreditCards, string>({
             query: (userId) => ({
@@ -89,7 +88,7 @@ export const {
   useConnectCompanyAccountMutation,
     useConnectAccountMutation,
     useAddCustomerMutation,
-    useAddCustomerSourceMutation,
+    useAddPaymentIntentMutation,
     useLazyGetCreditCardsQuery,
     useSetDefaultCreditCardMutation,
     useRemoveCreditCardMutation,

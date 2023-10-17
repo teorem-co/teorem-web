@@ -1,7 +1,7 @@
-import { Form, FormikProvider, useFormik } from 'formik';
-import { isEqual } from 'lodash';
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import {Form, FormikProvider, useFormik} from 'formik';
+import {isEqual} from 'lodash';
+import {useEffect, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import * as Yup from 'yup';
 
 import {
@@ -10,34 +10,31 @@ import {
 import {
   useLazyGetProfileProgressQuery,
 } from '../../../../services/tutorService';
-import { addStripeId, connectStripe } from '../../../../slices/authSlice';
-import { RoleOptions } from '../../../../slices/roleSlice';
+import {addStripeId, connectStripe} from '../../../../slices/authSlice';
+import {RoleOptions} from '../../../../slices/roleSlice';
 import TextField from '../../../components/form/TextField';
 import MainWrapper from '../../../components/MainWrapper';
 import LoaderSecondary
   from '../../../components/skeleton-loaders/LoaderSecondary';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
+import {useAppDispatch, useAppSelector} from '../../../hooks';
 import toastService from '../../../services/toastService';
 import TooltipPassword from '../../register/TooltipPassword';
-import AddCreditCard, {
-  Values as CreadiCardValues,
-} from '../components/AddCreditCard';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
-import IAddCustomerPost from '../interfaces/IAddCustomerPost';
-import ICardPost from '../interfaces/ICardPost';
 import IChangePassword from '../interfaces/IChangePassword';
 import ICreditCard from '../interfaces/ICreditCard';
 import {
   useAddCustomerMutation,
-  useAddCustomerSourceMutation,
   useLazyGetCreditCardsQuery,
   useLazyGetCustomerByIdQuery,
   useRemoveCreditCardMutation,
   useSetDefaultCreditCardMutation,
 } from '../services/stripeService';
-import { setMyProfileProgress } from '../slices/myProfileSlice';
+import {setMyProfileProgress} from '../slices/myProfileSlice';
 import StripeConnectForm from '../components/StripeConnectForm';
+import {Elements} from "@stripe/react-stripe-js";
+import {loadStripe, StripeElementsOptions} from "@stripe/stripe-js";
+import AddCreditCard from "../components/AddCreditCard";
 
 interface Values {
   currentPassword: string;
@@ -45,28 +42,36 @@ interface Values {
   confirmPassword: string;
 }
 
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY!);
+
 const ProfileAccount = () => {
   const [getProfileProgress] = useLazyGetProfileProgressQuery();
-  const [addStripeCustomer, { data: dataStripeCustomer, isSuccess: isSuccessDataStripeCustomer, isError: isErrorDataStripeCustomer }] =
+  const [addStripeCustomer, {
+    data: dataStripeCustomer,
+    isSuccess: isSuccessDataStripeCustomer,
+    isError: isErrorDataStripeCustomer
+  }] =
     useAddCustomerMutation();
-  const [addCustomerSource] = useAddCustomerSourceMutation();
-  const [setDefaultCreditCard, { isSuccess: isSuccessSetDefaultCreditCard }] = useSetDefaultCreditCardMutation();
+  const [setDefaultCreditCard, {isSuccess: isSuccessSetDefaultCreditCard}] = useSetDefaultCreditCardMutation();
   const [getCustomerById] = useLazyGetCustomerByIdQuery();
-  const [getCreditCards, { data: creditCards, isLoading: creditCardLoading, isUninitialized: creditCardUninitialized }] =
+  const [getCreditCards, {
+    data: creditCards,
+    isLoading: creditCardLoading,
+    isUninitialized: creditCardUninitialized
+  }] =
     useLazyGetCreditCardsQuery();
   const [changeCurrentPassword] = useChangeCurrentPasswordMutation();
 
   const [deleteCreditCard] = useRemoveCreditCardMutation();
 
   const [addSidebarOpen, setAddSidebarOpen] = useState(false);
-  //const [editSidebarOpen, setEditSidebarOpen] = useState(false);
   const [saveBtnActive, setSaveBtnActive] = useState(false);
   const [passTooltip, setPassTooltip] = useState<boolean>(false);
-    const [stripeModalOpen, setStripeModalOpen] = useState<boolean>(false);
+  const [stripeModalOpen, setStripeModalOpen] = useState<boolean>(false);
   const [activeDefaultPaymentMethod, setActiveDefaultPaymentMethod] = useState<string>('');
   const creditCardIsLoading = creditCardLoading || creditCardUninitialized;
 
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const profileProgressState = useAppSelector((state) => state.myProfileProgress);
   const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
   const stripeCustomerId = useAppSelector((state) => state.auth.user?.stripeCustomerId);
@@ -154,62 +159,6 @@ const ProfileAccount = () => {
     setAddSidebarOpen(false);
   };
 
-  // const closeEditCardSidebar = () => {
-  //     setEditSidebarOpen(false);
-  // };
-
-  const handleSubmitCreditCard = async (values: CreadiCardValues) => {
-    if (!stripeCustomerId) {
-      //If user has not added any card to the stripe yet
-      //    - add user to stripe
-      //    - add stripeID to redux
-      //    - set Added credit card to be default
-      const toSend: IAddCustomerPost = {
-        userId: userInfo!.id,
-        customer: {
-          address: {
-            city: values.city,
-            country: 'PL',
-            line1: values.line1,
-            line2: values.line2,
-            postal_code: Number(values.zipCode),
-            state: values.city,
-          },
-          description: ' ',
-          email: userInfo!.email,
-          name: values.cardFirstName + ' ' + values.cardLastName,
-          phone: userInfo!.phoneNumber,
-        },
-      };
-      await addStripeCustomer(toSend).unwrap();
-    }
-
-    const toSend: ICardPost = {
-      object: 'card',
-      number: values.cardNumber.toString(),
-      exp_month: Number(values.expiryDate.split('/')[0]),
-      exp_year: Number('20' + values.expiryDate.split('/')[1]),
-      cvc: Number(values.cvv),
-      name: 'creditCard',
-      address_line1: values.line1,
-      address_city: values.city,
-      address_zip: values.zipCode,
-      address_country: 'PL',
-    };
-
-    const toSendCustomerSource = {
-      userId: userInfo!.id,
-      card: toSend,
-    };
-
-    addCustomerSource(toSendCustomerSource)
-      .unwrap()
-      .then(() => {
-        fetchData();
-        closeAddCardSidebar();
-      });
-  };
-
   const handleDeleteCreditCard = async (cardId: string) => {
     const toSend = {
       userId: userInfo!.id,
@@ -284,7 +233,7 @@ const ProfileAccount = () => {
     }
     if (userInfo && userRole !== RoleOptions.Tutor && stripeCustomerId) {
       const res = await getCustomerById(userInfo.id).unwrap();
-      setActiveDefaultPaymentMethod(res.invoice_settings.default_payment_method);
+      setActiveDefaultPaymentMethod(res.paymentMethods[0]);
     }
   };
 
@@ -317,11 +266,45 @@ const ProfileAccount = () => {
     handleChangeForSave();
   }, [formik.values]);
 
+  const options: StripeElementsOptions = {
+    mode: 'setup',
+    currency: 'eur',
+    appearance: {
+      theme: "stripe",
+      variables: {
+        fontFamily: '"Lato", sans-serif',
+        fontLineHeight: '1.5',
+        borderRadius: '10px',
+        colorBackground: '#F6F8FA',
+        colorPrimaryText: '#262626'
+      },
+      rules: {
+        '.Tab': {
+          border: '1px solid #E0E6EB',
+          boxShadow: '0px 1px 1px rgba(0, 0, 0, 0.03), 0px 3px 6px rgba(18, 42, 66, 0.02)',
+        },
+
+        '.Tab:hover': {
+          color: 'var(--colorText)',
+        },
+
+        '.Tab--selected': {
+          borderColor: '#E0E6EB',
+          boxShadow: '0px 1px 1px rgba(0, 0, 0, 0.03), 0px 3px 6px rgba(18, 42, 66, 0.02), 0 0 0 2px var(--colorPrimary)',
+        },
+
+        '.Input--invalid': {
+          boxShadow: '0 1px 1px 0 rgba(231, 76, 60, 1), 0 0 0 2px var(--colorDanger)',
+        },
+      }
+    },
+  };
+
   return (
     <MainWrapper>
       <div className="card--profile">
         {/* HEADER */}
-        <ProfileHeader className="mb-8" />
+        <ProfileHeader className="mb-8"/>
 
         {/* PROGRESS */}
         <ProfileCompletion
@@ -337,10 +320,13 @@ const ProfileAccount = () => {
           <Form>
             <div className="card--profile__section">
               <div>
-                <div className="mb-2 type--wgt--bold">{t('ACCOUNT.CHANGE_PASSWORD.TITLE')}</div>
-                <div className="type--color--tertiary w--200--max">{t('ACCOUNT.CHANGE_PASSWORD.DESCRIPTION')}</div>
+                <div
+                  className="mb-2 type--wgt--bold">{t('ACCOUNT.CHANGE_PASSWORD.TITLE')}</div>
+                <div
+                  className="type--color--tertiary w--200--max">{t('ACCOUNT.CHANGE_PASSWORD.DESCRIPTION')}</div>
                 {saveBtnActive ? (
-                  <button className="btn btn--primary btn--lg mt-6" type="submit">
+                  <button className="btn btn--primary btn--lg mt-6"
+                          type="submit">
                     {t('ACCOUNT.SUBMIT')}
                   </button>
                 ) : (
@@ -379,7 +365,8 @@ const ProfileAccount = () => {
                         }}
                         onKeyUp={handleKeyUp}
                       />
-                      <TooltipPassword positionTop={true} passTooltip={passTooltip} />
+                      <TooltipPassword positionTop={true}
+                                       passTooltip={passTooltip}/>
                     </div>
                   </div>
                   <div className="col col-12 col-xl-6">
@@ -414,15 +401,19 @@ const ProfileAccount = () => {
                     <>
                       <div className="flex">
                         <div className="flex--inline flex--jc--cente mr-4">
-                          <div style={{ lineHeight: '40px' }} className="type--wgt--bold type--center">
+                          <div style={{lineHeight: '40px'}}
+                               className="type--wgt--bold type--center">
                             {userInfo?.stripeConnected
                               ? t('MY_PROFILE.PROFILE_ACCOUNT.STRIPE_CONNECTED')
                               : t('MY_PROFILE.PROFILE_ACCOUNT.STRIPE_DISCONNECTED')}
                           </div>
-                          <span className={`stripe-dot ${userInfo?.stripeConnected ? 'stripe-dot-connected' : 'stripe-dot-disconnected'}`}></span>
+                          <span
+                            className={`stripe-dot ${userInfo?.stripeConnected ? 'stripe-dot-connected' : 'stripe-dot-disconnected'}`}></span>
                         </div>
                         {!userInfo?.stripeConnected && (
-                          <div id={`connectToStripeTutor`} onClick={() => setStripeModalOpen(true)} className="btn btn--primary btn--base">
+                          <div id={`connectToStripeTutor`}
+                               onClick={() => setStripeModalOpen(true)}
+                               className="btn btn--primary btn--base">
                             {t('STRIPE_CONNECT.TITLE')}
                           </div>
                         )}
@@ -431,30 +422,36 @@ const ProfileAccount = () => {
                   ) : (
                     <div className="dash-wrapper">
                       <div className="dash-wrapper__item">
-                        <div className="dash-wrapper__item__element" onClick={() => setAddSidebarOpen(true)}>
+                        <div className="dash-wrapper__item__element"
+                             onClick={() => setAddSidebarOpen(true)}>
                           <div className="flex--primary cur--pointer">
                             <div>
-                              <div className="type--wgt--bold">{t('ACCOUNT.CARD_DETAILS.ADD_NEW')}</div>
+                              <div
+                                className="type--wgt--bold">{t('ACCOUNT.CARD_DETAILS.ADD_NEW')}</div>
                               <div>{t('ACCOUNT.CARD_DETAILS.ADD_NEW_DESC')}</div>
                             </div>
                             <div>
-                              <i className="icon icon--base icon--plus icon--primary"></i>
+                              <i
+                                className="icon icon--base icon--plus icon--primary"></i>
                             </div>
                           </div>
                         </div>
                       </div>
                       {creditCardIsLoading ? (
-                        <LoaderSecondary full={false} />
+                        <LoaderSecondary full={false}/>
                       ) : (
                         creditCards &&
                         Array.isArray(creditCards) &&
                         creditCards.map((item: ICreditCard) => {
                           return (
-                            <div className="dash-wrapper__item" onClick={() => handleDefaultCreditCard(item.id)}>
-                              <div className={`dash-wrapper__item__element ${item.id === activeDefaultPaymentMethod && 'active'}`}>
+                            <div className="dash-wrapper__item"
+                                 onClick={() => handleDefaultCreditCard(item.id)}>
+                              <div
+                                className={`dash-wrapper__item__element ${item.id === activeDefaultPaymentMethod && 'active'}`}>
                                 <div className="flex--primary cur--pointer">
                                   <div>
-                                    <div className="type--wgt--bold">**** **** **** {item.card.last4}</div>
+                                    <div className="type--wgt--bold">**** ****
+                                      **** {item.card.last4}</div>
                                     <div>{item.card.brand}</div>
                                   </div>
                                   <div>
@@ -498,9 +495,13 @@ const ProfileAccount = () => {
           closeSidebar={() => setStripeModalOpen(false)}
         />
       </div>
-      <AddCreditCard handleSubmit={handleSubmitCreditCard} closeSidebar={closeAddCardSidebar} sideBarIsOpen={addSidebarOpen} />
+      <Elements stripe={stripePromise} options={options}>
+        <AddCreditCard closeSidebar={closeAddCardSidebar}
+                       sideBarIsOpen={addSidebarOpen}/>
+      </Elements>
     </MainWrapper>
   );
 };
 
 export default ProfileAccount;
+
