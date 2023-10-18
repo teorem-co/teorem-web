@@ -48,8 +48,7 @@ interface Values {
   dateOfBirth: string;
   countryId: string;
   profileImage: string;
-  iban: string;
-}
+};
 
 const PersonalInformation = () => {
   const [getCountries, {
@@ -82,7 +81,6 @@ const PersonalInformation = () => {
     dateOfBirth: '',
     countryId: '',
     profileImage: '',
-    iban: '',
   });
 
   const dispatch = useAppDispatch();
@@ -101,7 +99,6 @@ const PersonalInformation = () => {
       phoneNumber: values.phoneNumber,
       countryId: values.countryId,
       dateOfBirth: moment(values.dateOfBirth).format('YYYY-MM-DD'),
-      iban: values.iban,
     };
 
     if (userRole === RoleOptions.Tutor) {
@@ -144,7 +141,6 @@ const PersonalInformation = () => {
       dateOfBirth: initialValues.dateOfBirth,
       countryId: initialValues.countryId,
       profileImage: initialValueImg,
-      iban: initialValues.iban
     };
 
     const formikValuesObj = {
@@ -154,7 +150,6 @@ const PersonalInformation = () => {
       dateOfBirth: formik.values.dateOfBirth,
       countryId: formik.values.countryId,
       profileImage: formikImg,
-      iban: formik.values.iban,
     };
 
     if (!isEqual(initialValueObj, formikValuesObj)) {
@@ -177,7 +172,6 @@ const PersonalInformation = () => {
           countryId: userResponse.countryId,
           dateOfBirth: userResponse.dateOfBirth,
           profileImage: userResponse.profileImage ? userResponse.profileImage : '',
-          iban: userResponse.iban
         };
         //set formik values
         setInitialValues(values);
@@ -202,7 +196,6 @@ const PersonalInformation = () => {
         countryId: formik.values.countryId,
         dateOfBirth: moment(formik.values.dateOfBirth).format('YYYY-MM-DD'),
         profileImage: formik.values.profileImage,
-        iban: formik.values.iban
       });
       return true;
     }
@@ -453,22 +446,6 @@ const PersonalInformation = () => {
                             />
                           </div>
                         </div>
-                        {userRole === RoleOptions.Tutor ? (
-                            <div className="col col-12 col-xl-6">
-                              <div className="field">
-                                <label htmlFor="iban" className="field__label">
-                                  {t('MY_PROFILE.PROFILE_SETTINGS.IBAN')}
-                                </label>
-                                <TextField
-                                  name="iban"
-                                  id="iban"
-                                  placeholder={t('MY_PROFILE.PROFILE_SETTINGS.IBAN_PLACEHOLDER')}
-                                  disabled={isLoading}
-                                />
-                              </div>
-                            </div>
-                          )
-                          : null}
                         {userRole === RoleOptions.Tutor && (
                           <div className="col col-12">
                             <div className="field field__file">
