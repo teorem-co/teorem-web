@@ -22,5 +22,4 @@ export default interface IUser {
     stripeAccountId: string;
     stripeConnected: boolean;
     Country: ICountry;
-    iban: string;
 }
