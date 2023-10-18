@@ -778,7 +778,7 @@ export const HR_HR = {
     EARNINGS: {
         TITLE: 'Prihod',
         GENERAL: {
-            TITLE: 'OPĆI PODATCI',
+            TITLE: 'STATISTIKA',
             BOOKINGS: 'Ukupno rezervacija',
             STUDENTS: 'Ukupno učenika',
             REVIEWS: 'Ukupno recenzija',
@@ -788,6 +788,14 @@ export const HR_HR = {
         REVENUE: {
             TITLE: 'PRIHOD',
             GRAPH_LEGEND: 'Prihod',
+        },
+        STUDENTS: {
+          TITLE: 'UČENICI',
+          GRAPH_LEGEND: 'Učenici',
+        },
+        BOOKINGS: {
+          TITLE: 'REZERVACIJE',
+          GRAPH_LEGEND: 'Rezervacije',
         },
         DETAILS: {
             TITLE: 'DETALJI',
