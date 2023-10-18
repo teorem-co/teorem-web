@@ -71,12 +71,12 @@ $mobile-height: 50px;
         height: 100vh;
         width: 100vw;
 
-        //overflow-y: auto;
+        overflow-y: scroll;
         background-color: $background-color;
         //padding-bottom: 0;
 
         @media (max-width: $responsive-md) {
-           height: calc(100vh - 60px);
+           height: calc(100vh);
         }
     }
 
