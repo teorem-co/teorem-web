@@ -28,6 +28,7 @@ import ImageCircle from '../../components/ImageCircle';
 import IBooking from '../my-bookings/interfaces/IBooking';
 import LearnCubeModal from '../my-profile/components/LearnCubeModal';
 import LessonRecordingModal from './LessonRecordingModal';
+import MediaQuery from 'react-responsive';
 
 const CompletedLessons = () => {
   const [studentCompletedBookings, setStudentCompletedBookings] = useState<IBookingInfo[]>([]);
@@ -137,7 +138,7 @@ const CompletedLessons = () => {
      const completedLessonsResponse = await getCompletedLessons().unwrap();
      setCompletedLessonsState(completedLessonsResponse);
     const currentlyActiveLesson = completedLessonsResponse[0];
-    setActiveLesson(completedLessonsResponse[0]);
+    //setActiveLesson(completedLessonsResponse[0]);
 
     if (currentlyActiveLesson) {
       const toSend: IGetBookingInfo = {
@@ -188,6 +189,8 @@ const CompletedLessons = () => {
             <div>{t('COMPLETED_LESSONS.TITLE')}</div>
           </div>
           <div className="card--lessons__body">
+
+          <MediaQuery minWidth={766}>
             <div className="card--lessons__body__aside" ref={asideContainerRef} onScroll={(e: any) => asideDebouncedScrollHandler(e.target)}>
               {/*hide lesson counter if parent is logged in*/}
               {userRole !== RoleOptions.Parent && (
@@ -208,7 +211,7 @@ const CompletedLessons = () => {
                         <CompletedLessonsItem
                           key={lesson.id}
                           lesson={lesson}
-                          activeLesson={activeLesson ? activeLesson.id : ''}
+                         // activeLesson={activeLesson ? activeLesson.id : ''}
                           handleActiveLessons={handleActiveLessons}
                         />
                       );
@@ -226,6 +229,8 @@ const CompletedLessons = () => {
                 )}
               </div>
             </div>
+
+            {/*COMPLETED LESSON DETAILS*/}
             <div className="card--lessons__body__main"  ref={studentBookingsRef} onScroll={(e: any) => bookingDebouncedScrollHandler(e.target)}>
               {activeLesson  && studentCompletedBookings.length > 0 ? (
                 <>
@@ -257,8 +262,7 @@ const CompletedLessons = () => {
                         <div>
                           <Link
                             className="text__no-decoration"
-                            to={`${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(':tutorSlug', `${activeLesson.Tutor.slug}`)}`}
-                          >
+                            to={`${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(':tutorSlug', `${activeLesson.Tutor.slug}`)}`}>
                             <div className="type--md mb-1">
                               {activeLesson.Tutor.User.firstName}&nbsp;{activeLesson.Tutor.User.lastName}
                             </div>
@@ -321,6 +325,147 @@ const CompletedLessons = () => {
                 </>
               )}
             </div>
+          </MediaQuery>
+
+
+            <MediaQuery maxWidth={765}>
+              {!activeLesson && <div className="card--lessons__body__aside" ref={asideContainerRef} onScroll={(e: any) => asideDebouncedScrollHandler(e.target)}>
+                {/*hide lesson counter if parent is logged in*/}
+                {userRole !== RoleOptions.Parent && (
+                  <div className="mt-10 mb-10 ml-6 mr-6">
+                    <span className="type--uppercase type--color--tertiary">{t('COMPLETED_LESSONS.LESSONS_AVAILABLE')}</span>
+                    <span className="tag--primary d--ib ml-2">{completedLessonsState.length ? completedLessonsState.length : '0'}</span>
+                  </div>
+                )}
+                <div className="lessons-list">
+                  {loadingList ? (
+                    <LoaderAvailableLessons />
+                  ) : completedLessonsState.length > 0 ? (
+                    userRole === RoleOptions.Parent ? (
+                      renderGroupedLessons()
+                    ) : (
+                      completedLessonsState.map((lesson: ICompletedLesson) => {
+                        return (
+                          <CompletedLessonsItem
+                            key={lesson.id}
+                            lesson={lesson}
+                            // activeLesson={activeLesson ? activeLesson.id : ''}
+                            handleActiveLessons={handleActiveLessons}
+                          />
+                        );
+                      })
+                    )
+                  ) : (
+                    <>
+                      <div className={`lessons-list__item mt-6`}>
+                        <div className="lessons-list__item__info">
+                          <div className="type--wgt--bold">{t('COMPLETED_LESSONS.EMPTY_LESSONS_TITLE')}</div>
+                          <div className="type--color--brand">{t('COMPLETED_LESSONS.EMPTY_LESSONS_LIST')}</div>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>}
+
+              {/*COMPLETED LESSON DETAILS*/}
+              {activeLesson && <div className="card--lessons__body__main"  ref={studentBookingsRef} onScroll={(e: any) => bookingDebouncedScrollHandler(e.target)}>
+                {activeLesson  && studentCompletedBookings.length > 0 ? (
+                  <>
+                    <div>
+                      <div>
+                      </div>
+                      <div className="flex--primary">
+                        <button onClick={()=> {setActiveLesson(null);}}>natrag</button>
+                        <div className="flex flex--center">
+                          <Link
+                            className=""
+                            to={`${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(':tutorSlug', `${activeLesson.Tutor.slug}`)}`}
+                          >
+                            {activeLesson.Tutor.User?.profileImage ? (
+                              <img
+                                className="image__profile image__profile--md mr-4"
+                                src={activeLesson.Tutor.User.profileImage}
+                                alt="tutor profile picture"
+                              />
+                            ) : (
+                              <ImageCircle
+                                style={{border: '11px solid $color-primary-lighter'}}
+                                className="image__profile--md mr-4"
+                                imageBig={true}
+                                fontSize={30}
+                                initials={`${activeLesson.Tutor.User?.firstName.charAt(0)}${activeLesson.Tutor.User?.lastName.charAt(0)}`}
+                              />
+                            )}
+                          </Link>
+                          <div>
+                            <Link
+                              className="text__no-decoration"
+                              to={`${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(':tutorSlug', `${activeLesson.Tutor.slug}`)}`}>
+                              <div className="type--md mb-1">
+                                {activeLesson.Tutor.User.firstName}&nbsp;{activeLesson.Tutor.User.lastName}
+                              </div>
+                            </Link>
+                            <div>
+                              {t(`SUBJECTS.${activeLesson.Subject.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
+                            </div>
+                            <div>
+                              {t(`LEVELS.${activeLesson.level.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
+                            </div>
+                          </div>
+                        </div>
+                        <div>
+                          {!activeLesson.isReview && userRole !== 'child' && (
+                            <button onClick={() => setActiveReviewModal(true)} className="btn btn--base btn--clear mr-4">
+                              {t('COMPLETED_LESSONS.LEAVE_REVIEW')}
+                            </button>
+                          )}
+
+                          <Link className="btn btn--primary btn--base" to={`${PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS.replace(":tutorSlug", activeLesson.Tutor.slug)}`}>
+                            {t('COMPLETED_LESSONS.VIEW_CALENDAR')}
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mt-10">
+                      {/*play/download lessons*/}
+
+                      <div>
+                        {studentCompletedBookings.map((booking, index) => {
+                          const currentMonth = getMonthFromStartTime(booking.startTime);
+                          const previousBooking = studentCompletedBookings[index - 1];
+                          const previousMonth = previousBooking ? getMonthFromStartTime(previousBooking.startTime) : null;
+
+                          return (
+                            <React.Fragment key={index}>
+                              {(index === 0 || currentMonth !== previousMonth) && (
+                                <div className="text-align--center mb-4 mt-2 primary-color">
+                                  {currentMonth} {moment(booking.startTime).year()}
+                                </div>
+                              )}
+
+                              <StudentBookingInfoItem bookingInfo={booking} activeLesson={activeLesson} />
+
+                            </React.Fragment>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="tutor-list__no-results">
+                      <h1 className="tutor-list__no-results__title">{t('COMPLETED_LESSONS.EMPTY_LESSONS_TITLE')}</h1>
+                      <p className="tutor-list__no-results__subtitle">{t('COMPLETED_LESSONS.EMPTY_VIDEOS')}</p>
+                      <Link className="btn btn--clear ml-6 type--wgt--bold" to={t('PATHS.MY_BOOKINGS')}>
+                        {t('COMPLETED_LESSONS.LINK')}
+                      </Link>
+                    </div>
+                  </>
+                )}
+              </div>}
+            </MediaQuery>
+
           </div>
         </div>
         {activeReviewModal ? (
