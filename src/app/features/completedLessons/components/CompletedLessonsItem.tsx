@@ -6,7 +6,7 @@ import ImageCircle from '../../../components/ImageCircle';
 
 interface Props {
     lesson: ICompletedLesson;
-    activeLesson: string;
+    activeLesson?: string;
     handleActiveLessons: (lessonId: string) => void;
 }
 
@@ -16,7 +16,7 @@ const CompletedLessonsItem = (props: Props) => {
     return (
         <div
             key={lesson.id}
-            className={`lessons-list__item ${activeLesson === lesson.id ? 'active' : ''}`}
+            className={`lessons-list__item`} // ${activeLesson === lesson.id ? 'active' : ''}`}
             onClick={() => handleActiveLessons(lesson.id)}
         >
             {lesson.Tutor.User?.profileImage ? (
