@@ -15,7 +15,8 @@
 
     &--secondary {
         height: calc(100% - 48px);
-        overflow-y: auto;
+        overflow-y: scroll;
+      overflow-x: hidden ;
         background-color: $white;
         border-radius: $border-rounded;
         margin: calc(#{$unit} * 6);
