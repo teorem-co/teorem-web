@@ -760,20 +760,23 @@ const Dashboard = () => {
                     </div>
                   )}
                 </div>
-                {notificationsData?.content && notificationsData.content.find((x) => x.read === false) ? (
-                  notificationsData.content.map((notification: INotification) => {
-                    if (!notification.read) {
-                      return <NotificationItem key={notification.id} notificationData={notification}/>;
-                    }
-                  })
-                ) : (
-                  <div className="card--primary card--primary--shadow">{t('DASHBOARD.NOTIFICATIONS.EMPTY')}</div>
-                )}
-                <div className="type--center mt-4">
-                  <Link to={t(PATHS.NOTIFICATIONS)} className="btn btn--clear">
-                    {t('DASHBOARD.NOTIFICATIONS.ALL')}
-                  </Link>
+                <div>
+                  {notificationsData?.content && notificationsData.content.find((x) => x.read === false) ? (
+                    notificationsData.content.map((notification: INotification) => {
+                      if (!notification.read) {
+                        return <NotificationItem key={notification.id} notificationData={notification}/>;
+                      }
+                    })
+                  ) : (
+                    <div className="card--primary card--primary--shadow">{t('DASHBOARD.NOTIFICATIONS.EMPTY')}</div>
+                  )}
+                  <div className="type--center mt-4">
+                    <Link to={t(PATHS.NOTIFICATIONS)} className="btn btn--clear">
+                      {t('DASHBOARD.NOTIFICATIONS.ALL')}
+                    </Link>
+                  </div>
                 </div>
+
                 {learnCubeModal && <LearnCubeModal bookingId={currentlyActiveBooking} handleClose={() => {
                       setLearnCubeModal(false);
                     }} />}
