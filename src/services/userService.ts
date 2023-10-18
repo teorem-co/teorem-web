@@ -5,7 +5,6 @@ import IChangePassword
 import { HttpMethods } from '../app/lookups/httpMethods';
 import typeToFormData from '../app/utils/typeToFormData';
 import { IChild } from '../interfaces/IChild';
-import IChildUpdate from '../interfaces/IChildUpdate';
 import IUser from '../interfaces/IUser';
 
 const URL = '/api/v1/users';
@@ -17,7 +16,6 @@ export interface IUpdateUserInformation {
     countryId: string;
     dateOfBirth: string;
     profileImage: string;
-    iban: string;
 }
 
 export interface ICreateChildRequest{

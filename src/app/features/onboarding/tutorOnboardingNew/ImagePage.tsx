@@ -1,5 +1,4 @@
 import { Form, FormikProvider, useFormik } from 'formik';
-import { isEqual, values } from 'lodash';
 import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import * as Yup from 'yup';
@@ -9,16 +8,12 @@ import {
   useLazyGetTutorByIdQuery,
   useUpdateAditionalInfoMutation,
 } from '../../../../services/tutorService';
-import RouterPrompt from '../../../components/RouterPrompt';
 import {useAppDispatch, useAppSelector} from '../../../hooks';
 import toastService from '../../../services/toastService';
 import {getUserId} from '../../../utils/getUserId';
-import IUpdateAdditionalInfo
-  from "../../my-profile/interfaces/IUpdateAdditionalInfo";
 import {setMyProfileProgress} from "../../my-profile/slices/myProfileSlice";
 import {AiOutlineLeft} from "react-icons/ai";
 import CircularProgress from "../../my-profile/components/CircularProgress";
-import { setStepFour, setStepTwo } from '../../../../slices/onboardingSlice';
 import TestTutorProfile from "./TestTutorProfile";
 import UploadFile from "../../../components/form/MyUploadField";
 import {
@@ -26,8 +21,6 @@ import {
   useUpdateUserInformationMutation,
 } from '../../../../services/userService';
 import moment from 'moment/moment';
-import { RoleOptions } from '../../../../slices/roleSlice';
-import { t } from 'i18next';
 
 //TODO: update the additional values to only image
 
@@ -38,7 +31,6 @@ interface Values {
   dateOfBirth: string;
   countryId: string;
   profileImage: string;
-  iban: string;
 }
 
 type AdditionalProps = {
@@ -89,7 +81,6 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
     dateOfBirth: '',
     countryId: '',
     profileImage: '',
-    iban: '',
   });
 
   const user = useAppSelector((state) => state.auth.user);
@@ -101,7 +92,6 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
       phoneNumber: values.phoneNumber,
       countryId: values.countryId,
       dateOfBirth: moment(values.dateOfBirth).format('YYYY-MM-DD'),
-      iban: values.iban,
     };
 
     if (typeof values.profileImage === 'string') {
@@ -130,7 +120,6 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
           countryId: userResponse.countryId,
           dateOfBirth: userResponse.dateOfBirth,
           profileImage: userResponse.profileImage ? userResponse.profileImage : '',
-          iban: userResponse.iban
         };
         //set formik values
         setInitialValues(values);
@@ -170,7 +159,6 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
         countryId: formik.values.countryId,
         dateOfBirth: moment(formik.values.dateOfBirth).format('YYYY-MM-DD'),
         profileImage: formik.values.profileImage,
-        iban: formik.values.iban
       });
       return true;
     }
