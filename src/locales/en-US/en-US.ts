@@ -782,7 +782,7 @@ export const EN_US = {
     EARNINGS: {
         TITLE: 'Earnings',
         GENERAL: {
-            TITLE: 'GENERAL INFORMATION',
+            TITLE: 'YOUR STATS',
             BOOKINGS: 'Total bookings',
             STUDENTS: 'Total students',
             REVIEWS: 'Total reviews',
@@ -792,6 +792,14 @@ export const EN_US = {
         REVENUE: {
             TITLE: 'REVENUE',
             GRAPH_LEGEND: 'Income',
+        },
+        STUDENTS: {
+          TITLE: 'STUDENTS',
+          GRAPH_LEGEND: 'Students',
+        },
+        BOOKINGS: {
+          TITLE: 'BOOKINGS',
+          GRAPH_LEGEND: 'Bookings',
         },
         DETAILS: {
             TITLE: 'DETAILS',

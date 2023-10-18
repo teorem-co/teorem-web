@@ -6,7 +6,10 @@ interface IEarnings {
     totalReviews: number;
     totalStudents: number;
     totalEarnings: number;
-    graph: IGraph[];
+    monthsForDisplay: String[];
+    earnings_graph: IGraph[];
+    students_graph: IGraph[];
+    bookings_graph: IGraph[];
     details: IEarningDetails[];
 }
 

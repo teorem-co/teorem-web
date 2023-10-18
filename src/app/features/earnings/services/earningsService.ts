@@ -7,8 +7,8 @@ const URL = '/api/v1/tutors';
 export const earningsService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         getEarnings: builder.query<IEarnings, string>({
-            query: (date) => ({
-                url: `${URL}/general-information?dateTo=${date}`,
+            query: (periodOfTime) => ({
+                url: `${URL}/general-information?periodOfTime=${periodOfTime}`,
                 method: HttpMethods.GET,
             }),
         }),
