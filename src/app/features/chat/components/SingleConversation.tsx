@@ -384,10 +384,12 @@ const SingleConversation = (props: Props) => {
       });
   };
 
-    const cacheBuster = new Date();
+  const cacheBuster = new Date();
+
   function removeActiveChatRoom() {
     dispatch(clearActiveChatRoom());
   }
+
   return (
     <div className='content'>
       <div className='content__header content__header--chat'>
