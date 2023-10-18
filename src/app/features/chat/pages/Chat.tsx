@@ -56,12 +56,12 @@ const Chat = () => {
             <MainWrapper>
                 <div className="card--chat card--primary--shadow">
 
-                    <MediaQuery className="background-blue" minWidth={766}>
+                    <MediaQuery minWidth={766}>
                       <AsideWrapper data={tempChatRooms} />
                       <SingleConversation data={chat.activeChatRoom}/>
                     </MediaQuery>
 
-                    <MediaQuery className="background-red" maxWidth={765}>
+                    <MediaQuery maxWidth={765}>
                       {chat.activeChatRoom ?
                       <SingleConversation data={chat.activeChatRoom}/>
                       :
