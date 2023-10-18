@@ -10,3 +10,21 @@
         position: absolute;
     }
 }
+
+.pos {
+  &--r{
+    &--0-mobile{
+      @media (max-width: $responsive-sm) {
+        right: 0;
+      }
+    }
+  }
+
+  &--l{
+    &--0-mobile{
+      @media (max-width: $responsive-sm) {
+        left: 0;
+      }
+    }
+  }
+}

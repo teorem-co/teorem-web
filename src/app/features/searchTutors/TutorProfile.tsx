@@ -33,6 +33,7 @@ import {
 import ImageCircle from '../../components/ImageCircle';
 import PublicTutorProfile from "./PublicTutorProfile";
 import { t } from 'i18next';
+import { StarRating } from '../myReviews/components/StarRating';
 
 const TutorProfile = () => {
     const { t } = useTranslation();
@@ -202,7 +203,7 @@ const TutorProfile = () => {
     };
 
     const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
-    const cacheBuster = Date.now();
+    // const cacheBuster = Date.now();
 
     if(user === null) {
       return <PublicTutorProfile/>;
@@ -230,7 +231,7 @@ const TutorProfile = () => {
                                       height: '120px'
                                     }}
                                     className="align--center d--b"
-                                    src={`${tutorData.User.profileImage}&v=${cacheBuster}`}
+                                    src={`${tutorData.User.profileImage}`}
                                     alt="tutor-profile-pic" />
                                 ) : (
                                   <ImageCircle
@@ -254,7 +255,7 @@ const TutorProfile = () => {
                               <div className="flex flex--center tag tag--primary">
                                 <i className="icon icon--star icon--base icon--primary"></i>
                                 <span className="d--ib">
-                                  {tutorData.averageGrade && tutorData.numberOfReviews && (tutorData.averageGrade > 0) ?
+                                  {tutorData.averageGrade && (tutorData.averageGrade > 0) ?
                                     tutorData.averageGrade ? tutorData.averageGrade.toFixed(1) : 0
                                       + `(${tutorData.numberOfReviews} ${t('TUTOR_PROFILE.REVIEWS')} )`
                                     :
@@ -281,17 +282,17 @@ const TutorProfile = () => {
                             <i className="icon icon--pricing icon--md icon--grey"></i>
                             {tutorData.minimumPrice ? (
                               <span className="d--ib ml-4 type--md">
-                                  {tutorData.minimumPrice} {tutorData.User.Country.currencyCode}
+                                  {tutorData.minimumPrice} <span className="type--color--tertiary">{tutorData.User.Country.currencyCode}</span>
                                 {tutorData.minimumPrice !== tutorData.maximumPrice && (
                                   <>
                                     &nbsp;-&nbsp;
-                                    {tutorData.maximumPrice} {tutorData.User.Country.currencyCode}
+                                    {tutorData.maximumPrice} <span className="type--color--tertiary">{tutorData.User.Country.currencyCode}</span>
                                   </>
                                 )}
-                                &nbsp;/hr
+                                <span className="type--color--tertiary">/{t('SEARCH_TUTORS.TUTOR_PROFILE.HOUR')}</span>
                                 </span>
                             ) : (
-                              <span className="d--ib ml-4">There is no price</span>
+                              <span className="d--ib ml-4">{t('SEARCH_TUTORS.TUTOR_PROFILE.NO_PRICE')}</span>
                             )}
                           </div>
 
@@ -354,7 +355,7 @@ const TutorProfile = () => {
                                       height: '160px'
                                     }}
                                     className="align--center d--b"
-                                    src={`${tutorData.User.profileImage}&v=${cacheBuster}`}
+                                    src={`${tutorData.User.profileImage}`}
                                     alt="tutor-profile-pic" />
                                 ) : (
                                   <ImageCircle
@@ -381,17 +382,17 @@ const TutorProfile = () => {
                               <i className="icon icon--pricing icon--md icon--grey"></i>
                               {tutorData.minimumPrice ? (
                                 <span className="d--ib ml-4 type--md type--wgt--extra-bold">
-                                  {tutorData.minimumPrice} {tutorData.User.Country.currencyCode}
+                                  {tutorData.minimumPrice} <span className="type--color--tertiary">{tutorData.User.Country.currencyCode}</span>
                                   {tutorData.minimumPrice !== tutorData.maximumPrice && (
                                     <>
                                       &nbsp;-&nbsp;
-                                      {tutorData.maximumPrice} {tutorData.User.Country.currencyCode}
+                                      {tutorData.maximumPrice} <span className="type--color--tertiary">{tutorData.User.Country.currencyCode}</span>
                                     </>
                                   )}
-                                  &nbsp;/hr
+                                  &nbsp;<span className="type--color--tertiary">/{t('SEARCH_TUTORS.TUTOR_PROFILE.HOUR')}</span>
                                 </span>
                               ) : (
-                                <span className="d--ib ml-4">There is no price</span>
+                                <span className="d--ib ml-4">{t('SEARCH_TUTORS.TUTOR_PROFILE.NO_PRICE')}</span>
                               )}
                             </div>
 
@@ -435,7 +436,7 @@ const TutorProfile = () => {
                               <div className="flex flex--center tag tag--primary">
                                 <i className="icon icon--star icon--base icon--primary"></i>
                                 <span className="d--ib">
-                                  {tutorData.averageGrade && tutorData.numberOfReviews && (tutorData.averageGrade > 0) ?
+                                  {tutorData.averageGrade && myReviews?.count && tutorData.numberOfReviews && (tutorData.averageGrade > 0) ?
                                     tutorData.averageGrade ? tutorData.averageGrade.toFixed(1) : 0
                                     + `(${tutorData.numberOfReviews} ${t('TUTOR_PROFILE.REVIEWS')} )`
                                     :
@@ -539,23 +540,17 @@ const TutorProfile = () => {
                       <div className="mb-10">
                         <div className="type--wgt--bold mb-2">{t('TUTOR_PROFILE.RATING.TITLE')}</div>
                         <div className="flex flex--jc--space-between">
-                          <div>
-                            <div className="type--huge">
+                          <div className="flex flex--col flex--ai--center">
+                            <div className="review-mark-big">
                               {tutorStatistics?.statistic ? tutorStatistics.statistic.toFixed(1) : 0}
                             </div>
-                            <div className="rating__stars mb-4">
-                              <div
-                                className="rating__stars__fill"
-                                style={{
-                                  width: `${tutorStatistics && tutorStatistics.statistic
-                                    ? handleRatingStars(tutorStatistics.statistic)
-                                    : 0
-                                  }px`,
-                                }}
-                              ></div>
-                            </div>
+
+                            {tutorStatistics &&
+                              <StarRating mark={tutorStatistics.statistic} size={isMobile ? 'small' : 'medium'}/>
+                            }
+
                             <div className="type--color--secondary">
-                              {myReviews?.count} {t('TUTOR_PROFILE.RATING.TOTAL')}
+                              ({myReviews?.count})
                             </div>
                           </div>
                           <div>
@@ -563,7 +558,7 @@ const TutorProfile = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="divider--primary mb-10"></div>
+                      <div className="divider--primary"></div>
                       <div>
                         {myReviews && myReviews.rows.length > 0 ? (
                           <>

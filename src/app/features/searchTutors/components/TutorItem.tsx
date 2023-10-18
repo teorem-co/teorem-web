@@ -27,13 +27,13 @@ const TutorItem: FC<Props> = (props: Props) => {
         return <div className="type--break">{showText}</div>;
     };
 
-    const cacheBuster = Date.now();
+    // const cacheBuster = Date.now();
     return (
         <>
             <div className="tutor-list__item">
                 <div className="tutor-list__item__img">
                     {tutor.profileImage ? (
-                        <img src={`${tutor.profileImage}&v=${cacheBuster}`} alt="tutor-list" />
+                        <img src={`${tutor.profileImage}`} alt="tutor-list" />
                     ) : (
                         <ImageCircle
                             initials={`${tutor.firstName ? tutor.firstName.charAt(0) : ''}${tutor.lastName ? tutor.lastName.charAt(0) : ''
@@ -77,7 +77,7 @@ const TutorItem: FC<Props> = (props: Props) => {
                                   &nbsp;/hr
                                 </span>
                             ) : (
-                                <span className="d--ib ml-4">There is no price</span>
+                                <span className="d--ib ml-4">{t('SEARCH_TUTORS.TUTOR_PROFILE.NO_PRICE')}</span>
                             )}
                         </div>
 

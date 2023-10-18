@@ -27,10 +27,20 @@
     }
 }
 
+.e-menu-wrapper{
+  background-color: red;
+}
+
 .react-select {
     &--availability {
         width: 600px !important;
         right: 0;
+
+        @media (max-width: $responsive-sm){
+          left: 50%;
+          transform: translate(-50%, 0);
+          border: 1px solid black;
+        }
         padding: calc(#{$unit} * 6);
     }
 
@@ -391,4 +401,11 @@
         text-transform: uppercase;
         user-select: none;
     }
+}
+
+.availability-filter-width{
+  @media (min-width: $responsive-sm) {
+    width: 600px !important;
+    margin-left: 0;
+  }
 }

@@ -98,91 +98,92 @@ const SearchTutors = () => {
 
     const CustomMenu = (props: MenuProps) => {
         return (
-            <components.Menu className="react-select--availability" {...props}>
-                <div>
-                    <div className="type--uppercase type--color--tertiary mb-4">{t('SEARCH_TUTORS.TUTOR_AVAILABLE')}</div>
-                    <div>
-                        <CustomCheckbox
-                            id="beforeNoon"
-                            customChecks={timeOfDayArray}
-                            label={t('SEARCH_TUTORS.AVAILABILITY.TIME_OF_DAY.BEFORE_NOON')}
-                            handleCustomCheck={handleCustomTimeOfDay}
-                        />
-                        <CustomCheckbox
-                            customChecks={timeOfDayArray}
-                            id="noonToFive"
-                            label={t('SEARCH_TUTORS.AVAILABILITY.TIME_OF_DAY.NOON_TO_FIVE')}
-                            handleCustomCheck={handleCustomTimeOfDay}
-                        />
-                        <CustomCheckbox
-                            customChecks={timeOfDayArray}
-                            id="afterFive"
-                            label={t('SEARCH_TUTORS.AVAILABILITY.TIME_OF_DAY.AFTER_FIVE')}
-                            handleCustomCheck={handleCustomTimeOfDay}
-                        />
-                    </div>
-                </div>
-                <div className="mt-6">
-                    <div className="type--uppercase type--color--tertiary mb-4">{t('SEARCH_TUTORS.TUTOR_AVAILABLE')}</div>
-                    <div>
-                        <CustomCheckbox
-                            id="mon"
-                            customChecks={dayOfWeekArray}
-                            label={t('SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.MON')}
-                            handleCustomCheck={(id: string) => {
-                                handleCustomDayOfWeek(id);
-                            }}
-                        />
-                        <CustomCheckbox
-                            customChecks={dayOfWeekArray}
-                            id="tue"
-                            label={t('SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.TUE')}
-                            handleCustomCheck={(id: string) => {
-                                handleCustomDayOfWeek(id);
-                            }}
-                        />
-                        <CustomCheckbox
-                            customChecks={dayOfWeekArray}
-                            id="wed"
-                            label={t('SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.WED')}
-                            handleCustomCheck={(id: string) => {
-                                handleCustomDayOfWeek(id);
-                            }}
-                        />
-                        <CustomCheckbox
-                            customChecks={dayOfWeekArray}
-                            id="thu"
-                            label={t('SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.THU')}
-                            handleCustomCheck={(id: string) => {
-                                handleCustomDayOfWeek(id);
-                            }}
-                        />
-                        <CustomCheckbox
-                            customChecks={dayOfWeekArray}
-                            id="fri"
-                            label={t('SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.FRI')}
-                            handleCustomCheck={(id: string) => {
-                                handleCustomDayOfWeek(id);
-                            }}
-                        />
-                        <CustomCheckbox
-                            customChecks={dayOfWeekArray}
-                            id="sat"
-                            label={t('SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.SAT')}
-                            handleCustomCheck={(id: string) => {
-                                handleCustomDayOfWeek(id);
-                            }}
-                        />
-                        <CustomCheckbox
-                            customChecks={dayOfWeekArray}
-                            id="sun"
-                            label={t('SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.SUN')}
-                            handleCustomCheck={(id: string) => {
-                                handleCustomDayOfWeek(id);
-                            }}
-                        />
-                    </div>
-                </div>
+            <components.Menu className="react-select--availability availability-filter-width" {...props}>
+               <div className="align--center">
+                   <div className="type--uppercase type--color--tertiary mb-4 ">{t('SEARCH_TUTORS.TUTOR_AVAILABLE')}</div>
+
+                       <div className="availability-container-time">
+                         <CustomCheckbox
+                           id="beforeNoon"
+                           customChecks={timeOfDayArray}
+                           label={t('SEARCH_TUTORS.AVAILABILITY.TIME_OF_DAY.BEFORE_NOON')}
+                           handleCustomCheck={handleCustomTimeOfDay}
+                         />
+                         <CustomCheckbox
+                           customChecks={timeOfDayArray}
+                           id="noonToFive"
+                           label={t('SEARCH_TUTORS.AVAILABILITY.TIME_OF_DAY.NOON_TO_FIVE')}
+                           handleCustomCheck={handleCustomTimeOfDay}
+                         />
+                         <CustomCheckbox
+                           customChecks={timeOfDayArray}
+                           id="afterFive"
+                           label={t('SEARCH_TUTORS.AVAILABILITY.TIME_OF_DAY.AFTER_FIVE')}
+                           handleCustomCheck={handleCustomTimeOfDay}
+                         />
+                       </div>
+                 <div className="mt-6">
+                   <div className="type--uppercase type--color--tertiary mb-4">{t('SEARCH_TUTORS.TUTOR_AVAILABLE')}</div>
+                   <div className="availability-container">
+                     <CustomCheckbox
+                       id="mon"
+                       customChecks={dayOfWeekArray}
+                       label={t('SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.MON')}
+                       handleCustomCheck={(id: string) => {
+                         handleCustomDayOfWeek(id);
+                       }}
+                     />
+                     <CustomCheckbox
+                       customChecks={dayOfWeekArray}
+                       id="tue"
+                       label={t('SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.TUE')}
+                       handleCustomCheck={(id: string) => {
+                         handleCustomDayOfWeek(id);
+                       }}
+                     />
+                     <CustomCheckbox
+                       customChecks={dayOfWeekArray}
+                       id="wed"
+                       label={t('SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.WED')}
+                       handleCustomCheck={(id: string) => {
+                         handleCustomDayOfWeek(id);
+                       }}
+                     />
+                     <CustomCheckbox
+                       customChecks={dayOfWeekArray}
+                       id="thu"
+                       label={t('SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.THU')}
+                       handleCustomCheck={(id: string) => {
+                         handleCustomDayOfWeek(id);
+                       }}
+                     />
+                     <CustomCheckbox
+                       customChecks={dayOfWeekArray}
+                       id="fri"
+                       label={t('SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.FRI')}
+                       handleCustomCheck={(id: string) => {
+                         handleCustomDayOfWeek(id);
+                       }}
+                     />
+                     <CustomCheckbox
+                       customChecks={dayOfWeekArray}
+                       id="sat"
+                       label={t('SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.SAT')}
+                       handleCustomCheck={(id: string) => {
+                         handleCustomDayOfWeek(id);
+                       }}
+                     />
+                     <CustomCheckbox
+                       customChecks={dayOfWeekArray}
+                       id="sun"
+                       label={t('SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.SUN')}
+                       handleCustomCheck={(id: string) => {
+                         handleCustomDayOfWeek(id);
+                       }}
+                     />
+                   </div>
+                 </div>
+               </div>
             </components.Menu>
         );
     };
@@ -394,9 +395,9 @@ const SearchTutors = () => {
                 </button> */}
                 <div className="card--secondary__head card--secondary__head--search-tutor">
                     <div className="type--lg type--wgt--bold mb-4 mb-xl-0">{t('SEARCH_TUTORS.TITLE')}</div>
-                    <div className="flex flex--center">
+                    <div className="flex flex--wrap flex--center">
                         <FormikProvider value={formik}>
-                            <Form className="flex" noValidate>
+                            <Form className="flex flex--wrap flex--jc--center filters-container" noValidate>
                                 <MySelect
                                     key={`level-select-${resetKey}`}
                                     field={formik.getFieldProps('level')}
@@ -414,8 +415,8 @@ const SearchTutors = () => {
                                     form={formik}
                                     meta={formik.getFieldMeta('subject')}
                                     isMulti={false}
-                                    className="ml-6"
-                                    classNamePrefix="react-select--search-tutor"
+                                    className=""
+                                    classNamePrefix="pos--r--0-mobile react-select--search-tutor"
                                     options={subjectOptions}
                                     isDisabled={levelDisabled || isLoadingSubjects}
                                     noOptionsMessage={() => t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')}
@@ -426,14 +427,14 @@ const SearchTutors = () => {
                                     components={{
                                         Menu: CustomMenu,
                                     }}
-                                    className="ml-6 react-select--search-tutor--wider"
+                                    className=" react-select--search-tutor--menu"
                                     classNamePrefix="react-select--search-tutor"
-                                    onMenuClose={handleMenuClose}
+                                    // onMenuClose={handleMenuClose}
                                     isSearchable={false}
                                 ></Select>
                             </Form>
                         </FormikProvider>
-                        <button className="btn btn--clear ml-6" onClick={handleResetFilter} disabled={resetFilterDisabled}>
+                        <button className="btn btn--clear align--center mt-2" onClick={handleResetFilter} disabled={resetFilterDisabled}>
                             {t('SEARCH_TUTORS.RESET_FILTER')}
                         </button>
                     </div>

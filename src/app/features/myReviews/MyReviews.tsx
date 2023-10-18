@@ -105,24 +105,12 @@ const MyReviews = () => {
     return (
         <MainWrapper>
             <div onScroll={(e: any) => debouncedScrollHandler(e.target)} className="card--secondary">
-                <div className="card--secondary__head">
-                    <h2 className="type--wgt--bold type--lg">{t('MY_REVIEWS.TITLE')}</h2>
-                </div>
-                <div className="card--secondary__body my-reviews__wrapper">
+                  <div className="card--secondary__head">
+                      <h2 className="type--wgt--bold type--lg">{t('MY_REVIEWS.TITLE')}</h2>
+                  </div>
+                  <div className="card--secondary__body my-reviews__wrapper">
                     <div className="my-reviews__main">
                         <div className="mb-10 flex--primary">
-                            <div>
-                                <span className="type--uppercase type--color--tertiary">{t('MY_REVIEWS.COUNT_TITLE')}</span>
-                                <span className="tag--primary d--ib ml-2">{myReviews ? myReviews.count : 0}</span>
-                            </div>
-                            <div>
-                                {/* <span>Sort by</span>
-                                &nbsp;
-                                <span className="type--color--brand">
-                                    Most relevant
-                                </span>
-                                <i className="icon icon--base icon--chevron-down icon--primary"></i> */}
-                            </div>
                         </div>
                         {isLoading ? (
                             <div>
@@ -139,15 +127,6 @@ const MyReviews = () => {
                                                 <ReviewItem reviewItem={item} />
                                             ))}
                                         </div>
-                                        {/* <Pagination
-                                            activePageClass={
-                                                'pagination--active'
-                                            }
-                                            currPage={params.page}
-                                            itemsPerPage={params.rpp}
-                                            totalItems={myReviews.count}
-                                            paginate={paginate}
-                                        /> */}
                                     </>
                                 ) : (
                                     <div className="reviews-list">
@@ -161,23 +140,29 @@ const MyReviews = () => {
                         )}
                     </div>
                     <div className="my-reviews__aside">
-                        <div className="mb-10">
-                            <span className="type--uppercase type--color--tertiary">{t('MY_REVIEWS.AVG_SCORE')}</span>
-                            <span className="tag--primary d--ib ml-2">
-                                {/* {getAvgRating(myReviews)
-                                    ? getAvgRating(myReviews).toFixed(1)
-                                    : 0} */}
-                                {tutorStatistics?.statistic ? tutorStatistics?.statistic.toFixed(1) : 0}
-                            </span>
+                     <div className="flex flex--col flex--ai--center">
+                       <div className="mb-2 flex flex--jc--center">
+                         <span className="type--uppercase type--color--tertiary">{t('MY_REVIEWS.AVG_SCORE')}</span>
+                         <span className="tag--primary d--ib ml-2">
+                          {tutorStatistics?.statistic ? tutorStatistics?.statistic.toFixed(1) : 0}
+                        </span>
+                       </div>
+                       <div className="mb-6">
+                         <span className="type--uppercase type--color--tertiary">{t('MY_REVIEWS.COUNT_TITLE')}</span>
+                         <span className="tag--primary d--ib ml-2">{myReviews ? myReviews.count : 0}</span>
+                       </div>
+                     </div>
+                      {statisticsLoading ? (
+                        <div>
+                          <LoaderStatistics />
                         </div>
-                        {statisticsLoading ? (
-                            <div>
-                                <LoaderStatistics />
-                            </div>
-                        ) : (
-                            <Ratings ratings={tutorStatistics ? tutorStatistics.result : []} />
-                        )}
+                      ) : (
+                        <div className="flex flex--jc--center">
+                          <Ratings ratings={tutorStatistics ? tutorStatistics.result : []} />
+                        </div>
+                      )}
                     </div>
+
                 </div>
             </div>
         </MainWrapper>

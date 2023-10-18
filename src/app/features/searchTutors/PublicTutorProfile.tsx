@@ -9,7 +9,6 @@ import {
 import LoaderTutorProfile
   from '../../components/skeleton-loaders/LoaderTutorProfile';
 import { PATHS } from '../../routes';
-import handleRatingStars from '../../utils/handleRatingStarts';
 import {
   useLazyGetTutorAvailabilityQuery,
 } from '../my-profile/services/tutorAvailabilityService';
@@ -24,6 +23,7 @@ import {
 } from '../myReviews/services/myReviewsService';
 import ImageCircle from '../../components/ImageCircle';
 import PublicMainWrapper from "../../components/PublicMainWrapper";
+import { StarRating } from '../myReviews/components/StarRating';
 
 
 const PublicTutorProfile = () => {
@@ -133,7 +133,7 @@ const PublicTutorProfile = () => {
   };
 
   const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
-  const cacheBuster = Date.now();
+  const isMobile = window.innerWidth < 765;
 
   return (
     <PublicMainWrapper>
@@ -144,12 +144,228 @@ const PublicTutorProfile = () => {
         <>
           <div>
             <div onScroll={(e: any) => debouncedScrollHandler(e.target)} className="card--secondary card--secondary--alt">
-              <div className="card--secondary__head">
-                <div className="flex flex--center">
-                  <div className="type--lg type--wgt--bold ml-4">
-                    {tutorData ? `${tutorData.User.firstName} ${tutorData.User.lastName}` : 'Go back'}
+              <div className='flex flex--col flex--jc--center'>
+                {isMobile ?
+                  /** mobile component **/
+                  <div className="card--secondary__head text-align--center flex--wrap flex--col flex--ai--center w--100">
+
+                    <div className="flex flex--row flex--ai--center flex--jc--space-around w--100 mb-5">
+                      <div className="tutor-list__item__img">
+                        {tutorData.User?.profileImage ? (
+                          <img
+                            style={{
+                              width: '120px',
+                              height: '120px'
+                            }}
+                            className="align--center d--b"
+                            src={`${tutorData.User.profileImage}`}
+                            alt="tutor-profile-pic" />
+                        ) : (
+                          <ImageCircle
+                            className="align--center d--b mb-4"
+                            imageBig={true}
+                            initials={`${tutorData.User?.firstName.charAt(0)}${tutorData.User?.lastName.charAt(0)}`}
+                          />
+                        )}
+                      </div>
+
+                      <div className="flex flex--col w--80">
+                        <div className="d--b type--md type--wgt--bold text-align--center type--break">
+                          {tutorData ? `${tutorData.User.firstName} ${tutorData.User.lastName}` : 'Go back'}
+                        </div>
+                        <div className="type--color--brand type--sm type--center type--break">{tutorData.currentOccupation}</div>
+                      </div>
+                    </div>
+
+                    <div className="flex flex--row w--100 flex--jc--center flex--ai--center flex--gap-30 type--sm">
+                      {
+                        <div className="flex flex--center tag tag--primary">
+                          <i className="icon icon--star icon--base icon--primary"></i>
+                          <span className="d--ib">
+                                  {tutorData.averageGrade && (tutorData.averageGrade > 0) ?
+                                    tutorData.averageGrade ? tutorData.averageGrade.toFixed(1) : 0
+                                      + `(${tutorData.numberOfReviews} ${t('TUTOR_PROFILE.REVIEWS')} )`
+                                    :
+                                    t('SEARCH_TUTORS.NO_REVIEWS')
+                                  }
+
+                                </span>
+                        </div>
+                      }
+
+                      <div className="flex flex--center tag tag--primary">
+                        <div className=" flex flex--center">
+                          <i className="icon icon--completed-lessons icon--base icon--primary"></i>
+                          <span className="d--ib mr-1">
+                                  {tutorData.completedLessons ? tutorData.completedLessons : 0}
+                                </span>
+                        </div>
+
+                        <span> {t('SEARCH_TUTORS.COMPLETED_LESSONS')}</span>
+                      </div>
+                    </div>
+
+                    <div className="flex flex--center mt-6 ">
+                      <i className="icon icon--pricing icon--md icon--grey"></i>
+                      {tutorData.minimumPrice ? (
+                        <span className="d--ib ml-4 type--md">
+                                  {tutorData.minimumPrice} <span className="type--color--tertiary">{tutorData.User.Country.currencyCode}</span>
+                          {tutorData.minimumPrice !== tutorData.maximumPrice && (
+                            <>
+                              &nbsp;-&nbsp;
+                              {tutorData.maximumPrice} <span className="type--color--tertiary">{tutorData.User.Country.currencyCode}</span>
+                            </>
+                          )}
+                          <span className="type--color--tertiary">/{t('SEARCH_TUTORS.TUTOR_PROFILE.HOUR')}</span>
+                        </span>
+                      ) : (
+                        <span className="d--ib ml-4">{t('SEARCH_TUTORS.TUTOR_PROFILE.NO_PRICE')}</span>
+                      )}
+                    </div>
+
+
+                    <div className="p-0 tutor-list__item__details border-none flex flex--col type--sm flex--ai--center w--100">
+
+                      <div className="flex flex--row profile-btn-container flex--jc--center w--100">
+                        {(
+                          <>
+                            <Link
+                              className="btn btn--base btn--primary type--center"
+                              to={PATHS.LOGIN}
+                            >
+                              {t('TUTOR_PROFILE.BOOK')}
+                            </Link>
+
+                            <Link
+                              className="btn btn--base btn--ghost type--center flex flex--center flex--jc--center ml-2"
+                              to={PATHS.LOGIN}
+                            >
+                              <span>{t('TUTOR_PROFILE.SEND')}</span>
+                            </Link>
+                          </>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                </div>
+                  // end of mobile component
+
+                  :
+                  /** desktop component **/
+                  <div className="card--secondary__head text-align--center flex--wrap flex--col flex--ai--center w--100">
+                    <div className='flex flex--row flex--jc--space-between w--100 flex--ai--center'>
+
+                      <div className="w--260 flex flex--row flex--ai--center flex--jc--center ">
+                        {!isMobile &&
+                          <Link to={PATHS.SEARCH_TUTORS}>
+                            <div>
+                              <i className="icon icon--lg icon--chevron-left icon--black"></i>
+                            </div>
+                          </Link>
+                        }
+
+                        <div className='flex flex--jc--space-between flex--jc--center'>
+                          <div className="tutor-list__item__img">
+                            {tutorData.User?.profileImage ? (
+                              <img
+                                style={{
+                                  width: '160px',
+                                  height: '160px'
+                                }}
+                                className="align--center d--b"
+                                src={`${tutorData.User.profileImage}`}
+                                alt="tutor-profile-pic" />
+                            ) : (
+                              <ImageCircle
+                                className="align--center d--b mb-4"
+                                imageBig={true}
+                                initials={`${tutorData.User?.firstName.charAt(0)}${tutorData.User?.lastName.charAt(0)}`}
+                              />
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="w--260 flex--col">
+                        <div className="d--b type--lg type--wgt--bold text-align--center type--break">
+                          {tutorData ? `${tutorData.User.firstName} ${tutorData.User.lastName}` : 'Go back'}
+                        </div>
+
+                        <div className="type--color--brand type--sm type--center type--break">{tutorData.currentOccupation}</div>
+                      </div>
+                      <div className="w--260 p-0 tutor-list__item__details border-none flex flex--row type--sm flex--jc--center">
+
+                        <div className="flex--grow">
+
+                          <div className="flex flex--center mt-2 mb-4">
+                            <i className="icon icon--pricing icon--md icon--grey"></i>
+                            {tutorData.minimumPrice ? (
+                              <span className="d--ib ml-4 type--md type--wgt--extra-bold">
+                                  {tutorData.minimumPrice} {tutorData.User.Country.currencyCode}
+                                {tutorData.minimumPrice !== tutorData.maximumPrice && (
+                                  <>
+                                    &nbsp;-&nbsp;
+                                    {tutorData.maximumPrice} {tutorData.User.Country.currencyCode}
+                                  </>
+                                )}
+                               <span className="type--color--tertiary">/{t('SEARCH_TUTORS.TUTOR_PROFILE.HOUR')}</span>
+                                </span>
+                            ) : (
+                              <span className="d--ib ml-4">{t('SEARCH_TUTORS.TUTOR_PROFILE.NO_PRICE')}</span>
+                            )}
+                          </div>
+
+                          <div className="flex flex--col profile-btn-container flex--jc--center ">
+                               <>
+                                <Link
+                                  className="btn btn--base btn--primary type--center"
+                                  to={PATHS.LOGIN}
+                                >
+                                  {t('TUTOR_PROFILE.BOOK')}
+                                </Link>
+
+                                <Link
+                                  className="btn btn--base btn--ghost type--center flex flex--center flex--jc--center mt-2"
+                                  to={PATHS.LOGIN}
+                                >
+                                  <span>{t('TUTOR_PROFILE.SEND')}</span>
+                                </Link>
+                              </>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex flex--row w--100 flex--jc--center flex--ai--center flex--gap-30">
+                      {
+
+                        <div className="flex flex--center tag tag--primary">
+                          <i className="icon icon--star icon--base icon--primary"></i>
+                          <span className="d--ib">
+                                  {tutorData.averageGrade && myReviews?.count && tutorData.numberOfReviews && (tutorData.averageGrade > 0) ?
+                                    tutorData.averageGrade ? tutorData.averageGrade.toFixed(1) : 0
+                                      + `(${tutorData.numberOfReviews} ${t('TUTOR_PROFILE.REVIEWS')} )`
+                                    :
+                                    t('SEARCH_TUTORS.NO_REVIEWS')
+                                  }
+
+                                </span>
+                        </div>
+                      }
+
+                      <div className="flex flex--center tag tag--primary">
+                        <div className=" flex flex--center">
+                          <i className="icon icon--completed-lessons icon--base icon--primary"></i>
+                          <span className="d--ib mr-1">
+                                {tutorData.completedLessons ? tutorData.completedLessons : 0}
+                              </span>
+                        </div>
+
+                        <span> {t('SEARCH_TUTORS.COMPLETED_LESSONS')}</span>
+                      </div>
+                    </div>
+                  </div>
+                  //   end of desktop component
+                }
               </div>
               <div className="card--secondary__body">
                 <div className="mb-10">
@@ -175,7 +391,7 @@ const PublicTutorProfile = () => {
                       <tbody>
                       {tutorAvailability.map((row: (string | boolean)[], index: number) => {
                         return (
-                          <tr key={index}>
+                          <tr key={index} >
                             {row.map((column: string | boolean, index: number) => {
                               return renderTableCells(column, index);
                             })}
@@ -192,7 +408,7 @@ const PublicTutorProfile = () => {
                   <div className="type--wgt--bold mb-2">{t('TUTOR_PROFILE.SUBJECTS.TITLE')}</div>
                   <table className="table table--primary">
                     <thead>
-                    <tr>
+                    <tr className={`${isMobile ? 'type--sm type--left' : ''}`}>
                       <th>{t('TUTOR_PROFILE.SUBJECTS.SUBJECT')}</th>
                       <th>{t('TUTOR_PROFILE.SUBJECTS.QUALIFICATION')}</th>
                       <th>{t('TUTOR_PROFILE.SUBJECTS.PRICE')}</th>
@@ -202,7 +418,7 @@ const PublicTutorProfile = () => {
                     {tutorData.TutorSubjects.length > 0 ? (
                       tutorData.TutorSubjects.map((item: ITutorSubjectLevel) => {
                         return (
-                          <tr key={item.id}>
+                          <tr key={item.id} className={`${isMobile ? 'type--sm p-0 type--left' : ''}`}>
                             <td>{t(`SUBJECTS.${item.Subject.abrv.replace('-', '')}`)}</td>
                             {
                               item.Level.name === 'IB (International Baccalaurate)' ?
@@ -212,8 +428,8 @@ const PublicTutorProfile = () => {
                             <td>
                               {item.price}
                               <span className="type--color--tertiary">
-                                                                        {' ' + tutorData.User.Country.currencyCode}/{t('TUTOR_PROFILE.SUBJECTS.HOUR_ABRV')}
-                                                                    </span>
+                                  {' ' + tutorData.User.Country.currencyCode}/{t('TUTOR_PROFILE.SUBJECTS.HOUR_ABRV')}
+                              </span>
                             </td>
                           </tr>
                         );
@@ -229,23 +445,17 @@ const PublicTutorProfile = () => {
                 <div className="mb-10">
                   <div className="type--wgt--bold mb-2">{t('TUTOR_PROFILE.RATING.TITLE')}</div>
                   <div className="flex flex--jc--space-between">
-                    <div>
-                      <div className="type--huge">
+                    <div className="flex flex--col flex--ai--center">
+                      <div className="review-mark-big">
                         {tutorStatistics?.statistic ? tutorStatistics.statistic.toFixed(1) : 0}
                       </div>
-                      <div className="rating__stars mb-4">
-                        <div
-                          className="rating__stars__fill"
-                          style={{
-                            width: `${tutorStatistics && tutorStatistics.statistic
-                              ? handleRatingStars(tutorStatistics.statistic)
-                              : 0
-                            }px`,
-                          }}
-                        ></div>
-                      </div>
+
+                      {tutorStatistics &&
+                        <StarRating mark={tutorStatistics.statistic} size={isMobile ? 'small' : 'medium'}/>
+                      }
+
                       <div className="type--color--secondary">
-                        {myReviews?.count} {t('TUTOR_PROFILE.RATING.TOTAL')}
+                        ({myReviews?.count})
                       </div>
                     </div>
                     <div>
@@ -253,7 +463,7 @@ const PublicTutorProfile = () => {
                     </div>
                   </div>
                 </div>
-                <div className="divider--primary mb-10"></div>
+                <div className="divider--primary"></div>
                 <div>
                   {myReviews && myReviews.rows.length > 0 ? (
                     <>
@@ -274,76 +484,6 @@ const PublicTutorProfile = () => {
                   )}
                 </div>
               </div>
-            </div>
-          </div>
-          <div>
-            <div className="card--primary p-4 pt-6">
-              <div className="tutor-list__item__img align--center">
-                {tutorData.User?.profileImage ? (
-                  <img
-                    className="align--center d--b mb-4"
-                    src={`${tutorData.User.profileImage}&v=${cacheBuster}`}
-                    alt="tutor-profile-pic" />
-                ) : (
-                  <ImageCircle
-                    className="align--center d--b mb-4"
-                    imageBig={true}
-                    initials={`${tutorData.User?.firstName.charAt(0)}${tutorData.User?.lastName.charAt(0)}`}
-                  />
-                )}
-              </div>
-              <div className="type--md type--center mb-1">
-                {tutorData.User.firstName}&nbsp;
-                {tutorData.User.lastName}
-              </div>
-              <div className="type--color--brand type--center type--break">{tutorData.currentOccupation}</div>
-              <div className="mt-10 mb-10">
-                <div className="flex--primary mb-3">
-                  <div>
-                    <i className="icon icon--pricing icon--base icon--grey"></i>
-                    <span className="d--ib ml-2 type--color--secondary">{t('TUTOR_PROFILE.PRICING')}:</span>
-                  </div>
-                  <span className="d--ib ml-4">
-                                            {/* Add later */}{tutorData.minimumPrice}
-                    &nbsp;-&nbsp;
-                    {tutorData.maximumPrice}&nbsp; {tutorData.User.Country.currencyCode} /{t('TUTOR_PROFILE.SUBJECTS.HOUR_ABRV')}
-                                        </span>
-                </div>
-                <div className="flex--primary mb-3">
-                  <div>
-                    <i className="icon icon--star icon--base icon--grey"></i>
-                    <span className="d--ib ml-2 type--color--secondary">{t('TUTOR_PROFILE.RATING_TITLE')}:</span>
-                  </div>
-
-                  <span className="d--ib ml-4">
-                                            {/* Add later */}
-                    {tutorData.averageGrade ? tutorData.averageGrade.toFixed(1) : 0}
-                                        </span>
-                </div>
-                <div className="flex--primary">
-                  <div>
-                    <i className="icon icon--completed-lessons icon--base icon--grey"></i>
-                    <span className="d--ib ml-2 type--color--secondary">{t('TUTOR_PROFILE.COMPLETED_LESSONS')}:</span>
-                  </div>
-                  <span className="d--ib ml-4">
-                                            {/* Add later */}
-                    {tutorData.completedLessons}
-                                        </span>
-                </div>
-              </div>
-                  <Link
-                    className="btn btn--base btn--primary w--100 mb-4 type--center"
-                    to={PATHS.LOGIN}
-                  >
-                    {t('TUTOR_PROFILE.BOOK')}
-                  </Link>
-
-                  <Link
-                    className="btn btn--base btn--ghost w--100 type--center flex flex--center flex--jc--center"
-                    to={PATHS.LOGIN}
-                  >
-                    <span>{t('TUTOR_PROFILE.SEND')}</span>
-                  </Link>
             </div>
           </div>
         </>

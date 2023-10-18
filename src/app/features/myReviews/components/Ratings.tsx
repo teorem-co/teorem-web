@@ -42,7 +42,7 @@ const Ratings: FC<Props> = (props: Props) => {
                         <div key={index} className="rating__item">
                             <div className="mr-3 flex flex--row flex--ai--center">
                               {item.mark}
-                              <AiFillStar/>
+                              <AiFillStar className="ml-1" color={'darkgrey'}/>
                             </div>
                             <div className="flex flex--center">
                                 <div className="rating__progress">
@@ -53,7 +53,7 @@ const Ratings: FC<Props> = (props: Props) => {
                                         }}
                                     ></span>
                                 </div>
-                                <div className="ml-3">({item.count})</div>
+                                <div className="ml-3 type--sm">({item.count})</div>
                             </div>
                         </div>
                     );
