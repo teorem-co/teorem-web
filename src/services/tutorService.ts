@@ -72,7 +72,7 @@ export const tutorService = baseService.injectEndpoints({
           }&unprocessed=${params.unprocessed ? "true" : "false"
           }${params.verified ? params.verified == 1 ? "&verified=true" : "&verified=false" : ""
           }&search=${params.search
-          }`,
+          }&sort=createdAt,desc`, //TODO: fix later
           method: HttpMethods.GET,
         };
 
