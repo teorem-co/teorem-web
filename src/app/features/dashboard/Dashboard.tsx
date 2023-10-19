@@ -751,7 +751,7 @@ const Dashboard = () => {
                   </div>
                 </div>
               </div>
-              <div className="overflow--auto">
+              <div className="notification-container">
                 <div className="flex--primary mb-2">
                   <div className="type--color--tertiary">{t('DASHBOARD.NOTIFICATIONS.TITLE')}</div>
                   {notificationsData?.content && notificationsData.content.length > 0 && (

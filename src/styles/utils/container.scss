@@ -179,3 +179,11 @@
     flex-direction:column;
   }
 }
+
+.notification-container{
+  overflow: auto;
+
+  @media (max-width: $responsive-sm) {
+    overflow: unset;
+  }
+}
