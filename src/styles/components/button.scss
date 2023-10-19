@@ -225,3 +225,10 @@
     user-select: none;
   }
 }
+
+.button-view-calendar{
+  @media (max-width: $responsive-sm) {
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+}
