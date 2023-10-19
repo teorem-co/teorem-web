@@ -5,9 +5,10 @@
 .navbar {
     display: flex;
     flex-direction: column;
-    height: 100dvh;//100vh;
+    height: 100dvh;
     background-color: $white;
     justify-content: space-between;
+    transition: height ease 0.5s;
 
     &__logo {
         display: block;
