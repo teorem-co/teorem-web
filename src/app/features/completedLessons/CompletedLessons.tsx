@@ -29,6 +29,7 @@ import IBooking from '../my-bookings/interfaces/IBooking';
 import LearnCubeModal from '../my-profile/components/LearnCubeModal';
 import LessonRecordingModal from './LessonRecordingModal';
 import MediaQuery from 'react-responsive';
+import { AiOutlineLeft } from 'react-icons/ai';
 
 const CompletedLessons = () => {
   const [studentCompletedBookings, setStudentCompletedBookings] = useState<IBookingInfo[]>([]);
@@ -327,7 +328,7 @@ const CompletedLessons = () => {
             </div>
           </MediaQuery>
 
-
+            {/*MOBILE*/}
             <MediaQuery maxWidth={765}>
               {!activeLesson && <div className="card--lessons__body__aside" ref={asideContainerRef} onScroll={(e: any) => asideDebouncedScrollHandler(e.target)}>
                 {/*hide lesson counter if parent is logged in*/}
@@ -375,9 +376,12 @@ const CompletedLessons = () => {
                     <div>
                       <div>
                       </div>
-                      <div className="flex--primary">
-                        <button onClick={()=> {setActiveLesson(null);}}>natrag</button>
-                        <div className="flex flex--center">
+                      <div className=" flex--jc--space-between">
+
+                        <div className="flex flex--center mb-6">
+                          <MediaQuery maxWidth={765}>
+                            <AiOutlineLeft  className='signup-icon mr-2' color='grey' onClick={()=> {setActiveLesson(null);}}/>
+                          </MediaQuery>
                           <Link
                             className=""
                             to={`${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(':tutorSlug', `${activeLesson.Tutor.slug}`)}`}
@@ -398,7 +402,7 @@ const CompletedLessons = () => {
                               />
                             )}
                           </Link>
-                          <div>
+                          <div className="type--center align--center flex--grow">
                             <Link
                               className="text__no-decoration"
                               to={`${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(':tutorSlug', `${activeLesson.Tutor.slug}`)}`}>
@@ -406,25 +410,25 @@ const CompletedLessons = () => {
                                 {activeLesson.Tutor.User.firstName}&nbsp;{activeLesson.Tutor.User.lastName}
                               </div>
                             </Link>
-                            <div>
+                            <div className="type--sm">
                               {t(`SUBJECTS.${activeLesson.Subject.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
                             </div>
-                            <div>
+                            <div className="type--sm">
                               {t(`LEVELS.${activeLesson.level.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
                             </div>
                           </div>
                         </div>
-                        <div>
-                          {!activeLesson.isReview && userRole !== 'child' && (
-                            <button onClick={() => setActiveReviewModal(true)} className="btn btn--base btn--clear mr-4">
-                              {t('COMPLETED_LESSONS.LEAVE_REVIEW')}
-                            </button>
-                          )}
+                      </div>
+                      <div className="flex flex--row flex--ai--center flex--jc--center">
+                        {!activeLesson.isReview && userRole !== 'child' && (
+                          <button onClick={() => setActiveReviewModal(true)} className="btn btn--base btn--clear mr-4">
+                            {t('COMPLETED_LESSONS.LEAVE_REVIEW')}
+                          </button>
+                        )}
 
-                          <Link className="btn btn--primary btn--base" to={`${PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS.replace(":tutorSlug", activeLesson.Tutor.slug)}`}>
-                            {t('COMPLETED_LESSONS.VIEW_CALENDAR')}
-                          </Link>
-                        </div>
+                        <Link className={`btn btn--primary btn--base ${activeLesson.isReview && userRole != 'child' ? 'button-view-calendar' : ''}`} to={`${PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS.replace(":tutorSlug", activeLesson.Tutor.slug)}`}>
+                          {t('COMPLETED_LESSONS.VIEW_CALENDAR')}
+                        </Link>
                       </div>
                     </div>
                     <div className="mt-10">

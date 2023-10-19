@@ -163,3 +163,9 @@
     font-size: x-small;
   }
 }
+
+.type-lesson-item{
+  @media (max-width: $responsive-sm) {
+    font-size: 0.8em;
+  }
+}
