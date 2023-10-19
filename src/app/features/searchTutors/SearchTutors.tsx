@@ -258,12 +258,7 @@ const SearchTutors = () => {
         if (availableTutors && loadedTutorItems.length != availableTutors.totalElements) {
           const innerHeight = e.scrollHeight;
             const scrollPosition = e.scrollTop + e.clientHeight;
-            console.log('innerHeight: ', innerHeight);
-            console.log('scrollPosition: ', scrollPosition);
-            console.log('----------------------');
-            console.log('innerHeight FLOOR: ', Math.floor(innerHeight));
-            console.log('scrollPosition: ', Math.floor(scrollPosition));
-            console.log('**********************');
+
             if (Math.floor(innerHeight) === Math.floor(scrollPosition)) {
                 handleLoadMore();
                 //action to do on scroll to bottom
