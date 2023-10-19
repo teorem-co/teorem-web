@@ -260,8 +260,11 @@ const SearchTutors = () => {
             const scrollPosition = e.scrollTop + e.clientHeight;
             console.log('innerHeight: ', innerHeight);
             console.log('scrollPosition: ', scrollPosition);
+            console.log('----------------------');
+            console.log('innerHeight FLOOR: ', Math.floor(innerHeight));
+            console.log('scrollPosition: ', Math.floor(scrollPosition));
             console.log('**********************');
-            if (innerHeight === scrollPosition) {
+            if (Math.floor(innerHeight) === Math.floor(scrollPosition)) {
                 handleLoadMore();
                 //action to do on scroll to bottom
                 const newParams = { ...params };
