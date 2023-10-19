@@ -236,7 +236,7 @@ const TutorProfile = () => {
                                 ) : (
                                   <ImageCircle
                                     className="align--center d--b mb-4"
-                                    imageBig={true}
+                                    imageBig={false}
                                     initials={`${tutorData.User?.firstName.charAt(0)}${tutorData.User?.lastName.charAt(0)}`}
                                   />
                                 )}
