@@ -434,7 +434,7 @@ const Dashboard = () => {
                       <h4 className="type--md mb-2 ml-6 align-self-center">{t(`CHILDLESS_PARENT_NOTE.TITLE`)}</h4>
                       <p className="ml-6 align-self-center">{t(`CHILDLESS_PARENT_NOTE.DESCRIPTION`)}</p>
                       <Link
-                        className="btn btn--base btn--tertiary w--100 mb-4 type--center"
+                        className="btn btn--base btn--tertiary mb-4 type--center"
                         to={PROFILE_PATHS.MY_PROFILE_CHILD_INFO}
                       >
                         {t('MY_PROFILE.PROFILE_SETTINGS.DESCRIPTION')}
