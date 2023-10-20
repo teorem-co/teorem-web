@@ -71,11 +71,11 @@ const ReviewModal: FC<Props> = (props: Props) => {
     return (
         <>
             <div className="modal__overlay">
-                <div className="modal">
+                <div className="modal review-modal">
                     <div className="modal__head">
                         <div className="type--md type--wgt--bold">{t('WRITE_REVIEW.SECTION_TITLE')}</div>
                         <div className="type--color--secondary">
-                            {activeLesson?.Tutor.User.firstName} {activeLesson?.Tutor.User.lastName}, {t(`SUBJECTS.${activeLesson?.Subject.abrv}`)}, {t(`LEVELS.${activeLesson?.level.abrv}`)}
+                            {activeLesson?.Tutor.User.firstName} {activeLesson?.Tutor.User.lastName}, {t(`SUBJECTS.${activeLesson?.Subject.abrv.replaceAll('-','')}`)}, {t(`LEVELS.${activeLesson?.level.abrv.replaceAll('-','')}`)}
                             {/*Maria Diaz, Mathematics, A level*/}</div>
                         <i onClick={handleClose} className="modal__close icon icon--base icon--close icon--grey"></i>
                     </div>
