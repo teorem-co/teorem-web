@@ -76,7 +76,7 @@ $mobile-height: 50px;
         //padding-bottom: 0;
 
         @media (max-width: $responsive-md) {
-           height: calc(100dvh - 40px);
+           height: calc(100vh - 40px);
         }
     }
 
