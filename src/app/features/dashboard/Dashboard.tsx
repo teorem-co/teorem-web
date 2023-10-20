@@ -752,7 +752,7 @@ const Dashboard = () => {
                 </div>
               </div>
               <div className="notification-container">
-                <div className="flex--primary mb-2">
+                <div className="flex--primary mb-2 mr-2">
                   <div className="type--color--tertiary">{t('DASHBOARD.NOTIFICATIONS.TITLE')}</div>
                   {notificationsData?.content && notificationsData.content.length > 0 && (
                     <div className="type--color--brand type--wgt--bold cur--pointer" onClick={() => markAllAsRead()}>
@@ -760,7 +760,7 @@ const Dashboard = () => {
                     </div>
                   )}
                 </div>
-                <div>
+                <div className="mr-2">
                   {notificationsData?.content && notificationsData.content.find((x) => x.read === false) ? (
                     notificationsData.content.map((notification: INotification) => {
                       if (!notification.read) {
