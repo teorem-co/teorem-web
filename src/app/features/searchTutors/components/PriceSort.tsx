@@ -47,12 +47,12 @@ const PriceSort: FC<Props> = (props: Props) => {
                     </>
                 );
             default:
-                <>{t('SEARCH_TUTORS.SORT_NONE')}</>;
+                return <>{t('SEARCH_TUTORS.SORT_NONE')}</>;
         }
     };
 
     return (
-        <div>
+        <div className="price-sort-container">
             <span className="d--ib mr-4">{t('SEARCH_TUTORS.PRICE_SORT')}</span>
             <span
                 onClick={() => handleSort(sortDirection)}
