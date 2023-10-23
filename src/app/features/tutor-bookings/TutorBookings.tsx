@@ -372,6 +372,11 @@ const TutorBookings = () => {
 
     console.log("FIRST: ", flagArr.length === existingBooking?.length);
     console.log("SECOND: ", !moment(e.start).isBefore(moment().add(3, 'hours')));
+    console.log("START EVENTA: ", moment(e.start));
+    console.log("START EVENTA BEZ MOMENT: ", e.start);
+    console.log("DODANA 3 SATA na sad: ", moment().add(3, 'hours'));
+
+
     console.log("THIRD: ", isAvailableBooking);
 
     const firstCheck = flagArr.length === existingBooking?.length;
