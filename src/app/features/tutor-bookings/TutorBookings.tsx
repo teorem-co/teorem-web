@@ -316,12 +316,14 @@ const TutorBookings = () => {
 
 
   const slotSelect = (e: SlotInfo) => {
+    const rootElement = document.getElementById('body');
 
     //calculating offset for modal
-    if (e.bounds?.bottom) {
-      const boundsTop = e.bounds?.top <= 300 ? e.bounds?.top + 500 : e.bounds?.top;
-      setScrollTopOffset(topOffset + boundsTop - 350);
+    if (e.bounds?.bottom && rootElement?.scrollTop) {
+      const boundsTop = e.bounds?.top <= 300 ? e.bounds?.top + 500 : e.bounds?.top + 200;
+      setScrollTopOffset(rootElement?.scrollTop + boundsTop - 350);
     }
+
     const existingBooking =
       existingBookings && existingBookings.filter((date) => moment(date.start).format('YYYY/MM/DD') === moment(e.start).format('YYYY/MM/DD'));
 
