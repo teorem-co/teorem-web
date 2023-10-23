@@ -143,7 +143,7 @@ const Earnings = () => {
                                data: earningsData.earnings_graph
                                  .map((item: IGraph) => item.y),
                                yAxisID: "y",
-                               barPercentage: 1.0,
+                               barPercentage: 0.5,
                              },
                            ],
                          }
