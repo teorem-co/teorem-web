@@ -281,8 +281,8 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
                     />
                   </div>
 
-                  <div className="field__w-fit-content type--base align--center">
-                    <ul className=" pl-8 custom-list">
+                  <div className="field__w-fit-content type--base align--center" style={{fontSize: "15px"}}>
+                    <ul className="pl-8">
                           <li>{t('TUTOR_ONBOARDING.IMAGE_TIPS.TIP_1')}</li>
                           <li>{t('TUTOR_ONBOARDING.IMAGE_TIPS.TIP_2')}</li>
                           <li>{t('TUTOR_ONBOARDING.IMAGE_TIPS.TIP_3')}</li>

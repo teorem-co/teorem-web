@@ -145,8 +145,8 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
     validateOnChange: false,
     enableReinitialize: true,
     validationSchema: Yup.object().shape({
-      aboutTutor: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-      aboutLessons: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+      aboutTutor: Yup.string().min(50, t('FORM_VALIDATION.TOO_SHORT')).max(2500).required(t('FORM_VALIDATION.REQUIRED')),
+      aboutLessons: Yup.string().min(50, t('FORM_VALIDATION.TOO_SHORT')).max(2500).required(t('FORM_VALIDATION.REQUIRED')),
       currentOccupation: Yup.string()
         .min(2, t('FORM_VALIDATION.TOO_SHORT'))
         .max(75, t('FORM_VALIDATION.TOO_LONG'))
@@ -272,7 +272,6 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                             </label>
                             <MyTextArea
                               maxLength={2500}
-                              minLength={50}
                               name="aboutTutor"
                               placeholder={t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_PLACEHOLDER') + '\n' + '\n' + t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_EFFECTIVE')}
                               id="aboutTutor"
