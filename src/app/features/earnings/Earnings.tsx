@@ -148,6 +148,8 @@ const Earnings = () => {
                            ],
                          }
                        } options={{
+                         maintainAspectRatio: false,
+                  responsive: true,
                   plugins: {
                     legend: {
                       position: 'top' as const,
