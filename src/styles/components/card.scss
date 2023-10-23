@@ -87,7 +87,11 @@
         overflow: hidden;
         display: flex;
         flex-direction: column;
-        height: 100vh;
+        height: 100%;
+        //
+        //@media (max-width: $responsive-sm) {
+        //  height: 100vh;
+        //}
     }
 
     &--lessons {
