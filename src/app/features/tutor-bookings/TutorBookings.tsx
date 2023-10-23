@@ -1,7 +1,13 @@
 import i18n from 'i18next';
 import {uniqBy} from 'lodash';
 import moment from 'moment';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {
+  Children,
+  cloneElement,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import {
   Calendar as BigCalendar,
   momentLocalizer,
@@ -317,7 +323,7 @@ const TutorBookings = () => {
 
   const slotSelect = (e: SlotInfo) => {
     const rootElement = document.getElementById('body');
-
+    console.log(e);
     //calculating offset for modal
     if (e.bounds?.bottom && rootElement?.scrollTop) {
       const boundsTop = e.bounds?.top <= 300 ? e.bounds?.top + 500 : e.bounds?.top + 200;
@@ -372,11 +378,9 @@ const TutorBookings = () => {
 
     console.log("FIRST: ", flagArr.length === existingBooking?.length);
     console.log("SECOND: ", !moment(e.start).isBefore(moment().add(3, 'hours')));
-    console.log("START EVENTA: ", moment(e.start));
-    console.log("START EVENTA BEZ MOMENT: ", e.start);
-    console.log("DODANA 3 SATA na sad: ", moment().add(3, 'hours'));
-
-
+    // console.log("START EVENTA: ", moment(e.start));
+    // console.log("START EVENTA BEZ MOMENT: ", e.start);
+    // console.log("DODANA 3 SATA na sad: ", moment().add(3, 'hours'));
     console.log("THIRD: ", isAvailableBooking);
 
     const firstCheck = flagArr.length === existingBooking?.length;
@@ -716,6 +720,16 @@ const TutorBookings = () => {
     },
   };
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const TouchCellWrapper = ({ children, value, onSelectSlot }) =>
+    cloneElement(Children.only(children), {
+      onTouchEnd: () => onSelectSlot({ action: "click", slots: [value] }),
+      style: {
+        className: `${children}`
+      }
+    });
+
   return (
     <MainWrapper>
       <div className="layout--primary">
@@ -747,12 +761,15 @@ const TutorBookings = () => {
               events={filteredBookings ? filteredBookings : []}
               toolbar={true}
               date={value}
-              onSelecting={() => true}
+              onSelecting={() => false}
               view={isMobile ? "day" : "week"}
               style={{height: 'calc(100% - 84px)'}}
               startAccessor="start"
               endAccessor="end"
               components={{
+                dateCellWrapper: (props) =>(
+                  <TouchCellWrapper {...props} onSelectSlot={slotSelect}/>
+                ),
                 week: {
                   header: (date) => CustomHeader(date),
                 },
