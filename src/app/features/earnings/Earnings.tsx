@@ -1,7 +1,7 @@
 import {
   BarElement,
   CategoryScale,
-  Chart as ChartJS,
+  Chart as ChartJS, ChartData,
   Filler,
   Legend,
   LinearScale,
@@ -46,7 +46,6 @@ const Earnings = () => {
 
   useEffect(() => {
     fetchData();
-    console.log(periodOfTime);
   }, [periodOfTime]);
 
   return (
