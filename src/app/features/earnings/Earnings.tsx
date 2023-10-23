@@ -30,7 +30,13 @@ const Earnings = () => {
 
   const fetchData = async () => {
     const response = await getEarnings(periodOfTime).unwrap();
-    setLabels(response.labels);
+    if(periodOfTime === "YEAR") {
+      setLabels(response.labels.map((item) => t('CONSTANTS.MONTHS_LONG.' + item.substring(0, 3).toUpperCase())));
+    } else if (periodOfTime === "WEEK") {
+      setLabels(response.labels.map((item) => t('CONSTANTS.DAYS_LONG.' + item.substring(0, 3).toUpperCase())));
+    } else {
+      setLabels(response.labels);
+    }
     const maxNum = Math.max(response.totalStudents, response.totalBookings) + 2;
     setMaxNumOfTicks(maxNum);
   };
@@ -121,29 +127,33 @@ const Earnings = () => {
                            labels,
                            datasets: [
                              {
-                               type: 'line' as const,
-                               label: 'Students',
+                               type: 'bar' as const,
+                               label: t('EARNINGS.STUDENTS.GRAPH_LEGEND'),
                                backgroundColor: 'rgb(75,0,130)',
                                data: earningsData?.students_graph
                                  .map(item => item.y),
                                yAxisID: "y1",
                              },
                              {
-                               type: 'line' as const,
-                               label: 'Bookings',
+                               type: 'bar' as const,
+                               label: t('EARNINGS.BOOKINGS.GRAPH_LEGEND'),
                                backgroundColor: 'rgb(203, 195, 251)',
                                data: earningsData?.bookings_graph
                                  .map(item => item.y),
                                yAxisID: "y1",
                              },
                              {
-                               type: 'bar' as const,
-                               label: 'Earnings',
-                               backgroundColor: 'rgb(126,108,242)',
+                               type: 'line' as const,
+                               label: t('EARNINGS.REVENUE.GRAPH_LEGEND'),
                                data: earningsData.earnings_graph
                                  .map((item: IGraph) => item.y),
                                yAxisID: "y",
-                               barPercentage: 0.5,
+                               fill: true,
+                               backgroundColor: 'rgba(162, 108, 242, 0.04)',
+                               borderColor: 'rgb(162, 108, 242)',
+                               borderWidth: 1,
+                               pointBackgroundColor: '#fff',
+                               pointBorderWidth: 2,
                              },
                            ],
                          }
@@ -165,12 +175,26 @@ const Earnings = () => {
                       display: false,
                     },
                   },
+                  elements: {
+                    line: {
+                      tension: 0.3,
+                    },
+                    point: {
+                      radius: 0,
+                      hoverRadius: 4,
+                      hitRadius: 8,
+                    },
+                  },
                   scales: {
                     y: {
                       type: 'linear' as const,
                       display: true,
                       position: 'left' as const,
                       beginAtZero: true,
+                      title: {
+                        text: t('EARNINGS.REVENUE.GRAPH_LEGEND') + ' / EUR',
+                        display: true,
+                      },
                     },
                     y1: {
                       min: 0,
