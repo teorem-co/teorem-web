@@ -17,6 +17,7 @@ import {useLazyGetEarningsQuery} from './services/earningsService';
 import {ToggleButton, ToggleButtonGroup} from "@mui/material";
 import {Chart} from "react-chartjs-2";
 import IGraph from "./interfaces/IGraph";
+import {ToggleButton, ToggleButtonGroup} from "@mui/material";
 
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend, Filler);
@@ -189,6 +190,7 @@ const Earnings = () => {
             )}
           </div>
           <div className="card--secondary__head">
+            <div className="card--secondary__head">
             <div
               className="type--color--tertiary  type--spacing mt-10 mb-2">{t('EARNINGS.DETAILS.TITLE')}</div>
           </div>
