@@ -787,6 +787,10 @@ export const HR_HR = {
             REVENUE: 'Ukupan prihod',
             CURRENCY: '€',
         },
+      WEEK:'Zadnjih 7 dana',
+      MONTH:'Zadnjih 30 dana',
+      YEAR:'Zadnjih 12 mjeseci',
+      ALLTIME:'Oduvijek',
         REVENUE: {
             TITLE: 'PRIHOD',
             GRAPH_LEGEND: 'Prihod',

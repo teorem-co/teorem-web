@@ -26,7 +26,28 @@ const Earnings = () => {
 
   const [labels, setLabels] = useState<string[]>([]);
   const [maxNumOfTicks, setMaxNumOfTicks] = useState(0);
-  const [periodOfTime, setPeriodOfTime] = useState("YEAR");
+  const [periodOfTime, setPeriodOfTime] = useState("MONTH");
+
+  const ordinalNumber = (numInString: string): string => {
+    let num:number = +numInString;
+    num = Math.round(num);
+    const numString = num.toString();
+
+    if(t('EARNINGS.WEEK') !== "Last 7 days") {
+      return numString + ".";
+    }
+
+    if (Math.floor(num / 10) % 10 === 1) {
+      return numString + "th";
+    }
+
+    switch (num % 10) {
+      case 1: return numString + "st";
+      case 2: return numString + "nd";
+      case 3: return numString + "rd";
+      default: return numString + "th";
+    }
+  };
 
   const fetchData = async () => {
     const response = await getEarnings(periodOfTime).unwrap();
@@ -34,6 +55,8 @@ const Earnings = () => {
       setLabels(response.labels.map((item) => t('CONSTANTS.MONTHS_LONG.' + item.substring(0, 3).toUpperCase())));
     } else if (periodOfTime === "WEEK") {
       setLabels(response.labels.map((item) => t('CONSTANTS.DAYS_LONG.' + item.substring(0, 3).toUpperCase())));
+    } else if(periodOfTime == "MONTH"){
+      setLabels(response.labels.map(item => ordinalNumber(item)));
     } else {
       setLabels(response.labels);
     }
@@ -41,7 +64,7 @@ const Earnings = () => {
     setMaxNumOfTicks(maxNum);
   };
 
-  const [alignment, setAlignment] = React.useState('year');
+  const [alignment, setAlignment] = React.useState('month');
 
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
@@ -60,26 +83,33 @@ const Earnings = () => {
         <div className="card--secondary__head">
           <h2 className="type--wgt--bold type--lg">{t('EARNINGS.TITLE')}</h2>
         </div>
-        <div className="card--secondary__body">
+        <div className="card--secondary__body" style={{marginTop: "-35px"}}>
           <div className="card--secondary__head">
-            <div
-              className="type--color--tertiary type--spacing mb-2">{t('EARNINGS.GENERAL.TITLE')}</div>
+            <div className="type--color--tertiary type--spacing mb-2">{t('EARNINGS.GENERAL.TITLE')}</div>
             <ToggleButtonGroup
               color="info"
               value={alignment}
               exclusive
+              size="small"
               onChange={handleChange}
               aria-label="Platform"
             >
               <ToggleButton value="week"
-                            onClick={() => setPeriodOfTime("WEEK")}>Week</ToggleButton>
+                            onClick={() => setPeriodOfTime("WEEK")}
+                            style={{fontSize: "11px"}}
+              >{t('EARNINGS.WEEK')}</ToggleButton>
               <ToggleButton value="month"
-                            onClick={() => setPeriodOfTime("MONTH")}>Month</ToggleButton>
+                            onClick={() => setPeriodOfTime("MONTH")}
+                            style={{fontSize: "11px"}}
+              >{t('EARNINGS.MONTH')}</ToggleButton>
               <ToggleButton value="year"
-                            onClick={() => setPeriodOfTime("YEAR")}>Year</ToggleButton>
+                            onClick={() => setPeriodOfTime("YEAR")}
+                            style={{fontSize: "11px"}}
+              >{t('EARNINGS.YEAR')}</ToggleButton>
               <ToggleButton value="all-time"
-                            onClick={() => setPeriodOfTime("ALLTIME")}>All
-                time</ToggleButton>
+                            onClick={() => setPeriodOfTime("ALLTIME")}
+                            style={{fontSize: "11px"}}
+              >{t('EARNINGS.ALLTIME')}</ToggleButton>
             </ToggleButtonGroup>
           </div>
           <div className="row">
@@ -118,6 +148,7 @@ const Earnings = () => {
               </div>
             </div>
           </div>
+          <br/>
           <div>
             {earningsData && earningsData.earnings_graph && (
               <div>
@@ -158,8 +189,12 @@ const Earnings = () => {
                            ],
                          }
                        } options={{
-                         maintainAspectRatio: false,
+                         aspectRatio: 1|3,
                   responsive: true,
+                  interaction: {
+                    intersect: false,
+                    mode: 'index',
+                  },
                   plugins: {
                     legend: {
                       position: 'top' as const,
@@ -195,6 +230,9 @@ const Earnings = () => {
                         text: t('EARNINGS.REVENUE.GRAPH_LEGEND') + ' / EUR',
                         display: true,
                       },
+                      grid: {
+                        drawOnChartArea: false,
+                      }
                     },
                     y1: {
                       min: 0,
@@ -210,6 +248,11 @@ const Earnings = () => {
                         drawOnChartArea: false,
                       },
                     },
+                    x: {
+                      grid: {
+                        display: false
+                      }
+                    }
                   },
                 }}/>
               </div>
