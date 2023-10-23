@@ -242,11 +242,13 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                                    htmlFor="currentOccupation">
                               {t('MY_PROFILE.ABOUT_ME.OCCUPATION')}
                             </label>
-                            <MyTextArea
+                            <TextField
                               maxLength={75}
+                              id="currentOccupation"
+                              wrapperClassName="flex--grow"
                               name="currentOccupation"
                               placeholder={t('MY_PROFILE.ABOUT_ME.OCCUPATION_PLACEHOLDER')}
-                              id="currentOccupation"
+                              className="input input--base"
                               disabled={isLoading}
                             />
                           </div>
