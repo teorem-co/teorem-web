@@ -274,7 +274,6 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                             <MyTextArea
                               minLength={50}
                               maxLength={2500}
-                              minLength={50}
                               name="aboutTutor"
                               placeholder={t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_PLACEHOLDER') + '\n' + '\n' + t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_EFFECTIVE')}
                               id="aboutTutor"
