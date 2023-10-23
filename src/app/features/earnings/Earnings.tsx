@@ -123,7 +123,7 @@ const Earnings = () => {
                              {
                                type: 'line' as const,
                                label: 'Students',
-                               backgroundColor: 'rgb(27,131,251)',
+                               backgroundColor: 'rgb(75,0,130)',
                                data: earningsData?.students_graph
                                  .map(item => item.y),
                                yAxisID: "y1",
@@ -131,7 +131,7 @@ const Earnings = () => {
                              {
                                type: 'line' as const,
                                label: 'Bookings',
-                               backgroundColor: 'rgb(11,138,0)',
+                               backgroundColor: 'rgb(203, 195, 251)',
                                data: earningsData?.bookings_graph
                                  .map(item => item.y),
                                yAxisID: "y1",
