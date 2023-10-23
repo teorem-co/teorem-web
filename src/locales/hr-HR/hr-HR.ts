@@ -54,6 +54,10 @@ export const HR_HR = {
         TIP_1: 'Detaljno opišite svoj način predavanja i sebe.',
         TIP_2:'Najučinkovitiji profili sadrže 100+ riječi u rubirkama <u><i>više o meni</i></u> i <u><i>više o mojim predavanjima</i></u>.',
       },
+      TOOLTIPS: {
+        AVAILABILITY: "Svoju dostupnost možete izmijeniti u bilo kojem trenutku.",
+        SUBJECTS: "Kasnije možete dodati ili obrisati predmete u postavkama Vašeg profila."
+      },
       IMAGE_TIPS: {
         TITLE: 'Naputci za fotografiju',
         TIP_1: 'portret oblik',
@@ -615,7 +619,7 @@ export const HR_HR = {
       ABOUT_ME: {
             OCCUPATION: 'Vaše trenutno zanimanje*',
             OCCUPATION_PLACEHOLDER: 'Unesite Vaše trenutno zanimanje',
-            YEARS: 'Broj godina profesionalnog iskustva (neobavezno)',
+            YEARS: 'Broj godina profesionalnog iskustva*',
             YEARS_PLACEHOLDER: 'Koliko godina profesionalnog iskustva imate',
             ABOUT_YOURSELF: 'Recite nam više o sebi*',
             ABOUT_LESSON: 'Recite nam više o Vašem načinu predavanja*',

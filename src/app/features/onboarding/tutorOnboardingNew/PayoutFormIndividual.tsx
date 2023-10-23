@@ -39,7 +39,6 @@ export const PayoutFormIndividual = (props: Props) => {
       postalCode: '',
       city: '',
       IBAN: '',
-      IBANConfirm: '',
     },
     validationSchema: yup.object({
       addressLine1: yup.string().required(t('FORM_VALIDATION.REQUIRED')).trim(),
@@ -61,18 +60,6 @@ export const PayoutFormIndividual = (props: Props) => {
           return !value?.includes(' ');
         })
         .required('IBAN is required'),
-      IBANConfirm: yup
-        .string()
-        .test('valid-iban', t('FORM_VALIDATION.INVALID_IBAN'), function (value) {
-          if (!value) {
-            return true;
-          }
-          return isValidIBANNumber(value);
-        })
-        .test('iban-match', t('FORM_VALIDATION.IBAN_MATCH'), function (value) {
-          return this.parent.IBAN === value;
-        })
-        .required(t('FORM_VALIDATION.REQUIRED')),
     })
   });
 
@@ -86,7 +73,6 @@ export const PayoutFormIndividual = (props: Props) => {
         postalCode: values.postalCode,
         city: values.city,
         IBAN: removeWhitespaces(values.IBAN),
-        IBANConfirm: removeWhitespaces(values.IBANConfirm),
         userId:  tutorId, //if userId is passed as prop, use it, else use state.auth.user
         accountType: 'private'
       }).unwrap()
@@ -143,12 +129,6 @@ export const PayoutFormIndividual = (props: Props) => {
                 {t('STRIPE_CONNECT.IBAN')}*
               </label>
               <TextField name="IBAN" id="IBANField" />
-            </div>
-            <div className="field">
-              <label htmlFor="IBANConfirmField" className="field__label">
-                {t('STRIPE_CONNECT.IBAN_CONFIRM')}*
-              </label>
-              <TextField name="IBANConfirm" id="IBANConfirmField" />
             </div>
             <div dangerouslySetInnerHTML={{ __html: t('STRIPE_CONNECT.TERMS') }} />
             <div className="flex flex--center align-self-center mt-3">

@@ -151,7 +151,7 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
         .min(2, t('FORM_VALIDATION.TOO_SHORT'))
         .max(50, t('FORM_VALIDATION.TOO_LONG'))
         .required(t('FORM_VALIDATION.REQUIRED')),
-      yearsOfExperience: Yup.number().min(0, t('FORM_VALIDATION.NEGATIVE')).max(100, t('FORM_VALIDATION.TOO_BIG')).nullable(),
+      yearsOfExperience: Yup.number().min(0, t('FORM_VALIDATION.NEGATIVE')).max(100, t('FORM_VALIDATION.TOO_BIG')).required(t('FORM_VALIDATION.REQUIRED')),
     }),
   });
 
@@ -242,7 +242,7 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                               {t('MY_PROFILE.ABOUT_ME.OCCUPATION')}
                             </label>
                             <TextField
-                              maxLength={50}
+                              maxLength={75}
                               id="currentOccupation"
                               wrapperClassName="flex--grow"
                               name="currentOccupation"
@@ -306,13 +306,6 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
 
               </Form>
             </FormikProvider>
-
-            <div className="type--sm align--center field__w-fit-content p-2">
-              <ul>
-                <li><span>{t('TUTOR_ONBOARDING.ABOUT_ME_TIPS.TIP_1')}</span></li>
-                <li> <span dangerouslySetInnerHTML={{__html: t('TUTOR_ONBOARDING.ABOUT_ME_TIPS.TIP_2')}}></span></li>
-              </ul>
-            </div>
 
             <div className="flex--center" style={{
               display: "flex",

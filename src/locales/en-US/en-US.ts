@@ -54,6 +54,10 @@ export const EN_US = {
         TIP_1: 'Describe in detail your way of teaching and yourself.',
         TIP_2:'The most effective profiles contain 100+ words in the rubrics <u><i>more about me</i></u> and <u><i>more about my lectures</i></u>.',
       },
+      TOOLTIPS: {
+        AVAILABILITY: "You can change your availability at any time.",
+        SUBJECTS: "You can later add or delete subjects in Your profile settings."
+      },
       IMAGE_TIPS: {
         TITLE: 'Tips for image:',
         TIP_1: 'portrait form',
@@ -617,7 +621,7 @@ export const EN_US = {
       ABOUT_ME: {
             OCCUPATION: 'Your current Occupation*',
             OCCUPATION_PLACEHOLDER: 'What’s your current Occupation',
-            YEARS: 'Years of professional experience (optional)',
+            YEARS: 'Years of professional experience*',
             YEARS_PLACEHOLDER: 'How many years of professional experience you have',
             ABOUT_YOURSELF: 'Tell us more about yourself*',
             ABOUT_LESSON: 'Tell us more about your lessons*',

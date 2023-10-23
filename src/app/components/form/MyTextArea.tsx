@@ -53,9 +53,6 @@ const TextArea: React.FC<TextFieldType> = (props: any) => {
                         'input input--base input--text input--textarea'
                     } ${errorText ? 'input__border--error' : ''}`}
                 />
-                <div className="input--textarea__counter">
-                    {characterCount}/{maxLength}
-                </div>
                 {
                     /* toggle password visibility */
                     props.password ? (
