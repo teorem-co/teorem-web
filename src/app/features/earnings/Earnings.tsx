@@ -1,7 +1,7 @@
 import {
   BarElement,
   CategoryScale,
-  Chart as ChartJS, ChartData,
+  Chart as ChartJS,
   Filler,
   Legend,
   LinearScale,
@@ -17,7 +17,6 @@ import {useLazyGetEarningsQuery} from './services/earningsService';
 import {ToggleButton, ToggleButtonGroup} from "@mui/material";
 import {Chart} from "react-chartjs-2";
 import IGraph from "./interfaces/IGraph";
-import {ToggleButton, ToggleButtonGroup} from "@mui/material";
 
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend, Filler);
@@ -73,7 +72,8 @@ const Earnings = () => {
               <ToggleButton value="year"
                             onClick={() => setPeriodOfTime("YEAR")}>Year</ToggleButton>
               <ToggleButton value="all-time"
-                            onClick={() => setPeriodOfTime("ALLTIME")}>All time</ToggleButton>
+                            onClick={() => setPeriodOfTime("ALLTIME")}>All
+                time</ToggleButton>
             </ToggleButtonGroup>
           </div>
           <div className="row">
@@ -190,41 +190,39 @@ const Earnings = () => {
             )}
           </div>
           <div className="card--secondary__head">
-            <div className="card--secondary__head">
-            <div
-              className="type--color--tertiary  type--spacing mt-10 mb-2">{t('EARNINGS.DETAILS.TITLE')}</div>
+              <div className="type--color--tertiary  type--spacing mt-10 mb-2">{t('EARNINGS.DETAILS.TITLE')}</div>
+            </div>
+            <table className="table table--secondary">
+              <thead>
+              <tr>
+                <th>{t('EARNINGS.DETAILS.TABLE.MONTH')}</th>
+                <th>{t('EARNINGS.DETAILS.TABLE.BOOKINGS')}</th>
+                <th>{t('EARNINGS.DETAILS.TABLE.STUDENTS')}</th>
+                <th>{t('EARNINGS.DETAILS.TABLE.REVIEWS')}</th>
+                <th>{t('EARNINGS.DETAILS.TABLE.REVENUE')}</th>
+              </tr>
+              </thead>
+              <tbody>
+              {(earningsData &&
+                  earningsData.details.map((tableItem) => {
+                    return (
+                      <tr>
+                        <td>{t('CONSTANTS.MONTHS_LONG.' + tableItem.month.substring(0, 3).toUpperCase())}</td>
+                        <td>{tableItem.bookings}</td>
+                        <td>{tableItem.students}</td>
+                        <td>{tableItem.reviews}</td>
+                        <td>
+                          {tableItem.revenue}
+                          {t('EARNINGS.GENERAL.CURRENCY')}
+                        </td>
+                      </tr>
+                    );
+                  })) ||
+                t('EARNINGS.DETAILS.TABLE.EMPTY')}
+              </tbody>
+            </table>
           </div>
-          <table className="table table--secondary">
-            <thead>
-            <tr>
-              <th>{t('EARNINGS.DETAILS.TABLE.MONTH')}</th>
-              <th>{t('EARNINGS.DETAILS.TABLE.BOOKINGS')}</th>
-              <th>{t('EARNINGS.DETAILS.TABLE.STUDENTS')}</th>
-              <th>{t('EARNINGS.DETAILS.TABLE.REVIEWS')}</th>
-              <th>{t('EARNINGS.DETAILS.TABLE.REVENUE')}</th>
-            </tr>
-            </thead>
-            <tbody>
-            {(earningsData &&
-                earningsData.details.map((tableItem) => {
-                  return (
-                    <tr>
-                      <td>{t('CONSTANTS.MONTHS_LONG.' + tableItem.month.substring(0, 3).toUpperCase())}</td>
-                      <td>{tableItem.bookings}</td>
-                      <td>{tableItem.students}</td>
-                      <td>{tableItem.reviews}</td>
-                      <td>
-                        {tableItem.revenue}
-                        {t('EARNINGS.GENERAL.CURRENCY')}
-                      </td>
-                    </tr>
-                  );
-                })) ||
-              t('EARNINGS.DETAILS.TABLE.EMPTY')}
-            </tbody>
-          </table>
         </div>
-      </div>
     </MainWrapper>
   );
 };
