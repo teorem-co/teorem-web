@@ -1,5 +1,6 @@
 import { FieldAttributes, useField } from 'formik';
 import React, { useEffect, useRef, useState } from 'react';
+import {t} from "i18next";
 
 type TextFieldType = {
     min?: number;
@@ -12,6 +13,7 @@ const TextArea: React.FC<TextFieldType> = (props: any) => {
     const { password, maxLength } = props;
     const [field, meta] = useField(props);
     const [characterCount, setCharacterCount] = useState<number>(0);
+    const [tooLong, setTooLong] = useState(false);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const errorText = meta.error && meta.touched ? meta.error : '';
 
@@ -36,6 +38,11 @@ const TextArea: React.FC<TextFieldType> = (props: any) => {
         if (e.currentTarget.textContent) {
             const textareaLength = e.currentTarget.textContent.length;
             setCharacterCount(textareaLength);
+        }
+        if(characterCount >= maxLength) {
+          setTooLong(true);
+        } else {
+          setTooLong(false);
         }
     };
 
@@ -68,6 +75,7 @@ const TextArea: React.FC<TextFieldType> = (props: any) => {
 
             <div className="field__validation">
                 {errorText ? errorText : ''}
+              {!errorText && tooLong ? t('FORM_VALIDATION.MAX_LIMIT') + " " + maxLength : ''}
             </div>
         </>
     );
