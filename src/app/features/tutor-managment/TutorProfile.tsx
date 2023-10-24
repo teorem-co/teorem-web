@@ -158,7 +158,7 @@ const TutorProfile = () => {
     const toSend: IChatRoom = {
       user: {
         userId: user?.id + '',
-        userImage: 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg',
+        userImage: user?.profileImage,
         userNickname: user?.firstName + ' ' + user?.lastName,
       },
       tutor: {
@@ -168,6 +168,8 @@ const TutorProfile = () => {
       },
       unreadMessageCount: 0,
       messages: [],
+      addToList: true,
+      setActive: true
     };
 
     dispatch(addChatRoom(toSend));
