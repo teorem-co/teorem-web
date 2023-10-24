@@ -746,13 +746,14 @@ const TutorBookings = () => {
   useEffect(() => {
     setKey(Math.random());
   }, []);
+
   return (
     <MainWrapper>
       <div className="layout--primary">
         {isLoading ? <LoaderSecondary/> : <></>}
         <div>
           {/* {(isLoading && <LoaderPrimary />) || ( */}
-          <div className={`card--calendar ${isMobile ? '' : 'card--calendar--height'}`}>
+          <div key={key} className={`card--calendar ${isMobile ? '' : 'card--calendar--height'}`}>
             <div className="flex flex--center p-6">
               {/* <Link to={PATHS.SEARCH_TUTORS}>
                             <div>
