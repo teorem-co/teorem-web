@@ -751,103 +751,104 @@ const TutorBookings = () => {
     <MainWrapper>
       <div className="layout--primary">
         {isLoading ? <LoaderSecondary/> : <></>}
-        {/*<div>*/}
+        <ConditionalWrapper condition={!isMobile}>
           {/* {(isLoading && <LoaderPrimary />) || ( */}
-          {/*<div key={key} className={`card--calendar ${isMobile ? '' : 'card--calendar--height'}`}>*/}
-            <div className="flex flex--center p-6">
-              {/* <Link to={PATHS.SEARCH_TUTORS}>
+
+          <div className="flex flex--center p-6">
+            {/* <Link to={PATHS.SEARCH_TUTORS}>
                             <div>
                                 <i className="icon icon--base icon--arrow-left icon--black"></i>
                             </div>
                         </Link> */}
-              <div onClick={() => history.goBack()}>
-                <div>
-                  <i
-                    className="icon icon--base icon--arrow-left icon--black"></i>
-                </div>
+            <div onClick={() => history.goBack()}>
+              <div>
+                <i
+                  className="icon icon--base icon--arrow-left icon--black"></i>
               </div>
-              <h2 className="type--lg  ml-6">
-                {`${t('MY_BOOKINGS.TITLE')} - ${tutorData.firstName ? tutorData.firstName : ''} ${tutorData.lastName ? tutorData.lastName : ''}`}
-              </h2>
             </div>
-            <BigCalendar
-              className={`card--calendar`}
-              key={key}
-              localizer={localizer}
-              formats={{
-                timeGutterFormat: 'HH:mm',
-              }}
-              events={filteredBookings ? filteredBookings : []}
-              toolbar={true}
-              date={value}
-              onSelecting={() => true}
-              view={isMobile ? "day" : "week"}
-              style={{height: 'calc(100% - 84px)'}}
-              startAccessor="start"
-              endAccessor="end"
-              components={{
-                week: {
-                  header: (date) => CustomHeader(date),
-                },
-                event: (event) => CustomEvent(event),
-                toolbar: () =>
-                  (isMobile ? <CustomToolbar
-                    value={value}
-                    onChangeDate={onChangeDate}/> : null),
-              }}
-              //scrollToTime={defaultScrollTime}
-              showMultiDayTimes={true}
-              step={15}
-              timeslots={4}
-              selectable={true}
-              longPressThreshold={50}
-              onSelectSlot={(e) => (userRole === RoleOptions.Parent || userRole === RoleOptions.Student ? slotSelect(e) : null)}
-              onSelectEvent={(e) => (userRole === RoleOptions.Parent || userRole === RoleOptions.Student ? handleSelectedEvent(e) : null)}
+            <h2 className="type--lg  ml-6">
+              {`${t('MY_BOOKINGS.TITLE')} - ${tutorData.firstName ? tutorData.firstName : ''} ${tutorData.lastName ? tutorData.lastName : ''}`}
+            </h2>
+          </div>
+          <BigCalendar
+            className={`${isMobile ? 'card--calendar' : ''}`}
+            key={key}
+            localizer={localizer}
+            formats={{
+              timeGutterFormat: 'HH:mm',
+            }}
+            events={filteredBookings ? filteredBookings : []}
+            toolbar={true}
+            date={value}
+            onSelecting={() => true}
+            view={isMobile ? "day" : "week"}
+            style={{height: 'calc(100% - 84px)'}}
+            startAccessor="start"
+            endAccessor="end"
+            components={{
+              week: {
+                header: (date) => CustomHeader(date),
+              },
+              event: (event) => CustomEvent(event),
+              toolbar: () =>
+                (isMobile ? <CustomToolbar
+                  value={value}
+                  onChangeDate={onChangeDate}/> : null),
+            }}
+            //scrollToTime={defaultScrollTime}
+            showMultiDayTimes={true}
+            step={15}
+            timeslots={4}
+            selectable={true}
+            longPressThreshold={50}
+            onSelectSlot={(e) => (userRole === RoleOptions.Parent || userRole === RoleOptions.Student ? slotSelect(e) : null)}
+            onSelectEvent={(e) => (userRole === RoleOptions.Parent || userRole === RoleOptions.Student ? handleSelectedEvent(e) : null)}
+          />
+          {openSlot ? (
+            //creating new booking
+            <ParentCalendarSlots
+              clearEmptyBookings={() => setEmptyBookings([])}
+              setSidebarOpen={(e) => setSidebarOpen(e)}
+              start={`${selectedStart}`}
+              end={`${selectedEnd}`}
+              handleClose={(e) => setOpenSlot(e)}
+              positionClass={calcModalPosition(positionClass)}
+              tutorId={tutorId}
+              tutorDisabled={tutorData.disabled}
+              topOffset={scrollTopOffset}
             />
-            {openSlot ? (
-              //creating new booking
-              <ParentCalendarSlots
-                clearEmptyBookings={() => setEmptyBookings([])}
-                setSidebarOpen={(e) => setSidebarOpen(e)}
-                start={`${selectedStart}`}
-                end={`${selectedEnd}`}
-                handleClose={(e) => setOpenSlot(e)}
-                positionClass={calcModalPosition(positionClass)}
-                tutorId={tutorId}
-                tutorDisabled={tutorData.disabled}
-                topOffset={scrollTopOffset}
-              />
-            ) : openEventDetails ? (
-              //opening booking details
-              !bookingIsLoading && !bookingIsFetching && <ParentEventModal
-                eventIsAccepted={booking ? booking.isAccepted : false}
-                bookingStart={booking ? booking.startTime : ''}
-                openEditModal={(isOpen) => handleUpdateModal(isOpen)}
-                tutorName={tutorData.firstName && tutorData.lastName ? tutorData.firstName + ' ' + tutorData.lastName : ''}
-                event={booking ? booking : null}
-                handleClose={(e) => setOpenEventDetails(e)}
-                positionClass={calcModalPosition(positionClass)}
-                openLearnCube={() => setLearnCubeModal(true)}
-                topOffset={scrollTopOffset}
-              />
-            ) : openUpdateModal ? (
-              <UpdateBooking
-                booking={booking ? booking : null}
-                clearEmptyBookings={() => setEmptyBookings([])}
-                setSidebarOpen={(e: any) => setSidebarOpen(e)}
-                start={`${selectedStart}`}
-                end={`${selectedEnd}`}
-                handleClose={(e: any) => setOpenUpdateModal(e)}
-                positionClass={calcModalPosition(positionClass)}
-                tutorId={tutorId}
-                topOffset={scrollTopOffset}
-              />
-            ) : (
-              <></>
-            )}
-          {/*</div>*/}
+          ) : openEventDetails ? (
+            //opening booking details
+            !bookingIsLoading && !bookingIsFetching && <ParentEventModal
+              eventIsAccepted={booking ? booking.isAccepted : false}
+              bookingStart={booking ? booking.startTime : ''}
+              openEditModal={(isOpen) => handleUpdateModal(isOpen)}
+              tutorName={tutorData.firstName && tutorData.lastName ? tutorData.firstName + ' ' + tutorData.lastName : ''}
+              event={booking ? booking : null}
+              handleClose={(e) => setOpenEventDetails(e)}
+              positionClass={calcModalPosition(positionClass)}
+              openLearnCube={() => setLearnCubeModal(true)}
+              topOffset={scrollTopOffset}
+            />
+          ) : openUpdateModal ? (
+            <UpdateBooking
+              booking={booking ? booking : null}
+              clearEmptyBookings={() => setEmptyBookings([])}
+              setSidebarOpen={(e: any) => setSidebarOpen(e)}
+              start={`${selectedStart}`}
+              end={`${selectedEnd}`}
+              handleClose={(e: any) => setOpenUpdateModal(e)}
+              positionClass={calcModalPosition(positionClass)}
+              tutorId={tutorId}
+              topOffset={scrollTopOffset}
+            />
+          ) : (
+            <></>
+          )}
+            {/*</div>*/}
+        </ConditionalWrapper>
 
-        {/*</div>*/}
+
         <div>
           <div ref={highlightRef}
                className="card card--mini-calendar mb-4 pos--rel">
@@ -900,3 +901,17 @@ const TutorBookings = () => {
 };
 
 export default TutorBookings;
+
+interface ConditionalWrapperProps {
+  condition: boolean;
+  children: React.ReactNode;
+}
+
+const ConditionalWrapper: React.FC<ConditionalWrapperProps> = ({ condition, children }) => {
+  if (condition) {
+    return <div className={`card--calendar ${condition ? 'card--calendar--height' : ''}`}>
+        {children}
+      </div>;
+  }
+  return <>{children}</>;
+};
