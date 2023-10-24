@@ -730,6 +730,17 @@ const TutorBookings = () => {
       }
     });
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const onSelectSlot = ({ action, slots /*, ...props */ }) => {
+    console.log("onSelectSlot");
+    if (action === "click") {
+      console.log("click");
+      alert("click");
+    }
+    return false;
+  };
+
   return (
     <MainWrapper>
       <div className="layout--primary">
@@ -761,15 +772,12 @@ const TutorBookings = () => {
               events={filteredBookings ? filteredBookings : []}
               toolbar={true}
               date={value}
-              onSelecting={() => false}
+              onSelecting={() => true}
               view={isMobile ? "day" : "week"}
               style={{height: 'calc(100% - 84px)'}}
               startAccessor="start"
               endAccessor="end"
               components={{
-                dateCellWrapper: (props) =>(
-                  <TouchCellWrapper {...props} onSelectSlot={slotSelect}/>
-                ),
                 week: {
                   header: (date) => CustomHeader(date),
                 },
@@ -777,9 +785,9 @@ const TutorBookings = () => {
                 toolbar: () =>
                   (isMobile ? <CustomToolbar
                     value={value}
-                    onChangeDate={onChangeDate}/> : null)
+                    onChangeDate={onChangeDate}/> : null),
               }}
-              scrollToTime={defaultScrollTime}
+              //scrollToTime={defaultScrollTime}
               showMultiDayTimes={true}
               step={15}
               timeslots={4}
@@ -800,35 +808,35 @@ const TutorBookings = () => {
                 tutorId={tutorId}
                 tutorDisabled={tutorData.disabled}
                 topOffset={scrollTopOffset}
-              />
-            ) : openEventDetails ? (
-              //opening booking details
-              !bookingIsLoading && !bookingIsFetching && <ParentEventModal
-                eventIsAccepted={booking ? booking.isAccepted : false}
-                bookingStart={booking ? booking.startTime : ''}
-                openEditModal={(isOpen) => handleUpdateModal(isOpen)}
-                tutorName={tutorData.firstName && tutorData.lastName ? tutorData.firstName + ' ' + tutorData.lastName : ''}
-                event={booking ? booking : null}
-                handleClose={(e) => setOpenEventDetails(e)}
-                positionClass={calcModalPosition(positionClass)}
-                openLearnCube={() => setLearnCubeModal(true)}
-                topOffset={scrollTopOffset}
-              />
-            ) : openUpdateModal ? (
-              <UpdateBooking
-                booking={booking ? booking : null}
-                clearEmptyBookings={() => setEmptyBookings([])}
-                setSidebarOpen={(e: any) => setSidebarOpen(e)}
-                start={`${selectedStart}`}
-                end={`${selectedEnd}`}
-                handleClose={(e: any) => setOpenUpdateModal(e)}
-                positionClass={calcModalPosition(positionClass)}
-                tutorId={tutorId}
-                topOffset={scrollTopOffset}
-              />
-            ) : (
-              <></>
-            )}
+              />) : null}
+            {/*) : openEventDetails ? (*/}
+            {/*  //opening booking details*/}
+            {/*  !bookingIsLoading && !bookingIsFetching && <ParentEventModal*/}
+            {/*    eventIsAccepted={booking ? booking.isAccepted : false}*/}
+            {/*    bookingStart={booking ? booking.startTime : ''}*/}
+            {/*    openEditModal={(isOpen) => handleUpdateModal(isOpen)}*/}
+            {/*    tutorName={tutorData.firstName && tutorData.lastName ? tutorData.firstName + ' ' + tutorData.lastName : ''}*/}
+            {/*    event={booking ? booking : null}*/}
+            {/*    handleClose={(e) => setOpenEventDetails(e)}*/}
+            {/*    positionClass={calcModalPosition(positionClass)}*/}
+            {/*    openLearnCube={() => setLearnCubeModal(true)}*/}
+            {/*    topOffset={scrollTopOffset}*/}
+            {/*  />*/}
+            {/*) : openUpdateModal ? (*/}
+            {/*  <UpdateBooking*/}
+            {/*    booking={booking ? booking : null}*/}
+            {/*    clearEmptyBookings={() => setEmptyBookings([])}*/}
+            {/*    setSidebarOpen={(e: any) => setSidebarOpen(e)}*/}
+            {/*    start={`${selectedStart}`}*/}
+            {/*    end={`${selectedEnd}`}*/}
+            {/*    handleClose={(e: any) => setOpenUpdateModal(e)}*/}
+            {/*    positionClass={calcModalPosition(positionClass)}*/}
+            {/*    tutorId={tutorId}*/}
+            {/*    topOffset={scrollTopOffset}*/}
+            {/*  />*/}
+            {/*) : (*/}
+            {/*  <></>*/}
+            {/*)}*/}
           </div>
           {/* )} */}
         </div>
