@@ -236,10 +236,12 @@ const AvailabilityPage = ({ nextStep }:AvailabilityProps) => {
               </div>
             </div>
         </div>
-
         {(loading && <LoaderPrimary />) || (
           <div className="flex--center m-2" style={{display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column"}}>
             <table className="table table--availability "><tbody>{renderAvailabilityTable()}</tbody></table>
+            <div className="type--sm align--center field__w-fit-content p-2">
+              <span>{t('TUTOR_ONBOARDING.TOOLTIPS.AVAILABILITY')}</span>
+            </div>
             <button
               id="tutor-onboarding-step-1"
               onClick={() => handleSubmit()} className="btn btn--lg btn--primary mt-4" disabled={!saveBtnActive}>

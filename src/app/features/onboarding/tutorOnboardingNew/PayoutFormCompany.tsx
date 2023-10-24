@@ -39,7 +39,6 @@ export const PayoutFormCompany = (props: Props) => {
       postalCode: '',
       city: '',
       IBAN: '',
-      IBANConfirm: '',
       companyName:'',
       companyPIN:'' //PIN?
     },
@@ -65,18 +64,6 @@ export const PayoutFormCompany = (props: Props) => {
           return !value?.includes(' ');
         })
         .required('IBAN is required'),
-      IBANConfirm: yup
-        .string()
-        .test('valid-iban', t('FORM_VALIDATION.INVALID_IBAN'), function (value) {
-          if (!value) {
-            return true;
-          }
-          return isValidIBANNumber(value);
-        })
-        .test('iban-match', t('FORM_VALIDATION.IBAN_MATCH'), function (value) {
-          return this.parent.IBAN === value;
-        })
-        .required(t('FORM_VALIDATION.REQUIRED'))
     })
   });
 
@@ -90,7 +77,6 @@ export const PayoutFormCompany = (props: Props) => {
       postalCode: values.postalCode,
       city: values.city,
       IBAN: removeWhitespaces(values.IBAN),
-      IBANConfirm: removeWhitespaces(values.IBANConfirm),
       userId:  tutorId, //if userId is passed as prop, use it, else use state.auth.user
       accountType: 'company',
       PIN: values.companyPIN,
@@ -149,12 +135,6 @@ export const PayoutFormCompany = (props: Props) => {
                 {t('STRIPE_CONNECT.IBAN')}*
               </label>
               <TextField name="IBAN" id="IBANField" />
-            </div>
-            <div className="field">
-              <label htmlFor="IBANConfirmField" className="field__label">
-                {t('STRIPE_CONNECT.IBAN_CONFIRM')}*
-              </label>
-              <TextField name="IBANConfirm" id="IBANConfirmField" />
             </div>
             <div className="field">
               <label htmlFor="iban" className="field__label">
