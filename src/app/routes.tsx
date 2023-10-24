@@ -53,6 +53,7 @@ import { Signup } from './features/register/sign_up_rework/tutor/Signup';
 import {
   SignupRoleSelect
 } from './features/register/sign_up_rework/SignupRoleSelect';
+import TutorBOokingsTest from './features/tutor-bookings/TutorBOokingsTest';
 
 export const PATHS = {
   ROLE_SELECTION: t('PATHS.ROLE_SELECTION'),
@@ -112,6 +113,12 @@ interface IMenuPerRole {
 }
 
 export const ROUTES: any = [
+  {
+    path: '/hr/testing/',
+    key: 'hrtesting',
+    exact: true,
+    component: () => <TutorBOokingsTest />,
+  },
   {
     path: PATHS.ROLE_SELECTION,
     key: 'ROLE_SELECTION',
