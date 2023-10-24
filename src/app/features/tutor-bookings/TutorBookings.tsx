@@ -751,9 +751,9 @@ const TutorBookings = () => {
     <MainWrapper>
       <div className="layout--primary">
         {isLoading ? <LoaderSecondary/> : <></>}
-        <div>
+        {/*<div>*/}
           {/* {(isLoading && <LoaderPrimary />) || ( */}
-          <div key={key} className={`card--calendar ${isMobile ? '' : 'card--calendar--height'}`}>
+          {/*<div key={key} className={`card--calendar ${isMobile ? '' : 'card--calendar--height'}`}>*/}
             <div className="flex flex--center p-6">
               {/* <Link to={PATHS.SEARCH_TUTORS}>
                             <div>
@@ -771,6 +771,7 @@ const TutorBookings = () => {
               </h2>
             </div>
             <BigCalendar
+              className={`card--calendar`}
               key={key}
               localizer={localizer}
               formats={{
@@ -844,9 +845,9 @@ const TutorBookings = () => {
             ) : (
               <></>
             )}
-          </div>
+          {/*</div>*/}
 
-        </div>
+        {/*</div>*/}
         <div>
           <div ref={highlightRef}
                className="card card--mini-calendar mb-4 pos--rel">
