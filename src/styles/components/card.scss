@@ -84,14 +84,13 @@
         background-color: $white;
         border: 1px solid $grey-ed;
         border-radius: $border-rounded;
-        overflow: hidden;
+        //overflow: hidden;
         display: flex;
         flex-direction: column;
-        height: 100%;
 
-        //@media (max-width: $responsive-sm) {
-        //  height: 100vh;
-        //}
+        &--height{
+          height: 100%;
+        }
     }
 
     &--lessons {

@@ -741,13 +741,18 @@ const TutorBookings = () => {
     return false;
   };
 
+
+  const [key, setKey] = useState(Math.random);
+  useEffect(() => {
+    setKey(Math.random());
+  }, []);
   return (
     <MainWrapper>
       <div className="layout--primary">
         {isLoading ? <LoaderSecondary/> : <></>}
         <div>
           {/* {(isLoading && <LoaderPrimary />) || ( */}
-          <div className="card--calendar">
+          <div className={`card--calendar ${isMobile ? '' : 'card--calendar--height'}`}>
             <div className="flex flex--center p-6">
               {/* <Link to={PATHS.SEARCH_TUTORS}>
                             <div>
@@ -765,6 +770,7 @@ const TutorBookings = () => {
               </h2>
             </div>
             <BigCalendar
+              key={key}
               localizer={localizer}
               formats={{
                 timeGutterFormat: 'HH:mm',
@@ -808,37 +814,37 @@ const TutorBookings = () => {
                 tutorId={tutorId}
                 tutorDisabled={tutorData.disabled}
                 topOffset={scrollTopOffset}
-              />) : null}
-            {/*) : openEventDetails ? (*/}
-            {/*  //opening booking details*/}
-            {/*  !bookingIsLoading && !bookingIsFetching && <ParentEventModal*/}
-            {/*    eventIsAccepted={booking ? booking.isAccepted : false}*/}
-            {/*    bookingStart={booking ? booking.startTime : ''}*/}
-            {/*    openEditModal={(isOpen) => handleUpdateModal(isOpen)}*/}
-            {/*    tutorName={tutorData.firstName && tutorData.lastName ? tutorData.firstName + ' ' + tutorData.lastName : ''}*/}
-            {/*    event={booking ? booking : null}*/}
-            {/*    handleClose={(e) => setOpenEventDetails(e)}*/}
-            {/*    positionClass={calcModalPosition(positionClass)}*/}
-            {/*    openLearnCube={() => setLearnCubeModal(true)}*/}
-            {/*    topOffset={scrollTopOffset}*/}
-            {/*  />*/}
-            {/*) : openUpdateModal ? (*/}
-            {/*  <UpdateBooking*/}
-            {/*    booking={booking ? booking : null}*/}
-            {/*    clearEmptyBookings={() => setEmptyBookings([])}*/}
-            {/*    setSidebarOpen={(e: any) => setSidebarOpen(e)}*/}
-            {/*    start={`${selectedStart}`}*/}
-            {/*    end={`${selectedEnd}`}*/}
-            {/*    handleClose={(e: any) => setOpenUpdateModal(e)}*/}
-            {/*    positionClass={calcModalPosition(positionClass)}*/}
-            {/*    tutorId={tutorId}*/}
-            {/*    topOffset={scrollTopOffset}*/}
-            {/*  />*/}
-            {/*) : (*/}
-            {/*  <></>*/}
-            {/*)}*/}
+              />
+            ) : openEventDetails ? (
+              //opening booking details
+              !bookingIsLoading && !bookingIsFetching && <ParentEventModal
+                eventIsAccepted={booking ? booking.isAccepted : false}
+                bookingStart={booking ? booking.startTime : ''}
+                openEditModal={(isOpen) => handleUpdateModal(isOpen)}
+                tutorName={tutorData.firstName && tutorData.lastName ? tutorData.firstName + ' ' + tutorData.lastName : ''}
+                event={booking ? booking : null}
+                handleClose={(e) => setOpenEventDetails(e)}
+                positionClass={calcModalPosition(positionClass)}
+                openLearnCube={() => setLearnCubeModal(true)}
+                topOffset={scrollTopOffset}
+              />
+            ) : openUpdateModal ? (
+              <UpdateBooking
+                booking={booking ? booking : null}
+                clearEmptyBookings={() => setEmptyBookings([])}
+                setSidebarOpen={(e: any) => setSidebarOpen(e)}
+                start={`${selectedStart}`}
+                end={`${selectedEnd}`}
+                handleClose={(e: any) => setOpenUpdateModal(e)}
+                positionClass={calcModalPosition(positionClass)}
+                tutorId={tutorId}
+                topOffset={scrollTopOffset}
+              />
+            ) : (
+              <></>
+            )}
           </div>
-          {/* )} */}
+
         </div>
         <div>
           <div ref={highlightRef}
