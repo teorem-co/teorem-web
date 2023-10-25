@@ -11,7 +11,7 @@ import {
 } from 'chart.js';
 import { t } from 'i18next';
 import moment from 'moment';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import Select from 'react-select';
 
@@ -21,6 +21,7 @@ import { calcYears } from '../../utils/yearOptions';
 import earningsGraphOptions from './constants/earningsGraphOptions';
 import IGraph from './interfaces/IGraph';
 import { useLazyGetEarningsQuery } from './services/earningsService';
+import {ToggleButton, ToggleButtonGroup} from "@mui/material";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
@@ -31,6 +32,7 @@ const Earnings = () => {
 
   const [earningsGraphData, setEarningsGraphData] = useState<IGraph[]>([]);
   const [selectedYear, setSelectedYear] = useState<OptionType>(yearOptions[yearOptions.length - 1]);
+  const [table, setTable] = useState("PAYOUTS");
 
   const data = {
     datasets: [
@@ -55,6 +57,15 @@ const Earnings = () => {
   const fetchData = async (date: string) => {
     const response = await getEarnings(date).unwrap();
     setEarningsGraphData(response.graph);
+  };
+
+  const [alignment, setAlignment] = React.useState('month');
+
+  const handleChange = (
+    event: React.MouseEvent<HTMLElement>,
+    newAlignment: string,
+  ) => {
+    setAlignment(newAlignment);
   };
 
   useEffect(() => {
@@ -108,7 +119,26 @@ const Earnings = () => {
           <div>
             <Line height={200} options={earningsGraphOptions} data={data} />
           </div>
-          <div className="type--color--tertiary  type--spacing mt-10 mb-2">{t('EARNINGS.DETAILS.TITLE')}</div>
+          <div className="card--secondary__head">
+            <div className="type--color--tertiary type--spacing mb-2">{t('EARNINGS.DETAILS.TITLE')}</div>
+            <ToggleButtonGroup
+              color="info"
+              value={alignment}
+              exclusive
+              size="small"
+              onChange={handleChange}
+              aria-label="Platform"
+            >
+              <ToggleButton value="payouts"
+                            onClick={() => setTable("PAYOUTS")}
+                            style={{fontSize: "11px"}}
+              >Payouts</ToggleButton>
+              <ToggleButton value="bookings"
+                            onClick={() => setTable("BOOKINGS")}
+                            style={{fontSize: "11px"}}
+              >Bookings</ToggleButton>
+            </ToggleButtonGroup>
+          </div>
           <table className="table table--secondary">
             <thead>
               <tr>
