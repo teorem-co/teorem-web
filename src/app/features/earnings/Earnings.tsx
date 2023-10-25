@@ -24,6 +24,9 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarEleme
 const Earnings = () => {
   const [getEarnings, {data: earningsData}] = useLazyGetEarningsQuery();
 
+  //TODO: remove this when the new table view is fixed
+  const [getEarningForTable, {data: earningsForTable}] = useLazyGetEarningsQuery();
+
   const [labels, setLabels] = useState<string[]>([]);
   const [maxNumOfTicks, setMaxNumOfTicks] = useState(0);
   const [periodOfTime, setPeriodOfTime] = useState("MONTH");
@@ -51,6 +54,7 @@ const Earnings = () => {
 
   const fetchData = async () => {
     const response = await getEarnings(periodOfTime).unwrap();
+    await getEarningForTable("YEAR");
     if(periodOfTime === "YEAR") {
       setLabels(response.labels.map((item) => t('CONSTANTS.MONTHS_LONG.' + item.substring(0, 3).toUpperCase())));
     } else if (periodOfTime === "WEEK") {
@@ -272,8 +276,8 @@ const Earnings = () => {
               </tr>
               </thead>
               <tbody>
-              {(earningsData &&
-                  earningsData.details.map((tableItem) => {
+              {(earningsForTable &&
+                  earningsForTable.details.map((tableItem) => {
                     return (
                       <tr>
                         <td>{t('CONSTANTS.MONTHS_LONG.' + tableItem.month.substring(0, 3).toUpperCase())}</td>
