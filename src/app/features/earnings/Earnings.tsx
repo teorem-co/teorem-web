@@ -26,6 +26,7 @@ import {
   useLazyGetCompletedLessonsQuery
 } from "../my-bookings/services/completedLessonsService";
 import PayoutsTableElement from "./PayoutsTableElement";
+import {ToggleButton, ToggleButtonGroup} from "@mui/material";
 
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, LineController, BarElement, BarController, Title, Tooltip, Legend, Filler);
@@ -65,6 +66,7 @@ const Earnings = () => {
       default: return numString + "th";
     }
   };
+  const [table, setTable] = useState("PAYOUTS");
 
   const fetchData = async () => {
     const response = await getEarnings(periodOfTime).unwrap();
@@ -83,6 +85,15 @@ const Earnings = () => {
   };
 
   const [alignment, setAlignment] = React.useState('MONTH');
+
+  const handleChange = (
+    event: React.MouseEvent<HTMLElement>,
+    newAlignment: string,
+  ) => {
+    setAlignment(newAlignment);
+  };
+
+  const [alignment, setAlignment] = React.useState('month');
 
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
