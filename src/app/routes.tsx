@@ -31,8 +31,6 @@ import ProfileAccount from './features/my-profile/pages/ProfileAccount';
 import MyReviews from './features/myReviews/MyReviews';
 import Notifications from './features/notifications/Notifications';
 import Onboarding from './features/onboarding/Onboarding';
-import Register from './features/register/Register';
-import RoleSelection from './features/roleSelection/RoleSelection';
 import SearchTutors from './features/searchTutors/SearchTutors';
 import TutorProfile from './features/searchTutors/TutorProfile';
 import TutorBookings from './features/tutor-bookings/TutorBookings';
@@ -51,9 +49,8 @@ import { Badge } from '@mui/material';
 
 import { Signup } from './features/register/sign_up_rework/tutor/Signup';
 import {
-  SignupRoleSelect
+  SignupRoleSelect,
 } from './features/register/sign_up_rework/SignupRoleSelect';
-//import TutorBOokingsTest from './features/tutor-bookings/TutorBOokingsTest';
 
 export const PATHS = {
   ROLE_SELECTION: t('PATHS.ROLE_SELECTION'),
@@ -113,12 +110,6 @@ interface IMenuPerRole {
 }
 
 export const ROUTES: any = [
-  // {
-  //   path: '/hr/testing/',
-  //   key: 'hrtesting',
-  //   exact: true,
-  //   component: () => <TutorBOokingsTest />,
-  // },
   {
     path: PATHS.ROLE_SELECTION,
     key: 'ROLE_SELECTION',
@@ -165,7 +156,8 @@ export const ROUTES: any = [
     key: 'MY_BOOKINGS',
     exact: true,
     component: () => (
-      <PermissionsGate roles={[Role.Tutor, Role.Parent, Role.Student, Role.SuperAdmin, Role.Child]}>
+      <PermissionsGate
+        roles={[Role.Tutor, Role.Parent, Role.Student, Role.SuperAdmin, Role.Child]}>
         <MyBookings />
       </PermissionsGate>
     ),
@@ -175,7 +167,8 @@ export const ROUTES: any = [
     key: 'CHAT',
     exact: true,
     component: () => (
-      <PermissionsGate roles={[Role.Tutor, Role.Parent, Role.Student, Role.SuperAdmin, Role.Child]}>
+      <PermissionsGate
+        roles={[Role.Tutor, Role.Parent, Role.Student, Role.SuperAdmin, Role.Child]}>
         <Chat />
       </PermissionsGate>
     ),
@@ -195,7 +188,8 @@ export const ROUTES: any = [
     key: 'DASHBOARD',
     exact: true,
     component: () => (
-      <PermissionsGate roles={[Role.Tutor, Role.SuperAdmin, Role.Parent, Role.Student, Role.Child]}>
+      <PermissionsGate
+        roles={[Role.Tutor, Role.SuperAdmin, Role.Parent, Role.Student, Role.Child]}>
         <Dashboard />
       </PermissionsGate>
     ),
@@ -205,7 +199,8 @@ export const ROUTES: any = [
     key: 'NOTIFICATIONS',
     exact: true,
     component: () => (
-      <PermissionsGate roles={[Role.Tutor, Role.SuperAdmin, Role.Parent, Role.Student, Role.Child]}>
+      <PermissionsGate
+        roles={[Role.Tutor, Role.SuperAdmin, Role.Parent, Role.Student, Role.Child]}>
         <Notifications />
       </PermissionsGate>
     ),
@@ -215,7 +210,8 @@ export const ROUTES: any = [
     key: 'EARNINGS',
     exact: true,
     component: () => (
-      <PermissionsGate roles={[Role.Tutor, Role.SuperAdmin]} checkStripeConnection>
+      <PermissionsGate roles={[Role.Tutor, Role.SuperAdmin]}
+                       checkStripeConnection>
         <Earnings />
       </PermissionsGate>
     ),
@@ -235,7 +231,7 @@ export const ROUTES: any = [
     key: 'SEARCH_TUTORS_TUTOR_PROFILE',
     exact: true,
     component: () => (
-        <TutorProfile />
+      <TutorProfile />
     ),
   },
   {
@@ -253,7 +249,8 @@ export const ROUTES: any = [
     key: 'COMPLETED_LESSONS',
     exact: true,
     component: () => (
-      <PermissionsGate roles={[Role.Parent, Role.Student, Role.SuperAdmin, Role.Child]}>
+      <PermissionsGate
+        roles={[Role.Parent, Role.Student, Role.SuperAdmin, Role.Child]}>
         <CompletedLessons />
       </PermissionsGate>
     ),
@@ -263,7 +260,8 @@ export const ROUTES: any = [
     key: 'MY_PROFILE',
     component: (props: any) => {
       return (
-        <PermissionsGate roles={[Role.Tutor, Role.Parent, Role.Student, Role.SuperAdmin]}>
+        <PermissionsGate
+          roles={[Role.Tutor, Role.Parent, Role.Student, Role.SuperAdmin]}>
           <RenderRoutes {...props} />
         </PermissionsGate>
       );
@@ -365,7 +363,9 @@ export default ROUTES;
 
 function RouteWithSubRoutes(route: any) {
   return (
-    <Route key={route.key} path={route.path} exact={route.exact} render={(props: any) => <route.component {...props} routes={route.routes} />} />
+    <Route key={route.key} path={route.path} exact={route.exact}
+           render={(props: any) => <route.component {...props}
+                                                    routes={route.routes} />} />
   );
 }
 
@@ -591,10 +591,10 @@ export function RenderMenuLinks() {
   const { t } = useTranslation();
 
   const badgeStyle = {
-    "& .MuiBadge-badge": {
+    '& .MuiBadge-badge': {
       color: 'white',
       backgroundColor: '#7E6CF2',
-    }
+    },
   };
 
   const [showBadge, setShowBadge] = useState(false);
@@ -602,16 +602,16 @@ export function RenderMenuLinks() {
   const [oldNumOfNewMessages, setoldNumOfNewMessages] = useState(chat.newMessages);
   // Function to trigger the badge pop-up animation
 
-  const  isMobile = window.innerWidth <1200;
+  const isMobile = window.innerWidth < 1200;
 
   useEffect(() => {
-    if(chat.newMessages){
+    if (chat.newMessages) {
 
-      if(chat.newMessages == 0){
+      if (chat.newMessages == 0) {
         setDoAnimation(true);
       }
 
-      if(chat.newMessages > 0 && doAnimation && oldNumOfNewMessages != chat.newMessages){
+      if (chat.newMessages > 0 && doAnimation && oldNumOfNewMessages != chat.newMessages) {
         setShowBadge(true);
 
         setTimeout(() => {
@@ -629,17 +629,21 @@ export function RenderMenuLinks() {
       <>
         {menuPerRole(user?.user?.stripeConnected || false)[userRole].map((route: any) =>
           route.disabled ? (
-            <div className={`navbar__item`} style={{ cursor: route.disabled ? 'not-allowed' : 'pointer' }}>
-              <i className={`icon icon--base navbar__item__icon navbar__item--${route.icon}`}></i>
-              <span className={`navbar__item__label`}>{t(`NAVIGATION.${route.name}`)}</span>
-              {route.key == 'CHAT' && chat.newMessages != null && chat.newMessages > 0 && <i className={`navbar__item__unread`}></i>}
+            <div className={`navbar__item`}
+                 style={{ cursor: route.disabled ? 'not-allowed' : 'pointer' }}>
+              <i
+                className={`icon icon--base navbar__item__icon navbar__item--${route.icon}`}></i>
+              <span
+                className={`navbar__item__label`}>{t(`NAVIGATION.${route.name}`)}</span>
+              {route.key == 'CHAT' && chat.newMessages != null && chat.newMessages > 0 &&
+                <i className={`navbar__item__unread`}></i>}
             </div>
           ) : (
             <NavLink
               key={route.key}
               to={route.path}
               className={`navbar__item`}
-              activeClassName="active"
+              activeClassName='active'
               isActive={(match: any, location: Location) => {
                 //format nicer later
                 if (route.rootPath) {
@@ -659,18 +663,21 @@ export function RenderMenuLinks() {
             >
 
               {(route.key == 'CHAT' && chat.newMessages != null && chat.newMessages > 0) ?
-                  <Badge badgeContent={chat.newMessages}
-                         className={showBadge ? 'badge-pulse' : ''}
-                         sx={badgeStyle}
-                         max={10}>
-                    <i className={`icon icon--base navbar__item__icon navbar__item--${route.icon}`}></i>
-                  </Badge>
-                  :
-                  <i className={`icon icon--base navbar__item__icon navbar__item--${route.icon}`}></i>
+                <Badge badgeContent={chat.newMessages}
+                       className={showBadge ? 'badge-pulse' : ''}
+                       sx={badgeStyle}
+                       max={10}>
+                  <i
+                    className={`icon icon--base navbar__item__icon navbar__item--${route.icon}`}></i>
+                </Badge>
+                :
+                <i
+                  className={`icon icon--base navbar__item__icon navbar__item--${route.icon}`}></i>
               }
-              <span className={`navbar__item__label ${isMobile ? 'font__lg' : ''}`}>{t(`NAVIGATION.${route.name}`)}</span>
+              <span
+                className={`navbar__item__label ${isMobile ? 'font__lg' : ''}`}>{t(`NAVIGATION.${route.name}`)}</span>
             </NavLink>
-          )
+          ),
         )}
       </>
     );

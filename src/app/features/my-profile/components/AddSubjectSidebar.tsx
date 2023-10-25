@@ -114,10 +114,6 @@ const AddSubjectSidebar = (props: Props) => {
         getCurrency();
     }, []);
 
-
-  useEffect(() => {
-    console.log(formik.values);
-  }, [formik.values]);
   return (
         <div>
             <div className={`cur--pointer sidebar__overlay ${!sideBarIsOpen ? 'sidebar__overlay--close' : ''}`} onClick={closeSidebar}></div>

@@ -323,7 +323,6 @@ const TutorBookings = () => {
 
   const slotSelect = (e: SlotInfo) => {
     const rootElement = document.getElementById('main_layout');
-    console.log("TOP OFFSET: ", rootElement?.scrollTop);
     //calculating offset for modal
     if (e.bounds?.bottom && rootElement?.scrollTop) {
       const boundsTop = e.bounds?.top <= 300 ? e.bounds?.top + 500 : e.bounds?.top + 200;
@@ -378,9 +377,6 @@ const TutorBookings = () => {
 
     console.log("FIRST: ", flagArr.length === existingBooking?.length);
     console.log("SECOND: ", !moment(e.start).isBefore(moment().add(3, 'hours')));
-    // console.log("START EVENTA: ", moment(e.start));
-    // console.log("START EVENTA BEZ MOMENT: ", e.start);
-    // console.log("DODANA 3 SATA na sad: ", moment().add(3, 'hours'));
     console.log("THIRD: ", isAvailableBooking);
 
     const firstCheck = flagArr.length === existingBooking?.length;
@@ -720,31 +716,8 @@ const TutorBookings = () => {
     },
   };
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const TouchCellWrapper = ({ children, value, onSelectSlot }) =>
-    cloneElement(Children.only(children), {
-      onTouchEnd: () => onSelectSlot({ action: "click", slots: [value] }),
-      style: {
-        className: `${children}`
-      }
-    });
-
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const onSelectSlot = ({ action, slots /*, ...props */ }) => {
-    console.log("onSelectSlot");
-    if (action === "click") {
-      console.log("click");
-      alert("click");
-    }
-    return false;
-  };
-
-
   const [key, setKey] = useState(Math.random);
   useEffect(() => {
-    console.log('changing key');
     setKey(Math.random());
   }, []);
 
