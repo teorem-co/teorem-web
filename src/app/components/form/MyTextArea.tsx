@@ -10,10 +10,11 @@ type TextFieldType = {
 
 //const TextField: React.FC<TextFieldType> = ( { type, placeholder, id, disabled, min, onChange, ...props } ) =>
 const TextArea: React.FC<TextFieldType> = (props: any) => {
-    const { password, maxLength } = props;
+    const { password, maxLength, minLength } = props;
     const [field, meta] = useField(props);
     const [characterCount, setCharacterCount] = useState<number>(0);
     const [tooLong, setTooLong] = useState(false);
+    const [tooShort, setTooShort] = useState(false);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const errorText = meta.error && meta.touched ? meta.error : '';
 
@@ -38,6 +39,12 @@ const TextArea: React.FC<TextFieldType> = (props: any) => {
         if (e.currentTarget.textContent) {
             const textareaLength = e.currentTarget.textContent.length;
             setCharacterCount(textareaLength);
+            const numOfWords = e.currentTarget.textContent.split(" ").length;
+            if(numOfWords >= 50) {
+              setTooShort(false);
+            } else {
+              setTooShort(true);
+            }
         }
         if(characterCount >= maxLength) {
           setTooLong(true);
@@ -76,6 +83,7 @@ const TextArea: React.FC<TextFieldType> = (props: any) => {
             <div className="field__validation">
                 {errorText ? errorText : ''}
               {!errorText && tooLong ? t('FORM_VALIDATION.MAX_LIMIT') + " " + maxLength : ''}
+              {!errorText && minLength && tooShort ? t('FORM_VALIDATION.MIN_LIMIT') + " " + minLength : ''}
             </div>
         </>
     );
