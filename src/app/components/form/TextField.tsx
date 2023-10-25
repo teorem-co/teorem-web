@@ -81,7 +81,7 @@ const TextField: React.FC<TextFieldType> = (props: any) => {
                         className={`${props.className ?? 'input input--base input--text'} ${errorText ? 'input__border--error' : ''}`}
                     />
                 )}
-                {maxLength && (
+                {maxLength && props.id !== "currentOccupation" && (
                     <div className="input--textarea__counter">
                         {characterCount}/{maxLength}
                     </div>

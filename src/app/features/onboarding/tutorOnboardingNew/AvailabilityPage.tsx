@@ -239,7 +239,7 @@ const AvailabilityPage = ({ nextStep }:AvailabilityProps) => {
         {(loading && <LoaderPrimary />) || (
           <div className="flex--center m-2" style={{display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column"}}>
             <table className="table table--availability "><tbody>{renderAvailabilityTable()}</tbody></table>
-            <div className="type--sm align--center field__w-fit-content p-2">
+            <div className="type--base align--center field__w-fit-content p-2" style={{color: "#636363"}}>
               <span>{t('TUTOR_ONBOARDING.TOOLTIPS.AVAILABILITY')}</span>
             </div>
             <button

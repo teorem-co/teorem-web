@@ -291,7 +291,7 @@ const SubjectsPage = ({ nextStep, backStep }:SubjectsProps) => {
               </div>
             </div>
           )}
-          <div className="type--sm align--center field__w-fit-content p-2">
+          <div className="type--base align--center field__w-fit-content p-2" style={{color: "#636363"}}>
             <span>{t('TUTOR_ONBOARDING.TOOLTIPS.SUBJECTS')}</span>
           </div>
         </div>
