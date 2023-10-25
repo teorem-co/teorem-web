@@ -95,6 +95,15 @@ const Earnings = () => {
     setAlignment(newAlignment);
   };
 
+  const [alignment, setAlignment] = React.useState('month');
+
+  const handleChange = (
+    event: React.MouseEvent<HTMLElement>,
+    newAlignment: string,
+  ) => {
+    setAlignment(newAlignment);
+  };
+
   useEffect(() => {
     fetchData();
   }, [periodOfTime]);
