@@ -13,9 +13,16 @@ import {
   Tooltip,
 } from 'chart.js';
 import { t } from 'i18next';
+import moment from 'moment';
 import React, { useEffect, useState } from 'react';
-import {Chart} from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2';
+import Select from 'react-select';
+
+import { OptionType } from '../../components/form/MySelectField';
 import MainWrapper from '../../components/MainWrapper';
+import { calcYears } from '../../utils/yearOptions';
+import earningsGraphOptions from './constants/earningsGraphOptions';
+import IGraph from './interfaces/IGraph';
 import {
   useLazyGetEarningsQuery,
   useLazyGetPayoutsQuery
@@ -25,8 +32,6 @@ import {
   useLazyGetCompletedLessonsQuery
 } from "../my-bookings/services/completedLessonsService";
 import PayoutsTableElement from "./PayoutsTableElement";
-import IGraph from "./interfaces/IGraph";
-
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, LineController, BarElement, BarController, Title, Tooltip, Legend, Filler);
 
@@ -38,6 +43,8 @@ const Earnings = () => {
   //TODO: remove this when the new table view is fixed
   const [getEarningForTable, {data: earningsForTable}] = useLazyGetEarningsQuery();
 
+  const [earningsGraphData, setEarningsGraphData] = useState<IGraph[]>([]);
+  const [table, setTable] = useState("PAYOUTS");
   const [labels, setLabels] = useState<string[]>([]);
   const [maxNumOfTicks, setMaxNumOfTicks] = useState(0);
   const [periodOfTime, setPeriodOfTime] = useState("MONTH");
@@ -62,7 +69,6 @@ const Earnings = () => {
       default: return numString + "th";
     }
   };
-  const [table, setTable] = useState("PAYOUTS");
 
   const fetchData = async () => {
     const response = await getEarnings(periodOfTime).unwrap();
