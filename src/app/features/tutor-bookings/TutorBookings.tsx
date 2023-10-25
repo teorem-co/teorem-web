@@ -744,11 +744,12 @@ const TutorBookings = () => {
 
   const [key, setKey] = useState(Math.random);
   useEffect(() => {
+    console.log('changing key');
     setKey(Math.random());
   }, []);
 
   return (
-    <MainWrapper>
+    <MainWrapper key={key}>
       <div className="layout--primary">
         {isLoading ? <LoaderSecondary/> : <></>}
         <ConditionalWrapper condition={!isMobile}>
@@ -771,8 +772,8 @@ const TutorBookings = () => {
             </h2>
           </div>
           <BigCalendar
-            className={`${isMobile ? 'card--calendar' : ''}`}
             key={key}
+            className={`${isMobile ? 'card--calendar' : ''}`}
             localizer={localizer}
             formats={{
               timeGutterFormat: 'HH:mm',
@@ -782,7 +783,7 @@ const TutorBookings = () => {
             date={value}
             onSelecting={() => true}
             view={isMobile ? "day" : "week"}
-            style={{height: 'calc(100% - 84px)'}}
+            style={isMobile ? {height:'unset'} : {height: 'calc(100% - 84px)'} }
             startAccessor="start"
             endAccessor="end"
             components={{
