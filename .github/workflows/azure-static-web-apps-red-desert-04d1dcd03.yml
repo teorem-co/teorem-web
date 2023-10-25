@@ -5,8 +5,10 @@ on:
     branches:
       - develop
       - dev-deploy
-  workflow_dispatch:
-
+  pull_request:
+    types: [ opened, synchronize, reopened, closed ]
+    branches:
+      - develop
 
 jobs:
   build_and_deploy_job:
@@ -35,6 +37,7 @@ jobs:
           NPM_CONFIG_LEGACY_PEER_DEPS: true
 
   close_pull_request_job:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
     runs-on: ubuntu-latest
     name: Close Pull Request Job
     steps:

@@ -1,5 +1,6 @@
 import { FieldAttributes, useField } from 'formik';
 import React, { useEffect, useRef, useState } from 'react';
+import {t} from "i18next";
 
 type TextFieldType = {
     min?: number;
@@ -12,6 +13,7 @@ const TextArea: React.FC<TextFieldType> = (props: any) => {
     const { password, maxLength } = props;
     const [field, meta] = useField(props);
     const [characterCount, setCharacterCount] = useState<number>(0);
+    const [tooLong, setTooLong] = useState(false);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const errorText = meta.error && meta.touched ? meta.error : '';
 
@@ -37,6 +39,11 @@ const TextArea: React.FC<TextFieldType> = (props: any) => {
             const textareaLength = e.currentTarget.textContent.length;
             setCharacterCount(textareaLength);
         }
+        if(characterCount >= maxLength) {
+          setTooLong(true);
+        } else {
+          setTooLong(false);
+        }
     };
 
     return (
@@ -53,9 +60,6 @@ const TextArea: React.FC<TextFieldType> = (props: any) => {
                         'input input--base input--text input--textarea'
                     } ${errorText ? 'input__border--error' : ''}`}
                 />
-                <div className="input--textarea__counter">
-                    {characterCount}/{maxLength}
-                </div>
                 {
                     /* toggle password visibility */
                     props.password ? (
@@ -71,6 +75,7 @@ const TextArea: React.FC<TextFieldType> = (props: any) => {
 
             <div className="field__validation">
                 {errorText ? errorText : ''}
+              {!errorText && tooLong ? t('FORM_VALIDATION.MAX_LIMIT') + " " + maxLength : ''}
             </div>
         </>
     );

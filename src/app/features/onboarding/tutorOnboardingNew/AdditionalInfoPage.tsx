@@ -145,13 +145,13 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
     validateOnChange: false,
     enableReinitialize: true,
     validationSchema: Yup.object().shape({
-      aboutTutor: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-      aboutLessons: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+      aboutTutor: Yup.string().min(50, t('FORM_VALIDATION.TOO_SHORT')).max(2500).required(t('FORM_VALIDATION.REQUIRED')),
+      aboutLessons: Yup.string().min(50, t('FORM_VALIDATION.TOO_SHORT')).max(2500).required(t('FORM_VALIDATION.REQUIRED')),
       currentOccupation: Yup.string()
         .min(2, t('FORM_VALIDATION.TOO_SHORT'))
-        .max(50, t('FORM_VALIDATION.TOO_LONG'))
+        .max(75, t('FORM_VALIDATION.TOO_LONG'))
         .required(t('FORM_VALIDATION.REQUIRED')),
-      yearsOfExperience: Yup.number().min(0, t('FORM_VALIDATION.NEGATIVE')).max(100, t('FORM_VALIDATION.TOO_BIG')).nullable(),
+      yearsOfExperience: Yup.number().min(0, t('FORM_VALIDATION.NEGATIVE')).max(100, t('FORM_VALIDATION.TOO_BIG')).required(t('FORM_VALIDATION.REQUIRED')),
     }),
   });
 
@@ -241,13 +241,11 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                                    htmlFor="currentOccupation">
                               {t('MY_PROFILE.ABOUT_ME.OCCUPATION')}
                             </label>
-                            <TextField
-                              maxLength={50}
-                              id="currentOccupation"
-                              wrapperClassName="flex--grow"
+                            <MyTextArea
+                              maxLength={75}
                               name="currentOccupation"
                               placeholder={t('MY_PROFILE.ABOUT_ME.OCCUPATION_PLACEHOLDER')}
-                              className="input input--base"
+                              id="currentOccupation"
                               disabled={isLoading}
                             />
                           </div>
@@ -258,13 +256,10 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                                    htmlFor="yearsOfExperience">
                               {t('MY_PROFILE.ABOUT_ME.YEARS')}
                             </label>
-                            <TextField
-                              id="yearsOfExperience"
-                              wrapperClassName="flex--grow"
+                            <MyTextArea
                               name="yearsOfExperience"
                               placeholder={t('MY_PROFILE.ABOUT_ME.YEARS_PLACEHOLDER')}
-                              className="input input--base"
-                              type={'number'}
+                              id="yearsOfExperience"
                               disabled={isLoading}
                             />
                           </div>
@@ -278,7 +273,7 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                             <MyTextArea
                               maxLength={2500}
                               name="aboutTutor"
-                              placeholder={t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_PLACEHOLDER')}
+                              placeholder={t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_PLACEHOLDER') + '\n' + '\n' + t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_EFFECTIVE')}
                               id="aboutTutor"
                               disabled={isLoading}
                             />
@@ -293,7 +288,7 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                             <MyTextArea
                               maxLength={2500}
                               name="aboutLessons"
-                              placeholder={t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_PLACEHOLDER')}
+                              placeholder={t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_PLACEHOLDER') + '\n' + '\n' + t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_EFFECTIVE')}
                               id="aboutLessons"
                               disabled={isLoading}
                             />
@@ -306,13 +301,6 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
 
               </Form>
             </FormikProvider>
-
-            <div className="type--sm align--center field__w-fit-content p-2">
-              <ul>
-                <li><span>{t('TUTOR_ONBOARDING.ABOUT_ME_TIPS.TIP_1')}</span></li>
-                <li> <span dangerouslySetInnerHTML={{__html: t('TUTOR_ONBOARDING.ABOUT_ME_TIPS.TIP_2')}}></span></li>
-              </ul>
-            </div>
 
             <div className="flex--center" style={{
               display: "flex",

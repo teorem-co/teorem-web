@@ -54,6 +54,10 @@ export const EN_US = {
         TIP_1: 'Describe in detail your way of teaching and yourself.',
         TIP_2:'The most effective profiles contain 100+ words in the rubrics <u><i>more about me</i></u> and <u><i>more about my lectures</i></u>.',
       },
+      TOOLTIPS: {
+        AVAILABILITY: "You can change your availability at any time.",
+        SUBJECTS: "You can later add or delete subjects in Your profile settings."
+      },
       IMAGE_TIPS: {
         TITLE: 'Tips for image:',
         TIP_1: 'portrait form',
@@ -72,6 +76,8 @@ export const EN_US = {
         IMAGE_SIZE: 'Image has to be less than 5MB in size.',
         TOO_SHORT: 'Too Short!',
         TOO_LONG: 'Too Long!',
+        MAX_LIMIT: 'Max number of characters is',
+        MIN_LIMIT: 'Min number of words is',
         TOO_BIG: 'Number is too big',
         REQUIRED: 'This field is required',
         LOWERCASE: 'Include at least one lowercase letter (a-z)',
@@ -172,9 +178,10 @@ export const EN_US = {
             UPDATE_TEACHINGS_SUCCESS: 'Subjects updated!',
             FORM: {
                 ABOUT_TUTOR_LABEL: 'Tell us more about yourself*',
-                ABOUT_TUTOR_PLACEHOLDER: 'What describes you best, what are your hobbies, approach...',
+                ABOUT_TUTOR_PLACEHOLDER: 'In detail describe yourself, your interests, experience and hobbies. Minimum 50 words.',
                 ABOUT_LESSONS_LABEL: 'Tell us more about your lessons*',
-                ABOUT_LESSONS_PLACEHOLDER: 'Describe your lessons, approach, way of teaching...',
+                ABOUT_LESSONS_PLACEHOLDER: 'In detail describe how you work with students. Describe which methods of tutoring to you use (visual, auditory, kinesthetic, etc.) ',
+                ABOUT_EFFECTIVE: 'Most visited profiles contain 100+ words in this category.',
                 SUBMIT_BTN: 'Save',
             },
             NO_PRICE: 'There is no price',
@@ -617,7 +624,7 @@ export const EN_US = {
       ABOUT_ME: {
             OCCUPATION: 'Your current Occupation*',
             OCCUPATION_PLACEHOLDER: 'What’s your current Occupation',
-            YEARS: 'Years of professional experience (optional)',
+            YEARS: 'Years of professional experience*',
             YEARS_PLACEHOLDER: 'How many years of professional experience you have',
             ABOUT_YOURSELF: 'Tell us more about yourself*',
             ABOUT_LESSON: 'Tell us more about your lessons*',

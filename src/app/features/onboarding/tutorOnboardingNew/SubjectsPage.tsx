@@ -291,7 +291,9 @@ const SubjectsPage = ({ nextStep, backStep }:SubjectsProps) => {
               </div>
             </div>
           )}
-
+          <div className="type--sm align--center field__w-fit-content p-2">
+            <span>{t('TUTOR_ONBOARDING.TOOLTIPS.SUBJECTS')}</span>
+          </div>
         </div>
           <div className="flex--center" style={{display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column"}}>
             <button
