@@ -88,6 +88,9 @@
         //display: flex;
         //flex-direction: column;
 
+        @media (min-width: $responsive-sm) {
+          height: 100%;
+        }
         &--height{
           height: 100%;
         }

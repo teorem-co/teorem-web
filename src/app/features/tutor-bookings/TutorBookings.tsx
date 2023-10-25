@@ -883,7 +883,7 @@ interface ConditionalWrapperProps {
 
 const ConditionalWrapper: React.FC<ConditionalWrapperProps> = ({ condition, children }) => {
   if (condition) {
-    return <div className={`card--calendar ${condition ? 'card--calendar--height' : ''}`}>
+    return <div className={`card--calendar ${condition ? ' card--calendar--height' : ''}`}>
         {children}
       </div>;
   }
