@@ -322,8 +322,8 @@ const TutorBookings = () => {
 
 
   const slotSelect = (e: SlotInfo) => {
-    const rootElement = document.getElementById('body');
-    console.log(e);
+    const rootElement = document.getElementById('main_layout');
+    console.log("TOP OFFSET: ", rootElement?.scrollTop);
     //calculating offset for modal
     if (e.bounds?.bottom && rootElement?.scrollTop) {
       const boundsTop = e.bounds?.top <= 300 ? e.bounds?.top + 500 : e.bounds?.top + 200;
