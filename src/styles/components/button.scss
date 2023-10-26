@@ -60,12 +60,17 @@
     }
 
     &--tertiary {
-      width: calc(#{$unit} * 150) !important;
+      width: calc(#{$unit} * 150);
+
+      @media (max-width: $responsive-sm){
+        width: calc(#{$unit} * 50);
+      }
+
       place-self: center;
       margin-top: 13px;
       background-color: $grey-d8;
       background: linear-gradient(226.69deg, rgba(240, 240, 240, 0.9) 4.52%, #ffffff 94.64%);
-      color: $color-text-primary;
+      //color: $color-text-primary;
       text-align: center;
       &:hover {
         background-color: darken($grey-d8, 10%);
@@ -203,13 +208,12 @@
 }
 
 .background-red{
- background: red;
+  background-color: red;
 
 }
 
 .background-blue{
-  background: blue;
-
+  background-color: blue;
 }
 
 .link-button {
@@ -224,5 +228,12 @@
     opacity: 0.5;
     cursor: not-allowed;
     user-select: none;
+  }
+}
+
+.button-view-calendar{
+  @media (max-width: $responsive-sm) {
+    padding-left: 80px;
+    padding-right: 80px;
   }
 }

@@ -434,7 +434,7 @@ const Dashboard = () => {
                       <h4 className="type--md mb-2 ml-6 align-self-center">{t(`CHILDLESS_PARENT_NOTE.TITLE`)}</h4>
                       <p className="ml-6 align-self-center">{t(`CHILDLESS_PARENT_NOTE.DESCRIPTION`)}</p>
                       <Link
-                        className="btn btn--base btn--tertiary w--100 mb-4 type--center"
+                        className="btn btn--base btn--tertiary mb-4 type--center"
                         to={PROFILE_PATHS.MY_PROFILE_CHILD_INFO}
                       >
                         {t('MY_PROFILE.PROFILE_SETTINGS.DESCRIPTION')}
@@ -502,7 +502,7 @@ const Dashboard = () => {
                         <div className="card--secondary__head">
                             <h2 className="type--wgt--bold type--lg">{t('DASHBOARD.TITLE')}</h2>
                         </div>
-                        <div className="card--secondary__body">
+                        <div className="card--secondary__body pl-3 pr-3">
                           {userRole === RoleOptions.Tutor ? (
                             <div className="dashboard__requests">
                               <div className="type--color--tertiary mb-2">{t('DASHBOARD.REQUESTS.TITLE')}</div>
@@ -751,8 +751,8 @@ const Dashboard = () => {
                   </div>
                 </div>
               </div>
-              <div className="overflow--auto">
-                <div className="flex--primary mb-2">
+              <div className="notification-container">
+                <div className="flex--primary mb-2 mr-2">
                   <div className="type--color--tertiary">{t('DASHBOARD.NOTIFICATIONS.TITLE')}</div>
                   {notificationsData?.content && notificationsData.content.length > 0 && (
                     <div className="type--color--brand type--wgt--bold cur--pointer" onClick={() => markAllAsRead()}>
@@ -760,20 +760,23 @@ const Dashboard = () => {
                     </div>
                   )}
                 </div>
-                {notificationsData?.content && notificationsData.content.find((x) => x.read === false) ? (
-                  notificationsData.content.map((notification: INotification) => {
-                    if (!notification.read) {
-                      return <NotificationItem key={notification.id} notificationData={notification}/>;
-                    }
-                  })
-                ) : (
-                  <div className="card--primary card--primary--shadow">{t('DASHBOARD.NOTIFICATIONS.EMPTY')}</div>
-                )}
-                <div className="type--center mt-4">
-                  <Link to={t(PATHS.NOTIFICATIONS)} className="btn btn--clear">
-                    {t('DASHBOARD.NOTIFICATIONS.ALL')}
-                  </Link>
+                <div className="mr-2">
+                  {notificationsData?.content && notificationsData.content.find((x) => x.read === false) ? (
+                    notificationsData.content.map((notification: INotification) => {
+                      if (!notification.read) {
+                        return <NotificationItem key={notification.id} notificationData={notification}/>;
+                      }
+                    })
+                  ) : (
+                    <div className="card--primary card--primary--shadow">{t('DASHBOARD.NOTIFICATIONS.EMPTY')}</div>
+                  )}
+                  <div className="type--center mt-4">
+                    <Link to={t(PATHS.NOTIFICATIONS)} className="btn btn--clear">
+                      {t('DASHBOARD.NOTIFICATIONS.ALL')}
+                    </Link>
+                  </div>
                 </div>
+
                 {learnCubeModal && <LearnCubeModal bookingId={currentlyActiveBooking} handleClose={() => {
                       setLearnCubeModal(false);
                     }} />}

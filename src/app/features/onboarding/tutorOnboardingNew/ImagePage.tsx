@@ -174,9 +174,10 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
           return true;
         } else {
           if (value.type === 'image/jpg' || value.type === 'image/jpeg' || value.type === 'image/png' || value.type === 'image/svg') {
+            setSaveBtnActive(true);
             return true;
           }
-
+          setSaveBtnActive(false);
           return false;
         }
       })
@@ -185,9 +186,11 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
           return true;
         } else {
           if (value.size > 5000000) {
+            setSaveBtnActive(false);
             return false;
           }
 
+          setSaveBtnActive(true);
           return true;
         }
       });

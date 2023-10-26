@@ -1,6 +1,6 @@
 import { t } from 'i18next';
 import { cloneDeep, isEqual } from 'lodash';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   useLazyGetProfileProgressQuery,
@@ -39,7 +39,7 @@ const GeneralAvailability = () => {
     const profileProgressState = useAppSelector((state) => state.myProfileProgress);
     const userId = useAppSelector((state) => state.auth.user?.id);
     const loading = availabilityUninitialized || availabilityLoading;
-
+    const isMobile = window.innerWidth < 765;
     const renderTableCells = (column: string | boolean, availabilityIndex: IAvailabilityIndex) => {
 
         if (typeof column === 'boolean') {
@@ -49,7 +49,8 @@ const GeneralAvailability = () => {
                     onClick={() => handleAvailabilityClick(availabilityIndex.column, availabilityIndex.row, column)}
                     key={availabilityIndex.column}
                 >
-                    <i className={`icon icon--base ${column ? 'icon--check icon--primary' : 'icon--close icon--grey'} `}></i>
+
+                  <i className={`icon icon--${isMobile ? 'sm' : 'base'} ${column ? 'icon--check icon--primary' : 'icon--close icon--grey'} `}></i>
                 </td>
             );
         } else if (column == '') {

@@ -15,7 +15,8 @@
 
     &--secondary {
         height: calc(100% - 48px);
-        overflow-y: auto;
+        overflow-y: scroll;
+      overflow-x: hidden ;
         background-color: $white;
         border-radius: $border-rounded;
         margin: calc(#{$unit} * 6);
@@ -54,11 +55,11 @@
         }
 
         &__body {
-            padding: calc(#{$unit} * 10) calc(#{$unit} * 6);
+            padding: calc(#{$unit} * 10) calc(#{$unit} * 1);
 
           @media (max-width: 756px) {
-            padding-right: 5px;
-            padding-left: 5px;
+            //padding-right: 5px;
+            //padding-left: 5px;
           }
         }
 
@@ -83,10 +84,20 @@
         background-color: $white;
         border: 1px solid $grey-ed;
         border-radius: $border-rounded;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        height: 100%;
+        //overflow: auto;
+        //display: flex;
+        //flex-direction: column;
+
+        @media (min-width: $responsive-sm) {
+          height: 100%;
+        }
+        &--height{
+          height: 100%;
+        }
+
+        //@media (max-width: $responsive-sm) {
+        //  height: unset;
+        //}
     }
 
     &--lessons {
@@ -97,8 +108,12 @@
         margin: calc(#{$unit} * 6);
         border: 1px solid $grey-f5;
 
+        @media (max-width: $responsive-sm) {
+          margin: calc(#{$unit} * 1);
+        }
+
         &__head {
-            z-index: 9;
+            z-index: 1;
             position: sticky;
             top: 0;
             height: 85px;
@@ -122,23 +137,36 @@
                 border-right: 1px solid $grey-ed;
                 height: 100%;
                 overflow-y: auto;
+
+                @media (max-width: $responsive-sm) {
+                  width: 100%;
+                }
+
             }
             &__main {
                 flex-grow: 1;
                 padding: calc(#{$unit} * 10) calc(#{$unit} * 14);
                 max-height: 100%;
                 overflow-y: auto;
+
+                @media(max-width: $responsive-sm){
+                  padding: calc(#{$unit} * 10) calc(#{$unit} * 2);
+                }
             }
         }
     }
 
     &--chat {
-        height: calc(100% - 48px);
-        width: calc(100% - 48px);
+        height: calc(100% - 20px);
+        //width: 100%;
         background-color: $white;
         border-radius: $border-rounded;
-        margin: calc(#{$unit} * 6);
+        margin: 10px;
         display: flex;
+
+        @media (max-width: $responsive-sm) {
+          height: calc(100% - 60px);
+        }
 
         &__aside {
             flex-shrink: 0;
@@ -146,6 +174,12 @@
             display: flex;
             flex-direction: column;
             border-right: 1px solid $grey-ed;
+
+          @media (max-width: $responsive-sm) {
+            border-right: none;
+            width: 100%;
+            //margin: 0 auto;
+          }
         }
 
         &__content {
@@ -171,6 +205,11 @@
         overflow-x: hidden;
 
         background-color: $white;
+
+        @media (max-width: $responsive-sm) {
+          margin: calc(#{$unit} * 1);
+          padding: calc(#{$unit} * 1) calc(#{$unit} * 1) 20px;
+        }
 
         &__section {
             display: flex;
@@ -208,32 +247,35 @@
 
         &__progress {
             box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: calc($unit * 20);
 
             @media (max-width: $responsive-xl) {
-                flex-direction: column;
+                  flex-direction: column;
+            }
+
+            @media (max-width: $responsive-sm) {
+              margin-bottom: calc($unit * 10);
             }
 
             &__links {
                 display: flex;
                 flex-grow: 1;
                 justify-content: space-evenly;
-                align-items: center;
-
                 width: 100%;
-
                 overflow-x: auto;
-            }
 
-            //select first childs in section card and set their styles
-            & > div {
-                &:first-child {
-                    flex-shrink: 0;
-                    @media (max-width: $responsive-xl) {
-                        margin-bottom: calc(#{$unit} * 10);
-                    }
+                @media (max-width: $responsive-sm) {
+                  justify-content: center;
+                  align-items: unset;
+                  flex-wrap: wrap;
                 }
-                &:last-child {
-                    flex-grow: 1;
+
+                & > a {
+                 @media (max-width: $responsive-sm) {
+                   flex: 0 0 100px;
+                 }
                 }
             }
         }
@@ -249,9 +291,6 @@
             & > div {
                 &:first-child {
                     flex-shrink: 0;
-                    @media (max-width: $responsive-xl) {
-                        margin-bottom: calc(#{$unit} * 10);
-                    }
                 }
                 &:last-child {
                     flex-grow: 1;

@@ -75,152 +75,152 @@ const AsideWrapper = (props: Props) => {
   const cacheBuster = new Date();
 
     return (
-        <div className='card--chat__aside'>
-      <div className='p-4'>
-        <div className='type--wgt--bold type--lg'>Chat</div>
-        <input ref={searchInputRef} type='text' onKeyUp={onSearch}
-               placeholder={t('CHAT.SEARCH_PLACEHOLDER')}
-               className='input p-3 mt-6' />
-      </div>
-      <div className='chat__messages-wrapper'>
-        {!searchDataIsSuccess || !(searchInputRef.current?.value && searchInputRef.current?.value.length > 0)
-          ? props.data.map((chatConversationItem: IChatRoom, index: number) => {
-            if (
-              chatConversationItem.messages[chatConversationItem.messages.length - 1] &&
-              chatConversationItem.messages[chatConversationItem.messages.length - 1].message
-            ) {
-              let messageText = chatConversationItem.messages[chatConversationItem.messages.length - 1].message.message || '';
-              messageText = messageText.replace(/stringTranslate=\{(.*?)\}/g, function(match: any, token: any) {
-                return t(token);
-              });
-              messageText = messageText.replace(/userInsert=\{(.*?)\}/g, function(match: any, token: any) {
-                return chat.buffer?.senderId == chatConversationItem.tutor?.userId
-                  ? `${chatConversationItem.user?.userNickname}`
-                  : `${chatConversationItem.tutor?.userNickname}`;
-              });
-              const lastMessageTime = chatConversationItem.messages[chatConversationItem.messages.length - 1].message.createdAt;
+      <div className='card--chat__aside'>
+        <div className='p-4'>
+          <div className='type--wgt--bold type--lg'>Chat</div>
+          <input ref={searchInputRef} type='text' onKeyUp={onSearch}
+                 placeholder={t('CHAT.SEARCH_PLACEHOLDER')}
+                 className='input p-3 mt-6' />
+        </div>
+        <div className='chat__messages-wrapper'>
+          {!searchDataIsSuccess || !(searchInputRef.current?.value && searchInputRef.current?.value.length > 0)
+            ? props.data.map((chatConversationItem: IChatRoom, index: number) => {
+              if (
+                chatConversationItem.messages[chatConversationItem.messages.length - 1] &&
+                chatConversationItem.messages[chatConversationItem.messages.length - 1].message
+              ) {
+                let messageText = chatConversationItem.messages[chatConversationItem.messages.length - 1].message.message || '';
+                messageText = messageText.replace(/stringTranslate=\{(.*?)\}/g, function(match: any, token: any) {
+                  return t(token);
+                });
+                messageText = messageText.replace(/userInsert=\{(.*?)\}/g, function(match: any, token: any) {
+                  return chat.buffer?.senderId == chatConversationItem.tutor?.userId
+                    ? `${chatConversationItem.user?.userNickname}`
+                    : `${chatConversationItem.tutor?.userNickname}`;
+                });
+                const lastMessageTime = chatConversationItem.messages[chatConversationItem.messages.length - 1].message.createdAt;
 
-                              const chatConversation = {
-                                  imgUrl:
-                                      (user?.id != chatConversationItem.user?.userId
-                                          ? false
-                                          :  chatConversationItem.tutor?.userImage ? `${chatConversationItem.tutor?.userImage}&v=${cacheBuster}` : undefined),
-                                  name:
-                                      (user?.id != chatConversationItem.user?.userId
-                                          ? chatConversationItem.user?.userNickname
-                                          : chatConversationItem.tutor?.userNickname) + '',
-                                  lastMessage: messageText,
+                                const chatConversation = {
+                                    imgUrl:
+                                        (user?.id != chatConversationItem.user?.userId
+                                            ? false
+                                            :  chatConversationItem.tutor?.userImage ? `${chatConversationItem.tutor?.userImage}&v=${cacheBuster}` : undefined),
+                                    name:
+                                        (user?.id != chatConversationItem.user?.userId
+                                            ? chatConversationItem.user?.userNickname
+                                            : chatConversationItem.tutor?.userNickname) + '',
+                                    lastMessage: messageText,
 
-                                  lastMessageTime: moment(lastMessageTime).isSame(moment(), 'day') ?
-                  moment(lastMessageTime).format('HH:mm')
-                  :
-                                      moment(lastMessageTime).format(t('DATE_FORMAT'))
-                                      .replace('.', ''),
-                                  unread: chatConversationItem.unreadMessageCount > 0,
-                              numberOfUnread: chatConversationItem.unreadMessageCount
-              };
+                                    lastMessageTime: moment(lastMessageTime).isSame(moment(), 'day') ?
+                    moment(lastMessageTime).format('HH:mm')
+                    :
+                                        moment(lastMessageTime).format(t('DATE_FORMAT'))
+                                        .replace('.', ''),
+                                    unread: chatConversationItem.unreadMessageCount > 0,
+                                numberOfUnread: chatConversationItem.unreadMessageCount
+                };
 
 
-              return chatConversationItem.tutor?.userId == activeChat?.tutor?.userId &&
-              chatConversationItem.user?.userId == activeChat?.user?.userId ? (
-                <ConversationAside key={index} chat={chatConversationItem}
-                                   data={chatConversation} active={true} />
-              ) : (
-                <ConversationAside key={index} chat={chatConversationItem}
-                                   data={chatConversation} active={false} />
-              );
-            } else {
-              const chatConversation = {
-                imgUrl:
-                  (user?.id != chatConversationItem.user?.userId
-                    ? false
-                    :   chatConversationItem.tutor?.userImage ? `${chatConversationItem.tutor?.userImage}&v=${cacheBuster}` : undefined),
-                name:
-                  (user?.id != chatConversationItem.user?.userId
-                    ? chatConversationItem.user?.userNickname
-                    : chatConversationItem.tutor?.userNickname) + '',
-                lastMessage: '<i>Send a message to start a conversation</i>',
-                lastMessageTime: '',
-                unread: chatConversationItem.unreadMessageCount > 0,
-              };
+                return chatConversationItem.tutor?.userId == activeChat?.tutor?.userId &&
+                chatConversationItem.user?.userId == activeChat?.user?.userId ? (
+                  <ConversationAside key={index} chat={chatConversationItem}
+                                     data={chatConversation} active={true} />
+                ) : (
+                  <ConversationAside key={index} chat={chatConversationItem}
+                                     data={chatConversation} active={false} />
+                );
+              } else {
+                const chatConversation = {
+                  imgUrl:
+                    (user?.id != chatConversationItem.user?.userId
+                      ? false
+                      :   chatConversationItem.tutor?.userImage ? `${chatConversationItem.tutor?.userImage}&v=${cacheBuster}` : undefined),
+                  name:
+                    (user?.id != chatConversationItem.user?.userId
+                      ? chatConversationItem.user?.userNickname
+                      : chatConversationItem.tutor?.userNickname) + '',
+                  lastMessage: '<i>Send a message to start a conversation</i>',
+                  lastMessageTime: '',
+                  unread: chatConversationItem.unreadMessageCount > 0,
+                };
 
-              return chatConversationItem.tutor?.userId == activeChat?.tutor?.userId &&
-              chatConversationItem.user?.userId == activeChat?.user?.userId ? (
-                <ConversationAside key={index} chat={chatConversationItem}
-                                   data={chatConversation} active={true} />
-              ) : (
-                <ConversationAside key={index} chat={chatConversationItem}
-                                   data={chatConversation} active={false} />
-              );
-            }
-            searchChatData;
-          })
-          : searchChatData &&
-          tempSearchChatData.map((chatConversationItem: IChatRoom, index: number) => {
-            if (
-              chatConversationItem.messages[chatConversationItem.messages.length - 1] &&
-              chatConversationItem.messages[chatConversationItem.messages.length - 1].message
-            ) {
-              let messageText = chatConversationItem.messages[chatConversationItem.messages.length - 1].message.message;
-              messageText = messageText.replace(/stringTranslate=\{(.*?)\}/g, function(match: any, token: any) {
-                return t(token);
-              });
-              messageText = messageText.replace(/userInsert=\{(.*?)\}/g, function(match: any, token: any) {
-                return chat.buffer?.senderId == chatConversationItem.tutor?.userId
-                  ? `${chatConversationItem.user?.userNickname}`
-                  : `${chatConversationItem.tutor?.userNickname}`;
-              });
+                return chatConversationItem.tutor?.userId == activeChat?.tutor?.userId &&
+                chatConversationItem.user?.userId == activeChat?.user?.userId ? (
+                  <ConversationAside key={index} chat={chatConversationItem}
+                                     data={chatConversation} active={true} />
+                ) : (
+                  <ConversationAside key={index} chat={chatConversationItem}
+                                     data={chatConversation} active={false} />
+                );
+              }
+              searchChatData;
+            })
+            : searchChatData &&
+            tempSearchChatData.map((chatConversationItem: IChatRoom, index: number) => {
+              if (
+                chatConversationItem.messages[chatConversationItem.messages.length - 1] &&
+                chatConversationItem.messages[chatConversationItem.messages.length - 1].message
+              ) {
+                let messageText = chatConversationItem.messages[chatConversationItem.messages.length - 1].message.message;
+                messageText = messageText.replace(/stringTranslate=\{(.*?)\}/g, function(match: any, token: any) {
+                  return t(token);
+                });
+                messageText = messageText.replace(/userInsert=\{(.*?)\}/g, function(match: any, token: any) {
+                  return chat.buffer?.senderId == chatConversationItem.tutor?.userId
+                    ? `${chatConversationItem.user?.userNickname}`
+                    : `${chatConversationItem.tutor?.userNickname}`;
+                });
 
-              const chatConversation = {
-                imgUrl:
-                  (user?.id != chatConversationItem.user?.userId
-                    ? false
-                    :   chatConversationItem.tutor?.userImage ? `${chatConversationItem.tutor?.userImage}&v=${cacheBuster}` : undefined),
-                name:
-                  (user?.id != chatConversationItem.user?.userId
-                    ? chatConversationItem.user?.userNickname
-                    : chatConversationItem.tutor?.userNickname) + '',
-                lastMessage: messageText,
-                lastMessageTime: moment(
-                  chatConversationItem.messages[chatConversationItem.messages.length - 1].message.createdAt,
-                ).format('DD.MMM.YYYY'),
-                unread: chatConversationItem.unreadMessageCount > 0,
-              };
+                const chatConversation = {
+                  imgUrl:
+                    (user?.id != chatConversationItem.user?.userId
+                      ? false
+                      :   chatConversationItem.tutor?.userImage ? `${chatConversationItem.tutor?.userImage}&v=${cacheBuster}` : undefined),
+                  name:
+                    (user?.id != chatConversationItem.user?.userId
+                      ? chatConversationItem.user?.userNickname
+                      : chatConversationItem.tutor?.userNickname) + '',
+                  lastMessage: messageText,
+                  lastMessageTime: moment(
+                    chatConversationItem.messages[chatConversationItem.messages.length - 1].message.createdAt,
+                  ).format('DD.MMM.YYYY'),
+                  unread: chatConversationItem.unreadMessageCount > 0,
+                };
 
-              return chatConversationItem.tutor?.userId == activeChat?.tutor?.userId &&
-              chatConversationItem.user?.userId == activeChat?.user?.userId ? (
-                <ConversationAside key={index} chat={chatConversationItem}
-                                   data={chatConversation} active={true} />
-              ) : (
-                <ConversationAside key={index} chat={chatConversationItem}
-                                   data={chatConversation} active={false} />
-              );
-            } else {
-              const chatConversation = {
-                imgUrl:
-                  (user?.id != chatConversationItem.user?.userId
-                    ? false
-                    :   chatConversationItem.tutor?.userImage ? `${chatConversationItem.tutor?.userImage}&v=${cacheBuster}` : undefined),
-                name:
-                  (user?.id != chatConversationItem.user?.userId
-                    ? chatConversationItem.user?.userNickname
-                    : chatConversationItem.tutor?.userNickname) + '',
-                lastMessage: '<i>Send a message to start a conversation</i>',
-                lastMessageTime: '',
-                unread: chatConversationItem.unreadMessageCount > 0,
-              };
+                return chatConversationItem.tutor?.userId == activeChat?.tutor?.userId &&
+                chatConversationItem.user?.userId == activeChat?.user?.userId ? (
+                  <ConversationAside key={index} chat={chatConversationItem}
+                                     data={chatConversation} active={true} />
+                ) : (
+                  <ConversationAside key={index} chat={chatConversationItem}
+                                     data={chatConversation} active={false} />
+                );
+              } else {
+                const chatConversation = {
+                  imgUrl:
+                    (user?.id != chatConversationItem.user?.userId
+                      ? false
+                      :   chatConversationItem.tutor?.userImage ? `${chatConversationItem.tutor?.userImage}&v=${cacheBuster}` : undefined),
+                  name:
+                    (user?.id != chatConversationItem.user?.userId
+                      ? chatConversationItem.user?.userNickname
+                      : chatConversationItem.tutor?.userNickname) + '',
+                  lastMessage: '<i>Send a message to start a conversation</i>',
+                  lastMessageTime: '',
+                  unread: chatConversationItem.unreadMessageCount > 0,
+                };
 
-              return chatConversationItem.tutor?.userId == activeChat?.tutor?.userId &&
-              chatConversationItem.user?.userId == activeChat?.user?.userId ? (
-                <ConversationAside key={index} chat={chatConversationItem}
-                                   data={chatConversation} active={true} />
-              ) : (
-                <ConversationAside key={index} chat={chatConversationItem}
-                                   data={chatConversation} active={false} />
-              );
-            }
-          })}
-      </div>
+                return chatConversationItem.tutor?.userId == activeChat?.tutor?.userId &&
+                chatConversationItem.user?.userId == activeChat?.user?.userId ? (
+                  <ConversationAside key={index} chat={chatConversationItem}
+                                     data={chatConversation} active={true} />
+                ) : (
+                  <ConversationAside key={index} chat={chatConversationItem}
+                                     data={chatConversation} active={false} />
+                );
+              }
+            })}
+        </div>
     </div>
   );
 };

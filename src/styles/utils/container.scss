@@ -179,3 +179,18 @@
     flex-direction:column;
   }
 }
+
+.notification-container{
+  overflow: auto;
+
+  @media (max-width: $responsive-sm) {
+    overflow: unset;
+  }
+}
+
+.price-sort-container{
+  @media (max-width: $responsive-sm) {
+      display: flex;
+      flex-direction: column;
+  }
+}
