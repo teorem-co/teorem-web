@@ -51,11 +51,6 @@ const TextArea: React.FC<TextFieldType> = (props: any) => {
         } else {
           setTooLong(false);
         }
-        if(characterCount >= maxLength) {
-          setTooLong(true);
-        } else {
-          setTooLong(false);
-        }
     };
 
     return (

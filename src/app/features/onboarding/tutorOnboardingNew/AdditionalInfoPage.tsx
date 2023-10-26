@@ -242,11 +242,13 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                                    htmlFor="currentOccupation">
                               {t('MY_PROFILE.ABOUT_ME.OCCUPATION')}
                             </label>
-                            <MyTextArea
+                            <TextField
                               maxLength={75}
+                              id="currentOccupation"
+                              wrapperClassName="flex--grow"
                               name="currentOccupation"
                               placeholder={t('MY_PROFILE.ABOUT_ME.OCCUPATION_PLACEHOLDER')}
-                              id="currentOccupation"
+                              className="input input--base"
                               disabled={isLoading}
                             />
                           </div>
@@ -257,10 +259,13 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                                    htmlFor="yearsOfExperience">
                               {t('MY_PROFILE.ABOUT_ME.YEARS')}
                             </label>
-                            <MyTextArea
+                            <TextField
+                              id="yearsOfExperience"
+                              wrapperClassName="flex--grow"
                               name="yearsOfExperience"
                               placeholder={t('MY_PROFILE.ABOUT_ME.YEARS_PLACEHOLDER')}
-                              id="yearsOfExperience"
+                              className="input input--base"
+                              type={'number'}
                               disabled={isLoading}
                             />
                           </div>
@@ -275,7 +280,7 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                               minLength={50}
                               maxLength={2500}
                               name="aboutTutor"
-                              placeholder={t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_PLACEHOLDER') + '\n' + '\n' + t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_EFFECTIVE')}
+                              placeholder={t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_PLACEHOLDER')}
                               id="aboutTutor"
                               disabled={isLoading}
                             />
@@ -326,7 +331,7 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                             <MyTextArea
                               maxLength={2500}
                               name="aboutLessons"
-                              placeholder={t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_PLACEHOLDER') + '\n' + '\n' + t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_EFFECTIVE')}
+                              placeholder={t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_PLACEHOLDER')}
                               id="aboutLessons"
                               disabled={isLoading}
                             />
