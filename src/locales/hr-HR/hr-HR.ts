@@ -627,7 +627,7 @@ export const HR_HR = {
       ABOUT_ME: {
             OCCUPATION: 'Vaše trenutno zanimanje*',
             OCCUPATION_PLACEHOLDER: 'Unesite Vaše trenutno zanimanje',
-            YEARS: 'Broj godina profesionalnog iskustva*',
+            YEARS: 'Broj godina profesionalnog iskustva',
             YEARS_PLACEHOLDER: 'Koliko godina profesionalnog iskustva imate',
             ABOUT_YOURSELF: 'Recite nam više o sebi*',
             ABOUT_LESSON: 'Recite nam više o Vašem načinu predavanja*',

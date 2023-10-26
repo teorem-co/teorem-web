@@ -152,7 +152,7 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
         .min(2, t('FORM_VALIDATION.TOO_SHORT'))
         .max(75, t('FORM_VALIDATION.TOO_LONG'))
         .required(t('FORM_VALIDATION.REQUIRED')),
-      yearsOfExperience: Yup.number().min(0, t('FORM_VALIDATION.NEGATIVE')).max(100, t('FORM_VALIDATION.TOO_BIG')).required(t('FORM_VALIDATION.REQUIRED')),
+      yearsOfExperience: Yup.number().min(0, t('FORM_VALIDATION.NEGATIVE')).max(100, t('FORM_VALIDATION.TOO_BIG')),
     }),
   });
 
@@ -284,19 +284,31 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                                 <tbody>
                                 <tr>
                                   <td>
-                                    <i
-                                      id="length"
-                                      className="icon icon--ty icon--chevron-right icon--grey mr-3"
-                                    ></i>
+                                    {formik.values.aboutTutor.split(" ").length >= 50 ?
+                                      <i
+                                        id="length"
+                                        className="icon icon--sm icon--check icon--success mr-3"
+                                      ></i> :
+                                      <i
+                                        id="length"
+                                        className="icon icon--sm icon--close icon--grey mr-3"
+                                      ></i>
+                                    }
                                   </td>
                                   <td>{t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_TOOLTIP')}</td>
                                 </tr>
                                 <tr>
                                   <td>
-                                    <i
-                                      id="letter"
-                                      className="icon icon--ty icon--chevron-right icon--grey mr-3"
-                                    ></i>
+                                    {formik.values.aboutTutor.split(" ").length >= 100 ?
+                                      <i
+                                        id="length"
+                                        className="icon icon--sm icon--check icon--success mr-3"
+                                      ></i> :
+                                      <i
+                                        id="length"
+                                        className="icon icon--sm icon--close icon--grey mr-3"
+                                      ></i>
+                                    }
                                   </td>
                                   <td>{t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.TOOLTIP_EFFECTIVE')}</td>
                                 </tr>
@@ -325,7 +337,7 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                                   <td>
                                     <i
                                       id="length"
-                                      className="icon icon--ty icon--chevron-right icon--grey mr-3"
+                                      className="icon icon--sm icon--chevron-right icon--grey mr-3"
                                     ></i>
                                   </td>
                                   <td>{t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_TOOLTIP')}</td>
@@ -334,17 +346,23 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                                   <td>
                                     <i
                                       id="length"
-                                      className="icon icon--ty icon--chevron-right icon--grey mr-3"
+                                      className="icon icon--sm icon--chevron-right icon--grey mr-3"
                                     ></i>
                                   </td>
                                   <td>{t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_TOOLTIP_2')}</td>
                                 </tr>
                                 <tr>
                                   <td>
-                                    <i
-                                      id="letter"
-                                      className="icon icon--ty icon--chevron-right icon--grey mr-3"
-                                    ></i>
+                                    {formik.values.aboutLessons.split(" ").length >= 100 ?
+                                      <i
+                                        id="length"
+                                        className="icon icon--sm icon--check icon--success mr-3"
+                                      ></i> :
+                                      <i
+                                        id="length"
+                                        className="icon icon--sm icon--close icon--grey mr-3"
+                                      ></i>
+                                    }
                                   </td>
                                   <td>{t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.TOOLTIP_EFFECTIVE')}</td>
                                 </tr>
