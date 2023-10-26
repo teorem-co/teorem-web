@@ -56,6 +56,7 @@ export  interface ITutorAdminSearch{
   phoneNumber: string;
   verified: boolean;
   adminNote:string;
+  createdAt:string;
 }
 
 const URL = 'api/v1/tutors';

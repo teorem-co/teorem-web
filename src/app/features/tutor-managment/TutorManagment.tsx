@@ -22,6 +22,7 @@ import {
   AsYouType,
   getCountries
 } from 'libphonenumber-js';
+import moment from 'moment';
 
 
 const TutorManagment = () => {
@@ -170,6 +171,7 @@ const TutorManagment = () => {
                                 <td className="type--color--secondary mb-3 mb-xl-0">{t('TUTOR_MANAGMENT.TABLE.EMAIL')}</td>
                                 <td className="type--color--secondary mb-3 mb-xl-0">{t('TUTOR_MANAGMENT.TABLE.COUNTRY')}</td>
                                 <td className="type--color--secondary mb-3 mb-xl-0">{t('TUTOR_MANAGMENT.TABLE.PHONE_NUMBER')}</td>
+                                <td className="type--color--secondary mb-3 mb-xl-0">{t('TUTOR_MANAGMENT.TABLE.CREATED_AT')}</td>
                                 <td className="type--color--secondary mb-3 mb-xl-0"></td>
                               </tr>
                               </thead>
@@ -208,6 +210,12 @@ const TutorManagment = () => {
                                                 setSelectedTutor(tutor);
                                         }}
                                         >{formatPhoneNumber(tutor.phoneNumber, tutor.countryAbrv)}</td>
+                                        <td onClick={() => {
+                                          activeTab == 'unprocessed' ?
+                                            history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug)) :
+                                            setSelectedTutor(tutor);
+                                        }}
+                                        >{moment(tutor.createdAt,"YYYY-MM-DD").format("DD-MM-YYYY")}</td>
                                         {tutor.verified == null ? (
                                             <td className='approve-deny'>
                                                 <button
