@@ -6,7 +6,7 @@ import ImageCircle from '../../../components/ImageCircle';
 
 interface Props {
     lesson: ICompletedLesson;
-    activeLesson: string;
+    activeLesson?: string;
     handleActiveLessons: (lessonId: string) => void;
 }
 
@@ -16,7 +16,7 @@ const CompletedLessonsItem = (props: Props) => {
     return (
         <div
             key={lesson.id}
-            className={`lessons-list__item ${activeLesson === lesson.id ? 'active' : ''}`}
+            className={`lessons-list__item`} // ${activeLesson === lesson.id ? 'active' : ''}`}
             onClick={() => handleActiveLessons(lesson.id)}
         >
             {lesson.Tutor.User?.profileImage ? (
@@ -33,7 +33,7 @@ const CompletedLessonsItem = (props: Props) => {
               />
             )}
 
-            <div className="lessons-list__item__info">
+            <div className="lessons-list__item__info type--center">
                 <div className="type--wgt--bold">
                     {lesson.Tutor.User.firstName}&nbsp;{lesson.Tutor.User.lastName}
                 </div>
@@ -44,7 +44,7 @@ const CompletedLessonsItem = (props: Props) => {
                   {t(`LEVELS.${lesson.level.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
                 </div>
             </div>
-            <div>
+            <div className="type-lesson-item flex align-self-end">
                {t('COMPLETED_LESSONS.COUNT_EXTENSION')  + ': '}{lesson.count}&nbsp;
             </div>
         </div>

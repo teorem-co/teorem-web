@@ -316,4 +316,8 @@
   }
 }
 
-
+.review-modal{
+  @media screen {
+    width: calc(100vw - 10px);
+  }
+}

@@ -571,7 +571,7 @@ export const EN_US = {
       DESCRIPTION: "You will receive an email with updates on your account status."
     },
     CHILDLESS_PARENT_NOTE: {
-      TITLE: "You must have a child to request a booking!",
+      TITLE: "You must add child to request a booking!",
       DESCRIPTION: "You can add a child on your profile settings."
     },
     ACCOUNT: {

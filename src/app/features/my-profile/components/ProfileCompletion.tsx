@@ -19,7 +19,7 @@ const ProfileCompletion = (props: Props) => {
     const userRole: string = useAppSelector((state) => state.auth.user?.Role.abrv) || '';
 
     return (
-        <div className="card--profile__progress flex--primary p-6 mb-20">
+        <div className="card--profile__progress flex--primary p-6">
             {percentage !== 100 && userRole === RoleOptions.Tutor && (
                 <div className="flex">
                     {/* Maybe change later to use custom component instead of library component */}
