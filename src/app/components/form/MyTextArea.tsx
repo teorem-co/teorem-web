@@ -39,7 +39,7 @@ const TextArea: React.FC<TextFieldType> = (props: any) => {
         if (e.currentTarget.textContent) {
             const textareaLength = e.currentTarget.textContent.length;
             setCharacterCount(textareaLength);
-            const numOfWords = e.currentTarget.textContent.split(" ").length;
+            const numOfWords = e.currentTarget.textContent.trim().split(" ").length;
             if(numOfWords >= 50) {
               setTooShort(false);
             } else {

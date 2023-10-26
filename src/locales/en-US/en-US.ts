@@ -183,6 +183,7 @@ export const EN_US = {
               TOOLTIP_EFFECTIVE: 'Most visited profiles contain 100+ words in this category.',
               ABOUT_LESSONS_LABEL: 'Tell us more about your lessons*',
               ABOUT_LESSONS_PLACEHOLDER: 'Describe your lessons, approach, way of teaching...',
+                ABOUT_EFFECTIVE: 'Most visited profiles contain 100+ words in this category.',
               ABOUT_LESSONS_TOOLTIP: 'In detail describe how you work with students.',
               ABOUT_LESSONS_TOOLTIP_2: 'Describe which methods of tutoring to you use (visual, auditory, kinesthetic, etc.) ',
               SUBMIT_BTN: 'Save',
@@ -627,7 +628,7 @@ export const EN_US = {
       ABOUT_ME: {
             OCCUPATION: 'Your current Occupation*',
             OCCUPATION_PLACEHOLDER: 'What’s your current Occupation',
-            YEARS: 'Years of professional experience*',
+            YEARS: 'Years of professional experience',
             YEARS_PLACEHOLDER: 'How many years of professional experience you have',
             ABOUT_YOURSELF: 'Tell us more about yourself*',
             ABOUT_LESSON: 'Tell us more about your lessons*',
