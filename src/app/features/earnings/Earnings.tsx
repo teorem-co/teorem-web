@@ -22,11 +22,17 @@ import earningsGraphOptions from './constants/earningsGraphOptions';
 import IGraph from './interfaces/IGraph';
 import { useLazyGetEarningsQuery } from './services/earningsService';
 import {ToggleButton, ToggleButtonGroup} from "@mui/material";
+import {
+  useLazyGetCompletedLessonsQuery
+} from "../my-bookings/services/completedLessonsService";
+import PayoutsTableElement from "./PayoutsTableElement";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
 const Earnings = () => {
   const [getEarnings, { data: earningsData }] = useLazyGetEarningsQuery();
+  //const [getPayouts, {data: payoutsData}];
+  const [getBookings, {data: bookingsData}] = useLazyGetCompletedLessonsQuery();
   //calculate years to select
   const yearOptions = calcYears();
 
@@ -141,32 +147,35 @@ const Earnings = () => {
           </div>
           <table className="table table--secondary">
             <thead>
-              <tr>
-                <th>{t('EARNINGS.DETAILS.TABLE.MONTH')}</th>
-                <th>{t('EARNINGS.DETAILS.TABLE.BOOKINGS')}</th>
-                <th>{t('EARNINGS.DETAILS.TABLE.STUDENTS')}</th>
-                <th>{t('EARNINGS.DETAILS.TABLE.REVIEWS')}</th>
-                <th>{t('EARNINGS.DETAILS.TABLE.REVENUE')}</th>
-              </tr>
+            <tr>
+              <th>{t('EARNINGS.DETAILS.TABLE.MONTH')}</th>
+              <th>{t('EARNINGS.DETAILS.TABLE.BOOKINGS')}</th>
+              <th>{t('EARNINGS.DETAILS.TABLE.STUDENTS')}</th>
+              <th>{t('EARNINGS.DETAILS.TABLE.REVIEWS')}</th>
+              <th>{t('EARNINGS.DETAILS.TABLE.REVENUE')}</th>
+            </tr>
             </thead>
-            <tbody>
-              {(earningsData &&
-                earningsData.details.map((tableItem) => {
-                  return (
-                    <tr>
-                      <td>{t('CONSTANTS.MONTHS_LONG.' + tableItem.month.substring(0, 3).toUpperCase())}</td>
-                      <td>{tableItem.bookings}</td>
-                      <td>{tableItem.students}</td>
-                      <td>{tableItem.reviews}</td>
-                      <td>
-                        {tableItem.revenue}
-                        {t('EARNINGS.GENERAL.CURRENCY')}
-                      </td>
-                    </tr>
-                  );
-                })) ||
-                t('EARNINGS.DETAILS.TABLE.EMPTY')}
-            </tbody>
+            {
+              table === "PAYOUTS" ? (
+                <tbody>
+                {(earningsData &&
+                    earningsData.details.map((tableItem) => {
+                      return (
+                        <tr>
+                          <PayoutsTableElement
+                            month={t('CONSTANTS.MONTHS_LONG.' + tableItem.month.substring(0, 3).toUpperCase())}
+                            bookingsNum={tableItem.bookings}
+                            studentsNum={tableItem.students}
+                            reviewsNum={tableItem.reviews}
+                            revenue={tableItem.revenue}
+                          />
+                        </tr>
+                      );
+                    })) ||
+                  t('EARNINGS.DETAILS.TABLE.EMPTY')}
+                </tbody>
+              ): null
+            }
           </table>
         </div>
       </div>
