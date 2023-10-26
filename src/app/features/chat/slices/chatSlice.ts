@@ -462,7 +462,9 @@ const chatSlice = createSlice({
               new Date(a.message.createdAt) > new Date(b.message.createdAt) ? 1 : -1,
             );
 
-            //state.activeChatRoom = state.chatRooms[i];
+            if(action.payload?.setActive){
+              state.activeChatRoom = state.chatRooms[i];
+            }
 
             break;
           }
