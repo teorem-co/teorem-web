@@ -175,7 +175,7 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
   }, [formik.values]);
 
   useEffect(() => {
-    if (formik.values.aboutLessons.length !== 0 && formik.values.aboutTutor.split(" ").length >= 50 && formik.values.currentOccupation.length !== 0) {
+    if (formik.values.aboutLessons.length !== 0 && formik.values.aboutTutor.trim().split(" ").length >= 50 && formik.values.currentOccupation.length !== 0) {
       setSaveBtnActive(true);
     } else {
       setSaveBtnActive(false);
@@ -289,7 +289,7 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                                 <tbody>
                                 <tr>
                                   <td>
-                                    {formik.values.aboutTutor.split(" ").length >= 50 ?
+                                    {formik.values.aboutTutor.trim().split(" ").length >= 50 ?
                                       <i
                                         id="length"
                                         className="icon icon--sm icon--check icon--success mr-3"
@@ -304,7 +304,7 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                                 </tr>
                                 <tr>
                                   <td>
-                                    {formik.values.aboutTutor.split(" ").length >= 100 ?
+                                    {formik.values.aboutTutor.trim().split(" ").length >= 100 ?
                                       <i
                                         id="length"
                                         className="icon icon--sm icon--check icon--success mr-3"
@@ -358,7 +358,7 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                                 </tr>
                                 <tr>
                                   <td>
-                                    {formik.values.aboutLessons.split(" ").length >= 100 ?
+                                    {formik.values.aboutLessons.trim().split(" ").length >= 100 ?
                                       <i
                                         id="length"
                                         className="icon icon--sm icon--check icon--success mr-3"
