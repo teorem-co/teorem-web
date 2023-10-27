@@ -1,20 +1,14 @@
 import { Form, FormikProvider, useFormik } from 'formik';
-import * as Yup from 'yup';
 import { t } from 'i18next';
-import moment from 'moment';
-import MyPhoneInput from '../../../../components/form/MyPhoneInput';
-import { useEffect, useRef, useState } from 'react';
-import TextField from '../../../../components/form/TextField';
-import { useCheckMailMutation } from '../../../../../services/authService';
-import useOutsideAlerter from '../../../../utils/useOutsideAlerter';
-import { useAppSelector } from '../../../../hooks';
+import { useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { setStepTwo } from '../../../../../slices/signUpSlice';
+import * as Yup from 'yup';
 
-interface StepTwoValues {
-  email: string;
-  phoneNumber: string;
-}
+import { useCheckMailMutation } from '../../../../../services/authService';
+import { setStepTwo } from '../../../../../slices/signUpSlice';
+import MyPhoneInput from '../../../../components/form/MyPhoneInput';
+import TextField from '../../../../components/form/TextField';
+import { useAppSelector } from '../../../../hooks';
 
 type StepTwoProps ={
   nextStep:() => void
@@ -28,9 +22,6 @@ export const SignupSecondStep = ({ nextStep }:StepTwoProps) => {
   const rangeSetterRef = useRef<HTMLDivElement>(null);
   const [checkMail] = useCheckMailMutation();
   const selectedRole = useAppSelector((state) => state.role.selectedRole);
-
-  const [emailV, setEmailV] = useState(email);
-  const [phoneNumberV, setPhoneNumberV] = useState(phoneNumber);
 
   const initialValues1: any = {
     email: email,
@@ -86,23 +77,6 @@ export const SignupSecondStep = ({ nextStep }:StepTwoProps) => {
     }
   };
 
-  useEffect(() => {
-    setEmailV(formik.values.email);
-  }, [formik.values.email]);
-
-  useEffect(() => {
-    setPhoneNumberV(formik2.values.phoneNumber);
-  }, [formik2.values.phoneNumber]);
-
-  function handleSubmitEmail(values: any) {
-   setEmailV(values);
-  }
-
-  function handleSubmitNumber(values: any) {
-   setPhoneNumberV(values);
-  }
-
-
   function handleSubmitStepTwo() {
     if (formik.values.email && formik2.values.phoneNumber) {
       dispatch(
@@ -115,7 +89,6 @@ export const SignupSecondStep = ({ nextStep }:StepTwoProps) => {
       nextStep();
     }
   }
-
 
   return (
     <>
