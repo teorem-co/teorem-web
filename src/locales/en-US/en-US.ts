@@ -217,6 +217,7 @@ export const EN_US = {
             DATE_OF_BIRTH: 'DATE OF BIRTH',
             PREVIEW_PROFILE: 'Preview profile',
             PHONE_NUMBER: "PHONE NUMBER",
+            CREATED_AT: "CREATED AT"
         },
         ACTIONS: {
             APPROVE: 'Approve',

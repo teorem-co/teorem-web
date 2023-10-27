@@ -213,7 +213,9 @@ export const HR_HR = {
             COUNTRY: 'DRŽAVA',
             DATE_OF_BIRTH: 'DATUM ROĐENJA',
             PREVIEW_PROFILE: 'Pregled profila',
-            PHONE_NUMBER: "BROJ TELEFONA"
+            PHONE_NUMBER: "BROJ TELEFONA",
+            CREATED_AT: "DATUM KREIRANJA"
+
         },
         ACTIONS: {
             APPROVE: 'Odobri',
