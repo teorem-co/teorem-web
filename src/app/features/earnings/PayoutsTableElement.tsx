@@ -21,7 +21,12 @@ import { calcYears } from '../../utils/yearOptions';
 import earningsGraphOptions from './constants/earningsGraphOptions';
 import IGraph from './interfaces/IGraph';
 import { useLazyGetEarningsQuery } from './services/earningsService';
-import {ToggleButton, ToggleButtonGroup} from "@mui/material";
+import {
+  Accordion, AccordionDetails,
+  AccordionSummary,
+  ToggleButton,
+  ToggleButtonGroup, Typography
+} from "@mui/material";
 import {
   useLazyGetCompletedLessonsQuery
 } from "../my-bookings/services/completedLessonsService";
@@ -36,7 +41,24 @@ interface PayoutsProps {
 const PayoutsTableElement = (props: PayoutsProps) => {
   return (
     <>
-      <td>{props.month}</td>
+      <td>
+        <Accordion style={{ border: 'none', boxShadow: 'none', backgroundColor: 'transparent', width: 'fit-content'}}>
+          <AccordionSummary>
+            <div style={{display: "flex", alignItems: "center"}}>
+              <i
+                id="letter"
+                className="icon icon--sm icon--chevron-right icon--grey mr-3"
+              ></i>
+              <Typography style={{fontFamily: "Lato"}}>{props.month}</Typography>
+            </div>
+          </AccordionSummary>
+          <AccordionDetails style={{overflow: 'hidden', whiteSpace: 'nowrap',}}>
+            <Typography style={{fontFamily: "Lato"}}>
+              {props.month}
+            </Typography>
+          </AccordionDetails>
+        </Accordion>
+      </td>
       <td>{props.bookingsNum}</td>
       <td>{props.studentsNum}</td>
       <td>{props.reviewsNum}</td>
