@@ -54,12 +54,12 @@ const Earnings = () => {
 
   const fetchData = async () => {
     const response = await getEarnings(periodOfTime).unwrap();
-    await getEarningForTable("year");
-    if(periodOfTime === "year") {
+    await getEarningForTable("YEAR");
+    if(periodOfTime === "YEAR") {
       setLabels(response.labels.map((item) => t('CONSTANTS.MONTHS_LONG.' + item.substring(0, 3).toUpperCase())));
-    } else if (periodOfTime === "week") {
+    } else if (periodOfTime === "WEEK") {
       setLabels(response.labels.map((item) => t('CONSTANTS.DAYS_LONG.' + item.substring(0, 3).toUpperCase())));
-    } else if(periodOfTime == "month"){
+    } else if(periodOfTime == "MONTH"){
       setLabels(response.labels.map(item => ordinalNumber(item)));
     } else {
       setLabels(response.labels);
@@ -68,7 +68,7 @@ const Earnings = () => {
     setMaxNumOfTicks(maxNum);
   };
 
-  const [alignment, setAlignment] = React.useState('month');
+  const [alignment, setAlignment] = React.useState('MONTH');
 
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
@@ -99,19 +99,19 @@ const Earnings = () => {
               aria-label="Platform"
             >
               <ToggleButton value="week"
-                            onClick={() => setPeriodOfTime("week")}
+                            onClick={() => setPeriodOfTime("WEEK")}
                             style={{fontSize: "11px"}}
               >{t('EARNINGS.WEEK')}</ToggleButton>
               <ToggleButton value="month"
-                            onClick={() => setPeriodOfTime("month")}
+                            onClick={() => setPeriodOfTime("MONTH")}
                             style={{fontSize: "11px"}}
               >{t('EARNINGS.MONTH')}</ToggleButton>
               <ToggleButton value="year"
-                            onClick={() => setPeriodOfTime("year")}
+                            onClick={() => setPeriodOfTime("YEAR")}
                             style={{fontSize: "11px"}}
               >{t('EARNINGS.YEAR')}</ToggleButton>
               <ToggleButton value="all-time"
-                            onClick={() => setPeriodOfTime("alltime")}
+                            onClick={() => setPeriodOfTime("ALLTIME")}
                             style={{fontSize: "11px"}}
               >{t('EARNINGS.ALLTIME')}</ToggleButton>
             </ToggleButtonGroup>
