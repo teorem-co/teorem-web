@@ -7,9 +7,9 @@ interface IEarnings {
     totalStudents: number;
     totalEarnings: number;
     labels: string[];
-    earnings_graph: IGraph[];
-    students_graph: IGraph[];
-    bookings_graph: IGraph[];
+    earningsGraph: IGraph[];
+    studentsGraph: IGraph[];
+    bookingsGraph: IGraph[];
     details: IEarningDetails[];
 }
 

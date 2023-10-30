@@ -54,12 +54,12 @@ const Earnings = () => {
 
   const fetchData = async () => {
     const response = await getEarnings(periodOfTime).unwrap();
-    await getEarningForTable("YEAR");
-    if(periodOfTime === "YEAR") {
+    await getEarningForTable("year");
+    if(periodOfTime === "year") {
       setLabels(response.labels.map((item) => t('CONSTANTS.MONTHS_LONG.' + item.substring(0, 3).toUpperCase())));
-    } else if (periodOfTime === "WEEK") {
+    } else if (periodOfTime === "week") {
       setLabels(response.labels.map((item) => t('CONSTANTS.DAYS_LONG.' + item.substring(0, 3).toUpperCase())));
-    } else if(periodOfTime == "MONTH"){
+    } else if(periodOfTime == "month"){
       setLabels(response.labels.map(item => ordinalNumber(item)));
     } else {
       setLabels(response.labels);
@@ -99,19 +99,19 @@ const Earnings = () => {
               aria-label="Platform"
             >
               <ToggleButton value="week"
-                            onClick={() => setPeriodOfTime("WEEK")}
+                            onClick={() => setPeriodOfTime("week")}
                             style={{fontSize: "11px"}}
               >{t('EARNINGS.WEEK')}</ToggleButton>
               <ToggleButton value="month"
-                            onClick={() => setPeriodOfTime("MONTH")}
+                            onClick={() => setPeriodOfTime("month")}
                             style={{fontSize: "11px"}}
               >{t('EARNINGS.MONTH')}</ToggleButton>
               <ToggleButton value="year"
-                            onClick={() => setPeriodOfTime("YEAR")}
+                            onClick={() => setPeriodOfTime("year")}
                             style={{fontSize: "11px"}}
               >{t('EARNINGS.YEAR')}</ToggleButton>
               <ToggleButton value="all-time"
-                            onClick={() => setPeriodOfTime("ALLTIME")}
+                            onClick={() => setPeriodOfTime("alltime")}
                             style={{fontSize: "11px"}}
               >{t('EARNINGS.ALLTIME')}</ToggleButton>
             </ToggleButtonGroup>
@@ -154,7 +154,7 @@ const Earnings = () => {
           </div>
           <br/>
           <div>
-            {earningsData && earningsData.earnings_graph && (
+            {earningsData && earningsData.earningsGraph && (
               <div>
                 <Chart type={"bar"}
                        data={
@@ -165,7 +165,7 @@ const Earnings = () => {
                                type: 'bar' as const,
                                label: t('EARNINGS.STUDENTS.GRAPH_LEGEND'),
                                backgroundColor: 'rgb(75,0,130)',
-                               data: earningsData?.students_graph
+                               data: earningsData?.studentsGraph
                                  .map(item => item.y),
                                yAxisID: "y1",
                              },
@@ -173,14 +173,14 @@ const Earnings = () => {
                                type: 'bar' as const,
                                label: t('EARNINGS.BOOKINGS.GRAPH_LEGEND'),
                                backgroundColor: 'rgb(203, 195, 251)',
-                               data: earningsData?.bookings_graph
+                               data: earningsData?.bookingsGraph
                                  .map(item => item.y),
                                yAxisID: "y1",
                              },
                              {
                                type: 'line' as const,
                                label: t('EARNINGS.REVENUE.GRAPH_LEGEND'),
-                               data: earningsData.earnings_graph
+                               data: earningsData.earningsGraph
                                  .map((item: IGraph) => item.y),
                                yAxisID: "y",
                                fill: true,
@@ -280,7 +280,7 @@ const Earnings = () => {
                   earningsForTable.details.map((tableItem) => {
                     return (
                       <tr>
-                        <td>{t('CONSTANTS.MONTHS_LONG.' + tableItem.month.substring(0, 3).toUpperCase())}</td>
+                        <td>{t('CONSTANTS.MONTHS_LONG.' + tableItem.period.substring(0, 3).toUpperCase())}</td>
                         <td>{tableItem.bookings}</td>
                         <td>{tableItem.students}</td>
                         <td>{tableItem.reviews}</td>
