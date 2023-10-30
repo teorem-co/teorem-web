@@ -1,7 +1,13 @@
 import i18n from 'i18next';
 import {uniqBy} from 'lodash';
 import moment from 'moment';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {
+  Children,
+  cloneElement,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import {
   Calendar as BigCalendar,
   momentLocalizer,
@@ -316,12 +322,13 @@ const TutorBookings = () => {
 
 
   const slotSelect = (e: SlotInfo) => {
-
+    const rootElement = document.getElementById('main_layout');
     //calculating offset for modal
-    if (e.bounds?.bottom) {
-      const boundsTop = e.bounds?.top <= 300 ? e.bounds?.top + 500 : e.bounds?.top;
-      setScrollTopOffset(topOffset + boundsTop - 350);
+    if (e.bounds?.bottom && rootElement?.scrollTop) {
+      const boundsTop = e.bounds?.top <= 300 ? e.bounds?.top + 500 : e.bounds?.top + 200;
+      setScrollTopOffset(rootElement?.scrollTop + boundsTop - 350);
     }
+
     const existingBooking =
       existingBookings && existingBookings.filter((date) => moment(date.start).format('YYYY/MM/DD') === moment(e.start).format('YYYY/MM/DD'));
 
@@ -709,105 +716,113 @@ const TutorBookings = () => {
     },
   };
 
+  const [key, setKey] = useState(Math.random);
+  useEffect(() => {
+    setKey(Math.random());
+  }, []);
+
   return (
-    <MainWrapper>
+    <MainWrapper key={key}>
       <div className="layout--primary">
         {isLoading ? <LoaderSecondary/> : <></>}
-        <div>
+        <ConditionalWrapper condition={!isMobile}>
           {/* {(isLoading && <LoaderPrimary />) || ( */}
-          <div className="card--calendar">
-            <div className="flex flex--center p-6">
-              {/* <Link to={PATHS.SEARCH_TUTORS}>
+
+          <div className="flex flex--center p-6">
+            {/* <Link to={PATHS.SEARCH_TUTORS}>
                             <div>
                                 <i className="icon icon--base icon--arrow-left icon--black"></i>
                             </div>
                         </Link> */}
-              <div onClick={() => history.goBack()}>
-                <div>
-                  <i
-                    className="icon icon--base icon--arrow-left icon--black"></i>
-                </div>
+            <div onClick={() => history.goBack()}>
+              <div>
+                <i
+                  className="icon icon--base icon--arrow-left icon--black"></i>
               </div>
-              <h2 className="type--lg  ml-6">
-                {`${t('MY_BOOKINGS.TITLE')} - ${tutorData.firstName ? tutorData.firstName : ''} ${tutorData.lastName ? tutorData.lastName : ''}`}
-              </h2>
             </div>
-            <BigCalendar
-              localizer={localizer}
-              formats={{
-                timeGutterFormat: 'HH:mm',
-              }}
-              events={filteredBookings ? filteredBookings : []}
-              toolbar={true}
-              date={value}
-              onSelecting={() => true}
-              view={isMobile ? "day" : "week"}
-              style={{height: 'calc(100% - 84px)'}}
-              startAccessor="start"
-              endAccessor="end"
-              components={{
-                week: {
-                  header: (date) => CustomHeader(date),
-                },
-                event: (event) => CustomEvent(event),
-                toolbar: () =>
-                  (isMobile ? <CustomToolbar
-                    value={value}
-                    onChangeDate={onChangeDate}/> : null)
-              }}
-              scrollToTime={defaultScrollTime}
-              showMultiDayTimes={true}
-              step={15}
-              timeslots={4}
-              selectable={true}
-              longPressThreshold={50}
-              onSelectSlot={(e) => (userRole === RoleOptions.Parent || userRole === RoleOptions.Student ? slotSelect(e) : null)}
-              onSelectEvent={(e) => (userRole === RoleOptions.Parent || userRole === RoleOptions.Student ? handleSelectedEvent(e) : null)}
-            />
-            {openSlot ? (
-              //creating new booking
-              <ParentCalendarSlots
-                clearEmptyBookings={() => setEmptyBookings([])}
-                setSidebarOpen={(e) => setSidebarOpen(e)}
-                start={`${selectedStart}`}
-                end={`${selectedEnd}`}
-                handleClose={(e) => setOpenSlot(e)}
-                positionClass={calcModalPosition(positionClass)}
-                tutorId={tutorId}
-                tutorDisabled={tutorData.disabled}
-                topOffset={scrollTopOffset}
-              />
-            ) : openEventDetails ? (
-              //opening booking details
-              !bookingIsLoading && !bookingIsFetching && <ParentEventModal
-                eventIsAccepted={booking ? booking.isAccepted : false}
-                bookingStart={booking ? booking.startTime : ''}
-                openEditModal={(isOpen) => handleUpdateModal(isOpen)}
-                tutorName={tutorData.firstName && tutorData.lastName ? tutorData.firstName + ' ' + tutorData.lastName : ''}
-                event={booking ? booking : null}
-                handleClose={(e) => setOpenEventDetails(e)}
-                positionClass={calcModalPosition(positionClass)}
-                openLearnCube={() => setLearnCubeModal(true)}
-                topOffset={scrollTopOffset}
-              />
-            ) : openUpdateModal ? (
-              <UpdateBooking
-                booking={booking ? booking : null}
-                clearEmptyBookings={() => setEmptyBookings([])}
-                setSidebarOpen={(e: any) => setSidebarOpen(e)}
-                start={`${selectedStart}`}
-                end={`${selectedEnd}`}
-                handleClose={(e: any) => setOpenUpdateModal(e)}
-                positionClass={calcModalPosition(positionClass)}
-                tutorId={tutorId}
-                topOffset={scrollTopOffset}
-              />
-            ) : (
-              <></>
-            )}
+            <h2 className="type--lg  ml-6">
+              {`${t('MY_BOOKINGS.TITLE')} - ${tutorData.firstName ? tutorData.firstName : ''} ${tutorData.lastName ? tutorData.lastName : ''}`}
+            </h2>
           </div>
-          {/* )} */}
-        </div>
+          <BigCalendar
+            key={key}
+            className={`${isMobile ? 'card--calendar' : ''}`}
+            localizer={localizer}
+            formats={{
+              timeGutterFormat: 'HH:mm',
+            }}
+            events={filteredBookings ? filteredBookings : []}
+            toolbar={true}
+            date={value}
+            onSelecting={() => true}
+            view={isMobile ? "day" : "week"}
+            style={isMobile ? {height:'unset'} : {height: 'calc(100% - 84px)'} }
+            startAccessor="start"
+            endAccessor="end"
+            components={{
+              week: {
+                header: (date) => CustomHeader(date),
+              },
+              event: (event) => CustomEvent(event),
+              toolbar: () =>
+                (isMobile ? <CustomToolbar
+                  value={value}
+                  onChangeDate={onChangeDate}/> : null),
+            }}
+            //scrollToTime={defaultScrollTime}
+            showMultiDayTimes={true}
+            step={15}
+            timeslots={4}
+            selectable={true}
+            longPressThreshold={50}
+            onSelectSlot={(e) => (userRole === RoleOptions.Parent || userRole === RoleOptions.Student ? slotSelect(e) : null)}
+            onSelectEvent={(e) => (userRole === RoleOptions.Parent || userRole === RoleOptions.Student ? handleSelectedEvent(e) : null)}
+          />
+          {openSlot ? (
+            //creating new booking
+            <ParentCalendarSlots
+              clearEmptyBookings={() => setEmptyBookings([])}
+              setSidebarOpen={(e) => setSidebarOpen(e)}
+              start={`${selectedStart}`}
+              end={`${selectedEnd}`}
+              handleClose={(e) => setOpenSlot(e)}
+              positionClass={calcModalPosition(positionClass)}
+              tutorId={tutorId}
+              tutorDisabled={tutorData.disabled}
+              topOffset={scrollTopOffset}
+            />
+          ) : openEventDetails ? (
+            //opening booking details
+            !bookingIsLoading && !bookingIsFetching && <ParentEventModal
+              eventIsAccepted={booking ? booking.isAccepted : false}
+              bookingStart={booking ? booking.startTime : ''}
+              openEditModal={(isOpen) => handleUpdateModal(isOpen)}
+              tutorName={tutorData.firstName && tutorData.lastName ? tutorData.firstName + ' ' + tutorData.lastName : ''}
+              event={booking ? booking : null}
+              handleClose={(e) => setOpenEventDetails(e)}
+              positionClass={calcModalPosition(positionClass)}
+              openLearnCube={() => setLearnCubeModal(true)}
+              topOffset={scrollTopOffset}
+            />
+          ) : openUpdateModal ? (
+            <UpdateBooking
+              booking={booking ? booking : null}
+              clearEmptyBookings={() => setEmptyBookings([])}
+              setSidebarOpen={(e: any) => setSidebarOpen(e)}
+              start={`${selectedStart}`}
+              end={`${selectedEnd}`}
+              handleClose={(e: any) => setOpenUpdateModal(e)}
+              positionClass={calcModalPosition(positionClass)}
+              tutorId={tutorId}
+              topOffset={scrollTopOffset}
+            />
+          ) : (
+            <></>
+          )}
+            {/*</div>*/}
+        </ConditionalWrapper>
+
+
         <div>
           <div ref={highlightRef}
                className="card card--mini-calendar mb-4 pos--rel">
@@ -860,3 +875,17 @@ const TutorBookings = () => {
 };
 
 export default TutorBookings;
+
+interface ConditionalWrapperProps {
+  condition: boolean;
+  children: React.ReactNode;
+}
+
+const ConditionalWrapper: React.FC<ConditionalWrapperProps> = ({ condition, children }) => {
+  if (condition) {
+    return <div className={`card--calendar ${condition ? ' card--calendar--height' : ''}`}>
+        {children}
+      </div>;
+  }
+  return <>{children}</>;
+};

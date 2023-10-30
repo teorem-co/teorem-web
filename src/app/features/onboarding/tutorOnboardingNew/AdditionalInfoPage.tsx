@@ -22,6 +22,7 @@ import {AiOutlineLeft} from "react-icons/ai";
 import CircularProgress from "../../my-profile/components/CircularProgress";
 import {setStepTwo} from "../../../../slices/onboardingSlice";
 import TestTutorProfile from "./TestTutorProfile";
+import {t} from "i18next";
 
 interface AdditionalValues {
   currentOccupation: string;
@@ -145,13 +146,13 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
     validateOnChange: false,
     enableReinitialize: true,
     validationSchema: Yup.object().shape({
-      aboutTutor: Yup.string().min(50, t('FORM_VALIDATION.TOO_SHORT')).max(2500).required(t('FORM_VALIDATION.REQUIRED')),
-      aboutLessons: Yup.string().min(50, t('FORM_VALIDATION.TOO_SHORT')).max(2500).required(t('FORM_VALIDATION.REQUIRED')),
+      aboutTutor: Yup.string().max(2500).required(t('FORM_VALIDATION.REQUIRED')),
+      aboutLessons: Yup.string().max(2500).required(t('FORM_VALIDATION.REQUIRED')),
       currentOccupation: Yup.string()
         .min(2, t('FORM_VALIDATION.TOO_SHORT'))
         .max(75, t('FORM_VALIDATION.TOO_LONG'))
         .required(t('FORM_VALIDATION.REQUIRED')),
-      yearsOfExperience: Yup.number().min(0, t('FORM_VALIDATION.NEGATIVE')).max(100, t('FORM_VALIDATION.TOO_BIG')).required(t('FORM_VALIDATION.REQUIRED')),
+      yearsOfExperience: Yup.number().min(0, t('FORM_VALIDATION.NEGATIVE')).max(100, t('FORM_VALIDATION.TOO_BIG')),
     }),
   });
 
@@ -174,7 +175,7 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
   }, [formik.values]);
 
   useEffect(() => {
-    if (formik.values.aboutLessons.length !== 0 && formik.values.aboutTutor.length !== 0 && formik.values.currentOccupation.length !== 0) {
+    if (formik.values.aboutLessons.length !== 0 && formik.values.aboutTutor.trim().split(" ").length >= 50 && formik.values.currentOccupation.length !== 0) {
       setSaveBtnActive(true);
     } else {
       setSaveBtnActive(false);
@@ -241,11 +242,13 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                                    htmlFor="currentOccupation">
                               {t('MY_PROFILE.ABOUT_ME.OCCUPATION')}
                             </label>
-                            <MyTextArea
+                            <TextField
                               maxLength={75}
+                              id="currentOccupation"
+                              wrapperClassName="flex--grow"
                               name="currentOccupation"
                               placeholder={t('MY_PROFILE.ABOUT_ME.OCCUPATION_PLACEHOLDER')}
-                              id="currentOccupation"
+                              className="input input--base"
                               disabled={isLoading}
                             />
                           </div>
@@ -256,10 +259,13 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                                    htmlFor="yearsOfExperience">
                               {t('MY_PROFILE.ABOUT_ME.YEARS')}
                             </label>
-                            <MyTextArea
+                            <TextField
+                              id="yearsOfExperience"
+                              wrapperClassName="flex--grow"
                               name="yearsOfExperience"
                               placeholder={t('MY_PROFILE.ABOUT_ME.YEARS_PLACEHOLDER')}
-                              id="yearsOfExperience"
+                              className="input input--base"
+                              type={'number'}
                               disabled={isLoading}
                             />
                           </div>
@@ -271,12 +277,49 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                               {t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_LABEL')}
                             </label>
                             <MyTextArea
+                              minLength={50}
                               maxLength={2500}
                               name="aboutTutor"
-                              placeholder={t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_PLACEHOLDER') + '\n' + '\n' + t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_EFFECTIVE')}
+                              placeholder={t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_PLACEHOLDER')}
                               id="aboutTutor"
                               disabled={isLoading}
                             />
+                            <>
+                              <table className={`text-align--start password-tooltip`} style={{ color: "#636363"}}>
+                                <tbody>
+                                <tr>
+                                  <td>
+                                    {formik.values.aboutTutor.trim().split(" ").length >= 50 ?
+                                      <i
+                                        id="length"
+                                        className="icon icon--sm icon--check icon--success mr-3"
+                                      ></i> :
+                                      <i
+                                        id="length"
+                                        className="icon icon--sm icon--close icon--grey mr-3"
+                                      ></i>
+                                    }
+                                  </td>
+                                  <td>{t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_TOOLTIP')}</td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    {formik.values.aboutTutor.trim().split(" ").length >= 100 ?
+                                      <i
+                                        id="length"
+                                        className="icon icon--sm icon--check icon--success mr-3"
+                                      ></i> :
+                                      <i
+                                        id="length"
+                                        className="icon icon--sm icon--close icon--grey mr-3"
+                                      ></i>
+                                    }
+                                  </td>
+                                  <td>{t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.TOOLTIP_EFFECTIVE')}</td>
+                                </tr>
+                                </tbody>
+                              </table>
+                            </>
                           </div>
                         </div>
                         <div className="col col-12">
@@ -288,10 +331,49 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                             <MyTextArea
                               maxLength={2500}
                               name="aboutLessons"
-                              placeholder={t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_PLACEHOLDER') + '\n' + '\n' + t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_EFFECTIVE')}
+                              placeholder={t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_PLACEHOLDER')}
                               id="aboutLessons"
                               disabled={isLoading}
                             />
+                            <>
+                              <table className={`text-align--start password-tooltip`} style={{color: "#636363"}}>
+                                <tbody>
+                                <tr>
+                                  <td>
+                                    <i
+                                      id="length"
+                                      className="icon icon--sm icon--chevron-right icon--grey mr-3"
+                                    ></i>
+                                  </td>
+                                  <td>{t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_TOOLTIP')}</td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    <i
+                                      id="length"
+                                      className="icon icon--sm icon--chevron-right icon--grey mr-3"
+                                    ></i>
+                                  </td>
+                                  <td>{t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_TOOLTIP_2')}</td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    {formik.values.aboutLessons.trim().split(" ").length >= 100 ?
+                                      <i
+                                        id="length"
+                                        className="icon icon--sm icon--check icon--success mr-3"
+                                      ></i> :
+                                      <i
+                                        id="length"
+                                        className="icon icon--sm icon--close icon--grey mr-3"
+                                      ></i>
+                                    }
+                                  </td>
+                                  <td>{t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.TOOLTIP_EFFECTIVE')}</td>
+                                </tr>
+                                </tbody>
+                              </table>
+                            </>
                           </div>
                         </div>
                       </div>

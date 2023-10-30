@@ -174,9 +174,10 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
           return true;
         } else {
           if (value.type === 'image/jpg' || value.type === 'image/jpeg' || value.type === 'image/png' || value.type === 'image/svg') {
+            setSaveBtnActive(true);
             return true;
           }
-
+          setSaveBtnActive(false);
           return false;
         }
       })
@@ -185,9 +186,11 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
           return true;
         } else {
           if (value.size > 5000000) {
+            setSaveBtnActive(false);
             return false;
           }
 
+          setSaveBtnActive(true);
           return true;
         }
       });
@@ -281,15 +284,41 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
                     />
                   </div>
 
-                  <div className="field__w-fit-content type--base align--center" style={{fontSize: "15px"}}>
-                    <ul className="pl-8">
-                          <li>{t('TUTOR_ONBOARDING.IMAGE_TIPS.TIP_1')}</li>
-                          <li>{t('TUTOR_ONBOARDING.IMAGE_TIPS.TIP_2')}</li>
-                          <li>{t('TUTOR_ONBOARDING.IMAGE_TIPS.TIP_3')}</li>
-                    </ul>
+                  <div className="field__w-fit-content type--base align--center">
+                    <table className={`text-align--start password-tooltip`} style={{color: "#636363", fontSize: "15px"}}>
+                      <tbody>
+                      <tr>
+                        <td>
+                          <i
+                            id="length"
+                            className="icon icon--base icon--chevron-right icon--grey mr-3"
+                          ></i>
+                        </td>
+                        <td>{t('TUTOR_ONBOARDING.IMAGE_TIPS.TIP_1')}</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <i
+                            id="length"
+                            className="icon icon--base icon--chevron-right icon--grey mr-3"
+                          ></i>
+                        </td>
+                        <td>{t('TUTOR_ONBOARDING.IMAGE_TIPS.TIP_2')}</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <i
+                            id="letter"
+                            className="icon icon--base icon--chevron-right icon--grey mr-3"
+                          ></i>
+                        </td>
+                        <td>{t('TUTOR_ONBOARDING.IMAGE_TIPS.TIP_3')}</td>
+                      </tr>
+                      </tbody>
+                    </table>
+
                   </div>
                 </div>
-
 
                 <div className="flex flex--jc--center text-align--center">
 

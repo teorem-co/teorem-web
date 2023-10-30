@@ -13,4 +13,10 @@
         padding-bottom: calc(#{$unit} * 2);
         background-color: $background-color;
     }
+
+    &:last-child{
+      @media (max-width: $responsive-sm) {
+        margin-bottom: 30px;
+      }
+    }
 }

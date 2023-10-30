@@ -233,7 +233,7 @@ const TestTutorProfile = (props: Props) => {
                               height: '120px'
                             }}
                             className="align--center d--b"
-                            src={`${props.profileImage ? props.profileImage : tutorData?.User.profileImage}`}
+                            src={`${props.profileImage ? props.profileImage : tutorData?.User.profileImage + `&v=${cacheBuster}`}`}
                             alt="tutor-profile-pic" />
                         ) : (
                           <ImageCircle

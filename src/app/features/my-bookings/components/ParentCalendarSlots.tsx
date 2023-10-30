@@ -39,7 +39,7 @@ interface IProps {
   clearEmptyBookings: () => void;
   tutorId: string;
   tutorDisabled: boolean | undefined;
-  topOffset: number;
+  topOffset?: number;
 }
 
 interface Values {

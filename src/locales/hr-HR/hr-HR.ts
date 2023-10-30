@@ -177,11 +177,13 @@ export const HR_HR = {
             UPDATE_TEACHINGS_SUCCESS: 'Predmeti ažurirani!',
             FORM: {
                 ABOUT_TUTOR_LABEL: 'Recite nam više o sebi*',
-                ABOUT_TUTOR_PLACEHOLDER: 'Detaljno opišite sebe, svoje interese, iskustvo i hobije. Minimalno 50 riječi.',
+                ABOUT_TUTOR_PLACEHOLDER: 'Što Vas najbolje opisuje, koji su Vaši hobiji, pristup...',
+                ABOUT_TUTOR_TOOLTIP: 'Detaljno opišite sebe, svoje interese, iskustvo i hobije. Minimalno 50 riječi.',
+                TOOLTIP_EFFECTIVE: 'Najučinkovitiji profili sadrže 100+ riječi u ovoj rubrici.',
                 ABOUT_LESSONS_LABEL: 'Recite nam više o Vašim predavanjima*',
-                ABOUT_LESSONS_PLACEHOLDER: 'Detaljno opišite na koji način radite s učenicima.',
-                ABOUT_LESSONS_PLACEHOLDER_2: 'Opišite koje metode podučavanja koristite (vizualne, auditivne, kinestetičke, itd.)',
-                ABOUT_EFFECTIVE: 'Najučinkovitiji profili sadrže 100+ riječi u ovoj rubrici.',
+                ABOUT_LESSONS_PLACEHOLDER: 'Opišite Vaša predavanja, pristup učenju...',
+                ABOUT_LESSONS_TOOLTIP: 'Detaljno opišite na koji način radite s učenicima.',
+                ABOUT_LESSONS_TOOLTIP_2: 'Opišite koje metode podučavanja koristite (vizualne, auditivne, kinestetičke, itd.)',
                 SUBMIT_BTN: 'Spremanje',
             },
             NO_PRICE: 'Cijena nije navedena',
@@ -211,7 +213,9 @@ export const HR_HR = {
             COUNTRY: 'DRŽAVA',
             DATE_OF_BIRTH: 'DATUM ROĐENJA',
             PREVIEW_PROFILE: 'Pregled profila',
-            PHONE_NUMBER: "BROJ TELEFONA"
+            PHONE_NUMBER: "BROJ TELEFONA",
+            CREATED_AT: "DATUM KREIRANJA"
+
         },
         ACTIONS: {
             APPROVE: 'Odobri',
@@ -500,7 +504,7 @@ export const HR_HR = {
         },
         NO_RESULT: {
             TITLE: 'Bez rezultata',
-            DESC: 'Još uvijek nemate recenzija.',
+            DESC: 'Još nema recenzija.',
             DESC_ADMIN: 'Još uvijek nema niti jedne recenzije.',
         },
         DATE_AGO: {
@@ -566,7 +570,7 @@ export const HR_HR = {
       DESCRIPTION: "Primit ćete e-mail o statusu vašeg računa."
     },
     CHILDLESS_PARENT_NOTE: {
-      TITLE: "Morate imati dijete kako biste mogli zatražiti instrukcije!",
+      TITLE: "Morate imati dodano dijete kako biste mogli zatražiti instrukcije!",
       DESCRIPTION: "Dijete možete dodati na postavkama profila."
     },
     ACCOUNT: {
@@ -623,7 +627,7 @@ export const HR_HR = {
       ABOUT_ME: {
             OCCUPATION: 'Vaše trenutno zanimanje*',
             OCCUPATION_PLACEHOLDER: 'Unesite Vaše trenutno zanimanje',
-            YEARS: 'Broj godina profesionalnog iskustva*',
+            YEARS: 'Broj godina profesionalnog iskustva',
             YEARS_PLACEHOLDER: 'Koliko godina profesionalnog iskustva imate',
             ABOUT_YOURSELF: 'Recite nam više o sebi*',
             ABOUT_LESSON: 'Recite nam više o Vašem načinu predavanja*',

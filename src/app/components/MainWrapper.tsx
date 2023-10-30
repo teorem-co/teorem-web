@@ -51,7 +51,7 @@ const MainWrapper = (props: Props) => {
                     <Navbar />
                   </div>
                 </div>
-                <div onScroll={(e) => debouncedScrollHandler(e.target)} className="layout__main">{props.children}</div>
+                <div id="main_layout" onScroll={(e) => debouncedScrollHandler(e.target)} className="layout__main">{props.children}</div>
             </div>
         </>
     );
