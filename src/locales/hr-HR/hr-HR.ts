@@ -792,16 +792,28 @@ export const HR_HR = {
     EARNINGS: {
         TITLE: 'Prihod',
         GENERAL: {
-            TITLE: 'OPĆI PODATCI',
+            TITLE: 'STATISTIKA',
             BOOKINGS: 'Ukupno rezervacija',
             STUDENTS: 'Ukupno učenika',
             REVIEWS: 'Ukupno recenzija',
             REVENUE: 'Ukupan prihod',
             CURRENCY: '€',
         },
+      WEEK:'Zadnjih 7 dana',
+      MONTH:'Zadnjih 30 dana',
+      YEAR:'Zadnjih 12 mjeseci',
+      ALLTIME:'Oduvijek',
         REVENUE: {
             TITLE: 'PRIHOD',
             GRAPH_LEGEND: 'Prihod',
+        },
+        STUDENTS: {
+          TITLE: 'UČENICI',
+          GRAPH_LEGEND: 'Učenici',
+        },
+        BOOKINGS: {
+          TITLE: 'REZERVACIJE',
+          GRAPH_LEGEND: 'Rezervacije',
         },
         DETAILS: {
             TITLE: 'DETALJI',
