@@ -54,7 +54,7 @@ const Earnings = () => {
 
   const fetchData = async () => {
     const response = await getEarnings(periodOfTime).unwrap();
-    await getEarningForTable("YEAR");
+//  await getEarningForTable("YEAR");
     if(periodOfTime === "YEAR") {
       setLabels(response.labels.map((item) => t('CONSTANTS.MONTHS_LONG.' + item.substring(0, 3).toUpperCase())));
     } else if (periodOfTime === "WEEK") {
@@ -263,38 +263,6 @@ const Earnings = () => {
               </div>
             )}
           </div>
-          <div className="card--secondary__head">
-              <div className="type--color--tertiary  type--spacing mt-10 mb-2">{t('EARNINGS.DETAILS.TITLE')}</div>
-            </div>
-            <table className="table table--secondary">
-              <thead>
-              <tr>
-                <th>{t('EARNINGS.DETAILS.TABLE.MONTH')}</th>
-                <th>{t('EARNINGS.DETAILS.TABLE.BOOKINGS')}</th>
-                <th>{t('EARNINGS.DETAILS.TABLE.STUDENTS')}</th>
-                <th>{t('EARNINGS.DETAILS.TABLE.REVIEWS')}</th>
-                <th>{t('EARNINGS.DETAILS.TABLE.REVENUE')}</th>
-              </tr>
-              </thead>
-              <tbody>
-              {(earningsForTable &&
-                  earningsForTable.details.map((tableItem) => {
-                    return (
-                      <tr>
-                        <td>{t('CONSTANTS.MONTHS_LONG.' + tableItem.period.substring(0, 3).toUpperCase())}</td>
-                        <td>{tableItem.bookings}</td>
-                        <td>{tableItem.students}</td>
-                        <td>{tableItem.reviews}</td>
-                        <td>
-                          {tableItem.revenue}
-                          {t('EARNINGS.GENERAL.CURRENCY')}
-                        </td>
-                      </tr>
-                    );
-                  })) ||
-                t('EARNINGS.DETAILS.TABLE.EMPTY')}
-              </tbody>
-            </table>
           </div>
         </div>
     </MainWrapper>
