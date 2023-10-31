@@ -154,115 +154,115 @@ const Earnings = () => {
             </div>
             </div>) : null}
           <br/>
-          <div>
-            {earningsData && earningsData.earningsGraph && (
-              <div>
-                <Chart type={"bar"}
-                       data={
-                         {
-                           labels,
-                           datasets: [
-                             {
-                               type: 'bar' as const,
-                               label: t('EARNINGS.STUDENTS.GRAPH_LEGEND'),
-                               backgroundColor: 'rgb(75,0,130)',
-                               data: earningsData?.studentsGraph
-                                 .map(item => item.y),
-                               yAxisID: "y1",
-                             },
-                             {
-                               type: 'bar' as const,
-                               label: t('EARNINGS.BOOKINGS.GRAPH_LEGEND'),
-                               backgroundColor: 'rgb(203, 195, 251)',
-                               data: earningsData?.bookingsGraph
-                                 .map(item => item.y),
-                               yAxisID: "y1",
-                             },
-                             {
-                               type: 'line' as const,
-                               label: t('EARNINGS.REVENUE.GRAPH_LEGEND'),
-                               data: earningsData.earningsGraph
-                                 .map((item: IGraph) => item.y),
-                               yAxisID: "y",
-                               fill: true,
-                               backgroundColor: 'rgba(162, 108, 242, 0.04)',
-                               borderColor: 'rgb(162, 108, 242)',
-                               borderWidth: 1,
-                               pointBackgroundColor: '#fff',
-                               pointBorderWidth: 2,
-                             },
-                           ],
-                         }
-                       } options={{
-                         aspectRatio: 1|3,
-                  responsive: true,
-                  interaction: {
-                    intersect: false,
-                    mode: 'index',
-                  },
-                  plugins: {
-                    legend: {
-                      position: 'top' as const,
-                      align: 'end' as const,
-                      labels: {
-                        boxWidth: 10,
-                        boxHeight: 10,
-                        usePointStyle: true,
-                        pointStyle: 'circle',
-                      },
-                    },
-                    title: {
-                      display: false,
-                    },
-                  },
-                  elements: {
-                    line: {
-                      tension: 0.3,
-                    },
-                    point: {
-                      radius: 0,
-                      hoverRadius: 4,
-                      hitRadius: 8,
-                    },
-                  },
-                  scales: {
-                    y: {
-                      type: 'linear' as const,
-                      display: true,
-                      position: 'left' as const,
-                      beginAtZero: true,
-                      title: {
-                        text: t('EARNINGS.REVENUE.GRAPH_LEGEND') + ' / EUR',
-                        display: true,
-                      },
-                      grid: {
-                        drawOnChartArea: false,
-                      }
-                    },
-                    y1: {
-                      min: 0,
-                      max: maxNumOfTicks,
-                      beginAtZero: true,
-                      type: 'linear' as const,
-                      display: true,
-                      position: 'right' as const,
-                      ticks: {
-                        stepSize: 1,
-                      },
-                      grid: {
-                        drawOnChartArea: false,
-                      },
-                    },
-                    x: {
-                      grid: {
-                        display: false
-                      }
-                    }
-                  },
-                }}/>
-              </div>
-            )}
-          </div>
+          {/*<div>*/}
+          {/*  {earningsData && earningsData.earningsGraph && (*/}
+          {/*    <div>*/}
+          {/*      <Chart type={"bar"}*/}
+          {/*             data={*/}
+          {/*               {*/}
+          {/*                 labels,*/}
+          {/*                 datasets: [*/}
+          {/*                   {*/}
+          {/*                     type: 'bar' as const,*/}
+          {/*                     label: t('EARNINGS.STUDENTS.GRAPH_LEGEND'),*/}
+          {/*                     backgroundColor: 'rgb(75,0,130)',*/}
+          {/*                     data: earningsData?.studentsGraph*/}
+          {/*                       .map(item => item.y),*/}
+          {/*                     yAxisID: "y1",*/}
+          {/*                   },*/}
+          {/*                   {*/}
+          {/*                     type: 'bar' as const,*/}
+          {/*                     label: t('EARNINGS.BOOKINGS.GRAPH_LEGEND'),*/}
+          {/*                     backgroundColor: 'rgb(203, 195, 251)',*/}
+          {/*                     data: earningsData?.bookingsGraph*/}
+          {/*                       .map(item => item.y),*/}
+          {/*                     yAxisID: "y1",*/}
+          {/*                   },*/}
+          {/*                   {*/}
+          {/*                     type: 'line' as const,*/}
+          {/*                     label: t('EARNINGS.REVENUE.GRAPH_LEGEND'),*/}
+          {/*                     data: earningsData.earningsGraph*/}
+          {/*                       .map((item: IGraph) => item.y),*/}
+          {/*                     yAxisID: "y",*/}
+          {/*                     fill: true,*/}
+          {/*                     backgroundColor: 'rgba(162, 108, 242, 0.04)',*/}
+          {/*                     borderColor: 'rgb(162, 108, 242)',*/}
+          {/*                     borderWidth: 1,*/}
+          {/*                     pointBackgroundColor: '#fff',*/}
+          {/*                     pointBorderWidth: 2,*/}
+          {/*                   },*/}
+          {/*                 ],*/}
+          {/*               }*/}
+          {/*             } options={{*/}
+          {/*               aspectRatio: 1|3,*/}
+          {/*        responsive: true,*/}
+          {/*        interaction: {*/}
+          {/*          intersect: false,*/}
+          {/*          mode: 'index',*/}
+          {/*        },*/}
+          {/*        plugins: {*/}
+          {/*          legend: {*/}
+          {/*            position: 'top' as const,*/}
+          {/*            align: 'end' as const,*/}
+          {/*            labels: {*/}
+          {/*              boxWidth: 10,*/}
+          {/*              boxHeight: 10,*/}
+          {/*              usePointStyle: true,*/}
+          {/*              pointStyle: 'circle',*/}
+          {/*            },*/}
+          {/*          },*/}
+          {/*          title: {*/}
+          {/*            display: false,*/}
+          {/*          },*/}
+          {/*        },*/}
+          {/*        elements: {*/}
+          {/*          line: {*/}
+          {/*            tension: 0.3,*/}
+          {/*          },*/}
+          {/*          point: {*/}
+          {/*            radius: 0,*/}
+          {/*            hoverRadius: 4,*/}
+          {/*            hitRadius: 8,*/}
+          {/*          },*/}
+          {/*        },*/}
+          {/*        scales: {*/}
+          {/*          y: {*/}
+          {/*            type: 'linear' as const,*/}
+          {/*            display: true,*/}
+          {/*            position: 'left' as const,*/}
+          {/*            beginAtZero: true,*/}
+          {/*            title: {*/}
+          {/*              text: t('EARNINGS.REVENUE.GRAPH_LEGEND') + ' / EUR',*/}
+          {/*              display: true,*/}
+          {/*            },*/}
+          {/*            grid: {*/}
+          {/*              drawOnChartArea: false,*/}
+          {/*            }*/}
+          {/*          },*/}
+          {/*          y1: {*/}
+          {/*            min: 0,*/}
+          {/*            max: maxNumOfTicks,*/}
+          {/*            beginAtZero: true,*/}
+          {/*            type: 'linear' as const,*/}
+          {/*            display: true,*/}
+          {/*            position: 'right' as const,*/}
+          {/*            ticks: {*/}
+          {/*              stepSize: 1,*/}
+          {/*            },*/}
+          {/*            grid: {*/}
+          {/*              drawOnChartArea: false,*/}
+          {/*            },*/}
+          {/*          },*/}
+          {/*          x: {*/}
+          {/*            grid: {*/}
+          {/*              display: false*/}
+          {/*            }*/}
+          {/*          }*/}
+          {/*        },*/}
+          {/*      }}/>*/}
+          {/*    </div>*/}
+          {/*  )}*/}
+          {/*</div>*/}
           </div>
         </div>
     </MainWrapper>
