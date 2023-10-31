@@ -54,7 +54,7 @@ const Earnings = () => {
 
   const fetchData = async () => {
     const response = await getEarnings(periodOfTime).unwrap();
-    await getEarningForTable("YEAR");
+//  await getEarningForTable("YEAR");
     if(periodOfTime === "YEAR") {
       setLabels(response.labels.map((item) => t('CONSTANTS.MONTHS_LONG.' + item.substring(0, 3).toUpperCase())));
     } else if (periodOfTime === "WEEK") {
@@ -116,7 +116,7 @@ const Earnings = () => {
               >{t('EARNINGS.ALLTIME')}</ToggleButton>
             </ToggleButtonGroup>
           </div>
-          <div className="row">
+            <div className="row">
             <div className="col col-12 col-md-6 col-xl-3">
               <div className="card--earnings">
                 <div
@@ -151,149 +151,117 @@ const Earnings = () => {
                 <i className="icon icon--level cur--default"></i>
               </div>
             </div>
-          </div>
-          <br/>
-          <div>
-            {earningsData && earningsData.earningsGraph && (
-              <div>
-                <Chart type={"bar"}
-                       data={
-                         {
-                           labels,
-                           datasets: [
-                             {
-                               type: 'bar' as const,
-                               label: t('EARNINGS.STUDENTS.GRAPH_LEGEND'),
-                               backgroundColor: 'rgb(75,0,130)',
-                               data: earningsData?.studentsGraph
-                                 .map(item => item.y),
-                               yAxisID: "y1",
-                             },
-                             {
-                               type: 'bar' as const,
-                               label: t('EARNINGS.BOOKINGS.GRAPH_LEGEND'),
-                               backgroundColor: 'rgb(203, 195, 251)',
-                               data: earningsData?.bookingsGraph
-                                 .map(item => item.y),
-                               yAxisID: "y1",
-                             },
-                             {
-                               type: 'line' as const,
-                               label: t('EARNINGS.REVENUE.GRAPH_LEGEND'),
-                               data: earningsData.earningsGraph
-                                 .map((item: IGraph) => item.y),
-                               yAxisID: "y",
-                               fill: true,
-                               backgroundColor: 'rgba(162, 108, 242, 0.04)',
-                               borderColor: 'rgb(162, 108, 242)',
-                               borderWidth: 1,
-                               pointBackgroundColor: '#fff',
-                               pointBorderWidth: 2,
-                             },
-                           ],
-                         }
-                       } options={{
-                         aspectRatio: 1|3,
-                  responsive: true,
-                  interaction: {
-                    intersect: false,
-                    mode: 'index',
-                  },
-                  plugins: {
-                    legend: {
-                      position: 'top' as const,
-                      align: 'end' as const,
-                      labels: {
-                        boxWidth: 10,
-                        boxHeight: 10,
-                        usePointStyle: true,
-                        pointStyle: 'circle',
-                      },
-                    },
-                    title: {
-                      display: false,
-                    },
-                  },
-                  elements: {
-                    line: {
-                      tension: 0.3,
-                    },
-                    point: {
-                      radius: 0,
-                      hoverRadius: 4,
-                      hitRadius: 8,
-                    },
-                  },
-                  scales: {
-                    y: {
-                      type: 'linear' as const,
-                      display: true,
-                      position: 'left' as const,
-                      beginAtZero: true,
-                      title: {
-                        text: t('EARNINGS.REVENUE.GRAPH_LEGEND') + ' / EUR',
-                        display: true,
-                      },
-                      grid: {
-                        drawOnChartArea: false,
-                      }
-                    },
-                    y1: {
-                      min: 0,
-                      max: maxNumOfTicks,
-                      beginAtZero: true,
-                      type: 'linear' as const,
-                      display: true,
-                      position: 'right' as const,
-                      ticks: {
-                        stepSize: 1,
-                      },
-                      grid: {
-                        drawOnChartArea: false,
-                      },
-                    },
-                    x: {
-                      grid: {
-                        display: false
-                      }
-                    }
-                  },
-                }}/>
-              </div>
-            )}
-          </div>
-          <div className="card--secondary__head">
-              <div className="type--color--tertiary  type--spacing mt-10 mb-2">{t('EARNINGS.DETAILS.TITLE')}</div>
             </div>
-            <table className="table table--secondary">
-              <thead>
-              <tr>
-                <th>{t('EARNINGS.DETAILS.TABLE.MONTH')}</th>
-                <th>{t('EARNINGS.DETAILS.TABLE.BOOKINGS')}</th>
-                <th>{t('EARNINGS.DETAILS.TABLE.STUDENTS')}</th>
-                <th>{t('EARNINGS.DETAILS.TABLE.REVIEWS')}</th>
-                <th>{t('EARNINGS.DETAILS.TABLE.REVENUE')}</th>
-              </tr>
-              </thead>
-              <tbody>
-              {(earningsForTable &&
-                  earningsForTable.details.map((tableItem) => {
-                    return (
-                      <tr>
-                        <td>{t('CONSTANTS.MONTHS_LONG.' + tableItem.period.substring(0, 3).toUpperCase())}</td>
-                        <td>{tableItem.bookings}</td>
-                        <td>{tableItem.students}</td>
-                        <td>{tableItem.reviews}</td>
-                        <td>
-                          {tableItem.revenue}
-                          {t('EARNINGS.GENERAL.CURRENCY')}
-                        </td>
-                      </tr>
-                    );
-                  })) ||
-                t('EARNINGS.DETAILS.TABLE.EMPTY')}
-              </tbody>
-            </table>
+          <br/>
+          {/*<div>*/}
+          {/*  {earningsData && earningsData.earningsGraph && (*/}
+          {/*    <div>*/}
+          {/*      <Chart type={"bar"}*/}
+          {/*             data={*/}
+          {/*               {*/}
+          {/*                 labels,*/}
+          {/*                 datasets: [*/}
+          {/*                   {*/}
+          {/*                     type: 'bar' as const,*/}
+          {/*                     label: t('EARNINGS.STUDENTS.GRAPH_LEGEND'),*/}
+          {/*                     backgroundColor: 'rgb(75,0,130)',*/}
+          {/*                     data: earningsData?.studentsGraph*/}
+          {/*                       .map(item => item.y),*/}
+          {/*                     yAxisID: "y1",*/}
+          {/*                   },*/}
+          {/*                   {*/}
+          {/*                     type: 'bar' as const,*/}
+          {/*                     label: t('EARNINGS.BOOKINGS.GRAPH_LEGEND'),*/}
+          {/*                     backgroundColor: 'rgb(203, 195, 251)',*/}
+          {/*                     data: earningsData?.bookingsGraph*/}
+          {/*                       .map(item => item.y),*/}
+          {/*                     yAxisID: "y1",*/}
+          {/*                   },*/}
+          {/*                   {*/}
+          {/*                     type: 'line' as const,*/}
+          {/*                     label: t('EARNINGS.REVENUE.GRAPH_LEGEND'),*/}
+          {/*                     data: earningsData.earningsGraph*/}
+          {/*                       .map((item: IGraph) => item.y),*/}
+          {/*                     yAxisID: "y",*/}
+          {/*                     fill: true,*/}
+          {/*                     backgroundColor: 'rgba(162, 108, 242, 0.04)',*/}
+          {/*                     borderColor: 'rgb(162, 108, 242)',*/}
+          {/*                     borderWidth: 1,*/}
+          {/*                     pointBackgroundColor: '#fff',*/}
+          {/*                     pointBorderWidth: 2,*/}
+          {/*                   },*/}
+          {/*                 ],*/}
+          {/*               }*/}
+          {/*             } options={{*/}
+          {/*               aspectRatio: 1|3,*/}
+          {/*        responsive: true,*/}
+          {/*        interaction: {*/}
+          {/*          intersect: false,*/}
+          {/*          mode: 'index',*/}
+          {/*        },*/}
+          {/*        plugins: {*/}
+          {/*          legend: {*/}
+          {/*            position: 'top' as const,*/}
+          {/*            align: 'end' as const,*/}
+          {/*            labels: {*/}
+          {/*              boxWidth: 10,*/}
+          {/*              boxHeight: 10,*/}
+          {/*              usePointStyle: true,*/}
+          {/*              pointStyle: 'circle',*/}
+          {/*            },*/}
+          {/*          },*/}
+          {/*          title: {*/}
+          {/*            display: false,*/}
+          {/*          },*/}
+          {/*        },*/}
+          {/*        elements: {*/}
+          {/*          line: {*/}
+          {/*            tension: 0.3,*/}
+          {/*          },*/}
+          {/*          point: {*/}
+          {/*            radius: 0,*/}
+          {/*            hoverRadius: 4,*/}
+          {/*            hitRadius: 8,*/}
+          {/*          },*/}
+          {/*        },*/}
+          {/*        scales: {*/}
+          {/*          y: {*/}
+          {/*            type: 'linear' as const,*/}
+          {/*            display: true,*/}
+          {/*            position: 'left' as const,*/}
+          {/*            beginAtZero: true,*/}
+          {/*            title: {*/}
+          {/*              text: t('EARNINGS.REVENUE.GRAPH_LEGEND') + ' / EUR',*/}
+          {/*              display: true,*/}
+          {/*            },*/}
+          {/*            grid: {*/}
+          {/*              drawOnChartArea: false,*/}
+          {/*            }*/}
+          {/*          },*/}
+          {/*          y1: {*/}
+          {/*            min: 0,*/}
+          {/*            max: maxNumOfTicks,*/}
+          {/*            beginAtZero: true,*/}
+          {/*            type: 'linear' as const,*/}
+          {/*            display: true,*/}
+          {/*            position: 'right' as const,*/}
+          {/*            ticks: {*/}
+          {/*              stepSize: 1,*/}
+          {/*            },*/}
+          {/*            grid: {*/}
+          {/*              drawOnChartArea: false,*/}
+          {/*            },*/}
+          {/*          },*/}
+          {/*          x: {*/}
+          {/*            grid: {*/}
+          {/*              display: false*/}
+          {/*            }*/}
+          {/*          }*/}
+          {/*        },*/}
+          {/*      }}/>*/}
+          {/*    </div>*/}
+          {/*  )}*/}
+          {/*</div>*/}
           </div>
         </div>
     </MainWrapper>
