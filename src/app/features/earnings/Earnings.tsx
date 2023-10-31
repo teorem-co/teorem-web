@@ -162,7 +162,7 @@ const Earnings = () => {
                            labels,
                            datasets: [
                              {
-                               type: 'bar' as const,
+                               type: 'line' as const,
                                label: t('EARNINGS.STUDENTS.GRAPH_LEGEND'),
                                backgroundColor: 'rgb(75,0,130)',
                                data: earningsData?.studentsGraph
@@ -170,7 +170,7 @@ const Earnings = () => {
                                yAxisID: "y1",
                              },
                              {
-                               type: 'bar' as const,
+                               type: 'line' as const,
                                label: t('EARNINGS.BOOKINGS.GRAPH_LEGEND'),
                                backgroundColor: 'rgb(203, 195, 251)',
                                data: earningsData?.bookingsGraph
