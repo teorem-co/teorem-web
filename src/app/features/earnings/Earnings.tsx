@@ -116,7 +116,8 @@ const Earnings = () => {
               >{t('EARNINGS.ALLTIME')}</ToggleButton>
             </ToggleButtonGroup>
           </div>
-          <div className="row">
+          {earningsData && earningsData.totalEarnings ? (
+            <div className="row">
             <div className="col col-12 col-md-6 col-xl-3">
               <div className="card--earnings">
                 <div
@@ -151,7 +152,7 @@ const Earnings = () => {
                 <i className="icon icon--level cur--default"></i>
               </div>
             </div>
-          </div>
+            </div>) : null}
           <br/>
           <div>
             {earningsData && earningsData.earningsGraph && (
