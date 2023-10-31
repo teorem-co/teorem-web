@@ -42,7 +42,7 @@
         "react": "^17.0.2",
         "react-big-calendar": "^1.8.4",
         "react-calendar": "^3.5.0",
-        "react-chartjs-2": "^4.0.1",
+        "react-chartjs-2": "^5.2.0",
         "react-chat-engine": "^1.11.22",
         "react-content-loader": "^6.1.0",
         "react-date-picker": "^8.3.6",
