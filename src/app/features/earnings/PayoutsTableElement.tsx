@@ -12,7 +12,8 @@ interface PayoutsProps {
   bookingsNum: number,
   studentsNum: number,
   reviewsNum: number,
-  revenue: number
+  revenue: number,
+  weeks?: string[]
 }
 
 const PayoutsTableElement = (props: PayoutsProps) => {
@@ -40,14 +41,21 @@ const PayoutsTableElement = (props: PayoutsProps) => {
               ></i>
               <Typography
                 style={{fontFamily: "Lato"}}>{props.month}</Typography>
+                <i className="icon icon--base icon--download icon--primary"></i>
             </div>
           </AccordionSummary>
           <AccordionDetails style={{overflow: 'hidden', whiteSpace: 'nowrap'}}>
             <Typography style={{fontFamily: "Lato"}}>
-              <div style={{display: "flex", alignItems: "center"}}>
-                {props.month}
-                <i className="icon icon--base icon--download icon--primary"></i>
-              </div>
+              { props.weeks?.map((week => {
+                  return (
+                    <div style={{display: "flex", alignItems: "center"}}>
+                      {t('EARNINGS.WEEK_TITLE')} {week}
+                      <br/>
+                      <i className="icon icon--base icon--download icon--primary"></i>
+                    </div>
+                  );
+                }))
+              }
             </Typography>
           </AccordionDetails>
         </Accordion>
