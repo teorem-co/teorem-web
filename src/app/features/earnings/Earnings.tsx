@@ -1,5 +1,7 @@
 import {
   BarElement,
+  BarController,
+  LineController,
   CategoryScale,
   Chart as ChartJS,
   Filler,
@@ -19,7 +21,7 @@ import {Chart} from "react-chartjs-2";
 import IGraph from "./interfaces/IGraph";
 
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend, Filler);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, LineController, BarElement, BarController, Title, Tooltip, Legend, Filler);
 
 const Earnings = () => {
   const [getEarnings, {data: earningsData}] = useLazyGetEarningsQuery();
