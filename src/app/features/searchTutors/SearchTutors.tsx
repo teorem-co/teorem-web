@@ -275,12 +275,6 @@ const SearchTutors = () => {
                 newParams.page = page;
                 const currentScrollTop = cardElement.scrollTop;
                 setScrollTopOffset(currentScrollTop);
-
-                const tutorResponse = await getAvailableTutors({
-                  ...newParams
-                }).unwrap();
-
-                setLoadedTutorItems(loadedTutorItems.concat(tutorResponse.content));
             }
         }
     };
