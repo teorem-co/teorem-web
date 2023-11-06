@@ -6,6 +6,8 @@ import {
   AccordionSummary,
   Typography
 } from "@mui/material";
+import toastService from "../../services/toastService";
+import {useAppSelector} from "../../hooks";
 
 interface PayoutsProps {
   month: string,
@@ -16,13 +18,48 @@ interface PayoutsProps {
   weeks?: string[]
 }
 
+const fileUrl = 'api/v1/tutors';
+const url = `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_CHAT_FILE_DOWNLOAD_HOST}/${fileUrl}`;
+
 const PayoutsTableElement = (props: PayoutsProps) => {
   const [accordion, setAccordion] = useState(false);
+  const userToken = useAppSelector((state) => state.auth.token);
 
   const changeAccordion = () => {
     if(accordion) setAccordion(false);
     else setAccordion(true);
   };
+
+  function handleInvoiceDownload(month: string, week: string) {
+    fetch(`${url}/invoice?month=${month}&week=${week}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+        Accept: 'application/octet-stream',
+      },
+    })
+      .then(response => {
+        if (response.ok) {
+          return response.blob();
+        } else {
+          throw new Error('Failed to download invoice');
+        }
+      })
+      .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'invoice-' + month + "-" + week + '.pdf';
+        a.click();
+
+        // Display success message
+        toastService.success(t('COMPLETED_LESSONS.DOWNLOAD_INVOICE_SUCCESS'));
+      })
+      .catch(error => {
+        // Display error message
+        toastService.error(t('COMPLETED_LESSONS.DOWNLOAD_INVOICE_FAIL'));
+      });
+  }
 
   return (
     <>
@@ -51,7 +88,7 @@ const PayoutsTableElement = (props: PayoutsProps) => {
                     <div style={{display: "flex", alignItems: "center"}}>
                       {t('EARNINGS.WEEK_TITLE')} {week}
                       <br/>
-                      <i className="icon icon--base icon--download icon--primary"></i>
+                      <i className="icon icon--base icon--download icon--primary" onClick={() => handleInvoiceDownload(props.month, week)}></i>
                     </div>
                   );
                 }))
