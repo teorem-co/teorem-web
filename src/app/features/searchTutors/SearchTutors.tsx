@@ -54,6 +54,7 @@ const SearchTutors = () => {
     const [timeOfDayArray, setTimeOfDayArray] = useState<string[]>([]);
     const [loadedTutorItems, setLoadedTutorItems] = useState<ITutorItem[]>([]);
     const [priceSortDirection, setPriceSortDirection] = useState<SortDirection>(SortDirection.None);
+    const [scrollTopOffset, setScrollTopOffset] = useState<number | null>(null);
     //initialSubject is not reset on initial level change
     const [isInitialSubject, setIsInitialSubject] = useState<boolean>(false);
     //storing subjects in state so it can reset on Reset Filter
@@ -267,11 +268,13 @@ const SearchTutors = () => {
           const innerHeight = e.scrollHeight;
             const scrollPosition = e.scrollTop + e.clientHeight;
 
-            if (!hideLoadMore() && Math.floor(innerHeight) === Math.floor(scrollPosition)) {
+            if (!hideLoadMore() && innerHeight === scrollPosition) {
                 handleLoadMore();
                 //action to do on scroll to bottom
                 const newParams = { ...params };
                 newParams.page = page;
+                const currentScrollTop = cardElement.scrollTop;
+                setScrollTopOffset(currentScrollTop);
 
                 const tutorResponse = await getAvailableTutors({
                   ...newParams
@@ -333,10 +336,17 @@ const SearchTutors = () => {
     }, []);
 
     useEffect(() => {
+        setScrollTopOffset(null);
         if (!initialLoad) {
             fetchFilteredData();
         }
     }, [params]);
+
+    useEffect(() => {
+        if (cardElement && scrollTopOffset) {
+            cardElement.scrollTop = scrollTopOffset;
+        }
+    }, [loadedTutorItems]);
 
     useEffect(() => {
         getLevels();
