@@ -253,13 +253,22 @@ const SearchTutors = () => {
       setPage(page + 1);
     };
 
+    const hideLoadMore = () => {
+      let returnValue: boolean = false;
+      if (availableTutors) {
+        //const totalPages = Math.ceil(notificationsData.count / params.size);
+        if (availableTutors.last) returnValue = true;
+      }
+      return returnValue;
+    };
+
     const handleScroll = async (e: HTMLDivElement) => {
 
         if (availableTutors && loadedTutorItems.length != availableTutors.totalElements) {
           const innerHeight = e.scrollHeight;
             const scrollPosition = e.scrollTop + e.clientHeight;
 
-            if (Math.floor(innerHeight) === Math.floor(scrollPosition)) {
+            if (!hideLoadMore() && Math.floor(innerHeight) === Math.floor(scrollPosition)) {
                 handleLoadMore();
                 //action to do on scroll to bottom
                 const newParams = { ...params };

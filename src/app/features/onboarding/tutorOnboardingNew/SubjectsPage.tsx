@@ -197,7 +197,7 @@ const SubjectsPage = ({ nextStep, backStep }:SubjectsProps) => {
   const [forms, setForms] = useState<ITutorSubject[]>([]);
 
   useEffect(() => {
-    const allValid = forms.every(form => form.subjectId && form.levelId && form.price);
+    const allValid = forms.every(form => form.subjectId && form.levelId && form.price && +form.price >= 10);
     setBtnDisabled(!allValid);
   }, [forms]);
 
