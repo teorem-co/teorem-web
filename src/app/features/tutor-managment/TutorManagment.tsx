@@ -127,7 +127,7 @@ const TutorManagment = () => {
   }
 
   const userToken = useAppSelector((state) => state.auth.token);
-  const fileUrl = 'api/v1/chat/download';
+  const fileUrl = 'api/v1/tutors/export/csv';
   const url = `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_CHAT_FILE_DOWNLOAD_HOST}/${fileUrl}`;
 
   function downloadCsv(){
@@ -141,8 +141,7 @@ const TutorManagment = () => {
     })
       .then(response => {
         const contentDisposition = response.headers.get('Content-Disposition');
-        const fileName = contentDisposition?.split('=')[1];
-
+        const fileName = contentDisposition?.split('=')[1].replace(/['"]/g, '').trim();
         response.blob().then(blob => {
           const url = window.URL.createObjectURL(blob);
           const a = document.createElement('a');
