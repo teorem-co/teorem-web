@@ -165,7 +165,7 @@ const TutorManagment = () => {
                             placeholder={t('TUTOR_MANAGMENT.SEARCH_PLACEHOLDER')}
                             className="input p-4 pl-12" />
                     </div>
-                  <button onClick={downloadCsv}>SKINI CSV</button>
+                  <button className="ml-2" onClick={downloadCsv}>SKINI CSV</button>
                 </div>
                 <div className="tutors--table--tab--select card--secondary__head card--secondary__head--search-tutor">
                     <div
