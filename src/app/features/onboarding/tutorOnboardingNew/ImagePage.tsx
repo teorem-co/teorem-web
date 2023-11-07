@@ -1,4 +1,4 @@
-import { Form, FormikProvider, useFormik } from 'formik';
+import {Form, FormikProvider, useFormik} from 'formik';
 import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import * as Yup from 'yup';
@@ -21,6 +21,7 @@ import {
   useUpdateUserInformationMutation,
 } from '../../../../services/userService';
 import moment from 'moment/moment';
+import imageCompression from "browser-image-compression";
 
 //TODO: update the additional values to only image
 
@@ -97,7 +98,12 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
     if (typeof values.profileImage === 'string') {
       delete toSend.profileImage;
     }else {
-      toSend['profileImage'] = values.profileImage;
+      const options = {
+        maxSizeMB: 3,
+        maxWidthOrHeight: 300,
+        useWebWorker: true,
+      };
+      toSend['profileImage'] = await imageCompression(values.profileImage, options);
     }
 
     await updateUserInformation(toSend);
