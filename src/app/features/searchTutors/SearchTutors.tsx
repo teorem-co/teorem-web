@@ -273,14 +273,9 @@ const SearchTutors = () => {
                 //action to do on scroll to bottom
                 const newParams = { ...params };
                 newParams.page = page;
+                setParams(newParams);
                 const currentScrollTop = cardElement.scrollTop;
                 setScrollTopOffset(currentScrollTop);
-
-                const tutorResponse = await getAvailableTutors({
-                  ...newParams
-                }).unwrap();
-
-                setLoadedTutorItems(loadedTutorItems.concat(tutorResponse.content));
             }
         }
     };
