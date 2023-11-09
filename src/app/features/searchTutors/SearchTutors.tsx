@@ -210,7 +210,7 @@ const SearchTutors = () => {
         }
     };
 
-    const fetchData = async (params: IParams) => {
+    const fetchData = async () => {
 
         const urlQueries: IParams = getUrlParams(history.location.search.replace('?', ''));
 
@@ -327,7 +327,7 @@ const SearchTutors = () => {
     }, [priceSortDirection]);
 
     useEffect(() => {
-        fetchData(params);
+        fetchData();
     }, [params]);
 
     useEffect(() => {
