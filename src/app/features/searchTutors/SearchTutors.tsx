@@ -234,7 +234,7 @@ const SearchTutors = () => {
         setInitialLoad(false);
     };
 
-    const fetchFilteredData = async (params:IParams) => {
+    const fetchFilteredData = async () => {
         const filterParams = new URLSearchParams();
         if (Object.keys(params).length !== 0 && params.constructor === Object) {
             for (const [key, value] of Object.entries(params)) {
@@ -333,7 +333,7 @@ const SearchTutors = () => {
     useEffect(() => {
         setScrollTopOffset(null);
         if (!initialLoad) {
-            fetchFilteredData(params);
+            fetchFilteredData();
         }
     }, [params]);
 
