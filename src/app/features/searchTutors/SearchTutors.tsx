@@ -328,7 +328,7 @@ const SearchTutors = () => {
 
     useEffect(() => {
         fetchData();
-    }, [params]);
+    }, []);
 
     useEffect(() => {
         setScrollTopOffset(null);
