@@ -78,7 +78,7 @@ const PayoutsTableElement = (props: PayoutsProps) => {
               ></i>
               <Typography
                 style={{fontFamily: "Lato"}}>{props.month}</Typography>
-                <i className="icon icon--base icon--download icon--primary"></i>
+                <i className="icon icon--base icon--download icon--primary" onClick={() => handleInvoiceDownload(t(props.month), "0")}></i>
             </div>
           </AccordionSummary>
           <AccordionDetails style={{overflow: 'hidden', whiteSpace: 'nowrap'}}>
@@ -88,7 +88,7 @@ const PayoutsTableElement = (props: PayoutsProps) => {
                     <div style={{display: "flex", alignItems: "center"}}>
                       {t('EARNINGS.WEEK_TITLE')} {week}
                       <br/>
-                      <i className="icon icon--base icon--download icon--primary" onClick={() => handleInvoiceDownload(props.month, week)}></i>
+                      <i className="icon icon--base icon--download icon--primary" onClick={() => handleInvoiceDownload(t(props.month), week)}></i>
                     </div>
                   );
                 }))
