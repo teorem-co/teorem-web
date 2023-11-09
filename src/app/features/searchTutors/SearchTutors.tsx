@@ -210,7 +210,7 @@ const SearchTutors = () => {
         }
     };
 
-    const fetchData = async () => {
+    const fetchData = async (params: IParams) => {
 
         const urlQueries: IParams = getUrlParams(history.location.search.replace('?', ''));
 
@@ -327,8 +327,8 @@ const SearchTutors = () => {
     }, [priceSortDirection]);
 
     useEffect(() => {
-        fetchData();
-    }, []);
+        fetchData(params);
+    }, [params]);
 
     useEffect(() => {
         setScrollTopOffset(null);
