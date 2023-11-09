@@ -234,7 +234,7 @@ const SearchTutors = () => {
         setInitialLoad(false);
     };
 
-    const fetchFilteredData = async () => {
+    const fetchFilteredData = async (params:IParams) => {
         const filterParams = new URLSearchParams();
         if (Object.keys(params).length !== 0 && params.constructor === Object) {
             for (const [key, value] of Object.entries(params)) {
@@ -251,13 +251,16 @@ const SearchTutors = () => {
 
     const handleLoadMore = () => {
       setPage(page + 1);
+      const newParams = { ...params };
+      newParams.page = page;
+      setParams(newParams);
     };
 
     const hideLoadMore = () => {
       let returnValue: boolean = false;
       if (availableTutors) {
         //const totalPages = Math.ceil(notificationsData.count / params.size);
-        if (availableTutors.last) returnValue = true;
+        if (availableTutors.last && page==availableTutors.totalPages) returnValue = true;
       }
       return returnValue;
     };
@@ -271,9 +274,6 @@ const SearchTutors = () => {
             if (!hideLoadMore() && innerHeight === scrollPosition) {
                 handleLoadMore();
                 //action to do on scroll to bottom
-                const newParams = { ...params };
-                newParams.page = page;
-                setParams(newParams);
                 const currentScrollTop = cardElement.scrollTop;
                 setScrollTopOffset(currentScrollTop);
             }
@@ -333,7 +333,7 @@ const SearchTutors = () => {
     useEffect(() => {
         setScrollTopOffset(null);
         if (!initialLoad) {
-            fetchFilteredData();
+            fetchFilteredData(params);
         }
     }, [params]);
 
