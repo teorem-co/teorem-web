@@ -680,7 +680,7 @@ export const EN_US = {
             COMPANY_OIB_PLACEHOLDER: 'Enter company OIB',
             IBAN_PLACEHOLDER: 'Enter your IBAN',
             IMAGE: 'Profile Image*',
-            UPLOAD_IMAGE: 'Drag and drop to upload',
+            UPLOAD_IMAGE: '<div><b>Choose file</b> or drag and drop to upload</div>',
         },
         PROFILE_ACCOUNT: {
             STRIPE: 'Go to Stripe',
