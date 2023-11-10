@@ -251,27 +251,31 @@ const SearchTutors = () => {
 
     const handleLoadMore = () => {
       setPage(page + 1);
+      const newParams = { ...params };
+      newParams.page = page;
+      setParams(newParams);
+    };
+
+    const hideLoadMore = () => {
+      let returnValue: boolean = false;
+      if (availableTutors) {
+        //const totalPages = Math.ceil(notificationsData.count / params.size);
+        if (availableTutors.last) returnValue = true;
+      }
+      return returnValue;
     };
 
     const handleScroll = async (e: HTMLDivElement) => {
 
         if (availableTutors && loadedTutorItems.length != availableTutors.totalElements) {
-          const innerHeight = e.scrollHeight;
+            const innerHeight = e.scrollHeight;
             const scrollPosition = e.scrollTop + e.clientHeight;
 
-            if (Math.floor(innerHeight) === Math.floor(scrollPosition)) {
+            if (!hideLoadMore() && innerHeight === scrollPosition) {
                 handleLoadMore();
                 //action to do on scroll to bottom
-                const newParams = { ...params };
-                newParams.page = page;
                 const currentScrollTop = cardElement.scrollTop;
                 setScrollTopOffset(currentScrollTop);
-
-                const tutorResponse = await getAvailableTutors({
-                  ...newParams
-                }).unwrap();
-
-                setLoadedTutorItems(loadedTutorItems.concat(tutorResponse.content));
             }
         }
     };
@@ -324,7 +328,7 @@ const SearchTutors = () => {
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [params]);
 
     useEffect(() => {
         setScrollTopOffset(null);
