@@ -55,7 +55,7 @@ export const HR_HR = {
         TIP_2:'Najučinkovitiji profili sadrže 100+ riječi u rubirkama <u><i>više o meni</i></u> i <u><i>više o mojim predavanjima</i></u>.',
       },
       TOOLTIPS: {
-        AVAILABILITY: "Svoju dostupnost možete izmijeniti u bilo kojem trenutku.",
+        AVAILABILITY: "Odaberite kada ste dostupni za instrukcije, po dijelovima dana u tjednu. Svoju dostupnost možete kasnije izmijeniti u bilo kojem trenutku.",
         SUBJECTS: "Kasnije možete dodati ili obrisati predmete u postavkama Vašeg profila."
       },
       IMAGE_TIPS: {
@@ -80,12 +80,12 @@ export const HR_HR = {
         MIN_LIMIT: 'Minimalni broj riječi je',
         TOO_BIG: 'Broj je prevelik',
         REQUIRED: 'Ovo polje je neophodno',
-        LOWERCASE: 'Sadržavati barem jedno malo slovo (a-z)',
-        UPPERCASE: 'Sadržavati barem jedno veliko slovo (A-Z)',
-        NUMBER: 'Sadržavati barem jednu brojku (0-9)',
-        MIN_CHARACTERS: 'Sadržavati najmanje 8 znakova',
-        SPECIAL_CHAR: 'Sadržavati barem jedan poseban znak (@, $, !, %, *, ?, &...)',
-        PASSWORD_MUST: 'Lozinka mora',
+        LOWERCASE: 'Barem jedno malo slovo (a-z)',
+        UPPERCASE: 'Barem jedno veliko slovo (A-Z)',
+        NUMBER: 'Barem jednu brojku (0-9)',
+        MIN_CHARACTERS: 'Najmanje 8 znakova',
+        SPECIAL_CHAR: 'Barem jedan poseban znak (@, $, !, %, *, ?, &...)',
+        PASSWORD_MUST: 'Lozinka mora sadržavati',
         PASSWORD_MATCH: 'Lozinke se moraju poklapati',
         PASSWORD_STRENGTH: 'Lozinka mora ispunjavati uvjete',
         PRICE: 'Cijena ne može biti ispod ',

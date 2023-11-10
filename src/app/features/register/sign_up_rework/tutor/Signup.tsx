@@ -161,14 +161,6 @@ export function Signup() {
             <span dangerouslySetInnerHTML={{ __html: firstName +', ' +t(titles[currentStepIndex]) }} />
           </h4>
         }
-
-        {!isLastStep &&
-          <AiOutlineClose
-              id={`close-button-${currentStepIndex}-${selectedRole}`}
-            className="mr-2 ml-6 cur--pointer signup-icon"
-            color='grey'
-            onClick={close}/>
-        }
       </div>
 
       {selectedRole != RoleOptions.Tutor && isFirstStep && <p className='text-align--center font-family__poppins fw-300 info-text'>{t('REGISTER.FORM.CHOOSE_SUBJECTS_TIP')}</p>}

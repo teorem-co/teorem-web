@@ -55,7 +55,7 @@ export const EN_US = {
         TIP_2:'The most effective profiles contain 100+ words in the rubrics <u><i>more about me</i></u> and <u><i>more about my lectures</i></u>.',
       },
       TOOLTIPS: {
-        AVAILABILITY: "You can change your availability at any time.",
+        AVAILABILITY: "Select when you're available for tutoring, based on times of day in the week. You can change your availability later at any time.",
         SUBJECTS: "You can later add or delete subjects in Your profile settings."
       },
       IMAGE_TIPS: {
