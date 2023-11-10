@@ -676,9 +676,9 @@ export const HR_HR = {
             COMPANY_NAME_PLACEHOLDER: 'Unesite ime tvrtke',
             COMPANY_OIB: 'OIB tvrtke*',
             COMPANY_OIB_PLACEHOLDER: 'Unesite OIB tvrtke',
-          IBAN_PLACEHOLDER: 'Unesite svoj IBAN',
+            IBAN_PLACEHOLDER: 'Unesite svoj IBAN',
             IMAGE: 'Profilna slika*',
-            UPLOAD_IMAGE: 'Povucite i ispustite za učitavanje',
+            UPLOAD_IMAGE: '<div><b>Učitajte datoteku</b> ili povucite i ispustite za učitavanje</div>',
         },
         PROFILE_ACCOUNT: {
             STRIPE: 'Idi na Stripe',
