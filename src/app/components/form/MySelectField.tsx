@@ -147,6 +147,7 @@ const MySelect = ({
                 placeholder={placeholder}
                 closeMenuOnSelect={closeMenuOnSelect}
                 isDisabled={isDisabled}
+                menuPosition="fixed"
                 isLoading={isLoading}
                 noOptionsMessage={() => {
                   if(noOptionsMessage?.toString().includes("childless", 6)) {

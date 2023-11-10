@@ -11,7 +11,6 @@ import {
 } from '../../../../services/tutorService';
 import MyTextArea from '../../../components/form/MyTextArea';
 import TextField from '../../../components/form/TextField';
-import RouterPrompt from '../../../components/RouterPrompt';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
 import {useAppDispatch, useAppSelector} from '../../../hooks';
 import {getUserId} from '../../../utils/getUserId';
@@ -22,7 +21,6 @@ import {AiOutlineLeft} from "react-icons/ai";
 import CircularProgress from "../../my-profile/components/CircularProgress";
 import {setStepTwo} from "../../../../slices/onboardingSlice";
 import TestTutorProfile from "./TestTutorProfile";
-import {t} from "i18next";
 
 interface AdditionalValues {
   currentOccupation: string;
@@ -293,14 +291,16 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                                       <i
                                         id="length"
                                         className="icon icon--sm icon--check icon--success mr-3"
+                                        style={{pointerEvents: "none"}}
                                       ></i> :
                                       <i
                                         id="length"
                                         className="icon icon--sm icon--close icon--grey mr-3"
+                                        style={{pointerEvents: "none"}}
                                       ></i>
                                     }
                                   </td>
-                                  <td>{t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_TOOLTIP')}</td>
+                                  <td>{t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_REQUEST')}</td>
                                 </tr>
                                 <tr>
                                   <td>
@@ -308,14 +308,26 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                                       <i
                                         id="length"
                                         className="icon icon--sm icon--check icon--success mr-3"
+                                        style={{pointerEvents: "none"}}
                                       ></i> :
                                       <i
                                         id="length"
-                                        className="icon icon--sm icon--close icon--grey mr-3"
+                                        className="icon icon--sm icon--chevron-right icon--grey mr-3"
+                                        style={{pointerEvents: "none"}}
                                       ></i>
                                     }
                                   </td>
                                   <td>{t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.TOOLTIP_EFFECTIVE')}</td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    <i
+                                      id="length"
+                                      className="icon icon--sm icon--chevron-right icon--grey mr-3"
+                                      style={{pointerEvents: "none"}}
+                                    ></i>
+                                  </td>
+                                  <td>{t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_TOOLTIP')}</td>
                                 </tr>
                                 </tbody>
                               </table>
@@ -340,9 +352,44 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                                 <tbody>
                                 <tr>
                                   <td>
+                                    {formik.values.aboutTutor.trim().split(" ").length >= 50 ?
+                                      <i
+                                        id="length"
+                                        className="icon icon--sm icon--check icon--success mr-3"
+                                        style={{pointerEvents: "none"}}
+                                      ></i> :
+                                      <i
+                                        id="length"
+                                        className="icon icon--sm icon--close icon--grey mr-3"
+                                        style={{pointerEvents: "none"}}
+                                      ></i>
+                                    }
+                                  </td>
+                                  <td>{t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_REQUEST')}</td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    {formik.values.aboutLessons.trim().split(" ").length >= 100 ?
+                                      <i
+                                        id="length"
+                                        className="icon icon--sm icon--check icon--success mr-3"
+                                        style={{pointerEvents: "none"}}
+                                      ></i> :
+                                      <i
+                                        id="length"
+                                        className="icon icon--sm icon--chevron-right icon--grey mr-3"
+                                        style={{pointerEvents: "none"}}
+                                      ></i>
+                                    }
+                                  </td>
+                                  <td>{t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.TOOLTIP_EFFECTIVE')}</td>
+                                </tr>
+                                <tr>
+                                  <td>
                                     <i
                                       id="length"
                                       className="icon icon--sm icon--chevron-right icon--grey mr-3"
+                                      style={{pointerEvents: "none"}}
                                     ></i>
                                   </td>
                                   <td>{t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_TOOLTIP')}</td>
@@ -352,24 +399,10 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                                     <i
                                       id="length"
                                       className="icon icon--sm icon--chevron-right icon--grey mr-3"
+                                      style={{pointerEvents: "none"}}
                                     ></i>
                                   </td>
                                   <td>{t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_TOOLTIP_2')}</td>
-                                </tr>
-                                <tr>
-                                  <td>
-                                    {formik.values.aboutLessons.trim().split(" ").length >= 100 ?
-                                      <i
-                                        id="length"
-                                        className="icon icon--sm icon--check icon--success mr-3"
-                                      ></i> :
-                                      <i
-                                        id="length"
-                                        className="icon icon--sm icon--close icon--grey mr-3"
-                                      ></i>
-                                    }
-                                  </td>
-                                  <td>{t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.TOOLTIP_EFFECTIVE')}</td>
                                 </tr>
                                 </tbody>
                               </table>

@@ -55,8 +55,11 @@ export const EN_US = {
         TIP_2:'The most effective profiles contain 100+ words in the rubrics <u><i>more about me</i></u> and <u><i>more about my lectures</i></u>.',
       },
       TOOLTIPS: {
-        AVAILABILITY: "Select when you're available for tutoring, based on times of day in the week. You can change your availability later at any time.",
-        SUBJECTS: "You can later add or delete subjects in Your profile settings."
+        AVAILABILITY_1: "Select when you're available for tutoring, based on times of day in the week.",
+        AVAILABILITY_2: "You can change your availability later at any time.",
+        SUBJECTS: "You can later add or delete subjects in Your profile settings.",
+        SUBJECTS_TIP_1: "Add the subjects you want to tutor in and define your price.",
+        SUBJECTS_TIP_2: "Keep in mind that Teorem charges a 12% commission.",
       },
       IMAGE_TIPS: {
         TITLE: 'Tips for image:',
@@ -88,7 +91,7 @@ export const EN_US = {
         PASSWORD_MUST: 'Password must',
         PASSWORD_MATCH: 'Passwords must match',
         PASSWORD_STRENGTH: 'Password must meet the conditions',
-        PRICE: 'Price can`t be lower than ',
+        PRICE: 'Minimum ',
         FUTURE_DATE: 'Date can`t be in the future',
         VALID_DATE: 'Date is invalid',
         PHONE_NUMBER: 'Invalid phone number',
@@ -179,7 +182,8 @@ export const EN_US = {
             FORM: {
               ABOUT_TUTOR_LABEL: 'Tell us more about yourself*',
               ABOUT_TUTOR_PLACEHOLDER: 'What describes you best, what are your hobbies, approach...',
-              ABOUT_TUTOR_TOOLTIP: 'In detail describe yourself, your interests, experience and hobbies. Minimum 50 words.',
+              ABOUT_TUTOR_REQUEST: 'Minimum 50 words.',
+              ABOUT_TUTOR_TOOLTIP: 'In detail describe yourself, your interests, experience and hobbies.',
               TOOLTIP_EFFECTIVE: 'Most visited profiles contain 100+ words in this category.',
               ABOUT_LESSONS_LABEL: 'Tell us more about your lessons*',
               ABOUT_LESSONS_PLACEHOLDER: 'Describe your lessons, approach, way of teaching...',
@@ -629,8 +633,8 @@ export const EN_US = {
       ABOUT_ME: {
             OCCUPATION: 'Your current Occupation*',
             OCCUPATION_PLACEHOLDER: 'What’s your current Occupation',
-            YEARS: 'Years of professional experience',
-            YEARS_PLACEHOLDER: 'How many years of professional experience you have',
+            YEARS: 'Years of tutoring experience',
+            YEARS_PLACEHOLDER: 'How many years of tutoring experience you have',
             ABOUT_YOURSELF: 'Tell us more about yourself*',
             ABOUT_LESSON: 'Tell us more about your lessons*',
         },
@@ -646,7 +650,7 @@ export const EN_US = {
             SUBJECT: 'Select subject you teach',
             LEVEL: 'Select levels that you are able to teach',
             PRICING: 'Pricing',
-            PRICING_PLACEHOLDER: '',
+            PRICING_PLACEHOLDER: '10',
             HOUR_ABRV: 'hr',
             SAVE: 'Save information',
             DELETE: 'Delete',
@@ -1100,7 +1104,7 @@ export const EN_US = {
         IBAN_CONFIRM: "IBAN confirmation",
         SAVE: "Submit",
         CANCEL: "Cancel",
-        TERMS: '<div>By clicking on the "Submit" button, you agree to the <a href="https://stripe.com/legal/connect-account" target="_blank">Terms of Service</a> and <a href="https://stripe.com/privacy" target="_blank">Privacy Policy</a></div>',
+        TERMS: '<div>By clicking on the "Submit" button, you agree to the <a href="https://stripe.com/legal/connect-account" target="_blank">Terms of Service</a>.</div>',
         SUCCESS: "Payment account connected",
     },
     SUBJECTS: {

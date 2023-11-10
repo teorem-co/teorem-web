@@ -23,7 +23,6 @@ import {
   ICreateSubjectOnboarding,
   useCreateSubjectsOnboardingMutation,
 } from '../../../../services/subjectService';
-import { t } from 'i18next';
 
 interface SubjectsValues {
   subjects: ISubject[];
@@ -42,9 +41,7 @@ const SubjectsPage = ({ nextStep, backStep }:SubjectsProps) => {
     useLazyGetTutorByIdQuery();
 
   const[createSubjectsOnboarding] = useCreateSubjectsOnboardingMutation();
-  const [addSidebarOpen, setAddSidebarOpen] = useState(false);
   const [editSidebarOpen, setEditSidebarOpen] = useState(false);
-  const [saveBtnActive, setSaveBtnActive] = useState(false);
 
   const [btnDisabled, setBtnDisabled] = useState(true);
   const dispatch = useAppDispatch();
@@ -257,13 +254,19 @@ const SubjectsPage = ({ nextStep, backStep }:SubjectsProps) => {
           </div>
         </div>
 
+        <div className="type--base align--center field__w-fit-content p-2" style={{color: "#636363", textAlign: "center"}}>
+          <span>{t('TUTOR_ONBOARDING.TOOLTIPS.SUBJECTS_TIP_1')}</span>
+          <br/>
+          <span>{t('TUTOR_ONBOARDING.TOOLTIPS.SUBJECTS_TIP_2')}</span>
+        </div>
+
         <div style={{justifyContent: "center", alignItems: "center", flexDirection: "column"}}>
           {(isLoading && <LoaderPrimary />) || (
             <div className="flex--center"  style={{display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column"}}>
               <div>
                 <div
                   style={{ minWidth:'100px',maxWidth:'fit-content', overflowY: 'unset'}}
-                  className="dash-wrapper dash-wrapper--adaptive flex--grow flex--col flex--jc--space-between" >
+                  className=" dash-wrapper--adaptive flex--grow flex--col flex--jc--space-between" >
                   <div>
 
 

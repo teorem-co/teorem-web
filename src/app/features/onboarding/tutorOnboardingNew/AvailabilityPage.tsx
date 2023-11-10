@@ -5,10 +5,8 @@ import React, { useEffect, useState } from 'react';
 import {
   useLazyGetProfileProgressQuery,
 } from '../../../../services/tutorService';
-import RouterPrompt from '../../../components/RouterPrompt';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
 import availabilityTable from '../../../constants/availabilityTable';
-import toastService from '../../../services/toastService';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { getUserId } from '../../../utils/getUserId';
 import {
@@ -19,11 +17,7 @@ import IAvailabilityIndex from "../../my-profile/interfaces/IAvailabilityIndex";
 import ITutorAvailability from "../../my-profile/interfaces/ITutorAvailability";
 import {setMyProfileProgress} from "../../my-profile/slices/myProfileSlice";
 import CircularProgress from "../../my-profile/components/CircularProgress";
-import logo from "../../../../assets/images/teorem_logo_purple.png";
 import {useHistory} from "react-router";
-import {PATHS} from "../../../routes";
-import SearchTutors from "../../searchTutors/SearchTutors";
-import {useDispatch} from "react-redux";
 import {setStepZero} from "../../../../slices/onboardingSlice";
 
 interface AvailabilityValues {
@@ -239,8 +233,10 @@ const AvailabilityPage = ({ nextStep }:AvailabilityProps) => {
         {(loading && <LoaderPrimary />) || (
           <div className="flex--center m-2" style={{display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column"}}>
             <table className="table table--availability "><tbody>{renderAvailabilityTable()}</tbody></table>
-            <div className="type--base align--center field__w-fit-content p-2" style={{color: "#636363"}}>
-              <span>{t('TUTOR_ONBOARDING.TOOLTIPS.AVAILABILITY')}</span>
+            <div className="type--base align--center field__w-fit-content p-2" style={{color: "#636363", textAlign: "center"}}>
+              <span>{t('TUTOR_ONBOARDING.TOOLTIPS.AVAILABILITY_1')}</span>
+              <br/>
+              <span>{t('TUTOR_ONBOARDING.TOOLTIPS.AVAILABILITY_2')}</span>
             </div>
             <button
               id="tutor-onboarding-step-1"
