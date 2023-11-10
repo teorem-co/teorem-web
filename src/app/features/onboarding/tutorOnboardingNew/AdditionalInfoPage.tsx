@@ -224,6 +224,7 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
             justifyContent: "center",
             alignItems: "center",
             flexDirection: "column",
+            marginLeft: "30px"
           }}>
 
             {/* ADDITIONAL INFO */}
