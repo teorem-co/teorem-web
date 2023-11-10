@@ -99,8 +99,8 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
       delete toSend.profileImage;
     }else {
       const options = {
-        maxSizeMB: 3,
-        maxWidthOrHeight: 300,
+        maxSizeMB: 5,
+        maxWidthOrHeight: 500,
         useWebWorker: true,
       };
       toSend['profileImage'] = await imageCompression(values.profileImage, options);
