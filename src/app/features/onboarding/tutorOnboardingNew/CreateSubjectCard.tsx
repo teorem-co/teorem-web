@@ -150,7 +150,7 @@ export const CreateSubjectCard = (props: Props) => {
                   </div>
                   <div>
                     <MySelect
-                      className="w--220--min w--220--max mb-5"
+                      className="w--220--min w--220--max mb-5 test_style"
                       key={formik.values.subject}
                       field={formik.getFieldProps('subject')}
                       form={formik}
@@ -169,8 +169,7 @@ export const CreateSubjectCard = (props: Props) => {
                      name="price"
                      id="price"
                      placeholder={
-                       t('MY_PROFILE.MY_TEACHINGS.PRICING_PLACEHOLDER') +
-                       minPrice + ' ' + currency + '/h'}
+                       t('MY_PROFILE.MY_TEACHINGS.PRICING_PLACEHOLDER')}
                      // withoutErr={true}
                      type="number"
                    /></div>
