@@ -298,6 +298,7 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
                           <i
                             id="length"
                             className="icon icon--base icon--chevron-right icon--grey mr-3"
+                            style={{pointerEvents: "none"}}
                           ></i>
                         </td>
                         <td>{t('TUTOR_ONBOARDING.IMAGE_TIPS.TIP_1')}</td>
@@ -307,6 +308,7 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
                           <i
                             id="length"
                             className="icon icon--base icon--chevron-right icon--grey mr-3"
+                            style={{pointerEvents: "none"}}
                           ></i>
                         </td>
                         <td>{t('TUTOR_ONBOARDING.IMAGE_TIPS.TIP_2')}</td>
@@ -316,13 +318,13 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
                           <i
                             id="letter"
                             className="icon icon--base icon--chevron-right icon--grey mr-3"
+                            style={{pointerEvents: "none"}}
                           ></i>
                         </td>
                         <td>{t('TUTOR_ONBOARDING.IMAGE_TIPS.TIP_3')}</td>
                       </tr>
                       </tbody>
                     </table>
-
                   </div>
                 </div>
 
