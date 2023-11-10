@@ -56,7 +56,7 @@ export const EN_US = {
       },
       TOOLTIPS: {
         AVAILABILITY_1: "Select when you're available for tutoring, based on times of day in the week.",
-        AVAILABILITY_2: "Select when you're available for tutoring, based on times of day in the week. You can change your availability later at any time.",
+        AVAILABILITY_2: "You can change your availability later at any time.",
         SUBJECTS: "You can later add or delete subjects in Your profile settings.",
         SUBJECTS_TIP_1: "Add the subjects you want to tutor in and define your price.",
         SUBJECTS_TIP_2: "Keep in mind that Teorem charges a 12% commission.",
