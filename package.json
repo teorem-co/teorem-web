@@ -42,7 +42,7 @@
         "moment": "^2.29.1",
         "nodemon": "^2.0.22",
         "rc-time-picker": "^3.7.3",
-        "react": "^18.2.0",
+        "react": "18.2.0",
         "react-big-calendar": "^1.8.4",
         "react-calendar": "^3.5.0",
         "react-chartjs-2": "^5.2.0",
