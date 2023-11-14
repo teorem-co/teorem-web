@@ -15,7 +15,7 @@ import {
 import { t } from 'i18next';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
-import { Line } from 'react-chartjs-2';
+import {Chart, Line} from 'react-chartjs-2';
 import Select from 'react-select';
 
 import { OptionType } from '../../components/form/MySelectField';
@@ -84,15 +84,6 @@ const Earnings = () => {
     }
     const maxNum = Math.max(response.totalStudents, response.totalBookings) + 2;
     setMaxNumOfTicks(maxNum);
-  };
-
-  const [alignment, setAlignment] = React.useState('month');
-
-  const handleChange = (
-    event: React.MouseEvent<HTMLElement>,
-    newAlignment: string,
-  ) => {
-    setAlignment(newAlignment);
   };
 
   const [alignment, setAlignment] = React.useState('month');
