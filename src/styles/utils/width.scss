@@ -111,6 +111,7 @@
     }
 
     &--220 {
+      width: 220px;
       &--max {
         max-width: 220px;
       }
@@ -233,6 +234,16 @@
     }
     &--max {
       max-height: 200px;
+    }
+  }
+
+  &--300 {
+    height: 300px;
+    &--min {
+      min-height: 300px;
+    }
+    &--max {
+      max-height: 300px;
     }
   }
 }
