@@ -19,7 +19,7 @@ import {
 import { RoleOptions } from '../../../slices/roleSlice';
 import MainWrapper from '../../components/MainWrapper';
 import { useAppSelector } from '../../hooks';
-import { PATHS, PROFILE_PATHS, ROUTES } from '../../routes';
+import { PATHS, PROFILE_PATHS } from '../../routes';
 import {
   IChatRoom,
   ISendChatMessage,
@@ -30,10 +30,7 @@ import LearnCubeModal from '../my-profile/components/LearnCubeModal';
 import NotificationItem from '../notifications/components/NotificationItem';
 import CircularProgress from '../my-profile/components/CircularProgress';
 import { setMyProfileProgress } from '../my-profile/slices/myProfileSlice';
-import {
-  useLazyGetAvailableTutorsQuery,
-  useLazyGetProfileProgressQuery,
-} from '../../../services/tutorService';
+import { useLazyGetProfileProgressQuery } from '../../../services/tutorService';
 import IParams from "../notifications/interfaces/IParams";
 import {
   useLazyGetRequestsQuery,
@@ -59,21 +56,6 @@ import { TutorTutorialModal } from '../../components/TutorTutorialModal';
 import {
   HiLinkModalForTutorIntro
 } from '../my-profile/components/HiLinkModalForTutorIntro';
-import toastService from '../../services/toastService';
-import {
-  useLazyGetTutorTestingLinkQuery,
-} from '../../services/hiLinkService';
-import NotificationsSidebar from '../../components/NotificationsSidebar';
-import { IoNotifications, IoNotificationsOutline } from 'react-icons/io5';
-import {
-  RecommendedTutorCard
-} from './recommended-tutors/RecommendedTutorCard';
-import ITutorItem from '../../../interfaces/ITutorItem';
-import { SortDirection } from '../../lookups/sortDirection';
-import {
-  RecommendedTutorCardMobile
-} from './recommended-tutors/RecommendedTutorCardMobile';
-import MediaQuery from 'react-responsive';
 
 interface IGroupedDashboardData {
     [date: string]: IBooking[];
@@ -317,12 +299,18 @@ const Dashboard = () => {
         const groupedRequestData: IGroupedDashboardData = groupBy(requests, (e) => moment(e.startTime).format(t('DATE_FORMAT')));
         setGroupedRequests(groupedRequestData);
 
-        // if(!showIntro){
-        //   setGroupedRequests(prevGroupedRequests => {
-        //     const { dateKey, ...restOfData } = prevGroupedRequests;
-        //     return restOfData;
-        //   });
-        // }
+        const dateKey = moment(new Date()).add(1, 'day').format(t('DATE_FORMAT'));
+        if(showIntro){
+          // const grupedData: IGroupedDashboardData = {
+          //   [dateKey]: [mockRequest]
+          // };
+          // setGroupedRequests(grupedData);
+        }else{
+          setGroupedRequests(prevGroupedRequests => {
+            const { dateKey, ...restOfData } = prevGroupedRequests;
+            return restOfData;
+          });
+        }
 
         let children = [];if(userRole === RoleOptions.Parent && userId !== undefined) {
           children = await getChildren(userId).unwrap().then();
@@ -396,7 +384,7 @@ const Dashboard = () => {
     };
 
     useEffect(() => {
-      fetchData();
+      fetchData(); //TODO: IMPORTANT! uncomment this later, this gets dashboard data
 
       socket.on('showNotification', (notification: ISocketNotification) => {
         if (userId && notification.userId === userId) {
@@ -548,79 +536,81 @@ const Dashboard = () => {
 
     const steps = [
       {
-        title: t('TUTOR_INTRO.DASHBOARD.STEP1.TITLE'),
-        intro: t('TUTOR_INTRO.DASHBOARD.STEP1.BODY'),
+        title: "Alo ja sam naslov",
         element: ".tutor-intro-1",
+        intro: "Ovdje mozete vidjeti zahtjeve za instrukcije koje su vam poslali ucenici"
       },
       {
-        title: t('TUTOR_INTRO.DASHBOARD.STEP2.TITLE'),
-        intro: t('TUTOR_INTRO.DASHBOARD.STEP2.BODY'),
+        title: "Gore sam",
         element: ".tutor-intro-2",
+        intro: "Klikom na ovaj gumb prihvacate rezervaciju",
         position: "top"
       },
       {
-        title: t('TUTOR_INTRO.DASHBOARD.STEP3.TITLE'),
-        intro: t('TUTOR_INTRO.DASHBOARD.STEP3.BODY'),
+        title: "Desno sam",
         element: ".tutor-intro-3",
+        intro: "Klikom na ovaj gumb odbijate rezervaciju",
         position: "right"
       },
       {
-        title: t('TUTOR_INTRO.DASHBOARD.STEP4.TITLE'),
-        intro: t('TUTOR_INTRO.DASHBOARD.STEP4.BODY'),
         element: ".tutor-intro-4",
+        intro: "Ovdje mozete vidjeti koje rezervacije imate danas"
       },
       {
-        title: t('TUTOR_INTRO.DASHBOARD.STEP5.TITLE'),
-        intro: t('TUTOR_INTRO.DASHBOARD.STEP5.BODY'),
         element: ".tutor-intro-5",
+        intro: "Ovdje se mozete pridruziti u sastanak (gumb postaje aktivan 5 minuta prije pocetka)"
       },
+
     ];
 
-  const [getTestingRoomLink] = useLazyGetTutorTestingLinkQuery();
-  const [modalActive, setModalActive] = useState(false);
-  const [showTutorial, setShowTutorial] = useState(false);
-  const [tutorialRoomLink, setTutorialRoomLink] = useState('');
-  const [isStepsEnabled, setIsStepsEnabled] = useState(true);
-  const [showIntro, setShowIntro] = useState<string | null>('');
-  const [tutorHiLinkModalActive, setTutorHiLinkModalActive] = useState(false);
-  const [notificationSidebarOpen, setNotificationSidebarOpen] = useState(false);
+    const [isEnabled, setIsEnabled] = useState(true);
+
+    //TODO:
+    //zove se uvijek: bilo da si skip
+    const onExit = () => {
+      // console.log('Exiting');
+      // alert('Exiting');
+      setIsEnabled(false);
+    };
+
+    //TODO: kad finishira
+    const onComplete = () => {
+      // console.log('Completed');
+      // alert('Completed');
+      setIsEnabled(false);
+    };
+
+  const showIntro = localStorage.getItem('showTutorIntro');
 
   useEffect(() => {
-    if(!localStorage.getItem('hideTutorIntro') && profileProgressState.percentage === 100){
+    // alert(profileProgressState.percentage);
+
+    if (!showIntro) {
+      //todo: this means that it is already shown and don't do anything
+      setShowTutorial(false);
+      setModalActive(false);
+    }else if(showIntro && profileProgressState.percentage === 100){
+      // alert('showing modal for intro');
       setModalActive(true);
+      localStorage.removeItem('showTutorIntro');
     }
   }, [profileProgressState.percentage]);
 
-  //zove se uvijek: bilo da si skip
-  const onExit = () => {
-    localStorage.setItem('hideTutorIntro', 'true');
-    setShowIntro(null);
-    setIsStepsEnabled(false);
-  };
-
-  //kad klikne finish tj zadnji step
-  const onComplete = () => {
-    handleJoinBooking(mockSchedule);// automatically join meeting
-    setIsStepsEnabled(false);
-  };
+  const [showTutorial, setShowTutorial] = useState(false);
+  const [modalActive, setModalActive] = useState(false);
+  const [tutorHiLinkModalActive, setTutorHiLinkModalActive] = useState(false);
+  const [tutorialRoomLink, setTutorialRoomLink] = useState('https://www.youtube.com/embed/dQw4w9WgXcQ?si=OxYWZ2m-WOCxYxi0&amp;start=3');
 
   const skipTutorial = () =>{
     setShowTutorial(false);
     setModalActive(false);
-    setShowIntro(null);
-    localStorage.setItem('hideTutorIntro', 'true');
   };
 
-  const startTutorial = async () =>{
-    // window.scrollTo(0, document.body.scrollHeight);
-    document.body.scrollTop = -document.body.scrollHeight;
-    getTestingRoomLink().unwrap().then((res)=> {
-      setTutorialRoomLink(res.meetingUrl);
-    });
-
+  const startTutorial = () =>{
     //TODO: send request to backend and get link and save it
     const dateKey = moment(new Date()).add(1, 'day').format(t('DATE_FORMAT'));
     const grupedData: IGroupedDashboardData = {
+
       [dateKey]: [mockRequest]
     };
     setTodayScheduled([mockSchedule]);
@@ -635,68 +625,30 @@ const Dashboard = () => {
   }
 
   function handleIntroAcceptBooking(){
-    toastService.success('Rezervacija prihvacena');
-    //TODO:
+    //TODO: toast succes of accepting booking
     // remove booking from requests
     // add booking to upcoming bookings
     return;
   }
 
   function handleIntroDenyBooking(){
-    toastService.success('Rezervacija odbijena');
-    //TODO:
+    //TODO: toast succes of denying booking
     // remove booking from requests
     return;
   }
 
-  const [
-    getAvailableTutors,
-    {
-      data: availableTutors,
-      isLoading: isLoadingAvailableTutors,
-      isUninitialized: availableTutorsUninitialized,
-      isFetching: availableTutorsFetching,
-    },
-  ] = useLazyGetAvailableTutorsQuery();
-
-
-  const [loadedTutorItems, setLoadedTutorItems] = useState<ITutorItem[]>([]);
-
-  useEffect(() => {
-   if(userRole !== RoleOptions.Tutor){
-     const params ={
-       page: 0,
-       rpp: 3,
-     };
-
-     getAvailableTutors(params).unwrap().then((res)=>{
-       setLoadedTutorItems(res.content);
-     });
-   }
-  }, []);
-
-  const isMobile = window.innerWidth < 766;
   return (
       <>
-        {modalActive &&
-          userRole == RoleOptions.Tutor ?
-          <TutorTutorialModal skip={skipTutorial} start={startTutorial}/>
-        :
-          <></>
-        }
+        {modalActive && <TutorTutorialModal skip={skipTutorial} start={startTutorial}/>}
 
-        {showTutorial && groupedRequests && Object.keys(groupedRequests).length > 0 &&
-          <Steps
-               enabled={isStepsEnabled}
+        {showTutorial && groupedRequests && Object.keys(groupedRequests).length > 0 &&<Steps enabled={isEnabled}
                steps={steps}
                initialStep={0}
                onExit={onExit}
-               onBeforeExit={onExit}
                options={{
-                 nextLabel: t('TUTOR_INTRO.BUTTON_NEXT'),
-                 prevLabel: t('TUTOR_INTRO.BUTTON_PREVIOUS'),
-                 doneLabel: t('TUTOR_INTRO.BUTTON_FINISH'),
-                 scrollTo: 'element'
+                 nextLabel: 'Sljedeci',
+                 prevLabel: 'Prethodni',
+                 doneLabel: 'Kraj',
                }}
                onComplete={onComplete}
         />
@@ -790,12 +742,12 @@ const Dashboard = () => {
           ) : (<MainWrapper>
             <div className="layout--primary">
               <div>
-                {/*{userRole === RoleOptions.Tutor && profileProgressState && !profileProgressState.verified ? (*/}
-                {/*  <div className="flex flex--col flex--jc--center mb-2 p-2" style={{ borderRadius: '0.5em', color: 'white', backgroundColor:'#7e6cf2'}}>*/}
-                {/*    <h4 className="type--md mb-2 ml-6 align-self-center">{t(`TUTOR_VERIFIED_NOTE.TITLE`)}</h4>*/}
-                {/*    <p className="ml-6 align-self-center">{t(`TUTOR_VERIFIED_NOTE.DESCRIPTION`)}</p>*/}
-                {/*  </div>*/}
-                {/*) : null}*/}
+                {userRole === RoleOptions.Tutor && profileProgressState && !profileProgressState.verified ? (
+                  <div className="flex flex--col flex--jc--center mb-2 p-2" style={{ borderRadius: '0.5em', color: 'white', backgroundColor:'#7e6cf2'}}>
+                    <h4 className="type--md mb-2 ml-6 align-self-center">{t(`TUTOR_VERIFIED_NOTE.TITLE`)}</h4>
+                    <p className="ml-6 align-self-center">{t(`TUTOR_VERIFIED_NOTE.DESCRIPTION`)}</p>
+                  </div>
+                ) : null}
                 {userRole === RoleOptions.Parent && childrenData?.length === 0 ? (
                   <div>
                     <div className="flex flex--col flex--jc--center mb-2 p-2" style={{ borderRadius: '0.5em', color: 'white', background:'#7e6cf2'}}>
@@ -867,10 +819,8 @@ const Dashboard = () => {
                             </div>
                         ) : null}
                     <div className="card--secondary card--secondary--alt">
-                        <div className={`card--secondary__head flex--jc--space-between`}>
+                        <div className="card--secondary__head">
                             <h2 className="type--wgt--bold type--lg">{t('DASHBOARD.TITLE')}</h2>
-                            {/*<button className={"btn btn--lg btn--primary"} onClick={startTutorial}>Click to start tutorial</button>*/}
-                            <IoNotificationsOutline className="cur--pointer primary-color scale-hover--scale-110" size={20} onClick={() => setNotificationSidebarOpen(true)}/>
                         </div>
                         <div className="card--secondary__body pl-3 pr-3">
                           {userRole === RoleOptions.Tutor ? (
@@ -896,23 +846,21 @@ const Dashboard = () => {
                                               {moment(item.startTime).format('HH:mm')} -{' '}
                                               {moment(item.endTime).add(1, 'minute').format('HH:mm')}
                                             </div>
-                                            <div className={"flex flex--row flex--jc--space-between mr-4"}>
-                                              <div
-                                                // className={"tutor-intro-2"}
-                                                onClick={() => {
-                                                  handleAccept(item.id);
-                                                }
-                                                }>
-                                                <i className="tutor-intro-2 icon icon--base icon--check icon--primary"></i>
-                                              </div>
-                                              <div
-                                                // className={"tutor-intro-3"}
-                                                onClick={() => {
-                                                  handleDeny(item.id);
-                                                }
-                                                }>
-                                                <i className="tutor-intro-3 icon icon--base icon--close-request icon--primary tutor-intro-3"></i>
-                                              </div>
+                                            <div
+                                              // className={"tutor-intro-2"}
+                                              onClick={() => {
+                                                handleAccept(item.id);
+                                              }
+                                              }>
+                                              <i className="tutor-intro-2 icon icon--base icon--check icon--primary"></i>
+                                            </div>
+                                            <div
+                                              // className={"tutor-intro-3"}
+                                              onClick={() => {
+                                                handleDeny(item.id);
+                                              }
+                                              }>
+                                              <i className="tutor-intro-3 icon icon--base icon--close-request icon--primary tutor-intro-3"></i>
                                             </div>
                                           </div>
                                         );
@@ -1087,8 +1035,7 @@ const Dashboard = () => {
                                 </div>
                             </div>
                             <div className="dashboard__list">
-                                <div className="type--color--tertiary mb-2">{groupedUpcomming && Object.keys(groupedUpcomming).length > 0 ? t('DASHBOARD.BOOKINGS.TITLE') : t('DASHBOARD.BOOKINGS.RECOMMENDED')}</div>
-
+                              <div className="type--color--tertiary mb-2">{t('DASHBOARD.BOOKINGS.TITLE')}</div>
                               {groupedUpcomming && Object.keys(groupedUpcomming).length > 0 ? (
                                     Object.keys(groupedUpcomming).map((key: string) => {
                                         return (
@@ -1117,62 +1064,49 @@ const Dashboard = () => {
                           );
                         })
                       ) : (
-
-                        userRole !== RoleOptions.Tutor && loadedTutorItems.length > 0 &&
-                        <div className='flex flex--col flex--ai--center'>
-                          <div className="flex flex--row w--100 flex--wrap flex--gap-20 flex--jc--center field__w-fit-content align--center p-4 overflow--y--scroll pb-10">
-                            {loadedTutorItems.map((tutor) =>
-                              isMobile ? (
-                                <RecommendedTutorCardMobile className="p-4 h--350" key={tutor.id} tutor={tutor} />
-                              ) : (
-                                <RecommendedTutorCard className="p-4 h--350" key={tutor.id} tutor={tutor} />
-                              )
-                            )}
-                            {/*<RecommendedTutorCard className="p-4 cur--pointer h--350" tutor={tutorItem}/>*/}
-                            {/*<RecommendedTutorCard className="p-4 105 cur--pointer" tutor={tutorItem}/>*/}
-                          </div>
-                          <Link
-                            to={PATHS.SEARCH_TUTORS}
-                            className="type--center w--100">{t('DASHBOARD.BOOKINGS.SHOW_MORE')}</Link>
+                        <div className="tutor-list__no-results mt-30">
+                          <h1 className="tutor-list__no-results__title">
+                            <div>{t('DASHBOARD.BOOKINGS.EMPTY')}</div>
+                          </h1>
+                          <p className="tutor-list__no-results__subtitle">{t('DASHBOARD.BOOKINGS.EMPTY_SUBTITLE')}</p>
                         </div>
-
                       )}
                     </div>
                   </div>
                 </div>
               </div>
-
-              {learnCubeModal && <LearnCubeModal bookingId={currentlyActiveBooking} handleClose={() => {
-                setLearnCubeModal(false);
-              }} />}
-              {tutorHiLinkModalActive && <HiLinkModalForTutorIntro roomLink={tutorialRoomLink} handleClose={handleClose}/>}
-
-              <NotificationsSidebar sideBarIsOpen={notificationSidebarOpen} title={"Notifications"} closeSidebar={()=> setNotificationSidebarOpen(false)} >
-                  <div className="flex--primary mb-2 mr-2">
-                    <div className="type--color--tertiary">{t('DASHBOARD.NOTIFICATIONS.TITLE')}</div>
-                    {notificationsData?.content && notificationsData.content.length > 0 && (
-                      <div className="type--color--brand type--wgt--bold cur--pointer" onClick={() => markAllAsRead()}>
-                        {t('DASHBOARD.NOTIFICATIONS.CLEAR')}
-                      </div>
-                    )}
-                  </div>
-                  <div className="mr-2">
-                    {notificationsData?.content && notificationsData.content.find((x) => x.read === false) ? (
-                      notificationsData.content.map((notification: INotification) => {
-                        if (!notification.read) {
-                          return <NotificationItem key={notification.id} notificationData={notification}/>;
-                        }
-                      })
-                    ) : (
-                      <div className="card--primary card--primary--shadow">{t('DASHBOARD.NOTIFICATIONS.EMPTY')}</div>
-                    )}
-                    <div className="type--center mt-4">
-                      <Link to={t(PATHS.NOTIFICATIONS)} className="btn btn--clear">
-                        {t('DASHBOARD.NOTIFICATIONS.ALL')}
-                      </Link>
+              <div className="notification-container">
+                <div className="flex--primary mb-2 mr-2">
+                  <div className="type--color--tertiary">{t('DASHBOARD.NOTIFICATIONS.TITLE')}</div>
+                  {notificationsData?.content && notificationsData.content.length > 0 && (
+                    <div className="type--color--brand type--wgt--bold cur--pointer" onClick={() => markAllAsRead()}>
+                      {t('DASHBOARD.NOTIFICATIONS.CLEAR')}
                     </div>
+                  )}
+                </div>
+                <div className="mr-2">
+                  {notificationsData?.content && notificationsData.content.find((x) => x.read === false) ? (
+                    notificationsData.content.map((notification: INotification) => {
+                      if (!notification.read) {
+                        return <NotificationItem key={notification.id} notificationData={notification}/>;
+                      }
+                    })
+                  ) : (
+                    <div className="card--primary card--primary--shadow">{t('DASHBOARD.NOTIFICATIONS.EMPTY')}</div>
+                  )}
+                  <div className="type--center mt-4">
+                    <Link to={t(PATHS.NOTIFICATIONS)} className="btn btn--clear">
+                      {t('DASHBOARD.NOTIFICATIONS.ALL')}
+                    </Link>
                   </div>
-              </NotificationsSidebar>
+                </div>
+
+                {learnCubeModal && <LearnCubeModal bookingId={currentlyActiveBooking} handleClose={() => {
+                      setLearnCubeModal(false);
+                    }} />}
+
+                {tutorHiLinkModalActive && <HiLinkModalForTutorIntro roomLink={tutorialRoomLink} handleClose={handleClose}/>}
+              </div>
             </div>
           </MainWrapper>)}
             </>)}
