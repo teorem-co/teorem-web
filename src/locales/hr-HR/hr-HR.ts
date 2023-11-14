@@ -19,7 +19,7 @@ export const HR_HR = {
     },
     EMAIL_CONFIRMATION_POPUP: {
         WELCOME: 'Dobrodošli na Teorem!',
-        DESCRIPTION: 'Molimo Vas potvrdite Vašu e-mail adresu klikom na link koji smo Vam poslali.',
+        DESCRIPTION: 'Molimo provjerite svoj sandučiċ i potvrdite Vašu e-mail adresu klikom na link koji smo Vam poslali.',
         EXPIRATION: 'Ponovno pošalji email za potvrdu',
         CONFIRM_BUTTON: 'U redu',
     },
@@ -383,7 +383,7 @@ export const HR_HR = {
                   FINAL: '<span class=primary-color>dobrodošli</span> na Teorem!'
               },
             BECOME_A_TUTOR: 'Postanite instruktor',
-            CONFIRM_EMAIL: 'Molimo potvrdite svoju e-mail adresu klikom na verifikacijski link koji smo vam poslali',
+            CONFIRM_EMAIL: 'Molimo provjerite svoj sandučiċ i potvrdite Vašu e-mail adresu klikom na link koji smo Vam poslali.',
             RESEND: 'Ponovno pošalji link'
         },
         CARD_DETAILS: {

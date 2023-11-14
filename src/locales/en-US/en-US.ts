@@ -19,7 +19,7 @@ export const EN_US = {
     },
     EMAIL_CONFIRMATION_POPUP: {
         WELCOME: 'Welcome to Teorem',
-        DESCRIPTION: 'Please confirm your e-mail address by clicking the link we sent you.',
+        DESCRIPTION: 'Please check your email and confirm your e-mail address by clicking the link we sent you.',
         EXPIRATION: 'Resend confirmation e-mail.',
         CONFIRM_BUTTON: 'Got it',
     },
@@ -385,7 +385,7 @@ export const EN_US = {
               FINAL: '<span class=primary-color>welcome</span> to Teorem!'
             },
             BECOME_A_TUTOR: 'Apply to become a tutor',
-            CONFIRM_EMAIL: 'Please confirm your email address by clicking the verification link that we sent you',
+            CONFIRM_EMAIL: 'Please check your email and confirm your e-mail address by clicking the link we sent you.',
             RESEND: 'Resend link'
         },
         CARD_DETAILS: {
