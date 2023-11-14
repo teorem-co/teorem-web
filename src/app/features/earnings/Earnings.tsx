@@ -22,7 +22,6 @@ import { OptionType } from '../../components/form/MySelectField';
 import MainWrapper from '../../components/MainWrapper';
 import { calcYears } from '../../utils/yearOptions';
 import earningsGraphOptions from './constants/earningsGraphOptions';
-import IGraph from './interfaces/IGraph';
 import {
   useLazyGetEarningsQuery,
   useLazyGetPayoutsQuery
@@ -32,6 +31,7 @@ import {
   useLazyGetCompletedLessonsQuery
 } from "../my-bookings/services/completedLessonsService";
 import PayoutsTableElement from "./PayoutsTableElement";
+import IGraph from "./interfaces/IGraph";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, LineController, BarElement, BarController, Title, Tooltip, Legend, Filler);
 
