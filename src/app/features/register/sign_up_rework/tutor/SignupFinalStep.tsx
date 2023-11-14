@@ -42,6 +42,10 @@ export const SignupFinalStep = () => {
       };
     }, [buttonIsDisabled, secondsLeft]);
 
+  useEffect(() => {
+    localStorage.setItem('showTutorIntro', 'true');
+  }, []);
+
   return (
     <>
     <div className="flex flex--center flex--col align--center sign-up-form-wrapper mt-5">
