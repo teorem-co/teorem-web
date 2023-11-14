@@ -53,7 +53,9 @@ import SubjectsPage from "../onboarding/tutorOnboardingNew/SubjectsPage";
 import {
   OnboardingTutor
 } from "../onboarding/tutorOnboardingNew/OnboardingTutor";
-
+import { Steps } from 'intro.js-react';
+import "intro.js/introjs.css";
+import { TutorTutorialModal } from '../../components/TutorTutorialModal';
 interface IGroupedDashboardData {
     [date: string]: IBooking[];
 }
@@ -332,8 +334,97 @@ const Dashboard = () => {
       //setChildless(false);
     };
 
-    return (
+    const steps = [
+      {
+        title: "Alo ja sam naslov",
+        element: ".tutor-intro-1",
+        intro: "Ovdje mozete vidjeti zahtjeve za instrukcije koje su vam poslali ucenici"
+      },
+      {
+        title: "Gore sam",
+        element: ".tutor-intro-2",
+        intro: "Klikom na ovaj gumb prihvacate rezervaciju",
+        position: "top"
+      },
+      {
+        title: "Desno sam",
+        element: ".tutor-intro-3",
+        intro: "Klikom na ovaj gumb odbijate rezervaciju",
+        position: "right"
+      },
+      {
+        element: ".tutor-intro-4",
+        intro: "Ovdje mozete vidjeti koje rezervacije imate danas"
+      },
+      {
+        element: ".tutor-intro-5",
+        intro: "Ovdje se mozete pridruziti u sastanak (gumb postaje aktivan 5 minuta prije pocetka)"
+      },
+
+      // {
+      //   element: ".tutor-intro-3-dashboard",
+      //   intro: "Step 3 dashboard"
+      // }
+    ];
+
+    const [isEnabled, setIsEnabled] = useState(true);
+
+    //zove se uvijek: bilo da si skip
+    const onExit = () => {
+      // console.log('Exiting');
+      // alert('Exiting');
+      setIsEnabled(false);
+    };
+
+    //zove se na kraju kad completas
+  const onComplete = () => {
+    // console.log('Completed');
+    // alert('Completed');
+    setIsEnabled(false);
+  };
+
+  useEffect(() => {
+    const showIntro = localStorage.getItem('showTutorIntro');
+
+    if (!showIntro) {
+      //todo: this means that it is already shown and don't do anything
+      setShowTutorial(false);
+      setModalActive(false);
+    }else{
+      setModalActive(true);
+      localStorage.removeItem('showTutorIntro');
+    }
+  }, []);
+
+  const [showTutorial, setShowTutorial] = useState(false);
+  const [modalActive, setModalActive] = useState(true);
+
+  const skipTutorial = () =>{
+    setShowTutorial(false);
+    setModalActive(false);
+  };
+  const startTutorial = () =>{
+    setShowTutorial(true);
+    setModalActive(false);
+  };
+
+  return (
       <>
+        {modalActive && <TutorTutorialModal skip={skipTutorial} start={startTutorial}/>}
+
+        {showTutorial && groupedRequests && Object.keys(groupedRequests).length > 0 &&<Steps enabled={isEnabled}
+               steps={steps}
+               initialStep={0}
+               onExit={onExit}
+               options={{
+                 nextLabel: 'Sljedeci',
+                 prevLabel: 'Prethodni',
+                 doneLabel: 'Kraj',
+               }}
+               onComplete={onComplete}
+        />
+        }
+
         {userRole === RoleOptions.Tutor && profileProgressState.percentage !== 100 ? (
             <OnboardingTutor/>
           ) :
@@ -504,21 +595,22 @@ const Dashboard = () => {
                         </div>
                         <div className="card--secondary__body pl-3 pr-3">
                           {userRole === RoleOptions.Tutor ? (
-                            <div className="dashboard__requests">
+                            <div className="dashboard__requests tutor-intro-1">
                               <div className="type--color--tertiary mb-2">{t('DASHBOARD.REQUESTS.TITLE')}</div>
                               {groupedRequests && Object.keys(groupedRequests).length > 0 ? (
                                 Object.keys(groupedRequests).map((key: string) => {
                                   return (
-                                    <React.Fragment key={key}>
+                                    <React.Fragment key={key} >
                                       {groupedRequests[key].map((item: IBooking) => {
                                         return (
-                                          <div className="dashboard__requests__item" key={item.id}>
+
+                                          <div className="dashboard__requests__item " key={item.id}>
                                             <div>
                                               {item.User.firstName}&nbsp;{item.User.lastName}
                                             </div>
                                             <div>{t(`LEVELS.${item.Level.abrv.toLowerCase().replace("-", "")}`)}</div>
-                                            <div>
-                                              <span className="tag tag--primary">{t(`SUBJECTS.${item.Subject.abrv.replace('-', '')}`)}</span>
+                                            <div className={""}>
+                                              <span className=" tag tag--primary">{t(`SUBJECTS.${item.Subject.abrv.replace('-', '')}`)}</span>
                                             </div>
                                             <div>{key}</div>
                                             <div>
@@ -526,18 +618,20 @@ const Dashboard = () => {
                                               {moment(item.endTime).add(1, 'minute').format('HH:mm')}
                                             </div>
                                             <div
+                                              // className={"tutor-intro-2"}
                                               onClick={() => {
                                                 handleAccept(item.id);
                                               }
                                               }>
-                                              <i className="icon icon--base icon--check icon--primary"></i>
+                                              <i className="tutor-intro-2 icon icon--base icon--check icon--primary"></i>
                                             </div>
                                             <div
+                                              // className={"tutor-intro-3"}
                                               onClick={() => {
                                                 handleDeny(item.id);
                                               }
                                               }>
-                                              <i className="icon icon--base icon--close-request icon--primary"></i>
+                                              <i className="tutor-intro-3 icon icon--base icon--close-request icon--primary tutor-intro-3"></i>
                                             </div>
                                           </div>
                                         );
@@ -553,7 +647,7 @@ const Dashboard = () => {
                             </div>
                           ) : null}
                             <div className="row">
-                                <div className="col col-12 col-xl-5 ">
+                                <div className="col col-12 col-xl-5  tutor-intro-4">
                                     <div className="type--color--tertiary mb-2">{t('DASHBOARD.SCHEDULE.TITLE')}</div>
                                     {todayScheduled.length > 0 ? (
                                         <div className="card--dashboard card--dashboard--brand mb-xl-0 mb-8 h2 h--150">
@@ -592,15 +686,16 @@ const Dashboard = () => {
                                                     moment(todayScheduled[activeIndex].startTime).subtract(10, 'minutes').isBefore(moment()) &&
                                                     moment(todayScheduled[activeIndex].startTime).add(60, 'minutes').isAfter(moment()) ? (
                                                     <button
-                                                        className="btn btn--base card--dashboard__btn"
+                                                        className="btn btn--base card--dashboard__btn tutor-intro-5"
                                                         onClick={() => handleJoinBooking(todayScheduled[activeIndex])}
                                                     >
                                                         {t('DASHBOARD.SCHEDULE.BUTTON')}
                                                     </button>
                                                 ) : (
                                                     <button
-                                                        className="btn btn--base card--dashboard__btn"
-                                                        style={{ visibility: 'hidden' }}
+                                                        disabled
+                                                        className="btn btn--base card--dashboard__btn tutor-intro-5"
+                                                        // style={{ visibility: 'hidden' }}
                                                     >
                                                       {t('DASHBOARD.SCHEDULE.BUTTON')}
                                                     </button>
@@ -637,7 +732,7 @@ const Dashboard = () => {
                         <div className="type--color--tertiary mb-2">{t('DASHBOARD.MESSAGES.TITLE')}</div>
 
                         {unreadChatrooms[activeMsgIndex] != undefined ? (
-                          <div className="card--dashboard h--150">
+                          <div className="card--dashboard h--150 intro-2-dashboard">
                                             <div className="flex--primary mb-2 ">
                                                 <div>
                                                     {userRole === RoleOptions.Tutor ?
