@@ -42,25 +42,199 @@ import {
   useDeleteBookingMutation
 } from "../my-bookings/services/bookingService";
 import { UpcomingLessonItem } from './upcoming-lessons/UpcomingLessonItem';
-import AddChildModal from "../my-profile/pages/AddChildModal";
 import logo from "../../../assets/images/teorem_logo_purple.png";
 import LoaderPrimary from "../../components/skeleton-loaders/LoaderPrimary";
 import {IChild} from "../../../interfaces/IChild";
 import ImageCircle from "../../components/ImageCircle";
 import AddChildSidebar from "../my-profile/components/AddChildSidebar";
-import AvailabilityPage from "../onboarding/tutorOnboardingNew/AvailabilityPage";
-import SubjectsPage from "../onboarding/tutorOnboardingNew/SubjectsPage";
 import {
   OnboardingTutor
 } from "../onboarding/tutorOnboardingNew/OnboardingTutor";
 import { Steps } from 'intro.js-react';
 import "intro.js/introjs.css";
 import { TutorTutorialModal } from '../../components/TutorTutorialModal';
+import {
+  HiLinkModalForTutorIntro
+} from '../my-profile/components/HiLinkModalForTutorIntro';
+
 interface IGroupedDashboardData {
     [date: string]: IBooking[];
 }
 
 const Dashboard = () => {
+    const mockRequest: IBooking ={
+      id:"mockRequest",
+      userFullName:'Ivan Horvat',
+      Tutor: {
+        userId: 'tutorid',
+        currentOccupation: 'ocupation',
+        yearsOfExperience: 'experience',
+        aboutTutor: 'about tutor',
+        aboutLessons: 'about lessons',
+        User: {
+          id:'userId',
+          roleId: 'roleid',
+          dateOfBirth: '1998-06-22',
+          phonePrefix: '385',
+          profileImage: 'profileImg',
+          childIds: [],
+          stripeCustomerId: 'stripecustid',
+          stripeAccountId: 'stripeaccid',
+          stripeConnected: true,
+          Country: {
+            currencyCode: 'currency code',
+            currencyName: 'currency name'
+          },
+          email:"stela.gasi8@gmail.com",
+          firstName:"Stela",
+          lastName:"Gasi",
+          countryId:"da98ad50-5138-4f0d-b297-62c5cb101247",
+          phoneNumber:"38598718823",
+          Role:{
+            name: 'name',
+            id: 'roleid',
+            abrv: "student"
+          },
+        },
+        TutorSubjects: [],
+        minimumPrice: 10,
+        maximumPrice: 15,
+        averageGrade: 5,
+        completedLessons: 1,
+        Bookings: [],
+        disabled: false,
+        slug: 'slug',
+      },
+      User:{
+        id:'userId',
+        roleId: 'roleid',
+        dateOfBirth: '1998-06-22',
+        phonePrefix: '385',
+        profileImage: 'profileImg',
+        childIds: [],
+        stripeCustomerId: 'stripecustid',
+        stripeAccountId: 'stripeaccid',
+        stripeConnected: true,
+        Country: {
+          currencyCode: 'currency code',
+          currencyName: 'currency name'
+        },
+        email:"stela.gasi8@gmail.com",
+        firstName:"Ivan",
+        lastName:"Horvat",
+        countryId:"da98ad50-5138-4f0d-b297-62c5cb101247",
+        phoneNumber:"38598718823",
+        Role:{
+          name: 'name',
+          id: 'roleid',
+          abrv: "student"
+        }
+      },
+      tutorId:"6ab33036-3204-4ab0-9a4b-a1016c77e63c",
+      studentId:"8eb6b506-5fea-4709-9fd3-79d27869ff96",
+      subjectId:"2da9dfdb-e9cc-479a-802d-fa2a9b906575",
+      levelId:"bb589332-eb38-4455-9259-1773bf88d60a",
+      startTime:moment().add(1, 'day').toISOString(),
+      endTime:moment().add(1, 'day').add(50, 'minutes').toISOString(),
+      isAccepted:false,
+      Level:{
+        id:"bb589332-eb38-4455-9259-1773bf88d60a",
+        abrv:"high-school",
+        name:"High School"
+      },
+      Subject:{
+        "id":"2da9dfdb-e9cc-479a-802d-fa2a9b906575",
+        "abrv":"maths",
+        "name":"Maths"
+      }
+    };
+    const mockSchedule: IBooking ={
+      id:"mockSchedule",
+      userFullName:'Ana Anić',
+      Tutor: {
+        userId: 'tutorid',
+        currentOccupation: 'ocupation',
+        yearsOfExperience: 'experience',
+        aboutTutor: 'about tutor',
+        aboutLessons: 'about lessons',
+        User: {
+          id:'userId',
+          roleId: 'roleid',
+          dateOfBirth: '1998-06-22',
+          phonePrefix: '385',
+          profileImage: 'profileImg',
+          childIds: [],
+          stripeCustomerId: 'stripecustid',
+          stripeAccountId: 'stripeaccid',
+          stripeConnected: true,
+          Country: {
+            currencyCode: 'currency code',
+            currencyName: 'currency name'
+          },
+          email:"stela.gasi8@gmail.com",
+          firstName:"Stela",
+          lastName:"Gasi",
+          countryId:"da98ad50-5138-4f0d-b297-62c5cb101247",
+          phoneNumber:"38598718823",
+          Role:{
+            name: 'name',
+            id: 'roleid',
+            abrv: "student"
+          },
+        },
+        TutorSubjects: [],
+        minimumPrice: 10,
+        maximumPrice: 15,
+        averageGrade: 5,
+        completedLessons: 1,
+        Bookings: [],
+        disabled: false,
+        slug: 'slug',
+      },
+      User:{
+        id:'userId',
+        roleId: 'roleid',
+        dateOfBirth: '1998-06-22',
+        phonePrefix: '385',
+        profileImage: 'profileImg',
+        childIds: [],
+        stripeCustomerId: 'stripecustid',
+        stripeAccountId: 'stripeaccid',
+        stripeConnected: true,
+        Country: {
+          currencyCode: 'currency code',
+          currencyName: 'currency name'
+        },
+        email:"stela.gasi8@gmail.com",
+        firstName:"Ana",
+        lastName:"Anić",
+        countryId:"da98ad50-5138-4f0d-b297-62c5cb101247",
+        phoneNumber:"38598718823",
+        Role:{
+          name: 'name',
+          id: 'roleid',
+          abrv: "student"
+        }
+      },
+      tutorId:"6ab33036-3204-4ab0-9a4b-a1016c77e63c",
+      studentId:"8eb6b506-5fea-4709-9fd3-79d27869ff96",
+      subjectId:"2da9dfdb-e9cc-479a-802d-fa2a9b906575",
+      levelId:"bb589332-eb38-4455-9259-1773bf88d60a",
+      startTime:moment().toISOString(),
+      endTime:moment().add(50, 'minutes').toISOString(),
+      isAccepted:true,
+      Level:{
+        id:"bb589332-eb38-4455-9259-1773bf88d60a",
+        abrv:"high-school",
+        name:"High School"
+      },
+      Subject:{
+        "id":"2da9dfdb-e9cc-479a-802d-fa2a9b906575",
+        "abrv":"maths",
+        "name":"Maths"
+      }
+    };
+
     const [getUnreadNotifications, { data: notificationsData }] = useLazyGetAllUnreadNotificationsQuery();
     const [markAllAsRead] = useMarkAllAsReadMutation();
     const [getUserById0, { data: userDataFirst }] = useLazyGetUserQuery();
@@ -124,6 +298,20 @@ const Dashboard = () => {
         const requests = await getRequests().unwrap();
         const groupedRequestData: IGroupedDashboardData = groupBy(requests, (e) => moment(e.startTime).format(t('DATE_FORMAT')));
         setGroupedRequests(groupedRequestData);
+
+        const dateKey = moment(new Date()).add(1, 'day').format(t('DATE_FORMAT'));
+        if(showIntro){
+          // const grupedData: IGroupedDashboardData = {
+          //   [dateKey]: [mockRequest]
+          // };
+          // setGroupedRequests(grupedData);
+        }else{
+          setGroupedRequests(prevGroupedRequests => {
+            const { dateKey, ...restOfData } = prevGroupedRequests;
+            return restOfData;
+          });
+        }
+
         let children = [];if(userRole === RoleOptions.Parent && userId !== undefined) {
           children = await getChildren(userId).unwrap().then();
         }
@@ -142,11 +330,19 @@ const Dashboard = () => {
     };
 
     const handleAccept = async (id: string) => {
+      if(id==='mockRequest'){
+        handleIntroAcceptBooking();
+        return;
+      }
       await acceptRequest(id);
       fetchData();
     };
 
     const handleDeny = async (id: string) => {
+      if(id==='mockRequest'){
+        handleIntroDenyBooking();
+        return;
+      }
       await denyRequest(id);
       fetchData();
     };
@@ -170,6 +366,10 @@ const Dashboard = () => {
     };
 
     const handleJoinBooking = (event: IBooking) => {
+      if(event.id === 'mockSchedule'){
+        setTutorHiLinkModalActive(true);
+        return;
+      }
         setCurrentlyActiveBooking(event.id);
         setLearnCubeModal(true);
     };
@@ -361,14 +561,11 @@ const Dashboard = () => {
         intro: "Ovdje se mozete pridruziti u sastanak (gumb postaje aktivan 5 minuta prije pocetka)"
       },
 
-      // {
-      //   element: ".tutor-intro-3-dashboard",
-      //   intro: "Step 3 dashboard"
-      // }
     ];
 
     const [isEnabled, setIsEnabled] = useState(true);
 
+    //TODO:
     //zove se uvijek: bilo da si skip
     const onExit = () => {
       // console.log('Exiting');
@@ -376,37 +573,69 @@ const Dashboard = () => {
       setIsEnabled(false);
     };
 
-    //zove se na kraju kad completas
-  const onComplete = () => {
-    // console.log('Completed');
-    // alert('Completed');
-    setIsEnabled(false);
-  };
+    //TODO: kad finishira
+    const onComplete = () => {
+      // console.log('Completed');
+      // alert('Completed');
+      setIsEnabled(false);
+    };
+
+  const showIntro = localStorage.getItem('showTutorIntro');
 
   useEffect(() => {
-    const showIntro = localStorage.getItem('showTutorIntro');
+    // alert(profileProgressState.percentage);
 
     if (!showIntro) {
       //todo: this means that it is already shown and don't do anything
       setShowTutorial(false);
       setModalActive(false);
-    }else{
+    }else if(showIntro && profileProgressState.percentage === 100){
+      // alert('showing modal for intro');
       setModalActive(true);
       localStorage.removeItem('showTutorIntro');
     }
-  }, []);
+  }, [profileProgressState.percentage]);
 
   const [showTutorial, setShowTutorial] = useState(false);
-  const [modalActive, setModalActive] = useState(true);
+  const [modalActive, setModalActive] = useState(false);
+  const [tutorHiLinkModalActive, setTutorHiLinkModalActive] = useState(false);
+  const [tutorialRoomLink, setTutorialRoomLink] = useState('https://www.youtube.com/embed/dQw4w9WgXcQ?si=OxYWZ2m-WOCxYxi0&amp;start=3');
 
   const skipTutorial = () =>{
     setShowTutorial(false);
     setModalActive(false);
   };
+
   const startTutorial = () =>{
+    //TODO: send request to backend and get link and save it
+    const dateKey = moment(new Date()).add(1, 'day').format(t('DATE_FORMAT'));
+    const grupedData: IGroupedDashboardData = {
+
+      [dateKey]: [mockRequest]
+    };
+    setTodayScheduled([mockSchedule]);
+    setGroupedRequests(grupedData);
+
     setShowTutorial(true);
     setModalActive(false);
   };
+
+  function handleClose() {
+    setTutorHiLinkModalActive(false);
+  }
+
+  function handleIntroAcceptBooking(){
+    //TODO: toast succes of accepting booking
+    // remove booking from requests
+    // add booking to upcoming bookings
+    return;
+  }
+
+  function handleIntroDenyBooking(){
+    //TODO: toast succes of denying booking
+    // remove booking from requests
+    return;
+  }
 
   return (
       <>
@@ -875,6 +1104,8 @@ const Dashboard = () => {
                 {learnCubeModal && <LearnCubeModal bookingId={currentlyActiveBooking} handleClose={() => {
                       setLearnCubeModal(false);
                     }} />}
+
+                {tutorHiLinkModalActive && <HiLinkModalForTutorIntro roomLink={tutorialRoomLink} handleClose={handleClose}/>}
               </div>
             </div>
           </MainWrapper>)}
