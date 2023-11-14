@@ -56,6 +56,7 @@ import { TutorTutorialModal } from '../../components/TutorTutorialModal';
 import {
   HiLinkModalForTutorIntro
 } from '../my-profile/components/HiLinkModalForTutorIntro';
+import toastService from '../../services/toastService';
 
 interface IGroupedDashboardData {
     [date: string]: IBooking[];
@@ -568,8 +569,8 @@ const Dashboard = () => {
     //TODO:
     //zove se uvijek: bilo da si skip
     const onExit = () => {
-      // console.log('Exiting');
-      // alert('Exiting');
+      localStorage.removeItem('showTutorIntro');
+      setShowIntro(null);
       setIsEnabled(false);
     };
 
@@ -580,11 +581,25 @@ const Dashboard = () => {
       setIsEnabled(false);
     };
 
-  const showIntro = localStorage.getItem('showTutorIntro');
+
+  const [showIntro, setShowIntro] = useState<string | null>();
+
+  function resetShowIntro(){
+    console.log('reseting showTitorIntro');
+    console.log('current value: ', showIntro);
+
+    startTutorial();
+    // setShowIntro('true');
+    // localStorage.setItem('showTutorIntro', 'true');
+  }
+
+  useEffect(() => {
+    setShowIntro(localStorage.getItem('showTutorIntro'));
+  }, []);
 
   useEffect(() => {
     // alert(profileProgressState.percentage);
-
+    //alert(showIntro);
     if (!showIntro) {
       //todo: this means that it is already shown and don't do anything
       setShowTutorial(false);
@@ -592,9 +607,8 @@ const Dashboard = () => {
     }else if(showIntro && profileProgressState.percentage === 100){
       // alert('showing modal for intro');
       setModalActive(true);
-      localStorage.removeItem('showTutorIntro');
     }
-  }, [profileProgressState.percentage]);
+  }, [profileProgressState.percentage, showIntro]);
 
   const [showTutorial, setShowTutorial] = useState(false);
   const [modalActive, setModalActive] = useState(false);
@@ -604,6 +618,8 @@ const Dashboard = () => {
   const skipTutorial = () =>{
     setShowTutorial(false);
     setModalActive(false);
+    setShowIntro(null);
+    localStorage.removeItem('showTutorIntro');
   };
 
   const startTutorial = () =>{
@@ -625,14 +641,16 @@ const Dashboard = () => {
   }
 
   function handleIntroAcceptBooking(){
-    //TODO: toast succes of accepting booking
+    toastService.success('Rezervacija prihvacena');
+    //TODO:
     // remove booking from requests
     // add booking to upcoming bookings
     return;
   }
 
   function handleIntroDenyBooking(){
-    //TODO: toast succes of denying booking
+    toastService.success('Rezervacija odbijena');
+    //TODO:
     // remove booking from requests
     return;
   }
@@ -821,6 +839,7 @@ const Dashboard = () => {
                     <div className="card--secondary card--secondary--alt">
                         <div className="card--secondary__head">
                             <h2 className="type--wgt--bold type--lg">{t('DASHBOARD.TITLE')}</h2>
+                            <button onClick={resetShowIntro}>klikni da ponovis tutorijal</button>
                         </div>
                         <div className="card--secondary__body pl-3 pr-3">
                           {userRole === RoleOptions.Tutor ? (
