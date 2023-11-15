@@ -256,28 +256,19 @@ const SearchTutors = () => {
     setParams(newParams);
   };
 
-  const hideLoadMore = () => {
-    let returnValue: boolean = false;
-    if (availableTutors) {
-      //const totalPages = Math.ceil(notificationsData.count / params.size);
-      if (availableTutors.totalPages === availableTutors.number + 1) returnValue = true;
-    }
-    return returnValue;
-  };
-
   const handleScroll = async (e: HTMLDivElement) => {
 
-    if (availableTutors && loadedTutorItems.length != availableTutors.totalElements) {
+    if (availableTutors && availableTutors.number < availableTutors.totalPages - 1) {
       const innerHeight = e.scrollHeight;
       const scrollPosition = e.scrollTop + e.clientHeight;
 
-      if (!hideLoadMore() && innerHeight === scrollPosition) {
+      if (innerHeight === scrollPosition) {
         // handleLoadMore();
         const newParams = { ...params };
         newParams.page++;
         setParams(newParams);
         const tutorResponse = await getAvailableTutors({...newParams}).unwrap();
-        setLoadedTutorItems(tutorResponse.content);
+        setLoadedTutorItems(loadedTutorItems.concat(tutorResponse.content));
         //action to do on scroll to bottom
         const currentScrollTop = cardElement.scrollTop;
         setScrollTopOffset(currentScrollTop);
