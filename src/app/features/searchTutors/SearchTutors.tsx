@@ -276,7 +276,7 @@ const SearchTutors = () => {
         const newParams = { ...params };
         newParams.page = page +1;
         setParams(newParams);
-        const tutorResponse = await getAvailableTutors(params).unwrap();
+        const tutorResponse = await getAvailableTutors(newParams).unwrap();
         setLoadedTutorItems(tutorResponse.content);
         //action to do on scroll to bottom
         const currentScrollTop = cardElement.scrollTop;
