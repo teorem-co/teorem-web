@@ -275,7 +275,6 @@ const SearchTutors = () => {
         // handleLoadMore();
         const newParams = { ...params };
         newParams.page++;
-        setParams(newParams);
         const tutorResponse = await getAvailableTutors({...newParams}).unwrap();
         setLoadedTutorItems(loadedTutorItems.concat(tutorResponse.content));
         //action to do on scroll to bottom
