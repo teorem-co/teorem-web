@@ -276,11 +276,11 @@ const SearchTutors = () => {
         const newParams = { ...params };
         if(!availableTutors.last){
           newParams.page++;
+          const tutorResponse = await getAvailableTutors({...newParams}).unwrap();
+          setLoadedTutorItems(loadedTutorItems.concat(tutorResponse.content));
         }
         const currentScrollTop = cardElement.scrollTop;
         setScrollTopOffset(currentScrollTop);
-        const tutorResponse = await getAvailableTutors({...newParams}).unwrap();
-        setLoadedTutorItems(loadedTutorItems.concat(tutorResponse.content));
       }
     }
   };
