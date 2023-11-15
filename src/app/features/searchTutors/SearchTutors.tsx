@@ -258,11 +258,11 @@ const SearchTutors = () => {
 
   const handleScroll = async (e: HTMLDivElement) => {
 
-    if (availableTutors && availableTutors.number < availableTutors.totalPages - 1) {
+    if (availableTutors && loadedTutorItems.length != availableTutors.totalElements) {
       const innerHeight = e.scrollHeight;
       const scrollPosition = e.scrollTop + e.clientHeight;
 
-      if (innerHeight === scrollPosition) {
+      if (innerHeight === scrollPosition  && availableTutors.number < availableTutors.totalPages - 1) {
         // handleLoadMore();
         const newParams = { ...params };
         newParams.page++;
