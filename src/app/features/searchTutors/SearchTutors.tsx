@@ -260,7 +260,7 @@ const SearchTutors = () => {
     let returnValue: boolean = false;
     if (availableTutors) {
       //const totalPages = Math.ceil(notificationsData.count / params.size);
-      if (availableTutors.last) returnValue = true;
+      if (availableTutors.totalPages === availableTutors.number + 1) returnValue = true;
     }
     return returnValue;
   };
