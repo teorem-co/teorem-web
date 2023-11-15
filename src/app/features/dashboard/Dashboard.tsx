@@ -57,6 +57,10 @@ import {
   HiLinkModalForTutorIntro
 } from '../my-profile/components/HiLinkModalForTutorIntro';
 import toastService from '../../services/toastService';
+import {
+  useLazyGetTutorTestingLinkQuery,
+} from '../../services/hiLinkService';
+import NotificationsSidebar from '../../components/NotificationsSidebar';
 
 interface IGroupedDashboardData {
     [date: string]: IBooking[];
@@ -622,7 +626,12 @@ const Dashboard = () => {
     localStorage.removeItem('showTutorIntro');
   };
 
-  const startTutorial = () =>{
+  const startTutorial = async () =>{
+
+    getTestingRoomLink('a').unwrap().then((res)=> {
+      setTutorialRoomLink(res.meetingUrl);
+    });
+
     //TODO: send request to backend and get link and save it
     const dateKey = moment(new Date()).add(1, 'day').format(t('DATE_FORMAT'));
     const grupedData: IGroupedDashboardData = {
@@ -655,6 +664,10 @@ const Dashboard = () => {
     return;
   }
 
+  const [getTestingRoomLink] = useLazyGetTutorTestingLinkQuery();
+
+
+  const [notificationSidebarOpen, setNotificationSidebarOpen] = useState(false);
   return (
       <>
         {modalActive && <TutorTutorialModal skip={skipTutorial} start={startTutorial}/>}
@@ -760,12 +773,12 @@ const Dashboard = () => {
           ) : (<MainWrapper>
             <div className="layout--primary">
               <div>
-                {userRole === RoleOptions.Tutor && profileProgressState && !profileProgressState.verified ? (
-                  <div className="flex flex--col flex--jc--center mb-2 p-2" style={{ borderRadius: '0.5em', color: 'white', backgroundColor:'#7e6cf2'}}>
-                    <h4 className="type--md mb-2 ml-6 align-self-center">{t(`TUTOR_VERIFIED_NOTE.TITLE`)}</h4>
-                    <p className="ml-6 align-self-center">{t(`TUTOR_VERIFIED_NOTE.DESCRIPTION`)}</p>
-                  </div>
-                ) : null}
+                {/*{userRole === RoleOptions.Tutor && profileProgressState && !profileProgressState.verified ? (*/}
+                {/*  <div className="flex flex--col flex--jc--center mb-2 p-2" style={{ borderRadius: '0.5em', color: 'white', backgroundColor:'#7e6cf2'}}>*/}
+                {/*    <h4 className="type--md mb-2 ml-6 align-self-center">{t(`TUTOR_VERIFIED_NOTE.TITLE`)}</h4>*/}
+                {/*    <p className="ml-6 align-self-center">{t(`TUTOR_VERIFIED_NOTE.DESCRIPTION`)}</p>*/}
+                {/*  </div>*/}
+                {/*) : null}*/}
                 {userRole === RoleOptions.Parent && childrenData?.length === 0 ? (
                   <div>
                     <div className="flex flex--col flex--jc--center mb-2 p-2" style={{ borderRadius: '0.5em', color: 'white', background:'#7e6cf2'}}>
@@ -840,6 +853,7 @@ const Dashboard = () => {
                         <div className="card--secondary__head">
                             <h2 className="type--wgt--bold type--lg">{t('DASHBOARD.TITLE')}</h2>
                             <button onClick={resetShowIntro}>klikni da ponovis tutorijal</button>
+                            <button onClick={() => setNotificationSidebarOpen(true)}>gumb</button>
                         </div>
                         <div className="card--secondary__body pl-3 pr-3">
                           {userRole === RoleOptions.Tutor ? (
@@ -1094,38 +1108,38 @@ const Dashboard = () => {
                   </div>
                 </div>
               </div>
-              <div className="notification-container">
-                <div className="flex--primary mb-2 mr-2">
-                  <div className="type--color--tertiary">{t('DASHBOARD.NOTIFICATIONS.TITLE')}</div>
-                  {notificationsData?.content && notificationsData.content.length > 0 && (
-                    <div className="type--color--brand type--wgt--bold cur--pointer" onClick={() => markAllAsRead()}>
-                      {t('DASHBOARD.NOTIFICATIONS.CLEAR')}
-                    </div>
-                  )}
-                </div>
-                <div className="mr-2">
-                  {notificationsData?.content && notificationsData.content.find((x) => x.read === false) ? (
-                    notificationsData.content.map((notification: INotification) => {
-                      if (!notification.read) {
-                        return <NotificationItem key={notification.id} notificationData={notification}/>;
-                      }
-                    })
-                  ) : (
-                    <div className="card--primary card--primary--shadow">{t('DASHBOARD.NOTIFICATIONS.EMPTY')}</div>
-                  )}
-                  <div className="type--center mt-4">
-                    <Link to={t(PATHS.NOTIFICATIONS)} className="btn btn--clear">
-                      {t('DASHBOARD.NOTIFICATIONS.ALL')}
-                    </Link>
+
+              {learnCubeModal && <LearnCubeModal bookingId={currentlyActiveBooking} handleClose={() => {
+                setLearnCubeModal(false);
+              }} />}
+              {tutorHiLinkModalActive && <HiLinkModalForTutorIntro roomLink={tutorialRoomLink} handleClose={handleClose}/>}
+
+              <NotificationsSidebar sideBarIsOpen={notificationSidebarOpen} title={"Notifications"} closeSidebar={()=> setNotificationSidebarOpen(false)} >
+                  <div className="flex--primary mb-2 mr-2">
+                    <div className="type--color--tertiary">{t('DASHBOARD.NOTIFICATIONS.TITLE')}</div>
+                    {notificationsData?.content && notificationsData.content.length > 0 && (
+                      <div className="type--color--brand type--wgt--bold cur--pointer" onClick={() => markAllAsRead()}>
+                        {t('DASHBOARD.NOTIFICATIONS.CLEAR')}
+                      </div>
+                    )}
                   </div>
-                </div>
-
-                {learnCubeModal && <LearnCubeModal bookingId={currentlyActiveBooking} handleClose={() => {
-                      setLearnCubeModal(false);
-                    }} />}
-
-                {tutorHiLinkModalActive && <HiLinkModalForTutorIntro roomLink={tutorialRoomLink} handleClose={handleClose}/>}
-              </div>
+                  <div className="mr-2">
+                    {notificationsData?.content && notificationsData.content.find((x) => x.read === false) ? (
+                      notificationsData.content.map((notification: INotification) => {
+                        if (!notification.read) {
+                          return <NotificationItem key={notification.id} notificationData={notification}/>;
+                        }
+                      })
+                    ) : (
+                      <div className="card--primary card--primary--shadow">{t('DASHBOARD.NOTIFICATIONS.EMPTY')}</div>
+                    )}
+                    <div className="type--center mt-4">
+                      <Link to={t(PATHS.NOTIFICATIONS)} className="btn btn--clear">
+                        {t('DASHBOARD.NOTIFICATIONS.ALL')}
+                      </Link>
+                    </div>
+                  </div>
+              </NotificationsSidebar>
             </div>
           </MainWrapper>)}
             </>)}
