@@ -61,6 +61,8 @@ import {
   useLazyGetTutorTestingLinkQuery,
 } from '../../services/hiLinkService';
 import NotificationsSidebar from '../../components/NotificationsSidebar';
+import { IoNotifications, IoNotificationsOutline } from 'react-icons/io5';
+import { Badge } from '@mui/material';
 
 interface IGroupedDashboardData {
     [date: string]: IBooking[];
@@ -541,29 +543,31 @@ const Dashboard = () => {
 
     const steps = [
       {
-        title: "Alo ja sam naslov",
+        title: t('TUTOR_INTRO.DASHBOARD.STEP1.TITLE'),
+        intro: t('TUTOR_INTRO.DASHBOARD.STEP1.BODY'),
         element: ".tutor-intro-1",
-        intro: "Ovdje mozete vidjeti zahtjeve za instrukcije koje su vam poslali ucenici"
       },
       {
-        title: "Gore sam",
+        title: t('TUTOR_INTRO.DASHBOARD.STEP2.TITLE'),
+        intro: t('TUTOR_INTRO.DASHBOARD.STEP2.BODY'),
         element: ".tutor-intro-2",
-        intro: "Klikom na ovaj gumb prihvacate rezervaciju",
         position: "top"
       },
       {
-        title: "Desno sam",
+        title: t('TUTOR_INTRO.DASHBOARD.STEP3.TITLE'),
+        intro: t('TUTOR_INTRO.DASHBOARD.STEP3.BODY'),
         element: ".tutor-intro-3",
-        intro: "Klikom na ovaj gumb odbijate rezervaciju",
         position: "right"
       },
       {
+        title: t('TUTOR_INTRO.DASHBOARD.STEP4.TITLE'),
+        intro: t('TUTOR_INTRO.DASHBOARD.STEP4.BODY'),
         element: ".tutor-intro-4",
-        intro: "Ovdje mozete vidjeti koje rezervacije imate danas"
       },
       {
+        title: t('TUTOR_INTRO.DASHBOARD.STEP5.TITLE'),
+        intro: t('TUTOR_INTRO.DASHBOARD.STEP5.BODY'),
         element: ".tutor-intro-5",
-        intro: "Ovdje se mozete pridruziti u sastanak (gumb postaje aktivan 5 minuta prije pocetka)"
       },
 
     ];
@@ -582,6 +586,7 @@ const Dashboard = () => {
     const onComplete = () => {
       // console.log('Completed');
       // alert('Completed');
+      handleJoinBooking(mockSchedule);
       setIsEnabled(false);
     };
 
@@ -666,6 +671,12 @@ const Dashboard = () => {
 
   const [getTestingRoomLink] = useLazyGetTutorTestingLinkQuery();
 
+  const badgeStyle = {
+    '& .MuiBadge-badge': {
+      color: 'white',
+      backgroundColor: '#7E6CF2',
+    },
+  };
 
   const [notificationSidebarOpen, setNotificationSidebarOpen] = useState(false);
   return (
@@ -677,9 +688,9 @@ const Dashboard = () => {
                initialStep={0}
                onExit={onExit}
                options={{
-                 nextLabel: 'Sljedeci',
-                 prevLabel: 'Prethodni',
-                 doneLabel: 'Kraj',
+                 nextLabel: t('TUTOR_INTRO.BUTTON_NEXT'),
+                 prevLabel: t('TUTOR_INTRO.BUTTON_PREVIOUS'),
+                 doneLabel: t('TUTOR_INTRO.BUTTON_FINISH'),
                }}
                onComplete={onComplete}
         />
@@ -852,8 +863,8 @@ const Dashboard = () => {
                     <div className="card--secondary card--secondary--alt">
                         <div className="card--secondary__head">
                             <h2 className="type--wgt--bold type--lg">{t('DASHBOARD.TITLE')}</h2>
-                            <button onClick={resetShowIntro}>klikni da ponovis tutorijal</button>
-                            <button onClick={() => setNotificationSidebarOpen(true)}>gumb</button>
+                            <button className={"btn btn--lg btn--primary"} onClick={resetShowIntro}>Click to start tutorial</button>
+                            <IoNotificationsOutline className="cur--pointer primary-color" size={20} onClick={() => setNotificationSidebarOpen(true)}/>
                         </div>
                         <div className="card--secondary__body pl-3 pr-3">
                           {userRole === RoleOptions.Tutor ? (

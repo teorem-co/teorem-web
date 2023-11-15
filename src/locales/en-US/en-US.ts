@@ -1284,11 +1284,38 @@ export const EN_US = {
         WELCOME: 'WELCOME',
         DESCRIPTION: 'DESCRIPTION',
     },
-
     BOOKING:{
         SUCCESS: 'Booking successful!',
       FAILURE: 'Booking was not successful!',
         TOAST_CANT_BOOK: 'You can\'t book a lesson at selected time!',
       CANT_BOOK_MESSAGE: 'Please book at least 3 hours in advance',
-    }
+    },
+    TUTOR_INTRO:{
+      DASHBOARD:{
+        STEP1: {
+          TITLE: 'Booking requests',
+          BODY:'Here you can see all the booking requests that students have submitted.'
+        },
+        STEP2: {
+          TITLE: 'Accepting booking',
+          BODY:'By clicking this button, you accept the booking within the specified timeframe.'
+        },
+        STEP3: {
+          TITLE: 'Rejecting booking',
+          BODY:'By clicking this button, you reject the booking within the specified timeframe.'
+        },
+        STEP4: {
+          TITLE: 'Today\'s schedule',
+          BODY:'Here you can see the reservations you have for today (you can also view this on your calendar).'
+        },
+        STEP5: {
+          TITLE: 'Joining Instructions',
+          BODY:'By clicking this button, a window opens with a panel, etc., through which you will conduct instructions. Moz'
+        }
+      },
+      BUTTON_NEXT:'Next',
+      BUTTON_PREVIOUS:'Previous',
+      BUTTON_FINISH:'Finish',
+  }
+
 };

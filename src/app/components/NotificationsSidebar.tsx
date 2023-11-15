@@ -17,7 +17,6 @@ const NotificationsSidebar = (props: Props) => {
 
   const escFunction = useCallback((event) => {
     if (event.keyCode === 27) {
-      //Do whatever when esc is pressed
       closeSidebar();
     }
   }, []);
