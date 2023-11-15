@@ -271,15 +271,12 @@ const SearchTutors = () => {
       const innerHeight = e.scrollHeight;
       const scrollPosition = e.scrollTop + e.clientHeight;
 
-      if (!hideLoadMore() && innerHeight === scrollPosition) {
+      if (!availableTutors.last && innerHeight === scrollPosition) {
         // handleLoadMore();
         const newParams = { ...params };
         newParams.page++;
         const tutorResponse = await getAvailableTutors({...newParams}).unwrap();
         setLoadedTutorItems(loadedTutorItems.concat(tutorResponse.content));
-        //action to do on scroll to bottom
-        const currentScrollTop = cardElement.scrollTop;
-        setScrollTopOffset(currentScrollTop);
       }
     }
   };
