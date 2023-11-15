@@ -274,7 +274,7 @@ const SearchTutors = () => {
       if (!hideLoadMore() && innerHeight === scrollPosition) {
         // handleLoadMore();
         const newParams = { ...params };
-        newParams.page = page +1;
+        newParams.page++;
         setParams(newParams);
         const tutorResponse = await getAvailableTutors({...newParams}).unwrap();
         setLoadedTutorItems(tutorResponse.content);
