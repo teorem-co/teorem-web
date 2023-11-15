@@ -262,7 +262,7 @@ const SearchTutors = () => {
       const innerHeight = e.scrollHeight;
       const scrollPosition = e.scrollTop + e.clientHeight;
 
-      if (innerHeight === scrollPosition  && availableTutors.number < availableTutors.totalPages - 1) {
+      if (innerHeight === scrollPosition  && !availableTutors.last) {
         // handleLoadMore();
         const newParams = { ...params };
         newParams.page++;
@@ -273,6 +273,7 @@ const SearchTutors = () => {
         const currentScrollTop = cardElement.scrollTop;
         setScrollTopOffset(currentScrollTop);
       }
+      console.log("length not met => " + loadedTutorItems);
     }
   };
 
