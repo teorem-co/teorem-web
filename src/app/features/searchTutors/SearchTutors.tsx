@@ -271,10 +271,14 @@ const SearchTutors = () => {
       const innerHeight = e.scrollHeight;
       const scrollPosition = e.scrollTop + e.clientHeight;
 
-      if (!availableTutors.last && innerHeight === scrollPosition) {
+      if (innerHeight === scrollPosition) {
         // handleLoadMore();
         const newParams = { ...params };
-        newParams.page++;
+        if(!availableTutors.last){
+          newParams.page++;
+        }
+        const currentScrollTop = cardElement.scrollTop;
+        setScrollTopOffset(currentScrollTop);
         const tutorResponse = await getAvailableTutors({...newParams}).unwrap();
         setLoadedTutorItems(loadedTutorItems.concat(tutorResponse.content));
       }
