@@ -256,24 +256,32 @@ const SearchTutors = () => {
     setParams(newParams);
   };
 
+  const hideLoadMore = () => {
+    let returnValue: boolean = false;
+    if (availableTutors) {
+      //const totalPages = Math.ceil(notificationsData.count / params.size);
+      if (availableTutors.totalPages) returnValue = true;
+    }
+    return returnValue;
+  };
+
   const handleScroll = async (e: HTMLDivElement) => {
 
     if (availableTutors && loadedTutorItems.length != availableTutors.totalElements) {
       const innerHeight = e.scrollHeight;
       const scrollPosition = e.scrollTop + e.clientHeight;
 
-      if (innerHeight === scrollPosition  && !availableTutors.last) {
+      if (!hideLoadMore() && innerHeight === scrollPosition) {
         // handleLoadMore();
         const newParams = { ...params };
         newParams.page++;
         setParams(newParams);
         const tutorResponse = await getAvailableTutors({...newParams}).unwrap();
-        setLoadedTutorItems(loadedTutorItems.concat(tutorResponse.content));
+        setLoadedTutorItems(tutorResponse.content);
         //action to do on scroll to bottom
         const currentScrollTop = cardElement.scrollTop;
         setScrollTopOffset(currentScrollTop);
       }
-      console.log("length not met => " + loadedTutorItems);
     }
   };
 
