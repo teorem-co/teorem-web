@@ -266,21 +266,18 @@ const SearchTutors = () => {
   };
 
   const handleScroll = async (e: HTMLDivElement) => {
-
+console.log("sad");
     if (availableTutors && loadedTutorItems.length != availableTutors.totalElements) {
       const innerHeight = e.scrollHeight;
       const scrollPosition = e.scrollTop + e.clientHeight;
 
       if (innerHeight === scrollPosition) {
         // handleLoadMore();
-        const newParams = { ...params };
         if(!availableTutors.last){
-          newParams.page++;
-          const tutorResponse = await getAvailableTutors({...newParams}).unwrap();
-          setLoadedTutorItems(loadedTutorItems.concat(tutorResponse.content));
+          const tutorResponse = await getAvailableTutors({...params, page:availableTutors.number+1}).unwrap();
+          setLoadedTutorItems(prevItems =>[...prevItems, ...tutorResponse.content]);
+          setScrollTopOffset(scrollPosition);
         }
-        const currentScrollTop = cardElement.scrollTop;
-        setScrollTopOffset(currentScrollTop);
       }
     }
   };
@@ -461,14 +458,7 @@ const SearchTutors = () => {
           </div>
 
           <div className="tutor-list">
-            {isLoading ? (
-              // Here goes loader
-              <div className="loader--sceleton">
-                <LoaderTutor />
-                <LoaderTutor />
-                <LoaderTutor />
-              </div>
-            ) : loadedTutorItems.length > 0 ? (
+            {loadedTutorItems.length > 0 ? (
               loadedTutorItems.map((tutor) =>
                 isMobile ?
                   <TutorItemMobile key={tutor.id} tutor={tutor}/>
