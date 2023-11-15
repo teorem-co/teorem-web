@@ -19,7 +19,7 @@ export const HR_HR = {
     },
     EMAIL_CONFIRMATION_POPUP: {
         WELCOME: 'Dobrodošli na Teorem!',
-        DESCRIPTION: 'Molimo Vas potvrdite Vašu e-mail adresu klikom na link koji smo Vam poslali.',
+        DESCRIPTION: 'Molimo provjerite svoj sandučiċ i potvrdite Vašu e-mail adresu klikom na link koji smo Vam poslali.',
         EXPIRATION: 'Ponovno pošalji email za potvrdu',
         CONFIRM_BUTTON: 'U redu',
     },
@@ -213,7 +213,9 @@ export const HR_HR = {
             COUNTRY: 'DRŽAVA',
             DATE_OF_BIRTH: 'DATUM ROĐENJA',
             PREVIEW_PROFILE: 'Pregled profila',
-            PHONE_NUMBER: "BROJ TELEFONA"
+            PHONE_NUMBER: "BROJ TELEFONA",
+            CREATED_AT: "DATUM KREIRANJA"
+
         },
         ACTIONS: {
             APPROVE: 'Odobri',
@@ -381,7 +383,7 @@ export const HR_HR = {
                   FINAL: '<span class=primary-color>dobrodošli</span> na Teorem!'
               },
             BECOME_A_TUTOR: 'Postanite instruktor',
-            CONFIRM_EMAIL: 'Molimo potvrdite svoju e-mail adresu klikom na verifikacijski link koji smo vam poslali',
+            CONFIRM_EMAIL: 'Molimo provjerite svoj sandučiċ i potvrdite Vašu e-mail adresu klikom na link koji smo Vam poslali.',
             RESEND: 'Ponovno pošalji link'
         },
         CARD_DETAILS: {
@@ -790,16 +792,28 @@ export const HR_HR = {
     EARNINGS: {
         TITLE: 'Prihod',
         GENERAL: {
-            TITLE: 'OPĆI PODATCI',
+            TITLE: 'STATISTIKA',
             BOOKINGS: 'Ukupno rezervacija',
             STUDENTS: 'Ukupno učenika',
             REVIEWS: 'Ukupno recenzija',
             REVENUE: 'Ukupan prihod',
             CURRENCY: '€',
         },
+      WEEK:'Zadnjih 7 dana',
+      MONTH:'Zadnjih 30 dana',
+      YEAR:'Zadnjih 12 mjeseci',
+      ALLTIME:'Oduvijek',
         REVENUE: {
             TITLE: 'PRIHOD',
             GRAPH_LEGEND: 'Prihod',
+        },
+        STUDENTS: {
+          TITLE: 'UČENICI',
+          GRAPH_LEGEND: 'Učenici',
+        },
+        BOOKINGS: {
+          TITLE: 'REZERVACIJE',
+          GRAPH_LEGEND: 'Rezervacije',
         },
         DETAILS: {
             TITLE: 'DETALJI',

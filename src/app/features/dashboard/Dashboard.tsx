@@ -608,8 +608,8 @@ const Dashboard = () => {
                                             </div>
                                         </div>
                                     ) : (
-                                        <div className="card--dashboard card--dashboard--brand mb-xl-0 mb-8">
-                            <div className="flex--primary mb-2">
+                                      <div className="card--dashboard card--dashboard--brand mb-xl-0 mb-8 h--150 flex flex--ai--start">
+                            <div className="flex--primary mb-2 w--100">
                               <div>
                                 <div>{t('DASHBOARD.SCHEDULE.EMPTY')}</div>
                               </div>
@@ -637,7 +637,7 @@ const Dashboard = () => {
                         <div className="type--color--tertiary mb-2">{t('DASHBOARD.MESSAGES.TITLE')}</div>
 
                         {unreadChatrooms[activeMsgIndex] != undefined ? (
-                          <div className="card--dashboard h--150--max">
+                          <div className="card--dashboard h--150">
                                             <div className="flex--primary mb-2 ">
                                                 <div>
                                                     {userRole === RoleOptions.Tutor ?
@@ -684,7 +684,7 @@ const Dashboard = () => {
                                             </div>
                                         </div>
                                     ) : (
-                                        <div className="card--dashboard ">
+                                        <div className="card--dashboard h--150">
                                             <div className="flex--primary mb-2">
                                                 <div>
                                                     {t('DASHBOARD.MESSAGES.EMPTY')}

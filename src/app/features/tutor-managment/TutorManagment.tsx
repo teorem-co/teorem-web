@@ -22,6 +22,8 @@ import {
   AsYouType,
   getCountries
 } from 'libphonenumber-js';
+import { useAppSelector } from '../../hooks';
+import moment from 'moment';
 
 
 const TutorManagment = () => {
@@ -124,6 +126,32 @@ const TutorManagment = () => {
       return input;
   }
 
+  const userToken = useAppSelector((state) => state.auth.token);
+  const fileUrl = 'api/v1/tutors/export/csv';
+  const url = `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_CHAT_FILE_DOWNLOAD_HOST}/${fileUrl}`;
+
+  function downloadCsv(){
+
+    fetch(`${url}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+        Accept: 'application/octet-stream',
+      },
+    })
+      .then(response => {
+        const contentDisposition = response.headers.get('Content-Disposition');
+        const fileName = contentDisposition?.split('=')[1].replace(/['"]/g, '').trim();
+        response.blob().then(blob => {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = fileName + '';
+          a.click();
+        });
+      });
+  }
+
     return (
         <MainWrapper>
             <div className="card--secondary" ref={cardRef}>
@@ -137,6 +165,7 @@ const TutorManagment = () => {
                             placeholder={t('TUTOR_MANAGMENT.SEARCH_PLACEHOLDER')}
                             className="input p-4 pl-12" />
                     </div>
+                  <button className="ml-2" onClick={downloadCsv}>SKINI CSV</button>
                 </div>
                 <div className="tutors--table--tab--select card--secondary__head card--secondary__head--search-tutor">
                     <div
@@ -170,6 +199,7 @@ const TutorManagment = () => {
                                 <td className="type--color--secondary mb-3 mb-xl-0">{t('TUTOR_MANAGMENT.TABLE.EMAIL')}</td>
                                 <td className="type--color--secondary mb-3 mb-xl-0">{t('TUTOR_MANAGMENT.TABLE.COUNTRY')}</td>
                                 <td className="type--color--secondary mb-3 mb-xl-0">{t('TUTOR_MANAGMENT.TABLE.PHONE_NUMBER')}</td>
+                                <td className="type--color--secondary mb-3 mb-xl-0">{t('TUTOR_MANAGMENT.TABLE.CREATED_AT')}</td>
                                 <td className="type--color--secondary mb-3 mb-xl-0"></td>
                               </tr>
                               </thead>
@@ -208,6 +238,12 @@ const TutorManagment = () => {
                                                 setSelectedTutor(tutor);
                                         }}
                                         >{formatPhoneNumber(tutor.phoneNumber, tutor.countryAbrv)}</td>
+                                        <td onClick={() => {
+                                          activeTab == 'unprocessed' ?
+                                            history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug)) :
+                                            setSelectedTutor(tutor);
+                                        }}
+                                        >{moment(tutor.createdAt,"YYYY-MM-DD").format("DD-MM-YYYY")}</td>
                                         {tutor.verified == null ? (
                                             <td className='approve-deny'>
                                                 <button

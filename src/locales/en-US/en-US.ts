@@ -19,7 +19,7 @@ export const EN_US = {
     },
     EMAIL_CONFIRMATION_POPUP: {
         WELCOME: 'Welcome to Teorem',
-        DESCRIPTION: 'Please confirm your e-mail address by clicking the link we sent you.',
+        DESCRIPTION: 'Please check your email and confirm your e-mail address by clicking the link we sent you.',
         EXPIRATION: 'Resend confirmation e-mail.',
         CONFIRM_BUTTON: 'Got it',
     },
@@ -217,6 +217,7 @@ export const EN_US = {
             DATE_OF_BIRTH: 'DATE OF BIRTH',
             PREVIEW_PROFILE: 'Preview profile',
             PHONE_NUMBER: "PHONE NUMBER",
+            CREATED_AT: "CREATED AT"
         },
         ACTIONS: {
             APPROVE: 'Approve',
@@ -384,7 +385,7 @@ export const EN_US = {
               FINAL: '<span class=primary-color>welcome</span> to Teorem!'
             },
             BECOME_A_TUTOR: 'Apply to become a tutor',
-            CONFIRM_EMAIL: 'Please confirm your email address by clicking the verification link that we sent you',
+            CONFIRM_EMAIL: 'Please check your email and confirm your e-mail address by clicking the link we sent you.',
             RESEND: 'Resend link'
         },
         CARD_DETAILS: {
@@ -793,16 +794,28 @@ export const EN_US = {
     EARNINGS: {
         TITLE: 'Earnings',
         GENERAL: {
-            TITLE: 'GENERAL INFORMATION',
+            TITLE: 'YOUR STATS',
             BOOKINGS: 'Total bookings',
             STUDENTS: 'Total students',
             REVIEWS: 'Total reviews',
             REVENUE: 'Total revenue',
             CURRENCY: '€',
         },
+      WEEK:'Last 7 days',
+      MONTH:'Last 30 days',
+      YEAR:'Last 12 months',
+      ALLTIME:'All time',
         REVENUE: {
             TITLE: 'REVENUE',
             GRAPH_LEGEND: 'Income',
+        },
+        STUDENTS: {
+          TITLE: 'STUDENTS',
+          GRAPH_LEGEND: 'Students',
+        },
+        BOOKINGS: {
+          TITLE: 'BOOKINGS',
+          GRAPH_LEGEND: 'Bookings',
         },
         DETAILS: {
             TITLE: 'DETAILS',

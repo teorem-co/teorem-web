@@ -1,9 +1,14 @@
 import {useTranslation} from 'react-i18next';
 import {PaymentElement, useElements, useStripe} from "@stripe/react-stripe-js";
-import {useState} from "react";
-import {useAddPaymentIntentMutation} from "../services/stripeService";
-import {useAppSelector} from "../../../hooks";
+import { useEffect, useState } from 'react';
+import {
+  useAddPaymentIntentMutation,
+  useLazyGetCustomerByIdQuery,
+} from '../services/stripeService';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 import {StripeError} from "@stripe/stripe-js";
+import { setMyProfileProgress } from '../slices/myProfileSlice';
+import { addStripeId } from '../../../../slices/authSlice';
 
 interface Props {
   sideBarIsOpen: boolean;
@@ -16,10 +21,12 @@ const AddCreditCard = (props: Props) => {
   const stripe = useStripe();
   const elements = useElements();
 
+  const [getStripeCustomerById, { data: stripeCustomer }] = useLazyGetCustomerByIdQuery();
   const [loading, setLoading] = useState(false);
   const [addPaymentIntent] = useAddPaymentIntentMutation();
   const userInfo = useAppSelector((state) => state.auth.user);
-
+  const state = useAppSelector((state) => state.myProfileProgress);
+  const dispatch = useAppDispatch();
 
   const handleError = (error: StripeError) => {
     setLoading(false);
@@ -47,21 +54,31 @@ const AddCreditCard = (props: Props) => {
     }
 
     const clientSecret = await addPaymentIntent(userInfo.id).unwrap();
-
-    const {error} = await stripe.confirmSetup({
+      await stripe.confirmSetup({
       elements,
       clientSecret,
       confirmParams: {
         return_url: window.location.href
       },
+    }).then((result) => {
+      if(result.error){
+        handleError(result.error);
+      }else{
+        const progress = state;
+        progress.payment = true;
+        dispatch(setMyProfileProgress(progress));
+        getStripeCustomerById(userInfo?.id);
+      }
     });
 
-    if (error) {
-      handleError(error);
-    }
     closeSidebar();
   };
 
+
+  useEffect(() => {
+    if(stripeCustomer)
+      dispatch(addStripeId(stripeCustomer.id));
+  }, [stripeCustomer]);
   const {t} = useTranslation();
 
   return (

@@ -40,6 +40,7 @@ import {
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
 import {setMyProfileProgress} from '../slices/myProfileSlice';
+import imageCompression from "browser-image-compression";
 
 interface Values {
   firstName: string;
@@ -105,7 +106,12 @@ const PersonalInformation = () => {
       if (typeof values.profileImage === 'string') {
         delete toSend.profileImage;
       }else {
-        toSend['profileImage'] = values.profileImage;
+        const options = {
+          maxSizeMB: 5,
+          maxWidthOrHeight: 500,
+          useWebWorker: true,
+        };
+        toSend['profileImage'] = await imageCompression(values.profileImage, options);
       }
     }
 

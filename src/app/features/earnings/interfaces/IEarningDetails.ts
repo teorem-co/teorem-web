@@ -1,5 +1,5 @@
 interface IEarningDetails {
-    month: string;
+    period: string;
     revenue: number;
     reviews: number;
     students: number;
