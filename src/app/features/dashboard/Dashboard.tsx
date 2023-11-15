@@ -62,7 +62,6 @@ import {
 } from '../../services/hiLinkService';
 import NotificationsSidebar from '../../components/NotificationsSidebar';
 import { IoNotifications, IoNotificationsOutline } from 'react-icons/io5';
-import { Badge } from '@mui/material';
 
 interface IGroupedDashboardData {
     [date: string]: IBooking[];

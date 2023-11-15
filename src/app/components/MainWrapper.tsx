@@ -4,14 +4,10 @@ import { useTranslation } from 'react-i18next';
 
 import Navbar from './Navbar';
 import { debounce } from 'lodash';
-import ScrollContext from './ScrollContext';
 import { useAppSelector } from '../hooks';
 import { useDispatch } from 'react-redux';
-import { setStepOne } from '../../slices/signUpSlice';
 import { setTopOffset } from '../../slices/scrollSlice';
 import { RoleOptions } from '../../slices/roleSlice';
-import { t } from 'i18next';
-import { showBanner } from '../../slices/bannerSlice';
 
 
 interface Props {
