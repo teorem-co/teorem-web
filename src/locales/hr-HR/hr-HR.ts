@@ -1298,11 +1298,37 @@ export const HR_HR = {
         WELCOME: 'WELCOME',
         DESCRIPTION: 'DESCRIPTION',
     },
-
     BOOKING:{
         SUCCESS: 'Rezervacija uspješna!',
       FAILURE: 'Rezervacija neuspješna!',
         TOAST_CANT_BOOK: 'Ne možete rezervirati lekciju u odabrano vrijeme!',
         CANT_BOOK_MESSAGE: 'Molimo rezervirajte minimalno 3 sata unaprijed'
+    },
+    TUTOR_INTRO:{
+      DASHBOARD:{
+        STEP1: {
+          TITLE: 'Zahtjevi za predavanja',
+          BODY:'Ovdje možete vidjeti sve zahtjeve za instrukcije koje su studenti zatražili.'
+        },
+        STEP2: {
+          TITLE: 'Prihvaćanje instrukcija',
+          BODY:'Klikom na ovaj gumb prihvaćate instrukcije u zadanom terminu.'
+        },
+        STEP3: {
+          TITLE: 'Odbijanje instrukcija',
+          BODY:'Klikom na ovaj gumb odbijate instrukcije u zadanom terminu.'
+        },
+        STEP4: {
+          TITLE: 'Današnji raspored',
+          BODY:'Ovdje možete vidjeti rezervacije koje imate danas (isto to možete vidjeti na svom kalendaru).'
+        },
+        STEP5: {
+          TITLE: 'Pridruživanje instrukcijama',
+          BODY:'Klikom na ovaj gumb se otvara prozor u s poločom itd. preko kojeg ćete održavati instrukcije. Pridružiti se možete i preko kalendara.'
+        }
+      },
+      BUTTON_NEXT:'Sljedeći',
+      BUTTON_PREVIOUS:'Prethodni',
+      BUTTON_FINISH:'Završi'
     }
 };
