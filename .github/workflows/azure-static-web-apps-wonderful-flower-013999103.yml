@@ -3,6 +3,7 @@ name: Azure Static Web Apps CI/CD - PROD-DEPLOY
 on:
   push:
     branches:
+      - main
       - prod-deploy
 
   workflow_dispatch:
