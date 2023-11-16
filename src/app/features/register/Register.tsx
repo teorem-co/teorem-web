@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import { useCheckMailMutation } from '../../../services/authService';
 import { setSelectedRole } from '../../../slices/roleSlice';
 import { setRegister } from '../../../slices/tutorRegisterSlice';
-import TextField from '../../components/form/TextField';
+import MyTextField from '../../components/form/MyTextField';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
 import logo from './../../../assets/images/logo.svg';
@@ -248,7 +248,7 @@ const Register: React.FC = () => {
                   {/*  <label htmlFor="firstName" className="field__label">*/}
                   {/*    {t('REGISTER.FORM.FIRST_NAME')}*/}
                   {/*  </label>*/}
-                  {/*  <TextField*/}
+                  {/*  <MyTextField*/}
                   {/*    name="firstName"*/}
                   {/*    id="firstName"*/}
                   {/*    placeholder={t('REGISTER.FORM.FIRST_NAME_PLACEHOLDER')}*/}
@@ -259,7 +259,7 @@ const Register: React.FC = () => {
                   {/*  <label htmlFor="lastName" className="field__label">*/}
                   {/*    {t('REGISTER.FORM.LAST_NAME')}*/}
                   {/*  </label>*/}
-                  {/*  <TextField*/}
+                  {/*  <MyTextField*/}
                   {/*    name="lastName"*/}
                   {/*    id="lastName"*/}
                   {/*    placeholder={t('REGISTER.FORM.LAST_NAME_PLACEHOLDER')}*/}
@@ -270,7 +270,7 @@ const Register: React.FC = () => {
                     <label className="field__label" htmlFor="email">
                       {t('REGISTER.FORM.EMAIL')}
                     </label>
-                    <TextField
+                    <MyTextField
                         onBlur={(e: any) => {
                           formik.handleBlur(e);
                           //formik.validateForm();
@@ -287,7 +287,7 @@ const Register: React.FC = () => {
                     <label className="field__label" htmlFor="password">
                       {t('REGISTER.FORM.PASSWORD')}
                     </label>
-                    <TextField
+                    <MyTextField
                         name="password"
                         id="password"
                         placeholder={t('REGISTER.FORM.PASSWORD_PLACEHOLDER')}
@@ -308,7 +308,7 @@ const Register: React.FC = () => {
                     <label className="field__label" htmlFor="passwordRepeat">
                       {t('REGISTER.FORM.CONFIRM_PASSWORD')}
                     </label>
-                    <TextField
+                    <MyTextField
                         name="passwordRepeat"
                         id="passwordRepeat"
                         placeholder={t('REGISTER.FORM.CONFIRM_PASSWORD_PLACEHOLDER')}

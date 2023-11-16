@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { t } from 'i18next';
 import { Form, FormikProvider, useFormik } from 'formik';
-import TextField from '../../../components/form/TextField';
+import MyTextField from '../../../components/form/MyTextField';
 import MyPhoneInput from '../../../components/form/MyPhoneInput';
 import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import { countryInput } from '../../../constants/countryInput';
@@ -92,7 +92,7 @@ export function EditTutor({ tutorData, setRefetch }: any) {
                         <label htmlFor="firstName" className="field__label">
                           {t('MY_PROFILE.PROFILE_SETTINGS.FIRST_NAME')}
                         </label>
-                        <TextField name="firstName" id="firstName" placeholder={t('MY_PROFILE.PROFILE_SETTINGS.FIRST_NAME_PLACEHOLDER')} />
+                        <MyTextField name="firstName" id="firstName" placeholder={t('MY_PROFILE.PROFILE_SETTINGS.FIRST_NAME_PLACEHOLDER')} />
                       </div>
                     </div>
                     <div className="col col-12 col-xl-6">
@@ -100,7 +100,7 @@ export function EditTutor({ tutorData, setRefetch }: any) {
                         <label htmlFor="lastName" className="field__label">
                           {t('MY_PROFILE.PROFILE_SETTINGS.LAST_NAME')}
                         </label>
-                        <TextField name="lastName" id="lastName" placeholder={t('MY_PROFILE.PROFILE_SETTINGS.LAST_NAME_PLACEHOLDER')} />
+                        <MyTextField name="lastName" id="lastName" placeholder={t('MY_PROFILE.PROFILE_SETTINGS.LAST_NAME_PLACEHOLDER')} />
                       </div>
                     </div>
                     <div className="col col-12 col-xl-6">
@@ -182,7 +182,7 @@ export function EditTutor({ tutorData, setRefetch }: any) {
                         <label className="field__label" htmlFor="currentOccupation">
                           {t('MY_PROFILE.ABOUT_ME.OCCUPATION')}
                         </label>
-                        <TextField
+                        <MyTextField
                           maxLength={50}
                           id="currentOccupation"
                           wrapperClassName="flex--grow"
@@ -197,7 +197,7 @@ export function EditTutor({ tutorData, setRefetch }: any) {
                         <label className="field__label" htmlFor="yearsOfExperience">
                           {t('MY_PROFILE.ABOUT_ME.YEARS')}
                         </label>
-                        <TextField
+                        <MyTextField
                           maxLength={50}
                           id="yearsOfExperience"
                           wrapperClassName="flex--grow"

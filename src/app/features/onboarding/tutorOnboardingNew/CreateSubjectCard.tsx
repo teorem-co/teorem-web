@@ -13,7 +13,7 @@ import {
 import {
   useLazyGetProfileProgressQuery} from '../../../../services/tutorService';
 import MySelect, { OptionType } from '../../../components/form/MySelectField';
-import TextField from '../../../components/form/TextField';
+import MyTextField from '../../../components/form/MyTextField';
 import {
   useLazyGetCountriesQuery,
 } from '../../../features/onboarding/services/countryService';
@@ -165,7 +165,7 @@ export const CreateSubjectCard = (props: Props) => {
                     />
                   </div>
                   <div className="field m-0 w--156--px flex flex--row flex--ai--center">
-                   <div> <TextField
+                   <div> <MyTextField
                      name="price"
                      id="price"
                      placeholder={
