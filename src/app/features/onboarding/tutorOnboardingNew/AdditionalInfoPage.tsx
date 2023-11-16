@@ -1,4 +1,4 @@
-import {Form, FormikProvider, useFormik} from 'formik';
+import {Field, Form, FormikProvider, useFormik} from 'formik';
 import {isEqual} from 'lodash';
 import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
@@ -10,7 +10,7 @@ import {
   useUpdateAditionalInfoMutation,
 } from '../../../../services/tutorService';
 import MyTextArea from '../../../components/form/MyTextArea';
-import TextField from '../../../components/form/TextField';
+import MyTextField from '../../../components/form/MyTextField';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
 import {useAppDispatch, useAppSelector} from '../../../hooks';
 import {getUserId} from '../../../utils/getUserId';
@@ -22,6 +22,7 @@ import CircularProgress from "../../my-profile/components/CircularProgress";
 import {setStepTwo} from "../../../../slices/onboardingSlice";
 import TestTutorProfile from "./TestTutorProfile";
 import logo from "../../../../assets/images/teorem_logo_purple.png";
+import {TextField} from "@mui/material";
 
 interface AdditionalValues {
   currentOccupation: string;
@@ -174,12 +175,45 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
   }, [formik.values]);
 
   useEffect(() => {
-    if (formik.values.aboutLessons.length !== 0 && formik.values.aboutTutor.trim().split(" ").length >= 50 && formik.values.currentOccupation.length !== 0) {
+    if (formik.values.aboutTutor.trim().split(" ").length >= 50 && formik.values.aboutLessons.trim().split(" ").length >= 50 && formik.values.currentOccupation.length > 1) {
       setSaveBtnActive(true);
     } else {
       setSaveBtnActive(false);
     }
   }, [formik.values]);
+
+  const validateAboutLessons= () => {
+    if(formik.values.aboutLessons.trim().split(" ").length < 50 && formik.values.aboutLessons.length != 0) {
+      return "Use at least 50 words";
+    }
+    if(formik.values.aboutLessons.length >= 2500) {
+      return "Max is 2500 characters";
+    }
+  };
+
+  const validateAboutTutor= () => {
+    if(formik.values.aboutTutor.trim().split(" ").length < 50 && formik.values.aboutTutor.length != 0) {
+      return "Use at least 50 words";
+    }
+    if(formik.values.aboutTutor.length > 2500) {
+      return "Max is 2500 characters";
+    }
+  };
+
+  const validateExperience= () => {
+    if(formik.values.yearsOfExperience && !(/^\d+$/.test(formik.values.yearsOfExperience))) {
+      return "Use only numbers";
+    }
+  };
+
+  const validateOccupation= () => {
+    if(formik.values.currentOccupation.length < 2 && formik.values.currentOccupation.length != 0) {
+      return "Too short";
+    }
+    if(formik.values.currentOccupation.length > 75) {
+      return "Max is 75 characters";
+    }
+  };
 
 
   const isMobile = window.innerWidth < 765;
@@ -241,52 +275,91 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                     <div className="w--800--max">
                       <div className="row">
                         <div className="col col-12 col-xl-6">
-                          <div className="field">
-                            <label className="field__label"
-                                   htmlFor="currentOccupation">
-                              {t('MY_PROFILE.ABOUT_ME.OCCUPATION')}
-                            </label>
-                            <TextField
-                              maxLength={75}
-                              id="currentOccupation"
-                              wrapperClassName="flex--grow"
+                          <div className="field" style={{padding: "10px"}}>
+                            <Field
+                              as={TextField}
                               name="currentOccupation"
-                              placeholder={t('MY_PROFILE.ABOUT_ME.OCCUPATION_PLACEHOLDER')}
-                              className="input input--base"
-                              disabled={isLoading}
+                              type="text"
+                              fullWidth
+                              id="currentOccupation"
+                              label={t('MY_PROFILE.ABOUT_ME.OCCUPATION')}
+                              variant="outlined"
+                              color="secondary"
+                              helperText={validateOccupation()}
+                              InputProps={{
+                                style: { fontFamily: "'Lato', sans-serif" },
+                              }}
+                              InputLabelProps={{
+                                style: { fontFamily: "'Lato', sans-serif" },
+                              }}
+                              FormHelperTextProps={{
+                                style: { color: 'red' } // Change the color of the helper text here
+                              }}
+                              inputProps={{
+                                maxLength: 75,
+                              }}
                             />
                           </div>
                         </div>
                         <div className="col col-12 col-xl-6">
-                          <div className="field">
-                            <label className="field__label"
-                                   htmlFor="yearsOfExperience">
-                              {t('MY_PROFILE.ABOUT_ME.YEARS')}
-                            </label>
-                            <TextField
-                              id="yearsOfExperience"
-                              wrapperClassName="flex--grow"
+                          <div className="field" style={{padding: "10px"}}>
+                            <Field
+                              as={TextField}
                               name="yearsOfExperience"
-                              placeholder={t('MY_PROFILE.ABOUT_ME.YEARS_PLACEHOLDER')}
-                              className="input input--base"
-                              type={'number'}
-                              disabled={isLoading}
+                              type="number"
+                              fullWidth
+                              id="yearsOfExperience"
+                              label={t('MY_PROFILE.ABOUT_ME.YEARS')}
+                              variant="outlined"
+                              color="secondary"
+                              helperText={validateExperience()}
+                              InputProps={{
+                                style: { fontFamily: "'Lato', sans-serif" },
+                              }}
+                              InputLabelProps={{
+                                style: { fontFamily: "'Lato', sans-serif" },
+                              }}
+                              FormHelperTextProps={{
+                                style: { color: 'red' }
+                              }}
+                              inputProps={{
+                                min: 0, // This will allow only positive numbers including zero
+                                step: "1" // This will allow only whole numbers
+                              }}
+                              onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+                                if (['e', 'E', '+', '-', '.'].includes(e.key)) {
+                                  e.preventDefault();
+                                }
+                              }}
                             />
                           </div>
                         </div>
                         <div className="col col-12">
-                          <div className="field">
-                            <label className="field__label"
-                                   htmlFor="aboutTutor">
-                              {t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_LABEL')}
-                            </label>
-                            <MyTextArea
-                              minLength={50}
-                              maxLength={2500}
+                          <div className="field" style={{padding: "10px"}}>
+                            <Field
+                              as={TextField}
                               name="aboutTutor"
-                              placeholder={t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_PLACEHOLDER')}
+                              type="text"
+                              fullWidth
+                              multiline
+                              rows={5}
                               id="aboutTutor"
-                              disabled={isLoading}
+                              helperText={validateAboutTutor()}
+                              InputProps={{
+                                style: { fontFamily: "'Lato', sans-serif" },
+                              }}
+                              InputLabelProps={{
+                                style: { fontFamily: "'Lato', sans-serif" },
+                              }}
+                              FormHelperTextProps={{
+                                style: { color: 'red' } // Change the color of the helper text here
+                              }}
+                              inputProps={{
+                                maxLength: 2500,
+                              }}
+                              label={t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_LABEL')}
+                              variant="outlined"
+                              color="secondary"
                             />
                             <>
                               <table className={`text-align--start password-tooltip`} style={{ color: "#636363"}}>
@@ -341,24 +414,38 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                           </div>
                         </div>
                         <div className="col col-12">
-                          <div className="field">
-                            <label className="field__label"
-                                   htmlFor="aboutLessons">
-                              {t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_LABEL')}
-                            </label>
-                            <MyTextArea
-                              maxLength={2500}
+                          <div className="field" style={{padding: "10px"}}>
+                            <Field
+                              as={TextField}
                               name="aboutLessons"
-                              placeholder={t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_PLACEHOLDER')}
+                              type="text"
+                              fullWidth
+                              multiline
+                              rows={5}
+                              helperText={validateAboutLessons()}
+                              InputProps={{
+                                style: { fontFamily: "'Lato', sans-serif" },
+                              }}
+                              InputLabelProps={{
+                                style: { fontFamily: "'Lato', sans-serif" },
+                              }}
+                              FormHelperTextProps={{
+                                style: { color: 'red' } // Change the color of the helper text here
+                              }}
+                              inputProps={{
+                                maxLength: 2500,
+                              }}
                               id="aboutLessons"
-                              disabled={isLoading}
+                              label={t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_LABEL')}
+                              variant="outlined"
+                              color="secondary"
                             />
                             <>
                               <table className={`text-align--start password-tooltip`} style={{color: "#636363"}}>
                                 <tbody>
                                 <tr>
                                   <td>
-                                    {formik.values.aboutTutor.trim().split(" ").length >= 50 ?
+                                    {formik.values.aboutLessons.trim().split(" ").length >= 50 ?
                                       <i
                                         id="length"
                                         className="icon icon--sm icon--check icon--success mr-3"

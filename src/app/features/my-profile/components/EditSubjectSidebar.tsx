@@ -16,7 +16,7 @@ import {
   useLazyGetProfileProgressQuery, useLazyGetTutorByIdQuery,
 } from '../../../../services/tutorService';
 import MySelect, { OptionType } from '../../../components/form/MySelectField';
-import TextField from '../../../components/form/TextField';
+import MyTextField from '../../../components/form/MyTextField';
 import {
   useLazyGetCountriesQuery,
 } from '../../onboarding/services/countryService';
@@ -211,7 +211,7 @@ const EditSubjectSidebar = (props: Props) => {
                                 <label htmlFor="price" className="field__label">
                                     {t('MY_PROFILE.MY_TEACHINGS.PRICING')} ({currency})*
                                 </label>
-                                <TextField
+                                <MyTextField
                                     name="price"
                                     id="price"
                                     placeholder={`€0/${t('MY_PROFILE.MY_TEACHINGS.HOUR_ABRV')}`}

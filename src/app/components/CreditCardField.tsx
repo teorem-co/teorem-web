@@ -6,7 +6,7 @@ type TextFieldType = {
     wrapperClassName?: string;
 } & FieldAttributes<{}>;
 
-//const TextField: React.FC<TextFieldType> = ( { type, placeholder, id, disabled, min, onChange, ...props } ) =>
+//const MyTextField: React.FC<TextFieldType> = ( { type, placeholder, id, disabled, min, onChange, ...props } ) =>
 const CreditCardfield: React.FC<TextFieldType> = (props: any) => {
     const [field, meta] = useField(props);
     const errorText = meta.error && meta.touched ? meta.error : '';

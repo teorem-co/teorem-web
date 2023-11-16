@@ -14,7 +14,7 @@ import { useAppDispatch, useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import useOutsideAlerter from '../../../utils/useOutsideAlerter';
 import { ICountry, useLazyGetCountriesQuery } from '../services/countryService';
-import TextField from '../../../components/form/TextField';
+import MyTextField from '../../../components/form/MyTextField';
 
 interface StepOneValues {
   firstName: string;
@@ -150,7 +150,7 @@ const StudentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep }) =
             <label htmlFor="firstName" className="field__label">
               {t('REGISTER.FORM.FIRST_NAME')}
             </label>
-            <TextField
+            <MyTextField
               name="firstName"
               id="firstName"
               placeholder={t('REGISTER.FORM.FIRST_NAME_PLACEHOLDER')}
@@ -161,7 +161,7 @@ const StudentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep }) =
             <label htmlFor="lastName" className="field__label">
               {t('REGISTER.FORM.LAST_NAME')}
             </label>
-            <TextField
+            <MyTextField
               name="lastName"
               id="lastName"
               placeholder={t('REGISTER.FORM.LAST_NAME_PLACEHOLDER')}

@@ -14,8 +14,8 @@ type TextFieldType = {
     mask?: any[];
 } & FieldAttributes<{}>;
 
-//const TextField: React.FC<TextFieldType> = ( { type, placeholder, id, disabled, min, onChange, ...props } ) =>
-const TextField: React.FC<TextFieldType> = (props: any) => {
+//const MyTextField: React.FC<TextFieldType> = ( { type, placeholder, id, disabled, min, onChange, ...props } ) =>
+const MyTextField: React.FC<TextFieldType> = (props: any) => {
     const { password, additionalValidation, maxLength } = props;
     const [field, meta] = useField(props);
     const [characterCount, setCharacterCount] = useState<number>(0);
@@ -100,4 +100,4 @@ const TextField: React.FC<TextFieldType> = (props: any) => {
     );
 };
 
-export default TextField;
+export default MyTextField;
