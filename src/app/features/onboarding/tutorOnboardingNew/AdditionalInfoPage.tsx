@@ -21,6 +21,7 @@ import {AiOutlineLeft} from "react-icons/ai";
 import CircularProgress from "../../my-profile/components/CircularProgress";
 import {setStepTwo} from "../../../../slices/onboardingSlice";
 import TestTutorProfile from "./TestTutorProfile";
+import logo from "../../../../assets/images/teorem_logo_purple.png";
 
 interface AdditionalValues {
   currentOccupation: string;
@@ -192,7 +193,11 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
       {/*  }}*/}
       {/*/>*/}
 
-
+      <img
+        src={logo}
+        alt='logo'
+        className="mt-5 ml-5 signup-logo"
+      />
       <div
         className="subject-form-container flex--jc--space-evenly"
       >

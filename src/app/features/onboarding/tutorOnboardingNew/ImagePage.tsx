@@ -22,6 +22,7 @@ import {
 } from '../../../../services/userService';
 import moment from 'moment/moment';
 import imageCompression from "browser-image-compression";
+import logo from "../../../../assets/images/teorem_logo_purple.png";
 
 //TODO: update the additional values to only image
 
@@ -244,6 +245,11 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
 
   return (
     <>
+      <img
+        src={logo}
+        alt='logo'
+        className="mt-5 ml-5 signup-logo"
+      />
       <div className="subject-form-container flex--jc--space-around">
         <FormikProvider value={formik}>
           <Form>

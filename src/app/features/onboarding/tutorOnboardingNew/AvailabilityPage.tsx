@@ -19,6 +19,7 @@ import {setMyProfileProgress} from "../../my-profile/slices/myProfileSlice";
 import CircularProgress from "../../my-profile/components/CircularProgress";
 import {useHistory} from "react-router";
 import {setStepZero} from "../../../../slices/onboardingSlice";
+import logo from "../../../../assets/images/teorem_logo_purple.png";
 
 interface AvailabilityValues {
   availability: ITutorAvailability[];
@@ -43,6 +44,7 @@ const AvailabilityPage = ({ nextStep }:AvailabilityProps) => {
   const dispatch = useAppDispatch();
   const profileProgressState = useAppSelector((state) => state.myProfileProgress);
   const [progressPercentage, setProgressPercentage] = useState(profileProgressState.percentage);
+  const [banner, setBanner] = useState(true);
 
   const userId = useAppSelector((state) => state.auth.user?.id);
   const loading = availabilityUninitialized || availabilityLoading;
@@ -175,6 +177,7 @@ const AvailabilityPage = ({ nextStep }:AvailabilityProps) => {
 
   useEffect(() => {
     fetchData();
+    console.log(banner);
   }, []);
 
   useEffect(() => {
@@ -212,13 +215,25 @@ const AvailabilityPage = ({ nextStep }:AvailabilityProps) => {
       {/*    return true;*/}
       {/*  }}*/}
       {/*/>*/}
+      {banner ?
+        <div style={{backgroundColor: "#7e6cf2", padding: "5px", display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+          <div style={{flexGrow: 1, justifyContent: "center"}}>
+            <p className='ml-6 text-align--center' style={{fontSize: "small", color: "#f8f7fe"}}>{t('TUTOR_ONBOARDING.TITLE')}</p>
+            <p className='ml-6 text-align--center' style={{fontSize: "smaller", color: "#f8f7fe"}}>{t('TUTOR_ONBOARDING.SUBTITLE')}</p>
+          </div>
+          <div onClick={() => setBanner(false)}>
+            <i className="icon icon--base icon--close icon--grey"></i>
+          </div>
+        </div>
+        : null}
+      <img
+        src={logo}
+        alt='logo'
+        className="mt-5 ml-5 signup-logo"
+      />
       <div>
         <div className='flex field__w-fit-content align--center flex--center'>
             <div className="flex flex--col flex--jc--center">
-              <div>
-                <p className='ml-6 text-align--center' style={{fontSize: "medium"}}>{t('TUTOR_ONBOARDING.TITLE')}</p>
-                <p className='ml-6 text-align--center' style={{fontSize: "small"}}>{t('TUTOR_ONBOARDING.SUBTITLE')}</p>
-              </div>
               <div style={{margin: "40px"}} className="flex flex--row flex--jc--center">
                 <div className="flex flex--center flex--shrink ">
                   {/*<CircularProgress progressNumber={profileProgressState.percentage ? profileProgressState.percentage : 0} size={80}  />*/}
