@@ -34,7 +34,7 @@ export const hiLinkService = baseService.injectEndpoints({
         method: HttpMethods.GET,
       }),
     }),
-    getTutorTestingLink: builder.query<IMeetingUrl, string>({
+    getTutorTestingLink: builder.query<IMeetingUrl, void>({
       query: () => ({
         url: `${URL}/tutor-testing-link`,
         method: HttpMethods.GET,
