@@ -115,26 +115,26 @@ export const PayoutFormCompany = (props: Props) => {
               <label htmlFor="addressLine1Field" className="field__label">
                 {t('STRIPE_CONNECT.ADDRESS')}*
               </label>
-              <TextField name="addressLine1" id="addressLine1Field" />
+              <TextField name="addressLine1" id="addressLine1Field" placeholder={t('MY_PROFILE.PROFILE_SETTINGS.ADDRESS_BUSINESS_PLACEHOLDER')}/>
             </div>
 
             <div className="field">
               <label htmlFor="postalCodeField" className="field__label">
                 {t('STRIPE_CONNECT.POST_CODE')}*
               </label>
-              <TextField name="postalCode" id="postalCodeField" />
+              <TextField name="postalCode" id="postalCodeField" placeholder={t('ACCOUNT.NEW_CARD.ZIP_PLACEHOLDER')}/>
             </div>
             <div className="field">
               <label htmlFor="cityField" className="field__label">
                 {t('STRIPE_CONNECT.CITY')}*
               </label>
-              <TextField name="city" id="cityField" />
+              <TextField name="city" id="cityField" placeholder={t('ACCOUNT.NEW_CARD.CITY_PLACEHOLDER')}/>
             </div>
             <div className="field">
               <label htmlFor="IBANField" className="field__label">
                 {t('STRIPE_CONNECT.IBAN')}*
               </label>
-              <TextField name="IBAN" id="IBANField" />
+              <TextField name="IBAN" id="IBANField" placeholder={t('MY_PROFILE.PROFILE_SETTINGS.IBAN_PLACEHOLDER')}/>
             </div>
             <div className="field">
               <label htmlFor="iban" className="field__label">

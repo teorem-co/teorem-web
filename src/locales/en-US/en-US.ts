@@ -674,13 +674,16 @@ export const EN_US = {
             COUNTRY: 'Country*',
             BIRTHDAY: 'Date of Birth*',
             IBAN: 'IBAN',
+            IBAN_PLACEHOLDER: 'Enter your IBAN',
             COMPANY_NAME: 'Company name*',
             COMPANY_NAME_PLACEHOLDER: 'Enter company name',
             COMPANY_OIB: 'Company OIB*',
             COMPANY_OIB_PLACEHOLDER: 'Enter company OIB',
-            IBAN_PLACEHOLDER: 'Enter your IBAN',
             IMAGE: 'Profile Image*',
-            UPLOAD_IMAGE: '<div><b>Choose file</b> or drag and drop to upload</div>',
+            UPLOAD_IMAGE: 'Drag and drop to upload',
+            CHOOSE_FILE: 'Choose file',
+            ADDRESS_PERSONAL_PLACEHOLDER: 'Enter your address',
+            ADDRESS_BUSINESS_PLACEHOLDER: "Enter your company's address"
         },
         PROFILE_ACCOUNT: {
             STRIPE: 'Go to Stripe',
