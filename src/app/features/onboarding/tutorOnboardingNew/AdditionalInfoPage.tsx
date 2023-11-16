@@ -207,7 +207,6 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
     }
   };
 
-
   const isMobile = window.innerWidth < 765;
   return (
     <>
