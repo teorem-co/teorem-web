@@ -9,8 +9,6 @@ import {
   useLazyGetTutorByIdQuery,
   useUpdateAditionalInfoMutation,
 } from '../../../../services/tutorService';
-import MyTextArea from '../../../components/form/MyTextArea';
-import MyTextField from '../../../components/form/MyTextField';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
 import {useAppDispatch, useAppSelector} from '../../../hooks';
 import {getUserId} from '../../../utils/getUserId';
@@ -200,12 +198,6 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
     }
   };
 
-  const validateExperience= () => {
-    if(formik.values.yearsOfExperience && !(/^\d+$/.test(formik.values.yearsOfExperience))) {
-      return "Use only numbers";
-    }
-  };
-
   const validateOccupation= () => {
     if(formik.values.currentOccupation.length < 2 && formik.values.currentOccupation.length != 0) {
       return "Too short";
@@ -312,7 +304,6 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                               label={t('MY_PROFILE.ABOUT_ME.YEARS')}
                               variant="outlined"
                               color="secondary"
-                              helperText={validateExperience()}
                               InputProps={{
                                 style: { fontFamily: "'Lato', sans-serif" },
                               }}
@@ -322,12 +313,8 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                               FormHelperTextProps={{
                                 style: { color: 'red' }
                               }}
-                              inputProps={{
-                                min: 0, // This will allow only positive numbers including zero
-                                step: "1" // This will allow only whole numbers
-                              }}
                               onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-                                if (['e', 'E', '+', '-', '.'].includes(e.key)) {
+                                if (!e.key.match(/[0-9]/)) {
                                   e.preventDefault();
                                 }
                               }}
