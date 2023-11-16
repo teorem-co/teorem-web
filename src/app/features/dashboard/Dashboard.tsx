@@ -305,18 +305,12 @@ const Dashboard = () => {
         const groupedRequestData: IGroupedDashboardData = groupBy(requests, (e) => moment(e.startTime).format(t('DATE_FORMAT')));
         setGroupedRequests(groupedRequestData);
 
-        const dateKey = moment(new Date()).add(1, 'day').format(t('DATE_FORMAT'));
-        if(showIntro){
-          // const grupedData: IGroupedDashboardData = {
-          //   [dateKey]: [mockRequest]
-          // };
-          // setGroupedRequests(grupedData);
-        }else{
-          setGroupedRequests(prevGroupedRequests => {
-            const { dateKey, ...restOfData } = prevGroupedRequests;
-            return restOfData;
-          });
-        }
+        // if(!showIntro){
+        //   setGroupedRequests(prevGroupedRequests => {
+        //     const { dateKey, ...restOfData } = prevGroupedRequests;
+        //     return restOfData;
+        //   });
+        // }
 
         let children = [];if(userRole === RoleOptions.Parent && userId !== undefined) {
           children = await getChildren(userId).unwrap().then();
@@ -568,60 +562,35 @@ const Dashboard = () => {
         intro: t('TUTOR_INTRO.DASHBOARD.STEP5.BODY'),
         element: ".tutor-intro-5",
       },
-
     ];
 
-    const [isEnabled, setIsEnabled] = useState(true);
-
-    //TODO:
-    //zove se uvijek: bilo da si skip
-    const onExit = () => {
-      localStorage.removeItem('showTutorIntro');
-      setShowIntro(null);
-      setIsEnabled(false);
-    };
-
-    //TODO: kad finishira
-    const onComplete = () => {
-      // console.log('Completed');
-      // alert('Completed');
-      handleJoinBooking(mockSchedule);
-      setIsEnabled(false);
-    };
-
-
-  const [showIntro, setShowIntro] = useState<string | null>();
-
-  function resetShowIntro(){
-    console.log('reseting showTitorIntro');
-    console.log('current value: ', showIntro);
-
-    startTutorial();
-    // setShowIntro('true');
-    // localStorage.setItem('showTutorIntro', 'true');
-  }
+  const [getTestingRoomLink] = useLazyGetTutorTestingLinkQuery();
+  const [modalActive, setModalActive] = useState(false);
+  const [showTutorial, setShowTutorial] = useState(false);
+  const [tutorialRoomLink, setTutorialRoomLink] = useState('');
+  const [isStepsEnabled, setIsStepsEnabled] = useState(true);
+  const [showIntro, setShowIntro] = useState<string | null>('');
+  const [tutorHiLinkModalActive, setTutorHiLinkModalActive] = useState(false);
+  const [notificationSidebarOpen, setNotificationSidebarOpen] = useState(false);
 
   useEffect(() => {
-    setShowIntro(localStorage.getItem('showTutorIntro'));
-  }, []);
-
-  useEffect(() => {
-    // alert(profileProgressState.percentage);
-    //alert(showIntro);
-    if (!showIntro) {
-      //todo: this means that it is already shown and don't do anything
-      setShowTutorial(false);
-      setModalActive(false);
-    }else if(showIntro && profileProgressState.percentage === 100){
-      // alert('showing modal for intro');
+    if(!localStorage.getItem('hideTutorIntro') && profileProgressState.percentage === 100){
       setModalActive(true);
     }
-  }, [profileProgressState.percentage, showIntro]);
+  }, [profileProgressState.percentage]);
 
-  const [showTutorial, setShowTutorial] = useState(false);
-  const [modalActive, setModalActive] = useState(false);
-  const [tutorHiLinkModalActive, setTutorHiLinkModalActive] = useState(false);
-  const [tutorialRoomLink, setTutorialRoomLink] = useState('https://www.youtube.com/embed/dQw4w9WgXcQ?si=OxYWZ2m-WOCxYxi0&amp;start=3');
+  //zove se uvijek: bilo da si skip
+  const onExit = () => {
+    localStorage.setItem('hideTutorIntro', 'true');
+    setShowIntro(null);
+    setIsStepsEnabled(false);
+  };
+
+  //kad klikne finish tj zadnji step
+  const onComplete = () => {
+    handleJoinBooking(mockSchedule);// automatically join meeting
+    setIsStepsEnabled(false);
+  };
 
   const skipTutorial = () =>{
     setShowTutorial(false);
@@ -631,15 +600,13 @@ const Dashboard = () => {
   };
 
   const startTutorial = async () =>{
-
-    getTestingRoomLink('a').unwrap().then((res)=> {
+    getTestingRoomLink().unwrap().then((res)=> {
       setTutorialRoomLink(res.meetingUrl);
     });
 
     //TODO: send request to backend and get link and save it
     const dateKey = moment(new Date()).add(1, 'day').format(t('DATE_FORMAT'));
     const grupedData: IGroupedDashboardData = {
-
       [dateKey]: [mockRequest]
     };
     setTodayScheduled([mockSchedule]);
@@ -668,24 +635,17 @@ const Dashboard = () => {
     return;
   }
 
-  const [getTestingRoomLink] = useLazyGetTutorTestingLinkQuery();
-
-  const badgeStyle = {
-    '& .MuiBadge-badge': {
-      color: 'white',
-      backgroundColor: '#7E6CF2',
-    },
-  };
-
-  const [notificationSidebarOpen, setNotificationSidebarOpen] = useState(false);
   return (
       <>
         {modalActive && <TutorTutorialModal skip={skipTutorial} start={startTutorial}/>}
 
-        {showTutorial && groupedRequests && Object.keys(groupedRequests).length > 0 &&<Steps enabled={isEnabled}
+        {showTutorial && groupedRequests && Object.keys(groupedRequests).length > 0 &&
+          <Steps
+               enabled={isStepsEnabled}
                steps={steps}
                initialStep={0}
                onExit={onExit}
+               onBeforeExit={onExit}
                options={{
                  nextLabel: t('TUTOR_INTRO.BUTTON_NEXT'),
                  prevLabel: t('TUTOR_INTRO.BUTTON_PREVIOUS'),
@@ -862,7 +822,7 @@ const Dashboard = () => {
                     <div className="card--secondary card--secondary--alt">
                         <div className="card--secondary__head">
                             <h2 className="type--wgt--bold type--lg">{t('DASHBOARD.TITLE')}</h2>
-                            <button className={"btn btn--lg btn--primary"} onClick={resetShowIntro}>Click to start tutorial</button>
+                            <button className={"btn btn--lg btn--primary"} onClick={startTutorial}>Click to start tutorial</button>
                             <IoNotificationsOutline className="cur--pointer primary-color" size={20} onClick={() => setNotificationSidebarOpen(true)}/>
                         </div>
                         <div className="card--secondary__body pl-3 pr-3">
@@ -889,21 +849,23 @@ const Dashboard = () => {
                                               {moment(item.startTime).format('HH:mm')} -{' '}
                                               {moment(item.endTime).add(1, 'minute').format('HH:mm')}
                                             </div>
-                                            <div
-                                              // className={"tutor-intro-2"}
-                                              onClick={() => {
-                                                handleAccept(item.id);
-                                              }
-                                              }>
-                                              <i className="tutor-intro-2 icon icon--base icon--check icon--primary"></i>
-                                            </div>
-                                            <div
-                                              // className={"tutor-intro-3"}
-                                              onClick={() => {
-                                                handleDeny(item.id);
-                                              }
-                                              }>
-                                              <i className="tutor-intro-3 icon icon--base icon--close-request icon--primary tutor-intro-3"></i>
+                                            <div className={"flex flex--row flex--jc--space-between mr-4"}>
+                                              <div
+                                                // className={"tutor-intro-2"}
+                                                onClick={() => {
+                                                  handleAccept(item.id);
+                                                }
+                                                }>
+                                                <i className="tutor-intro-2 icon icon--base icon--check icon--primary"></i>
+                                              </div>
+                                              <div
+                                                // className={"tutor-intro-3"}
+                                                onClick={() => {
+                                                  handleDeny(item.id);
+                                                }
+                                                }>
+                                                <i className="tutor-intro-3 icon icon--base icon--close-request icon--primary tutor-intro-3"></i>
+                                              </div>
                                             </div>
                                           </div>
                                         );
