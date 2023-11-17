@@ -53,8 +53,8 @@ import AddChildSidebar from "../my-profile/components/AddChildSidebar";
 import {
   OnboardingTutor
 } from "../onboarding/tutorOnboardingNew/OnboardingTutor";
-import { Steps } from 'intro.js-react';
-import "intro.js/introjs.css";
+// import { Steps } from 'intro.js-react';
+// import "intro.js/introjs.css";
 import { TutorTutorialModal } from '../../components/TutorTutorialModal';
 import {
   HiLinkModalForTutorIntro
@@ -696,22 +696,22 @@ const Dashboard = () => {
       <>
         {modalActive && <TutorTutorialModal skip={skipTutorial} start={startTutorial}/>}
 
-        {showTutorial && groupedRequests && Object.keys(groupedRequests).length > 0 &&
-          <Steps
-               enabled={isStepsEnabled}
-               steps={steps}
-               initialStep={0}
-               onExit={onExit}
-               onBeforeExit={onExit}
-               options={{
-                 nextLabel: t('TUTOR_INTRO.BUTTON_NEXT'),
-                 prevLabel: t('TUTOR_INTRO.BUTTON_PREVIOUS'),
-                 doneLabel: t('TUTOR_INTRO.BUTTON_FINISH'),
-                 scrollTo: 'element'
-               }}
-               onComplete={onComplete}
-        />
-        }
+        {/*{showTutorial && groupedRequests && Object.keys(groupedRequests).length > 0 &&*/}
+        {/*  <Steps*/}
+        {/*       enabled={isStepsEnabled}*/}
+        {/*       steps={steps}*/}
+        {/*       initialStep={0}*/}
+        {/*       onExit={onExit}*/}
+        {/*       onBeforeExit={onExit}*/}
+        {/*       options={{*/}
+        {/*         nextLabel: t('TUTOR_INTRO.BUTTON_NEXT'),*/}
+        {/*         prevLabel: t('TUTOR_INTRO.BUTTON_PREVIOUS'),*/}
+        {/*         doneLabel: t('TUTOR_INTRO.BUTTON_FINISH'),*/}
+        {/*         scrollTo: 'element'*/}
+        {/*       }}*/}
+        {/*       onComplete={onComplete}*/}
+        {/*/>*/}
+        {/*}*/}
 
         {userRole === RoleOptions.Tutor && profileProgressState.percentage !== 100 ? (
             <OnboardingTutor/>
