@@ -1132,7 +1132,7 @@ const Dashboard = () => {
                         userRole !== RoleOptions.Tutor && loadedTutorItems.length > 0 &&
                         <div className='flex flex--col flex--ai--center'>
 
-                          <div className="flex flex--row flex--wrap flex--gap-20 flex--jc--center field__w-fit-content align--center p-4 overflow--y--scroll pb-10">
+                          <div className="flex flex--row w--100 flex--wrap flex--gap-20 flex--jc--center field__w-fit-content align--center p-4 overflow--y--scroll pb-10">
 
                             {loadedTutorItems.map((tutor) =>
                             <RecommendedTutorCard className="p-4 h--350" key={tutor.id} tutor={tutor} />
