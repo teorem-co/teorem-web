@@ -113,38 +113,7 @@ interface IMenuPerRole {
   [key: string]: IMenuItem[];
 }
 
-const tutorItem: ITutorItem = {
-  id: 'id',
-  firstName: 'Ivan',
-  lastName:'Horvat',
-  profileImage: 'https://fakeimg.pl/300',
-  slug: 'slug',
-  currentOccupation: 'Profesor matematike',
-  aboutTutor: 'about me this is about me this is about me. world revolves around me he eh eh hahahaha muhahahaha',
-  minPrice: 12,
-  maxPrice: 15,
-  averageGrade: 4.5,
-  aboutLessons: 'about lessons',
-  completedLessons: 23,
-  currencyCode: 'EUR',
-  yearsOfExperience: 4,
-  subjects: ['maths', 'croatian'],
-  numberOfReviews: 23
-};
-
 export const ROUTES: any = [
-  {
-    path: '/en/card',
-    key: 'dasdaw',
-    exact: true,
-    // component: () => <RoleSelection />,
-    component: () =>
-      <div className="p-20 flex flex--row flex--wrap flex--gap-20 flex--jc--center">
-        <RecommendedTutorCard className="p-4 scale-hover--scale-105 cur--pointer" tutor={tutorItem}/>
-        <RecommendedTutorCard className="scale-hover--scale-105 cur--pointer" tutor={tutorItem}/>
-        <RecommendedTutorCard className="scale-hover--scale-105 cur--pointer" tutor={tutorItem}/>
-      </div>
-  },
   {
     path: PATHS.ROLE_SELECTION,
     key: 'ROLE_SELECTION',
