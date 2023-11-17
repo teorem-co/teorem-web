@@ -19,7 +19,7 @@ import {
 import { RoleOptions } from '../../../slices/roleSlice';
 import MainWrapper from '../../components/MainWrapper';
 import { useAppSelector } from '../../hooks';
-import { PATHS, PROFILE_PATHS } from '../../routes';
+import { PATHS, PROFILE_PATHS, ROUTES } from '../../routes';
 import {
   IChatRoom,
   ISendChatMessage,
@@ -30,7 +30,10 @@ import LearnCubeModal from '../my-profile/components/LearnCubeModal';
 import NotificationItem from '../notifications/components/NotificationItem';
 import CircularProgress from '../my-profile/components/CircularProgress';
 import { setMyProfileProgress } from '../my-profile/slices/myProfileSlice';
-import { useLazyGetProfileProgressQuery } from '../../../services/tutorService';
+import {
+  useLazyGetAvailableTutorsQuery,
+  useLazyGetProfileProgressQuery,
+} from '../../../services/tutorService';
 import IParams from "../notifications/interfaces/IParams";
 import {
   useLazyGetRequestsQuery,
@@ -62,6 +65,13 @@ import {
 } from '../../services/hiLinkService';
 import NotificationsSidebar from '../../components/NotificationsSidebar';
 import { IoNotifications, IoNotificationsOutline } from 'react-icons/io5';
+import {
+  RecommendedTutorCard
+} from './recommended-tutors/RecommendedTutorCard';
+import ITutorItem from '../../../interfaces/ITutorItem';
+import { SortDirection } from '../../lookups/sortDirection';
+import { TutorItemMobile } from '../searchTutors/components/TutorItemMobile';
+import TutorItem from '../searchTutors/components/TutorItem';
 
 interface IGroupedDashboardData {
     [date: string]: IBooking[];
@@ -384,7 +394,7 @@ const Dashboard = () => {
     };
 
     useEffect(() => {
-      fetchData(); //TODO: IMPORTANT! uncomment this later, this gets dashboard data
+      fetchData();
 
       socket.on('showNotification', (notification: ISocketNotification) => {
         if (userId && notification.userId === userId) {
@@ -596,10 +606,12 @@ const Dashboard = () => {
     setShowTutorial(false);
     setModalActive(false);
     setShowIntro(null);
-    localStorage.removeItem('showTutorIntro');
+    localStorage.setItem('hideTutorIntro', 'true');
   };
 
   const startTutorial = async () =>{
+    // window.scrollTo(0, document.body.scrollHeight);
+    document.body.scrollTop = -document.body.scrollHeight;
     getTestingRoomLink().unwrap().then((res)=> {
       setTutorialRoomLink(res.meetingUrl);
     });
@@ -635,6 +647,51 @@ const Dashboard = () => {
     return;
   }
 
+  const tutorItem: ITutorItem = {
+    id: 'id',
+    firstName: 'Ivan',
+    lastName:'Horvat',
+    profileImage: 'https://fakeimg.pl/300',
+    slug: 'slug',
+    currentOccupation: 'Profesor matematike',
+    aboutTutor: 'more more more more more more more re more more more more more more more more more more more more more more more more more more more more ',
+    minPrice: 12,
+    maxPrice: 15,
+    averageGrade: 4.5,
+    aboutLessons: 'about lessons',
+    completedLessons: 25,
+    currencyCode: 'EUR',
+    yearsOfExperience: 4,
+    subjects: ['maths', 'croatian'],
+    numberOfReviews: 23
+  };
+  // tutor search
+
+  const [
+    getAvailableTutors,
+    {
+      data: availableTutors,
+      isLoading: isLoadingAvailableTutors,
+      isUninitialized: availableTutorsUninitialized,
+      isFetching: availableTutorsFetching,
+    },
+  ] = useLazyGetAvailableTutorsQuery();
+
+
+  const [loadedTutorItems, setLoadedTutorItems] = useState<ITutorItem[]>([]);
+
+  useEffect(() => {
+    const params ={
+      page: 0,
+      rpp: 3,
+      sort: 'price,'+SortDirection.Asc
+    };
+
+    getAvailableTutors(params).unwrap().then((res)=>{
+      setLoadedTutorItems(res.content);
+    });
+  }, []);
+
   return (
       <>
         {modalActive && <TutorTutorialModal skip={skipTutorial} start={startTutorial}/>}
@@ -650,6 +707,7 @@ const Dashboard = () => {
                  nextLabel: t('TUTOR_INTRO.BUTTON_NEXT'),
                  prevLabel: t('TUTOR_INTRO.BUTTON_PREVIOUS'),
                  doneLabel: t('TUTOR_INTRO.BUTTON_FINISH'),
+                 scrollTo: 'element'
                }}
                onComplete={onComplete}
         />
@@ -822,7 +880,7 @@ const Dashboard = () => {
                     <div className="card--secondary card--secondary--alt">
                         <div className="card--secondary__head">
                             <h2 className="type--wgt--bold type--lg">{t('DASHBOARD.TITLE')}</h2>
-                            <button className={"btn btn--lg btn--primary"} onClick={startTutorial}>Click to start tutorial</button>
+                            {/*<button className={"btn btn--lg btn--primary"} onClick={startTutorial}>Click to start tutorial</button>*/}
                             <IoNotificationsOutline className="cur--pointer primary-color" size={20} onClick={() => setNotificationSidebarOpen(true)}/>
                         </div>
                         <div className="card--secondary__body pl-3 pr-3">
@@ -1040,7 +1098,8 @@ const Dashboard = () => {
                                 </div>
                             </div>
                             <div className="dashboard__list">
-                              <div className="type--color--tertiary mb-2">{t('DASHBOARD.BOOKINGS.TITLE')}</div>
+                                <div className="type--color--tertiary mb-2">{groupedUpcomming && Object.keys(groupedUpcomming).length > 0 ? t('DASHBOARD.BOOKINGS.TITLE') : t('DASHBOARD.BOOKINGS.RECOMMENDED')}</div>
+
                               {groupedUpcomming && Object.keys(groupedUpcomming).length > 0 ? (
                                     Object.keys(groupedUpcomming).map((key: string) => {
                                         return (
@@ -1069,12 +1128,24 @@ const Dashboard = () => {
                           );
                         })
                       ) : (
-                        <div className="tutor-list__no-results mt-30">
-                          <h1 className="tutor-list__no-results__title">
-                            <div>{t('DASHBOARD.BOOKINGS.EMPTY')}</div>
-                          </h1>
-                          <p className="tutor-list__no-results__subtitle">{t('DASHBOARD.BOOKINGS.EMPTY_SUBTITLE')}</p>
+
+                        userRole !== RoleOptions.Tutor && loadedTutorItems.length > 0 &&
+                        <div className='flex flex--col flex--ai--center'>
+
+                          <div className="flex flex--row flex--wrap flex--gap-20 flex--jc--center field__w-fit-content align--center p-4 overflow--y--scroll pb-10">
+
+                            {loadedTutorItems.map((tutor) =>
+                            <RecommendedTutorCard className="p-4 h--350" key={tutor.id} tutor={tutor} />
+                            )}
+
+                            {/*<RecommendedTutorCard className="p-4 cur--pointer h--350" tutor={tutorItem}/>*/}
+                            {/*<RecommendedTutorCard className="p-4 105 cur--pointer" tutor={tutorItem}/>*/}
+                          </div>
+                          <Link
+                            to={PATHS.SEARCH_TUTORS}
+                            className="type--center w--100">{t('DASHBOARD.BOOKINGS.SHOW_MORE')}</Link>
                         </div>
+
                       )}
                     </div>
                   </div>
