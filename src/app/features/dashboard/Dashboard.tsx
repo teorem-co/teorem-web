@@ -647,24 +647,24 @@ const Dashboard = () => {
     return;
   }
 
-  const tutorItem: ITutorItem = {
-    id: 'id',
-    firstName: 'Ivan',
-    lastName:'Horvat',
-    profileImage: 'https://fakeimg.pl/300',
-    slug: 'slug',
-    currentOccupation: 'Profesor matematike',
-    aboutTutor: 'more more more more more more more re more more more more more more more more more more more more more more more more more more more more ',
-    minPrice: 12,
-    maxPrice: 15,
-    averageGrade: 4.5,
-    aboutLessons: 'about lessons',
-    completedLessons: 25,
-    currencyCode: 'EUR',
-    yearsOfExperience: 4,
-    subjects: ['maths', 'croatian'],
-    numberOfReviews: 23
-  };
+  // const tutorItem: ITutorItem = {
+  //   id: 'id',
+  //   firstName: 'Ivan',
+  //   lastName:'Horvat',
+  //   profileImage: 'https://fakeimg.pl/300',
+  //   slug: 'slug',
+  //   currentOccupation: 'Profesor matematike',
+  //   aboutTutor: 'more more more more more more more re more more more more more more more more more more more more more more more more more more more more ',
+  //   minPrice: 12,
+  //   maxPrice: 15,
+  //   averageGrade: 4.5,
+  //   aboutLessons: 'about lessons',
+  //   completedLessons: 25,
+  //   currencyCode: 'EUR',
+  //   yearsOfExperience: 4,
+  //   subjects: ['maths', 'croatian'],
+  //   numberOfReviews: 23
+  // };
   // tutor search
 
   const [
