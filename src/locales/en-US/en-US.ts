@@ -744,6 +744,8 @@ export const EN_US = {
             TOTAL: 'Total',
             EMPTY: 'No bookings',
             EMPTY_SUBTITLE: 'Hmm, looks like there are no bookings yet.',
+            RECOMMENDED: 'RECOMMENDED TUTORS',
+            SHOW_MORE: 'Show more...'
         },
         NOTIFICATIONS: {
             TITLE: 'NOTIFICATIONS',

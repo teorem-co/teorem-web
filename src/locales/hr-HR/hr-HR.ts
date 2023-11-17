@@ -741,8 +741,10 @@ export const HR_HR = {
         BOOKINGS: {
           TITLE: 'NADOLAZEĆI TERMINI',
           TOTAL: 'Ukupno',
-            EMPTY: 'Nema zakazanih termina',
-            EMPTY_SUBTITLE: 'Hmm, izgleda da za sada nemate zakazanih termina.',
+          EMPTY: 'Nema zakazanih termina',
+          EMPTY_SUBTITLE: 'Hmm, izgleda da za sada nemate zakazanih termina.',
+          RECOMMENDED: 'PREPORUČENI INSTRUKTORI',
+          SHOW_MORE: 'Prikaži više...'
         },
         NOTIFICATIONS: {
             TITLE: 'OBAVIJESTI',
