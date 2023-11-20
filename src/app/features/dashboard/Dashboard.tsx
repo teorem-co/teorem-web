@@ -70,6 +70,10 @@ import {
 } from './recommended-tutors/RecommendedTutorCard';
 import ITutorItem from '../../../interfaces/ITutorItem';
 import { SortDirection } from '../../lookups/sortDirection';
+import {
+  RecommendedTutorCardMobile
+} from './recommended-tutors/RecommendedTutorCardMobile';
+import MediaQuery from 'react-responsive';
 
 interface IGroupedDashboardData {
     [date: string]: IBooking[];
@@ -692,6 +696,8 @@ const Dashboard = () => {
    }
   }, []);
 
+  const isMobile = window.innerWidth < 766;
+
   return (
       <>
         {modalActive && <TutorTutorialModal skip={skipTutorial} start={startTutorial}/>}
@@ -1131,13 +1137,14 @@ const Dashboard = () => {
 
                         userRole !== RoleOptions.Tutor && loadedTutorItems.length > 0 &&
                         <div className='flex flex--col flex--ai--center'>
-
                           <div className="flex flex--row w--100 flex--wrap flex--gap-20 flex--jc--center field__w-fit-content align--center p-4 overflow--y--scroll pb-10">
-
                             {loadedTutorItems.map((tutor) =>
-                            <RecommendedTutorCard className="p-4 h--350" key={tutor.id} tutor={tutor} />
+                              isMobile ? (
+                                <RecommendedTutorCardMobile className="p-4 h--350" key={tutor.id} tutor={tutor} />
+                              ) : (
+                                <RecommendedTutorCard className="p-4 h--350" key={tutor.id} tutor={tutor} />
+                              )
                             )}
-
                             {/*<RecommendedTutorCard className="p-4 cur--pointer h--350" tutor={tutorItem}/>*/}
                             {/*<RecommendedTutorCard className="p-4 105 cur--pointer" tutor={tutorItem}/>*/}
                           </div>

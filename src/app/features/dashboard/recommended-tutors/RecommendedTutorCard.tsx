@@ -79,7 +79,7 @@ export const RecommendedTutorCard = (props: Props) => {
         </div>
 
 
-        <div className="mt-2 truncate-multiline">
+        <div className="mt-2 recommended-card-truncate">
           <p>{tutor.aboutTutor}</p>
         </div>
 
