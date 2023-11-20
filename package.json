@@ -36,6 +36,7 @@
         "formik": "^2.2.9",
         "i18next": "^21.6.3",
         "i18next-browser-languagedetector": "^6.1.2",
+        "intro.js": "^7.2.0",
         "intro.js-react": "^1.0.0",
         "libphonenumber-js": "^1.10.43",
         "lodash": "^4.17.21",
