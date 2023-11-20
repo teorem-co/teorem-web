@@ -70,8 +70,6 @@ import {
 } from './recommended-tutors/RecommendedTutorCard';
 import ITutorItem from '../../../interfaces/ITutorItem';
 import { SortDirection } from '../../lookups/sortDirection';
-import { TutorItemMobile } from '../searchTutors/components/TutorItemMobile';
-import TutorItem from '../searchTutors/components/TutorItem';
 
 interface IGroupedDashboardData {
     [date: string]: IBooking[];
