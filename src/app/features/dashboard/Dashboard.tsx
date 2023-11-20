@@ -649,26 +649,6 @@ const Dashboard = () => {
     return;
   }
 
-  // const tutorItem: ITutorItem = {
-  //   id: 'id',
-  //   firstName: 'Ivan',
-  //   lastName:'Horvat',
-  //   profileImage: 'https://fakeimg.pl/300',
-  //   slug: 'slug',
-  //   currentOccupation: 'Profesor matematike',
-  //   aboutTutor: 'more more more more more more more re more more more more more more more more more more more more more more more more more more more more ',
-  //   minPrice: 12,
-  //   maxPrice: 15,
-  //   averageGrade: 4.5,
-  //   aboutLessons: 'about lessons',
-  //   completedLessons: 25,
-  //   currencyCode: 'EUR',
-  //   yearsOfExperience: 4,
-  //   subjects: ['maths', 'croatian'],
-  //   numberOfReviews: 23
-  // };
-  // tutor search
-
   const [
     getAvailableTutors,
     {
@@ -687,7 +667,7 @@ const Dashboard = () => {
      const params ={
        page: 0,
        rpp: 3,
-       sort: 'price,'+SortDirection.Asc
+       sort: 'rank,'+SortDirection.Asc
      };
 
      getAvailableTutors(params).unwrap().then((res)=>{
@@ -883,10 +863,10 @@ const Dashboard = () => {
                             </div>
                         ) : null}
                     <div className="card--secondary card--secondary--alt">
-                        <div className="card--secondary__head">
+                        <div className={`card--secondary__head flex--jc--space-between`}>
                             <h2 className="type--wgt--bold type--lg">{t('DASHBOARD.TITLE')}</h2>
                             {/*<button className={"btn btn--lg btn--primary"} onClick={startTutorial}>Click to start tutorial</button>*/}
-                            <IoNotificationsOutline className="cur--pointer primary-color" size={20} onClick={() => setNotificationSidebarOpen(true)}/>
+                            <IoNotificationsOutline className="cur--pointer primary-color scale-hover--scale-110" size={20} onClick={() => setNotificationSidebarOpen(true)}/>
                         </div>
                         <div className="card--secondary__body pl-3 pr-3">
                           {userRole === RoleOptions.Tutor ? (
