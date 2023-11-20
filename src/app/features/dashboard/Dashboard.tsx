@@ -697,7 +697,6 @@ const Dashboard = () => {
   }, []);
 
   const isMobile = window.innerWidth < 766;
-
   return (
       <>
         {modalActive && <TutorTutorialModal skip={skipTutorial} start={startTutorial}/>}
