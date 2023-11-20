@@ -679,15 +679,17 @@ const Dashboard = () => {
   const [loadedTutorItems, setLoadedTutorItems] = useState<ITutorItem[]>([]);
 
   useEffect(() => {
-    const params ={
-      page: 0,
-      rpp: 3,
-      sort: 'price,'+SortDirection.Asc
-    };
+   if(userRole !== RoleOptions.Tutor){
+     const params ={
+       page: 0,
+       rpp: 3,
+       sort: 'price,'+SortDirection.Asc
+     };
 
-    getAvailableTutors(params).unwrap().then((res)=>{
-      setLoadedTutorItems(res.content);
-    });
+     getAvailableTutors(params).unwrap().then((res)=>{
+       setLoadedTutorItems(res.content);
+     });
+   }
   }, []);
 
   return (
