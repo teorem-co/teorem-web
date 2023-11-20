@@ -10,6 +10,9 @@ on:
     branches:
       - develop
 
+permissions:
+  pull-requests: write
+
 jobs:
   build_and_deploy_job:
     runs-on: ubuntu-latest
