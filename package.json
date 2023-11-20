@@ -77,7 +77,7 @@
     },
     "scripts": {
         "start-local": "react-scripts start",
-        "build-local": "CI=false react-scripts build",
+        "build-local": "npm install npm@9.5.1 && CI=false react-scripts build",
         "start-dev": "env-cmd -f dev.env npm start",
         "build-dev": "CI=false env-cmd -f dev.env react-scripts build",
         "start-prod": "env-cmd -f prod.env npm start",
