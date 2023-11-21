@@ -745,7 +745,7 @@ export const EN_US = {
             EMPTY: 'No bookings',
             EMPTY_SUBTITLE: 'Hmm, looks like there are no bookings yet.',
             RECOMMENDED: 'RECOMMENDED TUTORS',
-            SHOW_MORE: 'Show more...'
+            SHOW_MORE: 'Show more'
         },
         NOTIFICATIONS: {
             TITLE: 'NOTIFICATIONS',
@@ -1327,6 +1327,7 @@ export const EN_US = {
       BUTTON_NEXT:'Next',
       BUTTON_PREVIOUS:'Previous',
       BUTTON_FINISH:'Finish',
+      BUTTON_RESTART:'Restart tutorial'
   }
 
 };

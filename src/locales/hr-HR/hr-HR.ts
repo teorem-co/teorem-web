@@ -744,7 +744,7 @@ export const HR_HR = {
           EMPTY: 'Nema zakazanih termina',
           EMPTY_SUBTITLE: 'Hmm, izgleda da za sada nemate zakazanih termina.',
           RECOMMENDED: 'PREPORUČENI INSTRUKTORI',
-          SHOW_MORE: 'Prikaži više...'
+          SHOW_MORE: 'Prikaži više'
         },
         NOTIFICATIONS: {
             TITLE: 'OBAVIJESTI',
@@ -1326,11 +1326,12 @@ export const HR_HR = {
         },
         STEP5: {
           TITLE: 'Pridruživanje instrukcijama',
-          BODY:'Klikom na ovaj gumb se otvara prozor u s poločom itd. preko kojeg ćete održavati instrukcije. Pridružiti se možete i preko kalendara.'
+          BODY:'Klikom na ovaj gumb se otvara prozor u s poločom itd. preko kojeg ćete održavati instrukcije. Pridružiti se možete i preko kalendara. (Nakon završetka tutorijala, automatski ćete biti spojeni u sastanak gdje možete isprobati ploču.)'
         }
       },
       BUTTON_NEXT:'Sljedeći',
       BUTTON_PREVIOUS:'Prethodni',
-      BUTTON_FINISH:'Završi'
+      BUTTON_FINISH:'Završi',
+      BUTTON_RESTART:'Pokreni tutorijal'
     }
 };

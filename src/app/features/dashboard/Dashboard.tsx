@@ -667,7 +667,6 @@ const Dashboard = () => {
      const params ={
        page: 0,
        rpp: 3,
-       sort: 'rank,'+SortDirection.Asc
      };
 
      getAvailableTutors(params).unwrap().then((res)=>{
@@ -679,7 +678,12 @@ const Dashboard = () => {
   const isMobile = window.innerWidth < 766;
   return (
       <>
-        {modalActive && <TutorTutorialModal skip={skipTutorial} start={startTutorial}/>}
+        {modalActive &&
+          userRole == RoleOptions.Tutor ?
+          <TutorTutorialModal skip={skipTutorial} start={startTutorial}/>
+        :
+          <></>
+        }
 
         {showTutorial && groupedRequests && Object.keys(groupedRequests).length > 0 &&
           <Steps
