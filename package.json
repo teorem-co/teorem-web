@@ -45,6 +45,7 @@
         "rc-time-picker": "^3.7.3",
         "react": "^18.1.0",
         "@mui/types": "^7.2.4",
+        "@mui/types": "^7.2.4",
         "react-big-calendar": "^1.8.4",
         "react-calendar": "^3.5.0",
         "react-chartjs-2": "^5.2.0",
