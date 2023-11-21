@@ -44,10 +44,9 @@ const ProfileHeader: FC<Props> = (props: Props) => {
                 localStorage.removeItem('hideTutorIntro');
                 history.push(PATHS.DASHBOARD);
               }}
-              //to={`PATHS.DASHBOARD`}
               className="btn btn--clear btn--base type--wgt--bold"
             >
-              restart tutorial
+              {t('TUTOR_INTRO.BUTTON_RESTART')}
             </button>
 
             <Link
