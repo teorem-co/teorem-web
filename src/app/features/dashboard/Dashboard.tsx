@@ -1087,7 +1087,12 @@ const Dashboard = () => {
                                 </div>
                             </div>
                             <div className="dashboard__list">
-                                <div className="type--color--tertiary mb-2">{groupedUpcomming && Object.keys(groupedUpcomming).length > 0 ? t('DASHBOARD.BOOKINGS.TITLE') : t('DASHBOARD.BOOKINGS.RECOMMENDED')}</div>
+
+                              <div className="type--color--tertiary mb-2">
+                                {userRole === RoleOptions.Tutor
+                                  ? t('DASHBOARD.BOOKINGS.TITLE')
+                                  : groupedUpcomming && Object.keys(groupedUpcomming).length > 0 ? t('DASHBOARD.BOOKINGS.TITLE') :t('DASHBOARD.BOOKINGS.RECOMMENDED')}
+                              </div>
 
                               {groupedUpcomming && Object.keys(groupedUpcomming).length > 0 ? (
                                     Object.keys(groupedUpcomming).map((key: string) => {
