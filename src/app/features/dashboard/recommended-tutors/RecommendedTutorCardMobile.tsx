@@ -41,8 +41,13 @@ export const RecommendedTutorCardMobile = (props: Props) => {
                     alt="tutor-profile-pic" />
                 ) : (
                   <ImageCircle
+                    style={{
+                      width: '90px',
+                      height: '90px'
+                    }}
                     className="align--center d--b mb-4"
                     imageBig={false}
+                    fontSize={'30px'}
                     initials={`${tutor.firstName.charAt(0)}${tutor.lastName.charAt(0)}`}
                   />
                 )}
