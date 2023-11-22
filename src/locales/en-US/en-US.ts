@@ -1302,23 +1302,11 @@ export const EN_US = {
       DASHBOARD:{
         STEP1: {
           TITLE: 'Booking requests',
-          BODY:'Here you can see all the booking requests that students have submitted.'
+          BODY:'Here you can see and manage your booking requests.'
         },
         STEP2: {
-          TITLE: 'Accepting booking',
-          BODY:'By clicking this button, you accept the booking within the specified timeframe.'
-        },
-        STEP3: {
-          TITLE: 'Rejecting booking',
-          BODY:'By clicking this button, you reject the booking within the specified timeframe.'
-        },
-        STEP4: {
-          TITLE: 'Today\'s schedule',
-          BODY:'Here you can see the reservations you have for today (you can also view this on your calendar).'
-        },
-        STEP5: {
-          TITLE: 'Joining Instructions',
-          BODY:'By clicking this button, a window opens with a panel, etc., through which you will conduct instructions. Moz'
+          TITLE: 'Joining classes',
+          BODY:'You\'ll be able to start your lessons directly from your "Today\'s Schedule" (you can also join through your calendar). '
         }
       },
       BUTTON_NEXT:'Next',

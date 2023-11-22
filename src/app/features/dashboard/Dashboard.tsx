@@ -555,24 +555,7 @@ const Dashboard = () => {
       {
         title: t('TUTOR_INTRO.DASHBOARD.STEP2.TITLE'),
         intro: t('TUTOR_INTRO.DASHBOARD.STEP2.BODY'),
-        element: ".tutor-intro-2",
-        position: "top"
-      },
-      {
-        title: t('TUTOR_INTRO.DASHBOARD.STEP3.TITLE'),
-        intro: t('TUTOR_INTRO.DASHBOARD.STEP3.BODY'),
-        element: ".tutor-intro-3",
-        position: "right"
-      },
-      {
-        title: t('TUTOR_INTRO.DASHBOARD.STEP4.TITLE'),
-        intro: t('TUTOR_INTRO.DASHBOARD.STEP4.BODY'),
         element: ".tutor-intro-4",
-      },
-      {
-        title: t('TUTOR_INTRO.DASHBOARD.STEP5.TITLE'),
-        intro: t('TUTOR_INTRO.DASHBOARD.STEP5.BODY'),
-        element: ".tutor-intro-5",
       },
     ];
 
@@ -898,20 +881,18 @@ const Dashboard = () => {
                                             </div>
                                             <div className={"flex flex--row flex--jc--space-between mr-4"}>
                                               <div
-                                                // className={"tutor-intro-2"}
                                                 onClick={() => {
                                                   handleAccept(item.id);
                                                 }
                                                 }>
-                                                <i className="tutor-intro-2 icon icon--base icon--check icon--primary"></i>
+                                                <i className="icon icon--base icon--check icon--primary"></i>
                                               </div>
                                               <div
-                                                // className={"tutor-intro-3"}
                                                 onClick={() => {
                                                   handleDeny(item.id);
                                                 }
                                                 }>
-                                                <i className="tutor-intro-3 icon icon--base icon--close-request icon--primary tutor-intro-3"></i>
+                                                <i className="icon icon--base icon--close-request icon--primary tutor-intro-3"></i>
                                               </div>
                                             </div>
                                           </div>
@@ -967,7 +948,7 @@ const Dashboard = () => {
                                                     moment(todayScheduled[activeIndex].startTime).subtract(10, 'minutes').isBefore(moment()) &&
                                                     moment(todayScheduled[activeIndex].startTime).add(60, 'minutes').isAfter(moment()) ? (
                                                     <button
-                                                        className="btn btn--base card--dashboard__btn tutor-intro-5"
+                                                        className="btn btn--base card--dashboard__btn"
                                                         onClick={() => handleJoinBooking(todayScheduled[activeIndex])}
                                                     >
                                                         {t('DASHBOARD.SCHEDULE.BUTTON')}
@@ -975,7 +956,7 @@ const Dashboard = () => {
                                                 ) : (
                                                     <button
                                                         disabled
-                                                        className="btn btn--base card--dashboard__btn tutor-intro-5"
+                                                        className="btn btn--base card--dashboard__btn"
                                                         // style={{ visibility: 'hidden' }}
                                                     >
                                                       {t('DASHBOARD.SCHEDULE.BUTTON')}

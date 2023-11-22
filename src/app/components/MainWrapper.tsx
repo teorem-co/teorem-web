@@ -47,12 +47,9 @@ const MainWrapper = (props: Props) => {
     <>
           <div className='flex flex--col'>
             {!hideBanner && userRole === RoleOptions.Tutor && profileProgressState && !profileProgressState.verified &&
-              <div className="banner flex flex--col flex--jc--center p-2" style={{color: 'white', backgroundColor:'rgba(126, 108, 242, 0.7)', position:'sticky', width:'100%', top: 0, zIndex: 100 }} >
+              <div className="banner flex flex--row flex--jc--center flex--ai--center p-1" style={{color: 'white', backgroundColor:'rgba(126, 108, 242, 1)', position:'absolute', width:'100%', top: 0, zIndex: 100 }} >
               <p className="ml-6 align-self-center type--wgt--bold">{t(`TUTOR_VERIFIED_NOTE.TITLE`)} {t(`TUTOR_VERIFIED_NOTE.DESCRIPTION`)}</p>
-              <div
-                style={{position:'absolute', top:0, right:'5px', cursor: 'pointer'}}
-                onClick={hide}
-              >X</div>
+                <i onClick={hide} style={{right:0, position:'absolute'}} className="icon icon--sm icon--close icon--grey"></i>
             </div>}
             <div className="layout">
               {/*{userRole === RoleOptions.Tutor && profileProgressState && !profileProgressState.verified ? (*/}
