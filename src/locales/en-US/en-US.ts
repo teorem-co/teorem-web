@@ -1293,6 +1293,12 @@ export const EN_US = {
       CANT_BOOK_MESSAGE: 'Please book at least 3 hours in advance',
     },
     TUTOR_INTRO:{
+      MODAL:{
+        TITLE: 'Do you want to go through the tutorial?',
+        BODY: 'The tutorial will briefly introduce you to the basic functionalities of Teorem',
+        BUTTON_SKIP: 'Skip',
+        BUTTON_START:'Start'
+      },
       DASHBOARD:{
         STEP1: {
           TITLE: 'Booking requests',
