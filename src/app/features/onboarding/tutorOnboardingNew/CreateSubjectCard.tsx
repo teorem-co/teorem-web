@@ -1,4 +1,4 @@
-import { Form, FormikProvider, useFormik } from 'formik';
+import { Field, Form, FormikProvider, useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
@@ -23,6 +23,7 @@ import { getUserId } from '../../../utils/getUserId';
 import { setMyProfileProgress } from '../../my-profile/slices/myProfileSlice';
 import { BiSolidTrash } from 'react-icons/bi';
 import { ITutorSubject } from '../../../../slices/onboardingSlice';
+import { InputAdornment, TextField } from '@mui/material';
 
 interface Props {
   // sideBarIsOpen: boolean;
@@ -164,16 +165,28 @@ export const CreateSubjectCard = (props: Props) => {
                       withoutErr={true}
                     />
                   </div>
-                  <div className="field m-0 w--156--px flex flex--row flex--ai--center">
-                   <div> <MyTextField
+                  <div >
+                   <div className="">
+                     <Field
+                     as={TextField}
                      name="price"
                      id="price"
                      placeholder={
                        t('MY_PROFILE.MY_TEACHINGS.PRICING_PLACEHOLDER')}
                      // withoutErr={true}
                      type="number"
-                   /></div>
-                    <span className="ml-1 mb-5">EUR/h</span>
+                     InputProps={{
+                       style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white', height:'38px', width:'100px', paddingTop:0,paddingBottom:0 },
+                       startAdornment: <InputAdornment position="start">€</InputAdornment>,
+                     }}
+                     helperText={(formik.touched.price && formik.errors.price) ? formik.errors.price : ' '}
+                     error={formik.touched.price && Boolean(formik.errors.price)}
+                     FormHelperTextProps={{ style: { padding:0, height: formik.touched.price && formik.errors.price ? 'auto' : '18px' } }}
+                   />
+                   </div>
+                  </div>
+                  <div className="type--center mb-5 type--md">
+                    /h
                   </div>
                   <BiSolidTrash
                     size={18}

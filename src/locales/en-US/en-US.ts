@@ -82,7 +82,7 @@ export const EN_US = {
         MAX_LIMIT: 'Max number of characters is',
         MIN_LIMIT: 'Min number of words is',
         TOO_BIG: 'Number is too big',
-        REQUIRED: 'This field is required',
+        REQUIRED: 'Required',
         LOWERCASE: 'Include at least one lowercase letter (a-z)',
         UPPERCASE: 'Include at least one uppercase letter (A-Z)',
         NUMBER: 'Include at least one number (0-9)',
