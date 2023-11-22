@@ -1133,12 +1133,10 @@ const Dashboard = () => {
                                 <RecommendedTutorCard className="p-4 h--350" key={tutor.id} tutor={tutor} />
                               )
                             )}
-                            {/*<RecommendedTutorCard className="p-4 cur--pointer h--350" tutor={tutorItem}/>*/}
-                            {/*<RecommendedTutorCard className="p-4 105 cur--pointer" tutor={tutorItem}/>*/}
                           </div>
                           <Link
                             to={PATHS.SEARCH_TUTORS}
-                            className="type--center w--100">{t('DASHBOARD.BOOKINGS.SHOW_MORE')}</Link>
+                            className="type--center underline-hover field__w-fit-content">{t('DASHBOARD.BOOKINGS.SHOW_MORE')}</Link>
                         </div>
 
                       )}
