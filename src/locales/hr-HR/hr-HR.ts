@@ -1316,24 +1316,12 @@ export const HR_HR = {
       DASHBOARD:{
         STEP1: {
           TITLE: 'Zahtjevi za predavanja',
-          BODY:'Ovdje možete vidjeti sve zahtjeve za instrukcije koje su studenti zatražili.'
+          BODY:'Ovdje možete vidjeti i upravljati svojim zahtjevima za instrukcije.'
         },
         STEP2: {
-          TITLE: 'Prihvaćanje instrukcija',
-          BODY:'Klikom na ovaj gumb prihvaćate instrukcije u zadanom terminu.'
-        },
-        STEP3: {
-          TITLE: 'Odbijanje instrukcija',
-          BODY:'Klikom na ovaj gumb odbijate instrukcije u zadanom terminu.'
-        },
-        STEP4: {
-          TITLE: 'Današnji raspored',
-          BODY:'Ovdje možete vidjeti rezervacije koje imate danas (isto to možete vidjeti na svom kalendaru).'
-        },
-        STEP5: {
           TITLE: 'Pridruživanje instrukcijama',
-          BODY:'Klikom na ovaj gumb se otvara prozor u s poločom itd. preko kojeg ćete održavati instrukcije. Pridružiti se možete i preko kalendara. (Nakon završetka tutorijala, automatski ćete biti spojeni u sastanak gdje možete isprobati ploču.)'
-        }
+          BODY:'Instrukcijama se možete pridružiti izravno iz kartice "Današnji raspored" (također se možete pridružiti putem svog kalendara)'
+        },
       },
       BUTTON_NEXT:'Sljedeći',
       BUTTON_PREVIOUS:'Prethodni',

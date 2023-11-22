@@ -41,7 +41,7 @@ const NotificationsSidebar = (props: Props) => {
       <div
         className={`notification-sidebar sidebar ${!sideBarIsOpen ? 'notification-sidebar--close' : ''}`} >
         <div className="flex--primary flex--shrink">
-          <div className="type--color--secondary">{title}</div>
+          <div className="type--color--secondary"></div>
           <div>
             <i
               className="icon icon--base icon--close icon--grey"

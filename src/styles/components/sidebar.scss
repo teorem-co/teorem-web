@@ -81,7 +81,7 @@
   position: fixed;
   top: 0;
   right: 0;
-  padding: calc($unit * 10) calc($unit * 6);
+  padding: calc($unit * 4) calc($unit * 4);
   z-index: 100;
 
   @media (max-width: $responsive-sm) {
