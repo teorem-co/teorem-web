@@ -853,7 +853,7 @@ const Dashboard = () => {
                         <div className={`card--secondary__head flex--jc--space-between`}>
                             <h2 className="type--wgt--bold type--lg">{t('DASHBOARD.TITLE')}</h2>
                             {/*<button className={"btn btn--lg btn--primary"} onClick={startTutorial}>Click to start tutorial</button>*/}
-                            <IoNotificationsOutline className="cur--pointer primary-color scale-hover--scale-110" size={20} onClick={() => setNotificationSidebarOpen(true)}/>
+                            <IoNotificationsOutline className="cur--pointer primary-color scale-hover--scale-110" size={25} onClick={() => setNotificationSidebarOpen(true)}/>
                         </div>
                         <div className="card--secondary__body pl-3 pr-3">
                           {userRole === RoleOptions.Tutor ? (
@@ -902,8 +902,11 @@ const Dashboard = () => {
                                   );
                                 })
                               ) : (
-                                <div className="tutor-list__no-results mt-30">
-                                  <p className="dashboard__requests__title">{t('DASHBOARD.REQUESTS.EMPTY')}</p>
+                                <div className="tutor-list__no-results mt-20">
+                                  <h1 className="tutor-list__no-results__title">
+                                    <div>{t('DASHBOARD.REQUESTS.EMPTY')}</div>
+                                  </h1>
+                                  {/*<p className="dashboard__requests__title">{t('DASHBOARD.REQUESTS.EMPTY')}</p>*/}
                                 </div>
                               )}
                             </div>
@@ -1104,7 +1107,7 @@ const Dashboard = () => {
                         })
                       ) : (
 
-                        userRole !== RoleOptions.Tutor && loadedTutorItems.length > 0 &&
+                        userRole !== RoleOptions.Tutor && loadedTutorItems.length > 0 ?
                         <div className='flex flex--col flex--ai--center'>
                           <div className="flex flex--row w--100 flex--wrap flex--gap-20 flex--jc--center field__w-fit-content align--center p-4 overflow--y--scroll pb-10">
                             {loadedTutorItems.map((tutor) =>
@@ -1119,7 +1122,13 @@ const Dashboard = () => {
                             to={PATHS.SEARCH_TUTORS}
                             className="type--center underline-hover field__w-fit-content">{t('DASHBOARD.BOOKINGS.SHOW_MORE')}</Link>
                         </div>
-
+                          :
+                          <div className="tutor-list__no-results mt-30">
+                            <h1 className="tutor-list__no-results__title">
+                              <div>{t('DASHBOARD.BOOKINGS.EMPTY')}</div>
+                            </h1>
+                            <p className="tutor-list__no-results__subtitle">{t('DASHBOARD.BOOKINGS.EMPTY_SUBTITLE')}</p>
+                          </div>
                       )}
                     </div>
                   </div>
