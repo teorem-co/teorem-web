@@ -29,12 +29,15 @@ export const RecommendedTutorCardMobile = (props: Props) => {
         <div className=" flex flex--col flex--ai--start ">
             <div className='flex flex-row'>
 
-              <div className="tutor-list__item__img w--unset mr-2">
+              <div
+                style={{}}
+                className="tutor-list__item__img w--unset mr-2">
                 {tutor.profileImage ? (
                   <img
                     style={{
                       width: '100px',
-                      height: '100px'
+                      height: '100px',
+                      borderWidth:'6px'
                     }}
                     className="align--center d--b"
                     src={`${tutor.profileImage}`}
@@ -43,7 +46,8 @@ export const RecommendedTutorCardMobile = (props: Props) => {
                   <ImageCircle
                     style={{
                       width: '90px',
-                      height: '90px'
+                      height: '90px',
+                      borderWidth: '3px'
                     }}
                     className="align--center d--b mb-4"
                     imageBig={false}
