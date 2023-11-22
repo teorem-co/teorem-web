@@ -1307,6 +1307,12 @@ export const HR_HR = {
         CANT_BOOK_MESSAGE: 'Molimo rezervirajte minimalno 3 sata unaprijed'
     },
     TUTOR_INTRO:{
+      MODAL:{
+        TITLE: 'Želite li proći tutorijal?',
+        BODY: 'Tutorijal će vas ukratko upoznati s osnovnim funkcionalnostima Teorema',
+        BUTTON_SKIP: 'Preskoči',
+        BUTTON_START:'Pokreni'
+      },
       DASHBOARD:{
         STEP1: {
           TITLE: 'Zahtjevi za predavanja',
