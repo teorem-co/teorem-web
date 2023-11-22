@@ -65,23 +65,30 @@ export const RecommendedTutorCardMobile = (props: Props) => {
                   <span></span>
                 </div>
 
-                <div className="flex flex--row flex--jc--start flex--ai--center type--sm">
-                  <span>{tutor.averageGrade}&nbsp;</span>
-                  <StarRating mark={tutor.averageGrade} size={'small'}/>
-                  <p className="ml-2 type--color--secondary">({tutor.numberOfReviews})</p>
-                </div>
+                {tutor.averageGrade != 0 && tutor.numberOfReviews >0 ?
+                  <div className="flex flex--row flex--jc--start flex--ai--center type--sm">
+                    <span>{tutor.averageGrade}&nbsp;</span>
+                    <StarRating mark={tutor.averageGrade} size={'small'}/>
+                    <p className="ml-2 type--color--secondary">({tutor.numberOfReviews})</p>
+                  </div>
+                  :
+                  <span className="mt-2 type--italic type--color--secondary type--sm">{t('SEARCH_TUTORS.NO_REVIEWS')}</span>
+                }
               </div>
             </div>
+
           <div className="flex flex--col flex--grow">
-
-          <div className="flex flex--row flex--ai--center mb-3 mt-2">
-            <LuBookOpenCheck size={20} color={'#7e6cf2'}/>
-            {/*<i className="icon icon--completed-lessons icon--base icon--grey"></i>*/}
-            <span className="d--ib ml-1">
-                {tutor.completedLessons} {t('SEARCH_TUTORS.COMPLETED_LESSONS')}
-            </span>
-          </div>
-
+            { tutor.completedLessons > 0 ?
+              <div className="flex flex--row flex--ai--center mb-3 mt-2">
+                <LuBookOpenCheck size={20} color={'#7e6cf2'}/>
+                {/*<i className="icon icon--completed-lessons icon--base icon--grey"></i>*/}
+                <span className="d--ib ml-1">
+                    {tutor.completedLessons} {t('SEARCH_TUTORS.COMPLETED_LESSONS')}
+                </span>
+              </div>
+              :
+              <span className="mb-3 mt-2 type--italic type--color--secondary">{t('SEARCH_TUTORS.NO_COMPLETED_LESSONS')}</span>
+            }
           <div className='subjects-container mb-3'>
             <CustomSubjectList subjects={tutor.subjects}></CustomSubjectList>
           </div>

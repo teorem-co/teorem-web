@@ -172,6 +172,7 @@ export const EN_US = {
         YEARS_OF_EXPERIENCE: 'Years of experience: ',
         NUMBER_OF_REVIEWS: 'reviews',
         NO_REVIEWS: 'No reviews yet',
+        NO_COMPLETED_LESSONS: 'No completed lessons yet',
         TUTOR_PROFILE: {
             ABOUT_ME: 'About me',
             ABOUT_TEACHINGS: 'About subjects',
