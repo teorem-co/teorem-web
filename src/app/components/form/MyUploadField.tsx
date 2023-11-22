@@ -79,7 +79,7 @@ const UploadFile: FC<UploadFileType> = ({ setPreview, setFieldValue, removePrevi
                         </div>
                     </div>
                 )}
-                <div {...getRootProps({ className: 'upload' })} style={{height: "auto"}}>
+                <div {...getRootProps({ className: 'upload' })} style={{height: "auto", backgroundColor:'white'}}>
                     {isDragActive ? <div className="upload__drag-overlay"></div> : ''}
                     <input {...getInputProps()} />
                     <div className="upload__text" role="presentation">

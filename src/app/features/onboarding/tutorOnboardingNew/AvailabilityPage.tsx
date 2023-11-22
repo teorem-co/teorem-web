@@ -207,19 +207,10 @@ const AvailabilityPage = ({ nextStep }:AvailabilityProps) => {
 
   return (
     <>
-      {/*<RouterPrompt*/}
-      {/*  when={saveBtnActive}*/}
-      {/*  onOK={handleUpdateOnRouteChange}*/}
-      {/*  onCancel={() => {*/}
-      {/*    //if you pass "false" router will be blocked and you will stay on the current page*/}
-      {/*    return true;*/}
-      {/*  }}*/}
-      {/*/>*/}
       {banner ?
         <div style={{backgroundColor: "#7e6cf2", padding: "5px", display: "flex", justifyContent: "space-between", alignItems: "center"}}>
           <div style={{flexGrow: 1, justifyContent: "center"}}>
-            <p className='ml-6 text-align--center' style={{fontSize: "small", color: "#f8f7fe"}}>{t('TUTOR_ONBOARDING.TITLE')}</p>
-            <p className='ml-6 text-align--center' style={{fontSize: "smaller", color: "#f8f7fe"}}>{t('TUTOR_ONBOARDING.SUBTITLE')}</p>
+            <p className='ml-6 text-align--center' style={{fontSize: "small", color: "#f8f7fe"}}>{t('TUTOR_ONBOARDING.TITLE')} {t('TUTOR_ONBOARDING.SUBTITLE')}</p>
           </div>
           <div onClick={() => setBanner(false)}>
             <i className="icon icon--base icon--close icon--grey"></i>
@@ -247,10 +238,12 @@ const AvailabilityPage = ({ nextStep }:AvailabilityProps) => {
         </div>
         {(loading && <LoaderPrimary />) || (
           <div className="flex--center m-2" style={{display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column"}}>
-            <table className="table table--availability "><tbody>{renderAvailabilityTable()}</tbody></table>
+
             <div className="type--base align--center field__w-fit-content p-2" style={{color: "#636363", textAlign: "center"}}>
               <span>{t('TUTOR_ONBOARDING.TOOLTIPS.AVAILABILITY_1')}</span>
-              <br/>
+            </div>
+            <table style={{backgroundColor:'white'}} className="table table--availability "><tbody>{renderAvailabilityTable()}</tbody></table>
+            <div className="type--base align--center field__w-fit-content p-2" style={{color: "#636363", textAlign: "center"}}>
               <span>{t('TUTOR_ONBOARDING.TOOLTIPS.AVAILABILITY_2')}</span>
             </div>
             <button

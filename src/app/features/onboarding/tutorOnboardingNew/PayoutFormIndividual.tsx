@@ -120,7 +120,7 @@ export const PayoutFormIndividual = (props: Props) => {
                 placeholder={t('MY_PROFILE.PROFILE_SETTINGS.ADDRESS_PERSONAL_PLACEHOLDER')}
                 // helperText={}
                 InputProps={{
-                  style: { fontFamily: "'Lato', sans-serif" },
+                  style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
                 }}
                 InputLabelProps={{
                   style: { fontFamily: "'Lato', sans-serif" },
@@ -145,7 +145,7 @@ export const PayoutFormIndividual = (props: Props) => {
                 placeholder={t('ACCOUNT.NEW_CARD.ZIP_PLACEHOLDER')}
                 // helperText={}
                 InputProps={{
-                  style: { fontFamily: "'Lato', sans-serif" },
+                  style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
                 }}
                 InputLabelProps={{
                   style: { fontFamily: "'Lato', sans-serif" },
@@ -169,7 +169,7 @@ export const PayoutFormIndividual = (props: Props) => {
                 placeholder={t('ACCOUNT.NEW_CARD.CITY_PLACEHOLDER')}
                 // helperText={}
                 InputProps={{
-                  style: { fontFamily: "'Lato', sans-serif" },
+                  style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
                 }}
                 InputLabelProps={{
                   style: { fontFamily: "'Lato', sans-serif" },
@@ -193,7 +193,7 @@ export const PayoutFormIndividual = (props: Props) => {
                 placeholder={t('MY_PROFILE.PROFILE_SETTINGS.IBAN_PLACEHOLDER')}
                 // helperText={}
                 InputProps={{
-                  style: { fontFamily: "'Lato', sans-serif" },
+                  style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
                 }}
                 InputLabelProps={{
                   style: { fontFamily: "'Lato', sans-serif" },

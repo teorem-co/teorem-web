@@ -63,7 +63,7 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
   const [initialValues, setInitialValues] = useState<IUpdateAdditionalInfo>({
     aboutTutor: '',
     aboutLessons: '',
-    yearsOfExperience: null,
+    yearsOfExperience: '',
     currentOccupation: '',
   });
 
@@ -147,10 +147,16 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
       aboutTutor: Yup.string().max(2500).required(t('FORM_VALIDATION.REQUIRED')),
       aboutLessons: Yup.string().max(2500).required(t('FORM_VALIDATION.REQUIRED')),
       currentOccupation: Yup.string()
+        .required(t('FORM_VALIDATION.REQUIRED'))
         .min(2, t('FORM_VALIDATION.TOO_SHORT'))
-        .max(75, t('FORM_VALIDATION.TOO_LONG'))
-        .required(t('FORM_VALIDATION.REQUIRED')),
-      yearsOfExperience: Yup.number().min(0, t('FORM_VALIDATION.NEGATIVE')).max(100, t('FORM_VALIDATION.TOO_BIG')),
+        .max(75, t('FORM_VALIDATION.TOO_LONG')),
+      yearsOfExperience: Yup.number()
+        .transform((value, originalValue) => {
+          // Cast the value to a number if it's not empty, otherwise return 0
+          return originalValue !== '' ? Number(originalValue) : 0;
+        })
+        .min(0, t('FORM_VALIDATION.NEGATIVE'))
+        .max(100, t('FORM_VALIDATION.TOO_BIG')),
     }),
   });
 
@@ -278,7 +284,7 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                               color="secondary"
                               helperText={validateOccupation()}
                               InputProps={{
-                                style: { fontFamily: "'Lato', sans-serif" },
+                                style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
                               }}
                               InputLabelProps={{
                                 style: { fontFamily: "'Lato', sans-serif" },
@@ -297,14 +303,14 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                             <Field
                               as={TextField}
                               name="yearsOfExperience"
-                              type="number"
+                              type="text"
                               fullWidth
                               id="yearsOfExperience"
                               label={t('MY_PROFILE.ABOUT_ME.YEARS')}
                               variant="outlined"
                               color="secondary"
                               InputProps={{
-                                style: { fontFamily: "'Lato', sans-serif" },
+                                style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
                               }}
                               InputLabelProps={{
                                 style: { fontFamily: "'Lato', sans-serif" },
@@ -313,7 +319,15 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                                 style: { color: 'red' }
                               }}
                               onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-                                if (!e.key.match(/[0-9]/)) {
+                                if (e.key === 'Backspace' ||
+                                  e.key === 'Delete' ||
+                                  e.key === 'ArrowLeft' ||
+                                  e.key === 'ArrowRight' ||
+                                  e.key.match(/[0-9]/)
+                                ) {
+                                  // let these keys work
+                                } else {
+                                  // prevent other keys
                                   e.preventDefault();
                                 }
                               }}
@@ -332,7 +346,7 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                               id="aboutTutor"
                               helperText={validateAboutTutor()}
                               InputProps={{
-                                style: { fontFamily: "'Lato', sans-serif" },
+                                style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
                               }}
                               InputLabelProps={{
                                 style: { fontFamily: "'Lato', sans-serif" },
@@ -410,7 +424,7 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                               rows={5}
                               helperText={validateAboutLessons()}
                               InputProps={{
-                                style: { fontFamily: "'Lato', sans-serif" },
+                                style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
                               }}
                               InputLabelProps={{
                                 style: { fontFamily: "'Lato', sans-serif" },
