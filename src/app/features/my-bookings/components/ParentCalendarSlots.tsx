@@ -12,7 +12,7 @@ import { useLazyGetChildQuery } from '../../../../services/userService';
 import { RoleOptions } from '../../../../slices/roleSlice';
 import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import MyTimePicker from '../../../components/form/MyTimePicker';
-import TextField from '../../../components/form/TextField';
+import MyTextField from '../../../components/form/MyTextField';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
 import { useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
@@ -354,7 +354,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                   />
                 </div>
                 <div className="field w--100">
-                  <TextField
+                  <MyTextField
                     // isDisabled={levelDisabled}
                     placeholder={t('BOOK.FORM.TIME_PLACEHOLDER')}
                     name="time"

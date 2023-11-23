@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 
 import TextArea from '../../../components/form/MyTextArea';
 import RatingField from '../../../components/form/RatingField';
-import TextField from '../../../components/form/TextField';
+import MyTextField from '../../../components/form/MyTextField';
 import toastService from '../../../services/toastService';
 import ICompletedLesson from '../../my-bookings/interfaces/ICompletedLesson';
 import IAddReview from '../../myReviews/interfaces/IAddReview';
@@ -87,7 +87,7 @@ const ReviewModal: FC<Props> = (props: Props) => {
                                     <label htmlFor="title" className="field__label">
                                         {t('WRITE_REVIEW.TITLE')}*
                                     </label>
-                                    <TextField name="title" id="title" placeholder={t('WRITE_REVIEW.HEADING_PLACEHOLDER')} maxLength={40} />
+                                    <MyTextField name="title" id="title" placeholder={t('WRITE_REVIEW.HEADING_PLACEHOLDER')} maxLength={40} />
                                 </div>
                                 <div className="field">
                                     <label htmlFor="rating" className="field__label">

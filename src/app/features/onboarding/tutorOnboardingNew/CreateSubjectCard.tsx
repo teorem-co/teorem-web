@@ -1,4 +1,4 @@
-import { Form, FormikProvider, useFormik } from 'formik';
+import { Field, Form, FormikProvider, useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
@@ -13,7 +13,7 @@ import {
 import {
   useLazyGetProfileProgressQuery} from '../../../../services/tutorService';
 import MySelect, { OptionType } from '../../../components/form/MySelectField';
-import TextField from '../../../components/form/TextField';
+import MyTextField from '../../../components/form/MyTextField';
 import {
   useLazyGetCountriesQuery,
 } from '../../../features/onboarding/services/countryService';
@@ -23,6 +23,7 @@ import { getUserId } from '../../../utils/getUserId';
 import { setMyProfileProgress } from '../../my-profile/slices/myProfileSlice';
 import { BiSolidTrash } from 'react-icons/bi';
 import { ITutorSubject } from '../../../../slices/onboardingSlice';
+import { InputAdornment, TextField } from '@mui/material';
 
 interface Props {
   // sideBarIsOpen: boolean;
@@ -146,11 +147,12 @@ export const CreateSubjectCard = (props: Props) => {
                       placeholder={t('SEARCH_TUTORS.PLACEHOLDER.LEVEL')}
                       classNamePrefix="onboarding-select"
                       withoutErr={true}
+                      positionFixed
                     />
                   </div>
                   <div>
                     <MySelect
-                      className="w--220--min w--220--max mb-5"
+                      className="w--220--min w--220--max mb-5 test_style"
                       key={formik.values.subject}
                       field={formik.getFieldProps('subject')}
                       form={formik}
@@ -162,20 +164,34 @@ export const CreateSubjectCard = (props: Props) => {
                       placeholder={t('SEARCH_TUTORS.PLACEHOLDER.SUBJECT')}
                       classNamePrefix="onboarding-select"
                       withoutErr={true}
+                      positionFixed
                     />
                   </div>
-                  <div className="field m-0 w--156--px flex flex--row flex--ai--center">
-                   <div> <TextField
-                     name="price"
-                     id="price"
-                     placeholder={
-                       t('MY_PROFILE.MY_TEACHINGS.PRICING_PLACEHOLDER') +
-                       minPrice + ' ' + currency + '/h'}
-                     // withoutErr={true}
-                     type="number"
-                   /></div>
-                    <span className="ml-1 mb-5">EUR/h</span>
+                  <div >
+                     <div className="flex flex--row flex--jc--center flex--ai--center">
+                       <Field
+                       as={TextField}
+                       name="price"
+                       id="price"
+                       placeholder={
+                         t('MY_PROFILE.MY_TEACHINGS.PRICING_PLACEHOLDER')}
+                       // withoutErr={true}
+                       type="number"
+                       InputProps={{
+                         style: { fontFamily: "Lato, sans-serif", backgroundColor:'white',marginTop:'1px', height:'38px', width:'100px', alignItems:'center', display:'flex' },
+                         startAdornment: <InputAdornment style={{paddingTop:'3px', marginBottom:0}} position="start">€</InputAdornment>,
+                       }}
+                       helperText={(formik.touched.price && formik.errors.price) ? formik.errors.price : ' '}
+                       error={formik.touched.price && Boolean(formik.errors.price)}
+                       FormHelperTextProps={{ style: { padding:0, height: formik.touched.price && formik.errors.price ? 'auto' : '18px' } }}
+                       />
+                       <div className="type--center ml-1 mb-5 type--md">
+                         /h
+                       </div>
+                     </div>
+
                   </div>
+
                   <BiSolidTrash
                     size={18}
                     className={` ${isLastForm ? 'disabled-color' : 'primary-color'}  cur--pointer icon-transition mb-5`}

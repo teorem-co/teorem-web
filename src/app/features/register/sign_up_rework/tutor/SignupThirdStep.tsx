@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 
 import { setStepThree } from '../../../../../slices/signUpSlice';
-import TextField from '../../../../components/form/TextField';
+import MyTextField from '../../../../components/form/MyTextField';
 import { useAppSelector } from '../../../../hooks';
 import PasswordTooltip from '../../PasswordTooltip';
 
@@ -164,7 +164,7 @@ export function SignupThirdStep({ nextStep }:StepThreeProps) {
 
                 {/*password*/}
                 <div className="field mb-5">
-                  <TextField
+                  <MyTextField
                     style={{background:'white'}}
                     name="password"
                     id="password"
@@ -186,7 +186,7 @@ export function SignupThirdStep({ nextStep }:StepThreeProps) {
                 {/*  <label className="field__label" htmlFor="confirmPassword">*/}
                 {/*    {t('REGISTER.FORM.CONFIRM_PASSWORD')}*/}
                 {/*  </label>*/}
-                {/*  <TextField*/}
+                {/*  <MyTextField*/}
                 {/*    name="confirmPassword"*/}
                 {/*    id="confirmPassword"*/}
                 {/*    placeholder={t('REGISTER.FORM.CONFIRM_PASSWORD_PLACEHOLDER')}*/}

@@ -20,7 +20,7 @@ import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyPhoneInput from '../../../components/form/MyPhoneInput';
 import MySelect, {OptionType} from '../../../components/form/MySelectField';
 import UploadFile from '../../../components/form/MyUploadField';
-import TextField from '../../../components/form/TextField';
+import MyTextField from '../../../components/form/MyTextField';
 import MainWrapper from '../../../components/MainWrapper';
 import RouterPrompt from '../../../components/RouterPrompt';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
@@ -384,7 +384,7 @@ const PersonalInformation = () => {
                             <label htmlFor="firstName" className="field__label">
                               {t('MY_PROFILE.PROFILE_SETTINGS.FIRST_NAME')}
                             </label>
-                            <TextField
+                            <MyTextField
                               name="firstName"
                               id="firstName"
                               placeholder={t('MY_PROFILE.PROFILE_SETTINGS.FIRST_NAME_PLACEHOLDER')}
@@ -397,7 +397,7 @@ const PersonalInformation = () => {
                             <label htmlFor="lastName" className="field__label">
                               {t('MY_PROFILE.PROFILE_SETTINGS.LAST_NAME')}
                             </label>
-                            <TextField
+                            <MyTextField
                               name="lastName"
                               id="lastName"
                               placeholder={t('MY_PROFILE.PROFILE_SETTINGS.LAST_NAME_PLACEHOLDER')}

@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 
 import { setStepOne } from '../../../../../slices/signUpSlice';
 import MyDatePicker from '../../../../components/form/MyDatePicker';
-import TextField from '../../../../components/form/TextField';
+import MyTextField from '../../../../components/form/MyTextField';
 import { useAppSelector } from '../../../../hooks';
 
 interface StepOneValues {
@@ -83,7 +83,7 @@ export const SignupFirstStep = ({nextStep}:StepOneProps) => {
 
             {/*first name*/}
             <div className="align--center mb-5">
-              <TextField
+              <MyTextField
                 style={{background:'white'}}
                 name="firstName"
                 id="firstName"
@@ -93,7 +93,7 @@ export const SignupFirstStep = ({nextStep}:StepOneProps) => {
 
             {/*last name*/}
             <div className="align--center mb-5">
-              <TextField
+              <MyTextField
                 style={{background:'white'}}
                 name="lastName"
                 id="lastName"

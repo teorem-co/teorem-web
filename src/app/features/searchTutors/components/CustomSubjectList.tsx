@@ -26,7 +26,7 @@ const CustomSubjectList = (props: Props) => {
         <div ref={rangeSetterRef} className="flex flex--wrap flex--ai--center">
             {subjects.slice(0, 3).map((subject) => (
                 <span className="tag tag--primary" key={subject}>
-                    {t(`SUBJECTS.${subject.replace('-', '')}`)}
+                    {t(`SUBJECTS.${subject.replaceAll('-', '')}`)}
                 </span>
             ))}
 
@@ -50,7 +50,7 @@ const CustomSubjectList = (props: Props) => {
                                 className="type--color--brand"
                                 key={subject}
                             >
-                                {t(`SUBJECTS.${subject.replace('-', '').replace(' ', '').toLowerCase()}`)}
+                                {t(`SUBJECTS.${subject.replaceAll('-', '').replace(' ', '').toLowerCase()}`)}
                             </span>
                         ))}
                     </div>
