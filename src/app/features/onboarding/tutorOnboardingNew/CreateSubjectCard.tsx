@@ -166,28 +166,30 @@ export const CreateSubjectCard = (props: Props) => {
                     />
                   </div>
                   <div >
-                   <div className="">
-                     <Field
-                     as={TextField}
-                     name="price"
-                     id="price"
-                     placeholder={
-                       t('MY_PROFILE.MY_TEACHINGS.PRICING_PLACEHOLDER')}
-                     // withoutErr={true}
-                     type="number"
-                     InputProps={{
-                       style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white', height:'38px', width:'100px', paddingTop:0,paddingBottom:0, alignItems:'center', display:'flex' },
-                       startAdornment: <InputAdornment style={{paddingBottom:0, marginBottom:0}} position="start">€</InputAdornment>,
-                     }}
-                     helperText={(formik.touched.price && formik.errors.price) ? formik.errors.price : ' '}
-                     error={formik.touched.price && Boolean(formik.errors.price)}
-                     FormHelperTextProps={{ style: { padding:0, height: formik.touched.price && formik.errors.price ? 'auto' : '18px' } }}
-                   />
-                   </div>
+                     <div className="flex flex--row flex--jc--center flex--ai--center">
+                       <Field
+                       as={TextField}
+                       name="price"
+                       id="price"
+                       placeholder={
+                         t('MY_PROFILE.MY_TEACHINGS.PRICING_PLACEHOLDER')}
+                       // withoutErr={true}
+                       type="number"
+                       InputProps={{
+                         style: { fontFamily: "Lato, sans-serif", backgroundColor:'white',marginTop:'1px', height:'38px', width:'100px', alignItems:'center', display:'flex' },
+                         startAdornment: <InputAdornment style={{paddingTop:'3px', marginBottom:0}} position="start">€</InputAdornment>,
+                       }}
+                       helperText={(formik.touched.price && formik.errors.price) ? formik.errors.price : ' '}
+                       error={formik.touched.price && Boolean(formik.errors.price)}
+                       FormHelperTextProps={{ style: { padding:0, height: formik.touched.price && formik.errors.price ? 'auto' : '18px' } }}
+                       />
+                       <div className="type--center ml-1 mb-5 type--md">
+                         /h
+                       </div>
+                     </div>
+
                   </div>
-                  <div className="type--center mb-5 type--md">
-                    /h
-                  </div>
+
                   <BiSolidTrash
                     size={18}
                     className={` ${isLastForm ? 'disabled-color' : 'primary-color'}  cur--pointer icon-transition mb-5`}
