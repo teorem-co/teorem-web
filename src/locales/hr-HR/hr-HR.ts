@@ -682,7 +682,7 @@ export const HR_HR = {
             COMPANY_OIB: 'OIB tvrtke',
             COMPANY_OIB_PLACEHOLDER: 'Unesite OIB tvrtke',
             IMAGE: 'Profilna slika*',
-            UPLOAD_IMAGE: 'Povucite i ispustite za učitavanje',
+            UPLOAD_IMAGE: 'Kliknite ili povucite i ispustite za učitavanje',
             CHOOSE_FILE: 'Odaberite datoteku',
             ADDRESS_PERSONAL_PLACEHOLDER: 'Unesite Vašu adresu',
             ADDRESS_BUSINESS_PLACEHOLDER: 'Unesite adresu Vaše tvrtke'
