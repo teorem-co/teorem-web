@@ -147,6 +147,7 @@ export const CreateSubjectCard = (props: Props) => {
                       placeholder={t('SEARCH_TUTORS.PLACEHOLDER.LEVEL')}
                       classNamePrefix="onboarding-select"
                       withoutErr={true}
+                      positionFixed
                     />
                   </div>
                   <div>
@@ -163,6 +164,7 @@ export const CreateSubjectCard = (props: Props) => {
                       placeholder={t('SEARCH_TUTORS.PLACEHOLDER.SUBJECT')}
                       classNamePrefix="onboarding-select"
                       withoutErr={true}
+                      positionFixed
                     />
                   </div>
                   <div >
