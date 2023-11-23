@@ -33,6 +33,7 @@ interface CustomSelectProps extends FieldProps {
     isSearchable?: boolean;
     withoutErr?: boolean;
     customValue?: string;
+    positionFixed?: boolean;
 }
 
 const MySelect = ({
@@ -54,6 +55,7 @@ const MySelect = ({
     isSearchable,
     withoutErr,
     customValue,
+    positionFixed
 }: CustomSelectProps) => {
     const [formikField, meta] = useField(form.getFieldProps(field.name));
 
@@ -147,7 +149,7 @@ const MySelect = ({
                 placeholder={placeholder}
                 closeMenuOnSelect={closeMenuOnSelect}
                 isDisabled={isDisabled}
-                menuPosition="fixed"
+                menuPosition={positionFixed ? 'fixed' : 'absolute'}
                 isLoading={isLoading}
                 noOptionsMessage={() => {
                   if(noOptionsMessage?.toString().includes("childless", 6)) {
