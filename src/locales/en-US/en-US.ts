@@ -682,7 +682,7 @@ export const EN_US = {
             COMPANY_OIB: 'Company OIB',
             COMPANY_OIB_PLACEHOLDER: 'Enter company OIB',
             IMAGE: 'Profile Image*',
-            UPLOAD_IMAGE: 'Drag and drop to upload',
+            UPLOAD_IMAGE: 'Click or drag and drop to upload',
             CHOOSE_FILE: 'Choose file',
             ADDRESS_PERSONAL_PLACEHOLDER: 'Enter your address',
             ADDRESS_BUSINESS_PLACEHOLDER: "Enter your company's address"

@@ -107,6 +107,12 @@ export const PayoutFormCompany = (props: Props) => {
       });
   }
 
+  function validateIban() {
+      if(formik.values.IBAN.length > 0 && !isValidIBANNumber(formik.values.IBAN)){
+        return t('FORM_VALIDATION.INVALID_IBAN');
+      }
+  }
+
   return (
     <>
       <FormikProvider value={formik}>
@@ -191,12 +197,11 @@ export const PayoutFormCompany = (props: Props) => {
                 type="text"
                 fullWidth
                 required
-                id="IBANField"
+                id="IBAN"
+                helperText={validateIban()}
                 label={t('STRIPE_CONNECT.IBAN')}
                 variant="outlined"
                 color="secondary"
-                placeholder={t('MY_PROFILE.PROFILE_SETTINGS.IBAN_PLACEHOLDER')}
-                // helperText={}
                 InputProps={{
                   style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
                 }}
@@ -204,7 +209,7 @@ export const PayoutFormCompany = (props: Props) => {
                   style: { fontFamily: "'Lato', sans-serif" },
                 }}
                 FormHelperTextProps={{
-                  style: { color: 'red' } // Change the color of the helper text here
+                  style: { color: 'red' }
                 }}
               />
             </div>
