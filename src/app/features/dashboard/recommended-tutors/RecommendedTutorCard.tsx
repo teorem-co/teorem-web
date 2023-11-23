@@ -17,7 +17,6 @@ interface Props {
 
 export const RecommendedTutorCard = (props: Props) => {
   const { tutor, onClick, className } = props;
-  const isMobile = window.innerWidth < 600;
 
   return (
     <>
