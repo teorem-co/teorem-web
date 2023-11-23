@@ -112,8 +112,10 @@ export const EN_US = {
         CHILDLESS_CALENDAR_2: 'profile settings',
         INVALID_IBAN: 'Invalid IBAN',
         IBAN_WHITESPACES: 'IBAN must not contain whitespaces',
-        IBAN_MATCH: 'IBANs must match'
-
+        IBAN_MATCH: 'IBANs must match',
+        MIN_50_WORDS: 'Use at least 50 words',
+        MAX_2500_CHARS: 'Maximum is 2500 characters',
+        MAX_75_CHARS: 'Maximum is 75 characters'
     },
     NAVIGATION: {
         MY_BOOKINGS: 'Calendar',
