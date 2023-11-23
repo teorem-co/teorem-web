@@ -112,7 +112,10 @@ export const HR_HR = {
         CHILDLESS_CALENDAR_2: 'postavkama profila',
         INVALID_IBAN: 'Neispravan IBAN',
         IBAN_WHITESPACES: 'IBAN ne smije sadržavati prazne znakove',
-        IBAN_MATCH: 'IBANi se moraju podudarati'
+        IBAN_MATCH: 'IBANi se moraju podudarati',
+        MIN_50_WORDS: 'Najmanje 50 riječi',
+        MAX_2500_CHARS: 'Najviše 2500 znakova',
+        MAX_75_CHARS: 'Najviše 75 znakova'
     },
     NAVIGATION: {
         MY_BOOKINGS: 'Kalendar',
@@ -181,7 +184,7 @@ export const HR_HR = {
             FORM: {
                 ABOUT_TUTOR_LABEL: 'Recite nam više o sebi*',
                 ABOUT_TUTOR_PLACEHOLDER: 'Što Vas najbolje opisuje, koji su Vaši hobiji, pristup...',
-                ABOUT_TUTOR_REQUEST: 'Minimalno 50 riječi',
+                ABOUT_TUTOR_REQUEST: 'Najmanje 50 riječi',
                 ABOUT_TUTOR_TOOLTIP: 'Detaljno opišite sebe, svoje interese, iskustvo i hobije.',
                 TOOLTIP_EFFECTIVE: 'Najučinkovitiji profili sadrže 100+ riječi u ovoj rubrici.',
                 ABOUT_LESSONS_LABEL: 'Recite nam više o Vašim predavanjima*',

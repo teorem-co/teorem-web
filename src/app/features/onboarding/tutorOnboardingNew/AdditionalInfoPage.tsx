@@ -188,28 +188,28 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
 
   const validateAboutLessons= () => {
     if(formik.values.aboutLessons.trim().split(" ").length < 50 && formik.values.aboutLessons.length != 0) {
-      return "Use at least 50 words";
+      return t('FORM_VALIDATION.MIN_50_WORDS');
     }
     if(formik.values.aboutLessons.length >= 2500) {
-      return "Max is 2500 characters";
+      return t('FORM_VALIDATION.MAX_2500_CHARS');
     }
   };
 
   const validateAboutTutor= () => {
     if(formik.values.aboutTutor.trim().split(" ").length < 50 && formik.values.aboutTutor.length != 0) {
-      return "Use at least 50 words";
+      return t('FORM_VALIDATION.MIN_50_WORDS');
     }
     if(formik.values.aboutTutor.length > 2500) {
-      return "Max is 2500 characters";
+      return t('FORM_VALIDATION.MAX_2500_CHARS');
     }
   };
 
   const validateOccupation= () => {
     if(formik.values.currentOccupation.length < 2 && formik.values.currentOccupation.length != 0) {
-      return "Too short";
+      return t('FORM_VALIDATION.TOO_SHORT');
     }
     if(formik.values.currentOccupation.length > 75) {
-      return "Max is 75 characters";
+      return t('FORM_VALIDATION.MAX_75_CHARS');
     }
   };
 
