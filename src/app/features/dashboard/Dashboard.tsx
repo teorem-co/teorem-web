@@ -34,6 +34,7 @@ import {
   useLazyGetAvailableTutorsQuery,
   useLazyGetProfileProgressQuery,
 } from '../../../services/tutorService';
+import  ISearchParams  from '../../../interfaces/IParams';
 import IParams from "../notifications/interfaces/IParams";
 import {
   useLazyGetRequestsQuery,
@@ -74,6 +75,18 @@ import {
   RecommendedTutorCardMobile
 } from './recommended-tutors/RecommendedTutorCardMobile';
 import MediaQuery from 'react-responsive';
+import Select, { components, MenuProps } from 'react-select';
+import CustomCheckbox from '../../components/form/CustomCheckbox';
+import { Form, FormikProvider, useFormik } from 'formik';
+import MySelect, { OptionType } from '../../components/form/MySelectField';
+import { useLazyGetSubjectsQuery } from '../../../services/subjectService';
+import { useLazyGetLevelsQuery } from '../../../services/levelService';
+interface Values {
+  subject: string;
+  level: string;
+  dayOfWeek: string[];
+  timeOfDay: string[];
+}
 
 interface IGroupedDashboardData {
     [date: string]: IBooking[];
@@ -567,6 +580,7 @@ const Dashboard = () => {
   const [showIntro, setShowIntro] = useState<string | null>('');
   const [tutorHiLinkModalActive, setTutorHiLinkModalActive] = useState(false);
   const [notificationSidebarOpen, setNotificationSidebarOpen] = useState(false);
+  const [paramsSearch, setParamsSearch] = useState<ISearchParams>({ rpp: 3, page: 0 });
 
   useEffect(() => {
     if(!localStorage.getItem('hideTutorIntro') && profileProgressState.percentage === 100){
@@ -648,15 +662,216 @@ const Dashboard = () => {
   useEffect(() => {
    if(userRole !== RoleOptions.Tutor){
      const params ={
-       page: 0,
-       rpp: 3,
+       ...paramsSearch
      };
 
      getAvailableTutors(params).unwrap().then((res)=>{
        setLoadedTutorItems(res.content);
      });
    }
+  }, [paramsSearch]);
+
+  const [dayOfWeekArray, setDayOfWeekArray] = useState<string[]>([]);
+  const [timeOfDayArray, setTimeOfDayArray] = useState<string[]>([]);
+
+  const handleCustomDayOfWeek = (id: string) => {
+    const ifExist = dayOfWeekArray.find((item) => item === id);
+
+    if (ifExist) {
+      const filteredList = dayOfWeekArray.filter((item) => item !== id);
+      setDayOfWeekArray(filteredList);
+    } else {
+      setDayOfWeekArray([...dayOfWeekArray, id]);
+    }
+  };
+
+
+  const handleCustomTimeOfDay = (id: string) => {
+    const ifExist = timeOfDayArray.find((item) => item === id);
+
+    if (ifExist) {
+      const filteredList = timeOfDayArray.filter((item) => item !== id);
+      setTimeOfDayArray(filteredList);
+    } else {
+      setTimeOfDayArray([...timeOfDayArray, id]);
+    }
+  };
+
+  const CustomMenu = (props: MenuProps) => {
+    return (
+      <components.Menu className="react-select--availability availability-filter-width" {...props}>
+        <div className="align--center">
+          <div className="type--uppercase type--color--tertiary mb-4 ">{t('SEARCH_TUTORS.TUTOR_AVAILABLE')}</div>
+
+          <div className="availability-container-time">
+            <CustomCheckbox
+              id="beforeNoon"
+              customChecks={timeOfDayArray}
+              label={t('SEARCH_TUTORS.AVAILABILITY.TIME_OF_DAY.BEFORE_NOON')}
+              handleCustomCheck={handleCustomTimeOfDay}
+            />
+            <CustomCheckbox
+              customChecks={timeOfDayArray}
+              id="noonToFive"
+              label={t('SEARCH_TUTORS.AVAILABILITY.TIME_OF_DAY.NOON_TO_FIVE')}
+              handleCustomCheck={handleCustomTimeOfDay}
+            />
+            <CustomCheckbox
+              customChecks={timeOfDayArray}
+              id="afterFive"
+              label={t('SEARCH_TUTORS.AVAILABILITY.TIME_OF_DAY.AFTER_FIVE')}
+              handleCustomCheck={handleCustomTimeOfDay}
+            />
+          </div>
+          <div className="mt-6">
+            <div className="type--uppercase type--color--tertiary mb-4">{t('SEARCH_TUTORS.TUTOR_AVAILABLE')}</div>
+            <div className="availability-container">
+              <CustomCheckbox
+                id="mon"
+                customChecks={dayOfWeekArray}
+                label={t('SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.MON')}
+                handleCustomCheck={(id: string) => {
+                  handleCustomDayOfWeek(id);
+                }}
+              />
+              <CustomCheckbox
+                customChecks={dayOfWeekArray}
+                id="tue"
+                label={t('SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.TUE')}
+                handleCustomCheck={(id: string) => {
+                  handleCustomDayOfWeek(id);
+                }}
+              />
+              <CustomCheckbox
+                customChecks={dayOfWeekArray}
+                id="wed"
+                label={t('SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.WED')}
+                handleCustomCheck={(id: string) => {
+                  handleCustomDayOfWeek(id);
+                }}
+              />
+              <CustomCheckbox
+                customChecks={dayOfWeekArray}
+                id="thu"
+                label={t('SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.THU')}
+                handleCustomCheck={(id: string) => {
+                  handleCustomDayOfWeek(id);
+                }}
+              />
+              <CustomCheckbox
+                customChecks={dayOfWeekArray}
+                id="fri"
+                label={t('SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.FRI')}
+                handleCustomCheck={(id: string) => {
+                  handleCustomDayOfWeek(id);
+                }}
+              />
+              <CustomCheckbox
+                customChecks={dayOfWeekArray}
+                id="sat"
+                label={t('SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.SAT')}
+                handleCustomCheck={(id: string) => {
+                  handleCustomDayOfWeek(id);
+                }}
+              />
+              <CustomCheckbox
+                customChecks={dayOfWeekArray}
+                id="sun"
+                label={t('SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.SUN')}
+                handleCustomCheck={(id: string) => {
+                  handleCustomDayOfWeek(id);
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      </components.Menu>
+    );
+  };
+
+  const initialValues: Values = {
+    subject: '',
+    level: '',
+    dayOfWeek: [],
+    timeOfDay: [],
+  };
+
+  const formik = useFormik({
+    initialValues: initialValues,
+    onSubmit: () => {
+      //no submit
+    },
+  });
+
+  const [resetKey, setResetKey] = useState(false);
+  const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
+  const [levelOptions, setLevelOptions] = useState<OptionType[]>([]);
+  const [getSubjects, { data: subjects, isLoading: isLoadingSubjects }] = useLazyGetSubjectsQuery();
+  const [getLevels, { data: levels, isLoading: isLoadingLevels }] = useLazyGetLevelsQuery();
+  const resetFilterDisabled =
+    formik.values.level == '' && formik.values.subject == '' && formik.values.dayOfWeek.length == 0 && formik.values.timeOfDay.length == 0;
+
+  const levelDisabled = !levels || isLoadingLevels;
+
+  useEffect(() => {
+    getLevels();
+    getSubjects();
   }, []);
+
+  useEffect(() => {
+    if(levels){
+      setLevelOptions(levels);
+    }
+  }, [levels]);
+
+  useEffect(() => {
+    if(subjects){
+      setSubjectOptions(subjects);
+    }
+  }, [subjects]);
+
+  useEffect(() => {
+    if (levels) {
+      setLevelOptions(levels);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (formik.values.subject) {
+      setParamsSearch({ ...paramsSearch, subject: formik.values.subject });
+    }
+  }, [formik.values.subject]);
+
+  useEffect(() => {
+    if (formik.values.level) {
+      setParamsSearch({ ...paramsSearch, level: formik.values.level });
+    }
+  }, [formik.values.level]);
+
+  useEffect(() => {
+    formik.setFieldValue('dayOfWeek', dayOfWeekArray);
+  }, [dayOfWeekArray]);
+
+  useEffect(() => {
+    formik.setFieldValue('timeOfDay', timeOfDayArray);
+  }, [timeOfDayArray]);
+
+
+  const handleResetFilter = () => {
+    //can't delete all params because reset button couldn't affect price sort
+    const paramsObj = { ...paramsSearch };
+    delete paramsObj.dayOfWeek;
+    delete paramsObj.level;
+    delete paramsObj.subject;
+    delete paramsObj.timeOfDay;
+    setParamsSearch(paramsObj);
+
+    setResetKey(prevKey => !prevKey); // this is used to reset select subject and select lvl components
+    setDayOfWeekArray([]);
+    setTimeOfDayArray([]);
+
+    formik.setValues(initialValues);
+  };
 
   const isMobile = window.innerWidth < 766;
   return (
@@ -1109,6 +1324,49 @@ const Dashboard = () => {
 
                         userRole !== RoleOptions.Tutor && loadedTutorItems.length > 0 ?
                         <div className='flex flex--col flex--ai--center'>
+                          <div className="flex flex--wrap flex--center">
+                            <FormikProvider value={formik}>
+                              <Form className="flex flex--wrap flex--jc--center filters-container" noValidate>
+                                <MySelect
+                                  key={`level-select-${resetKey}`}
+                                  field={formik.getFieldProps('level')}
+                                  form={formik}
+                                  meta={formik.getFieldMeta('level')}
+                                  classNamePrefix="react-select--search-tutor"
+                                  isMulti={false}
+                                  options={levelOptions}
+                                  isDisabled={levelDisabled}
+                                  placeholder={t('SEARCH_TUTORS.PLACEHOLDER.LEVEL')}
+                                ></MySelect>
+                                <MySelect
+                                  key={`subject-select-${resetKey}`}
+                                  field={formik.getFieldProps('subject')}
+                                  form={formik}
+                                  meta={formik.getFieldMeta('subject')}
+                                  isMulti={false}
+                                  className=""
+                                  classNamePrefix="pos--r--0-mobile react-select--search-tutor"
+                                  options={subjectOptions}
+                                  isDisabled={levelDisabled || isLoadingSubjects}
+                                  noOptionsMessage={() => t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')}
+                                  placeholder={t('SEARCH_TUTORS.PLACEHOLDER.SUBJECT')}
+                                ></MySelect>
+                                <Select
+                                  placeholder={t('SEARCH_TUTORS.PLACEHOLDER.AVAILABILITY')}
+                                  components={{
+                                    Menu: CustomMenu,
+                                  }}
+                                  className=" react-select--search-tutor--menu"
+                                  classNamePrefix="react-select--search-tutor"
+                                  // onMenuClose={handleMenuClose}
+                                  isSearchable={false}
+                                ></Select>
+                              </Form>
+                            </FormikProvider>
+                            <button className="btn btn--clear align--center mt-2" onClick={handleResetFilter} disabled={resetFilterDisabled}>
+                              {t('SEARCH_TUTORS.RESET_FILTER')}
+                            </button>
+                          </div>
                           <div className="flex flex--row w--100 flex--wrap flex--gap-20 flex--jc--center field__w-fit-content align--center p-4 overflow--y--scroll pb-10">
                             {loadedTutorItems.map((tutor) =>
                               isMobile ? (
