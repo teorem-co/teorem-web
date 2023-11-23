@@ -9,7 +9,7 @@ import {
   useLoginMutation,
   useResendActivationEmailMutation,
 } from '../../../services/authService';
-import TextField from '../../components/form/TextField';
+import MyTextField from '../../components/form/MyTextField';
 import { useAppSelector } from '../../hooks';
 import { Role } from '../../lookups/role';
 import { PATHS } from '../../routes';
@@ -165,13 +165,13 @@ const Login: React.FC = () => {
                   <label htmlFor="email" className="field__label">
                     {t('LOGIN.FORM.EMAIL')}
                   </label>
-                  <TextField name="email" id="email" placeholder={t('LOGIN.FORM.EMAIL_PLACEHOLDER')} disabled={isLoadingLogin} />
+                  <MyTextField name="email" id="email" placeholder={t('LOGIN.FORM.EMAIL_PLACEHOLDER')} disabled={isLoadingLogin} />
                 </div>
                 <div className="field">
                   <label className="field__label" htmlFor="password">
                     {t('LOGIN.FORM.PASSWORD')}
                   </label>
-                  <TextField
+                  <MyTextField
                     name="password"
                     id="password"
                     placeholder={t('LOGIN.FORM.PASSWORD_PLACEHOLDER')}

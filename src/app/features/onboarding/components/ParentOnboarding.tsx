@@ -20,7 +20,7 @@ import { resetTutorRegister } from '../../../../slices/tutorRegisterSlice';
 import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyPhoneInput from '../../../components/form/MyPhoneInput';
 import { OptionType } from '../../../components/form/MySelectField';
-import TextField from '../../../components/form/TextField';
+import MyTextField from '../../../components/form/MyTextField';
 import ImageCircle from '../../../components/ImageCircle';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
@@ -209,7 +209,7 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
             <label htmlFor="firstName" className="field__label">
               {t('REGISTER.FORM.FIRST_NAME')}
             </label>
-            <TextField
+            <MyTextField
               name="firstName"
               id="firstName"
               placeholder={t('REGISTER.FORM.FIRST_NAME_PLACEHOLDER')}
@@ -220,7 +220,7 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
             <label htmlFor="lastName" className="field__label">
               {t('REGISTER.FORM.LAST_NAME')}
             </label>
-            <TextField
+            <MyTextField
               name="lastName"
               id="lastName"
               placeholder={t('REGISTER.FORM.LAST_NAME_PLACEHOLDER')}
@@ -517,7 +517,7 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
             <label htmlFor="childFirstName" className="field__label">
               {t('REGISTER.FORM.CHILD_NAME')}
             </label>
-            <TextField
+            <MyTextField
               name="childFirstName"
               id="childFirstName"
               placeholder={t('REGISTER.FORM.CHILD_NAME_PLACEHOLDER')}
@@ -541,7 +541,7 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
             <label htmlFor="username" className="field__label">
               {t('REGISTER.FORM.USERNAME')}
             </label>
-            <TextField
+            <MyTextField
               onBlur={(e: any) => {
                 formikStepThree.handleBlur(e);
                 checkUsernameExistance();
@@ -556,7 +556,7 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
             <label className="field__label" htmlFor="childPassword">
               {t('REGISTER.FORM.PASSWORD')}
             </label>
-            <TextField
+            <MyTextField
               name="childPassword"
               id="childPassword"
               placeholder={t('REGISTER.FORM.PASSWORD_PLACEHOLDER')}

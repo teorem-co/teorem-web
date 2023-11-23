@@ -1,37 +1,18 @@
-import {Form, FormikProvider, useFormik} from 'formik';
-import {isEqual} from 'lodash';
 import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import * as Yup from 'yup';
 
 import {
   useLazyGetProfileProgressQuery,
-  useLazyGetTutorByIdQuery,
-  useUpdateAditionalInfoMutation,
 } from '../../../../services/tutorService';
-import TextField from '../../../components/form/TextField';
-import RouterPrompt from '../../../components/RouterPrompt';
 import {useAppDispatch, useAppSelector} from '../../../hooks';
-import toastService from '../../../services/toastService';
 import {getUserId} from '../../../utils/getUserId';
-import IUpdateAdditionalInfo
-  from "../../my-profile/interfaces/IUpdateAdditionalInfo";
 import {setMyProfileProgress} from "../../my-profile/slices/myProfileSlice";
 import {AiOutlineLeft} from "react-icons/ai";
 import CircularProgress from "../../my-profile/components/CircularProgress";
-import {setStepTwo} from "../../../../slices/onboardingSlice";
 import TestTutorProfile from "./TestTutorProfile";
-import MySelect from "../../../components/form/MySelectField";
-import {countryInput} from "../../../constants/countryInput";
-import {countryOption} from "../../../constants/countryOption";
-import * as yup from 'yup';
-import {
-  useConnectAccountMutation, useConnectCompanyAccountMutation,
-} from '../../my-profile/services/stripeService';
-import { connectStripe } from '../../../../slices/authSlice';
-import { ScaleLoader } from 'react-spinners';
-import { PayoutFormIndividual } from './PayoutFormIndividual';
-import { PayoutFormCompany } from './PayoutFormCompany';
+import {PayoutFormIndividual} from './PayoutFormIndividual';
+import {PayoutFormCompany} from './PayoutFormCompany';
+import logo from "../../../../assets/images/teorem_logo_purple.png";
 
 //TODO: add saving to database
 
@@ -43,7 +24,12 @@ type AdditionalProps = {
 const PayoutsPage = ({nextStep, backStep}: AdditionalProps) => {
   const isMobile = window.innerWidth < 765;
   const state = useAppSelector((state) => state.onboarding);
-  const { yearsOfExperience, currentOccupation, aboutYou,aboutYourLessons } = state;
+  const {
+    yearsOfExperience,
+    currentOccupation,
+    aboutYou,
+    aboutYourLessons
+  } = state;
 
   const [getProfileProgress] = useLazyGetProfileProgressQuery();
   // const [getProfileData, {
@@ -97,11 +83,18 @@ const PayoutsPage = ({nextStep, backStep}: AdditionalProps) => {
 
   return (
     <>
+      <img
+        src={logo}
+        alt='logo'
+        className="mt-5 ml-5 signup-logo"
+      />
       <div
         className="subject-form-container flex--jc--space-around">
         <div
-          style={{gridColumn: "1/3", top: "0", justifyContent: "center",
-          alignItems: "center"}}
+          style={{
+            gridColumn: "1/3", top: "0", justifyContent: "center",
+            alignItems: "center"
+          }}
           className="align--center profile-preview-wrapper">
           <div className='flex field__w-fit-content align--center'>
             <div className="flex flex--col flex--jc--center ml-6">
@@ -111,12 +104,14 @@ const PayoutsPage = ({nextStep, backStep}: AdditionalProps) => {
                   color='grey'
                   onClick={backStep}
                 />
-                <div  className="flex flex--row flex--jc--center">
+                <div className="flex flex--row flex--jc--center">
                   <div className="flex flex--center flex--shrink ">
-                    <CircularProgress progressNumber={progressPercentage} size={isMobile ? 65 : 80}  />
+                    <CircularProgress progressNumber={progressPercentage}
+                                      size={isMobile ? 65 : 80}/>
                   </div>
                   <div className="flex flex--col flex--jc--center">
-                    <h4 className='signup-title ml-6 text-align--center'>{t('MY_PROFILE.PAYOUTS')}</h4>
+                    <h4
+                      className='signup-title ml-6 text-align--center'>{t('MY_PROFILE.PAYOUTS')}</h4>
                   </div>
                 </div>
               </div>
@@ -124,38 +119,49 @@ const PayoutsPage = ({nextStep, backStep}: AdditionalProps) => {
           </div>
           <div>
 
-          <div style={{display: "flex", justifyContent: "center", gap:'10px'}}>
             <div
-              className={`font-family__poppins fw-300 level-card flex card--primary cur--pointer scale-hover--scale-110`}
-              style={{
-                borderRadius: '10px',
-                height:'60px',
-                width:'fit-content',
-                alignContent:'center',
-                justifyContent:'center',
-                alignItems:'center',
-                backgroundColor: individual ? '#7e6cf2' : 'white',
-                color: individual ? 'white' : 'black',}}
-                onClick={() => {setIndividual(true); setBusiness(false);}}
-            >
-              <span className="font__lgr">{t('TUTOR_ONBOARDING.PAYOUTS_BUTTON.PRIVATE')}</span>
+              style={{display: "flex", justifyContent: "center", gap: '10px'}}>
+              <div
+                className={`font-family__poppins fw-300 level-card flex card--primary cur--pointer scale-hover--scale-110`}
+                style={{
+                  borderRadius: '10px',
+                  height: '60px',
+                  width: 'fit-content',
+                  alignContent: 'center',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: individual ? '#7e6cf2' : 'white',
+                  color: individual ? 'white' : 'black',
+                }}
+                onClick={() => {
+                  setIndividual(true);
+                  setBusiness(false);
+                }}
+              >
+                <span
+                  className="font__lgr">{t('TUTOR_ONBOARDING.PAYOUTS_BUTTON.PRIVATE')}</span>
+              </div>
+              <div
+                className={`font-family__poppins fw-300 level-card flex card--primary cur--pointer scale-hover--scale-110`}
+                style={{
+                  borderRadius: '10px',
+                  height: '60px',
+                  width: 'fit-content',
+                  alignContent: 'center',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: business ? '#7e6cf2' : 'white',
+                  color: business ? 'white' : 'black',
+                }}
+                onClick={() => {
+                  setIndividual(false);
+                  setBusiness(true);
+                }}
+              >
+                <span
+                  className="font__lgr">{t('TUTOR_ONBOARDING.PAYOUTS_BUTTON.COMPANY')}</span>
+              </div>
             </div>
-            <div
-              className={`font-family__poppins fw-300 level-card flex card--primary cur--pointer scale-hover--scale-110`}
-              style={{
-                borderRadius: '10px',
-                height:'60px',
-                width:'fit-content',
-                alignContent:'center',
-                justifyContent:'center',
-                alignItems:'center',
-                backgroundColor: business ? '#7e6cf2' : 'white',
-                color: business ? 'white' : 'black',}}
-              onClick={() => {setIndividual(false); setBusiness(true);}}
-            >
-              <span className="font__lgr">{t('TUTOR_ONBOARDING.PAYOUTS_BUTTON.COMPANY')}</span>
-            </div>
-          </div>
             <div>
               {individual && <PayoutFormIndividual nextStep={nextStep}/>}
               {business && <PayoutFormCompany nextStep={nextStep}/>}

@@ -8,7 +8,7 @@ type TextFieldType = {
     className?: string;
 } & FieldAttributes<{}>;
 
-//const TextField: React.FC<TextFieldType> = ( { type, placeholder, id, disabled, min, onChange, ...props } ) =>
+//const MyTextField: React.FC<TextFieldType> = ( { type, placeholder, id, disabled, min, onChange, ...props } ) =>
 const TextArea: React.FC<TextFieldType> = (props: any) => {
     const { password, maxLength, minLength } = props;
     const [field, meta] = useField(props);

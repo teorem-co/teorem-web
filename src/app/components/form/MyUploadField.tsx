@@ -1,6 +1,6 @@
 import { FieldAttributes, useField } from 'formik';
 import { t } from 'i18next';
-import { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -79,14 +79,16 @@ const UploadFile: FC<UploadFileType> = ({ setPreview, setFieldValue, removePrevi
                         </div>
                     </div>
                 )}
-                <div {...getRootProps({ className: 'upload' })}>
+                <div {...getRootProps({ className: 'upload' })} style={{height: "auto", backgroundColor:'white'}}>
                     {isDragActive ? <div className="upload__drag-overlay"></div> : ''}
                     <input {...getInputProps()} />
                     <div className="upload__text" role="presentation">
                         {preview ? (
-                            <div className="flex--primary flex--col">
-                                <i className="icon icon--base icon--upload icon--grey"></i>
-                                <div className="type--color--tertiary type--wgt--regular">{t('MY_PROFILE.PROFILE_SETTINGS.UPLOAD_IMAGE')}</div>
+                            <div className="flex--primary flex--col" style={{margin: "10px"}}>
+                                <i className="icon icon--base icon--upload icon--black"></i>
+                                <div className="type--color--secondary type--wgt--bold" dangerouslySetInnerHTML={{__html: t('MY_PROFILE.PROFILE_SETTINGS.UPLOAD_IMAGE')}}></div>
+                               <div className="type--color--tertiary type--wgt--regular" style={{fontSize: "12px"}}>JPG, PNG, JPEG, SVG format</div>
+                                <button className="btn btn--base btn--primary mt-2 align--center">{t('MY_PROFILE.PROFILE_SETTINGS.CHOOSE_FILE')}</button>
                             </div>
                         ) : (
                             <></>

@@ -2,7 +2,7 @@ import { Form, FormikProvider, useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
-import TextField from '../../../components/form/TextField';
+import MyTextField from '../../../components/form/MyTextField';
 import { useConnectAccountMutation } from '../services/stripeService';
 import { useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
@@ -215,37 +215,37 @@ function StripeConnectForm({ sideBarIsOpen, closeSidebar, onConnect, userId }: S
                 <label htmlFor="addressLine1Field" className="field__label">
                   {t('STRIPE_CONNECT.LINE_1')}*
                 </label>
-                <TextField name="addressLine1" id="addressLine1Field" />
+                <MyTextField name="addressLine1" id="addressLine1Field" />
               </div>
               <div className="field">
                 <label htmlFor="addressLine2Field" className="field__label">
                   {t('STRIPE_CONNECT.LINE_2')}
                 </label>
-                <TextField name="addressLine2" id="addressLine2Field" />
+                <MyTextField name="addressLine2" id="addressLine2Field" />
               </div>
               <div className="field">
                 <label htmlFor="postalCodeField" className="field__label">
                   {t('STRIPE_CONNECT.POST_CODE')}*
                 </label>
-                <TextField name="postalCode" id="postalCodeField" />
+                <MyTextField name="postalCode" id="postalCodeField" />
               </div>
               <div className="field">
                 <label htmlFor="cityField" className="field__label">
                   {t('STRIPE_CONNECT.CITY')}*
                 </label>
-                <TextField name="city" id="cityField" />
+                <MyTextField name="city" id="cityField" />
               </div>
               <div className="field">
                 <label htmlFor="IBANField" className="field__label">
                   {t('STRIPE_CONNECT.IBAN')}*
                 </label>
-                <TextField name="IBAN" id="IBANField" />
+                <MyTextField name="IBAN" id="IBANField" />
               </div>
               <div className="field">
                 <label htmlFor="IBANConfirmField" className="field__label">
                   {t('STRIPE_CONNECT.IBAN_CONFIRM')}*
                 </label>
-                <TextField name="IBANConfirm" id="IBANConfirmField" />
+                <MyTextField name="IBANConfirm" id="IBANConfirmField" />
               </div>
               <div dangerouslySetInnerHTML={{ __html: t('STRIPE_CONNECT.TERMS') }} />
               <div className="flex flex--center align-self-center mt-3">

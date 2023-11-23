@@ -22,6 +22,7 @@ import {
 } from '../../../../services/userService';
 import moment from 'moment/moment';
 import imageCompression from "browser-image-compression";
+import logo from "../../../../assets/images/teorem_logo_purple.png";
 
 //TODO: update the additional values to only image
 
@@ -244,6 +245,11 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
 
   return (
     <>
+      <img
+        src={logo}
+        alt='logo'
+        className="mt-5 ml-5 signup-logo"
+      />
       <div className="subject-form-container flex--jc--space-around">
         <FormikProvider value={formik}>
           <Form>
@@ -298,6 +304,7 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
                           <i
                             id="length"
                             className="icon icon--base icon--chevron-right icon--grey mr-3"
+                            style={{pointerEvents: "none"}}
                           ></i>
                         </td>
                         <td>{t('TUTOR_ONBOARDING.IMAGE_TIPS.TIP_1')}</td>
@@ -307,6 +314,7 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
                           <i
                             id="length"
                             className="icon icon--base icon--chevron-right icon--grey mr-3"
+                            style={{pointerEvents: "none"}}
                           ></i>
                         </td>
                         <td>{t('TUTOR_ONBOARDING.IMAGE_TIPS.TIP_2')}</td>
@@ -316,13 +324,13 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
                           <i
                             id="letter"
                             className="icon icon--base icon--chevron-right icon--grey mr-3"
+                            style={{pointerEvents: "none"}}
                           ></i>
                         </td>
                         <td>{t('TUTOR_ONBOARDING.IMAGE_TIPS.TIP_3')}</td>
                       </tr>
                       </tbody>
                     </table>
-
                   </div>
                 </div>
 

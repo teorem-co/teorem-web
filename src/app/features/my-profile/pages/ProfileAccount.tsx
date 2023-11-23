@@ -12,7 +12,7 @@ import {
 } from '../../../../services/tutorService';
 import {addStripeId, connectStripe} from '../../../../slices/authSlice';
 import {RoleOptions} from '../../../../slices/roleSlice';
-import TextField from '../../../components/form/TextField';
+import MyTextField from '../../../components/form/MyTextField';
 import MainWrapper from '../../../components/MainWrapper';
 import LoaderSecondary
   from '../../../components/skeleton-loaders/LoaderSecondary';
@@ -340,7 +340,7 @@ const ProfileAccount = () => {
                       <label htmlFor="currentPassword" className="field__label">
                         {t('ACCOUNT.CHANGE_PASSWORD.CURRENT_PASSWORD')}
                       </label>
-                      <TextField
+                      <MyTextField
                         name="currentPassword"
                         id="currentPassword"
                         placeholder={t('ACCOUNT.CHANGE_PASSWORD.CURRENT_PASSWORD_PLACEHOLDER')}
@@ -353,7 +353,7 @@ const ProfileAccount = () => {
                       <label htmlFor="newPassword" className="field__label">
                         {t('ACCOUNT.CHANGE_PASSWORD.NEW_PASSWORD')}
                       </label>
-                      <TextField
+                      <MyTextField
                         name="newPassword"
                         id="newPassword"
                         placeholder={t('ACCOUNT.CHANGE_PASSWORD.NEW_PASSWORD_PLACEHOLDER')}
@@ -374,7 +374,7 @@ const ProfileAccount = () => {
                       <label htmlFor="confirmPassword" className="field__label">
                         {t('ACCOUNT.CHANGE_PASSWORD.CONFIRM_PASSWORD')}
                       </label>
-                      <TextField
+                      <MyTextField
                         name="confirmPassword"
                         id="confirmPassword"
                         placeholder={t('ACCOUNT.CHANGE_PASSWORD.NEW_PASSWORD_PLACEHOLDER')}
