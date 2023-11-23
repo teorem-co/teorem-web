@@ -5,10 +5,8 @@ import React, { useEffect, useState } from 'react';
 import {
   useLazyGetProfileProgressQuery,
 } from '../../../../services/tutorService';
-import RouterPrompt from '../../../components/RouterPrompt';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
 import availabilityTable from '../../../constants/availabilityTable';
-import toastService from '../../../services/toastService';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { getUserId } from '../../../utils/getUserId';
 import {
@@ -19,12 +17,9 @@ import IAvailabilityIndex from "../../my-profile/interfaces/IAvailabilityIndex";
 import ITutorAvailability from "../../my-profile/interfaces/ITutorAvailability";
 import {setMyProfileProgress} from "../../my-profile/slices/myProfileSlice";
 import CircularProgress from "../../my-profile/components/CircularProgress";
-import logo from "../../../../assets/images/teorem_logo_purple.png";
 import {useHistory} from "react-router";
-import {PATHS} from "../../../routes";
-import SearchTutors from "../../searchTutors/SearchTutors";
-import {useDispatch} from "react-redux";
 import {setStepZero} from "../../../../slices/onboardingSlice";
+import logo from "../../../../assets/images/teorem_logo_purple.png";
 
 interface AvailabilityValues {
   availability: ITutorAvailability[];
@@ -49,6 +44,7 @@ const AvailabilityPage = ({ nextStep }:AvailabilityProps) => {
   const dispatch = useAppDispatch();
   const profileProgressState = useAppSelector((state) => state.myProfileProgress);
   const [progressPercentage, setProgressPercentage] = useState(profileProgressState.percentage);
+  const [banner, setBanner] = useState(true);
 
   const userId = useAppSelector((state) => state.auth.user?.id);
   const loading = availabilityUninitialized || availabilityLoading;
@@ -181,6 +177,7 @@ const AvailabilityPage = ({ nextStep }:AvailabilityProps) => {
 
   useEffect(() => {
     fetchData();
+    console.log(banner);
   }, []);
 
   useEffect(() => {
@@ -210,21 +207,24 @@ const AvailabilityPage = ({ nextStep }:AvailabilityProps) => {
 
   return (
     <>
-      {/*<RouterPrompt*/}
-      {/*  when={saveBtnActive}*/}
-      {/*  onOK={handleUpdateOnRouteChange}*/}
-      {/*  onCancel={() => {*/}
-      {/*    //if you pass "false" router will be blocked and you will stay on the current page*/}
-      {/*    return true;*/}
-      {/*  }}*/}
-      {/*/>*/}
+      {banner ?
+        <div style={{backgroundColor: "#7e6cf2", padding: "5px", display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+          <div style={{flexGrow: 1, justifyContent: "center"}}>
+            <p className='ml-6 text-align--center' style={{fontSize: "small", color: "#f8f7fe"}}>{t('TUTOR_ONBOARDING.TITLE')} {t('TUTOR_ONBOARDING.SUBTITLE')}</p>
+          </div>
+          <div onClick={() => setBanner(false)}>
+            <i className="icon icon--base icon--close icon--grey"></i>
+          </div>
+        </div>
+        : null}
+      <img
+        src={logo}
+        alt='logo'
+        className="mt-5 ml-5 signup-logo"
+      />
       <div>
         <div className='flex field__w-fit-content align--center flex--center'>
             <div className="flex flex--col flex--jc--center">
-              <div>
-                <p className='ml-6 text-align--center' style={{fontSize: "medium"}}>{t('TUTOR_ONBOARDING.TITLE')}</p>
-                <p className='ml-6 text-align--center' style={{fontSize: "small"}}>{t('TUTOR_ONBOARDING.SUBTITLE')}</p>
-              </div>
               <div style={{margin: "40px"}} className="flex flex--row flex--jc--center">
                 <div className="flex flex--center flex--shrink ">
                   {/*<CircularProgress progressNumber={profileProgressState.percentage ? profileProgressState.percentage : 0} size={80}  />*/}
@@ -238,9 +238,13 @@ const AvailabilityPage = ({ nextStep }:AvailabilityProps) => {
         </div>
         {(loading && <LoaderPrimary />) || (
           <div className="flex--center m-2" style={{display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column"}}>
-            <table className="table table--availability "><tbody>{renderAvailabilityTable()}</tbody></table>
-            <div className="type--base align--center field__w-fit-content p-2" style={{color: "#636363"}}>
-              <span>{t('TUTOR_ONBOARDING.TOOLTIPS.AVAILABILITY')}</span>
+
+            <div className="type--base align--center field__w-fit-content p-2" style={{color: "#636363", textAlign: "center"}}>
+              <span>{t('TUTOR_ONBOARDING.TOOLTIPS.AVAILABILITY_1')}</span>
+            </div>
+            <table style={{backgroundColor:'white'}} className="table table--availability "><tbody>{renderAvailabilityTable()}</tbody></table>
+            <div className="type--base align--center field__w-fit-content p-2" style={{color: "#636363", textAlign: "center"}}>
+              <span>{t('TUTOR_ONBOARDING.TOOLTIPS.AVAILABILITY_2')}</span>
             </div>
             <button
               id="tutor-onboarding-step-1"

@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import { useCheckMailMutation } from '../../../../../services/authService';
 import { setStepTwo } from '../../../../../slices/signUpSlice';
 import MyPhoneInput from '../../../../components/form/MyPhoneInput';
-import TextField from '../../../../components/form/TextField';
+import MyTextField from '../../../../components/form/MyTextField';
 import { useAppSelector } from '../../../../hooks';
 
 type StepTwoProps ={
@@ -98,7 +98,7 @@ export const SignupSecondStep = ({ nextStep }:StepTwoProps) => {
 
             {/*email*/}
             <div className="align--center mb-5">
-              <TextField
+              <MyTextField
                 id="email"
                 name="email"
                 style={{background:'white'}}

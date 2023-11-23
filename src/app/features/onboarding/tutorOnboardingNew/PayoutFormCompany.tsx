@@ -1,17 +1,18 @@
-import { Form, FormikProvider, useFormik } from 'formik';
+import {Field, Form, FormikProvider, useFormik} from 'formik';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScaleLoader } from 'react-spinners';
 import * as yup from 'yup';
 
 import { connectStripe } from '../../../../slices/authSlice';
-import TextField from '../../../components/form/TextField';
+import MyTextField from '../../../components/form/MyTextField';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { getUserId } from '../../../utils/getUserId';
 import {
   useConnectAccountMutation, useConnectCompanyAccountMutation,
 } from '../../my-profile/services/stripeService';
 import { setMyProfileProgress } from '../../my-profile/slices/myProfileSlice';
+import {TextField} from "@mui/material";
 
 interface Props{
   nextStep: () => void;
@@ -111,51 +112,148 @@ export const PayoutFormCompany = (props: Props) => {
       <FormikProvider value={formik}>
         <Form className="mt-5">
           <div className="w--80 align--center">
-            <div className="field">
-              <label htmlFor="addressLine1Field" className="field__label">
-                {t('STRIPE_CONNECT.ADDRESS')}*
-              </label>
-              <TextField name="addressLine1" id="addressLine1Field" />
-            </div>
-
-            <div className="field">
-              <label htmlFor="postalCodeField" className="field__label">
-                {t('STRIPE_CONNECT.POST_CODE')}*
-              </label>
-              <TextField name="postalCode" id="postalCodeField" />
-            </div>
-            <div className="field">
-              <label htmlFor="cityField" className="field__label">
-                {t('STRIPE_CONNECT.CITY')}*
-              </label>
-              <TextField name="city" id="cityField" />
-            </div>
-            <div className="field">
-              <label htmlFor="IBANField" className="field__label">
-                {t('STRIPE_CONNECT.IBAN')}*
-              </label>
-              <TextField name="IBAN" id="IBANField" />
-            </div>
-            <div className="field">
-              <label htmlFor="iban" className="field__label">
-                {t('MY_PROFILE.PROFILE_SETTINGS.COMPANY_NAME')}
-              </label>
-              <TextField
-                name="companyName"
-                id="companyName"
-                placeholder={t('MY_PROFILE.PROFILE_SETTINGS.COMPANY_NAME_PLACEHOLDER')}
-                disabled={isLoading}
+            <div className="field" style={{padding: "10px"}}>
+              <Field
+                as={TextField}
+                name="addressLine1"
+                type="text"
+                fullWidth
+                required
+                id="addressLine1Field"
+                label={t('STRIPE_CONNECT.ADDRESS')}
+                variant="outlined"
+                color="secondary"
+                placeholder={t('MY_PROFILE.PROFILE_SETTINGS.ADDRESS_PERSONAL_PLACEHOLDER')}
+                // helperText={}
+                InputProps={{
+                  style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
+                }}
+                InputLabelProps={{
+                  style: { fontFamily: "'Lato', sans-serif" },
+                }}
+                FormHelperTextProps={{
+                  style: { color: 'red' } // Change the color of the helper text here
+                }}
               />
             </div>
-            <div className="field">
-              <label htmlFor="iban" className="field__label">
-                {t('MY_PROFILE.PROFILE_SETTINGS.COMPANY_OIB')}
-              </label>
-              <TextField
+            <div className="field" style={{padding: "10px"}}>
+              <Field
+                as={TextField}
+                name="postalCode"
+                type="text"
+                fullWidth
+                required
+                id="postalCodeField"
+                label={t('STRIPE_CONNECT.POST_CODE')}
+                variant="outlined"
+                color="secondary"
+                placeholder={t('ACCOUNT.NEW_CARD.ZIP_PLACEHOLDER')}
+                // helperText={}
+                InputProps={{
+                  style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
+                }}
+                InputLabelProps={{
+                  style: { fontFamily: "'Lato', sans-serif" },
+                }}
+                FormHelperTextProps={{
+                  style: { color: 'red' } // Change the color of the helper text here
+                }}
+              />
+            </div>
+            <div className="field" style={{padding: "10px"}}>
+              <Field
+                as={TextField}
+                name="city"
+                type="text"
+                fullWidth
+                required
+                id="cityField"
+                label={t('STRIPE_CONNECT.CITY')}
+                variant="outlined"
+                color="secondary"
+                placeholder={t('ACCOUNT.NEW_CARD.CITY_PLACEHOLDER')}
+                // helperText={}
+                InputProps={{
+                  style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
+                }}
+                InputLabelProps={{
+                  style: { fontFamily: "'Lato', sans-serif" },
+                }}
+                FormHelperTextProps={{
+                  style: { color: 'red' } // Change the color of the helper text here
+                }}
+              />
+            </div>
+            <div className="field" style={{padding: "10px"}}>
+              <Field
+                as={TextField}
+                name="IBAN"
+                type="text"
+                fullWidth
+                required
+                id="IBANField"
+                label={t('STRIPE_CONNECT.IBAN')}
+                variant="outlined"
+                color="secondary"
+                placeholder={t('MY_PROFILE.PROFILE_SETTINGS.IBAN_PLACEHOLDER')}
+                // helperText={}
+                InputProps={{
+                  style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
+                }}
+                InputLabelProps={{
+                  style: { fontFamily: "'Lato', sans-serif" },
+                }}
+                FormHelperTextProps={{
+                  style: { color: 'red' } // Change the color of the helper text here
+                }}
+              />
+            </div>
+            <div className="field" style={{padding: "10px"}}>
+              <Field
+                as={TextField}
+                name="companyName"
+                type="text"
+                fullWidth
+                required
+                id="companyName"
+                label={t('MY_PROFILE.PROFILE_SETTINGS.COMPANY_NAME')}
+                variant="outlined"
+                color="secondary"
+                placeholder={t('MY_PROFILE.PROFILE_SETTINGS.COMPANY_NAME_PLACEHOLDER')}
+                // helperText={}
+                InputProps={{
+                  style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
+                }}
+                InputLabelProps={{
+                  style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
+                }}
+                FormHelperTextProps={{
+                  style: { color: 'red' } // Change the color of the helper text here
+                }}
+              />
+            </div>
+            <div className="field" style={{padding: "10px"}}>
+              <Field
+                as={TextField}
                 name="companyPIN"
+                type="text"
+                fullWidth
+                required
                 id="companyPIN"
+                label={t('MY_PROFILE.PROFILE_SETTINGS.COMPANY_OIB')}
+                variant="outlined"
+                color="secondary"
                 placeholder={t('MY_PROFILE.PROFILE_SETTINGS.COMPANY_OIB_PLACEHOLDER')}
-                disabled={isLoading}
+                // helperText={}
+                InputProps={{
+                  style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
+                }}
+                InputLabelProps={{
+                  style: { fontFamily: "'Lato', sans-serif" },
+                }}
+                FormHelperTextProps={{
+                  style: { color: 'red' } // Change the color of the helper text here
+                }}
               />
             </div>
 

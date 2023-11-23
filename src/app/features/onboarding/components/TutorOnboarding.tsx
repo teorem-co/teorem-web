@@ -16,7 +16,7 @@ import ExpDateField from '../../../components/form/ExpDateField';
 import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyPhoneInput from '../../../components/form/MyPhoneInput';
 import { OptionType } from '../../../components/form/MySelectField';
-import TextField from '../../../components/form/TextField';
+import MyTextField from '../../../components/form/MyTextField';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import {
@@ -203,7 +203,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
             <label htmlFor="firstName" className="field__label">
               {t('REGISTER.FORM.FIRST_NAME')}
             </label>
-            <TextField
+            <MyTextField
               name="firstName"
               id="firstName"
               placeholder={t('REGISTER.FORM.FIRST_NAME_PLACEHOLDER')}
@@ -214,7 +214,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
             <label htmlFor="lastName" className="field__label">
               {t('REGISTER.FORM.LAST_NAME')}
             </label>
-            <TextField
+            <MyTextField
               name="lastName"
               id="lastName"
               placeholder={t('REGISTER.FORM.LAST_NAME_PLACEHOLDER')}
@@ -343,7 +343,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
             <label htmlFor="cardFirstName" className="field__label">
               {t('REGISTER.CARD_DETAILS.FIRST_NAME')}
             </label>
-            <TextField
+            <MyTextField
               name="cardFirstName"
               id="cardFirstName"
               placeholder={t('REGISTER.FORM.FIRST_NAME_PLACEHOLDER')}
@@ -354,7 +354,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
             <label htmlFor="cardLastName" className="field__label">
               {t('REGISTER.CARD_DETAILS.LAST_NAME')}
             </label>
-            <TextField
+            <MyTextField
               name="cardLastName"
               id="cardLastName"
               placeholder={t('REGISTER.FORM.LAST_NAME_PLACEHOLDER')}
@@ -390,7 +390,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
                 <label htmlFor="cvv" className="field__label">
                   {t('REGISTER.CARD_DETAILS.CVV')}
                 </label>
-                <TextField
+                <MyTextField
                   max={3}
                   maxLength={3}
                   type="number"
@@ -407,7 +407,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
             <label htmlFor="zipCode" className="field__label">
               {t('REGISTER.CARD_DETAILS.ZIP_CODE')}
             </label>
-            <TextField
+            <MyTextField
               type="number"
               name="zipCode"
               id="zipCode"
