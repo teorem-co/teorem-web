@@ -203,7 +203,7 @@ export const PayoutFormIndividual = (props: Props) => {
                 }}
               />
             </div>
-            <div dangerouslySetInnerHTML={{ __html: t('STRIPE_CONNECT.TERMS') }} />
+            <div style={{textAlign:'center'}} dangerouslySetInnerHTML={{ __html: t('STRIPE_CONNECT.TERMS') }} />
             <div className="flex flex--center align-self-center mt-3">
               <ScaleLoader color={'#7e6cf2'} loading={loading} style={{margin: '0 auto'}}/>
             </div>
