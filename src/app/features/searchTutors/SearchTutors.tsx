@@ -266,7 +266,6 @@ const SearchTutors = () => {
   };
 
   const handleScroll = async (e: HTMLDivElement) => {
-console.log("sad");
     if (availableTutors && loadedTutorItems.length != availableTutors.totalElements) {
       const innerHeight = e.scrollHeight;
       const scrollPosition = e.scrollTop + e.clientHeight;
@@ -393,12 +392,6 @@ console.log("sad");
   return (
     <MainWrapper>
       <div onScroll={(e) => debouncedScrollHandler(e.target)} className="card--secondary" ref={cardRef}>
-        {/* <button
-                    className="btn btn--base btn--success"
-                    onClick={() => toastService.notification('Robert Nash wants to book A level Mathematics @ 13:00, 13/sept/2022.')}
-                >
-                    Click me
-                </button> */}
         <div className="card--secondary__head card--secondary__head--search-tutor">
           <div className="type--lg type--wgt--bold mb-4 mb-xl-0">{t('SEARCH_TUTORS.TITLE')}</div>
           <div className="flex flex--wrap flex--center">

@@ -597,7 +597,7 @@ const Dashboard = () => {
   const startTutorial = async () =>{
     // window.scrollTo(0, document.body.scrollHeight);
     document.body.scrollTop = -document.body.scrollHeight;
-    getTestingRoomLink().unwrap().then((res)=> {
+    getTestingRoomLink().unwrap().then((res:any)=> {
       setTutorialRoomLink(res.meetingUrl);
     });
 
