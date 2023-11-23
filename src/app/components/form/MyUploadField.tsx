@@ -88,7 +88,7 @@ const UploadFile: FC<UploadFileType> = ({ setPreview, setFieldValue, removePrevi
                                 <i className="icon icon--base icon--upload icon--black"></i>
                                 <div className="type--color--secondary type--wgt--bold" dangerouslySetInnerHTML={{__html: t('MY_PROFILE.PROFILE_SETTINGS.UPLOAD_IMAGE')}}></div>
                                <div className="type--color--tertiary type--wgt--regular" style={{fontSize: "12px"}}>JPG, PNG, JPEG, SVG format</div>
-                                <button className="btn btn--base btn--primary mt-2 align--center">{t('MY_PROFILE.PROFILE_SETTINGS.CHOOSE_FILE')}</button>
+                                {/*<button className="btn btn--base btn--primary mt-2 align--center">{t('MY_PROFILE.PROFILE_SETTINGS.CHOOSE_FILE')}</button>*/}
                             </div>
                         ) : (
                             <></>

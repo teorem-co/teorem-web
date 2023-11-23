@@ -176,8 +176,8 @@ export const CreateSubjectCard = (props: Props) => {
                      // withoutErr={true}
                      type="number"
                      InputProps={{
-                       style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white', height:'38px', width:'100px', paddingTop:0,paddingBottom:0 },
-                       startAdornment: <InputAdornment position="start">€</InputAdornment>,
+                       style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white', height:'38px', width:'100px', paddingTop:0,paddingBottom:0, alignItems:'center', display:'flex' },
+                       startAdornment: <InputAdornment style={{paddingBottom:0, marginBottom:0}} position="start">€</InputAdornment>,
                      }}
                      helperText={(formik.touched.price && formik.errors.price) ? formik.errors.price : ' '}
                      error={formik.touched.price && Boolean(formik.errors.price)}
