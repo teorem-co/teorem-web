@@ -196,6 +196,7 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
   };
 
   const validateAboutTutor= () => {
+    console.log('validating tutor about');
     if(formik.values.aboutTutor.trim().split(" ").length < 50 && formik.values.aboutTutor.length != 0) {
       return t('FORM_VALIDATION.MIN_50_WORDS');
     }
