@@ -81,6 +81,9 @@ import { Form, FormikProvider, useFormik } from 'formik';
 import MySelect, { OptionType } from '../../components/form/MySelectField';
 import { useLazyGetSubjectsQuery } from '../../../services/subjectService';
 import { useLazyGetLevelsQuery } from '../../../services/levelService';
+import { CgSpinner } from 'react-icons/cg';
+import { ClipLoader } from 'react-spinners';
+import upcomingLessons from '../my-bookings/components/UpcomingLessons';
 interface Values {
   subject: string;
   level: string;
@@ -271,7 +274,7 @@ const Dashboard = () => {
     const [getUserById0, { data: userDataFirst }] = useLazyGetUserQuery();
     const [getUserById1, { data: userDataSecond }] = useLazyGetUserQuery();
     const [getProfileProgress, {isSuccess}] = useLazyGetProfileProgressQuery();
-    const [getUpcoming] = useLazyGetUpcomingQuery();
+    const [getUpcoming, {data: upcomingData, isLoading: upcomingLoading, isSuccess:upcomingSuccessful}] = useLazyGetUpcomingQuery();
     const [getTodaySchedule] = useLazyGetTodayScheduleQuery();
     const [getRequests] = useLazyGetRequestsQuery();
     const [acceptRequest] = useAcceptBookingMutation();
@@ -588,14 +591,14 @@ const Dashboard = () => {
     }
   }, [profileProgressState.percentage]);
 
-  //zove se uvijek: bilo da si skip
+  //always triggers, even on skip
   const onExit = () => {
     localStorage.setItem('hideTutorIntro', 'true');
     setShowIntro(null);
     setIsStepsEnabled(false);
   };
 
-  //kad klikne finish tj zadnji step
+  //on finish
   const onComplete = () => {
     handleJoinBooking(mockSchedule);// automatically join meeting
     setIsStepsEnabled(false);
@@ -609,13 +612,11 @@ const Dashboard = () => {
   };
 
   const startTutorial = async () =>{
-    // window.scrollTo(0, document.body.scrollHeight);
     document.body.scrollTop = -document.body.scrollHeight;
     getTestingRoomLink().unwrap().then((res:any)=> {
       setTutorialRoomLink(res.meetingUrl);
     });
 
-    //TODO: send request to backend and get link and save it
     const dateKey = moment(new Date()).add(1, 'day').format(t('DATE_FORMAT'));
     const grupedData: IGroupedDashboardData = {
       [dateKey]: [mockRequest]
@@ -660,7 +661,7 @@ const Dashboard = () => {
   const [loadedTutorItems, setLoadedTutorItems] = useState<ITutorItem[]>([]);
 
   useEffect(() => {
-   if(userRole !== RoleOptions.Tutor){
+   if(userRole !== RoleOptions.Tutor && Object.keys(groupedUpcomming).length <= 0 ){
      const params ={
        ...paramsSearch
      };
@@ -1287,107 +1288,134 @@ const Dashboard = () => {
                             </div>
                             <div className="dashboard__list">
 
-                              <div className="type--color--tertiary mb-2">
-                                {userRole === RoleOptions.Tutor
-                                  ? t('DASHBOARD.BOOKINGS.TITLE')
-                                  : groupedUpcomming && Object.keys(groupedUpcomming).length > 0 ? t('DASHBOARD.BOOKINGS.TITLE') :t('DASHBOARD.BOOKINGS.RECOMMENDED')}
-                              </div>
-
                               {groupedUpcomming && Object.keys(groupedUpcomming).length > 0 ? (
-                                    Object.keys(groupedUpcomming).map((key: string) => {
-                                        return (
-                                            <React.Fragment key={key}>
-                                                <div className="flex--primary">
-                                                    <div className="mb-4 mt-6 type--wgt--bold">{key}</div>
-                                                    <div className="type--color--secondary">
-                                                        {t('DASHBOARD.BOOKINGS.TOTAL')}: {groupedUpcomming[key].length}:00h
-                                                    </div>
+                                  Object.keys(groupedUpcomming).map((key: string) => {
+                                      return (
+                                          <React.Fragment key={key}>
+                                            <div className="type--color--tertiary mb-2">
+                                              {t('DASHBOARD.BOOKINGS.TITLE')}
+                                            </div>
+                                            <div className="flex--primary">
+                                                <div className="mb-4 mt-6 type--wgt--bold">{key}</div>
+                                                <div className="type--color--secondary">
+                                                    {t('DASHBOARD.BOOKINGS.TOTAL')}: {groupedUpcomming[key].length}:00h
                                                 </div>
-                                                {groupedUpcomming[key].map((item: IBooking) => {
-                                                    return (
-
-                                                      <UpcomingLessonItem
-                                                        id={item.id}
-                                                        firstName={item.User.firstName}
-                                                        lastName={item.User.lastName}
-                                                        levelAbrv={item.Level.abrv}
-                                                        subjectAbrv={item.Subject.abrv}
-                                                        startTime={item.startTime}
-                                                        endTime={item.endTime}
-                                  />
-                                );
-                              })}
-                            </React.Fragment>
-                          );
-                        })
-                      ) : (
-
-                        userRole !== RoleOptions.Tutor && loadedTutorItems.length > 0 ?
-                        <div className='flex flex--col flex--ai--center'>
-                          <div className="flex flex--wrap flex--center">
-                            <FormikProvider value={formik}>
-                              <Form className="flex flex--wrap flex--jc--center filters-container" noValidate>
-                                <MySelect
-                                  key={`level-select-${resetKey}`}
-                                  field={formik.getFieldProps('level')}
-                                  form={formik}
-                                  meta={formik.getFieldMeta('level')}
-                                  classNamePrefix="react-select--search-tutor"
-                                  isMulti={false}
-                                  options={levelOptions}
-                                  isDisabled={levelDisabled}
-                                  placeholder={t('SEARCH_TUTORS.PLACEHOLDER.LEVEL')}
-                                ></MySelect>
-                                <MySelect
-                                  key={`subject-select-${resetKey}`}
-                                  field={formik.getFieldProps('subject')}
-                                  form={formik}
-                                  meta={formik.getFieldMeta('subject')}
-                                  isMulti={false}
-                                  className=""
-                                  classNamePrefix="pos--r--0-mobile react-select--search-tutor"
-                                  options={subjectOptions}
-                                  isDisabled={levelDisabled || isLoadingSubjects}
-                                  noOptionsMessage={() => t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')}
-                                  placeholder={t('SEARCH_TUTORS.PLACEHOLDER.SUBJECT')}
-                                ></MySelect>
-                                <Select
-                                  placeholder={t('SEARCH_TUTORS.PLACEHOLDER.AVAILABILITY')}
-                                  components={{
-                                    Menu: CustomMenu,
-                                  }}
-                                  className=" react-select--search-tutor--menu"
-                                  classNamePrefix="react-select--search-tutor"
-                                  // onMenuClose={handleMenuClose}
-                                  isSearchable={false}
-                                ></Select>
-                              </Form>
-                            </FormikProvider>
-                            <button className="btn btn--clear align--center mt-2" onClick={handleResetFilter} disabled={resetFilterDisabled}>
-                              {t('SEARCH_TUTORS.RESET_FILTER')}
-                            </button>
-                          </div>
-                          <div className="flex flex--row w--100 flex--wrap flex--gap-20 flex--jc--center field__w-fit-content align--center p-4 overflow--y--scroll pb-10">
-                            {loadedTutorItems.map((tutor) =>
-                              isMobile ? (
-                                <RecommendedTutorCardMobile className="p-4 h--350" key={tutor.id} tutor={tutor} />
+                                            </div>
+                                            {groupedUpcomming[key].map((item: IBooking) => {
+                                                return (
+                                                  <UpcomingLessonItem
+                                                    id={item.id}
+                                                    firstName={item.User.firstName}
+                                                    lastName={item.User.lastName}
+                                                    levelAbrv={item.Level.abrv}
+                                                    subjectAbrv={item.Subject.abrv}
+                                                    startTime={item.startTime}
+                                                    endTime={item.endTime}/>
+                                              );
+                                            })}
+                                          </React.Fragment>
+                                      );
+                                  })
                               ) : (
-                                <RecommendedTutorCard className="p-4 h--350" key={tutor.id} tutor={tutor} />
-                              )
+                                userRole !== RoleOptions.Tutor ? (
+                                   <>
+                                     <div className="type--color--tertiary mb-2">
+                                      {t('DASHBOARD.BOOKINGS.RECOMMENDED')}
+                                    </div>
+                                    <div className='filter flex flex--col flex--ai--center'>
+
+
+                                <div className="flex flex--wrap flex--center">
+                                  <FormikProvider value={formik}>
+                                    <Form className="flex flex--wrap flex--jc--center filters-container" noValidate>
+                                      <MySelect
+                                        key={`level-select-${resetKey}`}
+                                        field={formik.getFieldProps('level')}
+                                        form={formik}
+                                        meta={formik.getFieldMeta('level')}
+                                        classNamePrefix="react-select--search-tutor"
+                                        isMulti={false}
+                                        options={levelOptions}
+                                        isDisabled={levelDisabled}
+                                        placeholder={t('SEARCH_TUTORS.PLACEHOLDER.LEVEL')}
+                                      ></MySelect>
+                                      <MySelect
+                                        key={`subject-select-${resetKey}`}
+                                        field={formik.getFieldProps('subject')}
+                                        form={formik}
+                                        meta={formik.getFieldMeta('subject')}
+                                        isMulti={false}
+                                        className=""
+                                        classNamePrefix="pos--r--0-mobile react-select--search-tutor"
+                                        options={subjectOptions}
+                                        isDisabled={levelDisabled || isLoadingSubjects}
+                                        noOptionsMessage={() => t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')}
+                                        placeholder={t('SEARCH_TUTORS.PLACEHOLDER.SUBJECT')}
+                                      ></MySelect>
+                                      <Select
+                                        placeholder={t('SEARCH_TUTORS.PLACEHOLDER.AVAILABILITY')}
+                                        components={{
+                                          Menu: CustomMenu,
+                                        }}
+                                        className=" react-select--search-tutor--menu"
+                                        classNamePrefix="react-select--search-tutor"
+                                        // onMenuClose={handleMenuClose}
+                                        isSearchable={false}
+                                      ></Select>
+                                    </Form>
+                                  </FormikProvider>
+                                  <button className="btn btn--clear align--center mt-2" onClick={handleResetFilter} disabled={resetFilterDisabled}>
+                                    {t('SEARCH_TUTORS.RESET_FILTER')}
+                                  </button>
+                                </div>
+
+                                      {isLoadingAvailableTutors || availableTutorsUninitialized  ? (
+                                          <LoaderPrimary />
+                                      ) : loadedTutorItems.length > 0 ? (
+                                        <>
+                                          <div className="flex flex--row w--100 flex--wrap flex--gap-20 flex--jc--center field__w-fit-content align--center p-4 overflow--y--scroll pb-10">
+                                            {loadedTutorItems.map((tutor) =>
+                                              isMobile ? (
+                                                <RecommendedTutorCardMobile className="p-4 h--350" key={tutor.id} tutor={tutor} />
+                                              ) : (
+                                                <RecommendedTutorCard className="p-4 h--350" key={tutor.id} tutor={tutor} />
+                                              )
+                                            )}
+                                          </div>
+                                          <Link
+                                            to={PATHS.SEARCH_TUTORS}
+                                            className="type--center underline-hover field__w-fit-content">{t('DASHBOARD.BOOKINGS.SHOW_MORE')}
+                                          </Link>
+                                        </>
+                                      ) : (
+                                        <div className="tutor-list__no-results mt-30">
+                                          <h1 className="tutor-list__no-results__title">
+                                            <p>{t('SEARCH_TUTORS.NO_RESULT.TITLE')}</p>
+                                          </h1>
+                                          <p className="tutor-list__no-results__subtitle">{t('SEARCH_TUTORS.NO_RESULT.DESC')}</p>
+                                        </div>
+                                      )}
+
+                                    </div></>
+                                ):
+
+                                  <>
+                                    {upcomingLoading ? (<LoaderPrimary/>) : (
+                                      <>
+                                      <div className="type--color--tertiary mb-2">
+                                        {t('DASHBOARD.BOOKINGS.TITLE')}
+                                      </div>
+                                      <div className="tutor-list__no-results mt-30">
+                                        <h1 className="tutor-list__no-results__title">
+                                          <p>{t('DASHBOARD.BOOKINGS.EMPTY')}</p>
+                                        </h1>
+                                        <p className="tutor-list__no-results__subtitle">
+                                          {t('DASHBOARD.BOOKINGS.EMPTY_SUBTITLE')}
+                                        </p>
+                                      </div>
+                                    </>)}
+                                  </>
                             )}
-                          </div>
-                          <Link
-                            to={PATHS.SEARCH_TUTORS}
-                            className="type--center underline-hover field__w-fit-content">{t('DASHBOARD.BOOKINGS.SHOW_MORE')}</Link>
-                        </div>
-                          :
-                          <div className="tutor-list__no-results mt-30">
-                            <h1 className="tutor-list__no-results__title">
-                              <div>{t('DASHBOARD.BOOKINGS.EMPTY')}</div>
-                            </h1>
-                            <p className="tutor-list__no-results__subtitle">{t('DASHBOARD.BOOKINGS.EMPTY_SUBTITLE')}</p>
-                          </div>
-                      )}
                     </div>
                   </div>
                 </div>
