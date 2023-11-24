@@ -460,13 +460,20 @@ const SearchTutors = () => {
 
               )
             ) : (
-              <div className="tutor-list__no-results">
-                <h1 className="tutor-list__no-results__title">{t('SEARCH_TUTORS.NO_RESULT.TITLE')}</h1>
-                <p className="tutor-list__no-results__subtitle">{t('SEARCH_TUTORS.NO_RESULT.DESC')}</p>
-                <button className="btn btn--clear ml-6 type--wgt--bold" onClick={handleResetFilter} disabled={resetFilterDisabled}>
-                  {t('SEARCH_TUTORS.RESET_FILTER')}
-                </button>
-              </div>
+              isLoading ?
+                <>
+                  <LoaderTutor/>
+                  <LoaderTutor/>
+                  <LoaderTutor/>
+                </>
+                :
+                <div className="tutor-list__no-results">
+                  <h1 className="tutor-list__no-results__title">{t('SEARCH_TUTORS.NO_RESULT.TITLE')}</h1>
+                  <p className="tutor-list__no-results__subtitle">{t('SEARCH_TUTORS.NO_RESULT.DESC')}</p>
+                  <button className="btn btn--clear ml-6 type--wgt--bold" onClick={handleResetFilter} disabled={resetFilterDisabled}>
+                    {t('SEARCH_TUTORS.RESET_FILTER')}
+                  </button>
+                </div>
             )}
           </div>
         </div>
