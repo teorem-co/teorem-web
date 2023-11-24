@@ -66,7 +66,7 @@ const SearchTutors = () => {
   const cardRef = useRef<HTMLDivElement>(null);
   const cardElement = cardRef.current as HTMLDivElement;
   const levelDisabled = !levels || isLoadingLevels;
-  const isLoading = isLoadingAvailableTutors || availableTutorsUninitialized || availableTutorsFetching;
+  const isLoading = isLoadingAvailableTutors || availableTutorsFetching; //|| availableTutorsUninitialized || availableTutorsFetching;
   const initialValues: Values = {
     subject: '',
     level: '',
@@ -211,7 +211,6 @@ const SearchTutors = () => {
   };
 
   const fetchData = async () => {
-
     const urlQueries: IParams = getUrlParams(history.location.search.replace('?', ''));
 
     if (Object.keys(urlQueries).length > 0) {
@@ -226,6 +225,9 @@ const SearchTutors = () => {
       if (urlQueries.sort) {
         setPriceSortDirection(urlQueries.sort as SortDirection);
       }
+
+      const tutorResponse = await getAvailableTutors({ ...params }).unwrap();
+      setLoadedTutorItems(tutorResponse.content);
     } else {
       const tutorResponse = await getAvailableTutors(params).unwrap();
       setLoadedTutorItems(tutorResponse.content);
