@@ -1,5 +1,5 @@
 import { t } from 'i18next';
-import { groupBy } from 'lodash';
+import { groupBy, isEqual } from 'lodash';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -19,7 +19,7 @@ import {
 import { RoleOptions } from '../../../slices/roleSlice';
 import MainWrapper from '../../components/MainWrapper';
 import { useAppSelector } from '../../hooks';
-import { PATHS, PROFILE_PATHS, ROUTES } from '../../routes';
+import { PATHS, PROFILE_PATHS } from '../../routes';
 import {
   IChatRoom,
   ISendChatMessage,
@@ -34,56 +34,50 @@ import {
   useLazyGetAvailableTutorsQuery,
   useLazyGetProfileProgressQuery,
 } from '../../../services/tutorService';
-import  ISearchParams  from '../../../interfaces/IParams';
-import IParams from "../notifications/interfaces/IParams";
+import ISearchParams from '../../../interfaces/IParams';
+import IParams from '../notifications/interfaces/IParams';
 import {
   useLazyGetRequestsQuery,
   useLazyGetTodayScheduleQuery,
-  useLazyGetUpcomingQuery
-} from "../../../services/dashboardService";
+  useLazyGetUpcomingQuery,
+} from '../../../services/dashboardService';
 import {
   useAcceptBookingMutation,
-  useDeleteBookingMutation
-} from "../my-bookings/services/bookingService";
+  useDeleteBookingMutation,
+} from '../my-bookings/services/bookingService';
 import { UpcomingLessonItem } from './upcoming-lessons/UpcomingLessonItem';
-import logo from "../../../assets/images/teorem_logo_purple.png";
-import LoaderPrimary from "../../components/skeleton-loaders/LoaderPrimary";
-import {IChild} from "../../../interfaces/IChild";
-import ImageCircle from "../../components/ImageCircle";
-import AddChildSidebar from "../my-profile/components/AddChildSidebar";
+import logo from '../../../assets/images/teorem_logo_purple.png';
+import LoaderPrimary from '../../components/skeleton-loaders/LoaderPrimary';
+import { IChild } from '../../../interfaces/IChild';
+import ImageCircle from '../../components/ImageCircle';
+import AddChildSidebar from '../my-profile/components/AddChildSidebar';
 import {
-  OnboardingTutor
-} from "../onboarding/tutorOnboardingNew/OnboardingTutor";
+  OnboardingTutor,
+} from '../onboarding/tutorOnboardingNew/OnboardingTutor';
 import { Steps } from 'intro.js-react';
-import "intro.js/introjs.css";
+import 'intro.js/introjs.css';
 import { TutorTutorialModal } from '../../components/TutorTutorialModal';
 import {
-  HiLinkModalForTutorIntro
+  HiLinkModalForTutorIntro,
 } from '../my-profile/components/HiLinkModalForTutorIntro';
 import toastService from '../../services/toastService';
-import {
-  useLazyGetTutorTestingLinkQuery,
-} from '../../services/hiLinkService';
+import { useLazyGetTutorTestingLinkQuery } from '../../services/hiLinkService';
 import NotificationsSidebar from '../../components/NotificationsSidebar';
-import { IoNotifications, IoNotificationsOutline } from 'react-icons/io5';
+import { IoNotificationsOutline } from 'react-icons/io5';
 import {
-  RecommendedTutorCard
+  RecommendedTutorCard,
 } from './recommended-tutors/RecommendedTutorCard';
 import ITutorItem from '../../../interfaces/ITutorItem';
-import { SortDirection } from '../../lookups/sortDirection';
 import {
-  RecommendedTutorCardMobile
+  RecommendedTutorCardMobile,
 } from './recommended-tutors/RecommendedTutorCardMobile';
-import MediaQuery from 'react-responsive';
 import Select, { components, MenuProps } from 'react-select';
 import CustomCheckbox from '../../components/form/CustomCheckbox';
 import { Form, FormikProvider, useFormik } from 'formik';
 import MySelect, { OptionType } from '../../components/form/MySelectField';
 import { useLazyGetSubjectsQuery } from '../../../services/subjectService';
 import { useLazyGetLevelsQuery } from '../../../services/levelService';
-import { CgSpinner } from 'react-icons/cg';
-import { ClipLoader } from 'react-spinners';
-import upcomingLessons from '../my-bookings/components/UpcomingLessons';
+
 interface Values {
   subject: string;
   level: string;
@@ -333,12 +327,12 @@ const Dashboard = () => {
         const groupedRequestData: IGroupedDashboardData = groupBy(requests, (e) => moment(e.startTime).format(t('DATE_FORMAT')));
         setGroupedRequests(groupedRequestData);
 
-        // if(!showIntro){
-        //   setGroupedRequests(prevGroupedRequests => {
-        //     const { dateKey, ...restOfData } = prevGroupedRequests;
-        //     return restOfData;
-        //   });
-        // }
+        if(!showIntro){
+          setGroupedRequests(prevGroupedRequests => {
+            const { dateKey, ...restOfData } = prevGroupedRequests;
+            return restOfData;
+          });
+        }
 
         let children = [];if(userRole === RoleOptions.Parent && userId !== undefined) {
           children = await getChildren(userId).unwrap().then();
@@ -698,6 +692,14 @@ const Dashboard = () => {
     }
   };
 
+  useEffect(() => {
+    formik.setFieldValue('dayOfWeek', dayOfWeekArray);
+  }, [dayOfWeekArray]);
+
+  useEffect(() => {
+    formik.setFieldValue('timeOfDay', timeOfDayArray);
+  }, [timeOfDayArray]);
+
   const CustomMenu = (props: MenuProps) => {
     return (
       <components.Menu className="react-select--availability availability-filter-width" {...props}>
@@ -875,6 +877,50 @@ const Dashboard = () => {
   };
 
   const isMobile = window.innerWidth < 766;
+
+  function parseSearchParams() {
+    const queryStringParts = [];
+    if (paramsSearch.subject) {
+      queryStringParts.push(`subject=${paramsSearch.subject}`);
+    }
+
+    if (paramsSearch.level) {
+      queryStringParts.push(`level=${paramsSearch.level}`);
+    }
+
+    if (paramsSearch.dayOfWeek && paramsSearch.dayOfWeek?.length !=0) {
+      queryStringParts.push(`dayOfWeek=${paramsSearch.dayOfWeek.split(',')}`);
+    }
+
+    if (paramsSearch.timeOfDay && paramsSearch.timeOfDay?.length !=0) {
+      queryStringParts.push(`timeOfDay=${paramsSearch.timeOfDay.split(',')}`);
+    }
+
+    queryStringParts.push(`rpp=10`);
+    queryStringParts.push(`page=0`);
+    return  queryStringParts.join('&');
+  }
+
+  const handleMenuClose = () => {
+    const initialParamsObj: ISearchParams = { ...paramsSearch };
+    const paramsObj: ISearchParams = { ...paramsSearch };
+
+    if (formik.values.dayOfWeek.length !== 0) {
+      paramsObj.dayOfWeek = formik.values.dayOfWeek.toString();
+    } else {
+      delete paramsObj.dayOfWeek;
+    }
+    if (formik.values.timeOfDay.length !== 0) {
+      paramsObj.timeOfDay = formik.values.timeOfDay.toString();
+    } else {
+      delete paramsObj.timeOfDay;
+    }
+
+    if (!isEqual(initialParamsObj, paramsObj)) {
+      setParamsSearch(paramsObj);
+    }
+  };
+
   return (
       <>
         {modalActive &&
@@ -1359,7 +1405,7 @@ const Dashboard = () => {
                                         }}
                                         className=" react-select--search-tutor--menu"
                                         classNamePrefix="react-select--search-tutor"
-                                        // onMenuClose={handleMenuClose}
+                                        onMenuClose={handleMenuClose}
                                         isSearchable={false}
                                       ></Select>
                                     </Form>
@@ -1368,7 +1414,6 @@ const Dashboard = () => {
                                     {t('SEARCH_TUTORS.RESET_FILTER')}
                                   </button>
                                 </div>
-
                                       {isLoadingAvailableTutors || availableTutorsUninitialized  ? (
                                           <LoaderPrimary />
                                       ) : loadedTutorItems.length > 0 ? (
@@ -1383,8 +1428,9 @@ const Dashboard = () => {
                                             )}
                                           </div>
                                           <Link
-                                            to={PATHS.SEARCH_TUTORS}
-                                            className="type--center underline-hover field__w-fit-content">{t('DASHBOARD.BOOKINGS.SHOW_MORE')}
+                                            to={PATHS.SEARCH_TUTORS + '?' + parseSearchParams()}
+                                            className="type--center underline-hover field__w-fit-content">
+                                            {t('DASHBOARD.BOOKINGS.SHOW_MORE')}
                                           </Link>
                                         </>
                                       ) : (
@@ -1398,7 +1444,6 @@ const Dashboard = () => {
 
                                     </div></>
                                 ):
-
                                   <>
                                     {upcomingLoading ? (<LoaderPrimary/>) : (
                                       <>

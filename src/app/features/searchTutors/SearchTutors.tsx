@@ -212,7 +212,6 @@ const SearchTutors = () => {
 
   const fetchData = async () => {
     const urlQueries: IParams = getUrlParams(history.location.search.replace('?', ''));
-
     if (Object.keys(urlQueries).length > 0) {
       urlQueries.subject && await formik.setFieldValue('subject', urlQueries.subject) && setIsInitialSubject(true);
       urlQueries.level && await formik.setFieldValue('level', urlQueries.level);
@@ -226,7 +225,7 @@ const SearchTutors = () => {
         setPriceSortDirection(urlQueries.sort as SortDirection);
       }
 
-      const tutorResponse = await getAvailableTutors({ ...params }).unwrap();
+      const tutorResponse = await getAvailableTutors({ ...urlQueries }).unwrap();
       setLoadedTutorItems(tutorResponse.content);
     } else {
       const tutorResponse = await getAvailableTutors(params).unwrap();
@@ -430,7 +429,7 @@ const SearchTutors = () => {
                   }}
                   className=" react-select--search-tutor--menu"
                   classNamePrefix="react-select--search-tutor"
-                  // onMenuClose={handleMenuClose}
+                  onMenuClose={handleMenuClose}
                   isSearchable={false}
                 ></Select>
               </Form>
