@@ -51,6 +51,10 @@ import { Signup } from './features/register/sign_up_rework/tutor/Signup';
 import {
   SignupRoleSelect,
 } from './features/register/sign_up_rework/SignupRoleSelect';
+import {
+  RecommendedTutorCard
+} from './features/dashboard/recommended-tutors/RecommendedTutorCard';
+import ITutorItem from '../interfaces/ITutorItem';
 
 export const PATHS = {
   ROLE_SELECTION: t('PATHS.ROLE_SELECTION'),

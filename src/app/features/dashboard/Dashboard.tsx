@@ -1,5 +1,5 @@
 import { t } from 'i18next';
-import { groupBy } from 'lodash';
+import { groupBy, isEqual } from 'lodash';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -30,41 +30,245 @@ import LearnCubeModal from '../my-profile/components/LearnCubeModal';
 import NotificationItem from '../notifications/components/NotificationItem';
 import CircularProgress from '../my-profile/components/CircularProgress';
 import { setMyProfileProgress } from '../my-profile/slices/myProfileSlice';
-import { useLazyGetProfileProgressQuery } from '../../../services/tutorService';
-import IParams from "../notifications/interfaces/IParams";
+import {
+  useLazyGetAvailableTutorsQuery,
+  useLazyGetProfileProgressQuery,
+} from '../../../services/tutorService';
+import ISearchParams from '../../../interfaces/IParams';
+import IParams from '../notifications/interfaces/IParams';
 import {
   useLazyGetRequestsQuery,
   useLazyGetTodayScheduleQuery,
-  useLazyGetUpcomingQuery
-} from "../../../services/dashboardService";
+  useLazyGetUpcomingQuery,
+} from '../../../services/dashboardService';
 import {
   useAcceptBookingMutation,
-  useDeleteBookingMutation
-} from "../my-bookings/services/bookingService";
+  useDeleteBookingMutation,
+} from '../my-bookings/services/bookingService';
 import { UpcomingLessonItem } from './upcoming-lessons/UpcomingLessonItem';
-import AddChildModal from "../my-profile/pages/AddChildModal";
-import logo from "../../../assets/images/teorem_logo_purple.png";
-import LoaderPrimary from "../../components/skeleton-loaders/LoaderPrimary";
-import {IChild} from "../../../interfaces/IChild";
-import ImageCircle from "../../components/ImageCircle";
-import AddChildSidebar from "../my-profile/components/AddChildSidebar";
-import AvailabilityPage from "../onboarding/tutorOnboardingNew/AvailabilityPage";
-import SubjectsPage from "../onboarding/tutorOnboardingNew/SubjectsPage";
+import logo from '../../../assets/images/teorem_logo_purple.png';
+import LoaderPrimary from '../../components/skeleton-loaders/LoaderPrimary';
+import { IChild } from '../../../interfaces/IChild';
+import ImageCircle from '../../components/ImageCircle';
+import AddChildSidebar from '../my-profile/components/AddChildSidebar';
 import {
-  OnboardingTutor
-} from "../onboarding/tutorOnboardingNew/OnboardingTutor";
+  OnboardingTutor,
+} from '../onboarding/tutorOnboardingNew/OnboardingTutor';
+import { Steps } from 'intro.js-react';
+import 'intro.js/introjs.css';
+import { TutorTutorialModal } from '../../components/TutorTutorialModal';
+import {
+  HiLinkModalForTutorIntro,
+} from '../my-profile/components/HiLinkModalForTutorIntro';
+import toastService from '../../services/toastService';
+import { useLazyGetTutorTestingLinkQuery } from '../../services/hiLinkService';
+import NotificationsSidebar from '../../components/NotificationsSidebar';
+import { IoNotificationsOutline } from 'react-icons/io5';
+import {
+  RecommendedTutorCard,
+} from './recommended-tutors/RecommendedTutorCard';
+import ITutorItem from '../../../interfaces/ITutorItem';
+import {
+  RecommendedTutorCardMobile,
+} from './recommended-tutors/RecommendedTutorCardMobile';
+import Select, { components, MenuProps } from 'react-select';
+import CustomCheckbox from '../../components/form/CustomCheckbox';
+import { Form, FormikProvider, useFormik } from 'formik';
+import MySelect, { OptionType } from '../../components/form/MySelectField';
+import { useLazyGetSubjectsQuery } from '../../../services/subjectService';
+import { useLazyGetLevelsQuery } from '../../../services/levelService';
+
+interface Values {
+  subject: string;
+  level: string;
+  dayOfWeek: string[];
+  timeOfDay: string[];
+}
 
 interface IGroupedDashboardData {
     [date: string]: IBooking[];
 }
 
 const Dashboard = () => {
+    const mockRequest: IBooking ={
+      id:"mockRequest",
+      userFullName:'Ivan Horvat',
+      Tutor: {
+        userId: 'tutorid',
+        currentOccupation: 'ocupation',
+        yearsOfExperience: 'experience',
+        aboutTutor: 'about tutor',
+        aboutLessons: 'about lessons',
+        User: {
+          id:'userId',
+          roleId: 'roleid',
+          dateOfBirth: '1998-06-22',
+          phonePrefix: '385',
+          profileImage: 'profileImg',
+          childIds: [],
+          stripeCustomerId: 'stripecustid',
+          stripeAccountId: 'stripeaccid',
+          stripeConnected: true,
+          Country: {
+            currencyCode: 'currency code',
+            currencyName: 'currency name'
+          },
+          email:"stela.gasi8@gmail.com",
+          firstName:"Stela",
+          lastName:"Gasi",
+          countryId:"da98ad50-5138-4f0d-b297-62c5cb101247",
+          phoneNumber:"38598718823",
+          Role:{
+            name: 'name',
+            id: 'roleid',
+            abrv: "student"
+          },
+        },
+        TutorSubjects: [],
+        minimumPrice: 10,
+        maximumPrice: 15,
+        averageGrade: 5,
+        completedLessons: 1,
+        Bookings: [],
+        disabled: false,
+        slug: 'slug',
+      },
+      User:{
+        id:'userId',
+        roleId: 'roleid',
+        dateOfBirth: '1998-06-22',
+        phonePrefix: '385',
+        profileImage: 'profileImg',
+        childIds: [],
+        stripeCustomerId: 'stripecustid',
+        stripeAccountId: 'stripeaccid',
+        stripeConnected: true,
+        Country: {
+          currencyCode: 'currency code',
+          currencyName: 'currency name'
+        },
+        email:"stela.gasi8@gmail.com",
+        firstName:"Ivan",
+        lastName:"Horvat",
+        countryId:"da98ad50-5138-4f0d-b297-62c5cb101247",
+        phoneNumber:"38598718823",
+        Role:{
+          name: 'name',
+          id: 'roleid',
+          abrv: "student"
+        }
+      },
+      tutorId:"6ab33036-3204-4ab0-9a4b-a1016c77e63c",
+      studentId:"8eb6b506-5fea-4709-9fd3-79d27869ff96",
+      subjectId:"2da9dfdb-e9cc-479a-802d-fa2a9b906575",
+      levelId:"bb589332-eb38-4455-9259-1773bf88d60a",
+      startTime:moment().add(1, 'day').toISOString(),
+      endTime:moment().add(1, 'day').add(50, 'minutes').toISOString(),
+      isAccepted:false,
+      Level:{
+        id:"bb589332-eb38-4455-9259-1773bf88d60a",
+        abrv:"high-school",
+        name:"High School"
+      },
+      Subject:{
+        "id":"2da9dfdb-e9cc-479a-802d-fa2a9b906575",
+        "abrv":"maths",
+        "name":"Maths"
+      }
+    };
+    const mockSchedule: IBooking ={
+      id:"mockSchedule",
+      userFullName:'Ana Anić',
+      Tutor: {
+        userId: 'tutorid',
+        currentOccupation: 'ocupation',
+        yearsOfExperience: 'experience',
+        aboutTutor: 'about tutor',
+        aboutLessons: 'about lessons',
+        User: {
+          id:'userId',
+          roleId: 'roleid',
+          dateOfBirth: '1998-06-22',
+          phonePrefix: '385',
+          profileImage: 'profileImg',
+          childIds: [],
+          stripeCustomerId: 'stripecustid',
+          stripeAccountId: 'stripeaccid',
+          stripeConnected: true,
+          Country: {
+            currencyCode: 'currency code',
+            currencyName: 'currency name'
+          },
+          email:"stela.gasi8@gmail.com",
+          firstName:"Stela",
+          lastName:"Gasi",
+          countryId:"da98ad50-5138-4f0d-b297-62c5cb101247",
+          phoneNumber:"38598718823",
+          Role:{
+            name: 'name',
+            id: 'roleid',
+            abrv: "student"
+          },
+        },
+        TutorSubjects: [],
+        minimumPrice: 10,
+        maximumPrice: 15,
+        averageGrade: 5,
+        completedLessons: 1,
+        Bookings: [],
+        disabled: false,
+        slug: 'slug',
+      },
+      User:{
+        id:'userId',
+        roleId: 'roleid',
+        dateOfBirth: '1998-06-22',
+        phonePrefix: '385',
+        profileImage: 'profileImg',
+        childIds: [],
+        stripeCustomerId: 'stripecustid',
+        stripeAccountId: 'stripeaccid',
+        stripeConnected: true,
+        Country: {
+          currencyCode: 'currency code',
+          currencyName: 'currency name'
+        },
+        email:"stela.gasi8@gmail.com",
+        firstName:"Ana",
+        lastName:"Anić",
+        countryId:"da98ad50-5138-4f0d-b297-62c5cb101247",
+        phoneNumber:"38598718823",
+        Role:{
+          name: 'name',
+          id: 'roleid',
+          abrv: "student"
+        }
+      },
+      tutorId:"6ab33036-3204-4ab0-9a4b-a1016c77e63c",
+      studentId:"8eb6b506-5fea-4709-9fd3-79d27869ff96",
+      subjectId:"2da9dfdb-e9cc-479a-802d-fa2a9b906575",
+      levelId:"bb589332-eb38-4455-9259-1773bf88d60a",
+      startTime:moment().toISOString(),
+      endTime:moment().add(50, 'minutes').toISOString(),
+      isAccepted:true,
+      Level:{
+        id:"bb589332-eb38-4455-9259-1773bf88d60a",
+        abrv:"high-school",
+        name:"High School"
+      },
+      Subject:{
+        "id":"2da9dfdb-e9cc-479a-802d-fa2a9b906575",
+        "abrv":"maths",
+        "name":"Maths"
+      }
+    };
+
     const [getUnreadNotifications, { data: notificationsData }] = useLazyGetAllUnreadNotificationsQuery();
     const [markAllAsRead] = useMarkAllAsReadMutation();
     const [getUserById0, { data: userDataFirst }] = useLazyGetUserQuery();
     const [getUserById1, { data: userDataSecond }] = useLazyGetUserQuery();
     const [getProfileProgress, {isSuccess}] = useLazyGetProfileProgressQuery();
-    const [getUpcoming] = useLazyGetUpcomingQuery();
+    const [getUpcoming, {data: upcomingData, isLoading: upcomingLoading, isSuccess:upcomingSuccessful}] = useLazyGetUpcomingQuery();
     const [getTodaySchedule] = useLazyGetTodayScheduleQuery();
     const [getRequests] = useLazyGetRequestsQuery();
     const [acceptRequest] = useAcceptBookingMutation();
@@ -122,6 +326,14 @@ const Dashboard = () => {
         const requests = await getRequests().unwrap();
         const groupedRequestData: IGroupedDashboardData = groupBy(requests, (e) => moment(e.startTime).format(t('DATE_FORMAT')));
         setGroupedRequests(groupedRequestData);
+
+        if(!showIntro){
+          setGroupedRequests(prevGroupedRequests => {
+            const { dateKey, ...restOfData } = prevGroupedRequests;
+            return restOfData;
+          });
+        }
+
         let children = [];if(userRole === RoleOptions.Parent && userId !== undefined) {
           children = await getChildren(userId).unwrap().then();
         }
@@ -140,11 +352,19 @@ const Dashboard = () => {
     };
 
     const handleAccept = async (id: string) => {
+      if(id==='mockRequest'){
+        handleIntroAcceptBooking();
+        return;
+      }
       await acceptRequest(id);
       fetchData();
     };
 
     const handleDeny = async (id: string) => {
+      if(id==='mockRequest'){
+        handleIntroDenyBooking();
+        return;
+      }
       await denyRequest(id);
       fetchData();
     };
@@ -168,6 +388,10 @@ const Dashboard = () => {
     };
 
     const handleJoinBooking = (event: IBooking) => {
+      if(event.id === 'mockSchedule'){
+        setTutorHiLinkModalActive(true);
+        return;
+      }
         setCurrentlyActiveBooking(event.id);
         setLearnCubeModal(true);
     };
@@ -182,7 +406,7 @@ const Dashboard = () => {
     };
 
     useEffect(() => {
-      fetchData(); //TODO: IMPORTANT! uncomment this later, this gets dashboard data
+      fetchData();
 
       socket.on('showNotification', (notification: ISocketNotification) => {
         if (userId && notification.userId === userId) {
@@ -332,8 +556,397 @@ const Dashboard = () => {
       //setChildless(false);
     };
 
+    const steps = [
+      {
+        title: t('TUTOR_INTRO.DASHBOARD.STEP1.TITLE'),
+        intro: t('TUTOR_INTRO.DASHBOARD.STEP1.BODY'),
+        element: ".tutor-intro-1",
+      },
+      {
+        title: t('TUTOR_INTRO.DASHBOARD.STEP2.TITLE'),
+        intro: t('TUTOR_INTRO.DASHBOARD.STEP2.BODY'),
+        element: ".tutor-intro-4",
+      },
+    ];
+
+  const [getTestingRoomLink] = useLazyGetTutorTestingLinkQuery();
+  const [modalActive, setModalActive] = useState(false);
+  const [showTutorial, setShowTutorial] = useState(false);
+  const [tutorialRoomLink, setTutorialRoomLink] = useState('');
+  const [isStepsEnabled, setIsStepsEnabled] = useState(true);
+  const [showIntro, setShowIntro] = useState<string | null>('');
+  const [tutorHiLinkModalActive, setTutorHiLinkModalActive] = useState(false);
+  const [notificationSidebarOpen, setNotificationSidebarOpen] = useState(false);
+  const [paramsSearch, setParamsSearch] = useState<ISearchParams>({ rpp: 3, page: 0 });
+
+  useEffect(() => {
+    if(!localStorage.getItem('hideTutorIntro') && profileProgressState.percentage === 100){
+      setModalActive(true);
+    }
+  }, [profileProgressState.percentage]);
+
+  //always triggers, even on skip
+  const onExit = () => {
+    localStorage.setItem('hideTutorIntro', 'true');
+    setShowIntro(null);
+    setIsStepsEnabled(false);
+  };
+
+  //on finish
+  const onComplete = () => {
+    handleJoinBooking(mockSchedule);// automatically join meeting
+    setIsStepsEnabled(false);
+  };
+
+  const skipTutorial = () =>{
+    setShowTutorial(false);
+    setModalActive(false);
+    setShowIntro(null);
+    localStorage.setItem('hideTutorIntro', 'true');
+  };
+
+  const startTutorial = async () =>{
+    document.body.scrollTop = -document.body.scrollHeight;
+    getTestingRoomLink().unwrap().then((res:any)=> {
+      setTutorialRoomLink(res.meetingUrl);
+    });
+
+    const dateKey = moment(new Date()).add(1, 'day').format(t('DATE_FORMAT'));
+    const grupedData: IGroupedDashboardData = {
+      [dateKey]: [mockRequest]
+    };
+    setTodayScheduled([mockSchedule]);
+    setGroupedRequests(grupedData);
+
+    setShowTutorial(true);
+    setModalActive(false);
+  };
+
+  function handleClose() {
+    setTutorHiLinkModalActive(false);
+  }
+
+  function handleIntroAcceptBooking(){
+    toastService.success('Rezervacija prihvacena');
+    //TODO:
+    // remove booking from requests
+    // add booking to upcoming bookings
+    return;
+  }
+
+  function handleIntroDenyBooking(){
+    toastService.success('Rezervacija odbijena');
+    //TODO:
+    // remove booking from requests
+    return;
+  }
+
+  const [
+    getAvailableTutors,
+    {
+      data: availableTutors,
+      isLoading: isLoadingAvailableTutors,
+      isUninitialized: availableTutorsUninitialized,
+      isFetching: availableTutorsFetching,
+    },
+  ] = useLazyGetAvailableTutorsQuery();
+
+
+  const [loadedTutorItems, setLoadedTutorItems] = useState<ITutorItem[]>([]);
+
+  useEffect(() => {
+   if(userRole !== RoleOptions.Tutor && Object.keys(groupedUpcomming).length <= 0 ){
+     const params ={
+       ...paramsSearch
+     };
+
+     getAvailableTutors(params).unwrap().then((res)=>{
+       setLoadedTutorItems(res.content);
+     });
+   }
+  }, [paramsSearch]);
+
+  const [dayOfWeekArray, setDayOfWeekArray] = useState<string[]>([]);
+  const [timeOfDayArray, setTimeOfDayArray] = useState<string[]>([]);
+
+  const handleCustomDayOfWeek = (id: string) => {
+    const ifExist = dayOfWeekArray.find((item) => item === id);
+
+    if (ifExist) {
+      const filteredList = dayOfWeekArray.filter((item) => item !== id);
+      setDayOfWeekArray(filteredList);
+    } else {
+      setDayOfWeekArray([...dayOfWeekArray, id]);
+    }
+  };
+
+
+  const handleCustomTimeOfDay = (id: string) => {
+    const ifExist = timeOfDayArray.find((item) => item === id);
+
+    if (ifExist) {
+      const filteredList = timeOfDayArray.filter((item) => item !== id);
+      setTimeOfDayArray(filteredList);
+    } else {
+      setTimeOfDayArray([...timeOfDayArray, id]);
+    }
+  };
+
+  useEffect(() => {
+    formik.setFieldValue('dayOfWeek', dayOfWeekArray);
+  }, [dayOfWeekArray]);
+
+  useEffect(() => {
+    formik.setFieldValue('timeOfDay', timeOfDayArray);
+  }, [timeOfDayArray]);
+
+  const CustomMenu = (props: MenuProps) => {
     return (
+      <components.Menu className="react-select--availability availability-filter-width" {...props}>
+        <div className="align--center">
+          <div className="type--uppercase type--color--tertiary mb-4 ">{t('SEARCH_TUTORS.TUTOR_AVAILABLE')}</div>
+
+          <div className="availability-container-time">
+            <CustomCheckbox
+              id="beforeNoon"
+              customChecks={timeOfDayArray}
+              label={t('SEARCH_TUTORS.AVAILABILITY.TIME_OF_DAY.BEFORE_NOON')}
+              handleCustomCheck={handleCustomTimeOfDay}
+            />
+            <CustomCheckbox
+              customChecks={timeOfDayArray}
+              id="noonToFive"
+              label={t('SEARCH_TUTORS.AVAILABILITY.TIME_OF_DAY.NOON_TO_FIVE')}
+              handleCustomCheck={handleCustomTimeOfDay}
+            />
+            <CustomCheckbox
+              customChecks={timeOfDayArray}
+              id="afterFive"
+              label={t('SEARCH_TUTORS.AVAILABILITY.TIME_OF_DAY.AFTER_FIVE')}
+              handleCustomCheck={handleCustomTimeOfDay}
+            />
+          </div>
+          <div className="mt-6">
+            <div className="type--uppercase type--color--tertiary mb-4">{t('SEARCH_TUTORS.TUTOR_AVAILABLE')}</div>
+            <div className="availability-container">
+              <CustomCheckbox
+                id="mon"
+                customChecks={dayOfWeekArray}
+                label={t('SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.MON')}
+                handleCustomCheck={(id: string) => {
+                  handleCustomDayOfWeek(id);
+                }}
+              />
+              <CustomCheckbox
+                customChecks={dayOfWeekArray}
+                id="tue"
+                label={t('SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.TUE')}
+                handleCustomCheck={(id: string) => {
+                  handleCustomDayOfWeek(id);
+                }}
+              />
+              <CustomCheckbox
+                customChecks={dayOfWeekArray}
+                id="wed"
+                label={t('SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.WED')}
+                handleCustomCheck={(id: string) => {
+                  handleCustomDayOfWeek(id);
+                }}
+              />
+              <CustomCheckbox
+                customChecks={dayOfWeekArray}
+                id="thu"
+                label={t('SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.THU')}
+                handleCustomCheck={(id: string) => {
+                  handleCustomDayOfWeek(id);
+                }}
+              />
+              <CustomCheckbox
+                customChecks={dayOfWeekArray}
+                id="fri"
+                label={t('SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.FRI')}
+                handleCustomCheck={(id: string) => {
+                  handleCustomDayOfWeek(id);
+                }}
+              />
+              <CustomCheckbox
+                customChecks={dayOfWeekArray}
+                id="sat"
+                label={t('SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.SAT')}
+                handleCustomCheck={(id: string) => {
+                  handleCustomDayOfWeek(id);
+                }}
+              />
+              <CustomCheckbox
+                customChecks={dayOfWeekArray}
+                id="sun"
+                label={t('SEARCH_TUTORS.AVAILABILITY.DAY_OF_WEEK.SUN')}
+                handleCustomCheck={(id: string) => {
+                  handleCustomDayOfWeek(id);
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      </components.Menu>
+    );
+  };
+
+  const initialValues: Values = {
+    subject: '',
+    level: '',
+    dayOfWeek: [],
+    timeOfDay: [],
+  };
+
+  const formik = useFormik({
+    initialValues: initialValues,
+    onSubmit: () => {
+      //no submit
+    },
+  });
+
+  const [resetKey, setResetKey] = useState(false);
+  const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
+  const [levelOptions, setLevelOptions] = useState<OptionType[]>([]);
+  const [getSubjects, { data: subjects, isLoading: isLoadingSubjects }] = useLazyGetSubjectsQuery();
+  const [getLevels, { data: levels, isLoading: isLoadingLevels }] = useLazyGetLevelsQuery();
+  const resetFilterDisabled =
+    formik.values.level == '' && formik.values.subject == '' && formik.values.dayOfWeek.length == 0 && formik.values.timeOfDay.length == 0;
+
+  const levelDisabled = !levels || isLoadingLevels;
+
+  useEffect(() => {
+    getLevels();
+    getSubjects();
+  }, []);
+
+  useEffect(() => {
+    if(levels){
+      setLevelOptions(levels);
+    }
+  }, [levels]);
+
+  useEffect(() => {
+    if(subjects){
+      setSubjectOptions(subjects);
+    }
+  }, [subjects]);
+
+  useEffect(() => {
+    if (levels) {
+      setLevelOptions(levels);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (formik.values.subject) {
+      setParamsSearch({ ...paramsSearch, subject: formik.values.subject });
+    }
+  }, [formik.values.subject]);
+
+  useEffect(() => {
+    if (formik.values.level) {
+      setParamsSearch({ ...paramsSearch, level: formik.values.level });
+    }
+  }, [formik.values.level]);
+
+  useEffect(() => {
+    formik.setFieldValue('dayOfWeek', dayOfWeekArray);
+  }, [dayOfWeekArray]);
+
+  useEffect(() => {
+    formik.setFieldValue('timeOfDay', timeOfDayArray);
+  }, [timeOfDayArray]);
+
+
+  const handleResetFilter = () => {
+    //can't delete all params because reset button couldn't affect price sort
+    const paramsObj = { ...paramsSearch };
+    delete paramsObj.dayOfWeek;
+    delete paramsObj.level;
+    delete paramsObj.subject;
+    delete paramsObj.timeOfDay;
+    setParamsSearch(paramsObj);
+
+    setResetKey(prevKey => !prevKey); // this is used to reset select subject and select lvl components
+    setDayOfWeekArray([]);
+    setTimeOfDayArray([]);
+
+    formik.setValues(initialValues);
+  };
+
+  const isMobile = window.innerWidth < 766;
+
+  function parseSearchParams() {
+    const queryStringParts = [];
+    if (paramsSearch.subject) {
+      queryStringParts.push(`subject=${paramsSearch.subject}`);
+    }
+
+    if (paramsSearch.level) {
+      queryStringParts.push(`level=${paramsSearch.level}`);
+    }
+
+    if (paramsSearch.dayOfWeek && paramsSearch.dayOfWeek?.length !=0) {
+      queryStringParts.push(`dayOfWeek=${paramsSearch.dayOfWeek.split(',')}`);
+    }
+
+    if (paramsSearch.timeOfDay && paramsSearch.timeOfDay?.length !=0) {
+      queryStringParts.push(`timeOfDay=${paramsSearch.timeOfDay.split(',')}`);
+    }
+
+    queryStringParts.push(`rpp=10`);
+    queryStringParts.push(`page=0`);
+    return  queryStringParts.join('&');
+  }
+
+  const handleMenuClose = () => {
+    const initialParamsObj: ISearchParams = { ...paramsSearch };
+    const paramsObj: ISearchParams = { ...paramsSearch };
+
+    if (formik.values.dayOfWeek.length !== 0) {
+      paramsObj.dayOfWeek = formik.values.dayOfWeek.toString();
+    } else {
+      delete paramsObj.dayOfWeek;
+    }
+    if (formik.values.timeOfDay.length !== 0) {
+      paramsObj.timeOfDay = formik.values.timeOfDay.toString();
+    } else {
+      delete paramsObj.timeOfDay;
+    }
+
+    if (!isEqual(initialParamsObj, paramsObj)) {
+      setParamsSearch(paramsObj);
+    }
+  };
+
+  return (
       <>
+        {modalActive &&
+          userRole == RoleOptions.Tutor ?
+          <TutorTutorialModal skip={skipTutorial} start={startTutorial}/>
+        :
+          <></>
+        }
+
+        {showTutorial && groupedRequests && Object.keys(groupedRequests).length > 0 &&
+          <Steps
+               enabled={isStepsEnabled}
+               steps={steps}
+               initialStep={0}
+               onExit={onExit}
+               onBeforeExit={onExit}
+               options={{
+                 nextLabel: t('TUTOR_INTRO.BUTTON_NEXT'),
+                 prevLabel: t('TUTOR_INTRO.BUTTON_PREVIOUS'),
+                 doneLabel: t('TUTOR_INTRO.BUTTON_FINISH'),
+                 scrollTo: 'element'
+               }}
+               onComplete={onComplete}
+        />
+        }
+
         {userRole === RoleOptions.Tutor && profileProgressState.percentage !== 100 ? (
             <OnboardingTutor/>
           ) :
@@ -422,12 +1035,12 @@ const Dashboard = () => {
           ) : (<MainWrapper>
             <div className="layout--primary">
               <div>
-                {userRole === RoleOptions.Tutor && profileProgressState && !profileProgressState.verified ? (
-                  <div className="flex flex--col flex--jc--center mb-2 p-2" style={{ borderRadius: '0.5em', color: 'white', backgroundColor:'#7e6cf2'}}>
-                    <h4 className="type--md mb-2 ml-6 align-self-center">{t(`TUTOR_VERIFIED_NOTE.TITLE`)}</h4>
-                    <p className="ml-6 align-self-center">{t(`TUTOR_VERIFIED_NOTE.DESCRIPTION`)}</p>
-                  </div>
-                ) : null}
+                {/*{userRole === RoleOptions.Tutor && profileProgressState && !profileProgressState.verified ? (*/}
+                {/*  <div className="flex flex--col flex--jc--center mb-2 p-2" style={{ borderRadius: '0.5em', color: 'white', backgroundColor:'#7e6cf2'}}>*/}
+                {/*    <h4 className="type--md mb-2 ml-6 align-self-center">{t(`TUTOR_VERIFIED_NOTE.TITLE`)}</h4>*/}
+                {/*    <p className="ml-6 align-self-center">{t(`TUTOR_VERIFIED_NOTE.DESCRIPTION`)}</p>*/}
+                {/*  </div>*/}
+                {/*) : null}*/}
                 {userRole === RoleOptions.Parent && childrenData?.length === 0 ? (
                   <div>
                     <div className="flex flex--col flex--jc--center mb-2 p-2" style={{ borderRadius: '0.5em', color: 'white', background:'#7e6cf2'}}>
@@ -499,45 +1112,50 @@ const Dashboard = () => {
                             </div>
                         ) : null}
                     <div className="card--secondary card--secondary--alt">
-                        <div className="card--secondary__head">
+                        <div className={`card--secondary__head flex--jc--space-between`}>
                             <h2 className="type--wgt--bold type--lg">{t('DASHBOARD.TITLE')}</h2>
+                            {/*<button className={"btn btn--lg btn--primary"} onClick={startTutorial}>Click to start tutorial</button>*/}
+                            <IoNotificationsOutline className="cur--pointer primary-color scale-hover--scale-110" size={25} onClick={() => setNotificationSidebarOpen(true)}/>
                         </div>
                         <div className="card--secondary__body pl-3 pr-3">
                           {userRole === RoleOptions.Tutor ? (
-                            <div className="dashboard__requests">
+                            <div className="dashboard__requests tutor-intro-1">
                               <div className="type--color--tertiary mb-2">{t('DASHBOARD.REQUESTS.TITLE')}</div>
                               {groupedRequests && Object.keys(groupedRequests).length > 0 ? (
                                 Object.keys(groupedRequests).map((key: string) => {
                                   return (
-                                    <React.Fragment key={key}>
+                                    <React.Fragment key={key} >
                                       {groupedRequests[key].map((item: IBooking) => {
                                         return (
-                                          <div className="dashboard__requests__item" key={item.id}>
+
+                                          <div className="dashboard__requests__item " key={item.id}>
                                             <div>
                                               {item.User.firstName}&nbsp;{item.User.lastName}
                                             </div>
                                             <div>{t(`LEVELS.${item.Level.abrv.toLowerCase().replace("-", "")}`)}</div>
-                                            <div>
-                                              <span className="tag tag--primary">{t(`SUBJECTS.${item.Subject.abrv.replace('-', '')}`)}</span>
+                                            <div className={""}>
+                                              <span className=" tag tag--primary">{t(`SUBJECTS.${item.Subject.abrv.replace('-', '')}`)}</span>
                                             </div>
                                             <div>{key}</div>
                                             <div>
                                               {moment(item.startTime).format('HH:mm')} -{' '}
                                               {moment(item.endTime).add(1, 'minute').format('HH:mm')}
                                             </div>
-                                            <div
-                                              onClick={() => {
-                                                handleAccept(item.id);
-                                              }
-                                              }>
-                                              <i className="icon icon--base icon--check icon--primary"></i>
-                                            </div>
-                                            <div
-                                              onClick={() => {
-                                                handleDeny(item.id);
-                                              }
-                                              }>
-                                              <i className="icon icon--base icon--close-request icon--primary"></i>
+                                            <div className={"flex flex--row flex--jc--space-between mr-4"}>
+                                              <div
+                                                onClick={() => {
+                                                  handleAccept(item.id);
+                                                }
+                                                }>
+                                                <i className="icon icon--base icon--check icon--primary"></i>
+                                              </div>
+                                              <div
+                                                onClick={() => {
+                                                  handleDeny(item.id);
+                                                }
+                                                }>
+                                                <i className="icon icon--base icon--close-request icon--primary tutor-intro-3"></i>
+                                              </div>
                                             </div>
                                           </div>
                                         );
@@ -546,14 +1164,17 @@ const Dashboard = () => {
                                   );
                                 })
                               ) : (
-                                <div className="tutor-list__no-results mt-30">
-                                  <p className="dashboard__requests__title">{t('DASHBOARD.REQUESTS.EMPTY')}</p>
+                                <div className="tutor-list__no-results mt-20">
+                                  <h1 className="tutor-list__no-results__title">
+                                    <div>{t('DASHBOARD.REQUESTS.EMPTY')}</div>
+                                  </h1>
+                                  {/*<p className="dashboard__requests__title">{t('DASHBOARD.REQUESTS.EMPTY')}</p>*/}
                                 </div>
                               )}
                             </div>
                           ) : null}
                             <div className="row">
-                                <div className="col col-12 col-xl-5 ">
+                                <div className="col col-12 col-xl-5  tutor-intro-4">
                                     <div className="type--color--tertiary mb-2">{t('DASHBOARD.SCHEDULE.TITLE')}</div>
                                     {todayScheduled.length > 0 ? (
                                         <div className="card--dashboard card--dashboard--brand mb-xl-0 mb-8 h2 h--150">
@@ -599,8 +1220,9 @@ const Dashboard = () => {
                                                     </button>
                                                 ) : (
                                                     <button
+                                                        disabled
                                                         className="btn btn--base card--dashboard__btn"
-                                                        style={{ visibility: 'hidden' }}
+                                                        // style={{ visibility: 'hidden' }}
                                                     >
                                                       {t('DASHBOARD.SCHEDULE.BUTTON')}
                                                     </button>
@@ -637,7 +1259,7 @@ const Dashboard = () => {
                         <div className="type--color--tertiary mb-2">{t('DASHBOARD.MESSAGES.TITLE')}</div>
 
                         {unreadChatrooms[activeMsgIndex] != undefined ? (
-                          <div className="card--dashboard h--150">
+                          <div className="card--dashboard h--150 intro-2-dashboard">
                                             <div className="flex--primary mb-2 ">
                                                 <div>
                                                     {userRole === RoleOptions.Tutor ?
@@ -711,76 +1333,170 @@ const Dashboard = () => {
                                 </div>
                             </div>
                             <div className="dashboard__list">
-                              <div className="type--color--tertiary mb-2">{t('DASHBOARD.BOOKINGS.TITLE')}</div>
+
                               {groupedUpcomming && Object.keys(groupedUpcomming).length > 0 ? (
-                                    Object.keys(groupedUpcomming).map((key: string) => {
-                                        return (
-                                            <React.Fragment key={key}>
-                                                <div className="flex--primary">
-                                                    <div className="mb-4 mt-6 type--wgt--bold">{key}</div>
-                                                    <div className="type--color--secondary">
-                                                        {t('DASHBOARD.BOOKINGS.TOTAL')}: {groupedUpcomming[key].length}:00h
-                                                    </div>
+                                  Object.keys(groupedUpcomming).map((key: string) => {
+                                      return (
+                                          <React.Fragment key={key}>
+                                            <div className="type--color--tertiary mb-2">
+                                              {t('DASHBOARD.BOOKINGS.TITLE')}
+                                            </div>
+                                            <div className="flex--primary">
+                                                <div className="mb-4 mt-6 type--wgt--bold">{key}</div>
+                                                <div className="type--color--secondary">
+                                                    {t('DASHBOARD.BOOKINGS.TOTAL')}: {groupedUpcomming[key].length}:00h
                                                 </div>
-                                                {groupedUpcomming[key].map((item: IBooking) => {
-                                                    return (
+                                            </div>
+                                            {groupedUpcomming[key].map((item: IBooking) => {
+                                                return (
+                                                  <UpcomingLessonItem
+                                                    id={item.id}
+                                                    firstName={item.User.firstName}
+                                                    lastName={item.User.lastName}
+                                                    levelAbrv={item.Level.abrv}
+                                                    subjectAbrv={item.Subject.abrv}
+                                                    startTime={item.startTime}
+                                                    endTime={item.endTime}/>
+                                              );
+                                            })}
+                                          </React.Fragment>
+                                      );
+                                  })
+                              ) : (
+                                userRole !== RoleOptions.Tutor ? (
+                                   <>
+                                     <div className="type--color--tertiary mb-2">
+                                      {t('DASHBOARD.BOOKINGS.RECOMMENDED')}
+                                    </div>
+                                    <div className='filter flex flex--col flex--ai--center'>
 
-                                                      <UpcomingLessonItem
-                                                        id={item.id}
-                                                        firstName={item.User.firstName}
-                                                        lastName={item.User.lastName}
-                                                        levelAbrv={item.Level.abrv}
-                                                        subjectAbrv={item.Subject.abrv}
-                                                        startTime={item.startTime}
-                                                        endTime={item.endTime}
-                                  />
-                                );
-                              })}
-                            </React.Fragment>
-                          );
-                        })
-                      ) : (
-                        <div className="tutor-list__no-results mt-30">
-                          <h1 className="tutor-list__no-results__title">
-                            <div>{t('DASHBOARD.BOOKINGS.EMPTY')}</div>
-                          </h1>
-                          <p className="tutor-list__no-results__subtitle">{t('DASHBOARD.BOOKINGS.EMPTY_SUBTITLE')}</p>
-                        </div>
-                      )}
+
+                                <div className="flex flex--wrap flex--center">
+                                  <FormikProvider value={formik}>
+                                    <Form className="flex flex--wrap flex--jc--center filters-container" noValidate>
+                                      <MySelect
+                                        key={`level-select-${resetKey}`}
+                                        field={formik.getFieldProps('level')}
+                                        form={formik}
+                                        meta={formik.getFieldMeta('level')}
+                                        classNamePrefix="react-select--search-tutor"
+                                        isMulti={false}
+                                        options={levelOptions}
+                                        isDisabled={levelDisabled}
+                                        placeholder={t('SEARCH_TUTORS.PLACEHOLDER.LEVEL')}
+                                      ></MySelect>
+                                      <MySelect
+                                        key={`subject-select-${resetKey}`}
+                                        field={formik.getFieldProps('subject')}
+                                        form={formik}
+                                        meta={formik.getFieldMeta('subject')}
+                                        isMulti={false}
+                                        className=""
+                                        classNamePrefix="pos--r--0-mobile react-select--search-tutor"
+                                        options={subjectOptions}
+                                        isDisabled={levelDisabled || isLoadingSubjects}
+                                        noOptionsMessage={() => t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')}
+                                        placeholder={t('SEARCH_TUTORS.PLACEHOLDER.SUBJECT')}
+                                      ></MySelect>
+                                      <Select
+                                        placeholder={t('SEARCH_TUTORS.PLACEHOLDER.AVAILABILITY')}
+                                        components={{
+                                          Menu: CustomMenu,
+                                        }}
+                                        className=" react-select--search-tutor--menu"
+                                        classNamePrefix="react-select--search-tutor"
+                                        onMenuClose={handleMenuClose}
+                                        isSearchable={false}
+                                      ></Select>
+                                    </Form>
+                                  </FormikProvider>
+                                  <button className="btn btn--clear align--center mt-2" onClick={handleResetFilter} disabled={resetFilterDisabled}>
+                                    {t('SEARCH_TUTORS.RESET_FILTER')}
+                                  </button>
+                                </div>
+                                      {isLoadingAvailableTutors || availableTutorsUninitialized  ? (
+                                          <LoaderPrimary />
+                                      ) : loadedTutorItems.length > 0 ? (
+                                        <>
+                                          <div className="flex flex--row w--100 flex--wrap flex--gap-20 flex--jc--center field__w-fit-content align--center p-4 overflow--y--scroll pb-10">
+                                            {loadedTutorItems.map((tutor) =>
+                                              isMobile ? (
+                                                <RecommendedTutorCardMobile className="p-4 h--350" key={tutor.id} tutor={tutor} />
+                                              ) : (
+                                                <RecommendedTutorCard className="p-4 h--350" key={tutor.id} tutor={tutor} />
+                                              )
+                                            )}
+                                          </div>
+                                          <Link
+                                            to={PATHS.SEARCH_TUTORS + '?' + parseSearchParams()}
+                                            className="type--center underline-hover field__w-fit-content">
+                                            {t('DASHBOARD.BOOKINGS.SHOW_MORE')}
+                                          </Link>
+                                        </>
+                                      ) : (
+                                        <div className="tutor-list__no-results mt-30">
+                                          <h1 className="tutor-list__no-results__title">
+                                            <p>{t('SEARCH_TUTORS.NO_RESULT.TITLE')}</p>
+                                          </h1>
+                                          <p className="tutor-list__no-results__subtitle">{t('SEARCH_TUTORS.NO_RESULT.DESC')}</p>
+                                        </div>
+                                      )}
+
+                                    </div></>
+                                ):
+                                  <>
+                                    {upcomingLoading ? (<LoaderPrimary/>) : (
+                                      <>
+                                      <div className="type--color--tertiary mb-2">
+                                        {t('DASHBOARD.BOOKINGS.TITLE')}
+                                      </div>
+                                      <div className="tutor-list__no-results mt-30">
+                                        <h1 className="tutor-list__no-results__title">
+                                          <p>{t('DASHBOARD.BOOKINGS.EMPTY')}</p>
+                                        </h1>
+                                        <p className="tutor-list__no-results__subtitle">
+                                          {t('DASHBOARD.BOOKINGS.EMPTY_SUBTITLE')}
+                                        </p>
+                                      </div>
+                                    </>)}
+                                  </>
+                            )}
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="notification-container">
-                <div className="flex--primary mb-2 mr-2">
-                  <div className="type--color--tertiary">{t('DASHBOARD.NOTIFICATIONS.TITLE')}</div>
-                  {notificationsData?.content && notificationsData.content.length > 0 && (
-                    <div className="type--color--brand type--wgt--bold cur--pointer" onClick={() => markAllAsRead()}>
-                      {t('DASHBOARD.NOTIFICATIONS.CLEAR')}
-                    </div>
-                  )}
-                </div>
-                <div className="mr-2">
-                  {notificationsData?.content && notificationsData.content.find((x) => x.read === false) ? (
-                    notificationsData.content.map((notification: INotification) => {
-                      if (!notification.read) {
-                        return <NotificationItem key={notification.id} notificationData={notification}/>;
-                      }
-                    })
-                  ) : (
-                    <div className="card--primary card--primary--shadow">{t('DASHBOARD.NOTIFICATIONS.EMPTY')}</div>
-                  )}
-                  <div className="type--center mt-4">
-                    <Link to={t(PATHS.NOTIFICATIONS)} className="btn btn--clear">
-                      {t('DASHBOARD.NOTIFICATIONS.ALL')}
-                    </Link>
-                  </div>
-                </div>
 
-                {learnCubeModal && <LearnCubeModal bookingId={currentlyActiveBooking} handleClose={() => {
-                      setLearnCubeModal(false);
-                    }} />}
-              </div>
+              {learnCubeModal && <LearnCubeModal bookingId={currentlyActiveBooking} handleClose={() => {
+                setLearnCubeModal(false);
+              }} />}
+              {tutorHiLinkModalActive && <HiLinkModalForTutorIntro roomLink={tutorialRoomLink} handleClose={handleClose}/>}
+
+              <NotificationsSidebar sideBarIsOpen={notificationSidebarOpen} title={"Notifications"} closeSidebar={()=> setNotificationSidebarOpen(false)} >
+                  <div className="flex--primary mb-2 mr-2">
+                    <div className="type--color--tertiary">{t('DASHBOARD.NOTIFICATIONS.TITLE')}</div>
+                    {notificationsData?.content && notificationsData.content.length > 0 && (
+                      <div className="type--color--brand type--wgt--bold cur--pointer" onClick={() => markAllAsRead()}>
+                        {t('DASHBOARD.NOTIFICATIONS.CLEAR')}
+                      </div>
+                    )}
+                  </div>
+                  <div className="mr-2">
+                    {notificationsData?.content && notificationsData.content.find((x) => x.read === false) ? (
+                      notificationsData.content.map((notification: INotification) => {
+                        if (!notification.read) {
+                          return <NotificationItem key={notification.id} notificationData={notification}/>;
+                        }
+                      })
+                    ) : (
+                      <div className="card--primary card--primary--shadow">{t('DASHBOARD.NOTIFICATIONS.EMPTY')}</div>
+                    )}
+                    <div className="type--center mt-4">
+                      <Link to={t(PATHS.NOTIFICATIONS)} className="btn btn--clear">
+                        {t('DASHBOARD.NOTIFICATIONS.ALL')}
+                      </Link>
+                    </div>
+                  </div>
+              </NotificationsSidebar>
             </div>
           </MainWrapper>)}
             </>)}
