@@ -1316,7 +1316,7 @@ export const EN_US = {
         },
         STEP2: {
           TITLE: 'Joining classes',
-          BODY:'You\'ll be able to start your lessons directly from your "Today\'s Schedule" (you can also join through your calendar). '
+          BODY:'You\'ll be able to start your lessons directly from your "Today\'s Schedule" (you can also join through your calendar). After clicking \'Finish\' test meeting will automatically start!'
         }
       },
       BUTTON_NEXT:'Next',

@@ -1321,7 +1321,7 @@ export const HR_HR = {
         },
         STEP2: {
           TITLE: 'Pridruživanje instrukcijama',
-          BODY:'Instrukcijama se možete pridružiti izravno iz kartice "Današnji raspored" (također se možete pridružiti putem svog kalendara)'
+          BODY:'Instrukcijama se možete pridružiti izravno iz kartice "Današnji raspored" (također se možete pridružiti putem svog kalendara). Nakon što kliknete \'Završi\', automatski će se pokrenuti testni sastanak gdje možete isprobati ploču!'
         },
       },
       BUTTON_NEXT:'Sljedeći',
