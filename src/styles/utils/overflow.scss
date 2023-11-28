@@ -6,4 +6,10 @@
     &--auto {
         overflow: auto;
     }
+
+    &--y{
+       &--scroll{
+        overflow-y: scroll;
+       }
+    }
 }

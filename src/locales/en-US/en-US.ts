@@ -172,6 +172,7 @@ export const EN_US = {
         YEARS_OF_EXPERIENCE: 'Years of experience: ',
         NUMBER_OF_REVIEWS: 'reviews',
         NO_REVIEWS: 'No reviews yet',
+        NO_COMPLETED_LESSONS: 'No completed lessons yet',
         TUTOR_PROFILE: {
             ABOUT_ME: 'About me',
             ABOUT_TEACHINGS: 'About subjects',
@@ -744,6 +745,8 @@ export const EN_US = {
             TOTAL: 'Total',
             EMPTY: 'No bookings',
             EMPTY_SUBTITLE: 'Hmm, looks like there are no bookings yet.',
+            RECOMMENDED: 'RECOMMENDED TUTORS',
+            SHOW_MORE: 'Show more'
         },
         NOTIFICATIONS: {
             TITLE: 'NOTIFICATIONS',
@@ -1293,11 +1296,33 @@ export const EN_US = {
         WELCOME: 'WELCOME',
         DESCRIPTION: 'DESCRIPTION',
     },
-
     BOOKING:{
         SUCCESS: 'Booking successful!',
       FAILURE: 'Booking was not successful!',
         TOAST_CANT_BOOK: 'You can\'t book a lesson at selected time!',
       CANT_BOOK_MESSAGE: 'Please book at least 3 hours in advance',
-    }
+    },
+    TUTOR_INTRO:{
+      MODAL:{
+        TITLE: 'Do you want to go through the tutorial?',
+        BODY: 'The tutorial will briefly introduce you to the basic functionalities of Teorem',
+        BUTTON_SKIP: 'Skip',
+        BUTTON_START:'Start'
+      },
+      DASHBOARD:{
+        STEP1: {
+          TITLE: 'Booking requests',
+          BODY:'Here you can see and manage your booking requests.'
+        },
+        STEP2: {
+          TITLE: 'Joining classes',
+          BODY:'You\'ll be able to start your lessons directly from your "Today\'s Schedule" (you can also join through your calendar). After clicking \'Finish\' test meeting will automatically start!'
+        }
+      },
+      BUTTON_NEXT:'Next',
+      BUTTON_PREVIOUS:'Previous',
+      BUTTON_FINISH:'Finish',
+      BUTTON_RESTART:'Restart tutorial'
+  }
+
 };

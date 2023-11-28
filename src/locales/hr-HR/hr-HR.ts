@@ -162,6 +162,7 @@ export const HR_HR = {
         TUTOR_AVAILABLE: 'Dostupni instruktori',
         COMPLETED_LESSONS: 'završenih lekcija',
         NO_REVIEWS: 'Još nema recenzija',
+        NO_COMPLETED_LESSONS: 'Još nema završenih lekcija',
         SUBJECT_LIST: {
             MORE: 'više',
         },
@@ -741,8 +742,10 @@ export const HR_HR = {
         BOOKINGS: {
           TITLE: 'NADOLAZEĆI TERMINI',
           TOTAL: 'Ukupno',
-            EMPTY: 'Nema zakazanih termina',
-            EMPTY_SUBTITLE: 'Hmm, izgleda da za sada nemate zakazanih termina.',
+          EMPTY: 'Nema zakazanih termina',
+          EMPTY_SUBTITLE: 'Hmm, izgleda da za sada nemate zakazanih termina.',
+          RECOMMENDED: 'PREPORUČENI INSTRUKTORI',
+          SHOW_MORE: 'Prikaži više'
         },
         NOTIFICATIONS: {
             TITLE: 'OBAVIJESTI',
@@ -1298,11 +1301,32 @@ export const HR_HR = {
         WELCOME: 'WELCOME',
         DESCRIPTION: 'DESCRIPTION',
     },
-
     BOOKING:{
         SUCCESS: 'Rezervacija uspješna!',
       FAILURE: 'Rezervacija neuspješna!',
         TOAST_CANT_BOOK: 'Ne možete rezervirati lekciju u odabrano vrijeme!',
         CANT_BOOK_MESSAGE: 'Molimo rezervirajte minimalno 3 sata unaprijed'
+    },
+    TUTOR_INTRO:{
+      MODAL:{
+        TITLE: 'Želite li proći tutorijal?',
+        BODY: 'Tutorijal će vas ukratko upoznati s osnovnim funkcionalnostima Teorema',
+        BUTTON_SKIP: 'Preskoči',
+        BUTTON_START:'Pokreni'
+      },
+      DASHBOARD:{
+        STEP1: {
+          TITLE: 'Zahtjevi za predavanja',
+          BODY:'Ovdje možete vidjeti i upravljati svojim zahtjevima za instrukcije.'
+        },
+        STEP2: {
+          TITLE: 'Pridruživanje instrukcijama',
+          BODY:'Instrukcijama se možete pridružiti izravno iz kartice "Današnji raspored" (također se možete pridružiti putem svog kalendara). Nakon što kliknete \'Završi\', automatski će se pokrenuti testni sastanak gdje možete isprobati ploču!'
+        },
+      },
+      BUTTON_NEXT:'Sljedeći',
+      BUTTON_PREVIOUS:'Prethodni',
+      BUTTON_FINISH:'Završi',
+      BUTTON_RESTART:'Pokreni tutorijal'
     }
 };

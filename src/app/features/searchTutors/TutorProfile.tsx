@@ -548,7 +548,6 @@ const TutorProfile = () => {
                             {tutorStatistics &&
                               <StarRating mark={tutorStatistics.statistic} size={isMobile ? 'small' : 'medium'}/>
                             }
-
                             <div className="type--color--secondary">
                               ({myReviews?.count})
                             </div>

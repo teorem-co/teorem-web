@@ -66,7 +66,7 @@ const SearchTutors = () => {
   const cardRef = useRef<HTMLDivElement>(null);
   const cardElement = cardRef.current as HTMLDivElement;
   const levelDisabled = !levels || isLoadingLevels;
-  const isLoading = isLoadingAvailableTutors || availableTutorsUninitialized || availableTutorsFetching;
+  const isLoading = isLoadingAvailableTutors || availableTutorsFetching; //|| availableTutorsUninitialized || availableTutorsFetching;
   const initialValues: Values = {
     subject: '',
     level: '',
@@ -211,9 +211,7 @@ const SearchTutors = () => {
   };
 
   const fetchData = async () => {
-
     const urlQueries: IParams = getUrlParams(history.location.search.replace('?', ''));
-
     if (Object.keys(urlQueries).length > 0) {
       urlQueries.subject && await formik.setFieldValue('subject', urlQueries.subject) && setIsInitialSubject(true);
       urlQueries.level && await formik.setFieldValue('level', urlQueries.level);
@@ -226,6 +224,9 @@ const SearchTutors = () => {
       if (urlQueries.sort) {
         setPriceSortDirection(urlQueries.sort as SortDirection);
       }
+
+      const tutorResponse = await getAvailableTutors({ ...urlQueries }).unwrap();
+      setLoadedTutorItems(tutorResponse.content);
     } else {
       const tutorResponse = await getAvailableTutors(params).unwrap();
       setLoadedTutorItems(tutorResponse.content);
@@ -266,7 +267,6 @@ const SearchTutors = () => {
   };
 
   const handleScroll = async (e: HTMLDivElement) => {
-console.log("sad");
     if (availableTutors && loadedTutorItems.length != availableTutors.totalElements) {
       const innerHeight = e.scrollHeight;
       const scrollPosition = e.scrollTop + e.clientHeight;
@@ -393,12 +393,6 @@ console.log("sad");
   return (
     <MainWrapper>
       <div onScroll={(e) => debouncedScrollHandler(e.target)} className="card--secondary" ref={cardRef}>
-        {/* <button
-                    className="btn btn--base btn--success"
-                    onClick={() => toastService.notification('Robert Nash wants to book A level Mathematics @ 13:00, 13/sept/2022.')}
-                >
-                    Click me
-                </button> */}
         <div className="card--secondary__head card--secondary__head--search-tutor">
           <div className="type--lg type--wgt--bold mb-4 mb-xl-0">{t('SEARCH_TUTORS.TITLE')}</div>
           <div className="flex flex--wrap flex--center">
@@ -435,7 +429,7 @@ console.log("sad");
                   }}
                   className=" react-select--search-tutor--menu"
                   classNamePrefix="react-select--search-tutor"
-                  // onMenuClose={handleMenuClose}
+                  onMenuClose={handleMenuClose}
                   isSearchable={false}
                 ></Select>
               </Form>
@@ -467,13 +461,20 @@ console.log("sad");
 
               )
             ) : (
-              <div className="tutor-list__no-results">
-                <h1 className="tutor-list__no-results__title">{t('SEARCH_TUTORS.NO_RESULT.TITLE')}</h1>
-                <p className="tutor-list__no-results__subtitle">{t('SEARCH_TUTORS.NO_RESULT.DESC')}</p>
-                <button className="btn btn--clear ml-6 type--wgt--bold" onClick={handleResetFilter} disabled={resetFilterDisabled}>
-                  {t('SEARCH_TUTORS.RESET_FILTER')}
-                </button>
-              </div>
+              isLoading ?
+                <>
+                  <LoaderTutor/>
+                  <LoaderTutor/>
+                  <LoaderTutor/>
+                </>
+                :
+                <div className="tutor-list__no-results">
+                  <h1 className="tutor-list__no-results__title">{t('SEARCH_TUTORS.NO_RESULT.TITLE')}</h1>
+                  <p className="tutor-list__no-results__subtitle">{t('SEARCH_TUTORS.NO_RESULT.DESC')}</p>
+                  <button className="btn btn--clear ml-6 type--wgt--bold" onClick={handleResetFilter} disabled={resetFilterDisabled}>
+                    {t('SEARCH_TUTORS.RESET_FILTER')}
+                  </button>
+                </div>
             )}
           </div>
         </div>
