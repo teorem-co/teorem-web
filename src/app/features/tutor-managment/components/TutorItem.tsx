@@ -80,7 +80,7 @@ const TutorItem: FC<Props> = (props: Props) => {
                                 <span className="d--ib ml-4">
                                     ${tutor.minimumPrice}
                                     &nbsp;-&nbsp;$
-                                    {tutor.maximumPrice}&nbsp;/hr
+                                    {tutor.maximumPrice}&nbsp;/h
                                 </span>
                             ) : (
                                 <span className="d--ib ml-4">{t('SEARCH_TUTORS.TUTOR_PROFILE.NO_PRICE')}</span>
