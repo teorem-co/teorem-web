@@ -12,8 +12,13 @@ export const levels:ILevel[] = [
     name: "High School"
   },
   {
-    id: "86211553-d94f-47b7-990b-67587f8c91bc",
-    abrv:"university",
-    name: "Iniversity"
-  }
+    id: "76a23a36-e937-476a-a70c-a22680da17ea",
+    abrv: "matura-prep",
+    name: "Matura Prep"
+  },
+  // {
+  //   id: "86211553-d94f-47b7-990b-67587f8c91bc",
+  //   abrv:"university",
+  //   name: "University"
+  // }
 ];
