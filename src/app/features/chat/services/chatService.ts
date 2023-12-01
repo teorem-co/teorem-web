@@ -55,7 +55,7 @@ export const chatService = baseService.injectEndpoints({
         }),
         getChildBookingTutors: builder.query<IChatRoom[], void>({
             query: () => ({
-                url: `${URL}/get-child-tutors`,
+                url: `${URL}/get-child-tutors?rpp=10&page=0&limitMessages=10`,
                 method: HttpMethods.GET,
             }),
         }),
