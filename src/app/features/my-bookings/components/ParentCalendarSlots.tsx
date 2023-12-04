@@ -8,7 +8,10 @@ import * as Yup from 'yup';
 import {
    useGetTutorSubjectLevelPairsQuery,
 } from '../../../../services/subjectService';
-import { useLazyGetChildQuery } from '../../../../services/userService';
+import {
+  useLazyGetChildQuery,
+  useLazyGetUserQuery
+} from '../../../../services/userService';
 import { RoleOptions } from '../../../../slices/roleSlice';
 import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import MyTimePicker from '../../../components/form/MyTimePicker';
@@ -74,7 +77,8 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
 
   const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
   const userId = useAppSelector((state) => state.auth.user?.id);
-  const stripeCustomerId = useAppSelector((state) => state.auth.user?.stripeCustomerId);
+  const [stripeId, setStripeId] = useState("");
+  //let stripeCustomerId = useAppSelector((state) => state.auth.user?.stripeCustomerId);
 
   const [stripe, setStripe] = useState<any>(null);
   const [bookingSuccess, setBookingSuccess] = useState(false);
@@ -96,12 +100,14 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     return validationSchema;
   };
 
+  const [getUser2, {data: user}] = useLazyGetUserQuery();
+
   // let isCreateBookingSuccess = false;
 
   const handleSubmit = async (values: any) => {
     setIsCreateBookingLoading(true);
     //if user didn't added credit card before adding a booking, show the message and redirect button
-    if (stripeCustomerId) {
+    if (stripeId) {
       //if user has stripe account but don't have default payment method
       const res = await getUser(userId!).unwrap();
       const defaultSource = res.paymentMethods[0];
@@ -247,7 +253,14 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     if (userRole === RoleOptions.Parent && userId) {
       getChildOptions(userId);
     }
+    getUser2(userId!).unwrap();
   }, []);
+
+  useEffect(()=> {
+    if(user != undefined) {
+      setStripeId(user?.stripeCustomerId);
+    }
+  }, [user]);
 
   useEffect(() => {
     formik.setFieldValue('timeFrom', moment(start).format('HH:mm'));
