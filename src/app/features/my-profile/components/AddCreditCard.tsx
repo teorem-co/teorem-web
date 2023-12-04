@@ -76,8 +76,9 @@ const AddCreditCard = (props: Props) => {
 
 
   useEffect(() => {
-    if(stripeCustomer)
+    if(stripeCustomer) {
       dispatch(addStripeId(stripeCustomer.id));
+    }
   }, [stripeCustomer]);
   const {t} = useTranslation();
 
