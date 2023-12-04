@@ -62,10 +62,8 @@ const AddCreditCard = (props: Props) => {
       },
     }).then((result) => {
       if(result.error){
-        console.log("error");
         handleError(result.error);
       }else{
-        console.log("getting stripe cust");
         const progress = state;
         progress.payment = true;
         dispatch(setMyProfileProgress(progress));
@@ -79,9 +77,7 @@ const AddCreditCard = (props: Props) => {
 
   useEffect(() => {
     if(stripeCustomer) {
-      console.log(stripeCustomer);
       dispatch(addStripeId(stripeCustomer.id));
-      console.log("stripe customer");
     }
   }, [stripeCustomer]);
   const {t} = useTranslation();

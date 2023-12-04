@@ -492,6 +492,7 @@ export const EN_US = {
             TIME: 'Time* (Session length is 50min)',
             TIME_PLACEHOLDER: 'Time',
             SUBMIT: 'Book and Pay',
+            ADD_CARD: 'Add card',
             UPDATE: 'Update booking',
             CANCEL: 'Cancel',
             TUTOR_DISABLED: 'Currently unavailable'

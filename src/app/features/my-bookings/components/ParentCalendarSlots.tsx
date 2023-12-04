@@ -30,6 +30,8 @@ import {
 import { loadStripe } from '@stripe/stripe-js';
 import { Tooltip } from 'react-tooltip';
 import { isMobileDevice } from 'react-select/dist/declarations/src/utils';
+import { addStripeId } from '../../../../slices/authSlice';
+import { useDispatch } from 'react-redux';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY!);
 
@@ -56,7 +58,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
   const { topOffset, start, end, handleClose, positionClass, setSidebarOpen, tutorDisabled } = props;
 
   const tutorId = props.tutorId;
-
+  const dispatch = useDispatch();
   const { data: subjectLevelPairs, isSuccess: isSuccessSubjectsLevelPairs } = useGetTutorSubjectLevelPairsQuery(tutorId);
   const [tutorLevelOptions, setTutorLevelOptions] = useState<OptionType[]>();
   const [tutorSubjectOptions, setTutorSubjectOptions] = useState<OptionType[]>();
@@ -78,7 +80,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
   const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
   const userId = useAppSelector((state) => state.auth.user?.id);
   const [stripeId, setStripeId] = useState("");
-  //let stripeCustomerId = useAppSelector((state) => state.auth.user?.stripeCustomerId);
+  const stripeCustomerId = useAppSelector((state) => state.auth.user?.stripeCustomerId);
 
   const [stripe, setStripe] = useState<any>(null);
   const [bookingSuccess, setBookingSuccess] = useState(false);
@@ -259,6 +261,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
   useEffect(()=> {
     if(user != undefined) {
       setStripeId(user?.stripeCustomerId);
+      dispatch(addStripeId(user.stripeCustomerId));
     }
   }, [user]);
 
@@ -397,7 +400,8 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
             disabled={tutorDisabled}
             className="btn btn--base btn--primary type--wgt--extra-bold mb-1"
             onClick={() => handleSubmitForm()}>
-            {tutorDisabled? t('BOOK.FORM.TUTOR_DISABLED') : t('BOOK.FORM.SUBMIT') }
+            {tutorDisabled? t('BOOK.FORM.TUTOR_DISABLED') :
+              stripeCustomerId ? t('BOOK.FORM.SUBMIT') : t('BOOK.FORM.ADD_CARD') }
           </button>
           <button
             className="btn btn--base type--wtg--extra-bold btn--clear"
