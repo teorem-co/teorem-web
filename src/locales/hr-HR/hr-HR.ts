@@ -491,6 +491,7 @@ export const HR_HR = {
             TIME: 'Vrijeme* (Lekcije traju 50min)',
             TIME_PLACEHOLDER: 'Vrijeme',
             SUBMIT: 'Rezerviraj i Plati',
+            ADD_CARD: 'Dodaj karticu',
             UPDATE: 'Ažuriraj rezervaciju',
             CANCEL: 'Otkaži',
             TUTOR_DISABLED: 'Privremeno nedostupno'
