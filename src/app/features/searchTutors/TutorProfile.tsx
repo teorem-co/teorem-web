@@ -257,7 +257,7 @@ const TutorProfile = () => {
                                 <span className="d--ib">
                                   {tutorData.averageGrade && (tutorData.averageGrade > 0) ?
                                     tutorData.averageGrade ? tutorData.averageGrade.toFixed(1) : 0
-                                      + `(${tutorData.numberOfReviews} ${t('TUTOR_PROFILE.REVIEWS')} )`
+                                      + `(${tutorData.numberOfGrades} ${t('TUTOR_PROFILE.REVIEWS')} )`
                                     :
                                     t('SEARCH_TUTORS.NO_REVIEWS')
                                   }
@@ -436,9 +436,9 @@ const TutorProfile = () => {
                               <div className="flex flex--center tag tag--primary">
                                 <i className="icon icon--star icon--base icon--primary"></i>
                                 <span className="d--ib">
-                                  {tutorData.averageGrade && myReviews?.count && tutorData.numberOfReviews && (tutorData.averageGrade > 0) ?
+                                  {tutorData.averageGrade && myReviews?.count && tutorData.numberOfGrades && (tutorData.averageGrade > 0) ?
                                     tutorData.averageGrade ? tutorData.averageGrade.toFixed(1) : 0
-                                    + `(${tutorData.numberOfReviews} ${t('TUTOR_PROFILE.REVIEWS')} )`
+                                    + `(${tutorData.numberOfGrades} ${t('TUTOR_PROFILE.REVIEWS')} )`
                                     :
                                     t('SEARCH_TUTORS.NO_REVIEWS')
                                   }

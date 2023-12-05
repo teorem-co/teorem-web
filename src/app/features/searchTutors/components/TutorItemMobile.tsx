@@ -46,13 +46,13 @@ export const TutorItemMobile = (props: Props) => {
 
           <div className="flex flex--row flex--ai--center flex--jc--space-between font__11">
             <span className="d--b">{tutor.completedLessons} {t('SEARCH_TUTORS.COMPLETED_LESSONS')}</span>
-            {tutor.numberOfReviews > 0 ?
+            {tutor.numberOfGrades > 0 ?
               <div className="flex flex--col">
                <div className="rating flex flex--row flex--ai--center">
                  <AiFillStar color={"#7e6cf2"} size={15}/>
                  <span>{tutor.averageGrade}</span>
                </div>
-               <span className="d--b">{tutor.numberOfReviews} {t('SEARCH_TUTORS.NUMBER_OF_REVIEWS')}</span>
+               <span className="d--b">{tutor.numberOfGrades} {t('SEARCH_TUTORS.NUMBER_OF_REVIEWS')}</span>
               </div>
              :
               <span><i>{t('SEARCH_TUTORS.NO_REVIEWS')}</i></span>

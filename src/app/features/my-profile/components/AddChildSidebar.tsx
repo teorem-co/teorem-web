@@ -197,6 +197,12 @@ const AddChildSidebar = (props: Props) => {
               const finalValid = isValid || checkCurrent ? true : false;
 
               return !finalValid;
+            }else if(!childData){
+              const isValid = await checkUsername({
+                username: value,
+              }).unwrap();
+
+              return !isValid;
             }
             return true;
           }
