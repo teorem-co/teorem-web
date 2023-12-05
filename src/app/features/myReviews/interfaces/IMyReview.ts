@@ -19,6 +19,7 @@ interface IMyReview {
     userId: string;
     User: IUser;
     userName: string;
+    role: string;
 }
 
 export default IMyReview;

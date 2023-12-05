@@ -16,20 +16,6 @@ interface Props {
 const ReviewItem: FC<Props> = (props: Props) => {
     const { reviewItem } = props;
 
-    const [getUser] = useLazyGetUserQuery();
-    const [userRole, setUserRole] = useState<string>('');
-
-    const getUserRole = async (id: any) => {
-        const userResponse = await (await getUser(id).unwrap()).Role.abrv;
-
-        // setUserRole( userResponse.charAt(0).toUpperCase() + userResponse.slice(1) );
-        setUserRole(t('ROLES.' + userResponse));
-    };
-
-    useEffect(()=>{
-        getUserRole(reviewItem.userId);
-    }, []);
-
     const isMobile = window.innerWidth < 565;
 
     return (
@@ -41,7 +27,7 @@ const ReviewItem: FC<Props> = (props: Props) => {
                       <StarRating mark={reviewItem.mark} size={isMobile ? 'small' : 'medium'}/>
                       <div className="tag--primary">{t(`SUBJECTS.${reviewItem.Subject.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}</div>
                     </div>
-                    <p className="type--color--brand-light type--sm">{userRole}</p>
+                    <p className="type--color--brand-light type--sm">{t('ROLES.' + reviewItem.role)}</p>
                 </div>
 
                 <div className="">
