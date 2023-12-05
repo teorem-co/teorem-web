@@ -74,7 +74,7 @@ const TutorItem: FC<Props> = (props: Props) => {
                                       {tutor.maxPrice} {tutor.currencyCode}
                                     </>
                                   )}
-                                  &nbsp;/hr
+                                  &nbsp;/h
                                 </span>
                             ) : (
                                 <span className="d--ib ml-4">{t('SEARCH_TUTORS.TUTOR_PROFILE.NO_PRICE')}</span>

@@ -19,7 +19,7 @@ export const HR_HR = {
     },
     EMAIL_CONFIRMATION_POPUP: {
         WELCOME: 'Dobrodošli na Teorem!',
-        DESCRIPTION: 'Molimo Vas potvrdite Vašu e-mail adresu klikom na link koji smo Vam poslali.',
+        DESCRIPTION: 'Molimo provjerite svoj sandučiċ i potvrdite Vašu e-mail adresu klikom na link koji smo Vam poslali.',
         EXPIRATION: 'Ponovno pošalji email za potvrdu',
         CONFIRM_BUTTON: 'U redu',
     },
@@ -55,8 +55,11 @@ export const HR_HR = {
         TIP_2:'Najučinkovitiji profili sadrže 100+ riječi u rubirkama <u><i>više o meni</i></u> i <u><i>više o mojim predavanjima</i></u>.',
       },
       TOOLTIPS: {
-        AVAILABILITY: "Svoju dostupnost možete izmijeniti u bilo kojem trenutku.",
-        SUBJECTS: "Kasnije možete dodati ili obrisati predmete u postavkama Vašeg profila."
+        AVAILABILITY_1: "Odaberite kada ste dostupni za instrukcije, po dijelovima dana u tjednu.",
+        AVAILABILITY_2: "Svoju dostupnost možete kasnije izmijeniti u bilo kojem trenutku.",
+        SUBJECTS: "Kasnije možete dodati ili obrisati predmete u postavkama Vašeg profila.",
+        SUBJECTS_TIP_1: "Dodajte predmete koje želite podučavati i odredite svoju cijenu.",
+        SUBJECTS_TIP_2: "Imajte na umu da Teorem uzima proviziju od 12%.",
       },
       IMAGE_TIPS: {
         TITLE: 'Naputci za fotografiju',
@@ -79,16 +82,16 @@ export const HR_HR = {
         MAX_LIMIT: 'Maksimalni broj slova je',
         MIN_LIMIT: 'Minimalni broj riječi je',
         TOO_BIG: 'Broj je prevelik',
-        REQUIRED: 'Ovo polje je neophodno',
-        LOWERCASE: 'Sadržavati barem jedno malo slovo (a-z)',
-        UPPERCASE: 'Sadržavati barem jedno veliko slovo (A-Z)',
-        NUMBER: 'Sadržavati barem jednu brojku (0-9)',
-        MIN_CHARACTERS: 'Sadržavati najmanje 8 znakova',
-        SPECIAL_CHAR: 'Sadržavati barem jedan poseban znak (@, $, !, %, *, ?, &...)',
-        PASSWORD_MUST: 'Lozinka mora',
+        REQUIRED: 'Neophodno polje',
+        LOWERCASE: 'Jedno malo slovo (a-z)',
+        UPPERCASE: 'Jedno veliko slovo (A-Z)',
+        NUMBER: 'Jednu brojku (0-9)',
+        MIN_CHARACTERS: '8 znakova',
+        SPECIAL_CHAR: 'Jedan poseban znak (@, $, !, %, *, ?, &...)',
+        PASSWORD_MUST: 'Lozinka mora sadržavati barem',
         PASSWORD_MATCH: 'Lozinke se moraju poklapati',
         PASSWORD_STRENGTH: 'Lozinka mora ispunjavati uvjete',
-        PRICE: 'Cijena ne može biti ispod ',
+        PRICE: 'Minimalno ',
         FUTURE_DATE: 'Datum ne može biti u budućnosti',
         VALID_DATE: "Datum je nevažeći",
         PHONE_NUMBER: 'Neispravan broj telefona',
@@ -109,7 +112,10 @@ export const HR_HR = {
         CHILDLESS_CALENDAR_2: 'postavkama profila',
         INVALID_IBAN: 'Neispravan IBAN',
         IBAN_WHITESPACES: 'IBAN ne smije sadržavati prazne znakove',
-        IBAN_MATCH: 'IBANi se moraju podudarati'
+        IBAN_MATCH: 'IBANi se moraju podudarati',
+        MIN_50_WORDS: 'Najmanje 50 riječi',
+        MAX_2500_CHARS: 'Najviše 2500 znakova',
+        MAX_75_CHARS: 'Najviše 75 znakova'
     },
     NAVIGATION: {
         MY_BOOKINGS: 'Kalendar',
@@ -156,6 +162,7 @@ export const HR_HR = {
         TUTOR_AVAILABLE: 'Dostupni instruktori',
         COMPLETED_LESSONS: 'završenih lekcija',
         NO_REVIEWS: 'Još nema recenzija',
+        NO_COMPLETED_LESSONS: 'Još nema završenih lekcija',
         SUBJECT_LIST: {
             MORE: 'više',
         },
@@ -178,7 +185,8 @@ export const HR_HR = {
             FORM: {
                 ABOUT_TUTOR_LABEL: 'Recite nam više o sebi*',
                 ABOUT_TUTOR_PLACEHOLDER: 'Što Vas najbolje opisuje, koji su Vaši hobiji, pristup...',
-                ABOUT_TUTOR_TOOLTIP: 'Detaljno opišite sebe, svoje interese, iskustvo i hobije. Minimalno 50 riječi.',
+                ABOUT_TUTOR_REQUEST: 'Najmanje 50 riječi',
+                ABOUT_TUTOR_TOOLTIP: 'Detaljno opišite sebe, svoje interese, iskustvo i hobije.',
                 TOOLTIP_EFFECTIVE: 'Najučinkovitiji profili sadrže 100+ riječi u ovoj rubrici.',
                 ABOUT_LESSONS_LABEL: 'Recite nam više o Vašim predavanjima*',
                 ABOUT_LESSONS_PLACEHOLDER: 'Opišite Vaša predavanja, pristup učenju...',
@@ -383,7 +391,7 @@ export const HR_HR = {
                   FINAL: '<span class=primary-color>dobrodošli</span> na Teorem!'
               },
             BECOME_A_TUTOR: 'Postanite instruktor',
-            CONFIRM_EMAIL: 'Molimo potvrdite svoju e-mail adresu klikom na verifikacijski link koji smo vam poslali',
+            CONFIRM_EMAIL: 'Molimo provjerite svoj sandučiċ i potvrdite Vašu e-mail adresu klikom na link koji smo Vam poslali.',
             RESEND: 'Ponovno pošalji link'
         },
         CARD_DETAILS: {
@@ -483,6 +491,7 @@ export const HR_HR = {
             TIME: 'Vrijeme* (Lekcije traju 50min)',
             TIME_PLACEHOLDER: 'Vrijeme',
             SUBMIT: 'Rezerviraj i Plati',
+            ADD_CARD: 'Dodaj karticu',
             UPDATE: 'Ažuriraj rezervaciju',
             CANCEL: 'Otkaži',
             TUTOR_DISABLED: 'Privremeno nedostupno'
@@ -627,8 +636,8 @@ export const HR_HR = {
       ABOUT_ME: {
             OCCUPATION: 'Vaše trenutno zanimanje*',
             OCCUPATION_PLACEHOLDER: 'Unesite Vaše trenutno zanimanje',
-            YEARS: 'Broj godina profesionalnog iskustva',
-            YEARS_PLACEHOLDER: 'Koliko godina profesionalnog iskustva imate',
+            YEARS: 'Broj godina iskustva u podučavanju',
+            YEARS_PLACEHOLDER: 'Koliko godina iskustva u podučavanju imate',
             ABOUT_YOURSELF: 'Recite nam više o sebi*',
             ABOUT_LESSON: 'Recite nam više o Vašem načinu predavanja*',
         },
@@ -644,7 +653,7 @@ export const HR_HR = {
             SUBJECT: 'Odaberite predmet koji predajete',
             LEVEL: 'Odaberite razine koje predajete',
             PRICING: 'Cijena ',
-            PRICING_PLACEHOLDER: '',
+            PRICING_PLACEHOLDER: '10',
             HOUR_ABRV: 'h',
             SAVE: 'Spremi podatke',
             DELETE: 'Izbriši',
@@ -668,13 +677,16 @@ export const HR_HR = {
             COUNTRY: 'Država*',
             BIRTHDAY: 'Datum rođenja*',
             IBAN: 'IBAN',
-            COMPANY_NAME: 'Ime tvrtke*',
+            IBAN_PLACEHOLDER: 'Unesite svoj IBAN',
+            COMPANY_NAME: 'Ime tvrtke',
             COMPANY_NAME_PLACEHOLDER: 'Unesite ime tvrtke',
-            COMPANY_OIB: 'OIB tvrtke*',
+            COMPANY_OIB: 'OIB tvrtke',
             COMPANY_OIB_PLACEHOLDER: 'Unesite OIB tvrtke',
-          IBAN_PLACEHOLDER: 'Unesite svoj IBAN',
             IMAGE: 'Profilna slika*',
-            UPLOAD_IMAGE: 'Povucite i ispustite za učitavanje',
+            UPLOAD_IMAGE: 'Kliknite ili povucite i ispustite za učitavanje',
+            CHOOSE_FILE: 'Odaberite datoteku',
+            ADDRESS_PERSONAL_PLACEHOLDER: 'Unesite Vašu adresu',
+            ADDRESS_BUSINESS_PLACEHOLDER: 'Unesite adresu Vaše tvrtke'
         },
         PROFILE_ACCOUNT: {
             STRIPE: 'Idi na Stripe',
@@ -731,8 +743,10 @@ export const HR_HR = {
         BOOKINGS: {
           TITLE: 'NADOLAZEĆI TERMINI',
           TOTAL: 'Ukupno',
-            EMPTY: 'Nema zakazanih termina',
-            EMPTY_SUBTITLE: 'Hmm, izgleda da za sada nemate zakazanih termina.',
+          EMPTY: 'Nema zakazanih termina',
+          EMPTY_SUBTITLE: 'Hmm, izgleda da za sada nemate zakazanih termina.',
+          RECOMMENDED: 'PREPORUČENI INSTRUKTORI',
+          SHOW_MORE: 'Prikaži više'
         },
         NOTIFICATIONS: {
             TITLE: 'OBAVIJESTI',
@@ -1102,7 +1116,7 @@ export const HR_HR = {
         IBAN_CONFIRM: "IBAN",
         SAVE: "Spremi",
         CANCEL: "Odustani",
-        TERMS: '<div>Klikom na gumb slažete se s <a href="https://stripe.com/legal/connect-account" target="_blank">Uvjetima pružanja usluge</a> i <a href="https://stripe.com/privacy" target="_blank">Politikom privatnosti</a></div>',
+        TERMS: '<div>Klikom na gumb slažete se s <a href="https://stripe.com/legal/connect-account" target="_blank">Uvjetima pružanja usluge</a>.</div>',
 
       SUCCESS: 'Račun za plaćanje povezan',
     },
@@ -1289,11 +1303,32 @@ export const HR_HR = {
         WELCOME: 'WELCOME',
         DESCRIPTION: 'DESCRIPTION',
     },
-
     BOOKING:{
         SUCCESS: 'Rezervacija uspješna!',
       FAILURE: 'Rezervacija neuspješna!',
         TOAST_CANT_BOOK: 'Ne možete rezervirati lekciju u odabrano vrijeme!',
         CANT_BOOK_MESSAGE: 'Molimo rezervirajte minimalno 3 sata unaprijed'
+    },
+    TUTOR_INTRO:{
+      MODAL:{
+        TITLE: 'Želite li proći tutorijal?',
+        BODY: 'Tutorijal će vas ukratko upoznati s osnovnim funkcionalnostima Teorema',
+        BUTTON_SKIP: 'Preskoči',
+        BUTTON_START:'Pokreni'
+      },
+      DASHBOARD:{
+        STEP1: {
+          TITLE: 'Zahtjevi za predavanja',
+          BODY:'Ovdje možete vidjeti i upravljati svojim zahtjevima za instrukcije.'
+        },
+        STEP2: {
+          TITLE: 'Pridruživanje instrukcijama',
+          BODY:'Instrukcijama se možete pridružiti izravno iz kartice "Današnji raspored" (također se možete pridružiti putem svog kalendara). Nakon što kliknete \'Završi\', automatski će se pokrenuti testni sastanak gdje možete isprobati ploču!'
+        },
+      },
+      BUTTON_NEXT:'Sljedeći',
+      BUTTON_PREVIOUS:'Prethodni',
+      BUTTON_FINISH:'Završi',
+      BUTTON_RESTART:'Pokreni tutorijal'
     }
 };

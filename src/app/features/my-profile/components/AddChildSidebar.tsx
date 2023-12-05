@@ -18,7 +18,7 @@ import {
   useUpdateChildMutation,
 } from '../../../../services/userService';
 import MyDatePicker from '../../../components/form/MyDatePicker';
-import TextField from '../../../components/form/TextField';
+import MyTextField from '../../../components/form/MyTextField';
 import { useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import TooltipPassword from '../../register/TooltipPassword';
@@ -197,6 +197,12 @@ const AddChildSidebar = (props: Props) => {
               const finalValid = isValid || checkCurrent ? true : false;
 
               return !finalValid;
+            }else if(!childData){
+              const isValid = await checkUsername({
+                username: value,
+              }).unwrap();
+
+              return !isValid;
             }
             return true;
           }
@@ -264,7 +270,7 @@ const AddChildSidebar = (props: Props) => {
                 <label htmlFor="firstName" className="field__label">
                   {t('MY_PROFILE.CHILD.FIRST_NAME')}*
                 </label>
-                <TextField
+                <MyTextField
                   name="firstName"
                   id="firstName"
                   placeholder={t('MY_PROFILE.CHILD.FIRST_NAME_PLACEHOLDER')}
@@ -279,14 +285,14 @@ const AddChildSidebar = (props: Props) => {
                   <label htmlFor="lastName" className="field__label">
                     {t('MY_PROFILE.CHILD.LAST_NAME')}*
                   </label>
-                  <TextField name="lastName" id="lastName" placeholder={t('MY_PROFILE.CHILD.LAST_NAME_PLACEHOLDER')} />
+                  <MyTextField name="lastName" id="lastName" placeholder={t('MY_PROFILE.CHILD.LAST_NAME_PLACEHOLDER')} />
                 </div>
               )}
               <div className="field">
                 <label htmlFor="username" className="field__label">
                   {t('MY_PROFILE.CHILD.USERNAME')}*
                 </label>
-                <TextField name="username" id="username" placeholder={t('MY_PROFILE.CHILD.USERNAME_PLACEHOLDER')} />
+                <MyTextField name="username" id="username" placeholder={t('MY_PROFILE.CHILD.USERNAME_PLACEHOLDER')} />
               </div>
               <div className="field">
                 <label className="field__label" htmlFor="dateOfBirth">
@@ -300,7 +306,7 @@ const AddChildSidebar = (props: Props) => {
                 </label>
                 {childData && <p className="mb-2 type--color--tertiary">{t('MY_PROFILE.CHILD.PASSWORD_OPTIONAL')}</p>}
 
-                <TextField
+                <MyTextField
                   name="password"
                   id="password"
                   placeholder={t('MY_PROFILE.CHILD.PASSWORD_PLACEHOLDER')}

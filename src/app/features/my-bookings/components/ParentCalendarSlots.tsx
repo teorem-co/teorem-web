@@ -8,11 +8,14 @@ import * as Yup from 'yup';
 import {
    useGetTutorSubjectLevelPairsQuery,
 } from '../../../../services/subjectService';
-import { useLazyGetChildQuery } from '../../../../services/userService';
+import {
+  useLazyGetChildQuery,
+  useLazyGetUserQuery
+} from '../../../../services/userService';
 import { RoleOptions } from '../../../../slices/roleSlice';
 import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import MyTimePicker from '../../../components/form/MyTimePicker';
-import TextField from '../../../components/form/TextField';
+import MyTextField from '../../../components/form/MyTextField';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
 import { useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
@@ -27,6 +30,8 @@ import {
 import { loadStripe } from '@stripe/stripe-js';
 import { Tooltip } from 'react-tooltip';
 import { isMobileDevice } from 'react-select/dist/declarations/src/utils';
+import { addStripeId } from '../../../../slices/authSlice';
+import { useDispatch } from 'react-redux';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY!);
 
@@ -53,7 +58,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
   const { topOffset, start, end, handleClose, positionClass, setSidebarOpen, tutorDisabled } = props;
 
   const tutorId = props.tutorId;
-
+  const dispatch = useDispatch();
   const { data: subjectLevelPairs, isSuccess: isSuccessSubjectsLevelPairs } = useGetTutorSubjectLevelPairsQuery(tutorId);
   const [tutorLevelOptions, setTutorLevelOptions] = useState<OptionType[]>();
   const [tutorSubjectOptions, setTutorSubjectOptions] = useState<OptionType[]>();
@@ -74,6 +79,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
 
   const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
   const userId = useAppSelector((state) => state.auth.user?.id);
+  const [stripeId, setStripeId] = useState("");
   const stripeCustomerId = useAppSelector((state) => state.auth.user?.stripeCustomerId);
 
   const [stripe, setStripe] = useState<any>(null);
@@ -96,12 +102,14 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     return validationSchema;
   };
 
+  const [getUser2, {data: user}] = useLazyGetUserQuery();
+
   // let isCreateBookingSuccess = false;
 
   const handleSubmit = async (values: any) => {
     setIsCreateBookingLoading(true);
     //if user didn't added credit card before adding a booking, show the message and redirect button
-    if (stripeCustomerId) {
+    if (stripeId) {
       //if user has stripe account but don't have default payment method
       const res = await getUser(userId!).unwrap();
       const defaultSource = res.paymentMethods[0];
@@ -247,7 +255,15 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     if (userRole === RoleOptions.Parent && userId) {
       getChildOptions(userId);
     }
+    getUser2(userId!).unwrap();
   }, []);
+
+  useEffect(()=> {
+    if(user != undefined) {
+      setStripeId(user?.stripeCustomerId);
+      dispatch(addStripeId(user.stripeCustomerId));
+    }
+  }, [user]);
 
   useEffect(() => {
     formik.setFieldValue('timeFrom', moment(start).format('HH:mm'));
@@ -354,7 +370,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                   />
                 </div>
                 <div className="field w--100">
-                  <TextField
+                  <MyTextField
                     // isDisabled={levelDisabled}
                     placeholder={t('BOOK.FORM.TIME_PLACEHOLDER')}
                     name="time"
@@ -384,7 +400,8 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
             disabled={tutorDisabled}
             className="btn btn--base btn--primary type--wgt--extra-bold mb-1"
             onClick={() => handleSubmitForm()}>
-            {tutorDisabled? t('BOOK.FORM.TUTOR_DISABLED') : t('BOOK.FORM.SUBMIT') }
+            {tutorDisabled? t('BOOK.FORM.TUTOR_DISABLED') :
+              stripeCustomerId ? t('BOOK.FORM.SUBMIT') : t('BOOK.FORM.ADD_CARD') }
           </button>
           <button
             className="btn btn--base type--wtg--extra-bold btn--clear"

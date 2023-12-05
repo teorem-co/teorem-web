@@ -61,7 +61,6 @@
         @media (max-width: $responsive-sm) {
           width: 100vw;
           height: 100dvh;
-          //left: 0;
           right: unset;
         }
 
@@ -74,4 +73,28 @@
             border-top: 1px solid $grey-f5;
         }
     }
+}
+
+.notification-sidebar{
+  width: 500px;
+  background-color: $white;
+  position: fixed;
+  top: 0;
+  right: 0;
+  padding: calc($unit * 4) calc($unit * 4);
+  z-index: 100;
+
+  @media (max-width: $responsive-sm) {
+    width: 100vw;
+    height: 100dvh;
+  }
+
+  &--close {
+    right: -500px;
+  }
+
+  &__bottom {
+    border-radius: $border-rounded;
+    border-top: 1px solid $grey-f5;
+  }
 }

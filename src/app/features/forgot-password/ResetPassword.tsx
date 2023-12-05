@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 
 import heroImg from '../../../assets/images/hero-img.png';
 import { useChangePasswordMutation } from '../../../services/authService';
-import TextField from '../../components/form/TextField';
+import MyTextField from '../../components/form/MyTextField';
 import { PATHS } from '../../routes';
 import toastService from '../../services/toastService';
 import getUrlParams from '../../utils/getUrlParams';
@@ -163,7 +163,7 @@ const ResetPassword = () => {
                                     <label htmlFor="password" className="field__label">
                                         {t('RESET_PASSWORD.FORM.PASSWORD')}
                                     </label>
-                                    <TextField
+                                    <MyTextField
                                         name="password"
                                         id="password"
                                         placeholder="Type your password"
@@ -182,7 +182,7 @@ const ResetPassword = () => {
                                     <label htmlFor="repeatPassword" className="field__label">
                                         {t('RESET_PASSWORD.FORM.REPEAT_PASSWORD')}
                                     </label>
-                                    <TextField
+                                    <MyTextField
                                         name="repeatPassword"
                                         id="repeatPassword"
                                         placeholder="Repeat password"

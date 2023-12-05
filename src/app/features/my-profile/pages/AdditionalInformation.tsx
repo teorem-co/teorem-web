@@ -9,7 +9,7 @@ import {
   useUpdateAditionalInfoMutation,
 } from '../../../../services/tutorService';
 import MyTextArea from '../../../components/form/MyTextArea';
-import TextField from '../../../components/form/TextField';
+import MyTextField from '../../../components/form/MyTextField';
 import MainWrapper from '../../../components/MainWrapper';
 import RouterPrompt from '../../../components/RouterPrompt';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
@@ -178,7 +178,7 @@ const AdditionalInformation = () => {
                                                 <label className="field__label" htmlFor="currentOccupation">
                                                     {t('MY_PROFILE.ABOUT_ME.OCCUPATION')}
                                                 </label>
-                                                <TextField
+                                                <MyTextField
                                                     maxLength={50}
                                                     id="currentOccupation"
                                                     wrapperClassName="flex--grow"
@@ -194,7 +194,7 @@ const AdditionalInformation = () => {
                                                 <label className="field__label" htmlFor="yearsOfExperience">
                                                     {t('MY_PROFILE.ABOUT_ME.YEARS')}
                                                 </label>
-                                                <TextField
+                                                <MyTextField
                                                     id="yearsOfExperience"
                                                     wrapperClassName="flex--grow"
                                                     name="yearsOfExperience"

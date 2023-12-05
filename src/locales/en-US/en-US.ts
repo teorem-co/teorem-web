@@ -19,7 +19,7 @@ export const EN_US = {
     },
     EMAIL_CONFIRMATION_POPUP: {
         WELCOME: 'Welcome to Teorem',
-        DESCRIPTION: 'Please confirm your e-mail address by clicking the link we sent you.',
+        DESCRIPTION: 'Please check your email and confirm your e-mail address by clicking the link we sent you.',
         EXPIRATION: 'Resend confirmation e-mail.',
         CONFIRM_BUTTON: 'Got it',
     },
@@ -55,8 +55,11 @@ export const EN_US = {
         TIP_2:'The most effective profiles contain 100+ words in the rubrics <u><i>more about me</i></u> and <u><i>more about my lectures</i></u>.',
       },
       TOOLTIPS: {
-        AVAILABILITY: "You can change your availability at any time.",
-        SUBJECTS: "You can later add or delete subjects in Your profile settings."
+        AVAILABILITY_1: "Select when you're available for tutoring, based on times of day in the week.",
+        AVAILABILITY_2: "You can change your availability later at any time.",
+        SUBJECTS: "You can later add or delete subjects in Your profile settings.",
+        SUBJECTS_TIP_1: "Add the subjects you want to tutor in and define your price.",
+        SUBJECTS_TIP_2: "Keep in mind that Teorem charges a 12% commission.",
       },
       IMAGE_TIPS: {
         TITLE: 'Tips for image:',
@@ -79,7 +82,7 @@ export const EN_US = {
         MAX_LIMIT: 'Max number of characters is',
         MIN_LIMIT: 'Min number of words is',
         TOO_BIG: 'Number is too big',
-        REQUIRED: 'This field is required',
+        REQUIRED: 'Required',
         LOWERCASE: 'Include at least one lowercase letter (a-z)',
         UPPERCASE: 'Include at least one uppercase letter (A-Z)',
         NUMBER: 'Include at least one number (0-9)',
@@ -88,7 +91,7 @@ export const EN_US = {
         PASSWORD_MUST: 'Password must',
         PASSWORD_MATCH: 'Passwords must match',
         PASSWORD_STRENGTH: 'Password must meet the conditions',
-        PRICE: 'Price can`t be lower than ',
+        PRICE: 'Minimum ',
         FUTURE_DATE: 'Date can`t be in the future',
         VALID_DATE: 'Date is invalid',
         PHONE_NUMBER: 'Invalid phone number',
@@ -109,8 +112,10 @@ export const EN_US = {
         CHILDLESS_CALENDAR_2: 'profile settings',
         INVALID_IBAN: 'Invalid IBAN',
         IBAN_WHITESPACES: 'IBAN must not contain whitespaces',
-        IBAN_MATCH: 'IBANs must match'
-
+        IBAN_MATCH: 'IBANs must match',
+        MIN_50_WORDS: 'Use at least 50 words',
+        MAX_2500_CHARS: 'Maximum is 2500 characters',
+        MAX_75_CHARS: 'Maximum is 75 characters'
     },
     NAVIGATION: {
         MY_BOOKINGS: 'Calendar',
@@ -167,6 +172,7 @@ export const EN_US = {
         YEARS_OF_EXPERIENCE: 'Years of experience: ',
         NUMBER_OF_REVIEWS: 'reviews',
         NO_REVIEWS: 'No reviews yet',
+        NO_COMPLETED_LESSONS: 'No completed lessons yet',
         TUTOR_PROFILE: {
             ABOUT_ME: 'About me',
             ABOUT_TEACHINGS: 'About subjects',
@@ -179,7 +185,8 @@ export const EN_US = {
             FORM: {
               ABOUT_TUTOR_LABEL: 'Tell us more about yourself*',
               ABOUT_TUTOR_PLACEHOLDER: 'What describes you best, what are your hobbies, approach...',
-              ABOUT_TUTOR_TOOLTIP: 'In detail describe yourself, your interests, experience and hobbies. Minimum 50 words.',
+              ABOUT_TUTOR_REQUEST: 'Minimum 50 words.',
+              ABOUT_TUTOR_TOOLTIP: 'In detail describe yourself, your interests, experience and hobbies.',
               TOOLTIP_EFFECTIVE: 'Most visited profiles contain 100+ words in this category.',
               ABOUT_LESSONS_LABEL: 'Tell us more about your lessons*',
               ABOUT_LESSONS_PLACEHOLDER: 'Describe your lessons, approach, way of teaching...',
@@ -385,7 +392,7 @@ export const EN_US = {
               FINAL: '<span class=primary-color>welcome</span> to Teorem!'
             },
             BECOME_A_TUTOR: 'Apply to become a tutor',
-            CONFIRM_EMAIL: 'Please confirm your email address by clicking the verification link that we sent you',
+            CONFIRM_EMAIL: 'Please check your email and confirm your e-mail address by clicking the link we sent you.',
             RESEND: 'Resend link'
         },
         CARD_DETAILS: {
@@ -485,6 +492,7 @@ export const EN_US = {
             TIME: 'Time* (Session length is 50min)',
             TIME_PLACEHOLDER: 'Time',
             SUBMIT: 'Book and Pay',
+            ADD_CARD: 'Add card',
             UPDATE: 'Update booking',
             CANCEL: 'Cancel',
             TUTOR_DISABLED: 'Currently unavailable'
@@ -629,8 +637,8 @@ export const EN_US = {
       ABOUT_ME: {
             OCCUPATION: 'Your current Occupation*',
             OCCUPATION_PLACEHOLDER: 'What’s your current Occupation',
-            YEARS: 'Years of professional experience',
-            YEARS_PLACEHOLDER: 'How many years of professional experience you have',
+            YEARS: 'Years of tutoring experience',
+            YEARS_PLACEHOLDER: 'How many years of tutoring experience you have',
             ABOUT_YOURSELF: 'Tell us more about yourself*',
             ABOUT_LESSON: 'Tell us more about your lessons*',
         },
@@ -646,7 +654,7 @@ export const EN_US = {
             SUBJECT: 'Select subject you teach',
             LEVEL: 'Select levels that you are able to teach',
             PRICING: 'Pricing',
-            PRICING_PLACEHOLDER: '',
+            PRICING_PLACEHOLDER: '10',
             HOUR_ABRV: 'hr',
             SAVE: 'Save information',
             DELETE: 'Delete',
@@ -670,13 +678,16 @@ export const EN_US = {
             COUNTRY: 'Country*',
             BIRTHDAY: 'Date of Birth*',
             IBAN: 'IBAN',
-            COMPANY_NAME: 'Company name*',
-            COMPANY_NAME_PLACEHOLDER: 'Enter company name',
-            COMPANY_OIB: 'Company OIB*',
-            COMPANY_OIB_PLACEHOLDER: 'Enter company OIB',
             IBAN_PLACEHOLDER: 'Enter your IBAN',
+            COMPANY_NAME: 'Company name',
+            COMPANY_NAME_PLACEHOLDER: 'Enter company name',
+            COMPANY_OIB: 'Company OIB',
+            COMPANY_OIB_PLACEHOLDER: 'Enter company OIB',
             IMAGE: 'Profile Image*',
-            UPLOAD_IMAGE: 'Drag and drop to upload',
+            UPLOAD_IMAGE: 'Click or drag and drop to upload',
+            CHOOSE_FILE: 'Choose file',
+            ADDRESS_PERSONAL_PLACEHOLDER: 'Enter your address',
+            ADDRESS_BUSINESS_PLACEHOLDER: "Enter your company's address"
         },
         PROFILE_ACCOUNT: {
             STRIPE: 'Go to Stripe',
@@ -735,6 +746,8 @@ export const EN_US = {
             TOTAL: 'Total',
             EMPTY: 'No bookings',
             EMPTY_SUBTITLE: 'Hmm, looks like there are no bookings yet.',
+            RECOMMENDED: 'RECOMMENDED TUTORS',
+            SHOW_MORE: 'Show more'
         },
         NOTIFICATIONS: {
             TITLE: 'NOTIFICATIONS',
@@ -1101,7 +1114,7 @@ export const EN_US = {
         IBAN_CONFIRM: "IBAN confirmation",
         SAVE: "Submit",
         CANCEL: "Cancel",
-        TERMS: '<div>By clicking on the "Submit" button, you agree to the <a href="https://stripe.com/legal/connect-account" target="_blank">Terms of Service</a> and <a href="https://stripe.com/privacy" target="_blank">Privacy Policy</a></div>',
+        TERMS: '<div>By clicking on the "Submit" button, you agree to the <a href="https://stripe.com/legal/connect-account" target="_blank">Terms of Service</a>.</div>',
         SUCCESS: "Payment account connected",
     },
     SUBJECTS: {
@@ -1285,11 +1298,33 @@ export const EN_US = {
         WELCOME: 'WELCOME',
         DESCRIPTION: 'DESCRIPTION',
     },
-
     BOOKING:{
         SUCCESS: 'Booking successful!',
       FAILURE: 'Booking was not successful!',
         TOAST_CANT_BOOK: 'You can\'t book a lesson at selected time!',
       CANT_BOOK_MESSAGE: 'Please book at least 3 hours in advance',
-    }
+    },
+    TUTOR_INTRO:{
+      MODAL:{
+        TITLE: 'Do you want to go through the tutorial?',
+        BODY: 'The tutorial will briefly introduce you to the basic functionalities of Teorem',
+        BUTTON_SKIP: 'Skip',
+        BUTTON_START:'Start'
+      },
+      DASHBOARD:{
+        STEP1: {
+          TITLE: 'Booking requests',
+          BODY:'Here you can see and manage your booking requests.'
+        },
+        STEP2: {
+          TITLE: 'Joining classes',
+          BODY:'You\'ll be able to start your lessons directly from your "Today\'s Schedule" (you can also join through your calendar). After clicking \'Finish\' test meeting will automatically start!'
+        }
+      },
+      BUTTON_NEXT:'Next',
+      BUTTON_PREVIOUS:'Previous',
+      BUTTON_FINISH:'Finish',
+      BUTTON_RESTART:'Restart tutorial'
+  }
+
 };

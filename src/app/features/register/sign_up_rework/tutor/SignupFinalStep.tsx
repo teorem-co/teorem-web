@@ -15,32 +15,32 @@ export const SignupFinalStep = () => {
 
 
   function resend(){
-    setButtonIsActive(true);
+    setButtonIsDisabled(true);
     setSecondsLeft(40);
     resendActivationEmailPost({ email });
   }
 
 
-    const [buttonIsActive, setButtonIsActive] = useState(false);
+    const [buttonIsDisabled, setButtonIsDisabled] = useState(true);
     const [secondsLeft, setSecondsLeft] = useState(40);
 
     useEffect(() => {
       let timerInterval: NodeJS.Timeout;
 
-      if (buttonIsActive && secondsLeft > 0) {
+      if (buttonIsDisabled && secondsLeft > 0) {
         timerInterval = setInterval(() => {
           setSecondsLeft((prevSeconds) => prevSeconds - 1);
         }, 1000);
       }
 
       if (secondsLeft === 0) {
-        setButtonIsActive(false);
+        setButtonIsDisabled(false);
       }
 
       return () => {
         clearInterval(timerInterval);
       };
-    }, [buttonIsActive, secondsLeft]);
+    }, [buttonIsDisabled, secondsLeft]);
 
   return (
     <>
@@ -51,13 +51,13 @@ export const SignupFinalStep = () => {
       <p className='text-align--center mb-10 font-family__poppins info-text'>{t('REGISTER.FORM.CONFIRM_EMAIL')}</p>
 
       <button
-        disabled={buttonIsActive}
+        disabled={buttonIsDisabled}
         id={`next-button-final-resend-${selectedRole}`}
         className="btn p-3 btn--primary cur--pointer mt-5 btn-signup transition__05"
         onClick={resend}
         style={{zIndex:11}}
 
-      >{buttonIsActive ? `${t('REGISTER.FORM.RESEND_MAIL_BUTTON_TRY')} ${secondsLeft}s` : t('REGISTER.FORM.RESEND')}</button>
+      >{buttonIsDisabled ? `${t('REGISTER.FORM.RESEND_MAIL_BUTTON_TRY')} ${secondsLeft}s` : t('REGISTER.FORM.RESEND')}</button>
     </div>
     </>
   );

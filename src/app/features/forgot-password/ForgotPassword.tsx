@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 
 import heroImg from '../../../assets/images/hero-img.png';
 import { useResetPasswordMutation } from '../../../services/authService';
-import TextField from '../../components/form/TextField';
+import MyTextField from '../../components/form/MyTextField';
 import { PATHS } from '../../routes';
 import toastService from '../../services/toastService';
 import logo from './../../../assets/images/logo.svg';
@@ -75,7 +75,7 @@ const ForgotPassword = () => {
                                     <label htmlFor="email" className="field__label">
                                         {t('RESET_PASSWORD.FORM.EMAIL')}
                                     </label>
-                                    <TextField name="email" id="email" placeholder={t('RESET_PASSWORD.FORM.ENTER_MAIL')} disabled={isLoading} />
+                                    <MyTextField name="email" id="email" placeholder={t('RESET_PASSWORD.FORM.ENTER_MAIL')} disabled={isLoading} />
                                 </div>
 
                                 <button
