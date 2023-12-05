@@ -65,11 +65,11 @@ export const RecommendedTutorCardMobile = (props: Props) => {
                   <span></span>
                 </div>
 
-                {tutor.averageGrade != 0 && tutor.numberOfReviews >0 ?
+                {tutor.averageGrade != 0 && tutor.numberOfGrades >0 ?
                   <div className="flex flex--row flex--jc--start flex--ai--center type--sm">
                     <span>{tutor.averageGrade}&nbsp;</span>
                     <StarRating mark={tutor.averageGrade} size={'small'}/>
-                    <p className="ml-2 type--color--secondary">({tutor.numberOfReviews})</p>
+                    <p className="ml-2 type--color--secondary">({tutor.numberOfGrades})</p>
                   </div>
                   :
                   <span className="mt-2 type--italic type--color--secondary type--sm">{t('SEARCH_TUTORS.NO_REVIEWS')}</span>
