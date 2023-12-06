@@ -62,7 +62,7 @@ export const bookingService = baseService.injectEndpoints({
 
                     return {
                         id: x.id,
-                        label: x.Subject ? t(`SUBJECTS.${x.Subject.abrv.replace('-', '').replace(' ', '')}`) : 'No title',
+                        label: x.Subject ? t(`SUBJECTS.${x.Subject.abrv.replaceAll('-', '').replaceAll(' ', '')}`) : 'No title',
                         tutor: x.Tutor ? x.Tutor.User.firstName + ' ' + x.Tutor.User.lastName : 'No tutor name',
                         start: new Date(x.startTime),
                         end: new Date(x.endTime),
@@ -85,7 +85,7 @@ export const bookingService = baseService.injectEndpoints({
                 const bookings: IBookingTransformed[] = response.map((x) => {
                     return {
                         id: x.id,
-                        label: x.Subject ? t(`SUBJECTS.${x.Subject.abrv.replace('-', '').replace(' ', '')}`) : 'No title',
+                        label: x.Subject ? t(`SUBJECTS.${x.Subject.abrv.replaceAll('-', '').replaceAll(' ', '')}`) : 'No title',
                         start: new Date(x.startTime),
                         end: new Date(x.endTime),
                         allDay: false,

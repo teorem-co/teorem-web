@@ -116,11 +116,11 @@ export const subjectService = baseService.injectEndpoints({
         const subjectLevelPairs: ITutorSubjectLevelOption[] = response.map((subjectLevelPair) => ({
           subject: {
             value: subjectLevelPair.subjectId,
-            label: t(`SUBJECTS.${subjectLevelPair.subjectAbrv.replace(' ', '').replace('-', '').toLowerCase()}`),
+            label: t(`SUBJECTS.${subjectLevelPair.subjectAbrv.replaceAll(' ', '').replaceAll('-', '').toLowerCase()}`),
           },
           level: {
             value: subjectLevelPair.levelId,
-            label: t(`LEVELS.${subjectLevelPair.levelAbrv.replace(' ', '').replace('-', '').toLowerCase()}`),
+            label: t(`LEVELS.${subjectLevelPair.levelAbrv.replaceAll(' ', '').replaceAll('-', '').toLowerCase()}`),
           },
         }));
         return subjectLevelPairs;
