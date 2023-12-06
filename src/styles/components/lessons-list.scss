@@ -94,6 +94,9 @@
     &--180 {
         transform: rotate3d(0, 0, 1, 180deg);
     }
+    &--90 {
+      transform: rotate3d(0, 0, 1, 90deg);
+    }
 }
 
 
