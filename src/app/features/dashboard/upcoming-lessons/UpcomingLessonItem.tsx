@@ -27,7 +27,7 @@ export const UpcomingLessonItem = ({ firstName, id, lastName, levelAbrv, subject
         </div>
         <div>{t(`LEVELS.${levelAbrv.toLowerCase().replace("-", "")}`)}</div>
         <div>
-          <span className="tag tag--primary">{t(`SUBJECTS.${subjectAbrv.replace('-', '')}`)}</span>
+          <span className="tag tag--primary">{t(`SUBJECTS.${subjectAbrv.replaceAll('-', '')}`)}</span>
         </div>
         <div>
           {moment(startTime).format('HH:mm')} -{' '}
@@ -53,7 +53,7 @@ export const UpcomingLessonItem = ({ firstName, id, lastName, levelAbrv, subject
             <span className="mb-2 ml-1"> {firstName}&nbsp;{lastName}</span>
             <span
               style={{margin:0, padding:'0 5px', width:'fit-content'}}
-              className="tag tag--primary text-align--start ">{t(`SUBJECTS.${subjectAbrv.replace('-', '')}`)}</span>
+              className="tag tag--primary text-align--start ">{t(`SUBJECTS.${subjectAbrv.replaceAll('-', '')}`)}</span>
           </div>
 
           <div className='flex flex--col'>
@@ -62,7 +62,7 @@ export const UpcomingLessonItem = ({ firstName, id, lastName, levelAbrv, subject
                 {moment(endTime).add(1, 'minute').format('HH:mm')}</p>
 
             </div>
-            <p>{t(`LEVELS.${levelAbrv.toLowerCase().replace("-", "")}`)}</p>
+            <p>{t(`LEVELS.${levelAbrv.toLowerCase().replaceAll("-", "")}`)}</p>
           </div>
 
           <div className='flex flex--col flex--ai--center'

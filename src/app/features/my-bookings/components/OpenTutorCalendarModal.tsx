@@ -74,7 +74,7 @@ const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
                                 {t(`SUBJECTS.${event.Subject.abrv}`)} -{' '}
                                 {event.Level.name === 'IB (International Baccalaurate)'
                                     ? t('LEVELS.ib')
-                                    : t(`LEVELS.${event.Level.name.replace('-', '').replace(' ', '').toLowerCase()}`)}
+                                    : t(`LEVELS.${event.Level.name.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`)}
                             </div>
                         </div>
 

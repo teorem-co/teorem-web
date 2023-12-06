@@ -141,7 +141,7 @@ export const tutorService = baseService.injectEndpoints({
           if (userRole === RoleOptions.Parent) {
             return {
               id: x.id,
-              label: x.Subject ? t(`SUBJECTS.${x.Subject.abrv.replace('-', '').replace(' ', '')}`) : 'No title',
+              label: x.Subject ? t(`SUBJECTS.${x.Subject.abrv.replaceAll('-', '').replaceAll(' ', '')}`) : 'No title',
               userId: x.User ? x.User.parentId : '',
               start: new Date(x.startTime),
               end: new Date(x.endTime),
@@ -151,7 +151,7 @@ export const tutorService = baseService.injectEndpoints({
           } else {
             return {
               id: x.id,
-              label: x.Subject ? t(`SUBJECTS.${x.Subject.abrv.replace('-', '').replace(' ', '')}`) : 'No title',
+              label: x.Subject ? t(`SUBJECTS.${x.Subject.abrv.replaceAll('-', '').replaceAll(' ', '')}`) : 'No title',
               userId: x.studentId ? x.studentId : '',
               start: new Date(x.startTime),
               end: new Date(x.endTime),

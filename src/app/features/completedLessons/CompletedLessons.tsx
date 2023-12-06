@@ -269,10 +269,10 @@ const CompletedLessons = () => {
                             </div>
                           </Link>
                           <div>
-                            {t(`SUBJECTS.${activeLesson.Subject.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
+                            {t(`SUBJECTS.${activeLesson.Subject.abrv.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`)}
                           </div>
                           <div>
-                            {t(`LEVELS.${activeLesson.level.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
+                            {t(`LEVELS.${activeLesson.level.abrv.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`)}
                           </div>
                         </div>
                       </div>
@@ -411,10 +411,10 @@ const CompletedLessons = () => {
                               </div>
                             </Link>
                             <div className="type--sm">
-                              {t(`SUBJECTS.${activeLesson.Subject.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
+                              {t(`SUBJECTS.${activeLesson.Subject.abrv.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`)}
                             </div>
                             <div className="type--sm">
-                              {t(`LEVELS.${activeLesson.level.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
+                              {t(`LEVELS.${activeLesson.level.abrv.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`)}
                             </div>
                           </div>
                         </div>

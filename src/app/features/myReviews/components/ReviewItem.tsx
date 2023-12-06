@@ -25,7 +25,7 @@ const ReviewItem: FC<Props> = (props: Props) => {
                     <div className="review-name-container">
                       <h4 className="type--md type--wgt--normal mr-2">{reviewItem.userName ? reviewItem.userName : 'Deleted user'}</h4>
                       <StarRating mark={reviewItem.mark} size={isMobile ? 'small' : 'medium'}/>
-                      <div className="tag--primary">{t(`SUBJECTS.${reviewItem.Subject.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}</div>
+                      <div className="tag--primary">{t(`SUBJECTS.${reviewItem.Subject.abrv.replaceAll('-', '').replace(' ', '').toLowerCase()}`)}</div>
                     </div>
                     <p className="type--color--brand-light type--sm">{t('ROLES.' + reviewItem.role)}</p>
                 </div>

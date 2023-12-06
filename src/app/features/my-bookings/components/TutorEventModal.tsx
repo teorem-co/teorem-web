@@ -78,8 +78,8 @@ const TutorEventModal: React.FC<IProps> = (props) => {
                         <div className="flex flex--center mb-4">
                             <i className="icon icon--base icon--subject icon--grey mr-4"></i>
                             <div className="type--color--secondary">
-                                {t(`SUBJECTS.${event.Subject.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)} -
-                                {t(`LEVELS.${event.Level.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
+                                {t(`SUBJECTS.${event.Subject.abrv.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`)} -
+                                {t(`LEVELS.${event.Level.abrv.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`)}
                             </div>
                         </div>
 
