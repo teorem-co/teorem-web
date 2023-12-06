@@ -369,4 +369,4 @@ const ImagePage = ({nextStep, backStep}: AdditionalProps) => {
       );
 };
 
-      export default ImagePage;
+export default ImagePage;
