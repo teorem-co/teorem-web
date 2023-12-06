@@ -26,7 +26,7 @@ export const LevelCard = (props: Props) => {
           backgroundColor: isSelected ? '#7e6cf2' : 'white',
           color: isSelected? 'white' : 'black'}}
       >
-        <span className="font__lgr"> {t(`LEVELS.${level.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}</span>
+        <span className="font__lgr"> {t(`LEVELS.${level.abrv.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`)}</span>
       </div>
     </>
   );

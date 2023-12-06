@@ -102,10 +102,10 @@ const StudentBookingInfoItem: React.FC<Props> = ({
           className='completed-lessons-list__item__info completed-booking-info-container'>
           <div>
             <div className='type--wgt--bold'>
-              {t(`SUBJECTS.${activeLesson.Subject.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
+              {t(`SUBJECTS.${activeLesson.Subject.abrv.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`)}
             </div>
             <div className='type--color--brand'>
-              {t(`LEVELS.${activeLesson.level.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
+              {t(`LEVELS.${activeLesson.level.abrv.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`)}
             </div>
 
             <div className='type--wgt--light'>

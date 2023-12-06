@@ -514,11 +514,11 @@ const TutorProfile = () => {
                             tutorData.TutorSubjects.map((item: ITutorSubjectLevel) => {
                               return (
                                 <tr key={item.id} className={`${isMobile ? 'type--sm p-0 type--left' : ''}`}>
-                                  <td>{t(`SUBJECTS.${item.Subject.abrv.replace('-', '')}`)}</td>
+                                  <td>{t(`SUBJECTS.${item.Subject.abrv.replaceAll('-', '')}`)}</td>
                                   {
                                     item.Level.name === 'IB (International Baccalaurate)' ?
                                       <td>{t('LEVELS.ib')}</td> :
-                                      <td>{t(`LEVELS.${item.Level.name.replace('-', '').replace(' ', '').toLowerCase()}`)}</td>
+                                      <td>{t(`LEVELS.${item.Level.name.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`)}</td>
                                   }
                                   <td>
                                     {item.price}
