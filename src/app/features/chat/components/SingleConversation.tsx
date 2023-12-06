@@ -671,7 +671,14 @@ const SingleConversation = (props: Props) => {
                               :
                               <div className='message-container'>
                                 <div className='mx-1'>
-                                  {message.message.message}
+                                  {/*{message.message.message}*/}
+                                  {message.message.message.split('\n').map((line, index, array) => (
+                                  <React.Fragment key={index}>
+                                    {line}
+                                    {/* Add <br /> after each line except the last one */}
+                                    {index !== array.length - 1 && <br />}
+                                  </React.Fragment>
+                                  ))}
                                 </div>
                                 {
                                   message.message.isRead ?
@@ -762,8 +769,16 @@ const SingleConversation = (props: Props) => {
                                 </div>
                               </div>
                               :
-                              <div>
-                                {message.message.message}
+                              <div >
+                                {/*{message.message.message}*/}
+
+                                {message.message.message.split('\n').map((line, index, array) => (
+                                  <React.Fragment key={index}>
+                                    {line}
+                                    {/* Add <br /> after each line except the last one */}
+                                    {index !== array.length - 1 && <br />}
+                                  </React.Fragment>
+                                ))}
                               </div>
                           )
                         }
@@ -776,20 +791,12 @@ const SingleConversation = (props: Props) => {
               </>
             );
           })}
-        <div style={{ marginTop: 80 }} ref={messagesEndRef} />
+        <div style={{ marginTop: 10 }} ref={messagesEndRef} />
       </div>
-      {props.data && <SendMessageForm data={props.data}
-                                      scrollOnSend={scrollToBottomSmooth} />}
-
-      {/*<div*/}
-      {/*    className={`chat__overlay__free__consultation ${freeConsultationClicked ? '' : 'chat-overlay-disabled'}`}*/}
-      {/*    onClick={(event: any) => {*/}
-      {/*        event.preventDefault();*/}
-      {/*        event.stopPropagation();*/}
-      {/*    }}*/}
-      {/*>*/}
-      {/*    <VideoPlayerModal videoChatActivated={freeConsultationClicked} callId={props.data?.user?.userId + "-" + props.data?.tutor?.userId} />*/}
-      {/*</div>*/}
+      {props.data &&
+        <SendMessageForm
+          data={props.data}
+          scrollOnSend={scrollToBottomSmooth} />}
 
     </div>
   );

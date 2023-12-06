@@ -1215,6 +1215,7 @@ const Dashboard = () => {
                                                     <button
                                                         className="btn btn--base card--dashboard__btn"
                                                         onClick={() => handleJoinBooking(todayScheduled[activeIndex])}
+                                                        disabled={moment(todayScheduled[activeIndex].startTime).subtract(5, 'minutes').isAfter(moment())}
                                                     >
                                                         {t('DASHBOARD.SCHEDULE.BUTTON')}
                                                     </button>

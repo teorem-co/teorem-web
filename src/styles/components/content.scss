@@ -45,7 +45,7 @@ $footer-height: 72px;
     }
     &__footer {
         display: flex;
-        align-items: center;
+        align-items: end;
         justify-content: space-between;
         // due to the desired initial flex-end behaviour, if we have two groups of buttons their order is reversed
         // for example
@@ -54,12 +54,20 @@ $footer-height: 72px;
 
         height: $footer-height;
         min-height: $footer-height;
-        padding: 0 calc(#{$unit} * 6);
+        padding: 2px calc(#{$unit} * 6);
         border-top: 1px solid $border-color;
         background-color: $white;
 
         &--chat {
             flex-wrap: wrap;
+            min-height: 90px;
+            //max-height: 100px;
+          height: auto;
+
+          @media (max-width: $responsive-sm) {
+            max-height: 120px;
+          }
         }
     }
 }
+
