@@ -89,13 +89,13 @@ const UpdateBooking: React.FC<IProps> = (props) => {
       const subjectOptions:OptionType[] = [
         {
           value: booking.subjectId,
-          label: t(`SUBJECTS.${booking.Subject.abrv.replace(' ', '').replace('-', '').toLowerCase()}`),
+          label: t(`SUBJECTS.${booking.Subject.abrv.replaceAll(' ', '').replaceAll('-', '').toLowerCase()}`),
         }
       ];
       const levelOptions:OptionType[] = [
         {
           value: booking.levelId,
-          label: t(`LEVELS.${booking?.Level.abrv.replace(' ', '').replace('-', '').toLowerCase()}`),
+          label: t(`LEVELS.${booking?.Level.abrv.replaceAll(' ', '').replaceAll('-', '').toLowerCase()}`),
         }
       ];
 

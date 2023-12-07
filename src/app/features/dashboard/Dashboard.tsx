@@ -1134,7 +1134,7 @@ const Dashboard = () => {
                                             </div>
                                             <div>{t(`LEVELS.${item.Level.abrv.toLowerCase().replace("-", "")}`)}</div>
                                             <div className={""}>
-                                              <span className=" tag tag--primary">{t(`SUBJECTS.${item.Subject.abrv.replace('-', '')}`)}</span>
+                                              <span className=" tag tag--primary">{t(`SUBJECTS.${item.Subject.abrv.replaceAll('-', '')}`)}</span>
                                             </div>
                                             <div>{key}</div>
                                             <div>
@@ -1200,9 +1200,9 @@ const Dashboard = () => {
                                                 </div>
                                             </div>
                                             <div className="card--dashboard__text">
-                                                {t(`LEVELS.${todayScheduled[activeIndex].Level.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
+                                                {t(`LEVELS.${todayScheduled[activeIndex].Level.abrv.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`)}
                                                 &nbsp;
-                                                {t(`SUBJECTS.${todayScheduled[activeIndex].Subject.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
+                                                {t(`SUBJECTS.${todayScheduled[activeIndex].Subject.abrv.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`)}
                                             </div>
                                             <div className="flex--primary">
                                                 <div>

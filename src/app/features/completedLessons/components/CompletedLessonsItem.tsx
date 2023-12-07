@@ -38,10 +38,10 @@ const CompletedLessonsItem = (props: Props) => {
                     {lesson.Tutor.User.firstName}&nbsp;{lesson.Tutor.User.lastName}
                 </div>
                 <div className="type--color--brand">
-                  {t(`SUBJECTS.${lesson.Subject.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
+                  {t(`SUBJECTS.${lesson.Subject.abrv.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`)}
                 </div>
                 <div className="type--color--brand">
-                  {t(`LEVELS.${lesson.level.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
+                  {t(`LEVELS.${lesson.level.abrv.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`)}
                 </div>
             </div>
             <div className="type-lesson-item flex align-self-end">
