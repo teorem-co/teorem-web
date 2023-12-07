@@ -74,7 +74,7 @@ const SearchTutors = () => {
     timeOfDay: [],
   };
 
-  const handleMenuClose = () => {
+  const handleAvailabilityChange = () => {
     const initialParamsObj: IParams = { ...params };
     const paramsObj: IParams = { ...params };
 
@@ -390,11 +390,11 @@ const SearchTutors = () => {
   }, [timeOfDayArray]);
 
   useEffect(() => {
-    handleMenuClose();
+    handleAvailabilityChange();
   }, [formik.values.timeOfDay]);
 
   useEffect(() => {
-    handleMenuClose();
+    handleAvailabilityChange();
   }, [formik.values.dayOfWeek]);
 
   const isMobile = window.innerWidth < 1200;

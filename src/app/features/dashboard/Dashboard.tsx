@@ -860,11 +860,11 @@ const Dashboard = () => {
   }, [timeOfDayArray]);
 
   useEffect(() => {
-    handleMenuClose();
+    handleAvailabilityChange();
   }, [formik.values.timeOfDay]);
 
   useEffect(() => {
-    handleMenuClose();
+    handleAvailabilityChange();
   }, [formik.values.dayOfWeek]);
 
 
@@ -909,7 +909,7 @@ const Dashboard = () => {
     return  queryStringParts.join('&');
   }
 
-  const handleMenuClose = () => {
+  const handleAvailabilityChange = () => {
     const initialParamsObj: ISearchParams = { ...paramsSearch };
     const paramsObj: ISearchParams = { ...paramsSearch };
 
