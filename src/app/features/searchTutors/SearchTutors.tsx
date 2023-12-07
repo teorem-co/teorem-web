@@ -210,6 +210,7 @@ const SearchTutors = () => {
     }
   };
 
+
   const fetchData = async () => {
     const urlQueries: IParams = getUrlParams(history.location.search.replace('?', ''));
     if (Object.keys(urlQueries).length > 0) {
@@ -388,6 +389,13 @@ const SearchTutors = () => {
     formik.setFieldValue('timeOfDay', timeOfDayArray);
   }, [timeOfDayArray]);
 
+  useEffect(() => {
+    handleMenuClose();
+  }, [formik.values.timeOfDay]);
+
+  useEffect(() => {
+    handleMenuClose();
+  }, [formik.values.dayOfWeek]);
 
   const isMobile = window.innerWidth < 1200;
   return (
@@ -429,7 +437,7 @@ const SearchTutors = () => {
                   }}
                   className=" react-select--search-tutor--menu"
                   classNamePrefix="react-select--search-tutor"
-                  onMenuClose={handleMenuClose}
+                  //onMenuClose={handleMenuClose}
                   isSearchable={false}
                 ></Select>
               </Form>
