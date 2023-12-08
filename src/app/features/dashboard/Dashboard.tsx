@@ -859,6 +859,14 @@ const Dashboard = () => {
     formik.setFieldValue('timeOfDay', timeOfDayArray);
   }, [timeOfDayArray]);
 
+  useEffect(() => {
+    handleAvailabilityChange();
+  }, [formik.values.timeOfDay]);
+
+  useEffect(() => {
+    handleAvailabilityChange();
+  }, [formik.values.dayOfWeek]);
+
 
   const handleResetFilter = () => {
     //can't delete all params because reset button couldn't affect price sort
@@ -901,7 +909,7 @@ const Dashboard = () => {
     return  queryStringParts.join('&');
   }
 
-  const handleMenuClose = () => {
+  const handleAvailabilityChange = () => {
     const initialParamsObj: ISearchParams = { ...paramsSearch };
     const paramsObj: ISearchParams = { ...paramsSearch };
 
@@ -1404,7 +1412,7 @@ const Dashboard = () => {
                                         }}
                                         className=" react-select--search-tutor--menu"
                                         classNamePrefix="react-select--search-tutor"
-                                        onMenuClose={handleMenuClose}
+                                        //onMenuClose={handleMenuClose}
                                         isSearchable={false}
                                       ></Select>
                                     </Form>
