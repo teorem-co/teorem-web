@@ -24,19 +24,19 @@ const CustomSubjectList = (props: Props) => {
 
     return (
         <div ref={rangeSetterRef} className="flex flex--wrap flex--ai--center">
-            {subjects.slice(0, 3).map((subject) => (
+            {subjects.slice(0, 2).map((subject) => (
                 <span className="tag tag--primary" key={subject}>
                     {t(`SUBJECTS.${subject.replaceAll('-', '')}`)}
                 </span>
             ))}
 
-            {subjects.length > 3 ? (
+            {subjects.length > 2 ? (
                 <div className="pos--rel">
                     <span
                         className="type--color--brand cur--pointer"
                         onClick={() => setShowTooltip(!showTooltip)}
                     >
-                        {`+ ${subjects.length - 3} ${t(
+                        {`+ ${subjects.length - 2} ${t(
                             'SEARCH_TUTORS.SUBJECT_LIST.MORE'
                         )}`}{' '}
                     </span>
@@ -45,7 +45,7 @@ const CustomSubjectList = (props: Props) => {
                             showTooltip ? 'active' : ''
                         }`}
                     >
-                        {subjects.slice(3).map((subject) => (
+                        {subjects.slice(2).map((subject) => (
                             <span
                                 className="type--color--brand"
                                 key={subject}
