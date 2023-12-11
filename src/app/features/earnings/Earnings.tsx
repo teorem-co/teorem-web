@@ -13,23 +13,15 @@ import {
   Tooltip,
 } from 'chart.js';
 import { t } from 'i18next';
-import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import {Chart, Line} from 'react-chartjs-2';
-import Select from 'react-select';
 
-import { OptionType } from '../../components/form/MySelectField';
 import MainWrapper from '../../components/MainWrapper';
-import { calcYears } from '../../utils/yearOptions';
-import earningsGraphOptions from './constants/earningsGraphOptions';
 import {
   useLazyGetEarningsQuery,
   useLazyGetPayoutsQuery
 } from './services/earningsService';
 import {ToggleButton, ToggleButtonGroup} from "@mui/material";
-import {
-  useLazyGetCompletedLessonsQuery
-} from "../my-bookings/services/completedLessonsService";
 import PayoutsTableElement from "./PayoutsTableElement";
 import IGraph from "./interfaces/IGraph";
 
@@ -38,12 +30,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, LineCont
 const Earnings = () => {
   const [getEarnings, { data: earningsData }] = useLazyGetEarningsQuery();
   const [getPayouts, {data: payoutsData}] = useLazyGetPayoutsQuery();
-  const [getBookings, {data: bookingsData}] = useLazyGetCompletedLessonsQuery();
 
-  //TODO: remove this when the new table view is fixed
-  const [getEarningForTable, {data: earningsForTable}] = useLazyGetEarningsQuery();
-
-  const [earningsGraphData, setEarningsGraphData] = useState<IGraph[]>([]);
   const [table, setTable] = useState("PAYOUTS");
   const [labels, setLabels] = useState<string[]>([]);
   const [maxNumOfTicks, setMaxNumOfTicks] = useState(0);
@@ -300,14 +287,14 @@ const Earnings = () => {
               >Bookings</ToggleButton>
             </ToggleButtonGroup>
           </div>
-          <table className="table table--secondary">
+          <table className="table table--secondary" style={{tableLayout: "fixed"}}>
             <thead>
             <tr>
               <th>{t('EARNINGS.DETAILS.TABLE.MONTH')}</th>
-              <th>{t('EARNINGS.DETAILS.TABLE.BOOKINGS')}</th>
-              <th>{t('EARNINGS.DETAILS.TABLE.STUDENTS')}</th>
-              <th>{t('EARNINGS.DETAILS.TABLE.REVIEWS')}</th>
-              <th>{t('EARNINGS.DETAILS.TABLE.REVENUE')}</th>
+              <th style={{width: "300px"}}>{t('EARNINGS.DETAILS.TABLE.BOOKINGS')}</th>
+              <th style={{width: "300px"}}>{t('EARNINGS.DETAILS.TABLE.STUDENTS')}</th>
+              <th style={{width: "300px"}}>{t('EARNINGS.DETAILS.TABLE.REVIEWS')}</th>
+              <th style={{width: "300px"}}>{t('EARNINGS.DETAILS.TABLE.REVENUE')}</th>
             </tr>
             </thead>
             {
@@ -316,7 +303,6 @@ const Earnings = () => {
                 {(payoutsData &&
                     payoutsData.details.map((tableItem) => {
                       return (
-                        <tr>
                           <PayoutsTableElement
                             month={t('CONSTANTS.MONTHS_LONG.' + tableItem.period.substring(0, 3).toUpperCase())}
                             bookingsNum={tableItem.bookings}
@@ -325,7 +311,6 @@ const Earnings = () => {
                             revenue={tableItem.revenue}
                             weeks={tableItem.weeks}
                           />
-                        </tr>
                       );
                     })) ||
                   t('EARNINGS.DETAILS.TABLE.EMPTY')}
