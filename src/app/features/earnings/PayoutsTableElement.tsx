@@ -35,6 +35,7 @@ const PayoutsTableElement = (props: PayoutsProps) => {
       },
     })
       .then(response => {
+        console.log(response);
         if (response.ok) {
           return response.blob();
         } else {
@@ -77,14 +78,14 @@ const PayoutsTableElement = (props: PayoutsProps) => {
               ></i>
             }
           </div>
-      </td>
-      <td>{props.bookingsNum}</td>
-      <td>{props.studentsNum}</td>
-      <td>{props.reviewsNum}</td>
-      <td>
-        {props.revenue}
-        {t('EARNINGS.GENERAL.CURRENCY')}
-      </td>
+        </td>
+        <td>{props.bookingsNum}</td>
+        <td>{props.studentsNum}</td>
+        <td>{props.reviewsNum}</td>
+        <td>
+          {props.revenue}
+          {t('EARNINGS.GENERAL.CURRENCY')}
+        </td>
       </tr>
       {accordion &&
         <>
@@ -93,8 +94,8 @@ const PayoutsTableElement = (props: PayoutsProps) => {
             return (
               <tr>
                 <td>
-                    <p
-                      style={{fontFamily: "Lato", marginLeft: "15px"}}>{t('EARNINGS.PAYOUTS')} {week.name}</p>
+                  <p
+                    style={{fontFamily: "Lato", marginLeft: "15px"}}>{t('EARNINGS.PAYOUTS')} {week.name}</p>
                 </td>
                 <td>{week.bookings}</td>
                 <td>{week.students}</td>
@@ -120,7 +121,7 @@ const PayoutsTableElement = (props: PayoutsProps) => {
           }))
           }
         </>
-        }
+      }
     </>
   );
 };
