@@ -24,6 +24,7 @@ import TutorItem from './components/TutorItem';
 import ITutorItem from '../../../interfaces/ITutorItem';
 import { isMobileDevice } from 'react-select/dist/declarations/src/utils';
 import { TutorItemMobile } from './components/TutorItemMobile';
+import { useAppSelector } from '../../hooks';
 
 interface Values {
   subject: string;
@@ -48,10 +49,13 @@ const SearchTutors = () => {
   const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
   const [levelOptions, setLevelOptions] = useState<OptionType[]>([]);
 
+  const filtersState = useAppSelector((state) => state.searchFilters);
+  const { subject, level,dayOfWeek, timeOfDay } = filtersState;
+
   const [params, setParams] = useState<IParams>({ rpp: 10, page: 0 });
   const [initialLoad, setInitialLoad] = useState<boolean>(true);
-  const [dayOfWeekArray, setDayOfWeekArray] = useState<string[]>([]);
-  const [timeOfDayArray, setTimeOfDayArray] = useState<string[]>([]);
+  const [dayOfWeekArray, setDayOfWeekArray] = useState<string[]>(dayOfWeek);
+  const [timeOfDayArray, setTimeOfDayArray] = useState<string[]>(timeOfDay);
   const [loadedTutorItems, setLoadedTutorItems] = useState<ITutorItem[]>([]);
   const [priceSortDirection, setPriceSortDirection] = useState<SortDirection>(SortDirection.None);
   const [scrollTopOffset, setScrollTopOffset] = useState<number | null>(null);
@@ -68,10 +72,10 @@ const SearchTutors = () => {
   const levelDisabled = !levels || isLoadingLevels;
   const isLoading = isLoadingAvailableTutors || availableTutorsFetching; //|| availableTutorsUninitialized || availableTutorsFetching;
   const initialValues: Values = {
-    subject: '',
-    level: '',
-    dayOfWeek: [],
-    timeOfDay: [],
+    subject: subject,
+    level: level,
+    dayOfWeek:dayOfWeek,
+    timeOfDay: timeOfDay,
   };
 
   const handleAvailabilityChange = () => {

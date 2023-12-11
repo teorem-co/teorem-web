@@ -77,6 +77,11 @@ import { Form, FormikProvider, useFormik } from 'formik';
 import MySelect, { OptionType } from '../../components/form/MySelectField';
 import { useLazyGetSubjectsQuery } from '../../../services/subjectService';
 import { useLazyGetLevelsQuery } from '../../../services/levelService';
+import {
+  ISearchFiltersState,
+  resetSearchFilters,
+  setSearchFilters,
+} from '../../../slices/searchFiltesSlice';
 
 interface Values {
   subject: string;
@@ -263,6 +268,8 @@ const Dashboard = () => {
       }
     };
 
+    const filtersState = useAppSelector((state) => state.searchFilters);
+    const { subject, level,dayOfWeek, timeOfDay } = filtersState;
     const [getUnreadNotifications, { data: notificationsData }] = useLazyGetAllUnreadNotificationsQuery();
     const [markAllAsRead] = useMarkAllAsReadMutation();
     const [getUserById0, { data: userDataFirst }] = useLazyGetUserQuery();
@@ -663,11 +670,21 @@ const Dashboard = () => {
      getAvailableTutors(params).unwrap().then((res)=>{
        setLoadedTutorItems(res.content);
      });
+
+     const filters: ISearchFiltersState = {
+       subject: formik.values.subject,
+       level: formik.values.level,
+       dayOfWeek: formik.values.dayOfWeek,
+       timeOfDay: formik.values.timeOfDay,
+     };
+
+     console.log('inside useeffect before dispatching');
+     dispatch(setSearchFilters(filters));
    }
   }, [paramsSearch]);
 
-  const [dayOfWeekArray, setDayOfWeekArray] = useState<string[]>([]);
-  const [timeOfDayArray, setTimeOfDayArray] = useState<string[]>([]);
+  const [dayOfWeekArray, setDayOfWeekArray] = useState<string[]>(dayOfWeek);
+  const [timeOfDayArray, setTimeOfDayArray] = useState<string[]>(timeOfDay);
 
   const handleCustomDayOfWeek = (id: string) => {
     const ifExist = dayOfWeekArray.find((item) => item === id);
@@ -792,7 +809,15 @@ const Dashboard = () => {
     );
   };
 
+
   const initialValues: Values = {
+    subject: subject,
+    level: level,
+    dayOfWeek: dayOfWeek,
+    timeOfDay: timeOfDay,
+  };
+
+  const emptyValues: Values = {
     subject: '',
     level: '',
     dayOfWeek: [],
@@ -841,12 +866,14 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (formik.values.subject) {
+      console.log('changed subject');
       setParamsSearch({ ...paramsSearch, subject: formik.values.subject });
     }
   }, [formik.values.subject]);
 
   useEffect(() => {
     if (formik.values.level) {
+      console.log('changed level');
       setParamsSearch({ ...paramsSearch, level: formik.values.level });
     }
   }, [formik.values.level]);
@@ -881,7 +908,8 @@ const Dashboard = () => {
     setDayOfWeekArray([]);
     setTimeOfDayArray([]);
 
-    formik.setValues(initialValues);
+    dispatch(resetSearchFilters());
+    formik.setValues(emptyValues);
   };
 
   const isMobile = window.innerWidth < 766;
@@ -925,6 +953,7 @@ const Dashboard = () => {
     }
 
     if (!isEqual(initialParamsObj, paramsObj)) {
+      console.log('handling availability change');
       setParamsSearch(paramsObj);
     }
   };
@@ -1435,7 +1464,7 @@ const Dashboard = () => {
                                             )}
                                           </div>
                                           <Link
-                                            to={PATHS.SEARCH_TUTORS + '?' + parseSearchParams()}
+                                            to={PATHS.SEARCH_TUTORS }
                                             className="type--center underline-hover field__w-fit-content">
                                             {t('DASHBOARD.BOOKINGS.SHOW_MORE')}
                                           </Link>
