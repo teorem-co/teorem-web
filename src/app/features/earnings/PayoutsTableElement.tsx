@@ -92,8 +92,9 @@ const PayoutsTableElement = (props: PayoutsProps) => {
             console.log(week);
             return (
               <tr>
-                <td style={{width: "19.15%"}}>
-                    {t('EARNINGS.PAYOUTS')} {week.name}
+                <td>
+                    <p
+                      style={{fontFamily: "Lato", marginLeft: "15px"}}>{t('EARNINGS.PAYOUTS')} {week.name}</p>
                 </td>
                 <td>{week.bookings}</td>
                 <td>{week.students}</td>
@@ -106,7 +107,7 @@ const PayoutsTableElement = (props: PayoutsProps) => {
                     {props.revenue !== 0 &&
                       <LiaFileInvoiceDollarSolid
                         className='completed-booking-pointer primary-color'
-                        size={25}
+                        size={21}
                         data-tip='Click to view invoice'
                         data-tooltip-id='booking-info-tooltip'
                         data-tooltip-html={t('COMPLETED_LESSONS.TOOLTIP_DOWNLOAD_INVOICE')}
