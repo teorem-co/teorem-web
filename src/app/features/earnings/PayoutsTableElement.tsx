@@ -1,13 +1,9 @@
 import {t} from 'i18next';
 import React, {useEffect, useState} from 'react';
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Typography
-} from "@mui/material";
 import toastService from "../../services/toastService";
 import {useAppSelector} from "../../hooks";
+import IWeek from "./interfaces/IWeek";
+import {LiaFileInvoiceDollarSolid} from "react-icons/lia";
 
 interface PayoutsProps {
   month: string,
@@ -15,7 +11,7 @@ interface PayoutsProps {
   studentsNum: number,
   reviewsNum: number,
   revenue: number,
-  weeks?: string[]
+  weeks?: IWeek[]
 }
 
 const fileUrl = 'api/v1/tutors';
@@ -24,15 +20,14 @@ const url = `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_CHAT_FILE
 const PayoutsTableElement = (props: PayoutsProps) => {
   const [accordion, setAccordion] = useState(false);
   const userToken = useAppSelector((state) => state.auth.token);
-  const [reverseWeeks, setReverseWeeks] = useState();
 
   const changeAccordion = () => {
     if(accordion) setAccordion(false);
     else setAccordion(true);
   };
 
-  function handleInvoiceDownload(month: string, week: string) {
-    fetch(`${url}/invoice?month=${month}&week=${week}`, {
+  function handleInvoiceDownload(week: string) {
+    fetch(`${url}/invoice?&week=${week}`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${userToken}`,
@@ -50,7 +45,7 @@ const PayoutsTableElement = (props: PayoutsProps) => {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'invoice-' + month + "-" + week + '.pdf';
+        a.download = 'invoice-' + week + '.pdf';
         a.click();
 
         // Display success message
@@ -62,31 +57,27 @@ const PayoutsTableElement = (props: PayoutsProps) => {
       });
   };
 
-  const reverseArray = (arr: string[] | undefined): string[] => {
+  const reverseArray = (arr: any[] | undefined): any[] => {
     if(arr === undefined) return [];
     return [...arr].reverse();
   };
 
   return (
     <>
-      <tr>
-      {props.revenue === 0 ?
+      <tr style={{alignItems: "center"}}>
         <td style={{padding: "2px"}}>
-          <Typography
-            style={{fontFamily: "Lato", marginLeft: "15px"}}>{props.month}</Typography>
-        </td>
-        :
-        <td style={{padding: "2px", display: "flex"}}>
-            <Typography
-              style={{fontFamily: "Lato", marginLeft: "15px"}}>{props.month}</Typography>
-
-            <i
-              id="letter"
-              className={`icon icon--sm icon--chevron-right icon--grey mr-3 ${accordion && 'rotate--90'}`}
-              onClick={() => changeAccordion()}
-            ></i>
-        </td>
-      }
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <p
+              style={{fontFamily: "Lato", marginLeft: "15px", fontSize: "15px"}}>{props.month}</p>
+            {props.revenue !== 0 &&
+              <i
+                id="letter"
+                className={`icon icon--sm icon--chevron-right icon--grey mr-3 ${accordion && 'rotate--90'}`}
+                onClick={() => changeAccordion()}
+              ></i>
+            }
+          </div>
+      </td>
       <td>{props.bookingsNum}</td>
       <td>{props.studentsNum}</td>
       <td>{props.reviewsNum}</td>
@@ -98,17 +89,30 @@ const PayoutsTableElement = (props: PayoutsProps) => {
       {accordion &&
         <>
           { reverseArray(props.weeks).map((week => {
+            console.log(week);
             return (
               <tr>
                 <td style={{width: "19.15%"}}>
-                    {t('EARNINGS.PAYOUTS')} {week}
+                    {t('EARNINGS.PAYOUTS')} {week.name}
                 </td>
-                <td>{props.bookingsNum}</td>
-                <td>{props.studentsNum}</td>
-                <td>{props.reviewsNum}</td>
+                <td>{week.bookings}</td>
+                <td>{week.students}</td>
+                <td>{week.reviews}</td>
                 <td>
-                  {props.revenue}
-                  {t('EARNINGS.GENERAL.CURRENCY')}
+                  <div style={{ display: "flex", justifyContent: "space-between" }}>
+                    <p
+                      style={{fontFamily: "Lato"}}>{week.revenue}
+                      {t('EARNINGS.GENERAL.CURRENCY')}</p>
+                    {props.revenue !== 0 &&
+                      <LiaFileInvoiceDollarSolid
+                        className='completed-booking-pointer primary-color'
+                        size={25}
+                        data-tip='Click to view invoice'
+                        data-tooltip-id='booking-info-tooltip'
+                        data-tooltip-html={t('COMPLETED_LESSONS.TOOLTIP_DOWNLOAD_INVOICE')}
+                        onClick={() => handleInvoiceDownload(week.name)}
+                      /> }
+                  </div>
                 </td>
               </tr>
             );
