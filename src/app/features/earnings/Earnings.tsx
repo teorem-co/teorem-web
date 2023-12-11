@@ -12,39 +12,23 @@ import {
   Title,
   Tooltip,
 } from 'chart.js';
-import { t } from 'i18next';
-import moment from 'moment';
-import React, { useEffect, useState } from 'react';
-import {Chart, Line} from 'react-chartjs-2';
-import Select from 'react-select';
-
-import { OptionType } from '../../components/form/MySelectField';
+import {t} from 'i18next';
+import React, {useEffect, useState} from 'react';
 import MainWrapper from '../../components/MainWrapper';
-import { calcYears } from '../../utils/yearOptions';
-import earningsGraphOptions from './constants/earningsGraphOptions';
-import {
-  useLazyGetEarningsQuery,
-  useLazyGetPayoutsQuery
-} from './services/earningsService';
+import {useLazyGetEarningsQuery} from './services/earningsService';
 import {ToggleButton, ToggleButtonGroup} from "@mui/material";
-import {
-  useLazyGetCompletedLessonsQuery
-} from "../my-bookings/services/completedLessonsService";
-import PayoutsTableElement from "./PayoutsTableElement";
+import {Chart} from "react-chartjs-2";
 import IGraph from "./interfaces/IGraph";
+
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, LineController, BarElement, BarController, Title, Tooltip, Legend, Filler);
 
 const Earnings = () => {
-  const [getEarnings, { data: earningsData }] = useLazyGetEarningsQuery();
-  const [getPayouts, {data: payoutsData}] = useLazyGetPayoutsQuery();
-  const [getBookings, {data: bookingsData}] = useLazyGetCompletedLessonsQuery();
+  const [getEarnings, {data: earningsData}] = useLazyGetEarningsQuery();
 
   //TODO: remove this when the new table view is fixed
   const [getEarningForTable, {data: earningsForTable}] = useLazyGetEarningsQuery();
 
-  const [earningsGraphData, setEarningsGraphData] = useState<IGraph[]>([]);
-  const [table, setTable] = useState("PAYOUTS");
   const [labels, setLabels] = useState<string[]>([]);
   const [maxNumOfTicks, setMaxNumOfTicks] = useState(0);
   const [periodOfTime, setPeriodOfTime] = useState("MONTH");
@@ -72,7 +56,7 @@ const Earnings = () => {
 
   const fetchData = async () => {
     const response = await getEarnings(periodOfTime).unwrap();
-    const payoutsResponse = await getPayouts().unwrap();
+//  await getEarningForTable("YEAR");
     if(periodOfTime === "YEAR") {
       setLabels(response.labels.map((item) => t('CONSTANTS.MONTHS_LONG.' + item.substring(0, 3).toUpperCase())));
     } else if (periodOfTime === "WEEK") {
@@ -86,7 +70,7 @@ const Earnings = () => {
     setMaxNumOfTicks(maxNum);
   };
 
-  const [alignment, setAlignment] = React.useState('month');
+  const [alignment, setAlignment] = React.useState('MONTH');
 
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
@@ -280,59 +264,6 @@ const Earnings = () => {
               </div>
             )}
           </div>
-          <div className="card--secondary__head">
-            <div className="type--color--tertiary type--spacing mb-2">{t('EARNINGS.DETAILS.TITLE')}</div>
-            <ToggleButtonGroup
-              color="info"
-              value={alignment}
-              exclusive
-              size="small"
-              onChange={handleChange}
-              aria-label="Platform"
-            >
-              <ToggleButton value="payouts"
-                            onClick={() => setTable("PAYOUTS")}
-                            style={{fontSize: "11px"}}
-              >Payouts</ToggleButton>
-              <ToggleButton value="bookings"
-                            onClick={() => setTable("BOOKINGS")}
-                            style={{fontSize: "11px"}}
-              >Bookings</ToggleButton>
-            </ToggleButtonGroup>
-          </div>
-          <table className="table table--secondary">
-            <thead>
-            <tr>
-              <th>{t('EARNINGS.DETAILS.TABLE.MONTH')}</th>
-              <th>{t('EARNINGS.DETAILS.TABLE.BOOKINGS')}</th>
-              <th>{t('EARNINGS.DETAILS.TABLE.STUDENTS')}</th>
-              <th>{t('EARNINGS.DETAILS.TABLE.REVIEWS')}</th>
-              <th>{t('EARNINGS.DETAILS.TABLE.REVENUE')}</th>
-            </tr>
-            </thead>
-            {
-              table === "PAYOUTS" ? (
-                <tbody>
-                {(payoutsData &&
-                    payoutsData.details.map((tableItem) => {
-                      return (
-                        <tr>
-                          <PayoutsTableElement
-                            month={t('CONSTANTS.MONTHS_LONG.' + tableItem.period.substring(0, 3).toUpperCase())}
-                            bookingsNum={tableItem.bookings}
-                            studentsNum={tableItem.students}
-                            reviewsNum={tableItem.reviews}
-                            revenue={tableItem.revenue}
-                            weeks={tableItem.weeks}
-                          />
-                        </tr>
-                      );
-                    })) ||
-                  t('EARNINGS.DETAILS.TABLE.EMPTY')}
-                </tbody>
-              ): null
-            }
-            </table>
           </div>
         </div>
     </MainWrapper>

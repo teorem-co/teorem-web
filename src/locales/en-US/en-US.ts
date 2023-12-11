@@ -814,7 +814,6 @@ export const EN_US = {
             REVENUE: 'Total revenue',
             CURRENCY: '€',
         },
-      WEEK_TITLE: 'Week',
       WEEK:'Last 7 days',
       MONTH:'Last 30 days',
       YEAR:'Last 12 months',
