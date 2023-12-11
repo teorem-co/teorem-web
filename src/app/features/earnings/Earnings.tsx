@@ -316,7 +316,6 @@ const Earnings = () => {
                 {(payoutsData &&
                     payoutsData.details.map((tableItem) => {
                       return (
-                        <tr>
                           <PayoutsTableElement
                             month={t('CONSTANTS.MONTHS_LONG.' + tableItem.period.substring(0, 3).toUpperCase())}
                             bookingsNum={tableItem.bookings}
@@ -325,7 +324,6 @@ const Earnings = () => {
                             revenue={tableItem.revenue}
                             weeks={tableItem.weeks}
                           />
-                        </tr>
                       );
                     })) ||
                   t('EARNINGS.DETAILS.TABLE.EMPTY')}

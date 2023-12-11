@@ -1,5 +1,5 @@
 import {t} from 'i18next';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Accordion,
   AccordionDetails,
@@ -24,6 +24,7 @@ const url = `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_CHAT_FILE
 const PayoutsTableElement = (props: PayoutsProps) => {
   const [accordion, setAccordion] = useState(false);
   const userToken = useAppSelector((state) => state.auth.token);
+  const [reverseWeeks, setReverseWeeks] = useState();
 
   const changeAccordion = () => {
     if(accordion) setAccordion(false);
@@ -59,44 +60,33 @@ const PayoutsTableElement = (props: PayoutsProps) => {
         // Display error message
         toastService.error(t('COMPLETED_LESSONS.DOWNLOAD_INVOICE_FAIL'));
       });
-  }
+  };
+
+  const reverseArray = (arr: string[] | undefined): string[] => {
+    if(arr === undefined) return [];
+    return [...arr].reverse();
+  };
 
   return (
     <>
-      <td>
-        <Accordion style={{
-          border: 'none',
-          boxShadow: 'none',
-          backgroundColor: 'transparent',
-          width: 'fit-content'
-        }}>
-          <AccordionSummary>
-            <div style={{display: "flex", alignItems: "center"}} onClick={() => changeAccordion()}>
-              <i
-                id="letter"
-                className={`icon icon--sm icon--chevron-right icon--grey mr-3 ${accordion && 'rotate--90'}`}
-              ></i>
-              <Typography
-                style={{fontFamily: "Lato"}}>{props.month}</Typography>
-                <i className="icon icon--base icon--download icon--primary" onClick={() => handleInvoiceDownload(t(props.month), "0")}></i>
-            </div>
-          </AccordionSummary>
-          <AccordionDetails style={{overflow: 'hidden', whiteSpace: 'nowrap'}}>
-            <Typography style={{fontFamily: "Lato"}}>
-              { props.weeks?.map((week => {
-                  return (
-                    <div style={{display: "flex", alignItems: "center"}}>
-                      {t('EARNINGS.WEEK_TITLE')} {week}
-                      <br/>
-                      <i className="icon icon--base icon--download icon--primary" onClick={() => handleInvoiceDownload(t(props.month), week)}></i>
-                    </div>
-                  );
-                }))
-              }
-            </Typography>
-          </AccordionDetails>
-        </Accordion>
-      </td>
+      <tr>
+      {props.revenue === 0 ?
+        <td style={{padding: "2px"}}>
+          <Typography
+            style={{fontFamily: "Lato", marginLeft: "15px"}}>{props.month}</Typography>
+        </td>
+        :
+        <td style={{padding: "2px", display: "flex"}}>
+            <Typography
+              style={{fontFamily: "Lato", marginLeft: "15px"}}>{props.month}</Typography>
+
+            <i
+              id="letter"
+              className={`icon icon--sm icon--chevron-right icon--grey mr-3 ${accordion && 'rotate--90'}`}
+              onClick={() => changeAccordion()}
+            ></i>
+        </td>
+      }
       <td>{props.bookingsNum}</td>
       <td>{props.studentsNum}</td>
       <td>{props.reviewsNum}</td>
@@ -104,6 +94,28 @@ const PayoutsTableElement = (props: PayoutsProps) => {
         {props.revenue}
         {t('EARNINGS.GENERAL.CURRENCY')}
       </td>
+      </tr>
+      {accordion &&
+        <>
+          { reverseArray(props.weeks).map((week => {
+            return (
+              <tr>
+                <td style={{width: "19.15%"}}>
+                    {t('EARNINGS.PAYOUTS')} {week}
+                </td>
+                <td>{props.bookingsNum}</td>
+                <td>{props.studentsNum}</td>
+                <td>{props.reviewsNum}</td>
+                <td>
+                  {props.revenue}
+                  {t('EARNINGS.GENERAL.CURRENCY')}
+                </td>
+              </tr>
+            );
+          }))
+          }
+        </>
+        }
     </>
   );
 };
