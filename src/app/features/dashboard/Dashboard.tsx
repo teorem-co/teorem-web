@@ -667,10 +667,6 @@ const Dashboard = () => {
        ...paramsSearch
      };
 
-     getAvailableTutors(params).unwrap().then((res)=>{
-       setLoadedTutorItems(res.content);
-     });
-
      const filters: ISearchFiltersState = {
        subject: formik.values.subject,
        level: formik.values.level,
@@ -678,8 +674,16 @@ const Dashboard = () => {
        timeOfDay: formik.values.timeOfDay,
      };
 
-     console.log('inside useeffect before dispatching');
+     params.subject = filters.subject;
+     params.level = filters.level;
+     params.timeOfDay = filters.timeOfDay.join(',');
+     params.dayOfWeek = filters.dayOfWeek.join(',');
+
      dispatch(setSearchFilters(filters));
+
+     getAvailableTutors(params).unwrap().then((res)=>{
+       setLoadedTutorItems(res.content);
+     });
    }
   }, [paramsSearch]);
 
@@ -866,14 +870,12 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (formik.values.subject) {
-      console.log('changed subject');
       setParamsSearch({ ...paramsSearch, subject: formik.values.subject });
     }
   }, [formik.values.subject]);
 
   useEffect(() => {
     if (formik.values.level) {
-      console.log('changed level');
       setParamsSearch({ ...paramsSearch, level: formik.values.level });
     }
   }, [formik.values.level]);
@@ -914,28 +916,6 @@ const Dashboard = () => {
 
   const isMobile = window.innerWidth < 766;
 
-  function parseSearchParams() {
-    const queryStringParts = [];
-    if (paramsSearch.subject) {
-      queryStringParts.push(`subject=${paramsSearch.subject}`);
-    }
-
-    if (paramsSearch.level) {
-      queryStringParts.push(`level=${paramsSearch.level}`);
-    }
-
-    if (paramsSearch.dayOfWeek && paramsSearch.dayOfWeek?.length !=0) {
-      queryStringParts.push(`dayOfWeek=${paramsSearch.dayOfWeek.split(',')}`);
-    }
-
-    if (paramsSearch.timeOfDay && paramsSearch.timeOfDay?.length !=0) {
-      queryStringParts.push(`timeOfDay=${paramsSearch.timeOfDay.split(',')}`);
-    }
-
-    queryStringParts.push(`rpp=10`);
-    queryStringParts.push(`page=0`);
-    return  queryStringParts.join('&');
-  }
 
   const handleAvailabilityChange = () => {
     const initialParamsObj: ISearchParams = { ...paramsSearch };
@@ -953,7 +933,6 @@ const Dashboard = () => {
     }
 
     if (!isEqual(initialParamsObj, paramsObj)) {
-      console.log('handling availability change');
       setParamsSearch(paramsObj);
     }
   };
