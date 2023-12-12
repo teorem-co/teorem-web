@@ -35,7 +35,6 @@ const PayoutsTableElement = (props: PayoutsProps) => {
       },
     })
       .then(response => {
-        console.log(response);
         if (response.ok) {
           return response.blob();
         } else {
