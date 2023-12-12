@@ -1004,6 +1004,7 @@ const Dashboard = () => {
                onExit={onExit}
                onBeforeExit={onExit}
                options={{
+                 hidePrev: true,
                  nextLabel: t('TUTOR_INTRO.BUTTON_NEXT'),
                  prevLabel: t('TUTOR_INTRO.BUTTON_PREVIOUS'),
                  doneLabel: t('TUTOR_INTRO.BUTTON_FINISH'),
