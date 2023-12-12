@@ -1329,5 +1329,33 @@ export const HR_HR = {
       BUTTON_PREVIOUS:'Prethodni',
       BUTTON_FINISH:'Završi',
       BUTTON_RESTART:'Pokreni tutorijal'
+    },
+    STUDENT_INTRO:{
+      DASHBOARD:{
+        STEP1: {
+          TITLE: 'Današnji raspored',
+          BODY:'Ovdje ćete vidjeti predavanja koja imate danas i moći ćete se spojiti na predavanja. (Predavanja također možete vidjeti na kalendaru)'
+        },
+        STEP2: {
+          TITLE: 'Nepročitane poruke',
+          BODY:'Ovdje ćete vidjeti sve poruke koje vam istruktor šalje. (Isto to možete vidjeti na kartici \'Razgovori\')'
+        },
+        STEP3: {
+          TITLE: 'Preporuke instruktora',
+          BODY:'Ovdje se nalaze tri instruktora koji najviše odgovaraju vašim potrebama (ovisno o onome što ste odabrali pri registraciji).'
+        },
+        STEP4: {
+          TITLE: 'Filteri',
+          BODY:'Ovdje možete odabrati predmet, razinu ili vrijeme kada je instruktor dostupan, a naš sustav će vam predložiti tri najbolja.'
+        },
+        STEP5: {
+          TITLE: 'Profil',
+          BODY:'Kliknite i pogledajte profil instruktora.'
+        },
+      },
+      BUTTON_NEXT:'Next',
+      BUTTON_PREVIOUS:'Previous',
+      BUTTON_FINISH:'Finish',
+      BUTTON_RESTART:'Restart tutorial'
     }
 };
