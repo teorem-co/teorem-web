@@ -77,6 +77,11 @@ import { Form, FormikProvider, useFormik } from 'formik';
 import MySelect, { OptionType } from '../../components/form/MySelectField';
 import { useLazyGetSubjectsQuery } from '../../../services/subjectService';
 import { useLazyGetLevelsQuery } from '../../../services/levelService';
+import {
+  ISearchFiltersState,
+  resetSearchFilters,
+  setSearchFilters,
+} from '../../../slices/searchFiltesSlice';
 
 interface Values {
   subject: string;
@@ -263,6 +268,8 @@ const Dashboard = () => {
       }
     };
 
+    const filtersState = useAppSelector((state) => state.searchFilters);
+    const { subject, level,dayOfWeek, timeOfDay } = filtersState;
     const [getUnreadNotifications, { data: notificationsData }] = useLazyGetAllUnreadNotificationsQuery();
     const [markAllAsRead] = useMarkAllAsReadMutation();
     const [getUserById0, { data: userDataFirst }] = useLazyGetUserQuery();
@@ -727,14 +734,28 @@ const Dashboard = () => {
        ...paramsSearch
      };
 
+     const filters: ISearchFiltersState = {
+       subject: formik.values.subject,
+       level: formik.values.level,
+       dayOfWeek: formik.values.dayOfWeek,
+       timeOfDay: formik.values.timeOfDay,
+     };
+
+     params.subject = filters.subject;
+     params.level = filters.level;
+     params.timeOfDay = filters.timeOfDay.join(',');
+     params.dayOfWeek = filters.dayOfWeek.join(',');
+
+     dispatch(setSearchFilters(filters));
+
      getAvailableTutors(params).unwrap().then((res)=>{
        setLoadedTutorItems(res.content);
      });
    }
   }, [paramsSearch]);
 
-  const [dayOfWeekArray, setDayOfWeekArray] = useState<string[]>([]);
-  const [timeOfDayArray, setTimeOfDayArray] = useState<string[]>([]);
+  const [dayOfWeekArray, setDayOfWeekArray] = useState<string[]>(dayOfWeek);
+  const [timeOfDayArray, setTimeOfDayArray] = useState<string[]>(timeOfDay);
 
   const handleCustomDayOfWeek = (id: string) => {
     const ifExist = dayOfWeekArray.find((item) => item === id);
@@ -859,7 +880,15 @@ const Dashboard = () => {
     );
   };
 
+
   const initialValues: Values = {
+    subject: subject,
+    level: level,
+    dayOfWeek: dayOfWeek,
+    timeOfDay: timeOfDay,
+  };
+
+  const emptyValues: Values = {
     subject: '',
     level: '',
     dayOfWeek: [],
@@ -948,40 +977,12 @@ const Dashboard = () => {
     setDayOfWeekArray([]);
     setTimeOfDayArray([]);
 
-    formik.setValues(initialValues);
+    dispatch(resetSearchFilters());
+    formik.setValues(emptyValues);
   };
 
   const isMobile = window.innerWidth < 766;
 
-  const [isChildModalShowing, setIsChildModalShowing] = useState(childless && modal);
-
-
-  useEffect(() => {
-    setIsChildModalShowing(childless && modal);
-  }, [childless, modal]);
-
-  function parseSearchParams() {
-    const queryStringParts = [];
-    if (paramsSearch.subject) {
-      queryStringParts.push(`subject=${paramsSearch.subject}`);
-    }
-
-    if (paramsSearch.level) {
-      queryStringParts.push(`level=${paramsSearch.level}`);
-    }
-
-    if (paramsSearch.dayOfWeek && paramsSearch.dayOfWeek?.length !=0) {
-      queryStringParts.push(`dayOfWeek=${paramsSearch.dayOfWeek.split(',')}`);
-    }
-
-    if (paramsSearch.timeOfDay && paramsSearch.timeOfDay?.length !=0) {
-      queryStringParts.push(`timeOfDay=${paramsSearch.timeOfDay.split(',')}`);
-    }
-
-    queryStringParts.push(`rpp=10`);
-    queryStringParts.push(`page=0`);
-    return  queryStringParts.join('&');
-  }
 
   const handleAvailabilityChange = () => {
     const initialParamsObj: ISearchParams = { ...paramsSearch };
@@ -1516,7 +1517,7 @@ const Dashboard = () => {
                                               )}
                                           </div>
                                           <Link
-                                            to={PATHS.SEARCH_TUTORS + '?' + parseSearchParams()}
+                                            to={PATHS.SEARCH_TUTORS }
                                             className="type--center underline-hover field__w-fit-content">
                                             {t('DASHBOARD.BOOKINGS.SHOW_MORE')}
                                           </Link>
