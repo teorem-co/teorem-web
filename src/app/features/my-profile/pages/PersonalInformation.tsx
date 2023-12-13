@@ -1,7 +1,7 @@
-import {Form, FormikProvider, useFormik} from 'formik';
+import {Field, FieldProps, Form, FormikProvider, useFormik} from 'formik';
 import {isEqual} from 'lodash';
 import moment from 'moment';
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useHistory} from 'react-router';
 import * as Yup from 'yup';
@@ -41,6 +41,8 @@ import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
 import {setMyProfileProgress} from '../slices/myProfileSlice';
 import imageCompression from "browser-image-compression";
+import {MenuItem, TextField} from "@mui/material";
+import {t} from "i18next";
 
 interface Values {
   firstName: string;
@@ -333,6 +335,45 @@ const PersonalInformation = () => {
     window.location.reload();
   };
 
+  interface CustomSelectFieldProps extends FieldProps {
+    label: string;
+    options: Array<{ label: string; value: string }>;
+  }
+
+// Custom Select component
+  const CountrySelectField: React.FC<CustomSelectFieldProps> = ({field, form: { touched, errors }, label, options, ...props}) => (
+    <TextField
+      {...field}
+      {...props}
+      select
+      label={label}
+      error={Boolean(touched[field.name] && errors[field.name])}
+      helperText={touched[field.name] && errors[field.name]}
+    >
+      {options.map((option) => (
+        <MenuItem key={option.value} value={option.value}>
+          {option.label}
+        </MenuItem>
+      ))}
+    </TextField>
+  );
+
+  const PhoneNumberField: React.FC<CustomSelectFieldProps> = ({field, form: { touched, errors }, label, options, ...props}) => (
+    <TextField
+      {...field}
+      {...props}
+      label={label}
+      error={Boolean(touched[field.name] && errors[field.name])}
+      helperText={touched[field.name] && errors[field.name]}
+    >
+     <MyPhoneInput  form={formik}
+                    name="phoneNumber"
+                    field={formik.getFieldProps('phoneNumber')}
+                    meta={formik.getFieldMeta('phoneNumber')}
+                    disabled={isLoading}/>
+    </TextField>
+  );
+
   return (
     <>
       <RouterPrompt
@@ -380,33 +421,72 @@ const PersonalInformation = () => {
                     <div className="w--800--max">
                       <div className="row">
                         <div className="col col-12 col-xl-6">
-                          <div className="field">
-                            <label htmlFor="firstName" className="field__label">
-                              {t('MY_PROFILE.PROFILE_SETTINGS.FIRST_NAME')}
-                            </label>
-                            <MyTextField
+                          <div className="field align--center mb-5">
+                            <Field
+                              as={TextField}
                               name="firstName"
+                              type="text"
+                              fullWidth
                               id="firstName"
-                              placeholder={t('MY_PROFILE.PROFILE_SETTINGS.FIRST_NAME_PLACEHOLDER')}
+                              label={t('MY_PROFILE.PROFILE_SETTINGS.FIRST_NAME')}
+                              variant="outlined"
+                              error={formik.touched.firstName && !!formik.errors.firstName}
+                              helperText={formik.touched.firstName && formik.errors.firstName}
+                              color="secondary"
+                              InputProps={{
+                                style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
+                              }}
+                              InputLabelProps={{
+                                style: { fontFamily: "'Lato', sans-serif" },
+                              }}
+                              FormHelperTextProps={{
+                                style: { color: 'red' } // Change the color of the helper text here
+                              }}
+                              inputProps={{
+                                maxLength: 100,
+                              }}
                               disabled={isLoading}
                             />
                           </div>
                         </div>
                         <div className="col col-12 col-xl-6">
-                          <div className="field">
-                            <label htmlFor="lastName" className="field__label">
-                              {t('MY_PROFILE.PROFILE_SETTINGS.LAST_NAME')}
-                            </label>
-                            <MyTextField
+                          <div className="field align--center mb-5">
+                            <Field
+                              as={TextField}
                               name="lastName"
+                              type="text"
+                              fullWidth
                               id="lastName"
-                              placeholder={t('MY_PROFILE.PROFILE_SETTINGS.LAST_NAME_PLACEHOLDER')}
+                              label={t('MY_PROFILE.PROFILE_SETTINGS.LAST_NAME')}
+                              variant="outlined"
+                              error={formik.touched.firstName && !!formik.errors.firstName}
+                              helperText={formik.touched.firstName && formik.errors.firstName}
+                              color="secondary"
+                              InputProps={{
+                                style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
+                              }}
+                              InputLabelProps={{
+                                style: { fontFamily: "'Lato', sans-serif" },
+                              }}
+                              FormHelperTextProps={{
+                                style: { color: 'red' } // Change the color of the helper text here
+                              }}
+                              inputProps={{
+                                maxLength: 100,
+                              }}
                               disabled={isLoading}
                             />
                           </div>
                         </div>
                         <div className="col col-12 col-xl-6">
                           <div className="field">
+                            <Field
+                              name="phoneNumber"
+                              component={PhoneNumberField}
+                              label={t('REGISTER.FORM.PHONE_NUMBER')}
+                              fullWidth
+                              options={countryOptions}
+                            />
                             <label htmlFor="phoneNumber" className="field__label">
                               {t('REGISTER.FORM.PHONE_NUMBER')}
                             </label>
@@ -420,22 +500,13 @@ const PersonalInformation = () => {
                           </div>
                         </div>
                         <div className="col col-12 col-xl-6">
-                          <div className="field">
-                            <label htmlFor="countryId" className="field__label">
-                              {t('MY_PROFILE.PROFILE_SETTINGS.COUNTRY')}
-                            </label>
-
-                            <MySelect
-                              form={formik}
-                              field={formik.getFieldProps('countryId')}
-                              meta={formik.getFieldMeta('countryId')}
-                              isMulti={false}
-                              classNamePrefix="onboarding-select"
+                          <div className="field align--center mb-5">
+                            <Field
+                              name="countryId"
+                              component={CountrySelectField}
+                              label={t('MY_PROFILE.PROFILE_SETTINGS.COUNTRY')}
+                              fullWidth
                               options={countryOptions}
-                              placeholder="Choose your country"
-                              customInputField={countryInput}
-                              customOption={countryOption}
-                              isDisabled={isLoading}
                             />
                           </div>
                         </div>
