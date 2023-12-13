@@ -18,6 +18,10 @@ export interface IUpdateUserInformation {
     profileImage: string;
 }
 
+export interface IUpdateProfileImage {
+  profileImage: string;
+}
+
 export interface ICreateChildRequest{
   parentId: string,
   body: IChild
@@ -34,6 +38,13 @@ export const userService = baseService.injectEndpoints({
         updateUserInformation: builder.mutation<IUser, IUpdateUserInformation>({
             query: (body) => ({
                 url: `${URL}/profile`,
+                method: HttpMethods.PUT,
+                body: typeToFormData(body),
+            }),
+        }),
+        setTutorProfileImage: builder.mutation<IUser, IUpdateProfileImage>({
+            query: (body) => ({
+                url: `${URL}/profile-image`,
                 method: HttpMethods.PUT,
                 body: typeToFormData(body),
             }),
@@ -106,6 +117,7 @@ export const userService = baseService.injectEndpoints({
 
 export const {
     useUpdateUserInformationMutation,
+    useSetTutorProfileImageMutation,
     useChangePasswordMutation,
     useLazyGetUserQuery,
     useLazyGetChildQuery,

@@ -1337,16 +1337,8 @@ export const EN_US = {
       },
       STEP3: {
         TITLE: 'Instructor Recommendations',
-        BODY: 'Here are three instructors who most closely match your needs (depending on what you selected at registration).'
-      },
-      STEP4: {
-        TITLE: 'Filters',
-        BODY: 'Here you can choose the subject, level, or time when the instructor is available, and our system will suggest the best three.'
-      },
-      STEP5: {
-        TITLE: 'Profile',
-        BODY: 'Click and view the instructor\'s profile.'
-      },
+        BODY: 'Here are three instructors who most closely match your needs (depending on what you selected at registration). Using filters you can choose the subject, level, or time when the instructor is available,'
+      }
     },
     BUTTON_NEXT:'Next',
     BUTTON_PREVIOUS:'Previous',
