@@ -813,6 +813,8 @@ export const HR_HR = {
             REVENUE: 'Ukupan prihod',
             CURRENCY: '€',
         },
+      PAYOUTS: 'Isplata',
+      WEEK_TITLE: 'Tjedan',
       WEEK:'Zadnjih 7 dana',
       MONTH:'Zadnjih 30 dana',
       YEAR:'Zadnjih 12 mjeseci',
