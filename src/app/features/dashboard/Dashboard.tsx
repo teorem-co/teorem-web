@@ -273,7 +273,7 @@ const Dashboard = () => {
     const [getRequests] = useLazyGetRequestsQuery();
     const [acceptRequest] = useAcceptBookingMutation();
     const [denyRequest] = useDeleteBookingMutation();
-    const [getChildren, { data: childrenData, isLoading: childrenLoading}] = useLazyGetChildrenQuery();
+    const [getChildren, { data: childrenData, isLoading: childrenLoading, isSuccess: childrenSuccess}] = useLazyGetChildrenQuery();
     const [childless, setChildless] = useState(false);
 
     const [groupedUpcomming, setGroupedUpcoming] = useState<IGroupedDashboardData>({});
@@ -285,18 +285,20 @@ const Dashboard = () => {
     const [activeIndex, setActiveIndex] = useState<number>(0);
     const [activeMsgIndex, setActiveMsgIndex] = useState<number>(0);
     const [params, setParams] = useState<IParams>({ page: 1, size: 10, sort:"createdAt", sortDirection:"desc", read: false });
+
     const [modal, setModal] = useState<boolean>(() => {
       const storedValue = sessionStorage.getItem('myValue');
       return storedValue !== null ? storedValue === 'true' : true;
     });
 
+  useEffect(() => {
+    sessionStorage.setItem('myValue', String(modal));
+  }, [modal]);
+
+
     const [addSidebarOpen, setAddSidebarOpen] = useState(false);
     const [childForEdit, setChildForEdit] = useState<IChild | null>(null);
     const [childlessButton, setChildlessButton] = useState(true);
-
-    useEffect(() => {
-      sessionStorage.setItem('myValue', String(modal));
-    }, [modal]);
 
     const userData = useAppSelector((state) => state.user);
 
@@ -334,7 +336,8 @@ const Dashboard = () => {
           });
         }
 
-        let children = [];if(userRole === RoleOptions.Parent && userId !== undefined) {
+        let children = [];
+        if(userRole === RoleOptions.Parent && userId !== undefined) {
           children = await getChildren(userId).unwrap().then();
         }
         if(!childrenLoading && (children.length === 0 || children.length === undefined)) {
@@ -585,16 +588,6 @@ const Dashboard = () => {
       intro: t('STUDENT_INTRO.DASHBOARD.STEP3.BODY'),
       element: ".student-intro-3",
     },
-    {
-      title: t('STUDENT_INTRO.DASHBOARD.STEP4.TITLE'),
-      intro: t('STUDENT_INTRO.DASHBOARD.STEP4.BODY'),
-      element: ".student-intro-4",
-    },
-    {
-      title: t('STUDENT_INTRO.DASHBOARD.STEP5.TITLE'),
-      intro: t('STUDENT_INTRO.DASHBOARD.STEP5.BODY'),
-      element: ".student-intro-5",
-    },
   ];
 
   const studentStepsPartial = [
@@ -623,16 +616,29 @@ const Dashboard = () => {
   const [paramsSearch, setParamsSearch] = useState<ISearchParams>({ rpp: 3, page: 0 });
 
   useEffect(() => {
-    if(!localStorage.getItem('hideTutorIntro') && profileProgressState.percentage === 100){
+    if(userRole === RoleOptions.Tutor && !localStorage.getItem('hideTutorIntro') && profileProgressState.percentage === 100){
       setModalActive(true);
     }
   }, [profileProgressState.percentage]);
 
+
   useEffect(() => {
-    if(!localStorage.getItem('hideStudentIntro') ){
-      setModalActive(true);
+    if(userRole === RoleOptions.Parent){
+      if(!childrenData) return;
+      if(!childrenSuccess) return;
     }
-  }, []);
+
+    if(userRole === RoleOptions.Parent && !localStorage.getItem('hideStudentIntro')){
+      const sessionValue = sessionStorage.getItem('myValue');
+      if(sessionValue === 'false' )
+        setModalActive(true);
+      else if(childrenData && sessionValue === 'true' && childrenData.length > 0)
+        setModalActive(true);
+
+    }else if(userRole === RoleOptions.Student && !localStorage.getItem('hideStudentIntro')){
+        setModalActive(true);
+    }
+  }, [modal, childrenData]);
 
   function updateLocalStorage(){
     if(userRole === RoleOptions.Tutor)
@@ -947,6 +953,13 @@ const Dashboard = () => {
 
   const isMobile = window.innerWidth < 766;
 
+  const [isChildModalShowing, setIsChildModalShowing] = useState(childless && modal);
+
+
+  useEffect(() => {
+    setIsChildModalShowing(childless && modal);
+  }, [childless, modal]);
+
   function parseSearchParams() {
     const queryStringParts = [];
     if (paramsSearch.subject) {
@@ -1006,8 +1019,8 @@ const Dashboard = () => {
 
         {isStepsEnabled && showTutorial &&
           <Steps
-               enabled={userRole === RoleOptions.Tutor ? groupedRequests && Object.keys(groupedRequests).length > 0 :  Object.keys(groupedRequests).length === 0}
-               steps={userRole === RoleOptions.Tutor ? tutorSteps : Object.keys(groupedUpcomming).length > 0 ? studentStepsPartial : studentSteps}
+              enabled
+              steps={userRole === RoleOptions.Tutor ? tutorSteps : Object.keys(groupedUpcomming).length > 0 ? studentStepsPartial : studentSteps}
                initialStep={0}
                onExit={onExit}
                onBeforeExit={onExit}
@@ -1442,10 +1455,10 @@ const Dashboard = () => {
                                      <div className="type--color--tertiary mb-2">
                                       {t('DASHBOARD.BOOKINGS.RECOMMENDED')}
                                     </div>
-                                    <div className='filter flex flex--col flex--ai--center'>
+                                     <div className='filter flex flex--col flex--ai--center student-intro-3'>
 
 
-                                <div className="flex flex--wrap flex--center student-intro-4 mb-3">
+                                <div className="flex flex--wrap flex--center mb-3">
                                   <FormikProvider value={formik}>
                                     <Form className="flex flex--wrap flex--jc--center filters-container" noValidate>
                                       <MySelect
@@ -1494,11 +1507,11 @@ const Dashboard = () => {
                                         <>
 
                                             <div className={"flex flex--row w--100 flex--wrap flex--gap-20 flex--jc--center field__w-fit-content align--center pb-3 pr-3 pl-3 overflow--y--scroll student-intro-3"}>
-                                              {loadedTutorItems.map((tutor, index) =>
+                                              {loadedTutorItems.map((tutor) =>
                                                 isMobile ? (
-                                                  <RecommendedTutorCardMobile className={`p-4 h--350 ${index===0 ? ' student-intro-5' : ''}`} key={tutor.id} tutor={tutor} />
+                                                  <RecommendedTutorCardMobile className={`p-4 h--350`} key={tutor.id} tutor={tutor} />
                                                 ) : (
-                                                  <RecommendedTutorCard className={`p-4 h--350 ${index===0 ? ' student-intro-5' : ''}`} key={tutor.id} tutor={tutor} />
+                                                  <RecommendedTutorCard className={`p-4 h--350`} key={tutor.id} tutor={tutor} />
                                                 )
                                               )}
                                           </div>

@@ -1342,16 +1342,8 @@ export const HR_HR = {
         },
         STEP3: {
           TITLE: 'Preporuke instruktora',
-          BODY:'Ovdje se nalaze tri instruktora koji najviše odgovaraju vašim potrebama (ovisno o onome što ste odabrali pri registraciji).'
-        },
-        STEP4: {
-          TITLE: 'Filteri',
-          BODY:'Ovdje možete odabrati predmet, razinu ili vrijeme kada je instruktor dostupan, a naš sustav će vam predložiti tri najbolja.'
-        },
-        STEP5: {
-          TITLE: 'Profil',
-          BODY:'Kliknite i pogledajte profil instruktora.'
-        },
+          BODY:'Ovdje se nalaze tri instruktora koji najviše odgovaraju vašim potrebama (ovisno o onome što ste odabrali pri registraciji). Koristecći filtere možete odabrati predmet, razinu ili vrijeme kada je instruktor dostupan.'
+        }
       },
       BUTTON_NEXT:'Next',
       BUTTON_PREVIOUS:'Previous',
