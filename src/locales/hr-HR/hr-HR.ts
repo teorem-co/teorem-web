@@ -115,7 +115,8 @@ export const HR_HR = {
         IBAN_MATCH: 'IBANi se moraju podudarati',
         MIN_50_WORDS: 'Najmanje 50 riječi',
         MAX_2500_CHARS: 'Najviše 2500 znakova',
-        MAX_75_CHARS: 'Najviše 75 znakova'
+        MAX_75_CHARS: 'Najviše 75 znakova',
+        MAX_100_CHARS: 'Najviše 100 znakova'
     },
     NAVIGATION: {
         MY_BOOKINGS: 'Kalendar',

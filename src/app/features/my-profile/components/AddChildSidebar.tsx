@@ -1,6 +1,6 @@
-import { Form, FormikProvider, useFormik } from 'formik';
+import {Field, Form, FormikProvider, useFormik} from 'formik';
 import moment from 'moment';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
@@ -22,6 +22,8 @@ import MyTextField from '../../../components/form/MyTextField';
 import { useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import TooltipPassword from '../../register/TooltipPassword';
+import {TextField} from "@mui/material";
+import {t} from "i18next";
 
 interface Props {
   sideBarIsOpen: boolean;
@@ -267,13 +269,26 @@ const AddChildSidebar = (props: Props) => {
           <FormikProvider value={formik}>
             <Form>
               <div className="field">
-                <label htmlFor="firstName" className="field__label">
-                  {t('MY_PROFILE.CHILD.FIRST_NAME')}*
-                </label>
-                <MyTextField
+                <Field
+                  as={TextField}
                   name="firstName"
+                  type="text"
+                  fullWidth
+                  error={formik.touched.firstName && !!formik.errors.firstName}
+                  helperText={formik.touched.firstName && formik.errors.firstName}
                   id="firstName"
-                  placeholder={t('MY_PROFILE.CHILD.FIRST_NAME_PLACEHOLDER')}
+                  label={t('MY_PROFILE.CHILD.FIRST_NAME_PLACEHOLDER')}
+                  variant="outlined"
+                  color="secondary"
+                  InputProps={{
+                    style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
+                  }}
+                  InputLabelProps={{
+                    style: { fontFamily: "'Lato', sans-serif" },
+                  }}
+                  FormHelperTextProps={{
+                    style: { color: 'red' } // Change the color of the helper text here
+                  }}
                   onBlur={(e: any) => {
                     generateChildUsername();
                     formik.handleBlur(e);
@@ -282,6 +297,31 @@ const AddChildSidebar = (props: Props) => {
               </div>
               {childData && (
                 <div className="field">
+                  <Field
+                    as={TextField}
+                    name="lastName"
+                    type="text"
+                    fullWidth
+                    error={formik.touched.lastName && !!formik.errors.lastName}
+                    helperText={formik.touched.lastName && formik.errors.lastName}
+                    id="lastName"
+                    label={t('MY_PROFILE.CHILD.LAST_NAME_PLACEHOLDER')}
+                    variant="outlined"
+                    color="secondary"
+                    InputProps={{
+                      style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
+                    }}
+                    InputLabelProps={{
+                      style: { fontFamily: "'Lato', sans-serif" },
+                    }}
+                    FormHelperTextProps={{
+                      style: { color: 'red' } // Change the color of the helper text here
+                    }}
+                    onBlur={(e: any) => {
+                      generateChildUsername();
+                      formik.handleBlur(e);
+                    }}
+                  />
                   <label htmlFor="lastName" className="field__label">
                     {t('MY_PROFILE.CHILD.LAST_NAME')}*
                   </label>

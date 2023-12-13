@@ -1,4 +1,4 @@
-import { Form, FormikProvider, useFormik } from 'formik';
+import {Field, Form, FormikProvider, useFormik} from 'formik';
 import { t } from 'i18next';
 import moment from 'moment/moment';
 import { useDispatch } from 'react-redux';
@@ -8,6 +8,8 @@ import { setStepOne } from '../../../../../slices/signUpSlice';
 import MyDatePicker from '../../../../components/form/MyDatePicker';
 import MyTextField from '../../../../components/form/MyTextField';
 import { useAppSelector } from '../../../../hooks';
+import {TextField} from "@mui/material";
+import React from "react";
 
 interface StepOneValues {
   firstName: string;
@@ -76,6 +78,15 @@ export const SignupFirstStep = ({nextStep}:StepOneProps) => {
     }
   };
 
+  const validateName = (value: string) => {
+      if(value.length === 100) {
+        return t('FORM_VALIDATION.MAX_100_CHARS');
+      }
+      if(value.length < 2 && value.length !== 0) {
+        return t('FORM_VALIDATION.TOO_SHORT');
+      }
+  };
+
   return (
       <div className="align-self-center sign-up-form-wrapper">
         <FormikProvider value={formik}>
@@ -83,21 +94,59 @@ export const SignupFirstStep = ({nextStep}:StepOneProps) => {
 
             {/*first name*/}
             <div className="align--center mb-5">
-              <MyTextField
-                style={{background:'white'}}
+              <Field
+                as={TextField}
                 name="firstName"
+                type="text"
+                fullWidth
+                required
                 id="firstName"
-                placeholder={t('REGISTER.FORM.FIRST_NAME_PLACEHOLDER')}
+                label={t('REGISTER.FORM.FIRST_NAME_PLACEHOLDER')}
+                variant="outlined"
+                error={formik.touched.firstName && !!formik.errors.firstName}
+                helperText={formik.touched.firstName && formik.errors.firstName}
+                color="secondary"
+                InputProps={{
+                  style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
+                }}
+                InputLabelProps={{
+                  style: { fontFamily: "'Lato', sans-serif" },
+                }}
+                FormHelperTextProps={{
+                  style: { color: 'red' } // Change the color of the helper text here
+                }}
+                inputProps={{
+                  maxLength: 100,
+                }}
               />
             </div>
 
             {/*last name*/}
             <div className="align--center mb-5">
-              <MyTextField
-                style={{background:'white'}}
+              <Field
+                as={TextField}
                 name="lastName"
+                type="text"
+                fullWidth
+                required
+                error={formik.touched.lastName && !!formik.errors.lastName}
+                helperText={formik.touched.lastName && formik.errors.lastName}
                 id="lastName"
-                placeholder={t('REGISTER.FORM.LAST_NAME_PLACEHOLDER')}
+                label={t('REGISTER.FORM.LAST_NAME_PLACEHOLDER')}
+                variant="outlined"
+                color="secondary"
+                InputProps={{
+                  style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
+                }}
+                InputLabelProps={{
+                  style: { fontFamily: "'Lato', sans-serif" },
+                }}
+                FormHelperTextProps={{
+                  style: { color: 'red' } // Change the color of the helper text here
+                }}
+                inputProps={{
+                  maxLength: 100,
+                }}
               />
             </div>
 

@@ -115,7 +115,8 @@ export const EN_US = {
         IBAN_MATCH: 'IBANs must match',
         MIN_50_WORDS: 'Use at least 50 words',
         MAX_2500_CHARS: 'Maximum is 2500 characters',
-        MAX_75_CHARS: 'Maximum is 75 characters'
+        MAX_75_CHARS: 'Maximum is 75 characters',
+        MAX_100_CHARS: 'Maximum is 100 characters'
     },
     NAVIGATION: {
         MY_BOOKINGS: 'Calendar',
