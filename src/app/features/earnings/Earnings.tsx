@@ -282,6 +282,7 @@ const Earnings = () => {
                             style={{fontSize: "11px"}}
               >Payouts</ToggleButton>
               <ToggleButton value="bookings"
+                            disabled={true}
                             onClick={() => setTable("BOOKINGS")}
                             style={{fontSize: "11px"}}
               >Bookings</ToggleButton>
