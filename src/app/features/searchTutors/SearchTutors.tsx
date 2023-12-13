@@ -24,6 +24,12 @@ import TutorItem from './components/TutorItem';
 import ITutorItem from '../../../interfaces/ITutorItem';
 import { isMobileDevice } from 'react-select/dist/declarations/src/utils';
 import { TutorItemMobile } from './components/TutorItemMobile';
+import { useAppSelector } from '../../hooks';
+import { useDispatch } from 'react-redux';
+import {
+  ISearchFiltersState, resetSearchFilters,
+  setSearchFilters,
+} from '../../../slices/searchFiltesSlice';
 
 interface Values {
   subject: string;
@@ -48,10 +54,14 @@ const SearchTutors = () => {
   const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
   const [levelOptions, setLevelOptions] = useState<OptionType[]>([]);
 
+  const dispatch = useDispatch();
+  const filtersState = useAppSelector((state) => state.searchFilters);
+  const { subject, level,dayOfWeek, timeOfDay } = filtersState;
+
   const [params, setParams] = useState<IParams>({ rpp: 10, page: 0 });
   const [initialLoad, setInitialLoad] = useState<boolean>(true);
-  const [dayOfWeekArray, setDayOfWeekArray] = useState<string[]>([]);
-  const [timeOfDayArray, setTimeOfDayArray] = useState<string[]>([]);
+  const [dayOfWeekArray, setDayOfWeekArray] = useState<string[]>(dayOfWeek);
+  const [timeOfDayArray, setTimeOfDayArray] = useState<string[]>(timeOfDay);
   const [loadedTutorItems, setLoadedTutorItems] = useState<ITutorItem[]>([]);
   const [priceSortDirection, setPriceSortDirection] = useState<SortDirection>(SortDirection.None);
   const [scrollTopOffset, setScrollTopOffset] = useState<number | null>(null);
@@ -68,10 +78,10 @@ const SearchTutors = () => {
   const levelDisabled = !levels || isLoadingLevels;
   const isLoading = isLoadingAvailableTutors || availableTutorsFetching; //|| availableTutorsUninitialized || availableTutorsFetching;
   const initialValues: Values = {
-    subject: '',
-    level: '',
-    dayOfWeek: [],
-    timeOfDay: [],
+    subject: subject,
+    level: level,
+    dayOfWeek:dayOfWeek,
+    timeOfDay: timeOfDay,
   };
 
   const handleAvailabilityChange = () => {
@@ -226,9 +236,19 @@ const SearchTutors = () => {
         setPriceSortDirection(urlQueries.sort as SortDirection);
       }
 
+      urlQueries.subject = formik.values.subject;
+      urlQueries.level = formik.values.level;
+      urlQueries.timeOfDay = formik.values.timeOfDay.join(',');
+      urlQueries.dayOfWeek = formik.values.dayOfWeek.join(',');
+
       const tutorResponse = await getAvailableTutors({ ...urlQueries }).unwrap();
       setLoadedTutorItems(tutorResponse.content);
     } else {
+
+      params.subject = formik.values.subject;
+      params.level = formik.values.level;
+      params.timeOfDay = formik.values.timeOfDay.join(',');
+      params.dayOfWeek = formik.values.dayOfWeek.join(',');
       const tutorResponse = await getAvailableTutors(params).unwrap();
       setLoadedTutorItems(tutorResponse.content);
     }
@@ -247,7 +267,21 @@ const SearchTutors = () => {
       history.push({ search: filterParams.toString() });
     }
 
-    const tutorResponse = await getAvailableTutors({ ...params }).unwrap();
+    const filters: ISearchFiltersState = {
+      subject: formik.values.subject,
+      level: formik.values.level,
+      dayOfWeek: formik.values.dayOfWeek,
+      timeOfDay: formik.values.timeOfDay,
+    };
+
+    dispatch(setSearchFilters(filters));
+
+    params.subject = filters.subject;
+    params.level = filters.level;
+    params.timeOfDay = filters.timeOfDay.join(',');
+    params.dayOfWeek = filters.dayOfWeek.join(',');
+
+    const tutorResponse = await getAvailableTutors({ ...params}).unwrap();
     setLoadedTutorItems(tutorResponse.content);
   };
 
@@ -283,6 +317,12 @@ const SearchTutors = () => {
     }
   };
 
+  const emptyValues: Values = {
+    subject: '',
+    level: '',
+    dayOfWeek: [],
+    timeOfDay: [],
+  };
 
   const [resetKey, setResetKey] = useState(false);
   const handleResetFilter = () => {
@@ -298,7 +338,8 @@ const SearchTutors = () => {
     setDayOfWeekArray([]);
     setTimeOfDayArray([]);
 
-    formik.setValues(initialValues);
+    dispatch(resetSearchFilters());
+    formik.setValues(emptyValues);
   };
 
   const formik = useFormik({
@@ -336,6 +377,15 @@ const SearchTutors = () => {
   useEffect(() => {
     setScrollTopOffset(null);
     if (!initialLoad) {
+      const filters: ISearchFiltersState = {
+        subject: formik.values.subject,
+        level: formik.values.level,
+        dayOfWeek: formik.values.dayOfWeek,
+        timeOfDay: formik.values.timeOfDay,
+      };
+
+      dispatch(setSearchFilters(filters));
+
       fetchFilteredData();
     }
   }, [params]);
