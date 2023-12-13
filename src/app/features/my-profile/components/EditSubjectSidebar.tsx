@@ -88,7 +88,7 @@ const EditSubjectSidebar = (props: Props) => {
     const dispatch = useAppDispatch();
     const tutorId = useAppSelector((state) => state.auth.user?.id);
     const urlQueries = getUrlParams(history.location.search.replace('?', ''));
-    const selectedSubject = myTeachingsData.tutorSubjects && myTeachingsData.tutorSubjects.find((x) => x.subjectId === urlQueries.subjectId);
+    const selectedSubject = myTeachingsData.tutorSubjects && myTeachingsData.tutorSubjects.find((x) => x.id === urlQueries.subjectId );
     const { t } = useTranslation();
 
     const handleDeleteSubject = async (objectId: string) => {

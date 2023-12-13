@@ -165,7 +165,7 @@ const AddSubjectSidebar = (props: Props) => {
                                     id="price"
                                     placeholder={
                                         t('MY_PROFILE.MY_TEACHINGS.PRICING_PLACEHOLDER') +
-                                        minPrice + ' ' + currency + '/h'}
+                                        ' ' + currency + '/h'}
                                     withoutErr={
                                         !(formik.errors.price &&
                                             formik.touched.price)}

@@ -56,7 +56,7 @@ import {
 } from '../onboarding/tutorOnboardingNew/OnboardingTutor';
 import { Steps } from 'intro.js-react';
 import 'intro.js/introjs.css';
-import { TutorTutorialModal } from '../../components/TutorTutorialModal';
+import { TutorialModal } from '../../components/TutorialModal';
 import {
   HiLinkModalForTutorIntro,
 } from '../my-profile/components/HiLinkModalForTutorIntro';
@@ -102,7 +102,7 @@ const Dashboard = () => {
         User: {
           id:'userId',
           roleId: 'roleid',
-          dateOfBirth: '1998-06-22',
+          dateOfBirth: '1998-12-22',
           phonePrefix: '385',
           profileImage: 'profileImg',
           childIds: [],
@@ -113,9 +113,9 @@ const Dashboard = () => {
             currencyCode: 'currency code',
             currencyName: 'currency name'
           },
-          email:"stela.gasi8@gmail.com",
-          firstName:"Stela",
-          lastName:"Gasi",
+          email:"test.email@gmail.com",
+          firstName:"Ivan",
+          lastName:"Horvat",
           countryId:"da98ad50-5138-4f0d-b297-62c5cb101247",
           phoneNumber:"38598718823",
           Role:{
@@ -147,11 +147,11 @@ const Dashboard = () => {
           currencyCode: 'currency code',
           currencyName: 'currency name'
         },
-        email:"stela.gasi8@gmail.com",
+        email:"test.email@gmail.com",
         firstName:"Ivan",
         lastName:"Horvat",
         countryId:"da98ad50-5138-4f0d-b297-62c5cb101247",
-        phoneNumber:"38598718823",
+        phoneNumber:"38591111111",
         Role:{
           name: 'name',
           id: 'roleid',
@@ -159,7 +159,7 @@ const Dashboard = () => {
         }
       },
       tutorId:"6ab33036-3204-4ab0-9a4b-a1016c77e63c",
-      studentId:"8eb6b506-5fea-4709-9fd3-79d27869ff96",
+      studentId:"8eb6b506-5fea-4709-9fd3-79d27869ff32",
       subjectId:"2da9dfdb-e9cc-479a-802d-fa2a9b906575",
       levelId:"bb589332-eb38-4455-9259-1773bf88d60a",
       startTime:moment().add(1, 'day').toISOString(),
@@ -200,8 +200,8 @@ const Dashboard = () => {
             currencyName: 'currency name'
           },
           email:"stela.gasi8@gmail.com",
-          firstName:"Stela",
-          lastName:"Gasi",
+          firstName:"Ana",
+          lastName:"Anić",
           countryId:"da98ad50-5138-4f0d-b297-62c5cb101247",
           phoneNumber:"38598718823",
           Role:{
@@ -556,7 +556,7 @@ const Dashboard = () => {
       //setChildless(false);
     };
 
-    const steps = [
+    const tutorSteps = [
       {
         title: t('TUTOR_INTRO.DASHBOARD.STEP1.TITLE'),
         intro: t('TUTOR_INTRO.DASHBOARD.STEP1.BODY'),
@@ -569,8 +569,51 @@ const Dashboard = () => {
       },
     ];
 
+  const studentSteps = [
+    {
+      title: t('STUDENT_INTRO.DASHBOARD.STEP1.TITLE'),
+      intro: t('STUDENT_INTRO.DASHBOARD.STEP1.BODY'),
+      element: ".student-intro-1",
+    },
+    {
+      title: t('STUDENT_INTRO.DASHBOARD.STEP2.TITLE'),
+      intro: t('STUDENT_INTRO.DASHBOARD.STEP2.BODY'),
+      element: ".student-intro-2",
+    },
+    {
+      title: t('STUDENT_INTRO.DASHBOARD.STEP3.TITLE'),
+      intro: t('STUDENT_INTRO.DASHBOARD.STEP3.BODY'),
+      element: ".student-intro-3",
+    },
+    {
+      title: t('STUDENT_INTRO.DASHBOARD.STEP4.TITLE'),
+      intro: t('STUDENT_INTRO.DASHBOARD.STEP4.BODY'),
+      element: ".student-intro-4",
+    },
+    {
+      title: t('STUDENT_INTRO.DASHBOARD.STEP5.TITLE'),
+      intro: t('STUDENT_INTRO.DASHBOARD.STEP5.BODY'),
+      element: ".student-intro-5",
+    },
+  ];
+
+  const studentStepsPartial = [
+    {
+      title: t('STUDENT_INTRO.DASHBOARD.STEP1.TITLE'),
+      intro: t('STUDENT_INTRO.DASHBOARD.STEP1.BODY'),
+      element: ".student-intro-1",
+    },
+    {
+      title: t('STUDENT_INTRO.DASHBOARD.STEP2.TITLE'),
+      intro: t('STUDENT_INTRO.DASHBOARD.STEP2.BODY'),
+      element: ".student-intro-2",
+    }
+  ];
+
   const [getTestingRoomLink] = useLazyGetTutorTestingLinkQuery();
   const [modalActive, setModalActive] = useState(false);
+  const [studentIntroModalActive, setStudentIntroModalActive] = useState(false);
+
   const [showTutorial, setShowTutorial] = useState(false);
   const [tutorialRoomLink, setTutorialRoomLink] = useState('');
   const [isStepsEnabled, setIsStepsEnabled] = useState(true);
@@ -585,16 +628,30 @@ const Dashboard = () => {
     }
   }, [profileProgressState.percentage]);
 
+  useEffect(() => {
+    if(!localStorage.getItem('hideStudentIntro') ){
+      setModalActive(true);
+    }
+  }, []);
+
+  function updateLocalStorage(){
+    if(userRole === RoleOptions.Tutor)
+      localStorage.setItem('hideTutorIntro', 'true');
+    else if (userRole === RoleOptions.Parent || userRole === RoleOptions.Student)
+      localStorage.setItem('hideStudentIntro', 'true');
+  }
+
   //always triggers, even on skip
   const onExit = () => {
-    localStorage.setItem('hideTutorIntro', 'true');
+    updateLocalStorage();
     setShowIntro(null);
     setIsStepsEnabled(false);
   };
 
   //on finish
   const onComplete = () => {
-    handleJoinBooking(mockSchedule);// automatically join meeting
+    if(userRole === RoleOptions.Tutor)
+      handleJoinBooking(mockSchedule);// automatically join meeting
     setIsStepsEnabled(false);
   };
 
@@ -602,21 +659,25 @@ const Dashboard = () => {
     setShowTutorial(false);
     setModalActive(false);
     setShowIntro(null);
-    localStorage.setItem('hideTutorIntro', 'true');
+    updateLocalStorage();
   };
 
+  //initialize data for tutorial
   const startTutorial = async () =>{
     document.body.scrollTop = -document.body.scrollHeight;
-    getTestingRoomLink().unwrap().then((res:any)=> {
-      setTutorialRoomLink(res.meetingUrl);
-    });
 
-    const dateKey = moment(new Date()).add(1, 'day').format(t('DATE_FORMAT'));
-    const grupedData: IGroupedDashboardData = {
-      [dateKey]: [mockRequest]
-    };
-    setTodayScheduled([mockSchedule]);
-    setGroupedRequests(grupedData);
+    if(userRole === RoleOptions.Tutor){
+      getTestingRoomLink().unwrap().then((res:any)=> {
+        setTutorialRoomLink(res.meetingUrl);
+      });
+
+      const dateKey = moment(new Date()).add(1, 'day').format(t('DATE_FORMAT'));
+      const grupedData: IGroupedDashboardData = {
+        [dateKey]: [mockRequest]
+      };
+      setTodayScheduled([mockSchedule]);
+      setGroupedRequests(grupedData);
+    }
 
     setShowTutorial(true);
     setModalActive(false);
@@ -859,6 +920,14 @@ const Dashboard = () => {
     formik.setFieldValue('timeOfDay', timeOfDayArray);
   }, [timeOfDayArray]);
 
+  useEffect(() => {
+    handleAvailabilityChange();
+  }, [formik.values.timeOfDay]);
+
+  useEffect(() => {
+    handleAvailabilityChange();
+  }, [formik.values.dayOfWeek]);
+
 
   const handleResetFilter = () => {
     //can't delete all params because reset button couldn't affect price sort
@@ -901,7 +970,7 @@ const Dashboard = () => {
     return  queryStringParts.join('&');
   }
 
-  const handleMenuClose = () => {
+  const handleAvailabilityChange = () => {
     const initialParamsObj: ISearchParams = { ...paramsSearch };
     const paramsObj: ISearchParams = { ...paramsSearch };
 
@@ -924,20 +993,26 @@ const Dashboard = () => {
   return (
       <>
         {modalActive &&
-          userRole == RoleOptions.Tutor ?
-          <TutorTutorialModal skip={skipTutorial} start={startTutorial}/>
+          userRole !== RoleOptions.Child ?
+          <TutorialModal
+            title={t('TUTOR_INTRO.MODAL.TITLE')}
+            body={t('TUTOR_INTRO.MODAL.BODY')}
+            skip={skipTutorial}
+            start={startTutorial}
+          />
         :
           <></>
         }
 
-        {showTutorial && groupedRequests && Object.keys(groupedRequests).length > 0 &&
+        {isStepsEnabled && showTutorial &&
           <Steps
-               enabled={isStepsEnabled}
-               steps={steps}
+               enabled={userRole === RoleOptions.Tutor ? groupedRequests && Object.keys(groupedRequests).length > 0 :  Object.keys(groupedRequests).length === 0}
+               steps={userRole === RoleOptions.Tutor ? tutorSteps : Object.keys(groupedUpcomming).length > 0 ? studentStepsPartial : studentSteps}
                initialStep={0}
                onExit={onExit}
                onBeforeExit={onExit}
                options={{
+                 hidePrev: true,
                  nextLabel: t('TUTOR_INTRO.BUTTON_NEXT'),
                  prevLabel: t('TUTOR_INTRO.BUTTON_PREVIOUS'),
                  doneLabel: t('TUTOR_INTRO.BUTTON_FINISH'),
@@ -1134,7 +1209,7 @@ const Dashboard = () => {
                                             </div>
                                             <div>{t(`LEVELS.${item.Level.abrv.toLowerCase().replace("-", "")}`)}</div>
                                             <div className={""}>
-                                              <span className=" tag tag--primary">{t(`SUBJECTS.${item.Subject.abrv.replace('-', '')}`)}</span>
+                                              <span className=" tag tag--primary">{t(`SUBJECTS.${item.Subject.abrv.replaceAll('-', '')}`)}</span>
                                             </div>
                                             <div>{key}</div>
                                             <div>
@@ -1174,7 +1249,7 @@ const Dashboard = () => {
                             </div>
                           ) : null}
                             <div className="row">
-                                <div className="col col-12 col-xl-5  tutor-intro-4">
+                                <div className="col col-12 col-xl-5  tutor-intro-4 student-intro-1">
                                     <div className="type--color--tertiary mb-2">{t('DASHBOARD.SCHEDULE.TITLE')}</div>
                                     {todayScheduled.length > 0 ? (
                                         <div className="card--dashboard card--dashboard--brand mb-xl-0 mb-8 h2 h--150">
@@ -1200,9 +1275,9 @@ const Dashboard = () => {
                                                 </div>
                                             </div>
                                             <div className="card--dashboard__text">
-                                                {t(`LEVELS.${todayScheduled[activeIndex].Level.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
+                                                {t(`LEVELS.${todayScheduled[activeIndex].Level.abrv.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`)}
                                                 &nbsp;
-                                                {t(`SUBJECTS.${todayScheduled[activeIndex].Subject.abrv.replace('-', '').replace(' ', '').toLowerCase()}`)}
+                                                {t(`SUBJECTS.${todayScheduled[activeIndex].Subject.abrv.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`)}
                                             </div>
                                             <div className="flex--primary">
                                                 <div>
@@ -1210,8 +1285,7 @@ const Dashboard = () => {
                                                     {moment(todayScheduled[activeIndex].endTime).add(1, 'minute').format('HH:mm')}
                                                 </div>
                                                 {todayScheduled[activeIndex].isAccepted &&
-                                                    moment(todayScheduled[activeIndex].startTime).subtract(10, 'minutes').isBefore(moment()) &&
-                                                    moment(todayScheduled[activeIndex].startTime).add(60, 'minutes').isAfter(moment()) ? (
+                                                    moment(todayScheduled[activeIndex].startTime).subtract(5, 'minutes').isBefore(moment())  ? (
                                                     <button
                                                         className="btn btn--base card--dashboard__btn"
                                                         onClick={() => handleJoinBooking(todayScheduled[activeIndex])}
@@ -1255,11 +1329,11 @@ const Dashboard = () => {
                           </div>
                         )}
                       </div>
-                      <div className="col col-12 col-xl-7">
+                      <div className="col col-12 col-xl-7 student-intro-2">
                         <div className="type--color--tertiary mb-2">{t('DASHBOARD.MESSAGES.TITLE')}</div>
 
                         {unreadChatrooms[activeMsgIndex] != undefined ? (
-                          <div className="card--dashboard h--150 intro-2-dashboard">
+                          <div className="card--dashboard h--150 ">
                                             <div className="flex--primary mb-2 ">
                                                 <div>
                                                     {userRole === RoleOptions.Tutor ?
@@ -1371,7 +1445,7 @@ const Dashboard = () => {
                                     <div className='filter flex flex--col flex--ai--center'>
 
 
-                                <div className="flex flex--wrap flex--center">
+                                <div className="flex flex--wrap flex--center student-intro-4 mb-3">
                                   <FormikProvider value={formik}>
                                     <Form className="flex flex--wrap flex--jc--center filters-container" noValidate>
                                       <MySelect
@@ -1405,7 +1479,7 @@ const Dashboard = () => {
                                         }}
                                         className=" react-select--search-tutor--menu"
                                         classNamePrefix="react-select--search-tutor"
-                                        onMenuClose={handleMenuClose}
+                                        //onMenuClose={handleMenuClose}
                                         isSearchable={false}
                                       ></Select>
                                     </Form>
@@ -1418,14 +1492,15 @@ const Dashboard = () => {
                                           <LoaderPrimary />
                                       ) : loadedTutorItems.length > 0 ? (
                                         <>
-                                          <div className="flex flex--row w--100 flex--wrap flex--gap-20 flex--jc--center field__w-fit-content align--center p-4 overflow--y--scroll pb-10">
-                                            {loadedTutorItems.map((tutor) =>
-                                              isMobile ? (
-                                                <RecommendedTutorCardMobile className="p-4 h--350" key={tutor.id} tutor={tutor} />
-                                              ) : (
-                                                <RecommendedTutorCard className="p-4 h--350" key={tutor.id} tutor={tutor} />
-                                              )
-                                            )}
+
+                                            <div className={"flex flex--row w--100 flex--wrap flex--gap-20 flex--jc--center field__w-fit-content align--center pb-3 pr-3 pl-3 overflow--y--scroll student-intro-3"}>
+                                              {loadedTutorItems.map((tutor, index) =>
+                                                isMobile ? (
+                                                  <RecommendedTutorCardMobile className={`p-4 h--350 ${index===0 ? ' student-intro-5' : ''}`} key={tutor.id} tutor={tutor} />
+                                                ) : (
+                                                  <RecommendedTutorCard className={`p-4 h--350 ${index===0 ? ' student-intro-5' : ''}`} key={tutor.id} tutor={tutor} />
+                                                )
+                                              )}
                                           </div>
                                           <Link
                                             to={PATHS.SEARCH_TUTORS + '?' + parseSearchParams()}

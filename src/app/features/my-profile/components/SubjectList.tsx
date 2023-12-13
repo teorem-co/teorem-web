@@ -17,15 +17,15 @@ const SubjectList: React.FC<IProps> = (props) => {
                     <div className="dash-wrapper__item" key={subject.id}>
                         <div
                             className="dash-wrapper__item__element"
-                            onClick={() => handleSendId(subject.Subject.id)}
+                            onClick={() => handleSendId(subject.id)}
                         >
                             <div className="flex--primary subject cur--pointer">
                                 <div>
                                     <div className="type--wgt--bold">
-                                        {t(`SUBJECTS.${subject.Subject.abrv?.replace('-', '').replace(' ', '').toLowerCase()}`)}
+                                        {t(`SUBJECTS.${subject.Subject.abrv?.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`)}
                                     </div>
                                     <div>
-                                        {t(`LEVELS.${subject.Level.abrv?.replace('-', '').replace(' ', '').toLowerCase()}`)}
+                                        {t(`LEVELS.${subject.Level.abrv?.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`)}
                                     </div>
                                 </div >
                                 <div className="type--wgt--bold price">{subject.price} {currency}</div>
