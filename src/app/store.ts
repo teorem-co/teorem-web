@@ -22,12 +22,13 @@ import uploadFileReducer from './slices/tutorImageUploadSlice';
 import signUpReducer from '../slices/signUpSlice';
 import onboardingReducer from "../slices/onboardingSlice";
 import scrollReducer from '../slices/scrollSlice';
+import searchFiltersReducer from '../slices/searchFiltesSlice';
 
 const persistConfig = {
     key: 'root',
     version: 1,
     storage,
-    whitelist: ['auth', 'user', 'role', 'user', 'myReviews', 'tutorRegister', 'parentRegisterSlice', 'myProfileProgress', 'lang'],
+    whitelist: ['auth', 'user', 'role', 'user', 'myReviews', 'tutorRegister', 'parentRegisterSlice', 'myProfileProgress', 'lang','searchFilters'],
 };
 
 const appReducer = combineReducers({
@@ -46,7 +47,8 @@ const appReducer = combineReducers({
     lang: langReducer,
     signUp: signUpReducer,
     onboarding: onboardingReducer,
-    scroll: scrollReducer
+    scroll: scrollReducer,
+    searchFilters: searchFiltersReducer
 });
 
 const rootReducer = (state: any, action: any) => {

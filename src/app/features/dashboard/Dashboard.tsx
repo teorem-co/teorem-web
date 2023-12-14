@@ -56,7 +56,7 @@ import {
 } from '../onboarding/tutorOnboardingNew/OnboardingTutor';
 import { Steps } from 'intro.js-react';
 import 'intro.js/introjs.css';
-import { TutorTutorialModal } from '../../components/TutorTutorialModal';
+import { TutorialModal } from '../../components/TutorialModal';
 import {
   HiLinkModalForTutorIntro,
 } from '../my-profile/components/HiLinkModalForTutorIntro';
@@ -77,6 +77,11 @@ import { Form, FormikProvider, useFormik } from 'formik';
 import MySelect, { OptionType } from '../../components/form/MySelectField';
 import { useLazyGetSubjectsQuery } from '../../../services/subjectService';
 import { useLazyGetLevelsQuery } from '../../../services/levelService';
+import {
+  ISearchFiltersState,
+  resetSearchFilters,
+  setSearchFilters,
+} from '../../../slices/searchFiltesSlice';
 
 interface Values {
   subject: string;
@@ -102,7 +107,7 @@ const Dashboard = () => {
         User: {
           id:'userId',
           roleId: 'roleid',
-          dateOfBirth: '1998-06-22',
+          dateOfBirth: '1998-12-22',
           phonePrefix: '385',
           profileImage: 'profileImg',
           childIds: [],
@@ -113,9 +118,9 @@ const Dashboard = () => {
             currencyCode: 'currency code',
             currencyName: 'currency name'
           },
-          email:"stela.gasi8@gmail.com",
-          firstName:"Stela",
-          lastName:"Gasi",
+          email:"test.email@gmail.com",
+          firstName:"Ivan",
+          lastName:"Horvat",
           countryId:"da98ad50-5138-4f0d-b297-62c5cb101247",
           phoneNumber:"38598718823",
           Role:{
@@ -147,11 +152,11 @@ const Dashboard = () => {
           currencyCode: 'currency code',
           currencyName: 'currency name'
         },
-        email:"stela.gasi8@gmail.com",
+        email:"test.email@gmail.com",
         firstName:"Ivan",
         lastName:"Horvat",
         countryId:"da98ad50-5138-4f0d-b297-62c5cb101247",
-        phoneNumber:"38598718823",
+        phoneNumber:"38591111111",
         Role:{
           name: 'name',
           id: 'roleid',
@@ -159,7 +164,7 @@ const Dashboard = () => {
         }
       },
       tutorId:"6ab33036-3204-4ab0-9a4b-a1016c77e63c",
-      studentId:"8eb6b506-5fea-4709-9fd3-79d27869ff96",
+      studentId:"8eb6b506-5fea-4709-9fd3-79d27869ff32",
       subjectId:"2da9dfdb-e9cc-479a-802d-fa2a9b906575",
       levelId:"bb589332-eb38-4455-9259-1773bf88d60a",
       startTime:moment().add(1, 'day').toISOString(),
@@ -200,8 +205,8 @@ const Dashboard = () => {
             currencyName: 'currency name'
           },
           email:"stela.gasi8@gmail.com",
-          firstName:"Stela",
-          lastName:"Gasi",
+          firstName:"Ana",
+          lastName:"Anić",
           countryId:"da98ad50-5138-4f0d-b297-62c5cb101247",
           phoneNumber:"38598718823",
           Role:{
@@ -263,6 +268,8 @@ const Dashboard = () => {
       }
     };
 
+    const filtersState = useAppSelector((state) => state.searchFilters);
+    const { subject, level,dayOfWeek, timeOfDay } = filtersState;
     const [getUnreadNotifications, { data: notificationsData }] = useLazyGetAllUnreadNotificationsQuery();
     const [markAllAsRead] = useMarkAllAsReadMutation();
     const [getUserById0, { data: userDataFirst }] = useLazyGetUserQuery();
@@ -273,7 +280,7 @@ const Dashboard = () => {
     const [getRequests] = useLazyGetRequestsQuery();
     const [acceptRequest] = useAcceptBookingMutation();
     const [denyRequest] = useDeleteBookingMutation();
-    const [getChildren, { data: childrenData, isLoading: childrenLoading}] = useLazyGetChildrenQuery();
+    const [getChildren, { data: childrenData, isLoading: childrenLoading, isSuccess: childrenSuccess}] = useLazyGetChildrenQuery();
     const [childless, setChildless] = useState(false);
 
     const [groupedUpcomming, setGroupedUpcoming] = useState<IGroupedDashboardData>({});
@@ -285,18 +292,20 @@ const Dashboard = () => {
     const [activeIndex, setActiveIndex] = useState<number>(0);
     const [activeMsgIndex, setActiveMsgIndex] = useState<number>(0);
     const [params, setParams] = useState<IParams>({ page: 1, size: 10, sort:"createdAt", sortDirection:"desc", read: false });
+
     const [modal, setModal] = useState<boolean>(() => {
       const storedValue = sessionStorage.getItem('myValue');
       return storedValue !== null ? storedValue === 'true' : true;
     });
 
+  useEffect(() => {
+    sessionStorage.setItem('myValue', String(modal));
+  }, [modal]);
+
+
     const [addSidebarOpen, setAddSidebarOpen] = useState(false);
     const [childForEdit, setChildForEdit] = useState<IChild | null>(null);
     const [childlessButton, setChildlessButton] = useState(true);
-
-    useEffect(() => {
-      sessionStorage.setItem('myValue', String(modal));
-    }, [modal]);
 
     const userData = useAppSelector((state) => state.user);
 
@@ -334,7 +343,8 @@ const Dashboard = () => {
           });
         }
 
-        let children = [];if(userRole === RoleOptions.Parent && userId !== undefined) {
+        let children = [];
+        if(userRole === RoleOptions.Parent && userId !== undefined) {
           children = await getChildren(userId).unwrap().then();
         }
         if(!childrenLoading && (children.length === 0 || children.length === undefined)) {
@@ -556,7 +566,7 @@ const Dashboard = () => {
       //setChildless(false);
     };
 
-    const steps = [
+    const tutorSteps = [
       {
         title: t('TUTOR_INTRO.DASHBOARD.STEP1.TITLE'),
         intro: t('TUTOR_INTRO.DASHBOARD.STEP1.BODY'),
@@ -569,8 +579,41 @@ const Dashboard = () => {
       },
     ];
 
+  const studentSteps = [
+    {
+      title: t('STUDENT_INTRO.DASHBOARD.STEP1.TITLE'),
+      intro: t('STUDENT_INTRO.DASHBOARD.STEP1.BODY'),
+      element: ".student-intro-1",
+    },
+    {
+      title: t('STUDENT_INTRO.DASHBOARD.STEP2.TITLE'),
+      intro: t('STUDENT_INTRO.DASHBOARD.STEP2.BODY'),
+      element: ".student-intro-2",
+    },
+    {
+      title: t('STUDENT_INTRO.DASHBOARD.STEP3.TITLE'),
+      intro: t('STUDENT_INTRO.DASHBOARD.STEP3.BODY'),
+      element: ".student-intro-3",
+    },
+  ];
+
+  const studentStepsPartial = [
+    {
+      title: t('STUDENT_INTRO.DASHBOARD.STEP1.TITLE'),
+      intro: t('STUDENT_INTRO.DASHBOARD.STEP1.BODY'),
+      element: ".student-intro-1",
+    },
+    {
+      title: t('STUDENT_INTRO.DASHBOARD.STEP2.TITLE'),
+      intro: t('STUDENT_INTRO.DASHBOARD.STEP2.BODY'),
+      element: ".student-intro-2",
+    }
+  ];
+
   const [getTestingRoomLink] = useLazyGetTutorTestingLinkQuery();
   const [modalActive, setModalActive] = useState(false);
+  const [studentIntroModalActive, setStudentIntroModalActive] = useState(false);
+
   const [showTutorial, setShowTutorial] = useState(false);
   const [tutorialRoomLink, setTutorialRoomLink] = useState('');
   const [isStepsEnabled, setIsStepsEnabled] = useState(true);
@@ -580,21 +623,48 @@ const Dashboard = () => {
   const [paramsSearch, setParamsSearch] = useState<ISearchParams>({ rpp: 3, page: 0 });
 
   useEffect(() => {
-    if(!localStorage.getItem('hideTutorIntro') && profileProgressState.percentage === 100){
+    if(userRole === RoleOptions.Tutor && !localStorage.getItem('hideTutorIntro') && profileProgressState.percentage === 100){
       setModalActive(true);
     }
   }, [profileProgressState.percentage]);
 
+
+  useEffect(() => {
+    if(userRole === RoleOptions.Parent){
+      if(!childrenData) return;
+      if(!childrenSuccess) return;
+    }
+
+    if(userRole === RoleOptions.Parent && !localStorage.getItem('hideStudentIntro')){
+      const sessionValue = sessionStorage.getItem('myValue');
+      if(sessionValue === 'false' )
+        setModalActive(true);
+      else if(childrenData && sessionValue === 'true' && childrenData.length > 0)
+        setModalActive(true);
+
+    }else if(userRole === RoleOptions.Student && !localStorage.getItem('hideStudentIntro')){
+        setModalActive(true);
+    }
+  }, [modal, childrenData]);
+
+  function updateLocalStorage(){
+    if(userRole === RoleOptions.Tutor)
+      localStorage.setItem('hideTutorIntro', 'true');
+    else if (userRole === RoleOptions.Parent || userRole === RoleOptions.Student)
+      localStorage.setItem('hideStudentIntro', 'true');
+  }
+
   //always triggers, even on skip
   const onExit = () => {
-    localStorage.setItem('hideTutorIntro', 'true');
+    updateLocalStorage();
     setShowIntro(null);
     setIsStepsEnabled(false);
   };
 
   //on finish
   const onComplete = () => {
-    handleJoinBooking(mockSchedule);// automatically join meeting
+    if(userRole === RoleOptions.Tutor)
+      handleJoinBooking(mockSchedule);// automatically join meeting
     setIsStepsEnabled(false);
   };
 
@@ -602,21 +672,25 @@ const Dashboard = () => {
     setShowTutorial(false);
     setModalActive(false);
     setShowIntro(null);
-    localStorage.setItem('hideTutorIntro', 'true');
+    updateLocalStorage();
   };
 
+  //initialize data for tutorial
   const startTutorial = async () =>{
     document.body.scrollTop = -document.body.scrollHeight;
-    getTestingRoomLink().unwrap().then((res:any)=> {
-      setTutorialRoomLink(res.meetingUrl);
-    });
 
-    const dateKey = moment(new Date()).add(1, 'day').format(t('DATE_FORMAT'));
-    const grupedData: IGroupedDashboardData = {
-      [dateKey]: [mockRequest]
-    };
-    setTodayScheduled([mockSchedule]);
-    setGroupedRequests(grupedData);
+    if(userRole === RoleOptions.Tutor){
+      getTestingRoomLink().unwrap().then((res:any)=> {
+        setTutorialRoomLink(res.meetingUrl);
+      });
+
+      const dateKey = moment(new Date()).add(1, 'day').format(t('DATE_FORMAT'));
+      const grupedData: IGroupedDashboardData = {
+        [dateKey]: [mockRequest]
+      };
+      setTodayScheduled([mockSchedule]);
+      setGroupedRequests(grupedData);
+    }
 
     setShowTutorial(true);
     setModalActive(false);
@@ -660,14 +734,28 @@ const Dashboard = () => {
        ...paramsSearch
      };
 
+     const filters: ISearchFiltersState = {
+       subject: formik.values.subject,
+       level: formik.values.level,
+       dayOfWeek: formik.values.dayOfWeek,
+       timeOfDay: formik.values.timeOfDay,
+     };
+
+     params.subject = filters.subject;
+     params.level = filters.level;
+     params.timeOfDay = filters.timeOfDay.join(',');
+     params.dayOfWeek = filters.dayOfWeek.join(',');
+
+     dispatch(setSearchFilters(filters));
+
      getAvailableTutors(params).unwrap().then((res)=>{
        setLoadedTutorItems(res.content);
      });
    }
   }, [paramsSearch]);
 
-  const [dayOfWeekArray, setDayOfWeekArray] = useState<string[]>([]);
-  const [timeOfDayArray, setTimeOfDayArray] = useState<string[]>([]);
+  const [dayOfWeekArray, setDayOfWeekArray] = useState<string[]>(dayOfWeek);
+  const [timeOfDayArray, setTimeOfDayArray] = useState<string[]>(timeOfDay);
 
   const handleCustomDayOfWeek = (id: string) => {
     const ifExist = dayOfWeekArray.find((item) => item === id);
@@ -792,7 +880,15 @@ const Dashboard = () => {
     );
   };
 
+
   const initialValues: Values = {
+    subject: subject,
+    level: level,
+    dayOfWeek: dayOfWeek,
+    timeOfDay: timeOfDay,
+  };
+
+  const emptyValues: Values = {
     subject: '',
     level: '',
     dayOfWeek: [],
@@ -881,33 +977,12 @@ const Dashboard = () => {
     setDayOfWeekArray([]);
     setTimeOfDayArray([]);
 
-    formik.setValues(initialValues);
+    dispatch(resetSearchFilters());
+    formik.setValues(emptyValues);
   };
 
   const isMobile = window.innerWidth < 766;
 
-  function parseSearchParams() {
-    const queryStringParts = [];
-    if (paramsSearch.subject) {
-      queryStringParts.push(`subject=${paramsSearch.subject}`);
-    }
-
-    if (paramsSearch.level) {
-      queryStringParts.push(`level=${paramsSearch.level}`);
-    }
-
-    if (paramsSearch.dayOfWeek && paramsSearch.dayOfWeek?.length !=0) {
-      queryStringParts.push(`dayOfWeek=${paramsSearch.dayOfWeek.split(',')}`);
-    }
-
-    if (paramsSearch.timeOfDay && paramsSearch.timeOfDay?.length !=0) {
-      queryStringParts.push(`timeOfDay=${paramsSearch.timeOfDay.split(',')}`);
-    }
-
-    queryStringParts.push(`rpp=10`);
-    queryStringParts.push(`page=0`);
-    return  queryStringParts.join('&');
-  }
 
   const handleAvailabilityChange = () => {
     const initialParamsObj: ISearchParams = { ...paramsSearch };
@@ -932,20 +1007,26 @@ const Dashboard = () => {
   return (
       <>
         {modalActive &&
-          userRole == RoleOptions.Tutor ?
-          <TutorTutorialModal skip={skipTutorial} start={startTutorial}/>
+          userRole !== RoleOptions.Child ?
+          <TutorialModal
+            title={t('TUTOR_INTRO.MODAL.TITLE')}
+            body={t('TUTOR_INTRO.MODAL.BODY')}
+            skip={skipTutorial}
+            start={startTutorial}
+          />
         :
           <></>
         }
 
-        {showTutorial && groupedRequests && Object.keys(groupedRequests).length > 0 &&
+        {isStepsEnabled && showTutorial &&
           <Steps
-               enabled={isStepsEnabled}
-               steps={steps}
+              enabled
+              steps={userRole === RoleOptions.Tutor ? tutorSteps : Object.keys(groupedUpcomming).length > 0 ? studentStepsPartial : studentSteps}
                initialStep={0}
                onExit={onExit}
                onBeforeExit={onExit}
                options={{
+                 hidePrev: true,
                  nextLabel: t('TUTOR_INTRO.BUTTON_NEXT'),
                  prevLabel: t('TUTOR_INTRO.BUTTON_PREVIOUS'),
                  doneLabel: t('TUTOR_INTRO.BUTTON_FINISH'),
@@ -1182,7 +1263,7 @@ const Dashboard = () => {
                             </div>
                           ) : null}
                             <div className="row">
-                                <div className="col col-12 col-xl-5  tutor-intro-4">
+                                <div className="col col-12 col-xl-5  tutor-intro-4 student-intro-1">
                                     <div className="type--color--tertiary mb-2">{t('DASHBOARD.SCHEDULE.TITLE')}</div>
                                     {todayScheduled.length > 0 ? (
                                         <div className="card--dashboard card--dashboard--brand mb-xl-0 mb-8 h2 h--150">
@@ -1262,11 +1343,11 @@ const Dashboard = () => {
                           </div>
                         )}
                       </div>
-                      <div className="col col-12 col-xl-7">
+                      <div className="col col-12 col-xl-7 student-intro-2">
                         <div className="type--color--tertiary mb-2">{t('DASHBOARD.MESSAGES.TITLE')}</div>
 
                         {unreadChatrooms[activeMsgIndex] != undefined ? (
-                          <div className="card--dashboard h--150 intro-2-dashboard">
+                          <div className="card--dashboard h--150 ">
                                             <div className="flex--primary mb-2 ">
                                                 <div>
                                                     {userRole === RoleOptions.Tutor ?
@@ -1375,10 +1456,10 @@ const Dashboard = () => {
                                      <div className="type--color--tertiary mb-2">
                                       {t('DASHBOARD.BOOKINGS.RECOMMENDED')}
                                     </div>
-                                    <div className='filter flex flex--col flex--ai--center'>
+                                     <div className='filter flex flex--col flex--ai--center student-intro-3'>
 
 
-                                <div className="flex flex--wrap flex--center">
+                                <div className="flex flex--wrap flex--center mb-3">
                                   <FormikProvider value={formik}>
                                     <Form className="flex flex--wrap flex--jc--center filters-container" noValidate>
                                       <MySelect
@@ -1425,17 +1506,18 @@ const Dashboard = () => {
                                           <LoaderPrimary />
                                       ) : loadedTutorItems.length > 0 ? (
                                         <>
-                                          <div className="flex flex--row w--100 flex--wrap flex--gap-20 flex--jc--center field__w-fit-content align--center p-4 overflow--y--scroll pb-10">
-                                            {loadedTutorItems.map((tutor) =>
-                                              isMobile ? (
-                                                <RecommendedTutorCardMobile className="p-4 h--350" key={tutor.id} tutor={tutor} />
-                                              ) : (
-                                                <RecommendedTutorCard className="p-4 h--350" key={tutor.id} tutor={tutor} />
-                                              )
-                                            )}
+
+                                            <div className={"flex flex--row w--100 flex--wrap flex--gap-20 flex--jc--center field__w-fit-content align--center pb-3 pr-3 pl-3 overflow--y--scroll student-intro-3"}>
+                                              {loadedTutorItems.map((tutor) =>
+                                                isMobile ? (
+                                                  <RecommendedTutorCardMobile className={`p-4 h--350`} key={tutor.id} tutor={tutor} />
+                                                ) : (
+                                                  <RecommendedTutorCard className={`p-4 h--350`} key={tutor.id} tutor={tutor} />
+                                                )
+                                              )}
                                           </div>
                                           <Link
-                                            to={PATHS.SEARCH_TUTORS + '?' + parseSearchParams()}
+                                            to={PATHS.SEARCH_TUTORS }
                                             className="type--center underline-hover field__w-fit-content">
                                             {t('DASHBOARD.BOOKINGS.SHOW_MORE')}
                                           </Link>

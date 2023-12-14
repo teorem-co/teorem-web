@@ -814,6 +814,8 @@ export const EN_US = {
             REVENUE: 'Total revenue',
             CURRENCY: '€',
         },
+      PAYOUTS: 'Payout',
+      WEEK_TITLE: 'Week',
       WEEK:'Last 7 days',
       MONTH:'Last 30 days',
       YEAR:'Last 12 months',
@@ -1324,6 +1326,26 @@ export const EN_US = {
       BUTTON_PREVIOUS:'Previous',
       BUTTON_FINISH:'Finish',
       BUTTON_RESTART:'Restart tutorial'
+  },
+  STUDENT_INTRO:{
+    DASHBOARD: {
+      STEP1: {
+        TITLE: 'Today\'s Schedule',
+        BODY: 'Here you will see the lectures you have today and you will be able to connect to the lectures. (You can also see the lectures on the calendar)'
+      },
+      STEP2: {
+        TITLE: 'Unread Messages',
+        BODY: 'Here you will see all the messages that your instructor sends you. (You can also see this on the \'Chat\' tab)'
+      },
+      STEP3: {
+        TITLE: 'Instructor Recommendations',
+        BODY: 'Here are three instructors who most closely match your needs (depending on what you selected at registration). Using filters you can choose the subject, level, or time when the instructor is available,'
+      }
+    },
+    BUTTON_NEXT:'Next',
+    BUTTON_PREVIOUS:'Previous',
+    BUTTON_FINISH:'Finish',
+    BUTTON_RESTART:'Restart tutorial'
   }
 
 };

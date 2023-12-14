@@ -813,6 +813,8 @@ export const HR_HR = {
             REVENUE: 'Ukupan prihod',
             CURRENCY: '€',
         },
+      PAYOUTS: 'Isplata',
+      WEEK_TITLE: 'Tjedan',
       WEEK:'Zadnjih 7 dana',
       MONTH:'Zadnjih 30 dana',
       YEAR:'Zadnjih 12 mjeseci',
@@ -1329,5 +1331,25 @@ export const HR_HR = {
       BUTTON_PREVIOUS:'Prethodni',
       BUTTON_FINISH:'Završi',
       BUTTON_RESTART:'Pokreni tutorijal'
+    },
+    STUDENT_INTRO:{
+      DASHBOARD:{
+        STEP1: {
+          TITLE: 'Današnji raspored',
+          BODY:'Ovdje ćete vidjeti predavanja koja imate danas i moći ćete se spojiti na predavanja. (Predavanja također možete vidjeti na kalendaru)'
+        },
+        STEP2: {
+          TITLE: 'Nepročitane poruke',
+          BODY:'Ovdje ćete vidjeti sve poruke koje vam istruktor šalje. (Isto to možete vidjeti na kartici \'Razgovori\')'
+        },
+        STEP3: {
+          TITLE: 'Preporuke instruktora',
+          BODY:'Ovdje se nalaze tri instruktora koji najviše odgovaraju vašim potrebama (ovisno o onome što ste odabrali pri registraciji). Koristecći filtere možete odabrati predmet, razinu ili vrijeme kada je instruktor dostupan.'
+        }
+      },
+      BUTTON_NEXT:'Next',
+      BUTTON_PREVIOUS:'Previous',
+      BUTTON_FINISH:'Finish',
+      BUTTON_RESTART:'Restart tutorial'
     }
 };

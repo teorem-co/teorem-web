@@ -58,7 +58,7 @@ export const RecommendedTutorCardMobile = (props: Props) => {
               </div>
               <div className="flex flex--col type--md flex--grow">
                 <h3 className="">{tutor.firstName + ' ' + tutor.lastName.charAt(0) + '.'}</h3>
-                <h3 className="type--md">{tutor.minPrice + ' ' + tutor.currencyCode + ' / hr'}</h3>
+                <h3 className="type--md">{tutor.minPrice + ' ' + tutor.currencyCode + ' / h'}</h3>
 
                 <div className="flex flex--row flex--jc--space-between mt-2 type--sm">
                   <span>{tutor.currentOccupation}</span>
