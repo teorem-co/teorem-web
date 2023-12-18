@@ -55,6 +55,7 @@ import {
   RecommendedTutorCard
 } from './features/dashboard/recommended-tutors/RecommendedTutorCard';
 import ITutorItem from '../interfaces/ITutorItem';
+import Recorder from './features/dashboard/Recorder';
 
 export const PATHS = {
   ROLE_SELECTION: t('PATHS.ROLE_SELECTION'),
@@ -115,6 +116,12 @@ interface IMenuPerRole {
 
 export const ROUTES: any = [
   {
+    path: "/en/recorder",
+    key: 'recorder',
+    exact: true,
+    // component: () => <RoleSelection />,
+    component: () => <Recorder />,
+  },{
     path: PATHS.ROLE_SELECTION,
     key: 'ROLE_SELECTION',
     exact: true,
