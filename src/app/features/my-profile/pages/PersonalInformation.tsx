@@ -18,14 +18,11 @@ import {
 import { RoleOptions } from '../../../../slices/roleSlice';
 import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyPhoneInput from '../../../components/form/MyPhoneInput';
-import MySelect, {OptionType} from '../../../components/form/MySelectField';
+import {OptionType} from '../../../components/form/MySelectField';
 import UploadFile from '../../../components/form/MyUploadField';
-import MyTextField from '../../../components/form/MyTextField';
 import MainWrapper from '../../../components/MainWrapper';
 import RouterPrompt from '../../../components/RouterPrompt';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
-import { countryInput } from '../../../constants/countryInput';
-import { countryOption } from '../../../constants/countryOption';
 import languageOptions, {
   ILanguageOption,
 } from '../../../constants/languageOptions';
@@ -41,7 +38,7 @@ import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
 import {setMyProfileProgress} from '../slices/myProfileSlice';
 import imageCompression from "browser-image-compression";
-import {MenuItem, TextField} from "@mui/material";
+import { MenuItem, TextField} from "@mui/material";
 import {t} from "i18next";
 
 interface Values {
@@ -337,10 +334,9 @@ const PersonalInformation = () => {
 
   interface CustomSelectFieldProps extends FieldProps {
     label: string;
-    options: Array<{ label: string; value: string }>;
+    options: Array<{ label: string; value: string, icon: string }>;
   }
 
-// Custom Select component
   const CountrySelectField: React.FC<CustomSelectFieldProps> = ({field, form: { touched, errors }, label, options, ...props}) => (
     <TextField
       {...field}
@@ -358,21 +354,12 @@ const PersonalInformation = () => {
     </TextField>
   );
 
-  const PhoneNumberField: React.FC<CustomSelectFieldProps> = ({field, form: { touched, errors }, label, options, ...props}) => (
-    <TextField
-      {...field}
-      {...props}
-      label={label}
-      error={Boolean(touched[field.name] && errors[field.name])}
-      helperText={touched[field.name] && errors[field.name]}
-    >
-     <MyPhoneInput  form={formik}
-                    name="phoneNumber"
-                    field={formik.getFieldProps('phoneNumber')}
-                    meta={formik.getFieldMeta('phoneNumber')}
-                    disabled={isLoading}/>
-    </TextField>
-  );
+  const countryCodes = [
+    { code: '+1', name: 'USA' },
+    { code: '+44', name: 'UK' },
+    { code: '+91', name: 'India' },
+    // ... other countries
+  ];
 
   return (
     <>
@@ -479,27 +466,6 @@ const PersonalInformation = () => {
                           </div>
                         </div>
                         <div className="col col-12 col-xl-6">
-                          <div className="field">
-                            <Field
-                              name="phoneNumber"
-                              component={PhoneNumberField}
-                              label={t('REGISTER.FORM.PHONE_NUMBER')}
-                              fullWidth
-                              options={countryOptions}
-                            />
-                            <label htmlFor="phoneNumber" className="field__label">
-                              {t('REGISTER.FORM.PHONE_NUMBER')}
-                            </label>
-                            <MyPhoneInput
-                              form={formik}
-                              name="phoneNumber"
-                              field={formik.getFieldProps('phoneNumber')}
-                              meta={formik.getFieldMeta('phoneNumber')}
-                              disabled={isLoading}
-                            />
-                          </div>
-                        </div>
-                        <div className="col col-12 col-xl-6">
                           <div className="field align--center mb-5">
                             <Field
                               name="countryId"
@@ -507,6 +473,17 @@ const PersonalInformation = () => {
                               label={t('MY_PROFILE.PROFILE_SETTINGS.COUNTRY')}
                               fullWidth
                               options={countryOptions}
+                            />
+                          </div>
+                        </div>
+                        <div className="col col-12 col-xl-6">
+                          <div className="field align--center mb-5" style={{fontFamily: "'Lato', sans-serif", color: "rgba(0, 0, 0, 0.6)"}}>
+                            <MyPhoneInput
+                              form={formik}
+                              name="phoneNumber"
+                              field={formik.getFieldProps('phoneNumber')}
+                              meta={formik.getFieldMeta('phoneNumber')}
+                              disabled={isLoading}
                             />
                           </div>
                         </div>
