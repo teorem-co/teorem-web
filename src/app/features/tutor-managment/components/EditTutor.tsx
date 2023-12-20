@@ -43,9 +43,6 @@ export function EditTutor({ tutorData, setRefetch }: any) {
           delete values.profileImage;
         }
 
-        if(!values.yearsOfExperience)
-          delete values.yearsOfExperience;
-
       editTutor({ ...values, tutorId: tutorData.User.id, dateOfBirth: moment(values.dateOfBirth).format('YYYY-MM-DD') }).then(() => {
         setOpened(false);
         setRefetch((prevState: number) => prevState + 1);
