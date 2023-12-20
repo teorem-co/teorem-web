@@ -365,10 +365,6 @@ const AddChildSidebar = (props: Props) => {
                             onChange={(newValue) =>
                               formik.setFieldValue(formik.getFieldProps('dateOfBirth').name, newValue?.toString())}
                 />
-                <label className="field__label" htmlFor="dateOfBirth" style={{fontFamily: "'Lato', sans-serif"}}>
-                  {t('REGISTER.FORM.CHILD_DATE_OF_BIRTH')}
-                </label>
-                <MyDatePicker form={formik} field={formik.getFieldProps('dateOfBirth')} meta={formik.getFieldMeta('dateOfBirth')} />
               </div>
               <div className="field">
 
