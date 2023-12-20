@@ -1,6 +1,6 @@
-import { Form, FormikProvider, useFormik } from 'formik';
+import {Field, Form, FormikProvider, useField, useFormik} from 'formik';
 import moment from 'moment';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
@@ -18,10 +18,14 @@ import {
   useUpdateChildMutation,
 } from '../../../../services/userService';
 import MyDatePicker from '../../../components/form/MyDatePicker';
-import MyTextField from '../../../components/form/MyTextField';
 import { useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import TooltipPassword from '../../register/TooltipPassword';
+import {InputAdornment, TextField} from "@mui/material";
+import {t} from "i18next";
+import dayjs from "dayjs";
+import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 
 interface Props {
   sideBarIsOpen: boolean;
@@ -38,6 +42,7 @@ const AddChildSidebar = (props: Props) => {
   const [checkUsername] = useCheckUsernameMutation();
   const [generateChildUsernamePost] = useGenerateChildUsernameMutation();
   const userId = useAppSelector((state) => state.auth.user?.id);
+  const [passType, setPassType] = useState("password");
 
   const [passTooltip, setPassTooltip] = useState<boolean>(false);
 
@@ -252,8 +257,18 @@ const AddChildSidebar = (props: Props) => {
     validationSchema: Yup.object().shape(generateValidationSchema()),
   });
 
+  const visiblePassToggle = (e: any) => {
+    if(passType === "password") {
+      setPassType("text");
+    } else {
+      setPassType("password");
+    }
+  };
+
   return (
     <div>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+
       <div className={`cur--pointer sidebar__overlay ${!sideBarIsOpen ? 'sidebar__overlay--close' : ''}`} onClick={() => handleClose()}></div>
 
       <div className={`sidebar sidebar--secondary sidebar--secondary ${!sideBarIsOpen ? 'sidebar--secondary--close' : ''}`}>
@@ -266,14 +281,27 @@ const AddChildSidebar = (props: Props) => {
         <div className="flex--grow mt-10">
           <FormikProvider value={formik}>
             <Form>
-              <div className="field">
-                <label htmlFor="firstName" className="field__label">
-                  {t('MY_PROFILE.CHILD.FIRST_NAME')}*
-                </label>
-                <MyTextField
+              <div className="field align--center mb-5">
+                <Field
+                  as={TextField}
                   name="firstName"
+                  type="text"
+                  fullWidth
+                  error={formik.touched.firstName && !!formik.errors.firstName}
+                  helperText={formik.touched.firstName && formik.errors.firstName}
                   id="firstName"
-                  placeholder={t('MY_PROFILE.CHILD.FIRST_NAME_PLACEHOLDER')}
+                  label={t('MY_PROFILE.CHILD.FIRST_NAME_PLACEHOLDER')}
+                  variant="outlined"
+                  color="secondary"
+                  InputProps={{
+                    style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
+                  }}
+                  InputLabelProps={{
+                    style: { fontFamily: "'Lato', sans-serif" },
+                  }}
+                  FormHelperTextProps={{
+                    style: { color: 'red' } // Change the color of the helper text here
+                  }}
                   onBlur={(e: any) => {
                     generateChildUsername();
                     formik.handleBlur(e);
@@ -281,37 +309,93 @@ const AddChildSidebar = (props: Props) => {
                 />
               </div>
               {childData && (
-                <div className="field">
-                  <label htmlFor="lastName" className="field__label">
-                    {t('MY_PROFILE.CHILD.LAST_NAME')}*
-                  </label>
-                  <MyTextField name="lastName" id="lastName" placeholder={t('MY_PROFILE.CHILD.LAST_NAME_PLACEHOLDER')} />
+                <div className="field align--center mb-5">
+                  <Field
+                    as={TextField}
+                    name="lastName"
+                    type="text"
+                    fullWidth
+                    error={formik.touched.lastName && !!formik.errors.lastName}
+                    helperText={formik.touched.lastName && formik.errors.lastName}
+                    id="lastName"
+                    label={t('MY_PROFILE.CHILD.LAST_NAME_PLACEHOLDER')}
+                    variant="outlined"
+                    color="secondary"
+                    InputProps={{
+                      style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
+                    }}
+                    InputLabelProps={{
+                      style: { fontFamily: "'Lato', sans-serif" },
+                    }}
+                    FormHelperTextProps={{
+                      style: { color: 'red' } // Change the color of the helper text here
+                    }}
+                  />
                 </div>
               )}
-              <div className="field">
-                <label htmlFor="username" className="field__label">
-                  {t('MY_PROFILE.CHILD.USERNAME')}*
-                </label>
-                <MyTextField name="username" id="username" placeholder={t('MY_PROFILE.CHILD.USERNAME_PLACEHOLDER')} />
-              </div>
-              <div className="field">
-                <label className="field__label" htmlFor="dateOfBirth">
-                  {t('REGISTER.FORM.CHILD_DATE_OF_BIRTH')}
-                </label>
-                <MyDatePicker form={formik} field={formik.getFieldProps('dateOfBirth')} meta={formik.getFieldMeta('dateOfBirth')} />
-              </div>
-              <div className="field">
-                <label className="field__label" htmlFor="password">
-                  {t('MY_PROFILE.CHILD.PASSWORD')}
-                </label>
-                {childData && <p className="mb-2 type--color--tertiary">{t('MY_PROFILE.CHILD.PASSWORD_OPTIONAL')}</p>}
+              <div className="field align--center mb-5">
+                <Field
+                  as={TextField}
+                  name="username"
+                  type="text"
+                  fullWidth
+                  error={formik.touched.lastName && !!formik.errors.lastName}
+                  helperText={formik.touched.lastName && formik.errors.lastName}
+                  id="username"
+                  label={t('MY_PROFILE.CHILD.USERNAME_PLACEHOLDER')}
+                  variant="outlined"
+                  color="secondary"
+                  InputProps={{
+                    style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
+                  }}
+                  InputLabelProps={{
+                    style: { fontFamily: "'Lato', sans-serif" },
+                  }}
+                  FormHelperTextProps={{
+                    style: { color: 'red' } // Change the color of the helper text here
+                  }}
+                />
 
-                <MyTextField
+              </div>
+              <div className="field">
+                <DatePicker label={t('REGISTER.FORM.CHILD_DATE_OF_BIRTH')}
+                            defaultValue={dayjs()}
+                            value={dayjs(formik.values.dateOfBirth)}
+                            format="DD/MM/YYYY"
+                            onChange={(newValue) =>
+                              formik.setFieldValue(formik.getFieldProps('dateOfBirth').name, newValue?.toString())}
+                />
+              </div>
+              <div className="field">
+
+                <Field
+                  as={TextField}
                   name="password"
+                  type={passType}
+                  fullWidth
+                  error={formik.touched.password && !!formik.errors.password}
+                  helperText={formik.touched.password && formik.errors.password}
                   id="password"
-                  placeholder={t('MY_PROFILE.CHILD.PASSWORD_PLACEHOLDER')}
-                  className="input input--base input--text input--icon"
-                  password={true}
+                  label={childData ? t('MY_PROFILE.CHILD.PASSWORD_OPTIONAL'):  t('MY_PROFILE.CHILD.PASSWORD')}
+                  variant="outlined"
+                  color="secondary"
+                  InputProps={{
+                    style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
+                    endAdornment: (
+                      <InputAdornment position="start">
+                        <i className="icon icon--sm icon--visible input--text--password" onClick={(e: any) => visiblePassToggle(e)}></i>
+                      </InputAdornment>
+                    ),
+                  }}
+                  InputLabelProps={{
+                    style: { fontFamily: "'Lato', sans-serif" },
+                  }}
+                  FormHelperTextProps={{
+                    style: { color: 'red' } // Change the color of the helper text here
+                  }}
+                  inputProps={{
+                    maxLength: 100,
+                  }}
                   onBlur={(e: any) => {
                     handlePasswordBlur();
                     formik.handleBlur(e);
@@ -319,6 +403,7 @@ const AddChildSidebar = (props: Props) => {
                   onFocus={handlePasswordFocus}
                   onKeyUp={handleKeyUp}
                 />
+                {childData && <p className="mb-2 type--color--tertiary">{t('MY_PROFILE.CHILD.PASSWORD_OPTIONAL')}</p>}
 
                 <TooltipPassword passTooltip={passTooltip} />
               </div>
@@ -342,6 +427,7 @@ const AddChildSidebar = (props: Props) => {
           </div>
         </div>
       </div>
+      </LocalizationProvider>
     </div>
   );
 };

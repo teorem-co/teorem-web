@@ -1,6 +1,6 @@
-import { Form, FormikProvider, useFormik } from 'formik';
+import {Field, Form, FormikProvider, useFormik} from 'formik';
 import { isEqual } from 'lodash';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
@@ -20,6 +20,7 @@ import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
 import IUpdateAdditionalInfo from '../interfaces/IUpdateAdditionalInfo';
 import { setMyProfileProgress } from '../slices/myProfileSlice';
+import {TextField} from "@mui/material";
 
 const AdditionalInformation = () => {
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
@@ -174,63 +175,129 @@ const AdditionalInformation = () => {
                                 <div className="w--800--max">
                                     <div className="row">
                                         <div className="col col-12 col-xl-6">
-                                            <div className="field">
-                                                <label className="field__label" htmlFor="currentOccupation">
-                                                    {t('MY_PROFILE.ABOUT_ME.OCCUPATION')}
-                                                </label>
-                                                <MyTextField
-                                                    maxLength={50}
-                                                    id="currentOccupation"
-                                                    wrapperClassName="flex--grow"
-                                                    name="currentOccupation"
-                                                    placeholder={t('MY_PROFILE.ABOUT_ME.OCCUPATION_PLACEHOLDER')}
-                                                    className="input input--base"
-                                                    disabled={isLoading}
-                                                />
+                                            <div className="field align--center mb-5">
+                                              <Field
+                                                as={TextField}
+                                                name="currentOccupation"
+                                                type="text"
+                                                fullWidth
+                                                id="currentOccupation"
+                                                label={t('MY_PROFILE.ABOUT_ME.OCCUPATION')}
+                                                variant="outlined"
+                                                color="secondary"
+                                                error={formik.touched.currentOccupation && !!formik.errors.currentOccupation}
+                                                helperText={formik.touched.currentOccupation && formik.errors.currentOccupation}
+                                                InputProps={{
+                                                  style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
+                                                }}
+                                                InputLabelProps={{
+                                                  style: { fontFamily: "'Lato', sans-serif" },
+                                                }}
+                                                FormHelperTextProps={{
+                                                  style: { color: 'red' } // Change the color of the helper text here
+                                                }}
+                                                inputProps={{
+                                                  maxLength: 75,
+                                                }}
+                                              />
                                             </div>
                                         </div>
                                         <div className="col col-12 col-xl-6">
-                                            <div className="field">
-                                                <label className="field__label" htmlFor="yearsOfExperience">
-                                                    {t('MY_PROFILE.ABOUT_ME.YEARS')}
-                                                </label>
-                                                <MyTextField
-                                                    id="yearsOfExperience"
-                                                    wrapperClassName="flex--grow"
-                                                    name="yearsOfExperience"
-                                                    placeholder={t('MY_PROFILE.ABOUT_ME.YEARS_PLACEHOLDER')}
-                                                    className="input input--base"
-                                                    type={'number'}
-                                                    disabled={isLoading}
-                                                />
+                                            <div className="field align--center mb-5">
+                                              <Field
+                                                as={TextField}
+                                                name="yearsOfExperience"
+                                                type="text"
+                                                fullWidth
+                                                id="yearsOfExperience"
+                                                label={t('MY_PROFILE.ABOUT_ME.YEARS')}
+                                                variant="outlined"
+                                                color="secondary"
+                                                error={formik.touched.yearsOfExperience && !!formik.errors.yearsOfExperience}
+                                                helperText={formik.touched.yearsOfExperience && formik.errors.yearsOfExperience}
+                                                InputProps={{
+                                                  style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
+                                                }}
+                                                InputLabelProps={{
+                                                  style: { fontFamily: "'Lato', sans-serif" },
+                                                }}
+                                                FormHelperTextProps={{
+                                                  style: { color: 'red' }
+                                                }}
+                                                onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+                                                  if (e.key === 'Backspace' ||
+                                                    e.key === 'Delete' ||
+                                                    e.key === 'ArrowLeft' ||
+                                                    e.key === 'ArrowRight' ||
+                                                    e.key.match(/[0-9]/)
+                                                  ) {
+                                                    // let these keys work
+                                                  } else {
+                                                    // prevent other keys
+                                                    e.preventDefault();
+                                                  }
+                                                }}
+                                              />
                                             </div>
                                         </div>
                                         <div className="col col-12">
-                                            <div className="field">
-                                                <label className="field__label" htmlFor="aboutTutor">
-                                                    {t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_LABEL')}
-                                                </label>
-                                                <MyTextArea
-                                                    maxLength={2500}
-                                                    name="aboutTutor"
-                                                    placeholder={t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_PLACEHOLDER')}
-                                                    id="aboutTutor"
-                                                    disabled={isLoading}
-                                                />
+                                            <div className="field align--center mb-5">
+                                              <Field
+                                                as={TextField}
+                                                name="aboutTutor"
+                                                type="text"
+                                                fullWidth
+                                                multiline
+                                                rows={5}
+                                                id="aboutTutor"
+                                                error={formik.touched.aboutTutor && !!formik.errors.aboutTutor}
+                                                helperText={formik.touched.aboutTutor && formik.errors.aboutTutor}
+                                                InputProps={{
+                                                  style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
+                                                }}
+                                                InputLabelProps={{
+                                                  style: { fontFamily: "'Lato', sans-serif" },
+                                                }}
+                                                FormHelperTextProps={{
+                                                  style: { color: 'red' } // Change the color of the helper text here
+                                                }}
+                                                inputProps={{
+                                                  maxLength: 2500,
+                                                }}
+                                                label={t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_LABEL')}
+                                                variant="outlined"
+                                                color="secondary"
+                                              />
                                             </div>
                                         </div>
                                         <div className="col col-12">
-                                            <div className="field">
-                                                <label className="field__label" htmlFor="aboutLessons">
-                                                    {t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_LABEL')}
-                                                </label>
-                                                <MyTextArea
-                                                    maxLength={2500}
-                                                    name="aboutLessons"
-                                                    placeholder={t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_PLACEHOLDER')}
-                                                    id="aboutLessons"
-                                                    disabled={isLoading}
-                                                />
+                                            <div className="field align--center mb-5">
+                                              <Field
+                                                as={TextField}
+                                                name="aboutLessons"
+                                                type="text"
+                                                fullWidth
+                                                multiline
+                                                rows={5}
+                                                error={formik.touched.aboutLessons && !!formik.errors.aboutLessons}
+                                                helperText={formik.touched.aboutLessons && formik.errors.aboutLessons}
+                                                InputProps={{
+                                                  style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
+                                                }}
+                                                InputLabelProps={{
+                                                  style: { fontFamily: "'Lato', sans-serif" },
+                                                }}
+                                                FormHelperTextProps={{
+                                                  style: { color: 'red' } // Change the color of the helper text here
+                                                }}
+                                                inputProps={{
+                                                  maxLength: 2500,
+                                                }}
+                                                id="aboutLessons"
+                                                label={t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_LABEL')}
+                                                variant="outlined"
+                                                color="secondary"
+                                              />
                                             </div>
                                         </div>
                                     </div>

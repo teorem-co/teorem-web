@@ -52,7 +52,13 @@
   //background-color: red;
 }
 
+.react-tel-input .form-control {
+  height: 57px !important; /* Adjusts the height of the input field */
+}
 
+.react-tel-input .flag-dropdown {
+  height: 57px !important; /* Adjusts the height of the dropdown button */
+}
 
 .field {
     position: relative;

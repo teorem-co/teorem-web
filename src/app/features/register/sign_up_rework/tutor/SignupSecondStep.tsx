@@ -1,6 +1,6 @@
-import { Form, FormikProvider, useFormik } from 'formik';
+import {Field, Form, FormikProvider, useFormik} from 'formik';
 import { t } from 'i18next';
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 
@@ -9,6 +9,7 @@ import { setStepTwo } from '../../../../../slices/signUpSlice';
 import MyPhoneInput from '../../../../components/form/MyPhoneInput';
 import MyTextField from '../../../../components/form/MyTextField';
 import { useAppSelector } from '../../../../hooks';
+import {TextField} from "@mui/material";
 
 type StepTwoProps ={
   nextStep:() => void
@@ -98,14 +99,32 @@ export const SignupSecondStep = ({ nextStep }:StepTwoProps) => {
 
             {/*email*/}
             <div className="align--center mb-5">
-              <MyTextField
-                id="email"
+              <Field
+                as={TextField}
                 name="email"
-                style={{background:'white'}}
+                type="text"
+                fullWidth
+                error={formik.touched.email && !!formik.errors.email}
+                helperText={formik.touched.email && formik.errors.email}
+                id="email"
+                label={t('REGISTER.FORM.EMAIL_PLACEHOLDER')}
+                variant="outlined"
+                color="secondary"
+                InputProps={{
+                  style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
+                }}
+                InputLabelProps={{
+                  style: { fontFamily: "'Lato', sans-serif" },
+                }}
+                FormHelperTextProps={{
+                  style: { color: 'red' } // Change the color of the helper text here
+                }}
+                inputProps={{
+                  maxLength: 100,
+                }}
                 onBlur={(e: any) => {
                   formik.handleBlur(e);
                 }}
-                placeholder={t('REGISTER.FORM.EMAIL_PLACEHOLDER')}
               />
             </div>
 
