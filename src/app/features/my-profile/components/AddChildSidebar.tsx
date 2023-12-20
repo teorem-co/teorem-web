@@ -1,4 +1,4 @@
-import {Field, Form, FormikProvider, useFormik} from 'formik';
+import {Field, Form, FormikProvider, useField, useFormik} from 'formik';
 import moment from 'moment';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -18,12 +18,14 @@ import {
   useUpdateChildMutation,
 } from '../../../../services/userService';
 import MyDatePicker from '../../../components/form/MyDatePicker';
-import MyTextField from '../../../components/form/MyTextField';
 import { useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import TooltipPassword from '../../register/TooltipPassword';
 import {InputAdornment, TextField} from "@mui/material";
 import {t} from "i18next";
+import dayjs from "dayjs";
+import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 
 interface Props {
   sideBarIsOpen: boolean;
@@ -265,6 +267,8 @@ const AddChildSidebar = (props: Props) => {
 
   return (
     <div>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+
       <div className={`cur--pointer sidebar__overlay ${!sideBarIsOpen ? 'sidebar__overlay--close' : ''}`} onClick={() => handleClose()}></div>
 
       <div className={`sidebar sidebar--secondary sidebar--secondary ${!sideBarIsOpen ? 'sidebar--secondary--close' : ''}`}>
@@ -354,6 +358,13 @@ const AddChildSidebar = (props: Props) => {
 
               </div>
               <div className="field">
+                <DatePicker label={t('REGISTER.FORM.CHILD_DATE_OF_BIRTH')}
+                            defaultValue={dayjs()}
+                            value={dayjs(formik.values.dateOfBirth)}
+                            format="DD/MM/YYYY"
+                            onChange={(newValue) =>
+                              formik.setFieldValue(formik.getFieldProps('dateOfBirth').name, newValue?.toString())}
+                />
                 <label className="field__label" htmlFor="dateOfBirth" style={{fontFamily: "'Lato', sans-serif"}}>
                   {t('REGISTER.FORM.CHILD_DATE_OF_BIRTH')}
                 </label>
@@ -420,6 +431,7 @@ const AddChildSidebar = (props: Props) => {
           </div>
         </div>
       </div>
+      </LocalizationProvider>
     </div>
   );
 };

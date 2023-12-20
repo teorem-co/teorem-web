@@ -491,6 +491,7 @@ const PersonalInformation = () => {
                                         defaultValue={dayjs(dateOfBirth)}
                                         value={dayjs(formik.values.dateOfBirth)}
                                         format="DD/MM/YYYY"
+                                        disableFuture
                                         onChange={(newValue) =>
                                           formik.setFieldValue(formik.getFieldProps('dateOfBirth').name, newValue?.toString())}
                             />

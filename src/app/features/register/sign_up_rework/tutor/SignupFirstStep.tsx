@@ -5,11 +5,12 @@ import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 
 import { setStepOne } from '../../../../../slices/signUpSlice';
-import MyDatePicker from '../../../../components/form/MyDatePicker';
-import MyTextField from '../../../../components/form/MyTextField';
 import { useAppSelector } from '../../../../hooks';
 import {TextField} from "@mui/material";
 import React from "react";
+import dayjs from "dayjs";
+import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 
 interface StepOneValues {
   firstName: string;
@@ -89,6 +90,7 @@ export const SignupFirstStep = ({nextStep}:StepOneProps) => {
 
   return (
       <div className="align-self-center sign-up-form-wrapper">
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
         <FormikProvider value={formik}>
           <Form onKeyPress={handleEnterKeyOne}>
 
@@ -153,10 +155,14 @@ export const SignupFirstStep = ({nextStep}:StepOneProps) => {
             {/*date of birth*/}
             <div
               className="field align--center field__w-fit-content mb-5">
-              <MyDatePicker
-                form={formik}
-                field={formik.getFieldProps('dateOfBirth')}
-                meta={formik.getFieldMeta('dateOfBirth')}
+              <DatePicker label={t('MY_PROFILE.PROFILE_SETTINGS.BIRTHDAY')}
+                          defaultValue={dayjs(dateOfBirth)}
+                          value={dayjs(formik.values.dateOfBirth)}
+                          format="DD/MM/YYYY"
+                          disableFuture
+                          sx={{backgroundColor: "white"}}
+                          onChange={(newValue) =>
+                            formik.setFieldValue(formik.getFieldProps('dateOfBirth').name, newValue?.toString())}
               />
             </div>
 
@@ -168,6 +174,7 @@ export const SignupFirstStep = ({nextStep}:StepOneProps) => {
               onClick={() => formik.handleSubmit()}>{t('REGISTER.NEXT_BUTTON')}</button>
           </Form>
         </FormikProvider>
+        </LocalizationProvider>
       </div>
   );
 };
