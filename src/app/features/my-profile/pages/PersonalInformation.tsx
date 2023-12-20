@@ -16,7 +16,6 @@ import {
   useUpdateUserInformationMutation,
 } from '../../../../services/userService';
 import { RoleOptions } from '../../../../slices/roleSlice';
-import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyPhoneInput from '../../../components/form/MyPhoneInput';
 import {OptionType} from '../../../components/form/MySelectField';
 import UploadFile from '../../../components/form/MyUploadField';
@@ -40,6 +39,9 @@ import {setMyProfileProgress} from '../slices/myProfileSlice';
 import imageCompression from "browser-image-compression";
 import { MenuItem, TextField} from "@mui/material";
 import {t} from "i18next";
+import dayjs from "dayjs";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
 
 interface Values {
   firstName: string;
@@ -91,6 +93,7 @@ const PersonalInformation = () => {
   const userId = getUserId();
   const isLoading = isLoadingUser || isLoadingUserUpdate;
   const pageLoading = countriesLoading || countriesUninitialized || isLoadingUser || userUninitialized || countriesFetching || userFetching;
+  const [dateOfBirth, setDateOfBirth] = useState("");
 
   const handleSubmit = async (values: Values) => {
     const toSend: any = {
@@ -170,6 +173,7 @@ const PersonalInformation = () => {
       const userResponse = await getUser(user.id).unwrap();
 
       if (userResponse) {
+        setDateOfBirth(userResponse.dateOfBirth);
         const values = {
           firstName: userResponse.firstName,
           lastName: userResponse.lastName,
@@ -354,15 +358,9 @@ const PersonalInformation = () => {
     </TextField>
   );
 
-  const countryCodes = [
-    { code: '+1', name: 'USA' },
-    { code: '+44', name: 'UK' },
-    { code: '+91', name: 'India' },
-    // ... other countries
-  ];
-
   return (
     <>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
       <RouterPrompt
         when={saveBtnActive}
         onOK={handleUpdateOnRouteChange}
@@ -488,15 +486,13 @@ const PersonalInformation = () => {
                           </div>
                         </div>
                         <div className="col col-12 col-xl-6">
-                          <div className="field">
-                            <label className="field__label" htmlFor="dateOfBirth">
-                              {t('MY_PROFILE.PROFILE_SETTINGS.BIRTHDAY')}
-                            </label>
-                            <MyDatePicker
-                              form={formik}
-                              field={formik.getFieldProps('dateOfBirth')}
-                              meta={formik.getFieldMeta('dateOfBirth')}
-                              isDisabled={isLoading}
+                          <div className="field align--center mb-5" style={{fontFamily: "'Lato', sans-serif", color: "rgba(0, 0, 0, 0.6)"}}>
+                            <DatePicker label={t('MY_PROFILE.PROFILE_SETTINGS.BIRTHDAY')}
+                                        defaultValue={dayjs(dateOfBirth)}
+                                        value={dayjs(formik.values.dateOfBirth)}
+                                        format="DD/MM/YYYY"
+                                        onChange={(newValue) =>
+                                          formik.setFieldValue(formik.getFieldProps('dateOfBirth').name, newValue?.toString())}
                             />
                           </div>
                         </div>
@@ -578,6 +574,7 @@ const PersonalInformation = () => {
           </FormikProvider>
         </div>
       </MainWrapper>
+      </LocalizationProvider>
     </>
   );
 };
