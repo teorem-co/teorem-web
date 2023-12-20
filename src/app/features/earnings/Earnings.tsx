@@ -18,6 +18,7 @@ import {Chart, Line} from 'react-chartjs-2';
 
 import MainWrapper from '../../components/MainWrapper';
 import {
+  useLazyGetBookingInvoicesQuery,
   useLazyGetEarningsQuery,
   useLazyGetPayoutsQuery
 } from './services/earningsService';
@@ -30,6 +31,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, LineCont
 const Earnings = () => {
   const [getEarnings, { data: earningsData }] = useLazyGetEarningsQuery();
   const [getPayouts, {data: payoutsData}] = useLazyGetPayoutsQuery();
+  const [getBookings, {data: bookingsData}] = useLazyGetBookingInvoicesQuery();
 
   const [table, setTable] = useState("PAYOUTS");
   const [labels, setLabels] = useState<string[]>([]);
@@ -60,6 +62,7 @@ const Earnings = () => {
   const fetchData = async () => {
     const response = await getEarnings(periodOfTime).unwrap();
     const payoutsResponse = await getPayouts().unwrap();
+    const bookingsResponse = await getBookings().unwrap();
     if(periodOfTime === "YEAR") {
       setLabels(response.labels.map((item) => t('CONSTANTS.MONTHS_LONG.' + item.substring(0, 3).toUpperCase())));
     } else if (periodOfTime === "WEEK") {
@@ -282,7 +285,6 @@ const Earnings = () => {
                             style={{fontSize: "11px"}}
               >Payouts</ToggleButton>
               <ToggleButton value="bookings"
-                            disabled={true}
                             onClick={() => setTable("BOOKINGS")}
                             style={{fontSize: "11px"}}
               >Bookings</ToggleButton>
@@ -316,7 +318,20 @@ const Earnings = () => {
                     })) ||
                   t('EARNINGS.DETAILS.TABLE.EMPTY')}
                 </tbody>
-              ): null
+              ): (
+                <tbody>
+                {(bookingsData &&
+                    bookingsData.invoicesForMonth.map((tableItem) => {
+                      return (
+                        <tr style={{alignItems: "center"}}>
+                          <td>{tableItem.month}</td>
+                          <td>{tableItem.students}</td>
+                        </tr>
+                      );
+                    })) ||
+                  t('EARNINGS.DETAILS.TABLE.EMPTY')}
+                </tbody>
+              )
             }
             </table>
           </div>
