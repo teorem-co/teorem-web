@@ -463,17 +463,18 @@ const PersonalInformation = () => {
                             />
                           </div>
                         </div>
-                        <div className="col col-12 col-xl-6">
-                          <div className="field align--center mb-5">
-                            <Field
-                              name="countryId"
-                              component={CountrySelectField}
-                              label={t('MY_PROFILE.PROFILE_SETTINGS.COUNTRY')}
-                              fullWidth
-                              options={countryOptions}
-                            />
-                          </div>
-                        </div>
+                        {/*todo: commented out due to TRM-179*/}
+                        {/*<div className="col col-12 col-xl-6">*/}
+                        {/*  <div className="field align--center mb-5">*/}
+                        {/*    <Field*/}
+                        {/*      name="countryId"*/}
+                        {/*      component={CountrySelectField}*/}
+                        {/*      label={t('MY_PROFILE.PROFILE_SETTINGS.COUNTRY')}*/}
+                        {/*      fullWidth*/}
+                        {/*      options={countryOptions}*/}
+                        {/*    />*/}
+                        {/*  </div>*/}
+                        {/*</div>*/}
                         <div className="col col-12 col-xl-6">
                           <div className="field align--center mb-5" style={{fontFamily: "'Lato', sans-serif", color: "rgba(0, 0, 0, 0.6)"}}>
                             <MyPhoneInput
