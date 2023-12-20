@@ -332,6 +332,7 @@ export const HR_HR = {
         },
         BOOKING: {
             NOT_FOUND: 'Rezervacija nije pronađena',
+            CANNOT_CANCEL_ACCEPTED_BOOKING: 'Prihvaćena rezervacija se ne može otkazati'
         },
         ROLE: {
             NOT_FOUND: 'Uloga nije pronađena',

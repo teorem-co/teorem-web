@@ -333,6 +333,7 @@ export const EN_US = {
         },
         BOOKING: {
             NOT_FOUND: 'Booking not found',
+            CANNOT_CANCEL_ACCEPTED_BOOKING: 'Cannot cancel accepted booking'
         },
         ROLE: {
             NOT_FOUND: 'Role not found',
