@@ -91,12 +91,19 @@ const MyTeachings = () => {
                         </div>
                         <div>
                             <div className="dash-wrapper dash-wrapper--adaptive flex--grow">
+                              {/* Map through subjects here */}
+                              {/* Test fields */}
+                              <SubjectList
+                                handleSendId={handleSendId}
+                                tutorSubjects={myTeachingsData && myTeachingsData.TutorSubjects ? myTeachingsData.TutorSubjects : []}
+                                currency={currency}
+                                key={myTeachingsData && myTeachingsData.TutorSubjects.length}
+                              />
                                 <div className="dash-wrapper__item">
                                     <div className="dash-wrapper__item__element" onClick={() => setAddSidebarOpen(true)}>
                                         <div className="flex--primary cur--pointer">
                                             <div>
                                                 <div className="type--wgt--bold">{t('MY_PROFILE.MY_TEACHINGS.ADD_NEW')}</div>
-                                                <div>{t('MY_PROFILE.MY_TEACHINGS.ADD_DESC')}</div>
                                             </div>
                                             <div>
                                                 <i className="icon icon--base icon--plus icon--primary"></i>
@@ -104,14 +111,6 @@ const MyTeachings = () => {
                                         </div>
                                     </div>
                                 </div>
-                                {/* Map through subjects here */}
-                                {/* Test fields */}
-                                <SubjectList
-                                    handleSendId={handleSendId}
-                                    tutorSubjects={myTeachingsData && myTeachingsData.TutorSubjects ? myTeachingsData.TutorSubjects : []}
-                                    currency={currency}
-                                    key={myTeachingsData && myTeachingsData.TutorSubjects.length}
-                                />
                             </div>
                         </div>
                     </div>
