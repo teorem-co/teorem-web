@@ -261,7 +261,6 @@ const PersonalInformation = () => {
           }
         });
     }
-
     return Yup.object().shape(validation);
   };
 
