@@ -1,7 +1,7 @@
-import {Form, FormikProvider, useFormik} from 'formik';
+import {Field, FieldProps, Form, FormikProvider, useFormik} from 'formik';
 import {isEqual} from 'lodash';
 import moment from 'moment';
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useHistory} from 'react-router';
 import * as Yup from 'yup';
@@ -16,16 +16,12 @@ import {
   useUpdateUserInformationMutation,
 } from '../../../../services/userService';
 import { RoleOptions } from '../../../../slices/roleSlice';
-import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyPhoneInput from '../../../components/form/MyPhoneInput';
-import MySelect, {OptionType} from '../../../components/form/MySelectField';
+import {OptionType} from '../../../components/form/MySelectField';
 import UploadFile from '../../../components/form/MyUploadField';
-import MyTextField from '../../../components/form/MyTextField';
 import MainWrapper from '../../../components/MainWrapper';
 import RouterPrompt from '../../../components/RouterPrompt';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
-import { countryInput } from '../../../constants/countryInput';
-import { countryOption } from '../../../constants/countryOption';
 import languageOptions, {
   ILanguageOption,
 } from '../../../constants/languageOptions';
@@ -41,6 +37,11 @@ import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
 import {setMyProfileProgress} from '../slices/myProfileSlice';
 import imageCompression from "browser-image-compression";
+import { MenuItem, TextField} from "@mui/material";
+import {t} from "i18next";
+import dayjs from "dayjs";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
 
 interface Values {
   firstName: string;
@@ -92,6 +93,7 @@ const PersonalInformation = () => {
   const userId = getUserId();
   const isLoading = isLoadingUser || isLoadingUserUpdate;
   const pageLoading = countriesLoading || countriesUninitialized || isLoadingUser || userUninitialized || countriesFetching || userFetching;
+  const [dateOfBirth, setDateOfBirth] = useState("");
 
   const handleSubmit = async (values: Values) => {
     const toSend: any = {
@@ -171,6 +173,7 @@ const PersonalInformation = () => {
       const userResponse = await getUser(user.id).unwrap();
 
       if (userResponse) {
+        setDateOfBirth(userResponse.dateOfBirth);
         const values = {
           firstName: userResponse.firstName,
           lastName: userResponse.lastName,
@@ -333,8 +336,31 @@ const PersonalInformation = () => {
     window.location.reload();
   };
 
+  interface CustomSelectFieldProps extends FieldProps {
+    label: string;
+    options: Array<{ label: string; value: string, icon: string }>;
+  }
+
+  const CountrySelectField: React.FC<CustomSelectFieldProps> = ({field, form: { touched, errors }, label, options, ...props}) => (
+    <TextField
+      {...field}
+      {...props}
+      select
+      label={label}
+      error={Boolean(touched[field.name] && errors[field.name])}
+      helperText={touched[field.name] && errors[field.name]}
+    >
+      {options.map((option) => (
+        <MenuItem key={option.value} value={option.value}>
+          {option.label}
+        </MenuItem>
+      ))}
+    </TextField>
+  );
+
   return (
     <>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
       <RouterPrompt
         when={saveBtnActive}
         onOK={handleUpdateOnRouteChange}
@@ -380,36 +406,77 @@ const PersonalInformation = () => {
                     <div className="w--800--max">
                       <div className="row">
                         <div className="col col-12 col-xl-6">
-                          <div className="field">
-                            <label htmlFor="firstName" className="field__label">
-                              {t('MY_PROFILE.PROFILE_SETTINGS.FIRST_NAME')}
-                            </label>
-                            <MyTextField
+                          <div className="field align--center mb-5">
+                            <Field
+                              as={TextField}
                               name="firstName"
+                              type="text"
+                              fullWidth
                               id="firstName"
-                              placeholder={t('MY_PROFILE.PROFILE_SETTINGS.FIRST_NAME_PLACEHOLDER')}
+                              label={t('MY_PROFILE.PROFILE_SETTINGS.FIRST_NAME')}
+                              variant="outlined"
+                              error={formik.touched.firstName && !!formik.errors.firstName}
+                              helperText={formik.touched.firstName && formik.errors.firstName}
+                              color="secondary"
+                              InputProps={{
+                                style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
+                              }}
+                              InputLabelProps={{
+                                style: { fontFamily: "'Lato', sans-serif" },
+                              }}
+                              FormHelperTextProps={{
+                                style: { color: 'red' } // Change the color of the helper text here
+                              }}
+                              inputProps={{
+                                maxLength: 100,
+                              }}
                               disabled={isLoading}
                             />
                           </div>
                         </div>
                         <div className="col col-12 col-xl-6">
-                          <div className="field">
-                            <label htmlFor="lastName" className="field__label">
-                              {t('MY_PROFILE.PROFILE_SETTINGS.LAST_NAME')}
-                            </label>
-                            <MyTextField
+                          <div className="field align--center mb-5">
+                            <Field
+                              as={TextField}
                               name="lastName"
+                              type="text"
+                              fullWidth
                               id="lastName"
-                              placeholder={t('MY_PROFILE.PROFILE_SETTINGS.LAST_NAME_PLACEHOLDER')}
+                              label={t('MY_PROFILE.PROFILE_SETTINGS.LAST_NAME')}
+                              variant="outlined"
+                              error={formik.touched.firstName && !!formik.errors.firstName}
+                              helperText={formik.touched.firstName && formik.errors.firstName}
+                              color="secondary"
+                              InputProps={{
+                                style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
+                              }}
+                              InputLabelProps={{
+                                style: { fontFamily: "'Lato', sans-serif" },
+                              }}
+                              FormHelperTextProps={{
+                                style: { color: 'red' } // Change the color of the helper text here
+                              }}
+                              inputProps={{
+                                maxLength: 100,
+                              }}
                               disabled={isLoading}
                             />
                           </div>
                         </div>
+                        {/*todo: commented out due to TRM-179*/}
+                        {/*<div className="col col-12 col-xl-6">*/}
+                        {/*  <div className="field align--center mb-5">*/}
+                        {/*    <Field*/}
+                        {/*      name="countryId"*/}
+                        {/*      component={CountrySelectField}*/}
+                        {/*      label={t('MY_PROFILE.PROFILE_SETTINGS.COUNTRY')}*/}
+                        {/*      fullWidth*/}
+                        {/*      options={countryOptions}*/}
+                        {/*    />*/}
+                        {/*  </div>*/}
+                        {/*</div>*/}
                         <div className="col col-12 col-xl-6">
-                          <div className="field">
-                            <label htmlFor="phoneNumber" className="field__label">
-                              {t('REGISTER.FORM.PHONE_NUMBER')}
-                            </label>
+                          <div className="field align--center mb-5" style={{fontFamily: "'Lato', sans-serif", color: "rgba(0, 0, 0, 0.6)"}}>
                             <MyPhoneInput
                               form={formik}
                               name="phoneNumber"
@@ -420,35 +487,14 @@ const PersonalInformation = () => {
                           </div>
                         </div>
                         <div className="col col-12 col-xl-6">
-                          <div className="field">
-                            <label htmlFor="countryId" className="field__label">
-                              {t('MY_PROFILE.PROFILE_SETTINGS.COUNTRY')}
-                            </label>
-
-                            <MySelect
-                              form={formik}
-                              field={formik.getFieldProps('countryId')}
-                              meta={formik.getFieldMeta('countryId')}
-                              isMulti={false}
-                              classNamePrefix="onboarding-select"
-                              options={countryOptions}
-                              placeholder="Choose your country"
-                              customInputField={countryInput}
-                              customOption={countryOption}
-                              isDisabled={isLoading}
-                            />
-                          </div>
-                        </div>
-                        <div className="col col-12 col-xl-6">
-                          <div className="field">
-                            <label className="field__label" htmlFor="dateOfBirth">
-                              {t('MY_PROFILE.PROFILE_SETTINGS.BIRTHDAY')}
-                            </label>
-                            <MyDatePicker
-                              form={formik}
-                              field={formik.getFieldProps('dateOfBirth')}
-                              meta={formik.getFieldMeta('dateOfBirth')}
-                              isDisabled={isLoading}
+                          <div className="field align--center mb-5" style={{fontFamily: "'Lato', sans-serif", color: "rgba(0, 0, 0, 0.6)"}}>
+                            <DatePicker label={t('MY_PROFILE.PROFILE_SETTINGS.BIRTHDAY')}
+                                        defaultValue={dayjs(dateOfBirth)}
+                                        value={dayjs(formik.values.dateOfBirth)}
+                                        format="DD/MM/YYYY"
+                                        disableFuture
+                                        onChange={(newValue) =>
+                                          formik.setFieldValue(formik.getFieldProps('dateOfBirth').name, newValue?.toString())}
                             />
                           </div>
                         </div>
@@ -530,6 +576,7 @@ const PersonalInformation = () => {
           </FormikProvider>
         </div>
       </MainWrapper>
+      </LocalizationProvider>
     </>
   );
 };
