@@ -25,6 +25,7 @@ import {
 import {ToggleButton, ToggleButtonGroup} from "@mui/material";
 import PayoutsTableElement from "./PayoutsTableElement";
 import IGraph from "./interfaces/IGraph";
+import BookingsTableElement from "./BookingsTableElement";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, LineController, BarElement, BarController, Title, Tooltip, Legend, Filler);
 
@@ -290,50 +291,65 @@ const Earnings = () => {
               >Bookings</ToggleButton>
             </ToggleButtonGroup>
           </div>
-          <table className="table table--secondary" style={{tableLayout: "fixed"}}>
-            <thead>
-            <tr>
-              <th>{t('EARNINGS.DETAILS.TABLE.MONTH')}</th>
-              <th style={{width: "300px"}}>{t('EARNINGS.DETAILS.TABLE.BOOKINGS')}</th>
-              <th style={{width: "300px"}}>{t('EARNINGS.DETAILS.TABLE.STUDENTS')}</th>
-              <th style={{width: "300px"}}>{t('EARNINGS.DETAILS.TABLE.REVIEWS')}</th>
-              <th style={{width: "300px"}}>{t('EARNINGS.DETAILS.TABLE.REVENUE')}</th>
-            </tr>
-            </thead>
             {
-              table === "PAYOUTS" ? (
+              table == "PAYOUTS" ? (
+                <table className="table table--secondary" style={{tableLayout: "fixed"}}>
+                  <thead>
+                  <tr>
+                    <th>{t('EARNINGS.DETAILS.TABLE.MONTH')}</th>
+                    <th style={{width: "300px"}}>{t('EARNINGS.DETAILS.TABLE.BOOKINGS')}</th>
+                    <th style={{width: "300px"}}>{t('EARNINGS.DETAILS.TABLE.STUDENTS')}</th>
+                    <th style={{width: "300px"}}>{t('EARNINGS.DETAILS.TABLE.REVIEWS')}</th>
+                    <th style={{width: "300px"}}>{t('EARNINGS.DETAILS.TABLE.REVENUE')}</th>
+                  </tr>
+                  </thead>
                 <tbody>
                 {(payoutsData &&
                     payoutsData.details.map((tableItem) => {
                       return (
-                          <PayoutsTableElement
-                            month={t('CONSTANTS.MONTHS_LONG.' + tableItem.period.substring(0, 3).toUpperCase())}
-                            bookingsNum={tableItem.bookings}
-                            studentsNum={tableItem.students}
-                            reviewsNum={tableItem.reviews}
+                        <PayoutsTableElement
+                          month={t('CONSTANTS.MONTHS_LONG.' + tableItem.period.substring(0, 3).toUpperCase())}
+                          bookingsNum={tableItem.bookings}
+                          studentsNum={tableItem.students}
+                          reviewsNum={tableItem.reviews}
+                          revenue={tableItem.revenue}
+                          weeks={tableItem.weeks}
+                        />
+                      );
+                    })) ||
+                  t('EARNINGS.DETAILS.TABLE.EMPTY')}
+                </tbody>
+                </table>
+              ) :
+                <table className="table table--secondary" style={{tableLayout: "fixed"}}>
+                  <thead>
+                  <tr>
+                    <th>{t('EARNINGS.DETAILS.TABLE.MONTH')}</th>
+                    <th style={{width: "240px"}}>{t('EARNINGS.DETAILS.TABLE.BOOKINGS')}</th>
+                    <th style={{width: "240px"}}>{t('EARNINGS.DETAILS.TABLE.STUDENTS')}</th>
+                    <th style={{width: "240px"}}>{t('EARNINGS.DETAILS.TABLE.REVENUE')}</th>
+                    <th style={{width: "240px"}}>Provizija</th>
+                    <th style={{width: "240px"}}>Ukupno</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {(bookingsData &&
+                      bookingsData.invoicesForMonth.map((tableItem) => {
+                        return (
+                          <BookingsTableElement
+                            month={t('CONSTANTS.MONTHS_LONG.' + tableItem.month.substring(0, 3).toUpperCase())}
+                            numOfStudents={tableItem.numOfStudents}
+                            bookings={tableItem.bookings}
                             revenue={tableItem.revenue}
-                            weeks={tableItem.weeks}
+                            teoremCut={tableItem.teoremCut}
+                            total={tableItem.total}
                           />
-                      );
-                    })) ||
-                  t('EARNINGS.DETAILS.TABLE.EMPTY')}
-                </tbody>
-              ): (
-                <tbody>
-                {(bookingsData &&
-                    bookingsData.invoicesForMonth.map((tableItem) => {
-                      return (
-                        <tr style={{alignItems: "center"}}>
-                          <td>{tableItem.month}</td>
-                          <td>{tableItem.students}</td>
-                        </tr>
-                      );
-                    })) ||
-                  t('EARNINGS.DETAILS.TABLE.EMPTY')}
-                </tbody>
-              )
+                        );
+                      })) ||
+                    t('EARNINGS.DETAILS.TABLE.EMPTY')}
+                  </tbody>
+                </table>
             }
-            </table>
           </div>
         </div>
     </MainWrapper>

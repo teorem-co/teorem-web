@@ -1,9 +1,12 @@
-import IBooking from "../../my-bookings/interfaces/IBooking";
+import IBookingDetails from "./IBookingDetails";
 
 interface InvoiceDetails {
   month: string;
-  students: number;
-  bookings: IBooking[]
+  numOfStudents: number;
+  revenue: number;
+  teoremCut: number;
+  total: number;
+  bookings: IBookingDetails[]
 }
 
 export default InvoiceDetails;
