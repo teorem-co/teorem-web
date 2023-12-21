@@ -282,5 +282,4 @@ export const allActiveSubjects:ISubject[] = [
     "abrv": "latin",
     "name": "Latin"
   },
-
-]
+];
