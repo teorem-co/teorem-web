@@ -55,7 +55,8 @@ const CustomSubjectList = (props: Props) => {
         <div className='pos--rel'>
                     <span
                       className='type--color--brand cur--pointer'
-                      onClick={() => setShowTooltip(!showTooltip)}
+                      onMouseEnter={() => setShowTooltip(true)}
+                      onMouseLeave={() => setShowTooltip(false)}
                     >
                         {`+ ${sortedSubjects.length - numOfSubjectsShown} ${t(
                           'SEARCH_TUTORS.SUBJECT_LIST.MORE',
