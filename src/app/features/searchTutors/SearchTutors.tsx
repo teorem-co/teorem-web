@@ -308,8 +308,8 @@ const SearchTutors = () => {
 
       console.log('innerHeight: ', innerHeight);
       console.log('scrollPosition: ', scrollPosition);
-      const roundedInnerHeight = Math.round(innerHeight);
-      const roundedScrollPosition = Math.round(scrollPosition);
+      const roundedInnerHeight = Math.floor(innerHeight);
+      const roundedScrollPosition = Math.floor(scrollPosition);
 
       console.log('ROUNDEDinnerHeight: ', roundedInnerHeight);
       console.log('ROUNDEDscrollPosition: ', roundedScrollPosition);
