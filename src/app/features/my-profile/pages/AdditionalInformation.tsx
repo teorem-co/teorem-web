@@ -143,7 +143,7 @@ const AdditionalInformation = () => {
             />
             <div className="card--profile">
                 {/* HEADER */}
-                <ProfileHeader className="mb-8" />
+                <ProfileHeader className="mb-1" />
 
                 {/* PROGRESS */}
                 <ProfileCompletion

@@ -373,7 +373,7 @@ const PersonalInformation = () => {
           <FormikProvider value={formik}>
             <Form>
               {/* HEADER */}
-              <ProfileHeader className="mb-8"/>
+              <ProfileHeader className="mb-1"/>
 
               {/* PROGRESS */}
               <ProfileCompletion
