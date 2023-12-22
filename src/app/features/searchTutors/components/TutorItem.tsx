@@ -4,8 +4,8 @@ import { FC, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ImageCircle from '../../../components/ImageCircle';
 import { PATHS } from '../../../routes';
-import CustomSubjectList from './CustomSubjectList';
 import ITutorItem from '../../../../interfaces/ITutorItem';
+import CustomSubjectList from './CustomSubjectList';
 
 interface Props {
     tutor: ITutorItem;

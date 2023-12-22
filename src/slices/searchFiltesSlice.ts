@@ -34,12 +34,9 @@ export const searchFiltersSlice = createSlice({
       state.level = level;
       state.dayOfWeek = dayOfWeek;
       state.timeOfDay = timeOfDay;
-
-      console.log('state: ', state);
     },
 
     resetSearchFilters(state) {
-      console.log('Reseting in reducer');
       state.subject = '';
       state.level = '';
       state.dayOfWeek = [];

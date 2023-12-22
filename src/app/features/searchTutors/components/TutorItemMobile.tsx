@@ -1,10 +1,9 @@
-import ImageCircle from '../../../components/ImageCircle';
-import CustomSubjectList from './CustomSubjectList';
 import ITutorItem from '../../../../interfaces/ITutorItem';
 import { AiFillStar } from 'react-icons/ai';
 import { t } from 'i18next';
 import { PATHS } from '../../../routes';
 import { Link } from 'react-router-dom';
+import CustomSubjectList from './CustomSubjectList';
 
 
 interface Props {

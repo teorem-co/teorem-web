@@ -1006,7 +1006,7 @@ const Dashboard = () => {
 
   return (
       <>
-        {modalActive &&
+        {!isMobile && modalActive &&
           userRole !== RoleOptions.Child ?
           <TutorialModal
             title={t('TUTOR_INTRO.MODAL.TITLE')}
@@ -1018,7 +1018,7 @@ const Dashboard = () => {
           <></>
         }
 
-        {isStepsEnabled && showTutorial &&
+        {!isMobile && isStepsEnabled && showTutorial &&
           <Steps
               enabled
               steps={userRole === RoleOptions.Tutor ? tutorSteps : Object.keys(groupedUpcomming).length > 0 ? studentStepsPartial : studentSteps}
