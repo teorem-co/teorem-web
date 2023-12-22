@@ -306,6 +306,8 @@ const SearchTutors = () => {
       const innerHeight = e.scrollHeight;
       const scrollPosition = e.scrollTop + e.clientHeight;
 
+      console.log('innerHeight: ', innerHeight);
+      console.log('scrollPosition: ', scrollPosition);
       if (innerHeight === scrollPosition) {
         // handleLoadMore();
         if(!availableTutors.last){
