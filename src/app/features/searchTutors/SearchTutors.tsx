@@ -308,7 +308,13 @@ const SearchTutors = () => {
 
       console.log('innerHeight: ', innerHeight);
       console.log('scrollPosition: ', scrollPosition);
-      if (innerHeight === scrollPosition) {
+      const roundedInnerHeight = Math.round(innerHeight);
+      const roundedScrollPosition = Math.round(scrollPosition);
+
+      console.log('ROUNDEDinnerHeight: ', innerHeight);
+      console.log('ROUNDEDscrollPosition: ', scrollPosition);
+
+      if (roundedInnerHeight === roundedScrollPosition) {
         // handleLoadMore();
         if(!availableTutors.last){
           const tutorResponse = await getAvailableTutors({...params, page:availableTutors.number+1}).unwrap();
