@@ -841,6 +841,8 @@ export const EN_US = {
                 STUDENTS: 'Students',
                 REVIEWS: 'Reviews',
                 REVENUE: 'Revenue',
+                PROVISION: 'Teorem Provision',
+                PAYOUT: 'Paid',
                 EMPTY: 'There is no details',
             },
         },

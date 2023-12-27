@@ -83,12 +83,7 @@ const BookingsTableElement = (props: BookingsProps) => {
         <td>{props.numOfStudents}</td>
         <td>{props.revenue}{t('EARNINGS.GENERAL.CURRENCY')}</td>
         <td>{props.teoremCut === 0 ? "" : "-"}{props.teoremCut}{t('EARNINGS.GENERAL.CURRENCY')}</td>
-        <td>{props.total === 0 ? "" : "="}{props.total}{t('EARNINGS.GENERAL.CURRENCY')}</td>
-        {/*<td>{props.reviewsNum}</td>*/}
-        {/*<td>*/}
-        {/*  {props.revenue}*/}
-        {/*  {t('EARNINGS.GENERAL.CURRENCY')}*/}
-        {/*</td>*/}
+        <td>{props.total}{t('EARNINGS.GENERAL.CURRENCY')}</td>
       </tr>
       {accordion &&
         <>
@@ -106,7 +101,7 @@ const BookingsTableElement = (props: BookingsProps) => {
                 <td>
                   <div style={{ display: "flex", justifyContent: "space-between" }}>
                     <p
-                      style={{fontFamily: "Lato"}}>={booking.total}
+                      style={{fontFamily: "Lato"}}>{booking.total}
                       {t('EARNINGS.GENERAL.CURRENCY')}</p>
                     {props.revenue !== 0 &&
                       <LiaFileInvoiceDollarSolid

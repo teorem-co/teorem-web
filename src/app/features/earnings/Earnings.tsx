@@ -328,8 +328,8 @@ const Earnings = () => {
                     <th style={{width: "240px"}}>{t('EARNINGS.DETAILS.TABLE.BOOKINGS')}</th>
                     <th style={{width: "240px"}}>{t('EARNINGS.DETAILS.TABLE.STUDENTS')}</th>
                     <th style={{width: "240px"}}>{t('EARNINGS.DETAILS.TABLE.REVENUE')}</th>
-                    <th style={{width: "240px"}}>Provizija</th>
-                    <th style={{width: "240px"}}>Ukupno</th>
+                    <th style={{width: "240px"}}>{t('EARNINGS.DETAILS.TABLE.PROVISION')}</th>
+                    <th style={{width: "240px"}}>{t('EARNINGS.DETAILS.TABLE.PAYOUT')}</th>
                   </tr>
                   </thead>
                   <tbody>
