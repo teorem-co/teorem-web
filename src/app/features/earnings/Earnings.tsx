@@ -26,12 +26,19 @@ import {ToggleButton, ToggleButtonGroup} from "@mui/material";
 import PayoutsTableElement from "./PayoutsTableElement";
 import IGraph from "./interfaces/IGraph";
 import BookingsTableElement from "./BookingsTableElement";
+import {LiaFileInvoiceDollarSolid} from "react-icons/lia";
+import toastService from "../../services/toastService";
+import {useAppSelector} from "../../hooks";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, LineController, BarElement, BarController, Title, Tooltip, Legend, Filler);
+
+const fileUrl = 'api/v1/tutors';
+const url = `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_CHAT_FILE_DOWNLOAD_HOST}/${fileUrl}`;
 
 const Earnings = () => {
   const [getEarnings, { data: earningsData }] = useLazyGetEarningsQuery();
   const [getPayouts, {data: payoutsData}] = useLazyGetPayoutsQuery();
+  const userToken = useAppSelector((state) => state.auth.token);
   const [getBookings, {data: bookingsData}] = useLazyGetBookingInvoicesQuery();
 
   const [table, setTable] = useState("PAYOUTS");
@@ -89,6 +96,43 @@ const Earnings = () => {
   useEffect(() => {
     fetchData();
   }, [periodOfTime]);
+
+  function handleInvoiceDownload() {
+    fetch(`${url}/all-invoices`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+        Accept: 'application/octet-stream',
+      },
+    })
+      .then(response => {
+        console.log(response);
+        if (response.ok) {
+          return response.blob();
+        } else {
+          throw new Error('Failed to download invoice');
+        }
+      })
+      .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'output.zip';
+        document.body.appendChild(link);
+        link.click();
+
+        // Cleanup
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+
+        // Display success message
+        toastService.success(t('COMPLETED_LESSONS.DOWNLOAD_INVOICE_SUCCESS'));
+      })
+      .catch(error => {
+        // Display error message
+        toastService.error(t('COMPLETED_LESSONS.DOWNLOAD_INVOICE_FAIL'));
+      });
+  };
 
   return (
     <MainWrapper>
@@ -281,6 +325,16 @@ const Earnings = () => {
               onChange={handleChange}
               aria-label="Platform"
             >
+              {table==="PAYOUTS" ?
+                <LiaFileInvoiceDollarSolid
+                  className='completed-booking-pointer primary-color'
+                  size={25}
+                  data-tip='Click to view invoice'
+                  data-tooltip-id='booking-info-tooltip'
+                  style={{marginRight: "10px", marginTop: "5px"}}
+                  data-tooltip-html={t('COMPLETED_LESSONS.TOOLTIP_DOWNLOAD_INVOICE')}
+                  onClick={() => handleInvoiceDownload()}
+                />: null}
               <ToggleButton value="payouts"
                             onClick={() => setTable("PAYOUTS")}
                             style={{fontSize: "11px"}}
