@@ -36,7 +36,6 @@ export interface ISendChatMessage {
   tutorId: string;
   message: IChatMessage;
   senderId?: string;
-
 }
 
 export interface IChatRoom {

@@ -3,6 +3,7 @@ import 'moment/locale/en-gb';
 import { baseService } from '../../../baseService';
 import { HttpMethods } from '../../../lookups/httpMethods';
 import { IChatRoom, ISendChatMessage } from '../slices/chatSlice';
+import IPage from '../../../../interfaces/notification/IPage';
 
 
 export interface IChatRoomsQuery {
@@ -34,7 +35,7 @@ export const chatService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
-        getChatMessages: builder.query<ISendChatMessage[], IChatMessagesQuery>({
+        getChatMessages: builder.query<IPage<ISendChatMessage>, IChatMessagesQuery>({
             query: (body) => ({
                 url: `${URL}/messages?userId=${body.userId}&rpp=${body.rpp}&page=${body.page}`,//`${URL}/get-chat-messages?userId=${body.userId}&rpp=${body.rpp}&page=${body.page}`,
                 method: HttpMethods.GET,

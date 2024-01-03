@@ -94,8 +94,28 @@ const SingleConversation = (props: Props) => {
     });
   };
 
-  let lastMessageUserId: string = '';
+  const [oldUserId, setOldUserId] = useState<string>();
+  const [oldTutorId, setOldTutorId] = useState<string>();
 
+  useEffect(() => {
+    if (props.data && (props.data?.user?.userId != oldUserId || props.data.tutor?.userId != oldTutorId)) {
+
+      if (userActive && props.data) {
+        const getMessagesObject: IChatMessagesQuery = {
+          userId: (userActive.id === props.data?.user?.userId ? props.data.tutor?.userId : props.data?.user?.userId) || '',
+          page: 0,
+          rpp: chat.rpp,
+        };
+
+        getChatMessages(getMessagesObject);
+      }
+      setPage(1);
+      setOldUserId(props.data?.user?.userId);
+      setOldTutorId(props.data?.tutor?.userId);
+    }
+  }, [props.data]);
+
+  let lastMessageUserId: string = '';
 
   useEffect(() => {
     scrollToBottomSmooth();
@@ -113,7 +133,7 @@ const SingleConversation = (props: Props) => {
         getMessagesById({
           userId: props.data.user?.userId + '',
           tutorId: props.data?.tutor?.userId + '',
-          messages: chatMessages,
+          messages: chatMessages.content,
         }),
       );
     }
@@ -263,9 +283,10 @@ const SingleConversation = (props: Props) => {
   const hideLoadMore = () => {
     let returnValue: boolean = false;
     if (props.data && chatMessages) {
-      const totalPages = Math.ceil(chatMessages.length / chat.rpp);
-
-      if (totalPages < 1) returnValue = true;
+      returnValue = chatMessages.last;
+      if(chatMessages.totalElements == props.data.messages.length) {
+        returnValue = true;
+      }
     }
 
     return returnValue;
@@ -274,14 +295,9 @@ const SingleConversation = (props: Props) => {
   //scroll to bottom alerter
   const handleScroll = (e: HTMLDivElement) => {
     const scrollPosition = 0;
-
     if (props.data && !hideLoadMore() && e.scrollTop === scrollPosition && props.data?.messages.length > 0) {
       handleLoadMore();
     }
-    // if (innerHeight === scrollPosition) {
-    //     //action to do on scroll to bottom
-    //
-    // }
   };
 
   const onFreeConsultation = () => {
@@ -575,12 +591,12 @@ const SingleConversation = (props: Props) => {
                             return (
                                 <>
                                     <Tooltip
-                                        id="my-tooltip"
+                                        id='my-tooltip'
                                         place={'top-start'}
                                         positionStrategy={'absolute'}
                                         float={true}
                                         delayShow={1000}
-                                        style={{ backgroundColor: "rgba(70,70,70, 0.9)", color: 'white', fontSize:'smaller' }}
+                                        style={{ backgroundColor: 'rgba(70,70,70, 0.9)', color: 'white', fontSize:'smaller' }}
                                     />
                                     {!sameDate && (
                                         <div className={`message-full-width flex flex--col flex--center`}>
@@ -598,7 +614,7 @@ const SingleConversation = (props: Props) => {
                                                 message.senderId == props.data.tutor?.userId  &&
                                                   props.data.tutor?.userImage !== undefined ? (
                                                   <img
-                                                        className="chat__conversation__avatar chat__conversation__avatar--small"
+                                                        className='chat__conversation__avatar chat__conversation__avatar--small'
                                                         src={`${props.data.tutor?.userImage}&v=${cacheBuster}`}
                                                         alt={'profile avatar'}
                                                     />
@@ -709,7 +725,7 @@ const SingleConversation = (props: Props) => {
                                     {img && props.data && (
                                               (message.senderId == props.data.tutor?.userId && props.data.tutor?.userImage !== undefined ?
                                                   <img
-                                                  className="chat__conversation__avatar chat__conversation__avatar--small"
+                                                  className='chat__conversation__avatar chat__conversation__avatar--small'
                                                   src={`${props.data.tutor?.userImage}&v=${cacheBuster}`}
                                                   alt={'profile avatar'}
                                                   />
@@ -717,15 +733,15 @@ const SingleConversation = (props: Props) => {
                                                  <div>
                                                    {message.senderId == props.data.tutor?.userId ?
                                                      <ImageCircle
-                                                       className="image-40"
+                                                       className='image-40'
                                                        fontSize={20}
-                                                       initials={`${props.data.tutor?.userNickname.split(" ")[0].charAt(0)}${props.data.tutor?.userNickname.split(" ")[1].charAt(0)}`}
+                                                       initials={`${props.data.tutor?.userNickname.split(' ')[0].charAt(0)}${props.data.tutor?.userNickname.split(' ')[1].charAt(0)}`}
                                                      />
                                                    :
                                                      <ImageCircle
-                                                       className="image-40"
+                                                       className='image-40'
                                                        fontSize={20}
-                                                       initials={`${props.data.user?.userNickname.split(" ")[0].charAt(0)}${props.data.user?.userNickname.split(" ")[1].charAt(0)}`}
+                                                       initials={`${props.data.user?.userNickname.split(' ')[0].charAt(0)}${props.data.user?.userNickname.split(' ')[1].charAt(0)}`}
                                                      />
                                                    }
                                                  </div>
