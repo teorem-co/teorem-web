@@ -100,16 +100,7 @@ const SingleConversation = (props: Props) => {
   useEffect(() => {
     if (props.data && (props.data?.user?.userId != oldUserId || props.data.tutor?.userId != oldTutorId)) {
 
-      if (userActive && props.data) {
-        const getMessagesObject: IChatMessagesQuery = {
-          userId: (userActive.id === props.data?.user?.userId ? props.data.tutor?.userId : props.data?.user?.userId) || '',
-          page: 0,
-          rpp: chat.rpp,
-        };
-
-        getChatMessages(getMessagesObject);
-      }
-      setPage(1);
+      setPage(0);
       setOldUserId(props.data?.user?.userId);
       setOldTutorId(props.data?.tutor?.userId);
     }
@@ -151,7 +142,7 @@ const SingleConversation = (props: Props) => {
 
 
   useEffect(() => {
-    if (userActive && props.data && page > 0) {
+    if (userActive && props.data) {
       const getMessagesObject: IChatMessagesQuery = {
         userId: (userActive.id == props.data?.user?.userId ? props.data.tutor?.userId : props.data?.user?.userId) || '',
         page: page,
