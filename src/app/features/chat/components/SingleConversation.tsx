@@ -100,9 +100,9 @@ const SingleConversation = (props: Props) => {
   useEffect(() => {
     if (props.data && (props.data?.user?.userId != oldUserId || props.data.tutor?.userId != oldTutorId)) {
 
-      setPage(0);
       setOldUserId(props.data?.user?.userId);
       setOldTutorId(props.data?.tutor?.userId);
+      setPage(0);
     }
   }, [props.data]);
 
