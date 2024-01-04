@@ -1,6 +1,6 @@
-import {Form, FormikProvider, useFormik} from 'formik';
+import {Field, Form, FormikProvider, useFormik} from 'formik';
 import {isEqual} from 'lodash';
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import * as Yup from 'yup';
 
@@ -35,6 +35,8 @@ import StripeConnectForm from '../components/StripeConnectForm';
 import {Elements} from "@stripe/react-stripe-js";
 import {loadStripe, StripeElementsOptions} from "@stripe/stripe-js";
 import AddCreditCard from "../components/AddCreditCard";
+import {InputAdornment, TextField} from "@mui/material";
+import {t} from "i18next";
 
 interface Values {
   currentPassword: string;
@@ -70,6 +72,9 @@ const ProfileAccount = () => {
   const [stripeModalOpen, setStripeModalOpen] = useState<boolean>(false);
   const [activeDefaultPaymentMethod, setActiveDefaultPaymentMethod] = useState<string>('');
   const creditCardIsLoading = creditCardLoading || creditCardUninitialized;
+  const [currPass, setCurrPass] = useState("password");
+  const [newPass, setNewPass] = useState("password");
+  const [confirmPass, setConfirmPass] = useState("password");
 
   const {t} = useTranslation();
   const profileProgressState = useAppSelector((state) => state.myProfileProgress);
@@ -300,11 +305,35 @@ const ProfileAccount = () => {
     },
   };
 
+  const visibleCurrPassToggle = (e: any) => {
+    if(currPass === "password") {
+      setCurrPass("text");
+    } else {
+      setCurrPass("password");
+    }
+  };
+
+  const visibleNewPassToggle = (e: any) => {
+    if(newPass === "password") {
+      setNewPass("text");
+    } else {
+      setNewPass("password");
+    }
+  };
+
+  const visibleConfirmPassToggle = (e: any) => {
+    if(confirmPass === "password") {
+      setConfirmPass("text");
+    } else {
+      setConfirmPass("password");
+    }
+  };
+
   return (
     <MainWrapper>
       <div className="card--profile">
         {/* HEADER */}
-        <ProfileHeader className="mb-8"/>
+        <ProfileHeader className="mb-1"/>
 
         {/* PROGRESS */}
         <ProfileCompletion
@@ -336,29 +365,69 @@ const ProfileAccount = () => {
               <div className="w--800--max">
                 <div className="row">
                   <div className="col col-12 col-xl-6">
-                    <div className="field">
-                      <label htmlFor="currentPassword" className="field__label">
-                        {t('ACCOUNT.CHANGE_PASSWORD.CURRENT_PASSWORD')}
-                      </label>
-                      <MyTextField
+                    <div className="field align--center mb-5">
+                      <Field
+                        as={TextField}
                         name="currentPassword"
+                        type={currPass}
+                        fullWidth
+                        error={formik.touched.currentPassword && !!formik.errors.currentPassword}
+                        helperText={formik.touched.currentPassword && formik.errors.currentPassword}
                         id="currentPassword"
-                        placeholder={t('ACCOUNT.CHANGE_PASSWORD.CURRENT_PASSWORD_PLACEHOLDER')}
-                        password={true}
+                        label={t('ACCOUNT.CHANGE_PASSWORD.CURRENT_PASSWORD_PLACEHOLDER')}
+                        variant="outlined"
+                        color="secondary"
+                        InputProps={{
+                          style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
+                          endAdornment: (
+                            <InputAdornment position="start">
+                              <i className="icon icon--sm icon--visible input--text--password" onClick={(e: any) => visibleCurrPassToggle(e)}></i>
+                            </InputAdornment>
+                          ),
+                        }}
+                        InputLabelProps={{
+                          style: { fontFamily: "'Lato', sans-serif" },
+                        }}
+                        FormHelperTextProps={{
+                          style: { color: 'red' } // Change the color of the helper text here
+                        }}
+                        inputProps={{
+                          maxLength: 100,
+                        }}
+                        onBlur={(e: any) => {
+                          formik.handleBlur(e);
+                        }}
+                        onKeyUp={handleKeyUp}
                       />
                     </div>
                   </div>
                   <div className="col col-12 col-xl-6">
-                    <div className="field">
-                      <label htmlFor="newPassword" className="field__label">
-                        {t('ACCOUNT.CHANGE_PASSWORD.NEW_PASSWORD')}
-                      </label>
-                      <MyTextField
+                    <div className="field align--center mb-5">
+                      <Field
+                        as={TextField}
                         name="newPassword"
+                        type={newPass}
+                        fullWidth
+                        error={formik.touched.newPassword && !!formik.errors.newPassword}
+                        helperText={formik.touched.newPassword && formik.errors.newPassword}
                         id="newPassword"
-                        placeholder={t('ACCOUNT.CHANGE_PASSWORD.NEW_PASSWORD_PLACEHOLDER')}
-                        password={true}
-                        onFocus={handlePasswordFocus}
+                        label={t('ACCOUNT.CHANGE_PASSWORD.NEW_PASSWORD_PLACEHOLDER')}
+                        variant="outlined"
+                        color="secondary"
+                        InputProps={{
+                          style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
+                          endAdornment: (
+                            <InputAdornment position="start">
+                              <i className="icon icon--sm icon--visible input--text--password" onClick={(e: any) => visibleNewPassToggle(e)}></i>
+                            </InputAdornment>
+                          ),
+                        }}
+                        InputLabelProps={{
+                          style: { fontFamily: "'Lato', sans-serif" },
+                        }}
+                        FormHelperTextProps={{
+                          style: { color: 'red' } // Change the color of the helper text here
+                        }}
                         onBlur={(e: any) => {
                           handlePasswordBlur();
                           formik.handleBlur(e);
@@ -370,15 +439,36 @@ const ProfileAccount = () => {
                     </div>
                   </div>
                   <div className="col col-12 col-xl-6">
-                    <div className="field">
-                      <label htmlFor="confirmPassword" className="field__label">
-                        {t('ACCOUNT.CHANGE_PASSWORD.CONFIRM_PASSWORD')}
-                      </label>
-                      <MyTextField
+                    <div className="field align--center mb-5">
+                      <Field
+                        as={TextField}
                         name="confirmPassword"
+                        type={confirmPass}
+                        fullWidth
+                        error={formik.touched.confirmPassword && !!formik.errors.confirmPassword}
+                        helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
                         id="confirmPassword"
-                        placeholder={t('ACCOUNT.CHANGE_PASSWORD.NEW_PASSWORD_PLACEHOLDER')}
-                        password={true}
+                        label={t('ACCOUNT.CHANGE_PASSWORD.CONFIRM_PASSWORD')}
+                        variant="outlined"
+                        color="secondary"
+                        InputProps={{
+                          style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
+                          endAdornment: (
+                            <InputAdornment position="start">
+                              <i className="icon icon--sm icon--visible input--text--password" onClick={(e: any) => visibleConfirmPassToggle(e)}></i>
+                            </InputAdornment>
+                          ),
+                        }}
+                        InputLabelProps={{
+                          style: { fontFamily: "'Lato', sans-serif" },
+                        }}
+                        FormHelperTextProps={{
+                          style: { color: 'red' } // Change the color of the helper text here
+                        }}
+                        onBlur={(e: any) => {
+                          formik.handleBlur(e);
+                        }}
+                        onKeyUp={handleKeyUp}
                       />
                     </div>
                   </div>

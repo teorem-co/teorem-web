@@ -24,6 +24,13 @@
         }
 
         &.active {
+          font-weight: bold;
+          font-size: 16px;
+
+          .custom-line {
+            border-bottom: 2px solid #7e6cf2;
+            display: inline-block;
+          }
             .nav-link--profile__wrapper {
                 background-color: $color-primary;
             }

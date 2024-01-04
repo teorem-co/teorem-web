@@ -195,3 +195,91 @@ export const allSubjects:ISubject[] = [
     "name": "Latin"
   },
 ];
+
+export const allActiveSubjects:ISubject[] = [
+  {
+    "id": "2da9dfdb-e9cc-479a-802d-fa2a9b906575",
+    "abrv": "maths",
+    "name": "Maths"
+  },
+  {
+    "id": "0cfe5ab2-843d-44d3-bee6-718097044e15",
+    "abrv": "english",
+    "name": "English"
+  },
+  {
+    "id": "0fedd928-bdca-47de-b8c7-3becb6520996",
+    "abrv": "chemistry",
+    "name": "Chemistry"
+  },
+  {
+    "id": "31457765-8029-4952-8094-f7ed97c741a7",
+    "abrv": "biology",
+    "name": "Biology"
+  },
+  {
+    "id": "18d0fe98-0582-4528-a369-cdad78072e2a",
+    "abrv": "croatian",
+    "name": "Croatian"
+  },
+  {
+    "id": "8caedad0-55e5-4220-a7e7-f4aab4a3fbb8",
+    "abrv": "physics",
+    "name": "Physics",
+  },
+  {
+    "id": "052e35d6-8d15-4a95-be5b-ebb84529d916",
+    "abrv": "spanish",
+    "name": "Spanish"
+  },
+  {
+    "id": "1e834b3c-b5e7-422d-8eae-01b9995848a1",
+    "abrv": "italian",
+    "name": "Italian"
+  },
+  {
+    "id": "d2cd6016-6755-4803-9910-190c416d7951",
+    "abrv": "classical-greek",
+    "name": "Classical Greek"
+  },
+  {
+    "id": "b57590ec-43b6-4db7-a283-8b9f516a5257",
+    "abrv": "french",
+    "name": "French"
+  },
+  {
+    "id": "51699d47-dadc-43dd-b9c3-7aff3b8f3836",
+    "abrv": "geography",
+    "name": "Geography"
+  },
+  {
+    "id": "30b85199-b105-4743-b6a5-6a5d91e3c240",
+    "abrv": "government-and-politics",
+    "name": "Government and Politics"
+  },
+  {
+    "id": "b08a9a10-4928-4423-b805-6eba74c6d50b",
+    "abrv": "history",
+    "name": "History"
+  },
+  {
+    "id": "029a08ea-9828-4a4c-aa10-61e9e6ed2378",
+    "abrv": "german",
+    "name": "German"
+  },
+  {
+    "id": "b2e27fa4-a374-4959-9725-0be802a0c9fe",
+    "abrv": "sociology",
+    "name": "Sociology"
+  },
+  {
+    "id": "459e0de7-a132-4bbe-a458-ca28b0cc960c",
+    "abrv": "it",
+    "name": "IT"
+  },
+  {
+    "id": "edc33bbf-6cc3-481f-a19e-e859bbaac1ea",
+    "abrv": "latin",
+    "name": "Latin"
+  },
+];

@@ -5,6 +5,8 @@ import {
   useLazyGetCountriesQuery,
 } from '../../features/onboarding/services/countryService';
 import { PATHS } from '../../routes';
+import 'react-phone-input-2/lib/material.css';
+import {t} from "i18next";
 
 interface TextFieldType extends FieldProps {
   className?: string;
@@ -53,6 +55,7 @@ const MyPhoneInput: FC<TextFieldType> = (props: any) => {
         <PhoneInput
             {...field}
             {...props}
+            specialLabel={t('REGISTER.FORM.PHONE_NUMBER')}
             name={name}
             country={country}
             value={currentValue}
@@ -65,7 +68,7 @@ const MyPhoneInput: FC<TextFieldType> = (props: any) => {
             onBlur={() => form.setFieldTouched(field.name)}
             disabled={props.disabled}
             onClick={() => props.openTooltip()}
-            inputStyle={{fontSize:fontSize}}
+            inputStyle={{ width: '100%'}}
             searchStyle={{fontSize:fontSize}}
             dropdownStyle={{fontSize:fontSize, textAlign:'left'}}
             // containerStyle={{textAlign:'left'}}

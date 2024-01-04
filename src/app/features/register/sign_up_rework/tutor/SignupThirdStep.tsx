@@ -1,6 +1,6 @@
 import { ErrorMessage, Field, Form, FormikProvider, useFormik } from 'formik';
 import { t } from 'i18next';
-import React, { useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 
@@ -8,6 +8,8 @@ import { setStepThree } from '../../../../../slices/signUpSlice';
 import MyTextField from '../../../../components/form/MyTextField';
 import { useAppSelector } from '../../../../hooks';
 import PasswordTooltip from '../../PasswordTooltip';
+import {InputAdornment, TextField} from "@mui/material";
+import {AccountCircle} from "@mui/icons-material";
 
 interface StepThreeValues {
   password: string;
@@ -25,6 +27,7 @@ export function SignupThirdStep({ nextStep }:StepThreeProps) {
   const store = useAppSelector((store) => store.signUp);
   const{password, confirmPassword, terms} = store;
   const selectedRole = useAppSelector((state) => state.role.selectedRole);
+  const [passType, setPassType] = useState("password");
 
 
   const initialValues: StepThreeValues = {
@@ -152,6 +155,14 @@ export function SignupThirdStep({ nextStep }:StepThreeProps) {
     }
   };
 
+  const visiblePassToggle = (e: any) => {
+    if(passType === "password") {
+      setPassType("text");
+    } else {
+      setPassType("password");
+    }
+  };
+
   return (
     <>
         <div className="sign-up-form-wrapper">
@@ -164,19 +175,37 @@ export function SignupThirdStep({ nextStep }:StepThreeProps) {
 
                 {/*password*/}
                 <div className="field mb-5">
-                  <MyTextField
-                    style={{background:'white'}}
+                  <Field
+                    as={TextField}
                     name="password"
+                    type={passType}
+                    fullWidth
+                    error={formik.touched.password && !!formik.errors.password}
+                    helperText={formik.touched.password && formik.errors.password}
                     id="password"
-                    placeholder={t('REGISTER.FORM.PASSWORD_PLACEHOLDER')}
-                    className="input input--base input--text input--icon"
-                    password={true}
-                    // disabled={isLoading}
-                    // onFocus={handlePasswordFocus}
-                    // onBlur={(e: any) => {
-                    //   handlePasswordBlur();
-                    //   formik.handleBlur(e);
-                    // }}
+                    label={t('REGISTER.FORM.PASSWORD_PLACEHOLDER')}
+                    variant="outlined"
+                    color="secondary"
+                    InputProps={{
+                      style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
+                      endAdornment: (
+                        <InputAdornment position="start">
+                          <i className="icon icon--sm icon--visible input--text--password" onClick={(e: any) => visiblePassToggle(e)}></i>
+                        </InputAdornment>
+                      ),
+                    }}
+                    InputLabelProps={{
+                      style: { fontFamily: "'Lato', sans-serif" },
+                    }}
+                    FormHelperTextProps={{
+                      style: { color: 'red' } // Change the color of the helper text here
+                    }}
+                    inputProps={{
+                      maxLength: 100,
+                    }}
+                    onBlur={(e: any) => {
+                      formik.handleBlur(e);
+                    }}
                     onKeyUp={handleKeyUp}
                   />
                   <PasswordTooltip className="password-tooltip" passTooltip={true} positionTop={false}/>

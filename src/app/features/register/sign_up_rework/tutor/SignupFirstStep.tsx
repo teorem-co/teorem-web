@@ -1,13 +1,16 @@
-import { Form, FormikProvider, useFormik } from 'formik';
+import {Field, Form, FormikProvider, useFormik} from 'formik';
 import { t } from 'i18next';
 import moment from 'moment/moment';
 import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 
 import { setStepOne } from '../../../../../slices/signUpSlice';
-import MyDatePicker from '../../../../components/form/MyDatePicker';
-import MyTextField from '../../../../components/form/MyTextField';
 import { useAppSelector } from '../../../../hooks';
+import {TextField} from "@mui/material";
+import React from "react";
+import dayjs from "dayjs";
+import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 
 interface StepOneValues {
   firstName: string;
@@ -76,38 +79,90 @@ export const SignupFirstStep = ({nextStep}:StepOneProps) => {
     }
   };
 
+  const validateName = (value: string) => {
+      if(value.length === 100) {
+        return t('FORM_VALIDATION.MAX_100_CHARS');
+      }
+      if(value.length < 2 && value.length !== 0) {
+        return t('FORM_VALIDATION.TOO_SHORT');
+      }
+  };
+
   return (
       <div className="align-self-center sign-up-form-wrapper">
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
         <FormikProvider value={formik}>
           <Form onKeyPress={handleEnterKeyOne}>
 
             {/*first name*/}
             <div className="align--center mb-5">
-              <MyTextField
-                style={{background:'white'}}
+              <Field
+                as={TextField}
                 name="firstName"
+                type="text"
+                fullWidth
+                required
                 id="firstName"
-                placeholder={t('REGISTER.FORM.FIRST_NAME_PLACEHOLDER')}
+                label={t('REGISTER.FORM.FIRST_NAME_PLACEHOLDER')}
+                variant="outlined"
+                error={formik.touched.firstName && !!formik.errors.firstName}
+                helperText={formik.touched.firstName && formik.errors.firstName}
+                color="secondary"
+                InputProps={{
+                  style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
+                }}
+                InputLabelProps={{
+                  style: { fontFamily: "'Lato', sans-serif" },
+                }}
+                FormHelperTextProps={{
+                  style: { color: 'red' } // Change the color of the helper text here
+                }}
+                inputProps={{
+                  maxLength: 100,
+                }}
               />
             </div>
 
             {/*last name*/}
             <div className="align--center mb-5">
-              <MyTextField
-                style={{background:'white'}}
+              <Field
+                as={TextField}
                 name="lastName"
+                type="text"
+                fullWidth
+                required
+                error={formik.touched.lastName && !!formik.errors.lastName}
+                helperText={formik.touched.lastName && formik.errors.lastName}
                 id="lastName"
-                placeholder={t('REGISTER.FORM.LAST_NAME_PLACEHOLDER')}
+                label={t('REGISTER.FORM.LAST_NAME_PLACEHOLDER')}
+                variant="outlined"
+                color="secondary"
+                InputProps={{
+                  style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
+                }}
+                InputLabelProps={{
+                  style: { fontFamily: "'Lato', sans-serif" },
+                }}
+                FormHelperTextProps={{
+                  style: { color: 'red' } // Change the color of the helper text here
+                }}
+                inputProps={{
+                  maxLength: 100,
+                }}
               />
             </div>
 
             {/*date of birth*/}
             <div
               className="field align--center field__w-fit-content mb-5">
-              <MyDatePicker
-                form={formik}
-                field={formik.getFieldProps('dateOfBirth')}
-                meta={formik.getFieldMeta('dateOfBirth')}
+              <DatePicker label={t('MY_PROFILE.PROFILE_SETTINGS.BIRTHDAY')}
+                          defaultValue={dayjs(dateOfBirth)}
+                          value={dayjs(formik.values.dateOfBirth)}
+                          format="DD/MM/YYYY"
+                          disableFuture
+                          sx={{backgroundColor: "white"}}
+                          onChange={(newValue) =>
+                            formik.setFieldValue(formik.getFieldProps('dateOfBirth').name, newValue?.toString())}
               />
             </div>
 
@@ -119,6 +174,7 @@ export const SignupFirstStep = ({nextStep}:StepOneProps) => {
               onClick={() => formik.handleSubmit()}>{t('REGISTER.NEXT_BUTTON')}</button>
           </Form>
         </FormikProvider>
+        </LocalizationProvider>
       </div>
   );
 };

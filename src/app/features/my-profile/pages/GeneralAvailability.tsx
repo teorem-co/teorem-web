@@ -186,7 +186,7 @@ const GeneralAvailability = () => {
             />
             <div className="card--profile">
                 {/* HEADER */}
-                <ProfileHeader className="mb-8" />
+                <ProfileHeader className="mb-1" />
 
                 {/* PROGRESS */}
                 <ProfileCompletion
@@ -203,13 +203,13 @@ const GeneralAvailability = () => {
                         <div>
                             <div className="mb-2 type--wgt--bold">{t('MY_PROFILE.GENERAL_AVAILABILITY.TITLE')}</div>
                             <div className="type--color--tertiary w--200--max">{t('MY_PROFILE.GENERAL_AVAILABILITY.DESCRIPTION')}</div>
-                            {/*{saveBtnActive ? (*/}
+                            {saveBtnActive ? (
                                 <button onClick={() => handleSubmit()} className="btn btn--base btn--primary mt-4">
                                     {t('MY_PROFILE.SUBMIT')}
                                 </button>
-                            {/*) : (*/}
-                            {/*    <></>*/}
-                            {/*)}*/}
+                            ) : (
+                                <></>
+                            )}
                         </div>
                         <div>
                             <table className="table table--availability"><tbody>{renderAvailabilityTable()}</tbody></table>

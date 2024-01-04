@@ -3,11 +3,12 @@ import React from 'react';
 
 import ITutorItem from '../../../../interfaces/ITutorItem';
 import ImageCircle from '../../../components/ImageCircle';
-import CustomSubjectList from '../../searchTutors/components/CustomSubjectList';
 import { StarRating } from '../../myReviews/components/StarRating';
 import { LuBookOpenCheck } from 'react-icons/lu';
 import { Link } from 'react-router-dom';
 import { PATHS } from '../../../routes';
+import CustomSubjectList
+  from '../../searchTutors/components/CustomSubjectList';
 
 interface Props {
   tutor: ITutorItem;
@@ -48,12 +49,16 @@ export const RecommendedTutorCard = (props: Props) => {
           <div className='flex flex--col flex--grow'>
             <div className='flex flex--row flex--jc--space-between type--md'>
               <h3
-                className=''>{tutor.firstName + ' ' + tutor.lastName.charAt(0) + '.'}</h3>
-              <h3>{tutor.minPrice + ' ' + tutor.currencyCode + ' / hr'}</h3>
+                className=''>{tutor.firstName.split(" ")[0] + ' ' + tutor.lastName.charAt(0) + '.'}</h3>
+              <h3>{tutor.minPrice + ' ' + tutor.currencyCode + ' / h'}</h3>
             </div>
 
             <div className='flex flex--row flex--jc--space-between mb-2'>
-              <span>{tutor.currentOccupation}</span>
+              <span>{
+                tutor.currentOccupation.length > 30 ? tutor.currentOccupation.substring(0,30) + "..."
+                  : tutor.currentOccupation
+
+              }</span>
               <span></span>
             </div>
 
@@ -91,7 +96,7 @@ export const RecommendedTutorCard = (props: Props) => {
             }
 
             <div className='subjects-container mb-3'>
-              <CustomSubjectList subjects={tutor.subjects}></CustomSubjectList>
+              <CustomSubjectList subjects={tutor.subjects} numOfSubjectsShown={1}></CustomSubjectList>
             </div>
 
           </div>
@@ -102,7 +107,7 @@ export const RecommendedTutorCard = (props: Props) => {
           <p>{tutor.aboutTutor}</p>
         </div>
 
-        <div className='flex flex--row flex--jc--space-evenly mt-6'>
+        <div className='flex flex--row flex--jc--space-evenly mt-3'>
 
           <Link className='btn btn--primary btn--base pl-8 pr-8 pt-3 pb-3'
                 to={`${PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS.replace(':tutorSlug', tutor.slug)}`}>
