@@ -1,23 +1,24 @@
 import {t} from 'i18next';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import toastService from "../../services/toastService";
 import {useAppSelector} from "../../hooks";
-import IWeek from "./interfaces/IWeek";
 import {LiaFileInvoiceDollarSolid} from "react-icons/lia";
+import IBookingDetails from "./interfaces/IBookingDetails";
+import moment from "moment/moment";
 
-interface PayoutsProps {
+interface BookingsProps {
   month: string,
-  bookingsNum: number,
-  studentsNum: number,
-  reviewsNum: number,
+  numOfStudents: number,
+  bookings: IBookingDetails[],
   revenue: number,
-  weeks?: IWeek[]
+  teoremCut: number,
+  total: number,
 }
 
-const fileUrl = 'api/v1/tutors';
+const fileUrl = 'api/v1/bookings';
 const url = `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_CHAT_FILE_DOWNLOAD_HOST}/${fileUrl}`;
 
-const PayoutsTableElement = (props: PayoutsProps) => {
+const BookingsTableElement = (props: BookingsProps) => {
   const [accordion, setAccordion] = useState(false);
   const userToken = useAppSelector((state) => state.auth.token);
 
@@ -26,8 +27,8 @@ const PayoutsTableElement = (props: PayoutsProps) => {
     else setAccordion(true);
   };
 
-  function handleInvoiceDownload(week: string) {
-    fetch(`${url}/invoice?&week=${week}`, {
+  function handleInvoiceDownload(bookingId: string) {
+    fetch(`${url}/${bookingId}/invoice`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${userToken}`,
@@ -35,7 +36,6 @@ const PayoutsTableElement = (props: PayoutsProps) => {
       },
     })
       .then(response => {
-        console.log(response);
         if (response.ok) {
           return response.blob();
         } else {
@@ -46,7 +46,7 @@ const PayoutsTableElement = (props: PayoutsProps) => {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'invoice-' + week + '.pdf';
+        a.download = 'invoice-' + bookingId + '.pdf';
         a.click();
 
         // Display success message
@@ -56,7 +56,7 @@ const PayoutsTableElement = (props: PayoutsProps) => {
         // Display error message
         toastService.error(t('COMPLETED_LESSONS.DOWNLOAD_INVOICE_FAIL'));
       });
-  };
+  }
 
   const reverseArray = (arr: any[] | undefined): any[] => {
     if(arr === undefined) return [];
@@ -70,7 +70,7 @@ const PayoutsTableElement = (props: PayoutsProps) => {
           <div style={{ display: "flex", alignItems: "center" }}>
             <p
               style={{fontFamily: "Lato", marginLeft: "15px", fontSize: "15px"}}>{props.month}</p>
-            {props.revenue !== 0 && props.weeks?.length !== 0 &&
+            {props.bookings.length !== 0 &&
               <i
                 id="letter"
                 className={`icon icon--sm icon--chevron-right icon--grey mr-3 ${accordion && 'rotate--90'}`}
@@ -79,31 +79,29 @@ const PayoutsTableElement = (props: PayoutsProps) => {
             }
           </div>
         </td>
-        <td>{props.bookingsNum}</td>
-        <td>{props.studentsNum}</td>
-        <td>{props.reviewsNum}</td>
-        <td>
-          {props.revenue}
-          {t('EARNINGS.GENERAL.CURRENCY')}
-        </td>
+        <td>{props.bookings.length}</td>
+        <td>{props.numOfStudents}</td>
+        <td>{props.revenue}{t('EARNINGS.GENERAL.CURRENCY')}</td>
+        <td>{props.teoremCut === 0 ? "" : "-"}{props.teoremCut}{t('EARNINGS.GENERAL.CURRENCY')}</td>
+        <td>{props.total}{t('EARNINGS.GENERAL.CURRENCY')}</td>
       </tr>
       {accordion &&
         <>
-          { reverseArray(props.weeks).map((week => {
-            console.log(week);
+          { reverseArray(props.bookings).map((booking => {
             return (
               <tr>
                 <td>
                   <p
-                    style={{fontFamily: "Lato", marginLeft: "15px"}}>{t('EARNINGS.PAYOUTS')} {week.name}</p>
+                    style={{fontFamily: "Lato", marginLeft: "15px"}}>{moment(booking.startTime).format(t('DATE_FORMAT') + ' @ HH:mm')}</p>
                 </td>
-                <td>{week.bookings}</td>
-                <td>{week.students}</td>
-                <td>{week.reviews}</td>
+                <td>{t('SUBJECTS.' + booking.subject.name.toLowerCase().replaceAll(" ", ""))}</td>
+                <td>{booking.fullName}</td>
+                <td>{booking.revenue}{t('EARNINGS.GENERAL.CURRENCY')}</td>
+                <td>-{booking.teoremCut}{t('EARNINGS.GENERAL.CURRENCY')}</td>
                 <td>
                   <div style={{ display: "flex", justifyContent: "space-between" }}>
                     <p
-                      style={{fontFamily: "Lato"}}>{week.revenue}
+                      style={{fontFamily: "Lato"}}>{booking.total}
                       {t('EARNINGS.GENERAL.CURRENCY')}</p>
                     {props.revenue !== 0 &&
                       <LiaFileInvoiceDollarSolid
@@ -112,7 +110,7 @@ const PayoutsTableElement = (props: PayoutsProps) => {
                         data-tip='Click to view invoice'
                         data-tooltip-id='booking-info-tooltip'
                         data-tooltip-html={t('COMPLETED_LESSONS.TOOLTIP_DOWNLOAD_INVOICE')}
-                        onClick={() => handleInvoiceDownload(week.name)}
+                        onClick={() => handleInvoiceDownload(booking.id)}
                       /> }
                   </div>
                 </td>
@@ -126,4 +124,4 @@ const PayoutsTableElement = (props: PayoutsProps) => {
   );
 };
 
-export default PayoutsTableElement;
+export default BookingsTableElement;
