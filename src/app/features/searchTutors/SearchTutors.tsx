@@ -306,7 +306,12 @@ const SearchTutors = () => {
       const innerHeight = e.scrollHeight;
       const scrollPosition = e.scrollTop + e.clientHeight;
 
-      if (innerHeight === scrollPosition) {
+      console.log('innerHeight: ', innerHeight);
+      console.log('scrollPosition: ', scrollPosition);
+      const roundedInnerHeight = Math.floor(innerHeight);
+      const roundedScrollPosition = Math.floor(scrollPosition);
+
+      if (roundedInnerHeight === roundedScrollPosition) {
         // handleLoadMore();
         if(!availableTutors.last){
           const tutorResponse = await getAvailableTutors({...params, page:availableTutors.number+1}).unwrap();
@@ -375,7 +380,7 @@ const SearchTutors = () => {
   }, []);
 
   useEffect(() => {
-    setScrollTopOffset(null);
+    //setScrollTopOffset(null);
     if (!initialLoad) {
       const filters: ISearchFiltersState = {
         subject: formik.values.subject,
@@ -392,7 +397,7 @@ const SearchTutors = () => {
 
   useEffect(() => {
     if (cardElement && scrollTopOffset) {
-      cardElement.scrollTop = scrollTopOffset;
+      // cardElement.scrollTop = scrollTopOffset;
     }
   }, [loadedTutorItems]);
 
