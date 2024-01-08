@@ -32,6 +32,9 @@ import {useAppSelector} from "../../hooks";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, LineController, BarElement, BarController, Title, Tooltip, Legend, Filler);
 
+const fileUrl = 'api/v1/tutors';
+const url = `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_CHAT_FILE_DOWNLOAD_HOST}/${fileUrl}`;
+
 const Earnings = () => {
   const [getEarnings, { data: earningsData }] = useLazyGetEarningsQuery();
   const [getPayouts, {data: payoutsData}] = useLazyGetPayoutsQuery();
@@ -310,6 +313,16 @@ const Earnings = () => {
               onChange={handleChange}
               aria-label="Platform"
             >
+              {table==="PAYOUTS" ?
+                <LiaFileInvoiceDollarSolid
+                  className='completed-booking-pointer primary-color'
+                  size={25}
+                  data-tip='Click to view invoice'
+                  data-tooltip-id='booking-info-tooltip'
+                  style={{marginRight: "10px", marginTop: "5px"}}
+                  data-tooltip-html={t('COMPLETED_LESSONS.TOOLTIP_DOWNLOAD_INVOICE')}
+                  onClick={() => handleInvoiceDownload()}
+                />: null}
               <ToggleButton value="payouts"
                             onClick={() => setTable("PAYOUTS")}
                             style={{fontSize: "11px"}}
