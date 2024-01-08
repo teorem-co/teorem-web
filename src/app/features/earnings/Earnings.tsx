@@ -18,12 +18,14 @@ import {Chart, Line} from 'react-chartjs-2';
 
 import MainWrapper from '../../components/MainWrapper';
 import {
+  useLazyGetBookingInvoicesQuery,
   useLazyGetEarningsQuery,
   useLazyGetPayoutsQuery
 } from './services/earningsService';
 import {ToggleButton, ToggleButtonGroup} from "@mui/material";
 import PayoutsTableElement from "./PayoutsTableElement";
 import IGraph from "./interfaces/IGraph";
+import BookingsTableElement from "./BookingsTableElement";
 import {LiaFileInvoiceDollarSolid} from "react-icons/lia";
 import toastService from "../../services/toastService";
 import {useAppSelector} from "../../hooks";
@@ -37,6 +39,7 @@ const Earnings = () => {
   const [getEarnings, { data: earningsData }] = useLazyGetEarningsQuery();
   const [getPayouts, {data: payoutsData}] = useLazyGetPayoutsQuery();
   const userToken = useAppSelector((state) => state.auth.token);
+  const [getBookings, {data: bookingsData}] = useLazyGetBookingInvoicesQuery();
 
   const [table, setTable] = useState("PAYOUTS");
   const [labels, setLabels] = useState<string[]>([]);
@@ -67,6 +70,7 @@ const Earnings = () => {
   const fetchData = async () => {
     const response = await getEarnings(periodOfTime).unwrap();
     const payoutsResponse = await getPayouts().unwrap();
+    const bookingsResponse = await getBookings().unwrap();
     if(periodOfTime === "YEAR") {
       setLabels(response.labels.map((item) => t('CONSTANTS.MONTHS_LONG.' + item.substring(0, 3).toUpperCase())));
     } else if (periodOfTime === "WEEK") {
@@ -102,27 +106,15 @@ const Earnings = () => {
       },
     })
       .then(response => {
-        console.log(response);
-        if (response.ok) {
-          return response.blob();
-        } else {
-          throw new Error('Failed to download invoice');
-        }
-      })
-      .then(blob => {
-        const url = window.URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'output.zip';
-        document.body.appendChild(link);
-        link.click();
-
-        // Cleanup
-        document.body.removeChild(link);
-        window.URL.revokeObjectURL(url);
-
-        // Display success message
-        toastService.success(t('COMPLETED_LESSONS.DOWNLOAD_INVOICE_SUCCESS'));
+        const contentDisposition = response.headers.get('Content-Disposition');
+        const fileName = contentDisposition?.split('=')[1].replace(/['"]/g, '').trim();
+        response.blob().then(blob => {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = fileName + '';
+          a.click();
+        });
       })
       .catch(error => {
         // Display error message
@@ -336,43 +328,70 @@ const Earnings = () => {
                             style={{fontSize: "11px"}}
               >Payouts</ToggleButton>
               <ToggleButton value="bookings"
-                            disabled={true}
                             onClick={() => setTable("BOOKINGS")}
                             style={{fontSize: "11px"}}
               >Bookings</ToggleButton>
             </ToggleButtonGroup>
           </div>
-          <table className="table table--secondary" style={{tableLayout: "fixed"}}>
-            <thead>
-            <tr>
-              <th>{t('EARNINGS.DETAILS.TABLE.MONTH')}</th>
-              <th style={{width: "300px"}}>{t('EARNINGS.DETAILS.TABLE.BOOKINGS')}</th>
-              <th style={{width: "300px"}}>{t('EARNINGS.DETAILS.TABLE.STUDENTS')}</th>
-              <th style={{width: "300px"}}>{t('EARNINGS.DETAILS.TABLE.REVIEWS')}</th>
-              <th style={{width: "300px"}}>{t('EARNINGS.DETAILS.TABLE.REVENUE')}</th>
-            </tr>
-            </thead>
             {
-              table === "PAYOUTS" ? (
+              table == "PAYOUTS" ? (
+                <table className="table table--secondary" style={{tableLayout: "fixed"}}>
+                  <thead>
+                  <tr>
+                    <th>{t('EARNINGS.DETAILS.TABLE.MONTH')}</th>
+                    <th style={{width: "300px"}}>{t('EARNINGS.DETAILS.TABLE.BOOKINGS')}</th>
+                    <th style={{width: "300px"}}>{t('EARNINGS.DETAILS.TABLE.STUDENTS')}</th>
+                    <th style={{width: "300px"}}>{t('EARNINGS.DETAILS.TABLE.REVIEWS')}</th>
+                    <th style={{width: "300px"}}>{t('EARNINGS.DETAILS.TABLE.REVENUE')}</th>
+                  </tr>
+                  </thead>
                 <tbody>
                 {(payoutsData &&
                     payoutsData.details.map((tableItem) => {
                       return (
-                          <PayoutsTableElement
-                            month={t('CONSTANTS.MONTHS_LONG.' + tableItem.period.substring(0, 3).toUpperCase())}
-                            bookingsNum={tableItem.bookings}
-                            studentsNum={tableItem.students}
-                            reviewsNum={tableItem.reviews}
-                            revenue={tableItem.revenue}
-                            weeks={tableItem.weeks}
-                          />
+                        <PayoutsTableElement
+                          month={t('CONSTANTS.MONTHS_LONG.' + tableItem.period.substring(0, 3).toUpperCase())}
+                          bookingsNum={tableItem.bookings}
+                          studentsNum={tableItem.students}
+                          reviewsNum={tableItem.reviews}
+                          revenue={tableItem.revenue}
+                          weeks={tableItem.weeks}
+                        />
                       );
                     })) ||
                   t('EARNINGS.DETAILS.TABLE.EMPTY')}
                 </tbody>
-              ): null
+                </table>
+              ) :
+                <table className="table table--secondary" style={{tableLayout: "fixed"}}>
+                  <thead>
+                  <tr>
+                    <th>{t('EARNINGS.DETAILS.TABLE.MONTH')}</th>
+                    <th style={{width: "240px"}}>{t('EARNINGS.DETAILS.TABLE.BOOKINGS')}</th>
+                    <th style={{width: "240px"}}>{t('EARNINGS.DETAILS.TABLE.STUDENTS')}</th>
+                    <th style={{width: "240px"}}>{t('EARNINGS.DETAILS.TABLE.REVENUE')}</th>
+                    <th style={{width: "240px"}}>{t('EARNINGS.DETAILS.TABLE.PROVISION')}</th>
+                    <th style={{width: "240px"}}>{t('EARNINGS.DETAILS.TABLE.PAYOUT')}</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {(bookingsData &&
+                      bookingsData.invoicesForMonth.map((tableItem) => {
+                        return (
+                          <BookingsTableElement
+                            month={t('CONSTANTS.MONTHS_LONG.' + tableItem.month.substring(0, 3).toUpperCase())}
+                            numOfStudents={tableItem.numOfStudents}
+                            bookings={tableItem.bookings}
+                            revenue={tableItem.revenue}
+                            teoremCut={tableItem.teoremCut}
+                            total={tableItem.total}
+                          />
+                        );
+                      })) ||
+                    t('EARNINGS.DETAILS.TABLE.EMPTY')}
+                  </tbody>
+                </table>
             }
-            </table>
           </div>
         </div>
     </MainWrapper>
