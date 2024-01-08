@@ -93,7 +93,10 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                                     <></>
                                 ) : (
                                     <>
+                                      {
+                                         !moment(event.startTime).isBefore(moment()) &&
                                         <i className="icon icon--base icon--grey icon--delete mr-4" onClick={() => handleDeleteBooking()}/>
+                                      }
                                     </>
 
                                 )}

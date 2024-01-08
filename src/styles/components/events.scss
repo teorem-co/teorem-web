@@ -2,6 +2,9 @@
     components: events.scss
 */
 
+.event-passed{
+  background: lightgray !important;
+}
 .event {
     position: absolute;
     width: 100%;
