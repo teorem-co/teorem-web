@@ -1,5 +1,5 @@
 import {t} from 'i18next';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import toastService from "../../services/toastService";
 import {useAppSelector} from "../../hooks";
 import IWeek from "./interfaces/IWeek";
@@ -70,7 +70,7 @@ const PayoutsTableElement = (props: PayoutsProps) => {
           <div style={{ display: "flex", alignItems: "center" }}>
             <p
               style={{fontFamily: "Lato", marginLeft: "15px", fontSize: "15px"}}>{props.month}</p>
-            {props.revenue !== 0 && props.weeks?.length !== 0 &&
+            {props.revenue !== 0 &&
               <i
                 id="letter"
                 className={`icon icon--sm icon--chevron-right icon--grey mr-3 ${accordion && 'rotate--90'}`}

@@ -178,8 +178,6 @@ const ProfileAccount = () => {
   };
 
   const handleDefaultCreditCard = async (cardId: string) => {
-    return; //TODO: remove this line once default payment method is implemented
-
     const toSend = {
       userId: userInfo!.id,
       sourceId: cardId,
@@ -235,13 +233,10 @@ const ProfileAccount = () => {
   };
 
   const fetchData = async () => {
-    let cards;
     if (userInfo) {
-      cards = await getCreditCards(userInfo.id).unwrap();
+      await getCreditCards(userInfo.id).unwrap();
     }
-
-    if (userInfo && userRole !== RoleOptions.Tutor && stripeCustomerId && cards &&
-      Array.isArray(cards) && cards.length > 0) {
+    if (userInfo && userRole !== RoleOptions.Tutor && stripeCustomerId) {
       const res = await getCustomerById(userInfo.id).unwrap();
       setActiveDefaultPaymentMethod(res.paymentMethods[0]);
     }
@@ -543,7 +538,7 @@ const ProfileAccount = () => {
                                  onClick={() => handleDefaultCreditCard(item.id)}>
                               <div
                                 className={`dash-wrapper__item__element ${item.id === activeDefaultPaymentMethod && 'active'}`}>
-                                <div className="flex--primary"> {/*TODO: add class later: cur--pointer*/}
+                                <div className="flex--primary cur--pointer">
                                   <div>
                                     <div className="type--wgt--bold">**** ****
                                       **** {item.card.last4}</div>
@@ -591,11 +586,8 @@ const ProfileAccount = () => {
         />
       </div>
       <Elements stripe={stripePromise} options={options}>
-        <AddCreditCard
-          closeSidebar={closeAddCardSidebar}
-          sideBarIsOpen={addSidebarOpen}
-          onSuccess={fetchData}
-        />
+        <AddCreditCard closeSidebar={closeAddCardSidebar}
+                       sideBarIsOpen={addSidebarOpen}/>
       </Elements>
     </MainWrapper>
   );
