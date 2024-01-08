@@ -106,27 +106,15 @@ const Earnings = () => {
       },
     })
       .then(response => {
-        console.log(response);
-        if (response.ok) {
-          return response.blob();
-        } else {
-          throw new Error('Failed to download invoice');
-        }
-      })
-      .then(blob => {
-        const url = window.URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'output.zip';
-        document.body.appendChild(link);
-        link.click();
-
-        // Cleanup
-        document.body.removeChild(link);
-        window.URL.revokeObjectURL(url);
-
-        // Display success message
-        toastService.success(t('COMPLETED_LESSONS.DOWNLOAD_INVOICE_SUCCESS'));
+        const contentDisposition = response.headers.get('Content-Disposition');
+        const fileName = contentDisposition?.split('=')[1].replace(/['"]/g, '').trim();
+        response.blob().then(blob => {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = fileName + '';
+          a.click();
+        });
       })
       .catch(error => {
         // Display error message
