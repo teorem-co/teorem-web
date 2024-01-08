@@ -840,8 +840,6 @@ export const HR_HR = {
                 STUDENTS: 'Učenici',
                 REVIEWS: 'Recenzije',
                 REVENUE: 'Prihod',
-                PROVISION: 'Provizija Teorema',
-                PAYOUT: 'Isplata',
                 EMPTY: 'Nema detalja',
             },
         },

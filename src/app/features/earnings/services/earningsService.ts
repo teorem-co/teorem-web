@@ -2,7 +2,6 @@ import { baseService } from '../../../baseService';
 import { HttpMethods } from '../../../lookups/httpMethods';
 import IEarnings from '../interfaces/IEarnings';
 import IPayouts from "../interfaces/IPayouts";
-import IBookingInvoice from "../interfaces/IBookingInvoices";
 
 const URL = '/api/v1/tutors';
 
@@ -20,13 +19,7 @@ export const earningsService = baseService.injectEndpoints({
             method: HttpMethods.GET,
           }),
         }),
-      getBookingInvoices: builder.query<IBookingInvoice, void>({
-        query: () => ({
-          url: `${URL}/bookings`,
-          method: HttpMethods.GET,
-        }),
-      }),
     }),
 });
 
-export const { useLazyGetEarningsQuery, useLazyGetPayoutsQuery, useLazyGetBookingInvoicesQuery } = earningsService;
+export const { useLazyGetEarningsQuery, useLazyGetPayoutsQuery } = earningsService;

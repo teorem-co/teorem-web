@@ -13,16 +13,15 @@ import { addStripeId } from '../../../../slices/authSlice';
 interface Props {
   sideBarIsOpen: boolean;
   closeSidebar: () => void;
-  onSuccess?: () => void;
 }
 
 const AddCreditCard = (props: Props) => {
-  const {sideBarIsOpen, closeSidebar, onSuccess} = props;
+  const {sideBarIsOpen, closeSidebar} = props;
 
   const stripe = useStripe();
   const elements = useElements();
 
-  const [getStripeCustomerById, { data: stripeCustomer, isSuccess: stripeCustomerIsSuccess }] = useLazyGetCustomerByIdQuery();
+  const [getStripeCustomerById, { data: stripeCustomer }] = useLazyGetCustomerByIdQuery();
   const [loading, setLoading] = useState(false);
   const [addPaymentIntent] = useAddPaymentIntentMutation();
   const userInfo = useAppSelector((state) => state.auth.user);
@@ -55,32 +54,32 @@ const AddCreditCard = (props: Props) => {
     }
 
     const clientSecret = await addPaymentIntent(userInfo.id).unwrap();
-
-    await stripe.confirmSetup({
+      await stripe.confirmSetup({
       elements,
       clientSecret,
       confirmParams: {
         return_url: window.location.href
       },
-        redirect: 'if_required'
     }).then((result) => {
       if(result.error){
         handleError(result.error);
       }else{
-        const progress = { ...state, payment: true };
+        const progress = state;
+        progress.payment = true;
         dispatch(setMyProfileProgress(progress));
-
-        getStripeCustomerById(userInfo?.id).then((result) =>{
-          dispatch(addStripeId(result.data.id));
-          if(onSuccess)
-            onSuccess();
-        });
+        getStripeCustomerById(userInfo?.id);
       }
     });
 
     closeSidebar();
   };
 
+
+  useEffect(() => {
+    if(stripeCustomer) {
+      dispatch(addStripeId(stripeCustomer.id));
+    }
+  }, [stripeCustomer]);
   const {t} = useTranslation();
 
   return (
