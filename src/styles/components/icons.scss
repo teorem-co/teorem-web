@@ -228,6 +228,10 @@
         background-color: $color-primary;
     }
 
+    &--secondary {
+      background-color: rgba(126, 108, 242, 0.6)
+    }
+
     &--primary-gradient {
         background: $color-primary;
         background: linear-gradient(226.69deg, rgba(127, 95, 211, 0.9) 4.52%, #5c3ee8 94.64%);

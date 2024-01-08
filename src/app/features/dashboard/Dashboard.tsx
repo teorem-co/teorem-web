@@ -1243,7 +1243,7 @@ const Dashboard = () => {
                                                   handleDeny(item.id);
                                                 }
                                                 }>
-                                                <i className="icon icon--base icon--close-request icon--primary tutor-intro-3"></i>
+                                                <i className="icon icon--base icon--close-request icon--secondary tutor-intro-3"></i>
                                               </div>
                                             </div>
                                           </div>
