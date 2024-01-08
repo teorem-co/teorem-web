@@ -313,7 +313,7 @@ const Earnings = () => {
               onChange={handleChange}
               aria-label="Platform"
             >
-              {table==="PAYOUTS" ?
+              {table==="PAYOUTS" && payoutsData?.hasInvoices ?
                 <LiaFileInvoiceDollarSolid
                   className='completed-booking-pointer primary-color'
                   size={25}
