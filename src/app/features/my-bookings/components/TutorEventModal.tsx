@@ -98,7 +98,7 @@ const TutorEventModal: React.FC<IProps> = (props) => {
                     <div className="modal--tutor__footer mt-6">
 
                         {!event.isAccepted ? (
-                            <button className="btn btn--base btn--clear type--wgt--extra-bold" onClick={() => handleAcceptBooking()}>
+                            <button className="btn btn--base btn--primary type--wgt--extra-bold" onClick={() => handleAcceptBooking()}>
                                 {t('MY_BOOKINGS.MODAL.ACCEPT')}
                             </button>
                         ) : (
