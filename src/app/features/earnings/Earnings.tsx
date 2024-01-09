@@ -29,6 +29,7 @@ import BookingsTableElement from "./BookingsTableElement";
 import {LiaFileInvoiceDollarSolid} from "react-icons/lia";
 import toastService from "../../services/toastService";
 import {useAppSelector} from "../../hooks";
+import BookingsTableElement from "./BookingsTableElement";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, LineController, BarElement, BarController, Title, Tooltip, Legend, Filler);
 
