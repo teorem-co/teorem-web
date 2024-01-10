@@ -2,7 +2,7 @@ import { Form, FormikProvider, useFormik } from 'formik';
 import { t } from 'i18next';
 import { isEqual } from 'lodash';
 import moment from 'moment';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 
 import { useLazyGetChildQuery } from '../../../../services/userService';
@@ -13,7 +13,11 @@ import MyTextField from '../../../components/form/MyTextField';
 import { useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import IBooking from '../interfaces/IBooking';
-import { useUpdateBookingMutation } from '../services/bookingService';
+import {
+  useDeleteBookingMutation,
+  useUpdateBookingMutation,
+} from '../services/bookingService';
+import { ConfirmationModal } from '../../../components/ConfirmationModal';
 
 interface IProps {
   start?: string;
@@ -34,13 +38,18 @@ interface Values {
   timeFrom: string;
 }
 const UpdateBooking: React.FC<IProps> = (props) => {
+  const [deleteBooking] = useDeleteBookingMutation();
 
   const {topOffset, start, end, handleClose, positionClass, setSidebarOpen, clearEmptyBookings, booking } = props;
   const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
   const userId = useAppSelector((state) => state.auth.user?.id);
 
-  const [tutorLevelOptions, setTutorLevelOptions] = useState<OptionType[]>();
-  const [tutorSubjectOptions, setTutorSubjectOptions] = useState<OptionType[]>();
+  const handleDeleteBooking = () => {
+    if (booking) {
+      deleteBooking(booking.id);
+      handleClose ? handleClose(false) : false;
+    }
+  };
 
   const [selectedTime, setSelectedTime] = useState<string>('');
   const [initialValues, setInitialValues] = useState<Values>({
@@ -50,14 +59,18 @@ const UpdateBooking: React.FC<IProps> = (props) => {
     timeFrom: moment(booking?.startTime).format('HH:mm'),
   });
 
-  const [getChildOptions, { data: childOptions }] = useLazyGetChildQuery();
+  const [getChildOptions] = useLazyGetChildQuery();
   const [updateBooking, { isSuccess: updateBookingSuccess }] = useUpdateBookingMutation();
 
   const handleSubmit = (values: any) => {
+    console.log('Handling submit....');
     props.setSidebarOpen(false);
-    const splitString = values.timeFrom.split(':');
+    const splitString = selectedTime.split(':');
 
-    if (!isEqual(values.timeFrom, initialValues.timeFrom)) {
+    console.log('selected time: ', selectedTime);
+    console.log('Initial values: ', initialValues.timeFrom);
+    if (!isEqual(selectedTime, initialValues.timeFrom)) {
+      console.log('Inside if, should send request to BE');
       updateBooking({
         startTime: moment(booking?.startTime).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
         bookingId: booking ? booking.id : '',
@@ -66,10 +79,15 @@ const UpdateBooking: React.FC<IProps> = (props) => {
   };
 
   const handleChange = (e: any) => {
+    console.log('Handling change...');
     setSelectedTime(e);
     formik.setFieldValue('timeFrom', e);
   };
 
+
+  useEffect(() => {
+console.log('In effect, selected time: ', selectedTime);
+  }, [selectedTime]);
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: (values) => handleSubmit(values),
@@ -80,27 +98,9 @@ const UpdateBooking: React.FC<IProps> = (props) => {
   });
 
   useEffect(() => {
+
     if (userRole === RoleOptions.Parent && userId) {
       getChildOptions(userId);
-    }
-
-    // set options for level and subject
-    if(booking){
-      const subjectOptions:OptionType[] = [
-        {
-          value: booking.subjectId,
-          label: t(`SUBJECTS.${booking.Subject.abrv.replaceAll(' ', '').replaceAll('-', '').toLowerCase()}`),
-        }
-      ];
-      const levelOptions:OptionType[] = [
-        {
-          value: booking.levelId,
-          label: t(`LEVELS.${booking?.Level.abrv.replaceAll(' ', '').replaceAll('-', '').toLowerCase()}`),
-        }
-      ];
-
-      setTutorLevelOptions(levelOptions);
-      setTutorSubjectOptions(subjectOptions);
     }
 
   }, []);
@@ -125,10 +125,18 @@ const UpdateBooking: React.FC<IProps> = (props) => {
     }
   }, [booking]);
 
+
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+
+  function dismissCancelBooking(){
+    setShowConfirmModal(false);
+  }
+
   const isMobile = window.innerWidth < 776;
   const mobileStyles = isMobile? { top: `${topOffset}px` } : {};
 
   return (
+    <>
     <div  style={mobileStyles}  className={`modal--parent  modal--parent--${isMobile ? '' : positionClass}`}>
       <div className="modal--parent__header">
         <div className="flex flex--primary">
@@ -156,61 +164,31 @@ const UpdateBooking: React.FC<IProps> = (props) => {
       <div className="modal--parent__line"></div>
 
       <div className="modal--parent__body">
+        <div className="mb-4">
+          { userRole !== RoleOptions.Tutor && <div className="flex flex--center mb-4">
+            <i className="icon icon--base icon--tutor icon--grey mr-4"></i>
+            <div className="type--color--secondary">{booking?.User.firstName}</div>
+          </div>}
+
+          <div className="flex flex--center mb-4">
+            <i className="icon icon--base icon--subject icon--grey mr-4"></i>
+            <div className="type--color--secondary w--100">
+              {t(`SUBJECTS.${booking?.Subject.abrv.replaceAll(' ', '').replaceAll('-', '').toLowerCase()}`)}&nbsp;-&nbsp;
+              {t(`LEVELS.${booking?.Level.name.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`)}
+            </div>
+          </div>
+
+          {userRole === RoleOptions.Student ? (
+            <></>
+          ) : (
+            <div className="flex flex--center">
+              <i className="icon icon--base icon--child icon--grey mr-4"></i>
+              <div className="type--color--secondary w--100">{booking?.userFullName}</div>
+            </div>
+          )}
+        </div>
         <FormikProvider value={formik}>
           <Form id="updateBookingForm">
-            <div className="field">
-              <label htmlFor="level" className="field__label">
-                {t('BOOK.FORM.LEVEL')}*
-              </label>
-
-              <MySelect
-                field={formik.getFieldProps('level')}
-                form={formik}
-                meta={formik.getFieldMeta('level')}
-                classNamePrefix="onboarding-select"
-                isMulti={false}
-                options={tutorLevelOptions ? tutorLevelOptions : []}
-                isDisabled={booking?.id ? true : false}
-                placeholder={t('BOOK.FORM.LEVEL_PLACEHOLDER')}
-              />
-            </div>
-            <div className="field">
-              <label htmlFor="subject" className="field__label">
-                {t('BOOK.FORM.SUBJECT')}*
-              </label>
-
-              <MySelect
-                field={formik.getFieldProps('subject')}
-                form={formik}
-                meta={formik.getFieldMeta('subject')}
-                isMulti={false}
-                options={tutorSubjectOptions}
-                classNamePrefix="onboarding-select"
-                isDisabled={booking?.id ? true : false}
-                noOptionsMessage={() => t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')}
-                placeholder={t('SEARCH_TUTORS.PLACEHOLDER.SUBJECT')}
-              />
-            </div>
-            {userRole === RoleOptions.Parent ? (
-              <div className="field">
-                <label htmlFor="child" className="field__label">
-                  {t('BOOK.FORM.CHILD')}*
-                </label>
-
-                <MySelect
-                  field={formik.getFieldProps('child')}
-                  form={formik}
-                  meta={formik.getFieldMeta('child')}
-                  classNamePrefix="onboarding-select"
-                  isMulti={false}
-                  options={childOptions ? childOptions : []}
-                  placeholder={t('BOOK.FORM.CHILD_PLACEHOLDER')}
-                  isDisabled={true}
-                />
-              </div>
-            ) : (
-              <></>
-            )}
             <div className="field">
               <label htmlFor="timeFrom" className="field__label">
                 {t('BOOK.FORM.TIME')}
@@ -242,20 +220,31 @@ const UpdateBooking: React.FC<IProps> = (props) => {
       </div>
       <div className="modal--parent__footer">
         {/* <button className="btn btn--base type--wgt--extra-bold btn--primary mb-1" onClick={() => handleSubmitForm()}> */}
-        <button form="updateBookingForm" className="btn btn--base type--wgt--extra-bold btn--primary mb-1">
+        <button form="updateBookingForm"
+                className="btn btn--base type--wgt--extra-bold btn--primary mb-1"
+                disabled={moment(start, 'HH:mm').isSame(moment(formik.values.timeFrom, 'HH:mm')) }>
           {t('BOOK.FORM.UPDATE')}
         </button>
         <button
-          className="btn btn--base type--wgt--extra-bold btn--clear"
+          className="btn btn--base type--wgt--extra-bold btn--clear type--color--error"
           onClick={() => {
-            handleClose ? handleClose(false) : false;
             props.clearEmptyBookings();
+            setShowConfirmModal(true);
           }}
         >
-          {t('BOOK.FORM.CANCEL')}
+          {!booking?.isAccepted && userRole === RoleOptions.Tutor ? t('MY_BOOKINGS.MODAL.DENY') : t('BOOK.FORM.CANCEL_BOOKING')}
         </button>
       </div>
+
     </div>
+  {showConfirmModal &&
+    <ConfirmationModal
+    title={t('MY_BOOKINGS.MODAL.CONFIRM_CANCEL_TITLE')}
+    confirmButtonTitle={t('BOOK.FORM.CANCEL_BOOKING')}
+    cancelButtonTitle={t('BOOK.FORM.DISMISS')}
+    onConfirm={handleDeleteBooking}
+    onCancel={dismissCancelBooking}/>}
+  </>
   );
 };
 

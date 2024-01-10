@@ -516,9 +516,22 @@ const MyBookings: React.FC = (props: any) => {
                 positionClass={calcModalPosition(positionClass)}
                 openLearnCube={() => setLearnCubeModal(true)}
                 topOffset={scrollTopOffset}
+                openEditModal={(isOpen) => handleUpdateModal(isOpen)}
               />
             ) : (
-              <></>
+              openUpdateModal && booking ?
+                <UpdateBooking
+                  booking={booking ? booking : null}
+                  clearEmptyBookings={() => setEmptyBookings([])}
+                  setSidebarOpen={(e: any) => setSidebarOpen(e)}
+                  start={`${selectedStart}`}
+                  end={`${booking.endTime}`}
+                  handleClose={(e: any) => setOpenUpdateModal(e)}
+                  positionClass={calcModalPosition(positionClass)}
+                  tutorId={booking?.tutorId}
+                  topOffset={scrollTopOffset}
+                />
+                : <></>
             )}
             {openTutorCalendarModal && booking ? (
               // TODO: here should be ParentEventModal

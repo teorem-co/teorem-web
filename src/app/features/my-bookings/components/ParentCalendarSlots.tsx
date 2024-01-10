@@ -410,7 +410,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
               props.clearEmptyBookings();
             }}
           >
-            {t('BOOK.FORM.CANCEL')}
+            {t('BOOK.FORM.DISMISS')}
           </button>
         </div>
       ) : (

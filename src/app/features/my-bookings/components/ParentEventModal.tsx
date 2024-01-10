@@ -24,20 +24,20 @@ interface IProps {
 const ParentEventModal: React.FC<IProps> = (props) => {
     const ALLOWED_MINUTES_TO_JOIN_BEFORE_MEETING = 5;
     const {topOffset, handleClose, positionClass, event, tutorName, openEditModal, bookingStart, eventIsAccepted, openLearnCube } = props;
-    const [deleteBooking, { isSuccess: isSuccessDeleteBooking }] = useDeleteBookingMutation();
+    // const [deleteBooking, { isSuccess: isSuccessDeleteBooking }] = useDeleteBookingMutation();
     const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
-    const handleDeleteBooking = () => {
-        if (event) {
-            deleteBooking(event.id);
-            handleClose ? handleClose(false) : false;
-        }
-    };
+    // const handleDeleteBooking = () => {
+    //     if (event) {
+    //         deleteBooking(event.id);
+    //         handleClose ? handleClose(false) : false;
+    //     }
+    // };
 
-    useEffect(() => {
-        if (isSuccessDeleteBooking) {
-            toastService.success('Booking deleted');
-        }
-    }, [isSuccessDeleteBooking]);
+    // useEffect(() => {
+    //     if (isSuccessDeleteBooking) {
+    //         toastService.success('Booking deleted');
+    //     }
+    // }, [isSuccessDeleteBooking]);
 
     function isJoinButtonDisabled(event: IBooking){
       // you can't join more than 5 minutes before start OR after meeting has ended
@@ -61,45 +61,6 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                                 </div>
                             </div>
                             <div className="mb-6">
-                              {/*THIS IS FOR TOOLTIP*/}
-                              {/*<Tooltip*/}
-                              {/*  clickable={true}*/}
-                              {/*  openOnClick={true}*/}
-                              {/*  id="booking-info"*/}
-                              {/*  place={'left-start'}*/}
-                              {/*  positionStrategy={'absolute'}*/}
-                              {/*  closeOnEsc={true}*/}
-                              {/*  style={{ zIndex: 9, fontSize:'14px'}}*/}
-                              {/*/>*/}
-
-                              {/*<i className="icon icon--base icon--grey icon--info mr-4"*/}
-                              {/*  // onClick={handleShowInfo}*/}
-                              {/*   data-tooltip-id='booking-info'*/}
-                              {/*   data-tooltip-html={"" +*/}
-                              {/*     "<div>Rescheduling info</div> " +*/}
-                              {/*     "<div>info 1</div>" +*/}
-                              {/*     "<div>info 2</div>" +*/}
-                              {/*     "<div>info 3</div>" +*/}
-                              {/*     "<div>info 4</div>" +*/}
-                              {/*     "<div>info 5</div>" +*/}
-                              {/*     ""}*/}
-                              {/*></i>*/}
-
-                                {!moment(event.startTime).isBefore(moment().add(1, 'hours')) && (
-                                    <i className="icon icon--base icon--grey icon--edit mr-4" onClick={() => openEditModal(true)}/>
-                                )}
-
-                                {moment(bookingStart).isSame(moment(), 'day') ? (
-                                    <></>
-                                ) : (
-                                    <>
-                                      {
-                                         !moment(event.startTime).isBefore(moment()) &&
-                                        <i className="icon icon--base icon--grey icon--delete mr-4" onClick={() => handleDeleteBooking()}/>
-                                      }
-                                    </>
-
-                                )}
                                 <i
                                     className="icon icon--base icon--grey icon--close"
                                     onClick={() => {
@@ -121,12 +82,9 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                         <div className="flex flex--center mb-4">
                             <i className="icon icon--base icon--subject icon--grey mr-4"></i>
                             <div className="type--color--secondary">
-                              {t(`SUBJECTS.${event.Subject.abrv.replaceAll(' ', '').replaceAll('-', '').toLowerCase()}`)} -
-
-                                {event.Level.name === 'IB (International Baccalaurate)' ?
-                                    <td>{t('LEVELS.ib')}</td> :
-                                    <td>{t(`LEVELS.${event.Level.name.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`)}</td>
-                                }
+                              {t(`SUBJECTS.${event.Subject.abrv.replaceAll(' ', '').replaceAll('-', '').toLowerCase()}`)}
+                              &nbsp;-&nbsp;
+                              {t(`LEVELS.${event.Level.name.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`)}
                             </div>
                         </div>
                         {userRole === RoleOptions.Student ? (
@@ -138,6 +96,7 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                             </div>
                         )}
                     </div>
+
                     <div className="modal--parent__footer mt-6">
                       <Tooltip
                         id="join-meeting-button"
@@ -162,6 +121,11 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                                   {t('BOOK.JOIN')}
                               </button>
                           )}
+
+                      {
+                        moment(bookingStart).isAfter(moment()) &&
+                        <p className={"text-align--center mt-2 cur--pointer scale-hover type--color--secondary change-color-hover--primary"} onClick={()=> openEditModal(true)}>{t('BOOK.FORM.EDIT_OR_CANCEL_BOOKING')}</p>
+                      }
                     </div>
                 </div>
             ) : (

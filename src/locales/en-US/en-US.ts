@@ -461,6 +461,7 @@ export const EN_US = {
             WHOLE_DAY: 'Whole day',
             SET_UNAVAILABILITY: 'Set unavailability',
             CANCEL: 'Cancel',
+            CONFIRM_CANCEL_TITLE: 'Are you sure you want to cancel booking?'
         },
         INFORMATION: {
             TITLE: 'BOOKING INFORMATION',
@@ -496,7 +497,11 @@ export const EN_US = {
             ADD_CARD: 'Add card',
             UPDATE: 'Update booking',
             CANCEL: 'Cancel',
-            TUTOR_DISABLED: 'Currently unavailable'
+            TUTOR_DISABLED: 'Currently unavailable',
+            CANCEL_BOOKING: 'Cancel booking',
+            EDIT_OR__CANCEL_BOOKING: 'Edit or cancel',
+            EDIT_OR_DENY_BOOKING: 'Edit or deny',
+            DISMISS:'Dismiss'
         },
         JOIN: 'Join',
         JOIN_TOOLTIP: 'You can join the meeting 5 minutes before the start'

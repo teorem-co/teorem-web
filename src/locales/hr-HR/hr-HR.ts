@@ -460,6 +460,7 @@ export const HR_HR = {
             WHOLE_DAY: 'Čitav dan',
             SET_UNAVAILABILITY: 'Postavi nedostupnost',
             CANCEL: 'Otkaži',
+            CONFIRM_CANCEL_TITLE: 'Jeste li sigurni da želite otkazati rezervaciju?'
         },
         INFORMATION: {
             TITLE: 'INFORMACIJE O REZERVACIJAMA',
@@ -495,7 +496,11 @@ export const HR_HR = {
             ADD_CARD: 'Dodaj karticu',
             UPDATE: 'Ažuriraj rezervaciju',
             CANCEL: 'Otkaži',
-            TUTOR_DISABLED: 'Privremeno nedostupno'
+            TUTOR_DISABLED: 'Privremeno nedostupno',
+            CANCEL_BOOKING: 'Otkaži rezervaciju',
+            EDIT_OR_CANCEL_BOOKING: 'Izmijeni ili otkaži',
+            EDIT_OR_DENY_BOOKING: 'Izmijeni ili odbij',
+            DISMISS:'Odustani'
         },
         JOIN: 'Pridruži se',
         JOIN_TOOLTIP: 'Sastanku se možete pridružiti najranije 5 minuta prije početka'
