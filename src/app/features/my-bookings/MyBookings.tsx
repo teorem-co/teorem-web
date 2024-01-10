@@ -227,7 +227,8 @@ const MyBookings: React.FC = (props: any) => {
       }else {
         return (
           <>
-            <div className="event event--pending">
+            {/*TODO: do calculation when can tutor delete booking*/}
+            <div className={`event event--pending ${moment(event.event.end).isBefore(moment()) ?  'event-passed' : ''}`}>
               <div className="type--wgt--bold">{event.event.label}</div>
             </div>
           </>
@@ -235,14 +236,15 @@ const MyBookings: React.FC = (props: any) => {
       }
     } else {
       if (event.event.isAccepted === false) {
+        // TODO: do calculation when can student delete booking
         return (
-          <div className="event">
+          <div className={`event ${moment(event.event.end).isBefore(moment()) ?  'event-passed' : ''}`}>
             <div className="type--wgt--bold">{event.event.label}</div>
           </div>
         );
       } else {
         return (
-          <div className="event event--pending">
+          <div className={`event event--pending ${moment(event.event.end).isBefore(moment()) ? 'event-passed' : ''}`}>
             <div className="type--wgt--bold">{event.event.label}</div>
           </div>
         );

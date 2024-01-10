@@ -25,13 +25,20 @@ import {
 import {ToggleButton, ToggleButtonGroup} from "@mui/material";
 import PayoutsTableElement from "./PayoutsTableElement";
 import IGraph from "./interfaces/IGraph";
+import {LiaFileInvoiceDollarSolid} from "react-icons/lia";
+import toastService from "../../services/toastService";
+import {useAppSelector} from "../../hooks";
 import BookingsTableElement from "./BookingsTableElement";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, LineController, BarElement, BarController, Title, Tooltip, Legend, Filler);
 
+const fileUrl = 'api/v1/tutors';
+const url = `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_CHAT_FILE_DOWNLOAD_HOST}/${fileUrl}`;
+
 const Earnings = () => {
   const [getEarnings, { data: earningsData }] = useLazyGetEarningsQuery();
   const [getPayouts, {data: payoutsData}] = useLazyGetPayoutsQuery();
+  const userToken = useAppSelector((state) => state.auth.token);
   const [getBookings, {data: bookingsData}] = useLazyGetBookingInvoicesQuery();
 
   const [table, setTable] = useState("PAYOUTS");
@@ -89,6 +96,31 @@ const Earnings = () => {
   useEffect(() => {
     fetchData();
   }, [periodOfTime]);
+
+  function handleInvoiceDownload() {
+    fetch(`${url}/all-invoices`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+        Accept: 'application/octet-stream',
+      },
+    })
+      .then(response => {
+        const contentDisposition = response.headers.get('Content-Disposition');
+        const fileName = contentDisposition?.split('=')[1].replace(/['"]/g, '').trim();
+        response.blob().then(blob => {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = fileName + '';
+          a.click();
+        });
+      })
+      .catch(error => {
+        // Display error message
+        toastService.error(t('COMPLETED_LESSONS.DOWNLOAD_INVOICE_FAIL'));
+      });
+  };
 
   return (
     <MainWrapper>
@@ -281,6 +313,16 @@ const Earnings = () => {
               onChange={handleChange}
               aria-label="Platform"
             >
+              {table==="PAYOUTS" && payoutsData?.hasInvoices ?
+                <LiaFileInvoiceDollarSolid
+                  className='completed-booking-pointer primary-color'
+                  size={25}
+                  data-tip='Click to view invoice'
+                  data-tooltip-id='booking-info-tooltip'
+                  style={{marginRight: "10px", marginTop: "5px"}}
+                  data-tooltip-html={t('COMPLETED_LESSONS.TOOLTIP_DOWNLOAD_INVOICE')}
+                  onClick={() => handleInvoiceDownload()}
+                />: null}
               <ToggleButton value="payouts"
                             onClick={() => setTable("PAYOUTS")}
                             style={{fontSize: "11px"}}
