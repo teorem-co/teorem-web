@@ -499,7 +499,7 @@ export const EN_US = {
             CANCEL: 'Cancel',
             TUTOR_DISABLED: 'Currently unavailable',
             CANCEL_BOOKING: 'Cancel booking',
-            EDIT_OR__CANCEL_BOOKING: 'Edit or cancel',
+            EDIT_OR_CANCEL_BOOKING: 'Edit or cancel',
             EDIT_OR_DENY_BOOKING: 'Edit or deny',
             DISMISS:'Dismiss'
         },
