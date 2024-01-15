@@ -469,7 +469,7 @@ export const HR_HR = {
             },
             CARD2:{
               TITLE:'Što ako mi moj termin predavanja vise ne odgovara?',
-              DESC:'Možete otkazati bilo koju rezervaciju i dobiti puni povrat novca 24 sata od trenutka kada ste izvršili uplatu. Nakon tog razdoblja možete iskljucivo zatražiti promjenu datuma ili vremena lekcije. Ako je do lekcije ostalo manje od 24 sata, instruktor može odbiti vaš zahtjev za promjenu vremena ili datuma.'
+              DESC:'Možete otkazati bilo koju rezervaciju i dobiti puni povrat novca 24 sata od trenutka kada ste izvršili uplatu. Za više informacija posjetite naš <a href="https://intercom.help/teorem/hr/" target="_blank">centar za podršku</a>.'
             },
             CARD3: {
                 TITLE: 'Kako rezervirati termin?',
@@ -803,6 +803,10 @@ export const HR_HR = {
             },
         },
         CHAT_HAS_MISSED_CALL: ' je propustio Vaš poziv',
+        HELP_CENTER:{
+          TITLE: 'Centar za podršku',
+          LINK:'https://intercom.help/teorem/hr/'
+        }
     },
     EARNINGS: {
         TITLE: 'Prihod',

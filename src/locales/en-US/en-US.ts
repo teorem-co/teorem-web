@@ -470,7 +470,7 @@ export const EN_US = {
             },
             CARD2: {
               TITLE: 'What if I can’t make it to my lesson?',
-              DESC: 'You can cancel any booking and get a full refund 24 hours from the moment you made the payment. After that period, you can only request to change the date or time of your lesson. If there is less than 24 hours to the lesson, the tutor can choose to reject your request to change the time or date.',
+              DESC: 'You can cancel any booking and get a full refund 24 hours from the moment you made the payment. For more information visit our <a href="https://intercom.help/teorem/en/" target="_blank">help center</a>.',
             },
             CARD3: {
               TITLE: 'How to book a slot?',
@@ -804,6 +804,10 @@ export const EN_US = {
             },
         },
         CHAT_HAS_MISSED_CALL: ' has missed your call',
+      HELP_CENTER:{
+        TITLE: 'Help center',
+        LINK:'https://intercom.help/teorem/en/'
+      }
     },
     EARNINGS: {
         TITLE: 'Earnings',
