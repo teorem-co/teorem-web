@@ -501,7 +501,9 @@ export const EN_US = {
             CANCEL_BOOKING: 'Cancel booking',
             EDIT_OR_CANCEL_BOOKING: 'Edit or cancel',
             EDIT_OR_DENY_BOOKING: 'Edit or deny',
-            DISMISS:'Dismiss'
+            DISMISS:'Dismiss',
+            DATE_OF_BOOKING:'Date of booking',
+            TIME_OF_BOOKING:'Time'
         },
         JOIN: 'Join',
         JOIN_TOOLTIP: 'You can join the meeting 5 minutes before the start'

@@ -500,7 +500,9 @@ export const HR_HR = {
             CANCEL_BOOKING: 'Otkaži rezervaciju',
             EDIT_OR_CANCEL_BOOKING: 'Izmijeni ili otkaži',
             EDIT_OR_DENY_BOOKING: 'Izmijeni ili odbij',
-            DISMISS:'Odustani'
+            DISMISS:'Odustani',
+            DATE_OF_BOOKING:'Datum',
+            TIME_OF_BOOKING:'Vrijeme'
         },
         JOIN: 'Pridruži se',
         JOIN_TOOLTIP: 'Sastanku se možete pridružiti najranije 5 minuta prije početka'

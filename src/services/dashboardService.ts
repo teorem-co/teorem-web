@@ -24,6 +24,12 @@ export const dashboardService = baseService.injectEndpoints({
         method: HttpMethods.GET,
       }),
     }),
+    getAllTimeZones: builder.query<string[], void>({
+      query: () => ({
+        url: `${URL}/allTimeZones`,
+        method: HttpMethods.GET,
+      }),
+    })
   }),
 });
 
@@ -31,4 +37,5 @@ export const {
   useLazyGetUpcomingQuery,
   useLazyGetRequestsQuery,
   useLazyGetTodayScheduleQuery,
+  useLazyGetAllTimeZonesQuery,
 } = dashboardService;

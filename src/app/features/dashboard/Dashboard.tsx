@@ -37,6 +37,7 @@ import {
 import ISearchParams from '../../../interfaces/IParams';
 import IParams from '../notifications/interfaces/IParams';
 import {
+  useLazyGetAllTimeZonesQuery,
   useLazyGetRequestsQuery,
   useLazyGetTodayScheduleQuery,
   useLazyGetUpcomingQuery,
@@ -278,6 +279,7 @@ const Dashboard = () => {
     const [getUpcoming, {data: upcomingData, isLoading: upcomingLoading, isSuccess:upcomingSuccessful}] = useLazyGetUpcomingQuery();
     const [getTodaySchedule] = useLazyGetTodayScheduleQuery();
     const [getRequests] = useLazyGetRequestsQuery();
+    const [getAllTimeZones] = useLazyGetAllTimeZonesQuery();
     const [acceptRequest] = useAcceptBookingMutation();
     const [denyRequest] = useDeleteBookingMutation();
     const [getChildren, { data: childrenData, isLoading: childrenLoading, isSuccess: childrenSuccess}] = useLazyGetChildrenQuery();
@@ -353,6 +355,8 @@ const Dashboard = () => {
         if(!childrenLoading && (children.length === 0 || children.length === undefined)) {
           setChildless(true);
         }
+
+        const allTimeZones = await getAllTimeZones().then((res) => console.log(res));
     };
 
     const handleNextIndex = () => {

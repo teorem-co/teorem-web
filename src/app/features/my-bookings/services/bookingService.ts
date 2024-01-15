@@ -48,6 +48,18 @@ interface IUpdateBooking {
     bookingId: string;
 }
 
+export interface IGetTutorAvailablePeriodsParams {
+  tutorId: string;
+  date: string;
+  timeZone: string;
+
+}
+
+export interface IGetStudentAvailablePeriodsParams {
+  studentId: string;
+  date: string;
+}
+
 const URL = '/api/v1/bookings';
 
 export const bookingService = baseService.injectEndpoints({
@@ -152,6 +164,18 @@ export const bookingService = baseService.injectEndpoints({
             }),
             invalidatesTags: ['bookings', 'tutorBookings', 'upcomingLessons', 'lessonCount'],
         }),
+        getTutorAvailablePeriods: builder.query<string[], IGetTutorAvailablePeriodsParams>({
+          query: (params) => ({
+            url: `${URL}/tutor-available-periods?date=${params.date}&tutorId=${params.tutorId}&timeZone=${params.timeZone}`,
+            method: HttpMethods.GET,
+          }),
+        }),
+        getStudentAvailablePeriods: builder.query<string[], IGetStudentAvailablePeriodsParams>({
+          query: (params) => ({
+            url: `${URL}/student-available-periods?date=${params.date}&studentId=${params.studentId}`,
+            method: HttpMethods.GET,
+          }),
+      }),
     }),
 });
 
@@ -166,4 +190,6 @@ export const {
     useUpdateBookingMutation,
     useAcceptBookingMutation,
     useDeleteBookingMutation,
+    useLazyGetTutorAvailablePeriodsQuery,
+    useLazyGetStudentAvailablePeriodsQuery,
 } = bookingService;
