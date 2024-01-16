@@ -650,6 +650,7 @@ export const EN_US = {
             ADD_DESC: 'Select to add new Subject',
             DELETED: 'Subject is deleted',
             CREATED: 'Subject is created',
+            UPDATED: 'Subjects updated',
             EDIT_TITLE: 'EDIT SUBJECT DETAILS',
             ADD_TITLE: 'ADD NEW SUBJECT',
             SUBJECT: 'Select subject you teach',

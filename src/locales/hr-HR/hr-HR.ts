@@ -649,6 +649,7 @@ export const HR_HR = {
             ADD_DESC: 'Izaberite za dodavanje novog predmeta',
             DELETED: 'Predmet je obrisan',
             CREATED: 'Predmet je dodan',
+            UPDATED: 'Predmeti ažurirani',
             EDIT_TITLE: 'IZMIJENITE PREDMET',
             ADD_TITLE: 'DODAJTE NOVI PREDMET',
             SUBJECT: 'Odaberite predmet koji predajete',
