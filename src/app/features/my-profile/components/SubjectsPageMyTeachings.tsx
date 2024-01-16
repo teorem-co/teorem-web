@@ -65,6 +65,7 @@ const SubjectsPage = () => {
   useEffect(() => {
     if (myTeachingsData) {
 
+      const arr: ITutorSubject[] = [];
       if (myTeachingsData.TutorSubjects.length == 0) {
         forms.push({
           id: 0,
@@ -84,11 +85,12 @@ const SubjectsPage = () => {
             subjectId: subjectInfo.subjectId,
             price: subjectInfo.price + '',
           };
-        if (!forms.some(form => form.id === subj.id)) {
-          forms.push(subj);
-        }
+        //if (!forms.some(form => form.id === subj.id)) {
+          arr.push(subj);
+        // }
       });
-      setInitialSubjects(forms);
+      setForms(arr);
+      setInitialSubjects(arr);
       setOldSubjects(myTeachingsData.TutorSubjects);
     }
   }, [myTeachingsData]);
@@ -126,6 +128,7 @@ const SubjectsPage = () => {
           if (!res.data) {
             toastService.success(t('MY_PROFILE.MY_TEACHINGS.UPDATED'));
             setInitialSubjects(forms);
+            fetchData();
             return;
           }
 
@@ -311,26 +314,25 @@ const SubjectsPage = () => {
                     </div>
                   </div>
                 </div>
+                {
+                  showButton &&
+                  <div className="flex flex--col flex--ai--center flex--jc--center">
+                    <button
+                      onClick={() => handleSubmit()}
+                      disabled={btnDisabled}
+                      className='btn btn--lg btn--primary mt-4 mb-4'>
+                      {t('MY_PROFILE.MY_TEACHINGS.SAVE')}
+                    </button>
+
+                    {/*<button*/}
+                    {/*  onClick={() => handleCancel()}*/}
+                    {/*  className='btn btn--sm mt-1 pr-4 pl-4 pt-2 pb-2 btn--ghost--error'>*/}
+                    {/*  {t('MY_PROFILE.MY_TEACHINGS.CANCEL')}*/}
+                    {/*</button>*/}
+                  </div>
+                }
               </div>
-
             </div>
-            {
-              showButton &&
-              <>
-                <button
-                  onClick={() => handleSubmit()}
-                  disabled={btnDisabled}
-                  className='btn btn--lg btn--primary mt-4 mb-4'>
-                  {t('MY_PROFILE.MY_TEACHINGS.SAVE')}
-                </button>
-
-                <button
-                  onClick={() => handleCancel()}
-                  className='btn btn--sm mt-1 pr-4 pl-4 pt-2 pb-2 btn--ghost--error'>
-                  {t('MY_PROFILE.MY_TEACHINGS.CANCEL')}
-                </button>
-              </>
-            }
           </div>
         )}
       </div>

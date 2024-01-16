@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 
@@ -82,11 +82,16 @@ const MyTeachings = () => {
           <div className='card--profile__section'>
             {/* Add subject */}
             <div>
-              <div
-                className='mb-2 type--wgt--bold'>{t('MY_PROFILE.MY_TEACHINGS.TITLE')}</div>
-              <div
-                className='type--color--tertiary w--200--max'>{t('MY_PROFILE.MY_TEACHINGS.DESCRIPTION')}</div>
+
+              <div className='mb-2 type--wgt--bold'>
+                {t('MY_PROFILE.MY_TEACHINGS.TITLE')}
+              </div>
+
+              <div className='type--color--tertiary w--200--max'>
+                {t('MY_PROFILE.MY_TEACHINGS.DESCRIPTION')}
+              </div>
               <SubjectsPageMyTeachings />
+
             </div>
           </div>
         )}
