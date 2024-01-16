@@ -59,7 +59,7 @@ export const HR_HR = {
         AVAILABILITY_2: "Svoju dostupnost možete kasnije izmijeniti u bilo kojem trenutku.",
         SUBJECTS: "Kasnije možete dodati ili obrisati predmete u postavkama Vašeg profila.",
         SUBJECTS_TIP_1: "Dodajte predmete koje želite podučavati i odredite svoju cijenu.",
-        SUBJECTS_TIP_2: "Imajte na umu da Teorem uzima proviziju od 12%.",
+        SUBJECTS_TIP_2: "Imajte na umu da Teorem uzima proviziju od 15%.",
       },
       IMAGE_TIPS: {
         TITLE: 'Naputci za fotografiju',
@@ -1069,7 +1069,7 @@ export const HR_HR = {
             ANSWER_5:
                 'Mi Vam garantiramo stabilan dotok novih učenika te se brinemo o svemu tako da se Vi možete u potpunosti posvetiti predavanjima.',
             QUESTION_6: 'Kako Teorem zarađuje?',
-            ANSWER_6: 'Teorem uzima proviziju od 12% od instruktora.',
+            ANSWER_6: 'Teorem uzima proviziju od 15% od instruktora.',
         },
         CARD_1: {
             TITLE: '"Remote" rad',

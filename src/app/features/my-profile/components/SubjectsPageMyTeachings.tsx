@@ -329,7 +329,6 @@ const SubjectsPage = () => {
 
                 <button
                   onClick={() => handleCancel()}
-                  disabled={btnDisabled}
                   className='btn btn--sm mt-1 pr-4 pl-4 pt-2 pb-2 btn--ghost--error'>
                   {t('MY_PROFILE.MY_TEACHINGS.CANCEL')}
                 </button>
