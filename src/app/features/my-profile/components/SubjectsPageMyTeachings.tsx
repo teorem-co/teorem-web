@@ -212,9 +212,6 @@ const SubjectsPage = () => {
 
 
   useEffect(() => {
-    console.log('initialSubjects', initialSubjects);
-    console.log('forms', forms);
-
     setShowButton(!areArraysSame(initialSubjects, forms));
   }, [forms, initialSubjects]);
 
