@@ -1354,6 +1354,15 @@ export const EN_US = {
     BUTTON_PREVIOUS:'Previous',
     BUTTON_FINISH:'Finish',
     BUTTON_RESTART:'Restart tutorial'
+  },
+  BOOKING_POPUP:{
+    CURRICULUM_PLACEHOLDER: 'Which school curriculum do you need help with?',
+    TEXTBOOK_PLACEHOLDER: 'Which textbook is used?',
+    GRADE_PLACEHOLDER: 'Current grade',
+    NOTES_PLACEHOLDER: 'Notes or special requirements',
+    BUTTON:{
+      COMPLETE: 'Complete',
+      SKIP: 'Skip for now'
+    }
   }
-
 };
