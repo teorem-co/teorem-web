@@ -24,6 +24,18 @@ export interface ISearchChatQuery {
     page: number
 }
 
+export interface BookingChatMessageDTO{
+  defaultMessage: boolean,
+  tutorId: string,
+  subjectId: string,
+  levelId: string,
+  startTime: string,
+  curriculum?: string,
+  textbook?: string,
+  grade?: string,
+  notes?: string,
+}
+
 const URL = '/api/v1/chat';
 
 export const chatService = baseService.injectEndpoints({
@@ -65,7 +77,13 @@ export const chatService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
-
+        sendBookingInfoMessage: builder.mutation<void, BookingChatMessageDTO>({
+            query: (body) => ({
+                url: `${URL}/booking-information-message?defaultMessage=${body.defaultMessage}`,
+                method: HttpMethods.POST,
+                body: body
+            }),
+        }),
 
     }),
 });
@@ -76,5 +94,6 @@ export const {
     usePostUploadFileMutation,
     useLazyGetOnSearchChatRoomsQuery,
     useLazyGetChildBookingTutorsQuery,
-    useLazyGetChatFileQuery
+    useLazyGetChatFileQuery,
+    useSendBookingInfoMessageMutation,
 } = chatService;
