@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Field, Form, FormikProvider, useFormik } from 'formik';
 import { TextField } from '@mui/material';
 import { t } from 'i18next';
@@ -27,6 +27,7 @@ interface Props {
 
 export const BookingPopupForm = (props: Props) => {
   const [sendBookingChatInfoMessage] = useSendBookingInfoMessageMutation();
+  const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
 
   const initialValues: BookingInfoForm = {
     curriculum: '',
@@ -37,15 +38,16 @@ export const BookingPopupForm = (props: Props) => {
 
   function handleSubmit(values: BookingInfoForm) {
     const toSend: BookingChatMessageDTO = {
+      defaultMessage: false,
       tutorId: props.tutorId,
       startTime: props.startTime,
       subjectId: props.subjectId,
       levelId: props.levelId,
-      curriculum: values.curriculum,
-      textbook: values.textbook,
-      grade: values.grade,
-      notes: values.notes,
-      defaultMessage: false,
+
+      curriculum: values.curriculum.trim(),
+      textbook: values.textbook.trim(),
+      grade: values.grade.trim(),
+      notes: values.notes.trim(),
     };
 
     sendBookingChatInfoMessage(toSend);
@@ -54,11 +56,11 @@ export const BookingPopupForm = (props: Props) => {
 
   function handleSkip() {
     const toSend: BookingChatMessageDTO = {
+      defaultMessage: true,
       tutorId: props.tutorId,
       startTime: props.startTime,
       subjectId: props.subjectId,
       levelId: props.levelId,
-      defaultMessage: true,
     };
 
     sendBookingChatInfoMessage(toSend);
@@ -68,33 +70,21 @@ export const BookingPopupForm = (props: Props) => {
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: (values) => handleSubmit(values),
-    validateOnBlur: true,
-    validateOnChange: false,
-    validateOnMount: true,
-    enableReinitialize: false,
   });
 
 
   useEffect(() => {
-//check if any of the values are empty
-    if (formik.values.curriculum === '' ||
-      formik.values.textbook === '' ||
-      formik.values.grade === '' ||
-      formik.values.notes === '') {
-      formik.setErrors({
-        curriculum: t('BOOKING_POPUP.ERRORS.CURRICULUM'),
-        textbook: t('BOOKING_POPUP.ERRORS.TEXTBOOK'),
-        grade: t('BOOKING_POPUP.ERRORS.GRADE'),
-        notes: t('BOOKING_POPUP.ERRORS.NOTES'),
-      });
-    } else {
-      formik.setErrors({
-        curriculum: '',
-        textbook: '',
-        grade: '',
-        notes: '',
-      });
+    //check if any of the values are empty
+    if (formik.values.grade.trim().length == 0 //todo check if we want this to be mandatory
+      || formik.values.textbook.trim().length == 0
+      || formik.values.curriculum.trim().length == 0
+      || formik.values.notes.trim().length == 0) {
+
+      setSubmitButtonDisabled(true);
+    }else{
+      setSubmitButtonDisabled(false);
     }
+
   }, [formik.values]);
   return (
     <div className='modal__overlay'>
@@ -104,11 +94,9 @@ export const BookingPopupForm = (props: Props) => {
           {/*ICON*/}
           <img src={green_check} alt='#' />
           <div className='div'>
-            <h3 className='mb-2 font__lg'>Plaćanje uspješno</h3>
+            <h3 className='mb-2 font__lg'>{t('BOOKING_POPUP.TITLE')}</h3>
             <p className='type--color--secondary'>
-              Vaš instruktor sada ima 24 sata da prihvati Vašu rezervaciju. Za
-              najbolje iskustvo učenja, molimo podijelite
-              uvide u gradivo na koje se želite usredotočiti.
+              {t('BOOKING_POPUP.DESCRIPTION')}
             </p>
           </div>
         </div>
@@ -259,11 +247,13 @@ export const BookingPopupForm = (props: Props) => {
 
             <div className='div-3'>
               <button
+                disabled={submitButtonDisabled}
                 className='btn btn--lg btn--primary w--100 p-2'
                 type={'submit'}>
                 {t('BOOKING_POPUP.BUTTON.COMPLETE')}
               </button>
-              <button className={'btn--transparent-no-outline'} onClick={handleSkip}
+              <button className={'btn--transparent-no-outline'}
+                      onClick={handleSkip}
                       type={'button'}>
                 {t('BOOKING_POPUP.BUTTON.SKIP')}</button>
             </div>

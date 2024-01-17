@@ -1356,6 +1356,8 @@ export const EN_US = {
     BUTTON_RESTART:'Restart tutorial'
   },
   BOOKING_POPUP:{
+    TITLE: 'Payment successful',
+    DESCRIPTION: 'Your tutor now has 24 hours to accept your booking. For the best learning experience, please share insights into the curriculum you\'d like to focus on.',
     CURRICULUM_PLACEHOLDER: 'Which school curriculum do you need help with?',
     TEXTBOOK_PLACEHOLDER: 'Which textbook is used?',
     GRADE_PLACEHOLDER: 'Current grade',
