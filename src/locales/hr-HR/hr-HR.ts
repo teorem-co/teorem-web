@@ -1359,5 +1359,17 @@ export const HR_HR = {
       BUTTON_PREVIOUS:'Previous',
       BUTTON_FINISH:'Finish',
       BUTTON_RESTART:'Restart tutorial'
+    },
+    BOOKING_POPUP:{
+      TITLE: 'Plaćanje uspješno',
+      DESCRIPTION: 'Vaš instruktor sada ima 24 sata da prihvati Vašu rezervaciju. Za najbolje iskustvo učenja, molimo podijelite uvide u gradivo na koje se želite usredotočiti.',
+      CURRICULUM_PLACEHOLDER:'S kojim školskim gradivom trebate pomoć?',
+      TEXTBOOK_PLACEHOLDER:'Koji se udžbenik koristi?',
+      GRADE_PLACEHOLDER:'Trenutna ocjena iz predmeta',
+      NOTES_PLACEHOLDER:'Napomene ili posebni zahtjevi',
+      BUTTON:{
+        COMPLETE: 'Završi',
+        SKIP: 'Preskoči za sad'
+      }
     }
 };
