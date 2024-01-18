@@ -77,8 +77,7 @@ export const BookingPopupForm = (props: Props) => {
     //check if any of the values are empty
     if (formik.values.grade.trim().length == 0 //todo check if we want this to be mandatory
       || formik.values.textbook.trim().length == 0
-      || formik.values.curriculum.trim().length == 0
-      || formik.values.notes.trim().length == 0) {
+      || formik.values.curriculum.trim().length == 0) {
 
       setSubmitButtonDisabled(true);
     }else{
