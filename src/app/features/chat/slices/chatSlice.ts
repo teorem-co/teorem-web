@@ -413,7 +413,8 @@ const chatSlice = createSlice({
                 state.newMessages = 0;
               }
 
-              state.chatRooms[i].messages[j].message.isRead = true;   //TODO: check this because it sets that messages are read,
+              if(state.user?.userId !== state.chatRooms[i].messages[j].senderId)
+                state.chatRooms[i].messages[j].message.isRead = true;   //TODO: check this because it sets that messages are read,
 
             }
           }

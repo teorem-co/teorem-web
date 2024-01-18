@@ -49,7 +49,7 @@ const SendMessageForm = (props: Props) => {
                         messageMissedCall:false,
                         isFile: false,
                     },
-                    senderId: userId//userData.user?.id //chat.user?.userId
+                    senderId: userId
                 };
 
                 chat.socket.emit('messageSent', message);

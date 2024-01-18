@@ -252,7 +252,7 @@ export const BookingPopupForm = (props: Props) => {
                 type={'submit'}>
                 {t('BOOKING_POPUP.BUTTON.COMPLETE')}
               </button>
-              <button className={'btn--transparent-no-outline'}
+              <button className={'btn--transparent-no-outline mb-1'}
                       onClick={handleSkip}
                       type={'button'}>
                 {t('BOOKING_POPUP.BUTTON.SKIP')}</button>
