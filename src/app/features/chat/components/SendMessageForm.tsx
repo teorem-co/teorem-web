@@ -17,7 +17,6 @@ const SendMessageForm = (props: Props) => {
     const fileRef = useRef<HTMLInputElement>(null);
 
     const chat = useAppSelector((state) => state.chat);
-    const userData = useAppSelector((state) => state.user);
     const userId = useAppSelector((state) => state.auth.user?.id);
 
     const [fileToSend, setFileToSend] = useState<File>();
