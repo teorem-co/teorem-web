@@ -1,35 +1,29 @@
 import i18n from 'i18next';
-import {uniqBy} from 'lodash';
+import { uniqBy } from 'lodash';
 import moment from 'moment';
-import React, {
-  Children,
-  cloneElement,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Calendar as BigCalendar,
   momentLocalizer,
   SlotInfo,
 } from 'react-big-calendar';
 import Calendar from 'react-calendar';
-import {useTranslation} from 'react-i18next';
-import {useHistory} from 'react-router';
-import {useParams} from 'react-router-dom';
-import {v4 as uuidv4} from 'uuid';
+import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router';
+import { useParams } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 
 import {
   useLazyGetTutorBookingsQuery,
   useLazyGetTutorByTutorSlugQuery,
 } from '../../../services/tutorService';
-import {addStripeId} from '../../../slices/authSlice';
-import {RoleOptions} from '../../../slices/roleSlice';
+import { addStripeId } from '../../../slices/authSlice';
+import { RoleOptions } from '../../../slices/roleSlice';
 import MainWrapper from '../../components/MainWrapper';
 import LoaderSecondary from '../../components/skeleton-loaders/LoaderSecondary';
-import {useAppDispatch, useAppSelector} from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import toastService from '../../services/toastService';
-import {calcModalPosition} from '../../utils/calcModalPosition';
+import { calcModalPosition } from '../../utils/calcModalPosition';
 import ParentCalendarSlots from '../my-bookings/components/ParentCalendarSlots';
 import ParentEventModal from '../my-bookings/components/ParentEventModal';
 import UpdateBooking from '../my-bookings/components/UpdateBooking';
@@ -48,11 +42,19 @@ import {
 import {
   useLazyGetTutorAvailabilityQuery,
 } from '../my-profile/services/tutorAvailabilityService';
-import {InformationCard} from '../../components/InformationCard';
-import {CustomToolbar} from '../my-bookings/CustomToolbar';
-import AddCreditCard from "../my-profile/components/AddCreditCard";
-import {loadStripe, StripeElementsOptions} from "@stripe/stripe-js";
-import {Elements} from "@stripe/react-stripe-js";
+import { InformationCard } from '../../components/InformationCard';
+import { CustomToolbar } from '../my-bookings/CustomToolbar';
+import AddCreditCard from '../my-profile/components/AddCreditCard';
+import { loadStripe, StripeElementsOptions } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import { BookingPopupForm } from '../../components/BookingPopupForm';
+
+export interface IBookingChatMessageInfo {
+  tutorId: string;
+  startTime: string;
+  subjectId: string;
+  levelId: string;
+}
 
 interface IBookingTransformed {
   id: string;
@@ -71,23 +73,24 @@ interface ICoords {
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY!);
 
 const TutorBookings = () => {
+  const [bookingMessageInfo, setBookingMessageInfo] = useState<IBookingChatMessageInfo>();
   const [scrollTopOffset, setScrollTopOffset] = useState<number>(0);
   const scrollState = useAppSelector((state) => state.scroll);
-  const {topOffset} = scrollState;
+  const { topOffset } = scrollState;
   const [getTutorBookings, {
     data: tutorBookings,
-    isLoading: isLoadingTutorBookings
+    isLoading: isLoadingTutorBookings,
   }] = useLazyGetTutorBookingsQuery();
   const [getTutorUnavailableBookings, {
     data: unavailableBookings,
-    isLoading: isLoadingUnavailableBookings
+    isLoading: isLoadingUnavailableBookings,
   }] = useLazyGetUnavailableBookingsQuery();
-  const [getTutorData, {data: tutorData}] = useLazyGetTutorByTutorSlugQuery({
-    selectFromResult: ({data, isSuccess, isLoading}) => ({
+  const [getTutorData, { data: tutorData }] = useLazyGetTutorByTutorSlugQuery({
+    selectFromResult: ({ data, isSuccess, isLoading }) => ({
       data: {
         firstName: data?.User.firstName,
         lastName: data?.User.lastName,
-        disabled: data?.disabled
+        disabled: data?.disabled,
       },
       isSuccess,
       isLoading,
@@ -95,27 +98,27 @@ const TutorBookings = () => {
   });
   const [getTutorAvailability, {
     data: tutorAvailability,
-    isLoading: tutorAvailabilityLoading
+    isLoading: tutorAvailabilityLoading,
   }] = useLazyGetTutorAvailabilityQuery();
 
   const [getBookingById, {
     data: booking,
     isLoading: bookingIsLoading,
-    isFetching: bookingIsFetching
+    isFetching: bookingIsFetching,
   }] = useLazyGetBookingByIdQuery();
   const [addStripeCustomer, {
     data: dataStripeCustomer,
     isSuccess: isSuccessDataStripeCustomer,
-    isError: isErrorDataStripeCustomer
+    isError: isErrorDataStripeCustomer,
   }] =
     useAddCustomerMutation();
   const [getCreditCards, {
     data: creditCards,
     isLoading: creditCardLoading,
-    isUninitialized: creditCardUninitialized
+    isUninitialized: creditCardUninitialized,
   }] =
     useLazyGetCreditCardsQuery();
-  const [setDefaultCreditCard, {isSuccess: isSuccessSetDefaultCreditCard}] = useSetDefaultCreditCardMutation();
+  const [setDefaultCreditCard, { isSuccess: isSuccessSetDefaultCreditCard }] = useSetDefaultCreditCardMutation();
   const dispatch = useAppDispatch();
 
   const [selectedStart, setSelectedStart] = useState<string>('');
@@ -126,6 +129,7 @@ const TutorBookings = () => {
   //const [eventDetails, setEventDetails] = useState<IEvent>();
   const [openEventDetails, setOpenEventDetails] = useState<boolean>(false);
   const [openUpdateModal, setOpenUpdateModal] = useState<boolean>(false);
+  const [showBookingSuccessfulModal, setShowBookingSuccessfulModal] = useState<boolean>(false); //todo change
   const [calChange, setCalChange] = useState<boolean>(false);
   const [value, onChange] = useState(new Date());
   const [learnCubeModal, setLearnCubeModal] = useState<boolean>(false);
@@ -144,7 +148,7 @@ const TutorBookings = () => {
   const userInfo = useAppSelector((state) => state.auth.user);
 
   const [tutorId, setTutorId] = useState('');
-  const {tutorSlug} = useParams();
+  const { tutorSlug } = useParams();
   const [minimumUnavailability, setminimumUnavailability] = useState<IBookingTransformed>();
   const [pastUnavailability, setPastUnavailability] = useState<IBookingTransformed>();
 
@@ -217,7 +221,7 @@ const TutorBookings = () => {
               end: end,
               id: uuidv4(),
               label: 'unavailable',
-              allDay: false
+              allDay: false,
             };
             unavailabilityObjects.push(obj);
             previousObj = obj;
@@ -232,7 +236,7 @@ const TutorBookings = () => {
   };
 
   const [firstDayOfSelectedWeek, setFirstDayOfSelectedWeek] = useState<Date>(new Date());
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const defaultScrollTime = new Date(new Date().setHours(7, 45, 0));
   const highlightRef = useRef<HTMLDivElement>(null);
   const allBookings =
@@ -254,9 +258,9 @@ const TutorBookings = () => {
     setCalChange(true);
     return (
       <>
-        <div className="mb-2">{moment(date.date).format('dddd')}</div>
+        <div className='mb-2'>{moment(date.date).format('dddd')}</div>
         <div
-          className="type--color--tertiary">{moment(date.date).format('DD MMM')}</div>
+          className='type--color--tertiary'>{moment(date.date).format('DD MMM')}</div>
       </>
     );
   };
@@ -266,9 +270,9 @@ const TutorBookings = () => {
       return (
         <>
           {event.event.label !== 'unavailableHoursBefore' ?
-            <div className="event--unavailable">
-              <div className="type--color--primary type--wgt--extra-bold"
-                   style={{fontSize: 'small', textAlign: 'center'}}>
+            <div className='event--unavailable'>
+              <div className='type--color--primary type--wgt--extra-bold'
+                   style={{ fontSize: 'small', textAlign: 'center' }}>
                 {event.event.label === 'unavailableHoursBefore' ?
                   t('BOOKING.CANT_BOOK_MESSAGE')
                   :
@@ -280,9 +284,9 @@ const TutorBookings = () => {
 
             :
 
-            <div className="event--unavailable-min-time">
-              <div className="type--color--primary type--wgt--extra-bold"
-                   style={{fontSize: 'small', textAlign: 'center'}}>
+            <div className='event--unavailable-min-time'>
+              <div className='type--color--primary type--wgt--extra-bold'
+                   style={{ fontSize: 'small', textAlign: 'center' }}>
                 {(event.event.label === 'unavailableHoursBefore') ?
                   t('BOOKING.CANT_BOOK_MESSAGE')
                   :
@@ -298,14 +302,14 @@ const TutorBookings = () => {
     } else {
       if (event.event?.isAccepted === false) {
         return (
-          <div className="event">
-            <div className="type--wgt--bold">{event.event.label}</div>
+          <div className='event'>
+            <div className='type--wgt--bold'>{event.event.label}</div>
           </div>
         );
       } else {
         return (
-          <div className="event event--pending">
-            <div className="type--wgt--bold">{event.event.label}</div>
+          <div className='event event--pending'>
+            <div className='type--wgt--bold'>{event.event.label}</div>
           </div>
         );
       }
@@ -313,11 +317,11 @@ const TutorBookings = () => {
   };
 
   const PrevIcon = () => {
-    return <i className="icon icon--base icon--chevron-left"></i>;
+    return <i className='icon icon--base icon--chevron-left'></i>;
   };
 
   const NextIcon = () => {
-    return <i className="icon icon--base icon--chevron-right"></i>;
+    return <i className='icon icon--base icon--chevron-right'></i>;
   };
 
 
@@ -375,9 +379,9 @@ const TutorBookings = () => {
       });
     }
 
-    console.log("FIRST: ", flagArr.length === existingBooking?.length);
-    console.log("SECOND: ", !moment(e.start).isBefore(moment().add(3, 'hours')));
-    console.log("THIRD: ", isAvailableBooking);
+    console.log('FIRST: ', flagArr.length === existingBooking?.length);
+    console.log('SECOND: ', !moment(e.start).isBefore(moment().add(3, 'hours')));
+    console.log('THIRD: ', isAvailableBooking);
 
     const firstCheck = flagArr.length === existingBooking?.length;
 
@@ -469,7 +473,7 @@ const TutorBookings = () => {
     if (rectParent && rectChild) {
       const finalX = rectParent.x - rectChild.x;
       const finalY = rectChild.y - rectParent.y;
-      setHighlightCoords({x: finalX, y: finalY});
+      setHighlightCoords({ x: finalX, y: finalY });
     }
   };
 
@@ -564,15 +568,15 @@ const TutorBookings = () => {
 
     const mergedEvents: IBookingTransformed[] = [];
 
-    let currentEvent = {...events[0]};  // Create a new object rather than referencing the original one
+    let currentEvent = { ...events[0] };  // Create a new object rather than referencing the original one
     for (let i = 1; i < events.length; i++) {
-      const nextEvent = {...events[i]}; // Create a new object rather than referencing the original one
+      const nextEvent = { ...events[i] }; // Create a new object rather than referencing the original one
       if (
         currentEvent.end.getTime() >= nextEvent.start.getTime() && (currentEvent.label !== 'Book event' && nextEvent.label !== 'Book event')
       ) {
 
         if (nextEvent.label === 'unavailableHoursBefore') {
-          const nextNextEvent = {...events[i + 1]};
+          const nextNextEvent = { ...events[i + 1] };
 
           if (i == events.length - 1 && !(currentEvent.end.getTime() > nextEvent.start.getTime())) {
             mergedEvents.push(nextEvent);
@@ -598,7 +602,7 @@ const TutorBookings = () => {
         currentEvent = {
           ...currentEvent,
           label: 'unavailable',
-          end: new Date(Math.max(currentEvent.end.getTime(), nextEvent.end.getTime()))
+          end: new Date(Math.max(currentEvent.end.getTime(), nextEvent.end.getTime())),
         };
 
       } else {
@@ -686,13 +690,13 @@ const TutorBookings = () => {
     mode: 'setup',
     currency: 'eur',
     appearance: {
-      theme: "stripe",
+      theme: 'stripe',
       variables: {
         fontFamily: '"Lato", sans-serif',
         fontLineHeight: '1.5',
         borderRadius: '10px',
         colorBackground: '#F6F8FA',
-        colorPrimaryText: '#262626'
+        colorPrimaryText: '#262626',
       },
       rules: {
         '.Tab': {
@@ -712,7 +716,7 @@ const TutorBookings = () => {
         '.Input--invalid': {
           boxShadow: '0 1px 1px 0 rgba(231, 76, 60, 1), 0 0 0 2px var(--colorDanger)',
         },
-      }
+      },
     },
   };
 
@@ -721,14 +725,16 @@ const TutorBookings = () => {
     setKey(Math.random());
   }, []);
 
+
+
   return (
     <MainWrapper key={key}>
-      <div className="layout--primary">
-        {isLoading ? <LoaderSecondary/> : <></>}
+      <div className='layout--primary'>
+        {isLoading ? <LoaderSecondary /> : <></>}
         <ConditionalWrapper condition={!isMobile}>
           {/* {(isLoading && <LoaderPrimary />) || ( */}
 
-          <div className="flex flex--center p-6">
+          <div className='flex flex--center p-6'>
             {/* <Link to={PATHS.SEARCH_TUTORS}>
                             <div>
                                 <i className="icon icon--base icon--arrow-left icon--black"></i>
@@ -737,10 +743,10 @@ const TutorBookings = () => {
             <div onClick={() => history.goBack()}>
               <div>
                 <i
-                  className="icon icon--base icon--arrow-left icon--black"></i>
+                  className='icon icon--base icon--arrow-left icon--black'></i>
               </div>
             </div>
-            <h2 className="type--lg  ml-6">
+            <h2 className='type--lg  ml-6'>
               {`${t('MY_BOOKINGS.TITLE')} - ${tutorData.firstName ? tutorData.firstName : ''} ${tutorData.lastName ? tutorData.lastName : ''}`}
             </h2>
           </div>
@@ -755,10 +761,10 @@ const TutorBookings = () => {
             toolbar={true}
             date={value}
             onSelecting={() => true}
-            view={isMobile ? "day" : "week"}
-            style={isMobile ? {height:'unset'} : {height: 'calc(100% - 84px)'} }
-            startAccessor="start"
-            endAccessor="end"
+            view={isMobile ? 'day' : 'week'}
+            style={isMobile ? { height: 'unset' } : { height: 'calc(100% - 84px)' }}
+            startAccessor='start'
+            endAccessor='end'
             components={{
               week: {
                 header: (date) => CustomHeader(date),
@@ -767,7 +773,7 @@ const TutorBookings = () => {
               toolbar: () =>
                 (isMobile ? <CustomToolbar
                   value={value}
-                  onChangeDate={onChangeDate}/> : null),
+                  onChangeDate={onChangeDate} /> : null),
             }}
             //scrollToTime={defaultScrollTime}
             showMultiDayTimes={true}
@@ -781,6 +787,8 @@ const TutorBookings = () => {
           {openSlot ? (
             //creating new booking
             <ParentCalendarSlots
+              setBookingMessageInfo={setBookingMessageInfo}
+              setShowLessonInfoPopup={setShowBookingSuccessfulModal}
               clearEmptyBookings={() => setEmptyBookings([])}
               setSidebarOpen={(e) => setSidebarOpen(e)}
               start={`${selectedStart}`}
@@ -816,16 +824,24 @@ const TutorBookings = () => {
               tutorId={tutorId}
               topOffset={scrollTopOffset}
             />
-          ) : (
+          ) : showBookingSuccessfulModal && bookingMessageInfo ? (
+              <BookingPopupForm
+                setShowPopup={setShowBookingSuccessfulModal}
+                levelId={bookingMessageInfo.levelId}
+                subjectId={bookingMessageInfo.subjectId}
+                tutorId={tutorId}
+                startTime={bookingMessageInfo.startTime}
+              />
+            ) :
             <></>
-          )}
-            {/*</div>*/}
+          }
+          {/*</div>*/}
         </ConditionalWrapper>
 
 
         <div>
           <div ref={highlightRef}
-               className="card card--mini-calendar mb-4 pos--rel">
+               className='card card--mini-calendar mb-4 pos--rel'>
             <Calendar
               locale={i18n.language}
               onActiveStartDateChange={(e) => {
@@ -836,8 +852,8 @@ const TutorBookings = () => {
                 setCalChange(!calChange);
               }}
               value={value}
-              prevLabel={<PrevIcon/>}
-              nextLabel={<NextIcon/>}
+              prevLabel={<PrevIcon />}
+              nextLabel={<NextIcon />}
             />
             <div
               ref={tileRef}
@@ -845,29 +861,29 @@ const TutorBookings = () => {
                 top: `${highlightCoords.y}px`,
                 left: `${highlightCoords.x}px`,
               }}
-              className="tile--row"
+              className='tile--row'
             ></div>
           </div>
-          <div className="upcoming-lessons">
+          <div className='upcoming-lessons'>
             <p
-              className="upcoming-lessons__title">{t('MY_BOOKINGS.INFORMATION.TITLE')}</p>
+              className='upcoming-lessons__title'>{t('MY_BOOKINGS.INFORMATION.TITLE')}</p>
             <InformationCard title={t('MY_BOOKINGS.INFORMATION.CARD1.TITLE')}
-                             desc={t('MY_BOOKINGS.INFORMATION.CARD1.DESC')}/>
+                             desc={t('MY_BOOKINGS.INFORMATION.CARD1.DESC')} />
             <InformationCard title={t('MY_BOOKINGS.INFORMATION.CARD2.TITLE')}
-                             desc={t('MY_BOOKINGS.INFORMATION.CARD2.DESC')}/>
+                             desc={t('MY_BOOKINGS.INFORMATION.CARD2.DESC')} />
           </div>
 
           {/* needs to be in this place because layout have nth-child selector */}
           {sidebarOpen ? (
             <Elements stripe={stripePromise} options={options}>
               <AddCreditCard sideBarIsOpen={sidebarOpen}
-                             closeSidebar={closeAddCardSidebar}/>
+                             closeSidebar={closeAddCardSidebar} />
             </Elements>
           ) : (
             <></>
           )}
           {learnCubeModal && <LearnCubeModal bookingId={currentlyActiveBooking}
-                                             handleClose={() => setLearnCubeModal(false)}/>}
+                                             handleClose={() => setLearnCubeModal(false)} />}
         </div>
       </div>
     </MainWrapper>
@@ -881,11 +897,15 @@ interface ConditionalWrapperProps {
   children: React.ReactNode;
 }
 
-const ConditionalWrapper: React.FC<ConditionalWrapperProps> = ({ condition, children }) => {
+const ConditionalWrapper: React.FC<ConditionalWrapperProps> = ({
+                                                                 condition,
+                                                                 children,
+                                                               }) => {
   if (condition) {
-    return <div className={`card--calendar ${condition ? ' card--calendar--height' : ''}`}>
-        {children}
-      </div>;
+    return <div
+      className={`card--calendar ${condition ? ' card--calendar--height' : ''}`}>
+      {children}
+    </div>;
   }
   return <>{children}</>;
 };

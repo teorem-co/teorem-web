@@ -59,7 +59,7 @@ export const HR_HR = {
         AVAILABILITY_2: "Svoju dostupnost možete kasnije izmijeniti u bilo kojem trenutku.",
         SUBJECTS: "Kasnije možete dodati ili obrisati predmete u postavkama Vašeg profila.",
         SUBJECTS_TIP_1: "Dodajte predmete koje želite podučavati i odredite svoju cijenu.",
-        SUBJECTS_TIP_2: "Imajte na umu da Teorem uzima proviziju od 12%.",
+        SUBJECTS_TIP_2: "Imajte na umu da Teorem uzima proviziju od 15%.",
       },
       IMAGE_TIPS: {
         TITLE: 'Naputci za fotografiju',
@@ -469,7 +469,7 @@ export const HR_HR = {
             },
             CARD2:{
               TITLE:'Što ako mi moj termin predavanja vise ne odgovara?',
-              DESC:'Možete otkazati bilo koju rezervaciju i dobiti puni povrat novca 24 sata od trenutka kada ste izvršili uplatu. Nakon tog razdoblja možete iskljucivo zatražiti promjenu datuma ili vremena lekcije. Ako je do lekcije ostalo manje od 24 sata, instruktor može odbiti vaš zahtjev za promjenu vremena ili datuma.'
+              DESC:'Možete otkazati bilo koju rezervaciju i dobiti puni povrat novca 24 sata od trenutka kada ste izvršili uplatu. Za više informacija posjetite naš <a href="https://intercom.help/teorem/hr/" target="_blank">centar za podršku</a>.'
             },
             CARD3: {
                 TITLE: 'Kako rezervirati termin?',
@@ -649,6 +649,7 @@ export const HR_HR = {
             ADD_DESC: 'Izaberite za dodavanje novog predmeta',
             DELETED: 'Predmet je obrisan',
             CREATED: 'Predmet je dodan',
+            UPDATED: 'Predmeti ažurirani',
             EDIT_TITLE: 'IZMIJENITE PREDMET',
             ADD_TITLE: 'DODAJTE NOVI PREDMET',
             SUBJECT: 'Odaberite predmet koji predajete',
@@ -803,6 +804,10 @@ export const HR_HR = {
             },
         },
         CHAT_HAS_MISSED_CALL: ' je propustio Vaš poziv',
+        HELP_CENTER:{
+          TITLE: 'Centar za podršku',
+          LINK:'https://intercom.help/teorem/hr/'
+        }
     },
     EARNINGS: {
         TITLE: 'Prihod',
@@ -1064,7 +1069,7 @@ export const HR_HR = {
             ANSWER_5:
                 'Mi Vam garantiramo stabilan dotok novih učenika te se brinemo o svemu tako da se Vi možete u potpunosti posvetiti predavanjima.',
             QUESTION_6: 'Kako Teorem zarađuje?',
-            ANSWER_6: 'Teorem uzima proviziju od 12% od instruktora.',
+            ANSWER_6: 'Teorem uzima proviziju od 15% od instruktora.',
         },
         CARD_1: {
             TITLE: '"Remote" rad',
@@ -1354,5 +1359,17 @@ export const HR_HR = {
       BUTTON_PREVIOUS:'Previous',
       BUTTON_FINISH:'Finish',
       BUTTON_RESTART:'Restart tutorial'
+    },
+    BOOKING_POPUP:{
+      TITLE: 'Plaćanje uspješno',
+      DESCRIPTION: 'Vaš instruktor sada ima 24 sata da prihvati Vašu rezervaciju. Za najbolje iskustvo učenja, molimo podijelite uvide u gradivo na koje se želite usredotočiti.',
+      CURRICULUM_PLACEHOLDER:'S kojim školskim gradivom trebate pomoć?',
+      TEXTBOOK_PLACEHOLDER:'Koji se udžbenik koristi?',
+      GRADE_PLACEHOLDER:'Trenutna ocjena iz predmeta',
+      NOTES_PLACEHOLDER:'Napomene ili posebni zahtjevi',
+      BUTTON:{
+        COMPLETE: 'Završi',
+        SKIP: 'Preskoči za sad'
+      }
     }
 };

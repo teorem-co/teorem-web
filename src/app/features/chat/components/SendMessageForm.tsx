@@ -17,6 +17,7 @@ const SendMessageForm = (props: Props) => {
     const fileRef = useRef<HTMLInputElement>(null);
 
     const chat = useAppSelector((state) => state.chat);
+    const userId = useAppSelector((state) => state.auth.user?.id);
 
     const [fileToSend, setFileToSend] = useState<File>();
 
@@ -47,7 +48,7 @@ const SendMessageForm = (props: Props) => {
                         messageMissedCall:false,
                         isFile: false,
                     },
-                    senderId: chat.user?.userId
+                    senderId: userId
                 };
 
                 chat.socket.emit('messageSent', message);

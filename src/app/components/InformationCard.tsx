@@ -11,7 +11,7 @@ export const InformationCard = (props: Props) => {
       <div className="flex--primary mb-2">
         <div className="flex--center">
           <span>{title}</span>
-          <div className="type--color--secondary mt-2">{desc}</div>
+          <div className="type--color--secondary mt-2" dangerouslySetInnerHTML={{__html: desc}}></div>
         </div>
         <div className="type--color--tertiary"></div>
       </div>
