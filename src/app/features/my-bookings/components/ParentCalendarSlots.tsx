@@ -32,19 +32,23 @@ import { Tooltip } from 'react-tooltip';
 import { isMobileDevice } from 'react-select/dist/declarations/src/utils';
 import { addStripeId } from '../../../../slices/authSlice';
 import { useDispatch } from 'react-redux';
+import { BookingPopupForm } from '../../../components/BookingPopupForm';
+import { IBookingChatMessageInfo } from '../../tutor-bookings/TutorBookings';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY!);
 
 interface IProps {
-  start?: string;
-  end?: string;
-  handleClose?: (close: boolean) => void;
-  setSidebarOpen: (isOpen: boolean) => void;
-  positionClass: string;
-  clearEmptyBookings: () => void;
-  tutorId: string;
-  tutorDisabled: boolean | undefined;
-  topOffset?: number;
+  start?: string,
+  end?: string,
+  handleClose?: (close: boolean) => void,
+  setSidebarOpen: (isOpen: boolean) => void,
+  positionClass: string,
+  clearEmptyBookings: () => void,
+  tutorId: string,
+  tutorDisabled: boolean | undefined,
+  topOffset?: number,
+  setShowLessonInfoPopup: (value: boolean) => void,
+  setBookingMessageInfo: (value: IBookingChatMessageInfo) => void
 }
 
 interface Values {
@@ -55,11 +59,23 @@ interface Values {
 }
 
 const ParentCalendarSlots: React.FC<IProps> = (props) => {
-  const { topOffset, start, end, handleClose, positionClass, setSidebarOpen, tutorDisabled } = props;
+  const {
+    topOffset,
+    start,
+    end,
+    handleClose,
+    positionClass,
+    setSidebarOpen,
+    tutorDisabled,
+    setShowLessonInfoPopup
+  } = props;
 
   const tutorId = props.tutorId;
   const dispatch = useDispatch();
-  const { data: subjectLevelPairs, isSuccess: isSuccessSubjectsLevelPairs } = useGetTutorSubjectLevelPairsQuery(tutorId);
+  const {
+    data: subjectLevelPairs,
+    isSuccess: isSuccessSubjectsLevelPairs,
+  } = useGetTutorSubjectLevelPairsQuery(tutorId);
   const [tutorLevelOptions, setTutorLevelOptions] = useState<OptionType[]>();
   const [tutorSubjectOptions, setTutorSubjectOptions] = useState<OptionType[]>();
 
@@ -79,7 +95,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
 
   const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
   const userId = useAppSelector((state) => state.auth.user?.id);
-  const [stripeId, setStripeId] = useState("");
+  const [stripeId, setStripeId] = useState('');
   const stripeCustomerId = useAppSelector((state) => state.auth.user?.stripeCustomerId);
 
   const [stripe, setStripe] = useState<any>(null);
@@ -102,7 +118,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     return validationSchema;
   };
 
-  const [getUser2, {data: user}] = useLazyGetUserQuery();
+  const [getUser2, { data: user }] = useLazyGetUserQuery();
 
   // let isCreateBookingSuccess = false;
 
@@ -131,7 +147,16 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
 
     function handleResponseSuccess(success: any) {
       if (success) {
-        toastService.success(t('BOOKING.SUCCESS'));
+        // toastService.success(t('BOOKING.SUCCESS'));
+        const bookingInfo: IBookingChatMessageInfo = {
+          tutorId: tutorId,
+          startTime: moment(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
+          subjectId: values.subject,
+          levelId: values.level,
+        };
+
+        setShowLessonInfoPopup(true);
+        props.setBookingMessageInfo(bookingInfo);
       } else {
         toastService.error(t('BOOKING.FAILURE'));
       }
@@ -143,14 +168,14 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
       subjectId: values.subject,
       studentId: values.child,
       tutorId: tutorId,
-      levelId: values.level
+      levelId: values.level,
     } : {
       requesterId: userId,
       studentId: userId,
       startTime: moment(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
       subjectId: values.subject,
       tutorId: tutorId,
-      levelId: values.level
+      levelId: values.level,
     };
 
 
@@ -258,8 +283,8 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     getUser2(userId!).unwrap();
   }, []);
 
-  useEffect(()=> {
-    if(user != undefined) {
+  useEffect(() => {
+    if (user != undefined) {
       setStripeId(user?.stripeCustomerId);
       dispatch(addStripeId(user.stripeCustomerId));
     }
@@ -271,22 +296,24 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
 
 
   const isMobile = window.innerWidth < 776;
-  const mobileStyles = isMobile? { top: `${topOffset}px` } : {};
+  const mobileStyles = isMobile ? { top: `${topOffset}px` } : {};
 
   return (
 
-    <div style={mobileStyles} className={`modal--parent modal--parent--${isMobile ? '' : positionClass}`}>
-      <div className="modal--parent__header">
-        <div className="flex flex--primary">
+    <div style={mobileStyles}
+         className={`modal--parent modal--parent--${isMobile ? '' : positionClass}`}>
+      <div className='modal--parent__header'>
+        <div className='flex flex--primary'>
           <div>
-            <div className="type--wgt--bold type--md mb-1">{t('BOOK.TITLE')}</div>
-            <div className="type--color--secondary">
+            <div
+              className='type--wgt--bold type--md mb-1'>{t('BOOK.TITLE')}</div>
+            <div className='type--color--secondary'>
               {moment(start).format(t('DATE_FORMAT') + ', HH:mm')} - {end}
             </div>
           </div>
           {/*<i className="icon icon--base icon--grey icon--info mb-6"></i>*/}
           <i
-            className="icon icon--base icon--grey icon--close mb-6"
+            className='icon icon--base icon--grey icon--close mb-6'
             onClick={() => {
               handleClose ? handleClose(false) : false;
               props.clearEmptyBookings();
@@ -298,13 +325,13 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
         </div>
       </div>
 
-      <div className="modal--parent__line"></div>
+      <div className='modal--parent__line'></div>
 
-      <div className="modal--parent__body">
+      <div className='modal--parent__body'>
         <FormikProvider value={formik}>
           <Form>
-            <div className="field">
-              <label htmlFor="level" className="field__label">
+            <div className='field'>
+              <label htmlFor='level' className='field__label'>
                 {t('BOOK.FORM.LEVEL')}*
               </label>
 
@@ -312,14 +339,14 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                 field={formik.getFieldProps('level')}
                 form={formik}
                 meta={formik.getFieldMeta('level')}
-                classNamePrefix="onboarding-select"
+                classNamePrefix='onboarding-select'
                 isMulti={false}
                 options={tutorLevelOptions ? tutorLevelOptions : []}
                 placeholder={t('BOOK.FORM.LEVEL_PLACEHOLDER')}
               />
             </div>
-            <div className="field">
-              <label htmlFor="subject" className="field__label">
+            <div className='field'>
+              <label htmlFor='subject' className='field__label'>
                 {t('BOOK.FORM.SUBJECT')}*
               </label>
               <MySelect
@@ -329,14 +356,14 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                 meta={formik.getFieldMeta('subject')}
                 isMulti={false}
                 options={tutorSubjectOptions}
-                classNamePrefix="onboarding-select"
+                classNamePrefix='onboarding-select'
                 noOptionsMessage={() => t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')}
                 placeholder={t('SEARCH_TUTORS.PLACEHOLDER.SUBJECT')}
               />
             </div>
             {userRole === RoleOptions.Parent ? (
-              <div className="field">
-                <label htmlFor="child" className="field__label">
+              <div className='field'>
+                <label htmlFor='child' className='field__label'>
                   {t('BOOK.FORM.CHILD')}*
                 </label>
 
@@ -344,22 +371,22 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                   field={formik.getFieldProps('child')}
                   form={formik}
                   meta={formik.getFieldMeta('child')}
-                  classNamePrefix="onboarding-select"
+                  classNamePrefix='onboarding-select'
                   isMulti={false}
                   options={childOptions ? childOptions : []}
-                  noOptionsMessage={() => "childless"}
+                  noOptionsMessage={() => 'childless'}
                   placeholder={t('BOOK.FORM.CHILD_PLACEHOLDER')}
                 />
               </div>
             ) : (
               <></>
             )}
-            <div className="field">
-              <label htmlFor="timeFrom" className="field__label">
+            <div className='field'>
+              <label htmlFor='timeFrom' className='field__label'>
                 {t('BOOK.FORM.TIME')}
               </label>
-              <div className="flex">
-                <div className="field w--100 mr-6">
+              <div className='flex'>
+                <div className='field w--100 mr-6'>
                   <MyTimePicker
                     field={formik.getFieldProps('timeFrom')}
                     form={formik}
@@ -369,12 +396,12 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                     key={formik.values.timeFrom}
                   />
                 </div>
-                <div className="field w--100">
+                <div className='field w--100'>
                   <MyTextField
                     // isDisabled={levelDisabled}
                     placeholder={t('BOOK.FORM.TIME_PLACEHOLDER')}
-                    name="time"
-                    id="time"
+                    name='time'
+                    id='time'
                     disabled={true}
                     value={moment(formik.values.timeFrom, 'HH:mm').add(1, 'hour').format('HH:mm')}
                   />
@@ -385,7 +412,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
         </FormikProvider>
       </div>
       {!isCreateBookingLoading ? (
-        <div className="modal--parent__footer">
+        <div className='modal--parent__footer'>
           {/*{tutorDisabled && <Tooltip*/}
           {/*  id="bookAndPayButton"*/}
           {/*  place={'top-end'}*/}
@@ -398,13 +425,13 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
             data-tooltip-id='bookAndPayButton'
             data-tooltip-html={`${t('BOOK.FORM.TUTOR_DISABLED')}`}
             disabled={tutorDisabled}
-            className="btn btn--base btn--primary type--wgt--extra-bold mb-1"
+            className='btn btn--base btn--primary type--wgt--extra-bold mb-1'
             onClick={() => handleSubmitForm()}>
-            {tutorDisabled? t('BOOK.FORM.TUTOR_DISABLED') :
-              stripeCustomerId ? t('BOOK.FORM.SUBMIT') : t('BOOK.FORM.ADD_CARD') }
+            {tutorDisabled ? t('BOOK.FORM.TUTOR_DISABLED') :
+              stripeCustomerId ? t('BOOK.FORM.SUBMIT') : t('BOOK.FORM.ADD_CARD')}
           </button>
           <button
-            className="btn btn--base type--wtg--extra-bold btn--clear"
+            className='btn btn--base type--wtg--extra-bold btn--clear'
             onClick={() => {
               handleClose ? handleClose(false) : false;
               props.clearEmptyBookings();
@@ -414,7 +441,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
           </button>
         </div>
       ) : (
-        <div className="flex flex--jc--center flex--primary--center mb-6">
+        <div className='flex flex--jc--center flex--primary--center mb-6'>
           <LoaderPrimary small />
         </div>
       )}

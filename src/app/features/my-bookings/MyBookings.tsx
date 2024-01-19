@@ -471,9 +471,10 @@ const MyBookings: React.FC = (props: any) => {
             <div className="flex--primary p-6">
               <h2 className="type--lg">{t('MY_BOOKINGS.TITLE')}</h2>
               <div className="type--wgt--bold type--color--brand">
-                {t('MY_BOOKINGS.NOTIFICATION_PART_1')}&nbsp;
-                {lessonsCount ?? 0}
-                &nbsp;{t('MY_BOOKINGS.NOTIFICATION_PART_2')}
+                <a href={t('NOTIFICATIONS.HELP_CENTER.LINK')} target="_blank" className="flex flex--row flex--ai--center flex--jc--center">
+                  <img src='/help_center_icon.png' alt='help center' style={{height:'30px'}} className="mr-1"/>
+                  {t('NOTIFICATIONS.HELP_CENTER.TITLE')}
+                </a>
               </div>
             </div>
 

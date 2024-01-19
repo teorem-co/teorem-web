@@ -670,7 +670,7 @@ const SingleConversation = (props: Props) => {
                               </div>
                               :
                               <div className='message-container'>
-                                <div className='mx-1'>
+                                <div className='mx-1'  style={{ whiteSpace: 'pre-wrap' }}>
                                   {message.message.message}
                                 </div>
                                 {
@@ -762,7 +762,7 @@ const SingleConversation = (props: Props) => {
                                 </div>
                               </div>
                               :
-                              <div>
+                              <div style={{ whiteSpace: 'pre-wrap' }}>
                                 {message.message.message}
                               </div>
                           )

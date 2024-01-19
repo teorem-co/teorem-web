@@ -59,7 +59,7 @@ export const EN_US = {
         AVAILABILITY_2: "You can change your availability later at any time.",
         SUBJECTS: "You can later add or delete subjects in Your profile settings.",
         SUBJECTS_TIP_1: "Add the subjects you want to tutor in and define your price.",
-        SUBJECTS_TIP_2: "Keep in mind that Teorem charges a 12% commission.",
+        SUBJECTS_TIP_2: "Keep in mind that Teorem charges a 15% commission.",
       },
       IMAGE_TIPS: {
         TITLE: 'Tips for image:',
@@ -471,7 +471,7 @@ export const EN_US = {
             },
             CARD2: {
               TITLE: 'What if I can’t make it to my lesson?',
-              DESC: 'You can cancel any booking and get a full refund 24 hours from the moment you made the payment. After that period, you can only request to change the date or time of your lesson. If there is less than 24 hours to the lesson, the tutor can choose to reject your request to change the time or date.',
+              DESC: 'You can cancel any booking and get a full refund 24 hours from the moment you made the payment. For more information visit our <a href="https://intercom.help/teorem/en/" target="_blank">help center</a>.',
             },
             CARD3: {
               TITLE: 'How to book a slot?',
@@ -657,6 +657,7 @@ export const EN_US = {
             ADD_DESC: 'Select to add new Subject',
             DELETED: 'Subject is deleted',
             CREATED: 'Subject is created',
+            UPDATED: 'Subjects updated',
             EDIT_TITLE: 'EDIT SUBJECT DETAILS',
             ADD_TITLE: 'ADD NEW SUBJECT',
             SUBJECT: 'Select subject you teach',
@@ -811,6 +812,10 @@ export const EN_US = {
             },
         },
         CHAT_HAS_MISSED_CALL: ' has missed your call',
+      HELP_CENTER:{
+        TITLE: 'Help center',
+        LINK:'https://intercom.help/teorem/en/'
+      }
     },
     EARNINGS: {
         TITLE: 'Earnings',
@@ -1069,7 +1074,7 @@ export const EN_US = {
             QUESTION_5: 'What makes Teorem different from other portals?',
             ANSWER_5: 'We guarantee you a steady stream of students. We also take care of everything so that you can focus 100% on teaching.',
             QUESTION_6: 'How does Teorem make money?',
-            ANSWER_6: 'Teorem charges a 12% commission to the tutor.',
+            ANSWER_6: 'Teorem charges a 15% commission to the tutor.',
         },
         CARD_1: {
             TITLE: 'Fully remote',
@@ -1356,6 +1361,17 @@ export const EN_US = {
     BUTTON_PREVIOUS:'Previous',
     BUTTON_FINISH:'Finish',
     BUTTON_RESTART:'Restart tutorial'
+  },
+  BOOKING_POPUP:{
+    TITLE: 'Payment successful',
+    DESCRIPTION: 'Your tutor now has 24 hours to accept your booking. For the best learning experience, please share insights into the curriculum you\'d like to focus on.',
+    CURRICULUM_PLACEHOLDER: 'Which school curriculum do you need help with?',
+    TEXTBOOK_PLACEHOLDER: 'Which textbook is used?',
+    GRADE_PLACEHOLDER: 'Current grade',
+    NOTES_PLACEHOLDER: 'Notes or special requirements',
+    BUTTON:{
+      COMPLETE: 'Complete',
+      SKIP: 'Skip for now'
+    }
   }
-
 };
