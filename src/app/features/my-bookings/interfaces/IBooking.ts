@@ -17,4 +17,8 @@ export default interface IBooking {
     endTime: string;
     isAccepted: boolean;
     userFullName: string;
+    inReschedule: boolean;
+    lastSuggestedUpdateUserId?: string;
+    suggestedStartTime?: string;
+    suggestedEndTime?: string;
 }

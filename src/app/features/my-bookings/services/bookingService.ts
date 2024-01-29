@@ -176,6 +176,24 @@ export const bookingService = baseService.injectEndpoints({
             method: HttpMethods.GET,
           }),
       }),
+      getBookingsInReschedule: builder.query<IBooking[], void>({
+        query: () => ({
+          url: `${URL}/inReschedule`,
+          method: HttpMethods.GET,
+        }),
+      }),
+      acceptRescheduleRequest: builder.mutation<void, string>({
+        query: (bookingId) => ({
+          url: `${URL}/${bookingId}/reschedule/accept`,
+          method: HttpMethods.PUT,
+        }),
+      }),
+      denyRescheduleRequest: builder.mutation<void, string>({
+        query: (bookingId) => ({
+          url: `${URL}/${bookingId}/reschedule/deny`,
+          method: HttpMethods.PUT,
+        }),
+      }),
     }),
 });
 
@@ -192,4 +210,7 @@ export const {
     useDeleteBookingMutation,
     useLazyGetTutorAvailablePeriodsQuery,
     useLazyGetStudentAvailablePeriodsQuery,
+    useLazyGetBookingsInRescheduleQuery,
+    useAcceptRescheduleRequestMutation,
+    useDenyRescheduleRequestMutation,
 } = bookingService;
