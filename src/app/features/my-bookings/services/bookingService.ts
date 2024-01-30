@@ -7,7 +7,6 @@ import IUpcomingLessons from '../interfaces/IUpcomingLessons';
 
 //bookings/week/:tutorSlug
 
-
 interface IBookingTransformed {
     id: string;
     label: string;
@@ -49,15 +48,14 @@ interface IUpdateBooking {
 }
 
 export interface IGetTutorAvailablePeriodsParams {
-  tutorId: string;
-  date: string;
-  timeZone: string;
-
+    tutorId: string;
+    date: string;
+    timeZone: string;
 }
 
 export interface IGetStudentAvailablePeriodsParams {
-  studentId: string;
-  date: string;
+    studentId: string;
+    date: string;
 }
 
 const URL = '/api/v1/bookings';
@@ -66,12 +64,11 @@ export const bookingService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         getBookings: builder.query<IBookingTransformed[], IDateRange>({
             query: (data) => ({
-                url: `${URL}?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}`,//`${URL}/?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}`,
+                url: `${URL}?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}`, //`${URL}/?dateFrom=${data.dateFrom}&dateTo=${data.dateTo}`,
                 method: HttpMethods.GET,
             }),
             transformResponse: (response: IBooking[]) => {
                 const bookings: IBookingTransformed[] = response.map((x) => {
-
                     return {
                         id: x.id,
                         label: x.Subject ? t(`SUBJECTS.${x.Subject.abrv.replaceAll('-', '').replaceAll(' ', '')}`) : 'No title',
@@ -131,9 +128,9 @@ export const bookingService = baseService.injectEndpoints({
         }),
         createBooking: builder.mutation<void, any>({
             query: (data) => ({
-              url: `${URL}/confirm`,//`${URL}/create/${data.tutorId}`,
-              method: HttpMethods.POST,
-              body: data,
+                url: `${URL}/confirm`, //`${URL}/create/${data.tutorId}`,
+                method: HttpMethods.POST,
+                body: data,
             }),
             invalidatesTags: ['tutorBookings'],
         }),
@@ -147,53 +144,59 @@ export const bookingService = baseService.injectEndpoints({
         }),
         getBookingById: builder.query<IBooking, string>({
             query: (bookingId) => ({
-                url: `${URL}/${bookingId}`,//`${URL}/${bookingId}`,
+                url: `${URL}/${bookingId}`, //`${URL}/${bookingId}`,
             }),
         }),
         acceptBooking: builder.mutation<void, string>({
             query: (bookingId) => ({
-              url: `${URL}/${bookingId}/accept`,
+                url: `${URL}/${bookingId}/accept`,
                 method: HttpMethods.PUT,
             }),
             invalidatesTags: ['bookings'],
         }),
         deleteBooking: builder.mutation<void, string>({
             query: (bookingId) => ({
-              url: `${URL}/${bookingId}/cancel`,
-              method: HttpMethods.PUT,
+                url: `${URL}/${bookingId}/cancel`,
+                method: HttpMethods.PUT,
             }),
             invalidatesTags: ['bookings', 'tutorBookings', 'upcomingLessons', 'lessonCount'],
         }),
         getTutorAvailablePeriods: builder.query<string[], IGetTutorAvailablePeriodsParams>({
-          query: (params) => ({
-            url: `${URL}/tutor-available-periods?date=${params.date}&tutorId=${params.tutorId}&timeZone=${params.timeZone}`,
-            method: HttpMethods.GET,
-          }),
+            query: (params) => ({
+                url: `${URL}/tutor-available-periods?date=${params.date}&tutorId=${params.tutorId}&timeZone=${params.timeZone}`,
+                method: HttpMethods.GET,
+            }),
         }),
         getStudentAvailablePeriods: builder.query<string[], IGetStudentAvailablePeriodsParams>({
-          query: (params) => ({
-            url: `${URL}/student-available-periods?date=${params.date}&studentId=${params.studentId}`,
-            method: HttpMethods.GET,
-          }),
-      }),
-      getBookingsInReschedule: builder.query<IBooking[], void>({
-        query: () => ({
-          url: `${URL}/inReschedule`,
-          method: HttpMethods.GET,
+            query: (params) => ({
+                url: `${URL}/student-available-periods?date=${params.date}&studentId=${params.studentId}`,
+                method: HttpMethods.GET,
+            }),
         }),
-      }),
-      acceptRescheduleRequest: builder.mutation<void, string>({
-        query: (bookingId) => ({
-          url: `${URL}/${bookingId}/reschedule/accept`,
-          method: HttpMethods.PUT,
+        getBookingsInReschedule: builder.query<IBooking[], void>({
+            query: () => ({
+                url: `${URL}/inReschedule`,
+                method: HttpMethods.GET,
+            }),
         }),
-      }),
-      denyRescheduleRequest: builder.mutation<void, string>({
-        query: (bookingId) => ({
-          url: `${URL}/${bookingId}/reschedule/deny`,
-          method: HttpMethods.PUT,
+        acceptRescheduleRequest: builder.mutation<void, string>({
+            query: (bookingId) => ({
+                url: `${URL}/${bookingId}/reschedule/accept`,
+                method: HttpMethods.PUT,
+            }),
         }),
-      }),
+        denyRescheduleRequest: builder.mutation<void, string>({
+            query: (bookingId) => ({
+                url: `${URL}/${bookingId}/reschedule/deny`,
+                method: HttpMethods.PUT,
+            }),
+        }),
+        getRequestedBookings: builder.query<IBooking[], void>({
+            query: () => ({
+                url: `${URL}/requested`,
+                method: HttpMethods.GET,
+            }),
+        }),
     }),
 });
 
@@ -213,4 +216,5 @@ export const {
     useLazyGetBookingsInRescheduleQuery,
     useAcceptRescheduleRequestMutation,
     useDenyRescheduleRequestMutation,
+    useLazyGetRequestedBookingsQuery,
 } = bookingService;

@@ -34,6 +34,7 @@ import {
     useDeleteBookingMutation,
     useDenyRescheduleRequestMutation,
     useLazyGetBookingsInRescheduleQuery,
+    useLazyGetRequestedBookingsQuery,
 } from '../my-bookings/services/bookingService';
 import { UpcomingLessonItem } from './upcoming-lessons/UpcomingLessonItem';
 import logo from '../../../assets/images/teorem_logo_purple.png';
@@ -63,6 +64,7 @@ import { ISearchFiltersState, resetSearchFilters, setSearchFilters } from '../..
 import { LessonRescheduleRequestItem } from './upcoming-lessons/LessonRescheduleRequestItem';
 import { BookingRequestItem } from './upcoming-lessons/BookingRequestItem';
 import { PendingRescheduleRequestItem } from './upcoming-lessons/PendingRescheduleRequestItem';
+import { NotAcceptedLesson } from './upcoming-lessons/NotAcceptedLesson';
 
 interface Values {
     subject: string;
@@ -267,6 +269,7 @@ const Dashboard = () => {
     const [denyRequest] = useDeleteBookingMutation();
     const [acceptReschedule, { error: acceptingRescheduleError }] = useAcceptRescheduleRequestMutation();
     const [denyReschedule, { error: denyingRescheduletError }] = useDenyRescheduleRequestMutation();
+    const [getRequestedBookings] = useLazyGetRequestedBookingsQuery();
 
     const [getChildren, { data: childrenData, isLoading: childrenLoading, isSuccess: childrenSuccess }] = useLazyGetChildrenQuery();
     const [childless, setChildless] = useState(false);
@@ -274,6 +277,7 @@ const Dashboard = () => {
     const [groupedUpcomming, setGroupedUpcoming] = useState<IGroupedDashboardData>({});
     const [groupedRequests, setGroupedRequests] = useState<IGroupedDashboardData>({});
     const [groupedInRescheduleRequests, setGroupedInRescheduleRequests] = useState<IGroupedDashboardData>({});
+    const [groupedRequestedBookingsRequests, setGroupedRequestedBookingsRequests] = useState<IGroupedDashboardData>({});
     const [todayScheduled, setTodayScheduled] = useState<IBooking[]>([]);
     const [unreadChatrooms, setUnreadChatrooms] = useState<any[]>([]);
     const [learnCubeModal, setLearnCubeModal] = useState<boolean>(false);
@@ -335,6 +339,14 @@ const Dashboard = () => {
             moment(e.startTime).format(t('DATE_FORMAT'))
         );
         setGroupedInRescheduleRequests(groupedInRescheduleRequestData);
+
+        if (userRole !== RoleOptions.Tutor) {
+            const requestedBookings = await getRequestedBookings().unwrap();
+            const groupedRequestedBookingsRequestData: IGroupedDashboardData = groupBy(requestedBookings, (e) =>
+                moment(e.startTime).format(t('DATE_FORMAT'))
+            );
+            setGroupedRequestedBookingsRequests(groupedRequestedBookingsRequestData);
+        }
 
         if (!showIntro) {
             setGroupedRequests((prevGroupedRequests) => {
@@ -1299,6 +1311,7 @@ const Dashboard = () => {
                                                                                 booking={item}
                                                                                 handleAccept={handleAccept}
                                                                                 handleDeny={handleDeny}
+                                                                                fetchData={fetchData}
                                                                             />
                                                                         );
                                                                     })}
@@ -1339,29 +1352,64 @@ const Dashboard = () => {
                                                         </div>
                                                     )}
                                                 </div>
-                                            ) : (userRole === RoleOptions.Student || userRole == RoleOptions.Parent) &&
-                                              groupedInRescheduleRequests &&
-                                              Object.keys(groupedInRescheduleRequests).length > 0 ? (
-                                                <div className="dashboard__requests tutor-intro-1">
-                                                    <div className="type--color--tertiary mb-2">{t('DASHBOARD.REQUESTS.RESCHEDULE')}</div>
-                                                    {Object.keys(groupedInRescheduleRequests).map((key: string) => {
-                                                        return (
-                                                            <React.Fragment key={key}>
-                                                                {groupedInRescheduleRequests[key].map((item: IBooking) => {
-                                                                    return item.lastSuggestedUpdateUserId !== userId ? (
-                                                                        <LessonRescheduleRequestItem
-                                                                            acceptReschedule={handleAcceptReschedule}
-                                                                            denyReschedule={handleDenyReschedule}
-                                                                            key={item.id}
-                                                                            booking={item}
-                                                                        />
-                                                                    ) : (
-                                                                        <PendingRescheduleRequestItem booking={item} />
+                                            ) : userRole === RoleOptions.Student || userRole == RoleOptions.Parent ? (
+                                                <div>
+                                                    <div className="dashboard__requests tutor-intro-1">
+                                                        <div className="type--color--tertiary mb-2">{t('DASHBOARD.REQUESTS.RESCHEDULE')}</div>
+                                                        <div>
+                                                            {groupedInRescheduleRequests &&
+                                                                Object.keys(groupedInRescheduleRequests).length > 0 &&
+                                                                Object.keys(groupedInRescheduleRequests).map((key: string) => {
+                                                                    return (
+                                                                        <React.Fragment key={key}>
+                                                                            {groupedInRescheduleRequests[key].map((item: IBooking) => {
+                                                                                return item.lastSuggestedUpdateUserId !== userId ? (
+                                                                                    <LessonRescheduleRequestItem
+                                                                                        acceptReschedule={handleAcceptReschedule}
+                                                                                        denyReschedule={handleDenyReschedule}
+                                                                                        key={item.id}
+                                                                                        booking={item}
+                                                                                    />
+                                                                                ) : (
+                                                                                    <PendingRescheduleRequestItem booking={item} />
+                                                                                );
+                                                                            })}
+                                                                        </React.Fragment>
                                                                     );
                                                                 })}
-                                                            </React.Fragment>
-                                                        );
-                                                    })}
+
+                                                            {Object.keys(groupedRequestedBookingsRequests).map((key: string) => {
+                                                                return (
+                                                                    <React.Fragment key={key}>
+                                                                        {groupedRequestedBookingsRequests[key].map((item: IBooking) => {
+                                                                            if (item.lastSuggestedUpdateUserId !== userId) {
+                                                                                if (item.isAccepted) {
+                                                                                    return (
+                                                                                        <LessonRescheduleRequestItem
+                                                                                            acceptReschedule={handleAcceptReschedule}
+                                                                                            denyReschedule={handleDenyReschedule}
+                                                                                            key={item.id}
+                                                                                            booking={item}
+                                                                                        />
+                                                                                    );
+                                                                                } else {
+                                                                                    return (
+                                                                                        <NotAcceptedLesson
+                                                                                            acceptReschedule={handleAcceptReschedule}
+                                                                                            denyReschedule={handleDenyReschedule}
+                                                                                            key={item.id}
+                                                                                            booking={item}
+                                                                                        />
+                                                                                    );
+                                                                                }
+                                                                            }
+                                                                            // Optionally handle the case where 'item.lastSuggestedUpdateUserId === userId'
+                                                                        })}
+                                                                    </React.Fragment>
+                                                                );
+                                                            })}
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             ) : null}
 
