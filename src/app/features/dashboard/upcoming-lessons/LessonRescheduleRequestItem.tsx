@@ -108,7 +108,6 @@ export const LessonRescheduleRequestItem = (props: Props) => {
         <div className="dashboard__requests__item " key={booking.id}>
             <div>
                 <span className={'tag tag--warning'}>Promjena termina</span>
-                {!booking.isAccepted && <span className={'tag tag--success'}>Zatrazena rezervacija</span>}
             </div>
             <div>
                 {booking.User.firstName}&nbsp;{booking.User.lastName}

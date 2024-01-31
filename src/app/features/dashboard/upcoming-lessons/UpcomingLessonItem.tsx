@@ -243,23 +243,25 @@ export const UpcomingLessonItem = ({
             )}
 
             {showDateSelectModal && booking && (
-                <UpdateBooking
-                    booking={booking}
-                    tutorId={booking.tutorId}
-                    start={moment(booking.startTime).format(t('DATE_FORMAT') + ', HH:mm')}
-                    end={moment(booking.endTime).add(1, 'minute').format('HH:mm')}
-                    handleClose={() => {
-                        setShowDateSelectModal(false);
-                        fetchData();
-                    }}
-                    clearEmptyBookings={() => {
-                        console.log('clearEmptyBookings');
-                    }}
-                    positionClass={'modal--center'}
-                    setSidebarOpen={() => {
-                        console.log('setSidebarOpen');
-                    }}
-                />
+                <div className="modal__overlay">
+                    <UpdateBooking
+                        booking={booking}
+                        tutorId={booking.tutorId}
+                        start={moment(booking.startTime).format(t('DATE_FORMAT') + ', HH:mm')}
+                        end={moment(booking.endTime).add(1, 'minute').format('HH:mm')}
+                        handleClose={() => {
+                            setShowDateSelectModal(false);
+                            fetchData();
+                        }}
+                        clearEmptyBookings={() => {
+                            console.log('clearEmptyBookings');
+                        }}
+                        positionClass={'modal--center'}
+                        setSidebarOpen={() => {
+                            console.log('setSidebarOpen');
+                        }}
+                    />
+                </div>
             )}
 
             {showConfirmDeleteBooking && (

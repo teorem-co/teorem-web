@@ -191,9 +191,9 @@ export const bookingService = baseService.injectEndpoints({
                 method: HttpMethods.PUT,
             }),
         }),
-        getRequestedBookings: builder.query<IBooking[], void>({
+        getPendingBookings: builder.query<IBooking[], void>({
             query: () => ({
-                url: `${URL}/requested`,
+                url: `${URL}/pending`,
                 method: HttpMethods.GET,
             }),
         }),
@@ -216,5 +216,5 @@ export const {
     useLazyGetBookingsInRescheduleQuery,
     useAcceptRescheduleRequestMutation,
     useDenyRescheduleRequestMutation,
-    useLazyGetRequestedBookingsQuery,
+    useLazyGetPendingBookingsQuery,
 } = bookingService;

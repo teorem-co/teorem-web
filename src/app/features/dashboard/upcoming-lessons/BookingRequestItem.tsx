@@ -26,7 +26,7 @@ export const BookingRequestItem = (props: Props) => {
     }
 
     return (
-        <div className="dashboard__requests__item " key={booking.id}>
+        <div className="dashboard__requests__item tutor-intro-1" key={booking.id}>
             <div>
                 <span className="tag tag--success">Nova rezervacija</span>
             </div>

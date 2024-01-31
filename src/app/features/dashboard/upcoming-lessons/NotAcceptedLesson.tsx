@@ -1,19 +1,15 @@
 import { t } from 'i18next';
 import moment from 'moment';
-import { PATHS } from '../../../routes';
 import React from 'react';
 import { useHistory } from 'react-router';
-import { useAcceptRescheduleRequestMutation, useDenyRescheduleRequestMutation } from '../../my-bookings/services/bookingService';
 import IBooking from '../../my-bookings/interfaces/IBooking';
 
 interface Props {
     booking: IBooking;
-    acceptReschedule: (id: string) => void;
-    denyReschedule: (id: string) => void;
 }
 
 export const NotAcceptedLesson = (props: Props) => {
-    const { booking, acceptReschedule, denyReschedule } = props;
+    const { booking } = props;
     const isMobile = window.innerWidth < 1200;
     const history = useHistory();
 
