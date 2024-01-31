@@ -92,6 +92,7 @@ export const EN_US = {
         PASSWORD_MATCH: 'Passwords must match',
         PASSWORD_STRENGTH: 'Password must meet the conditions',
         PRICE: 'Minimum ',
+        WHOLE_NUMBER: 'Not whole',
         FUTURE_DATE: 'Date can`t be in the future',
         VALID_DATE: 'Date is invalid',
         PHONE_NUMBER: 'Invalid phone number',

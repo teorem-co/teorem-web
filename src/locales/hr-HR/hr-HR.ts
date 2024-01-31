@@ -92,6 +92,7 @@ export const HR_HR = {
         PASSWORD_MATCH: 'Lozinke se moraju poklapati',
         PASSWORD_STRENGTH: 'Lozinka mora ispunjavati uvjete',
         PRICE: 'Minimalno ',
+        WHOLE_NUMBER: 'Nije cijeli broj',
         FUTURE_DATE: 'Datum ne može biti u budućnosti',
         VALID_DATE: 'Datum je nevažeći',
         PHONE_NUMBER: 'Neispravan broj telefona',
