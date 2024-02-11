@@ -26,47 +26,50 @@ export const BookingRequestItem = (props: Props) => {
     }
 
     return (
-        <div className="dashboard__requests__item tutor-intro-1" key={booking.id}>
-            <div>
-                <span className="tag tag--success">Nova rezervacija</span>
-            </div>
-            <div>
-                {booking.User.firstName}&nbsp;{booking.User.lastName}
-            </div>
-            <div>{t(`LEVELS.${booking.Level.abrv.toLowerCase().replace('-', '')}`)}</div>
-            <div className={''}>
-                <span className=" tag tag--primary">{t(`SUBJECTS.${booking.Subject.abrv.replaceAll('-', '')}`)}</span>
-            </div>
-            <div>
-                {date} @&nbsp;
-                {moment(booking.startTime).format('HH:mm')} - {moment(booking.endTime).add(1, 'minute').format('HH:mm')}
-            </div>
-            <div className={'flex flex--row flex--jc--space-between mr-4'}>
-                <div
-                    onClick={() => {
-                        console.log('handleAccept');
-                        handleAccept(booking.id);
-                    }}
-                >
-                    <i className="icon icon--base icon--check icon--primary"></i>
+        <>
+            <div className="dashboard__requests__item tutor-intro-1" key={booking.id}>
+                <div className={'dashboard-booking-request-parent'}>
+                    <div>
+                        <span className="tag tag--success">{t('DASHBOARD.REQUESTS.STATUS.NEW_BOOKING_DO_ACTION')}</span>
+                    </div>
+                    <div>
+                        {booking.User.firstName}&nbsp;{booking.User.lastName}
+                    </div>
+                    <div>{t(`LEVELS.${booking.Level.abrv.toLowerCase().replace('-', '')}`)}</div>
+                    <div className={''}>
+                        <span className=" tag tag--primary">{t(`SUBJECTS.${booking.Subject.abrv.replaceAll('-', '')}`)}</span>
+                    </div>
+                    <div>
+                        {date} @&nbsp;
+                        {moment(booking.startTime).format('HH:mm')} - {moment(booking.endTime).add(1, 'minute').format('HH:mm')}
+                    </div>
                 </div>
-                <div
-                    onClick={() => {
-                        console.log('handleDeny');
-                        handleDeny(booking.id);
-                    }}
-                >
-                    <i className="icon icon--base icon--close-request icon--secondary ml-2"></i>
-                </div>
-                <div
-                    onClick={() => {
-                        handleReschedule();
-                    }}
-                >
-                    <i className="icon icon--sm icon--reschedule icon--secondary ml-2"></i>
+                <div className={'flex flex--row flex--jc--end flex-gap-1'}>
+                    <div
+                        onClick={() => {
+                            console.log('handleAccept');
+                            handleAccept(booking.id);
+                        }}
+                    >
+                        <i className="icon icon--base icon--check icon--primary"></i>
+                    </div>
+                    <div
+                        onClick={() => {
+                            console.log('handleDeny');
+                            handleDeny(booking.id);
+                        }}
+                    >
+                        <i className="icon icon--base icon--close icon--secondary"></i>
+                    </div>
+                    <div
+                        onClick={() => {
+                            handleReschedule();
+                        }}
+                    >
+                        <i className="icon icon--sm icon--reschedule icon--secondary"></i>
+                    </div>
                 </div>
             </div>
-
             {showDateSelectModal && booking && (
                 <div className="modal__overlay">
                     <UpdateBooking
@@ -88,6 +91,6 @@ export const BookingRequestItem = (props: Props) => {
                     />
                 </div>
             )}
-        </div>
+        </>
     );
 };

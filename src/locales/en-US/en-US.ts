@@ -507,6 +507,7 @@ export const EN_US = {
     },
     BOOK: {
         TITLE: 'Book a Slot',
+        RESCHEDULE_TITLE: 'Reschedule booking',
         FORM: {
             LEVEL: 'Level',
             LEVEL_PLACEHOLDER: 'Select Level',
@@ -527,6 +528,7 @@ export const EN_US = {
             DATE_OF_BOOKING: 'Date of booking',
             TIME_OF_BOOKING: 'Time',
             ALREADY_IN_RESCHEDULE: 'Booking already in reschedule',
+            USE_CREDITS: 'Use credits',
         },
         JOIN: 'Join',
         JOIN_TOOLTIP: 'You can join the meeting 5 minutes before the start',
@@ -701,6 +703,7 @@ export const EN_US = {
         },
         PROFILE_SETTINGS: {
             TITLE: 'Personal Information',
+            CREDITS: 'Credits',
             DESCRIPTION: 'Edit and update your personal information',
             FIRST_NAME: 'First Name*',
             FIRST_NAME_PLACEHOLDER: 'Enter your first name',
@@ -763,6 +766,12 @@ export const EN_US = {
             TITLE: 'LESSON REQUESTS',
             EMPTY: 'No new requests',
             RESCHEDULE: 'RESCHEDULE REQUESTS',
+            STATUS: {
+                RESCHEDULE_REQUESTED: 'Modification',
+                RESCHEDULE_DO_ACTION: 'Modification',
+                NEW_BOOKING_REQUESTED: 'Waiting for confirmation',
+                NEW_BOOKING_DO_ACTION: 'New booking',
+            },
         },
         SCHEDULE: {
             TITLE: 'TODAY`S SCHEDULE',
@@ -1397,5 +1406,8 @@ export const EN_US = {
             COMPLETE: 'Complete',
             SKIP: 'Skip for now',
         },
+    },
+    CREDITS: {
+        TITLE: 'Credits',
     },
 };

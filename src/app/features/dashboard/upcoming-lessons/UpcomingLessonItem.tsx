@@ -112,18 +112,24 @@ export const UpcomingLessonItem = ({
                     <div>
                         {firstName}&nbsp;{lastName}
                     </div>
+
                     <div>{t(`LEVELS.${levelAbrv.toLowerCase().replace('-', '')}`)}</div>
+
                     <div>
                         <span className="tag tag--primary">{t(`SUBJECTS.${subjectAbrv.replaceAll('-', '')}`)}</span>
                     </div>
 
                     <div className="flex flex--ai--center">
                         {moment(startTime).format('HH:mm')} - {moment(endTime).add(1, 'minute').format('HH:mm')}
-                        {/*{isInReschedule && <i*/}
-                        {/*  className='icon icon--md icon--pending icon--primary ml-2'></i>}*/}
                     </div>
 
-                    {isInReschedule && <i className="icon icon--base icon--reschedule cur--default"></i>}
+                    {isInReschedule ? (
+                        <div>
+                            <i className="icon icon--base icon--reschedule cur--default"></i>
+                        </div>
+                    ) : (
+                        <div></div>
+                    )}
 
                     <div>
                         <IconButton
@@ -172,18 +178,6 @@ export const UpcomingLessonItem = ({
                             ))}
                         </Menu>
                     </div>
-
-                    {/*<div*/}
-                    {/*  onClick={() => {*/}
-                    {/*    history.push({*/}
-                    {/*      pathname: t(PATHS.MY_BOOKINGS),*/}
-                    {/*      state: { value: new Date(startTime).toString() },*/}
-                    {/*    });*/}
-                    {/*  }*/}
-                    {/*  }>*/}
-                    {/*  <i*/}
-                    {/*    className='icon icon--base icon--chevron-right icon--primary'></i>*/}
-                    {/*</div>*/}
                 </div>
             ) : (
                 // MOBILE

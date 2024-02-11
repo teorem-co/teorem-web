@@ -21,4 +21,5 @@ export default interface IBooking {
     lastSuggestedUpdateUserId?: string;
     suggestedStartTime?: string;
     suggestedEndTime?: string;
+    createdAt?: string;
 }

@@ -40,6 +40,7 @@ export interface ICreateBookingDTO {
     startTime: string;
     tutorId?: string;
     levelId: string;
+    useCredits: boolean;
 }
 
 interface IUpdateBooking {
@@ -50,12 +51,14 @@ interface IUpdateBooking {
 export interface IGetTutorAvailablePeriodsParams {
     tutorId: string;
     date: string;
+    bookingId: string;
     timeZone: string;
 }
 
 export interface IGetStudentAvailablePeriodsParams {
     studentId: string;
     date: string;
+    bookingId: string;
 }
 
 const URL = '/api/v1/bookings';
@@ -120,7 +123,7 @@ export const bookingService = baseService.injectEndpoints({
         }),
         createbooking: builder.mutation<void, ICreateBookingDTO>({
             query: (data) => ({
-                url: `${URL}`, // `${URL}/${data.tutorId}`
+                url: `${URL}?useCredits=${data.useCredits}`, // `${URL}/${data.tutorId}`
                 method: HttpMethods.POST,
                 body: data,
             }),
@@ -163,13 +166,13 @@ export const bookingService = baseService.injectEndpoints({
         }),
         getTutorAvailablePeriods: builder.query<string[], IGetTutorAvailablePeriodsParams>({
             query: (params) => ({
-                url: `${URL}/tutor-available-periods?date=${params.date}&tutorId=${params.tutorId}&timeZone=${params.timeZone}`,
+                url: `${URL}/tutor-available-periods?date=${params.date}&tutorId=${params.tutorId}&bookingId=${params.bookingId}&timeZone=${params.timeZone}`,
                 method: HttpMethods.GET,
             }),
         }),
         getStudentAvailablePeriods: builder.query<string[], IGetStudentAvailablePeriodsParams>({
             query: (params) => ({
-                url: `${URL}/student-available-periods?date=${params.date}&studentId=${params.studentId}`,
+                url: `${URL}/student-available-periods?date=${params.date}&studentId=${params.studentId}&bookingId=${params.bookingId}`,
                 method: HttpMethods.GET,
             }),
         }),

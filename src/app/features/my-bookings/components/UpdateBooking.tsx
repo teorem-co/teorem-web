@@ -163,6 +163,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
                 const params: IGetStudentAvailablePeriodsParams = {
                     studentId: booking?.studentId,
                     date: formik.values.selectedDate,
+                    bookingId: booking.id,
                 };
 
                 getStudentAvailablePeriods(params)
@@ -176,7 +177,8 @@ const UpdateBooking: React.FC<IProps> = (props) => {
                 const params: IGetTutorAvailablePeriodsParams = {
                     tutorId: booking?.tutorId,
                     date: formik.values.selectedDate,
-                    timeZone: moment.tz.guess(), //TODO: get from user
+                    bookingId: booking.id,
+                    timeZone: 'Europe/Zagreb', //moment.tz.guess(), //TODO: get from user
                 };
 
                 getTutorAvailablePeriods(params)
@@ -196,10 +198,6 @@ const UpdateBooking: React.FC<IProps> = (props) => {
         return unavailableDays.includes(dayString);
     }
 
-    useEffect(() => {
-        console.log('START: ', start);
-        console.log('SELECTED: ', moment(formik.values.selectedTime, 'HH:mm'));
-    }, [formik.values.selectedTime]);
     return (
         <>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -207,7 +205,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
                     <div className="modal--parent__header">
                         <div className="flex flex--primary">
                             <div>
-                                <div className="type--wgt--bold type--md mb-1">{t('BOOK.TITLE')}</div>
+                                <div className="type--wgt--bold type--md mb-1">{t('BOOK.RESCHEDULE_TITLE')}</div>
                                 <div className="type--color--secondary">
                                     {start} - {end}
                                 </div>
@@ -316,13 +314,15 @@ const UpdateBooking: React.FC<IProps> = (props) => {
                             type="submit"
                             className="btn btn--base type--wgt--extra-bold btn--primary mb-1"
                             onClick={() => formik.handleSubmit()}
-                            disabled={moment(start, 'HH:mm').isSame(moment(formik.values.selectedTime, 'HH:mm')) || booking?.inReschedule}
+                            //moment(start, 'HH:mm').isSame(moment(formik.values.selectedTime, 'HH:mm')) maybe add to disable
+                            disabled={booking?.inReschedule}
                         >
                             {!booking?.inReschedule ? t('BOOK.FORM.UPDATE') : t('BOOK.FORM.ALREADY_IN_RESCHEDULE')}
                         </button>
                         <button
                             disabled={
                                 userRole !== RoleOptions.Tutor &&
+                                booking?.isAccepted &&
                                 moment(booking?.startTime).isBefore(moment().add(TeoremConstants.MIN_HOURS_BEFORE_CANCEL, 'hour'))
                             }
                             className="btn btn--base type--wgt--extra-bold btn--clear type--color--error"
@@ -338,6 +338,11 @@ const UpdateBooking: React.FC<IProps> = (props) => {
                 {showConfirmModal && (
                     <ConfirmationModal
                         title={t('MY_BOOKINGS.MODAL.CONFIRM_CANCEL_TITLE')}
+                        description={
+                            userRole === RoleOptions.Tutor
+                                ? t('MY_BOOKINGS.CANCEL.MODAL.TUTOR_DESCRIPTION')
+                                : t('MY_BOOKINGS.CANCEL.MODAL.STUDENT_DESCRIPTION')
+                        }
                         confirmButtonTitle={t('BOOK.FORM.CANCEL_BOOKING')}
                         cancelButtonTitle={t('BOOK.FORM.DISMISS')}
                         onConfirm={handleDeleteBooking}

@@ -504,6 +504,7 @@ export const HR_HR = {
     },
     BOOK: {
         TITLE: 'Rezervirajte termin',
+        RESCHEDULE_TITLE: 'Ažuriraj rezervaciju',
         FORM: {
             LEVEL: 'Razina',
             LEVEL_PLACEHOLDER: 'Odaberite razinu',
@@ -524,6 +525,7 @@ export const HR_HR = {
             DATE_OF_BOOKING: 'Datum',
             TIME_OF_BOOKING: 'Vrijeme',
             ALREADY_IN_RESCHEDULE: 'U procesu promjene termina',
+            USE_CREDITS: 'Iskoristi kredite',
         },
         JOIN: 'Pridruži se',
         JOIN_TOOLTIP: 'Sastanku se možete pridružiti najranije 5 minuta prije početka',
@@ -698,6 +700,7 @@ export const HR_HR = {
         },
         PROFILE_SETTINGS: {
             TITLE: 'Osobni podatci',
+            CREDITS: 'Krediti',
             DESCRIPTION: 'Izmijenite i ažurirajte svoje osobne podatke',
             FIRST_NAME: 'Ime*',
             FIRST_NAME_PLACEHOLDER: 'Unesite svoje ime',
@@ -760,6 +763,12 @@ export const HR_HR = {
             TITLE: 'ZAHTJEVI ZA PREDAVANJIMA',
             EMPTY: 'Nema novih zahtjeva',
             RESCHEDULE: 'ZAHTJEVI ZA PROMJENU TERMINA',
+            STATUS: {
+                RESCHEDULE_REQUESTED: 'Izmjena',
+                RESCHEDULE_DO_ACTION: 'Izmjena',
+                NEW_BOOKING_REQUESTED: 'Čekanje potvrde',
+                NEW_BOOKING_DO_ACTION: 'Nova rezervacija',
+            },
         },
         SCHEDULE: {
             TITLE: 'DANAŠNJI RASPORED',
@@ -1400,5 +1409,8 @@ export const HR_HR = {
             COMPLETE: 'Završi',
             SKIP: 'Preskoči za sad',
         },
+    },
+    CREDITS: {
+        TITLE: 'Krediti',
     },
 };

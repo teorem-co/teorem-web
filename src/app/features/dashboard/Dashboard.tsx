@@ -33,7 +33,6 @@ import {
     useAcceptRescheduleRequestMutation,
     useDeleteBookingMutation,
     useDenyRescheduleRequestMutation,
-    useLazyGetBookingsInRescheduleQuery,
     useLazyGetPendingBookingsQuery,
 } from '../my-bookings/services/bookingService';
 import { UpcomingLessonItem } from './upcoming-lessons/UpcomingLessonItem';
@@ -263,7 +262,6 @@ const Dashboard = () => {
     const [getUpcoming, { data: upcomingData, isLoading: upcomingLoading, isSuccess: upcomingSuccessful }] = useLazyGetUpcomingQuery();
     const [getTodaySchedule] = useLazyGetTodayScheduleQuery();
     const [getRequests] = useLazyGetRequestsQuery();
-    const [getInReschedule] = useLazyGetBookingsInRescheduleQuery();
     const [getAllTimeZones] = useLazyGetAllTimeZonesQuery();
     const [acceptRequest] = useAcceptBookingMutation();
     const [denyRequest] = useDeleteBookingMutation();
@@ -1340,7 +1338,7 @@ const Dashboard = () => {
                                             ) : userRole === RoleOptions.Student || userRole == RoleOptions.Parent ? (
                                                 <div>
                                                     <div className="dashboard__requests tutor-intro-1">
-                                                        <div className="type--color--tertiary mb-2">{t('DASHBOARD.REQUESTS.RESCHEDULE')}</div>
+                                                        <div className="type--color--tertiary mb-2">{t('DASHBOARD.REQUESTS.TITLE')}</div>
                                                         <div>
                                                             {Object.keys(groupedPendingBookingsRequests).map((key: string) => {
                                                                 return (
