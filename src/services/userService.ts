@@ -1,7 +1,6 @@
 import { baseService } from '../app/baseService';
 import { OptionType } from '../app/components/form/MySelectField';
-import IChangePassword
-  from '../app/features/my-profile/interfaces/IChangePassword';
+import IChangePassword from '../app/features/my-profile/interfaces/IChangePassword';
 import { HttpMethods } from '../app/lookups/httpMethods';
 import typeToFormData from '../app/utils/typeToFormData';
 import { IChild } from '../interfaces/IChild';
@@ -19,19 +18,22 @@ export interface IUpdateUserInformation {
 }
 
 export interface IUpdateProfileImage {
-  profileImage: string;
+    profileImage: string;
 }
 
-export interface ICreateChildRequest{
-  parentId: string,
-  body: IChild
+export interface ICreateChildRequest {
+    parentId: string;
+    body: IChild;
 }
 
-export interface IDeleteChildRequest{
-  parentId: string,
-  childId: string
+export interface IDeleteChildRequest {
+    parentId: string;
+    childId: string;
 }
 
+export interface ICredits {
+    credits: number;
+}
 
 export const userService = baseService.injectEndpoints({
     endpoints: (builder) => ({
@@ -107,10 +109,16 @@ export const userService = baseService.injectEndpoints({
             },
         }),
         disconnectStripe: builder.mutation<void, any>({
-          query: (tutorId) => ({
-            url: `${URL}/${tutorId}/disconnect-stripe`,
-            method: HttpMethods.PUT,
-          }),
+            query: (tutorId) => ({
+                url: `${URL}/${tutorId}/disconnect-stripe`,
+                method: HttpMethods.PUT,
+            }),
+        }),
+        getCredits: builder.query<ICredits, void>({
+            query: () => ({
+                url: `${URL}/credits`,
+                method: HttpMethods.GET,
+            }),
         }),
     }),
 });
@@ -126,5 +134,6 @@ export const {
     useUpdateChildMutation,
     useDeleteChildMutation,
     useCreateChildMutation,
-    useDisconnectStripeMutation
+    useDisconnectStripeMutation,
+    useLazyGetCreditsQuery,
 } = userService;

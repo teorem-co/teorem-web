@@ -214,6 +214,12 @@ export const tutorService = baseService.injectEndpoints({
         method: HttpMethods.PUT,
       }),
     }),
+    getTutorUnavailableDays: builder.query<string[],string>({
+      query: (tutorId) => ({
+        url: `${URL}/${tutorId}/unavailable-days`,
+        method: HttpMethods.GET,
+      }),
+    }),
   }),
 });
 
@@ -234,6 +240,7 @@ export const {
   useEditTutorMutation,
   useDisconnectStripeTutorMutation,
   useLazyGetTutorByTutorSlugQuery,
+  useLazyGetTutorUnavailableDaysQuery,
 } = tutorService;
 
 export function getUserRoleAbbrv() {

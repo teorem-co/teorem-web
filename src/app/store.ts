@@ -4,8 +4,7 @@ import { combineReducers } from 'redux';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
-import myProfileProgressReducer
-  from '../app/features/my-profile/slices/myProfileSlice';
+import myProfileProgressReducer from '../app/features/my-profile/slices/myProfileSlice';
 import authReducer from '../slices/authSlice';
 import childrenReducer from '../slices/childrenSlice';
 import langReducer from '../slices/langSlice';
@@ -20,15 +19,28 @@ import myReviewsReducer from './features/myReviews/slices/MyReviewsSlice';
 import { rtkQueryErrorLogger } from './middleware/rtkQueryErrorLogger';
 import uploadFileReducer from './slices/tutorImageUploadSlice';
 import signUpReducer from '../slices/signUpSlice';
-import onboardingReducer from "../slices/onboardingSlice";
+import onboardingReducer from '../slices/onboardingSlice';
 import scrollReducer from '../slices/scrollSlice';
 import searchFiltersReducer from '../slices/searchFiltesSlice';
+import creditsReducer from '../slices/creditsSlice';
 
 const persistConfig = {
     key: 'root',
     version: 1,
     storage,
-    whitelist: ['auth', 'user', 'role', 'user', 'myReviews', 'tutorRegister', 'parentRegisterSlice', 'myProfileProgress', 'lang','searchFilters'],
+    whitelist: [
+        'auth',
+        'user',
+        'role',
+        'user',
+        'myReviews',
+        'tutorRegister',
+        'parentRegisterSlice',
+        'myProfileProgress',
+        'lang',
+        'searchFilters',
+        'credits',
+    ],
 };
 
 const appReducer = combineReducers({
@@ -48,7 +60,8 @@ const appReducer = combineReducers({
     signUp: signUpReducer,
     onboarding: onboardingReducer,
     scroll: scrollReducer,
-    searchFilters: searchFiltersReducer
+    searchFilters: searchFiltersReducer,
+    credits: creditsReducer,
 });
 
 const rootReducer = (state: any, action: any) => {
