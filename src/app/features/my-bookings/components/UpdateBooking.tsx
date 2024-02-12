@@ -122,7 +122,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
 
     useEffect(() => {
         if (updateBookingSuccess) {
-            toastService.success('Booking updated');
+            toastService.success('Rezervacija ažurirana');
             handleClose ? handleClose(false) : false;
         }
     }, [updateBookingSuccess]);
