@@ -22,7 +22,11 @@ export const NotAcceptedLesson = (props: Props) => {
     return (
         <>
             {isMobile ? (
-                <div data-tooltip-id={`new-booking-${booking.id}`} data-tooltip-content={message} data-tooltip-float>
+                <div
+                    data-tooltip-id={`new-booking-${booking.id}`}
+                    // data-tooltip-content={message}
+                    // data-tooltip-float
+                >
                     <div className="dashboard__requests__item flex flex--col flex--jc--center flex--ai--center" key={booking.id}>
                         <div className={'dashboard-booking-request-parent-mobile'}>
                             <span className={'tag tag--success mb-2'}>{t('DASHBOARD.REQUESTS.STATUS.NEW_BOOKING_REQUESTED')}</span>

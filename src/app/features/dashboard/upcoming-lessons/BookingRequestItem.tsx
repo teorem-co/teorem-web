@@ -27,7 +27,7 @@ export const BookingRequestItem = (props: Props) => {
                 <div className=" dashboard__requests__item flex flex--col flex--jc--center flex--ai--center" key={booking.id}>
                     <div
                         data-tooltip-id={`accept-reschedule-${booking.id}`}
-                        data-tooltip-content={'Druga strana je zatrazila izmjenu. Imate još XXXX sati da prihvatite.'}
+                        // data-tooltip-content={'Druga strana je zatrazila izmjenu. Imate još XXXX sati da prihvatite.'}
                         data-tooltip-float
                         className={'dashboard-booking-request-parent-mobile'}
                     >

@@ -494,7 +494,7 @@ export const HR_HR = {
             BUTTON: 'Otkaži',
             MODAL: {
                 TITLE: 'Jeste li sigurni da želite otkazati termin?',
-                STUDENT_DESCRIPTION: 'Povrat novca možete dobiti u obliku creditsa na Teorem platformi. Više o tome pročitajte na "linku"',
+                STUDENT_DESCRIPTION: 'Povrat novca možete dobiti u obliku creditsa na Teorem platformi.',
                 TUTOR_DESCRIPTION:
                     'U slučaju da otkazujete rezervaciju manje od 24h prije početka predavanja, biti ćete penalizirani tako što će se vaš profil manje prikazivati u pretrazi.',
                 CONFIRM: 'Otkaži predavanje',
@@ -1412,5 +1412,8 @@ export const HR_HR = {
     },
     CREDITS: {
         TITLE: 'Krediti',
+    },
+    RESCHEDULE: {
+        ACCEPT: 'Izmjena prihvaćena',
     },
 };
