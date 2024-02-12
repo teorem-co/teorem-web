@@ -362,7 +362,8 @@ const Dashboard = () => {
             setChildless(true);
         }
 
-        const allTimeZones = await getAllTimeZones().then((res) => console.log(res));
+        //TODO: uncomment later when we have picker for timezone
+        //const allTimeZones = await getAllTimeZones().then((res) => console.log(res));
     };
 
     const handleNextIndex = () => {

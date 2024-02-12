@@ -188,7 +188,14 @@ export const UpcomingLessonItem = ({
                                 {' '}
                                 {firstName}&nbsp;{lastName}
                             </span>
-                            <span style={{ margin: 0, padding: '0 5px', width: 'fit-content' }} className="tag tag--primary text-align--start ">
+                            <span
+                                style={{
+                                    margin: 0,
+                                    padding: '0 5px',
+                                    width: 'fit-content',
+                                }}
+                                className="tag tag--primary text-align--start "
+                            >
                                 {t(`SUBJECTS.${subjectAbrv.replaceAll('-', '')}`)}
                             </span>
                         </div>
@@ -205,17 +212,64 @@ export const UpcomingLessonItem = ({
 
                         {isInReschedule && <i className="icon icon--md icon--pending icon--primary ml-2"></i>}
 
-                        <div
-                            className="flex flex--col flex--ai--center"
-                            onClick={() => {
-                                history.push({
-                                    pathname: t(PATHS.MY_BOOKINGS),
-                                    state: { value: new Date(startTime).toString() },
-                                });
-                            }}
-                        >
-                            <i className="icon icon--base icon--chevron-right icon--primary"></i>
+                        <div>
+                            <IconButton
+                                aria-label="more"
+                                id="long-button"
+                                aria-controls={open ? 'long-menu' : undefined}
+                                aria-expanded={open ? 'true' : undefined}
+                                aria-haspopup="true"
+                                color={'primary'}
+                                onClick={handleClick}
+                            >
+                                <MoreVertIcon />
+                            </IconButton>
+                            <Menu
+                                id="long-menu"
+                                MenuListProps={{
+                                    'aria-labelledby': 'long-button',
+                                }}
+                                anchorEl={anchorEl}
+                                open={open}
+                                onClose={handleClose}
+                                PaperProps={{
+                                    style: {
+                                        maxHeight: ITEM_HEIGHT * 4.5,
+                                        width: '20ch',
+                                    },
+                                }}
+                            >
+                                {options.map((option) => (
+                                    <MenuItem
+                                        key={option.id}
+                                        onClick={option.onClick}
+                                        selected={option.name === 'reschedule'}
+                                        disabled={
+                                            option.id === 'reschedule'
+                                                ? booking?.inReschedule
+                                                : option.id === 'cancel'
+                                                ? userRole !== RoleOptions.Tutor &&
+                                                  moment(booking?.startTime).isBefore(moment().add(MIN_HOURS_BEFORE_CANCEL, 'hour'))
+                                                : false
+                                        }
+                                    >
+                                        <i className={`icon icon--sm ${option.icon} mr-1`}></i>
+                                        <span className={`${option.textClass}`}>{t(option.name)}</span>
+                                    </MenuItem>
+                                ))}
+                            </Menu>
                         </div>
+                        {/*<div*/}
+                        {/*    className="flex flex--col flex--ai--center"*/}
+                        {/*    onClick={() => {*/}
+                        {/*        history.push({*/}
+                        {/*            pathname: t(PATHS.MY_BOOKINGS),*/}
+                        {/*            state: { value: new Date(startTime).toString() },*/}
+                        {/*        });*/}
+                        {/*    }}*/}
+                        {/*>*/}
+                        {/*    <i className="icon icon--base icon--chevron-right icon--primary"></i>*/}
+                        {/*</div>*/}
                     </div>
                 </div>
             )}
