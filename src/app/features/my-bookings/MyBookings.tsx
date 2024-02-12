@@ -1,9 +1,9 @@
 import 'moment/locale/en-gb';
 
-import i18n, { t, use } from 'i18next';
+import i18n, { t } from 'i18next';
 import moment from 'moment';
-import { FunctionComponent, useEffect, useMemo, useRef, useState } from 'react';
-import { Calendar as BigCalendar, momentLocalizer, SlotInfo, View, Views } from 'react-big-calendar';
+import { useEffect, useRef, useState } from 'react';
+import { Calendar as BigCalendar, momentLocalizer, SlotInfo, View } from 'react-big-calendar';
 import Calendar from 'react-calendar';
 import { useHistory } from 'react-router';
 import { useLocation } from 'react-router-dom';
@@ -15,11 +15,9 @@ import languageOptions from '../../constants/languageOptions';
 import { useAppSelector } from '../../hooks';
 import { calcModalPosition } from '../../utils/calcModalPosition';
 import LearnCubeModal from '../my-profile/components/LearnCubeModal';
-import OpenTutorCalendarModal from './components/OpenTutorCalendarModal';
 import TutorEventModal from './components/TutorEventModal';
 import UnavailabilityEditModal from './components/UnavailabilityEditModal';
 import UnavailabilityModal from './components/UnavailabilityModal';
-import UpcomingLessons from './components/UpcomingLessons';
 import {
     useLazyGetBookingByIdQuery,
     useLazyGetBookingsQuery,
@@ -32,9 +30,7 @@ import { v4 as uuidv4 } from 'uuid';
 import ParentEventModal from './components/ParentEventModal';
 import UpdateBooking from './components/UpdateBooking';
 import { InformationCard } from '../../components/InformationCard';
-import { ToolbarProps } from '@mui/material';
 import { CustomToolbar } from './CustomToolbar';
-import { divide } from 'lodash';
 
 i18n.language !== 'en' && Array.from(languageOptions.map((l) => l.path)).includes(i18n.language) && require(`moment/locale/${i18n.language}.js`);
 

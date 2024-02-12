@@ -100,8 +100,6 @@ const UpdateBooking: React.FC<IProps> = (props) => {
         // Convert to UTC and format
         const utcString = momentObj.utc().format('YYYY-MM-DDTHH:mm:ss.SSS') + 'Z';
 
-        // alert('Selected date: ' + formik.values.selectedDate + '\nSelected timeFrom: ' + selectedStartTime);
-        //if (!isEqual(selectedTime, initialValues.timeFrom)) {
         updateBooking({
             startTime: utcString,
             bookingId: booking ? booking.id : '',

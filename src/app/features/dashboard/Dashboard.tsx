@@ -329,27 +329,11 @@ const Dashboard = () => {
         setGroupedUpcoming(groupedDashboardData);
         const todaySchedule = await getTodaySchedule().unwrap();
         setTodayScheduled(todaySchedule);
-        // const requests = await getRequests().unwrap();
-        // const groupedRequestData: IGroupedDashboardData = groupBy(requests, (e) => moment(e.startTime).format(t('DATE_FORMAT')));
-        // setGroupedRequests(groupedRequestData);
-        // const inRescheduleRequests = await getInReschedule().unwrap();
-        // const groupedInRescheduleRequestData: IGroupedDashboardData = groupBy(inRescheduleRequests, (e) =>
-        //     moment(e.startTime).format(t('DATE_FORMAT'))
-        // );
-        // setGroupedInRescheduleRequests(groupedInRescheduleRequestData);
-
         const requestedBookings = await getPendingBookings().unwrap();
         const groupedRequestedBookingsRequestData: IGroupedDashboardData = groupBy(requestedBookings, (e) =>
             moment(e.startTime).format(t('DATE_FORMAT'))
         );
         setGroupedPendingBookingsRequests(groupedRequestedBookingsRequestData);
-
-        if (!showIntro) {
-            // setGroupedRequests((prevGroupedRequests) => {
-            //     const { dateKey, ...restOfData } = prevGroupedRequests;
-            //     return restOfData;
-            // });
-        }
 
         let children = [];
         if (userRole === RoleOptions.Parent && userId !== undefined) {

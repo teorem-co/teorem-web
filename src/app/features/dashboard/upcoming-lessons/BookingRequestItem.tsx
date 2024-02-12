@@ -50,7 +50,6 @@ export const BookingRequestItem = (props: Props) => {
                     <div className={'flex flex--row flex--jc--center flex-gap-1 mt-2'}>
                         <div
                             onClick={() => {
-                                console.log('handleAccept');
                                 handleAccept(booking.id);
                             }}
                         >
@@ -58,7 +57,6 @@ export const BookingRequestItem = (props: Props) => {
                         </div>
                         <div
                             onClick={() => {
-                                console.log('handleDeny');
                                 handleDeny(booking.id);
                             }}
                         >
@@ -94,7 +92,6 @@ export const BookingRequestItem = (props: Props) => {
                     <div className={'flex flex--row flex--jc--end flex-gap-1'}>
                         <div
                             onClick={() => {
-                                console.log('handleAccept');
                                 handleAccept(booking.id);
                             }}
                         >
@@ -102,7 +99,6 @@ export const BookingRequestItem = (props: Props) => {
                         </div>
                         <div
                             onClick={() => {
-                                console.log('handleDeny');
                                 handleDeny(booking.id);
                             }}
                         >

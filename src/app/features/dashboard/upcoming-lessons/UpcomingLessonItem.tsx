@@ -259,17 +259,6 @@ export const UpcomingLessonItem = ({
                                 ))}
                             </Menu>
                         </div>
-                        {/*<div*/}
-                        {/*    className="flex flex--col flex--ai--center"*/}
-                        {/*    onClick={() => {*/}
-                        {/*        history.push({*/}
-                        {/*            pathname: t(PATHS.MY_BOOKINGS),*/}
-                        {/*            state: { value: new Date(startTime).toString() },*/}
-                        {/*        });*/}
-                        {/*    }}*/}
-                        {/*>*/}
-                        {/*    <i className="icon icon--base icon--chevron-right icon--primary"></i>*/}
-                        {/*</div>*/}
                     </div>
                 </div>
             )}
