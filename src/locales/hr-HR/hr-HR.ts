@@ -1415,5 +1415,6 @@ export const HR_HR = {
     },
     RESCHEDULE: {
         ACCEPT: 'Izmjena prihvaćena',
+        DENIED: 'Izmjena odbijena',
     },
 };

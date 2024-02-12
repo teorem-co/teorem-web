@@ -1412,5 +1412,6 @@ export const EN_US = {
     },
     RESCHEDULE: {
         ACCEPT: 'Modification accepted',
+        DENIED: 'Modification denied',
     },
 };
