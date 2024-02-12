@@ -376,7 +376,7 @@ const Dashboard = () => {
 
     const handleAcceptReschedule = async (id: string) => {
         await acceptReschedule(id);
-        toastService.success('RESCHEDULE.ACCEPTED');
+        toastService.success(t('RESCHEDULE.ACCEPT'));
         fetchData();
     };
 

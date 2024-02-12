@@ -1410,4 +1410,7 @@ export const EN_US = {
     CREDITS: {
         TITLE: 'Credits',
     },
+    RESCHEDULE: {
+        ACCEPT: 'Modification accepted',
+    },
 };

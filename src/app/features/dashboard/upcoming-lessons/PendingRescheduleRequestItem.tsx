@@ -18,7 +18,7 @@ export const PendingRescheduleRequestItem = (props: Props) => {
                 <div className=" dashboard__requests__item flex flex--col flex--jc--center flex--ai--center" key={booking.id}>
                     <div
                         data-tooltip-id={`accept-reschedule-${booking.id}`}
-                        data-tooltip-content={'Druga strana je zatrazila izmjenu. Imate još XXXX sati da prihvatite.'}
+                        // data-tooltip-content={'Druga strana je zatrazila izmjenu. Imate još XXXX sati da prihvatite.'}
                         data-tooltip-float
                         className={'dashboard-booking-request-parent-mobile'}
                     >
@@ -51,7 +51,7 @@ export const PendingRescheduleRequestItem = (props: Props) => {
                 <div className="dashboard__requests__item" key={booking.id}>
                     <div
                         data-tooltip-id={`pending-reschedule-${booking.id}`}
-                        data-tooltip-content={'Vaša izmjena je poslana, druga strana ima X sati da prihvati vašu izmjenu'}
+                        // data-tooltip-content={'Vaša izmjena je poslana, druga strana ima X sati da prihvati vašu izmjenu'}
                         data-tooltip-float
                         className={'dashboard-booking-request-parent'}
                     >
