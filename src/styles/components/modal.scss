@@ -321,3 +321,23 @@
     width: calc(100vw - 10px);
   }
 }
+
+.confirm-modal{
+  //width: 550px;
+  //height: 150px;
+
+  @media (max-width: $responsive-sm) {
+    width: 350px;
+    height: 150px;
+  }
+}
+
+.confirm-modal-button{
+  font-size: 14px;
+  padding: calc(#{$unit} * 3) calc(#{$unit} * 15);
+
+  @media (max-width: $responsive-sm) {
+    font-size: 14px;
+    padding: calc(#{$unit} * 3) calc(#{$unit} * 4.5);
+  }
+}

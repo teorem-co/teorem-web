@@ -461,6 +461,7 @@ export const HR_HR = {
             WHOLE_DAY: 'Čitav dan',
             SET_UNAVAILABILITY: 'Postavi nedostupnost',
             CANCEL: 'Otkaži',
+            CONFIRM_CANCEL_TITLE: 'Jeste li sigurni da želite otkazati rezervaciju?',
         },
         INFORMATION: {
             TITLE: 'INFORMACIJE O REZERVACIJAMA',
@@ -481,9 +482,29 @@ export const HR_HR = {
                 DESC: 'Možete otkazati rezervaciju u Vašem kalendaru klikom na rezervaciju i zatim na "Otkaži". Ako otkažete rezervaciju više od 24 sata unaprijed, dobit ćete puni povrat novca.',
             },
         },
+        RESCHEDULE: {
+            BUTTON: 'Novi termin',
+            MODAL: {
+                TITLE: 'Promjena termina',
+                DESCRIPTION:
+                    'Ako već niste, predlažemo da se dogovorite s drugom stranom o novom terminu i da budete sigurni da će prihvatiti novi termin.',
+            },
+        },
+        CANCEL: {
+            BUTTON: 'Otkaži',
+            MODAL: {
+                TITLE: 'Jeste li sigurni da želite otkazati termin?',
+                STUDENT_DESCRIPTION: 'Povrat novca možete dobiti u obliku creditsa na Teorem platformi. Više o tome pročitajte na "linku"',
+                TUTOR_DESCRIPTION:
+                    'U slučaju da otkazujete rezervaciju manje od 24h prije početka predavanja, biti ćete penalizirani tako što će se vaš profil manje prikazivati u pretrazi.',
+                CONFIRM: 'Otkaži predavanje',
+                DISMISS: 'Odustani',
+            },
+        },
     },
     BOOK: {
         TITLE: 'Rezervirajte termin',
+        RESCHEDULE_TITLE: 'Ažuriraj rezervaciju',
         FORM: {
             LEVEL: 'Razina',
             LEVEL_PLACEHOLDER: 'Odaberite razinu',
@@ -497,6 +518,14 @@ export const HR_HR = {
             UPDATE: 'Ažuriraj rezervaciju',
             CANCEL: 'Otkaži',
             TUTOR_DISABLED: 'Privremeno nedostupno',
+            CANCEL_BOOKING: 'Otkaži rezervaciju',
+            EDIT_OR_CANCEL_BOOKING: 'Izmijeni ili otkaži',
+            EDIT_OR_DENY_BOOKING: 'Izmijeni ili odbij',
+            DISMISS: 'Odustani',
+            DATE_OF_BOOKING: 'Datum',
+            TIME_OF_BOOKING: 'Vrijeme',
+            ALREADY_IN_RESCHEDULE: 'U procesu promjene termina',
+            USE_CREDITS: 'Iskoristi kredite',
         },
         JOIN: 'Pridruži se',
         JOIN_TOOLTIP: 'Sastanku se možete pridružiti najranije 5 minuta prije početka',
@@ -671,6 +700,7 @@ export const HR_HR = {
         },
         PROFILE_SETTINGS: {
             TITLE: 'Osobni podatci',
+            CREDITS: 'Krediti',
             DESCRIPTION: 'Izmijenite i ažurirajte svoje osobne podatke',
             FIRST_NAME: 'Ime*',
             FIRST_NAME_PLACEHOLDER: 'Unesite svoje ime',
@@ -732,6 +762,13 @@ export const HR_HR = {
         REQUESTS: {
             TITLE: 'ZAHTJEVI ZA PREDAVANJIMA',
             EMPTY: 'Nema novih zahtjeva',
+            RESCHEDULE: 'ZAHTJEVI ZA PROMJENU TERMINA',
+            STATUS: {
+                RESCHEDULE_REQUESTED: 'Izmjena',
+                RESCHEDULE_DO_ACTION: 'Izmjena',
+                NEW_BOOKING_REQUESTED: 'Čekanje potvrde',
+                NEW_BOOKING_DO_ACTION: 'Nova rezervacija',
+            },
         },
         SCHEDULE: {
             TITLE: 'DANAŠNJI RASPORED',
@@ -1372,5 +1409,8 @@ export const HR_HR = {
             COMPLETE: 'Završi',
             SKIP: 'Preskoči za sad',
         },
+    },
+    CREDITS: {
+        TITLE: 'Krediti',
     },
 };

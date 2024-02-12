@@ -463,6 +463,7 @@ export const EN_US = {
             WHOLE_DAY: 'Whole day',
             SET_UNAVAILABILITY: 'Set unavailability',
             CANCEL: 'Cancel',
+            CONFIRM_CANCEL_TITLE: 'Are you sure you want to cancel booking?',
         },
         INFORMATION: {
             TITLE: 'BOOKING INFORMATION',
@@ -483,9 +484,30 @@ export const EN_US = {
                 DESC: 'You can cancel a booking in your calendar by clicking on the booking and clicking "Cancel". If you cancel a booking 24 hours in advance, you will receive a full refund.',
             },
         },
+        RESCHEDULE: {
+            BUTTON: 'Reschedule',
+            MODAL: {
+                TITLE: 'Reschedule Appointment',
+                DESCRIPTION:
+                    "If you haven't already, we suggest reaching out to the other party to arrange a new date and ensure they will accept the new schedule.",
+            },
+        },
+        CANCEL: {
+            BUTTON: 'Cancel',
+            MODAL: {
+                TITLE: 'Are you sure you want to cancel the appointment?',
+                STUDENT_DESCRIPTION:
+                    'You can receive a refund in the form of credits on the Teorem platform. Learn more about it at the provided link.',
+                TUTOR_DESCRIPTION:
+                    'In the event of canceling a reservation less than 24 hours before the start of the lecture, you will be penalized by having your profile appear less frequently in search results.',
+                CONFIRM: 'Cancel Appointment',
+                DISMISS: 'Dismiss',
+            },
+        },
     },
     BOOK: {
         TITLE: 'Book a Slot',
+        RESCHEDULE_TITLE: 'Reschedule booking',
         FORM: {
             LEVEL: 'Level',
             LEVEL_PLACEHOLDER: 'Select Level',
@@ -499,6 +521,14 @@ export const EN_US = {
             UPDATE: 'Update booking',
             CANCEL: 'Cancel',
             TUTOR_DISABLED: 'Currently unavailable',
+            CANCEL_BOOKING: 'Cancel booking',
+            EDIT_OR_CANCEL_BOOKING: 'Edit or cancel',
+            EDIT_OR_DENY_BOOKING: 'Edit or deny',
+            DISMISS: 'Dismiss',
+            DATE_OF_BOOKING: 'Date of booking',
+            TIME_OF_BOOKING: 'Time',
+            ALREADY_IN_RESCHEDULE: 'Booking already in reschedule',
+            USE_CREDITS: 'Use credits',
         },
         JOIN: 'Join',
         JOIN_TOOLTIP: 'You can join the meeting 5 minutes before the start',
@@ -673,6 +703,7 @@ export const EN_US = {
         },
         PROFILE_SETTINGS: {
             TITLE: 'Personal Information',
+            CREDITS: 'Credits',
             DESCRIPTION: 'Edit and update your personal information',
             FIRST_NAME: 'First Name*',
             FIRST_NAME_PLACEHOLDER: 'Enter your first name',
@@ -734,6 +765,13 @@ export const EN_US = {
         REQUESTS: {
             TITLE: 'LESSON REQUESTS',
             EMPTY: 'No new requests',
+            RESCHEDULE: 'RESCHEDULE REQUESTS',
+            STATUS: {
+                RESCHEDULE_REQUESTED: 'Modification',
+                RESCHEDULE_DO_ACTION: 'Modification',
+                NEW_BOOKING_REQUESTED: 'Waiting for confirmation',
+                NEW_BOOKING_DO_ACTION: 'New booking',
+            },
         },
         SCHEDULE: {
             TITLE: 'TODAY`S SCHEDULE',
@@ -1368,5 +1406,8 @@ export const EN_US = {
             COMPLETE: 'Complete',
             SKIP: 'Skip for now',
         },
+    },
+    CREDITS: {
+        TITLE: 'Credits',
     },
 };
