@@ -383,7 +383,7 @@ const Dashboard = () => {
     const handleDenyReschedule = async (id: string) => {
         await denyReschedule(id);
 
-        toastService.success('RESCHEDULE.DENIED');
+        toastService.success(t('RESCHEDULE.DENIED'));
         fetchData();
     };
 

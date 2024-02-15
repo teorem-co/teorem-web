@@ -3,6 +3,7 @@ import moment from 'moment/moment';
 import React, { useState } from 'react';
 import IBooking from '../../my-bookings/interfaces/IBooking';
 import UpdateBooking from '../../my-bookings/components/UpdateBooking';
+import { Tooltip } from 'react-tooltip';
 
 interface Props {
     booking: IBooking;
@@ -21,13 +22,20 @@ export const BookingRequestItem = (props: Props) => {
         setShowDateSelectModal(true);
     }
 
+    const tooltipMessage = `Imate još ${getTimeLeft()} h da prihvatite rezervaciju`;
+
+    function getTimeLeft(): string {
+        const time = moment.duration(moment(booking.createdAt).add(1, 'day').diff(moment())).hours();
+        return '<' + (time + 1);
+    }
+
     return (
         <>
             {isMobile ? (
                 <div className=" dashboard__requests__item flex flex--col flex--jc--center flex--ai--center" key={booking.id}>
                     <div
-                        data-tooltip-id={`accept-reschedule-${booking.id}`}
-                        // data-tooltip-content={'Druga strana je zatrazila izmjenu. Imate još XXXX sati da prihvatite.'}
+                        data-tooltip-id={`new-booking-${booking.id}`}
+                        data-tooltip-content={tooltipMessage}
                         data-tooltip-float
                         className={'dashboard-booking-request-parent-mobile'}
                     >
@@ -43,7 +51,7 @@ export const BookingRequestItem = (props: Props) => {
                         <div className={'mb-2'}>{t(`LEVELS.${booking.Level.abrv.toLowerCase().replace('-', '')}`)}</div>
 
                         <div>
-                            {date} @&nbsp;
+                            {date}&nbsp;@&nbsp;
                             {moment(booking.startTime).format('HH:mm')} - {moment(booking.endTime).add(1, 'minute').format('HH:mm')}
                         </div>
                     </div>
@@ -72,7 +80,13 @@ export const BookingRequestItem = (props: Props) => {
                     </div>
                 </div>
             ) : (
-                <div className="dashboard__requests__item tutor-intro-1" key={booking.id}>
+                <div
+                    className="dashboard__requests__item tutor-intro-1"
+                    key={booking.id}
+                    data-tooltip-id={`new-booking-${booking.id}`}
+                    data-tooltip-content={tooltipMessage}
+                    data-tooltip-float
+                >
                     <div className={'dashboard-booking-request-parent'}>
                         <div>
                             <span className="tag tag--success">{t('DASHBOARD.REQUESTS.STATUS.NEW_BOOKING_DO_ACTION')}</span>
@@ -114,6 +128,7 @@ export const BookingRequestItem = (props: Props) => {
                     </div>
                 </div>
             )}
+            <Tooltip id={`new-booking-${booking.id}`} place="right-end" />
 
             {showDateSelectModal && booking && (
                 <div className="modal__overlay">

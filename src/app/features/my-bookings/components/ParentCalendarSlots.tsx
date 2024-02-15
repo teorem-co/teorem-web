@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 
 import { useGetTutorSubjectLevelPairsQuery } from '../../../../services/subjectService';
-import { useLazyGetChildQuery, useLazyGetUserQuery } from '../../../../services/userService';
+import { useLazyGetChildQuery, useLazyGetCreditsQuery, useLazyGetUserQuery } from '../../../../services/userService';
 import { RoleOptions } from '../../../../slices/roleSlice';
 import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import MyTimePicker from '../../../components/form/MyTimePicker';
@@ -22,6 +22,7 @@ import { addStripeId } from '../../../../slices/authSlice';
 import { useDispatch } from 'react-redux';
 import { BookingPopupForm } from '../../../components/BookingPopupForm';
 import { IBookingChatMessageInfo } from '../../tutor-bookings/TutorBookings';
+import { setCredits } from '../../../../slices/creditsSlice';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY!);
 
@@ -68,7 +69,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
         subject: '',
         child: '',
         timeFrom: moment(start).format('HH:mm'),
-        useCredits: false,
+        useCredits: true,
     });
 
     const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
@@ -273,8 +274,41 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
         formik.setFieldValue('timeFrom', moment(start).format('HH:mm'));
     }, [start]);
 
+    const [cost, setCost] = useState<number | undefined>(undefined);
+    useEffect(() => {
+        if (formik.values.level && formik.values.subject) {
+            const cost = subjectLevelPairs?.find(
+                (pair) => pair.level.value === formik.values.level && pair.subject.value === formik.values.subject
+            )?.cost;
+
+            setCost(cost);
+        }
+    }, [formik.values.subject]);
     const isMobile = window.innerWidth < 776;
     const mobileStyles = isMobile ? { top: `${topOffset}px` } : {};
+
+    const [getCredits] = useLazyGetCreditsQuery();
+    const [userCredits, setUserCredits] = useState<number | undefined>(undefined);
+
+    useEffect(() => {
+        const res = getCredits().unwrap();
+
+        res.then((res) => {
+            dispatch(setCredits(res.credits));
+            setUserCredits(res.credits);
+        });
+    }, []);
+
+    function calculateTotalCost(cost: number) {
+        if (!formik.values.useCredits) {
+            return cost;
+        }
+
+        if (userCredits == undefined) return cost;
+
+        const totalCost = cost - userCredits;
+        return totalCost < 0 ? 0 : totalCost;
+    }
 
     return (
         <div style={mobileStyles} className={`modal--parent modal--parent--${isMobile ? '' : positionClass}`}>
@@ -318,6 +352,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                                 isMulti={false}
                                 options={tutorLevelOptions ? tutorLevelOptions : []}
                                 placeholder={t('BOOK.FORM.LEVEL_PLACEHOLDER')}
+                                isDisabled={isCreateBookingLoading}
                             />
                         </div>
                         <div className="field">
@@ -334,6 +369,8 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                                 classNamePrefix="onboarding-select"
                                 noOptionsMessage={() => t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')}
                                 placeholder={t('SEARCH_TUTORS.PLACEHOLDER.SUBJECT')}
+                                isDisabled={isCreateBookingLoading}
+                                //|| !formik.values.level} include it later
                             />
                         </div>
                         {userRole === RoleOptions.Parent ? (
@@ -351,6 +388,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                                     options={childOptions ? childOptions : []}
                                     noOptionsMessage={() => 'childless'}
                                     placeholder={t('BOOK.FORM.CHILD_PLACEHOLDER')}
+                                    isDisabled={isCreateBookingLoading}
                                 />
                             </div>
                         ) : (
@@ -369,6 +407,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                                         defaultValue={moment(formik.values.timeFrom, 'HH:mm')}
                                         onChangeCustom={(e) => handleChange(moment(e, 'HH:mm').format('HH:mm'))}
                                         key={formik.values.timeFrom}
+                                        isDisabled={isCreateBookingLoading}
                                     />
                                 </div>
                                 <div className="field w--100">
@@ -383,19 +422,65 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="flex flex--row flex--jc--center flex--ai--center mb-4">
-                            <input
-                                className={'mr-2'}
-                                type="checkbox"
-                                id="useCredits"
-                                name="useCredits"
-                                onChange={formik.handleChange}
-                                checked={formik.values.useCredits}
-                            />
-                            <label htmlFor="useCredits" className={'type--color--brand'}>
-                                {t('BOOK.FORM.USE_CREDITS')}
-                            </label>
-                        </div>
+
+                        {formik.values.level && formik.values.subject && cost && (
+                            <div>
+                                <div className="checkout-component mb-2">
+                                    <div className="price-row">
+                                        <span>{t('CHECKOUT.PRICE')}</span>
+                                        <span>{cost} &euro;</span>
+                                    </div>
+                                    {formik.values.useCredits && cost && userCredits != undefined ? (
+                                        <div className="discount-row">
+                                            <span>{t('CHECKOUT.DISCOUNT')}</span>
+                                            <span>&minus;&nbsp;{userCredits > cost ? cost : userCredits} &euro;</span>
+                                        </div>
+                                    ) : (
+                                        <></>
+                                    )}
+
+                                    <div className="separator-line"></div>
+                                    <div className="total-row">
+                                        <span>{t('CHECKOUT.TOTAL')}</span>
+                                        {cost && <span>{calculateTotalCost(cost)} &euro;</span>}
+                                    </div>
+                                    <div
+                                        className="credits-row"
+                                        style={{
+                                            marginBottom: 0,
+                                            marginTop: '20px',
+                                        }}
+                                    >
+                                        <span>{t('CHECKOUT.AVAILABLE_CREDITS')}</span>
+                                        <span>{userCredits} &euro;</span>
+                                    </div>
+
+                                    {formik.values.useCredits && userCredits && cost ? (
+                                        <div className="credits-row" style={{ marginBottom: 0 }}>
+                                            <span>{t('CHECKOUT.NEW_CREDITS_BALANCE')}</span>
+                                            <span>{userCredits - cost > 0 ? userCredits - cost : 0} &euro;</span>
+                                        </div>
+                                    ) : (
+                                        <></>
+                                    )}
+                                    <div style={{ justifyContent: 'flex-start', marginBottom: 0 }} className="flex flex--row flex--ai--center mt-4">
+                                        <input
+                                            disabled={isCreateBookingLoading}
+                                            className={'mr-2'}
+                                            type="checkbox"
+                                            id="useCredits"
+                                            name="useCredits"
+                                            onChange={formik.handleChange}
+                                            checked={formik.values.useCredits}
+                                        />
+                                        <label htmlFor="useCredits" className={'type--color--brand'}>
+                                            {t('BOOK.FORM.USE_CREDITS')}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                        {/*)}*/}
                     </Form>
                 </FormikProvider>
             </div>
@@ -413,7 +498,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                         data-tooltip-id="bookAndPayButton"
                         data-tooltip-html={`${t('BOOK.FORM.TUTOR_DISABLED')}`}
                         disabled={tutorDisabled}
-                        className="btn btn--base btn--primary type--wgt--extra-bold mb-1"
+                        className="btn btn--base btn--primary type--wgt--extra-bold mb-1 mt-1"
                         onClick={() => handleSubmitForm()}
                     >
                         {tutorDisabled ? t('BOOK.FORM.TUTOR_DISABLED') : stripeCustomerId ? t('BOOK.FORM.SUBMIT') : t('BOOK.FORM.ADD_CARD')}

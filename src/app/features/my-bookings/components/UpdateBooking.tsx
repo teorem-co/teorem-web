@@ -37,6 +37,7 @@ interface IProps {
     booking: IBooking | null;
     tutorId: string;
     topOffset?: number;
+    fetchDataInParent?: () => void;
 }
 
 interface Values {
@@ -48,7 +49,7 @@ interface Values {
 }
 
 const UpdateBooking: React.FC<IProps> = (props) => {
-    const { topOffset, start, end, handleClose, positionClass, setSidebarOpen, clearEmptyBookings, booking } = props;
+    const { topOffset, start, end, handleClose, positionClass, setSidebarOpen, clearEmptyBookings, booking, fetchDataInParent } = props;
 
     const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
     const userId = useAppSelector((state) => state.auth.user?.id);
@@ -122,6 +123,12 @@ const UpdateBooking: React.FC<IProps> = (props) => {
 
     useEffect(() => {
         if (updateBookingSuccess) {
+            console.log('OUTSIDE FETCHUNG');
+            if (fetchDataInParent) {
+                console.log('Inside FETCHUNG');
+
+                fetchDataInParent();
+            }
             toastService.success('Rezervacija ažurirana');
             handleClose ? handleClose(false) : false;
         }

@@ -214,23 +214,36 @@ const MyBookings: React.FC = (props: any) => {
                 return (
                     <>
                         {/*TODO: do calculation when can tutor delete booking*/}
-                        <div className={`event event--pending ${moment(event.event.end).isBefore(moment()) ? 'event-passed' : ''}`}>
+                        <div
+                            className={`event event--pending
+                        ${event.event.inReschedule && moment(event.event.end).isAfter(moment()) ? 'event-in-reschedule' : ''}
+                        ${moment(event.event.end).isBefore(moment()) ? 'event-passed' : ''}`}
+                        >
                             <div className="type--wgt--bold">{event.event.label}</div>
                         </div>
                     </>
                 );
             }
         } else {
-            if (event.event.isAccepted === false) {
+            if (event.event.isAccepted) {
                 // TODO: do calculation when can student delete booking
+
                 return (
-                    <div className={`event ${moment(event.event.end).isBefore(moment()) ? 'event-passed' : ''}`}>
+                    <div
+                        className={`event event--pending ${
+                            event.event.inReschedule && moment(event.event.end).isAfter(moment()) ? 'event-in-reschedule' : ''
+                        } ${moment(event.event.end).isBefore(moment()) ? 'event-passed' : ''}`}
+                    >
                         <div className="type--wgt--bold">{event.event.label}</div>
                     </div>
                 );
             } else {
                 return (
-                    <div className={`event event--pending ${moment(event.event.end).isBefore(moment()) ? 'event-passed' : ''}`}>
+                    <div
+                        className={`event
+                        ${event.event.inReschedule && moment(event.event.end).isAfter(moment()) ? 'event-in-reschedule' : ''}
+                        ${moment(event.event.end).isBefore(moment()) ? 'event-passed' : ''}`}
+                    >
                         <div className="type--wgt--bold">{event.event.label}</div>
                     </div>
                 );
@@ -368,7 +381,13 @@ const MyBookings: React.FC = (props: any) => {
     };
 
     const fetchData = async () => {
+        console.log('OUTSIDE');
         if (userId) {
+            console.log('INSIDE');
+            getBookings({
+                dateFrom: moment(value).startOf('isoWeek').toISOString(),
+                dateTo: moment(value).endOf('isoWeek').toISOString(),
+            });
             await getUpcomingLessons(userId).unwrap();
             if (userRole === RoleOptions.Tutor) {
                 await getTutorUnavailableBookings({
@@ -514,6 +533,7 @@ const MyBookings: React.FC = (props: any) => {
                                 positionClass={calcModalPosition(positionClass)}
                                 tutorId={booking?.tutorId}
                                 topOffset={scrollTopOffset}
+                                fetchDataInParent={fetchData}
                             />
                         ) : (
                             <></>
@@ -555,6 +575,7 @@ const MyBookings: React.FC = (props: any) => {
                                 positionClass={calcModalPosition(positionClass)}
                                 tutorId={booking?.tutorId}
                                 topOffset={scrollTopOffset}
+                                fetchDataInParent={fetchData}
                             />
                         ) : (
                             <></>
