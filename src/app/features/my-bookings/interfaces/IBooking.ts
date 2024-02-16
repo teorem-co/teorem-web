@@ -22,4 +22,5 @@ export default interface IBooking {
     suggestedStartTime?: string;
     suggestedEndTime?: string;
     createdAt?: string;
+    cost?: number;
 }

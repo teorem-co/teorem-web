@@ -42,8 +42,6 @@ const Navbar = () => {
         textCopiedToClipboard && setTimeout(() => setTextCopiedToClipboard(false), 800);
     }, [textCopiedToClipboard]);
 
-    // console.log(user);
-
     const [getUser, { isLoading: isLoadingUser, isUninitialized: userUninitialized, isFetching: userFetching }] = useLazyGetUserQuery();
     const [profileImageURL, setProfileImageURL] = useState(user?.profileImage);
     const cacheBuster = Date.now();

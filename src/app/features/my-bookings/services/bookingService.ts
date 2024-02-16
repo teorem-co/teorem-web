@@ -15,6 +15,7 @@ interface IBookingTransformed {
     allDay: boolean;
     tutor?: string;
     isAccepted?: boolean;
+    inReschedule?: boolean;
 }
 
 interface IDateRange {
@@ -79,6 +80,7 @@ export const bookingService = baseService.injectEndpoints({
                         start: new Date(x.startTime),
                         end: new Date(x.endTime),
                         isAccepted: x.isAccepted,
+                        inReschedule: x.inReschedule,
                         allDay: false,
                     };
                 });

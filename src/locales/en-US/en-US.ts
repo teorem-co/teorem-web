@@ -1414,4 +1414,11 @@ export const EN_US = {
         ACCEPT: 'Modification accepted',
         DENIED: 'Modification denied',
     },
+    CHECKOUT: {
+        PRICE: 'Price:',
+        DISCOUNT: 'Discount:',
+        TOTAL: 'Total:',
+        AVAILABLE_CREDITS: 'Available credits:',
+        NEW_CREDITS_BALANCE: 'New credits balance:',
+    },
 };
