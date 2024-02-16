@@ -133,7 +133,6 @@ export const tutorService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
             transformResponse: (response: IBooking[]) => {
-                console.log('UNUTRA SAM JA');
                 const userRole = getUserRoleAbbrv();
                 const bookings: IBookingTransformed[] = response.map((x) => {
                     if (userRole === RoleOptions.Parent) {

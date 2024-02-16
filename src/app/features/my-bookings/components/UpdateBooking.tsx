@@ -123,10 +123,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
 
     useEffect(() => {
         if (updateBookingSuccess) {
-            console.log('OUTSIDE FETCHUNG');
             if (fetchDataInParent) {
-                console.log('Inside FETCHUNG');
-
                 fetchDataInParent();
             }
             toastService.success('Rezervacija ažurirana');

@@ -322,7 +322,6 @@ const Dashboard = () => {
     };
 
     const fetchData = async () => {
-        console.log('Fetching data...');
         await getUnreadNotifications(params).unwrap();
         const upcoming = await getUpcoming().unwrap();
         const groupedDashboardData: IGroupedDashboardData = groupBy(upcoming, (e) => moment(e.startTime).format(t('DATE_FORMAT')));

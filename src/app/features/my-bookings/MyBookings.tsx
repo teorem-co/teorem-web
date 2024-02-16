@@ -381,9 +381,7 @@ const MyBookings: React.FC = (props: any) => {
     };
 
     const fetchData = async () => {
-        console.log('OUTSIDE');
         if (userId) {
-            console.log('INSIDE');
             getBookings({
                 dateFrom: moment(value).startOf('isoWeek').toISOString(),
                 dateTo: moment(value).endOf('isoWeek').toISOString(),

@@ -596,7 +596,6 @@ const TutorBookings = () => {
     }, [calChange]);
 
     useEffect(() => {
-        console.log('value or tutorId changed');
         if (tutorId) {
             getTutorBookings({
                 dateFrom: moment(value).startOf('isoWeek').toISOString(),
