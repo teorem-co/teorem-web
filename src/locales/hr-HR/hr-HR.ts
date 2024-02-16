@@ -1417,4 +1417,11 @@ export const HR_HR = {
         ACCEPT: 'Izmjena prihvaćena',
         DENIED: 'Izmjena odbijena',
     },
+    CHECKOUT: {
+        PRICE: 'Cijena:',
+        DISCOUNT: 'Popust:',
+        TOTAL: 'Ukupno za platiti:',
+        AVAILABLE_CREDITS: 'Dostupni krediti:',
+        NEW_CREDITS_BALANCE: 'Novo stanje kredita:',
+    },
 };
