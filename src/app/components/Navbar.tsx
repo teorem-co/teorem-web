@@ -13,6 +13,7 @@ import { LANDING_PATHS, PATHS, PROFILE_PATHS, RenderMenuLinks } from '../routes'
 import { persistor } from '../store';
 import ImageCircle from './ImageCircle';
 import { useLazyGetUserQuery } from '../../services/userService';
+import { StripeDocumentUpload } from './StripeDocumentUpload';
 
 const Navbar = () => {
     const dispatch = useAppDispatch();
@@ -24,7 +25,7 @@ const Navbar = () => {
         dispatch({ type: 'USER_LOGOUT' });
     };
 
-    const landingHostName = process.env.REACT_APP_LANDING_HOSTNAME || 'https://www.teorem.co';
+    const landingHostName = process.env.REACT_APP_LANDING_HOSTNAME || 'https://www.teorem.co'; // todo:
     const user = useAppSelector((state) => state.auth?.user);
 
     const [getTutorProfileData] = useLazyGetTutorByIdQuery();
@@ -33,6 +34,7 @@ const Navbar = () => {
     const shareProfile = async () => {
         const tutorSlug = (await getTutorProfileData(user?.id || '').unwrap()).slug;
         navigator.clipboard.writeText('https://app.teorem.co' + t('PATHS.SEARCH_TUTORS_TUTOR_PROFILE').replace(':tutorSlug', tutorSlug));
+        //todo: aproptiate domain
         setTextCopiedToClipboard(true);
     };
 
@@ -61,6 +63,8 @@ const Navbar = () => {
     return (
         <div className="navbar">
             <div>
+                <StripeDocumentUpload />
+
                 <NavLink
                     className="d--b"
                     to={`${

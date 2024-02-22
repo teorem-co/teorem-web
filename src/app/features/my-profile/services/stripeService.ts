@@ -10,29 +10,34 @@ import IStripeConnectAccount from '../interfaces/IStripeConnectAccount';
 const URL = 'api/v1/stripe';
 
 interface IStripeConnectCompanyAccount {
-  refreshUrl?: string;
-  returnUrl?: string;
-  userId: string;
-  IBAN?: string;
-  IBANConfirm?: string;
-  addressLine1?: string;
-  addressLine2?: string;
-  city?: string;
-  country?: string;
-  postalCode?: string;
-  name: string;
-  PIN: string;
-  accountType:string;
+    refreshUrl?: string;
+    returnUrl?: string;
+    userId: string;
+    IBAN?: string;
+    IBANConfirm?: string;
+    addressLine1?: string;
+    addressLine2?: string;
+    city?: string;
+    country?: string;
+    postalCode?: string;
+    name: string;
+    PIN: string;
+    accountType: string;
+}
+
+export interface IVerificationDocument {
+    front: File;
+    back: File;
 }
 
 export const stripeService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         connectCompanyAccount: builder.mutation<string, IStripeConnectCompanyAccount>({
-          query: (body) => ({
-            url: `${URL}/connect-account/${body.userId}`,
-            method: HttpMethods.POST,
-            body: body,
-          })
+            query: (body) => ({
+                url: `${URL}/connect-account/${body.userId}`,
+                method: HttpMethods.POST,
+                body: body,
+            }),
         }),
         connectAccount: builder.mutation<string, IStripeConnectAccount>({
             query: (body) => ({
@@ -55,10 +60,10 @@ export const stripeService = baseService.injectEndpoints({
             }),
         }),
         addPaymentIntent: builder.mutation<string, string>({
-          query: (userId) => ({
-            url: `${URL}/create-payment-intent/${userId}`,
-            method: HttpMethods.POST,
-          }),
+            query: (userId) => ({
+                url: `${URL}/create-payment-intent/${userId}`,
+                method: HttpMethods.POST,
+            }),
         }),
         getCreditCards: builder.query<IGetCreditCards, string>({
             query: (userId) => ({
@@ -81,11 +86,30 @@ export const stripeService = baseService.injectEndpoints({
                 },
             }),
         }),
+        createVerificationSession: builder.mutation<string, void>({
+            query: () => ({
+                url: `${URL}/create-verification-session`,
+                method: HttpMethods.POST,
+            }),
+        }),
+        uploadVerificationDocument: builder.mutation<string, IVerificationDocument>({
+            query: (document) => {
+                const formData = new FormData();
+                formData.append('front', document.front);
+                formData.append('back', document.back);
+
+                return {
+                    url: `${URL}/upload-verification-document`,
+                    method: HttpMethods.POST,
+                    body: formData,
+                };
+            },
+        }),
     }),
 });
 
 export const {
-  useConnectCompanyAccountMutation,
+    useConnectCompanyAccountMutation,
     useConnectAccountMutation,
     useAddCustomerMutation,
     useAddPaymentIntentMutation,
@@ -93,4 +117,6 @@ export const {
     useSetDefaultCreditCardMutation,
     useRemoveCreditCardMutation,
     useLazyGetCustomerByIdQuery,
+    useCreateVerificationSessionMutation,
+    useUploadVerificationDocumentMutation,
 } = stripeService;
