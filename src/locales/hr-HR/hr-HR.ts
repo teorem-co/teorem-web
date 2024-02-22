@@ -379,6 +379,7 @@ export const HR_HR = {
             USERNAME: 'Korisničko ime*',
             EMAIL_CONFLICT: 'Email se već koristi',
             TERMS_AND_CONDITIONS:
+                // todo set to teore.hr
                 '<div>Slažem se s <a href="https://teorem.co/en/terms" target="_blank">Uvjetima pružanja usluge</a> i <a href="https://teorem.co/hr/pravila-privatnosti" target="_blank">Politikom privatnosti</a></div>',
             SELECT_ROLE_TITLE: 'Jeste li <span class=primary-color>roditelj</span> ili <span class=primary-color>učenik</span>?',
             CHOOSE_SUBJECTS_TIP: 'Kasnije možete odabrati više predmeta',
@@ -934,7 +935,7 @@ export const HR_HR = {
             APP_NAME: 'Teorem Ltd',
             ADDRESS: '',
             MOBILE: '',
-            EMAIL: 'info@teorem.co',
+            EMAIL: 'info@teorem.co', //TODO: change domain
             LEGAL: {
                 TITLE: 'O Teoremu',
                 LEGAL: 'Uvjeti korištenja',

@@ -937,7 +937,7 @@ export const EN_US = {
             APP_NAME: 'Teorem Ltd',
             ADDRESS: '',
             MOBILE: '',
-            EMAIL: 'info@teorem.co',
+            EMAIL: 'info@teorem.co', // TODO: change domain
             LEGAL: {
                 TITLE: 'About Teorem',
                 LEGAL: 'Terms & Conditions',
