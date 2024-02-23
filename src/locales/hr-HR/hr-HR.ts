@@ -934,7 +934,7 @@ export const HR_HR = {
             APP_NAME: 'Teorem Ltd',
             ADDRESS: '',
             MOBILE: '',
-            EMAIL: 'info@teorem.co', //TODO: change domain
+            EMAIL: 'info@teorem.co',
             LEGAL: {
                 TITLE: 'O Teoremu',
                 LEGAL: 'Uvjeti korištenja',

@@ -34,7 +34,7 @@ const Navbar = () => {
             return 'https://www.teorem' + domain;
         } else {
             // If dot is not found, return localhost, because it is probably localhost
-            return 'http://localhost:8080';
+            return 'http://localhost:3000';
         }
     }
 
@@ -46,7 +46,7 @@ const Navbar = () => {
             return 'https://www.app.teorem' + domain;
         } else {
             // If dot is not found, return localhost, because it is probably localhost??
-            return 'http://localhost:8080';
+            return 'http://localhost:3000';
         }
     }
 

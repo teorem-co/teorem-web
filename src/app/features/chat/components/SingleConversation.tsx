@@ -593,11 +593,6 @@ const SingleConversation = (props: Props) => {
                                                             )}
                                                         </div>
                                                     )}
-                                                    {/*dangerouslySetInnerHTML={{*/}
-                                                    {/*    __html:*/}
-                                                    {/*        (message.message.isFile ? '<i class="icon--attachment chat-file-icon" ></i>' : '') +*/}
-                                                    {/*        messageText,*/}
-                                                    {/*}}*/}
                                                 </div>
                                             </div>
                                         </div>
@@ -690,16 +685,6 @@ const SingleConversation = (props: Props) => {
                 <div style={{ marginTop: 80 }} ref={messagesEndRef} />
             </div>
             {props.data && <SendMessageForm data={props.data} scrollOnSend={scrollToBottomSmooth} />}
-
-            {/*<div*/}
-            {/*    className={`chat__overlay__free__consultation ${freeConsultationClicked ? '' : 'chat-overlay-disabled'}`}*/}
-            {/*    onClick={(event: any) => {*/}
-            {/*        event.preventDefault();*/}
-            {/*        event.stopPropagation();*/}
-            {/*    }}*/}
-            {/*>*/}
-            {/*    <VideoPlayerModal videoChatActivated={freeConsultationClicked} callId={props.data?.user?.userId + "-" + props.data?.tutor?.userId} />*/}
-            {/*</div>*/}
         </div>
     );
 };
