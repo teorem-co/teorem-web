@@ -38,18 +38,6 @@ const Navbar = () => {
         }
     }
 
-    function getAppHostName() {
-        const hostname = window.location.hostname;
-        const lastIndex = hostname.lastIndexOf('.');
-        if (lastIndex !== -1) {
-            const domain = hostname.substring(lastIndex); //.co, .hr etc
-            return 'https://www.app.teorem' + domain;
-        } else {
-            // If dot is not found, return localhost, because it is probably localhost??
-            return 'http://localhost:3000';
-        }
-    }
-
     const user = useAppSelector((state) => state.auth?.user);
 
     const [getTutorProfileData] = useLazyGetTutorByIdQuery();
@@ -57,7 +45,7 @@ const Navbar = () => {
     const [textCopiedToClipboard, setTextCopiedToClipboard] = useState<boolean>(false);
     const shareProfile = async () => {
         const tutorSlug = (await getTutorProfileData(user?.id || '').unwrap()).slug;
-        navigator.clipboard.writeText(getAppHostName() + t('PATHS.SEARCH_TUTORS_TUTOR_PROFILE').replace(':tutorSlug', tutorSlug));
+        navigator.clipboard.writeText(window.location.hostname + t('PATHS.SEARCH_TUTORS_TUTOR_PROFILE').replace(':tutorSlug', tutorSlug));
         setTextCopiedToClipboard(true);
     };
 
