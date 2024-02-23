@@ -24,20 +24,16 @@ const Navbar = () => {
         dispatch({ type: 'USER_LOGOUT' });
     };
 
-    // const landingHostName = process.env.REACT_APP_LANDING_HOSTNAME || 'https://www.teorem.co';
-
-    const landingHostName = process.env.REACT_APP_LANDING_HOSTNAME || getLandingHostName(); // this gethostname doesn't really do anything useful rn
-    // for each environment we have different REACT_APP_HOSTNAME
-    // maybe remove hostname from prod.env so getHostName() will trigger?
+    const landingHostName = process.env.REACT_APP_LANDING_HOSTNAME || getLandingHostName();
 
     function getLandingHostName() {
         const hostname = window.location.hostname;
         const lastIndex = hostname.lastIndexOf('.');
-        const domain = hostname.substring(lastIndex); //.co, .hr etc
         if (lastIndex !== -1) {
+            const domain = hostname.substring(lastIndex); //.co, .hr etc
             return 'https://www.teorem' + domain;
         } else {
-            // If dot is not found, return localhost, because it is probably localhost??
+            // If dot is not found, return localhost, because it is probably localhost
             return 'http://localhost:8080';
         }
     }
@@ -45,8 +41,8 @@ const Navbar = () => {
     function getAppHostName() {
         const hostname = window.location.hostname;
         const lastIndex = hostname.lastIndexOf('.');
-        const domain = hostname.substring(lastIndex); //.co, .hr etc
         if (lastIndex !== -1) {
+            const domain = hostname.substring(lastIndex); //.co, .hr etc
             return 'https://www.app.teorem' + domain;
         } else {
             // If dot is not found, return localhost, because it is probably localhost??
@@ -61,7 +57,7 @@ const Navbar = () => {
     const [textCopiedToClipboard, setTextCopiedToClipboard] = useState<boolean>(false);
     const shareProfile = async () => {
         const tutorSlug = (await getTutorProfileData(user?.id || '').unwrap()).slug;
-        navigator.clipboard.writeText(getAppHostName() + t('PATHS.SEARCH_TUTORS_TUTOR_PROFILE').replace(':tutorSlug', tutorSlug)); // TODO: change domain based on current hostname
+        navigator.clipboard.writeText(getAppHostName() + t('PATHS.SEARCH_TUTORS_TUTOR_PROFILE').replace(':tutorSlug', tutorSlug));
         setTextCopiedToClipboard(true);
     };
 

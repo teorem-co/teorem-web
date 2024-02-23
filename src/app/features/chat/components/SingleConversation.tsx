@@ -165,7 +165,7 @@ const SingleConversation = (props: Props) => {
             const chatRoom: IChatRoom = {
                 user: {
                     userId: user2Data?.id + '',
-                    userImage: 'teorem.co:3000/profile/images/profilePictureDefault.jpg', // TODO: link not really important
+                    userImage: 'teorem.co:3000/profile/images/profilePictureDefault.jpg',
                     userNickname: user2Data?.firstName + ' ' + user2Data?.lastName,
                 },
                 tutor: {
