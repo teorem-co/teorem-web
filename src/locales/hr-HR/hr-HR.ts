@@ -379,7 +379,7 @@ export const HR_HR = {
             USERNAME: 'Korisničko ime*',
             EMAIL_CONFLICT: 'Email se već koristi',
             TERMS_AND_CONDITIONS:
-                '<div>Slažem se s <a href="https://teorem.hr/hr/uvjeti-koristenja" target="_blank">Uvjetima pružanja usluge</a> i <a href="https://teorem.hr/hr/pravila-privatnosti" target="_blank">Politikom privatnosti</a></div>',
+                '<div>Slažem se s <a href="https://teorem.hr/hr/uvjeti-koristenja" target="_blank">Uvjetima pružanja usluge</a> i <a href="https://teorem.hr/hr/politika-privatnosti" target="_blank">Politikom privatnosti</a></div>',
             SELECT_ROLE_TITLE: 'Jeste li <span class=primary-color>roditelj</span> ili <span class=primary-color>učenik</span>?',
             CHOOSE_SUBJECTS_TIP: 'Kasnije možete odabrati više predmeta',
             LOAD_MORE_SUBJECTS: 'Učitaj više predmeta...',
@@ -1289,7 +1289,7 @@ export const HR_HR = {
         NOTIFICATIONS: '/hr/glavna-ploca/obavijesti',
         EARNINGS: '/hr/prihod',
         TERMS: '/hr/uvjeti-koristenja',
-        PRIVACY: '/hr/pravila-privatnosti',
+        PRIVACY: '/hr/politika-privatnosti',
         TUTOR_MANAGMENT: '/hr/upravljanje-instruktorima',
         TUTOR_MANAGMENT_TUTOR_PROFILE: '/hr/upravljanje-instruktorima/profil/:tutorSlug',
         LANDING_PATHS: {
@@ -1297,7 +1297,7 @@ export const HR_HR = {
             BECOME_TUTOR: '/hr/postani-instruktor',
             PRICING: '/hr/cijene',
             TERMS: '/hr/uvjeti-koristenja',
-            PRIVACY: '/hr/pravila-privatnosti',
+            PRIVACY: '/hr/politika-privatnosti',
         },
         PROFILE_PATHS: {
             MY_PROFILE: '/hr/moj-profil',
