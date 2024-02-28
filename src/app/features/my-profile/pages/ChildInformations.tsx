@@ -3,9 +3,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { IChild } from '../../../../interfaces/IChild';
-import {
-  useLazyGetProfileProgressQuery,
-} from '../../../../services/tutorService';
+import { useLazyGetProfileProgressQuery } from '../../../../services/tutorService';
 import { useLazyGetChildrenQuery } from '../../../../services/userService';
 import ImageCircle from '../../../components/ImageCircle';
 import MainWrapper from '../../../components/MainWrapper';
@@ -42,9 +40,9 @@ const ChildInformations = () => {
     };
 
     const fetchData = async () => {
-      if(userId){
-        await getChildren(userId).unwrap();
-      }
+        if (userId) {
+            await getChildren(userId).unwrap();
+        }
     };
 
     const handleAddNewchild = () => {
@@ -121,7 +119,7 @@ const ChildInformations = () => {
                                                             <div className="flex--grow ml-4">
                                                                 <div className="mb-1">{x.firstName}</div>
                                                                 <div className="type--color--secondary">
-                                                                    {moment(x.dateOfBirth).format('MM/DD/YYYY')}
+                                                                    {moment(x.dateOfBirth).format(t('BIRTH_DATE_FORMAT'))}
                                                                 </div>
                                                             </div>
                                                         </div>

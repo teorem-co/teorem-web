@@ -73,7 +73,7 @@ export function Signup() {
         const toSend: IRegister = {
             firstName: firstName,
             lastName: lastName,
-            dateOfBirth: moment(dateOfBirth).toISOString().substring(0, 10),
+            dateOfBirth: moment(dateOfBirth).format('YYYY-MM-DD'),
             email: email,
             phoneNumber: phoneNumber,
             countryId: countryId,

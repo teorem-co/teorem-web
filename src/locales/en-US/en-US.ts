@@ -1,6 +1,7 @@
 export const EN_US = {
     MAIN_TITLE: 'Teorem',
     WATERMARK: '© Teorem',
+    BIRTH_DATE_FORMAT: 'MM/DD/YYYY',
     DATE_FORMAT: 'Do MMM YYYY',
     ERROR_HANDLING: {
         UNHANDLED_ERROR: 'Unhandled error occured!',

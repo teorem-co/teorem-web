@@ -1,6 +1,7 @@
 export const HR_HR = {
     MAIN_TITLE: 'Teorem',
     WATERMARK: '© Teorem',
+    BIRTH_DATE_FORMAT: 'DD/MM/YYYY',
     DATE_FORMAT: 'DD. MMM YYYY',
     ERROR_HANDLING: {
         UNHANDLED_ERROR: 'Došlo je do neočekivane pogreške!',
