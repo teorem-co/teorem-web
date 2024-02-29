@@ -1080,7 +1080,7 @@ const Dashboard = () => {
                                                                                     <div className="flex--grow ml-4">
                                                                                         <div className="mb-1">{x.firstName}</div>
                                                                                         <div className="type--color--secondary">
-                                                                                            {moment(x.dateOfBirth).format('MM/DD/YYYY')}
+                                                                                            {moment(x.dateOfBirth).format(t('BIRTH_DATE_FORMAT'))}
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
