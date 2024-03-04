@@ -8,6 +8,7 @@ import {
   useChangeCurrentPasswordMutation,
 } from '../../../../services/authService';
 import {
+  useLazyDisableTutorQuery, useLazyEnableTutorQuery,
   useLazyGetProfileProgressQuery,
 } from '../../../../services/tutorService';
 import {addStripeId, connectStripe} from '../../../../slices/authSlice';
@@ -36,7 +37,12 @@ import {Elements} from "@stripe/react-stripe-js";
 import {loadStripe, StripeElementsOptions} from "@stripe/stripe-js";
 import AddCreditCard from "../components/AddCreditCard";
 import {InputAdornment, TextField} from "@mui/material";
-import {t} from "i18next";
+import i18n, { changeLanguage, t } from 'i18next';
+import languageOptions, {
+  ILanguageOption,
+} from '../../../constants/languageOptions';
+import { PROFILE_PATHS } from '../../../routes';
+import { useHistory } from 'react-router';
 
 interface Values {
   currentPassword: string;
@@ -276,6 +282,23 @@ const ProfileAccount = () => {
     handleChangeForSave();
   }, [formik.values]);
 
+  const history = useHistory();
+
+  const changeLanguage = (option: ILanguageOption) => {
+    let pushPath = '';
+
+    Object.keys(PROFILE_PATHS).forEach((path) => {
+      if (t('PATHS.PROFILE_PATHS.' + path) === history.location.pathname) {
+        pushPath = 'PATHS.PROFILE_PATHS.' + path;
+      }
+    });
+
+    i18n.changeLanguage(option.path);
+
+    history.push(t(pushPath));
+    window.location.reload();
+  };
+
   const options: StripeElementsOptions = {
     mode: 'setup',
     currency: 'eur',
@@ -332,6 +355,20 @@ const ProfileAccount = () => {
     } else {
       setConfirmPass("password");
     }
+  };
+
+  const [tutorDisabled, setTutorDisabledValue] = useState<boolean>(true);
+  const [updateTutorDisabled] = useLazyDisableTutorQuery();
+  const [updateTutorEnabled] = useLazyEnableTutorQuery();
+
+  const setTutorDisabled = (disabled: boolean) => {
+    if (disabled) {
+      updateTutorDisabled();
+    } else {
+      updateTutorEnabled();
+    }
+
+    setTutorDisabledValue(disabled);
   };
 
   return (
@@ -571,6 +608,61 @@ const ProfileAccount = () => {
             )}
           </Form>
         </FormikProvider>
+
+
+        {/*TODO: this is language selection*/}
+          <div className="card--profile__section"/>
+        <div className="card--profile__section">
+            <div>
+                <div className="mb-2 type--wgt--bold">{t('MY_PROFILE.TRANSLATION.TITLE')}</div>
+                <div className="type--color--tertiary w--200--max">{t('MY_PROFILE.TRANSLATION.SUBTITLE')}</div>
+            </div>
+            <div className="w--800--max">
+                {languageOptions.map((option: ILanguageOption) => {
+                    return (
+                        <div
+                            key={option.path}
+                            className={`btn btn--base btn--${
+                                option.path === i18n.language ? 'primary' : 'disabled'
+                            } mr-2`}
+                            onClick={() => {
+                                changeLanguage(option);
+                            }}
+                        >
+                            {option.label.substring(0, 3)}
+                        </div>
+                    );
+                })}
+            </div>
+        </div>
+
+        {/*TODO: this is profile visibility*/}
+        {userRole === RoleOptions.Tutor && (
+            <div className="card--profile__section">
+                <div>
+                    <div className="mb-2 type--wgt--bold">{t('MY_PROFILE.TUTOR_DISABLE.TITLE')}</div>
+                    <div className="type--color--tertiary w--200--max">{t('MY_PROFILE.TUTOR_DISABLE.SUBTITLE')}</div>
+                </div>
+                <div className="w--800--max">
+                    <div
+                        className={`btn btn--base btn--${tutorDisabled ? 'primary' : 'disabled'} mr-2`}
+                        onClick={() => {
+                            setTutorDisabled(true);
+                        }}
+                    >
+                        {t('MY_PROFILE.TUTOR_DISABLE.NO')}
+                    </div>
+                    <div
+                        className={`btn btn--base btn--${!tutorDisabled ? 'primary' : 'disabled'} mr-2`}
+                        onClick={() => {
+                            setTutorDisabled(false);
+                        }}
+                    >
+                        {t('MY_PROFILE.TUTOR_DISABLE.YES')}
+                    </div>
+                </div>
+            </div>
+        )}
         <StripeConnectForm
           onConnect={(accountId: string) => {
             dispatch(
