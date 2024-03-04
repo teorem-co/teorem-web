@@ -23,4 +23,7 @@ export default interface IUser {
     stripeConnected: boolean;
     Country: ICountry;
     credits?: number;
+    stripeVerifiedStatus?: string;
+    stripeVerificationDeadline?: number;
+    stripeVerificationDocumentsUploaded?: boolean;
 }

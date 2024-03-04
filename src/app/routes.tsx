@@ -40,9 +40,6 @@ import { Badge } from '@mui/material';
 
 import { Signup } from './features/register/sign_up_rework/tutor/Signup';
 import { SignupRoleSelect } from './features/register/sign_up_rework/SignupRoleSelect';
-import { RecommendedTutorCard } from './features/dashboard/recommended-tutors/RecommendedTutorCard';
-import ITutorItem from '../interfaces/ITutorItem';
-import { UploadVerificationDocuments } from './components/UploadVerificationDocuments';
 
 export const PATHS = {
     ROLE_SELECTION: t('PATHS.ROLE_SELECTION'),
@@ -102,12 +99,6 @@ interface IMenuPerRole {
 }
 
 export const ROUTES: any = [
-    {
-        path: '/hr/upload',
-        key: 'ROLE_SELECTION' + 'dwa',
-        exact: true,
-        component: () => <UploadVerificationDocuments />,
-    },
     {
         path: PATHS.ROLE_SELECTION,
         key: 'ROLE_SELECTION',

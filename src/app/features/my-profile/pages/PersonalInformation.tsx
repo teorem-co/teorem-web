@@ -38,6 +38,9 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { setCredits } from '../../../../slices/creditsSlice';
 import { FaCoins } from 'react-icons/fa';
+import {
+  UploadVerificationDocuments
+} from '../../../components/UploadVerificationDocuments';
 
 interface Values {
     firstName: string;
@@ -540,53 +543,10 @@ const PersonalInformation = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="card--profile__section">
-                                            <div>
-                                                <div className="mb-2 type--wgt--bold">{t('MY_PROFILE.TRANSLATION.TITLE')}</div>
-                                                <div className="type--color--tertiary w--200--max">{t('MY_PROFILE.TRANSLATION.SUBTITLE')}</div>
-                                            </div>
-                                            <div className="w--800--max">
-                                                {languageOptions.map((option: ILanguageOption) => {
-                                                    return (
-                                                        <div
-                                                            key={option.path}
-                                                            className={`btn btn--base btn--${
-                                                                option.path === i18n.language ? 'primary' : 'disabled'
-                                                            } mr-2`}
-                                                            onClick={() => {
-                                                                changeLanguage(option);
-                                                            }}
-                                                        >
-                                                            {option.label.substring(0, 3)}
-                                                        </div>
-                                                    );
-                                                })}
-                                            </div>
-                                        </div>
-                                        {userRole === RoleOptions.Tutor && isSuccessTutor && (
+
+                                        {userRole === RoleOptions.Tutor && (
                                             <div className="card--profile__section">
-                                                <div>
-                                                    <div className="mb-2 type--wgt--bold">{t('MY_PROFILE.TUTOR_DISABLE.TITLE')}</div>
-                                                    <div className="type--color--tertiary w--200--max">{t('MY_PROFILE.TUTOR_DISABLE.SUBTITLE')}</div>
-                                                </div>
-                                                <div className="w--800--max">
-                                                    <div
-                                                        className={`btn btn--base btn--${tutorDisabled ? 'primary' : 'disabled'} mr-2`}
-                                                        onClick={() => {
-                                                            setTutorDisabled(true);
-                                                        }}
-                                                    >
-                                                        {t('MY_PROFILE.TUTOR_DISABLE.NO')}
-                                                    </div>
-                                                    <div
-                                                        className={`btn btn--base btn--${!tutorDisabled ? 'primary' : 'disabled'} mr-2`}
-                                                        onClick={() => {
-                                                            setTutorDisabled(false);
-                                                        }}
-                                                    >
-                                                        {t('MY_PROFILE.TUTOR_DISABLE.YES')}
-                                                    </div>
-                                                </div>
+                                                <UploadVerificationDocuments />
                                             </div>
                                         )}
                                     </>

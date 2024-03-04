@@ -13,7 +13,6 @@ import { LANDING_PATHS, PATHS, PROFILE_PATHS, RenderMenuLinks } from '../routes'
 import { persistor } from '../store';
 import ImageCircle from './ImageCircle';
 import { useLazyGetUserQuery } from '../../services/userService';
-import { StripeDocumentUpload } from './StripeDocumentUpload';
 
 const Navbar = () => {
     const dispatch = useAppDispatch();
@@ -76,8 +75,6 @@ const Navbar = () => {
     return (
         <div className="navbar">
             <div>
-                <StripeDocumentUpload />
-
                 <NavLink
                     className="d--b"
                     to={`${

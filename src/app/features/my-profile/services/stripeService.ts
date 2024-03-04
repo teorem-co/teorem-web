@@ -30,6 +30,11 @@ export interface IVerificationDocument {
     back: File;
 }
 
+export  interface IVerificationDocumentResponse {
+  stripeVerifiedStatus: string;
+  stripeVerificationDocumentsUploaded: boolean;
+}
+
 export const stripeService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         connectCompanyAccount: builder.mutation<string, IStripeConnectCompanyAccount>({
@@ -92,7 +97,7 @@ export const stripeService = baseService.injectEndpoints({
                 method: HttpMethods.POST,
             }),
         }),
-        uploadVerificationDocument: builder.mutation<string, IVerificationDocument>({
+        uploadVerificationDocument: builder.mutation<IVerificationDocumentResponse, IVerificationDocument>({
             query: (document) => {
                 const formData = new FormData();
                 formData.append('front', document.front);
