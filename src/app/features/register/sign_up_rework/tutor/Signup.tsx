@@ -8,15 +8,14 @@ import moment from 'moment/moment';
 import { IRegister, useRegisterUserMutation } from '../../../../../services/authService';
 import { useHistory } from 'react-router';
 
-import { AiOutlineClose, AiOutlineLeft } from 'react-icons/ai';
+import { AiOutlineLeft } from 'react-icons/ai';
 import CircularProgress from '../../../my-profile/components/CircularProgress';
 import { t } from 'i18next';
 import { SignupFinalStep } from './SignupFinalStep';
 import logo from '../../../../../assets/images/teorem_logo_purple.png';
 import { SignupSubjectSelect } from '../student_and_parent/SignupSubjectSelect';
 import { useDispatch } from 'react-redux';
-import ROUTES, { PATHS } from '../../../../routes';
-import { Role } from '../../../../lookups/role';
+import { PATHS } from '../../../../routes';
 import { RoleOptions } from '../../../../../slices/roleSlice';
 
 function ConfettiWrapper() {

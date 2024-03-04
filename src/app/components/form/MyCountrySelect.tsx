@@ -45,36 +45,18 @@ const MyCountrySelect = ({
     const [formikField, meta] = useField(form.getFieldProps(field.name));
 
     const onChange = (option: any) => {
-        form.setFieldValue(
-            field.name,
-            isMulti
-                ? option
-                    ? option.map((item: OptionType) => item.id)
-                    : ''
-                : (option as OptionType).id
-        );
+        form.setFieldValue(field.name, isMulti ? (option ? option.map((item: OptionType) => item.id) : '') : (option as OptionType).id);
 
         isMulti
-            ? onChangeCustom &&
-              onChangeCustom(
-                  option && option.map((item: OptionType) => item.id)
-              )
+            ? onChangeCustom && onChangeCustom(option && option.map((item: OptionType) => item.id))
             : onChangeCustom && onChangeCustom(option as OptionType);
     };
 
     const getValue = () => {
         if (options && field.value) {
             return isMulti
-                ? options.filter(
-                      (option: any) => field.value.indexOf(option.value) >= 0
-                  )
-                : options.find(
-                      (option: any) =>
-                          option.value ===
-                          (typeof field.value !== 'string'
-                              ? field.value.toString()
-                              : field.value)
-                  );
+                ? options.filter((option: any) => field.value.indexOf(option.value) >= 0)
+                : options.find((option: any) => option.value === (typeof field.value !== 'string' ? field.value.toString() : field.value));
         } else {
             return isMulti ? [] : ('' as any);
         }
@@ -136,9 +118,7 @@ const MyCountrySelect = ({
                 className={className ?? 'form__type'}
                 classNamePrefix={classNamePrefix}
                 components={{
-                    SingleValue: customInputField
-                        ? customInputField
-                        : customSingleValue,
+                    SingleValue: customInputField ? customInputField : customSingleValue,
                     Option: customOption ? customOption : customOptions,
                 }}
                 name={field.name}
@@ -155,9 +135,7 @@ const MyCountrySelect = ({
                 noOptionsMessage={noOptionsMessage}
                 isSearchable={isSearchable}
             />
-            <div className="field__validation">
-                {meta.error && meta.touched ? meta.error : ''}
-            </div>
+            <div className="field__validation">{meta.error && meta.touched ? meta.error : ''}</div>
         </>
     );
 };

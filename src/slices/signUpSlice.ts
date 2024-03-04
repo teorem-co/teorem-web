@@ -2,124 +2,107 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // first step for student or parent, tutor doesn't have this step
 
-interface IStepZero{
-  levelId: string;
-  subjectId: string;
+interface IStepZero {
+    levelId: string;
+    subjectId: string;
 }
 
 interface IStepOne {
-  firstName: string;
-  lastName: string;
-  dateOfBirth: string;
+    firstName: string;
+    lastName: string;
+    dateOfBirth: string;
 }
 
 interface IStepTwo {
-  email: string;
-  phoneNumber: string;
-  countryId: string;
+    email: string;
+    phoneNumber: string;
+    countryId: string;
 }
 
-interface IStepThree{
-  password: string;
-  confirmPassword: string;
-  terms: boolean;
+interface IStepThree {
+    password: string;
+    confirmPassword: string;
+    terms: boolean;
 }
 
-interface IState{
-  levelId:string,
-  subjectId:string,
-  firstName: string;
-  lastName: string;
-  dateOfBirth: string;
-  email: string;
-  countryId: string;
-  phoneNumber: string;
-  password: string;
-  confirmPassword: string;
-  terms:boolean;
+interface IState {
+    levelId: string;
+    subjectId: string;
+    firstName: string;
+    lastName: string;
+    dateOfBirth: string;
+    email: string;
+    countryId: string;
+    phoneNumber: string;
+    password: string;
+    confirmPassword: string;
+    terms: boolean;
 }
 
 const initialState: IState = {
-  levelId:'',
-  subjectId:'',
-  firstName: '',
-  lastName: '',
-  dateOfBirth:'',
-  email: '',
-  phoneNumber: '',
-  countryId: '',
-  password: '',
-  confirmPassword: '',
-  terms: false
+    levelId: '',
+    subjectId: '',
+    firstName: '',
+    lastName: '',
+    dateOfBirth: '',
+    email: '',
+    phoneNumber: '',
+    countryId: '',
+    password: '',
+    confirmPassword: '',
+    terms: false,
 };
 
-
 export const signUpSlice = createSlice({
-  name: 'signup',
-  initialState,
-  reducers: {
-    setStepZero(state, action: PayloadAction<IStepZero>){
-      const {
-        levelId,
-        subjectId
-      } = action.payload;
+    name: 'signup',
+    initialState,
+    reducers: {
+        setStepZero(state, action: PayloadAction<IStepZero>) {
+            const { levelId, subjectId } = action.payload;
 
-      state.levelId = levelId;
-      state.subjectId = subjectId;
+            state.levelId = levelId;
+            state.subjectId = subjectId;
+        },
+
+        setStepOne(state, action: PayloadAction<IStepOne>) {
+            const { firstName, lastName, dateOfBirth } = action.payload;
+
+            state.firstName = firstName;
+            state.lastName = lastName;
+            state.dateOfBirth = dateOfBirth;
+        },
+
+        setStepTwo(state, action: PayloadAction<IStepTwo>) {
+            const { email, phoneNumber, countryId } = action.payload;
+
+            state.email = email;
+            state.phoneNumber = phoneNumber;
+            state.countryId = countryId;
+        },
+
+        setStepThree(state, action: PayloadAction<IStepThree>) {
+            const { password, confirmPassword, terms } = action.payload;
+
+            state.password = password;
+            state.confirmPassword = confirmPassword;
+            state.terms = terms;
+        },
+
+        resetSignUp(state) {
+            state.levelId = '';
+            state.subjectId = '';
+            state.firstName = '';
+            state.lastName = '';
+            state.email = '';
+            state.password = '';
+            state.countryId = '';
+            state.phoneNumber = '';
+            state.dateOfBirth = '';
+            state.terms = false;
+        },
     },
-
-    setStepOne(state, action: PayloadAction<IStepOne>) {
-      const {
-        firstName,
-        lastName,
-        dateOfBirth
-      } = action.payload;
-
-      state.firstName = firstName;
-      state.lastName = lastName;
-      state.dateOfBirth = dateOfBirth;
-    },
-
-    setStepTwo(state, action: PayloadAction<IStepTwo>) {
-      const {
-        email,
-        phoneNumber,
-        countryId
-      } = action.payload;
-
-      state.email = email;
-      state.phoneNumber = phoneNumber;
-      state.countryId = countryId;
-    },
-
-    setStepThree(state, action: PayloadAction<IStepThree>) {
-      const {
-        password,
-        confirmPassword,
-        terms
-      } = action.payload;
-
-      state.password = password;
-      state.confirmPassword = confirmPassword;
-      state.terms = terms;
-    },
-
-    resetSignUp(state) {
-      state.levelId = '';
-      state.subjectId = '';
-      state.firstName = '';
-      state.lastName = '';
-      state.email = '';
-      state.password = '';
-      state.countryId = '';
-      state.phoneNumber = '';
-      state.dateOfBirth = '';
-      state.terms = false;
-    },
-  },
 });
 
-export const {   setStepZero, setStepOne, setStepTwo, setStepThree, resetSignUp } =
-  signUpSlice.actions;
+export const { setStepZero, setStepOne, setStepTwo, setStepThree, resetSignUp } = signUpSlice.actions;
 
 export default signUpSlice.reducer;

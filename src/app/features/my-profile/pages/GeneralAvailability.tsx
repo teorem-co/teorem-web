@@ -2,9 +2,7 @@ import { t } from 'i18next';
 import { cloneDeep, isEqual } from 'lodash';
 import React, { useEffect, useState } from 'react';
 
-import {
-  useLazyGetProfileProgressQuery,
-} from '../../../../services/tutorService';
+import { useLazyGetProfileProgressQuery } from '../../../../services/tutorService';
 import MainWrapper from '../../../components/MainWrapper';
 import RouterPrompt from '../../../components/RouterPrompt';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
@@ -15,14 +13,13 @@ import ProfileHeader from '../components/ProfileHeader';
 import IAvailabilityIndex from '../interfaces/IAvailabilityIndex';
 import ITutorAvailability from '../interfaces/ITutorAvailability';
 import {
-  useCreateTutorAvailabilityMutation,
-  useLazyGetTutorAvailabilityQuery,
-  useUpdateTutorAvailabilityMutation,
+    useCreateTutorAvailabilityMutation,
+    useLazyGetTutorAvailabilityQuery,
+    useUpdateTutorAvailabilityMutation,
 } from '../services/tutorAvailabilityService';
 import { setMyProfileProgress } from '../slices/myProfileSlice';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { getUserId } from '../../../utils/getUserId';
-
 
 const GeneralAvailability = () => {
     //const { data: profileProgress } = useGetProfileProgressQuery();
@@ -41,7 +38,6 @@ const GeneralAvailability = () => {
     const loading = availabilityUninitialized || availabilityLoading;
     const isMobile = window.innerWidth < 765;
     const renderTableCells = (column: string | boolean, availabilityIndex: IAvailabilityIndex) => {
-
         if (typeof column === 'boolean') {
             return (
                 <td
@@ -49,8 +45,7 @@ const GeneralAvailability = () => {
                     onClick={() => handleAvailabilityClick(availabilityIndex.column, availabilityIndex.row, column)}
                     key={availabilityIndex.column}
                 >
-
-                  <i className={`icon icon--${isMobile ? 'sm' : 'base'} ${column ? 'icon--check icon--primary' : 'icon--close icon--grey'} `}></i>
+                    <i className={`icon icon--${isMobile ? 'sm' : 'base'} ${column ? 'icon--check icon--primary' : 'icon--close icon--grey'} `}></i>
                 </td>
             );
         } else if (column == '') {
@@ -61,8 +56,7 @@ const GeneralAvailability = () => {
             return <td key={availabilityIndex.column}>{t(`TUTOR_PROFILE.ON12`)}</td>;
         } else if (column == 'After 5 pm') {
             return <td key={availabilityIndex.column}>{t(`TUTOR_PROFILE.AFTER5`)}</td>;
-        }
-        else {
+        } else {
             return <td key={availabilityIndex.column}>{t(`CONSTANTS.DAYS_SHORT.${column.toUpperCase()}`)}</td>;
         }
     };
@@ -121,7 +115,10 @@ const GeneralAvailability = () => {
         if (tutorAvailability && tutorAvailability[1].length > 1) {
             //await updateTutorAvailability({ tutorAvailability: toSend });
             const tutorId = getUserId();
-            await updateTutorAvailability({ tutorId: tutorId ? tutorId : '', tutorAvailability: toSend });
+            await updateTutorAvailability({
+                tutorId: tutorId ? tutorId : '',
+                tutorAvailability: toSend,
+            });
             const progressResponse = await getProfileProgress().unwrap();
             dispatch(setMyProfileProgress(progressResponse));
             toastService.success(t('MY_PROFILE.GENERAL_AVAILABILITY.UPDATED'));
@@ -212,7 +209,9 @@ const GeneralAvailability = () => {
                             )}
                         </div>
                         <div>
-                            <table className="table table--availability"><tbody>{renderAvailabilityTable()}</tbody></table>
+                            <table className="table table--availability">
+                                <tbody>{renderAvailabilityTable()}</tbody>
+                            </table>
                         </div>
                     </div>
                 )}

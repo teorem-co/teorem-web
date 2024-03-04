@@ -3,97 +3,103 @@
 */
 
 .table {
-    border-collapse: collapse;
-    width: 100%;
-    overflow-x: scroll;
-    white-space: nowrap;
+  border-collapse: collapse;
+  width: 100%;
+  overflow-x: scroll;
+  white-space: nowrap;
+
+  th {
+    text-align: left;
+  }
+
+  &--availability {
+    max-width: 720px;
+    border: 1px solid $grey-ed;
+
+    @media (max-width: $responsive-md) {
+      font-size: small;
+    }
+
+    td {
+      position: relative;
+      padding: calc(#{$unit} * 4);
+      border: 1px solid $grey-ed;
+
+      font-weight: bold;
+      text-align: center;
+      vertical-align: middle;
+      cursor: pointer;
+
+      @media (max-width: $responsive-sm) {
+        padding: calc(#{$unit} * 2);
+      }
+
+    }
+
+    &--check {
+      background-color: $color-primary-bright;
+    }
+
+    &--close {
+      background-color: $grey-fb;
+    }
+  }
+
+  &--primary {
+    border: 1px solid $grey-ed;
+
+    td,
+    th {
+      border: 1px solid $grey-ed;
+    }
 
     th {
-        text-align: left;
+      padding: calc(#{$unit} * 6);
+
+      @media (max-width: $responsive-md) {
+        padding: calc(#{$unit} * 2) calc(#{$unit} * 4);
+      }
     }
 
-    &--availability {
-        max-width: 720px;
-        border: 1px solid $grey-ed;
+    td {
+      padding: calc(#{$unit} * 4) calc(#{$unit} * 6);
 
-        @media (max-width: $responsive-md) {
-          font-size: small;
-        }
-
-        td {
-            position: relative;
-            padding: calc(#{$unit} * 4);
-            border: 1px solid $grey-ed;
-
-            font-weight: bold;
-            text-align: center;
-            vertical-align: middle;
-            cursor: pointer;
-
-          @media (max-width: $responsive-sm){
-            padding: calc(#{$unit} * 2);
-          }
-
-        }
-
-        &--check {
-            background-color: $color-primary-bright;
-        }
-
-        &--close {
-            background-color: $grey-fb;
-        }
+      @media (max-width: $responsive-md) {
+        padding: calc(#{$unit} * 2) calc(#{$unit} * 4);
+      }
     }
 
-    &--primary {
-        border: 1px solid $grey-ed;
+    &--zebra {
+      tbody tr {
+        &:nth-child(odd) {
+          background-color: $color-primary-lighter;
+        }
+      }
+    }
+  }
 
-        td,
-        th {
-            border: 1px solid $grey-ed;
-        }
-        th {
-          padding: calc(#{$unit} * 6);
+  &--secondary {
+    border: 1px solid $grey-ed;
 
-          @media (max-width: $responsive-md) {
-            padding: calc(#{$unit} * 2) calc(#{$unit} * 4);
-          }
-        }
-        td {
-            padding: calc(#{$unit} * 4) calc(#{$unit} * 6);
-
-            @media (max-width: $responsive-md) {
-              padding: calc(#{$unit} * 2) calc(#{$unit} * 4);
-            }
-        }
-        &--zebra {
-            tbody tr {
-                &:nth-child(odd) {
-                    background-color: $color-primary-lighter;
-                }
-            }
-        }
+    td,
+    th {
+      border: 1px solid $grey-ed;
     }
 
-    &--secondary {
-        border: 1px solid $grey-ed;
-
-        td,
-        th {
-            border: 1px solid $grey-ed;
-        }
-        th {
-            padding: calc(#{$unit} * 6);
-            background-color: $color-primary-bright;
-        }
-        td {
-            padding: calc(#{$unit} * 4) calc(#{$unit} * 6);
-        }
-        tr {
-            &:nth-child(even) {
-                background-color: $grey-fb;
-            }
-        }
+    th {
+      padding: calc(#{$unit} * 6);
+      background-color: $color-primary-bright;
     }
+
+    td {
+      padding: calc(#{$unit} * 4) calc(#{$unit} * 6);
+    }
+
+    tr {
+      &:nth-child(even) {
+        background-color: $grey-fb;
+      }
+    }
+  }
 }
 

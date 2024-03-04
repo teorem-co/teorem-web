@@ -3,10 +3,11 @@
 */
 
 .cur {
-    &--pointer {
-        cursor: pointer;
-    }
-    &--default {
-        cursor: default;
-    }
+  &--pointer {
+    cursor: pointer;
+  }
+
+  &--default {
+    cursor: default;
+  }
 }

@@ -10,9 +10,7 @@ interface ICustomCheckbox {
 const CustomCheckbox = (props: ICustomCheckbox) => {
     const { id, label, handleCustomCheck, customChecks } = props;
 
-    const [checked, setChecked] = useState<boolean>(
-        customChecks.find((item: string) => item === id) ? true : false
-    );
+    const [checked, setChecked] = useState<boolean>(customChecks.find((item: string) => item === id) ? true : false);
     return (
         <div
             className="availability__field"
@@ -21,9 +19,7 @@ const CustomCheckbox = (props: ICustomCheckbox) => {
                 handleCustomCheck(id);
             }}
         >
-            <span
-                className={`availability__checkbox ${checked ? 'checked' : ''}`}
-            ></span>
+            <span className={`availability__checkbox ${checked ? 'checked' : ''}`}></span>
             <span className="availability__label">{label}</span>
         </div>
     );

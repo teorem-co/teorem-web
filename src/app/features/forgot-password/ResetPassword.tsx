@@ -123,9 +123,8 @@ const ResetPassword = () => {
         toastService.success(t('RESET_PASSWORD.PASSWORD_CHANGED_SUCCESS'), delay, true);
 
         setTimeout(() => {
-          history.push(PATHS.LOGIN);
+            history.push(PATHS.LOGIN);
         }, delay);
-
     };
 
     const handleGoBack = () => {

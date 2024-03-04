@@ -13,15 +13,13 @@ const ResetToken = () => {
     const [resendEmail, setResendEmail] = useState<boolean>(false);
 
     const resendActivationEmail = () => {
-
         if (!resendEmail && userEmail && userEmail.length)
             resendActivationEmailPost({
-                email: userEmail
+                email: userEmail,
             });
 
         setResendEmail(true);
     };
-
 
     return (
         <>
@@ -32,12 +30,10 @@ const ResetToken = () => {
                 <div className="type--lg type--wgt--bold mb-4">{t('TOKEN_EXPIRED.WELCOME')}</div>
                 <div className="type--color--secondary mb-8 w--448--max">{t('TOKEN_EXPIRED.DESCRIPTION')}</div>
                 <div>
-
-                    <div className="type--color--secondary mb-8 w--448--max">{isSuccessResendActivationEmail && t('TOKEN_EXPIRED.RESEND_ACTIVATION_MESSAGE')}</div>
-                    <button
-                        className="btn btn--base btn--primary w--100 mb-2 mt-6 type--wgt--extra-bold"
-                        onClick={resendActivationEmail}
-                    >
+                    <div className="type--color--secondary mb-8 w--448--max">
+                        {isSuccessResendActivationEmail && t('TOKEN_EXPIRED.RESEND_ACTIVATION_MESSAGE')}
+                    </div>
+                    <button className="btn btn--base btn--primary w--100 mb-2 mt-6 type--wgt--extra-bold" onClick={resendActivationEmail}>
                         {t('LOGIN.FORM.SEND_AGAIN')}
                     </button>
                 </div>

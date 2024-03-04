@@ -7,10 +7,7 @@ import * as Yup from 'yup';
 import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyTimePicker from '../../../components/form/MyTimePicker';
 import toastService from '../../../services/toastService';
-import {
-  IPostUnavailability,
-  useCreateTutorUnavailabilityMutation,
-} from '../services/unavailabilityService';
+import { IPostUnavailability, useCreateTutorUnavailabilityMutation } from '../services/unavailabilityService';
 
 interface Props {
     handleClose?: (close: boolean) => void;
@@ -26,7 +23,7 @@ interface IValues {
 }
 
 const UnavailabilityModal: React.FC<Props> = (props) => {
-    const {topOffset, handleClose, positionClass, event } = props;
+    const { topOffset, handleClose, positionClass, event } = props;
 
     const [createTutorUnavailability] = useCreateTutorUnavailabilityMutation();
 
@@ -42,8 +39,20 @@ const UnavailabilityModal: React.FC<Props> = (props) => {
         let toSend: IPostUnavailability;
         if (wholeDayChecked) {
             toSend = {
-                startTime: moment(values.date).set({ hour: 0, minute: 0, second: 0 }).toDate(),
-                endTime: moment(values.date).set({ hour: 23, minute: 59, second: 59 }).toDate(),
+                startTime: moment(values.date)
+                    .set({
+                        hour: 0,
+                        minute: 0,
+                        second: 0,
+                    })
+                    .toDate(),
+                endTime: moment(values.date)
+                    .set({
+                        hour: 23,
+                        minute: 59,
+                        second: 59,
+                    })
+                    .toDate(),
             };
         } else {
             toSend = {
@@ -54,7 +63,10 @@ const UnavailabilityModal: React.FC<Props> = (props) => {
                     })
                     .toDate(),
                 endTime: moment(values.date)
-                    .set({ hour: Number(moment(values.timeEnd, 'HH:mm').format('HH')), minute: Number(moment(values.timeEnd, 'HH:mm').format('mm')) })
+                    .set({
+                        hour: Number(moment(values.timeEnd, 'HH:mm').format('HH')),
+                        minute: Number(moment(values.timeEnd, 'HH:mm').format('mm')),
+                    })
                     .toDate(),
             };
         }
@@ -113,13 +125,13 @@ const UnavailabilityModal: React.FC<Props> = (props) => {
         validationSchema: generateValidationSchema(),
     });
 
-  const isMobile = window.innerWidth < 776;
-  const mobileStyles = isMobile? { top: `${topOffset}px` } : {};
+    const isMobile = window.innerWidth < 776;
+    const mobileStyles = isMobile ? { top: `${topOffset}px` } : {};
 
-  return (
+    return (
         <>
             {event ? (
-                <div style={mobileStyles}  className={`modal--parent  modal--parent--${isMobile ? '' : positionClass}`}>
+                <div style={mobileStyles} className={`modal--parent  modal--parent--${isMobile ? '' : positionClass}`}>
                     <div className="modal--parent__header">
                         <div className="flex flex--primary">
                             <div>

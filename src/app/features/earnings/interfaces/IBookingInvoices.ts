@@ -1,7 +1,7 @@
-import InvoiceDetails from "./InvoiceDetails";
+import InvoiceDetails from './InvoiceDetails';
 
 interface IBookingInvoice {
-  invoicesForMonth: InvoiceDetails[];
+    invoicesForMonth: InvoiceDetails[];
 }
 
 export default IBookingInvoice;

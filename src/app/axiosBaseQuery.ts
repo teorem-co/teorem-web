@@ -34,7 +34,7 @@ export const axiosBaseQuery =
             };
             const result = await axios(headers ? axiosConfigAuth : axiosConfig);
 
-            result.data.interceptors.response.use((originalResponse: { data: any; }) => {
+            result.data.interceptors.response.use((originalResponse: { data: any }) => {
                 handleDates(originalResponse.data);
                 return originalResponse;
             });
@@ -54,16 +54,15 @@ export const axiosBaseQuery =
 const isoDateFormat = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d*)?(?:[-+]\d{2}:?\d{2}|Z)?$/;
 
 function isIsoDateString(value: any): boolean {
-    return value && typeof value === "string" && isoDateFormat.test(value);
+    return value && typeof value === 'string' && isoDateFormat.test(value);
 }
 
 export function handleDates(body: any) {
-    if (body === null || body === undefined || typeof body !== "object")
-        return body;
+    if (body === null || body === undefined || typeof body !== 'object') return body;
 
     for (const key of Object.keys(body)) {
         const value = body[key];
         if (isIsoDateString(value)) body[key] = parseIsoDate(value);
-        else if (typeof value === "object") handleDates(value);
+        else if (typeof value === 'object') handleDates(value);
     }
 }

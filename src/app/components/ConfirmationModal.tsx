@@ -1,5 +1,3 @@
-import { t } from 'i18next';
-
 interface Props {
     title: string;
     description?: string;

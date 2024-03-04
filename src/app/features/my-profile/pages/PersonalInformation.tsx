@@ -12,7 +12,7 @@ import {
     useLazyGetProfileProgressQuery,
     useLazyGetTutorByIdQuery,
 } from '../../../../services/tutorService';
-import { useLazyGetUserQuery, useUpdateUserInformationMutation, useLazyGetCreditsQuery } from '../../../../services/userService';
+import { useLazyGetCreditsQuery, useLazyGetUserQuery, useUpdateUserInformationMutation } from '../../../../services/userService';
 import { RoleOptions } from '../../../../slices/roleSlice';
 import MyPhoneInput from '../../../components/form/MyPhoneInput';
 import { OptionType } from '../../../components/form/MySelectField';
@@ -20,9 +20,7 @@ import UploadFile from '../../../components/form/MyUploadField';
 import MainWrapper from '../../../components/MainWrapper';
 import RouterPrompt from '../../../components/RouterPrompt';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
-import languageOptions, { ILanguageOption } from '../../../constants/languageOptions';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { PROFILE_PATHS } from '../../../routes';
 import toastService from '../../../services/toastService';
 import { getUserId } from '../../../utils/getUserId';
 import { ICountry, useLazyGetCountriesQuery } from '../../onboarding/services/countryService';
@@ -31,16 +29,13 @@ import ProfileHeader from '../components/ProfileHeader';
 import { setMyProfileProgress } from '../slices/myProfileSlice';
 
 import imageCompression from 'browser-image-compression';
-import { MenuItem, TextField } from '@mui/material';
-import { t } from 'i18next';
+import { TextField } from '@mui/material';
 import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { setCredits } from '../../../../slices/creditsSlice';
 import { FaCoins } from 'react-icons/fa';
-import {
-  UploadVerificationDocuments
-} from '../../../components/UploadVerificationDocuments';
+import { UploadVerificationDocuments } from '../../../components/UploadVerificationDocuments';
 
 interface Values {
     firstName: string;
@@ -390,7 +385,10 @@ const PersonalInformation = () => {
                                                                 helperText={formik.touched.firstName && formik.errors.firstName}
                                                                 color="secondary"
                                                                 InputProps={{
-                                                                    style: { fontFamily: "'Lato', sans-serif", backgroundColor: 'white' },
+                                                                    style: {
+                                                                        fontFamily: "'Lato', sans-serif",
+                                                                        backgroundColor: 'white',
+                                                                    },
                                                                 }}
                                                                 InputLabelProps={{
                                                                     style: { fontFamily: "'Lato', sans-serif" },
@@ -419,7 +417,10 @@ const PersonalInformation = () => {
                                                                 helperText={formik.touched.firstName && formik.errors.firstName}
                                                                 color="secondary"
                                                                 InputProps={{
-                                                                    style: { fontFamily: "'Lato', sans-serif", backgroundColor: 'white' },
+                                                                    style: {
+                                                                        fontFamily: "'Lato', sans-serif",
+                                                                        backgroundColor: 'white',
+                                                                    },
                                                                 }}
                                                                 InputLabelProps={{
                                                                     style: { fontFamily: "'Lato', sans-serif" },
@@ -449,7 +450,10 @@ const PersonalInformation = () => {
                                                     <div className="col col-12 col-xl-6">
                                                         <div
                                                             className="field align--center mb-5"
-                                                            style={{ fontFamily: "'Lato', sans-serif", color: 'rgba(0, 0, 0, 0.6)' }}
+                                                            style={{
+                                                                fontFamily: "'Lato', sans-serif",
+                                                                color: 'rgba(0, 0, 0, 0.6)',
+                                                            }}
                                                         >
                                                             <MyPhoneInput
                                                                 form={formik}
@@ -463,7 +467,10 @@ const PersonalInformation = () => {
                                                     <div className="col col-12 col-xl-6">
                                                         <div
                                                             className="field align--center mb-5"
-                                                            style={{ fontFamily: "'Lato', sans-serif", color: 'rgba(0, 0, 0, 0.6)' }}
+                                                            style={{
+                                                                fontFamily: "'Lato', sans-serif",
+                                                                color: 'rgba(0, 0, 0, 0.6)',
+                                                            }}
                                                         >
                                                             <DatePicker
                                                                 label={t('MY_PROFILE.PROFILE_SETTINGS.BIRTHDAY')}

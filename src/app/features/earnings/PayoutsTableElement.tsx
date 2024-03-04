@@ -67,7 +67,15 @@ const PayoutsTableElement = (props: PayoutsProps) => {
             <tr style={{ alignItems: 'center' }}>
                 <td style={{ padding: '2px' }}>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <p style={{ fontFamily: 'Lato', marginLeft: '15px', fontSize: '15px' }}>{props.month}</p>
+                        <p
+                            style={{
+                                fontFamily: 'Lato',
+                                marginLeft: '15px',
+                                fontSize: '15px',
+                            }}
+                        >
+                            {props.month}
+                        </p>
                         {props.revenue !== 0 && props.weeks?.length !== 0 && (
                             <i
                                 id="letter"
@@ -99,7 +107,12 @@ const PayoutsTableElement = (props: PayoutsProps) => {
                                 <td>{week.students}</td>
                                 <td>{week.reviews}</td>
                                 <td>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                    <div
+                                        style={{
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                        }}
+                                    >
                                         <p style={{ fontFamily: 'Lato' }}>
                                             {week.revenue}
                                             {t('EARNINGS.GENERAL.CURRENCY')}

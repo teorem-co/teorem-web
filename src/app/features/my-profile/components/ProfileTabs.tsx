@@ -12,11 +12,7 @@ const ProfileTabs = () => {
                 to={PROFILE_PATHS.MY_PROFILE_INFO_PERSONAL}
                 isActive={(match: any, location: Location) => {
                     //function to check if tab is active in profile subroutes
-                    if (
-                        location.pathname.startsWith(
-                            PROFILE_PATHS.MY_PROFILE_INFO
-                        )
-                    ) {
+                    if (location.pathname.startsWith(PROFILE_PATHS.MY_PROFILE_INFO)) {
                         return true;
                     }
 
@@ -25,12 +21,7 @@ const ProfileTabs = () => {
             >
                 <span>PERSONAL INFORMATION</span>
             </NavLink>
-            <NavLink
-                className="tab--primary__item"
-                activeClassName="active"
-                exact
-                to={PROFILE_PATHS.MY_PROFILE_ACCOUNT}
-            >
+            <NavLink className="tab--primary__item" activeClassName="active" exact to={PROFILE_PATHS.MY_PROFILE_ACCOUNT}>
                 <span>ACCOUNT</span>
             </NavLink>
         </div>

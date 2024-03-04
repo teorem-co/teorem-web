@@ -10,35 +10,35 @@ interface ILogin {
 }
 
 interface ILoginPayload {
-  token: string;
-  user: IUser;
+    token: string;
+    user: IUser;
 }
 
 export interface IRegister {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  roleAbrv: string;
-  countryId: string;
-  phoneNumber: string;
-  dateOfBirth: string;
-  subjectId?:string;
-  levelId?:string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+    roleAbrv: string;
+    countryId: string;
+    phoneNumber: string;
+    dateOfBirth: string;
+    subjectId?: string;
+    levelId?: string;
 }
 
 export interface IRegisterTutor {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  roleAbrv: string;
-  countryId: string;
-  phoneNumber: string;
-  dateOfBirth: string;
-  profileImage?: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+    roleAbrv: string;
+    countryId: string;
+    phoneNumber: string;
+    dateOfBirth: string;
+    profileImage?: string;
 }
 
 interface IRegisterParent {
@@ -97,28 +97,28 @@ interface IResendEmail {
 const URL = '/api/v1/users';
 export const authService = baseService.injectEndpoints({
     endpoints: (builder) => ({
-      login: builder.mutation<ILoginPayload, ILogin>({
-        query: (body) => ({
-          url: `/api/v1/auth/login`,
-          method: HttpMethods.POST,
-          body,
+        login: builder.mutation<ILoginPayload, ILogin>({
+            query: (body) => ({
+                url: `/api/v1/auth/login`,
+                method: HttpMethods.POST,
+                body,
+            }),
         }),
-      }),
-      resetPassword: builder.mutation<void, IResetPassword>({
-        query: (body) => ({
-          url: `${URL}/request-reset-password`,
-          method: HttpMethods.POST,
-          body,
+        resetPassword: builder.mutation<void, IResetPassword>({
+            query: (body) => ({
+                url: `${URL}/request-reset-password`,
+                method: HttpMethods.POST,
+                body,
+            }),
         }),
-      }),
-      changePassword: builder.mutation<void, IChangePassword>({
-        query: (body) => ({
-          url: `${URL}/reset-password`,
+        changePassword: builder.mutation<void, IChangePassword>({
+            query: (body) => ({
+                url: `${URL}/reset-password`,
                 method: HttpMethods.PATCH,
                 body: {
                     password: body.password,
                     confirmPassword: body.repeatPassword,
-                    token: body.token
+                    token: body.token,
                 },
             }),
         }),
@@ -174,7 +174,7 @@ export const authService = baseService.injectEndpoints({
         }),
         getServerVersion: builder.query<string, void>({
             query: () => ({
-                url: '/get-server-version',//`/get-server-version`,
+                url: '/get-server-version', //`/get-server-version`,
                 method: HttpMethods.GET,
             }),
         }),
@@ -186,11 +186,11 @@ export const authService = baseService.injectEndpoints({
             }),
         }),
         registerUser: builder.mutation<void, IRegister>({
-          query: (body) => ({
-            url: `${URL}/register`,
-            method: HttpMethods.POST,
-            body: body,
-          }),
+            query: (body) => ({
+                url: `${URL}/register`,
+                method: HttpMethods.POST,
+                body: body,
+            }),
         }),
     }),
 });
@@ -208,5 +208,5 @@ export const {
     useChangeCurrentPasswordMutation,
     useLazyGetServerVersionQuery,
     useResendActivationEmailMutation,
-    useRegisterUserMutation
+    useRegisterUserMutation,
 } = authService;

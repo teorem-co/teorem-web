@@ -3,28 +3,31 @@
 */
 
 .react-tel-input {
-    .form-control {
-        width: 100%;
-        padding: 6px;
-        padding-left: 48px;
-        font-family: 'Lato', sans-serif;
-        height: auto;
-        &:focus {
-            border-color: $color-primary;
-        }
-    }
-    .flag-dropdown {
-        background-color: transparent;
-        border-color: transparent;
+  .form-control {
+    width: 100%;
+    padding: 6px;
+    padding-left: 48px;
+    font-family: 'Lato', sans-serif;
+    height: auto;
 
-        .selected-flag {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0;
-        }
-        .arrow {
-            display: none;
-        }
+    &:focus {
+      border-color: $color-primary;
     }
+  }
+
+  .flag-dropdown {
+    background-color: transparent;
+    border-color: transparent;
+
+    .selected-flag {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+
+    .arrow {
+      display: none;
+    }
+  }
 }

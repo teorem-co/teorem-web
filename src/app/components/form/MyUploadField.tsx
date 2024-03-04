@@ -4,10 +4,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import {
-  resetTutorImageUploadState,
-  setFile,
-} from '../../slices/tutorImageUploadSlice';
+import { resetTutorImageUploadState, setFile } from '../../slices/tutorImageUploadSlice';
 
 interface PreviewFileType {
     preview: string | null;
@@ -45,7 +42,6 @@ const UploadFile: FC<UploadFileType> = ({ setPreview, setFieldValue, removePrevi
         }
     }, [file]);
 
-
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         maxFiles: 1,
         accept: 'image/jpg,image/png,image/jpeg,image/svg',
@@ -59,13 +55,12 @@ const UploadFile: FC<UploadFileType> = ({ setPreview, setFieldValue, removePrevi
 
     const cacheBuster = new Date();
 
-
-  useEffect(() => {
-    if (setPreview) {
-      setPreview(preview.preview ? preview.preview : '');
-    }
-  }, [preview]);
-  return (
+    useEffect(() => {
+        if (setPreview) {
+            setPreview(preview.preview ? preview.preview : '');
+        }
+    }, [preview]);
+    return (
         <>
             <div className="flex flex--center">
                 {preview.preview || props.imagePreview ? (
@@ -79,15 +74,20 @@ const UploadFile: FC<UploadFileType> = ({ setPreview, setFieldValue, removePrevi
                         </div>
                     </div>
                 )}
-                <div {...getRootProps({ className: 'upload' })} style={{height: "auto", backgroundColor:'white'}}>
+                <div {...getRootProps({ className: 'upload' })} style={{ height: 'auto', backgroundColor: 'white' }}>
                     {isDragActive ? <div className="upload__drag-overlay"></div> : ''}
                     <input {...getInputProps()} />
                     <div className="upload__text" role="presentation">
                         {preview ? (
-                            <div className="flex--primary flex--col" style={{margin: "10px"}}>
+                            <div className="flex--primary flex--col" style={{ margin: '10px' }}>
                                 <i className="icon icon--base icon--upload icon--black"></i>
-                                <div className="type--color--secondary type--wgt--bold" dangerouslySetInnerHTML={{__html: t('MY_PROFILE.PROFILE_SETTINGS.UPLOAD_IMAGE')}}></div>
-                               <div className="type--color--tertiary type--wgt--regular" style={{fontSize: "12px"}}>JPG, PNG, JPEG, SVG format</div>
+                                <div
+                                    className="type--color--secondary type--wgt--bold"
+                                    dangerouslySetInnerHTML={{ __html: t('MY_PROFILE.PROFILE_SETTINGS.UPLOAD_IMAGE') }}
+                                ></div>
+                                <div className="type--color--tertiary type--wgt--regular" style={{ fontSize: '12px' }}>
+                                    JPG, PNG, JPEG, SVG format
+                                </div>
                             </div>
                         ) : (
                             <></>

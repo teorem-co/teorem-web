@@ -13,12 +13,8 @@ const VideoLessonItem = (props: Props) => {
                 <div className="flex flex--center">
                     <i className="icon icon--lg icon--play icon--primary"></i>
                     <div className="ml-4">
-                        <div className="type--wgt--bold">
-                            {videoLesson.name}
-                        </div>
-                        <div className="type--color--secondary">
-                            {videoLesson.date}
-                        </div>
+                        <div className="type--wgt--bold">{videoLesson.name}</div>
+                        <div className="type--color--secondary">{videoLesson.date}</div>
                     </div>
                 </div>
                 <div>

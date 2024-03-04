@@ -1,7 +1,7 @@
 export enum NotificationType {
-    BOOKING = "BOOKING",
-    CHAT_MISSED_CALL = "CHAT_MISSED_CALL",
-    DEFAULT = "GENERAL",
+    BOOKING = 'BOOKING',
+    CHAT_MISSED_CALL = 'CHAT_MISSED_CALL',
+    DEFAULT = 'GENERAL',
 }
 
 interface INotification {

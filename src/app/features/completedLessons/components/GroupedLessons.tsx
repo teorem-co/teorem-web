@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import ICompletedLesson from '../../my-bookings/interfaces/ICompletedLesson';
 import IGroupedList from '../interfaces/IGroupedList';

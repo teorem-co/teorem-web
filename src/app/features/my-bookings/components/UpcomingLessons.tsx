@@ -39,7 +39,9 @@ const UpcomingLessons: React.FC<Props> = (props: Props) => {
                                             <span className="type--capitalize">{lesson.User.lastName}</span>
                                         </div>
                                         <div className="flex flex--center">
-                                            <span className="type--capitalize">{t(`SUBJECTS.${lesson.Subject.abrv.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`)}</span>
+                                            <span className="type--capitalize">
+                                                {t(`SUBJECTS.${lesson.Subject.abrv.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`)}
+                                            </span>
                                         </div>
                                     </div>
                                 ) : lesson.Tutor ? (
@@ -50,7 +52,9 @@ const UpcomingLessons: React.FC<Props> = (props: Props) => {
                                             <span className="type--capitalize">{lesson.Tutor.User.lastName}</span>
                                         </div>
                                         <div className="flex flex--center">
-                                            <span className="type--capitalize">{t(`SUBJECTS.${lesson.Subject.abrv.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`)}</span>
+                                            <span className="type--capitalize">
+                                                {t(`SUBJECTS.${lesson.Subject.abrv.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`)}
+                                            </span>
                                         </div>
                                     </div>
                                 ) : (

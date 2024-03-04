@@ -3,68 +3,71 @@
 */
 
 @media (max-width: 767px) {
- .react-date-picker.react-date-picker{
-   font-size: small !important;
- }
+  .react-date-picker.react-date-picker {
+    font-size: small !important;
+  }
 }
 
 
 @media (min-width: 767px) {
-  .react-date-picker.react-date-picker{
+  .react-date-picker.react-date-picker {
     font-size: medium !important;
   }
 }
 
 .react-date-picker {
-    width: 100% !important;
+  width: 100% !important;
 
-    &--open {
-        .react-date-picker__wrapper {
-            border-color: $color-primary;
-        }
-        .icon {
-            &--calendar {
-                background-color: $white;
-            }
-        }
-        .react-date-picker {
-            &__inputGroup {
-                //font-size: large !important;
-                font-weight: 400 !important;
-
-                input::placeholder {
-                    //font-size: large !important;
-                    font-weight: 400 !important;
-                }
-
-                &__divider {
-                    margin: 0 4px;
-                }
-
-                &__input::placeholder {
-                    //font-size: large !important;
-                    font-weight: 400 !important;
-                }
-            }
-        }
+  &--open {
+    .react-date-picker__wrapper {
+      border-color: $color-primary;
     }
 
-    &__wrapper {
-        padding: 8px;
-        border: 1px solid $grey-c4;
-        border-radius: 4px;
+    .icon {
+      &--calendar {
+        background-color: $white;
+      }
     }
-    &__inputGroup {
+
+    .react-date-picker {
+      &__inputGroup {
+        //font-size: large !important;
+        font-weight: 400 !important;
+
+        input::placeholder {
+          //font-size: large !important;
+          font-weight: 400 !important;
+        }
+
         &__divider {
-            margin: 0 4px;
+          margin: 0 4px;
         }
 
-        // &__input:invalid {
-        //     background-color: transparent;
-        // }
-
-        &__input:focus-visible {
-            outline: none;
+        &__input::placeholder {
+          //font-size: large !important;
+          font-weight: 400 !important;
         }
+      }
     }
+  }
+
+  &__wrapper {
+    padding: 8px;
+    border: 1px solid $grey-c4;
+    border-radius: 4px;
+  }
+
+  &__inputGroup {
+    &__divider {
+      margin: 0 4px;
+    }
+
+    // &__input:invalid {
+    //     background-color: transparent;
+    // }
+
+    &__input:focus-visible {
+      outline: none;
+    }
+  }
 }

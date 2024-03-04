@@ -3,10 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
-import {
-  useLazyGetProfileProgressQuery,
-  useLazyGetTutorByIdQuery,
-} from '../../../../services/tutorService';
+import { useLazyGetProfileProgressQuery, useLazyGetTutorByIdQuery } from '../../../../services/tutorService';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { getUserId } from '../../../utils/getUserId';
 import { setMyProfileProgress } from '../../my-profile/slices/myProfileSlice';
@@ -14,310 +11,280 @@ import { AiOutlineLeft } from 'react-icons/ai';
 import CircularProgress from '../../my-profile/components/CircularProgress';
 import TestTutorProfile from './TestTutorProfile';
 import UploadFile from '../../../components/form/MyUploadField';
-import {
-  useLazyGetUserQuery,
-  useSetTutorProfileImageMutation,
-} from '../../../../services/userService';
+import { useLazyGetUserQuery, useSetTutorProfileImageMutation } from '../../../../services/userService';
 import imageCompression from 'browser-image-compression';
 import logo from '../../../../assets/images/teorem_logo_purple.png';
 
-
 interface Values {
-  profileImage: string;
+    profileImage: string;
 }
 
 type AdditionalProps = {
-  nextStep: () => void,
-  backStep: () => void
+    nextStep: () => void;
+    backStep: () => void;
 };
 
 const ImagePage = ({ nextStep, backStep }: AdditionalProps) => {
-  const state = useAppSelector((state) => state.onboarding);
-  const {
-    yearsOfExperience,
-    currentOccupation,
-    aboutYou,
-    aboutYourLessons,
-  } = state;
+    const state = useAppSelector((state) => state.onboarding);
+    const { yearsOfExperience, currentOccupation, aboutYou, aboutYourLessons } = state;
 
+    const [getProfileProgress] = useLazyGetProfileProgressQuery();
+    const [getProfileData, { isLoading: isLoadingGetInfo, isLoading: dataLoading, isUninitialized: dataUninitialized }] = useLazyGetTutorByIdQuery();
 
-  const [getProfileProgress] = useLazyGetProfileProgressQuery();
-  const [getProfileData, {
-    isLoading: isLoadingGetInfo,
-    isLoading: dataLoading,
-    isUninitialized: dataUninitialized,
-  }] =
-    useLazyGetTutorByIdQuery();
+    const [getUser] = useLazyGetUserQuery();
 
-  const [getUser] = useLazyGetUserQuery();
+    const isLoading = isLoadingGetInfo;
+    const { t } = useTranslation();
+    const tutorId = getUserId();
+    const dispatch = useAppDispatch();
+    const profileProgressState = useAppSelector((state) => state.myProfileProgress);
+    const [progressPercentage, setProgressPercentage] = useState(profileProgressState.percentage);
 
-  const isLoading = isLoadingGetInfo;
-  const { t } = useTranslation();
-  const tutorId = getUserId();
-  const dispatch = useAppDispatch();
-  const profileProgressState = useAppSelector((state) => state.myProfileProgress);
-  const [progressPercentage, setProgressPercentage] = useState(profileProgressState.percentage);
+    const [updateUserInformation, { isLoading: isLoadingUserUpdate }] = useSetTutorProfileImageMutation();
 
-  const [updateUserInformation, { isLoading: isLoadingUserUpdate }] = useSetTutorProfileImageMutation();
+    const [saveBtnActive, setSaveBtnActive] = useState(false);
+    const [initialValues, setInitialValues] = useState<Values>({
+        profileImage: '',
+    });
 
+    const user = useAppSelector((state) => state.auth.user);
 
-  const [saveBtnActive, setSaveBtnActive] = useState(false);
-  const [initialValues, setInitialValues] = useState<Values>({
-    profileImage: '',
-  });
+    const handleSubmit = async (values: Values) => {
+        const toSend: any = {};
 
-  const user = useAppSelector((state) => state.auth.user);
+        if (typeof values.profileImage === 'string') {
+            delete toSend.profileImage;
+        } else {
+            const options = {
+                maxSizeMB: 5,
+                maxWidthOrHeight: 500,
+                useWebWorker: true,
+            };
+            toSend['profileImage'] = await imageCompression(values.profileImage, options);
+        }
 
-  const handleSubmit = async (values: Values) => {
-    const toSend: any = {};
+        await updateUserInformation(toSend);
 
-    if (typeof values.profileImage === 'string') {
-      delete toSend.profileImage;
-    } else {
-      const options = {
-        maxSizeMB: 5,
-        maxWidthOrHeight: 500,
-        useWebWorker: true,
-      };
-      toSend['profileImage'] = await imageCompression(values.profileImage, options);
-    }
-
-    await updateUserInformation(toSend);
-
-    //hide save button
-    setInitialValues(values);
-    nextStep();
-    setSaveBtnActive(false);
-  };
-
-  const fetchData = async () => {
-    if (user) {
-      const userResponse = await getUser(user.id).unwrap();
-
-      if (userResponse) {
-        const values = {
-          firstName: userResponse.firstName,
-          lastName: userResponse.lastName,
-          phoneNumber: userResponse.phoneNumber,
-          countryId: userResponse.countryId,
-          dateOfBirth: userResponse.dateOfBirth,
-          profileImage: userResponse.profileImage ? userResponse.profileImage : '',
-        };
-        //set formik values
+        //hide save button
         setInitialValues(values);
-      }
-      //If there is no state in redux for profileProgress fetch data and save result to redux
-      const progressResponse = await getProfileProgress().unwrap();
-      setProgressPercentage(progressResponse.percentage);
-      dispatch(setMyProfileProgress(progressResponse));
+        nextStep();
+        setSaveBtnActive(false);
+    };
 
-      if (profileProgressState.percentage === 0) {
-        const progressResponse = await getProfileProgress().unwrap();
-        setProgressPercentage(progressResponse.percentage);
-        dispatch(setMyProfileProgress(progressResponse));
-      }
+    const fetchData = async () => {
+        if (user) {
+            const userResponse = await getUser(user.id).unwrap();
 
-      if (userResponse.profileImage) {
-        setSaveBtnActive(true);
-      }
-    }
-  };
+            if (userResponse) {
+                const values = {
+                    firstName: userResponse.firstName,
+                    lastName: userResponse.lastName,
+                    phoneNumber: userResponse.phoneNumber,
+                    countryId: userResponse.countryId,
+                    dateOfBirth: userResponse.dateOfBirth,
+                    profileImage: userResponse.profileImage ? userResponse.profileImage : '',
+                };
+                //set formik values
+                setInitialValues(values);
+            }
+            //If there is no state in redux for profileProgress fetch data and save result to redux
+            const progressResponse = await getProfileProgress().unwrap();
+            setProgressPercentage(progressResponse.percentage);
+            dispatch(setMyProfileProgress(progressResponse));
 
-  const handleChangeForSave = () => {
-    if (formik.values.profileImage) {
-      setSaveBtnActive(true);
-    }
-  };
+            if (profileProgressState.percentage === 0) {
+                const progressResponse = await getProfileProgress().unwrap();
+                setProgressPercentage(progressResponse.percentage);
+                dispatch(setMyProfileProgress(progressResponse));
+            }
 
-  const generateValidation = () => {
-    const validation: any = {};
+            if (userResponse.profileImage) {
+                setSaveBtnActive(true);
+            }
+        }
+    };
 
-    validation['profileImage'] = Yup.mixed()
-      .required(t('FORM_VALIDATION.REQUIRED'))
-      .test('profileImage', t('FORM_VALIDATION.IMAGE_TYPE'), (value) => {
-        if (typeof value === 'string') {
-          return true;
-        } else {
-          if (value.type === 'image/jpg' || value.type === 'image/jpeg' || value.type === 'image/png' || value.type === 'image/svg') {
+    const handleChangeForSave = () => {
+        if (formik.values.profileImage) {
             setSaveBtnActive(true);
-            return true;
-          }
-          setSaveBtnActive(false);
-          return false;
         }
-      })
-      .test('profileImage', t('FORM_VALIDATION.IMAGE_SIZE'), (value) => {
-        if (typeof value === 'string') {
-          return true;
-        } else {
-          if (value.size > 5000000) {
-            setSaveBtnActive(false);
-            return false;
-          }
+    };
 
-          setSaveBtnActive(true);
-          return true;
-        }
-      });
+    const generateValidation = () => {
+        const validation: any = {};
 
-    return Yup.object().shape(validation);
-  };
+        validation['profileImage'] = Yup.mixed()
+            .required(t('FORM_VALIDATION.REQUIRED'))
+            .test('profileImage', t('FORM_VALIDATION.IMAGE_TYPE'), (value) => {
+                if (typeof value === 'string') {
+                    return true;
+                } else {
+                    if (value.type === 'image/jpg' || value.type === 'image/jpeg' || value.type === 'image/png' || value.type === 'image/svg') {
+                        setSaveBtnActive(true);
+                        return true;
+                    }
+                    setSaveBtnActive(false);
+                    return false;
+                }
+            })
+            .test('profileImage', t('FORM_VALIDATION.IMAGE_SIZE'), (value) => {
+                if (typeof value === 'string') {
+                    return true;
+                } else {
+                    if (value.size > 5000000) {
+                        setSaveBtnActive(false);
+                        return false;
+                    }
 
-  const formik = useFormik({
-    initialValues: initialValues,
-    onSubmit: handleSubmit,
-    validateOnBlur: true,
-    validateOnChange: false,
-    enableReinitialize: true,
-    validationSchema: generateValidation(),
-  });
+                    setSaveBtnActive(true);
+                    return true;
+                }
+            });
 
+        return Yup.object().shape(validation);
+    };
 
-  useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-    fetchData();
-  }, []);
+    const formik = useFormik({
+        initialValues: initialValues,
+        onSubmit: handleSubmit,
+        validateOnBlur: true,
+        validateOnChange: false,
+        enableReinitialize: true,
+        validationSchema: generateValidation(),
+    });
 
-  useEffect(() => {
-    handleChangeForSave();
-  }, [formik.values]);
+    useEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+        fetchData();
+    }, []);
 
-  const isMobile = window.innerWidth < 765;
-  const [image, setImage] = useState('');
+    useEffect(() => {
+        handleChangeForSave();
+    }, [formik.values]);
 
-  function setImagePreview(preivewPath: string) {
-    setImage(preivewPath);
-  }
+    const isMobile = window.innerWidth < 765;
+    const [image, setImage] = useState('');
 
-  return (
-    <>
-      <img
-        src={logo}
-        alt='logo'
-        className='mt-5 ml-5 signup-logo'
-      />
-      <div className='subject-form-container flex--jc--space-around'>
-        <FormikProvider value={formik}>
-          <Form>
-            <div>
-              <div
-                style={{
-                  gridColumn: '1/3', top: '0', justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-                className='align--center m-2'>
-                <div className='flex field__w-fit-content align--center'>
-                  <div className='flex flex--col flex--jc--center '>
-                    <div style={{ margin: '40px' }}
-                         className='flex flex--center'>
-                      <AiOutlineLeft
-                        className={`ml-2 mr-6 cur--pointer signup-icon`}
-                        color='grey'
-                        onClick={backStep}
-                      />
-                      <div className='flex flex--row flex--jc--center'>
-                        <div className='flex flex--center flex--shrink '>
-                          <CircularProgress progressNumber={progressPercentage}
-                                            size={isMobile ? 65 : 80} />
+    function setImagePreview(preivewPath: string) {
+        setImage(preivewPath);
+    }
+
+    return (
+        <>
+            <img src={logo} alt="logo" className="mt-5 ml-5 signup-logo" />
+            <div className="subject-form-container flex--jc--space-around">
+                <FormikProvider value={formik}>
+                    <Form>
+                        <div>
+                            <div
+                                style={{
+                                    gridColumn: '1/3',
+                                    top: '0',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}
+                                className="align--center m-2"
+                            >
+                                <div className="flex field__w-fit-content align--center">
+                                    <div className="flex flex--col flex--jc--center ">
+                                        <div style={{ margin: '40px' }} className="flex flex--center">
+                                            <AiOutlineLeft className={`ml-2 mr-6 cur--pointer signup-icon`} color="grey" onClick={backStep} />
+                                            <div className="flex flex--row flex--jc--center">
+                                                <div className="flex flex--center flex--shrink ">
+                                                    <CircularProgress progressNumber={progressPercentage} size={isMobile ? 65 : 80} />
+                                                </div>
+                                                <div className="flex flex--col flex--jc--center">
+                                                    <h4 className="signup-title ml-6 text-align--center">{t('MY_PROFILE.IMAGE')}</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="w--680--max align--center">
+                                    <div className="field field__file">
+                                        <label className="field__label" htmlFor="profileImage">
+                                            {t('MY_PROFILE.PROFILE_SETTINGS.IMAGE')}
+                                        </label>
+                                        <UploadFile
+                                            setFieldValue={formik.setFieldValue}
+                                            id="profileImage"
+                                            name="profileImage"
+                                            value={user?.profileImage ? user.profileImage : ''}
+                                            disabled={isLoading}
+                                            removePreviewOnUnmount={true}
+                                            setPreview={setImagePreview}
+                                        />
+                                    </div>
+
+                                    <div className="field__w-fit-content type--base align--center">
+                                        <table className={`text-align--start password-tooltip`} style={{ color: '#636363', fontSize: '15px' }}>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <i
+                                                            id="length"
+                                                            className="icon icon--base icon--chevron-right icon--grey mr-3"
+                                                            style={{ pointerEvents: 'none' }}
+                                                        ></i>
+                                                    </td>
+                                                    <td>{t('TUTOR_ONBOARDING.IMAGE_TIPS.TIP_1')}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <i
+                                                            id="length"
+                                                            className="icon icon--base icon--chevron-right icon--grey mr-3"
+                                                            style={{ pointerEvents: 'none' }}
+                                                        ></i>
+                                                    </td>
+                                                    <td>{t('TUTOR_ONBOARDING.IMAGE_TIPS.TIP_2')}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <i
+                                                            id="letter"
+                                                            className="icon icon--base icon--chevron-right icon--grey mr-3"
+                                                            style={{ pointerEvents: 'none' }}
+                                                        ></i>
+                                                    </td>
+                                                    <td>{t('TUTOR_ONBOARDING.IMAGE_TIPS.TIP_3')}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div className="flex flex--jc--center text-align--center">
+                                    <div className="flex flex--col">
+                                        <button
+                                            id="tutor-onboarding-step-4"
+                                            onClick={() => handleSubmit(formik.values)}
+                                            disabled={!saveBtnActive}
+                                            className="btn btn--lg btn--primary mt-4 align--center"
+                                        >
+                                            {t('REGISTER.NEXT_BUTTON')}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div className='flex flex--col flex--jc--center'>
-                          <h4
-                            className='signup-title ml-6 text-align--center'>{t('MY_PROFILE.IMAGE')}</h4>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                    </Form>
+                </FormikProvider>
+
+                <div className="profile-preview-wrapper m-1">
+                    <TestTutorProfile
+                        // profileImage={formik.values.profileImage}
+                        profileImage={image}
+                        occupation={currentOccupation}
+                        aboutTutor={aboutYou}
+                        aboutLessons={aboutYourLessons}
+                        yearsOfExperience={yearsOfExperience}
+                    ></TestTutorProfile>
                 </div>
-
-                <div className='w--680--max align--center'>
-                  <div className='field field__file'>
-                    <label className='field__label' htmlFor='profileImage'>
-                      {t('MY_PROFILE.PROFILE_SETTINGS.IMAGE')}
-                    </label>
-                    <UploadFile
-                      setFieldValue={formik.setFieldValue}
-                      id='profileImage'
-                      name='profileImage'
-                      value={user?.profileImage ? user.profileImage : ''}
-                      disabled={isLoading}
-                      removePreviewOnUnmount={true}
-                      setPreview={setImagePreview}
-                    />
-                  </div>
-
-                  <div
-                    className='field__w-fit-content type--base align--center'>
-                    <table className={`text-align--start password-tooltip`}
-                           style={{ color: '#636363', fontSize: '15px' }}>
-                      <tbody>
-                      <tr>
-                        <td>
-                          <i
-                            id='length'
-                            className='icon icon--base icon--chevron-right icon--grey mr-3'
-                            style={{ pointerEvents: 'none' }}
-                          ></i>
-                        </td>
-                        <td>{t('TUTOR_ONBOARDING.IMAGE_TIPS.TIP_1')}</td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <i
-                            id='length'
-                            className='icon icon--base icon--chevron-right icon--grey mr-3'
-                            style={{ pointerEvents: 'none' }}
-                          ></i>
-                        </td>
-                        <td>{t('TUTOR_ONBOARDING.IMAGE_TIPS.TIP_2')}</td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <i
-                            id='letter'
-                            className='icon icon--base icon--chevron-right icon--grey mr-3'
-                            style={{ pointerEvents: 'none' }}
-                          ></i>
-                        </td>
-                        <td>{t('TUTOR_ONBOARDING.IMAGE_TIPS.TIP_3')}</td>
-                      </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
-                <div className='flex flex--jc--center text-align--center'>
-
-                  <div className='flex flex--col'>
-                    <button
-                      id='tutor-onboarding-step-4'
-                      onClick={() => handleSubmit(formik.values)}
-                      disabled={!saveBtnActive}
-                      className='btn btn--lg btn--primary mt-4 align--center'>
-                      {t('REGISTER.NEXT_BUTTON')}
-                    </button>
-
-                  </div>
-                </div>
-
-              </div>
             </div>
-
-          </Form>
-        </FormikProvider>
-
-        <div className='profile-preview-wrapper m-1'>
-          <TestTutorProfile
-            // profileImage={formik.values.profileImage}
-            profileImage={image}
-            occupation={currentOccupation}
-            aboutTutor={aboutYou}
-            aboutLessons={aboutYourLessons}
-            yearsOfExperience={yearsOfExperience}
-          ></TestTutorProfile>
-        </div>
-      </div>
-    </>
-  );
+        </>
+    );
 };
 
 export default ImagePage;

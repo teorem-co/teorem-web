@@ -3,24 +3,24 @@
 */
 
 .reviews-list {
-    &__item {
-        display: flex;
-        flex-direction: column;
-        padding: calc(#{$unit} * 6) 0 calc(#{$unit} * 3) 10px ;
-        border-bottom: 1px solid $grey-ed;
+  &__item {
+    display: flex;
+    flex-direction: column;
+    padding: calc(#{$unit} * 6) 0 calc(#{$unit} * 3) 10px;
+    border-bottom: 1px solid $grey-ed;
 
-        @media (max-width: $responsive-xl) {
-            flex-direction: column;
-        }
-
-        @media (max-width: $responsive-sm) {
-          padding: calc(#{$unit} * 6) 0 calc(#{$unit} * 2) 10px;
-        }
+    @media (max-width: $responsive-xl) {
+      flex-direction: column;
     }
+
+    @media (max-width: $responsive-sm) {
+      padding: calc(#{$unit} * 6) 0 calc(#{$unit} * 2) 10px;
+    }
+  }
 }
 
 
-.review-name-container{
+.review-name-container {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -28,6 +28,6 @@
 
 
   @media (max-width: $responsive-sm) {
-    gap:10px;
+    gap: 10px;
   }
 }

@@ -1,4 +1,5 @@
 import { cloneDeep, debounce } from 'lodash';
+import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
@@ -27,9 +28,6 @@ import { EditTutorSubjects } from './components/EditTutorSubjects';
 import { DisconnectStripe } from './components/DisconnectStripe';
 import StripeConnectForm from '../my-profile/components/StripeConnectForm';
 import { connectStripe } from '../../../slices/authSlice';
-import { setMyProfileProgress } from '../my-profile/slices/myProfileSlice';
-import * as React from 'react';
-import AddCreditCard from '../my-profile/components/AddCreditCard';
 import ImageCircle from '../../components/ImageCircle';
 
 const TutorProfile = () => {
@@ -166,13 +164,13 @@ const TutorProfile = () => {
         dispatch(addChatRoom(toSend));
 
         /*await getOrCreateNewChat(toSend)
-            .unwrap()
-            .then(() => {
-                history.push(PATHS.CHAT);
-            })
-            .catch(() => {
-                toastService.error(`can't create a chat with ${tutorUserName}, please contact a support for more informations`);
-            });*/
+        .unwrap()
+        .then(() => {
+            history.push(PATHS.CHAT);
+        })
+        .catch(() => {
+            toastService.error(`can't create a chat with ${tutorUserName}, please contact a support for more informations`);
+        });*/
     };
 
     //scroll to bottom alerter

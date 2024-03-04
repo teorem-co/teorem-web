@@ -3,31 +3,34 @@
 */
 
 .notifications {
-    max-width: 600px;
-    margin: 0 auto;
+  max-width: 600px;
+  margin: 0 auto;
 
-    &__group {
-        display: flex;
+  &__group {
+    display: flex;
 
-        &__date {
-            flex-shrink: 0;
-        }
-        &__mark {
-            width: 30px;
-            height: 30px;
-            background-color: $white;
-            border-radius: $border-circle;
-            border: 8px solid $color-primary;
-        }
-        &__timeline {
-            border-right: 2px dashed $color-primary-light;
-            height: calc(100% - 46px);
-            margin-right: calc(#{$unit} * 3.5);
-            margin-top: calc(#{$unit} * 2);
-        }
-        &__items {
-            flex-grow: 1;
-            padding-left: calc(#{$unit} * 4);
-        }
+    &__date {
+      flex-shrink: 0;
     }
+
+    &__mark {
+      width: 30px;
+      height: 30px;
+      background-color: $white;
+      border-radius: $border-circle;
+      border: 8px solid $color-primary;
+    }
+
+    &__timeline {
+      border-right: 2px dashed $color-primary-light;
+      height: calc(100% - 46px);
+      margin-right: calc(#{$unit} * 3.5);
+      margin-top: calc(#{$unit} * 2);
+    }
+
+    &__items {
+      flex-grow: 1;
+      padding-left: calc(#{$unit} * 4);
+    }
+  }
 }

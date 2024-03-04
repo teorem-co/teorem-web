@@ -11,8 +11,8 @@ export const myReviewsService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         getMyReviews: builder.query<IMyReviews, IGetMyReviews>({
             query: (obj) => ({
-              url: `${URL}/${obj.tutorId}?page=${obj.page-1}&size=${obj.rpp}`, //TODO: this -1 will be fixed later, will fix it when i fix all paginations - Antonio
-              method: HttpMethods.GET,
+                url: `${URL}/${obj.tutorId}?page=${obj.page - 1}&size=${obj.rpp}`, //TODO: this -1 will be fixed later, will fix it when i fix all paginations - Antonio
+                method: HttpMethods.GET,
             }),
             transformResponse: (response: IMyReviews) => {
                 return response;

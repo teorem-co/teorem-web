@@ -8,98 +8,94 @@ import ImageCircle from '../../../components/ImageCircle';
 import { getUserRoleAbbrv } from '../../../../services/tutorService';
 
 interface Props {
-  data: IChatConversationItem;
-  chat: IChatRoom;
-  active?: boolean;
+    data: IChatConversationItem;
+    chat: IChatRoom;
+    active?: boolean;
 }
 
 const ConversationAside = (props: Props) => {
-  const { t } = useTranslation();
-  const { imgUrl, name, lastMessage, lastMessageTime, unread, numberOfUnread } = props.data;
-  const messageRef = useRef<HTMLDivElement>(null);
+    const { t } = useTranslation();
+    const { imgUrl, name, lastMessage, lastMessageTime, unread, numberOfUnread } = props.data;
+    const messageRef = useRef<HTMLDivElement>(null);
 
-  const [messageDisplay, setMessageDisplay] = useState<string>('');
-  const dispatch = useDispatch();
+    const [messageDisplay, setMessageDisplay] = useState<string>('');
+    const dispatch = useDispatch();
 
-  const selectChat = () => {
-    dispatch(setActiveChatRoom(props.chat));
-  };
+    const selectChat = () => {
+        dispatch(setActiveChatRoom(props.chat));
+    };
 
-  useEffect(() => {
-    if (messageRef.current) {
-      let message: string;
-      const child = messageRef.current.firstElementChild;
+    useEffect(() => {
+        if (messageRef.current) {
+            let message: string;
+            const child = messageRef.current.firstElementChild;
 
-      if (child) {
-        message = child.innerHTML;
-      } else {
-        message = messageRef.current.innerHTML;
-      }
+            if (child) {
+                message = child.innerHTML;
+            } else {
+                message = messageRef.current.innerHTML;
+            }
 
-      if (message.length > 80) {
-        message = message.substring(0, 80) + '...';
+            if (message.length > 80) {
+                message = message.substring(0, 80) + '...';
 
-        if (child) {
-          child.innerHTML = message;
-        } else {
-          messageRef.current.innerHTML = message;
+                if (child) {
+                    child.innerHTML = message;
+                } else {
+                    messageRef.current.innerHTML = message;
+                }
+            }
         }
-      }
-    }
-  }, [messageRef]);
+    }, [messageRef]);
 
-  useEffect(() => {
-    let textMessage = lastMessage.substring(0, 10) + '...';
-    textMessage = textMessage.replace(/stringTranslate=\{(.*?)\}/g, function(match: any, token: any) {
-      return t(token);
-    });
-    textMessage = textMessage.replace(/userInsert=\{(.*?)\}/g, function(match: any, token: any) {
-      return name;
-    });
+    useEffect(() => {
+        let textMessage = lastMessage.substring(0, 10) + '...';
+        textMessage = textMessage.replace(/stringTranslate=\{(.*?)\}/g, function (match: any, token: any) {
+            return t(token);
+        });
+        textMessage = textMessage.replace(/userInsert=\{(.*?)\}/g, function (match: any, token: any) {
+            return name;
+        });
 
-    setMessageDisplay(textMessage);
-  }, [lastMessage]);
+        setMessageDisplay(textMessage);
+    }, [lastMessage]);
 
-  return (
-    <div
-      className={`chat__conversation${props.active ? ' chat__conversation__active' : ''}`}
-      onClick={selectChat}
-      style={{ position: 'relative'}}>
-      {(imgUrl !== undefined && typeof imgUrl === 'string') ? (
-         <img className='chat__conversation__avatar image'
-              src={imgUrl}
-              alt='user avatar' />
-      ) : (
-         <ImageCircle
-           initials={
-             getUserRoleAbbrv() === 'tutor'?
-               `${props.chat.user?.userNickname.split(' ')[0].charAt(0)}${props.chat.user?.userNickname.split(' ')[1].charAt(0)}`
-               :
-               `${props.chat.tutor?.userNickname.split(' ')[0].charAt(0)}${props.chat.tutor?.userNickname.split(' ')[1].charAt(0)}`
-           }
-         />
-      )}
-      {/* <div className="chat__conversation__avatar"></div> */}
-      <div className='flex flex--col flex--jc--center flex--grow ml-2'>
-        <div className='type--wgt--bold'>{name}</div>
-        <div ref={messageRef} className='aside-conversation-message'
-             dangerouslySetInnerHTML={{ __html: messageDisplay }}></div>
-      </div>
-      <div className='flex flex--col flex--jc--center flex--shrink flex--end'>
+    return (
         <div
-          className='type--sm type--color--secondary mt-3'>{lastMessageTime}</div>
-        <div>
-          { numberOfUnread !== 0 && numberOfUnread &&
-            <div className="chat-circle-message-count-container">
-              <div className="chat-circle-message-count-circle">
-                <span className="chat-circle-message-count-number">{numberOfUnread <= 10 ? numberOfUnread : '10+'}</span>
-              </div>
+            className={`chat__conversation${props.active ? ' chat__conversation__active' : ''}`}
+            onClick={selectChat}
+            style={{ position: 'relative' }}
+        >
+            {imgUrl !== undefined && typeof imgUrl === 'string' ? (
+                <img className="chat__conversation__avatar image" src={imgUrl} alt="user avatar" />
+            ) : (
+                <ImageCircle
+                    initials={
+                        getUserRoleAbbrv() === 'tutor'
+                            ? `${props.chat.user?.userNickname.split(' ')[0].charAt(0)}${props.chat.user?.userNickname.split(' ')[1].charAt(0)}`
+                            : `${props.chat.tutor?.userNickname.split(' ')[0].charAt(0)}${props.chat.tutor?.userNickname.split(' ')[1].charAt(0)}`
+                    }
+                />
+            )}
+            {/* <div className="chat__conversation__avatar"></div> */}
+            <div className="flex flex--col flex--jc--center flex--grow ml-2">
+                <div className="type--wgt--bold">{name}</div>
+                <div ref={messageRef} className="aside-conversation-message" dangerouslySetInnerHTML={{ __html: messageDisplay }}></div>
             </div>
-          }
+            <div className="flex flex--col flex--jc--center flex--shrink flex--end">
+                <div className="type--sm type--color--secondary mt-3">{lastMessageTime}</div>
+                <div>
+                    {numberOfUnread !== 0 && numberOfUnread && (
+                        <div className="chat-circle-message-count-container">
+                            <div className="chat-circle-message-count-circle">
+                                <span className="chat-circle-message-count-number">{numberOfUnread <= 10 ? numberOfUnread : '10+'}</span>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default ConversationAside;

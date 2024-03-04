@@ -1,4 +1,3 @@
-import { t } from 'i18next';
 import { reverse } from 'lodash';
 import { FC, useEffect, useState } from 'react';
 
@@ -41,8 +40,8 @@ const Ratings: FC<Props> = (props: Props) => {
                     return (
                         <div key={index} className="rating__item">
                             <div className="mr-3 flex flex--row flex--ai--center">
-                              {item.mark}
-                              <AiFillStar className="ml-1" color={'darkgrey'}/>
+                                {item.mark}
+                                <AiFillStar className="ml-1" color={'darkgrey'} />
                             </div>
                             <div className="flex flex--center">
                                 <div className="rating__progress">

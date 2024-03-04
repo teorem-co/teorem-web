@@ -7,8 +7,7 @@ import { useGetLevelsQuery } from '../../../../services/levelService';
 
 import { useCreateSubjectMutation, useGetSubjectsQuery } from '../../../../services/subjectService';
 import { useLazyGetProfileProgressQuery } from '../../../../services/tutorService';
-import MySelect, { OptionType } from '../../../components/form/MySelectField';
-import MyTextField from '../../../components/form/MyTextField';
+import MySelect from '../../../components/form/MySelectField';
 import { useLazyGetCountriesQuery } from '../../../features/onboarding/services/countryService';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
@@ -35,6 +34,7 @@ interface Values {
     subject: string;
     price: string;
 }
+
 export const CreateSubjectCard = (props: Props) => {
     const { data, isLastForm, updateForm, id, removeItem, handleGetData } = props;
 
@@ -186,7 +186,10 @@ export const CreateSubjectCard = (props: Props) => {
                                     helperText={formik.touched.price && formik.errors.price ? formik.errors.price : ' '}
                                     error={formik.touched.price && Boolean(formik.errors.price)}
                                     FormHelperTextProps={{
-                                        style: { padding: 0, height: formik.touched.price && formik.errors.price ? 'auto' : '18px' },
+                                        style: {
+                                            padding: 0,
+                                            height: formik.touched.price && formik.errors.price ? 'auto' : '18px',
+                                        },
                                     }}
                                 />
                                 <div className="type--center ml-1 mb-5 type--md">/h</div>

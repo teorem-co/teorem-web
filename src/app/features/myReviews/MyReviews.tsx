@@ -4,17 +4,13 @@ import { useEffect, useState } from 'react';
 
 import MainWrapper from '../../components/MainWrapper';
 import LoaderMyReviews from '../../components/skeleton-loaders/LoaderMyReviews';
-import LoaderStatistics
-  from '../../components/skeleton-loaders/LoaderStatistics';
+import LoaderStatistics from '../../components/skeleton-loaders/LoaderStatistics';
 import { useAppSelector } from '../../hooks';
 import Ratings from './components/Ratings';
 import ReviewItem from './components/ReviewItem';
 import IMyReview from './interfaces/IMyReview';
 import IMyReviewParams from './interfaces/IMyReviewParams';
-import {
-  useLazyGetMyReviewsQuery,
-  useLazyGetStatisticsQuery,
-} from './services/myReviewsService';
+import { useLazyGetMyReviewsQuery, useLazyGetStatisticsQuery } from './services/myReviewsService';
 
 export interface IGetMyReviews {
     rpp: number;
@@ -105,13 +101,12 @@ const MyReviews = () => {
     return (
         <MainWrapper>
             <div onScroll={(e: any) => debouncedScrollHandler(e.target)} className="card--secondary">
-                  <div className="card--secondary__head">
-                      <h2 className="type--wgt--bold type--lg">{t('MY_REVIEWS.TITLE')}</h2>
-                  </div>
-                  <div className="card--secondary__body my-reviews__wrapper">
+                <div className="card--secondary__head">
+                    <h2 className="type--wgt--bold type--lg">{t('MY_REVIEWS.TITLE')}</h2>
+                </div>
+                <div className="card--secondary__body my-reviews__wrapper">
                     <div className="my-reviews__main">
-                        <div className="mb-10 flex--primary">
-                        </div>
+                        <div className="mb-10 flex--primary"></div>
                         {isLoading ? (
                             <div>
                                 <LoaderMyReviews />
@@ -140,29 +135,28 @@ const MyReviews = () => {
                         )}
                     </div>
                     <div className="my-reviews__aside">
-                     <div className="flex flex--col flex--ai--center">
-                       <div className="mb-2 flex flex--jc--center">
-                         <span className="type--uppercase type--color--tertiary">{t('MY_REVIEWS.AVG_SCORE')}</span>
-                         <span className="tag--primary d--ib ml-2">
-                          {tutorStatistics?.statistic ? tutorStatistics?.statistic.toFixed(1) : 0}
-                        </span>
-                       </div>
-                       <div className="mb-6">
-                         <span className="type--uppercase type--color--tertiary">{t('MY_REVIEWS.COUNT_TITLE')}</span>
-                         <span className="tag--primary d--ib ml-2">{myReviews ? myReviews.count : 0}</span>
-                       </div>
-                     </div>
-                      {statisticsLoading ? (
-                        <div>
-                          <LoaderStatistics />
+                        <div className="flex flex--col flex--ai--center">
+                            <div className="mb-2 flex flex--jc--center">
+                                <span className="type--uppercase type--color--tertiary">{t('MY_REVIEWS.AVG_SCORE')}</span>
+                                <span className="tag--primary d--ib ml-2">
+                                    {tutorStatistics?.statistic ? tutorStatistics?.statistic.toFixed(1) : 0}
+                                </span>
+                            </div>
+                            <div className="mb-6">
+                                <span className="type--uppercase type--color--tertiary">{t('MY_REVIEWS.COUNT_TITLE')}</span>
+                                <span className="tag--primary d--ib ml-2">{myReviews ? myReviews.count : 0}</span>
+                            </div>
                         </div>
-                      ) : (
-                        <div className="flex flex--jc--center">
-                          <Ratings ratings={tutorStatistics ? tutorStatistics.result : []} />
-                        </div>
-                      )}
+                        {statisticsLoading ? (
+                            <div>
+                                <LoaderStatistics />
+                            </div>
+                        ) : (
+                            <div className="flex flex--jc--center">
+                                <Ratings ratings={tutorStatistics ? tutorStatistics.result : []} />
+                            </div>
+                        )}
                     </div>
-
                 </div>
             </div>
         </MainWrapper>

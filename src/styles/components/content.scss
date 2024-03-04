@@ -6,60 +6,62 @@ $header-height: 48px;
 $footer-height: 72px;
 
 .content {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
 
   //background-color: red;
 
-    &__header {
-        height: $header-height;
-        border-bottom: 1px solid $border-color;
-        background-color: $white;
-        flex-shrink: 0;
+  &__header {
+    height: $header-height;
+    border-bottom: 1px solid $border-color;
+    background-color: $white;
+    flex-shrink: 0;
 
-        &--chat {
-            height: unset;
-            padding: calc($unit * 4);
+    &--chat {
+      height: unset;
+      padding: calc($unit * 4);
 
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-    &__main {
-        display: flex;
-        flex-grow: 1;
-        flex-flow: column;
-        flex-wrap: nowrap;
+  }
 
-        padding: calc(#{$unit} * 6);
-        overflow-y: auto;
-        //scroll-behavior: smooth;
+  &__main {
+    display: flex;
+    flex-grow: 1;
+    flex-flow: column;
+    flex-wrap: nowrap;
 
-        //container sizes
-        &--md {
-            max-width: 1100px;
-        }
+    padding: calc(#{$unit} * 6);
+    overflow-y: auto;
+    //scroll-behavior: smooth;
+
+    //container sizes
+    &--md {
+      max-width: 1100px;
     }
-    &__footer {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        // due to the desired initial flex-end behaviour, if we have two groups of buttons their order is reversed
-        // for example
-        //    - delete button needs to be under save button in HTML to be pushed on the other side
-        //flex-flow: row-reverse;
+  }
 
-        height: $footer-height;
-        min-height: $footer-height;
-        padding: 0 calc(#{$unit} * 6);
-        border-top: 1px solid $border-color;
-        background-color: $white;
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    // due to the desired initial flex-end behaviour, if we have two groups of buttons their order is reversed
+    // for example
+    //    - delete button needs to be under save button in HTML to be pushed on the other side
+    //flex-flow: row-reverse;
 
-        &--chat {
-            flex-wrap: wrap;
-        }
+    height: $footer-height;
+    min-height: $footer-height;
+    padding: 0 calc(#{$unit} * 6);
+    border-top: 1px solid $border-color;
+    background-color: $white;
+
+    &--chat {
+      flex-wrap: wrap;
     }
+  }
 }

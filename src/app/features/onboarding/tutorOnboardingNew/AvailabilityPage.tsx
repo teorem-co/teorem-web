@@ -135,7 +135,10 @@ const AvailabilityPage = ({ nextStep }: AvailabilityProps) => {
 
         if (tutorAvailability && tutorAvailability[1].length > 1) {
             const tutorId = getUserId();
-            await updateTutorAvailability({ tutorId: tutorId ? tutorId : '', tutorAvailability: toSend });
+            await updateTutorAvailability({
+                tutorId: tutorId ? tutorId : '',
+                tutorAvailability: toSend,
+            });
             const progressResponse = await getProfileProgress().unwrap();
             setProgressPercentage(progressResponse.percentage);
             await dispatch(setMyProfileProgress(progressResponse));
@@ -207,7 +210,15 @@ const AvailabilityPage = ({ nextStep }: AvailabilityProps) => {
     return (
         <>
             {banner ? (
-                <div style={{ backgroundColor: '#7e6cf2', padding: '5px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div
+                    style={{
+                        backgroundColor: '#7e6cf2',
+                        padding: '5px',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                    }}
+                >
                     <div style={{ flexGrow: 1, justifyContent: 'center' }}>
                         <p className="ml-6 text-align--center" style={{ fontSize: 'small', color: '#f8f7fe' }}>
                             {t('TUTOR_ONBOARDING.TITLE')} {t('TUTOR_ONBOARDING.SUBTITLE')}
@@ -236,7 +247,12 @@ const AvailabilityPage = ({ nextStep }: AvailabilityProps) => {
                 {(loading && <LoaderPrimary />) || (
                     <div
                         className="flex--center m-2"
-                        style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            flexDirection: 'column',
+                        }}
                     >
                         <div className="type--base align--center field__w-fit-content p-2" style={{ color: '#636363', textAlign: 'center' }}>
                             <span>{t('TUTOR_ONBOARDING.TOOLTIPS.AVAILABILITY_1')}</span>

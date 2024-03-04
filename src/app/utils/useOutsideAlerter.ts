@@ -13,6 +13,7 @@ const useOutsideAlerter = (ref: any, handleOutsideClick: () => void) => {
                 handleOutsideClick();
             }
         }
+
         // Bind the event listener
         document.addEventListener('mousedown', handleClickOutside);
         return () => {

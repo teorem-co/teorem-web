@@ -70,14 +70,7 @@ export const parentRegisterSlice = createSlice({
     initialState,
     reducers: {
         setRegister(state, action: PayloadAction<IRegister>) {
-            const {
-                firstName,
-                lastName,
-                email,
-                password,
-                passwordRepeat,
-                roleSelection,
-            } = action.payload;
+            const { firstName, lastName, email, password, passwordRepeat, roleSelection } = action.payload;
             state.firstName = firstName;
             state.lastName = lastName;
             state.email = email;
@@ -97,13 +90,7 @@ export const parentRegisterSlice = createSlice({
             state.phoneNumber = phoneNumber;
         },
         setStepTwo(state, action: PayloadAction<IStepTwo>) {
-            const {
-                childFirstName,
-                childLastName,
-                childDateOfBirth,
-                username,
-                childPassword,
-            } = action.payload;
+            const { childFirstName, childLastName, childDateOfBirth, username, childPassword } = action.payload;
             state.childFirstName = childFirstName;
             state.childLastName = childLastName;
             state.childDateOfBirth = childDateOfBirth;
@@ -134,13 +121,6 @@ export const parentRegisterSlice = createSlice({
     },
 });
 
-export const {
-    setRegister,
-    setStepOne,
-    setStepTwo,
-    resetParentRegister,
-    setChildList,
-    setSkip,
-} = parentRegisterSlice.actions;
+export const { setRegister, setStepOne, setStepTwo, resetParentRegister, setChildList, setSkip } = parentRegisterSlice.actions;
 
 export default parentRegisterSlice.reducer;

@@ -24,7 +24,6 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { FormControl, InputLabel, MenuItem, OutlinedInput } from '@mui/material';
 import { useLazyGetTutorUnavailableDaysQuery } from '../../../../services/tutorService';
-import { isEqual } from 'lodash';
 import { TeoremConstants } from '../../../TeoremConstants';
 
 interface IProps {

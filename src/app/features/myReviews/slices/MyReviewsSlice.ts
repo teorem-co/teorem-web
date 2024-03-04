@@ -9,7 +9,7 @@ interface IState {
 const initialState: IState = {
     myReviews: {
         count: 0,
-        rows: []
+        rows: [],
     },
 };
 

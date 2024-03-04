@@ -5,21 +5,12 @@ import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import * as Yup from 'yup';
 
-import {
-  useGetLevelsQuery,
-} from '../../../../services/levelService';
-import {
-  useDeleteSubjectMutation, useGetSubjectsQuery,
-  useUpdateSubjectMutation,
-} from '../../../../services/subjectService';
-import {
-  useLazyGetProfileProgressQuery, useLazyGetTutorByIdQuery,
-} from '../../../../services/tutorService';
+import { useGetLevelsQuery } from '../../../../services/levelService';
+import { useDeleteSubjectMutation, useGetSubjectsQuery, useUpdateSubjectMutation } from '../../../../services/subjectService';
+import { useLazyGetProfileProgressQuery, useLazyGetTutorByIdQuery } from '../../../../services/tutorService';
 import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import MyTextField from '../../../components/form/MyTextField';
-import {
-  useLazyGetCountriesQuery,
-} from '../../onboarding/services/countryService';
+import { useLazyGetCountriesQuery } from '../../onboarding/services/countryService';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import getUrlParams from '../../../utils/getUrlParams';
@@ -72,13 +63,11 @@ const EditSubjectSidebar = (props: Props) => {
     const [minPrice, setMinPrice] = useState(47);
     const getCurrency = async () => {
         const res = await getCountries().unwrap();
-        res.forEach(c => {
+        res.forEach((c) => {
             if (c.id === countryId) {
                 setCurrency(c.currencyCode);
-                if (c.currencyCode == "EUR")
-                    setMinPrice(10);
-                if (c.currencyCode == "PLZ")
-                    setMinPrice(47);
+                if (c.currencyCode == 'EUR') setMinPrice(10);
+                if (c.currencyCode == 'PLZ') setMinPrice(47);
             }
         });
     };
@@ -88,13 +77,13 @@ const EditSubjectSidebar = (props: Props) => {
     const dispatch = useAppDispatch();
     const tutorId = useAppSelector((state) => state.auth.user?.id);
     const urlQueries = getUrlParams(history.location.search.replace('?', ''));
-    const selectedSubject = myTeachingsData.tutorSubjects && myTeachingsData.tutorSubjects.find((x) => x.id === urlQueries.subjectId );
+    const selectedSubject = myTeachingsData.tutorSubjects && myTeachingsData.tutorSubjects.find((x) => x.id === urlQueries.subjectId);
     const { t } = useTranslation();
 
     const handleDeleteSubject = async (objectId: string) => {
         await deleteSubject({
-          tutorId: props.tutorId || getUserId(),
-          objectId: objectId
+            tutorId: props.tutorId || getUserId(),
+            objectId: objectId,
         });
         handleGetData();
         closeSidebar();
@@ -113,7 +102,7 @@ const EditSubjectSidebar = (props: Props) => {
             price: Number(values.price),
             id: selectedSubject?.id,
             tutorId: props.tutorId || getUserId(),
-            levelId: values.level
+            levelId: values.level,
         });
     };
 
@@ -121,7 +110,9 @@ const EditSubjectSidebar = (props: Props) => {
         initialValues: initialValues,
         onSubmit: handleSubmit,
         validationSchema: Yup.object().shape({
-            price: Yup.number().required(t('FORM_VALIDATION.REQUIRED')).min(minPrice, t('FORM_VALIDATION.PRICE') + minPrice),
+            price: Yup.number()
+                .required(t('FORM_VALIDATION.REQUIRED'))
+                .min(minPrice, t('FORM_VALIDATION.PRICE') + minPrice),
         }),
     });
 
@@ -133,9 +124,8 @@ const EditSubjectSidebar = (props: Props) => {
         }
     }, [isSuccessUpdateSubject]);
 
-
     useEffect(() => {
-        getProfileData(props.tutorId ? props.tutorId : tutorId ? tutorId : "");
+        getProfileData(props.tutorId ? props.tutorId : tutorId ? tutorId : '');
     }, []);
 
     useEffect(() => {

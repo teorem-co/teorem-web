@@ -3,383 +3,391 @@
 */
 
 .card {
-    &--primary {
-        background-color: $white;
-        padding: 12px;
-        border: 1px solid $grey-ed;
-        border-radius: $border-rounded;
-        &--shadow {
-            box-shadow: 2px 2px 12px $grey-ed;
-        }
+  &--primary {
+    background-color: $white;
+    padding: 12px;
+    border: 1px solid $grey-ed;
+    border-radius: $border-rounded;
+
+    &--shadow {
+      box-shadow: 2px 2px 12px $grey-ed;
+    }
+  }
+
+  &--secondary {
+    height: calc(100% - 48px);
+    overflow-y: scroll;
+    overflow-x: hidden;
+    background-color: $white;
+    border-radius: $border-rounded;
+    margin: calc(#{$unit} * 6);
+    border: 1px solid $grey-ed;
+    @media (max-width: 756px) {
+      margin: 0;
     }
 
-    &--secondary {
-        height: calc(100% - 48px);
-        overflow-y: scroll;
-      overflow-x: hidden ;
-        background-color: $white;
-        border-radius: $border-rounded;
-        margin: calc(#{$unit} * 6);
-        border: 1px solid $grey-ed;
-        @media (max-width: 756px) {
-          margin: 0;
-        }
+
+    &__head {
+      z-index: 7;
+      position: sticky;
+      top: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: calc(#{$unit} * 6);
+      border-bottom: 1px solid $grey-ed;
+
+      backdrop-filter: blur(20px);
+      background-color: rgba(255, 255, 255, 0.8);
+
+      @media (max-width: $responsive-md) {
+        justify-content: center;
+        padding: calc(#{$unit} * 6) calc(#{$unit} * 4);
+      }
 
 
-        &__head {
-            z-index: 7;
-            position: sticky;
-            top: 0;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            padding: calc(#{$unit} * 6);
-            border-bottom: 1px solid $grey-ed;
-
-            backdrop-filter: blur(20px);
-            background-color: rgba(255, 255, 255, 0.8);
-
-            @media (max-width: $responsive-md) {
-              justify-content: center;
-              padding: calc(#{$unit} * 6) calc(#{$unit} * 4);
-            }
-
-
-            &--search-tutor {
-                @media (max-width: $responsive-xl) {
-                    flex-direction: column;
-                    align-items: flex-start;
-                }
-            }
-        }
-
-        &__body {
-            padding: calc(#{$unit} * 10) calc(#{$unit} * 4);
-
-          @media (max-width: 756px) {
-            //padding-right: 5px;
-            //padding-left: 5px;
-          }
-        }
-
-        &--alt {
-            margin: 0;
-            height: 100%;
-        }
-    }
-
-    &--mini-calendar {
-        background-color: $white;
-        padding: calc(#{$unit} * 4);
-        border: 1px solid $grey-ed;
-        border-radius: $border-rounded;
-        margin-bottom: 16px;
-        position: relative;
-        overflow: hidden;
-        flex-shrink: 0;
-    }
-
-    &--calendar {
-        background-color: $white;
-        border: 1px solid $grey-ed;
-        border-radius: $border-rounded;
-        //overflow: auto;
-        //display: flex;
-        //flex-direction: column;
-
-        @media (min-width: $responsive-sm) {
-          height: 100%;
-        }
-        &--height{
-          height: 100%;
-        }
-
-        //@media (max-width: $responsive-sm) {
-        //  height: unset;
-        //}
-    }
-
-    &--lessons {
-        height: calc(100% - 48px);
-        overflow-y: auto;
-        background-color: $white;
-        border-radius: $border-rounded;
-        margin: calc(#{$unit} * 6);
-        border: 1px solid $grey-f5;
-
-        @media (max-width: $responsive-sm) {
-          margin: calc(#{$unit} * 1);
-        }
-
-        &__head {
-            z-index: 1;
-            position: sticky;
-            top: 0;
-            height: 85px;
-
-            padding: calc(#{$unit} * 6);
-            border-bottom: 1px solid $grey-ed;
-
-            font-size: 24px;
-            font-weight: 600;
-            backdrop-filter: blur(20px);
-            background-color: rgba(255, 255, 255, 0.8);
-        }
-
-        &__body {
-            display: flex;
-            height: calc(100% - 85px);
-
-            &__aside {
-                width: 460px;
-                flex-shrink: 0;
-                border-right: 1px solid $grey-ed;
-                height: 100%;
-                overflow-y: auto;
-
-                @media (max-width: $responsive-sm) {
-                  width: 100%;
-                }
-
-            }
-            &__main {
-                flex-grow: 1;
-                padding: calc(#{$unit} * 10) calc(#{$unit} * 14);
-                max-height: 100%;
-                overflow-y: auto;
-
-                @media(max-width: $responsive-sm){
-                  padding: calc(#{$unit} * 10) calc(#{$unit} * 2);
-                }
-            }
-        }
-    }
-
-    &--chat {
-        height: calc(100% - 20px);
-        //width: 100%;
-        background-color: $white;
-        border-radius: $border-rounded;
-        margin: 10px;
-        display: flex;
-
-        @media (max-width: $responsive-sm) {
-          height: calc(100% - 60px);
-        }
-
-        &__aside {
-            flex-shrink: 0;
-            width: 330px;
-            display: flex;
-            flex-direction: column;
-            border-right: 1px solid $grey-ed;
-
-          @media (max-width: $responsive-sm) {
-            border-right: none;
-            width: 100%;
-            //margin: 0 auto;
-          }
-        }
-
-        &__content {
-            flex-grow: 1;
-            padding: calc($unit * 6);
-            display: flex;
-            flex-direction: column;
-            border-left: 1px solid $grey-ed;
-        }
-    }
-
-    &--profile {
-        height: calc(100% - 48px);
-        // max-width: 1280px;
-
-        margin: calc(#{$unit} * 6);
-        padding: calc(#{$unit} * 6);
-
-        border-radius: $border-rounded;
-        border: 1px solid $grey-f5;
-
-        overflow-y: auto;
-        overflow-x: hidden;
-
-        background-color: $white;
-
-        @media (max-width: $responsive-sm) {
-          margin: calc(#{$unit} * 1);
-          padding: calc(#{$unit} * 1) calc(#{$unit} * 1) 20px;
-        }
-
-        &__section {
-            display: flex;
-            border-bottom: 1px solid $grey-ed;
-            padding-bottom: calc(#{$unit} * 10);
-            margin-bottom: calc(#{$unit} * 10);
-
-            @media (max-width: $responsive-lg) {
-                flex-direction: column;
-            }
-
-            &:last-child {
-                border-bottom: none;
-                padding-bottom: 0;
-                margin-bottom: 0;
-            }
-
-            //select first childs in section card and set their styles
-            & > div {
-                &:first-child {
-                    width: 320px;
-                    flex-shrink: 0;
-                    padding-right: calc(#{$unit} * 6);
-
-                    @media (max-width: $responsive-lg) {
-                        margin-bottom: calc(#{$unit} * 6);
-                        padding-right: 0;
-                    }
-                }
-                &:last-child {
-                    flex-grow: 1;
-                }
-            }
-        }
-
-        &__progress {
-            box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.05);
-            display: flex;
-            flex-wrap: wrap;
-            margin-bottom: calc($unit * 20);
-
-            @media (max-width: $responsive-xl) {
-                  flex-direction: column;
-            }
-
-            @media (max-width: $responsive-sm) {
-              margin-bottom: calc($unit * 10);
-            }
-
-            &__links {
-                display: flex;
-                flex-grow: 1;
-                justify-content: space-evenly;
-                width: 100%;
-                overflow-x: auto;
-              margin-bottom: 35px;
-              //border-bottom: 1px solid $grey-ed;
-
-                @media (max-width: $responsive-sm) {
-                  justify-content: center;
-                  align-items: unset;
-                  flex-wrap: wrap;
-                }
-
-                & > a {
-                 @media (max-width: $responsive-sm) {
-                   flex: 0 0 100px;
-                 }
-                }
-            }
-        }
-
-        &__progress {
-            box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.05);
-
-            @media (max-width: $responsive-xl) {
-                flex-direction: column;
-            }
-
-            //select first childs in section card and set their styles
-            & > div {
-                &:first-child {
-                    flex-shrink: 0;
-                }
-                &:last-child {
-                    flex-grow: 1;
-                }
-            }
-        }
-
-        &__savebtn {
-            opacity: 1;
-
-            &:disabled {
-                opacity: 0;
-                pointer-events: none;
-                user-select: none;
-            }
-        }
-    }
-
-    &--earnings {
-        overflow: hidden;
-        position: relative;
-        background-color: $white;
-        padding: calc(#{$unit} * 6);
-        border: 1px solid $grey-ed;
-        border-radius: $border-rounded;
-
+      &--search-tutor {
         @media (max-width: $responsive-xl) {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    }
+
+    &__body {
+      padding: calc(#{$unit} * 10) calc(#{$unit} * 4);
+
+      @media (max-width: 756px) {
+        //padding-right: 5px;
+        //padding-left: 5px;
+      }
+    }
+
+    &--alt {
+      margin: 0;
+      height: 100%;
+    }
+  }
+
+  &--mini-calendar {
+    background-color: $white;
+    padding: calc(#{$unit} * 4);
+    border: 1px solid $grey-ed;
+    border-radius: $border-rounded;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  &--calendar {
+    background-color: $white;
+    border: 1px solid $grey-ed;
+    border-radius: $border-rounded;
+    //overflow: auto;
+    //display: flex;
+    //flex-direction: column;
+
+    @media (min-width: $responsive-sm) {
+      height: 100%;
+    }
+
+    &--height {
+      height: 100%;
+    }
+
+    //@media (max-width: $responsive-sm) {
+    //  height: unset;
+    //}
+  }
+
+  &--lessons {
+    height: calc(100% - 48px);
+    overflow-y: auto;
+    background-color: $white;
+    border-radius: $border-rounded;
+    margin: calc(#{$unit} * 6);
+    border: 1px solid $grey-f5;
+
+    @media (max-width: $responsive-sm) {
+      margin: calc(#{$unit} * 1);
+    }
+
+    &__head {
+      z-index: 1;
+      position: sticky;
+      top: 0;
+      height: 85px;
+
+      padding: calc(#{$unit} * 6);
+      border-bottom: 1px solid $grey-ed;
+
+      font-size: 24px;
+      font-weight: 600;
+      backdrop-filter: blur(20px);
+      background-color: rgba(255, 255, 255, 0.8);
+    }
+
+    &__body {
+      display: flex;
+      height: calc(100% - 85px);
+
+      &__aside {
+        width: 460px;
+        flex-shrink: 0;
+        border-right: 1px solid $grey-ed;
+        height: 100%;
+        overflow-y: auto;
+
+        @media (max-width: $responsive-sm) {
+          width: 100%;
+        }
+
+      }
+
+      &__main {
+        flex-grow: 1;
+        padding: calc(#{$unit} * 10) calc(#{$unit} * 14);
+        max-height: 100%;
+        overflow-y: auto;
+
+        @media(max-width: $responsive-sm) {
+          padding: calc(#{$unit} * 10) calc(#{$unit} * 2);
+        }
+      }
+    }
+  }
+
+  &--chat {
+    height: calc(100% - 20px);
+    //width: 100%;
+    background-color: $white;
+    border-radius: $border-rounded;
+    margin: 10px;
+    display: flex;
+
+    @media (max-width: $responsive-sm) {
+      height: calc(100% - 60px);
+    }
+
+    &__aside {
+      flex-shrink: 0;
+      width: 330px;
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid $grey-ed;
+
+      @media (max-width: $responsive-sm) {
+        border-right: none;
+        width: 100%;
+        //margin: 0 auto;
+      }
+    }
+
+    &__content {
+      flex-grow: 1;
+      padding: calc($unit * 6);
+      display: flex;
+      flex-direction: column;
+      border-left: 1px solid $grey-ed;
+    }
+  }
+
+  &--profile {
+    height: calc(100% - 48px);
+    // max-width: 1280px;
+
+    margin: calc(#{$unit} * 6);
+    padding: calc(#{$unit} * 6);
+
+    border-radius: $border-rounded;
+    border: 1px solid $grey-f5;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    background-color: $white;
+
+    @media (max-width: $responsive-sm) {
+      margin: calc(#{$unit} * 1);
+      padding: calc(#{$unit} * 1) calc(#{$unit} * 1) 20px;
+    }
+
+    &__section {
+      display: flex;
+      border-bottom: 1px solid $grey-ed;
+      padding-bottom: calc(#{$unit} * 10);
+      margin-bottom: calc(#{$unit} * 10);
+
+      @media (max-width: $responsive-lg) {
+        flex-direction: column;
+      }
+
+      &:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+        margin-bottom: 0;
+      }
+
+      //select first childs in section card and set their styles
+      & > div {
+        &:first-child {
+          width: 320px;
+          flex-shrink: 0;
+          padding-right: calc(#{$unit} * 6);
+
+          @media (max-width: $responsive-lg) {
             margin-bottom: calc(#{$unit} * 6);
+            padding-right: 0;
+          }
         }
 
-        &__title {
-            font-size: 24px;
-            color: $color-primary;
-            font-weight: 600;
-            margin-bottom: calc(#{$unit} * 1);
+        &:last-child {
+          flex-grow: 1;
         }
-
-        i {
-            width: 61px;
-            height: 61px;
-            position: absolute;
-            bottom: 24px;
-            right: 24px;
-            background-color: $color-primary-lighter;
-        }
+      }
     }
 
-    &--dashboard {
-        background-color: $white;
-        padding: 24px;
-        border: 1px solid $grey-ed;
-        border-radius: $border-rounded;
+    &__progress {
+      box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: calc($unit * 20);
 
-        &--brand {
-            background-color: $color-primary;
-            color: $white;
-            .card--dashboard__btn {
-                color: white;
-                background-color: rgba(255, 255, 255, 0.15);
-            }
-        }
-        &__text {
-            opacity: 0.7;
-            margin-bottom: calc(#{$unit} * 4);
-            max-height: 40px;
+      @media (max-width: $responsive-xl) {
+        flex-direction: column;
+      }
 
-            &--ellipsis{
-                overflow: hidden;
-                text-overflow: ellipsis;
-                display: -webkit-box;
-                -webkit-line-clamp: 3;
-                line-clamp: 3;
-                -webkit-box-orient: vertical;
-                -webkit-box-sizing: border-box;
+      @media (max-width: $responsive-sm) {
+        margin-bottom: calc($unit * 10);
+      }
 
-                max-height: 60px;
-            }
+      &__links {
+        display: flex;
+        flex-grow: 1;
+        justify-content: space-evenly;
+        width: 100%;
+        overflow-x: auto;
+        margin-bottom: 35px;
+        //border-bottom: 1px solid $grey-ed;
+
+        @media (max-width: $responsive-sm) {
+          justify-content: center;
+          align-items: unset;
+          flex-wrap: wrap;
         }
 
-        &__btn {
-            background-color: rgba(124, 106, 244, 0.05);
-            color: $color-primary;
-            i {
-                pointer-events: none;
-            }
+        & > a {
+          @media (max-width: $responsive-sm) {
+            flex: 0 0 100px;
+          }
         }
+      }
     }
+
+    &__progress {
+      box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.05);
+
+      @media (max-width: $responsive-xl) {
+        flex-direction: column;
+      }
+
+      //select first childs in section card and set their styles
+      & > div {
+        &:first-child {
+          flex-shrink: 0;
+        }
+
+        &:last-child {
+          flex-grow: 1;
+        }
+      }
+    }
+
+    &__savebtn {
+      opacity: 1;
+
+      &:disabled {
+        opacity: 0;
+        pointer-events: none;
+        user-select: none;
+      }
+    }
+  }
+
+  &--earnings {
+    overflow: hidden;
+    position: relative;
+    background-color: $white;
+    padding: calc(#{$unit} * 6);
+    border: 1px solid $grey-ed;
+    border-radius: $border-rounded;
+
+    @media (max-width: $responsive-xl) {
+      margin-bottom: calc(#{$unit} * 6);
+    }
+
+    &__title {
+      font-size: 24px;
+      color: $color-primary;
+      font-weight: 600;
+      margin-bottom: calc(#{$unit} * 1);
+    }
+
+    i {
+      width: 61px;
+      height: 61px;
+      position: absolute;
+      bottom: 24px;
+      right: 24px;
+      background-color: $color-primary-lighter;
+    }
+  }
+
+  &--dashboard {
+    background-color: $white;
+    padding: 24px;
+    border: 1px solid $grey-ed;
+    border-radius: $border-rounded;
+
+    &--brand {
+      background-color: $color-primary;
+      color: $white;
+
+      .card--dashboard__btn {
+        color: white;
+        background-color: rgba(255, 255, 255, 0.15);
+      }
+    }
+
+    &__text {
+      opacity: 0.7;
+      margin-bottom: calc(#{$unit} * 4);
+      max-height: 40px;
+
+      &--ellipsis {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        line-clamp: 3;
+        -webkit-box-orient: vertical;
+        -webkit-box-sizing: border-box;
+
+        max-height: 60px;
+      }
+    }
+
+    &__btn {
+      background-color: rgba(124, 106, 244, 0.05);
+      color: $color-primary;
+
+      i {
+        pointer-events: none;
+      }
+    }
+  }
 }
 
 .card--lessons__body__main::-webkit-scrollbar {
@@ -395,18 +403,18 @@
   background-color: #555;
 }
 
-.card-role-select{
+.card-role-select {
 
 }
 
 @media (max-width: 767px) {
-  .card-role-select{
+  .card-role-select {
     width: 100px;
   }
 }
 
 @media (min-width: 767px) {
-  .card-role-select{
+  .card-role-select {
     width: 200px;
   }
 }
@@ -420,12 +428,11 @@
   }
 
 
-
-  .level-card{
+  .level-card {
     font-size: smaller;
   }
 
-  .subject-card img{
+  .subject-card img {
     align-self: center;
     height: 50px;
   }
@@ -438,23 +445,23 @@
     //flex: 0 0 calc(12.5% - 10px);
   }
 
-  .level-card{
+  .level-card {
     font-size: smaller;
   }
 
-  .subject-card img{
+  .subject-card img {
     align-self: center;
     width: 30px;
     height: 30px;
   }
 }
 
-.subject-card span{
+.subject-card span {
   width: max-content;
   align-self: center;
 }
 
-.text-elipsis{
+.text-elipsis {
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -486,6 +493,6 @@
   font-weight: bold;
 }
 
-.separator-line{
+.separator-line {
   border-bottom: 1px solid #ddd;
 }

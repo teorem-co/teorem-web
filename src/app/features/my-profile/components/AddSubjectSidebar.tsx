@@ -3,20 +3,13 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
-import {
-  useGetLevelsQuery,
-} from '../../../../services/levelService';
+import { useGetLevelsQuery } from '../../../../services/levelService';
 
-import {
-  useCreateSubjectMutation, useGetSubjectsQuery,
-} from '../../../../services/subjectService';
-import {
-  useLazyGetProfileProgressQuery} from '../../../../services/tutorService';
-import MySelect, { OptionType } from '../../../components/form/MySelectField';
+import { useCreateSubjectMutation, useGetSubjectsQuery } from '../../../../services/subjectService';
+import { useLazyGetProfileProgressQuery } from '../../../../services/tutorService';
+import MySelect from '../../../components/form/MySelectField';
 import MyTextField from '../../../components/form/MyTextField';
-import {
-  useLazyGetCountriesQuery,
-} from '../../../features/onboarding/services/countryService';
+import { useLazyGetCountriesQuery } from '../../../features/onboarding/services/countryService';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import { getUserId } from '../../../utils/getUserId';
@@ -41,8 +34,7 @@ const AddSubjectSidebar = (props: Props) => {
     const { data: subjectOptions, isLoading: isLoadingSubjects } = useGetSubjectsQuery();
     const { data: levelOptions, isLoading: isLoadingLevels } = useGetLevelsQuery();
 
-    const [createSubject, {isSuccess}] = useCreateSubjectMutation();
-
+    const [createSubject, { isSuccess }] = useCreateSubjectMutation();
 
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
 
@@ -62,51 +54,51 @@ const AddSubjectSidebar = (props: Props) => {
     const [getCountries] = useLazyGetCountriesQuery();
     const getCurrency = async () => {
         const res = await getCountries().unwrap();
-        res.forEach(c => {
+        res.forEach((c) => {
             if (c.id === countryId) {
                 setCurrency(c.currencyCode);
-                if (c.currencyCode == "EUR")
-                    setMinPrice(10);
-                if (c.currencyCode == "PLZ")
-                    setMinPrice(47);
+                if (c.currencyCode == 'EUR') setMinPrice(10);
+                if (c.currencyCode == 'PLZ') setMinPrice(47);
             }
         });
     };
 
     const handleSubmit = async (values: Values) => {
         await createSubject({
-          subjectId: values.subject,
-          price: Number(values.price),
-          tutorId: props.tutorId || getUserId(),
-          levelId: values.level
+            subjectId: values.subject,
+            price: Number(values.price),
+            tutorId: props.tutorId || getUserId(),
+            levelId: values.level,
         });
 
         handleGetData();
         closeSidebar();
         formik.resetForm();
 
-      //handle profile progress
-      if (!profileProgressState.myTeachings) {
-        const progressResponse = await getProfileProgress().unwrap();
-        dispatch(setMyProfileProgress(progressResponse));
-      }
+        //handle profile progress
+        if (!profileProgressState.myTeachings) {
+            const progressResponse = await getProfileProgress().unwrap();
+            dispatch(setMyProfileProgress(progressResponse));
+        }
     };
 
     useEffect(() => {
-      if(isSuccess){
-        toastService.success(t('MY_PROFILE.MY_TEACHINGS.CREATED'));
-      }
+        if (isSuccess) {
+            toastService.success(t('MY_PROFILE.MY_TEACHINGS.CREATED'));
+        }
     }, [isSuccess]);
 
     const formik = useFormik({
         initialValues: initialValues,
-        validateOnChange:true,
-        validateOnBlur:true,
+        validateOnChange: true,
+        validateOnBlur: true,
         onSubmit: handleSubmit,
         validationSchema: Yup.object().shape({
             level: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             subject: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            price: Yup.number().required(t('FORM_VALIDATION.REQUIRED')).min(minPrice, t('FORM_VALIDATION.PRICE') + minPrice),
+            price: Yup.number()
+                .required(t('FORM_VALIDATION.REQUIRED'))
+                .min(minPrice, t('FORM_VALIDATION.PRICE') + minPrice),
         }),
     });
 
@@ -114,7 +106,7 @@ const AddSubjectSidebar = (props: Props) => {
         getCurrency();
     }, []);
 
-  return (
+    return (
         <div>
             <div className={`cur--pointer sidebar__overlay ${!sideBarIsOpen ? 'sidebar__overlay--close' : ''}`} onClick={closeSidebar}></div>
 
@@ -163,12 +155,8 @@ const AddSubjectSidebar = (props: Props) => {
                                 <MyTextField
                                     name="price"
                                     id="price"
-                                    placeholder={
-                                        t('MY_PROFILE.MY_TEACHINGS.PRICING_PLACEHOLDER') +
-                                        ' ' + currency + '/h'}
-                                    withoutErr={
-                                        !(formik.errors.price &&
-                                            formik.touched.price)}
+                                    placeholder={t('MY_PROFILE.MY_TEACHINGS.PRICING_PLACEHOLDER') + ' ' + currency + '/h'}
+                                    withoutErr={!(formik.errors.price && formik.touched.price)}
                                     type="number"
                                 />
                             </div>

@@ -3,50 +3,53 @@
 */
 
 .rating {
-    &__item {
-        display: flex;
-        align-items: center;
-    }
-    &__progress {
-        position: relative;
-        display: inline-block;
-        width: 210px;
-        height: 6px;
-        border-radius: $border-circle;
-        background-color: $grey-ed;
-        overflow: hidden;
+  &__item {
+    display: flex;
+    align-items: center;
+  }
 
-        @media (max-width: 1200px) {
-          width: 100px;
-        }
+  &__progress {
+    position: relative;
+    display: inline-block;
+    width: 210px;
+    height: 6px;
+    border-radius: $border-circle;
+    background-color: $grey-ed;
+    overflow: hidden;
 
-        @media (max-width: $responsive-sm) {
-          width: 100px;
-        }
+    @media (max-width: 1200px) {
+      width: 100px;
+    }
 
-        &__bar {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 100%;
-            background-color: $color-primary;
-            border-radius: $border-circle;
-            height: 6px;
-        }
+    @media (max-width: $responsive-sm) {
+      width: 100px;
     }
-    &__stars {
-        position: relative;
-        display: block;
-        mask-image: url('./../../assets/icons/rating.svg');
-        width: 150px;
-        height: 24px;
-        background-color: $grey-ed;
-        &__fill {
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            background-color: $color-primary;
-        }
+
+    &__bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 100%;
+      background-color: $color-primary;
+      border-radius: $border-circle;
+      height: 6px;
     }
+  }
+
+  &__stars {
+    position: relative;
+    display: block;
+    mask-image: url('./../../assets/icons/rating.svg');
+    width: 150px;
+    height: 24px;
+    background-color: $grey-ed;
+
+    &__fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      background-color: $color-primary;
+    }
+  }
 }

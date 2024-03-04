@@ -25,12 +25,7 @@ const RatingField: React.FC<IRatingField> = (props: IRatingField) => {
     return (
         <>
             <div>
-                <svg
-                    width="254"
-                    viewBox="0 0 152 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className={`${ratingClass}`}
-                >
+                <svg width="254" viewBox="0 0 152 24" xmlns="http://www.w3.org/2000/svg" className={`${ratingClass}`}>
                     <path
                         className="cur--pointer"
                         onClick={() => onChangeRating('1')}
@@ -64,9 +59,7 @@ const RatingField: React.FC<IRatingField> = (props: IRatingField) => {
                 </svg>
             </div>
 
-            <div className="field__validation">
-                {errorText ? errorText : ''}
-            </div>
+            <div className="field__validation">{errorText ? errorText : ''}</div>
         </>
     );
 };

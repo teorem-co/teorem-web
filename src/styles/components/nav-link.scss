@@ -3,74 +3,75 @@
 */
 
 .nav-link {
-    &--profile {
-        &__wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 1000px;
-            //change background color when active
-            background-color: $color-primary-lighter;
-        }
-
-        &__label {
-            color: $color-primary-light;
-        }
-
-        &__icon {
-            background-color: $color-primary;
-        }
-
-        &.active {
-          font-weight: bold;
-          font-size: 16px;
-
-          .custom-line {
-            border-bottom: 2px solid #7e6cf2;
-            display: inline-block;
-          }
-            .nav-link--profile__wrapper {
-                background-color: $color-primary;
-            }
-
-            .nav-link--profile__label {
-                color: $color-primary;
-            }
-
-            .nav-link--profile__icon {
-                background-color: $white;
-            }
-        }
+  &--profile {
+    &__wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 1000px;
+      //change background color when active
+      background-color: $color-primary-lighter;
     }
 
-    &--landing {
-        font-size: 18px;
-        color: $grey-7f;
-        display: block;
-        position: relative;
-        margin: 0 calc(#{$unit} * 6);
-        transition: all 250ms ease-out;
-
-        &::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background-color: $color-text-primary;
-            transition: all 250ms ease-out;
-        }
-
-        &.active,
-        &:hover {
-            color: $black;
-
-            &::after {
-                width: 100%;
-            }
-        }
+    &__label {
+      color: $color-primary-light;
     }
+
+    &__icon {
+      background-color: $color-primary;
+    }
+
+    &.active {
+      font-weight: bold;
+      font-size: 16px;
+
+      .custom-line {
+        border-bottom: 2px solid #7e6cf2;
+        display: inline-block;
+      }
+
+      .nav-link--profile__wrapper {
+        background-color: $color-primary;
+      }
+
+      .nav-link--profile__label {
+        color: $color-primary;
+      }
+
+      .nav-link--profile__icon {
+        background-color: $white;
+      }
+    }
+  }
+
+  &--landing {
+    font-size: 18px;
+    color: $grey-7f;
+    display: block;
+    position: relative;
+    margin: 0 calc(#{$unit} * 6);
+    transition: all 250ms ease-out;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background-color: $color-text-primary;
+      transition: all 250ms ease-out;
+    }
+
+    &.active,
+    &:hover {
+      color: $black;
+
+      &::after {
+        width: 100%;
+      }
+    }
+  }
 }

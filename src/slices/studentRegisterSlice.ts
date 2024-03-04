@@ -44,14 +44,7 @@ export const studentRegisterSlice = createSlice({
     initialState,
     reducers: {
         setRegister(state, action: PayloadAction<IRegister>) {
-            const {
-                firstName,
-                lastName,
-                email,
-                password,
-                passwordRepeat,
-                roleSelection,
-            } = action.payload;
+            const { firstName, lastName, email, password, passwordRepeat, roleSelection } = action.payload;
             state.firstName = firstName;
             state.lastName = lastName;
             state.email = email;
@@ -79,7 +72,6 @@ export const studentRegisterSlice = createSlice({
     },
 });
 
-export const { setRegister, setStepOne, resetStudentRegister } =
-    studentRegisterSlice.actions;
+export const { setRegister, setStepOne, resetStudentRegister } = studentRegisterSlice.actions;
 
 export default studentRegisterSlice.reducer;

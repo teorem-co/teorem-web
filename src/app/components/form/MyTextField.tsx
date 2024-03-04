@@ -1,7 +1,6 @@
 import { FieldAttributes, useField } from 'formik';
 import React, { useEffect, useRef, useState } from 'react';
 import MaskedInput from 'react-text-mask';
-import { debounce } from 'lodash';
 
 type TextFieldType = {
     onError?: () => void;
@@ -36,11 +35,11 @@ const MyTextField: React.FC<TextFieldType> = (props: any) => {
     };
 
     useEffect(() => {
-      if(meta.touched && meta.error && props.onError && errorText) {
-        // const debouncedOnError = debounce(props.onError, 500);
-        // debouncedOnError();
-        props.onError();
-      }
+        if (meta.touched && meta.error && props.onError && errorText) {
+            // const debouncedOnError = debounce(props.onError, 500);
+            // debouncedOnError();
+            props.onError();
+        }
     }, [props.onError]);
 
     useEffect(() => {
@@ -81,7 +80,7 @@ const MyTextField: React.FC<TextFieldType> = (props: any) => {
                         className={`${props.className ?? 'input input--base input--text'} ${errorText ? 'input__border--error' : ''}`}
                     />
                 )}
-                {maxLength && props.id !== "currentOccupation" && (
+                {maxLength && props.id !== 'currentOccupation' && (
                     <div className="input--textarea__counter">
                         {characterCount}/{maxLength}
                     </div>

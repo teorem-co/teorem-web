@@ -1,11 +1,12 @@
 .container--flex--space-around {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 
 }
-.container{
-  &__fill-red{
+
+.container {
+  &__fill-red {
     background-color: red;
   }
 }
@@ -19,13 +20,13 @@
   width: 100%;
 }
 
-.container-dropdown{
+.container-dropdown {
   width: 100%;
-  flex-direction:column;
+  flex-direction: column;
 }
 
 
-.signup-container{
+.signup-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -37,7 +38,7 @@
   //width: 100%;
 }
 
-.level-card-container{
+.level-card-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -55,69 +56,70 @@
   //justify-content: ; /* Centers the items */
   width: 100%;
 }
+
 .subject-card-container > * {
   flex: 0 0 calc(33.333% - 10px); /* Assuming you want three cards per row */
   margin: 2.5px; /* half of the 5px gap on all sides */
 }
 
 @media (min-width: 767px) {
-  .signup-subject-container{
+  .signup-subject-container {
     width: 100%;
   }
 
-  .mail-icon{
+  .mail-icon {
     width: 250px;
   }
 
-  .confirm-mail-message{
+  .confirm-mail-message {
     font-size: medium;
   }
 }
 
 @media (min-width: 767px) {
-  .signup-subject-container{
+  .signup-subject-container {
     width: 30%;
   }
 
-  .subject-card{
+  .subject-card {
     font-size: medium;
   }
 
-  .info-text{
+  .info-text {
     font-size: medium;
   }
 
-  .btn-signup{
+  .btn-signup {
     font-size: medium;
   }
 }
 
 @media (max-width: 767px) {
-  .margin-mobile{
+  .margin-mobile {
     margin-bottom: 40px;
   }
 
-  .mail-icon{
+  .mail-icon {
     width: 100px;
   }
 
-  .confirm-mail-message{
+  .confirm-mail-message {
     font-size: smaller;
   }
 
-  .subject-card{
+  .subject-card {
     font-size: 2vw;
   }
 
-  .level-card{
+  .level-card {
     font-size: 2.5vw;
   }
 
-  .info-text{
+  .info-text {
     font-size: small;
   }
 
-  .btn-signup{
+  .btn-signup {
     font-size: small;
   }
 }
@@ -130,16 +132,17 @@
   max-width: 100%;
 }
 
-.subject-border{
+.subject-border {
   border: 1px solid $color-primary;
 }
-.profile-btn-container{
+
+.profile-btn-container {
   @media (max-width: $responsive-md) {
     margin-top: 8 * $unit;
   }
 }
 
-.subject-form-container{
+.subject-form-container {
   display: flex;
   flex-direction: row;
 
@@ -148,7 +151,7 @@
   }
 }
 
-.profile-preview-wrapper{
+.profile-preview-wrapper {
   width: 50%;
   //margin: 2 * $unit;
   @media (max-width: 767px) {
@@ -156,11 +159,11 @@
   }
 }
 
-.filters-container{
+.filters-container {
   gap: 5px;
 }
 
-.availability-container{
+.availability-container {
   display: flex;
   flex-direction: row;
 
@@ -170,17 +173,17 @@
   }
 }
 
-.availability-container-time{
+.availability-container-time {
   display: flex;
   flex-direction: row;
 
   @media (max-width: $responsive-sm) {
     display: flex;
-    flex-direction:column;
+    flex-direction: column;
   }
 }
 
-.notification-container{
+.notification-container {
   overflow: auto;
 
   @media (max-width: $responsive-sm) {
@@ -188,9 +191,9 @@
   }
 }
 
-.price-sort-container{
+.price-sort-container {
   @media (max-width: $responsive-sm) {
-      display: flex;
-      flex-direction: column;
+    display: flex;
+    flex-direction: column;
   }
 }

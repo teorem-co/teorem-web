@@ -1,11 +1,10 @@
-import { Field, Form, FormikProvider, useField, useFormik } from 'formik';
+import { Field, Form, FormikProvider, useFormik } from 'formik';
 import moment from 'moment';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
 import { IChild } from '../../../../interfaces/IChild';
-import IChildUpdate from '../../../../interfaces/IChildUpdate';
 import { useCheckUsernameMutation, useGenerateChildUsernameMutation } from '../../../../services/authService';
 import {
     ICreateChildRequest,
@@ -14,12 +13,10 @@ import {
     useDeleteChildMutation,
     useUpdateChildMutation,
 } from '../../../../services/userService';
-import MyDatePicker from '../../../components/form/MyDatePicker';
 import { useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
 import TooltipPassword from '../../register/TooltipPassword';
 import { InputAdornment, TextField } from '@mui/material';
-import { t } from 'i18next';
 import dayjs from 'dayjs';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -295,7 +292,10 @@ const AddChildSidebar = (props: Props) => {
                                         variant="outlined"
                                         color="secondary"
                                         InputProps={{
-                                            style: { fontFamily: "'Lato', sans-serif", backgroundColor: 'white' },
+                                            style: {
+                                                fontFamily: "'Lato', sans-serif",
+                                                backgroundColor: 'white',
+                                            },
                                         }}
                                         InputLabelProps={{
                                             style: { fontFamily: "'Lato', sans-serif" },
@@ -323,7 +323,10 @@ const AddChildSidebar = (props: Props) => {
                                             variant="outlined"
                                             color="secondary"
                                             InputProps={{
-                                                style: { fontFamily: "'Lato', sans-serif", backgroundColor: 'white' },
+                                                style: {
+                                                    fontFamily: "'Lato', sans-serif",
+                                                    backgroundColor: 'white',
+                                                },
                                             }}
                                             InputLabelProps={{
                                                 style: { fontFamily: "'Lato', sans-serif" },
@@ -347,7 +350,10 @@ const AddChildSidebar = (props: Props) => {
                                         variant="outlined"
                                         color="secondary"
                                         InputProps={{
-                                            style: { fontFamily: "'Lato', sans-serif", backgroundColor: 'white' },
+                                            style: {
+                                                fontFamily: "'Lato', sans-serif",
+                                                backgroundColor: 'white',
+                                            },
                                         }}
                                         InputLabelProps={{
                                             style: { fontFamily: "'Lato', sans-serif" },
@@ -379,7 +385,10 @@ const AddChildSidebar = (props: Props) => {
                                         variant="outlined"
                                         color="secondary"
                                         InputProps={{
-                                            style: { fontFamily: "'Lato', sans-serif", backgroundColor: 'white' },
+                                            style: {
+                                                fontFamily: "'Lato', sans-serif",
+                                                backgroundColor: 'white',
+                                            },
                                             endAdornment: (
                                                 <InputAdornment position="start">
                                                     <i

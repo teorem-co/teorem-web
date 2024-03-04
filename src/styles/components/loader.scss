@@ -3,90 +3,93 @@
 */
 
 .loader {
-    &--sceleton {
-        svg {
-            height: 100%;
-        }
+  &--sceleton {
+    svg {
+      height: 100%;
+    }
+  }
+
+  &--lesson-card {
+    max-width: 900px;
+    border: 2px dashed $grey-ed;
+    border-radius: $border-rounded;
+    padding: calc(#{$unit} * 6);
+  }
+
+  &--primary {
+    position: relative;
+    width: 100%;
+    height: 80px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    div {
+      position: absolute;
+      width: 64px;
+      height: 64px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50% -50%);
+
+      margin: 8px;
+      border: 8px solid $color-primary;
+      border-radius: $border-circle;
+      border-color: $color-primary transparent transparent transparent;
+
+      animation: loader-primary 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+
+      &:nth-child(1) {
+        animation-delay: -0.45s;
+      }
+
+      &:nth-child(2) {
+        animation-delay: -0.3s;
+      }
+
+      &:nth-child(3) {
+        animation-delay: -0.15s;
+      }
     }
 
-    &--lesson-card {
-        max-width: 900px;
-        border: 2px dashed $grey-ed;
-        border-radius: $border-rounded;
-        padding: calc(#{$unit} * 6);
-    }
-    &--primary {
-        position: relative;
-        width: 100%;
-        height: 80px;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        div {
-            position: absolute;
-            width: 64px;
-            height: 64px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50% -50%);
-
-            margin: 8px;
-            border: 8px solid $color-primary;
-            border-radius: $border-circle;
-            border-color: $color-primary transparent transparent transparent;
-
-            animation: loader-primary 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-
-            &:nth-child(1) {
-                animation-delay: -0.45s;
-            }
-            &:nth-child(2) {
-                animation-delay: -0.3s;
-            }
-            &:nth-child(3) {
-                animation-delay: -0.15s;
-            }
-        }
-
-        &--fh {
-            height: 100vh;
-        }
-
-        &--sm {
-            width: 20px;
-            height: 20px;
-            display: inline-block;
-            margin-right: 12px;
-
-            div {
-                margin: 0;
-                left: auto;
-                top: auto;
-                width: 20px;
-                height: 20px;
-                border-width: 2px;
-            }
-        }
+    &--fh {
+      height: 100vh;
     }
 
-    &--cover {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: $white;
-        z-index: 20;
+    &--sm {
+      width: 20px;
+      height: 20px;
+      display: inline-block;
+      margin-right: 12px;
+
+      div {
+        margin: 0;
+        left: auto;
+        top: auto;
+        width: 20px;
+        height: 20px;
+        border-width: 2px;
+      }
     }
+  }
+
+  &--cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: $white;
+    z-index: 20;
+  }
 }
 
 @keyframes loader-primary {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

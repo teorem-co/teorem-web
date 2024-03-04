@@ -1,7 +1,6 @@
 import { baseService } from '../../../baseService';
 import { HttpMethods } from '../../../lookups/httpMethods';
 import IAddCustomerPost from '../interfaces/IAddCustomerPost';
-import ICustomerSourcePost from '../interfaces/ICustomerSourcePost';
 import IDeleteCreditCard from '../interfaces/IDeleteCreditCard';
 import IGetCreditCards from '../interfaces/IGetCreditCards';
 import ISetDefaultCreditCard from '../interfaces/ISetDefaultCreditCard';
@@ -30,9 +29,9 @@ export interface IVerificationDocument {
     back: File;
 }
 
-export  interface IVerificationDocumentResponse {
-  stripeVerifiedStatus: string;
-  stripeVerificationDocumentsUploaded: boolean;
+export interface IVerificationDocumentResponse {
+    stripeVerifiedStatus: string;
+    stripeVerificationDocumentsUploaded: boolean;
 }
 
 export const stripeService = baseService.injectEndpoints({

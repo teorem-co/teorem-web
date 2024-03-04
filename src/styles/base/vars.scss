@@ -85,18 +85,18 @@ $responsive-xl: 1200px;
 
 //spacers building configs
 $modifiers: (
-    '': '',
-    't': '-top',
-    'r': '-right',
-    'b': '-bottom',
-    'l': '-left',
+  '': '',
+  't': '-top',
+  'r': '-right',
+  'b': '-bottom',
+  'l': '-left',
 );
 
 $responsiveConfig: (
-    $responsive-sm: 'sm',
-    $responsive-md: 'md',
-    $responsive-lg: 'lg',
-    $responsive-xl: 'xl',
+  $responsive-sm: 'sm',
+  $responsive-md: 'md',
+  $responsive-lg: 'lg',
+  $responsive-xl: 'xl',
 );
 
 // FLUID TYPOGRAPHY

@@ -3,769 +3,781 @@
 */
 
 .landing {
-    padding: calc($unit * 3) calc($unit * 4) 0;
+  padding: calc($unit * 3) calc($unit * 4) 0;
 
-    &::after {
-        content: '';
-        z-index: -1;
-        position: fixed;
-        left: 20vw;
-        top: 0;
-        height: 10000px;
-        border-left: 2px dashed $grey-f2;
-        @media (max-width: $responsive-sm) {
-            left: 16px;
-        }
+  &::after {
+    content: '';
+    z-index: -1;
+    position: fixed;
+    left: 20vw;
+    top: 0;
+    height: 10000px;
+    border-left: 2px dashed $grey-f2;
+    @media (max-width: $responsive-sm) {
+      left: 16px;
     }
-    &::before {
-        content: '';
-        z-index: -1;
-        position: fixed;
-        left: 80vw;
-        top: 0;
-        height: 10000px;
-        border-left: 2px dashed $grey-f2;
+  }
 
-        @media (max-width: $responsive-sm) {
-            left: calc(100vw - 16px);
+  &::before {
+    content: '';
+    z-index: -1;
+    position: fixed;
+    left: 80vw;
+    top: 0;
+    height: 10000px;
+    border-left: 2px dashed $grey-f2;
+
+    @media (max-width: $responsive-sm) {
+      left: calc(100vw - 16px);
+    }
+  }
+
+  @media (min-width: $responsive-xl) {
+    padding: calc($unit * 8) 165px 0;
+  }
+
+  &__avatar {
+    position: absolute;
+
+    img {
+      position: relative;
+      width: 90px;
+      border-radius: $border-rounded;
+      object-fit: cover;
+      display: inline-block;
+      //has to be smaller so it prevents horizontal overflow on smaller devices
+      @media (max-width: $responsive-md) {
+        width: 48px;
+      }
+    }
+
+    //adjust to fit smaller avatar images
+    &:before {
+      content: '';
+      position: absolute;
+
+      display: inline-block;
+      width: 32px;
+      height: 32px;
+
+      border: 2px dashed $color-primary;
+      border-radius: $border-circle;
+      background: transparent;
+
+      @media (min-width: $responsive-md) {
+        width: 68px;
+        height: 68px;
+      }
+    }
+
+    &--first {
+      left: 20%;
+      top: calc(-48px - 40px);
+
+      &::before {
+        top: 20px;
+        left: -12px;
+
+        @media (min-width: $responsive-md) {
+          top: 33px;
+          left: -18px;
         }
+      }
+
+      @media (min-width: $responsive-xl) {
+        left: -70px;
+        top: calc(-48px - 20px);
+      }
+    }
+
+    &--second {
+      top: calc(-48px - 60px);
+      right: 20%;
+
+      &::before {
+        top: 4px;
+        left: -9px;
+      }
+
+      @media (min-width: $responsive-xl) {
+        right: -80px;
+      }
+    }
+
+    &--third {
+      bottom: calc(-48px - 40px);
+      right: 0;
+
+      &::before {
+        bottom: 0px;
+        right: -10px;
+      }
+
+      @media (min-width: $responsive-xl) {
+        right: -140px;
+        bottom: calc(48px + 20px);
+      }
+    }
+
+    &--fourth {
+      bottom: calc(-48px - 80px);
+      right: 40%;
+
+      &::before {
+        top: -12px;
+        left: 0;
+      }
+
+      @media (min-width: $responsive-xl) {
+        right: -60px;
+      }
+    }
+
+    &--fifth {
+      bottom: calc(-48px - 70px);
+      left: 10%;
+
+      &::before {
+        top: 6px;
+        right: -12px;
+
+        @media (min-width: $responsive-md) {
+          top: 6px;
+          right: -20px;
+        }
+      }
+
+      @media (min-width: $responsive-xl) {
+        bottom: calc(-48px - 20px);
+        left: -80px;
+      }
+    }
+  }
+
+  &__card {
+    &--hero {
+      padding: 80px;
+      background-color: $white;
+      margin-top: -200px;
+      box-shadow: 0 0 12px 2px rgba(0, 0, 0, 0.1);
+      border-radius: $border-rounded;
+    }
+  }
+
+  &__cards {
+    overflow-x: auto;
+    padding: calc($unit * 3) calc($unit * 2);
+    white-space: nowrap;
+    text-align: center;
+    margin-left: calc(-100vw / 2 + 1100px / 2);
+    margin-right: calc(-100vw / 2 + 1100px / 2);
+
+    @media (max-width: $responsive-xl) {
+      width: 100%;
+      overflow: hidden;
+      white-space: normal;
+      text-align: left;
+    }
+
+    &__item {
+      padding: calc($unit * 2) calc($unit * 3);
+      margin-right: calc($unit * 4);
+      display: inline-block;
+
+      width: 156px;
+
+      background: $white;
+      box-shadow: 8px 6px 12px rgba(0, 0, 0, 0.05);
+      border-radius: 10px;
+
+      img {
+        display: inline-block;
+        max-width: 100%;
+        transition: all 250ms ease-in-out;
+      }
+
+      &:last-child {
+        margin-right: 0px;
+      }
+
+      @media (min-width: $responsive-xl) {
+        width: 206px;
+        padding: calc($unit * 3) 0;
+      }
+      @media (max-width: $responsive-xl) {
+        width: calc(50% - 32px);
+        margin: calc(#{$unit} * 4) calc(#{$unit} * 4);
+        text-align: center;
+      }
+      // @media (max-width: $responsive-sm) {
+      //     width: calc(100% - 32px);
+      // }
+    }
+  }
+
+  &__carousel {
+    margin-top: 140px;
+    display: flex;
+
+    &__item {
+      margin-right: 24px;
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  &__faq {
+    width: 100%;
+    max-width: 730px;
+    border: 1px solid $border-color;
+    border-style: dashed;
+    position: relative;
+
+    font-size: 16px;
+
+    @media (min-width: $responsive-xl) {
+      font-size: 24px;
+    }
+
+    & > div {
+      border-bottom: 1px solid $border-color;
+    }
+
+    :last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__features {
+    width: 100%;
+    display: none;
+
+    &--reverse {
+      flex-direction: row-reverse;
     }
 
     @media (min-width: $responsive-xl) {
-        padding: calc($unit * 8) 165px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
-    &__avatar {
-        position: absolute;
-
-        img {
-            position: relative;
-            width: 90px;
-            border-radius: $border-rounded;
-            object-fit: cover;
-            display: inline-block;
-            //has to be smaller so it prevents horizontal overflow on smaller devices
-            @media (max-width: $responsive-md) {
-                width: 48px;
-            }
-        }
-
-        //adjust to fit smaller avatar images
-        &:before {
-            content: '';
-            position: absolute;
-
-            display: inline-block;
-            width: 32px;
-            height: 32px;
-
-            border: 2px dashed $color-primary;
-            border-radius: $border-circle;
-            background: transparent;
-
-            @media (min-width: $responsive-md) {
-                width: 68px;
-                height: 68px;
-            }
-        }
-
-        &--first {
-            left: 20%;
-            top: calc(-48px - 40px);
-
-            &::before {
-                top: 20px;
-                left: -12px;
-
-                @media (min-width: $responsive-md) {
-                    top: 33px;
-                    left: -18px;
-                }
-            }
-
-            @media (min-width: $responsive-xl) {
-                left: -70px;
-                top: calc(-48px - 20px);
-            }
-        }
-
-        &--second {
-            top: calc(-48px - 60px);
-            right: 20%;
-
-            &::before {
-                top: 4px;
-                left: -9px;
-            }
-
-            @media (min-width: $responsive-xl) {
-                right: -80px;
-            }
-        }
-
-        &--third {
-            bottom: calc(-48px - 40px);
-            right: 0;
-
-            &::before {
-                bottom: 0px;
-                right: -10px;
-            }
-
-            @media (min-width: $responsive-xl) {
-                right: -140px;
-                bottom: calc(48px + 20px);
-            }
-        }
-
-        &--fourth {
-            bottom: calc(-48px - 80px);
-            right: 40%;
-
-            &::before {
-                top: -12px;
-                left: 0;
-            }
-
-            @media (min-width: $responsive-xl) {
-                right: -60px;
-            }
-        }
-
-        &--fifth {
-            bottom: calc(-48px - 70px);
-            left: 10%;
-
-            &::before {
-                top: 6px;
-                right: -12px;
-
-                @media (min-width: $responsive-md) {
-                    top: 6px;
-                    right: -20px;
-                }
-            }
-
-            @media (min-width: $responsive-xl) {
-                bottom: calc(-48px - 20px);
-                left: -80px;
-            }
-        }
-    }
-
-    &__card {
-        &--hero {
-            padding: 80px;
-            background-color: $white;
-            margin-top: -200px;
-            box-shadow: 0 0 12px 2px rgba(0, 0, 0, 0.1);
-            border-radius: $border-rounded;
-        }
-    }
-
-    &__cards {
-        overflow-x: auto;
-        padding: calc($unit * 3) calc($unit * 2);
-        white-space: nowrap;
-        text-align: center;
-        margin-left: calc(-100vw / 2 + 1100px / 2);
-        margin-right: calc(-100vw / 2 + 1100px / 2);
-
-        @media (max-width: $responsive-xl) {
-            width: 100%;
-            overflow: hidden;
-            white-space: normal;
-            text-align: left;
-        }
-
-        &__item {
-            padding: calc($unit * 2) calc($unit * 3);
-            margin-right: calc($unit * 4);
-            display: inline-block;
-
-            width: 156px;
-
-            background: $white;
-            box-shadow: 8px 6px 12px rgba(0, 0, 0, 0.05);
-            border-radius: 10px;
-
-            img {
-                display: inline-block;
-                max-width: 100%;
-                transition: all 250ms ease-in-out;
-            }
-
-            &:last-child {
-                margin-right: 0px;
-            }
-
-            @media (min-width: $responsive-xl) {
-                width: 206px;
-                padding: calc($unit * 3) 0;
-            }
-            @media (max-width: $responsive-xl) {
-                width: calc(50% - 32px);
-                margin: calc(#{$unit} * 4) calc(#{$unit} * 4);
-                text-align: center;
-            }
-            // @media (max-width: $responsive-sm) {
-            //     width: calc(100% - 32px);
-            // }
-        }
-    }
-
-    &__carousel {
-        margin-top: 140px;
-        display: flex;
-        &__item {
-            margin-right: 24px;
-        }
-    }
-
-    &__content {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        max-width: 1100px;
-        margin: 0 auto;
-    }
-
-    &__faq {
-        width: 100%;
-        max-width: 730px;
-        border: 1px solid $border-color;
-        border-style: dashed;
-        position: relative;
-
-        font-size: 16px;
-
-        @media (min-width: $responsive-xl) {
-            font-size: 24px;
-        }
-
-        & > div {
-            border-bottom: 1px solid $border-color;
-        }
-
-        :last-child {
-            border-bottom: none;
-        }
-    }
-
-    &__features {
-        width: 100%;
-        display: none;
-
-        &--reverse {
-            flex-direction: row-reverse;
-        }
-
-        @media (min-width: $responsive-xl) {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        &__description {
-            text-align: left;
-            max-width: 448px;
-            margin: 0 auto;
-        }
-
-        &__img {
-            flex-shrink: 0;
-
-            img {
-                width: 400px;
-                display: block;
-            }
-        }
-    }
-
-    &__footer {
-        display: flex;
-        margin-top: 140px;
-        //change to use variables
-        background: linear-gradient(226.69deg, rgba(127, 95, 211, 0.9) 4.52%, #5c3ee8 94.64%);
-        overflow-y: hidden;
-
-        &__content {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            padding-left: calc($unit * 4);
-
-            @media (min-width: $responsive-xl) {
-                padding-left: 80px;
-            }
-        }
-
-        &__img {
-            position: relative;
-            img {
-                position: absolute;
-                bottom: 0;
-                right: 0;
-                display: none;
-
-                @media (min-width: $responsive-md) {
-                    display: block;
-                    width: 250px;
-                }
-
-                @media (min-width: $responsive-xl) {
-                    width: 350px;
-                }
-            }
-        }
-
-        &__cards {
-            display: flex;
-            align-items: center;
-            margin-top: calc(#{$unit} * 2);
-
-            img {
-                display: inline-block;
-                width: 32px;
-                margin-right: 6px;
-            }
-        }
-    }
-
-    &__grid {
-        &__card {
-            text-align: center;
-            width: 100%;
-            padding: calc(#{$unit} * 10);
-            padding-bottom: calc(#{$unit} * 20);
-            margin-bottom: 80px;
-            box-shadow: 4px 3px 21px 5px rgba(0, 0, 0, 0.05);
-            border-radius: 12px;
-            background-color: $white;
-        }
-    }
-
-    &__hero {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        position: relative;
-        margin-bottom: 110px;
-        margin-top: 140px;
-        // background-color: blue;
-
-        &__title {
-            margin-bottom: calc($unit * 3);
-            line-height: 50px;
-            font-weight: 900;
-            max-width: 800px;
-
-            @media (min-width: $responsive-sm) {
-                line-height: 70px;
-                margin-bottom: calc($unit * 6);
-            }
-            @media (min-width: $responsive-lg) {
-                line-height: 95px;
-                margin-bottom: calc($unit * 6);
-            }
-        }
-
-        &__subtitle {
-            max-width: 540px;
-        }
-
-        &--primary {
-            background: linear-gradient(101.68deg, rgba(127, 95, 211, 0.9) 0.44%, #5c3ee8 100%);
-            height: 630px;
-            color: $white !important;
-
-            @media (min-width: $responsive-lg) {
-                height: 770px;
-            }
-
-            .landing__hero__subtitle {
-                color: white;
-                opacity: 0.7;
-            }
-        }
+    &__description {
+      text-align: left;
+      max-width: 448px;
+      margin: 0 auto;
     }
 
     &__img {
-        width: 100%;
+      flex-shrink: 0;
+
+      img {
+        width: 400px;
         display: block;
-        box-shadow: 4px 3px 21px 5px rgba(0, 0, 0, 0.1);
-        object-fit: cover;
-        max-height: 600px;
-        border-radius: $border-rounded;
+      }
+    }
+  }
+
+  &__footer {
+    display: flex;
+    margin-top: 140px;
+    //change to use variables
+    background: linear-gradient(226.69deg, rgba(127, 95, 211, 0.9) 4.52%, #5c3ee8 94.64%);
+    overflow-y: hidden;
+
+    &__content {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      padding-left: calc($unit * 4);
+
+      @media (min-width: $responsive-xl) {
+        padding-left: 80px;
+      }
     }
 
-    &__navigation {
-        position: fixed;
-        top: -100%;
+    &__img {
+      position: relative;
+
+      img {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        display: none;
+
+        @media (min-width: $responsive-md) {
+          display: block;
+          width: 250px;
+        }
+
+        @media (min-width: $responsive-xl) {
+          width: 350px;
+        }
+      }
+    }
+
+    &__cards {
+      display: flex;
+      align-items: center;
+      margin-top: calc(#{$unit} * 2);
+
+      img {
+        display: inline-block;
+        width: 32px;
+        margin-right: 6px;
+      }
+    }
+  }
+
+  &__grid {
+    &__card {
+      text-align: center;
+      width: 100%;
+      padding: calc(#{$unit} * 10);
+      padding-bottom: calc(#{$unit} * 20);
+      margin-bottom: 80px;
+      box-shadow: 4px 3px 21px 5px rgba(0, 0, 0, 0.05);
+      border-radius: 12px;
+      background-color: $white;
+    }
+  }
+
+  &__hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    margin-bottom: 110px;
+    margin-top: 140px;
+    // background-color: blue;
+
+    &__title {
+      margin-bottom: calc($unit * 3);
+      line-height: 50px;
+      font-weight: 900;
+      max-width: 800px;
+
+      @media (min-width: $responsive-sm) {
+        line-height: 70px;
+        margin-bottom: calc($unit * 6);
+      }
+      @media (min-width: $responsive-lg) {
+        line-height: 95px;
+        margin-bottom: calc($unit * 6);
+      }
+    }
+
+    &__subtitle {
+      max-width: 540px;
+    }
+
+    &--primary {
+      background: linear-gradient(101.68deg, rgba(127, 95, 211, 0.9) 0.44%, #5c3ee8 100%);
+      height: 630px;
+      color: $white !important;
+
+      @media (min-width: $responsive-lg) {
+        height: 770px;
+      }
+
+      .landing__hero__subtitle {
+        color: white;
+        opacity: 0.7;
+      }
+    }
+  }
+
+  &__img {
+    width: 100%;
+    display: block;
+    box-shadow: 4px 3px 21px 5px rgba(0, 0, 0, 0.1);
+    object-fit: cover;
+    max-height: 600px;
+    border-radius: $border-rounded;
+  }
+
+  &__navigation {
+    position: fixed;
+    top: -100%;
+    display: block;
+    width: 100%;
+    height: 60vh;
+    min-height: 380px;
+    z-index: 15;
+
+    display: flex;
+    flex-direction: column;
+
+    background-color: $white;
+    left: 0;
+    transition: all 0.5s;
+    overflow: visible;
+
+    &.active {
+      top: 0;
+    }
+
+    @media (min-width: $responsive-xl) {
+      display: none;
+    }
+
+    &__hamburger {
+      z-index: 20;
+      width: 28px;
+      position: relative;
+      -webkit-transform: rotate(0deg);
+      -moz-transform: rotate(0deg);
+      -o-transform: rotate(0deg);
+      transform: rotate(0deg);
+      -webkit-transition: 0.5s ease-in-out;
+      -moz-transition: 0.5s ease-in-out;
+      -o-transition: 0.5s ease-in-out;
+      transition: 0.5s ease-in-out;
+      cursor: pointer;
+
+      &.pricing span {
+        background: $white;
+      }
+
+      span {
         display: block;
+        position: absolute;
+        height: 4px;
         width: 100%;
-        height: 60vh;
-        min-height: 380px;
-        z-index: 15;
-
-        display: flex;
-        flex-direction: column;
-
-        background-color: $white;
+        background: $black;
+        border-radius: 9px;
+        opacity: 1;
         left: 0;
-        transition: all 0.5s;
-        overflow: visible;
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+        -webkit-transition: 0.25s ease-in-out;
+        -moz-transition: 0.25s ease-in-out;
+        -o-transition: 0.25s ease-in-out;
+        transition: 0.25s ease-in-out;
 
-        &.active {
-            top: 0;
+        &:nth-child(1) {
+          top: 0px;
         }
+
+        &:nth-child(2) {
+          top: 8px;
+        }
+
+        &:nth-child(3) {
+          top: 8px;
+        }
+
+        &:nth-child(4) {
+          top: 16px;
+        }
+      }
+
+      &.active {
+        span {
+          background: $black;
+
+          &:nth-child(1) {
+            width: 0%;
+            left: 50%;
+          }
+
+          &:nth-child(2) {
+            -webkit-transform: rotate(45deg);
+            -moz-transform: rotate(45deg);
+            -o-transform: rotate(45deg);
+            transform: rotate(45deg);
+          }
+
+          &:nth-child(3) {
+            -webkit-transform: rotate(-45deg);
+            -moz-transform: rotate(-45deg);
+            -o-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+          }
+
+          &:nth-child(4) {
+            width: 0%;
+            left: 50%;
+          }
+        }
+      }
+
+      @media (min-width: $responsive-xl) {
+        display: none;
+      }
+    }
+
+    &__items {
+      position: relative;
+      justify-content: space-evenly;
+      display: flex;
+      align-items: center;
+      flex-grow: 1;
+
+      @media (max-width: $responsive-xl) {
+        display: none;
+      }
+    }
+
+    &__item {
+      color: $black;
+      padding: calc(#{$unit} * 4) calc(#{$unit} * 4);
+      font-size: $type-md;
+
+      &.active {
+        text-decoration: underline;
+      }
+    }
+
+    &__language {
+      position: absolute;
+      top: 2px;
+      right: -100px;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 8px;
+      transition: 250ms ease-in-out;
+
+      &:hover {
+        background-color: $grey-f5;
+      }
+    }
+
+    &__logo {
+      @media (min-width: $responsive-xl) {
+        width: 293px;
+      }
+
+      img {
+        width: 94px;
 
         @media (min-width: $responsive-xl) {
-            display: none;
+          width: 128px;
         }
-
-        &__hamburger {
-            z-index: 20;
-            width: 28px;
-            position: relative;
-            -webkit-transform: rotate(0deg);
-            -moz-transform: rotate(0deg);
-            -o-transform: rotate(0deg);
-            transform: rotate(0deg);
-            -webkit-transition: 0.5s ease-in-out;
-            -moz-transition: 0.5s ease-in-out;
-            -o-transition: 0.5s ease-in-out;
-            transition: 0.5s ease-in-out;
-            cursor: pointer;
-
-            &.pricing span {
-                background: $white;
-            }
-
-            span {
-                display: block;
-                position: absolute;
-                height: 4px;
-                width: 100%;
-                background: $black;
-                border-radius: 9px;
-                opacity: 1;
-                left: 0;
-                -webkit-transform: rotate(0deg);
-                -moz-transform: rotate(0deg);
-                -o-transform: rotate(0deg);
-                transform: rotate(0deg);
-                -webkit-transition: 0.25s ease-in-out;
-                -moz-transition: 0.25s ease-in-out;
-                -o-transition: 0.25s ease-in-out;
-                transition: 0.25s ease-in-out;
-
-                &:nth-child(1) {
-                    top: 0px;
-                }
-
-                &:nth-child(2) {
-                    top: 8px;
-                }
-                &:nth-child(3) {
-                    top: 8px;
-                }
-
-                &:nth-child(4) {
-                    top: 16px;
-                }
-            }
-
-            &.active {
-                span {
-                    background: $black;
-
-                    &:nth-child(1) {
-                        width: 0%;
-                        left: 50%;
-                    }
-
-                    &:nth-child(2) {
-                        -webkit-transform: rotate(45deg);
-                        -moz-transform: rotate(45deg);
-                        -o-transform: rotate(45deg);
-                        transform: rotate(45deg);
-                    }
-
-                    &:nth-child(3) {
-                        -webkit-transform: rotate(-45deg);
-                        -moz-transform: rotate(-45deg);
-                        -o-transform: rotate(-45deg);
-                        transform: rotate(-45deg);
-                    }
-
-                    &:nth-child(4) {
-                        width: 0%;
-                        left: 50%;
-                    }
-                }
-            }
-            @media (min-width: $responsive-xl) {
-                display: none;
-            }
-        }
-
-        &__items {
-            position: relative;
-            justify-content: space-evenly;
-            display: flex;
-            align-items: center;
-            flex-grow: 1;
-
-            @media (max-width: $responsive-xl) {
-                display: none;
-            }
-        }
-
-        &__item {
-            color: $black;
-            padding: calc(#{$unit} * 4) calc(#{$unit} * 4);
-            font-size: $type-md;
-
-            &.active {
-                text-decoration: underline;
-            }
-        }
-
-        &__language {
-            position: absolute;
-            top: 2px;
-            right: -100px;
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 8px;
-            transition: 250ms ease-in-out;
-
-            &:hover {
-                background-color: $grey-f5;
-            }
-        }
-
-        &__logo {
-            @media (min-width: $responsive-xl) {
-                width: 293px;
-            }
-            img {
-                width: 94px;
-
-                @media (min-width: $responsive-xl) {
-                    width: 128px;
-                }
-            }
-        }
-        //mobile navigation on landing pages
-
-        &__overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.3);
-            @media (min-width: $responsive-xl) {
-                display: none;
-            }
-        }
-
-        &__btn {
-            display: inline-block;
-            width: calc(50% - 8px);
-            text-align: center;
-
-            @media (min-width: $responsive-md) {
-                width: 156px;
-            }
-        }
+      }
     }
 
-    &__review-card {
-        position: relative;
-        display: flex;
-        flex-direction: column;
+    //mobile navigation on landing pages
 
-        width: 100%;
-        margin-left: auto;
-        margin-right: auto;
-        padding: 40px;
-
-        // background-color: $color-primary;
-        //change later
-        align-items: center;
-        text-align: left;
-        // border-radius: $border-rounded;
-        border-radius: 24px;
-
-        background: linear-gradient(226.69deg, rgba(127, 95, 211, 0.9) 4.52%, #5c3ee8 94.64%);
-
-        img {
-            top: 20px;
-            width: 110px;
-            object-fit: cover;
-            flex-shrink: 0;
-            display: block;
-            border-radius: $border-circle;
-        }
-
-        @media (min-width: $responsive-xl) {
-            max-width: 100%;
-            justify-content: space-around;
-            flex-direction: row-reverse;
-
-            img {
-                width: 140px;
-            }
-        }
-
-        &__description {
-            max-width: 600px;
-            padding-top: calc($unit * 10);
-            font-weight: 700;
-            // font-size: 18px;
-            text-align: center;
-            // overflow-y: auto;
-            height: 100%;
-            display: flex;
-            align-items: center;
-
-            @media (min-width: $responsive-xl) {
-                max-width: 635px;
-                padding-right: 80px;
-                padding-top: 0;
-                // font-size: 24px;
-            }
-        }
+    &__overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.3);
+      @media (min-width: $responsive-xl) {
+        display: none;
+      }
     }
 
-    &__slider {
-        transform: rotate(5deg);
+    &__btn {
+      display: inline-block;
+      width: calc(50% - 8px);
+      text-align: center;
+
+      @media (min-width: $responsive-md) {
+        width: 156px;
+      }
+    }
+  }
+
+  &__review-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 40px;
+
+    // background-color: $color-primary;
+    //change later
+    align-items: center;
+    text-align: left;
+    // border-radius: $border-rounded;
+    border-radius: 24px;
+
+    background: linear-gradient(226.69deg, rgba(127, 95, 211, 0.9) 4.52%, #5c3ee8 94.64%);
+
+    img {
+      top: 20px;
+      width: 110px;
+      object-fit: cover;
+      flex-shrink: 0;
+      display: block;
+      border-radius: $border-circle;
     }
 
-    &__steps {
-        &__item {
-            flex-shrink: 0;
-            position: relative;
-            margin-bottom: 40px;
-            width: 64px;
-            height: 64px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: $white;
-            box-shadow: 4px 3px 21px 5px rgba(0, 0, 0, 0.05);
-            border-radius: $border-circle;
-            font-size: 24px;
-            color: $color-primary;
-            font-weight: 600;
+    @media (min-width: $responsive-xl) {
+      max-width: 100%;
+      justify-content: space-around;
+      flex-direction: row-reverse;
 
-            &.last {
-                &::after {
-                    display: none;
-                }
-            }
-            &.long {
-                width: 120px;
-                height: 120px;
-                font-size: 64px;
-                &::after {
-                    height: 210px;
-                    left: 60px;
-                }
-            }
-            &:after {
-                content: '';
-                position: absolute;
-                top: 100%;
-                left: 32px;
-                height: 48px;
-                width: 1px;
-                border-left: 2px dashed $color-primary;
-            }
-        }
-        &__main {
-            margin-left: 120px;
-            @media (max-width: 850px) {
-                margin-left: 0;
-            }
-            max-width: 550px;
-            text-align: center;
-        }
-        &__wrapper {
-            margin-left: -240px;
-            @media (max-width: 1100px) {
-                margin-left: 0;
-            }
-        }
+      img {
+        width: 140px;
+      }
     }
 
-    &__text-card {
-        display: flex;
-        flex-direction: column;
-        margin-left: auto;
-        margin-right: auto;
-        align-items: center;
-        text-align: center;
+    &__description {
+      max-width: 600px;
+      padding-top: calc($unit * 10);
+      font-weight: 700;
+      // font-size: 18px;
+      text-align: center;
+      // overflow-y: auto;
+      height: 100%;
+      display: flex;
+      align-items: center;
 
-        max-width: 600px;
+      @media (min-width: $responsive-xl) {
+        max-width: 635px;
+        padding-right: 80px;
+        padding-top: 0;
+        // font-size: 24px;
+      }
+    }
+  }
 
-        @media (min-width: $responsive-xl) {
-            max-width: 800px;
+  &__slider {
+    transform: rotate(5deg);
+  }
+
+  &__steps {
+    &__item {
+      flex-shrink: 0;
+      position: relative;
+      margin-bottom: 40px;
+      width: 64px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: $white;
+      box-shadow: 4px 3px 21px 5px rgba(0, 0, 0, 0.05);
+      border-radius: $border-circle;
+      font-size: 24px;
+      color: $color-primary;
+      font-weight: 600;
+
+      &.last {
+        &::after {
+          display: none;
         }
+      }
 
-        &__title {
-            font-size: 28px;
-            font-weight: 900;
+      &.long {
+        width: 120px;
+        height: 120px;
+        font-size: 64px;
 
-            @media (min-width: $responsive-xl) {
-                font-size: 56px;
-            }
+        &::after {
+          height: 210px;
+          left: 60px;
         }
+      }
 
-        &__description {
-            font-size: 14px;
-            max-width: 720px;
-            margin: 0 auto;
+      &:after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 32px;
+        height: 48px;
+        width: 1px;
+        border-left: 2px dashed $color-primary;
+      }
+    }
 
-            @media (min-width: $responsive-xl) {
-                font-size: 18px;
-            }
-        }
+    &__main {
+      margin-left: 120px;
+      @media (max-width: 850px) {
+        margin-left: 0;
+      }
+      max-width: 550px;
+      text-align: center;
+    }
+
+    &__wrapper {
+      margin-left: -240px;
+      @media (max-width: 1100px) {
+        margin-left: 0;
+      }
+    }
+  }
+
+  &__text-card {
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+    align-items: center;
+    text-align: center;
+
+    max-width: 600px;
+
+    @media (min-width: $responsive-xl) {
+      max-width: 800px;
     }
 
     &__title {
-        font-size: 48px;
-        font-weight: 800;
-        margin-top: calc(#{$unit} * 30);
-        max-width: 600px;
-        margin-left: auto;
-        margin-right: auto;
-        text-align: center;
-        @media (max-width: $responsive-lg) {
-            font-size: 24px;
-        }
+      font-size: 28px;
+      font-weight: 900;
+
+      @media (min-width: $responsive-xl) {
+        font-size: 56px;
+      }
     }
 
-    //Fluid typography
-    &--fluid {
-        &--xs {
-            @include fluid-type($fluid-min-width, $fluid-max-width, 16px, 18px);
-        }
+    &__description {
+      font-size: 14px;
+      max-width: 720px;
+      margin: 0 auto;
 
-        &--sm {
-            @include fluid-type($fluid-min-width, $fluid-max-width, 16px, 21px);
-        }
-
-        &--md {
-            @include fluid-type($fluid-min-width, $fluid-max-width, 18px, 32px);
-        }
-
-        &--title {
-            @include fluid-type($fluid-min-width, $fluid-max-width, 32px, 80px);
-        }
+      @media (min-width: $responsive-xl) {
+        font-size: 18px;
+      }
     }
+  }
+
+  &__title {
+    font-size: 48px;
+    font-weight: 800;
+    margin-top: calc(#{$unit} * 30);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    @media (max-width: $responsive-lg) {
+      font-size: 24px;
+    }
+  }
+
+  //Fluid typography
+  &--fluid {
+    &--xs {
+      @include fluid-type($fluid-min-width, $fluid-max-width, 16px, 18px);
+    }
+
+    &--sm {
+      @include fluid-type($fluid-min-width, $fluid-max-width, 16px, 21px);
+    }
+
+    &--md {
+      @include fluid-type($fluid-min-width, $fluid-max-width, 18px, 32px);
+    }
+
+    &--title {
+      @include fluid-type($fluid-min-width, $fluid-max-width, 32px, 80px);
+    }
+  }
 }

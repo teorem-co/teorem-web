@@ -3,61 +3,67 @@
 */
 
 .Toastify {
-    &__toast {
-        &--warning {
-            background-color: $color-primary;
-            .Toastify__toast-body {
-                padding-top: 24px;
-                padding-bottom: 24px;
-            }
-            .Toastify__toast-icon {
-                display: none;
-            }
-            .Toastify__progress-bar {
-                background: #beb5fa;
-            }
-            .Toastify__close-button {
-                svg {
-                    fill: $white;
-                }
-            }
+  &__toast {
+    &--warning {
+      background-color: $color-primary;
+
+      .Toastify__toast-body {
+        padding-top: 24px;
+        padding-bottom: 24px;
+      }
+
+      .Toastify__toast-icon {
+        display: none;
+      }
+
+      .Toastify__progress-bar {
+        background: #beb5fa;
+      }
+
+      .Toastify__close-button {
+        svg {
+          fill: $white;
         }
+      }
     }
-    &--custom {
-        display: flex;
-        align-items: flex-start;
+  }
 
-        &__message {
-            color: $white;
-            padding-left: calc(#{$unit} * 2);
-        }
+  &--custom {
+    display: flex;
+    align-items: flex-start;
 
-        &__icon {
-            margin: 10px 15px;
-        }
-
-        &__title{
-            color: white;
-            width:100%;
-            position:relative;
-            font-family: "Lato", sans-serif !important;
-            line-height: 1.5;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        &--free-consultation{
-            flex-wrap:wrap;
-            justify-content: space-around;
-            align-items: center;
-        }
+    &__message {
+      color: $white;
+      padding-left: calc(#{$unit} * 2);
     }
-    &--button{
-        margin: 10px 15px;
-        padding: 10px 15px;
 
-        &--deny{
-            margin-left: 5px;
-            line-height: 20px;
-        }
+    &__icon {
+      margin: 10px 15px;
     }
+
+    &__title {
+      color: white;
+      width: 100%;
+      position: relative;
+      font-family: "Lato", sans-serif !important;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    &--free-consultation {
+      flex-wrap: wrap;
+      justify-content: space-around;
+      align-items: center;
+    }
+  }
+
+  &--button {
+    margin: 10px 15px;
+    padding: 10px 15px;
+
+    &--deny {
+      margin-left: 5px;
+      line-height: 20px;
+    }
+  }
 }

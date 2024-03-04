@@ -3,156 +3,177 @@
 */
 
 .type {
-    //sizes
-    &--ty {
-        //fluid
-        //@include fluid-type($fluid-min-width, $fluid-max-width, $type-ty - $fluid-type-modifier, $type-ty);
-        //static
-        font-size: $type-ty;
-    }
-    &--xs {
-        //fluid
-        //@include fluid-type($fluid-min-width, $fluid-max-width, $type-xs - $fluid-type-modifier, $type-xs);
-        //static
-        font-size: $type-xs;
-    }
-    &--sm {
-        //fluid
-        //@include fluid-type($fluid-min-width, $fluid-max-width, $type-sm - $fluid-type-modifier, $type-sm);
-        //static
-        font-size: $type-sm;
-    }
-    &--base {
-        //fluid
-        //@include fluid-type($fluid-min-width, $fluid-max-width, $type-base - $fluid-type-modifier, $type-base);
-        //static
-        font-size: $type-base;
-    }
-    &--md {
-        //fluid
-        //@include fluid-type($fluid-min-width, $fluid-max-width, $type-md - $fluid-type-modifier, $type-md);
-        //static
-        font-size: $type-md;
-    }
-    &--lg {
-        //fluid
-        //@include fluid-type($fluid-min-width, $fluid-max-width, $type-lg - $fluid-type-modifier, $type-lg);
-        //static
-        font-size: $type-lg;
-    }
-    &--xl {
-        //fluid
-        //@include fluid-type($fluid-min-width, $fluid-max-width, $type-xl - $fluid-type-modifier, $type-xl);
-        //static
-        font-size: $type-xl;
-    }
-    &--xxl {
-        //fluid
-        //@include fluid-type($fluid-min-width, $fluid-max-width, $type-xl - $fluid-type-modifier, $type-xl);
-        //static
-        font-size: $type-xxl;
-    }
-    &--huge {
-        //fluid
-        //@include fluid-type($fluid-min-width, $fluid-max-width, $type-xl - $fluid-type-modifier, $type-xl);
-        //static
-        font-size: $type-huge;
+  //sizes
+  &--ty {
+    //fluid
+    //@include fluid-type($fluid-min-width, $fluid-max-width, $type-ty - $fluid-type-modifier, $type-ty);
+    //static
+    font-size: $type-ty;
+  }
+
+  &--xs {
+    //fluid
+    //@include fluid-type($fluid-min-width, $fluid-max-width, $type-xs - $fluid-type-modifier, $type-xs);
+    //static
+    font-size: $type-xs;
+  }
+
+  &--sm {
+    //fluid
+    //@include fluid-type($fluid-min-width, $fluid-max-width, $type-sm - $fluid-type-modifier, $type-sm);
+    //static
+    font-size: $type-sm;
+  }
+
+  &--base {
+    //fluid
+    //@include fluid-type($fluid-min-width, $fluid-max-width, $type-base - $fluid-type-modifier, $type-base);
+    //static
+    font-size: $type-base;
+  }
+
+  &--md {
+    //fluid
+    //@include fluid-type($fluid-min-width, $fluid-max-width, $type-md - $fluid-type-modifier, $type-md);
+    //static
+    font-size: $type-md;
+  }
+
+  &--lg {
+    //fluid
+    //@include fluid-type($fluid-min-width, $fluid-max-width, $type-lg - $fluid-type-modifier, $type-lg);
+    //static
+    font-size: $type-lg;
+  }
+
+  &--xl {
+    //fluid
+    //@include fluid-type($fluid-min-width, $fluid-max-width, $type-xl - $fluid-type-modifier, $type-xl);
+    //static
+    font-size: $type-xl;
+  }
+
+  &--xxl {
+    //fluid
+    //@include fluid-type($fluid-min-width, $fluid-max-width, $type-xl - $fluid-type-modifier, $type-xl);
+    //static
+    font-size: $type-xxl;
+  }
+
+  &--huge {
+    //fluid
+    //@include fluid-type($fluid-min-width, $fluid-max-width, $type-xl - $fluid-type-modifier, $type-xl);
+    //static
+    font-size: $type-huge;
+  }
+
+  &--fluid {
+    @include fluid-type($fluid-min-width, $fluid-max-width, 18px, 24px);
+  }
+
+  //font weight
+  &--wgt {
+    &--light {
+      font-weight: 300;
     }
 
-    &--fluid {
-        @include fluid-type($fluid-min-width, $fluid-max-width, 18px, 24px);
+    &--regular {
+      font-weight: 400;
     }
 
-    //font weight
-    &--wgt {
-        &--light {
-            font-weight: 300;
-        }
-        &--regular {
-            font-weight: 400;
-        }
-        &--bold {
-            font-weight: 600;
-        }
-        &--extra-bold {
-            font-weight: 700;
-        }
-    }
-    // colors
-    &--color {
-        &--primary {
-            color: $color-text-primary;
-        }
-        &--secondary {
-            color: $color-text-secondary;
-        }
-        &--tertiary {
-            color: $color-text-tertiary;
-        }
-        &--white {
-            color: $white;
-        }
-        &--brand {
-            color: $color-primary;
-        }
-        &--brand-light {
-            color: $color-primary-light;
-        }
-        &--error {
-            color: $color-error;
-        }
-        &--success {
-            color: $color-success;
-        }
-        &--black {
-            color: $black;
-        }
-        &--half-transparent {
-            color: $white;
-            opacity: 0.6;
-        }
+    &--bold {
+      font-weight: 600;
     }
 
-    //style
-    &--uppercase {
-        text-transform: uppercase;
+    &--extra-bold {
+      font-weight: 700;
+    }
+  }
+
+  // colors
+  &--color {
+    &--primary {
+      color: $color-text-primary;
     }
 
-    &--capitalize {
-        text-transform: capitalize;
+    &--secondary {
+      color: $color-text-secondary;
     }
 
-    &--underline {
-        text-decoration: underline;
+    &--tertiary {
+      color: $color-text-tertiary;
     }
 
-    //alignment
-    &--center {
-        text-align: center;
+    &--white {
+      color: $white;
     }
 
-    &--right {
-        text-align: right;
+    &--brand {
+      color: $color-primary;
     }
 
-    &--left {
-      text-align: left;
+    &--brand-light {
+      color: $color-primary-light;
     }
 
-    &--break {
-        word-break: break-word;
+    &--error {
+      color: $color-error;
     }
 
-    &--spacing{
-        letter-spacing: 1px;
+    &--success {
+      color: $color-success;
     }
 
-    &--italic{
-      font-style: italic;
+    &--black {
+      color: $black;
     }
+
+    &--half-transparent {
+      color: $white;
+      opacity: 0.6;
+    }
+  }
+
+  //style
+  &--uppercase {
+    text-transform: uppercase;
+  }
+
+  &--capitalize {
+    text-transform: capitalize;
+  }
+
+  &--underline {
+    text-decoration: underline;
+  }
+
+  //alignment
+  &--center {
+    text-align: center;
+  }
+
+  &--right {
+    text-align: right;
+  }
+
+  &--left {
+    text-align: left;
+  }
+
+  &--break {
+    word-break: break-word;
+  }
+
+  &--spacing {
+    letter-spacing: 1px;
+  }
+
+  &--italic {
+    font-style: italic;
+  }
 }
 
-.review-mark-big{
+.review-mark-big {
   font-size: xxx-large;
 
   @media (max-width: $responsive-sm) {
@@ -160,7 +181,7 @@
   }
 }
 
-.review-font-small{
+.review-font-small {
   font-size: small;
 
   @media (max-width: $responsive-sm) {
@@ -168,7 +189,7 @@
   }
 }
 
-.type-lesson-item{
+.type-lesson-item {
   @media (max-width: $responsive-sm) {
     font-size: 0.8em;
   }
@@ -178,9 +199,9 @@
   display: -webkit-box;
   -webkit-line-clamp: 3; /* Number of lines you want to display */
 
-   @media (max-width: $responsive-sm) {
-     -webkit-line-clamp: 3; /* Number of lines you want to display */
-   }
+  @media (max-width: $responsive-sm) {
+    -webkit-line-clamp: 3; /* Number of lines you want to display */
+  }
   -webkit-box-orient: vertical;
   overflow: hidden;
   height: 65px;

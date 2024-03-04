@@ -1,4 +1,4 @@
-import IWeek from "./IWeek";
+import IWeek from './IWeek';
 
 interface IEarningDetails {
     period: string;

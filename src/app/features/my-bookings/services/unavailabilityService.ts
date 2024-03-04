@@ -5,7 +5,7 @@ import { IUnavailability } from '../interfaces/IUnavailability';
 //bookings/week/:tutorSlug
 
 const URL = 'api/v1/tutors/unavailability';
-const TUTORS_URL= 'api/v1/tutors';
+const TUTORS_URL = 'api/v1/tutors';
 
 interface IUnavailabilityTransformed {
     id: string;
@@ -70,8 +70,5 @@ export const unavailabilityService = baseService.injectEndpoints({
     }),
 });
 
-export const {
-    useLazyGetUnavailableBookingsQuery,
-    useCreateTutorUnavailabilityMutation,
-    useDeleteTutorUnavailabilityMutation
-} = unavailabilityService;
+export const { useLazyGetUnavailableBookingsQuery, useCreateTutorUnavailabilityMutation, useDeleteTutorUnavailabilityMutation } =
+    unavailabilityService;

@@ -2,8 +2,7 @@ import i18next from 'i18next';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import ToastFreeConsultationMessage
-  from '../components/ToastFreeConsultationMessage';
+import ToastFreeConsultationMessage from '../components/ToastFreeConsultationMessage';
 import { PROFILE_PATHS } from '../routes';
 
 class ToastService {
@@ -33,11 +32,11 @@ class ToastService {
         progress: undefined,
     };
 
-    success = (message: string, time = 3000, hideProgressBar=true): void => {
+    success = (message: string, time = 3000, hideProgressBar = true): void => {
         const opts: object = {
-          autoClose: time,
-          position: 'bottom-center',
-          hideProgressBar: hideProgressBar,
+            autoClose: time,
+            position: 'bottom-center',
+            hideProgressBar: hideProgressBar,
         };
         toast.success(message, opts);
     };

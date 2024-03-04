@@ -3,21 +3,23 @@
 */
 
 .status {
-    &--primary {
-        display: inline-block;
-        border-radius: $border-circle;
-        width: calc(#{$unit} * 2);
-        height: calc(#{$unit} * 2);
-        background-color: $grey-c4;
+  &--primary {
+    display: inline-block;
+    border-radius: $border-circle;
+    width: calc(#{$unit} * 2);
+    height: calc(#{$unit} * 2);
+    background-color: $grey-c4;
 
-        &--purple {
-            background-color: $color-primary;
-        }
-        &--blue {
-            background-color: $color-status-blue;
-        }
-        &--green {
-            background-color: $color-status-green;
-        }
+    &--purple {
+      background-color: $color-primary;
     }
+
+    &--blue {
+      background-color: $color-status-blue;
+    }
+
+    &--green {
+      background-color: $color-status-green;
+    }
+  }
 }

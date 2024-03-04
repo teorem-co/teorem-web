@@ -1,5 +1,5 @@
 import { t } from 'i18next';
-import { debounce, divide } from 'lodash';
+import { debounce } from 'lodash';
 import moment from 'moment';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -32,8 +32,8 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import '../../../../styles/base/vars.scss';
 import { BsCheck, BsCheckAll, BsDownload, BsFillFileEarmarkFill } from 'react-icons/bs';
 import MediaQuery from 'react-responsive';
-import { RiContractLeftFill } from 'react-icons/ri';
 import { AiOutlineLeft } from 'react-icons/ai';
+
 interface Props {
     data: IChatRoom | null;
 }
@@ -125,15 +125,15 @@ const SingleConversation = (props: Props) => {
     }, [page]);
 
     /*useEffect(() => {
-      if (freeConsultationIsSuccess) {
-          chat.socket.emit('joinFreeConsultation', {
-              userId: props.data?.user?.userId,
-              tutorId: props.data?.tutor?.userId,
-              senderId: userActive?.id,
-              link: freeConsultationLink,
-          });
-      }
-  }, [freeConsultationLink]);*/
+    if (freeConsultationIsSuccess) {
+        chat.socket.emit('joinFreeConsultation', {
+            userId: props.data?.user?.userId,
+            tutorId: props.data?.tutor?.userId,
+            senderId: userActive?.id,
+            link: freeConsultationLink,
+        });
+    }
+}, [freeConsultationLink]);*/
 
     useEffect(() => {
         if (user2Data && user2Data2 && freeCallCancel) {
@@ -180,57 +180,57 @@ const SingleConversation = (props: Props) => {
             dispatch(addChatRoom(chatRoom));
 
             /*chat.socket.emit('onMissedFreeConsultation', {
-          userId: user2Data.id + '',
-          tutorId: user2Data2.id + '',
-          message: {
-              message: 'userInsert={username} stringTranslate={NOTIFICATIONS.CHAT_HAS_MISSED_CALL}',
-              createdAt: new Date(),
-              isRead: true,
-              messageId: '',
-              isFile: false,
-              messageNew: true,
-              messageMissedCall: true,
-          },
-          senderId: (userActive?.id || chat.buffer?.senderId) == user2Data.id ? user2Data.id : user2Data2.id,
-      });*/
+    userId: user2Data.id + '',
+    tutorId: user2Data2.id + '',
+    message: {
+        message: 'userInsert={username} stringTranslate={NOTIFICATIONS.CHAT_HAS_MISSED_CALL}',
+        createdAt: new Date(),
+        isRead: true,
+        messageId: '',
+        isFile: false,
+        messageNew: true,
+        messageMissedCall: true,
+    },
+    senderId: (userActive?.id || chat.buffer?.senderId) == user2Data.id ? user2Data.id : user2Data2.id,
+});*/
 
             //setFreeCallCancel(false);
         }
     }, [user2Data, user2Data2, freeCallCancel]);
 
     /*useEffect(() => {
-      if (freeCallExpired && !freeCallCancelled && !chat.freeConsultation) {
-          if (props.data) {
-              chat.socket.emit('cancelFreeConsultation', {
-                  userId: props.data?.user?.userId,
-                  tutorId: props.data?.tutor?.userId,
-                  senderId: userActive?.id,
-                  link: freeConsultationLink,
-                  expired: true,
-              });
-          } else if (chat.buffer) {
-              chat.socket.emit('cancelFreeConsultation', {
-                  userId: chat.buffer.userId,
-                  tutorId: chat.buffer.tutorId,
-                  senderId: chat.buffer.senderId,
-                  link: chat.buffer.link,
-                  expired: true,
-              });
-          }
+    if (freeCallExpired && !freeCallCancelled && !chat.freeConsultation) {
+        if (props.data) {
+            chat.socket.emit('cancelFreeConsultation', {
+                userId: props.data?.user?.userId,
+                tutorId: props.data?.tutor?.userId,
+                senderId: userActive?.id,
+                link: freeConsultationLink,
+                expired: true,
+            });
+        } else if (chat.buffer) {
+            chat.socket.emit('cancelFreeConsultation', {
+                userId: chat.buffer.userId,
+                tutorId: chat.buffer.tutorId,
+                senderId: chat.buffer.senderId,
+                link: chat.buffer.link,
+                expired: true,
+            });
+        }
 
-          handleChatInit();
-          setFreeCallCancelled(false);
-      }
-  }, [freeCallExpired]);
+        handleChatInit();
+        setFreeCallCancelled(false);
+    }
+}, [freeCallExpired]);
 
-  useEffect(() => {
-      if (freeConsultationClicked) {
-          setTimeout(() => {
-              setFreeCallExpired(true);
-              dispatch(setConsultationInitialized(false));
-          }, 10000);
-      }
-  }, [freeConsultationClicked]);*/
+useEffect(() => {
+    if (freeConsultationClicked) {
+        setTimeout(() => {
+            setFreeCallExpired(true);
+            dispatch(setConsultationInitialized(false));
+        }, 10000);
+    }
+}, [freeConsultationClicked]);*/
 
     const handleChatInit = (freeConsultation: boolean = false) => {
         dispatch(setConsultationInitialized(false));
@@ -277,44 +277,44 @@ const SingleConversation = (props: Props) => {
         }
     };
     /*
-  const onFreeConsultationClose = () => {
-      if (props.data)
-          chat.socket.emit('closeActiveFreeConsultation', {
-              userId: props.data?.user?.userId,
-              tutorId: props.data?.tutor?.userId,
-              senderId: userActive?.id,
-              link: freeConsultationLink,
-              expired: true,
-          });
-      else if (chat.buffer)
-          chat.socket.emit('closeActiveFreeConsultation', {
-              userId: chat.buffer.userId,
-              tutorId: chat.buffer.tutorId,
-              senderId: userActive?.id,
-              link: chat.buffer.link,
-          });
+const onFreeConsultationClose = () => {
+    if (props.data)
+        chat.socket.emit('closeActiveFreeConsultation', {
+            userId: props.data?.user?.userId,
+            tutorId: props.data?.tutor?.userId,
+            senderId: userActive?.id,
+            link: freeConsultationLink,
+            expired: true,
+        });
+    else if (chat.buffer)
+        chat.socket.emit('closeActiveFreeConsultation', {
+            userId: chat.buffer.userId,
+            tutorId: chat.buffer.tutorId,
+            senderId: userActive?.id,
+            link: chat.buffer.link,
+        });
 
-      handleChatInit(true);
-      setFreeCallCancelled(false);
-  };
+    handleChatInit(true);
+    setFreeCallCancelled(false);
+};
 
-  const onCancelFreeConsultation = () => {
-      if (freeConsultationIsSuccess) {
-          chat.socket.emit('cancelFreeConsultation', {
-              userId: props.data?.user?.userId,
-              tutorId: props.data?.tutor?.userId,
-              senderId: userActive?.id,
-              link: freeConsultationLink,
-          });
+const onCancelFreeConsultation = () => {
+    if (freeConsultationIsSuccess) {
+        chat.socket.emit('cancelFreeConsultation', {
+            userId: props.data?.user?.userId,
+            tutorId: props.data?.tutor?.userId,
+            senderId: userActive?.id,
+            link: freeConsultationLink,
+        });
 
-          handleChatInit();
-          setFreeCallCancelled(true);
-          setFreeCallCancel(true);
+        handleChatInit();
+        setFreeCallCancelled(true);
+        setFreeCallCancel(true);
 
-          getUserById(props.data?.user?.userId + '');
-          getUserById2(props.data?.tutor?.userId + '');
-      }
-  };*/
+        getUserById(props.data?.user?.userId + '');
+        getUserById2(props.data?.tutor?.userId + '');
+    }
+};*/
 
     const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
 
@@ -510,7 +510,11 @@ const SingleConversation = (props: Props) => {
                                         positionStrategy={'absolute'}
                                         float={true}
                                         delayShow={1000}
-                                        style={{ backgroundColor: 'rgba(70,70,70, 0.9)', color: 'white', fontSize: 'smaller' }}
+                                        style={{
+                                            backgroundColor: 'rgba(70,70,70, 0.9)',
+                                            color: 'white',
+                                            fontSize: 'smaller',
+                                        }}
                                     />
                                     {!sameDate && (
                                         <div className={`message-full-width flex flex--col flex--center`}>

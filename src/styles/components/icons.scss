@@ -3,289 +3,350 @@
 */
 
 .icon {
-    display: inline-block;
-    vertical-align: middle;
-    cursor: pointer;
-    background-color: $color-text-primary;
-    mask-repeat: no-repeat;
-    mask-position: 50%;
-    transition: background-color 300ms ease-in-out;
+  display: inline-block;
+  vertical-align: middle;
+  cursor: pointer;
+  background-color: $color-text-primary;
+  mask-repeat: no-repeat;
+  mask-position: 50%;
+  transition: background-color 300ms ease-in-out;
 
-    //icon sizes
-    &--ty {
-        width: calc(#{$unit} * 3);
-        height: calc(#{$unit} * 3);
+  //icon sizes
+  &--ty {
+    width: calc(#{$unit} * 3);
+    height: calc(#{$unit} * 3);
+  }
+
+  &--xs {
+    width: calc(#{$unit} * 4);
+    height: calc(#{$unit} * 4);
+  }
+
+  &--sm {
+    width: calc(#{$unit} * 5);
+    height: calc(#{$unit} * 5);
+  }
+
+  &--base {
+    width: calc(#{$unit} * 6);
+    height: calc(#{$unit} * 6);
+  }
+
+  &--md {
+    width: calc(#{$unit} * 8);
+    height: calc(#{$unit} * 8);
+  }
+
+  &--lg {
+    width: calc(#{$unit} * 10);
+    height: calc(#{$unit} * 10);
+  }
+
+  //position
+  &--pos {
+    &--dropdown {
+      pointer-events: none;
+      position: absolute;
+      top: calc(#{$unit} * 2);
+      right: calc(#{$unit} * 2);
     }
-    &--xs {
-        width: calc(#{$unit} * 4);
-        height: calc(#{$unit} * 4);
-    }
-    &--sm {
-        width: calc(#{$unit} * 5);
-        height: calc(#{$unit} * 5);
-    }
-    &--base {
-        width: calc(#{$unit} * 6);
-        height: calc(#{$unit} * 6);
-    }
-    &--md {
-        width: calc(#{$unit} * 8);
-        height: calc(#{$unit} * 8);
-    }
-    &--lg {
-        width: calc(#{$unit} * 10);
-        height: calc(#{$unit} * 10);
+  }
+
+  //icons
+  &--arrow-left {
+    mask-image: url('./../../assets/icons/arrow-left.svg');
+  }
+
+  &--attachment {
+    mask-image: url('./../../assets/icons/attachment.svg');
+  }
+
+  &--become-a-tutor {
+    mask-image: url('./../../assets/icons/become-a-tutor.svg');
+  }
+
+  &--calendar {
+    mask-image: url('../../assets/icons/calendar.svg');
+  }
+
+  &--chat {
+    mask-image: url('../../assets/icons/chat.svg');
+  }
+
+  &--check {
+    mask-image: url('../../assets/icons/check.svg');
+  }
+
+  &--chevron {
+    &-right {
+      mask-image: url('./../../assets/icons/chevron-right.svg');
     }
 
-    //position
-    &--pos {
-        &--dropdown {
-            pointer-events: none;
-            position: absolute;
-            top: calc(#{$unit} * 2);
-            right: calc(#{$unit} * 2);
-        }
+    &-left {
+      mask-image: url('./../../assets/icons/chevron-left.svg');
     }
 
-    //icons
-    &--arrow-left {
-        mask-image: url('./../../assets/icons/arrow-left.svg');
+    &-down {
+      mask-image: url('../../assets/icons/chevron-down.svg');
     }
-    &--attachment {
-        mask-image: url('./../../assets/icons/attachment.svg');
+
+    &-up {
+      mask-image: url('../../assets/icons/chevron-up.svg');
     }
-    &--become-a-tutor {
-        mask-image: url('./../../assets/icons/become-a-tutor.svg');
-    }
-    &--calendar {
-        mask-image: url('../../assets/icons/calendar.svg');
-    }
-    &--chat {
-        mask-image: url('../../assets/icons/chat.svg');
-    }
-    &--check {
-        mask-image: url('../../assets/icons/check.svg');
-    }
-    &--chevron {
-        &-right {
-            mask-image: url('./../../assets/icons/chevron-right.svg');
-        }
-        &-left {
-            mask-image: url('./../../assets/icons/chevron-left.svg');
-        }
-        &-down {
-            mask-image: url('../../assets/icons/chevron-down.svg');
-        }
-        &-up {
-            mask-image: url('../../assets/icons/chevron-up.svg');
-        }
-    }
-    &--close {
-        mask-image: url('../../assets/icons/close.svg');
-    }
+  }
+
+  &--close {
+    mask-image: url('../../assets/icons/close.svg');
+  }
+
   &--close-request {
     mask-image: url('../../assets/icons/close.svg');
     margin-left: 10px;
   }
-    &--completed-lessons {
-        mask-image: url('../../assets/icons/completed-lessons.svg');
-    }
-    &--dashboard {
-        mask-image: url('../../assets/icons/dashboard.svg');
-    }
-    &--download {
-        mask-image: url('../../assets/icons/download.svg');
-    }
-    &--earnings {
-        mask-image: url('./../../assets/icons/earnings.svg');
-    }
-    &--edit {
-        mask-image: url('./../../assets/icons/edit.svg');
-    }
-    &--error {
-        mask-image: url('../../assets/icons/error.svg');
-    }
-    &--hide {
-        mask-image: url('../../assets/icons/hide.svg');
-    }
-    &--how-it-works {
-        mask-image: url('../../assets/icons/how-it-works.svg');
-    }
-    &--info {
-        mask-image: url('../../assets/icons/info.svg');
-    }
-    &--language {
-        mask-image: url('../../assets/icons/language.svg');
-    }
-    &--level {
-        mask-image: url('../../assets/icons/level.svg');
-    }
-    &--loader{
-        mask-image: url('../../assets/icons/loader.svg');
-    }
-    &--logout {
-        mask-image: url('../../assets/icons/logout.svg');
-    }
-    &--menu {
-        mask-image: url('../../assets/icons/menu.svg');
-    }
-    &--minus {
-        mask-image: url('../../assets/icons/minus.svg');
-    }
-    &--more {
-        mask-image: url('../../assets/icons/more.svg');
-    }
-    &--notifications {
-        mask-image: url('../../assets/icons/notifications.svg');
-    }
-    &--play {
-        mask-image: url('../../assets/icons/play.svg');
-    }
-    &--plus {
-        mask-image: url('./../../assets/icons/plus.svg');
-    }
-    &--pricing {
-        mask-image: url('../../assets/icons/pricing.svg');
-    }
-    &--pricing-item {
-        mask-image: url('../../assets/icons/pricing-item.svg');
-    }
-    &--profile {
-        mask-image: url('../../assets/icons/profile.svg');
-    }
-    &--rating-star {
-        mask-image: url('../../assets/icons/rating-star.svg');
-    }
-    &--reviews {
-        mask-image: url('../../assets/icons/reviews.svg');
-    }
-    &--search-tutors {
-        mask-image: url('../../assets/icons/search-tutors.svg');
-    }
-    &--settings {
-        mask-image: url('../../assets/icons/settings.svg');
-    }
-    &--show {
-        mask-image: url('../../assets/icons/show.svg');
-    }
-    &--star {
-        mask-image: url('../../assets/icons/star.svg');
-    }
-    &--subject {
-        mask-image: url('../../assets/icons/subject.svg');
-    }
-    &--time {
-        mask-image: url('../../assets/icons/time.svg');
-    }
-    &--upload {
-        mask-image: url('../../assets/icons/upload.svg');
-    }
-    &--visible {
-        mask-image: url('./../../assets/icons/visible.svg');
-    }
-    &--tutor {
-        mask-image: url('./../../assets/icons/tutor.svg');
-    }
-    &--child {
-        mask-image: url('./../../assets/icons/child.svg');
-    }
-    &--delete {
-        mask-image: url('./../../assets/icons/delete.svg');
-    }
-    &--search {
-        mask-image: url('./../../assets/icons/search.svg');
-    }
-    &--share {
-        mask-image: url('./../../assets/icons/share.svg');
-        mask-size: contain;
-    }
-    &--pending {
-      mask-image: url('./../../assets/icons/pending.svg');
-      mask-size: contain;
-    }
-    &--reschedule {
-      mask-image: url('./../../assets/icons/reschedule.svg');
-      mask-size: contain;
-    }
-    &--hourglass {
-      mask-image: url('./../../assets/icons/hourglass.svg');
-      mask-size: contain;
-    }
+
+  &--completed-lessons {
+    mask-image: url('../../assets/icons/completed-lessons.svg');
+  }
+
+  &--dashboard {
+    mask-image: url('../../assets/icons/dashboard.svg');
+  }
+
+  &--download {
+    mask-image: url('../../assets/icons/download.svg');
+  }
+
+  &--earnings {
+    mask-image: url('./../../assets/icons/earnings.svg');
+  }
+
+  &--edit {
+    mask-image: url('./../../assets/icons/edit.svg');
+  }
+
+  &--error {
+    mask-image: url('../../assets/icons/error.svg');
+  }
+
+  &--hide {
+    mask-image: url('../../assets/icons/hide.svg');
+  }
+
+  &--how-it-works {
+    mask-image: url('../../assets/icons/how-it-works.svg');
+  }
+
+  &--info {
+    mask-image: url('../../assets/icons/info.svg');
+  }
+
+  &--language {
+    mask-image: url('../../assets/icons/language.svg');
+  }
+
+  &--level {
+    mask-image: url('../../assets/icons/level.svg');
+  }
+
+  &--loader {
+    mask-image: url('../../assets/icons/loader.svg');
+  }
+
+  &--logout {
+    mask-image: url('../../assets/icons/logout.svg');
+  }
+
+  &--menu {
+    mask-image: url('../../assets/icons/menu.svg');
+  }
+
+  &--minus {
+    mask-image: url('../../assets/icons/minus.svg');
+  }
+
+  &--more {
+    mask-image: url('../../assets/icons/more.svg');
+  }
+
+  &--notifications {
+    mask-image: url('../../assets/icons/notifications.svg');
+  }
+
+  &--play {
+    mask-image: url('../../assets/icons/play.svg');
+  }
+
+  &--plus {
+    mask-image: url('./../../assets/icons/plus.svg');
+  }
+
+  &--pricing {
+    mask-image: url('../../assets/icons/pricing.svg');
+  }
+
+  &--pricing-item {
+    mask-image: url('../../assets/icons/pricing-item.svg');
+  }
+
+  &--profile {
+    mask-image: url('../../assets/icons/profile.svg');
+  }
+
+  &--rating-star {
+    mask-image: url('../../assets/icons/rating-star.svg');
+  }
+
+  &--reviews {
+    mask-image: url('../../assets/icons/reviews.svg');
+  }
+
+  &--search-tutors {
+    mask-image: url('../../assets/icons/search-tutors.svg');
+  }
+
+  &--settings {
+    mask-image: url('../../assets/icons/settings.svg');
+  }
+
+  &--show {
+    mask-image: url('../../assets/icons/show.svg');
+  }
+
+  &--star {
+    mask-image: url('../../assets/icons/star.svg');
+  }
+
+  &--subject {
+    mask-image: url('../../assets/icons/subject.svg');
+  }
+
+  &--time {
+    mask-image: url('../../assets/icons/time.svg');
+  }
+
+  &--upload {
+    mask-image: url('../../assets/icons/upload.svg');
+  }
+
+  &--visible {
+    mask-image: url('./../../assets/icons/visible.svg');
+  }
+
+  &--tutor {
+    mask-image: url('./../../assets/icons/tutor.svg');
+  }
+
+  &--child {
+    mask-image: url('./../../assets/icons/child.svg');
+  }
+
+  &--delete {
+    mask-image: url('./../../assets/icons/delete.svg');
+  }
+
+  &--search {
+    mask-image: url('./../../assets/icons/search.svg');
+  }
+
+  &--share {
+    mask-image: url('./../../assets/icons/share.svg');
+    mask-size: contain;
+  }
+
+  &--pending {
+    mask-image: url('./../../assets/icons/pending.svg');
+    mask-size: contain;
+  }
+
+  &--reschedule {
+    mask-image: url('./../../assets/icons/reschedule.svg');
+    mask-size: contain;
+  }
+
+  &--hourglass {
+    mask-image: url('./../../assets/icons/hourglass.svg');
+    mask-size: contain;
+  }
 
 
+  //flags
+  &--af {
+    content: url(/assets/icons/flags/AF.svg);
+  }
 
-    //flags
-    &--af {
-        content: url(/assets/icons/flags/AF.svg);
-    }
-    &--al {
-        content: url(/assets/icons/flags/AL.svg);
-    }
-    &--ar {
-        content: url(/assets/icons/flags/AR.svg);
-    }
-    &--au {
-        content: url(/assets/icons/flags/AU.svg);
-    }
-    &--br {
-        content: url(/assets/icons/flags/BR.svg);
-    }
-    &--ca {
-        content: url(/assets/icons/flags/CA.svg);
-    }
-    &--pl {
-        content: url(/assets/icons/flags/MC.svg);
-    }
+  &--al {
+    content: url(/assets/icons/flags/AL.svg);
+  }
 
-    //color modifiers
-    &--primary {
-        background-color: $color-primary;
-    }
+  &--ar {
+    content: url(/assets/icons/flags/AR.svg);
+  }
 
-    &--secondary {
-      background-color: rgba(126, 108, 242, 0.6)
-    }
+  &--au {
+    content: url(/assets/icons/flags/AU.svg);
+  }
 
-    &--primary-gradient {
-        background: $color-primary;
-        background: linear-gradient(226.69deg, rgba(127, 95, 211, 0.9) 4.52%, #5c3ee8 94.64%);
-    }
+  &--br {
+    content: url(/assets/icons/flags/BR.svg);
+  }
 
-    &--grey {
-        background-color: $grey-bb;
-    }
+  &--ca {
+    content: url(/assets/icons/flags/CA.svg);
+  }
 
-    &--white {
-        background-color: $white;
-    }
+  &--pl {
+    content: url(/assets/icons/flags/MC.svg);
+  }
 
-    &--black {
-        background-color: $black;
-    }
+  //color modifiers
+  &--primary {
+    background-color: $color-primary;
+  }
 
-    &--success {
-        background-color: $color-success;
-    }
+  &--secondary {
+    background-color: rgba(126, 108, 242, 0.6)
+  }
 
-    &--red {
-      background-color: $color-error;
-    }
+  &--primary-gradient {
+    background: $color-primary;
+    background: linear-gradient(226.69deg, rgba(127, 95, 211, 0.9) 4.52%, #5c3ee8 94.64%);
+  }
+
+  &--grey {
+    background-color: $grey-bb;
+  }
+
+  &--white {
+    background-color: $white;
+  }
+
+  &--black {
+    background-color: $black;
+  }
+
+  &--success {
+    background-color: $color-success;
+  }
+
+  &--red {
+    background-color: $color-error;
+  }
 }
 
-.hide-icon{
+.hide-icon {
   visibility: hidden;
   opacity: 0
 }
 
 @media (max-width: 767px) {
-  .signup-icon{
+  .signup-icon {
     font-size: 30px;
   }
 }
 
 
 @media (min-width: 767px) {
-  .signup-icon{
+  .signup-icon {
     font-size: 40px;
   }
 }
@@ -298,6 +359,6 @@
   transform: scale(1.1); /* Scale the icon to 110% on hover */
 }
 
-.icon-transition{
+.icon-transition {
   transition: color 200ms ease-in-out;
 }

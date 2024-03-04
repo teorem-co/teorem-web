@@ -3,20 +3,20 @@
 */
 
 .upcoming-lessons {
-    overflow-y: auto;
-    flex-grow: 1;
+  overflow-y: auto;
+  flex-grow: 1;
 
-    &__title {
-        position: sticky;
-        top: 0;
-        color: $color-text-tertiary;
-        padding-bottom: calc(#{$unit} * 2);
-        background-color: $background-color;
-    }
+  &__title {
+    position: sticky;
+    top: 0;
+    color: $color-text-tertiary;
+    padding-bottom: calc(#{$unit} * 2);
+    background-color: $background-color;
+  }
 
-    &:last-child{
-      @media (max-width: $responsive-sm) {
-        margin-bottom: 30px;
-      }
+  &:last-child {
+    @media (max-width: $responsive-sm) {
+      margin-bottom: 30px;
     }
+  }
 }

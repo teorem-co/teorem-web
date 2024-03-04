@@ -70,14 +70,7 @@ export const tutorRegisterSlice = createSlice({
     initialState,
     reducers: {
         setRegister(state, action: PayloadAction<IRegister>) {
-            const {
-                firstName,
-                lastName,
-                email,
-                password,
-                passwordRepeat,
-                roleSelection,
-            } = action.payload;
+            const { firstName, lastName, email, password, passwordRepeat, roleSelection } = action.payload;
             state.firstName = firstName;
             state.lastName = lastName;
             state.email = email;
@@ -86,8 +79,7 @@ export const tutorRegisterSlice = createSlice({
             state.roleSelection = roleSelection;
         },
         setStepOne(state, action: PayloadAction<IStepOne>) {
-            const { countryId, phoneNumber, dateOfBirth, profileImage, firstName, lastName } =
-                action.payload;
+            const { countryId, phoneNumber, dateOfBirth, profileImage, firstName, lastName } = action.payload;
             state.firstName = firstName;
             state.lastName = lastName;
             state.countryId = countryId;
@@ -96,14 +88,7 @@ export const tutorRegisterSlice = createSlice({
             state.profileImage = profileImage;
         },
         setStepTwo(state, action: PayloadAction<IStepTwo>) {
-            const {
-                cardFirstName,
-                cardLastName,
-                cardNumber,
-                expiryDate,
-                cvv,
-                zipCode,
-            } = action.payload;
+            const { cardFirstName, cardLastName, cardNumber, expiryDate, cvv, zipCode } = action.payload;
             state.cardFirstName = cardFirstName;
             state.cardLastName = cardLastName;
             state.cardNumber = cardNumber;
@@ -132,7 +117,6 @@ export const tutorRegisterSlice = createSlice({
     },
 });
 
-export const { setRegister, setStepOne, setStepTwo, resetTutorRegister } =
-    tutorRegisterSlice.actions;
+export const { setRegister, setStepOne, setStepTwo, resetTutorRegister } = tutorRegisterSlice.actions;
 
 export default tutorRegisterSlice.reducer;

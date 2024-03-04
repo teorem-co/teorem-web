@@ -2,9 +2,7 @@ import { t } from 'i18next';
 import moment from 'moment';
 
 import toastService from '../../../services/toastService';
-import {
-  useDeleteTutorUnavailabilityMutation,
-} from '../services/unavailabilityService';
+import { useDeleteTutorUnavailabilityMutation } from '../services/unavailabilityService';
 
 interface Props {
     handleClose?: (close: boolean) => void;
@@ -14,7 +12,7 @@ interface Props {
 }
 
 const UnavailabilityEditModal: React.FC<Props> = (props) => {
-    const {topOffset, handleClose, positionClass, event } = props;
+    const { topOffset, handleClose, positionClass, event } = props;
 
     const [deleteUnavailability] = useDeleteTutorUnavailabilityMutation();
 
@@ -26,12 +24,12 @@ const UnavailabilityEditModal: React.FC<Props> = (props) => {
     };
 
     const isMobile = window.innerWidth < 776;
-    const mobileStyles = isMobile? { top: `${topOffset}px` } : {};
+    const mobileStyles = isMobile ? { top: `${topOffset}px` } : {};
 
     return (
         <>
             {event ? (
-              <div  style={mobileStyles}  className={`modal--parent  modal--parent--${isMobile ? '' : positionClass}`}>
+                <div style={mobileStyles} className={`modal--parent  modal--parent--${isMobile ? '' : positionClass}`}>
                     <div className="modal--parent__header">
                         <div className="flex flex--primary">
                             <div>
@@ -40,7 +38,8 @@ const UnavailabilityEditModal: React.FC<Props> = (props) => {
                                     {t('MY_BOOKINGS.UNAVAILABILITY')}
                                 </div>
                                 <div className="type--color--secondary">
-                                    {moment(event.startTime).format(t('DATE_FORMAT') + ', HH:mm')} - {moment(event.endTime).add(1, 'minutes').format('HH:mm')}
+                                    {moment(event.startTime).format(t('DATE_FORMAT') + ', HH:mm')} -{' '}
+                                    {moment(event.endTime).add(1, 'minutes').format('HH:mm')}
                                 </div>
                             </div>
                             <div className="mb-6">

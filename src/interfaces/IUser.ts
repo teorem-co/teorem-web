@@ -4,6 +4,7 @@ interface ICountry {
     currencyCode: string;
     currencyName: string;
 }
+
 export default interface IUser {
     id: string;
     firstName: string;

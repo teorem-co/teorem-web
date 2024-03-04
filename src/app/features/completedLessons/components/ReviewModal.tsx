@@ -9,9 +9,7 @@ import MyTextField from '../../../components/form/MyTextField';
 import toastService from '../../../services/toastService';
 import ICompletedLesson from '../../my-bookings/interfaces/ICompletedLesson';
 import IAddReview from '../../myReviews/interfaces/IAddReview';
-import {
-  useAddReviewMutation,
-} from '../../myReviews/services/myReviewsService';
+import { useAddReviewMutation } from '../../myReviews/services/myReviewsService';
 
 interface Props {
     activeLesson: ICompletedLesson | null;
@@ -75,8 +73,11 @@ const ReviewModal: FC<Props> = (props: Props) => {
                     <div className="modal__head">
                         <div className="type--md type--wgt--bold">{t('WRITE_REVIEW.SECTION_TITLE')}</div>
                         <div className="type--color--secondary">
-                            {activeLesson?.Tutor.User.firstName} {activeLesson?.Tutor.User.lastName}, {t(`SUBJECTS.${activeLesson?.Subject.abrv.replaceAll('-','')}`)}, {t(`LEVELS.${activeLesson?.level.abrv.replaceAll('-','')}`)}
-                            {/*Maria Diaz, Mathematics, A level*/}</div>
+                            {activeLesson?.Tutor.User.firstName} {activeLesson?.Tutor.User.lastName},{' '}
+                            {t(`SUBJECTS.${activeLesson?.Subject.abrv.replaceAll('-', '')}`)},{' '}
+                            {t(`LEVELS.${activeLesson?.level.abrv.replaceAll('-', '')}`)}
+                            {/*Maria Diaz, Mathematics, A level*/}
+                        </div>
                         <i onClick={handleClose} className="modal__close icon icon--base icon--close icon--grey"></i>
                     </div>
                     <div className="modal__separator"></div>
@@ -99,12 +100,7 @@ const ReviewModal: FC<Props> = (props: Props) => {
                                     <label htmlFor="review" className="field__label">
                                         {t('WRITE_REVIEW.REVIEW')}*
                                     </label>
-                                    <TextArea
-                                        name="review"
-                                        id="review"
-                                        placeholder={t('WRITE_REVIEW.TEXT_PLACEHOLDER')}
-                                        maxLength={2500}
-                                    />
+                                    <TextArea name="review" id="review" placeholder={t('WRITE_REVIEW.TEXT_PLACEHOLDER')} maxLength={2500} />
                                 </div>
                             </Form>
                         </FormikProvider>

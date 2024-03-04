@@ -1,12 +1,8 @@
-import React, { useContext } from 'react';
-import {
-  ContextType,
-  IVideoPlayerModalProps,
-} from '../../../../interfaces/IVideoChat';
+import { useContext } from 'react';
+import { ContextType, IVideoPlayerModalProps } from '../../../../interfaces/IVideoChat';
 import { SocketContext } from '../contexts/Context';
 
 const VideoPlayerModal = (props: IVideoPlayerModalProps) => {
-
     const { me, callAccepted, name, setName, callEnded, leaveCall, myVideo, stream, callUser, setStream } = useContext<ContextType>(SocketContext);
 
     // useEffect(() => {
@@ -31,4 +27,3 @@ const VideoPlayerModal = (props: IVideoPlayerModalProps) => {
 };
 
 export default VideoPlayerModal;
-

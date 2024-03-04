@@ -32,24 +32,12 @@ const CustomSubjectList = (props: Props) => {
 
             {subjects.length > 3 ? (
                 <div className="pos--rel">
-                    <span
-                        className="type--color--brand cur--pointer"
-                        onClick={() => setShowTooltip(!showTooltip)}
-                    >
-                        {`+ ${subjects.length - 3} ${t(
-                            'SEARCH_TUTORS.SUBJECT_LIST.MORE'
-                        )}`}{' '}
+                    <span className="type--color--brand cur--pointer" onClick={() => setShowTooltip(!showTooltip)}>
+                        {`+ ${subjects.length - 3} ${t('SEARCH_TUTORS.SUBJECT_LIST.MORE')}`}{' '}
                     </span>
-                    <div
-                        className={`tooltip--text ${
-                            showTooltip ? 'active' : ''
-                        }`}
-                    >
+                    <div className={`tooltip--text ${showTooltip ? 'active' : ''}`}>
                         {subjects.slice(3).map((subject) => (
-                            <span
-                                className="type--color--brand"
-                                key={subject.id}
-                            >
+                            <span className="type--color--brand" key={subject.id}>
                                 {t(`SUBJECTS.${subject.abrv.replaceAll('-', '').replace(' ', '').toLowerCase()}`)}
                             </span>
                         ))}

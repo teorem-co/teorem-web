@@ -2,21 +2,18 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import EditSubjectSidebar from '../../my-profile/components/EditSubjectSidebar';
 import AddSubjectSidebar from '../../my-profile/components/AddSubjectSidebar';
-import {
-  useLazyGetTutorByIdQuery,
-} from '../../../../services/tutorService';
+import { useLazyGetTutorByIdQuery } from '../../../../services/tutorService';
 import SubjectList from '../../my-profile/components/SubjectList';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-export function EditTutorSubjects({tutorId}: any) {
+export function EditTutorSubjects({ tutorId }: any) {
     const history = useHistory();
     const { t } = useTranslation();
     const [editOpen, setEditOpen] = useState(false);
     const [addOpen, setAddOpen] = useState(false);
     const [currency, setCurrency] = useState('');
-    const [getProfileData, { data: myTeachingsData }] =
-        useLazyGetTutorByIdQuery();
+    const [getProfileData, { data: myTeachingsData }] = useLazyGetTutorByIdQuery();
     const fetchData = async () => {
         if (tutorId) {
             getProfileData(tutorId);

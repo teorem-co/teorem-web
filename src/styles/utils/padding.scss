@@ -25,33 +25,33 @@
 */
 
 .p {
-    @each $modifier, $classModifier in $modifiers {
-        &#{$modifier} {
-            @each $i in $scale {
-                &-#{$i} {
-                    padding#{$classModifier}: calc(#{$unit} * #{$i});
-                }
-            }
+  @each $modifier, $classModifier in $modifiers {
+    &#{$modifier} {
+      @each $i in $scale {
+        &-#{$i} {
+          padding#{$classModifier}: calc(#{$unit} * #{$i});
         }
+      }
     }
+  }
 }
 
 @each $responsive, $width in $responsiveConfig {
-    @media (min-width: #{$responsive}) {
-        .p {
-            @each $modifier, $classModifier in $modifiers {
-                &#{$modifier} {
-                    &-#{$width} {
-                        @each $i in $scale {
-                            &-#{$i} {
-                                padding#{$classModifier}: calc(
-                                    #{$unit} * #{$i}
-                                );
-                            }
-                        }
-                    }
-                }
+  @media (min-width: #{$responsive}) {
+    .p {
+      @each $modifier, $classModifier in $modifiers {
+        &#{$modifier} {
+          &-#{$width} {
+            @each $i in $scale {
+              &-#{$i} {
+                padding#{$classModifier}: calc(
+                  #{$unit} * #{$i}
+                );
+              }
             }
+          }
         }
+      }
     }
+  }
 }

@@ -5,5 +5,5 @@ export default interface IProgressProfile {
     percentage: number;
     payment: boolean;
     verified: boolean;
-    profileImage:boolean;
+    profileImage: boolean;
 }

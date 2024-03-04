@@ -26,5 +26,4 @@ export interface IVideoPlayerModalProps {
     children?: any;
     callId?: string;
     videoChatActivated: boolean;
-
 }

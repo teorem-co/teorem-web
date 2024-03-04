@@ -3,25 +3,26 @@
 */
 
 .pos {
-    &--rel {
-        position: relative;
-    }
-    &--abs {
-        position: absolute;
-    }
+  &--rel {
+    position: relative;
+  }
+
+  &--abs {
+    position: absolute;
+  }
 }
 
 .pos {
-  &--r{
-    &--0-mobile{
+  &--r {
+    &--0-mobile {
       @media (max-width: $responsive-sm) {
         right: 0;
       }
     }
   }
 
-  &--l{
-    &--0-mobile{
+  &--l {
+    &--0-mobile {
       @media (max-width: $responsive-sm) {
         left: 0;
       }

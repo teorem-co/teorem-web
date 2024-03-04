@@ -3,13 +3,13 @@
 */
 
 .overflow {
-    &--auto {
-        overflow: auto;
-    }
+  &--auto {
+    overflow: auto;
+  }
 
-    &--y{
-       &--scroll{
-        overflow-y: scroll;
-       }
+  &--y {
+    &--scroll {
+      overflow-y: scroll;
     }
+  }
 }

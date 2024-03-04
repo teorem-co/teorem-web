@@ -17,9 +17,7 @@ const ExpDateField: React.FC<TextFieldType> = (props: any) => {
         const currentValue = e.currentTarget.value;
         const currentTarget = inputRef.current as HTMLInputElement;
 
-        if (
-            String.fromCharCode(e.which ? e.which : e.keyCode).match(/[^0-9]/g)
-        ) {
+        if (String.fromCharCode(e.which ? e.which : e.keyCode).match(/[^0-9]/g)) {
             e.currentTarget.value = '';
         } else {
             const formatedString = currentValue + '/';
@@ -40,14 +38,10 @@ const ExpDateField: React.FC<TextFieldType> = (props: any) => {
                     type={`text`}
                     {...field}
                     {...props}
-                    className={`${
-                        props.className ?? 'input input--base input--text'
-                    } ${errorText ? 'input__border--error' : ''}`}
+                    className={`${props.className ?? 'input input--base input--text'} ${errorText ? 'input__border--error' : ''}`}
                 />
             </div>
-            <div className="field__validation">
-                {errorText ? errorText : ''}
-            </div>
+            <div className="field__validation">{errorText ? errorText : ''}</div>
         </>
     );
 };

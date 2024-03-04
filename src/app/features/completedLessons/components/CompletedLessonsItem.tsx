@@ -20,32 +20,25 @@ const CompletedLessonsItem = (props: Props) => {
             onClick={() => handleActiveLessons(lesson.id)}
         >
             {lesson.Tutor.User?.profileImage ? (
-            <img
-                className="image__profile image__profile--md mr-4"
-                src={lesson.Tutor.User.profileImage}
-                alt="tutor profile picture"
-              />
+                <img className="image__profile image__profile--md mr-4" src={lesson.Tutor.User.profileImage} alt="tutor profile picture" />
             ) : (
-              <ImageCircle
-                className="lessons-list__item__img image__profile"
-                fontSize={20}
-                initials={`${lesson.Tutor.User?.firstName.charAt(0)}${lesson.Tutor.User?.lastName.charAt(0)}`}
-              />
+                <ImageCircle
+                    className="lessons-list__item__img image__profile"
+                    fontSize={20}
+                    initials={`${lesson.Tutor.User?.firstName.charAt(0)}${lesson.Tutor.User?.lastName.charAt(0)}`}
+                />
             )}
 
             <div className="lessons-list__item__info type--center">
                 <div className="type--wgt--bold">
                     {lesson.Tutor.User.firstName}&nbsp;{lesson.Tutor.User.lastName}
                 </div>
-                <div className="type--color--brand">
-                  {t(`SUBJECTS.${lesson.Subject.abrv.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`)}
-                </div>
-                <div className="type--color--brand">
-                  {t(`LEVELS.${lesson.level.abrv.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`)}
-                </div>
+                <div className="type--color--brand">{t(`SUBJECTS.${lesson.Subject.abrv.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`)}</div>
+                <div className="type--color--brand">{t(`LEVELS.${lesson.level.abrv.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`)}</div>
             </div>
             <div className="type-lesson-item flex align-self-end">
-               {t('COMPLETED_LESSONS.COUNT_EXTENSION')  + ': '}{lesson.count}&nbsp;
+                {t('COMPLETED_LESSONS.COUNT_EXTENSION') + ': '}
+                {lesson.count}&nbsp;
             </div>
         </div>
     );

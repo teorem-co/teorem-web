@@ -16,11 +16,8 @@ import toastService from '../../../services/toastService';
 import { useLazyGetCustomerByIdQuery } from '../../my-profile/services/stripeService';
 import { ICreateBookingDTO, useCreatebookingMutation, useCreateBookingMutation } from '../services/bookingService';
 import { loadStripe } from '@stripe/stripe-js';
-import { Tooltip } from 'react-tooltip';
-import { isMobileDevice } from 'react-select/dist/declarations/src/utils';
 import { addStripeId } from '../../../../slices/authSlice';
 import { useDispatch } from 'react-redux';
-import { BookingPopupForm } from '../../../components/BookingPopupForm';
 import { IBookingChatMessageInfo } from '../../tutor-bookings/TutorBookings';
 import { setCredits } from '../../../../slices/creditsSlice';
 

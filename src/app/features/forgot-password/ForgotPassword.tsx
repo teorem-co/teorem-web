@@ -43,13 +43,13 @@ const ForgotPassword = () => {
 
     useEffect(() => {
         if (isSuccess) {
-          const delay = 2 * 1000; // 2 seconds in milliseconds
+            const delay = 2 * 1000; // 2 seconds in milliseconds
 
-          toastService.success(t('RESET_PASSWORD.EMAIL_SENT'), delay, false);
+            toastService.success(t('RESET_PASSWORD.EMAIL_SENT'), delay, false);
 
-          setTimeout(() => {
-            history.push(PATHS.LOGIN);
-          }, delay);
+            setTimeout(() => {
+                history.push(PATHS.LOGIN);
+            }, delay);
         }
     }, [isSuccess]);
 

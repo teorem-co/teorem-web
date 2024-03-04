@@ -2,14 +2,7 @@ import ContentLoader from 'react-content-loader';
 
 const LoaderMyReviews = () => (
     <div className="p-6">
-        <ContentLoader
-            speed={2}
-            width={536}
-            height={169}
-            viewBox="0 0 536 169"
-            backgroundColor="#f3f3f3"
-            foregroundColor="#ecebeb"
-        >
+        <ContentLoader speed={2} width={536} height={169} viewBox="0 0 536 169" backgroundColor="#f3f3f3" foregroundColor="#ecebeb">
             <path d="M 0 0 h 88 v 27 H 0 z" />
             <path d="M 0 31 h 188 v 21 H 0 z" />
             <path d="M 232 0 h 24 v 24 h -24 V 0 z" />

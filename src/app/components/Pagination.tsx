@@ -9,14 +9,7 @@ interface IProps {
     footerActiveClassName?: string;
 }
 
-const Pagination: React.FC<IProps> = ({
-    itemsPerPage,
-    totalItems,
-    paginate,
-    activePageClass,
-    currPage,
-    footerActiveClassName,
-}) => {
+const Pagination: React.FC<IProps> = ({ itemsPerPage, totalItems, paginate, activePageClass, currPage, footerActiveClassName }) => {
     const pageNumbers = [];
     const pageNumbersNew = [];
     const totalPages = Math.ceil(totalItems! / itemsPerPage);
@@ -61,9 +54,7 @@ const Pagination: React.FC<IProps> = ({
         }
 
         if (currPage > 2 && currPage < totalPages - 2) {
-            return paginate(
-                currPage > totalPages - 3 ? currPage - 1 : currPage + 1
-            );
+            return paginate(currPage > totalPages - 3 ? currPage - 1 : currPage + 1);
         }
 
         if (currPage > totalPages - 3) {
@@ -73,34 +64,18 @@ const Pagination: React.FC<IProps> = ({
 
     return (
         <>
-            <div
-                className={`pagination ${
-                    footerActiveClassName ? footerActiveClassName : ''
-                }`}
-            >
+            <div className={`pagination ${footerActiveClassName ? footerActiveClassName : ''}`}>
                 <div
-                    onClick={() =>
-                        currPage === 1 ? undefined : paginate(currPage - 1)
-                    }
-                    className={`pagination__arrow mr-1 ${
-                        currPage === 1 ? 'disabled' : ''
-                    }`}
+                    onClick={() => (currPage === 1 ? undefined : paginate(currPage - 1))}
+                    className={`pagination__arrow mr-1 ${currPage === 1 ? 'disabled' : ''}`}
                 >
-                    <i
-                        className={`icon icon--chevron-left icon--base pagination__arrow__icon m--right-40`}
-                    ></i>
+                    <i className={`icon icon--chevron-left icon--base pagination__arrow__icon m--right-40`}></i>
                 </div>
                 {totalPages < 6
                     ? pageNumbers.map((n, index) => (
                           <div
-                              className={`pagination__item cur--pointer ${
-                                  n === currPage ? activePageClass : ''
-                              }`}
-                              onClick={() =>
-                                  typeof n === 'string'
-                                      ? undefined
-                                      : paginate(n)
-                              }
+                              className={`pagination__item cur--pointer ${n === currPage ? activePageClass : ''}`}
+                              onClick={() => (typeof n === 'string' ? undefined : paginate(n))}
                               key={index}
                           >
                               {n}
@@ -108,32 +83,18 @@ const Pagination: React.FC<IProps> = ({
                       ))
                     : pageNumbersNew.map((n, index) => (
                           <div
-                              className={`pagination__item cur--pointer ${
-                                  n === currPage ? activePageClass : ''
-                              }`}
-                              onClick={() =>
-                                  typeof n === 'string'
-                                      ? handleDots()
-                                      : paginate(n)
-                              }
+                              className={`pagination__item cur--pointer ${n === currPage ? activePageClass : ''}`}
+                              onClick={() => (typeof n === 'string' ? handleDots() : paginate(n))}
                               key={index}
                           >
                               {n}
                           </div>
                       ))}
                 <div
-                    onClick={() =>
-                        currPage === totalPages
-                            ? undefined
-                            : paginate(currPage + 1)
-                    }
-                    className={`pagination__arrow ml-1 ${
-                        currPage === totalPages ? 'disabled' : ''
-                    }`}
+                    onClick={() => (currPage === totalPages ? undefined : paginate(currPage + 1))}
+                    className={`pagination__arrow ml-1 ${currPage === totalPages ? 'disabled' : ''}`}
                 >
-                    <i
-                        className={`icon icon--chevron-right icon--base pagination__arrow__icon m--left-40`}
-                    ></i>
+                    <i className={`icon icon--chevron-right icon--base pagination__arrow__icon m--left-40`}></i>
                 </div>
             </div>
         </>

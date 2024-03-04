@@ -27,4 +27,4 @@ export const countryService = baseService.injectEndpoints({
     }),
 });
 
-export const {useLazyGetCountriesQuery} = countryService;
+export const { useLazyGetCountriesQuery } = countryService;

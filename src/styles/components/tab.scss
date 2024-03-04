@@ -3,41 +3,41 @@
 */
 
 .tab {
-    &--primary {
-        margin-right: calc(#{$unit} * -6);
-        margin-left: calc(#{$unit} * -6);
-        margin-bottom: calc(#{$unit} * 10);
-        padding: 0 calc(#{$unit} * 6);
-        padding-bottom: calc(#{$unit} * 2);
+  &--primary {
+    margin-right: calc(#{$unit} * -6);
+    margin-left: calc(#{$unit} * -6);
+    margin-bottom: calc(#{$unit} * 10);
+    padding: 0 calc(#{$unit} * 6);
+    padding-bottom: calc(#{$unit} * 2);
 
-        &__item {
-            position: relative;
-            text-transform: uppercase;
-            color: $color-primary;
-            margin-right: calc(#{$unit} * 8);
-            padding-bottom: calc(#{$unit} * 2);
+    &__item {
+      position: relative;
+      text-transform: uppercase;
+      color: $color-primary;
+      margin-right: calc(#{$unit} * 8);
+      padding-bottom: calc(#{$unit} * 2);
 
-            &::after {
-                content: '';
-                position: absolute;
-                display: block;
-                bottom: -$unit;
-                left: 0;
-                height: 2px;
-                width: 100%;
-                background-color: $color-primary;
-                opacity: 0;
-            }
+      &::after {
+        content: '';
+        position: absolute;
+        display: block;
+        bottom: -$unit;
+        left: 0;
+        height: 2px;
+        width: 100%;
+        background-color: $color-primary;
+        opacity: 0;
+      }
 
-            &:last-child {
-                margin-right: 0;
-            }
+      &:last-child {
+        margin-right: 0;
+      }
 
-            &.active {
-                &.tab--primary__item::after {
-                    opacity: 1;
-                }
-            }
+      &.active {
+        &.tab--primary__item::after {
+          opacity: 1;
         }
+      }
     }
+  }
 }

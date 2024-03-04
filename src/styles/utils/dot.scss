@@ -2,19 +2,19 @@
     utils: dot
 */
 
-.stripe-dot {  
-    border-radius: 50%;
-    width: 15px;
-    height: 15px;
-    margin: auto 0px auto 5px;
-    display: flex;
+.stripe-dot {
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  margin: auto 0px auto 5px;
+  display: flex;
 
-    &-connected {
-        background-color: green;
-    }
-    
-    &-disconnected {
-        background-color: #db4646;
-    } 
-    
+  &-connected {
+    background-color: green;
+  }
+
+  &-disconnected {
+    background-color: #db4646;
+  }
+
 }

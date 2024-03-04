@@ -6,60 +6,57 @@ import { RoleOptions } from '../../../../slices/roleSlice';
 import { useAppSelector } from '../../../hooks';
 import { PATHS } from '../../../routes';
 import { getUserId } from '../../../utils/getUserId';
-import {
-  useLazyGetTutorByIdQuery,
-} from '../../../../services/tutorService';
+import { useLazyGetTutorByIdQuery } from '../../../../services/tutorService';
 import { useHistory } from 'react-router';
 
 interface Props {
-  className?: string;
+    className?: string;
 }
 
 const ProfileHeader: FC<Props> = (props: Props) => {
-  const { className } = props;
+    const { className } = props;
 
-  const tutorId = getUserId();
-  const userRole: string = useAppSelector((state) => state.auth.user?.Role.abrv) || '';
+    const tutorId = getUserId();
+    const userRole: string = useAppSelector((state) => state.auth.user?.Role.abrv) || '';
 
-  const [getTutor, { data: tutorData }] = useLazyGetTutorByIdQuery();
+    const [getTutor, { data: tutorData }] = useLazyGetTutorByIdQuery();
 
-  useEffect(() => {
-    if (userRole === RoleOptions.Tutor && !!tutorId) {
-      getTutor(tutorId);
-    }
-  }, [userRole, tutorId]);
+    useEffect(() => {
+        if (userRole === RoleOptions.Tutor && !!tutorId) {
+            getTutor(tutorId);
+        }
+    }, [userRole, tutorId]);
 
-  const history = useHistory();
+    const history = useHistory();
 
-  return (
-    <div className={`flex--primary ${className}`}>
-      <div className="type--lg type--wgt--bold flex--grow">{t('MY_PROFILE.TITLE')}</div>
-      <div>
-        {/* Preview profile has to be div, because of formik validation bug */}
-        {userRole === RoleOptions.Tutor && (
-          <div>
+    return (
+        <div className={`flex--primary ${className}`}>
+            <div className="type--lg type--wgt--bold flex--grow">{t('MY_PROFILE.TITLE')}</div>
+            <div>
+                {/* Preview profile has to be div, because of formik validation bug */}
+                {userRole === RoleOptions.Tutor && (
+                    <div>
+                        <button
+                            onClick={() => {
+                                localStorage.removeItem('hideTutorIntro');
+                                history.push(PATHS.DASHBOARD);
+                            }}
+                            className="btn btn--clear btn--base type--wgt--bold"
+                        >
+                            {t('TUTOR_INTRO.BUTTON_RESTART')}
+                        </button>
 
-            <button
-              onClick={() =>{
-                localStorage.removeItem('hideTutorIntro');
-                history.push(PATHS.DASHBOARD);
-              }}
-              className="btn btn--clear btn--base type--wgt--bold"
-            >
-              {t('TUTOR_INTRO.BUTTON_RESTART')}
-            </button>
-
-            <Link
-              to={`${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(':tutorSlug', `${tutorData?.slug}`)}`}
-              className="btn btn--clear btn--base type--wgt--bold"
-            >
-              {t('MY_PROFILE.PREVIEW')}
-            </Link>
-          </div>
-        )}
-      </div>
-    </div>
-  );
+                        <Link
+                            to={`${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(':tutorSlug', `${tutorData?.slug}`)}`}
+                            className="btn btn--clear btn--base type--wgt--bold"
+                        >
+                            {t('MY_PROFILE.PREVIEW')}
+                        </Link>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
 };
 
 export default ProfileHeader;

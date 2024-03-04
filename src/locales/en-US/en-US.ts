@@ -1423,27 +1423,27 @@ export const EN_US = {
         NEW_CREDITS_BALANCE: 'New credits balance:',
     },
     ID_VERIFICATION: {
-      ID_SECTION: 'Identifying document',
-      ID_SECTION_DESCRIPTION: 'You need to provide an ID document to confirm your identity.',
-      BANNER:'Identity not verified, please provide ID document so your payouts won\'t be disabled.',
-      ACCOUNT_VERIFIED: 'Thank you! Your account is verified.',
-      DOCUMENTS_PROVIDED: 'Thank you! Documentation submitted, waiting for verification.',
-      DOCUMENTS_REQUIRED: 'You have not submitted the documents yet. Please submit the documents so that we can verify you.',
-      DISABLED_PAYOUTS: {
-        PART_1: 'Payouts are disabled until your account has been verified!',
-        PART_2: '(In case you submitted the documentation and more than 7 days have passed, please contact support@teorem.co)',
-        SOON: 'Deadline: soon',
-      },
-      DAYS_REMAINING:{
-        P_1: 'There are ',
-        P_2:  ' days remaining to submit documents. After that, your payments will be disabled until you submit the documentation and until it is verified!',
-      },
-      FORM:{
-        FRONT: 'Front side',
-        BACK: 'Back side',
-        TIP_1: 'Picture must be in color',
-        TIP_2:'Document must contain name used during registration',
-        SUBMIT: 'Submit',
-      },
-    }
+        ID_SECTION: 'Identifying document',
+        ID_SECTION_DESCRIPTION: 'You need to provide an ID document to confirm your identity.',
+        BANNER: "Identity not verified, please provide ID document so your payouts won't be disabled.",
+        ACCOUNT_VERIFIED: 'Thank you! Your account is verified.',
+        DOCUMENTS_PROVIDED: 'Thank you! Documentation submitted, waiting for verification.',
+        DOCUMENTS_REQUIRED: 'You have not submitted the documents yet. Please submit the documents so that we can verify you.',
+        DISABLED_PAYOUTS: {
+            PART_1: 'Payouts are disabled until your account has been verified!',
+            PART_2: '(In case you submitted the documentation and more than 7 days have passed, please contact support@teorem.co)',
+            SOON: 'Deadline: soon',
+        },
+        DAYS_REMAINING: {
+            P_1: 'There are ',
+            P_2: ' days remaining to submit documents. After that, your payments will be disabled until you submit the documentation and until it is verified!',
+        },
+        FORM: {
+            FRONT: 'Front side',
+            BACK: 'Back side',
+            TIP_1: 'Picture must be in color',
+            TIP_2: 'Document must contain name used during registration',
+            SUBMIT: 'Submit',
+        },
+    },
 };
