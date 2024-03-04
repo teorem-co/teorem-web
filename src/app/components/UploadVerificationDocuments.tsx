@@ -49,7 +49,7 @@ export const UploadVerificationDocuments: React.FC = () => {
                 <div className="mb-2 type--wgt--bold">{t('ID_VERIFICATION.ID_SECTION')}</div>
                 <div className="type--color--tertiary mb-4">{t('ID_VERIFICATION.ID_SECTION_DESCRIPTION')}</div>
                 <div className="flex flex--row w--200--max">
-                    {!showLoader && loggedinUser && loggedinUser.stripeVerifiedStatus !== 'verified' && (
+                    {!showLoader && loggedinUser && loggedinUser.stripeVerifiedStatus !== 'verified' && !loggedinUser.stripeVerificationDocumentsUploaded && (
                         <button
                             type={'button'}
                             className={'btn btn--primary btn--lg mt-6'}
