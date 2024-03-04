@@ -4,19 +4,17 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 
+import { useLazyGetChatRoomsQuery, useLazyGetChildBookingTutorsQuery } from './app/features/chat/services/chatService';
 import {
-  useLazyGetChatRoomsQuery,
-  useLazyGetChildBookingTutorsQuery,
-} from './app/features/chat/services/chatService';
-import {
-  addChatRoom,
-  addChatRooms, addMessage,
-  IChatRoom,
-  IReadMessagePair,
-  setBuffer,
-  setConsultationInitialized,
-  setMessagesAsRead,
-  setUser,
+    addChatRoom,
+    addChatRooms,
+    addMessage,
+    IChatRoom,
+    IReadMessagePair,
+    setBuffer,
+    setConsultationInitialized,
+    setMessagesAsRead,
+    setUser,
 } from './app/features/chat/slices/chatSlice';
 import { useAppSelector } from './app/hooks';
 import { Role } from './app/lookups/role';
@@ -31,7 +29,6 @@ import { logout, setServerVersion } from './slices/authSlice';
 import { logoutUser } from './slices/userSlice';
 
 function App() {
-
     const { t } = useTranslation();
 
     const version = useAppSelector((state) => state.auth.serverVersion);
@@ -62,10 +59,8 @@ function App() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-
         if (isSuccessServerVersion) {
             if (version != serverVersion) {
-
                 if (userId) {
                     persistor.purge();
                     dispatch(logout());
@@ -77,25 +72,20 @@ function App() {
                 dispatch(setServerVersion(serverVersion || '0.0.0'));
 
                 setVersionSame(true);
-            } else
-                setVersionSame(true);
+            } else setVersionSame(true);
         }
     }, [version, isSuccessServerVersion]);
 
-
     useEffect(() => {
-
         if (missedCall && missedCallBuffer) {
             getUserById(missedCallBuffer.userId);
             getUserById2(missedCallBuffer.tutorId);
         }
     }, [missedCall, missedCallBuffer]);
 
-
     useEffect(() => {
         if (user2Data1 && user2Data3 && sendMessageObject) {
-            if (sendMessageObject.userId!= user2Data1.id)
-              return;
+            if (sendMessageObject.userId != user2Data1.id) return;
 
             let messageText = sendMessageObject.message;
             messageText = messageText.replace(/stringTranslate=\{(.*?)\}/g, function (match: any, token: any) {
@@ -116,7 +106,7 @@ function App() {
                     isFile: sendMessageObject.isFile,
                     messageNew: sendMessageObject.messageNew,
                     messageMissedCall: sendMessageObject.missedCall,
-                    file: sendMessageObject.file
+                    file: sendMessageObject.file,
                 },
                 senderId: sendMessageObject.senderId,
             };
@@ -135,24 +125,20 @@ function App() {
                 messages: [message],
                 unreadMessageCount: 1,
                 addToList: true,
-                setActive: false
+                setActive: false,
             };
 
             let exists = false;
-          for (let i = 0; i < chat.chatRooms.length; i++) {
-            if (chat.chatRooms[i].tutor?.userId == sendMessageObject.tutorId && chat.chatRooms[i].user?.userId == sendMessageObject.userId)
-              exists = true;
-          }
+            for (let i = 0; i < chat.chatRooms.length; i++) {
+                if (chat.chatRooms[i].tutor?.userId == sendMessageObject.tutorId && chat.chatRooms[i].user?.userId == sendMessageObject.userId)
+                    exists = true;
+            }
 
-            exists ?
-              dispatch(addMessage(message))
-              :
-              dispatch(addChatRoom(chatRoom));
+            exists ? dispatch(addMessage(message)) : dispatch(addChatRoom(chatRoom));
         }
     }, [user2Data1, user2Data3, sendMessageObject]);
 
     useEffect(() => {
-
         if (sendMessageObject && sendMessageObjectSet) {
             getUserById1(sendMessageObject.userId);
             getUserById3(sendMessageObject.tutorId);
@@ -160,9 +146,7 @@ function App() {
     }, [sendMessageObject, sendMessageObjectSet]);
 
     useEffect(() => {
-
         getServerVersion();
-
 
         chat.socket.on('showNotification', (notification: ISocketNotification) => {
             const ifChildExists = childIds?.find((x) => x === notification.userId);
@@ -183,31 +167,31 @@ function App() {
             setSendMessageObject(sendMessageObject);
         });
 
-        chat.socket.on("onCancelFreeConsultation", async (buffer: any) => {
-
+        chat.socket.on('onCancelFreeConsultation', async (buffer: any) => {
             if (freeConsultationRef.current) {
                 dispatch(setConsultationInitialized(false));
                 toast.dismiss(freeConsultationRef.current);
             }
 
             if (buffer.type == NotificationType.CHAT_MISSED_CALL) {
-
                 setMissedCall(true);
                 setMissedCallBuffer(buffer);
             }
-
         });
 
-        chat.socket.on("markMessagesRead", (messagePair: IReadMessagePair) =>{
+        chat.socket.on('markMessagesRead', (messagePair: IReadMessagePair) => {
             dispatch(setMessagesAsRead(messagePair));
         });
 
-        chat.socket.on("acceptFreeConsultation", (buffer: any) => {
-
+        chat.socket.on('acceptFreeConsultation', (buffer: any) => {
             freeConsultationRef.current = toastService.freeConsultation(
                 buffer,
-                () => { toast.dismiss(freeConsultationRef.current); },
-                () => { toast.dismiss(freeConsultationRef.current); }
+                () => {
+                    toast.dismiss(freeConsultationRef.current);
+                },
+                () => {
+                    toast.dismiss(freeConsultationRef.current);
+                }
             );
             dispatch(setConsultationInitialized(true));
             dispatch(setBuffer(buffer));
@@ -219,57 +203,44 @@ function App() {
     }, []);
 
     useEffect(() => {
-
         if (isSuccessChatRooms) {
-
             dispatch(addChatRooms(chatRooms || null));
 
             chat.socket.disconnect();
             chat.socket.connect();
             chat.socket.emit('chatEntered', {
-                userId: userId
+                userId: userId,
             });
         }
-
     }, [chatRooms]);
 
     useEffect(() => {
-
         if (document && userId) {
-            document.title = "Teorem";
+            document.title = 'Teorem';
         }
-
     }, [chat.newMessages]);
 
     useEffect(() => {
-
         if (userId) {
-
-            if (userData.user?.Role.abrv == Role.Child)
-                 getChildBookingTutors();
+            if (userData.user?.Role.abrv == Role.Child) getChildBookingTutors();
 
             getChatRooms({
                 limitMessages: 20,
                 rpp: 1000,
-                page: 1
+                page: 1,
             });
 
-
             chatDispatch(
-                setUser(
-                    {
-                        userId: userData.user?.id + '',
-                        userNickname: (userData.user?.firstName + '') + ' ' + (userData.user?.lastName + ''),
-                        userImage: userData.user?.profileImage || 'teorem.co:3000/teorem/profile/images/profilePictureDefault.jpg'
-                    }
-                )
+                setUser({
+                    userId: userData.user?.id + '',
+                    userNickname: userData.user?.firstName + '' + ' ' + (userData.user?.lastName + ''),
+                    userImage: userData.user?.profileImage,
+                })
             );
         }
-
     }, [userId]);
 
     useEffect(() => {
-
         if (isSuccessChildTutors) {
             dispatch(addChatRooms(childTutors || null));
         }

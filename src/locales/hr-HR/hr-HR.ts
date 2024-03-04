@@ -1,8 +1,9 @@
 export const HR_HR = {
     MAIN_TITLE: 'Teorem',
     WATERMARK: '© Teorem',
-  DATE_FORMAT: 'DD. MMM YYYY',
-  ERROR_HANDLING: {
+    BIRTH_DATE_FORMAT: 'DD/MM/YYYY',
+    DATE_FORMAT: 'DD. MMM YYYY',
+    ERROR_HANDLING: {
         UNHANDLED_ERROR: 'Došlo je do neočekivane pogreške!',
         SUPPORT: 'Nešto je pošlo po zlu, molimo Vas kontaktirajte podršku',
         CREDIT_CARD_MISSING: 'Nedostaju podatci kartice. Molimo dodajte način plaćanja prije kreiranja rezervacije.',
@@ -47,30 +48,30 @@ export const HR_HR = {
         EDIT_CHILD_DETAILS: 'Izmijenite podatke o djetetu',
     },
     TUTOR_ONBOARDING: {
-      TITLE: "Hvala što ste potvrdili svoju adresu e-pošte! Dovršimo vaš profil!",
-      SUBTITLE: 'Ovo obično traje 8 minuta.',
-      IMAGE_NOTE: 'Za sada možete preskočiti, ali morat ćete dodati profilnu sliku prije nego što počnete podučavati.',
-      ABOUT_ME_TIPS: {
-        TIP_1: 'Detaljno opišite svoj način predavanja i sebe.',
-        TIP_2:'Najučinkovitiji profili sadrže 100+ riječi u rubirkama <u><i>više o meni</i></u> i <u><i>više o mojim predavanjima</i></u>.',
-      },
-      TOOLTIPS: {
-        AVAILABILITY_1: "Odaberite kada ste dostupni za instrukcije, po dijelovima dana u tjednu.",
-        AVAILABILITY_2: "Svoju dostupnost možete kasnije izmijeniti u bilo kojem trenutku.",
-        SUBJECTS: "Kasnije možete dodati ili obrisati predmete u postavkama Vašeg profila.",
-        SUBJECTS_TIP_1: "Dodajte predmete koje želite podučavati i odredite svoju cijenu.",
-        SUBJECTS_TIP_2: "Imajte na umu da Teorem uzima proviziju od 12%.",
-      },
-      IMAGE_TIPS: {
-        TITLE: 'Naputci za fotografiju',
-        TIP_1: 'portret oblik',
-        TIP_2: 'ozbiljnog stava s osmjehom',
-        TIP_3: 'visoke kvalitete (min 500x500 piksela)'
-      },
-      PAYOUTS_BUTTON:{
-        PRIVATE: 'Privatna osoba',
-        COMPANY: 'Tvrtka'
-      }
+        TITLE: 'Hvala što ste potvrdili svoju adresu e-pošte! Dovršimo vaš profil!',
+        SUBTITLE: 'Ovo obično traje 8 minuta.',
+        IMAGE_NOTE: 'Za sada možete preskočiti, ali morat ćete dodati profilnu sliku prije nego što počnete podučavati.',
+        ABOUT_ME_TIPS: {
+            TIP_1: 'Detaljno opišite svoj način predavanja i sebe.',
+            TIP_2: 'Najučinkovitiji profili sadrže 100+ riječi u rubirkama <u><i>više o meni</i></u> i <u><i>više o mojim predavanjima</i></u>.',
+        },
+        TOOLTIPS: {
+            AVAILABILITY_1: 'Odaberite kada ste dostupni za instrukcije, po dijelovima dana u tjednu.',
+            AVAILABILITY_2: 'Svoju dostupnost možete kasnije izmijeniti u bilo kojem trenutku.',
+            SUBJECTS: 'Kasnije možete dodati ili obrisati predmete u postavkama Vašeg profila.',
+            SUBJECTS_TIP_1: 'Dodajte predmete koje želite podučavati i odredite svoju cijenu.',
+            SUBJECTS_TIP_2: 'Imajte na umu da Teorem uzima proviziju od 15%.',
+        },
+        IMAGE_TIPS: {
+            TITLE: 'Naputci za fotografiju',
+            TIP_1: 'portret oblik',
+            TIP_2: 'ozbiljnog stava s osmjehom',
+            TIP_3: 'visoke kvalitete (min 500x500 piksela)',
+        },
+        PAYOUTS_BUTTON: {
+            PRIVATE: 'Privatna osoba',
+            COMPANY: 'Tvrtka',
+        },
     },
     FORM_VALIDATION: {
         INVALID_EMAIL: 'Neispravan email',
@@ -92,8 +93,9 @@ export const HR_HR = {
         PASSWORD_MATCH: 'Lozinke se moraju poklapati',
         PASSWORD_STRENGTH: 'Lozinka mora ispunjavati uvjete',
         PRICE: 'Minimalno ',
+        WHOLE_NUMBER: 'Nije cijeli broj',
         FUTURE_DATE: 'Datum ne može biti u budućnosti',
-        VALID_DATE: "Datum je nevažeći",
+        VALID_DATE: 'Datum je nevažeći',
         PHONE_NUMBER: 'Neispravan broj telefona',
         TUTOR_AGE: 'Instruktor mora imati više od 18 godina',
         WRONG_REQUIREMENTS: 'Niste ispunili sva potrebna polja',
@@ -115,7 +117,8 @@ export const HR_HR = {
         IBAN_MATCH: 'IBANi se moraju podudarati',
         MIN_50_WORDS: 'Najmanje 50 riječi',
         MAX_2500_CHARS: 'Najviše 2500 znakova',
-        MAX_75_CHARS: 'Najviše 75 znakova'
+        MAX_75_CHARS: 'Najviše 75 znakova',
+        MAX_100_CHARS: 'Najviše 100 znakova',
     },
     NAVIGATION: {
         MY_BOOKINGS: 'Kalendar',
@@ -195,7 +198,7 @@ export const HR_HR = {
                 SUBMIT_BTN: 'Spremanje',
             },
             NO_PRICE: 'Cijena nije navedena',
-            HOUR: 'sat'
+            HOUR: 'sat',
         },
         PRICE_SORT: 'Sortirati po',
         SORT_LOW: 'Najnižoj cijeni',
@@ -221,9 +224,8 @@ export const HR_HR = {
             COUNTRY: 'DRŽAVA',
             DATE_OF_BIRTH: 'DATUM ROĐENJA',
             PREVIEW_PROFILE: 'Pregled profila',
-            PHONE_NUMBER: "BROJ TELEFONA",
-            CREATED_AT: "DATUM KREIRANJA"
-
+            PHONE_NUMBER: 'BROJ TELEFONA',
+            CREATED_AT: 'DATUM KREIRANJA',
         },
         ACTIONS: {
             APPROVE: 'Odobri',
@@ -274,7 +276,7 @@ export const HR_HR = {
         },
         BACK_BTN: 'Povratak na prijavu',
         PASSWORD_CHANGED_SUCCESS: 'Lozinka uspjesno promijenjena, biti ćete prebačeni na stranicu za prijavu',
-        EMAIL_SENT: 'E-mail poslan, biti ćete prebačeni na stranicu za prijavu'
+        EMAIL_SENT: 'E-mail poslan, biti ćete prebačeni na stranicu za prijavu',
     },
     LOGIN: {
         TITLE: 'Prijava',
@@ -308,11 +310,11 @@ export const HR_HR = {
             PROFILE_NOT_ACTIVE: {
                 SENT_AGAIN: 'Molimo potvrdite vašu e-mail adresu.',
             },
-            PASSWORD_RESET:{
+            PASSWORD_RESET: {
                 TOKEN_EXPIRED: 'Vaš token je istekao, molimo zatražite novi e-mail',
                 TOKEN_INVALID: 'Vaš token je neispravan, molimo zatražite novi e-mail',
-                MISMATCH: 'Lozinke se ne podudaraju'
-            }
+                MISMATCH: 'Lozinke se ne podudaraju',
+            },
         },
         LEVEL: {
             NOT_FOUND: 'Razina nije pronađena',
@@ -377,22 +379,23 @@ export const HR_HR = {
             CHILD_DATE_OF_BIRTH: 'Datum rođenja djeteta*',
             USERNAME: 'Korisničko ime*',
             EMAIL_CONFLICT: 'Email se već koristi',
-            TERMS_AND_CONDITIONS: '<div>Slažem se s <a href="https://teorem.co/en/terms" target="_blank">Uvjetima pružanja usluge</a> i <a href="https://teorem.co/hr/pravila-privatnosti" target="_blank">Politikom privatnosti</a></div>',
+            TERMS_AND_CONDITIONS:
+                '<div>Slažem se s <a href="https://teorem.hr/hr/uvjeti-koristenja" target="_blank">Uvjetima pružanja usluge</a> i <a href="https://teorem.hr/hr/politika-privatnosti" target="_blank">Politikom privatnosti</a></div>',
             SELECT_ROLE_TITLE: 'Jeste li <span class=primary-color>roditelj</span> ili <span class=primary-color>učenik</span>?',
             CHOOSE_SUBJECTS_TIP: 'Kasnije možete odabrati više predmeta',
             LOAD_MORE_SUBJECTS: 'Učitaj više predmeta...',
             HIDE_MORE_SUBJECTS: 'Prikaži manje predmeta...',
             RESEND_MAIL_BUTTON_TRY: 'Pokušajte ponovno za: ',
-            STEPS:{
-                  STUDENT_PARENT_FIRST: 'S kojim <span class=primary-color>predmetom</span> Vam možemo pomoći?',
-                  FIRST: 'Unesite vaše <span class=primary-color> ime </span>',
-                  SECOND: 'Kako vas možemo <span class=primary-color>kontaktirati</span>?',
-                  THIRD: 'Naposljetku, kreirajte <span class=primary-color>lozinku</span>',
-                  FINAL: '<span class=primary-color>dobrodošli</span> na Teorem!'
-              },
+            STEPS: {
+                STUDENT_PARENT_FIRST: 'S kojim <span class=primary-color>predmetom</span> Vam možemo pomoći?',
+                FIRST: 'Unesite vaše <span class=primary-color> ime </span>',
+                SECOND: 'Kako vas možemo <span class=primary-color>kontaktirati</span>?',
+                THIRD: 'Naposljetku, kreirajte <span class=primary-color>lozinku</span>',
+                FINAL: '<span class=primary-color>dobrodošli</span> na Teorem!',
+            },
             BECOME_A_TUTOR: 'Postanite instruktor',
             CONFIRM_EMAIL: 'Molimo provjerite svoj sandučiċ i potvrdite Vašu e-mail adresu klikom na link koji smo Vam poslali.',
-            RESEND: 'Ponovno pošalji link'
+            RESEND: 'Ponovno pošalji link',
         },
         CARD_DETAILS: {
             FIRST_NAME: 'Ime*',
@@ -442,10 +445,10 @@ export const HR_HR = {
         TIME_SAME: 'Vrijeme početka i vrijeme završetka ne mogu biti isti',
         CALENDAR: {
             TITLE: 'KALENDAR',
-            TODAY: 'Danas'
+            TODAY: 'Danas',
         },
-        ADDITIONAL_INFORMATION:{
-          TITLE: 'Informacije o pridruživanju na sastanak'
+        ADDITIONAL_INFORMATION: {
+            TITLE: 'Informacije o pridruživanju na sastanak',
         },
         MODAL: {
             DELETED_USER: 'Izbrisani korisnik',
@@ -459,16 +462,17 @@ export const HR_HR = {
             WHOLE_DAY: 'Čitav dan',
             SET_UNAVAILABILITY: 'Postavi nedostupnost',
             CANCEL: 'Otkaži',
+            CONFIRM_CANCEL_TITLE: 'Jeste li sigurni da želite otkazati rezervaciju?',
         },
         INFORMATION: {
             TITLE: 'INFORMACIJE O REZERVACIJAMA',
-            CARD1:{
-              TITLE:'Kako se rade rezervacije?',
-              DESC:'Nakon odabira vremena koje vam odgovara i rezervacije, instruktor ima 24 sata da prihvati vaš zahtjev za rezervaciju. Obavijestit ćemo vas e-poštom kada vaša lekcija bude prihvaćena.'
+            CARD1: {
+                TITLE: 'Kako se rade rezervacije?',
+                DESC: 'Nakon odabira vremena koje vam odgovara i rezervacije, instruktor ima 24 sata da prihvati vaš zahtjev za rezervaciju. Obavijestit ćemo vas e-poštom kada vaša lekcija bude prihvaćena.',
             },
-            CARD2:{
-              TITLE:'Što ako mi moj termin predavanja vise ne odgovara?',
-              DESC:'Možete otkazati bilo koju rezervaciju i dobiti puni povrat novca 24 sata od trenutka kada ste izvršili uplatu. Nakon tog razdoblja možete iskljucivo zatražiti promjenu datuma ili vremena lekcije. Ako je do lekcije ostalo manje od 24 sata, instruktor može odbiti vaš zahtjev za promjenu vremena ili datuma.'
+            CARD2: {
+                TITLE: 'Što ako mi moj termin predavanja vise ne odgovara?',
+                DESC: 'Možete otkazati bilo koju rezervaciju i dobiti puni povrat novca 24 sata od trenutka kada ste izvršili uplatu. Za više informacija posjetite naš <a href="https://intercom.help/teorem/hr/" target="_blank">centar za podršku</a>.',
             },
             CARD3: {
                 TITLE: 'Kako rezervirati termin?',
@@ -479,9 +483,29 @@ export const HR_HR = {
                 DESC: 'Možete otkazati rezervaciju u Vašem kalendaru klikom na rezervaciju i zatim na "Otkaži". Ako otkažete rezervaciju više od 24 sata unaprijed, dobit ćete puni povrat novca.',
             },
         },
+        RESCHEDULE: {
+            BUTTON: 'Novi termin',
+            MODAL: {
+                TITLE: 'Promjena termina',
+                DESCRIPTION:
+                    'Ako već niste, predlažemo da se dogovorite s drugom stranom o novom terminu i da budete sigurni da će prihvatiti novi termin.',
+            },
+        },
+        CANCEL: {
+            BUTTON: 'Otkaži',
+            MODAL: {
+                TITLE: 'Jeste li sigurni da želite otkazati termin?',
+                STUDENT_DESCRIPTION: 'Povrat novca možete dobiti u obliku creditsa na Teorem platformi.',
+                TUTOR_DESCRIPTION:
+                    'U slučaju da otkazujete rezervaciju manje od 24h prije početka predavanja, biti ćete penalizirani tako što će se vaš profil manje prikazivati u pretrazi.',
+                CONFIRM: 'Otkaži predavanje',
+                DISMISS: 'Odustani',
+            },
+        },
     },
     BOOK: {
         TITLE: 'Rezervirajte termin',
+        RESCHEDULE_TITLE: 'Ažuriraj rezervaciju',
         FORM: {
             LEVEL: 'Razina',
             LEVEL_PLACEHOLDER: 'Odaberite razinu',
@@ -494,10 +518,18 @@ export const HR_HR = {
             ADD_CARD: 'Dodaj karticu',
             UPDATE: 'Ažuriraj rezervaciju',
             CANCEL: 'Otkaži',
-            TUTOR_DISABLED: 'Privremeno nedostupno'
+            TUTOR_DISABLED: 'Privremeno nedostupno',
+            CANCEL_BOOKING: 'Otkaži rezervaciju',
+            EDIT_OR_CANCEL_BOOKING: 'Izmijeni ili otkaži',
+            EDIT_OR_DENY_BOOKING: 'Izmijeni ili odbij',
+            DISMISS: 'Odustani',
+            DATE_OF_BOOKING: 'Datum',
+            TIME_OF_BOOKING: 'Vrijeme',
+            ALREADY_IN_RESCHEDULE: 'U procesu promjene termina',
+            USE_CREDITS: 'Iskoristi kredite',
         },
         JOIN: 'Pridruži se',
-        JOIN_TOOLTIP: 'Sastanku se možete pridružiti najranije 5 minuta prije početka'
+        JOIN_TOOLTIP: 'Sastanku se možete pridružiti najranije 5 minuta prije početka',
     },
     MY_REVIEWS: {
         TITLE: 'Moje recenzije',
@@ -541,13 +573,13 @@ export const HR_HR = {
         EMPTY_VIDEOS: 'Nema dostupnih završenih lekcija za odabir',
         LINK: 'Idi na kalendar',
         COUNT_EXTENSION: 'Lekcija',
-        TOOLTIP_DOWNLOAD_INVOICE:'Preuzmi račun',
+        TOOLTIP_DOWNLOAD_INVOICE: 'Preuzmi račun',
         TOOLTIP_DROPDOWN_LABEL: 'Prikaži video lekcije',
         TOOLTIP_PLAY_LESSON: 'Pokreni/preuzmi video lekciju',
         DATE_TITLE: 'Datum',
-      DATE_AT_WORD: 'u',
-      DOWNLOAD_INVOICE_SUCCESS: 'Preuzimanje računa uspješno!',
-      DOWNLOAD_INVOICE_FAIL: 'Preuzimanje računa neuspješno!',
+        DATE_AT_WORD: 'u',
+        DOWNLOAD_INVOICE_SUCCESS: 'Preuzimanje računa uspješno!',
+        DOWNLOAD_INVOICE_FAIL: 'Preuzimanje računa neuspješno!',
     },
     WRITE_REVIEW: {
         SECTION_TITLE: 'Napišite recenziju',
@@ -568,19 +600,19 @@ export const HR_HR = {
         ABOUT_ME: 'O meni',
         ACCOUNT: 'Korisnički račun',
         CHILD_INFO: 'Informacije o djetetu',
-        EARNINGS: "Zarada",
+        EARNINGS: 'Zarada',
     },
     COMPLETE_TUTOR_PROFILE_CARD: {
-        TITLE: "Završi svoj profil!",
-        DESCRIPTION: "Molimo ispunite ostatak podataka o svojem profilu kako bi počeli predavati.",
+        TITLE: 'Završi svoj profil!',
+        DESCRIPTION: 'Molimo ispunite ostatak podataka o svojem profilu kako bi počeli predavati.',
     },
     TUTOR_VERIFIED_NOTE: {
-      TITLE: "Vaš račun mora potvrditi administrator, prije nego što se može prikazivati u rezultatima pretraživanja!",
-      DESCRIPTION: "Primit ćete e-mail o statusu vašeg računa."
+        TITLE: 'Vaš račun mora potvrditi administrator, prije nego što se može prikazivati u rezultatima pretraživanja!',
+        DESCRIPTION: 'Primit ćete e-mail o statusu vašeg računa.',
     },
     CHILDLESS_PARENT_NOTE: {
-      TITLE: "Morate imati dodano dijete kako biste mogli zatražiti instrukcije!",
-      DESCRIPTION: "Dijete možete dodati na postavkama profila."
+        TITLE: 'Morate imati dodano dijete kako biste mogli zatražiti instrukcije!',
+        DESCRIPTION: 'Dijete možete dodati na postavkama profila.',
     },
     ACCOUNT: {
         CHANGE_PASSWORD: {
@@ -631,9 +663,9 @@ export const HR_HR = {
     MY_PROFILE: {
         TITLE: 'Moj profil',
         PREVIEW: 'Pregled profila',
-      PAYOUTS: 'Gdje ti isplaćujemo zaradu?',
-      IMAGE: 'Dodaj svoju sliku profila',
-      ABOUT_ME: {
+        PAYOUTS: 'Gdje ti isplaćujemo zaradu?',
+        IMAGE: 'Dodaj svoju sliku profila',
+        ABOUT_ME: {
             OCCUPATION: 'Vaše trenutno zanimanje*',
             OCCUPATION_PLACEHOLDER: 'Unesite Vaše trenutno zanimanje',
             YEARS: 'Broj godina iskustva u podučavanju',
@@ -648,6 +680,7 @@ export const HR_HR = {
             ADD_DESC: 'Izaberite za dodavanje novog predmeta',
             DELETED: 'Predmet je obrisan',
             CREATED: 'Predmet je dodan',
+            UPDATED: 'Predmeti ažurirani',
             EDIT_TITLE: 'IZMIJENITE PREDMET',
             ADD_TITLE: 'DODAJTE NOVI PREDMET',
             SUBJECT: 'Odaberite predmet koji predajete',
@@ -658,7 +691,7 @@ export const HR_HR = {
             SAVE: 'Spremi podatke',
             DELETE: 'Izbriši',
             CANCEL: 'Odustani',
-            SUBJECT_ERROR: 'Predmet za tu razinu već postoji'
+            SUBJECT_ERROR: 'Predmet za tu razinu već postoji',
         },
         GENERAL_AVAILABILITY: {
             TITLE: 'Dostupnost',
@@ -668,6 +701,7 @@ export const HR_HR = {
         },
         PROFILE_SETTINGS: {
             TITLE: 'Osobni podatci',
+            CREDITS: 'Krediti',
             DESCRIPTION: 'Izmijenite i ažurirajte svoje osobne podatke',
             FIRST_NAME: 'Ime*',
             FIRST_NAME_PLACEHOLDER: 'Unesite svoje ime',
@@ -686,7 +720,7 @@ export const HR_HR = {
             UPLOAD_IMAGE: 'Kliknite ili povucite i ispustite za učitavanje',
             CHOOSE_FILE: 'Odaberite datoteku',
             ADDRESS_PERSONAL_PLACEHOLDER: 'Unesite Vašu adresu',
-            ADDRESS_BUSINESS_PLACEHOLDER: 'Unesite adresu Vaše tvrtke'
+            ADDRESS_BUSINESS_PLACEHOLDER: 'Unesite adresu Vaše tvrtke',
         },
         PROFILE_ACCOUNT: {
             STRIPE: 'Idi na Stripe',
@@ -726,10 +760,17 @@ export const HR_HR = {
     },
     DASHBOARD: {
         TITLE: 'Upravljačka ploča',
-      REQUESTS: {
-        TITLE: 'ZAHTJEVI ZA PREDAVANJIMA',
-        EMPTY: 'Nema novih zahtjeva',
-      },
+        REQUESTS: {
+            TITLE: 'ZAHTJEVI ZA PREDAVANJIMA',
+            EMPTY: 'Nema novih zahtjeva',
+            RESCHEDULE: 'ZAHTJEVI ZA PROMJENU TERMINA',
+            STATUS: {
+                RESCHEDULE_REQUESTED: 'Izmjena',
+                RESCHEDULE_DO_ACTION: 'Izmjena',
+                NEW_BOOKING_REQUESTED: 'Čekanje potvrde',
+                NEW_BOOKING_DO_ACTION: 'Nova rezervacija',
+            },
+        },
         SCHEDULE: {
             TITLE: 'DANAŠNJI RASPORED',
             BUTTON: 'Spajanje',
@@ -741,12 +782,12 @@ export const HR_HR = {
             EMPTY: 'Nema nepročitanih poruka',
         },
         BOOKINGS: {
-          TITLE: 'NADOLAZEĆI TERMINI',
-          TOTAL: 'Ukupno',
-          EMPTY: 'Nema zakazanih termina',
-          EMPTY_SUBTITLE: 'Hmm, izgleda da za sada nemate zakazanih termina.',
-          RECOMMENDED: 'PREPORUČENI INSTRUKTORI',
-          SHOW_MORE: 'Prikaži više'
+            TITLE: 'NADOLAZEĆI TERMINI',
+            TOTAL: 'Ukupno',
+            EMPTY: 'Nema zakazanih termina',
+            EMPTY_SUBTITLE: 'Hmm, izgleda da za sada nemate zakazanih termina.',
+            RECOMMENDED: 'PREPORUČENI INSTRUKTORI',
+            SHOW_MORE: 'Prikaži više',
         },
         NOTIFICATIONS: {
             TITLE: 'OBAVIJESTI',
@@ -802,6 +843,10 @@ export const HR_HR = {
             },
         },
         CHAT_HAS_MISSED_CALL: ' je propustio Vaš poziv',
+        HELP_CENTER: {
+            TITLE: 'Centar za podršku',
+            LINK: 'https://intercom.help/teorem/hr/',
+        },
     },
     EARNINGS: {
         TITLE: 'Prihod',
@@ -813,23 +858,23 @@ export const HR_HR = {
             REVENUE: 'Ukupan prihod',
             CURRENCY: '€',
         },
-      PAYOUTS: 'Isplata',
-      WEEK_TITLE: 'Tjedan',
-      WEEK:'Zadnjih 7 dana',
-      MONTH:'Zadnjih 30 dana',
-      YEAR:'Zadnjih 12 mjeseci',
-      ALLTIME:'Oduvijek',
+        PAYOUTS: 'Isplata',
+        WEEK_TITLE: 'Tjedan',
+        WEEK: 'Zadnjih 7 dana',
+        MONTH: 'Zadnjih 30 dana',
+        YEAR: 'Zadnjih 12 mjeseci',
+        ALLTIME: 'Oduvijek',
         REVENUE: {
             TITLE: 'PRIHOD',
             GRAPH_LEGEND: 'Prihod',
         },
         STUDENTS: {
-          TITLE: 'UČENICI',
-          GRAPH_LEGEND: 'Učenici',
+            TITLE: 'UČENICI',
+            GRAPH_LEGEND: 'Učenici',
         },
         BOOKINGS: {
-          TITLE: 'REZERVACIJE',
-          GRAPH_LEGEND: 'Rezervacije',
+            TITLE: 'REZERVACIJE',
+            GRAPH_LEGEND: 'Rezervacije',
         },
         DETAILS: {
             TITLE: 'DETALJI',
@@ -839,6 +884,8 @@ export const HR_HR = {
                 STUDENTS: 'Učenici',
                 REVIEWS: 'Recenzije',
                 REVENUE: 'Prihod',
+                PROVISION: 'Provizija Teorema',
+                PAYOUT: 'Isplata',
                 EMPTY: 'Nema detalja',
             },
         },
@@ -873,7 +920,7 @@ export const HR_HR = {
         PRE12: '08-12h',
         ON12: '12-17h',
         AFTER5: '17-20h',
-        REVIEWS: 'recenzija'
+        REVIEWS: 'recenzija',
     },
     LANDING: {
         HEADER: {
@@ -1061,7 +1108,7 @@ export const HR_HR = {
             ANSWER_5:
                 'Mi Vam garantiramo stabilan dotok novih učenika te se brinemo o svemu tako da se Vi možete u potpunosti posvetiti predavanjima.',
             QUESTION_6: 'Kako Teorem zarađuje?',
-            ANSWER_6: 'Teorem uzima proviziju od 12% od instruktora.',
+            ANSWER_6: 'Teorem uzima proviziju od 15% od instruktora.',
         },
         CARD_1: {
             TITLE: '"Remote" rad',
@@ -1107,19 +1154,19 @@ export const HR_HR = {
         BUTTON: 'Nastavi',
     },
     STRIPE_CONNECT: {
-        TITLE: "Isplate",
+        TITLE: 'Isplate',
         ADDRESS: 'Adresa',
-        LINE_1: "Adresa linija 1",
-        LINE_2: "Adresa linija 2",
-        POST_CODE: "Poštanski broj",
-        CITY: "Grad",
-        IBAN: "IBAN",
-        IBAN_CONFIRM: "IBAN",
-        SAVE: "Spremi",
-        CANCEL: "Odustani",
+        LINE_1: 'Adresa linija 1',
+        LINE_2: 'Adresa linija 2',
+        POST_CODE: 'Poštanski broj',
+        CITY: 'Grad',
+        IBAN: 'IBAN',
+        IBAN_CONFIRM: 'IBAN',
+        SAVE: 'Spremi',
+        CANCEL: 'Odustani',
         TERMS: '<div>Klikom na gumb slažete se s <a href="https://stripe.com/legal/connect-account" target="_blank">Uvjetima pružanja usluge</a>.</div>',
 
-      SUCCESS: 'Račun za plaćanje povezan',
+        SUCCESS: 'Račun za plaćanje povezan',
     },
     SUBJECTS: {
         biology: 'Biologija',
@@ -1243,7 +1290,7 @@ export const HR_HR = {
         NOTIFICATIONS: '/hr/glavna-ploca/obavijesti',
         EARNINGS: '/hr/prihod',
         TERMS: '/hr/uvjeti-koristenja',
-        PRIVACY: '/hr/pravila-privatnosti',
+        PRIVACY: '/hr/politika-privatnosti',
         TUTOR_MANAGMENT: '/hr/upravljanje-instruktorima',
         TUTOR_MANAGMENT_TUTOR_PROFILE: '/hr/upravljanje-instruktorima/profil/:tutorSlug',
         LANDING_PATHS: {
@@ -1251,7 +1298,7 @@ export const HR_HR = {
             BECOME_TUTOR: '/hr/postani-instruktor',
             PRICING: '/hr/cijene',
             TERMS: '/hr/uvjeti-koristenja',
-            PRIVACY: '/hr/pravila-privatnosti',
+            PRIVACY: '/hr/politika-privatnosti',
         },
         PROFILE_PATHS: {
             MY_PROFILE: '/hr/moj-profil',
@@ -1266,8 +1313,7 @@ export const HR_HR = {
         EMAIL_CONFIRMED: '/hr/account-activated',
         STRIPE_CONNECTED: '/hr/racun-povezan',
         STRIPE_FAIL: '/hr/racun-pogreska',
-        RESEND_ACTIVATION_TOKEN: '/hr/ponovna-aktivacija'
-
+        RESEND_ACTIVATION_TOKEN: '/hr/ponovna-aktivacija',
     },
     SEO: {
         FALLBACK: {
@@ -1304,52 +1350,104 @@ export const HR_HR = {
         WELCOME: 'WELCOME',
         DESCRIPTION: 'DESCRIPTION',
     },
-    BOOKING:{
+    BOOKING: {
         SUCCESS: 'Rezervacija uspješna!',
-      FAILURE: 'Rezervacija neuspješna!',
+        FAILURE: 'Rezervacija neuspješna!',
         TOAST_CANT_BOOK: 'Ne možete rezervirati lekciju u odabrano vrijeme!',
-        CANT_BOOK_MESSAGE: 'Molimo rezervirajte minimalno 3 sata unaprijed'
+        CANT_BOOK_MESSAGE: 'Molimo rezervirajte minimalno 3 sata unaprijed',
     },
-    TUTOR_INTRO:{
-      MODAL:{
-        TITLE: 'Želite li proći tutorijal?',
-        BODY: 'Tutorijal će vas ukratko upoznati s osnovnim funkcionalnostima Teorema',
-        BUTTON_SKIP: 'Preskoči',
-        BUTTON_START:'Pokreni'
-      },
-      DASHBOARD:{
-        STEP1: {
-          TITLE: 'Zahtjevi za predavanja',
-          BODY:'Ovdje možete vidjeti i upravljati svojim zahtjevima za instrukcije.'
+    TUTOR_INTRO: {
+        MODAL: {
+            TITLE: 'Želite li proći tutorijal?',
+            BODY: 'Tutorijal će vas ukratko upoznati s osnovnim funkcionalnostima Teorema',
+            BUTTON_SKIP: 'Preskoči',
+            BUTTON_START: 'Pokreni',
         },
-        STEP2: {
-          TITLE: 'Pridruživanje instrukcijama',
-          BODY:'Instrukcijama se možete pridružiti izravno iz kartice "Današnji raspored" (također se možete pridružiti putem svog kalendara). Nakon što kliknete \'Završi\', automatski će se pokrenuti testni sastanak gdje možete isprobati ploču!'
+        DASHBOARD: {
+            STEP1: {
+                TITLE: 'Zahtjevi za predavanja',
+                BODY: 'Ovdje možete vidjeti i upravljati svojim zahtjevima za instrukcije.',
+            },
+            STEP2: {
+                TITLE: 'Pridruživanje instrukcijama',
+                BODY: 'Instrukcijama se možete pridružiti izravno iz kartice "Današnji raspored" (također se možete pridružiti putem svog kalendara). Nakon što kliknete \'Završi\', automatski će se pokrenuti testni sastanak gdje možete isprobati ploču!',
+            },
         },
-      },
-      BUTTON_NEXT:'Sljedeći',
-      BUTTON_PREVIOUS:'Prethodni',
-      BUTTON_FINISH:'Završi',
-      BUTTON_RESTART:'Pokreni tutorijal'
+        BUTTON_NEXT: 'Sljedeći',
+        BUTTON_PREVIOUS: 'Prethodni',
+        BUTTON_FINISH: 'Završi',
+        BUTTON_RESTART: 'Pokreni tutorijal',
     },
-    STUDENT_INTRO:{
-      DASHBOARD:{
-        STEP1: {
-          TITLE: 'Današnji raspored',
-          BODY:'Ovdje ćete vidjeti predavanja koja imate danas i moći ćete se spojiti na predavanja. (Predavanja također možete vidjeti na kalendaru)'
+    STUDENT_INTRO: {
+        DASHBOARD: {
+            STEP1: {
+                TITLE: 'Današnji raspored',
+                BODY: 'Ovdje ćete vidjeti predavanja koja imate danas i moći ćete se spojiti na predavanja. (Predavanja također možete vidjeti na kalendaru)',
+            },
+            STEP2: {
+                TITLE: 'Nepročitane poruke',
+                BODY: "Ovdje ćete vidjeti sve poruke koje vam istruktor šalje. (Isto to možete vidjeti na kartici 'Razgovori')",
+            },
+            STEP3: {
+                TITLE: 'Preporuke instruktora',
+                BODY: 'Ovdje se nalaze tri instruktora koji najviše odgovaraju vašim potrebama (ovisno o onome što ste odabrali pri registraciji). Koristecći filtere možete odabrati predmet, razinu ili vrijeme kada je instruktor dostupan.',
+            },
         },
-        STEP2: {
-          TITLE: 'Nepročitane poruke',
-          BODY:'Ovdje ćete vidjeti sve poruke koje vam istruktor šalje. (Isto to možete vidjeti na kartici \'Razgovori\')'
+        BUTTON_NEXT: 'Next',
+        BUTTON_PREVIOUS: 'Previous',
+        BUTTON_FINISH: 'Finish',
+        BUTTON_RESTART: 'Restart tutorial',
+    },
+    BOOKING_POPUP: {
+        TITLE: 'Plaćanje uspješno',
+        DESCRIPTION:
+            'Vaš instruktor sada ima 24 sata da prihvati Vašu rezervaciju. Za najbolje iskustvo učenja, molimo podijelite uvide u gradivo na koje se želite usredotočiti.',
+        CURRICULUM_PLACEHOLDER: 'S kojim školskim gradivom trebate pomoć?',
+        TEXTBOOK_PLACEHOLDER: 'Koji se udžbenik koristi?',
+        GRADE_PLACEHOLDER: 'Trenutna ocjena iz predmeta',
+        NOTES_PLACEHOLDER: 'Napomene ili posebni zahtjevi',
+        BUTTON: {
+            COMPLETE: 'Završi',
+            SKIP: 'Preskoči za sad',
         },
-        STEP3: {
-          TITLE: 'Preporuke instruktora',
-          BODY:'Ovdje se nalaze tri instruktora koji najviše odgovaraju vašim potrebama (ovisno o onome što ste odabrali pri registraciji). Koristecći filtere možete odabrati predmet, razinu ili vrijeme kada je instruktor dostupan.'
-        }
+    },
+    CREDITS: {
+        TITLE: 'Krediti',
+    },
+    RESCHEDULE: {
+        ACCEPT: 'Izmjena prihvaćena',
+        DENIED: 'Izmjena odbijena',
+    },
+    CHECKOUT: {
+        PRICE: 'Cijena:',
+        DISCOUNT: 'Popust:',
+        TOTAL: 'Ukupno za platiti:',
+        AVAILABLE_CREDITS: 'Dostupni krediti:',
+        NEW_CREDITS_BALANCE: 'Novo stanje kredita:',
+    },
+
+    ID_VERIFICATION: {
+      ID_SECTION: 'Osobna iskaznica',
+      ID_SECTION_DESCRIPTION: 'Potrebna je osobna iskaznica kako bismo mogli potvrditi da je riječ o stvarnoj osobi.',
+      BANNER:'Identitet nije potvrđen, molimo proslijedite podatke kako Vam kasnije isplate ne bi bile onemogućene.',
+      ACCOUNT_VERIFIED: 'Hvala! Vaš račun je verificiran.',
+      DOCUMENTS_PROVIDED: 'Hvala! Predali ste dokumente, čeka se verifikacija.',
+      DOCUMENTS_REQUIRED: 'Niste još priložili dokumentaciju. Molimo priložite dokumentaciju kako bismo Vas mogli verificirati.',
+      DISABLED_PAYOUTS: {
+        PART_1: 'Isplate su obustavljene dok se Vaš račun ne verificira',
+        PART_2: '(U slučaju da ste predali dokumentaciju i prošlo je više od 7 dana, javite se na support@teorem.co)',
+        SOON: 'Rok predaje: uskoro',
       },
-      BUTTON_NEXT:'Next',
-      BUTTON_PREVIOUS:'Previous',
-      BUTTON_FINISH:'Finish',
-      BUTTON_RESTART:'Restart tutorial'
+      DAYS_REMAINING:{
+        P_1: 'Imate još ',
+        P_2:  ' dan/a da predate dokumente. Nakon toga će Vam isplate biti onemogućene dok ne priložite dokumentaciju i dok ona ista ne bude verificirana!'
+      },
+      FORM:{
+        FRONT: 'Prednja strana osobne',
+        BACK: 'Stražnja strana osobne',
+        TIP_1: 'Slika mora biti u boji',
+        TIP_2:'Na dokumentu mora pisati ime koje ste koristili pri registraciji',
+        SUBMIT: 'Pošalji',
+      }
     }
 };

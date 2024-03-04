@@ -186,33 +186,6 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
     }
   }, [formik.values]);
 
-  const validateAboutLessons= () => {
-    if(formik.values.aboutLessons.trim().split(" ").length < 50 && formik.values.aboutLessons.length != 0) {
-      return t('FORM_VALIDATION.MIN_50_WORDS');
-    }
-    if(formik.values.aboutLessons.length >= 2500) {
-      return t('FORM_VALIDATION.MAX_2500_CHARS');
-    }
-  };
-
-  const validateAboutTutor= () => {
-    if(formik.values.aboutTutor.trim().split(" ").length < 50 && formik.values.aboutTutor.length != 0) {
-      return t('FORM_VALIDATION.MIN_50_WORDS');
-    }
-    if(formik.values.aboutTutor.length > 2500) {
-      return t('FORM_VALIDATION.MAX_2500_CHARS');
-    }
-  };
-
-  const validateOccupation= () => {
-    if(formik.values.currentOccupation.length < 2 && formik.values.currentOccupation.length != 0) {
-      return t('FORM_VALIDATION.TOO_SHORT');
-    }
-    if(formik.values.currentOccupation.length > 75) {
-      return t('FORM_VALIDATION.MAX_75_CHARS');
-    }
-  };
-
   const isMobile = window.innerWidth < 765;
   return (
     <>
@@ -282,7 +255,8 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                               label={t('MY_PROFILE.ABOUT_ME.OCCUPATION')}
                               variant="outlined"
                               color="secondary"
-                              helperText={validateOccupation()}
+                              error={formik.touched.currentOccupation && !!formik.errors.currentOccupation}
+                              helperText={formik.touched.currentOccupation && formik.errors.currentOccupation}
                               InputProps={{
                                 style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
                               }}
@@ -309,6 +283,8 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                               label={t('MY_PROFILE.ABOUT_ME.YEARS')}
                               variant="outlined"
                               color="secondary"
+                              error={formik.touched.yearsOfExperience && !!formik.errors.yearsOfExperience}
+                              helperText={formik.touched.yearsOfExperience && formik.errors.yearsOfExperience}
                               InputProps={{
                                 style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
                               }}
@@ -344,7 +320,8 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                               multiline
                               rows={5}
                               id="aboutTutor"
-                              helperText={validateAboutTutor()}
+                              error={formik.touched.aboutTutor && !!formik.errors.aboutTutor}
+                              helperText={formik.touched.aboutTutor && formik.errors.aboutTutor}
                               InputProps={{
                                 style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
                               }}
@@ -422,7 +399,8 @@ const AdditionalInfoPage = ({nextStep, backStep}: AdditionalProps) => {
                               fullWidth
                               multiline
                               rows={5}
-                              helperText={validateAboutLessons()}
+                              error={formik.touched.aboutLessons && !!formik.errors.aboutLessons}
+                              helperText={formik.touched.aboutLessons && formik.errors.aboutLessons}
                               InputProps={{
                                 style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
                               }}

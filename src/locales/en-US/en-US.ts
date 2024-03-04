@@ -1,6 +1,7 @@
 export const EN_US = {
     MAIN_TITLE: 'Teorem',
     WATERMARK: '© Teorem',
+    BIRTH_DATE_FORMAT: 'MM/DD/YYYY',
     DATE_FORMAT: 'Do MMM YYYY',
     ERROR_HANDLING: {
         UNHANDLED_ERROR: 'Unhandled error occured!',
@@ -47,30 +48,30 @@ export const EN_US = {
         EDIT_CHILD_DETAILS: "Edit child's details",
     },
     TUTOR_ONBOARDING: {
-      TITLE: "Thank you for verifying your email address! Let's complete your tutor profile!",
-      SUBTITLE: 'This usually takes 8 minutes.',
-      IMAGE_NOTE: 'You can skip for now, but you will need to add profile image before you can start teaching.',
-      ABOUT_ME_TIPS: {
-        TIP_1: 'Describe in detail your way of teaching and yourself.',
-        TIP_2:'The most effective profiles contain 100+ words in the rubrics <u><i>more about me</i></u> and <u><i>more about my lectures</i></u>.',
-      },
-      TOOLTIPS: {
-        AVAILABILITY_1: "Select when you're available for tutoring, based on times of day in the week.",
-        AVAILABILITY_2: "You can change your availability later at any time.",
-        SUBJECTS: "You can later add or delete subjects in Your profile settings.",
-        SUBJECTS_TIP_1: "Add the subjects you want to tutor in and define your price.",
-        SUBJECTS_TIP_2: "Keep in mind that Teorem charges a 12% commission.",
-      },
-      IMAGE_TIPS: {
-        TITLE: 'Tips for image:',
-        TIP_1: 'portrait form',
-        TIP_2: 'serious attitude with a smile',
-        TIP_3: 'high quality (min 500x500 pixels)'
-      },
-      PAYOUTS_BUTTON:{
-        PRIVATE: 'Private',
-        COMPANY: 'Company'
-      }
+        TITLE: "Thank you for verifying your email address! Let's complete your tutor profile!",
+        SUBTITLE: 'This usually takes 8 minutes.',
+        IMAGE_NOTE: 'You can skip for now, but you will need to add profile image before you can start teaching.',
+        ABOUT_ME_TIPS: {
+            TIP_1: 'Describe in detail your way of teaching and yourself.',
+            TIP_2: 'The most effective profiles contain 100+ words in the rubrics <u><i>more about me</i></u> and <u><i>more about my lectures</i></u>.',
+        },
+        TOOLTIPS: {
+            AVAILABILITY_1: "Select when you're available for tutoring, based on times of day in the week.",
+            AVAILABILITY_2: 'You can change your availability later at any time.',
+            SUBJECTS: 'You can later add or delete subjects in Your profile settings.',
+            SUBJECTS_TIP_1: 'Add the subjects you want to tutor in and define your price.',
+            SUBJECTS_TIP_2: 'Keep in mind that Teorem charges a 15% commission.',
+        },
+        IMAGE_TIPS: {
+            TITLE: 'Tips for image:',
+            TIP_1: 'portrait form',
+            TIP_2: 'serious attitude with a smile',
+            TIP_3: 'high quality (min 500x500 pixels)',
+        },
+        PAYOUTS_BUTTON: {
+            PRIVATE: 'Private',
+            COMPANY: 'Company',
+        },
     },
     FORM_VALIDATION: {
         INVALID_EMAIL: 'Invalid email',
@@ -92,6 +93,7 @@ export const EN_US = {
         PASSWORD_MATCH: 'Passwords must match',
         PASSWORD_STRENGTH: 'Password must meet the conditions',
         PRICE: 'Minimum ',
+        WHOLE_NUMBER: 'Not whole',
         FUTURE_DATE: 'Date can`t be in the future',
         VALID_DATE: 'Date is invalid',
         PHONE_NUMBER: 'Invalid phone number',
@@ -115,7 +117,8 @@ export const EN_US = {
         IBAN_MATCH: 'IBANs must match',
         MIN_50_WORDS: 'Use at least 50 words',
         MAX_2500_CHARS: 'Maximum is 2500 characters',
-        MAX_75_CHARS: 'Maximum is 75 characters'
+        MAX_75_CHARS: 'Maximum is 75 characters',
+        MAX_100_CHARS: 'Maximum is 100 characters',
     },
     NAVIGATION: {
         MY_BOOKINGS: 'Calendar',
@@ -183,20 +186,20 @@ export const EN_US = {
             UPDATE_ADDITIONAL_INFO_SUCCESS: 'Additional information updated!',
             UPDATE_TEACHINGS_SUCCESS: 'Subjects updated!',
             FORM: {
-              ABOUT_TUTOR_LABEL: 'Tell us more about yourself*',
-              ABOUT_TUTOR_PLACEHOLDER: 'What describes you best, what are your hobbies, approach...',
-              ABOUT_TUTOR_REQUEST: 'Minimum 50 words.',
-              ABOUT_TUTOR_TOOLTIP: 'In detail describe yourself, your interests, experience and hobbies.',
-              TOOLTIP_EFFECTIVE: 'Most visited profiles contain 100+ words in this category.',
-              ABOUT_LESSONS_LABEL: 'Tell us more about your lessons*',
-              ABOUT_LESSONS_PLACEHOLDER: 'Describe your lessons, approach, way of teaching...',
+                ABOUT_TUTOR_LABEL: 'Tell us more about yourself*',
+                ABOUT_TUTOR_PLACEHOLDER: 'What describes you best, what are your hobbies, approach...',
+                ABOUT_TUTOR_REQUEST: 'Minimum 50 words.',
+                ABOUT_TUTOR_TOOLTIP: 'In detail describe yourself, your interests, experience and hobbies.',
+                TOOLTIP_EFFECTIVE: 'Most visited profiles contain 100+ words in this category.',
+                ABOUT_LESSONS_LABEL: 'Tell us more about your lessons*',
+                ABOUT_LESSONS_PLACEHOLDER: 'Describe your lessons, approach, way of teaching...',
                 ABOUT_EFFECTIVE: 'Most visited profiles contain 100+ words in this category.',
-              ABOUT_LESSONS_TOOLTIP: 'In detail describe how you work with students.',
-              ABOUT_LESSONS_TOOLTIP_2: 'Describe which methods of tutoring to you use (visual, auditory, kinesthetic, etc.) ',
-              SUBMIT_BTN: 'Save',
+                ABOUT_LESSONS_TOOLTIP: 'In detail describe how you work with students.',
+                ABOUT_LESSONS_TOOLTIP_2: 'Describe which methods of tutoring to you use (visual, auditory, kinesthetic, etc.) ',
+                SUBMIT_BTN: 'Save',
             },
             NO_PRICE: 'There is no price',
-            HOUR: 'hr'
+            HOUR: 'hr',
         },
         PRICE_SORT: 'Sort by',
         SORT_LOW: 'Low price',
@@ -223,8 +226,8 @@ export const EN_US = {
             USERNAME: 'USERNAME',
             DATE_OF_BIRTH: 'DATE OF BIRTH',
             PREVIEW_PROFILE: 'Preview profile',
-            PHONE_NUMBER: "PHONE NUMBER",
-            CREATED_AT: "CREATED AT"
+            PHONE_NUMBER: 'PHONE NUMBER',
+            CREATED_AT: 'CREATED AT',
         },
         ACTIONS: {
             APPROVE: 'Approve',
@@ -275,7 +278,7 @@ export const EN_US = {
         },
         BACK_BTN: 'Back to Login',
         PASSWORD_CHANGED_SUCCESS: 'Password changed successfully, you will be redirected to the login page',
-        EMAIL_SENT: 'E-mail sent, you will be redirected to the login page'
+        EMAIL_SENT: 'E-mail sent, you will be redirected to the login page',
     },
     LOGIN: {
         TITLE: 'Log in',
@@ -309,10 +312,10 @@ export const EN_US = {
             PROFILE_NOT_ACTIVE: {
                 SENT_AGAIN: 'Please confirm your e-mail address.',
             },
-            PASSWORD_RESET:{
-              TOKEN_EXPIRED: 'Your token has expired, please request new e-email',
-              TOKEN_INVALID: 'Your token is invalid, please request new e-email',
-              MISMATCH: 'Passwords are not matching'
+            PASSWORD_RESET: {
+                TOKEN_EXPIRED: 'Your token has expired, please request new e-email',
+                TOKEN_INVALID: 'Your token is invalid, please request new e-email',
+                MISMATCH: 'Passwords are not matching',
             },
         },
         LEVEL: {
@@ -352,8 +355,8 @@ export const EN_US = {
         TITLE: 'UPCOMING EVENTS',
         EMPTY: 'There are no upcoming lessons',
     },
-  SKIP_FOR_NOW: 'Skip for now',
-  REGISTER: {
+    SKIP_FOR_NOW: 'Skip for now',
+    REGISTER: {
         TITLE: 'Register as {{role}}',
         FORM: {
             FIRST_NAME: 'First Name*',
@@ -378,22 +381,23 @@ export const EN_US = {
             CHILD_DATE_OF_BIRTH: "Child's Date of Birth*",
             USERNAME: 'Username*',
             EMAIL_CONFLICT: 'Email already in use',
-            TERMS_AND_CONDITIONS:'<div>I agree to the <a href="https://teorem.co/en/terms" target="_blank">Terms of Service</a> and <a href="https://teorem.co/en/privacy-policy" target="_blank">Privacy Policy</a></div>',
+            TERMS_AND_CONDITIONS:
+                '<div>I agree to the <a href="https://teorem.co/en/terms" target="_blank">Terms of Service</a> and <a href="https://teorem.co/en/privacy-policy" target="_blank">Privacy Policy</a></div>',
             SELECT_ROLE_TITLE: 'Are you a <span class=primary-color>parent</span> or a <span class=primary-color>student</span>?',
             CHOOSE_SUBJECTS_TIP: 'You can choose more subjects later',
             LOAD_MORE_SUBJECTS: 'Load more subjects...',
             HIDE_MORE_SUBJECTS: 'Show less subjects...',
             RESEND_MAIL_BUTTON_TRY: 'Try again in: ',
             STEPS: {
-              STUDENT_PARENT_FIRST: 'Which <span class=primary-color>subject</span> can we help you with?',
-              FIRST: "What's your <span class='primary-color'>name</span>?",
-              SECOND: "How can we <span class='primary-color'>contact</span> you?",
-              THIRD: "Lastly, create a <span class='primary-color'>password</span>",
-              FINAL: '<span class=primary-color>welcome</span> to Teorem!'
+                STUDENT_PARENT_FIRST: 'Which <span class=primary-color>subject</span> can we help you with?',
+                FIRST: "What's your <span class='primary-color'>name</span>?",
+                SECOND: "How can we <span class='primary-color'>contact</span> you?",
+                THIRD: "Lastly, create a <span class='primary-color'>password</span>",
+                FINAL: '<span class=primary-color>welcome</span> to Teorem!',
             },
             BECOME_A_TUTOR: 'Apply to become a tutor',
             CONFIRM_EMAIL: 'Please check your email and confirm your e-mail address by clicking the link we sent you.',
-            RESEND: 'Resend link'
+            RESEND: 'Resend link',
         },
         CARD_DETAILS: {
             FIRST_NAME: 'First Name*',
@@ -443,10 +447,10 @@ export const EN_US = {
         TIME_SAME: 'Start time and end time can`t be the same',
         CALENDAR: {
             TITLE: 'CALENDAR',
-            TODAY: 'Today'
+            TODAY: 'Today',
         },
-        ADDITIONAL_INFORMATION:{
-          TITLE: 'Information about joining meeting'
+        ADDITIONAL_INFORMATION: {
+            TITLE: 'Information about joining meeting',
         },
         MODAL: {
             DELETED_USER: 'Deleted user',
@@ -460,29 +464,51 @@ export const EN_US = {
             WHOLE_DAY: 'Whole day',
             SET_UNAVAILABILITY: 'Set unavailability',
             CANCEL: 'Cancel',
+            CONFIRM_CANCEL_TITLE: 'Are you sure you want to cancel booking?',
         },
         INFORMATION: {
             TITLE: 'BOOKING INFORMATION',
             CARD1: {
-              TITLE: 'How does booking work?',
-              DESC: 'After selecting a time that works for you, and booking, the tutor has 24 hours to accept your booking request. We will notify you via email once your lesson has been accepted.',
+                TITLE: 'How does booking work?',
+                DESC: 'After selecting a time that works for you, and booking, the tutor has 24 hours to accept your booking request. We will notify you via email once your lesson has been accepted.',
             },
             CARD2: {
-              TITLE: 'What if I can’t make it to my lesson?',
-              DESC: 'You can cancel any booking and get a full refund 24 hours from the moment you made the payment. After that period, you can only request to change the date or time of your lesson. If there is less than 24 hours to the lesson, the tutor can choose to reject your request to change the time or date.',
+                TITLE: 'What if I can’t make it to my lesson?',
+                DESC: 'You can cancel any booking and get a full refund 24 hours from the moment you made the payment. For more information visit our <a href="https://intercom.help/teorem/en/" target="_blank">help center</a>.',
             },
             CARD3: {
-              TITLE: 'How to book a slot?',
-              DESC: 'You can book a slot with a tutor by visiting their profile and clicking "Book Now". You will be able to see the tutor`s availability and select a time that works for both of you.',
+                TITLE: 'How to book a slot?',
+                DESC: 'You can book a slot with a tutor by visiting their profile and clicking "Book Now". You will be able to see the tutor`s availability and select a time that works for both of you.',
             },
             CARD4: {
-              TITLE: 'How to cancel a booking?',
-              DESC: 'You can cancel a booking in your calendar by clicking on the booking and clicking "Cancel". If you cancel a booking 24 hours in advance, you will receive a full refund.',
+                TITLE: 'How to cancel a booking?',
+                DESC: 'You can cancel a booking in your calendar by clicking on the booking and clicking "Cancel". If you cancel a booking 24 hours in advance, you will receive a full refund.',
+            },
+        },
+        RESCHEDULE: {
+            BUTTON: 'Reschedule',
+            MODAL: {
+                TITLE: 'Reschedule Appointment',
+                DESCRIPTION:
+                    "If you haven't already, we suggest reaching out to the other party to arrange a new date and ensure they will accept the new schedule.",
+            },
+        },
+        CANCEL: {
+            BUTTON: 'Cancel',
+            MODAL: {
+                TITLE: 'Are you sure you want to cancel the appointment?',
+                STUDENT_DESCRIPTION:
+                    'You can receive a refund in the form of credits on the Teorem platform. Learn more about it at the provided link.',
+                TUTOR_DESCRIPTION:
+                    'In the event of canceling a reservation less than 24 hours before the start of the lecture, you will be penalized by having your profile appear less frequently in search results.',
+                CONFIRM: 'Cancel Appointment',
+                DISMISS: 'Dismiss',
             },
         },
     },
     BOOK: {
         TITLE: 'Book a Slot',
+        RESCHEDULE_TITLE: 'Reschedule booking',
         FORM: {
             LEVEL: 'Level',
             LEVEL_PLACEHOLDER: 'Select Level',
@@ -495,10 +521,18 @@ export const EN_US = {
             ADD_CARD: 'Add card',
             UPDATE: 'Update booking',
             CANCEL: 'Cancel',
-            TUTOR_DISABLED: 'Currently unavailable'
+            TUTOR_DISABLED: 'Currently unavailable',
+            CANCEL_BOOKING: 'Cancel booking',
+            EDIT_OR_CANCEL_BOOKING: 'Edit or cancel',
+            EDIT_OR_DENY_BOOKING: 'Edit or deny',
+            DISMISS: 'Dismiss',
+            DATE_OF_BOOKING: 'Date of booking',
+            TIME_OF_BOOKING: 'Time',
+            ALREADY_IN_RESCHEDULE: 'Booking already in reschedule',
+            USE_CREDITS: 'Use credits',
         },
         JOIN: 'Join',
-        JOIN_TOOLTIP: 'You can join the meeting 5 minutes before the start'
+        JOIN_TOOLTIP: 'You can join the meeting 5 minutes before the start',
     },
     MY_REVIEWS: {
         TITLE: 'My Reviews',
@@ -542,13 +576,13 @@ export const EN_US = {
         EMPTY_VIDEOS: 'There is no completed lessons available to select',
         LINK: 'Go to Calendar',
         COUNT_EXTENSION: 'Lessons',
-        TOOLTIP_DOWNLOAD_INVOICE:'Download invoice',
+        TOOLTIP_DOWNLOAD_INVOICE: 'Download invoice',
         TOOLTIP_DROPDOWN_LABEL: 'Show video lessons',
         TOOLTIP_PLAY_LESSON: 'Play/download video lesson',
         DATE_TITLE: 'Date',
-      DATE_AT_WORD: 'at',
-      DOWNLOAD_INVOICE_SUCCESS: 'Invoice download succeeded!',
-      DOWNLOAD_INVOICE_FAIL: 'Invoice download failed!',
+        DATE_AT_WORD: 'at',
+        DOWNLOAD_INVOICE_SUCCESS: 'Invoice download succeeded!',
+        DOWNLOAD_INVOICE_FAIL: 'Invoice download failed!',
     },
     WRITE_REVIEW: {
         SECTION_TITLE: 'Write a review',
@@ -569,19 +603,19 @@ export const EN_US = {
         ABOUT_ME: 'About me',
         ACCOUNT: 'Account',
         CHILD_INFO: 'Child information',
-        EARNINGS: "Earnings"
+        EARNINGS: 'Earnings',
     },
     COMPLETE_TUTOR_PROFILE_CARD: {
-        TITLE: "Complete your profile!",
-        DESCRIPTION: "Please complete the rest of your profile data to start tutoring.",
+        TITLE: 'Complete your profile!',
+        DESCRIPTION: 'Please complete the rest of your profile data to start tutoring.',
     },
     TUTOR_VERIFIED_NOTE: {
-      TITLE: "Your account must be verified by the administrator before it can be displayed in search results!",
-      DESCRIPTION: "You will receive an email with updates on your account status."
+        TITLE: 'Your account must be verified by the administrator before it can be displayed in search results!',
+        DESCRIPTION: 'You will receive an email with updates on your account status.',
     },
     CHILDLESS_PARENT_NOTE: {
-      TITLE: "You must add child to request a booking!",
-      DESCRIPTION: "You can add a child on your profile settings."
+        TITLE: 'You must add child to request a booking!',
+        DESCRIPTION: 'You can add a child on your profile settings.',
     },
     ACCOUNT: {
         CHANGE_PASSWORD: {
@@ -624,7 +658,7 @@ export const EN_US = {
             CANCEL_BUTTON: 'Cancel',
             ZIP: 'Zip*',
             ZIP_PLACEHOLDER: '12345',
-            COUNTRY: "Country",
+            COUNTRY: 'Country',
             COUNTRY_PLACEHOLDER: 'Choose your country',
         },
         SUBMIT: 'Save',
@@ -632,9 +666,9 @@ export const EN_US = {
     MY_PROFILE: {
         TITLE: 'My Profile',
         PREVIEW: 'Preview profile',
-      PAYOUTS: 'Where do we send your payouts?',
-      IMAGE: 'Add profile image',
-      ABOUT_ME: {
+        PAYOUTS: 'Where do we send your payouts?',
+        IMAGE: 'Add profile image',
+        ABOUT_ME: {
             OCCUPATION: 'Your current Occupation*',
             OCCUPATION_PLACEHOLDER: 'What’s your current Occupation',
             YEARS: 'Years of tutoring experience',
@@ -649,6 +683,7 @@ export const EN_US = {
             ADD_DESC: 'Select to add new Subject',
             DELETED: 'Subject is deleted',
             CREATED: 'Subject is created',
+            UPDATED: 'Subjects updated',
             EDIT_TITLE: 'EDIT SUBJECT DETAILS',
             ADD_TITLE: 'ADD NEW SUBJECT',
             SUBJECT: 'Select subject you teach',
@@ -659,7 +694,7 @@ export const EN_US = {
             SAVE: 'Save information',
             DELETE: 'Delete',
             CANCEL: 'Cancel',
-            SUBJECT_ERROR: 'Subject for that level already exists'
+            SUBJECT_ERROR: 'Subject for that level already exists',
         },
         GENERAL_AVAILABILITY: {
             TITLE: 'Availability',
@@ -669,6 +704,7 @@ export const EN_US = {
         },
         PROFILE_SETTINGS: {
             TITLE: 'Personal Information',
+            CREDITS: 'Credits',
             DESCRIPTION: 'Edit and update your personal information',
             FIRST_NAME: 'First Name*',
             FIRST_NAME_PLACEHOLDER: 'Enter your first name',
@@ -687,7 +723,7 @@ export const EN_US = {
             UPLOAD_IMAGE: 'Click or drag and drop to upload',
             CHOOSE_FILE: 'Choose file',
             ADDRESS_PERSONAL_PLACEHOLDER: 'Enter your address',
-            ADDRESS_BUSINESS_PLACEHOLDER: "Enter your company's address"
+            ADDRESS_BUSINESS_PLACEHOLDER: "Enter your company's address",
         },
         PROFILE_ACCOUNT: {
             STRIPE: 'Go to Stripe',
@@ -728,8 +764,15 @@ export const EN_US = {
     DASHBOARD: {
         TITLE: 'Dashboard',
         REQUESTS: {
-          TITLE: 'LESSON REQUESTS',
-          EMPTY: 'No new requests',
+            TITLE: 'LESSON REQUESTS',
+            EMPTY: 'No new requests',
+            RESCHEDULE: 'RESCHEDULE REQUESTS',
+            STATUS: {
+                RESCHEDULE_REQUESTED: 'Modification',
+                RESCHEDULE_DO_ACTION: 'Modification',
+                NEW_BOOKING_REQUESTED: 'Waiting for confirmation',
+                NEW_BOOKING_DO_ACTION: 'New booking',
+            },
         },
         SCHEDULE: {
             TITLE: 'TODAY`S SCHEDULE',
@@ -747,7 +790,7 @@ export const EN_US = {
             EMPTY: 'No bookings',
             EMPTY_SUBTITLE: 'Hmm, looks like there are no bookings yet.',
             RECOMMENDED: 'RECOMMENDED TUTORS',
-            SHOW_MORE: 'Show more'
+            SHOW_MORE: 'Show more',
         },
         NOTIFICATIONS: {
             TITLE: 'NOTIFICATIONS',
@@ -803,6 +846,10 @@ export const EN_US = {
             },
         },
         CHAT_HAS_MISSED_CALL: ' has missed your call',
+        HELP_CENTER: {
+            TITLE: 'Help center',
+            LINK: 'https://intercom.help/teorem/en/',
+        },
     },
     EARNINGS: {
         TITLE: 'Earnings',
@@ -814,23 +861,23 @@ export const EN_US = {
             REVENUE: 'Total revenue',
             CURRENCY: '€',
         },
-      PAYOUTS: 'Payout',
-      WEEK_TITLE: 'Week',
-      WEEK:'Last 7 days',
-      MONTH:'Last 30 days',
-      YEAR:'Last 12 months',
-      ALLTIME:'All time',
+        PAYOUTS: 'Payout',
+        WEEK_TITLE: 'Week',
+        WEEK: 'Last 7 days',
+        MONTH: 'Last 30 days',
+        YEAR: 'Last 12 months',
+        ALLTIME: 'All time',
         REVENUE: {
             TITLE: 'REVENUE',
             GRAPH_LEGEND: 'Income',
         },
         STUDENTS: {
-          TITLE: 'STUDENTS',
-          GRAPH_LEGEND: 'Students',
+            TITLE: 'STUDENTS',
+            GRAPH_LEGEND: 'Students',
         },
         BOOKINGS: {
-          TITLE: 'BOOKINGS',
-          GRAPH_LEGEND: 'Bookings',
+            TITLE: 'BOOKINGS',
+            GRAPH_LEGEND: 'Bookings',
         },
         DETAILS: {
             TITLE: 'DETAILS',
@@ -840,6 +887,8 @@ export const EN_US = {
                 STUDENTS: 'Students',
                 REVIEWS: 'Reviews',
                 REVENUE: 'Revenue',
+                PROVISION: 'Teorem Provision',
+                PAYOUT: 'Paid',
                 EMPTY: 'There is no details',
             },
         },
@@ -874,7 +923,7 @@ export const EN_US = {
         PRE12: 'Pre 12 pm',
         ON12: '12 - 5 pm',
         AFTER5: 'After 5 pm',
-        REVIEWS: 'reviews'
+        REVIEWS: 'reviews',
     },
     LANDING: {
         HEADER: {
@@ -929,14 +978,14 @@ export const EN_US = {
                 'Teorem won’t charge you anything until you’ve found your perfect tutor, had a chat with them and booked your first lesson. No sign-up fees, no subscriptions, just plain pay-as-you-go. Safe and secure payment gateway accepting a wide range of options.',
         },
         REVIEW_1: {
-            TEXT: 'Teorem helped my son improve his physics marks! I love that it\'s all online and that I no longer need to drive him to the other side of the city!',
+            TEXT: "Teorem helped my son improve his physics marks! I love that it's all online and that I no longer need to drive him to the other side of the city!",
             NAME: 'Sandra',
-            OCCUPATION: 'Luke\'s mother',
+            OCCUPATION: "Luke's mother",
         },
         REVIEW_2: {
             TEXT: 'The complimentary video call has allowed me to chat with several tutors before deciding on one that best fits my child’s needs. I couldn’t be happier!',
             NAME: 'Renata',
-            OCCUPATION: 'Thea and Mark\'s mother',
+            OCCUPATION: "Thea and Mark's mother",
         },
         REVIEW_3: {
             TEXT: 'With Teorem’s virtual classroom I can finally learn through interactive exercises and fun design. I love the fact that I can rewatch the lessons!',
@@ -970,8 +1019,7 @@ export const EN_US = {
         BUTTON_1: 'Book Your Complementary Lesson',
         TEXT_CARD_1: {
             TITLE: 'How much does online tutoring cost?',
-            SUBTITLE:
-                'Teorem’s tutors set their own prices, based on their experience and availability. Lesson prices start from EUR 10.',
+            SUBTITLE: 'Teorem’s tutors set their own prices, based on their experience and availability. Lesson prices start from EUR 10.',
         },
         FAQ: {
             QUESTION_1: 'How much does a tutor cost?',
@@ -1030,7 +1078,7 @@ export const EN_US = {
             SUBTITLE: 'Use our tools to track how much you’re making and increase your client base!',
         },
         REVIEW_1: {
-            TEXT: 'With Teorem I created a stable monthly income for myself and don\'t need to worry about all of my expenses anymore!',
+            TEXT: "With Teorem I created a stable monthly income for myself and don't need to worry about all of my expenses anymore!",
             NAME: 'Anthony',
             OCCUPATION: 'Physics tutor',
         },
@@ -1059,7 +1107,7 @@ export const EN_US = {
             QUESTION_5: 'What makes Teorem different from other portals?',
             ANSWER_5: 'We guarantee you a steady stream of students. We also take care of everything so that you can focus 100% on teaching.',
             QUESTION_6: 'How does Teorem make money?',
-            ANSWER_6: 'Teorem charges a 12% commission to the tutor.',
+            ANSWER_6: 'Teorem charges a 15% commission to the tutor.',
         },
         CARD_1: {
             TITLE: 'Fully remote',
@@ -1105,18 +1153,18 @@ export const EN_US = {
         BUTTON: 'Continue',
     },
     STRIPE_CONNECT: {
-        TITLE: "Payments",
+        TITLE: 'Payments',
         ADDRESS: 'Address',
-        LINE_1: "Address line 1",
-        LINE_2: "Address line 2",
-        POST_CODE: "Post code",
-        CITY: "City",
-        IBAN: "IBAN",
-        IBAN_CONFIRM: "IBAN confirmation",
-        SAVE: "Submit",
-        CANCEL: "Cancel",
+        LINE_1: 'Address line 1',
+        LINE_2: 'Address line 2',
+        POST_CODE: 'Post code',
+        CITY: 'City',
+        IBAN: 'IBAN',
+        IBAN_CONFIRM: 'IBAN confirmation',
+        SAVE: 'Submit',
+        CANCEL: 'Cancel',
         TERMS: '<div>By clicking on the "Submit" button, you agree to the <a href="https://stripe.com/legal/connect-account" target="_blank">Terms of Service</a>.</div>',
-        SUCCESS: "Payment account connected",
+        SUCCESS: 'Payment account connected',
     },
     SUBJECTS: {
         biology: 'Biology',
@@ -1262,7 +1310,7 @@ export const EN_US = {
         EMAIL_CONFIRMED: '/en/account-activated',
         STRIPE_CONNECTED: '/en/stripe-connected',
         STRIPE_FAIL: '/en/stripe-failed',
-        RESEND_ACTIVATION_TOKEN: '/en/reset-token'
+        RESEND_ACTIVATION_TOKEN: '/en/reset-token',
     },
     SEO: {
         FALLBACK: {
@@ -1299,53 +1347,103 @@ export const EN_US = {
         WELCOME: 'WELCOME',
         DESCRIPTION: 'DESCRIPTION',
     },
-    BOOKING:{
+    BOOKING: {
         SUCCESS: 'Booking successful!',
-      FAILURE: 'Booking was not successful!',
-        TOAST_CANT_BOOK: 'You can\'t book a lesson at selected time!',
-      CANT_BOOK_MESSAGE: 'Please book at least 3 hours in advance',
+        FAILURE: 'Booking was not successful!',
+        TOAST_CANT_BOOK: "You can't book a lesson at selected time!",
+        CANT_BOOK_MESSAGE: 'Please book at least 3 hours in advance',
     },
-    TUTOR_INTRO:{
-      MODAL:{
-        TITLE: 'Do you want to go through the tutorial?',
-        BODY: 'The tutorial will briefly introduce you to the basic functionalities of Teorem',
-        BUTTON_SKIP: 'Skip',
-        BUTTON_START:'Start'
-      },
-      DASHBOARD:{
-        STEP1: {
-          TITLE: 'Booking requests',
-          BODY:'Here you can see and manage your booking requests.'
+    TUTOR_INTRO: {
+        MODAL: {
+            TITLE: 'Do you want to go through the tutorial?',
+            BODY: 'The tutorial will briefly introduce you to the basic functionalities of Teorem',
+            BUTTON_SKIP: 'Skip',
+            BUTTON_START: 'Start',
         },
-        STEP2: {
-          TITLE: 'Joining classes',
-          BODY:'You\'ll be able to start your lessons directly from your "Today\'s Schedule" (you can also join through your calendar). After clicking \'Finish\' test meeting will automatically start!'
-        }
-      },
-      BUTTON_NEXT:'Next',
-      BUTTON_PREVIOUS:'Previous',
-      BUTTON_FINISH:'Finish',
-      BUTTON_RESTART:'Restart tutorial'
-  },
-  STUDENT_INTRO:{
-    DASHBOARD: {
-      STEP1: {
-        TITLE: 'Today\'s Schedule',
-        BODY: 'Here you will see the lectures you have today and you will be able to connect to the lectures. (You can also see the lectures on the calendar)'
-      },
-      STEP2: {
-        TITLE: 'Unread Messages',
-        BODY: 'Here you will see all the messages that your instructor sends you. (You can also see this on the \'Chat\' tab)'
-      },
-      STEP3: {
-        TITLE: 'Instructor Recommendations',
-        BODY: 'Here are three instructors who most closely match your needs (depending on what you selected at registration). Using filters you can choose the subject, level, or time when the instructor is available,'
-      }
+        DASHBOARD: {
+            STEP1: {
+                TITLE: 'Booking requests',
+                BODY: 'Here you can see and manage your booking requests.',
+            },
+            STEP2: {
+                TITLE: 'Joining classes',
+                BODY: "You'll be able to start your lessons directly from your \"Today's Schedule\" (you can also join through your calendar). After clicking 'Finish' test meeting will automatically start!",
+            },
+        },
+        BUTTON_NEXT: 'Next',
+        BUTTON_PREVIOUS: 'Previous',
+        BUTTON_FINISH: 'Finish',
+        BUTTON_RESTART: 'Restart tutorial',
     },
-    BUTTON_NEXT:'Next',
-    BUTTON_PREVIOUS:'Previous',
-    BUTTON_FINISH:'Finish',
-    BUTTON_RESTART:'Restart tutorial'
-  }
-
+    STUDENT_INTRO: {
+        DASHBOARD: {
+            STEP1: {
+                TITLE: "Today's Schedule",
+                BODY: 'Here you will see the lectures you have today and you will be able to connect to the lectures. (You can also see the lectures on the calendar)',
+            },
+            STEP2: {
+                TITLE: 'Unread Messages',
+                BODY: "Here you will see all the messages that your instructor sends you. (You can also see this on the 'Chat' tab)",
+            },
+            STEP3: {
+                TITLE: 'Instructor Recommendations',
+                BODY: 'Here are three instructors who most closely match your needs (depending on what you selected at registration). Using filters you can choose the subject, level, or time when the instructor is available,',
+            },
+        },
+        BUTTON_NEXT: 'Next',
+        BUTTON_PREVIOUS: 'Previous',
+        BUTTON_FINISH: 'Finish',
+        BUTTON_RESTART: 'Restart tutorial',
+    },
+    BOOKING_POPUP: {
+        TITLE: 'Payment successful',
+        DESCRIPTION:
+            "Your tutor now has 24 hours to accept your booking. For the best learning experience, please share insights into the curriculum you'd like to focus on.",
+        CURRICULUM_PLACEHOLDER: 'Which school curriculum do you need help with?',
+        TEXTBOOK_PLACEHOLDER: 'Which textbook is used?',
+        GRADE_PLACEHOLDER: 'Current grade',
+        NOTES_PLACEHOLDER: 'Notes or special requirements',
+        BUTTON: {
+            COMPLETE: 'Complete',
+            SKIP: 'Skip for now',
+        },
+    },
+    CREDITS: {
+        TITLE: 'Credits',
+    },
+    RESCHEDULE: {
+        ACCEPT: 'Modification accepted',
+        DENIED: 'Modification denied',
+    },
+    CHECKOUT: {
+        PRICE: 'Price:',
+        DISCOUNT: 'Discount:',
+        TOTAL: 'Total:',
+        AVAILABLE_CREDITS: 'Available credits:',
+        NEW_CREDITS_BALANCE: 'New credits balance:',
+    },
+    ID_VERIFICATION: {
+      ID_SECTION: 'Identifying document',
+      ID_SECTION_DESCRIPTION: 'You need to provide an ID document to confirm your identity.',
+      BANNER:'Identity not verified, please provide ID document so your payouts won\'t be disabled.',
+      ACCOUNT_VERIFIED: 'Thank you! Your account is verified.',
+      DOCUMENTS_PROVIDED: 'Thank you! Documentation submitted, waiting for verification.',
+      DOCUMENTS_REQUIRED: 'You have not submitted the documents yet. Please submit the documents so that we can verify you.',
+      DISABLED_PAYOUTS: {
+        PART_1: 'Payouts are disabled until your account has been verified!',
+        PART_2: '(In case you submitted the documentation and more than 7 days have passed, please contact support@teorem.co)',
+        SOON: 'Deadline: soon',
+      },
+      DAYS_REMAINING:{
+        P_1: 'There are ',
+        P_2:  ' days remaining to submit documents. After that, your payments will be disabled until you submit the documentation and until it is verified!',
+      },
+      FORM:{
+        FRONT: 'Front side',
+        BACK: 'Back side',
+        TIP_1: 'Picture must be in color',
+        TIP_2:'Document must contain name used during registration',
+        SUBMIT: 'Submit',
+      },
+    }
 };

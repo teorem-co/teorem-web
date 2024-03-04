@@ -14,6 +14,29 @@
 
     &__item {
       display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      border: 1px solid $grey-ed;
+      border-radius: $border-rounded;
+      margin-bottom: calc(#{$unit} * 2);
+      padding: calc(#{$unit} * 4);
+
+      > div:nth-child(1) {
+        width: calc(95%);
+      }
+
+      > div:nth-child(2) {
+        width: calc(5%);
+      }
+    }
+  }
+
+  &__list {
+    margin-top: calc(#{$unit} * 10);
+
+    &__item {
+      display: flex;
       width: 100%;
       border: 1px solid $grey-ed;
       border-radius: $border-rounded;
@@ -23,75 +46,88 @@
       div:nth-child(1) {
         width: calc(30% - 30px);
       }
+
       div:nth-child(2) {
-        width: 10%;
+        width: 20%;
         color: $color-text-secondary;
       }
+
       div:nth-child(3) {
-        width: 20%;
+        width: 30%;
         display: flex;
       }
+
       div:nth-child(4) {
         width: 20%;
       }
+
       div:nth-child(5) {
-        width: 20%;
-        text-align: left;
-      }
-      div:nth-child(6) {
-        width: 25px;
+        width: 10px;
         text-align: right;
-        margin-right: 10px;
       }
-      div:nth-child(7) {
-        width: 25px;
+
+      div:nth-child(6) {
+        width: 60px;
         text-align: right;
       }
     }
   }
-    &__list {
-        margin-top: calc(#{$unit} * 10);
-
-        &__item {
-            display: flex;
-            width: 100%;
-            border: 1px solid $grey-ed;
-            border-radius: $border-rounded;
-            padding: calc(#{$unit} * 4) calc(#{$unit} * 6);
-            margin-bottom: calc(#{$unit} * 2);
-
-            div:nth-child(1) {
-                width: calc(30% - 30px);
-            }
-            div:nth-child(2) {
-                width: 20%;
-                color: $color-text-secondary;
-            }
-            div:nth-child(3) {
-                width: 30%;
-                display: flex;
-            }
-            div:nth-child(4) {
-                width: 20%;
-            }
-            div:nth-child(5) {
-                width: 30px;
-                text-align: right;
-            }
-        }
-    }
 }
 
 @media screen and (max-width: 1199px) {
-    .dashboard-complete-profile-btns {
-        padding-top: 20px;
-    }
+  .dashboard-complete-profile-btns {
+    padding-top: 20px;
+  }
 }
 
-.dashboard-upcoming-item{
+.dashboard-upcoming-item {
   width: 100%;
   border: 1px solid $grey-ed;
   border-radius: $border-rounded;
   padding: 10px 20px;
   margin-bottom: calc(#{$unit} * 2);
+}
+
+
+.dashboard-booking-request-parent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 0 calc(#{$unit} * 6);
+
+
+  > div:nth-child(1) {
+    width: calc(10%);
+  }
+
+  > div:nth-child(2) {
+    width: calc(10%);
+  }
+
+  > div:nth-child(3) {
+    width: 10%;
+    color: $color-text-secondary;
+  }
+
+  > div:nth-child(4) {
+    width: 10%;
+    display: flex;
+  }
+
+  > div:nth-child(5) {
+    width: 20%;
+  }
+
+}
+
+.dashboard-booking-request-parent-mobile {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 0 calc(#{$unit} * 6);
 }

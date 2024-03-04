@@ -199,6 +199,20 @@
         mask-image: url('./../../assets/icons/share.svg');
         mask-size: contain;
     }
+    &--pending {
+      mask-image: url('./../../assets/icons/pending.svg');
+      mask-size: contain;
+    }
+    &--reschedule {
+      mask-image: url('./../../assets/icons/reschedule.svg');
+      mask-size: contain;
+    }
+    &--hourglass {
+      mask-image: url('./../../assets/icons/hourglass.svg');
+      mask-size: contain;
+    }
+
+
 
     //flags
     &--af {
@@ -228,6 +242,10 @@
         background-color: $color-primary;
     }
 
+    &--secondary {
+      background-color: rgba(126, 108, 242, 0.6)
+    }
+
     &--primary-gradient {
         background: $color-primary;
         background: linear-gradient(226.69deg, rgba(127, 95, 211, 0.9) 4.52%, #5c3ee8 94.64%);
@@ -247,6 +265,10 @@
 
     &--success {
         background-color: $color-success;
+    }
+
+    &--red {
+      background-color: $color-error;
     }
 }
 

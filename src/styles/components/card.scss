@@ -265,6 +265,8 @@
                 justify-content: space-evenly;
                 width: 100%;
                 overflow-x: auto;
+              margin-bottom: 35px;
+              //border-bottom: 1px solid $grey-ed;
 
                 @media (max-width: $responsive-sm) {
                   justify-content: center;
@@ -458,3 +460,32 @@
 }
 
 
+.checkout-component {
+  margin: 0 auto;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.checkout-component div {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.price-row, .discount-row, .total-row {
+  font-size: 14px;
+}
+
+.credits-row {
+  font-size: 12px;
+}
+
+.total-row {
+  font-weight: bold;
+}
+
+.separator-line{
+  border-bottom: 1px solid #ddd;
+}

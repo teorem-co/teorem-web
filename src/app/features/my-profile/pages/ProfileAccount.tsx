@@ -1,6 +1,6 @@
-import {Form, FormikProvider, useFormik} from 'formik';
+import {Field, Form, FormikProvider, useFormik} from 'formik';
 import {isEqual} from 'lodash';
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import * as Yup from 'yup';
 
@@ -8,6 +8,7 @@ import {
   useChangeCurrentPasswordMutation,
 } from '../../../../services/authService';
 import {
+  useLazyDisableTutorQuery, useLazyEnableTutorQuery,
   useLazyGetProfileProgressQuery,
 } from '../../../../services/tutorService';
 import {addStripeId, connectStripe} from '../../../../slices/authSlice';
@@ -35,6 +36,13 @@ import StripeConnectForm from '../components/StripeConnectForm';
 import {Elements} from "@stripe/react-stripe-js";
 import {loadStripe, StripeElementsOptions} from "@stripe/stripe-js";
 import AddCreditCard from "../components/AddCreditCard";
+import {InputAdornment, TextField} from "@mui/material";
+import i18n, { changeLanguage, t } from 'i18next';
+import languageOptions, {
+  ILanguageOption,
+} from '../../../constants/languageOptions';
+import { PROFILE_PATHS } from '../../../routes';
+import { useHistory } from 'react-router';
 
 interface Values {
   currentPassword: string;
@@ -70,6 +78,9 @@ const ProfileAccount = () => {
   const [stripeModalOpen, setStripeModalOpen] = useState<boolean>(false);
   const [activeDefaultPaymentMethod, setActiveDefaultPaymentMethod] = useState<string>('');
   const creditCardIsLoading = creditCardLoading || creditCardUninitialized;
+  const [currPass, setCurrPass] = useState("password");
+  const [newPass, setNewPass] = useState("password");
+  const [confirmPass, setConfirmPass] = useState("password");
 
   const {t} = useTranslation();
   const profileProgressState = useAppSelector((state) => state.myProfileProgress);
@@ -173,6 +184,8 @@ const ProfileAccount = () => {
   };
 
   const handleDefaultCreditCard = async (cardId: string) => {
+    return; //TODO: remove this line once default payment method is implemented
+
     const toSend = {
       userId: userInfo!.id,
       sourceId: cardId,
@@ -228,10 +241,13 @@ const ProfileAccount = () => {
   };
 
   const fetchData = async () => {
+    let cards;
     if (userInfo) {
-      await getCreditCards(userInfo.id).unwrap();
+      cards = await getCreditCards(userInfo.id).unwrap();
     }
-    if (userInfo && userRole !== RoleOptions.Tutor && stripeCustomerId) {
+
+    if (userInfo && userRole !== RoleOptions.Tutor && stripeCustomerId && cards &&
+      Array.isArray(cards) && cards.length > 0) {
       const res = await getCustomerById(userInfo.id).unwrap();
       setActiveDefaultPaymentMethod(res.paymentMethods[0]);
     }
@@ -265,6 +281,23 @@ const ProfileAccount = () => {
   useEffect(() => {
     handleChangeForSave();
   }, [formik.values]);
+
+  const history = useHistory();
+
+  const changeLanguage = (option: ILanguageOption) => {
+    let pushPath = '';
+
+    Object.keys(PROFILE_PATHS).forEach((path) => {
+      if (t('PATHS.PROFILE_PATHS.' + path) === history.location.pathname) {
+        pushPath = 'PATHS.PROFILE_PATHS.' + path;
+      }
+    });
+
+    i18n.changeLanguage(option.path);
+
+    history.push(t(pushPath));
+    window.location.reload();
+  };
 
   const options: StripeElementsOptions = {
     mode: 'setup',
@@ -300,11 +333,49 @@ const ProfileAccount = () => {
     },
   };
 
+  const visibleCurrPassToggle = (e: any) => {
+    if(currPass === "password") {
+      setCurrPass("text");
+    } else {
+      setCurrPass("password");
+    }
+  };
+
+  const visibleNewPassToggle = (e: any) => {
+    if(newPass === "password") {
+      setNewPass("text");
+    } else {
+      setNewPass("password");
+    }
+  };
+
+  const visibleConfirmPassToggle = (e: any) => {
+    if(confirmPass === "password") {
+      setConfirmPass("text");
+    } else {
+      setConfirmPass("password");
+    }
+  };
+
+  const [tutorDisabled, setTutorDisabledValue] = useState<boolean>(true);
+  const [updateTutorDisabled] = useLazyDisableTutorQuery();
+  const [updateTutorEnabled] = useLazyEnableTutorQuery();
+
+  const setTutorDisabled = (disabled: boolean) => {
+    if (disabled) {
+      updateTutorDisabled();
+    } else {
+      updateTutorEnabled();
+    }
+
+    setTutorDisabledValue(disabled);
+  };
+
   return (
     <MainWrapper>
       <div className="card--profile">
         {/* HEADER */}
-        <ProfileHeader className="mb-8"/>
+        <ProfileHeader className="mb-1"/>
 
         {/* PROGRESS */}
         <ProfileCompletion
@@ -336,29 +407,69 @@ const ProfileAccount = () => {
               <div className="w--800--max">
                 <div className="row">
                   <div className="col col-12 col-xl-6">
-                    <div className="field">
-                      <label htmlFor="currentPassword" className="field__label">
-                        {t('ACCOUNT.CHANGE_PASSWORD.CURRENT_PASSWORD')}
-                      </label>
-                      <MyTextField
+                    <div className="field align--center mb-5">
+                      <Field
+                        as={TextField}
                         name="currentPassword"
+                        type={currPass}
+                        fullWidth
+                        error={formik.touched.currentPassword && !!formik.errors.currentPassword}
+                        helperText={formik.touched.currentPassword && formik.errors.currentPassword}
                         id="currentPassword"
-                        placeholder={t('ACCOUNT.CHANGE_PASSWORD.CURRENT_PASSWORD_PLACEHOLDER')}
-                        password={true}
+                        label={t('ACCOUNT.CHANGE_PASSWORD.CURRENT_PASSWORD_PLACEHOLDER')}
+                        variant="outlined"
+                        color="secondary"
+                        InputProps={{
+                          style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
+                          endAdornment: (
+                            <InputAdornment position="start">
+                              <i className="icon icon--sm icon--visible input--text--password" onClick={(e: any) => visibleCurrPassToggle(e)}></i>
+                            </InputAdornment>
+                          ),
+                        }}
+                        InputLabelProps={{
+                          style: { fontFamily: "'Lato', sans-serif" },
+                        }}
+                        FormHelperTextProps={{
+                          style: { color: 'red' } // Change the color of the helper text here
+                        }}
+                        inputProps={{
+                          maxLength: 100,
+                        }}
+                        onBlur={(e: any) => {
+                          formik.handleBlur(e);
+                        }}
+                        onKeyUp={handleKeyUp}
                       />
                     </div>
                   </div>
                   <div className="col col-12 col-xl-6">
-                    <div className="field">
-                      <label htmlFor="newPassword" className="field__label">
-                        {t('ACCOUNT.CHANGE_PASSWORD.NEW_PASSWORD')}
-                      </label>
-                      <MyTextField
+                    <div className="field align--center mb-5">
+                      <Field
+                        as={TextField}
                         name="newPassword"
+                        type={newPass}
+                        fullWidth
+                        error={formik.touched.newPassword && !!formik.errors.newPassword}
+                        helperText={formik.touched.newPassword && formik.errors.newPassword}
                         id="newPassword"
-                        placeholder={t('ACCOUNT.CHANGE_PASSWORD.NEW_PASSWORD_PLACEHOLDER')}
-                        password={true}
-                        onFocus={handlePasswordFocus}
+                        label={t('ACCOUNT.CHANGE_PASSWORD.NEW_PASSWORD_PLACEHOLDER')}
+                        variant="outlined"
+                        color="secondary"
+                        InputProps={{
+                          style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
+                          endAdornment: (
+                            <InputAdornment position="start">
+                              <i className="icon icon--sm icon--visible input--text--password" onClick={(e: any) => visibleNewPassToggle(e)}></i>
+                            </InputAdornment>
+                          ),
+                        }}
+                        InputLabelProps={{
+                          style: { fontFamily: "'Lato', sans-serif" },
+                        }}
+                        FormHelperTextProps={{
+                          style: { color: 'red' } // Change the color of the helper text here
+                        }}
                         onBlur={(e: any) => {
                           handlePasswordBlur();
                           formik.handleBlur(e);
@@ -370,15 +481,36 @@ const ProfileAccount = () => {
                     </div>
                   </div>
                   <div className="col col-12 col-xl-6">
-                    <div className="field">
-                      <label htmlFor="confirmPassword" className="field__label">
-                        {t('ACCOUNT.CHANGE_PASSWORD.CONFIRM_PASSWORD')}
-                      </label>
-                      <MyTextField
+                    <div className="field align--center mb-5">
+                      <Field
+                        as={TextField}
                         name="confirmPassword"
+                        type={confirmPass}
+                        fullWidth
+                        error={formik.touched.confirmPassword && !!formik.errors.confirmPassword}
+                        helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
                         id="confirmPassword"
-                        placeholder={t('ACCOUNT.CHANGE_PASSWORD.NEW_PASSWORD_PLACEHOLDER')}
-                        password={true}
+                        label={t('ACCOUNT.CHANGE_PASSWORD.CONFIRM_PASSWORD')}
+                        variant="outlined"
+                        color="secondary"
+                        InputProps={{
+                          style: { fontFamily: "'Lato', sans-serif", backgroundColor:'white' },
+                          endAdornment: (
+                            <InputAdornment position="start">
+                              <i className="icon icon--sm icon--visible input--text--password" onClick={(e: any) => visibleConfirmPassToggle(e)}></i>
+                            </InputAdornment>
+                          ),
+                        }}
+                        InputLabelProps={{
+                          style: { fontFamily: "'Lato', sans-serif" },
+                        }}
+                        FormHelperTextProps={{
+                          style: { color: 'red' } // Change the color of the helper text here
+                        }}
+                        onBlur={(e: any) => {
+                          formik.handleBlur(e);
+                        }}
+                        onKeyUp={handleKeyUp}
                       />
                     </div>
                   </div>
@@ -448,7 +580,7 @@ const ProfileAccount = () => {
                                  onClick={() => handleDefaultCreditCard(item.id)}>
                               <div
                                 className={`dash-wrapper__item__element ${item.id === activeDefaultPaymentMethod && 'active'}`}>
-                                <div className="flex--primary cur--pointer">
+                                <div className="flex--primary"> {/*TODO: add class later: cur--pointer*/}
                                   <div>
                                     <div className="type--wgt--bold">**** ****
                                       **** {item.card.last4}</div>
@@ -476,6 +608,61 @@ const ProfileAccount = () => {
             )}
           </Form>
         </FormikProvider>
+
+
+        {/*TODO: this is language selection*/}
+          <div className="card--profile__section"/>
+        <div className="card--profile__section">
+            <div>
+                <div className="mb-2 type--wgt--bold">{t('MY_PROFILE.TRANSLATION.TITLE')}</div>
+                <div className="type--color--tertiary w--200--max">{t('MY_PROFILE.TRANSLATION.SUBTITLE')}</div>
+            </div>
+            <div className="w--800--max">
+                {languageOptions.map((option: ILanguageOption) => {
+                    return (
+                        <div
+                            key={option.path}
+                            className={`btn btn--base btn--${
+                                option.path === i18n.language ? 'primary' : 'disabled'
+                            } mr-2`}
+                            onClick={() => {
+                                changeLanguage(option);
+                            }}
+                        >
+                            {option.label.substring(0, 3)}
+                        </div>
+                    );
+                })}
+            </div>
+        </div>
+
+        {/*TODO: this is profile visibility*/}
+        {userRole === RoleOptions.Tutor && (
+            <div className="card--profile__section">
+                <div>
+                    <div className="mb-2 type--wgt--bold">{t('MY_PROFILE.TUTOR_DISABLE.TITLE')}</div>
+                    <div className="type--color--tertiary w--200--max">{t('MY_PROFILE.TUTOR_DISABLE.SUBTITLE')}</div>
+                </div>
+                <div className="w--800--max">
+                    <div
+                        className={`btn btn--base btn--${tutorDisabled ? 'primary' : 'disabled'} mr-2`}
+                        onClick={() => {
+                            setTutorDisabled(true);
+                        }}
+                    >
+                        {t('MY_PROFILE.TUTOR_DISABLE.NO')}
+                    </div>
+                    <div
+                        className={`btn btn--base btn--${!tutorDisabled ? 'primary' : 'disabled'} mr-2`}
+                        onClick={() => {
+                            setTutorDisabled(false);
+                        }}
+                    >
+                        {t('MY_PROFILE.TUTOR_DISABLE.YES')}
+                    </div>
+                </div>
+            </div>
+        )}
         <StripeConnectForm
           onConnect={(accountId: string) => {
             dispatch(
@@ -496,8 +683,11 @@ const ProfileAccount = () => {
         />
       </div>
       <Elements stripe={stripePromise} options={options}>
-        <AddCreditCard closeSidebar={closeAddCardSidebar}
-                       sideBarIsOpen={addSidebarOpen}/>
+        <AddCreditCard
+          closeSidebar={closeAddCardSidebar}
+          sideBarIsOpen={addSidebarOpen}
+          onSuccess={fetchData}
+        />
       </Elements>
     </MainWrapper>
   );

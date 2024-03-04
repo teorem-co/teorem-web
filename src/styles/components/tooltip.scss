@@ -68,13 +68,17 @@
     &--text {
         z-index: 1;
         position: absolute;
-        right: -100px;
         bottom: 40px;
-
+        right: -100px;
         overflow-y: auto;
 
+        @media (max-width: $responsive-sm) {
+          right: -140px;
+        }
+
         max-height: 160px;
-        width: 250px;
+        display: flex;
+        //width: 250px;
 
         color: $color-primary;
         padding: 16px 16px 0 16px;

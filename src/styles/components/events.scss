@@ -2,6 +2,14 @@
     components: events.scss
 */
 
+.event-passed{
+  background: lightgray !important;
+}
+
+.event-in-reschedule{
+  background: lighten($color-warning, 10%) !important;
+}
+
 .event {
     position: absolute;
     width: 100%;
