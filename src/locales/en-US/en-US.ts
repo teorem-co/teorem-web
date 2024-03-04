@@ -1445,9 +1445,5 @@ export const EN_US = {
         TIP_2:'Document must contain name used during registration',
         SUBMIT: 'Submit',
       },
-
-
-
-
     }
 };
