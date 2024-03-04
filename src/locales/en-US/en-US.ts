@@ -1431,11 +1431,12 @@ export const EN_US = {
       DOCUMENTS_REQUIRED: 'You have not submitted the documents yet. Please submit the documents so that we can verify you.',
       DISABLED_PAYOUTS: {
         PART_1: 'Payouts are disabled until your account has been verified!',
-        PART_2: '(In case you submitted the documentation and more than 7 days have passed, please contact support@teorem.co)'
+        PART_2: '(In case you submitted the documentation and more than 7 days have passed, please contact support@teorem.co)',
+        SOON: 'Deadline: soon',
       },
       DAYS_REMAINING:{
         P_1: 'There are ',
-        P_2:  ' days remaining to submit documents. After that, your payments will be disabled until you submit the documentation and until it is verified!'
+        P_2:  ' days remaining to submit documents. After that, your payments will be disabled until you submit the documentation and until it is verified!',
       },
       FORM:{
         FRONT: 'Front side',

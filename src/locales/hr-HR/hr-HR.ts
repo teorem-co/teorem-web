@@ -1434,12 +1434,13 @@ export const HR_HR = {
       DOCUMENTS_PROVIDED: 'Hvala! Predali ste dokumente, čeka se verifikacija.',
       DOCUMENTS_REQUIRED: 'Niste još priložili dokumentaciju. Molimo priložite dokumentaciju kako bismo Vas mogli verificirati.',
       DISABLED_PAYOUTS: {
-        PART_1: 'Isplate su obustavljene dok se vaš račun ne verificira',
-        PART_2: '(U slučaju da ste predali dokumentaciju i prošlo je više od 7 dana, javite se na support@teorem.co)'
+        PART_1: 'Isplate su obustavljene dok se Vaš račun ne verificira',
+        PART_2: '(U slučaju da ste predali dokumentaciju i prošlo je više od 7 dana, javite se na support@teorem.co)',
+        SOON: 'Rok predaje: uskoro',
       },
       DAYS_REMAINING:{
         P_1: 'Imate još ',
-        P_2:  ' dana da predate dokumente. Nakon toga će Vam isplate biti onemogućene dok ne priložite dokumentaciju i dok ona ista ne bude verificirana!'
+        P_2:  ' dan/a da predate dokumente. Nakon toga će Vam isplate biti onemogućene dok ne priložite dokumentaciju i dok ona ista ne bude verificirana!'
       },
       FORM:{
         FRONT: 'Prednja strana osobne',

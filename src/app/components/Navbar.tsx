@@ -46,7 +46,6 @@ const Navbar = () => {
     const shareProfile = async () => {
         const tutorSlug = (await getTutorProfileData(user?.id || '').unwrap()).slug;
         navigator.clipboard.writeText(window.location.hostname + t('PATHS.SEARCH_TUTORS_TUTOR_PROFILE').replace(':tutorSlug', tutorSlug));
-        //todo: aproptiate domain
         setTextCopiedToClipboard(true);
     };
 

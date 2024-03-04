@@ -265,16 +265,6 @@ const PersonalInformation = () => {
         validationSchema: generateValidation(),
     });
 
-    const setTutorDisabled = (disabled: boolean) => {
-        if (disabled) {
-            updateTutorDisabled();
-        } else {
-            updateTutorEnabled();
-        }
-
-        setTutorDisabledValue(disabled);
-    };
-
     useEffect(() => {
         if (isSuccessTutor && tutorData) setTutorDisabledValue(tutorData.disabled);
     }, [tutorData]);
@@ -312,21 +302,6 @@ const PersonalInformation = () => {
         handleBlur();
     }, [formik.values]);
 
-    const changeLanguage = (option: ILanguageOption) => {
-        let pushPath = '';
-
-        Object.keys(PROFILE_PATHS).forEach((path) => {
-            if (t('PATHS.PROFILE_PATHS.' + path) === history.location.pathname) {
-                pushPath = 'PATHS.PROFILE_PATHS.' + path;
-            }
-        });
-
-        i18n.changeLanguage(option.path);
-
-        history.push(t(pushPath));
-        window.location.reload();
-    };
-
     interface CustomSelectFieldProps extends FieldProps {
         label: string;
         options: Array<{ label: string; value: string; icon: string }>;
@@ -340,23 +315,6 @@ const PersonalInformation = () => {
             setUserCredits(res.credits);
         });
     }, []);
-
-    const CountrySelectField: React.FC<CustomSelectFieldProps> = ({ field, form: { touched, errors }, label, options, ...props }) => (
-        <TextField
-            {...field}
-            {...props}
-            select
-            label={label}
-            error={Boolean(touched[field.name] && errors[field.name])}
-            helperText={touched[field.name] && errors[field.name]}
-        >
-            {options.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                </MenuItem>
-            ))}
-        </TextField>
-    );
 
     return (
         <>

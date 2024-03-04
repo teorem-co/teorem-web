@@ -91,12 +91,6 @@ export const stripeService = baseService.injectEndpoints({
                 },
             }),
         }),
-        createVerificationSession: builder.mutation<string, void>({
-            query: () => ({
-                url: `${URL}/create-verification-session`,
-                method: HttpMethods.POST,
-            }),
-        }),
         uploadVerificationDocument: builder.mutation<IVerificationDocumentResponse, IVerificationDocument>({
             query: (document) => {
                 const formData = new FormData();
@@ -122,6 +116,5 @@ export const {
     useSetDefaultCreditCardMutation,
     useRemoveCreditCardMutation,
     useLazyGetCustomerByIdQuery,
-    useCreateVerificationSessionMutation,
     useUploadVerificationDocumentMutation,
 } = stripeService;

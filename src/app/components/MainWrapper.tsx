@@ -50,10 +50,6 @@ const MainWrapper = (props: Props) => {
     sessionStorage.setItem('hideApprovedBanner', 'true');
   }
 
-
-  useEffect(() => {
-    console.log('hide stripe banner: ', hideStripeBanner);
-  }, [hideStripeBanner]);
   return (
     <>
           <div className='flex flex--col'>

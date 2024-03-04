@@ -84,14 +84,14 @@ export const UploadVerificationDocuments: React.FC = () => {
                 {loggedinUser && loggedinUser.stripeVerifiedStatus !== 'verified' && loggedinUser.stripeVerificationDeadline && (
                     <div className={'flex flex-row flex--ai--center'}>
                         <i className={'icon icon--base icon--error icon--red'}></i>
-                        {remaningDays && remaningDays < 0 && (
+                        {remaningDays && remaningDays <= 0 && (
                             <>
                                 <p className={'type--color--error ml-1'}>{t('ID_VERIFICATION.DISABLED_PAYOUTS.PART_1')}</p>
                                 <p className={'ml-1 type--color--secondary'}>{t('ID_VERIFICATION.DISABLED_PAYOUTS.PART_2')}</p>
                             </>
                         )}
 
-                        {remaningDays && remaningDays >= 0 && (
+                        {remaningDays && remaningDays > 0 && (
                             <p className={`${remaningDays && remaningDays < 14 ? 'type--color--error' : ''} ml-1`}>
                                 {t('ID_VERIFICATION.DAYS_REMAINING.P_1') + remaningDays + t('ID_VERIFICATION.DAYS_REMAINING.P_2')}
                             </p>
@@ -104,7 +104,7 @@ export const UploadVerificationDocuments: React.FC = () => {
                     !loggedinUser.stripeVerificationDeadline &&
                     !loggedinUser.stripeVerificationDocumentsUploaded && (
                         <div className={'flex flex-row flex--ai--center'}>
-                            <div>Rok predaje: uskoro</div>
+                            <div>{t('ID_VERIFICATION.DISABLED_PAYOUTS.SOON')}</div>
                         </div>
                     )}
 
