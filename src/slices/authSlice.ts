@@ -1,6 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import IUser from '../interfaces/IUser';
+import {
+  IVerificationDocumentResponse
+} from '../app/features/my-profile/services/stripeService';
 
 interface ILoginPayload {
     token: string;
@@ -44,6 +47,10 @@ export const authSlice = createSlice({
         state.token = action.payload.token;
         state.user = action.payload.user;
       },
+      updateStateOfVerificationDocument(state, action: PayloadAction<IVerificationDocumentResponse>) {
+        state.user!.stripeVerifiedStatus = action.payload.stripeVerifiedStatus;
+        state.user!.stripeVerificationDocumentsUploaded = action.payload.stripeVerificationDocumentsUploaded;
+      }
     }
 });
 
@@ -53,5 +60,6 @@ export const {
   connectStripe,
   setServerVersion,
   setToken,
+  updateStateOfVerificationDocument
 } = authSlice.actions;
 export default authSlice.reducer;
