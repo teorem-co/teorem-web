@@ -1427,27 +1427,25 @@ export const HR_HR = {
     },
 
     ID_VERIFICATION: {
-      ID_SECTION: 'Osobna iskaznica',
-      ID_SECTION_DESCRIPTION: 'Potrebna je osobna iskaznica kako bismo mogli potvrditi da je riječ o stvarnoj osobi.',
-      BANNER:'Identitet nije potvrđen, molimo proslijedite podatke kako Vam kasnije isplate ne bi bile onemogućene.',
-      ACCOUNT_VERIFIED: 'Hvala! Vaš račun je verificiran.',
-      DOCUMENTS_PROVIDED: 'Hvala! Predali ste dokumente, čeka se verifikacija.',
-      DOCUMENTS_REQUIRED: 'Niste još priložili dokumentaciju. Molimo priložite dokumentaciju kako bismo Vas mogli verificirati.',
-      DISABLED_PAYOUTS: {
-        PART_1: 'Isplate su obustavljene dok se Vaš račun ne verificira',
-        PART_2: '(U slučaju da ste predali dokumentaciju i prošlo je više od 7 dana, javite se na support@teorem.co)',
-        SOON: 'Rok predaje: uskoro',
-      },
-      DAYS_REMAINING:{
-        P_1: 'Imate još ',
-        P_2:  ' dan/a da predate dokumente. Nakon toga će Vam isplate biti onemogućene dok ne priložite dokumentaciju i dok ona ista ne bude verificirana!'
-      },
-      FORM:{
-        FRONT: 'Prednja strana osobne',
-        BACK: 'Stražnja strana osobne',
-        TIP_1: 'Slika mora biti u boji',
-        TIP_2:'Na dokumentu mora pisati ime koje ste koristili pri registraciji',
-        SUBMIT: 'Pošalji',
-      }
-    }
+        ID_SECTION: 'Dokaz o identitetu',
+        ID_SECTION_DESCRIPTION: 'U svrhu sprječavanja pranja novca i financiranja terorizma, molimo potvrdite Vaš identitet.',
+        BANNER: 'Identitet nije potvrđen, molimo proslijedite podatke kako Vam kasnije isplate ne bi bile onemogućene.',
+        ACCOUNT_VERIFIED: 'Hvala! Vaš račun je verificiran.',
+        DOCUMENTS_PROVIDED: 'Hvala! Predali ste dokumente, čeka se verifikacija.',
+        DISABLED_PAYOUTS: {
+            PART_1: 'Vaše isplate su obustavljene. Molimo potvrdite Vaš identitet kako biste nastavili zaprimati isplate.',
+            SOON: 'Rok predaje: uskoro',
+        },
+        DAYS_REMAINING: {
+            P_1: 'Imate još ',
+            P_2: ' dan/a prije nego što Vaše isplate budu obustavljene. Molimo potvrdite Vaš identitet kako biste izbjegli obustavu isplata.',
+        },
+        FORM: {
+            FRONT: 'Prednja strana osobne iskaznice',
+            BACK: 'Stražnja strana osobne iskaznice',
+            TIP_1: 'Slika mora biti u boji',
+            TIP_2: 'Na dokumentu mora pisati ime koje ste koristili pri registraciji',
+            SUBMIT: 'Pošalji',
+        },
+    },
 };

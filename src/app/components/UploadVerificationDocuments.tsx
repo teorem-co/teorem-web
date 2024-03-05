@@ -5,7 +5,7 @@ import { useAppSelector } from '../hooks';
 import moment from 'moment';
 import { useDispatch } from 'react-redux';
 import { updateStateOfVerificationDocument } from '../../slices/authSlice';
-import {SyncLoader } from 'react-spinners';
+import { SyncLoader } from 'react-spinners';
 import { t } from 'i18next';
 
 export const UploadVerificationDocuments: React.FC = () => {
@@ -18,16 +18,13 @@ export const UploadVerificationDocuments: React.FC = () => {
     const [showLoader, setShowLoader] = useState<boolean>(false);
     const [remaningDays, setRemaningDays] = useState<number>();
 
-
-
-  useEffect(() => {
-    if(loggedinUser?.stripeVerificationDeadline){
-      const now = moment();
-      const end = moment.unix(loggedinUser?.stripeVerificationDeadline);
-      setRemaningDays(end.diff(now, 'days'));
-    }
-  }, []);
-
+    useEffect(() => {
+        if (loggedinUser?.stripeVerificationDeadline) {
+            const now = moment();
+            const end = moment.unix(loggedinUser?.stripeVerificationDeadline);
+            setRemaningDays(end.diff(now, 'days'));
+        }
+    }, []);
 
     async function onSubmit() {
         if (frontDocument && backDocument) {
@@ -36,10 +33,10 @@ export const UploadVerificationDocuments: React.FC = () => {
                 back: backDocument,
             };
 
-          setShowLoader(true);
-          const response = await uploadVerificationDocument(submit).unwrap();
-          setShowLoader(false);
-          documentDispatch(updateStateOfVerificationDocument(response));
+            setShowLoader(true);
+            const response = await uploadVerificationDocument(submit).unwrap();
+            setShowLoader(false);
+            documentDispatch(updateStateOfVerificationDocument(response));
         }
     }
 
@@ -49,16 +46,19 @@ export const UploadVerificationDocuments: React.FC = () => {
                 <div className="mb-2 type--wgt--bold">{t('ID_VERIFICATION.ID_SECTION')}</div>
                 <div className="type--color--tertiary mb-4">{t('ID_VERIFICATION.ID_SECTION_DESCRIPTION')}</div>
                 <div className="flex flex--row w--200--max">
-                    {!showLoader && loggedinUser && loggedinUser.stripeVerifiedStatus !== 'verified' && !loggedinUser.stripeVerificationDocumentsUploaded && (
-                        <button
-                            type={'button'}
-                            className={'btn btn--primary btn--lg mt-6'}
-                            disabled={!(frontDocument && backDocument)}
-                            onClick={onSubmit}
-                        >
-                            {t('ID_VERIFICATION.FORM.SUBMIT')}
-                        </button>
-                    )}
+                    {!showLoader &&
+                        loggedinUser &&
+                        loggedinUser.stripeVerifiedStatus !== 'verified' &&
+                        !loggedinUser.stripeVerificationDocumentsUploaded && (
+                            <button
+                                type={'button'}
+                                className={'btn btn--primary btn--lg mt-6'}
+                                disabled={!(frontDocument && backDocument)}
+                                onClick={onSubmit}
+                            >
+                                {t('ID_VERIFICATION.FORM.SUBMIT')}
+                            </button>
+                        )}
                     <SyncLoader color={'#7e6cf2'} loading={showLoader} size={12} />
                 </div>
             </div>
@@ -74,33 +74,28 @@ export const UploadVerificationDocuments: React.FC = () => {
                 {loggedinUser && loggedinUser.stripeVerifiedStatus !== 'verified' && (
                     <div>
                         <div className={`${loggedinUser.stripeVerificationDocumentsUploaded ? 'type--color--secondary' : 'type--color--secondary'}`}>
-                            {loggedinUser.stripeVerificationDocumentsUploaded
-                                ? t('ID_VERIFICATION.DOCUMENTS_PROVIDED')
-                                : t('ID_VERIFICATION.DOCUMENTS_REQUIRED')}
+                            {loggedinUser.stripeVerificationDocumentsUploaded && t('ID_VERIFICATION.DOCUMENTS_PROVIDED')}
                         </div>
                     </div>
                 )}
                 {loggedinUser && loggedinUser.stripeVerifiedStatus !== 'verified' && loggedinUser.stripeVerificationDeadline && (
                     <div className={'flex flex-row flex--ai--center'}>
-                        <i className={'icon icon--base icon--error icon--red'}></i>
+                        <i className={'icon icon--base icon--error icon--red cur--default'}></i>
 
                         {remaningDays && remaningDays > 0 ? (
-                            <p
-                              className={`${remaningDays && remaningDays < 14 ? 'type--color--error' : ''} ml-1`}>
-                              {t('ID_VERIFICATION.DAYS_REMAINING.P_1') + remaningDays + t('ID_VERIFICATION.DAYS_REMAINING.P_2')}
+                            <p className={`${remaningDays && remaningDays < 14 ? 'type--color--error' : ''} ml-1`}>
+                                {t('ID_VERIFICATION.DAYS_REMAINING.P_1') + remaningDays + t('ID_VERIFICATION.DAYS_REMAINING.P_2')}
                             </p>
-                        ):
-                          (
-                          <div>
-                            <p className={'type--color--error ml-1'}>{t('ID_VERIFICATION.DISABLED_PAYOUTS.PART_1')}</p>
-                            <p className={'ml-1 type--color--secondary'}>{t('ID_VERIFICATION.DISABLED_PAYOUTS.PART_2')}</p>
-                          </div>)
-                        }
+                        ) : (
+                            <div>
+                                <p className={'type--color--error ml-1'}>{t('ID_VERIFICATION.DISABLED_PAYOUTS.PART_1')}</p>
+                            </div>
+                        )}
                     </div>
                 )}
 
-              {loggedinUser &&
-                loggedinUser.stripeVerifiedStatus !== 'verified' &&
+                {loggedinUser &&
+                    loggedinUser.stripeVerifiedStatus !== 'verified' &&
                     !loggedinUser.stripeVerificationDeadline &&
                     !loggedinUser.stripeVerificationDocumentsUploaded && (
                         <div className={'flex flex-row flex--ai--center'}>
