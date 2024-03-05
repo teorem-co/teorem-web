@@ -1441,8 +1441,8 @@ export const HR_HR = {
             P_2: ' dan/a prije nego što Vaše isplate budu obustavljene. Molimo potvrdite Vaš identitet kako biste izbjegli obustavu isplata.',
         },
         FORM: {
-            FRONT: 'Prednja strana osobne',
-            BACK: 'Stražnja strana osobne',
+            FRONT: 'Prednja strana osobne iskaznice',
+            BACK: 'Stražnja strana osobne iskaznice',
             TIP_1: 'Slika mora biti u boji',
             TIP_2: 'Na dokumentu mora pisati ime koje ste koristili pri registraciji',
             SUBMIT: 'Pošalji',
