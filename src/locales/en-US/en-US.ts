@@ -1425,7 +1425,7 @@ export const EN_US = {
     ID_VERIFICATION: {
         ID_SECTION: 'Proof of identity',
         ID_SECTION_DESCRIPTION: 'For the purposes of preventing money laundering and financing of terrorism, please confirm your identity.',
-        BANNER: "Identity not verified, please provide ID document so your payouts won't be disabled.",
+        BANNER: 'NOTICE: For the purposes of preventing money laundering and financing of terrorism, please confirm your identity to continue receiving payouts.',
         ACCOUNT_VERIFIED: 'Thank you! Your account is verified.',
         DOCUMENTS_PROVIDED: 'Thank you! Documentation submitted, waiting for verification.',
         DISABLED_PAYOUTS: {

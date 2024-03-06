@@ -1429,7 +1429,7 @@ export const HR_HR = {
     ID_VERIFICATION: {
         ID_SECTION: 'Dokaz o identitetu',
         ID_SECTION_DESCRIPTION: 'U svrhu sprječavanja pranja novca i financiranja terorizma, molimo potvrdite Vaš identitet.',
-        BANNER: 'Identitet nije potvrđen, molimo proslijedite podatke kako Vam kasnije isplate ne bi bile onemogućene.',
+        BANNER: 'OBAVIJEST: U svrhu sprječavanja pranja novca i financiranja terorizma, molimo potvrdite Vaš identitet kako bi nastavili zaprimati isplate.',
         ACCOUNT_VERIFIED: 'Hvala! Vaš račun je verificiran.',
         DOCUMENTS_PROVIDED: 'Hvala! Predali ste dokumente, čeka se verifikacija.',
         DISABLED_PAYOUTS: {
