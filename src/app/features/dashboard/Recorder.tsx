@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Webcam from 'react-webcam';
+import * as tus from 'tus-js-client';
+import { useLazyGetUploadVideoUrlQuery } from '../onboarding/services/vimeoService';
 
 const Recorder = () => {
     const webcamRef = useRef<Webcam>(null);
@@ -11,6 +13,19 @@ const Recorder = () => {
     const [timer, setTimer] = useState(0);
     const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
     const [replayVideoUrl, setReplayVideoUrl] = useState<string>('');
+    const [getVideoUrl] = useLazyGetUploadVideoUrlQuery();
+
+    const [uploadLink, setUploadLink] = useState<string>();
+
+    async function onSubmit() {
+        //TODO: check if it is recording or video upload
+        // based on that I can determine size of the video
+        const file: File = new File(recordedChunks, 'videoFileName.webm', { type: 'video/webm' }); // todo: change it later
+        const size = 1; // change later
+        const linkUrl = await getVideoUrl(size).unwrap();
+
+        await uploadToVimeo(file, linkUrl);
+    }
 
     useEffect(() => {
         navigator.mediaDevices.enumerateDevices().then((devices) => {
@@ -50,32 +65,40 @@ const Recorder = () => {
         setTimer(0);
     };
 
-    async function sendRecordedChunks() {
-        const videoBlob = new Blob(recordedChunks, { type: 'video/webm' });
-        const videoFile = new File([videoBlob], 'videoFileName.webm', { type: 'video/webm' });
+    const [blobSize, setBlobSize] = useState(0);
 
-        const formData = new FormData();
-        formData.append('file_data', videoFile);
+    async function uploadToVimeo(file: File | Blob, uploadUrl: string) {
+        // const videoBlob = new Blob(recordedChunks, { type: 'video/webm' });
+        // const videoFile = new File([videoBlob], 'videoFileName.webm', { type: 'video/webm' });
 
-        const res = await fetch(
-            'https://1512435583.cloud.vimeo.com/upload?ticket_id=901701419&video_file_id=3719908543&signature=ff5801e879dc269a2eb704f691d4c281&v6=1&redirect_url=https%3A%2F%2Fvimeo.com%2Fupload%2Fapi%3Fvideo_file_id%3D3719908543%26app_id%3D283492%26ticket_id%3D901701419%26signature%3Df187687c1160f716259e4a15e326a7474cb102f2%26redirect%3Dhttps%253A%252F%252Fwww.teorem.co',
-            {
-                body: formData,
-                method: 'POST',
-            }
-        );
-        console.log(res);
+        const upload = new tus.Upload(file, {
+            uploadUrl: uploadUrl,
+            retryDelays: [0, 1000, 3000, 5000],
+            metadata: {
+                filetype: file.type,
+            },
+            onError: (error) => {
+                console.log('Failed because: ' + error);
+            },
+            onProgress: (bytesUploaded, bytesTotal) => {
+                const percentage = ((bytesUploaded / bytesTotal) * 100).toFixed(2);
+                console.log(bytesUploaded, bytesTotal, `${percentage}%`);
+                setUploadProgress(parseFloat(percentage));
+            },
+            onSuccess: () => {
+                console.log('Download %s from %s', upload.file, upload.url);
+            },
+        });
+
+        upload.start();
     }
 
     useEffect(() => {
         if (recordedChunks.length) {
-            console.log('inside');
             const blob = new Blob(recordedChunks, { type: 'video/webm' });
             const url = URL.createObjectURL(blob);
-            console.log(url);
             setReplayVideoUrl(url);
-        } else {
-            console.log('failed IF statement');
+            setBlobSize(blob.size);
         }
     }, [recordedChunks]);
 
@@ -94,8 +117,11 @@ const Recorder = () => {
         }
     };
 
+    const [uploadProgress, setUploadProgress] = useState<number>(0);
+
     return (
         <div>
+            <h1>BLOB SIZE: {blobSize}</h1>
             <Webcam audio={true} ref={webcamRef} videoConstraints={{ deviceId: selectedDevice }} />
             <select onChange={(e) => setSelectedDevice(e.target.value)} value={selectedDevice}>
                 {devices.map((device) => (
@@ -119,20 +145,9 @@ const Recorder = () => {
                 </div>
             )}
 
-            <button onClick={sendRecordedChunks}>POSALJI TESTIRANJE</button>
+            <button onClick={onSubmit}>POSALJI TESTIRANJE</button>
 
-            <div className={'background-blue'}>
-                <form
-                    method="POST"
-                    action="https://1512435599.cloud.vimeo.com/upload?ticket_id=901698075&video_file_id=3719905077&signature=714fb8b992bd7ece027bea0fc35e4800&v6=1&redirect_url=https%3A%2F%2Fvimeo.com%2Fupload%2Fapi%3Fvideo_file_id%3D3719905077%26app_id%3D283492%26ticket_id%3D901698075%26signature%3D7e519b085b67e07785b2a3516e8c11198c413d27%26redirect%3Dhttps%253A%252F%252Fwww.teorem.co"
-                    encType="multipart/form-data"
-                >
-                    <label htmlFor="file">File:</label>
-                    <input type="file" name="file_data" id="file" />
-                    <br />
-                    <input type="submit" name="submit" value="Submit" />
-                </form>
-            </div>
+            <h2>Upload Progress: {uploadProgress}%</h2>
         </div>
     );
 };

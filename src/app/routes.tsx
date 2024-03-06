@@ -39,13 +39,7 @@ import { setLang } from '../slices/langSlice';
 import { Badge } from '@mui/material';
 
 import { Signup } from './features/register/sign_up_rework/tutor/Signup';
-import {
-  SignupRoleSelect,
-} from './features/register/sign_up_rework/SignupRoleSelect';
-import {
-  RecommendedTutorCard
-} from './features/dashboard/recommended-tutors/RecommendedTutorCard';
-import ITutorItem from '../interfaces/ITutorItem';
+import { SignupRoleSelect } from './features/register/sign_up_rework/SignupRoleSelect';
 import Recorder from './features/dashboard/Recorder';
 
 export const PATHS = {
@@ -107,12 +101,13 @@ interface IMenuPerRole {
 
 export const ROUTES: any = [
     {
-    path: "/en/recorder",
-    key: 'recorder',
-    exact: true,
-    // component: () => <RoleSelection />,
-    component: () => <Recorder />,
-  },{
+        path: '/en/recorder',
+        key: 'recorder',
+        exact: true,
+        // component: () => <RoleSelection />,
+        component: () => <Recorder />,
+    },
+    {
         path: PATHS.ROLE_SELECTION,
         key: 'ROLE_SELECTION',
         exact: true,
