@@ -40,6 +40,7 @@ import { Badge } from '@mui/material';
 
 import { Signup } from './features/register/sign_up_rework/tutor/Signup';
 import { SignupRoleSelect } from './features/register/sign_up_rework/SignupRoleSelect';
+import { SITEMAP } from './components/SITEMAP';
 
 export const PATHS = {
     ROLE_SELECTION: t('PATHS.ROLE_SELECTION'),
@@ -99,6 +100,12 @@ interface IMenuPerRole {
 }
 
 export const ROUTES: any = [
+    {
+        path: '/sitemapper',
+        key: 'sitemapper',
+        exact: true,
+        component: () => <SITEMAP />,
+    },
     {
         path: PATHS.ROLE_SELECTION,
         key: 'ROLE_SELECTION',
