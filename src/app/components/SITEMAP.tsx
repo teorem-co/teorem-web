@@ -1,5 +1,5 @@
 export const SITEMAP = () => {
-    fetch('http://localhost:8080/sitemap')
+    fetch('https://teorem-api.azurewebsites.net/sitemap')
         .then((response) => response.text())
         .then((xmlContent) => {
             const blob = new Blob([xmlContent], { type: 'application/xml' });
