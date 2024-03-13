@@ -101,7 +101,7 @@ interface IMenuPerRole {
 
 export const ROUTES: any = [
     {
-        path: '/sitemapper',
+        path: '/en/sitemapper',
         key: 'sitemapper',
         exact: true,
         component: () => <SITEMAP />,
