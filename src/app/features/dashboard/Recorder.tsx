@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Webcam from 'react-webcam';
 import * as tus from 'tus-js-client';
 import { useLazyGetUploadVideoUrlQuery } from '../onboarding/services/vimeoService';
+import { DotLoader } from 'react-spinners';
 
 const Recorder = () => {
     const webcamRef = useRef<Webcam>(null);
@@ -15,15 +16,17 @@ const Recorder = () => {
     const [replayVideoUrl, setReplayVideoUrl] = useState<string>('');
     const [getVideoUrl] = useLazyGetUploadVideoUrlQuery();
 
+    const [showLoader, setShowLoader] = useState(false);
     const [uploadLink, setUploadLink] = useState<string>();
 
     async function onSubmit() {
         //TODO: check if it is recording or video upload
-        // based on that I can determine size of the video
+        // based on that I can determine size of the video and which file to send
         const file: File = new File(recordedChunks, 'videoFileName.webm', { type: 'video/webm' }); // todo: change it later
-        const size = 1; // change later
+        const size = file.size; // change later
+        setShowLoader(true);
         const linkUrl = await getVideoUrl(size).unwrap();
-
+        setShowLoader(false);
         await uploadToVimeo(file, linkUrl);
     }
 
@@ -71,6 +74,7 @@ const Recorder = () => {
         // const videoBlob = new Blob(recordedChunks, { type: 'video/webm' });
         // const videoFile = new File([videoBlob], 'videoFileName.webm', { type: 'video/webm' });
 
+        console.log('uploading to vimeo', file, uploadUrl);
         const upload = new tus.Upload(file, {
             uploadUrl: uploadUrl,
             retryDelays: [0, 1000, 3000, 5000],
@@ -122,7 +126,7 @@ const Recorder = () => {
     return (
         <div>
             <h1>BLOB SIZE: {blobSize}</h1>
-            <Webcam audio={true} ref={webcamRef} videoConstraints={{ deviceId: selectedDevice }} />
+            <div>{/*<Webcam audio={true} ref={webcamRef} videoConstraints={{ deviceId: selectedDevice }} />*/}</div>
             <select onChange={(e) => setSelectedDevice(e.target.value)} value={selectedDevice}>
                 {devices.map((device) => (
                     <option key={device.deviceId} value={device.deviceId}>
@@ -138,15 +142,18 @@ const Recorder = () => {
             ) : (
                 <button onClick={handleStartCaptureClick}>Start Capture</button>
             )}
-            {recordedChunks.length > 0 && (
-                <div>
-                    <button onClick={handleDownload}>Download</button>
-                    <video src={replayVideoUrl} controls></video>
-                </div>
-            )}
 
+            {/*{recordedChunks.length > 0 && (*/}
+            {/*    <div>*/}
+            {/*        <button onClick={handleDownload}>Download</button>*/}
+            {/*        <video src={replayVideoUrl} controls></video>*/}
+            {/*    </div>*/}
+            {/*)}*/}
+
+            {/*<MicrophoneTest />*/}
             <button onClick={onSubmit}>POSALJI TESTIRANJE</button>
 
+            <DotLoader color={'#123abc'} loading={showLoader} size={150} />
             <h2>Upload Progress: {uploadProgress}%</h2>
         </div>
     );

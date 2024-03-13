@@ -40,7 +40,6 @@ import { Badge } from '@mui/material';
 
 import { Signup } from './features/register/sign_up_rework/tutor/Signup';
 import { SignupRoleSelect } from './features/register/sign_up_rework/SignupRoleSelect';
-import Recorder from './features/dashboard/Recorder';
 
 export const PATHS = {
     ROLE_SELECTION: t('PATHS.ROLE_SELECTION'),
@@ -100,13 +99,13 @@ interface IMenuPerRole {
 }
 
 export const ROUTES: any = [
-    {
-        path: '/en/recorder',
-        key: 'recorder',
-        exact: true,
-        // component: () => <RoleSelection />,
-        component: () => <Recorder />,
-    },
+    // {
+    //     path: '/en/recorder',
+    //     key: 'recorder',
+    //     exact: true,
+    //     // component: () => <RoleSelection />,
+    //     component: () => <Recorder />,
+    // },
     {
         path: PATHS.ROLE_SELECTION,
         key: 'ROLE_SELECTION',

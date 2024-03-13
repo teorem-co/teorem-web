@@ -1444,4 +1444,69 @@ export const EN_US = {
             SUBMIT: 'Submit',
         },
     },
+
+    VIDEO_PREVIEW: {
+        TITLE: 'Video preview',
+        NOT_APPROVED: 'The administrator has not yet approved your video (it will not be displayed on your profile)',
+        RECORD_VIDEO: 'Record video',
+        OR: 'OR',
+        UPLOAD_VIDEO: 'Upload video',
+        START: 'Start',
+        DELETE: 'Delete',
+        RECORD_MODAL: {
+            SETTINGS: 'Audio and Video Settings',
+            CAMERA: 'Camera',
+            MICROPHONE: 'Microphone',
+            START: 'Start recording',
+            STOP: 'Stop recording',
+            RESTART: 'Re-record',
+            UPLOAD: 'Upload',
+            RECORDING_TIME: 'Recording time:',
+            REMAINING_TIME: {
+                PART_1: 'Remaining ',
+                PART_2: ' s.',
+            },
+            PERMISSIONS_ERROR_MESSAGE:
+                'You have not allowed the use of the camera and microphone. You will have to allow them to be able to record the video and maintain the instructions',
+        },
+        LOADING: {
+            PREPARING: 'Preparing the upload...',
+            UPLOADING: 'Uploading',
+            SUCCESS: 'You have successfully uploaded the video',
+        },
+        CONFIRMATION: {
+            TITLE: 'Are you sure you want to delete the video?',
+            DESCRIPTION: 'This will delete your video, and you will have to record a new one!',
+            CONFIRM: 'Delete',
+            CANCEL: 'Cancel',
+        },
+        FILE_UPLOAD: {
+            FORMAT: 'MP4 format',
+            SIZE_MESSAGE: 'Maximum file size is 10MB!',
+            DURATION_MESSAGE: 'Maximum length of video is 2 minutes!',
+        },
+        TIPS: {
+            DO: {
+                TITLE: 'Do:',
+                LIST: {
+                    TIP_1: 'Between 30 seconds and 2 minutes long',
+                    TIP_2: 'Record in horizontal mode and at eye level',
+                    TIP_3: 'Use good lighting and a neutral background',
+                    TIP_4: 'Use a stable surface so that your video is not shaky',
+                    TIP_5: 'Make sure your face and eyes are fully visible',
+                    TIP_6: 'Highlight your teaching experience',
+                    TIP_7: 'Greet your students warmly and invite them to book a lesson',
+                },
+            },
+            DONT: {
+                TITLE: "Don't:",
+                LIST: {
+                    TIP_1: 'Include your surname or any contact details',
+                    TIP_2: 'Include logos or links',
+                    TIP_3: 'Use slideshows or presentations',
+                    TIP_4: 'Have any other people visible in your video',
+                },
+            },
+        },
+    },
 };

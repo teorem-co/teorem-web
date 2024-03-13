@@ -57,6 +57,13 @@ export interface ITutorAdminSearch {
     createdAt: string;
 }
 
+export interface ITutorVideoInformation {
+    url: string | undefined;
+    // videoThumbnail: string;
+    approved: boolean | undefined;
+    videoTranscoded: boolean;
+}
+
 const URL = 'api/v1/tutors';
 const BOOKING_URL = 'api/v1/bookings';
 
@@ -218,6 +225,18 @@ export const tutorService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
+        getTutorVideoInformation: builder.query<ITutorVideoInformation, void>({
+            query: () => ({
+                url: `${URL}/video-information`,
+                method: HttpMethods.GET,
+            }),
+        }),
+        deleteTutorVideo: builder.query<void, string>({
+            query: (tutorId) => ({
+                url: `${URL}/${tutorId}/video`,
+                method: HttpMethods.DELETE,
+            }),
+        }),
     }),
 });
 
@@ -239,6 +258,8 @@ export const {
     useDisconnectStripeTutorMutation,
     useLazyGetTutorByTutorSlugQuery,
     useLazyGetTutorUnavailableDaysQuery,
+    useLazyGetTutorVideoInformationQuery,
+    useLazyDeleteTutorVideoQuery,
 } = tutorService;
 
 export function getUserRoleAbbrv() {

@@ -1448,4 +1448,70 @@ export const HR_HR = {
             SUBMIT: 'Pošalji',
         },
     },
+
+    VIDEO_PREVIEW: {
+        TITLE: 'Video pregled',
+        NOT_APPROVED: 'Administrator još nije odobrio vaš video (neće se prikazivati na vašem profilu)',
+        RECORD_VIDEO: 'Snimi video',
+        OR: 'ILI',
+        UPLOAD_VIDEO: 'Učitaj video',
+        START: 'Započni',
+        DELETE: 'Obriši',
+
+        RECORD_MODAL: {
+            SETTINGS: 'Audio i video postavke',
+            CAMERA: 'Kamera',
+            MICROPHONE: 'Mikrofon',
+            START: 'Pokreni snimanje',
+            STOP: 'Zaustavi snimanje',
+            RESTART: 'Ponovno snimi',
+            UPLOAD: 'Učitaj',
+            REMAINING_TIME: {
+                PART_1: 'Preostalo ',
+                PART_2: ' s.',
+            },
+            RECORDING_TIME: 'Vrijeme snimanja:',
+            PERMISSIONS_ERROR_MESSAGE:
+                'Niste dozvolili korištenje kamere i mikrofona. Morat ćete dozvoliti kako bi mogli snimiti video, a i održavati instukcije',
+        },
+        LOADING: {
+            PREPARING: 'Priprema prijenosa...',
+            UPLOADING: 'Prijenos',
+            SUCCESS: 'Uspješno ste učitali video',
+        },
+        CONFIRMATION: {
+            TITLE: 'Jeste li sigurni da želite obrisati video?',
+            DESCRIPTION: 'Ovime će vaš video biti obrisan i morat ćete snimiti novi!',
+            CONFIRM: 'Obriši',
+            CANCEL: 'Odustani',
+        },
+        FILE_UPLOAD: {
+            FORMAT: 'MP4 format',
+            SIZE_MESSAGE: 'Maksimalna veličina datoteke 10MB!',
+            DURATION_MESSAGE: 'Maksimalna duljina videa je 2 minute!',
+        },
+        TIPS: {
+            DO: {
+                TITLE: 'Što učiniti:',
+                LIST: {
+                    TIP_1: 'Između 30 sekundi i 2 minute',
+                    TIP_2: 'Snimajte horizontalno i u razini očiju',
+                    TIP_3: 'Koristi dobro osvjetljenje i neutralnu pozadinu',
+                    TIP_4: 'Koristite stabilnu podlogu, kako video ne bi bio mutan',
+                    TIP_5: 'Pobrinite se da se vidi cijelo lice i oči',
+                    TIP_6: 'Istaknite svoje iskustvo u podučavanju',
+                    TIP_7: 'Srdačno pozdravite svoje učenike i pozovite ih da rezerviraju sat',
+                },
+            },
+            DONT: {
+                TITLE: 'Nemojte:',
+                LIST: {
+                    TIP_1: 'Navoditi svoje prezime ili bilo kakve kontakt podatke',
+                    TIP_2: 'Uključivati logo ili linkove',
+                    TIP_3: 'Koristiti dijaprojekcije ili prezentacije',
+                    TIP_4: 'Imati druge osobe vidljive u vašem videu',
+                },
+            },
+        },
+    },
 };

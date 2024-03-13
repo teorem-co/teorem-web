@@ -17,6 +17,12 @@ export const vimeoService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
+        getVideoTranscodeStatus: builder.query<string, string>({
+            query: (videoId) => ({
+                url: `${URL}/video/${videoId}/transcode-status`,
+                method: HttpMethods.GET,
+            }),
+        }),
     }),
 });
 
