@@ -66,8 +66,7 @@ export const UploadedVideoComponent = (props: Props) => {
                 </div>
             ) : (
                 <>
-                    <p>Vaš video se transkodira...</p>
-                    <p>To obično traje nekoliko minuta</p>
+                    <p>{t('VIDEO_PREVIEW.TRANSCODING')}</p>
                 </>
             )}
         </>

@@ -1452,6 +1452,7 @@ export const HR_HR = {
     VIDEO_PREVIEW: {
         TITLE: 'Video pregled',
         NOT_APPROVED: 'Administrator još nije odobrio vaš video (neće se prikazivati na vašem profilu)',
+        TRANSCODING: 'Vaš video se trenutno obrađuje. Obično traje nekoliko minuta...',
         RECORD_VIDEO: 'Snimi video',
         OR: 'ILI',
         UPLOAD_VIDEO: 'Učitaj video',
@@ -1467,8 +1468,8 @@ export const HR_HR = {
             RESTART: 'Ponovno snimi',
             UPLOAD: 'Učitaj',
             REMAINING_TIME: {
-                PART_1: 'Preostalo ',
-                PART_2: ' s.',
+                PART_1: 'Snimka će se automatski zaustaviti za ',
+                PART_2: ' s',
             },
             RECORDING_TIME: 'Vrijeme snimanja:',
             PERMISSIONS_ERROR_MESSAGE:
@@ -1487,7 +1488,7 @@ export const HR_HR = {
         },
         FILE_UPLOAD: {
             FORMAT: 'MP4 format',
-            SIZE_MESSAGE: 'Maksimalna veličina datoteke 10MB!',
+            SIZE_MESSAGE: 'Maksimalna veličina datoteke je 10MB!',
             DURATION_MESSAGE: 'Maksimalna duljina videa je 2 minute!',
         },
         TIPS: {

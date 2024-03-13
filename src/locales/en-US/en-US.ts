@@ -1448,6 +1448,7 @@ export const EN_US = {
     VIDEO_PREVIEW: {
         TITLE: 'Video preview',
         NOT_APPROVED: 'The administrator has not yet approved your video (it will not be displayed on your profile)',
+        TRANSCODING: 'Your video is transcoding. It usually takes several minutes...',
         RECORD_VIDEO: 'Record video',
         OR: 'OR',
         UPLOAD_VIDEO: 'Upload video',
@@ -1463,8 +1464,8 @@ export const EN_US = {
             UPLOAD: 'Upload',
             RECORDING_TIME: 'Recording time:',
             REMAINING_TIME: {
-                PART_1: 'Remaining ',
-                PART_2: ' s.',
+                PART_1: 'Recording will stop automatically in ',
+                PART_2: ' s',
             },
             PERMISSIONS_ERROR_MESSAGE:
                 'You have not allowed the use of the camera and microphone. You will have to allow them to be able to record the video and maintain the instructions',
