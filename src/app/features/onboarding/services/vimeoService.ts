@@ -11,12 +11,6 @@ export const vimeoService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
-        getUpdateVideoUrl: builder.query<string, number>({
-            query: (size) => ({
-                url: `${URL}/video/update-link?size=${size}`,
-                method: HttpMethods.GET,
-            }),
-        }),
         getVideoTranscodeStatus: builder.query<string, string>({
             query: (videoId) => ({
                 url: `${URL}/video/${videoId}/transcode-status`,
@@ -26,4 +20,4 @@ export const vimeoService = baseService.injectEndpoints({
     }),
 });
 
-export const { useLazyGetUploadVideoUrlQuery, useLazyGetUpdateVideoUrlQuery } = vimeoService;
+export const { useLazyGetUploadVideoUrlQuery } = vimeoService;
