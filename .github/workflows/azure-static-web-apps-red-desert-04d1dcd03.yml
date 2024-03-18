@@ -19,6 +19,10 @@ jobs:
         with:
           cache: false
           submodules: true
+      - name: Set Node.js version
+        run: |
+          nvm install 18
+          nvm use 18
       - uses: actions/setup-node@v4
         with:
           node-version: 18
