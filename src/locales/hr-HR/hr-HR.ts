@@ -167,6 +167,7 @@ export const HR_HR = {
         COMPLETED_LESSONS: 'završenih lekcija',
         NO_REVIEWS: 'Još nema recenzija',
         NO_COMPLETED_LESSONS: 'Još nema završenih lekcija',
+        NO_VIDEO: 'Instruktor još nije učitao video',
         SUBJECT_LIST: {
             MORE: 'više',
         },

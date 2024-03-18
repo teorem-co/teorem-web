@@ -177,6 +177,7 @@ export const EN_US = {
         NUMBER_OF_REVIEWS: 'reviews',
         NO_REVIEWS: 'No reviews yet',
         NO_COMPLETED_LESSONS: 'No completed lessons yet',
+        NO_VIDEO: 'Tutor did not upload a video yet',
         TUTOR_PROFILE: {
             ABOUT_ME: 'About me',
             ABOUT_TEACHINGS: 'About subjects',

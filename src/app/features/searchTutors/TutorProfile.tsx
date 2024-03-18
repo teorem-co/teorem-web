@@ -532,7 +532,7 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                                                                             backgroundColor: 'whitesmoke',
                                                                         }}
                                                                     >
-                                                                        Instruktor jos nije ucitao video
+                                                                        {t('SEARCH_TUTORS.NO_VIDEO')}
                                                                     </div>
                                                                 )}
                                                             </div>

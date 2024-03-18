@@ -462,7 +462,7 @@ const PublicTutorProfile = () => {
                                                                         backgroundColor: 'whitesmoke',
                                                                     }}
                                                                 >
-                                                                    Instruktor jos nije ucitao video
+                                                                    {t('SEARCH_TUTORS.NO_VIDEO')}
                                                                 </div>
                                                             )}
                                                         </div>
