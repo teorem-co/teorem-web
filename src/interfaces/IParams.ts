@@ -9,6 +9,7 @@ interface IParams {
     verified?: number;
     unprocessed?: number;
     search?: string;
+    videoApproved?: boolean;
 }
 
 export default IParams;

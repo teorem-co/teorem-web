@@ -5,12 +5,17 @@ import { uploadToVimeo } from './uploadToVimeo';
 import { t } from 'i18next';
 import moment from 'moment';
 import MicrophoneTest from '../../dashboard/MicrophoneTest';
-import { VscDebugStart, VscDebugStop } from 'react-icons/vsc';
 import { MdOutlineCloudUpload } from 'react-icons/md';
 import { ClipLoader, SyncLoader } from 'react-spinners';
+import Select, { SingleValue } from 'react-select';
 
 const MINUTE_AND_A_HALF_IN_SECONDS = 90;
 const TWO_MINUTES_IN_SECONDS = 120;
+
+interface Option {
+    value: string;
+    label: string;
+}
 
 interface Props {
     className?: string;
@@ -20,10 +25,20 @@ interface Props {
 
 export const VideoRecorder = (props: Props) => {
     const { className, triggerSuccess, onClose } = props;
+    const [microphoneOptions, setMicrophoneOptions] = useState<Option[]>([]);
+    const [cameraOptions, setCameraOptions] = useState<Option[]>([]);
+    const handleChangeMicrophone = (selectedOption: SingleValue<Option>) => {
+        const selectedValue = selectedOption ? selectedOption.value : '';
+        setSelectedMicrophoneDevice(selectedValue);
+    };
+    const handleChangeCamera = (selectedOption: SingleValue<Option>) => {
+        const selectedValue = selectedOption ? selectedOption.value : '';
+        setSelectedVideoDevice(selectedValue);
+    };
     const webcamRef = useRef<Webcam>(null);
     const [videoDevices, setVideoDevices] = useState<MediaDeviceInfo[]>([]);
-    const [selectedVideoDevice, setSelectedVideoDevice] = useState<string>('');
     const [microphoneDevices, setMicrophoneDevices] = useState<MediaDeviceInfo[]>([]);
+    const [selectedVideoDevice, setSelectedVideoDevice] = useState<string>('');
     const [selectedMicrophoneDevice, setSelectedMicrophoneDevice] = useState<string>('');
     const [recordedChunks, setRecordedChunks] = useState<BlobPart[]>([]);
     const [uploadProgress, setUploadProgress] = useState<number>(0);
@@ -74,8 +89,20 @@ export const VideoRecorder = (props: Props) => {
                     setSelectedVideoDevice(videoDevices[0].deviceId);
                 }
 
+                const cameraOptions: Option[] = videoDevices.map((device) => ({
+                    value: device.deviceId,
+                    label: device.label || `Device ${device.deviceId}`,
+                }));
+                setCameraOptions(cameraOptions);
+
                 const audioDevices = devices.filter((device) => device.kind === 'audioinput');
                 setMicrophoneDevices(audioDevices);
+
+                const options: Option[] = audioDevices.map((device) => ({
+                    value: device.deviceId,
+                    label: device.label || `Device ${device.deviceId}`,
+                }));
+                setMicrophoneOptions(options);
                 if (audioDevices.length > 0) {
                     setSelectedMicrophoneDevice(audioDevices[0].deviceId);
                 }
@@ -156,18 +183,6 @@ export const VideoRecorder = (props: Props) => {
         }
     }, [timer]);
 
-    function restartRecording() {
-        handleStopCaptureClick();
-
-        //wait for mediaRecorder to finish
-        setTimeout(() => {
-            setRecordedChunks([]);
-            setReplayVideoUrl('');
-            setIntervalId(null);
-            setCapturing(false);
-        }, 1000);
-    }
-
     function formatTime(seconds: number): string {
         const duration = moment.duration(seconds, 'seconds');
         const minutes = duration.minutes();
@@ -183,7 +198,7 @@ export const VideoRecorder = (props: Props) => {
     return (
         <>
             <div className={className}>
-                <div className="flex flex--row flex--jc--space-between">
+                <div className="flex flex--row flex--jc--space-between flex--ai--center">
                     <div className="flex flex--col w--50">
                         {showPermissionsErrorMessage && (
                             <div className={'w--100 type--color--error flex flex--row'}>
@@ -225,32 +240,49 @@ export const VideoRecorder = (props: Props) => {
                                 <>
                                     <div className={'mb-4'}>
                                         <h4>{t('VIDEO_PREVIEW.RECORD_MODAL.CAMERA')}</h4>
-                                        <select
-                                            className={'w--100'}
-                                            onChange={(e) => setSelectedVideoDevice(e.target.value)}
-                                            value={selectedVideoDevice}
-                                        >
-                                            {videoDevices.map((device) => (
-                                                <option key={device.deviceId} value={device.deviceId}>
-                                                    {device.label || `Device ${device.deviceId}`}
-                                                </option>
-                                            ))}
-                                        </select>
+                                        {/*<select*/}
+                                        {/*    className={'w--100'}*/}
+                                        {/*    onChange={(e) => setSelectedVideoDevice(e.target.value)}*/}
+                                        {/*    value={selectedVideoDevice}*/}
+                                        {/*>*/}
+                                        {/*    {videoDevices.map((device) => (*/}
+                                        {/*        <option key={device.deviceId} value={device.deviceId}>*/}
+                                        {/*            {device.label || `Device ${device.deviceId}`}*/}
+                                        {/*        </option>*/}
+                                        {/*    ))}*/}
+                                        {/*</select>*/}
+                                        <Select
+                                            classNamePrefix="select"
+                                            value={cameraOptions.find((option) => option.value === selectedVideoDevice)}
+                                            onChange={handleChangeCamera}
+                                            options={cameraOptions}
+                                            placeholder="Select a Camera..."
+                                        />
                                     </div>
+
                                     <div className={'flex flex--col'}>
                                         <h4>{t('VIDEO_PREVIEW.RECORD_MODAL.MICROPHONE')}</h4>
                                         <MicrophoneTest className={'mb-1'} deviceId={selectedMicrophoneDevice} />
-                                        <select
-                                            className={''}
-                                            onChange={(e) => setSelectedMicrophoneDevice(e.target.value)}
-                                            value={selectedMicrophoneDevice}
-                                        >
-                                            {microphoneDevices.map((device) => (
-                                                <option key={device.deviceId} value={device.deviceId}>
-                                                    {device.label || `Device ${device.deviceId}`}
-                                                </option>
-                                            ))}
-                                        </select>
+                                        <Select
+                                            className={'mt-1'}
+                                            classNamePrefix="select"
+                                            value={microphoneOptions.find((option) => option.value === selectedMicrophoneDevice)}
+                                            onChange={handleChangeMicrophone}
+                                            options={microphoneOptions}
+                                            placeholder="Select a Microphone..."
+                                        />
+
+                                        {/*<select*/}
+                                        {/*    className={''}*/}
+                                        {/*    onChange={(e) => setSelectedMicrophoneDevice(e.target.value)}*/}
+                                        {/*    value={selectedMicrophoneDevice}*/}
+                                        {/*>*/}
+                                        {/*    {microphoneDevices.map((device) => (*/}
+                                        {/*        <option key={device.deviceId} value={device.deviceId}>*/}
+                                        {/*            {device.label || `Device ${device.deviceId}`}*/}
+                                        {/*        </option>*/}
+                                        {/*    ))}*/}
+                                        {/*</select>*/}
                                     </div>
 
                                     <div>
@@ -259,36 +291,39 @@ export const VideoRecorder = (props: Props) => {
                                                 <div className={'flex flex--row flex--jc--space-between mb-2 mt-5'}>
                                                     {capturing ? (
                                                         <button
+                                                            className={'btn btn--base'}
+                                                            style={{
+                                                                backgroundColor: '#F44336',
+                                                                color: 'white',
+                                                            }}
                                                             onClick={handleStopCaptureClick}
                                                             type={'button'}
-                                                            className={'flex flex--row flex--ai--center'}
                                                         >
-                                                            <VscDebugStop size={25} />
                                                             <p>{t('VIDEO_PREVIEW.RECORD_MODAL.STOP')}</p>
                                                         </button>
                                                     ) : (
                                                         <button
+                                                            className={'btn btn--sm'}
                                                             onClick={handleStartCaptureClick}
                                                             type={'button'}
-                                                            className={'flex flex--row flex--ai--center'}
+                                                            style={{
+                                                                backgroundColor: '#4CAF50',
+                                                                color: 'white',
+                                                            }}
                                                         >
-                                                            <VscDebugStart size={25} />
                                                             <p>{t('VIDEO_PREVIEW.RECORD_MODAL.START')}</p>
                                                         </button>
                                                     )}
-                                                    <button onClick={restartRecording} type={'button'}>
-                                                        {t('VIDEO_PREVIEW.RECORD_MODAL.RESTART')}
+                                                    <button
+                                                        className={'btn btn--primary btn--base flex flex--row flex--ai--center flex--jc--center'}
+                                                        onClick={onSubmit}
+                                                        type={'button'}
+                                                        disabled={capturing || recordedChunks.length == 0}
+                                                    >
+                                                        <MdOutlineCloudUpload size={25} className={'mr-2'} />
+                                                        {t('VIDEO_PREVIEW.RECORD_MODAL.UPLOAD')}
                                                     </button>
                                                 </div>
-                                                <button
-                                                    className={'btn btn--primary btn--md w--100 flex flex--row flex--ai--center flex--jc--center'}
-                                                    onClick={onSubmit}
-                                                    type={'button'}
-                                                    disabled={capturing || recordedChunks.length == 0}
-                                                >
-                                                    <MdOutlineCloudUpload size={25} className={'mr-2'} />
-                                                    {t('VIDEO_PREVIEW.RECORD_MODAL.UPLOAD')}
-                                                </button>
                                             </div>
                                         )}
                                     </div>

@@ -4,13 +4,14 @@ import { IoIosCloseCircle } from 'react-icons/io';
 interface Props {
     videoUrl: string;
     onClose: () => void;
+    classname?: string;
 }
 
 export const TutorItemVideoPopup = (props: Props) => {
-    const { videoUrl, onClose } = props;
+    const { videoUrl, onClose, classname } = props;
 
     return (
-        <div className={'video-modal__overlay'}>
+        <div className={`${classname} video-modal__overlay`}>
             <div className={'pos--rel'}>
                 <iframe
                     id={'iframe-video'}

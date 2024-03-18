@@ -125,6 +125,7 @@ export const EN_US = {
         MY_REVIEWS: 'My reviews',
         SEARCH_TUTORS: 'Search tutors',
         TUTOR_MANAGMENT: 'Tutor managment',
+        TUTOR_VIDEOS: 'Video previews',
         MY_PROFILE: 'My Profile',
         COMPLETED_LESSONS: 'Completed lessons',
         CHAT: 'Chat',
@@ -238,11 +239,16 @@ export const EN_US = {
             DELETE_TUTOR: 'Delete Tutor',
             EDIT_NOTE: 'Edit note',
             CANCEL: 'Cancel',
+            PLAY_VIDEO: 'Play video',
         },
         NOTE: 'Note',
         NOTE_PLACEHOLDER: 'Enter a note here...',
         DETAILS: ' DETAILS',
         SEARCH_PLACEHOLDER: 'Search tutors',
+        VIDEO_PREVIEW: {
+            DECLINE_AND_SEND_BUTTON: 'Decline and send',
+            MESSAGE_TITLE: 'Reason for video decline',
+        },
     },
     CHAT: {
         PLACEHOLDER: 'Send a message to start a conversation',
@@ -1311,6 +1317,7 @@ export const EN_US = {
         STRIPE_CONNECTED: '/en/stripe-connected',
         STRIPE_FAIL: '/en/stripe-failed',
         RESEND_ACTIVATION_TOKEN: '/en/reset-token',
+        TUTOR_VIDEOS: '/en/tutor-previews',
     },
     SEO: {
         FALLBACK: {

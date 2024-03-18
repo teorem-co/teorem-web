@@ -99,6 +99,11 @@
     mask-image: url('../../assets/icons/close.svg');
   }
 
+  &--video {
+    mask-image: url('../../assets/icons/video.svg');
+  }
+
+
   &--close-request {
     mask-image: url('../../assets/icons/close.svg');
     margin-left: 10px;
@@ -268,6 +273,10 @@
     mask-size: contain;
   }
 
+  &--thunder {
+    mask-image: url('./../../assets/icons/thunder.svg');
+    mask-size: contain;
+  }
 
   //flags
   &--af {
@@ -364,9 +373,9 @@
 }
 
 .icon-hover-color-change {
-  color: red; /* Default color */
+  color: whitesmoke; /* Default color */
 }
 
 .icon-hover-color-change:hover {
-  color: blue; /* Color changes to blue on hover */
+  color: $color-primary; /* Color changes to blue on hover */
 }

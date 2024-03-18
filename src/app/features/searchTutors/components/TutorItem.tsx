@@ -8,8 +8,9 @@ import ITutorItem from '../../../../interfaces/ITutorItem';
 import CustomSubjectList from './CustomSubjectList';
 import { TutorItemVideoPopup } from './TutorItemVideoPopup';
 import { MdOutlinePlayCircle } from 'react-icons/md';
+import { getAndSetThumbnailUrl } from '../../my-profile/VideoRecorder/getThumbnail';
 
-interface VimeoResponse {
+export interface VimeoResponse {
     thumbnail_large: string;
 }
 
@@ -25,20 +26,8 @@ const TutorItem: FC<Props> = (props: Props) => {
     const [showVideoPopup, setShowVideoPopup] = useState(false);
     const [thumbnailUrl, setThumbnailUrl] = useState('');
 
-    function getThumbnailUrl() {
-        if (tutor.videoUrl) {
-            const lastIndexOfSlash = tutor.videoUrl.lastIndexOf('/');
-            const videoId = tutor.videoUrl.substring(lastIndexOfSlash + 1);
-            fetch(`https://vimeo.com/api/v2/video/${videoId}.json`).then((res) => {
-                res.json().then((data: VimeoResponse[]) => {
-                    setThumbnailUrl(data[0].thumbnail_large);
-                });
-            });
-        }
-    }
-
     useEffect(() => {
-        if (currentlyActive) getThumbnailUrl();
+        if (currentlyActive && tutor.videoUrl) getAndSetThumbnailUrl(tutor.videoUrl, setThumbnailUrl);
     }, [currentlyActive]);
 
     useEffect(() => {
@@ -58,7 +47,7 @@ const TutorItem: FC<Props> = (props: Props) => {
         <div className={`mb-2 flex flex--row ${currentlyActive ? '' : ''}`}>
             <a
                 onMouseEnter={() => {
-                    getThumbnailUrl();
+                    if (tutor.videoUrl) getAndSetThumbnailUrl(tutor.videoUrl, setThumbnailUrl);
                     setActiveCard(tutor.id);
                 }}
                 style={{ color: 'black' }}

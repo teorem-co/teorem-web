@@ -73,14 +73,16 @@ export const MicrophoneTest = (props: Props) => {
     }, [deviceId]);
 
     return (
-        <div
-            className={`${className}`}
-            style={{
-                height: '10px',
-                width: `${audioLevel}px`,
-                backgroundColor: 'green',
-            }}
-        ></div>
+        <div className={'w--100 background-red'} style={{ height: '10px', backgroundColor: 'lightgray' }}>
+            <div
+                className={`${className}`}
+                style={{
+                    height: '10px',
+                    width: `${audioLevel}px`,
+                    backgroundColor: 'green',
+                }}
+            ></div>
+        </div>
     );
 };
 

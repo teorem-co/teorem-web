@@ -402,6 +402,7 @@ const SearchTutors = () => {
     useEffect(() => {
         getLevels();
         getSubjects();
+        document.title = 'Teorem';
     }, []);
 
     useEffect(() => {

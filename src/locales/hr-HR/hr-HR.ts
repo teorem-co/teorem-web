@@ -125,6 +125,7 @@ export const HR_HR = {
         MY_REVIEWS: 'Moje recenzije',
         SEARCH_TUTORS: 'Pretraga instruktora',
         TUTOR_MANAGMENT: 'Upravljanje instruktorima',
+        TUTOR_VIDEOS: 'Preview videi',
         MY_PROFILE: 'Moj profil',
         COMPLETED_LESSONS: 'Završene lekcije',
         CHAT: 'Razgovori',
@@ -236,11 +237,16 @@ export const HR_HR = {
             DELETE_TUTOR: 'Izbriši instruktora',
             EDIT_NOTE: 'Uredi bilješku',
             CANCEL: 'Odustani',
+            PLAY_VIDEO: 'Pogledaj video',
         },
         NOTE: 'Bilješka',
         NOTE_PLACEHOLDER: 'Unesi bilješku...',
         DETAILS: ' DETALJI',
         SEARCH_PLACEHOLDER: 'Pronađi instruktora',
+        VIDEO_PREVIEW: {
+            DECLINE_AND_SEND_BUTTON: 'Odbij i pošalji',
+            MESSAGE_TITLE: 'Razlog odbijanja videa',
+        },
     },
     CHAT: {
         PLACEHOLDER: 'Pošaljite poruku kako biste započeli razgovor',
@@ -1314,6 +1320,7 @@ export const HR_HR = {
         STRIPE_CONNECTED: '/hr/racun-povezan',
         STRIPE_FAIL: '/hr/racun-pogreska',
         RESEND_ACTIVATION_TOKEN: '/hr/ponovna-aktivacija',
+        TUTOR_VIDEOS: '/hr/tutor-video',
     },
     SEO: {
         FALLBACK: {

@@ -98,7 +98,7 @@ export const VideoPreviewUpload = (props: Props) => {
             {showRecorder && !showSuccessfullPopup && (
                 <div className="flex flex--col flex--ai--start modal__overlay ">
                     <VideoRecorder
-                        className={'bg__white w--60 video-recorder-container m-2 p-2 h--450'}
+                        className={'bg__white w--60 video-recorder-container m-2 p-8'}
                         triggerSuccess={() => {
                             setShowSuccessfullPopup(true);
                             setShowRecorder(false);
