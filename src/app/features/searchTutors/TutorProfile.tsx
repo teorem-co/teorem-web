@@ -253,11 +253,13 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                                                             <div className=" flex flex--center">
                                                                 <i className="icon icon--completed-lessons icon--base icon--primary"></i>
                                                                 <span className="d--ib mr-1">
-                                                                    {tutorData.completedLessons ? tutorData.completedLessons : 0}
+                                                                    {tutorData.completedLessons
+                                                                        ? tutorData.completedLessons
+                                                                        : t('SEARCH_TUTORS.NO_COMPLETED_LESSONS')}
                                                                 </span>
                                                             </div>
 
-                                                            <span> {t('SEARCH_TUTORS.COMPLETED_LESSONS')}</span>
+                                                            {tutorData.completedLessons > 0 && <span> {t('SEARCH_TUTORS.COMPLETED_LESSONS')}</span>}
                                                         </div>
                                                         {/*TODO: uncomment*/}
                                                         {/*<div className={'ml-2'}>*/}
@@ -283,7 +285,9 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                                                                         {tutorData.averageGrade.toFixed(1)}
                                                                     </span>
                                                                 </div>
-                                                                <span>{tutorData.numberOfGrades} recenzija</span>
+                                                                <span>
+                                                                    {tutorData.numberOfGrades}&nbsp;{t('TUTOR_PROFILE.REVIEWS')}
+                                                                </span>
                                                             </div>
                                                         )}
                                                         <div className="flex flex--col flex--ai--center">
@@ -301,7 +305,7 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                                                                 ) : (
                                                                     <span className="d--ib">{t('SEARCH_TUTORS.TUTOR_PROFILE.NO_PRICE')}</span>
                                                                 )}
-                                                                <span>50 min predavanje</span>
+                                                                <span>{t('SEARCH_TUTORS.TUTOR_PROFILE.LESSON_LENGTH')}</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -396,11 +400,14 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                                                                     <div className=" flex flex--center">
                                                                         <i className="icon icon--completed-lessons icon--base icon--primary"></i>
                                                                         <span className="d--ib mr-1">
-                                                                            {tutorData.completedLessons ? tutorData.completedLessons : 0}
+                                                                            {tutorData.completedLessons
+                                                                                ? tutorData.completedLessons
+                                                                                : t('SEARCH_TUTORS.NO_COMPLETED_LESSONS')}
                                                                         </span>
+                                                                        {tutorData.completedLessons > 0 && (
+                                                                            <span> {t('SEARCH_TUTORS.COMPLETED_LESSONS')}</span>
+                                                                        )}
                                                                     </div>
-
-                                                                    <span> {t('SEARCH_TUTORS.COMPLETED_LESSONS')}</span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -417,10 +424,14 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                                                                                         {tutorData.averageGrade.toFixed(1)}
                                                                                     </span>
                                                                                 </div>
-                                                                                <span>{tutorData.numberOfGrades} recenzija</span>
+                                                                                <span>
+                                                                                    {tutorData.numberOfGrades}&nbsp;{t('TUTOR_PROFILE.REVIEWS')}
+                                                                                </span>
                                                                             </div>
                                                                         ) : (
-                                                                            <span className={'type--md type--wgt--extra-bold'}>Nema recenzija</span>
+                                                                            <span className={'type--md type--wgt--extra-bold'}>
+                                                                                {t('SEARCH_TUTORS.NO_REVIEWS')}
+                                                                            </span>
                                                                         )}
                                                                         <div className="flex flex--col flex--ai--center">
                                                                             <div className="flex flex--center flex--col type--center">
@@ -439,7 +450,7 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                                                                                         {t('SEARCH_TUTORS.TUTOR_PROFILE.NO_PRICE')}
                                                                                     </span>
                                                                                 )}
-                                                                                <span>50 min predavanje</span>
+                                                                                <span>{t('SEARCH_TUTORS.TUTOR_PROFILE.LESSON_LENGTH')}</span>
                                                                             </div>
                                                                         </div>
                                                                     </div>

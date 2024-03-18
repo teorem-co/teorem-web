@@ -186,6 +186,7 @@ export const HR_HR = {
             ADDITIONAL_INFORMATION_DESC: 'Izmjena i ažuriranje sekcije "O meni" Vašeg profila.',
             UPDATE_ADDITIONAL_INFO_SUCCESS: 'Dodatni podatci ažurirani!',
             UPDATE_TEACHINGS_SUCCESS: 'Predmeti ažurirani!',
+            LESSON_LENGTH: '50 min predavanje',
             FORM: {
                 ABOUT_TUTOR_LABEL: 'Recite nam više o sebi*',
                 ABOUT_TUTOR_PLACEHOLDER: 'Što Vas najbolje opisuje, koji su Vaši hobiji, pristup...',

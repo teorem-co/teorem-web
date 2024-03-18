@@ -186,6 +186,7 @@ export const EN_US = {
             ADDITIONAL_INFORMATION_DESC: 'Edit and update your about me section of the profile.',
             UPDATE_ADDITIONAL_INFO_SUCCESS: 'Additional information updated!',
             UPDATE_TEACHINGS_SUCCESS: 'Subjects updated!',
+            LESSON_LENGTH: '50 min lesson',
             FORM: {
                 ABOUT_TUTOR_LABEL: 'Tell us more about yourself*',
                 ABOUT_TUTOR_PLACEHOLDER: 'What describes you best, what are your hobbies, approach...',
