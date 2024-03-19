@@ -15,6 +15,7 @@ export const UploadedVideoComponent = (props: Props) => {
     const [showConfirmationModal, setShowConfirmationModal] = useState(false);
     const [deleteVideo] = useLazyDeleteTutorVideoQuery();
     const userId = useAppSelector((state) => state.auth.user?.id);
+    const isMobile = window.innerWidth < 768;
 
     async function handleDelete() {
         if (userId) {
@@ -34,7 +35,7 @@ export const UploadedVideoComponent = (props: Props) => {
                             <p className={'type--color--error'}>{t('VIDEO_PREVIEW.NOT_APPROVED')}</p>
                         </div>
                     )}
-                    <div className={'flex flex--row flex--ai--center flex--jc--space-between'}>
+                    <div className={`flex ${isMobile ? 'flex--col flex--ai--center' : 'flex--row flex--ai--center  flex--jc--space-between'}`}>
                         <iframe
                             id={'iframe-video'}
                             src={videoInformation.url}
