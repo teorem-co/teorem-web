@@ -58,7 +58,7 @@ export const VideoPreviewUpload = (props: Props) => {
                             uploadedSectionTitle={'Upload title'}
                             acceptedTypes={ACCEPTED_TYPES}
                             description={t('VIDEO_PREVIEW.FILE_UPLOAD.FORMAT')}
-                            maxSize={6 * 1024 * 1024}
+                            maxSize={10 * 1024 * 1024} //10MB
                         />
                     </div>
                 </div>
@@ -103,15 +103,13 @@ export const VideoPreviewUpload = (props: Props) => {
                             setShowSuccessfullPopup(true);
                             setShowRecorder(false);
                             setTimeout(() => {
-                                location.reload(); //TODO: maybe remove
+                                location.reload();
                             }, 1500);
                         }}
                         onClose={() => setShowRecorder(false)}
                     />
                 </div>
             )}
-
-            {/*{showRecorder && <VideoUploadPopup setShowPopup={setShowRecorder} />}*/}
 
             {showSuccessfullPopup && (
                 <div className="flex flex--col flex--ai--start modal__overlay">

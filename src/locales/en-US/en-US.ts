@@ -1477,7 +1477,7 @@ export const EN_US = {
                 PART_2: ' s',
             },
             PERMISSIONS_ERROR_MESSAGE:
-                'You have not allowed the use of the camera and microphone. You will have to allow them to be able to record the video and maintain the instructions',
+                'You have not allowed the use of the camera and microphone. You will have to allow them to be able to record the video and teach',
         },
         LOADING: {
             PREPARING: 'Preparing the upload...',

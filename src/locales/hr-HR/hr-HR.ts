@@ -1506,7 +1506,7 @@ export const HR_HR = {
                 LIST: {
                     TIP_1: 'Između 30 sekundi i 2 minute',
                     TIP_2: 'Snimajte horizontalno i u razini očiju',
-                    TIP_3: 'Koristi dobro osvjetljenje i neutralnu pozadinu',
+                    TIP_3: 'Koristite dobro osvjetljenje i neutralnu pozadinu',
                     TIP_4: 'Koristite stabilnu podlogu, kako video ne bi bio mutan',
                     TIP_5: 'Pobrinite se da se vidi cijelo lice i oči',
                     TIP_6: 'Istaknite svoje iskustvo u podučavanju',

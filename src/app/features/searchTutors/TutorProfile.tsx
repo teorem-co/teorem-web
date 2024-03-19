@@ -25,8 +25,8 @@ import PublicTutorProfile from './PublicTutorProfile';
 import { StarRating } from '../myReviews/components/StarRating';
 import { getAndSetThumbnailUrl } from '../my-profile/VideoRecorder/getThumbnail';
 import { TutorItemVideoPopup } from './components/TutorItemVideoPopup';
-import { MdOutlinePlayCircle } from 'react-icons/md';
 import ITutorSubjectLevel from '../../../interfaces/ITutorSubjectLevel';
+import { MdOutlinePlayCircleFilled } from 'react-icons/md';
 
 const TutorProfile = () => {
     const { t } = useTranslation();
@@ -508,16 +508,16 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                                                                                 width: 'auto',
                                                                             }}
                                                                         />
-                                                                        <MdOutlinePlayCircle
+                                                                        <MdOutlinePlayCircleFilled
                                                                             className={'icon-hover-color-change'}
                                                                             style={{
                                                                                 position: 'absolute',
-                                                                                top: '50%', // Center vertically
-                                                                                left: '50%', // Center horizontally
-                                                                                transform: 'translate(-50%, -50%)', // Adjust icon position to center
+                                                                                bottom: '10px',
+                                                                                right: '10px',
                                                                                 zIndex: 2,
                                                                                 cursor: 'pointer', // If the icon is interactive
                                                                             }}
+                                                                            floodColor={'white'}
                                                                             size={55}
                                                                         />
                                                                     </div>

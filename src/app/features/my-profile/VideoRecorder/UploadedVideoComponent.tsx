@@ -40,7 +40,6 @@ export const UploadedVideoComponent = (props: Props) => {
                             src={videoInformation.url}
                             width="640"
                             height="360"
-                            frameBorder="0"
                             allow="autoplay; fullscreen; picture-in-picture"
                             allowFullScreen
                             style={{ background: 'black' }}

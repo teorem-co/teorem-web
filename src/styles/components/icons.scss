@@ -373,9 +373,9 @@
 }
 
 .icon-hover-color-change {
-  color: whitesmoke; /* Default color */
+  color: $color-primary; /* Default color */
 }
 
-.icon-hover-color-change:hover {
-  color: $color-primary; /* Color changes to blue on hover */
-}
+//.icon-hover-color-change:hover {
+//  color: $color-primary; /* Color changes to blue on hover */
+//}

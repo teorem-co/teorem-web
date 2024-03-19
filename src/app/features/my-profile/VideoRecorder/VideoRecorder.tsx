@@ -58,7 +58,6 @@ export const VideoRecorder = (props: Props) => {
     async function onSubmit() {
         if (recordedChunks.length === 0) return;
         if (webcamRef.current && webcamRef.current.stream) {
-            console.log('INSIDE IF IN SUBMIT');
             webcamRef.current.stream.getTracks().forEach((track) => track.stop());
         }
         const file: File = new File(recordedChunks, 'video.webm', { type: 'video/webm' }); // todo: change it later
@@ -240,17 +239,6 @@ export const VideoRecorder = (props: Props) => {
                                 <>
                                     <div className={'mb-4'}>
                                         <h4>{t('VIDEO_PREVIEW.RECORD_MODAL.CAMERA')}</h4>
-                                        {/*<select*/}
-                                        {/*    className={'w--100'}*/}
-                                        {/*    onChange={(e) => setSelectedVideoDevice(e.target.value)}*/}
-                                        {/*    value={selectedVideoDevice}*/}
-                                        {/*>*/}
-                                        {/*    {videoDevices.map((device) => (*/}
-                                        {/*        <option key={device.deviceId} value={device.deviceId}>*/}
-                                        {/*            {device.label || `Device ${device.deviceId}`}*/}
-                                        {/*        </option>*/}
-                                        {/*    ))}*/}
-                                        {/*</select>*/}
                                         <Select
                                             classNamePrefix="select"
                                             value={cameraOptions.find((option) => option.value === selectedVideoDevice)}
@@ -271,18 +259,6 @@ export const VideoRecorder = (props: Props) => {
                                             options={microphoneOptions}
                                             placeholder="Select a Microphone..."
                                         />
-
-                                        {/*<select*/}
-                                        {/*    className={''}*/}
-                                        {/*    onChange={(e) => setSelectedMicrophoneDevice(e.target.value)}*/}
-                                        {/*    value={selectedMicrophoneDevice}*/}
-                                        {/*>*/}
-                                        {/*    {microphoneDevices.map((device) => (*/}
-                                        {/*        <option key={device.deviceId} value={device.deviceId}>*/}
-                                        {/*            {device.label || `Device ${device.deviceId}`}*/}
-                                        {/*        </option>*/}
-                                        {/*    ))}*/}
-                                        {/*</select>*/}
                                     </div>
 
                                     <div>

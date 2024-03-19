@@ -16,7 +16,7 @@ import { useLazyGetMyReviewsQuery, useLazyGetStatisticsQuery } from '../myReview
 import ImageCircle from '../../components/ImageCircle';
 import PublicMainWrapper from '../../components/PublicMainWrapper';
 import { StarRating } from '../myReviews/components/StarRating';
-import { MdOutlinePlayCircle } from 'react-icons/md';
+import { MdOutlinePlayCircleFilled } from 'react-icons/md';
 import { getAndSetThumbnailUrl } from '../my-profile/VideoRecorder/getThumbnail';
 import { TutorItemVideoPopup } from './components/TutorItemVideoPopup';
 
@@ -438,13 +438,12 @@ const PublicTutorProfile = () => {
                                                                             width: 'auto',
                                                                         }}
                                                                     />
-                                                                    <MdOutlinePlayCircle
+                                                                    <MdOutlinePlayCircleFilled
                                                                         className={'icon-hover-color-change'}
                                                                         style={{
                                                                             position: 'absolute',
-                                                                            top: '50%', // Center vertically
-                                                                            left: '50%', // Center horizontally
-                                                                            transform: 'translate(-50%, -50%)', // Adjust icon position to center
+                                                                            bottom: '10px',
+                                                                            right: '10px',
                                                                             zIndex: 2,
                                                                             cursor: 'pointer', // If the icon is interactive
                                                                         }}

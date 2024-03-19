@@ -7,7 +7,7 @@ import { PATHS } from '../../../routes';
 import ITutorItem from '../../../../interfaces/ITutorItem';
 import CustomSubjectList from './CustomSubjectList';
 import { TutorItemVideoPopup } from './TutorItemVideoPopup';
-import { MdOutlinePlayCircle } from 'react-icons/md';
+import { MdOutlinePlayCircleFilled } from 'react-icons/md';
 import { getAndSetThumbnailUrl } from '../../my-profile/VideoRecorder/getThumbnail';
 
 export interface VimeoResponse {
@@ -146,7 +146,7 @@ const TutorItem: FC<Props> = (props: Props) => {
                     className="tutor-list__item__details flex--grow appear-from-left cur--pointer"
                     style={{ position: 'relative', height: '280px' }}
                 >
-                    <MdOutlinePlayCircle
+                    <MdOutlinePlayCircleFilled
                         className={'icon-hover-color-change'}
                         style={{
                             position: 'absolute',
@@ -155,6 +155,7 @@ const TutorItem: FC<Props> = (props: Props) => {
                             zIndex: 2,
                             cursor: 'pointer', // If the icon is interactive
                         }}
+                        floodColor={'#fff'}
                         size={55}
                     />
                     <img className={'image-border-radius'} src={thumbnailUrl} alt="tutor-list" style={{ zIndex: 1, height: '100%' }} />

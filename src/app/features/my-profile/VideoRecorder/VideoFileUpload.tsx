@@ -33,46 +33,23 @@ export const VideoFileUpload = (props: Props) => {
             video.addEventListener('loadedmetadata', function () {
                 // Duration is in seconds
                 const maxDurationInSeconds = 120 + 5;
-                // const maxDurationInSeconds = 50;
                 const duration = video.duration;
-                if (duration > maxDurationInSeconds) {
+                if (duration >= maxDurationInSeconds) {
                     setShowMaxDurationError(true);
                 } else {
                     setFile(acceptedFiles[0]);
                 }
 
-                console.log(`Video duration is: ${duration} seconds.`);
                 URL.revokeObjectURL(video.src);
             });
         }
     }, []);
 
     const maxFileSize = maxSize || 10 * 1024 * 1024;
-    const { acceptedFiles, getRootProps, getInputProps } = useDropzone({ onDrop: onDrop, maxSize: maxFileSize });
-
-    // useEffect(() => {
-    //     if (acceptedFiles.length > 0) {
-    //         setFile(acceptedFiles[0]);
-    //
-    //         if (acceptedFiles.length > 0) {
-    //             const video = document.createElement('video');
-    //             video.src = URL.createObjectURL(acceptedFiles[0]);
-    //
-    //             video.addEventListener('loadedmetadata', function () {
-    //                 // Duration is in seconds
-    //                 // const maxDurationInSeconds = 120 + 5;
-    //                 const maxDurationInSeconds = 50;
-    //                 const duration = video.duration;
-    //                 if (duration > maxDurationInSeconds) {
-    //                     setShowMaxDurationError(true);
-    //                 }
-    //
-    //                 console.log(`Video duration is: ${duration} seconds.`);
-    //                 URL.revokeObjectURL(video.src);
-    //             });
-    //         }
-    //     }
-    // }, [acceptedFiles]);
+    const { getRootProps, getInputProps } = useDropzone({
+        onDrop: onDrop,
+        maxSize: maxFileSize,
+    });
 
     return (
         <div>
@@ -93,7 +70,6 @@ export const VideoFileUpload = (props: Props) => {
                     </div>
                 </div>
             </div>
-            {/*TODO: fiksaj poruku tako da stavis dobar maxsize jer imam onaj || kad odreduje maxsizse*/}
             {showMaxSizeError && <h1 className={'type--color--error type--sm type--center'}>{t('VIDEO_PREVIEW.FILE_UPLOAD.SIZE_MESSAGE')}</h1>}
             {showMaxDurationError && (
                 <h1 className={'type--color--error type--sm type--center'}>{t('VIDEO_PREVIEW.FILE_UPLOAD.DURATION_MESSAGE')}</h1>

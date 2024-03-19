@@ -102,13 +102,6 @@ interface IMenuPerRole {
 
 export const ROUTES: any = [
     {
-        path: '/en/videoinfo',
-        key: 'ROLE_SELECTION',
-        exact: true,
-        // component: () => <RoleSelection />,
-        component: () => <AdminTutorVideoPage />,
-    },
-    {
         path: PATHS.ROLE_SELECTION,
         key: 'ROLE_SELECTION',
         exact: true,
