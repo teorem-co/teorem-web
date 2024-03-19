@@ -125,6 +125,7 @@ export const HR_HR = {
         MY_REVIEWS: 'Moje recenzije',
         SEARCH_TUTORS: 'Pretraga instruktora',
         TUTOR_MANAGMENT: 'Upravljanje instruktorima',
+        TUTOR_VIDEOS: 'Preview videi',
         MY_PROFILE: 'Moj profil',
         COMPLETED_LESSONS: 'Završene lekcije',
         CHAT: 'Razgovori',
@@ -166,6 +167,7 @@ export const HR_HR = {
         COMPLETED_LESSONS: 'završenih lekcija',
         NO_REVIEWS: 'Još nema recenzija',
         NO_COMPLETED_LESSONS: 'Još nema završenih lekcija',
+        NO_VIDEO: 'Instruktor još nije učitao video',
         SUBJECT_LIST: {
             MORE: 'više',
         },
@@ -185,6 +187,7 @@ export const HR_HR = {
             ADDITIONAL_INFORMATION_DESC: 'Izmjena i ažuriranje sekcije "O meni" Vašeg profila.',
             UPDATE_ADDITIONAL_INFO_SUCCESS: 'Dodatni podatci ažurirani!',
             UPDATE_TEACHINGS_SUCCESS: 'Predmeti ažurirani!',
+            LESSON_LENGTH: '50 min predavanje',
             FORM: {
                 ABOUT_TUTOR_LABEL: 'Recite nam više o sebi*',
                 ABOUT_TUTOR_PLACEHOLDER: 'Što Vas najbolje opisuje, koji su Vaši hobiji, pristup...',
@@ -236,11 +239,16 @@ export const HR_HR = {
             DELETE_TUTOR: 'Izbriši instruktora',
             EDIT_NOTE: 'Uredi bilješku',
             CANCEL: 'Odustani',
+            PLAY_VIDEO: 'Pogledaj video',
         },
         NOTE: 'Bilješka',
         NOTE_PLACEHOLDER: 'Unesi bilješku...',
         DETAILS: ' DETALJI',
         SEARCH_PLACEHOLDER: 'Pronađi instruktora',
+        VIDEO_PREVIEW: {
+            DECLINE_AND_SEND_BUTTON: 'Odbij i pošalji',
+            MESSAGE_TITLE: 'Razlog odbijanja videa',
+        },
     },
     CHAT: {
         PLACEHOLDER: 'Pošaljite poruku kako biste započeli razgovor',
@@ -1314,6 +1322,7 @@ export const HR_HR = {
         STRIPE_CONNECTED: '/hr/racun-povezan',
         STRIPE_FAIL: '/hr/racun-pogreska',
         RESEND_ACTIVATION_TOKEN: '/hr/ponovna-aktivacija',
+        TUTOR_VIDEOS: '/hr/tutor-video',
     },
     SEO: {
         FALLBACK: {
@@ -1446,6 +1455,73 @@ export const HR_HR = {
             TIP_1: 'Slika mora biti u boji',
             TIP_2: 'Na dokumentu mora pisati ime koje ste koristili pri registraciji',
             SUBMIT: 'Pošalji',
+        },
+    },
+
+    VIDEO_PREVIEW: {
+        TITLE: 'Video pregled',
+        NOT_APPROVED: 'Administrator još nije odobrio vaš video (neće se prikazivati na vašem profilu)',
+        TRANSCODING: 'Vaš video se trenutno obrađuje. Obično traje nekoliko minuta...',
+        RECORD_VIDEO: 'Snimi video',
+        OR: 'ILI',
+        UPLOAD_VIDEO: 'Učitaj video',
+        START: 'Započni',
+        DELETE: 'Obriši',
+
+        RECORD_MODAL: {
+            SETTINGS: 'Audio i video postavke',
+            CAMERA: 'Kamera',
+            MICROPHONE: 'Mikrofon',
+            START: 'Pokreni snimanje',
+            STOP: 'Zaustavi snimanje',
+            RESTART: 'Ponovno snimi',
+            UPLOAD: 'Učitaj',
+            REMAINING_TIME: {
+                PART_1: 'Snimka će se automatski zaustaviti za ',
+                PART_2: ' s',
+            },
+            RECORDING_TIME: 'Vrijeme snimanja:',
+            PERMISSIONS_ERROR_MESSAGE:
+                'Niste dozvolili korištenje kamere i mikrofona. Morat ćete dozvoliti kako bi mogli snimiti video, a i održavati instukcije',
+        },
+        LOADING: {
+            PREPARING: 'Priprema prijenosa...',
+            UPLOADING: 'Prijenos',
+            SUCCESS: 'Uspješno ste učitali video',
+        },
+        CONFIRMATION: {
+            TITLE: 'Jeste li sigurni da želite obrisati video?',
+            DESCRIPTION: 'Ovime će vaš video biti obrisan i morat ćete snimiti novi!',
+            CONFIRM: 'Obriši',
+            CANCEL: 'Odustani',
+        },
+        FILE_UPLOAD: {
+            FORMAT: 'MP4 format',
+            SIZE_MESSAGE: 'Maksimalna veličina datoteke je 10MB!',
+            DURATION_MESSAGE: 'Maksimalna duljina videa je 2 minute!',
+        },
+        TIPS: {
+            DO: {
+                TITLE: 'Što učiniti:',
+                LIST: {
+                    TIP_1: 'Između 30 sekundi i 2 minute',
+                    TIP_2: 'Snimajte horizontalno i u razini očiju',
+                    TIP_3: 'Koristite dobro osvjetljenje i neutralnu pozadinu',
+                    TIP_4: 'Koristite stabilnu podlogu, kako video ne bi bio mutan',
+                    TIP_5: 'Pobrinite se da se vidi cijelo lice i oči',
+                    TIP_6: 'Istaknite svoje iskustvo u podučavanju',
+                    TIP_7: 'Srdačno pozdravite svoje učenike i pozovite ih da rezerviraju sat',
+                },
+            },
+            DONT: {
+                TITLE: 'Nemojte:',
+                LIST: {
+                    TIP_1: 'Navoditi svoje prezime ili bilo kakve kontakt podatke',
+                    TIP_2: 'Uključivati logo ili linkove',
+                    TIP_3: 'Koristiti dijaprojekcije ili prezentacije',
+                    TIP_4: 'Imati druge osobe vidljive u vašem videu',
+                },
+            },
         },
     },
 };

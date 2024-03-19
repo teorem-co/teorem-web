@@ -11,6 +11,7 @@ import { RoleOptions } from '../slices/roleSlice';
 import typeToFormData from '../app/utils/typeToFormData';
 import IBooking from '../app/features/my-bookings/interfaces/IBooking';
 import ITutorItem from '../interfaces/ITutorItem';
+import IPage from '../interfaces/notification/IPage';
 
 interface ITutorItemPage {
     totalPages: number;
@@ -55,6 +56,29 @@ export interface ITutorAdminSearch {
     verified: boolean;
     adminNote: string;
     createdAt: string;
+}
+
+export interface ITutorVideoInformation {
+    url: string | undefined;
+    // videoThumbnail: string;
+    approved: boolean | undefined;
+    videoTranscoded: boolean;
+}
+
+export interface IAdminTutorVideoInformation {
+    tutorId: string;
+    tutorSlug: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phoneNumber: string;
+    videoUrl: string;
+    videoApproved: boolean;
+}
+
+export interface IDeclineTutorVideo {
+    tutorId: string;
+    message: string;
 }
 
 const URL = 'api/v1/tutors';
@@ -218,6 +242,36 @@ export const tutorService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
+        getTutorVideoInformation: builder.query<ITutorVideoInformation, void>({
+            query: () => ({
+                url: `${URL}/video-information`,
+                method: HttpMethods.GET,
+            }),
+        }),
+        getAdminTutorVideoInformation: builder.query<IPage<IAdminTutorVideoInformation>, IParams>({
+            query: (params) => ({
+                url: `${URL}/admin/video-information?page=${params.page}&rpp=${params.rpp}&approved=${params.videoApproved}`,
+                method: HttpMethods.GET,
+            }),
+        }),
+        deleteTutorVideo: builder.query<void, string>({
+            query: (tutorId) => ({
+                url: `${URL}/${tutorId}/video`,
+                method: HttpMethods.DELETE,
+            }),
+        }),
+        approveTutorVideo: builder.query<void, string>({
+            query: (tutorId) => ({
+                url: `${URL}/${tutorId}/video/approve`,
+                method: HttpMethods.PATCH,
+            }),
+        }),
+        declineTutorVideo: builder.query<void, IDeclineTutorVideo>({
+            query: (params) => ({
+                url: `${URL}/${params.tutorId}/admin/video?message=${params.message}`,
+                method: HttpMethods.DELETE,
+            }),
+        }),
     }),
 });
 
@@ -239,6 +293,11 @@ export const {
     useDisconnectStripeTutorMutation,
     useLazyGetTutorByTutorSlugQuery,
     useLazyGetTutorUnavailableDaysQuery,
+    useLazyGetTutorVideoInformationQuery,
+    useLazyDeleteTutorVideoQuery,
+    useLazyApproveTutorVideoQuery,
+    useLazyGetAdminTutorVideoInformationQuery,
+    useLazyDeclineTutorVideoQuery,
 } = tutorService;
 
 export function getUserRoleAbbrv() {

@@ -40,6 +40,7 @@ import { Badge } from '@mui/material';
 
 import { Signup } from './features/register/sign_up_rework/tutor/Signup';
 import { SignupRoleSelect } from './features/register/sign_up_rework/SignupRoleSelect';
+import { AdminTutorVideoPage } from './components/admin/tutor-video/AdminTutorVideoPage';
 
 export const PATHS = {
     ROLE_SELECTION: t('PATHS.ROLE_SELECTION'),
@@ -61,6 +62,7 @@ export const PATHS = {
     TERMS: t('PATHS.TERMS'),
     PRIVACY: t('PATHS.PRIVACY'),
     TUTOR_MANAGMENT: t('PATHS.TUTOR_MANAGMENT'),
+    TUTOR_VIDEOS: t('PATHS.TUTOR_VIDEOS'),
     TUTOR_MANAGMENT_TUTOR_PROFILE: t('PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE'),
     EMAIL_CONFIRMED: t('PATHS.EMAIL_CONFIRMED'),
     RESEND_ACTIVATION_TOKEN: t('PATHS.RESEND_ACTIVATION_TOKEN'),
@@ -291,6 +293,16 @@ export const ROUTES: any = [
                 component: () => <ChildInformations />,
             },
         ],
+    },
+    {
+        path: PATHS.TUTOR_VIDEOS,
+        key: 'TUTOR_VIDEOS',
+        exact: true,
+        component: () => (
+            <PermissionsGate roles={[Role.SuperAdmin]}>
+                <AdminTutorVideoPage />
+            </PermissionsGate>
+        ),
     },
     {
         path: PATHS.TUTOR_MANAGMENT,
@@ -535,6 +547,12 @@ export function menuPerRole(stripeConnected: boolean): IMenuPerRole {
                 icon: 'chat',
                 key: 'CHAT',
                 path: PATHS.CHAT,
+            },
+            {
+                name: 'TUTOR_VIDEOS',
+                icon: 'video',
+                key: 'TUTOR_VIDEOS',
+                path: PATHS.TUTOR_VIDEOS,
             },
         ],
         [Role.Child]: [
