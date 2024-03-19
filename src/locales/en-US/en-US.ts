@@ -125,6 +125,7 @@ export const EN_US = {
         MY_REVIEWS: 'My reviews',
         SEARCH_TUTORS: 'Search tutors',
         TUTOR_MANAGMENT: 'Tutor managment',
+        TUTOR_VIDEOS: 'Video previews',
         MY_PROFILE: 'My Profile',
         COMPLETED_LESSONS: 'Completed lessons',
         CHAT: 'Chat',
@@ -176,6 +177,7 @@ export const EN_US = {
         NUMBER_OF_REVIEWS: 'reviews',
         NO_REVIEWS: 'No reviews yet',
         NO_COMPLETED_LESSONS: 'No completed lessons yet',
+        NO_VIDEO: 'Tutor did not upload a video yet',
         TUTOR_PROFILE: {
             ABOUT_ME: 'About me',
             ABOUT_TEACHINGS: 'About subjects',
@@ -185,6 +187,7 @@ export const EN_US = {
             ADDITIONAL_INFORMATION_DESC: 'Edit and update your about me section of the profile.',
             UPDATE_ADDITIONAL_INFO_SUCCESS: 'Additional information updated!',
             UPDATE_TEACHINGS_SUCCESS: 'Subjects updated!',
+            LESSON_LENGTH: '50 min lesson',
             FORM: {
                 ABOUT_TUTOR_LABEL: 'Tell us more about yourself*',
                 ABOUT_TUTOR_PLACEHOLDER: 'What describes you best, what are your hobbies, approach...',
@@ -238,11 +241,16 @@ export const EN_US = {
             DELETE_TUTOR: 'Delete Tutor',
             EDIT_NOTE: 'Edit note',
             CANCEL: 'Cancel',
+            PLAY_VIDEO: 'Play video',
         },
         NOTE: 'Note',
         NOTE_PLACEHOLDER: 'Enter a note here...',
         DETAILS: ' DETAILS',
         SEARCH_PLACEHOLDER: 'Search tutors',
+        VIDEO_PREVIEW: {
+            DECLINE_AND_SEND_BUTTON: 'Decline and send',
+            MESSAGE_TITLE: 'Reason for video decline',
+        },
     },
     CHAT: {
         PLACEHOLDER: 'Send a message to start a conversation',
@@ -1311,6 +1319,7 @@ export const EN_US = {
         STRIPE_CONNECTED: '/en/stripe-connected',
         STRIPE_FAIL: '/en/stripe-failed',
         RESEND_ACTIVATION_TOKEN: '/en/reset-token',
+        TUTOR_VIDEOS: '/en/tutor-previews',
     },
     SEO: {
         FALLBACK: {
@@ -1442,6 +1451,72 @@ export const EN_US = {
             TIP_1: 'Picture must be in color',
             TIP_2: 'Document must contain name used during registration',
             SUBMIT: 'Submit',
+        },
+    },
+
+    VIDEO_PREVIEW: {
+        TITLE: 'Video preview',
+        NOT_APPROVED: 'The administrator has not yet approved your video (it will not be displayed on your profile)',
+        TRANSCODING: 'Your video is transcoding. It usually takes several minutes...',
+        RECORD_VIDEO: 'Record video',
+        OR: 'OR',
+        UPLOAD_VIDEO: 'Upload video',
+        START: 'Start',
+        DELETE: 'Delete',
+        RECORD_MODAL: {
+            SETTINGS: 'Audio and Video Settings',
+            CAMERA: 'Camera',
+            MICROPHONE: 'Microphone',
+            START: 'Start recording',
+            STOP: 'Stop recording',
+            RESTART: 'Re-record',
+            UPLOAD: 'Upload',
+            RECORDING_TIME: 'Recording time:',
+            REMAINING_TIME: {
+                PART_1: 'Recording will stop automatically in ',
+                PART_2: ' s',
+            },
+            PERMISSIONS_ERROR_MESSAGE:
+                'You have not allowed the use of the camera and microphone. You will have to allow them to be able to record the video and teach',
+        },
+        LOADING: {
+            PREPARING: 'Preparing the upload...',
+            UPLOADING: 'Uploading',
+            SUCCESS: 'You have successfully uploaded the video',
+        },
+        CONFIRMATION: {
+            TITLE: 'Are you sure you want to delete the video?',
+            DESCRIPTION: 'This will delete your video, and you will have to record a new one!',
+            CONFIRM: 'Delete',
+            CANCEL: 'Cancel',
+        },
+        FILE_UPLOAD: {
+            FORMAT: 'MP4 format',
+            SIZE_MESSAGE: 'Maximum file size is 10MB!',
+            DURATION_MESSAGE: 'Maximum length of video is 2 minutes!',
+        },
+        TIPS: {
+            DO: {
+                TITLE: 'Do:',
+                LIST: {
+                    TIP_1: 'Between 30 seconds and 2 minutes long',
+                    TIP_2: 'Record in horizontal mode and at eye level',
+                    TIP_3: 'Use good lighting and a neutral background',
+                    TIP_4: 'Use a stable surface so that your video is not shaky',
+                    TIP_5: 'Make sure your face and eyes are fully visible',
+                    TIP_6: 'Highlight your teaching experience',
+                    TIP_7: 'Greet your students warmly and invite them to book a lesson',
+                },
+            },
+            DONT: {
+                TITLE: "Don't:",
+                LIST: {
+                    TIP_1: 'Include your surname or any contact details',
+                    TIP_2: 'Include logos or links',
+                    TIP_3: 'Use slideshows or presentations',
+                    TIP_4: 'Have any other people visible in your video',
+                },
+            },
         },
     },
 };

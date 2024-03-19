@@ -3,7 +3,7 @@
 */
 
 
-.iframe-modal{
+.iframe-modal {
   z-index: 11;
   position: fixed;
   left: 50%;
@@ -25,250 +25,261 @@
   border: none;
 }
 
-.iframe-logo{
+.iframe-logo {
   border: none;
 }
 
 .modal {
-    z-index: 11;
+  z-index: 11;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  width: 500px;
+
+  //handle if modal is higher than view height
+  max-height: 90vh;
+  overflow-y: auto;
+  border: 1px solid hsla(248, 86%, 69%, 0.5);
+  border-radius: $border-rounded;
+  padding: calc(#{$unit} * 6);
+
+  transform: translate(-50%, -50%);
+  background-color: $white;
+  box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.05);
+
+  &__info {
+    z-index: 9;
+    position: absolute;
+    //transform: translate(-50%, -50%);
+    //top: 50%;
+    //left: 50%;
+    width: 386px;
+    border: 1px solid gray;
+    border-radius: 5px;
+
+    //z-index: 10;
+    //position: fixed;
+
+
+    background-color: rgba($white, 0.8);
+
+  }
+
+  &__head {
+    position: relative;
+  }
+
+  &__footer {
+    margin-top: calc(#{$unit} * 6);
+  }
+
+  &__close {
+    z-index: 20;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  &__header {
+    padding: 24px;
+  }
+
+  &__separator {
+    border-bottom: 1px solid $grey-ed;
+    margin: calc(#{$unit} * 6) calc(#{$unit} * -6);
+  }
+
+  &__overlay {
+    z-index: 10;
     position: fixed;
-    left: 50%;
-    top: 50%;
-    width: 500px;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
 
-    //handle if modal is higher than view height
-    max-height: 90vh;
-    overflow-y: auto;
-    border: 1px solid hsla(248, 86%, 69%, 0.5);
-    border-radius: $border-rounded;
-    padding: calc(#{$unit} * 6);
+    background-color: $background-overlay;
+  }
 
+  &__overlay-no-background {
+    z-index: 10;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+
+  &--parent {
+    z-index: 9;
+    position: absolute;
     transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    width: 386px;
     background-color: $white;
-    box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.05);
+    border: 1px solid hsla(248, 86%, 69%, 0.5);
+    border-radius: 5px;
 
-    &__info{
-      z-index: 9;
-      position: absolute;
-      //transform: translate(-50%, -50%);
-      //top: 50%;
-      //left: 50%;
-      width: 386px;
-      border: 1px solid gray;
-      border-radius: 5px;
-
-      //z-index: 10;
-      //position: fixed;
-
-
-      background-color:rgba( $white, 0.8);
-
+    &--monday {
+      top: 58%;
+      left: 33%;
     }
 
-    &__head {
-        position: relative;
+    &--tuesday {
+      top: 58%;
+      left: 43%;
     }
 
-    &__footer {
-        margin-top: calc(#{$unit} * 6);
+    &--wednesday {
+      top: 58%;
+      left: 53%;
     }
 
-    &__close {
-      z-index: 20;
-        position: absolute;
-        right: 0;
-        top: 0;
+    &--thursday {
+      top: 58%;
+      left: 62%;
+    }
+
+    &--friday {
+      top: 58%;
+      left: 32%;
+    }
+
+    &--saturday {
+      top: 58%;
+      left: 42%;
+    }
+
+    &--sunday {
+      top: 58%;
+      left: 52%;
     }
 
     &__header {
-        padding: 24px;
+      padding: 24px;
     }
 
-    &__separator {
-        border-bottom: 1px solid $grey-ed;
-        margin: calc(#{$unit} * 6) calc(#{$unit} * -6);
+    &__line {
+      width: 100%;
+      height: 1px;
+      background-color: $grey-ed;
     }
 
-    &__overlay {
-        z-index: 10;
-        position: fixed;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-
-        background-color: $background-overlay;
+    &__body {
+      padding: 24px 24px 0 24px;
     }
 
-    &--parent {
-        z-index: 9;
-        position: absolute;
-        transform: translate(-50%, -50%);
-        top: 50%;
-        left: 50%;
-        width: 386px;
-        background-color: $white;
-        border: 1px solid hsla(248, 86%, 69%, 0.5);
-        border-radius: 5px;
-
-        &--monday {
-            top: 58%;
-            left: 33%;
-        }
-
-        &--tuesday {
-            top: 58%;
-            left: 43%;
-        }
-
-        &--wednesday {
-            top: 58%;
-            left: 53%;
-        }
-
-        &--thursday {
-            top: 58%;
-            left: 62%;
-        }
-
-        &--friday {
-            top: 58%;
-            left: 32%;
-        }
-
-        &--saturday {
-            top: 58%;
-            left: 42%;
-        }
-
-        &--sunday {
-            top: 58%;
-            left: 52%;
-        }
-
-        &__header {
-            padding: 24px;
-        }
-
-        &__line {
-            width: 100%;
-            height: 1px;
-            background-color: $grey-ed;
-        }
-
-        &__body {
-            padding: 24px 24px 0 24px;
-        }
-
-        &__footer {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 0 24px 24px 24px;
-        }
-    }
-
-    &--tutor {
-        z-index: 9;
-        position: absolute;
-        transform: translate(-50%, -50%);
-        top: 50%;
-        left: 50%;
-        width: 386px;
-        background-color: $white;
-        border: 1px solid hsla(248, 86%, 69%, 0.5);
-        border-radius: 5px;
-
-        &__footer {
-            display: flex;
-            align-items: center;
-            padding: 0 24px 24px 10px;
-        }
-    }
-
-    &--iframe{
+    &__footer {
       display: flex;
       flex-direction: column;
-      width: 100vw;
-      height: 100vh;
-      padding: 0;
-      margin: 0;
+      justify-content: center;
+      padding: 0 24px 24px 24px;
+    }
+  }
+
+  &--tutor {
+    z-index: 9;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    width: 386px;
+    background-color: $white;
+    border: 1px solid hsla(248, 86%, 69%, 0.5);
+    border-radius: 5px;
+
+    &__footer {
+      display: flex;
+      align-items: center;
+      padding: 0 24px 24px 10px;
+    }
+  }
+
+  &--iframe {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+  }
+
+  &--stripe {
+    display: flex;
+    flex-direction: column;
+    width: 90vw;
+    height: 90vh;
+    padding: 0;
+
+    .modal__close {
+      top: 6px;
+      right: 6px;
     }
 
-    &--stripe {
-        display: flex;
-        flex-direction: column;
-        width: 90vw;
-        height: 90vh;
-        padding: 0;
-
-        .modal__close {
-            top: 6px;
-            right: 6px;
-        }
-
-        .modal__head {
-            flex-shrink: 0;
-        }
-        .modal__body {
-            flex-grow: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            iframe {
-                border: none;
-                height: 100%;
-                width: 100%;
-            }
-        }
+    .modal__head {
+      flex-shrink: 0;
     }
 
-    &--language {
-        overflow: visible;
-        width: unset;
-        padding: 40px 40px 24px;
-        z-index: 31;
+    .modal__body {
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-        &--overlay {
-            z-index: 30;
-            background-color: $background-overlay-grey;
-        }
-
-
-        .btn{
-            color: $black;
-
-            &--ghost--grey {
-                .icon--check {
-                    display: none;
-                }
-            }
-
-            .image {
-                background-image: unset;
-                background-color: $grey-d8;
-                border-radius: 50%;
-                color: $color-primary;
-            }
-            .icon {
-                transition: none;
-            }
-
-            &:hover {
-                color: $color-primary;
-
-                .icon--language {
-                    background-color: $white;
-                }
-
-                .image {
-                    background-color: $color-primary;
-                    color: $white;
-                }
-            }
-        }
+      iframe {
+        border: none;
+        height: 100%;
+        width: 100%;
+      }
     }
+  }
+
+  &--language {
+    overflow: visible;
+    width: unset;
+    padding: 40px 40px 24px;
+    z-index: 31;
+
+    &--overlay {
+      z-index: 30;
+      background-color: $background-overlay-grey;
+    }
+
+
+    .btn {
+      color: $black;
+
+      &--ghost--grey {
+        .icon--check {
+          display: none;
+        }
+      }
+
+      .image {
+        background-image: unset;
+        background-color: $grey-d8;
+        border-radius: 50%;
+        color: $color-primary;
+      }
+
+      .icon {
+        transition: none;
+      }
+
+      &:hover {
+        color: $color-primary;
+
+        .icon--language {
+          background-color: $white;
+        }
+
+        .image {
+          background-color: $color-primary;
+          color: $white;
+        }
+      }
+    }
+  }
 }
 
 .video-modal__overlay {
@@ -298,16 +309,16 @@
   cursor: pointer;
 }
 
-.video-modal-title{
+.video-modal-title {
   background-color: white;
   padding: 10px;
-  align-content:start;
+  align-content: start;
   text-align: center;
   border-radius: 10px;
 }
 
-.video-modal-logo{
-    height: 30px;
+.video-modal-logo {
+  height: 30px;
 }
 
 @media (max-width: 768px) {
@@ -316,13 +327,13 @@
   }
 }
 
-.review-modal{
+.review-modal {
   @media screen {
     width: calc(100vw - 10px);
   }
 }
 
-.confirm-modal{
+.confirm-modal {
   //width: 550px;
   //height: 150px;
 
@@ -332,7 +343,7 @@
   }
 }
 
-.confirm-modal-button{
+.confirm-modal-button {
   font-size: 14px;
   padding: calc(#{$unit} * 3) calc(#{$unit} * 15);
 

@@ -1,5 +1,3 @@
-import { t } from 'i18next';
-
 interface Props {
     title: string;
     description?: string;
@@ -26,11 +24,11 @@ export const ConfirmationModal = (props: Props) => {
                             {cancelButtonTitle}
                         </button>
                     </div>
-                    <div
+                    <i
                         className="icon icon--grey icon--base icon--close"
                         onClick={onCancel}
                         style={{ position: 'absolute', top: '5px', right: '5px' }}
-                    ></div>
+                    ></i>
                 </div>
             </div>
         </>

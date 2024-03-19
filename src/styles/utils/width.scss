@@ -4,227 +4,276 @@
 
 .w {
 
-  &--unset{
+  &--unset {
     width: unset;
   }
-  &--10{
+
+  &--10 {
     width: 10%;
   }
-  &--15{
+
+  &--15 {
     width: 15%;
   }
 
-  &--20{
+  &--20 {
     width: 20%;
   }
 
-    &--30{
-      width: 30%;
+  &--30 {
+    width: 30%;
+  }
+
+  &--40 {
+    width: 40%;
+  }
+
+  &--45 {
+    width: 45%;
+  }
+
+  &--50 {
+    width: 50%;
+
+    &--px {
+      width: 50px;
     }
 
-    &--40{
-      width: 40%;
+    &--max {
+      max-width: 50px;
+    }
+  }
+
+  &--60 {
+    width: 60%;
+  }
+
+  &--70 {
+    width: 70%;
+  }
+
+  &--80 {
+    width: 80%;
+
+    &--max {
+      max-width: 80%;
+    }
+  }
+
+  &--100 {
+    width: 100%;
+
+    &--px {
+      width: 100px;
     }
 
-    &--45{
-      width: 45%;
+    &--max {
+      max-width: 100px;
+    }
+  }
+
+  &--105 {
+    width: 105px;
+  }
+
+  &--120 {
+    width: 120px;
+
+    &--px {
+      width: 120px;
     }
 
-    &--50 {
-        width: 50%;
-        &--px {
-            width: 50px;
-        }
-        &--max {
-            max-width: 50px;
-        }
+    &--max {
+      max-width: 120px;
     }
-    &--80 {
-      width: 80%;
-        &--max {
-            max-width: 80%;
-        }
+  }
+
+  &--128 {
+    width: 128px;
+
+    &--max {
+      max-width: 128px;
     }
 
-    &--100 {
-        width: 100%;
-        &--px {
-            width: 100px;
-        }
-        &--max {
-            max-width: 100px;
-        }
+    &--min {
+      min-width: 128px;
+    }
+  }
+
+  &--136 {
+    width: 136px;
+
+    &--max {
+      max-width: 136px;
     }
 
-    &--105 {
-        width: 105px;
+    &--px {
+      width: 136px;
+    }
+  }
+
+  &--156 {
+    width: 156px;
+
+    &--px {
+      width: 156px;
     }
 
-    &--120 {
-        width: 120px;
-      &--px {
-        width: 120px;
-      }
-        &--max {
-            max-width: 120px;
-        }
+    &--max {
+      max-width: 156px;
     }
 
-    &--128 {
-        width: 128px;
-
-        &--max {
-            max-width: 128px;
-        }
-
-      &--min{
-        min-width: 128px;
-      }
+    &--min {
+      min-width: 156px;
     }
-    &--136 {
-        width: 136px;
+  }
 
-        &--max {
-            max-width: 136px;
-        }
-      &--px {
-        width: 136px;
-      }
-    }
-
-    &--156 {
-        width: 156px;
-
-      &--px {
-        width: 156px;
-      }
-        &--max {
-            max-width: 156px;
-        }
-        &--min{
-          min-width: 156px;
-        }
-    }
-
-    &--170 {
-        width: 170px;
-    }
+  &--170 {
+    width: 170px;
+  }
 
   &--180 {
     &--max {
       max-width: 180px;
     }
+
     &--min {
       min-width: 180px;
     }
   }
 
-    &--200 {
-        &--max {
-            max-width: 200px;
-        }
-      &--min {
-        min-width: 200px;
-      }
+  &--200 {
+    width: 200px;
+
+    &--max {
+      max-width: 200px;
     }
 
-    &--220 {
-      width: 220px;
-      &--max {
-        max-width: 220px;
-      }
-      &--min {
-        min-width: 220px;
-      }
+    &--min {
+      min-width: 200px;
     }
-    &--260 {
-        width: 260px;
-        &--max {
-            max-width: 260px !important;
-        }
+  }
+
+  &--220 {
+    width: 220px;
+
+    &--max {
+      max-width: 220px;
     }
 
-    /* above 100 you don't need to include "px" suffix for pixels, because percentages are valid until 100 */
-    &--300 {
-        width: 300px;
+    &--min {
+      min-width: 220px;
+    }
+  }
 
-        &--max {
-            max-width: 300px;
-        }
+  &--260 {
+    width: 260px;
+
+    &--max {
+      max-width: 260px !important;
+    }
+  }
+
+  /* above 100 you don't need to include "px" suffix for pixels, because percentages are valid until 100 */
+  &--300 {
+    width: 300px;
+
+    &--max {
+      max-width: 300px;
     }
 
-    &--350 {
-        width: 350px;
-
-        &--max {
-            max-width: 350px;
-        }
+    &--min {
+      min-width: 300px;
     }
-    &--400 {
-        width: 400px;
+  }
 
-        &--max {
-            max-width: 400px !important;
-        }
+  &--350 {
+    width: 350px;
+
+    &--max {
+      max-width: 350px;
     }
+  }
 
-    &--448 {
-        width: 448px;
+  &--400 {
+    width: 400px;
 
-        &--max {
-            max-width: 448px;
-        }
+    &--max {
+      max-width: 400px !important;
     }
-    &--550 {
-        width: 550px;
+  }
 
-        &--max {
-            max-width: 550px !important;
-        }
-    }
-    &--632 {
-        width: 632px;
+  &--448 {
+    width: 448px;
 
-        &--max {
-            max-width: 632px;
-        }
+    &--max {
+      max-width: 448px;
     }
-    &--680 {
-        width: 680px;
+  }
 
-        &--max {
-            max-width: 680px;
-        }
-    }
+  &--550 {
+    width: 550px;
 
-    &--800 {
-        &--max {
-            max-width: 800px;
-        }
+    &--max {
+      max-width: 550px !important;
     }
+  }
 
-    &--900 {
-        &--max {
-            max-width: 900px;
-        }
-    }
+  &--600 {
+    width: 600px;
 
-    &--1200 {
-        width: 1200px;
+    &--max {
+      max-width: 600px;
     }
+  }
+
+  &--632 {
+    width: 632px;
+
+    &--max {
+      max-width: 632px;
+    }
+  }
+
+  &--680 {
+    width: 680px;
+
+    &--max {
+      max-width: 680px;
+    }
+  }
+
+  &--800 {
+    &--max {
+      max-width: 800px;
+    }
+  }
+
+  &--900 {
+    &--max {
+      max-width: 900px;
+    }
+  }
+
+  &--1200 {
+    width: 1200px;
+  }
 }
 
 .h {
   // For min-height
   &--40 {
     height: 40px;
+
     &--min {
       min-height: 40px;
     }
+
     &--max {
       max-height: 40px;
     }
   }
+
   &--150 {
 
     height: 150px;
@@ -232,24 +281,31 @@
     &--min {
       min-height: 150px;
     }
+
     &--max {
       max-height: 150px;
     }
   }
+
   &--175 {
     height: 175px;
+
     &--min {
       min-height: 175px;
     }
+
     &--max {
       max-height: 175px;
     }
   }
+
   &--200 {
     height: 200px;
+
     &--min {
       min-height: 200px;
     }
+
     &--max {
       max-height: 200px;
     }
@@ -257,9 +313,11 @@
 
   &--300 {
     height: 300px;
+
     &--min {
       min-height: 300px;
     }
+
     &--max {
       max-height: 300px;
     }
@@ -267,9 +325,11 @@
 
   &--350 {
     height: 350px;
+
     &--min {
       min-height: 350px;
     }
+
     &--max {
       max-height: 350px;
     }
@@ -277,9 +337,11 @@
 
   &--450 {
     height: 450px;
+
     &--min {
       min-height: 450px;
     }
+
     &--max {
       max-height: 450px;
     }
@@ -287,13 +349,47 @@
 
   &--500 {
     height: 500px;
+
     &--min {
       min-height: 500px;
     }
+
     &--max {
       max-height: 500px;
     }
   }
 }
 
+
+.h {
+
+  &--100 {
+    height: 100%;
+  }
+
+
+  &--400 {
+    height: 400px;
+
+    &--min {
+      min-height: 400px;
+    }
+
+    &--max {
+      max-height: 400px;
+    }
+  }
+
+  &--450 {
+    height: 450px;
+
+    &--min {
+      min-height: 450px;
+    }
+
+    &--max {
+      max-height: 450px;
+    }
+  }
+}
 
