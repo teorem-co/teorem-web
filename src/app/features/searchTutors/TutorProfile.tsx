@@ -517,7 +517,6 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                                                                                 zIndex: 2,
                                                                                 cursor: 'pointer', // If the icon is interactive
                                                                             }}
-                                                                            floodColor={'white'}
                                                                             size={55}
                                                                         />
                                                                     </div>
