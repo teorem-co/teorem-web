@@ -217,6 +217,10 @@
     &--max {
       max-width: 550px !important;
     }
+
+    &--min {
+      min-width: 550px !important;
+    }
   }
 
   &--600 {
@@ -232,6 +236,10 @@
 
     &--max {
       max-width: 632px;
+    }
+
+    &--min {
+      min-width: 632px;
     }
   }
 
