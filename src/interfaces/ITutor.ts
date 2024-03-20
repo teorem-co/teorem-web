@@ -18,4 +18,5 @@ export default interface ITutor {
     disabled: boolean;
     slug: string;
     numberOfGrades?: number;
+    videoUrl?: string;
 }
