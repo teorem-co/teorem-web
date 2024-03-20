@@ -220,6 +220,13 @@
 
     &--min {
       min-width: 550px !important;
+  }
+
+  &--600 {
+    width: 600px;
+
+    &--max {
+      max-width: 600px;
     }
   }
 
@@ -233,12 +240,17 @@
 
   &--632 {
     width: 632px;
+  }
+
+  &--632 {
+    width: 632px;
 
     &--max {
       max-width: 632px;
     }
 
-    &--min {
+
+  &--min {
       min-width: 632px;
     }
   }
