@@ -221,196 +221,184 @@
     &--min {
       min-width: 550px !important;
     }
+  }
 
-    &--600 {
-      width: 600px;
+  &--600 {
+    width: 600px;
 
-      &--max {
-        max-width: 600px;
-      }
-    }
-
-    &--600 {
-      width: 600px;
-
-      &--max {
-        max-width: 600px;
-      }
-    }
-
-    &--632 {
-      width: 632px;
-    }
-
-    &--632 {
-      width: 632px;
-
-      &--max {
-        max-width: 632px;
-      }
-
-
-      &--min {
-        min-width: 632px;
-      }
-    }
-
-    &--680 {
-      width: 680px;
-
-      &--max {
-        max-width: 680px;
-      }
-    }
-
-    &--800 {
-      &--max {
-        max-width: 800px;
-      }
-    }
-
-    &--900 {
-      &--max {
-        max-width: 900px;
-      }
-    }
-
-    &--1200 {
-      width: 1200px;
+    &--max {
+      max-width: 600px;
     }
   }
 
-  .h {
-    // For min-height
-    &--40 {
-      height: 40px;
+  &--632 {
+    width: 632px;
 
-      &--min {
-        min-height: 40px;
-      }
-
-      &--max {
-        max-height: 40px;
-      }
+    &--max {
+      max-width: 632px;
     }
 
-    &--150 {
-
-      height: 150px;
-
-      &--min {
-        min-height: 150px;
-      }
-
-      &--max {
-        max-height: 150px;
-      }
-    }
-
-    &--175 {
-      height: 175px;
-
-      &--min {
-        min-height: 175px;
-      }
-
-      &--max {
-        max-height: 175px;
-      }
-    }
-
-    &--200 {
-      height: 200px;
-
-      &--min {
-        min-height: 200px;
-      }
-
-      &--max {
-        max-height: 200px;
-      }
-    }
-
-    &--300 {
-      height: 300px;
-
-      &--min {
-        min-height: 300px;
-      }
-
-      &--max {
-        max-height: 300px;
-      }
-    }
-
-    &--350 {
-      height: 350px;
-
-      &--min {
-        min-height: 350px;
-      }
-
-      &--max {
-        max-height: 350px;
-      }
-    }
-
-    &--450 {
-      height: 450px;
-
-      &--min {
-        min-height: 450px;
-      }
-
-      &--max {
-        max-height: 450px;
-      }
-    }
-
-    &--500 {
-      height: 500px;
-
-      &--min {
-        min-height: 500px;
-      }
-
-      &--max {
-        max-height: 500px;
-      }
+    &--min {
+      min-width: 632px;
     }
   }
 
+  &--680 {
+    width: 680px;
 
-  .h {
+    &--max {
+      max-width: 680px;
+    }
+  }
 
-    &--100 {
-      height: 100%;
+  &--800 {
+    &--max {
+      max-width: 800px;
+    }
+  }
+
+  &--900 {
+    &--max {
+      max-width: 900px;
+    }
+  }
+
+  &--1200 {
+    width: 1200px;
+  }
+}
+
+.h {
+  // For min-height
+  &--40 {
+    height: 40px;
+
+    &--min {
+      min-height: 40px;
     }
 
+    &--max {
+      max-height: 40px;
+    }
+  }
 
-    &--400 {
-      height: 400px;
+  &--150 {
 
-      &--min {
-        min-height: 400px;
-      }
+    height: 150px;
 
-      &--max {
-        max-height: 400px;
-      }
+    &--min {
+      min-height: 150px;
     }
 
-    &--450 {
-      height: 450px;
+    &--max {
+      max-height: 150px;
+    }
+  }
 
-      &--min {
-        min-height: 450px;
-      }
+  &--175 {
+    height: 175px;
 
-      &--max {
-        max-height: 450px;
-      }
+    &--min {
+      min-height: 175px;
+    }
+
+    &--max {
+      max-height: 175px;
+    }
+  }
+
+  &--200 {
+    height: 200px;
+
+    &--min {
+      min-height: 200px;
+    }
+
+    &--max {
+      max-height: 200px;
+    }
+  }
+
+  &--300 {
+    height: 300px;
+
+    &--min {
+      min-height: 300px;
+    }
+
+    &--max {
+      max-height: 300px;
+    }
+  }
+
+  &--350 {
+    height: 350px;
+
+    &--min {
+      min-height: 350px;
+    }
+
+    &--max {
+      max-height: 350px;
+    }
+  }
+
+  &--450 {
+    height: 450px;
+
+    &--min {
+      min-height: 450px;
+    }
+
+    &--max {
+      max-height: 450px;
+    }
+  }
+
+  &--500 {
+    height: 500px;
+
+    &--min {
+      min-height: 500px;
+    }
+
+    &--max {
+      max-height: 500px;
     }
   }
 }
+
+
+.h {
+
+  &--100 {
+    height: 100%;
+  }
+
+
+  &--400 {
+    height: 400px;
+
+    &--min {
+      min-height: 400px;
+    }
+
+    &--max {
+      max-height: 400px;
+    }
+  }
+
+  &--450 {
+    height: 450px;
+
+    &--min {
+      min-height: 450px;
+    }
+
+    &--max {
+      max-height: 450px;
+    }
+  }
+}
+
 
