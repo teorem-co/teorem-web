@@ -71,7 +71,7 @@ const TutorItem: FC<Props> = (props: Props) => {
                         <div className="type--color--brand mb-4">
                             {tutor.currentOccupation ? tutor.currentOccupation : t('SEARCH_TUTORS.NOT_FILLED')}{' '}
                         </div>
-                        <div className={`type--color--secondary w--632--max`}>
+                        <div className={`type--color--secondary w--550--min`}>
                             {tutor.aboutTutor
                                 ? tutor.aboutTutor
                                     ? tutor.aboutTutor.length > 300
