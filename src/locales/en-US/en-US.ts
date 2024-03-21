@@ -97,6 +97,8 @@ export const EN_US = {
         FUTURE_DATE: 'Date can`t be in the future',
         VALID_DATE: 'Date is invalid',
         PHONE_NUMBER: 'Invalid phone number',
+        MINIMUM_AGE: 'You must be more than 18 years old',
+        MAXIMUM_AGE: 'You must be younger than 100 years old',
         TUTOR_AGE: 'Tutor must be more than 18 years old',
         WRONG_REQUIREMENTS: 'You didn`t fulfill all field requirements',
         NEGATIVE: 'Can`t be a negative number',
