@@ -22,7 +22,7 @@ export const BookingRequestItem = (props: Props) => {
         setShowDateSelectModal(true);
     }
 
-    const tooltipMessage = `Imate još ${getTimeLeft()} h da prihvatite rezervaciju`;
+    const tooltipMessage = `${t('DASHBOARD.REQUESTS.TOOLTIP.PART_1')} ${getTimeLeft()} ${t('DASHBOARD.REQUESTS.TOOLTIP.PART_2')}`;
 
     function getTimeLeft(): string {
         const time = moment.duration(moment(booking.createdAt).add(1, 'day').diff(moment())).hours();
@@ -40,7 +40,6 @@ export const BookingRequestItem = (props: Props) => {
                         className={'dashboard-booking-request-parent-mobile'}
                     >
                         <span className="tag tag--success mb-2">{t('DASHBOARD.REQUESTS.STATUS.NEW_BOOKING_DO_ACTION')}</span>
-
                         <div className="flex flex--row flex--jc--center"></div>
                         <span className={'mb-1'}>
                             {booking.User.firstName}&nbsp;{booking.User.lastName}
@@ -49,7 +48,6 @@ export const BookingRequestItem = (props: Props) => {
                             <span className=" tag tag--primary">{t(`SUBJECTS.${booking.Subject.abrv.replaceAll('-', '')}`)}</span>
                         </div>
                         <div className={'mb-2'}>{t(`LEVELS.${booking.Level.abrv.toLowerCase().replace('-', '')}`)}</div>
-
                         <div>
                             {date}&nbsp;@&nbsp;
                             {moment(booking.startTime).format('HH:mm')} - {moment(booking.endTime).add(1, 'minute').format('HH:mm')}
@@ -80,14 +78,14 @@ export const BookingRequestItem = (props: Props) => {
                     </div>
                 </div>
             ) : (
-                <div
-                    className="dashboard__requests__item tutor-intro-1"
-                    key={booking.id}
-                    data-tooltip-id={`new-booking-${booking.id}`}
-                    data-tooltip-content={tooltipMessage}
-                    data-tooltip-float
-                >
-                    <div className={'dashboard-booking-request-parent'}>
+                <div className="dashboard__requests__item tutor-intro-1">
+                    <div
+                        className={'dashboard-booking-request-parent'}
+                        key={booking.id}
+                        data-tooltip-id={`new-booking-${booking.id}`}
+                        data-tooltip-content={tooltipMessage}
+                        data-tooltip-float
+                    >
                         <div>
                             <span className="tag tag--success">{t('DASHBOARD.REQUESTS.STATUS.NEW_BOOKING_DO_ACTION')}</span>
                         </div>
