@@ -1,5 +1,5 @@
 import { t } from 'i18next';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 interface Props {
@@ -11,8 +11,21 @@ interface Props {
 }
 
 export const VerificationUploadInput = (props: Props) => {
+    const [showMaxSizeError, setShowMaxSizeError] = useState(false);
+    const maxFileSize = 10 * 1024 * 1024;
+
     const { setFile, acceptedTypes, description, className } = props;
-    const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
+    const onDrop = useCallback((acceptedFiles, fileRejections) => {
+        setShowMaxSizeError(false); // Reset the error message state on each drop attempt
+        if (fileRejections.length > 0) {
+            setShowMaxSizeError(true);
+        }
+    }, []);
+
+    const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+        onDrop: onDrop,
+        maxSize: maxFileSize,
+    });
 
     useEffect(() => {
         if (acceptedFiles.length > 0) {
@@ -37,6 +50,7 @@ export const VerificationUploadInput = (props: Props) => {
                     </div>
                 </div>
             </div>
+            {showMaxSizeError && <h1 className={'type--color--error type--sm type--center'}>{t('VIDEO_PREVIEW.FILE_UPLOAD.SIZE_MESSAGE')}</h1>}
             <aside>
                 {acceptedFiles.map((file) => (
                     <li key={file.name}>{file.name}</li>
