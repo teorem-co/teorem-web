@@ -783,6 +783,10 @@ export const EN_US = {
                 NEW_BOOKING_REQUESTED: 'Waiting for confirmation',
                 NEW_BOOKING_DO_ACTION: 'New booking',
             },
+            TOOLTIP: {
+                PART_1: 'You have ',
+                PART_2: ' h to accept request',
+            },
         },
         SCHEDULE: {
             TITLE: 'TODAY`S SCHEDULE',
