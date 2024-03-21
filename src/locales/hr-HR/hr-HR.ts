@@ -97,6 +97,8 @@ export const HR_HR = {
         FUTURE_DATE: 'Datum ne može biti u budućnosti',
         VALID_DATE: 'Datum je nevažeći',
         PHONE_NUMBER: 'Neispravan broj telefona',
+        MINIMUM_AGE: 'Morate imati više od 18 godina',
+        MAXIMUM_AGE: 'Morate imati manje od 100 godina',
         TUTOR_AGE: 'Instruktor mora imati više od 18 godina',
         WRONG_REQUIREMENTS: 'Niste ispunili sva potrebna polja',
         NEGATIVE: 'Ne može biti negativan broj',
