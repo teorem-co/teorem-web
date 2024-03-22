@@ -1157,6 +1157,12 @@ export const HR_HR = {
         DESCRIPTION: 'Vaš e-mail je uspješno potvrđen.',
         BUTTON: 'Log in',
     },
+    TOKEN_NOT_VALID: {
+        TITLE: 'Neispravan token!',
+        DESCRIPTION: 'Molimo provjerite svoj sandučiċ i pokušajte ponovno',
+        HINT: '(Ako ste već zatražili novi aktivacijski e-mail, provjerite jeste li koristili najnoviji link, odnosno zadnji e-mail koji ste primili.)',
+        BUTTON: 'Prijava',
+    },
     STRIPE_CONNECTED: {
         WELCOME: 'Uspjeh!',
         DESCRIPTION: 'Stripe je uspješno povezan.',
@@ -1325,6 +1331,7 @@ export const HR_HR = {
             MY_PROFILE_CHILD_INFO: '/hr/moj-profil/djeca',
         },
         EMAIL_CONFIRMED: '/hr/account-activated',
+        TOKEN_NOT_VALID: '/hr/invalid-token',
         STRIPE_CONNECTED: '/hr/racun-povezan',
         STRIPE_FAIL: '/hr/racun-pogreska',
         RESEND_ACTIVATION_TOKEN: '/hr/ponovna-aktivacija',

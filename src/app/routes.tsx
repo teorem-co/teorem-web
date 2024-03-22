@@ -41,6 +41,7 @@ import { Badge } from '@mui/material';
 import { Signup } from './features/register/sign_up_rework/tutor/Signup';
 import { SignupRoleSelect } from './features/register/sign_up_rework/SignupRoleSelect';
 import { AdminTutorVideoPage } from './components/admin/tutor-video/AdminTutorVideoPage';
+import TokenNotValid from './pages/TokenNotValid';
 
 export const PATHS = {
     ROLE_SELECTION: t('PATHS.ROLE_SELECTION'),
@@ -68,6 +69,7 @@ export const PATHS = {
     RESEND_ACTIVATION_TOKEN: t('PATHS.RESEND_ACTIVATION_TOKEN'),
     STRIPE_CONNECTED: t('PATHS.STRIPE_CONNECTED'),
     STRIPE_FAIL: t('PATHS.STRIPE_FAIL'),
+    TOKEN_NOT_VALID: t('PATHS.TOKEN_NOT_VALID'),
 };
 
 export const LANDING_PATHS = {
@@ -101,6 +103,12 @@ interface IMenuPerRole {
 }
 
 export const ROUTES: any = [
+    {
+        path: PATHS.TOKEN_NOT_VALID,
+        key: 'TOKEN_NOT_VALID',
+        exact: true,
+        component: () => <TokenNotValid />,
+    },
     {
         path: PATHS.ROLE_SELECTION,
         key: 'ROLE_SELECTION',
