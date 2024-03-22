@@ -780,6 +780,10 @@ export const HR_HR = {
                 NEW_BOOKING_REQUESTED: 'Čekanje potvrde',
                 NEW_BOOKING_DO_ACTION: 'Nova rezervacija',
             },
+            TOOLTIP: {
+                PART_1: 'Imate još ',
+                PART_2: ' h da prihvatite rezervaciju',
+            },
         },
         SCHEDULE: {
             TITLE: 'DANAŠNJI RASPORED',
