@@ -1156,6 +1156,12 @@ export const EN_US = {
         DESCRIPTION: 'Your email is confirmed.',
         BUTTON: 'Log in',
     },
+    TOKEN_NOT_VALID: {
+        TITLE: 'Token not valid!',
+        DESCRIPTION: 'Please check your email and try again',
+        HINT: '(If you have already requested a new activation email, make sure you used the latest link, i.e. the last email you received.)',
+        BUTTON: 'Log in',
+    },
     STRIPE_CONNECTED: {
         WELCOME: 'Success!',
         DESCRIPTION: 'Stripe connected successfully.',
@@ -1322,6 +1328,7 @@ export const EN_US = {
             MY_PROFILE_CHILD_INFO: '/en/my-profile/children',
         },
         EMAIL_CONFIRMED: '/en/account-activated',
+        TOKEN_NOT_VALID: '/en/invalid-token',
         STRIPE_CONNECTED: '/en/stripe-connected',
         STRIPE_FAIL: '/en/stripe-failed',
         RESEND_ACTIVATION_TOKEN: '/en/reset-token',
