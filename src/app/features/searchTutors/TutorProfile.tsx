@@ -196,7 +196,30 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
     };
 
     const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
+
     // const cacheBuster = Date.now();
+
+    function getSubjectsInGenitive() {
+        if (tutorData) {
+            let resultString = '';
+            const subjAbrvs = tutorData.TutorSubjects.map((subj) => subj.Subject.abrv);
+
+            subjAbrvs.forEach((subj) => {
+                resultString += t('SUBJECTS_GENITIVE.' + subj.trim().toLowerCase()) + ', ';
+            });
+
+            resultString = resultString.trim().slice(0, -1);
+            return resultString;
+        }
+        return 'Teorem';
+    }
+
+    useEffect(() => {
+        if (tutorData) {
+            getSubjectsInGenitive();
+            document.title = `${tutorData.User.firstName}, ${tutorData.currentOccupation} ${t('SEO_TITLE.TUTOR_PROFILE')} ${getSubjectsInGenitive()}`;
+        }
+    }, [tutorData]);
 
     if (user === null) {
         return <PublicTutorProfile />;

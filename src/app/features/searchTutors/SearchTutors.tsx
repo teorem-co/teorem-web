@@ -22,6 +22,7 @@ import { TutorItemMobile } from './components/TutorItemMobile';
 import { useAppSelector } from '../../hooks';
 import { useDispatch } from 'react-redux';
 import { ISearchFiltersState, resetSearchFilters, setSearchFilters } from '../../../slices/searchFiltesSlice';
+import { allActiveSubjects } from '../register/sign_up_rework/student_and_parent/subjects';
 
 interface Values {
     subject: string;
@@ -402,8 +403,20 @@ const SearchTutors = () => {
     useEffect(() => {
         getLevels();
         getSubjects();
-        document.title = 'Teorem';
+        setTitle();
     }, []);
+
+    useEffect(() => {
+        setTitle();
+    }, [formik.values.subject, subjects, subjectOptions]);
+
+    function setTitle() {
+        const subj = formik.getFieldProps('subject');
+        if (subjects && subj.value) {
+            const name = allActiveSubjects.filter((item) => item.id === subj.value)[0]; // TODO: remeber to uncomment active subjs later
+            document.title = t('SEO_TITLE.TUTOR_SEARCH').replaceAll(':subject', t('SUBJECTS_GENITIVE.' + name?.abrv.trim().toLowerCase()));
+        } else document.title = 'Teorem';
+    }
 
     useEffect(() => {
         if (levels) {
