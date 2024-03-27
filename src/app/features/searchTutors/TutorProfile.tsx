@@ -218,6 +218,8 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
         if (tutorData) {
             getSubjectsInGenitive();
             document.title = `${tutorData.User.firstName}, ${tutorData.currentOccupation} ${t('SEO_TITLE.TUTOR_PROFILE')} ${getSubjectsInGenitive()}`;
+        } else {
+            document.title = 'Teorem';
         }
     }, [tutorData]);
 

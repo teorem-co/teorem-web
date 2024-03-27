@@ -157,6 +157,8 @@ const PublicTutorProfile = () => {
         if (tutorData) {
             getSubjectsInGenitive();
             document.title = `${tutorData.User.firstName}, ${tutorData.currentOccupation} ${t('SEO_TITLE.TUTOR_PROFILE')} ${getSubjectsInGenitive()}`;
+        } else {
+            document.title = 'Teorem';
         }
     }, [tutorData]);
 
