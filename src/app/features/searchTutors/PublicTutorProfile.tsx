@@ -138,6 +138,30 @@ const PublicTutorProfile = () => {
     const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
     const isMobile = window.innerWidth < 765;
 
+    function getSubjectsInGenitive() {
+        if (tutorData) {
+            let resultString = '';
+            const subjAbrvs = tutorData.TutorSubjects.map((subj) => subj.Subject.abrv);
+
+            subjAbrvs.forEach((subj) => {
+                resultString += t('SUBJECTS_GENITIVE.' + subj.trim().toLowerCase()) + ', ';
+            });
+
+            resultString = resultString.trim().slice(0, -1);
+            return resultString;
+        }
+        return 'Teorem';
+    }
+
+    useEffect(() => {
+        if (tutorData) {
+            getSubjectsInGenitive();
+            document.title = `${tutorData.User.firstName}, ${tutorData.currentOccupation} ${t('SEO_TITLE.TUTOR_PROFILE')} ${getSubjectsInGenitive()}`;
+        } else {
+            document.title = 'Teorem';
+        }
+    }, [tutorData]);
+
     return (
         <PublicMainWrapper>
             <div className="layout--primary">
