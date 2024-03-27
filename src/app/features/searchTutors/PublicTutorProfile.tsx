@@ -142,8 +142,8 @@ const PublicTutorProfile = () => {
         if (tutorData) {
             let resultString = '';
             const subjAbrvs = tutorData.TutorSubjects.map((subj) => subj.Subject.abrv);
-
-            subjAbrvs.forEach((subj) => {
+            const uniqueSubjects = Array.from(new Set(subjAbrvs));
+            uniqueSubjects.forEach((subj) => {
                 resultString += t('SUBJECTS_GENITIVE.' + subj.trim().toLowerCase()) + ', ';
             });
 
