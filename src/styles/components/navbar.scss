@@ -98,6 +98,7 @@
 
     &.active {
       background-color: $grey-ed;
+      font-weight: bold;
 
       &::before {
         opacity: 1;
@@ -108,7 +109,7 @@
       }
 
       .navbar__item__label {
-        color: $black;
+        color: $color-primary;
       }
     }
 
