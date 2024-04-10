@@ -19,4 +19,5 @@ export default interface ITutor {
     slug: string;
     numberOfGrades?: number;
     videoUrl?: string;
+    idVerified?: boolean;
 }
