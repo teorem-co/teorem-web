@@ -16,4 +16,5 @@ export default interface ITutorItem {
     subjects: string[];
     numberOfGrades: number;
     videoUrl: string | null;
+    idVerified?: boolean;
 }
