@@ -210,6 +210,10 @@ export const EN_US = {
         SORT_LOW: 'Low price',
         SORT_HIGH: 'High price',
         SORT_NONE: 'None',
+        NEW_TUTOR: {
+            PART_1: 'New',
+            PART_2: 'tutor',
+        },
     },
     TUTOR_MANAGMENT: {
         TITLE: 'Tutor list',

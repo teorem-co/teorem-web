@@ -43,10 +43,17 @@ export const TutorItemMobile = (props: Props) => {
                         </div>
 
                         <div className="flex flex--row flex--ai--center flex--jc--space-between font__11">
-                            <span className="d--b">
-                                {tutor.completedLessons} {t('SEARCH_TUTORS.COMPLETED_LESSONS')}
-                            </span>
-                            {tutor.numberOfGrades > 0 ? (
+                            {tutor.completedLessons > 0 ? (
+                                <span className="d--b">
+                                    {tutor.completedLessons} {t('SEARCH_TUTORS.COMPLETED_LESSONS')}
+                                </span>
+                            ) : (
+                                <span className="d--b">
+                                    <span className={'type--wgt--extra-bold type--sm'}>{t('SEARCH_TUTORS.NEW_TUTOR.PART_1')}</span>
+                                    &nbsp;{t('SEARCH_TUTORS.NEW_TUTOR.PART_2')}
+                                </span>
+                            )}
+                            {tutor.numberOfGrades > 0 && (
                                 <div className="flex flex--col">
                                     <div className="rating flex flex--row flex--ai--center">
                                         <AiFillStar color={'#7e6cf2'} size={15} />
@@ -56,10 +63,6 @@ export const TutorItemMobile = (props: Props) => {
                                         {tutor.numberOfGrades} {t('SEARCH_TUTORS.NUMBER_OF_REVIEWS')}
                                     </span>
                                 </div>
-                            ) : (
-                                <span>
-                                    <i>{t('SEARCH_TUTORS.NO_REVIEWS')}</i>
-                                </span>
                             )}
                         </div>
                     </div>

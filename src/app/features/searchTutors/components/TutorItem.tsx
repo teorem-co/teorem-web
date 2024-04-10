@@ -1,7 +1,6 @@
 import { t } from 'i18next';
 import { uniq } from 'lodash';
 import React, { FC, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import ImageCircle from '../../../components/ImageCircle';
 import { PATHS } from '../../../routes';
 import ITutorItem from '../../../../interfaces/ITutorItem';
@@ -11,6 +10,8 @@ import { MdOutlinePlayCircleFilled } from 'react-icons/md';
 import { getAndSetThumbnailUrl } from '../../my-profile/VideoRecorder/getThumbnail';
 import { RiVerifiedBadgeFill } from 'react-icons/ri';
 import { Tooltip } from 'react-tooltip';
+import { Link } from 'react-router-dom';
+import { NoReviews } from '../../../components/NoReviews';
 
 export interface VimeoResponse {
     thumbnail_large: string;
@@ -69,7 +70,7 @@ const TutorItem: FC<Props> = (props: Props) => {
                         )}
                     </div>
                     <div className="tutor-list__item__info w--550--max">
-                        <div className="flex flex--row flex--ai--center mb-1">
+                        <div className="flex flex--row flex--ai--center mb-2">
                             <div className="type--md mr-1">{tutor.firstName && tutor.lastName ? `${tutor.firstName} ${tutor.lastName}` : ''}</div>
 
                             <Tooltip
@@ -94,9 +95,17 @@ const TutorItem: FC<Props> = (props: Props) => {
                                 </div>
                             )}
                         </div>
-                        <div className="type--color--brand mb-4">
+                        <div className="type--color--brand mb-2">
                             {tutor.currentOccupation ? tutor.currentOccupation : t('SEARCH_TUTORS.NOT_FILLED')}{' '}
                         </div>
+                        {tutor.completedLessons > 0 && (
+                            <div className="flex flex--center mb-1">
+                                <i className="icon icon--completed-lessons icon--base icon--grey"></i>
+                                <span className="d--ib ml-4">
+                                    {tutor.completedLessons} {t('SEARCH_TUTORS.COMPLETED_LESSONS')}
+                                </span>
+                            </div>
+                        )}
                         <div className={`type--color--secondary w--550--min`}>
                             {tutor.aboutTutor
                                 ? tutor.aboutTutor
@@ -106,64 +115,121 @@ const TutorItem: FC<Props> = (props: Props) => {
                                     : ''
                                 : t('SEARCH_TUTORS.NOT_FILLED')}
                         </div>
-                        <div className={`type--color--secondary mb-4 mt-2 ${tutor.subjects.length > 0 ? 'mb-6' : ''}`}>
+                        <div className={`type--color--secondary mb-4 mt-2 ${tutor.subjects.length > 0 ? 'mb-4' : ''}`}>
                             {t('SEARCH_TUTORS.YEARS_OF_EXPERIENCE')} {tutor.yearsOfExperience}
                         </div>
 
                         {tutor.subjects.length > 0 ? <CustomSubjectList subjects={uniq(uniqueSubjects)} /> : <></>}
                     </div>
-                    <div className="tutor-list__item__details mr-4 border-none">
-                        <div className="flex--grow mb-6">
-                            <div className="flex flex--center mb-3">
-                                <i className="icon icon--pricing icon--base icon--grey"></i>
-                                {tutor.minPrice ? (
-                                    <span className="d--ib ml-4">
-                                        {tutor.minPrice} {tutor.currencyCode}
-                                        {tutor.minPrice !== tutor.maxPrice && (
-                                            <>
-                                                &nbsp;-&nbsp;
-                                                {tutor.maxPrice} {tutor.currencyCode}
-                                            </>
-                                        )}
-                                        &nbsp;/h
-                                    </span>
-                                ) : (
-                                    <span className="d--ib ml-4">{t('SEARCH_TUTORS.TUTOR_PROFILE.NO_PRICE')}</span>
-                                )}
-                            </div>
 
-                            <div className="flex flex--center mb-3">
-                                <i className="icon icon--star icon--base icon--grey"></i>
-                                <span className="d--ib ml-4">
-                                    {/* Add later */}
-                                    {tutor.averageGrade ? tutor.averageGrade.toFixed(1) : 0}
-                                </span>
-                            </div>
-                            <div className="flex flex--center">
-                                <i className="icon icon--completed-lessons icon--base icon--grey"></i>
-                                <span className="d--ib ml-4">
-                                    {/* Add later */}
-                                    {tutor.completedLessons} {t('SEARCH_TUTORS.COMPLETED_LESSONS')}
-                                </span>
+                    <div className="flex flex--col flex--jc--space-around">
+                        <div className="flex flex--row flex--ai--center flex--jc--space-around mt-2 mb-2">
+                            {tutor.averageGrade > 0 && tutor.numberOfGrades ? (
+                                <div className="flex flex--col flex--ai--center">
+                                    <div className="flex flex--row flex--ai--center">
+                                        <i className="icon icon--base icon--star"></i>
+                                        <span className={'type--md type--wgt--extra-bold'}>{tutor.averageGrade.toFixed(1)}</span>
+                                    </div>
+                                    <span>
+                                        {tutor.numberOfGrades}&nbsp;{t('TUTOR_PROFILE.REVIEWS')}
+                                    </span>
+                                </div>
+                            ) : (
+                                <NoReviews />
+                            )}
+                            <div className="flex flex--col flex--ai--center">
+                                <div className="flex flex--center flex--col type--center">
+                                    {tutor.minPrice ? (
+                                        <span className="d--ib type--md type--wgt--extra-bold">
+                                            &euro;{tutor.minPrice}{' '}
+                                            {tutor.minPrice !== tutor.maxPrice && (
+                                                <>
+                                                    &nbsp;-&nbsp; &euro;
+                                                    {tutor.maxPrice}{' '}
+                                                </>
+                                            )}
+                                        </span>
+                                    ) : (
+                                        <span className="d--ib">{t('SEARCH_TUTORS.TUTOR_PROFILE.NO_PRICE')}</span>
+                                    )}
+                                    <span>{t('SEARCH_TUTORS.TUTOR_PROFILE.LESSON_LENGTH')}</span>
+                                </div>
                             </div>
                         </div>
-                        <div className="type--center">
-                            <Link
-                                className="btn btn--primary btn--base w--100 mb-3"
-                                to={`${PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS.replace(':tutorSlug', tutor.slug)}`}
-                            >
-                                {t('SEARCH_TUTORS.BOOK_LESSON')}
-                            </Link>
-                            <a
-                                href={`${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug)}`}
-                                className="btn btn--base btn--ghost--bordered w--100 type--wgt--extra-bold"
-                                target="_blank" // Opens link in a new tab
-                                rel="noopener noreferrer" // Security for opening new tabs
-                            >
-                                {t('SEARCH_TUTORS.VIEW_PROFILE')}
-                            </a>
+                        <div className="flex flex--col profile-btn-container flex--jc--center  w--250 ml-1">
+                            <>
+                                <Link
+                                    className="btn btn--xl btn--primary type--center type--wgt--extra-bold"
+                                    to={`${PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS.replace(':tutorSlug', tutor.slug)}`}
+                                >
+                                    <i className="icon icon--base icon--thunder icon--white mr-1"></i>
+                                    {t('TUTOR_PROFILE.BOOK')}
+                                </Link>
+
+                                <a
+                                    className="btn btn--base btn--ghost type--center flex flex--center flex--jc--center mt-2 type--wgt--extra-bold"
+                                    href={`${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug)}`}
+                                    target="_blank" // Opens link in a new tab
+                                >
+                                    {/*<i className="icon icon--base icon--chat icon--primary mr-1"></i>*/}
+                                    <span>{t('SEARCH_TUTORS.VIEW_PROFILE')}</span>
+                                </a>
+                            </>
                         </div>
                     </div>
+
+                    {/*<div className="tutor-list__item__details mr-4 border-none">*/}
+                    {/*    <div className="flex--grow mb-6">*/}
+                    {/*        <div className="flex flex--center mb-3">*/}
+                    {/*            <i className="icon icon--pricing icon--base icon--grey"></i>*/}
+                    {/*            {tutor.minPrice ? (*/}
+                    {/*                <span className="d--ib ml-4">*/}
+                    {/*                    {tutor.minPrice} {tutor.currencyCode}*/}
+                    {/*                    {tutor.minPrice !== tutor.maxPrice && (*/}
+                    {/*                        <>*/}
+                    {/*                            &nbsp;-&nbsp;*/}
+                    {/*                            {tutor.maxPrice} {tutor.currencyCode}*/}
+                    {/*                        </>*/}
+                    {/*                    )}*/}
+                    {/*                    &nbsp;/h*/}
+                    {/*                </span>*/}
+                    {/*            ) : (*/}
+                    {/*                <span className="d--ib ml-4">{t('SEARCH_TUTORS.TUTOR_PROFILE.NO_PRICE')}</span>*/}
+                    {/*            )}*/}
+                    {/*        </div>*/}
+
+                    {/*        <div className="flex flex--center mb-3">*/}
+                    {/*            <i className="icon icon--star icon--base icon--grey"></i>*/}
+                    {/*            <span className="d--ib ml-4">*/}
+                    {/*                /!* Add later *!/*/}
+                    {/*                {tutor.averageGrade ? tutor.averageGrade.toFixed(1) : 0}*/}
+                    {/*            </span>*/}
+                    {/*        </div>*/}
+                    {/*        <div className="flex flex--center">*/}
+                    {/*            <i className="icon icon--completed-lessons icon--base icon--grey"></i>*/}
+                    {/*            <span className="d--ib ml-4">*/}
+                    {/*                /!* Add later *!/*/}
+                    {/*                {tutor.completedLessons} {t('SEARCH_TUTORS.COMPLETED_LESSONS')}*/}
+                    {/*            </span>*/}
+                    {/*        </div>*/}
+                    {/*    </div>*/}
+                    {/*    <div className="type--center">*/}
+                    {/*        <Link*/}
+                    {/*            className="btn btn--primary btn--base w--100 mb-3"*/}
+                    {/*            to={`${PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS.replace(':tutorSlug', tutor.slug)}`}*/}
+                    {/*        >*/}
+                    {/*            {t('SEARCH_TUTORS.BOOK_LESSON')}*/}
+                    {/*        </Link>*/}
+                    {/*        <a*/}
+                    {/*            href={`${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug)}`}*/}
+                    {/*            className="btn btn--base btn--ghost--bordered w--100 type--wgt--extra-bold"*/}
+                    {/*            target="_blank" // Opens link in a new tab*/}
+                    {/*            rel="noopener noreferrer" // Security for opening new tabs*/}
+                    {/*        >*/}
+                    {/*            {t('SEARCH_TUTORS.VIEW_PROFILE')}*/}
+                    {/*        </a>*/}
+                    {/*    </div>*/}
+                    {/*</div>*/}
                 </div>
             </a>
             {currentlyActive && tutor.videoUrl && thumbnailUrl && (

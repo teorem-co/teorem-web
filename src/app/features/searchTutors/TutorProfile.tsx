@@ -29,6 +29,7 @@ import ITutorSubjectLevel from '../../../interfaces/ITutorSubjectLevel';
 import { MdOutlinePlayCircleFilled } from 'react-icons/md';
 import { RiVerifiedBadgeFill } from 'react-icons/ri';
 import { Tooltip } from 'react-tooltip';
+import { NoReviews } from '../../components/NoReviews';
 
 const TutorProfile = () => {
     const { t } = useTranslation();
@@ -483,9 +484,10 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                                                                                 </span>
                                                                             </div>
                                                                         ) : (
-                                                                            <span className={'type--md type--wgt--extra-bold'}>
-                                                                                {t('SEARCH_TUTORS.NO_REVIEWS')}
-                                                                            </span>
+                                                                            // <span className={'type--md type--wgt--extra-bold'}>
+                                                                            //     {t('SEARCH_TUTORS.NO_REVIEWS')}
+                                                                            // </span>
+                                                                            <NoReviews />
                                                                         )}
                                                                         <div className="flex flex--col flex--ai--center">
                                                                             <div className="flex flex--center flex--col type--center">
