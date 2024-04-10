@@ -935,6 +935,9 @@ export const HR_HR = {
         ON12: '12-17h',
         AFTER5: '17-20h',
         REVIEWS: 'recenzija',
+        TOOLTIP: {
+            ID_VERIFIED: 'Instruktor ima potvrđen identitet',
+        },
     },
     LANDING: {
         HEADER: {

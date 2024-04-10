@@ -9,6 +9,8 @@ import CustomSubjectList from './CustomSubjectList';
 import { TutorItemVideoPopup } from './TutorItemVideoPopup';
 import { MdOutlinePlayCircleFilled } from 'react-icons/md';
 import { getAndSetThumbnailUrl } from '../../my-profile/VideoRecorder/getThumbnail';
+import { RiVerifiedBadgeFill } from 'react-icons/ri';
+import { Tooltip } from 'react-tooltip';
 
 export interface VimeoResponse {
     thumbnail_large: string;
@@ -67,7 +69,31 @@ const TutorItem: FC<Props> = (props: Props) => {
                         )}
                     </div>
                     <div className="tutor-list__item__info w--550--max">
-                        <div className="type--md mb-1">{tutor.firstName && tutor.lastName ? `${tutor.firstName} ${tutor.lastName}` : ''}</div>
+                        <div className="flex flex--row flex--ai--center mb-1">
+                            <div className="type--md mr-1">{tutor.firstName && tutor.lastName ? `${tutor.firstName} ${tutor.lastName}` : ''}</div>
+
+                            <Tooltip
+                                id="ID-tooltip"
+                                place={'bottom'}
+                                positionStrategy={'absolute'}
+                                float={false}
+                                delayShow={200}
+                                style={{
+                                    backgroundColor: 'rgba(70,70,70, 0.9)',
+                                    color: 'white',
+                                    fontSize: 'smaller',
+                                }}
+                            />
+                            {tutor.idVerified && (
+                                <div
+                                    className={'flex flex--center'}
+                                    data-tooltip-id={'ID-tooltip'}
+                                    data-tooltip-html={t('TUTOR_PROFILE.TOOLTIP.ID_VERIFIED')}
+                                >
+                                    <RiVerifiedBadgeFill size={20} />
+                                </div>
+                            )}
+                        </div>
                         <div className="type--color--brand mb-4">
                             {tutor.currentOccupation ? tutor.currentOccupation : t('SEARCH_TUTORS.NOT_FILLED')}{' '}
                         </div>

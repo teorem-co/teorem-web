@@ -938,6 +938,9 @@ export const EN_US = {
         ON12: '12 - 5 pm',
         AFTER5: 'After 5 pm',
         REVIEWS: 'reviews',
+        TOOLTIP: {
+            ID_VERIFIED: 'Tutor has a verified ID',
+        },
     },
     LANDING: {
         HEADER: {
