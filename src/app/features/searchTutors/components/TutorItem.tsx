@@ -173,59 +173,6 @@ const TutorItem: FC<Props> = (props: Props) => {
                             </>
                         </div>
                     </div>
-
-                    {/*<div className="tutor-list__item__details mr-4 border-none">*/}
-                    {/*    <div className="flex--grow mb-6">*/}
-                    {/*        <div className="flex flex--center mb-3">*/}
-                    {/*            <i className="icon icon--pricing icon--base icon--grey"></i>*/}
-                    {/*            {tutor.minPrice ? (*/}
-                    {/*                <span className="d--ib ml-4">*/}
-                    {/*                    {tutor.minPrice} {tutor.currencyCode}*/}
-                    {/*                    {tutor.minPrice !== tutor.maxPrice && (*/}
-                    {/*                        <>*/}
-                    {/*                            &nbsp;-&nbsp;*/}
-                    {/*                            {tutor.maxPrice} {tutor.currencyCode}*/}
-                    {/*                        </>*/}
-                    {/*                    )}*/}
-                    {/*                    &nbsp;/h*/}
-                    {/*                </span>*/}
-                    {/*            ) : (*/}
-                    {/*                <span className="d--ib ml-4">{t('SEARCH_TUTORS.TUTOR_PROFILE.NO_PRICE')}</span>*/}
-                    {/*            )}*/}
-                    {/*        </div>*/}
-
-                    {/*        <div className="flex flex--center mb-3">*/}
-                    {/*            <i className="icon icon--star icon--base icon--grey"></i>*/}
-                    {/*            <span className="d--ib ml-4">*/}
-                    {/*                /!* Add later *!/*/}
-                    {/*                {tutor.averageGrade ? tutor.averageGrade.toFixed(1) : 0}*/}
-                    {/*            </span>*/}
-                    {/*        </div>*/}
-                    {/*        <div className="flex flex--center">*/}
-                    {/*            <i className="icon icon--completed-lessons icon--base icon--grey"></i>*/}
-                    {/*            <span className="d--ib ml-4">*/}
-                    {/*                /!* Add later *!/*/}
-                    {/*                {tutor.completedLessons} {t('SEARCH_TUTORS.COMPLETED_LESSONS')}*/}
-                    {/*            </span>*/}
-                    {/*        </div>*/}
-                    {/*    </div>*/}
-                    {/*    <div className="type--center">*/}
-                    {/*        <Link*/}
-                    {/*            className="btn btn--primary btn--base w--100 mb-3"*/}
-                    {/*            to={`${PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS.replace(':tutorSlug', tutor.slug)}`}*/}
-                    {/*        >*/}
-                    {/*            {t('SEARCH_TUTORS.BOOK_LESSON')}*/}
-                    {/*        </Link>*/}
-                    {/*        <a*/}
-                    {/*            href={`${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug)}`}*/}
-                    {/*            className="btn btn--base btn--ghost--bordered w--100 type--wgt--extra-bold"*/}
-                    {/*            target="_blank" // Opens link in a new tab*/}
-                    {/*            rel="noopener noreferrer" // Security for opening new tabs*/}
-                    {/*        >*/}
-                    {/*            {t('SEARCH_TUTORS.VIEW_PROFILE')}*/}
-                    {/*        </a>*/}
-                    {/*    </div>*/}
-                    {/*</div>*/}
                 </div>
             </a>
             {currentlyActive && tutor.videoUrl && thumbnailUrl && (
