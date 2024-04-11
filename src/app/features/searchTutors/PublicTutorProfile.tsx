@@ -21,6 +21,7 @@ import { getAndSetThumbnailUrl } from '../my-profile/VideoRecorder/getThumbnail'
 import { TutorItemVideoPopup } from './components/TutorItemVideoPopup';
 import { RiVerifiedBadgeFill } from 'react-icons/ri';
 import { Tooltip } from 'react-tooltip';
+import { NoReviews } from '../../components/NoReviews';
 
 const PublicTutorProfile = () => {
     const [thumbnailUrl, setThumbnailUrl] = useState('');
@@ -269,7 +270,7 @@ const PublicTutorProfile = () => {
                                                             ) : (
                                                                 <span className="d--ib">{t('SEARCH_TUTORS.TUTOR_PROFILE.NO_PRICE')}</span>
                                                             )}
-                                                            <span>{t('SEARCH_TUTORS.TUTOR_PROFILE.LESSON_LENGTH')}</span>
+                                                            <span className={'type--sm'}>{t('SEARCH_TUTORS.TUTOR_PROFILE.LESSON_LENGTH')}</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -343,7 +344,7 @@ const PublicTutorProfile = () => {
                                                                     place={'bottom'}
                                                                     positionStrategy={'absolute'}
                                                                     float={false}
-                                                                    delayShow={1000}
+                                                                    delayShow={200}
                                                                     style={{
                                                                         backgroundColor: 'rgba(70,70,70, 0.9)',
                                                                         color: 'white',
@@ -414,9 +415,10 @@ const PublicTutorProfile = () => {
                                                                             </span>
                                                                         </div>
                                                                     ) : (
-                                                                        <span className={'type--md type--wgt--extra-bold'}>
-                                                                            {t('SEARCH_TUTORS.NO_REVIEWS')}
-                                                                        </span>
+                                                                        // <span className={'type--md type--wgt--extra-bold'}>
+                                                                        //     {t('SEARCH_TUTORS.NO_REVIEWS')}
+                                                                        // </span>
+                                                                        <NoReviews />
                                                                     )}
                                                                     <div className="flex flex--col flex--ai--center">
                                                                         <div className="flex flex--center flex--col type--center">
@@ -435,7 +437,9 @@ const PublicTutorProfile = () => {
                                                                                     {t('SEARCH_TUTORS.TUTOR_PROFILE.NO_PRICE')}
                                                                                 </span>
                                                                             )}
-                                                                            <span>{t('SEARCH_TUTORS.TUTOR_PROFILE.LESSON_LENGTH')}</span>
+                                                                            <span className={'type--sm'}>
+                                                                                {t('SEARCH_TUTORS.TUTOR_PROFILE.LESSON_LENGTH')}
+                                                                            </span>
                                                                         </div>
                                                                     </div>
                                                                 </div>
