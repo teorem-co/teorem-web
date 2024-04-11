@@ -71,7 +71,9 @@ const TutorItem: FC<Props> = (props: Props) => {
                     </div>
                     <div className="tutor-list__item__info w--550--max mr-2">
                         <div className="flex flex--row flex--ai--center mb-2">
-                            <div className="type--md mr-1">{tutor.firstName && tutor.lastName ? `${tutor.firstName} ${tutor.lastName}` : ''}</div>
+                            <div className="type--md type--wgt--extra-bold mr-1">
+                                {tutor.firstName && tutor.lastName ? `${tutor.firstName} ${tutor.lastName}` : ''}
+                            </div>
 
                             <Tooltip
                                 id="ID-tooltip"

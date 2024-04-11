@@ -14,7 +14,7 @@ export const TutorItemMobileNew = (props: Props) => {
     const { tutor } = props;
 
     return (
-        <div className={'card--primary flex flex--col mt-2'}>
+        <div className={'card--primary flex flex--col mt-4'}>
             <div className={'flex'}>
                 <div className="flex flex--row font__sm flex--ai--center flex--grow">
                     {/*profile image*/}
