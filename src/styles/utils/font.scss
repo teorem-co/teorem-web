@@ -1,56 +1,65 @@
-.font{
+.font {
 
-  &__smlr{
+  &__smlr {
     font-size: smaller;
   }
 
-  &__sm{
+  &__sm {
     font-size: small;
   }
 
-  &__md{
+  &__md {
     font-size: medium;
   }
 
-  &__lg{
+  &__lg {
     font-size: large;
   }
 
-  &__lgr{
+  &__lgr {
     font-size: larger;
   }
 
-  &__xlg{
+  &__xlg {
     font-size: x-large;
   }
 
-  &__xxlg{
+  &__xxlg {
     font-size: xx-large;
   }
 
-  &__xxxlg{
+  &__xxxlg {
     font-size: xxx-large;
   }
 
-  &__30{
+  &__30 {
     font-size: 0.5em;
   }
 
-  &__11{
+  &__11 {
     font-size: 11px;
+  }
+
+  &__12 {
+    font-size: 12px;
+  }
+
+  &__14 {
+    font-size: 14px;
   }
 }
 
-.font-family{
-  &__montserrat{
+.font-family {
+  &__montserrat {
     font-family: 'Montserrat', sans-serif;
   }
-  &__poppins{
+
+  &__poppins {
     font-family: 'Poppins', sans-serif;
   }
 }
 
-.fw{
+.fw {
   &-100 {
     font-weight: 100;
   }

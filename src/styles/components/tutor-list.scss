@@ -9,11 +9,10 @@ $tutor-item-list-details-width: 220px;
 .tutor-list {
   &__item {
     display: flex;
-    padding: calc(#{$unit} * 6);
     border: 1px solid $grey-ed;
     border-radius: $border-rounded;
     margin-bottom: calc(#{$unit} * 4);
-    padding-right: calc(#{$unit} * 4);
+    padding: calc(#{$unit} * 6) calc(#{$unit} * 4) calc(#{$unit} * 6) calc(#{$unit} * 6);
 
     &:last-child {
       margin-bottom: 0;
