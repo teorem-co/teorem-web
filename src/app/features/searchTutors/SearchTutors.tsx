@@ -70,7 +70,7 @@ const SearchTutors = () => {
 
     const history = useHistory();
     const { t } = useTranslation();
-    const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
+    const debouncedScrollHandler = debounce((e) => handleScroll(e), 300);
     const cardRef = useRef<HTMLDivElement>(null);
     const cardElement = cardRef.current as HTMLDivElement;
     const levelDisabled = !levels || isLoadingLevels;
@@ -302,14 +302,13 @@ const SearchTutors = () => {
             const innerHeight = e.scrollHeight;
             const scrollPosition = e.scrollTop + e.clientHeight;
 
-            console.log('innerHeight: ', innerHeight);
-            console.log('scrollPosition: ', scrollPosition);
+            // console.log('innerHeight: ', innerHeight);
+            // console.log('scrollPosition: ', scrollPosition);
             const roundedInnerHeight = Math.floor(innerHeight);
             const roundedScrollPosition = Math.floor(scrollPosition);
 
-            // if (Math.abs(roundedInnerHeight - roundedScrollPosition) < 2000) {
-            // if (roundedScrollPosition / roundedInnerHeight > 0.5) {
-            if (roundedInnerHeight === roundedScrollPosition) {
+            // if (roundedInnerHeight === roundedScrollPosition) {
+            if (roundedScrollPosition / roundedInnerHeight > 0.8) {
                 // handleLoadMore();
                 if (!availableTutors.last) {
                     const tutorResponse = await getAvailableTutors({
