@@ -1,6 +1,5 @@
 import { t } from 'i18next';
 import moment from 'moment/moment';
-import { PATHS } from '../../../routes';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import { ConfirmationModal } from '../../../components/ConfirmationModal';
@@ -290,13 +289,9 @@ export const UpcomingLessonItem = ({
                             setShowDateSelectModal(false);
                             fetchData();
                         }}
-                        clearEmptyBookings={() => {
-                            console.log('clearEmptyBookings');
-                        }}
+                        clearEmptyBookings={() => {}}
                         positionClass={'modal--center'}
-                        setSidebarOpen={() => {
-                            console.log('setSidebarOpen');
-                        }}
+                        setSidebarOpen={() => {}}
                     />
                 </div>
             )}
