@@ -68,7 +68,6 @@ export const RecommendedTutorCard = (props: Props) => {
                         {tutor.completedLessons > 0 ? (
                             <div className="flex flex--row flex--ai--center mb-3 mt-1">
                                 <LuBookOpenCheck size={20} color={'#7e6cf2'} />
-                                {/*<i className="icon icon--completed-lessons icon--base icon--grey"></i>*/}
                                 <span className="d--ib ml-1">
                                     {tutor.completedLessons} {t('SEARCH_TUTORS.COMPLETED_LESSONS')}
                                 </span>

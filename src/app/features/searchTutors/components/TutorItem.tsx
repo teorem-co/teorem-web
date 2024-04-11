@@ -148,7 +148,7 @@ const TutorItem: FC<Props> = (props: Props) => {
                                     ) : (
                                         <span className="d--ib">{t('SEARCH_TUTORS.TUTOR_PROFILE.NO_PRICE')}</span>
                                     )}
-                                    <span>{t('SEARCH_TUTORS.TUTOR_PROFILE.LESSON_LENGTH')}</span>
+                                    <span className={'type--sm'}>{t('SEARCH_TUTORS.TUTOR_PROFILE.LESSON_LENGTH')}</span>
                                 </div>
                             </div>
                         </div>
@@ -167,7 +167,6 @@ const TutorItem: FC<Props> = (props: Props) => {
                                     href={`${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug)}`}
                                     target="_blank" // Opens link in a new tab
                                 >
-                                    {/*<i className="icon icon--base icon--chat icon--primary mr-1"></i>*/}
                                     <span>{t('SEARCH_TUTORS.VIEW_PROFILE')}</span>
                                 </a>
                             </>

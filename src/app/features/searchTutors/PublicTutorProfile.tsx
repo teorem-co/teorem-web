@@ -270,7 +270,7 @@ const PublicTutorProfile = () => {
                                                             ) : (
                                                                 <span className="d--ib">{t('SEARCH_TUTORS.TUTOR_PROFILE.NO_PRICE')}</span>
                                                             )}
-                                                            <span>{t('SEARCH_TUTORS.TUTOR_PROFILE.LESSON_LENGTH')}</span>
+                                                            <span className={'type--sm'}>{t('SEARCH_TUTORS.TUTOR_PROFILE.LESSON_LENGTH')}</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -437,7 +437,9 @@ const PublicTutorProfile = () => {
                                                                                     {t('SEARCH_TUTORS.TUTOR_PROFILE.NO_PRICE')}
                                                                                 </span>
                                                                             )}
-                                                                            <span>{t('SEARCH_TUTORS.TUTOR_PROFILE.LESSON_LENGTH')}</span>
+                                                                            <span className={'type--sm'}>
+                                                                                {t('SEARCH_TUTORS.TUTOR_PROFILE.LESSON_LENGTH')}
+                                                                            </span>
                                                                         </div>
                                                                     </div>
                                                                 </div>

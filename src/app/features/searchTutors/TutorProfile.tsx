@@ -334,7 +334,7 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                                                                 ) : (
                                                                     <span className="d--ib">{t('SEARCH_TUTORS.TUTOR_PROFILE.NO_PRICE')}</span>
                                                                 )}
-                                                                <span>{t('SEARCH_TUTORS.TUTOR_PROFILE.LESSON_LENGTH')}</span>
+                                                                <span className={'type--sm'}>{t('SEARCH_TUTORS.TUTOR_PROFILE.LESSON_LENGTH')}</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -506,7 +506,9 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                                                                                         {t('SEARCH_TUTORS.TUTOR_PROFILE.NO_PRICE')}
                                                                                     </span>
                                                                                 )}
-                                                                                <span>{t('SEARCH_TUTORS.TUTOR_PROFILE.LESSON_LENGTH')}</span>
+                                                                                <span className={'type--sm'}>
+                                                                                    {t('SEARCH_TUTORS.TUTOR_PROFILE.LESSON_LENGTH')}
+                                                                                </span>
                                                                             </div>
                                                                         </div>
                                                                     </div>
