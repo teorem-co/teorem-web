@@ -22,7 +22,7 @@ import { useAppSelector } from '../../hooks';
 import { useDispatch } from 'react-redux';
 import { ISearchFiltersState, resetSearchFilters, setSearchFilters } from '../../../slices/searchFiltesSlice';
 import { allActiveSubjects } from '../register/sign_up_rework/student_and_parent/subjects';
-import { TutorItemMobileNew } from './components/TutorItemMobileNew';
+import { TutorItemMobile } from './components/TutorItemMobile';
 
 interface Values {
     subject: string;
@@ -532,7 +532,7 @@ const SearchTutors = () => {
                         {loadedTutorItems.length > 0 ? (
                             loadedTutorItems.map((tutor) =>
                                 isMobile ? (
-                                    <TutorItemMobileNew key={tutor.id} tutor={tutor} />
+                                    <TutorItemMobile key={tutor.id} tutor={tutor} />
                                 ) : (
                                     <TutorItem
                                         setActiveCard={setCurrentlyActiveId}

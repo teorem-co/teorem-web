@@ -126,7 +126,7 @@ const TutorItem: FC<Props> = (props: Props) => {
                                         <i className="icon icon--base icon--star"></i>
                                         <span className={'type--md type--wgt--extra-bold'}>{tutor.averageGrade.toFixed(1)}</span>
                                     </div>
-                                    <span>
+                                    <span className={'type--sm'}>
                                         {tutor.numberOfGrades}&nbsp;{t('TUTOR_PROFILE.REVIEWS')}
                                     </span>
                                 </div>
