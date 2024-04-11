@@ -289,9 +289,13 @@ export const UpcomingLessonItem = ({
                             setShowDateSelectModal(false);
                             fetchData();
                         }}
-                        clearEmptyBookings={() => {}}
+                        clearEmptyBookings={() => {
+                            console.log('clearEmptyBookings');
+                        }}
                         positionClass={'modal--center'}
-                        setSidebarOpen={() => {}}
+                        setSidebarOpen={() => {
+                            console.log('setSidebarOpen');
+                        }}
                     />
                 </div>
             )}
