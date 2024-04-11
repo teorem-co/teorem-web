@@ -18,11 +18,11 @@ import getUrlParams from '../../utils/getUrlParams';
 import PriceSort from './components/PriceSort';
 import TutorItem from './components/TutorItem';
 import ITutorItem from '../../../interfaces/ITutorItem';
-import { TutorItemMobile } from './components/TutorItemMobile';
 import { useAppSelector } from '../../hooks';
 import { useDispatch } from 'react-redux';
 import { ISearchFiltersState, resetSearchFilters, setSearchFilters } from '../../../slices/searchFiltesSlice';
 import { allActiveSubjects } from '../register/sign_up_rework/student_and_parent/subjects';
+import { TutorItemMobile } from './components/TutorItemMobile';
 
 interface Values {
     subject: string;
@@ -307,6 +307,8 @@ const SearchTutors = () => {
             const roundedInnerHeight = Math.floor(innerHeight);
             const roundedScrollPosition = Math.floor(scrollPosition);
 
+            // if (Math.abs(roundedInnerHeight - roundedScrollPosition) < 2000) {
+            // if (roundedScrollPosition / roundedInnerHeight > 0.5) {
             if (roundedInnerHeight === roundedScrollPosition) {
                 // handleLoadMore();
                 if (!availableTutors.last) {
