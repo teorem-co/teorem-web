@@ -308,7 +308,7 @@ const SearchTutors = () => {
             const roundedScrollPosition = Math.floor(scrollPosition);
 
             // if (Math.abs(roundedInnerHeight - roundedScrollPosition) < 2000) {
-            if (roundedScrollPosition / roundedInnerHeight > 0.8) {
+            if (roundedScrollPosition / roundedInnerHeight > 0.7) {
                 // if (roundedInnerHeight === roundedScrollPosition) {
                 // handleLoadMore();
                 if (!availableTutors.last) {
