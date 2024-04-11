@@ -302,16 +302,17 @@ const SearchTutors = () => {
             const innerHeight = e.scrollHeight;
             const scrollPosition = e.scrollTop + e.clientHeight;
 
-            console.log('innerHeight: ', innerHeight);
-            console.log('scrollPosition: ', scrollPosition);
+            // console.log('innerHeight: ', innerHeight);
+            // console.log('scrollPosition: ', scrollPosition);
             const roundedInnerHeight = Math.floor(innerHeight);
             const roundedScrollPosition = Math.floor(scrollPosition);
 
             // if (Math.abs(roundedInnerHeight - roundedScrollPosition) < 2000) {
-            if (roundedScrollPosition / roundedInnerHeight > 0.7) {
+            if (roundedScrollPosition / roundedInnerHeight > 0.8) {
                 // if (roundedInnerHeight === roundedScrollPosition) {
                 // handleLoadMore();
                 if (!availableTutors.last) {
+                    console.log('Sending request for more tutors with new params');
                     const tutorResponse = await getAvailableTutors({
                         ...params,
                         page: availableTutors.number + 1,
