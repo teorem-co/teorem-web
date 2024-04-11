@@ -311,7 +311,6 @@ const SearchTutors = () => {
             if (roundedScrollPosition / roundedInnerHeight > 0.8) {
                 // handleLoadMore();
                 if (!availableTutors.last) {
-                    console.log('Sending request for more tutors with new params');
                     const tutorResponse = await getAvailableTutors({
                         ...params,
                         page: availableTutors.number + 1,
