@@ -34,15 +34,22 @@ export const TutorItemMobileNew = (props: Props) => {
                         </div>
 
                         {/*grade and price*/}
-                        <div className={'flex flex--row flex--center flex--jc--space-between flex--grow type--normal'}>
-                            {tutor.averageGrade > 0 && (
+                        <div className={'flex flex--row flex--center flex--grow flex-gap-5 type--normal w--100'}>
+                            {tutor.averageGrade > 0 ? (
                                 <div className="flex flex--col flex--ai--center flex--jc--center">
-                                    <div className="flex flex--row flex--ai--center mr-4">
+                                    <div className="flex flex--row flex--ai--center">
                                         <i className="icon icon--sm icon--star"></i>
                                         <span className={'type--wgt--extra-bold'}>{tutor.averageGrade.toFixed(1)}</span>
                                     </div>
-                                    <span className={'type--sm'}>({tutor.numberOfGrades})</span>
+                                    <span className={'type--sm'}>
+                                        {tutor.numberOfGrades}&nbsp;{t('TUTOR_PROFILE.REVIEWS')}
+                                    </span>
                                 </div>
+                            ) : (
+                                <span className="d--b flex flex--col flex--center">
+                                    <span className={'type--wgt--extra-bold type--normal'}>{t('SEARCH_TUTORS.NEW_TUTOR.PART_1')}</span>
+                                    <span className={'type--sm'}>{t('SEARCH_TUTORS.NEW_TUTOR.PART_2')}</span>
+                                </span>
                             )}
                             <div className="flex flex--center flex--col type--center">
                                 {tutor.minPrice ? (
@@ -56,7 +63,7 @@ export const TutorItemMobileNew = (props: Props) => {
                                                 </>
                                             )}
                                         </span>
-                                        <span className={'type--sm'}>{t('SEARCH_TUTORS.TUTOR_PROFILE.LESSON_LENGTH')}</span>
+                                        <span className={'type--sm'}>50 min</span>
                                     </div>
                                 ) : (
                                     <span className="d--ib">{t('SEARCH_TUTORS.TUTOR_PROFILE.NO_PRICE')}</span>
@@ -65,18 +72,13 @@ export const TutorItemMobileNew = (props: Props) => {
                         </div>
 
                         {/*occupation*/}
-                        <span className="d--b font__14">{tutor.currentOccupation}</span>
+                        <span className="d--b font__14 mt-1">{tutor.currentOccupation}</span>
 
                         {/*completed lessons*/}
-                        <div className="flex flex--row flex--ai--center flex--jc--space-between font__14 type--wgt--bold">
-                            {tutor.completedLessons > 0 ? (
+                        <div className="flex flex--row flex--ai--center flex--jc--space-between font__14 type--wgt--bold mt-1">
+                            {tutor.completedLessons > 0 && (
                                 <span className="d--b type--color--brand">
                                     {tutor.completedLessons} {t('SEARCH_TUTORS.COMPLETED_LESSONS')}
-                                </span>
-                            ) : (
-                                <span className="d--b">
-                                    <span className={'type--wgt--extra-bold type--sm'}>{t('SEARCH_TUTORS.NEW_TUTOR.PART_1')}</span>
-                                    &nbsp;{t('SEARCH_TUTORS.NEW_TUTOR.PART_2')}
                                 </span>
                             )}
                         </div>

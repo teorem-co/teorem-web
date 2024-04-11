@@ -9,7 +9,7 @@ interface Props {
 export const NoReviews = (props: Props) => {
     const { fontSize } = { ...props };
     const [titleSize, setTitleSize] = useState('md');
-    const [subtitleSize, setSubtitleSize] = useState('sm');
+    const [subtitleSize, setSubtitleSize] = useState('base');
 
     useEffect(() => {
         if (fontSize === 'small') {
@@ -17,7 +17,7 @@ export const NoReviews = (props: Props) => {
             setSubtitleSize('xs');
         } else if (fontSize === 'large') {
             setTitleSize('lg');
-            setSubtitleSize('md');
+            setSubtitleSize('normal');
         }
     }, []);
 

@@ -69,7 +69,7 @@ const TutorItem: FC<Props> = (props: Props) => {
                             />
                         )}
                     </div>
-                    <div className="tutor-list__item__info w--550--max">
+                    <div className="tutor-list__item__info w--550--max mr-2">
                         <div className="flex flex--row flex--ai--center mb-2">
                             <div className="type--md mr-1">{tutor.firstName && tutor.lastName ? `${tutor.firstName} ${tutor.lastName}` : ''}</div>
 
@@ -106,14 +106,8 @@ const TutorItem: FC<Props> = (props: Props) => {
                                 </span>
                             </div>
                         )}
-                        <div className={`type--color--secondary w--550--min`}>
-                            {tutor.aboutTutor
-                                ? tutor.aboutTutor
-                                    ? tutor.aboutTutor.length > 300
-                                        ? handleLongText(tutor.aboutTutor)
-                                        : tutor.aboutTutor
-                                    : ''
-                                : t('SEARCH_TUTORS.NOT_FILLED')}
+                        <div className={`type--color--secondary w--550--min type--3--lines`}>
+                            {tutor.aboutTutor ? tutor.aboutTutor : t('SEARCH_TUTORS.NOT_FILLED')}
                         </div>
                         <div className={`type--color--secondary mb-4 mt-2 ${tutor.subjects.length > 0 ? 'mb-4' : ''}`}>
                             {t('SEARCH_TUTORS.YEARS_OF_EXPERIENCE')} {tutor.yearsOfExperience}
