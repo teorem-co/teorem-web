@@ -1,5 +1,5 @@
 import { t } from 'i18next';
-import { debounce, divide } from 'lodash';
+import { debounce } from 'lodash';
 import moment from 'moment';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -32,8 +32,8 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import '../../../../styles/base/vars.scss';
 import { BsCheck, BsCheckAll, BsDownload, BsFillFileEarmarkFill } from 'react-icons/bs';
 import MediaQuery from 'react-responsive';
-import { RiContractLeftFill } from 'react-icons/ri';
 import { AiOutlineLeft } from 'react-icons/ai';
+
 interface Props {
     data: IChatRoom | null;
 }
@@ -124,17 +124,6 @@ const SingleConversation = (props: Props) => {
         }
     }, [page]);
 
-    /*useEffect(() => {
-      if (freeConsultationIsSuccess) {
-          chat.socket.emit('joinFreeConsultation', {
-              userId: props.data?.user?.userId,
-              tutorId: props.data?.tutor?.userId,
-              senderId: userActive?.id,
-              link: freeConsultationLink,
-          });
-      }
-  }, [freeConsultationLink]);*/
-
     useEffect(() => {
         if (user2Data && user2Data2 && freeCallCancel) {
             let messageText = 'userInsert={username} stringTranslate={NOTIFICATIONS.CHAT_HAS_MISSED_CALL}';
@@ -178,59 +167,8 @@ const SingleConversation = (props: Props) => {
             };
 
             dispatch(addChatRoom(chatRoom));
-
-            /*chat.socket.emit('onMissedFreeConsultation', {
-          userId: user2Data.id + '',
-          tutorId: user2Data2.id + '',
-          message: {
-              message: 'userInsert={username} stringTranslate={NOTIFICATIONS.CHAT_HAS_MISSED_CALL}',
-              createdAt: new Date(),
-              isRead: true,
-              messageId: '',
-              isFile: false,
-              messageNew: true,
-              messageMissedCall: true,
-          },
-          senderId: (userActive?.id || chat.buffer?.senderId) == user2Data.id ? user2Data.id : user2Data2.id,
-      });*/
-
-            //setFreeCallCancel(false);
         }
     }, [user2Data, user2Data2, freeCallCancel]);
-
-    /*useEffect(() => {
-      if (freeCallExpired && !freeCallCancelled && !chat.freeConsultation) {
-          if (props.data) {
-              chat.socket.emit('cancelFreeConsultation', {
-                  userId: props.data?.user?.userId,
-                  tutorId: props.data?.tutor?.userId,
-                  senderId: userActive?.id,
-                  link: freeConsultationLink,
-                  expired: true,
-              });
-          } else if (chat.buffer) {
-              chat.socket.emit('cancelFreeConsultation', {
-                  userId: chat.buffer.userId,
-                  tutorId: chat.buffer.tutorId,
-                  senderId: chat.buffer.senderId,
-                  link: chat.buffer.link,
-                  expired: true,
-              });
-          }
-
-          handleChatInit();
-          setFreeCallCancelled(false);
-      }
-  }, [freeCallExpired]);
-
-  useEffect(() => {
-      if (freeConsultationClicked) {
-          setTimeout(() => {
-              setFreeCallExpired(true);
-              dispatch(setConsultationInitialized(false));
-          }, 10000);
-      }
-  }, [freeConsultationClicked]);*/
 
     const handleChatInit = (freeConsultation: boolean = false) => {
         dispatch(setConsultationInitialized(false));
@@ -276,45 +214,6 @@ const SingleConversation = (props: Props) => {
             setFreeCallExpired(false);
         }
     };
-    /*
-  const onFreeConsultationClose = () => {
-      if (props.data)
-          chat.socket.emit('closeActiveFreeConsultation', {
-              userId: props.data?.user?.userId,
-              tutorId: props.data?.tutor?.userId,
-              senderId: userActive?.id,
-              link: freeConsultationLink,
-              expired: true,
-          });
-      else if (chat.buffer)
-          chat.socket.emit('closeActiveFreeConsultation', {
-              userId: chat.buffer.userId,
-              tutorId: chat.buffer.tutorId,
-              senderId: userActive?.id,
-              link: chat.buffer.link,
-          });
-
-      handleChatInit(true);
-      setFreeCallCancelled(false);
-  };
-
-  const onCancelFreeConsultation = () => {
-      if (freeConsultationIsSuccess) {
-          chat.socket.emit('cancelFreeConsultation', {
-              userId: props.data?.user?.userId,
-              tutorId: props.data?.tutor?.userId,
-              senderId: userActive?.id,
-              link: freeConsultationLink,
-          });
-
-          handleChatInit();
-          setFreeCallCancelled(true);
-          setFreeCallCancel(true);
-
-          getUserById(props.data?.user?.userId + '');
-          getUserById2(props.data?.tutor?.userId + '');
-      }
-  };*/
 
     const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
 
@@ -397,6 +296,11 @@ const SingleConversation = (props: Props) => {
                                                       .split(' ')[1]
                                                       .charAt(0)}`
                                         }
+                                        style={{
+                                            width: 40,
+                                            height: 40,
+                                        }}
+                                        fontSize={20}
                                     />
                                 ))}
 
@@ -411,10 +315,30 @@ const SingleConversation = (props: Props) => {
                     )}
 
                     {props.data && userActive?.Role.abrv == Role.Tutor && (
-                        <ImageCircle
-                            initials={`${props.data.user?.userNickname.charAt(0)}${props.data.user?.userNickname?.split(' ')[1]?.charAt(0)}`}
-                        />
+                        <div>
+                            {props.data.user?.userImage !== undefined ? (
+                                <img
+                                    className="chat__conversation__avatar"
+                                    src={`${props.data.user?.userImage}&v=${cacheBuster}`}
+                                    alt={'profile avatar'}
+                                />
+                            ) : (
+                                <ImageCircle
+                                    initials={`${userActive?.firstName.charAt(0)}${userActive?.lastName.charAt(0)}`}
+                                    style={{
+                                        width: 40,
+                                        height: 40,
+                                    }}
+                                    fontSize={20}
+                                />
+                            )}
+                        </div>
                     )}
+
+                    {/*    // <ImageCircle*/}
+                    {/*    //     initials={`${props.data.user?.userNickname.charAt(0)}${props.data.user?.userNickname?.split(' ')[1]?.charAt(0)}`}*/}
+                    {/*    // />*/}
+                    {/*)}*/}
 
                     {props.data && userActive?.Role.abrv == Role.Tutor && (
                         <div className="ml-3 type--wgt--bold">
@@ -510,7 +434,11 @@ const SingleConversation = (props: Props) => {
                                         positionStrategy={'absolute'}
                                         float={true}
                                         delayShow={1000}
-                                        style={{ backgroundColor: 'rgba(70,70,70, 0.9)', color: 'white', fontSize: 'smaller' }}
+                                        style={{
+                                            backgroundColor: 'rgba(70,70,70, 0.9)',
+                                            color: 'white',
+                                            fontSize: 'smaller',
+                                        }}
                                     />
                                     {!sameDate && (
                                         <div className={`message-full-width flex flex--col flex--center`}>
@@ -536,11 +464,22 @@ const SingleConversation = (props: Props) => {
                                                 />
                                             ) : (
                                                 <div>
-                                                    <ImageCircle
-                                                        initials={`${userActive?.firstName.charAt(0)}${userActive?.lastName.charAt(0)}`}
-                                                        style={{ width: 40, height: 40 }}
-                                                        fontSize={20}
-                                                    />
+                                                    {props.data.user?.userImage !== undefined ? (
+                                                        <img
+                                                            className="chat__conversation__avatar chat__conversation__avatar--small"
+                                                            src={`${props.data.user?.userImage}&v=${cacheBuster}`}
+                                                            alt={'profile avatar'}
+                                                        />
+                                                    ) : (
+                                                        <ImageCircle
+                                                            initials={`${userActive?.firstName.charAt(0)}${userActive?.lastName.charAt(0)}`}
+                                                            style={{
+                                                                width: 40,
+                                                                height: 40,
+                                                            }}
+                                                            fontSize={20}
+                                                        />
+                                                    )}
                                                 </div>
                                             ))}
 
@@ -633,13 +572,23 @@ const SingleConversation = (props: Props) => {
                                                             .charAt(0)}${props.data.tutor?.userNickname.split(' ')[1].charAt(0)}`}
                                                     />
                                                 ) : (
-                                                    <ImageCircle
-                                                        className="image-40"
-                                                        fontSize={20}
-                                                        initials={`${props.data.user?.userNickname
-                                                            .split(' ')[0]
-                                                            .charAt(0)}${props.data.user?.userNickname.split(' ')[1].charAt(0)}`}
-                                                    />
+                                                    <div>
+                                                        {props.data.user?.userImage ? (
+                                                            <img
+                                                                className="chat__conversation__avatar chat__conversation__avatar--small"
+                                                                src={`${props.data.user?.userImage}&v=${cacheBuster}`}
+                                                                alt={'profile avatar'}
+                                                            />
+                                                        ) : (
+                                                            <ImageCircle
+                                                                className="image-40"
+                                                                fontSize={20}
+                                                                initials={`${props.data.user?.userNickname
+                                                                    .split(' ')[0]
+                                                                    .charAt(0)}${props.data.user?.userNickname.split(' ')[1].charAt(0)}`}
+                                                            />
+                                                        )}
+                                                    </div>
                                                 )}
                                             </div>
                                         ))}

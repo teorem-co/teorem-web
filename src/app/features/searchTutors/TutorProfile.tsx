@@ -27,6 +27,9 @@ import { getAndSetThumbnailUrl } from '../my-profile/VideoRecorder/getThumbnail'
 import { TutorItemVideoPopup } from './components/TutorItemVideoPopup';
 import ITutorSubjectLevel from '../../../interfaces/ITutorSubjectLevel';
 import { MdOutlinePlayCircleFilled } from 'react-icons/md';
+import { RiVerifiedBadgeFill } from 'react-icons/ri';
+import { Tooltip } from 'react-tooltip';
+import { NoReviews } from '../../components/NoReviews';
 
 const TutorProfile = () => {
     const { t } = useTranslation();
@@ -266,6 +269,7 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                                                         <div className="flex flex--col w--80">
                                                             <div className="d--b type--xl type--wgt--bold text-align--center type--break">
                                                                 {tutorData ? `${tutorData.User.firstName} ${tutorData.User.lastName}` : 'Go back'}
+                                                                {tutorData.idVerified && <RiVerifiedBadgeFill className={'ml-2'} size={22} />}
                                                             </div>
                                                             <div className="type--color--brand type--base type--center type--break">
                                                                 {tutorData.currentOccupation}
@@ -330,7 +334,7 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                                                                 ) : (
                                                                     <span className="d--ib">{t('SEARCH_TUTORS.TUTOR_PROFILE.NO_PRICE')}</span>
                                                                 )}
-                                                                <span>{t('SEARCH_TUTORS.TUTOR_PROFILE.LESSON_LENGTH')}</span>
+                                                                <span className={'type--sm'}>{t('SEARCH_TUTORS.TUTOR_PROFILE.LESSON_LENGTH')}</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -399,8 +403,34 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                                                                 </div>
                                                             </div>
                                                             <div className="flex--col flex--ai--start">
-                                                                <div className="d--b type--xl type--wgt--bold type--break type--left">
-                                                                    {tutorData ? `${tutorData.User.firstName} ${tutorData.User.lastName}` : 'Go back'}
+                                                                <div className={'flex flex--row  flex--ai--center'}>
+                                                                    <div className="d--b type--xl type--wgt--bold type--break type--left mr-2">
+                                                                        {tutorData
+                                                                            ? `${tutorData.User.firstName} ${tutorData.User.lastName}`
+                                                                            : 'Go back'}
+                                                                    </div>
+                                                                    <Tooltip
+                                                                        id="ID-tooltip"
+                                                                        place={'bottom'}
+                                                                        positionStrategy={'absolute'}
+                                                                        float={false}
+                                                                        delayShow={500}
+                                                                        style={{
+                                                                            backgroundColor: 'rgba(70,70,70, 0.9)',
+                                                                            color: 'white',
+                                                                            fontSize: 'smaller',
+                                                                        }}
+                                                                    />
+
+                                                                    {tutorData.idVerified && (
+                                                                        <div
+                                                                            className={'flex flex--center'}
+                                                                            data-tooltip-id={'ID-tooltip'}
+                                                                            data-tooltip-html={t('TUTOR_PROFILE.TOOLTIP.ID_VERIFIED')}
+                                                                        >
+                                                                            <RiVerifiedBadgeFill size={25} />
+                                                                        </div>
+                                                                    )}
                                                                 </div>
 
                                                                 <div className="type--color--brand type--base type--break type--left">
@@ -454,9 +484,10 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                                                                                 </span>
                                                                             </div>
                                                                         ) : (
-                                                                            <span className={'type--md type--wgt--extra-bold'}>
-                                                                                {t('SEARCH_TUTORS.NO_REVIEWS')}
-                                                                            </span>
+                                                                            // <span className={'type--md type--wgt--extra-bold'}>
+                                                                            //     {t('SEARCH_TUTORS.NO_REVIEWS')}
+                                                                            // </span>
+                                                                            <NoReviews />
                                                                         )}
                                                                         <div className="flex flex--col flex--ai--center">
                                                                             <div className="flex flex--center flex--col type--center">
@@ -475,7 +506,9 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                                                                                         {t('SEARCH_TUTORS.TUTOR_PROFILE.NO_PRICE')}
                                                                                     </span>
                                                                                 )}
-                                                                                <span>{t('SEARCH_TUTORS.TUTOR_PROFILE.LESSON_LENGTH')}</span>
+                                                                                <span className={'type--sm'}>
+                                                                                    {t('SEARCH_TUTORS.TUTOR_PROFILE.LESSON_LENGTH')}
+                                                                                </span>
                                                                             </div>
                                                                         </div>
                                                                     </div>

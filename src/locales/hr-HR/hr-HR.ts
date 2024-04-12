@@ -209,6 +209,10 @@ export const HR_HR = {
         SORT_LOW: 'Najnižoj cijeni',
         SORT_HIGH: 'Najvišoj cijeni',
         SORT_NONE: 'Bez sortiranja',
+        NEW_TUTOR: {
+            PART_1: 'Novi',
+            PART_2: 'instruktor',
+        },
     },
     TUTOR_MANAGMENT: {
         TITLE: 'Popis instruktora',
@@ -935,6 +939,9 @@ export const HR_HR = {
         ON12: '12-17h',
         AFTER5: '17-20h',
         REVIEWS: 'recenzija',
+        TOOLTIP: {
+            ID_VERIFIED: 'Instruktor ima potvrđen identitet',
+        },
     },
     LANDING: {
         HEADER: {

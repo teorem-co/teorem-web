@@ -65,7 +65,6 @@ export const MicrophoneTest = (props: Props) => {
         return () => {
             if (stream) {
                 stream.getTracks().forEach((track) => {
-                    console.log('Stopping mic track');
                     track.stop();
                 });
             }

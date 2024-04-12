@@ -18,11 +18,11 @@ import getUrlParams from '../../utils/getUrlParams';
 import PriceSort from './components/PriceSort';
 import TutorItem from './components/TutorItem';
 import ITutorItem from '../../../interfaces/ITutorItem';
-import { TutorItemMobile } from './components/TutorItemMobile';
 import { useAppSelector } from '../../hooks';
 import { useDispatch } from 'react-redux';
 import { ISearchFiltersState, resetSearchFilters, setSearchFilters } from '../../../slices/searchFiltesSlice';
 import { allActiveSubjects } from '../register/sign_up_rework/student_and_parent/subjects';
+import { TutorItemMobile } from './components/TutorItemMobile';
 
 interface Values {
     subject: string;
@@ -70,7 +70,7 @@ const SearchTutors = () => {
 
     const history = useHistory();
     const { t } = useTranslation();
-    const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
+    const debouncedScrollHandler = debounce((e) => handleScroll(e), 300);
     const cardRef = useRef<HTMLDivElement>(null);
     const cardElement = cardRef.current as HTMLDivElement;
     const levelDisabled = !levels || isLoadingLevels;
@@ -302,12 +302,13 @@ const SearchTutors = () => {
             const innerHeight = e.scrollHeight;
             const scrollPosition = e.scrollTop + e.clientHeight;
 
-            console.log('innerHeight: ', innerHeight);
-            console.log('scrollPosition: ', scrollPosition);
+            // console.log('innerHeight: ', innerHeight);
+            // console.log('scrollPosition: ', scrollPosition);
             const roundedInnerHeight = Math.floor(innerHeight);
             const roundedScrollPosition = Math.floor(scrollPosition);
 
-            if (roundedInnerHeight === roundedScrollPosition) {
+            // if (roundedInnerHeight === roundedScrollPosition) {
+            if (roundedScrollPosition / roundedInnerHeight > 0.8) {
                 // handleLoadMore();
                 if (!availableTutors.last) {
                     const tutorResponse = await getAvailableTutors({

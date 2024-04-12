@@ -210,6 +210,10 @@ export const EN_US = {
         SORT_LOW: 'Low price',
         SORT_HIGH: 'High price',
         SORT_NONE: 'None',
+        NEW_TUTOR: {
+            PART_1: 'New',
+            PART_2: 'tutor',
+        },
     },
     TUTOR_MANAGMENT: {
         TITLE: 'Tutor list',
@@ -938,6 +942,9 @@ export const EN_US = {
         ON12: '12 - 5 pm',
         AFTER5: 'After 5 pm',
         REVIEWS: 'reviews',
+        TOOLTIP: {
+            ID_VERIFIED: 'Tutor has a verified ID',
+        },
     },
     LANDING: {
         HEADER: {
