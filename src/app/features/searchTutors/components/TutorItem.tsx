@@ -6,12 +6,12 @@ import { PATHS } from '../../../routes';
 import ITutorItem from '../../../../interfaces/ITutorItem';
 import CustomSubjectList from './CustomSubjectList';
 import { TutorItemVideoPopup } from './TutorItemVideoPopup';
-import { MdOutlinePlayCircleFilled } from 'react-icons/md';
 import { getAndSetThumbnailUrl } from '../../my-profile/VideoRecorder/getThumbnail';
 import { RiVerifiedBadgeFill } from 'react-icons/ri';
 import { Tooltip } from 'react-tooltip';
 import { Link } from 'react-router-dom';
 import { NoReviews } from '../../../components/NoReviews';
+import playButton from '../../../../../src/assets/icons/play-button.svg';
 
 export interface VimeoResponse {
     thumbnail_large: string;
@@ -180,17 +180,17 @@ const TutorItem: FC<Props> = (props: Props) => {
                     className="tutor-list__item__details flex--grow appear-from-left cur--pointer"
                     style={{ position: 'relative', height: '280px' }}
                 >
-                    <MdOutlinePlayCircleFilled
-                        className={'icon-hover-color-change'}
+                    <img
+                        src={playButton}
                         style={{
+                            height: '50px',
+                            width: '50px',
                             position: 'absolute',
                             bottom: '10px',
                             right: '10px',
                             zIndex: 2,
                             cursor: 'pointer', // If the icon is interactive
                         }}
-                        floodColor={'#fff'}
-                        size={55}
                     />
                     <img className={'image-border-radius'} src={thumbnailUrl} alt="tutor-list" style={{ zIndex: 1, height: '100%' }} />
                 </div>
