@@ -1588,4 +1588,9 @@ export const HR_HR = {
             },
         },
     },
+    COUNTRY: {
+        PLACEHOLDER: 'Država',
+        HR: 'Hrvatska',
+        US: 'SAD',
+    },
 };

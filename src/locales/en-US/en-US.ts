@@ -1583,4 +1583,9 @@ export const EN_US = {
             },
         },
     },
+    COUNTRY: {
+        PLACEHOLDER: 'Country',
+        HR: 'Croatia',
+        US: 'USA',
+    },
 };

@@ -26,10 +26,10 @@ import { StarRating } from '../myReviews/components/StarRating';
 import { getAndSetThumbnailUrl } from '../my-profile/VideoRecorder/getThumbnail';
 import { TutorItemVideoPopup } from './components/TutorItemVideoPopup';
 import ITutorSubjectLevel from '../../../interfaces/ITutorSubjectLevel';
-import { MdOutlinePlayCircleFilled } from 'react-icons/md';
 import { RiVerifiedBadgeFill } from 'react-icons/ri';
 import { Tooltip } from 'react-tooltip';
 import { NoReviews } from '../../components/NoReviews';
+import playButton from '../../../assets/images/play-button.png';
 
 const TutorProfile = () => {
     const { t } = useTranslation();
@@ -566,16 +566,18 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                                                                                 width: 'auto',
                                                                             }}
                                                                         />
-                                                                        <MdOutlinePlayCircleFilled
-                                                                            className={'icon-hover-color-change'}
+
+                                                                        <img
+                                                                            src={playButton}
                                                                             style={{
+                                                                                height: '50px',
+                                                                                width: '50px',
                                                                                 position: 'absolute',
                                                                                 bottom: '10px',
                                                                                 right: '10px',
                                                                                 zIndex: 2,
                                                                                 cursor: 'pointer', // If the icon is interactive
                                                                             }}
-                                                                            size={55}
                                                                         />
                                                                     </div>
                                                                 ) : (
