@@ -4,14 +4,17 @@ import IPartOfDayOption from '../interfaces/IPartOfDayOption';
 import ITutorAvailability from '../interfaces/ITutorAvailability';
 
 const URL = 'api/v1/tutors/availability';
-const TUTORS_URL = "api/v1/tutors";
+const TUTORS_URL = 'api/v1/tutors';
+
 export interface ITutorAvailabilityToSend {
     tutorAvailability: ITutorAvailability[];
+    timeZone: string;
 }
 
 export interface ITutorAvailabilityAdminToSend {
     tutorAvailability: ITutorAvailability[];
     tutorId: string;
+    timeZone: string;
 }
 
 export const tutorAvailabilityService = baseService.injectEndpoints({
@@ -28,25 +31,14 @@ export const tutorAvailabilityService = baseService.injectEndpoints({
                     { value: 'noonToFive', label: '12 - 5 pm' },
                     { value: 'afterFive', label: 'After 5 pm' },
                 ];
-                const firstRow: string[] = [
-                    '',
-                    'Mon',
-                    'Tue',
-                    'Wed',
-                    'Thu',
-                    'Fri',
-                    'Sat',
-                    'Sun',
-                ];
+                const firstRow: string[] = ['', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
                 const availabilityTableData: (string | boolean)[][] = [];
 
                 partsOfDay.forEach((partOfDay: IPartOfDayOption) => {
-                    const row: (string | boolean)[] = response.map(
-                        (item: any) => {
-                            return item[partOfDay.value];
-                        }
-                    );
+                    const row: (string | boolean)[] = response.map((item: any) => {
+                        return item[partOfDay.value];
+                    });
                     row.unshift(partOfDay.label);
 
                     availabilityTableData.push(row);
@@ -57,14 +49,11 @@ export const tutorAvailabilityService = baseService.injectEndpoints({
                 return availabilityTableData;
             },
         }),
-        updateTutorAvailability: builder.mutation<
-            void,
-            ITutorAvailabilityAdminToSend
-        >({
+        updateTutorAvailability: builder.mutation<void, ITutorAvailabilityAdminToSend>({
             query: (body) => ({
                 url: `${TUTORS_URL}/${body.tutorId}/availability`,
                 method: HttpMethods.PUT,
-                body: body.tutorAvailability,
+                body: body,
             }),
             invalidatesTags: ['userAvailability'],
         }),
@@ -79,10 +68,7 @@ export const tutorAvailabilityService = baseService.injectEndpoints({
         //     }),
         //     invalidatesTags: ['userAvailability'],
         // }),
-        createTutorAvailability: builder.mutation<
-            void,
-            ITutorAvailabilityToSend
-        >({
+        createTutorAvailability: builder.mutation<void, ITutorAvailabilityToSend>({
             query: (body) => ({
                 url: `${URL}`,
                 method: HttpMethods.POST,
@@ -93,8 +79,4 @@ export const tutorAvailabilityService = baseService.injectEndpoints({
     }),
 });
 
-export const {
-    useLazyGetTutorAvailabilityQuery,
-    useUpdateTutorAvailabilityMutation,
-    useCreateTutorAvailabilityMutation,
-} = tutorAvailabilityService;
+export const { useLazyGetTutorAvailabilityQuery, useUpdateTutorAvailabilityMutation, useCreateTutorAvailabilityMutation } = tutorAvailabilityService;

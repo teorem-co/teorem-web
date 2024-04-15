@@ -10,10 +10,12 @@ export enum RoleOptions {
 
 interface IState {
     selectedRole: RoleOptions | null;
+    selectedCountry: string | null;
 }
 
 const initialState: IState = {
     selectedRole: null,
+    selectedCountry: null,
 };
 
 export const roleSlice = createSlice({
@@ -26,9 +28,13 @@ export const roleSlice = createSlice({
         resetSelectedRole(state) {
             state.selectedRole = null;
         },
+        setSelectedCountryState(state, action: PayloadAction<string>) {
+            state.selectedCountry = action.payload;
+            console.log('Setting country to: ', action.payload);
+        },
     },
 });
 
-export const { setSelectedRole, resetSelectedRole } = roleSlice.actions;
+export const { setSelectedRole, setSelectedCountryState, resetSelectedRole } = roleSlice.actions;
 
 export default roleSlice.reducer;
