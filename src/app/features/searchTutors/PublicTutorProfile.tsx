@@ -16,12 +16,12 @@ import { useLazyGetMyReviewsQuery, useLazyGetStatisticsQuery } from '../myReview
 import ImageCircle from '../../components/ImageCircle';
 import PublicMainWrapper from '../../components/PublicMainWrapper';
 import { StarRating } from '../myReviews/components/StarRating';
-import { MdOutlinePlayCircleFilled } from 'react-icons/md';
 import { getAndSetThumbnailUrl } from '../my-profile/VideoRecorder/getThumbnail';
 import { TutorItemVideoPopup } from './components/TutorItemVideoPopup';
 import { RiVerifiedBadgeFill } from 'react-icons/ri';
 import { Tooltip } from 'react-tooltip';
 import { NoReviews } from '../../components/NoReviews';
+import playButton from '../../../assets/icons/play-button.svg';
 
 const PublicTutorProfile = () => {
     const [thumbnailUrl, setThumbnailUrl] = useState('');
@@ -493,16 +493,18 @@ const PublicTutorProfile = () => {
                                                                             width: 'auto',
                                                                         }}
                                                                     />
-                                                                    <MdOutlinePlayCircleFilled
-                                                                        className={'icon-hover-color-change'}
+
+                                                                    <img
+                                                                        src={playButton}
                                                                         style={{
+                                                                            height: '50px',
+                                                                            width: '50px',
                                                                             position: 'absolute',
                                                                             bottom: '10px',
                                                                             right: '10px',
                                                                             zIndex: 2,
                                                                             cursor: 'pointer', // If the icon is interactive
                                                                         }}
-                                                                        size={55}
                                                                     />
                                                                 </div>
                                                             ) : (
