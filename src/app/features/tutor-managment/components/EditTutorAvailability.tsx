@@ -1,37 +1,38 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import {
-  useLazyGetTutorAvailabilityQuery,
-  useUpdateTutorAvailabilityMutation,
-} from '../../my-profile/services/tutorAvailabilityService';
+import { useLazyGetTutorAvailabilityQuery, useUpdateTutorAvailabilityMutation } from '../../my-profile/services/tutorAvailabilityService';
 import IAvailabilityIndex from '../../my-profile/interfaces/IAvailabilityIndex';
 import { t } from 'i18next';
 import { cloneDeep } from 'lodash';
 import availabilityTable from '../../../constants/availabilityTable';
 import ITutorAvailability from '../../my-profile/interfaces/ITutorAvailability';
 import toastService from '../../../services/toastService';
-import { setMyProfileProgress } from '../../my-profile/slices/myProfileSlice';
-import { useLazyGetProfileProgressQuery } from '../../../../services/tutorService';
+import { TimeZoneSelect } from '../../../components/TimeZoneSelect';
+import { useLazyGetUserTimeZoneQuery } from '../../../../services/userService';
 
-export function EditTutorAvailability({tutorId}: any) {
-
+export function EditTutorAvailability({ tutorId }: any) {
     const [opened, setOpened] = useState(false);
-    const [getTutorAvailability, { data: tutorAvailability, isUninitialized: availabilityUninitialized, isLoading: availabilityLoading }] = useLazyGetTutorAvailabilityQuery();
+    const [getTutorAvailability, { data: tutorAvailability, isUninitialized: availabilityUninitialized, isLoading: availabilityLoading }] =
+        useLazyGetTutorAvailabilityQuery();
     const [updateTutorAvailability] = useUpdateTutorAvailabilityMutation();
     const [currentAvailabilities, setCurrentAvailabilities] = useState<(string | boolean)[][]>([]);
+    const [getUserTimeZone, { isSuccess: isTimeZoneSuccess }] = useLazyGetUserTimeZoneQuery();
 
     const fetchData = async () => {
         if (tutorId) {
             const tutorAvailabilityResponse = await getTutorAvailability(tutorId).unwrap();
             setCurrentAvailabilities(tutorAvailabilityResponse);
+
+            const userZone = await getUserTimeZone(tutorId).unwrap();
+            setDefaultUserZone(userZone);
         }
     };
+
     useEffect(() => {
         fetchData();
     }, [tutorId]);
 
     const renderTableCells = (column: string | boolean, availabilityIndex: IAvailabilityIndex) => {
-
         if (typeof column === 'boolean') {
             return (
                 <td
@@ -50,8 +51,7 @@ export function EditTutorAvailability({tutorId}: any) {
             return <td key={availabilityIndex.column}>{t(`TUTOR_PROFILE.ON12`)}</td>;
         } else if (column == 'After 5 pm') {
             return <td key={availabilityIndex.column}>{t(`TUTOR_PROFILE.AFTER5`)}</td>;
-        }
-        else {
+        } else {
             return <td key={availabilityIndex.column}>{t(`CONSTANTS.DAYS_SHORT.${column.toUpperCase()}`)}</td>;
         }
     };
@@ -108,33 +108,53 @@ export function EditTutorAvailability({tutorId}: any) {
         }
 
         if (tutorAvailability && tutorAvailability[1].length > 1) {
-            await updateTutorAvailability({ tutorId, tutorAvailability: toSend });
+            await updateTutorAvailability({
+                tutorId,
+                tutorAvailability: toSend,
+                timeZone: selectedZone,
+            });
             toastService.success(t('MY_PROFILE.GENERAL_AVAILABILITY.UPDATED'));
             setOpened(false);
         }
+
+        setDefaultUserZone(selectedZone);
     };
+
+    const [selectedZone, setSelectedZone] = useState('');
+    const [defaultUserZone, setDefaultUserZone] = useState('');
 
     return (
         <>
             {opened && (
                 <div className="modal__overlay">
-                    <div className="modal" style={{minWidth: 600}}>
+                    <div className="modal" style={{ minWidth: 600 }}>
                         <div className="modal__head">
                             <div className="type--md type--wgt--bold">Edit availability</div>
-                            <i onClick={() =>{setOpened(false);}} className="modal__close icon icon--base icon--close icon--grey"></i>
+                            <i
+                                onClick={() => {
+                                    setOpened(false);
+                                }}
+                                className="modal__close icon icon--base icon--close icon--grey"
+                            ></i>
                         </div>
+                        <TimeZoneSelect showTitle defaultUserZone={defaultUserZone} selectedZone={selectedZone} setSelectedZone={setSelectedZone} />
                         <div className="modal__separator"></div>
                         <div className="modal__body">
                             <div className="row">
-                                <table className="table table--availability"><tbody>{renderAvailabilityTable()}</tbody></table>
+                                <table className="table table--availability">
+                                    <tbody>{renderAvailabilityTable()}</tbody>
+                                </table>
                             </div>
                             <div className="flex mt-6">
                                 <button className="btn btn--base btn--primary w--100" onClick={handleSubmit}>
                                     Save
                                 </button>
-                                <button onClick={() => {
-                                    setOpened(false);
-                                }} className="btn btn--base btn--clear w--100">
+                                <button
+                                    onClick={() => {
+                                        setOpened(false);
+                                    }}
+                                    className="btn btn--base btn--clear w--100"
+                                >
                                     Cancel
                                 </button>
                             </div>
@@ -142,10 +162,7 @@ export function EditTutorAvailability({tutorId}: any) {
                     </div>
                 </div>
             )}
-            <button
-                className="btn btn--base btn--ghost w--100 type--center flex flex--center flex--jc--center mt-2"
-                onClick={() => setOpened(true)}
-            >
+            <button className="btn btn--base btn--ghost w--100 type--center flex flex--center flex--jc--center mt-2" onClick={() => setOpened(true)}>
                 Edit Availability
             </button>
         </>

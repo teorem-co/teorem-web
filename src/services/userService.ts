@@ -120,6 +120,12 @@ export const userService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
+        getUserTimeZone: builder.query<string, string>({
+            query: (userId) => ({
+                url: `${URL}/${userId}/timezone`,
+                method: HttpMethods.GET,
+            }),
+        }),
     }),
 });
 
@@ -136,4 +142,5 @@ export const {
     useCreateChildMutation,
     useDisconnectStripeMutation,
     useLazyGetCreditsQuery,
+    useLazyGetUserTimeZoneQuery,
 } = userService;
