@@ -55,7 +55,7 @@ export const SignupRoleSelect = () => {
 
         const userCountry = await getUserCountry();
         let country;
-        if (userCountry) {
+        if (userCountry !== null) {
             country = res.filter((country) => country.abrv === userCountry)[0]?.id;
         } else {
             country = res[0]?.id;
