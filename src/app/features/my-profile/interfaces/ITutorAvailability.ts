@@ -5,6 +5,7 @@ export interface ITutorAvailability {
     noonToFive: boolean;
     afterFive: boolean;
     dayOfWeek: string;
+    timeZone: string;
 }
 
 export default ITutorAvailability;

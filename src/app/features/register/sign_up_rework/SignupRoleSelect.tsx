@@ -54,11 +54,15 @@ export const SignupRoleSelect = () => {
         });
 
         const userCountry = await getUserCountry();
-        console.log('User country:', userCountry);
-        const country = res.filter((country) => country.abrv === userCountry)[0]?.id;
+        let country;
+        if (userCountry) {
+            country = res.filter((country) => country.abrv === userCountry)[0]?.id;
+        } else {
+            country = res[0]?.id;
+        }
+        setCountryOptions(countries);
         setSelectedCountry(country);
         dispatch(setSelectedCountryState(country));
-        setCountryOptions(countries);
     }
 
     const getUserCountry = async () => {
@@ -82,14 +86,18 @@ export const SignupRoleSelect = () => {
                 <img src={logo} alt="logo" className="mt-5 ml-5 signup-logo" />
 
                 <div className="flex flex--col mt-20 flex--center" style={{ fontSize: '16px' }}>
-                    <Select
-                        className={'w--156'}
-                        classNamePrefix="select"
-                        value={countryOptions.find((option) => option.value === selectedCountry)}
-                        onChange={handleChangeCountry}
-                        options={countryOptions}
-                        placeholder={t('COUNTRY.PLACEHOLDER')}
-                    />
+                    <div className="flex flex--center timezone-container flex--gap-10">
+                        <span>{t('ONBOARDING.COUNTRY_SELECT')}</span>
+                        <Select
+                            className={'w--156'}
+                            classNamePrefix="select"
+                            value={countryOptions.find((option) => option.value === selectedCountry)}
+                            onChange={handleChangeCountry}
+                            options={countryOptions}
+                            placeholder={t('COUNTRY.PLACEHOLDER')}
+                        />
+                    </div>
+
                     <h1 className="text-align--center mt-5 mb-5 signup-title">
                         <span dangerouslySetInnerHTML={{ __html: t('REGISTER.FORM.SELECT_ROLE_TITLE') }} />
                     </h1>

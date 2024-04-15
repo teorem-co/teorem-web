@@ -1,5 +1,6 @@
 import { baseService } from '../../../baseService';
 import { t } from 'i18next';
+import { HttpMethods } from '../../../lookups/httpMethods';
 
 //bookings/week/:tutorSlug
 
@@ -21,7 +22,7 @@ export const countryService = baseService.injectEndpoints({
         getCountries: builder.query<ICountry[], void>({
             query: () => ({
                 url: `${URL}`,
-                method: 'GET',
+                method: HttpMethods.GET,
             }),
             transformResponse: (response: ICountry[]) => {
                 const transformedCountries: ICountry[] = response.map((country) => ({

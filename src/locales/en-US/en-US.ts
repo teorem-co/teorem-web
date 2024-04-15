@@ -25,6 +25,7 @@ export const EN_US = {
         CONFIRM_BUTTON: 'Got it',
     },
     ONBOARDING: {
+        COUNTRY_SELECT: 'Select your market: ',
         NAVIGATION: {
             TITLE: 'Welcome to Teorem!',
             DESCRIPTION: "Please follow the onboarding process to finish up your profile. It'll take only few minutes.",
@@ -715,6 +716,8 @@ export const EN_US = {
             DESCRIPTION: 'Edit and update your availability information',
             UPDATED: 'Availability updated',
             CREATED: 'Availability created',
+            SELECT_ZONE: 'Select your time zone: ',
+            TIME_ZONE: 'Time zone',
         },
         PROFILE_SETTINGS: {
             TITLE: 'Personal Information',
