@@ -24,7 +24,6 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { FormControl, InputLabel, MenuItem, OutlinedInput } from '@mui/material';
 import { useLazyGetTutorUnavailableDaysQuery } from '../../../../services/tutorService';
-import { isEqual } from 'lodash';
 import { TeoremConstants } from '../../../TeoremConstants';
 
 interface IProps {
@@ -180,7 +179,7 @@ const UpdateBooking: React.FC<IProps> = (props) => {
                     tutorId: booking?.tutorId,
                     date: formik.values.selectedDate,
                     bookingId: booking.id,
-                    timeZone: 'Europe/Zagreb', //moment.tz.guess(), //TODO: get from user
+                    timeZone: 'Europe/Zagreb', //moment.tz.guess(), //TODO: get from user using dropdown or  get using api
                 };
 
                 getTutorAvailablePeriods(params)

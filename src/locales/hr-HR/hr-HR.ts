@@ -25,6 +25,7 @@ export const HR_HR = {
         CONFIRM_BUTTON: 'U redu',
     },
     ONBOARDING: {
+        COUNTRY_SELECT: 'Odaberite svoje tržište: ',
         NAVIGATION: {
             TITLE: 'Dobrodošli na Teorem!',
             DESCRIPTION: 'Molimo Vas pratite proces kako bi završili izradu profila. Proces traje samo nekoliko minuta.',
@@ -712,6 +713,8 @@ export const HR_HR = {
             DESCRIPTION: 'Izmijenite i ažurirajte svoju dostupnost',
             UPDATED: 'Dostupnost ažurirana',
             CREATED: 'Dostupnost dodana',
+            SELECT_ZONE: 'Odaberite svoju vremensku zonu: ',
+            TIME_ZONE: 'Vremenska zona',
         },
         PROFILE_SETTINGS: {
             TITLE: 'Osobni podatci',
@@ -1587,5 +1590,10 @@ export const HR_HR = {
                 },
             },
         },
+    },
+    COUNTRY: {
+        PLACEHOLDER: 'Država',
+        HR: 'Hrvatska',
+        US: 'SAD',
     },
 };

@@ -19,6 +19,8 @@ import CircularProgress from '../../my-profile/components/CircularProgress';
 import { useHistory } from 'react-router';
 import { setStepZero } from '../../../../slices/onboardingSlice';
 import logo from '../../../../assets/images/teorem_logo_purple.png';
+import { TimeZoneSelect } from '../../../components/TimeZoneSelect';
+import { useLazyGetUserTimeZoneQuery } from '../../../../services/userService';
 
 interface AvailabilityValues {
     availability: ITutorAvailability[];
@@ -35,7 +37,8 @@ const AvailabilityPage = ({ nextStep }: AvailabilityProps) => {
     const [updateTutorAvailability] = useUpdateTutorAvailabilityMutation();
     const [createTutorAvailability] = useCreateTutorAvailabilityMutation();
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
-
+    const [getUserTimeZone] = useLazyGetUserTimeZoneQuery();
+    const [defaultUserZone, setDefaultUserZone] = useState('');
     const [currentAvailabilities, setCurrentAvailabilities] = useState<(string | boolean)[][]>([]);
     const [saveBtnActive, setSaveBtnActive] = useState(false);
 
@@ -135,12 +138,19 @@ const AvailabilityPage = ({ nextStep }: AvailabilityProps) => {
 
         if (tutorAvailability && tutorAvailability[1].length > 1) {
             const tutorId = getUserId();
-            await updateTutorAvailability({ tutorId: tutorId ? tutorId : '', tutorAvailability: toSend });
+            await updateTutorAvailability({
+                tutorId: tutorId ? tutorId : '',
+                tutorAvailability: toSend,
+                timeZone: selectedZone,
+            });
             const progressResponse = await getProfileProgress().unwrap();
             setProgressPercentage(progressResponse.percentage);
             await dispatch(setMyProfileProgress(progressResponse));
         } else {
-            await createTutorAvailability({ tutorAvailability: toSend });
+            await createTutorAvailability({
+                tutorAvailability: toSend,
+                timeZone: selectedZone,
+            });
             const progressResponse = await getProfileProgress().unwrap();
             setProgressPercentage(progressResponse.percentage);
             await dispatch(setMyProfileProgress(progressResponse));
@@ -172,6 +182,9 @@ const AvailabilityPage = ({ nextStep }: AvailabilityProps) => {
                 setProgressPercentage(progressResponse.percentage);
                 dispatch(setMyProfileProgress(progressResponse));
             }
+
+            const userZone = await getUserTimeZone(userId).unwrap();
+            setDefaultUserZone(userZone);
         }
     };
 
@@ -204,10 +217,20 @@ const AvailabilityPage = ({ nextStep }: AvailabilityProps) => {
         }
     }, [tutorAvailability]);
 
+    const [selectedZone, setSelectedZone] = useState('');
+
     return (
         <>
             {banner ? (
-                <div style={{ backgroundColor: '#7e6cf2', padding: '5px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div
+                    style={{
+                        backgroundColor: '#7e6cf2',
+                        padding: '5px',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                    }}
+                >
                     <div style={{ flexGrow: 1, justifyContent: 'center' }}>
                         <p className="ml-6 text-align--center" style={{ fontSize: 'small', color: '#f8f7fe' }}>
                             {t('TUTOR_ONBOARDING.TITLE')} {t('TUTOR_ONBOARDING.SUBTITLE')}
@@ -233,11 +256,25 @@ const AvailabilityPage = ({ nextStep }: AvailabilityProps) => {
                         </div>
                     </div>
                 </div>
+
                 {(loading && <LoaderPrimary />) || (
                     <div
                         className="flex--center m-2"
-                        style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            flexDirection: 'column',
+                        }}
                     >
+                        <TimeZoneSelect
+                            useSystemDefaultZone={true}
+                            showTitle
+                            defaultUserZone={defaultUserZone}
+                            selectedZone={selectedZone}
+                            setSelectedZone={setSelectedZone}
+                        />
+
                         <div className="type--base align--center field__w-fit-content p-2" style={{ color: '#636363', textAlign: 'center' }}>
                             <span>{t('TUTOR_ONBOARDING.TOOLTIPS.AVAILABILITY_1')}</span>
                         </div>

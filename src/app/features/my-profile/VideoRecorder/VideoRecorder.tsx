@@ -12,7 +12,7 @@ import Select, { SingleValue } from 'react-select';
 const MINUTE_AND_A_HALF_IN_SECONDS = 90;
 const TWO_MINUTES_IN_SECONDS = 120;
 
-interface Option {
+export interface Option {
     value: string;
     label: string;
 }

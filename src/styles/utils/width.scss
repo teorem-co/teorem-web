@@ -166,6 +166,18 @@
     }
   }
 
+  &--250 {
+    width: 250px;
+
+    &--max {
+      max-width: 250px;
+    }
+
+    &--min {
+      min-width: 250px;
+    }
+  }
+
   &--260 {
     width: 260px;
 
