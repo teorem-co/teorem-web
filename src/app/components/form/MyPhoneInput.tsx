@@ -27,7 +27,6 @@ const MyPhoneInput: FC<TextFieldType> = (props: any) => {
 
     const updateCountry = async () => {
         const res = await getCountries().unwrap();
-        console.log('Countries:', res);
         res.forEach((country) => {
             if (country.id === countryId) setCountry(country.abrv.toLowerCase());
         });
