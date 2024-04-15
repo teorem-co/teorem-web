@@ -11,7 +11,7 @@ import { RiVerifiedBadgeFill } from 'react-icons/ri';
 import { Tooltip } from 'react-tooltip';
 import { Link } from 'react-router-dom';
 import { NoReviews } from '../../../components/NoReviews';
-import playButton from '../../../../assets/images/play-button.png';
+import playButton from '../../../../../src/assets/icons/play-button.svg';
 
 export interface VimeoResponse {
     thumbnail_large: string;

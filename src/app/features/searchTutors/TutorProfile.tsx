@@ -29,7 +29,7 @@ import ITutorSubjectLevel from '../../../interfaces/ITutorSubjectLevel';
 import { RiVerifiedBadgeFill } from 'react-icons/ri';
 import { Tooltip } from 'react-tooltip';
 import { NoReviews } from '../../components/NoReviews';
-import playButton from '../../../assets/images/play-button.png';
+import playButton from '../../../assets/icons/play-button.svg';
 
 const TutorProfile = () => {
     const { t } = useTranslation();
@@ -566,7 +566,6 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                                                                                 width: 'auto',
                                                                             }}
                                                                         />
-
                                                                         <img
                                                                             src={playButton}
                                                                             style={{
@@ -578,6 +577,8 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                                                                                 zIndex: 2,
                                                                                 cursor: 'pointer', // If the icon is interactive
                                                                             }}
+                                                                            // floodColor={'#fff'}
+                                                                            // size={55}
                                                                         />
                                                                     </div>
                                                                 ) : (
