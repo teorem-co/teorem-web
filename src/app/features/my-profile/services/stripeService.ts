@@ -1,7 +1,6 @@
 import { baseService } from '../../../baseService';
 import { HttpMethods } from '../../../lookups/httpMethods';
 import IAddCustomerPost from '../interfaces/IAddCustomerPost';
-import ICustomerSourcePost from '../interfaces/ICustomerSourcePost';
 import IDeleteCreditCard from '../interfaces/IDeleteCreditCard';
 import IGetCreditCards from '../interfaces/IGetCreditCards';
 import ISetDefaultCreditCard from '../interfaces/ISetDefaultCreditCard';
@@ -13,10 +12,13 @@ interface IStripeConnectCompanyAccount {
     refreshUrl?: string;
     returnUrl?: string;
     userId: string;
+    accountNumber?: string;
+    routingNumber?: string;
     IBAN?: string;
     IBANConfirm?: string;
     addressLine1?: string;
     addressLine2?: string;
+    state?: string;
     city?: string;
     country?: string;
     postalCode?: string;
@@ -30,9 +32,9 @@ export interface IVerificationDocument {
     back: File;
 }
 
-export  interface IVerificationDocumentResponse {
-  stripeVerifiedStatus: string;
-  stripeVerificationDocumentsUploaded: boolean;
+export interface IVerificationDocumentResponse {
+    stripeVerifiedStatus: string;
+    stripeVerificationDocumentsUploaded: boolean;
 }
 
 export const stripeService = baseService.injectEndpoints({
