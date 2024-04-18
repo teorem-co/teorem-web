@@ -12,6 +12,7 @@ import { Tooltip } from 'react-tooltip';
 import { Link } from 'react-router-dom';
 import { NoReviews } from '../../../components/NoReviews';
 import playButton from '../../../../../src/assets/icons/play-button.svg';
+import { CurrencySymbol } from '../../../components/CurrencySymbol';
 
 export interface VimeoResponse {
     thumbnail_large: string;
@@ -137,10 +138,11 @@ const TutorItem: FC<Props> = (props: Props) => {
                                 <div className="flex flex--center flex--col type--center">
                                     {tutor.minPrice ? (
                                         <span className="d--ib type--md type--wgt--extra-bold">
-                                            &euro;{tutor.minPrice}{' '}
+                                            <CurrencySymbol />
+                                            {tutor.minPrice}{' '}
                                             {tutor.minPrice !== tutor.maxPrice && (
                                                 <>
-                                                    &nbsp;-&nbsp; &euro;
+                                                    &nbsp;-&nbsp; <CurrencySymbol />
                                                     {tutor.maxPrice}{' '}
                                                 </>
                                             )}

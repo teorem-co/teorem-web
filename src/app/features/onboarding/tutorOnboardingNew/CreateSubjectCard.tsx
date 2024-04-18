@@ -16,7 +16,7 @@ import { setMyProfileProgress } from '../../my-profile/slices/myProfileSlice';
 import { BiSolidTrash } from 'react-icons/bi';
 import { ITutorSubject } from '../../../../slices/onboardingSlice';
 import { InputAdornment, TextField } from '@mui/material';
-import { countryMap } from '../../../components/countries';
+import { CurrencySymbol } from '../../../components/CurrencySymbol';
 
 interface Props {
     // sideBarIsOpen: boolean;
@@ -186,13 +186,7 @@ export const CreateSubjectCard = (props: Props) => {
                                                 }}
                                                 position="start"
                                             >
-                                                <div
-                                                    dangerouslySetInnerHTML={{
-                                                        __html:
-                                                            countryMap[countryId ? countryId : 'da98ad50-5138-4f0d-b297-62c5cb101247']
-                                                                .htmlCurrencyCode || '&euro;',
-                                                    }}
-                                                />
+                                                <CurrencySymbol />
                                             </InputAdornment>
                                         ),
                                     }}

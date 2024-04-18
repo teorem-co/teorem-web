@@ -22,6 +22,7 @@ import { RiVerifiedBadgeFill } from 'react-icons/ri';
 import { Tooltip } from 'react-tooltip';
 import { NoReviews } from '../../components/NoReviews';
 import playButton from '../../../assets/icons/play-button.svg';
+import { CurrencySymbol } from '../../components/CurrencySymbol';
 
 const PublicTutorProfile = () => {
     const [thumbnailUrl, setThumbnailUrl] = useState('');
@@ -259,10 +260,12 @@ const PublicTutorProfile = () => {
                                                         <div className="flex flex--center flex--col type--center">
                                                             {tutorData.minimumPrice ? (
                                                                 <span className="d--ib type--md type--wgt--extra-bold">
-                                                                    &euro;{tutorData.minimumPrice}{' '}
+                                                                    <CurrencySymbol />
+                                                                    {tutorData.minimumPrice}{' '}
                                                                     {tutorData.minimumPrice !== tutorData.maximumPrice && (
                                                                         <>
-                                                                            &nbsp;-&nbsp; &euro;
+                                                                            &nbsp;-&nbsp;
+                                                                            <CurrencySymbol />
                                                                             {tutorData.maximumPrice}{' '}
                                                                         </>
                                                                     )}
@@ -424,10 +427,11 @@ const PublicTutorProfile = () => {
                                                                         <div className="flex flex--center flex--col type--center">
                                                                             {tutorData.minimumPrice ? (
                                                                                 <span className="d--ib type--md type--wgt--extra-bold">
-                                                                                    &euro;{tutorData.minimumPrice}{' '}
+                                                                                    <CurrencySymbol />
+                                                                                    {tutorData.minimumPrice}{' '}
                                                                                     {tutorData.minimumPrice !== tutorData.maximumPrice && (
                                                                                         <>
-                                                                                            &nbsp;-&nbsp; &euro;
+                                                                                            &nbsp;-&nbsp; <CurrencySymbol />
                                                                                             {tutorData.maximumPrice}{' '}
                                                                                         </>
                                                                                     )}
