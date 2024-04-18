@@ -7,8 +7,7 @@ import { useGetLevelsQuery } from '../../../../services/levelService';
 
 import { useCreateSubjectMutation, useGetSubjectsQuery } from '../../../../services/subjectService';
 import { useLazyGetProfileProgressQuery } from '../../../../services/tutorService';
-import MySelect, { OptionType } from '../../../components/form/MySelectField';
-import MyTextField from '../../../components/form/MyTextField';
+import MySelect from '../../../components/form/MySelectField';
 import { useLazyGetCountriesQuery } from '../../../features/onboarding/services/countryService';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import toastService from '../../../services/toastService';
@@ -17,6 +16,7 @@ import { setMyProfileProgress } from '../../my-profile/slices/myProfileSlice';
 import { BiSolidTrash } from 'react-icons/bi';
 import { ITutorSubject } from '../../../../slices/onboardingSlice';
 import { InputAdornment, TextField } from '@mui/material';
+import { countryMap } from '../../../components/countries';
 
 interface Props {
     // sideBarIsOpen: boolean;
@@ -35,6 +35,7 @@ interface Values {
     subject: string;
     price: string;
 }
+
 export const CreateSubjectCard = (props: Props) => {
     const { data, isLastForm, updateForm, id, removeItem, handleGetData } = props;
 
@@ -55,8 +56,8 @@ export const CreateSubjectCard = (props: Props) => {
         price: data.price,
     };
 
-    const [currency, setCurrency] = useState('PZL');
-    const [minPrice, setMinPrice] = useState(47);
+    const [currency, setCurrency] = useState('EUR');
+    const [minPrice, setMinPrice] = useState(10);
     const countryId = useAppSelector((state) => state?.user?.user?.countryId);
     const [getCountries] = useLazyGetCountriesQuery();
     const getCurrency = async () => {
@@ -64,7 +65,7 @@ export const CreateSubjectCard = (props: Props) => {
         res.forEach((c) => {
             if (c.id === countryId) {
                 setCurrency(c.currencyCode);
-                if (c.currencyCode == 'EUR') setMinPrice(10);
+                if (c.currencyCode == 'EUR' || c.currencyCode == 'USD') setMinPrice(10);
             }
         });
     };
@@ -178,15 +179,30 @@ export const CreateSubjectCard = (props: Props) => {
                                             display: 'flex',
                                         },
                                         startAdornment: (
-                                            <InputAdornment style={{ paddingTop: '3px', marginBottom: 0 }} position="start">
-                                                €
+                                            <InputAdornment
+                                                style={{
+                                                    paddingTop: '3px',
+                                                    marginBottom: 0,
+                                                }}
+                                                position="start"
+                                            >
+                                                <div
+                                                    dangerouslySetInnerHTML={{
+                                                        __html:
+                                                            countryMap[countryId ? countryId : 'da98ad50-5138-4f0d-b297-62c5cb101247']
+                                                                .htmlCurrencyCode || '&euro;',
+                                                    }}
+                                                />
                                             </InputAdornment>
                                         ),
                                     }}
                                     helperText={formik.touched.price && formik.errors.price ? formik.errors.price : ' '}
                                     error={formik.touched.price && Boolean(formik.errors.price)}
                                     FormHelperTextProps={{
-                                        style: { padding: 0, height: formik.touched.price && formik.errors.price ? 'auto' : '18px' },
+                                        style: {
+                                            padding: 0,
+                                            height: formik.touched.price && formik.errors.price ? 'auto' : '18px',
+                                        },
                                     }}
                                 />
                                 <div className="type--center ml-1 mb-5 type--md">/h</div>
