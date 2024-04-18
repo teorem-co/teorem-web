@@ -87,7 +87,7 @@ export const SignupRoleSelect = () => {
 
                 <div className="flex flex--col mt-20 flex--center" style={{ fontSize: '16px' }}>
                     <div className="flex flex--center timezone-container flex--gap-10">
-                        <span>{t('ONBOARDING.COUNTRY_SELECT')}</span>
+                        <span className="text-align--center mt-5 mb-5 signup-title">{t('ONBOARDING.COUNTRY_SELECT')}</span>
                         <Select
                             className={'w--156'}
                             classNamePrefix="select"

@@ -36,6 +36,7 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { setCredits } from '../../../../slices/creditsSlice';
 import { FaCoins } from 'react-icons/fa';
 import { UploadVerificationDocuments } from '../../../components/UploadVerificationDocuments';
+import { CurrencySymbol } from '../../../components/CurrencySymbol';
 
 interface Values {
     firstName: string;
@@ -349,7 +350,8 @@ const PersonalInformation = () => {
                                             >
                                                 <FaCoins />
                                                 <p>
-                                                    {t('MY_PROFILE.PROFILE_SETTINGS.CREDITS')}: {userCredits} EUR
+                                                    {t('MY_PROFILE.PROFILE_SETTINGS.CREDITS')}: <span className={'mr-1'}>{userCredits}</span>
+                                                    <CurrencySymbol />
                                                 </p>
                                             </div>
                                         )}

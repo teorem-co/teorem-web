@@ -4,6 +4,7 @@ import toastService from '../../services/toastService';
 import { useAppSelector } from '../../hooks';
 import IWeek from './interfaces/IWeek';
 import { LiaFileInvoiceDollarSolid } from 'react-icons/lia';
+import { getCurrencySymbol } from '../../components/countries';
 
 interface PayoutsProps {
     month: string;
@@ -20,6 +21,7 @@ const url = `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_CHAT_FILE
 const PayoutsTableElement = (props: PayoutsProps) => {
     const [accordion, setAccordion] = useState(false);
     const userToken = useAppSelector((state) => state.auth.token);
+    const countryId = useAppSelector((state) => state?.user?.user?.countryId);
 
     const changeAccordion = () => {
         if (accordion) setAccordion(false);
@@ -67,7 +69,15 @@ const PayoutsTableElement = (props: PayoutsProps) => {
             <tr style={{ alignItems: 'center' }}>
                 <td style={{ padding: '2px' }}>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <p style={{ fontFamily: 'Lato', marginLeft: '15px', fontSize: '15px' }}>{props.month}</p>
+                        <p
+                            style={{
+                                fontFamily: 'Lato',
+                                marginLeft: '15px',
+                                fontSize: '15px',
+                            }}
+                        >
+                            {props.month}
+                        </p>
                         {props.revenue !== 0 && props.weeks?.length !== 0 && (
                             <i
                                 id="letter"
@@ -82,7 +92,7 @@ const PayoutsTableElement = (props: PayoutsProps) => {
                 <td>{props.reviewsNum}</td>
                 <td>
                     {props.revenue}
-                    {t('EARNINGS.GENERAL.CURRENCY')}
+                    {getCurrencySymbol(countryId)}
                 </td>
             </tr>
             {accordion && (
@@ -99,10 +109,15 @@ const PayoutsTableElement = (props: PayoutsProps) => {
                                 <td>{week.students}</td>
                                 <td>{week.reviews}</td>
                                 <td>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                    <div
+                                        style={{
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                        }}
+                                    >
                                         <p style={{ fontFamily: 'Lato' }}>
                                             {week.revenue}
-                                            {t('EARNINGS.GENERAL.CURRENCY')}
+                                            {getCurrencySymbol(countryId)}
                                         </p>
                                         {props.revenue !== 0 && (
                                             <LiaFileInvoiceDollarSolid

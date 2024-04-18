@@ -30,6 +30,7 @@ import { RiVerifiedBadgeFill } from 'react-icons/ri';
 import { Tooltip } from 'react-tooltip';
 import { NoReviews } from '../../components/NoReviews';
 import playButton from '../../../assets/icons/play-button.svg';
+import { CurrencySymbol } from '../../components/CurrencySymbol';
 
 const TutorProfile = () => {
     const { t } = useTranslation();
@@ -323,10 +324,12 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                                                             <div className="flex flex--center flex--col type--center">
                                                                 {tutorData.minimumPrice ? (
                                                                     <span className="d--ib type--md type--wgt--extra-bold">
-                                                                        &euro;{tutorData.minimumPrice}{' '}
+                                                                        <CurrencySymbol />
+                                                                        {tutorData.minimumPrice}{' '}
                                                                         {tutorData.minimumPrice !== tutorData.maximumPrice && (
                                                                             <>
-                                                                                &nbsp;-&nbsp; &euro;
+                                                                                &nbsp;-&nbsp;
+                                                                                <CurrencySymbol />
                                                                                 {tutorData.maximumPrice}{' '}
                                                                             </>
                                                                         )}
@@ -493,10 +496,11 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                                                                             <div className="flex flex--center flex--col type--center">
                                                                                 {tutorData.minimumPrice ? (
                                                                                     <span className="d--ib type--md type--wgt--extra-bold">
-                                                                                        &euro;{tutorData.minimumPrice}{' '}
+                                                                                        <CurrencySymbol />
+                                                                                        {tutorData.minimumPrice}{' '}
                                                                                         {tutorData.minimumPrice !== tutorData.maximumPrice && (
                                                                                             <>
-                                                                                                &nbsp;-&nbsp; &euro;
+                                                                                                &nbsp;-&nbsp; <CurrencySymbol />
                                                                                                 {tutorData.maximumPrice}{' '}
                                                                                             </>
                                                                                         )}
