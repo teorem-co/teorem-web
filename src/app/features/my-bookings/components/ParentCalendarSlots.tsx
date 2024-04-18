@@ -16,13 +16,11 @@ import toastService from '../../../services/toastService';
 import { useLazyGetCustomerByIdQuery } from '../../my-profile/services/stripeService';
 import { ICreateBookingDTO, useCreatebookingMutation, useCreateBookingMutation } from '../services/bookingService';
 import { loadStripe } from '@stripe/stripe-js';
-import { Tooltip } from 'react-tooltip';
-import { isMobileDevice } from 'react-select/dist/declarations/src/utils';
 import { addStripeId } from '../../../../slices/authSlice';
 import { useDispatch } from 'react-redux';
-import { BookingPopupForm } from '../../../components/BookingPopupForm';
 import { IBookingChatMessageInfo } from '../../tutor-bookings/TutorBookings';
 import { setCredits } from '../../../../slices/creditsSlice';
+import { CurrencySymbol } from '../../../components/CurrencySymbol';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY!);
 
@@ -428,12 +426,17 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                                 <div className="checkout-component mb-2">
                                     <div className="price-row">
                                         <span>{t('CHECKOUT.PRICE')}</span>
-                                        <span>{cost} &euro;</span>
+                                        <span>
+                                            {cost} <CurrencySymbol />
+                                        </span>
                                     </div>
                                     {formik.values.useCredits && cost && userCredits != undefined ? (
                                         <div className="discount-row">
                                             <span>{t('CHECKOUT.DISCOUNT')}</span>
-                                            <span>&minus;&nbsp;{userCredits > cost ? cost : userCredits} &euro;</span>
+                                            <span>
+                                                &minus;&nbsp;{userCredits > cost ? cost : userCredits}&nbsp;
+                                                <CurrencySymbol />
+                                            </span>
                                         </div>
                                     ) : (
                                         <></>
@@ -442,7 +445,12 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                                     <div className="separator-line"></div>
                                     <div className="total-row">
                                         <span>{t('CHECKOUT.TOTAL')}</span>
-                                        {cost && <span>{calculateTotalCost(cost)} &euro;</span>}
+                                        {cost && (
+                                            <span>
+                                                {calculateTotalCost(cost)}
+                                                <CurrencySymbol />
+                                            </span>
+                                        )}
                                     </div>
                                     <div
                                         className="credits-row"
@@ -452,13 +460,18 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                                         }}
                                     >
                                         <span>{t('CHECKOUT.AVAILABLE_CREDITS')}</span>
-                                        <span>{userCredits} &euro;</span>
+                                        <span>
+                                            {userCredits} <CurrencySymbol />
+                                        </span>
                                     </div>
 
                                     {formik.values.useCredits && userCredits && cost ? (
                                         <div className="credits-row" style={{ marginBottom: 0 }}>
                                             <span>{t('CHECKOUT.NEW_CREDITS_BALANCE')}</span>
-                                            <span>{userCredits - cost > 0 ? userCredits - cost : 0} &euro;</span>
+                                            <span>
+                                                {userCredits - cost > 0 ? userCredits - cost : 0}&nbsp;
+                                                <CurrencySymbol />
+                                            </span>
                                         </div>
                                     ) : (
                                         <></>

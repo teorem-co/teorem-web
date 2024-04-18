@@ -5,6 +5,7 @@ import React from 'react';
 import ITutorItem from '../../../../interfaces/ITutorItem';
 import { Link } from 'react-router-dom';
 import { PATHS } from '../../../routes';
+import { CurrencySymbol } from '../../../components/CurrencySymbol';
 
 interface Props {
     tutor: ITutorItem;
@@ -55,10 +56,12 @@ export const TutorItemMobile = (props: Props) => {
                                 {tutor.minPrice ? (
                                     <div className="flex flex--col flex--ai--center flex--jc--center">
                                         <span className="d--ib type--wgt--extra-bold">
-                                            &euro;{tutor.minPrice}{' '}
+                                            <CurrencySymbol />
+                                            {tutor.minPrice}{' '}
                                             {tutor.minPrice !== tutor.maxPrice && (
                                                 <>
-                                                    -&nbsp;&euro;
+                                                    -&nbsp;
+                                                    <CurrencySymbol />
                                                     {tutor.maxPrice}{' '}
                                                 </>
                                             )}
