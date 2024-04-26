@@ -31,6 +31,7 @@ import ParentEventModal from './components/ParentEventModal';
 import UpdateBooking from './components/UpdateBooking';
 import { InformationCard } from '../../components/InformationCard';
 import { CustomToolbar } from './CustomToolbar';
+import { TimeZoneSelect } from '../../components/TimeZoneSelect';
 
 i18n.language !== 'en' && Array.from(languageOptions.map((l) => l.path)).includes(i18n.language) && require(`moment/locale/${i18n.language}.js`);
 
@@ -305,7 +306,8 @@ const MyBookings: React.FC = (props: any) => {
                 getBookingById(e.id);
                 setOpenTutorCalendarModal(true);
                 setSelectedStart(moment(e.start).format(t('DATE_FORMAT') + ', HH:mm'));
-                setSelectedEnd(moment(e.end).add(1, 'minute').format('HH:mm'));
+                // setSelectedEnd(moment(e.end).add(1, 'minute').format('HH:mm'));
+                setSelectedEnd(moment(e.end).format('HH:mm'));
             }
         }
     };
@@ -462,6 +464,12 @@ const MyBookings: React.FC = (props: any) => {
         setCalChange(!calChange);
     }
 
+    const timeZoneState = useAppSelector((state) => state.timeZone);
+    const [selectedZone, setSelectedZone] = useState(timeZoneState.timeZone ? timeZoneState.timeZone : moment.tz.guess());
+    useEffect(() => {
+        moment.tz.setDefault(selectedZone);
+    }, [selectedZone]);
+
     return (
         <MainWrapper>
             <div className="layout--primary">
@@ -471,14 +479,21 @@ const MyBookings: React.FC = (props: any) => {
                         <div className="flex--primary p-6">
                             <h2 className="type--lg">{t('MY_BOOKINGS.TITLE')}</h2>
                             <div className="type--wgt--bold type--color--brand">
-                                <a
-                                    href={t('NOTIFICATIONS.HELP_CENTER.LINK')}
-                                    target="_blank"
-                                    className="flex flex--row flex--ai--center flex--jc--center"
-                                >
-                                    <img src="/help_center_icon.png" alt="help center" style={{ height: '30px' }} className="mr-1" />
-                                    {t('NOTIFICATIONS.HELP_CENTER.TITLE')}
-                                </a>
+                                {/*<a*/}
+                                {/*    href={t('NOTIFICATIONS.HELP_CENTER.LINK')}*/}
+                                {/*    target="_blank"*/}
+                                {/*    className="flex flex--row flex--ai--center flex--jc--center"*/}
+                                {/*>*/}
+                                {/*    <img src="/help_center_icon.png" alt="help center" style={{ height: '30px' }} className="mr-1" />*/}
+                                {/*    {t('NOTIFICATIONS.HELP_CENTER.TITLE')}*/}
+                                {/*</a>*/}
+
+                                <TimeZoneSelect
+                                    className={'z-index-10'}
+                                    defaultUserZone={timeZoneState.timeZone ? timeZoneState.timeZone : moment.tz.guess()}
+                                    selectedZone={selectedZone}
+                                    setSelectedZone={setSelectedZone}
+                                />
                             </div>
                         </div>
 

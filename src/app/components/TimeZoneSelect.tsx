@@ -3,6 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { Option } from '../features/my-profile/VideoRecorder/VideoRecorder';
 import { useLazyGetAllTimeZonesQuery } from '../../services/dashboardService';
 import { t } from 'i18next';
+import moment from 'moment/moment';
+import { useAppDispatch, useAppSelector } from '../hooks';
+import { setTimeZone } from '../../slices/timeZoneSlice';
 
 const customStyles: StylesConfig<Option, false> = {
     option: (provided, state) => ({
@@ -34,17 +37,22 @@ interface Props {
     showTitle?: boolean;
     defaultUserZone?: string;
     useSystemDefaultZone?: boolean;
+    className?: string;
 }
 
 export const TimeZoneSelect = (props: Props) => {
-    const { setSelectedZone, selectedZone, showTitle, defaultUserZone, useSystemDefaultZone } = props;
+    const { setSelectedZone, selectedZone, showTitle, defaultUserZone, useSystemDefaultZone, className } = props;
     const [getAllTimeZones] = useLazyGetAllTimeZonesQuery();
 
     const [timeZoneOptions, setTimeZoneOptions] = useState<Option[]>([]);
+    const timeZoneState = useAppSelector((state) => state.timeZone);
+    const dispatch = useAppDispatch();
 
     const handleChangeZone = (selectedOption: SingleValue<Option>) => {
         const selectedValue = selectedOption ? selectedOption.value : '';
         setSelectedZone(selectedValue);
+        dispatch(setTimeZone(selectedValue));
+        moment.tz.setDefault(selectedValue);
     };
 
     async function fetchZones() {
@@ -59,7 +67,7 @@ export const TimeZoneSelect = (props: Props) => {
         if (!useSystemDefaultZone && defaultUserZone) {
             setSelectedZone(defaultUserZone);
         } else {
-            setSelectedZone(Intl.DateTimeFormat().resolvedOptions().timeZone);
+            setSelectedZone(moment.tz.guess());
         }
 
         setTimeZoneOptions(timeZones);
@@ -73,7 +81,7 @@ export const TimeZoneSelect = (props: Props) => {
         <div className={'flex flex--center timezone-container'}>
             {showTitle && <span className={'mr-2'}>{t('MY_PROFILE.GENERAL_AVAILABILITY.SELECT_ZONE')}</span>}
             <Select
-                className={'w--250'}
+                className={`w--250 ${className}`}
                 classNamePrefix="select"
                 value={timeZoneOptions.find((option) => option.value === selectedZone)}
                 onChange={handleChangeZone}

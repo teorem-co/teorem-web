@@ -1,5 +1,5 @@
 import { t } from 'i18next';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { matchPath, NavLink, Route, Switch, useHistory } from 'react-router-dom';
 
@@ -24,7 +24,6 @@ import Notifications from './features/notifications/Notifications';
 import Onboarding from './features/onboarding/Onboarding';
 import SearchTutors from './features/searchTutors/SearchTutors';
 import TutorProfile from './features/searchTutors/TutorProfile';
-import TutorBookings from './features/tutor-bookings/TutorBookings';
 import TutorManagment from './features/tutor-managment/TutorManagment';
 import TutorManagmentProfile from './features/tutor-managment/TutorProfile';
 import { useAppDispatch, useAppSelector } from './hooks';
@@ -42,6 +41,7 @@ import { Signup } from './features/register/sign_up_rework/tutor/Signup';
 import { SignupRoleSelect } from './features/register/sign_up_rework/SignupRoleSelect';
 import { AdminTutorVideoPage } from './components/admin/tutor-video/AdminTutorVideoPage';
 import TokenNotValid from './pages/TokenNotValid';
+import TutorBookingsNew from './features/tutor-bookings/TutorBookingsNew';
 
 export const PATHS = {
     ROLE_SELECTION: t('PATHS.ROLE_SELECTION'),
@@ -232,7 +232,8 @@ export const ROUTES: any = [
         exact: true,
         component: () => (
             <PermissionsGate roles={[Role.Parent, Role.Student, Role.SuperAdmin]}>
-                <TutorBookings />
+                {/*<TutorBookings />*/}
+                <TutorBookingsNew />
             </PermissionsGate>
         ),
     },

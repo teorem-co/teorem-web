@@ -23,6 +23,7 @@ import onboardingReducer from '../slices/onboardingSlice';
 import scrollReducer from '../slices/scrollSlice';
 import searchFiltersReducer from '../slices/searchFiltesSlice';
 import creditsReducer from '../slices/creditsSlice';
+import timeZoneReducer from '../slices/timeZoneSlice';
 
 const persistConfig = {
     key: 'root',
@@ -40,6 +41,7 @@ const persistConfig = {
         'lang',
         'searchFilters',
         'credits',
+        'timeZone',
     ],
 };
 
@@ -62,6 +64,7 @@ const appReducer = combineReducers({
     scroll: scrollReducer,
     searchFilters: searchFiltersReducer,
     credits: creditsReducer,
+    timeZone: timeZoneReducer,
 });
 
 const rootReducer = (state: any, action: any) => {
