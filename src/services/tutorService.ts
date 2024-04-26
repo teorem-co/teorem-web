@@ -12,6 +12,20 @@ import typeToFormData from '../app/utils/typeToFormData';
 import IBooking from '../app/features/my-bookings/interfaces/IBooking';
 import ITutorItem from '../interfaces/ITutorItem';
 import IPage from '../interfaces/notification/IPage';
+import { v4 as uuidv4 } from 'uuid';
+import moment from 'moment';
+
+interface ITutorUnavailablePeriod {
+    start: string;
+    end: string;
+}
+
+export interface ITutorUnavailablePeriodParams {
+    tutorId: string;
+    startOfWeek: string;
+    endOfWeek: string;
+    timeZone: string;
+}
 
 interface ITutorItemPage {
     totalPages: number;
@@ -272,6 +286,31 @@ export const tutorService = baseService.injectEndpoints({
                 method: HttpMethods.DELETE,
             }),
         }),
+        getTutorUnavalabilitesForCalendar: builder.query<IBookingTransformed[], ITutorUnavailablePeriodParams>({
+            query: (params) => ({
+                url: `${BOOKING_URL}/tutorAllUnavailablePeriods?tutorId=${params.tutorId}&startOfWeek=${params.startOfWeek}&endOfWeek=${params.endOfWeek}&timeZone=${params.timeZone}`,
+                method: HttpMethods.GET,
+            }),
+            transformResponse: (response: ITutorUnavailablePeriod[]) => {
+                const periods: IBookingTransformed[] = response.map((x, index) => {
+                    return {
+                        id: uuidv4(),
+                        label: 'unavailable',
+                        start: new Date(x.start),
+                        end: new Date(moment(x.end).subtract(1, 'second').toISOString()), // this is because it will add 1 minute to the end time (if end time is 18:00 it will show as 18:01)
+                        allDay: false,
+                    };
+                });
+
+                return periods;
+            },
+        }),
+        getTutorTimeZone: builder.query<string, string>({
+            query: (tutorId) => ({
+                url: `${URL}/${tutorId}/time-zone`,
+                method: HttpMethods.GET,
+            }),
+        }),
     }),
 });
 
@@ -298,6 +337,8 @@ export const {
     useLazyApproveTutorVideoQuery,
     useLazyGetAdminTutorVideoInformationQuery,
     useLazyDeclineTutorVideoQuery,
+    useLazyGetTutorUnavalabilitesForCalendarQuery,
+    useLazyGetTutorTimeZoneQuery,
 } = tutorService;
 
 export function getUserRoleAbbrv() {

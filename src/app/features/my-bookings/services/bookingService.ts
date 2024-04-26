@@ -4,6 +4,8 @@ import { baseService } from '../../../baseService';
 import { HttpMethods } from '../../../lookups/httpMethods';
 import IBooking from '../interfaces/IBooking';
 import IUpcomingLessons from '../interfaces/IUpcomingLessons';
+import { getUserRoleAbbrv } from '../../../../services/tutorService';
+import { RoleOptions } from '../../../../slices/roleSlice';
 
 //bookings/week/:tutorSlug
 
@@ -60,6 +62,12 @@ export interface IGetStudentAvailablePeriodsParams {
     studentId: string;
     date: string;
     bookingId: string;
+}
+
+export interface IBookingWithTutorParams {
+    tutorId: string;
+    dateFrom: string;
+    dateTo: string;
 }
 
 const URL = '/api/v1/bookings';
@@ -196,6 +204,43 @@ export const bookingService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
+
+        getBookingsWithTutor: builder.query<IBookingTransformed[], IBookingWithTutorParams>({
+            query: (params) => ({
+                url: `${URL}/bookings-with-tutor/${params.tutorId}?dateFrom=${params.dateFrom}&dateTo=${params.dateTo}`,
+                method: HttpMethods.GET,
+            }),
+            transformResponse: (response: IBooking[]) => {
+                const userRole = getUserRoleAbbrv();
+                const bookings: IBookingTransformed[] = response.map((x) => {
+                    if (userRole === RoleOptions.Parent) {
+                        return {
+                            id: x.id,
+                            label: x.Subject ? t(`SUBJECTS.${x.Subject.abrv.replaceAll('-', '').replaceAll(' ', '')}`) : 'No title',
+                            userId: x.User ? x.User.parentId : '',
+                            start: new Date(x.startTime),
+                            end: new Date(x.endTime),
+                            isAccepted: x.isAccepted,
+                            inReschedule: x.inReschedule,
+                            allDay: false,
+                        };
+                    } else {
+                        return {
+                            id: x.id,
+                            label: x.Subject ? t(`SUBJECTS.${x.Subject.abrv.replaceAll('-', '').replaceAll(' ', '')}`) : 'No title',
+                            userId: x.studentId ? x.studentId : '',
+                            start: new Date(x.startTime),
+                            end: new Date(x.endTime),
+                            isAccepted: x.isAccepted,
+                            allDay: false,
+                        };
+                    }
+                });
+
+                return bookings;
+            },
+            providesTags: ['bookings'],
+        }),
     }),
 });
 
@@ -215,4 +260,5 @@ export const {
     useAcceptRescheduleRequestMutation,
     useDenyRescheduleRequestMutation,
     useLazyGetPendingBookingsQuery,
+    useLazyGetBookingsWithTutorQuery,
 } = bookingService;

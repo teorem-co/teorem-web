@@ -22,9 +22,11 @@ import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { getUserId } from '../../../utils/getUserId';
 import { TimeZoneSelect } from '../../../components/TimeZoneSelect';
 import { useLazyGetUserTimeZoneQuery } from '../../../../services/userService';
+import { setTimeZone } from '../../../../slices/timeZoneSlice';
 
 const GeneralAvailability = () => {
     //const { data: profileProgress } = useGetProfileProgressQuery();
+
     const [getTutorAvailability, { data: tutorAvailability, isUninitialized: availabilityUninitialized, isLoading: availabilityLoading }] =
         useLazyGetTutorAvailabilityQuery();
     const [updateTutorAvailability] = useUpdateTutorAvailabilityMutation();
@@ -139,6 +141,7 @@ const GeneralAvailability = () => {
         }
 
         setDefaultUserZone(selectedZone);
+        dispatch(setTimeZone(selectedZone));
     };
 
     const handleUpdateOnRouteChange = () => {

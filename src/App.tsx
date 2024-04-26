@@ -27,6 +27,8 @@ import { useLazyGetServerVersionQuery } from './services/authService';
 import { useLazyGetUserQuery } from './services/userService';
 import { logout, setServerVersion } from './slices/authSlice';
 import { logoutUser } from './slices/userSlice';
+import { useLazyGetTutorTimeZoneQuery } from './services/tutorService';
+import { setTimeZone } from './slices/timeZoneSlice';
 
 function App() {
     const { t } = useTranslation();
@@ -55,8 +57,34 @@ function App() {
 
     const [getChatRooms, { data: chatRooms, isSuccess: isSuccessChatRooms }] = useLazyGetChatRoomsQuery();
     const [getChildBookingTutors, { data: childTutors, isSuccess: isSuccessChildTutors }] = useLazyGetChildBookingTutorsQuery();
-
+    const timeZoneState = useAppSelector((state) => state.timeZone);
+    const [getTutorTimeZone] = useLazyGetTutorTimeZoneQuery();
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (!timeZoneState.timeZone) {
+            setUserTimeZone();
+        }
+    }, []);
+
+    async function setUserTimeZone() {
+        if (!timeZoneState.timeZone) {
+            if (userData?.user?.Role.abrv == Role.Tutor) {
+                //Send request to get timezone from tutor
+                const response = await getTutorTimeZone(userData.user?.id);
+                if (response.data) {
+                    dispatch(setTimeZone(response.data));
+                    moment.tz.setDefault(response.data);
+                } else {
+                    dispatch(setTimeZone(moment.tz.guess()));
+                    moment.tz.setDefault(moment.tz.guess());
+                }
+            } else {
+                dispatch(setTimeZone(moment.tz.guess()));
+                moment.tz.setDefault(moment.tz.guess());
+            }
+        }
+    }
 
     useEffect(() => {
         if (isSuccessServerVersion) {
