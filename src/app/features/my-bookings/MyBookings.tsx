@@ -466,6 +466,10 @@ const MyBookings: React.FC = (props: any) => {
 
     const timeZoneState = useAppSelector((state) => state.timeZone);
     const [selectedZone, setSelectedZone] = useState(timeZoneState.timeZone ? timeZoneState.timeZone : moment.tz.guess());
+    useEffect(() => {
+        moment.tz.setDefault(selectedZone);
+    }, [selectedZone]);
+
     return (
         <MainWrapper>
             <div className="layout--primary">
