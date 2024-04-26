@@ -18,6 +18,7 @@ import moment from 'moment';
 interface ITutorUnavailablePeriod {
     start: string;
     end: string;
+    label: string;
 }
 
 export interface ITutorUnavailablePeriodParams {
@@ -292,12 +293,12 @@ export const tutorService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
             transformResponse: (response: ITutorUnavailablePeriod[]) => {
-                const periods: IBookingTransformed[] = response.map((x, index) => {
+                const periods: IBookingTransformed[] = response.map((period, index) => {
                     return {
                         id: uuidv4(),
-                        label: 'unavailable',
-                        start: new Date(x.start),
-                        end: new Date(moment(x.end).subtract(1, 'second').toISOString()), // this is because it will add 1 minute to the end time (if end time is 18:00 it will show as 18:01)
+                        label: period.label ? period.label : 'unavailable',
+                        start: new Date(period.start),
+                        end: new Date(moment(period.end).subtract(1, 'second').toISOString()), // this is because it will add 1 minute to the end time (if end time is 18:00 it will show as 18:01)
                         allDay: false,
                     };
                 });

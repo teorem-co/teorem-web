@@ -1,6 +1,5 @@
 import i18n from 'i18next';
-import { uniqBy } from 'lodash';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import React, { useEffect, useRef, useState } from 'react';
 import { Calendar as BigCalendar, momentLocalizer, SlotInfo } from 'react-big-calendar';
 import Calendar from 'react-calendar';
@@ -94,7 +93,7 @@ const TutorBookingsNew = () => {
 
             getBookingsWithTutor({
                 tutorId: tutorId,
-                dateFrom: moment(value).startOf('isoWeek').toISOString(),
+                dateFrom: moment().toISOString(),
                 dateTo: moment(value).endOf('isoWeek').toISOString(),
             });
         }
@@ -112,8 +111,6 @@ const TutorBookingsNew = () => {
 
     const [bookingMessageInfo, setBookingMessageInfo] = useState<IBookingChatMessageInfo>();
     const [scrollTopOffset, setScrollTopOffset] = useState<number>(0);
-    const scrollState = useAppSelector((state) => state.scroll);
-    const { topOffset } = scrollState;
     const [getTutorBookings, { data: tutorBookings, isLoading: isLoadingTutorBookings }] = useLazyGetTutorBookingsQuery();
     const [getTutorUnavailableBookings, { data: unavailableBookings, isLoading: isLoadingUnavailableBookings }] =
         useLazyGetUnavailableBookingsQuery();
@@ -160,7 +157,6 @@ const TutorBookingsNew = () => {
     const positionClass = moment(selectedStart).format('dddd');
     const userRole = useAppSelector((state) => state.auth.user?.Role?.abrv);
     const userId = useAppSelector((state) => state.auth.user?.id);
-    const stripeCustomerId = useAppSelector((state) => state.auth.user?.stripeCustomerId);
     const userInfo = useAppSelector((state) => state.auth.user);
 
     const { tutorSlug } = useParams();
@@ -253,20 +249,12 @@ const TutorBookingsNew = () => {
     const { t } = useTranslation();
     const defaultScrollTime = new Date(new Date().setHours(7, 45, 0));
     const highlightRef = useRef<HTMLDivElement>(null);
-    const allBookings =
-        tutorBookings &&
-        tutorBookings
-            .concat(emptyBookings, unavailableBookings ? unavailableBookings : [])
-            .concat(tutorAvailability ? arrayDataToUnavailabilityObjects(tutorAvailability, firstDayOfSelectedWeek) : [])
-            .concat(minimumUnavailability ? minimumUnavailability : []);
-    const [allBookings2, setAllBookings2] = useState<IBookingTransformed[]>(mergeOverlappingEvents(allBookings ? allBookings : []));
+
     const existingBookings =
         tutorBookings &&
         tutorBookings
             .concat(unavailableBookings ? unavailableBookings : [])
             .concat(tutorAvailability ? arrayDataToUnavailabilityObjects(tutorAvailability, firstDayOfSelectedWeek) : []);
-    const totalBookings = allBookings2 && allBookings2.concat([]); //allBookings && allBookings.concat(bookings ? bookings : []) &&
-    const filteredBookings = uniqBy(totalBookings, 'id');
     const tileRef = useRef<HTMLDivElement>(null);
     const tileElement = tileRef.current as HTMLDivElement;
 
@@ -562,70 +550,11 @@ const TutorBookingsNew = () => {
         }
     }
 
-    function mergeOverlappingEvents(events: IBookingTransformed[]): IBookingTransformed[] {
-        events.sort((a, b) => a.start.getTime() - b.start.getTime());
-
-        const mergedEvents: IBookingTransformed[] = [];
-
-        let currentEvent = { ...events[0] }; // Create a new object rather than referencing the original one
-        for (let i = 1; i < events.length; i++) {
-            const nextEvent = { ...events[i] }; // Create a new object rather than referencing the original one
-            if (currentEvent.end.getTime() >= nextEvent.start.getTime() && currentEvent.label !== 'Book event' && nextEvent.label !== 'Book event') {
-                if (nextEvent.label === 'unavailableHoursBefore') {
-                    const nextNextEvent = { ...events[i + 1] };
-
-                    if (i == events.length - 1 && !(currentEvent.end.getTime() > nextEvent.start.getTime())) {
-                        mergedEvents.push(nextEvent);
-                        continue;
-                    }
-
-                    if (
-                        nextNextEvent &&
-                        (!moment(nextEvent.end).isSame(moment(nextNextEvent.start), 'day') ||
-                            moment(nextEvent.end).isBefore(moment(nextNextEvent.start))) &&
-                        !(currentEvent.end.getTime() > nextEvent.start.getTime())
-                    ) {
-                        mergedEvents.push(nextEvent);
-                        continue;
-                    }
-                }
-
-                currentEvent = {
-                    ...currentEvent,
-                    label: 'unavailable',
-                    end: new Date(Math.max(currentEvent.end.getTime(), nextEvent.end.getTime())),
-                };
-            } else {
-                mergedEvents.push(currentEvent);
-                currentEvent = nextEvent;
-            }
-        }
-
-        mergedEvents.push(currentEvent);
-
-        return mergedEvents;
-    }
-
     useEffect(() => {
         if (!hasRunThisMinute) {
             calculateAndSetMinimumUnavailability();
         }
     });
-
-    useEffect(() => {
-        const tutBookings =
-            tutorBookings &&
-            tutorBookings
-                .concat(emptyBookings, unavailableBookings ? unavailableBookings : [])
-                .concat(tutorAvailability ? arrayDataToUnavailabilityObjects(tutorAvailability, firstDayOfSelectedWeek) : [])
-                .concat(minimumUnavailability ? minimumUnavailability : [])
-                .concat(pastUnavailability ? pastUnavailability : []);
-        let transformedBookings;
-        if (tutBookings) {
-            transformedBookings = mergeOverlappingEvents(tutBookings);
-            setAllBookings2(transformedBookings ? transformedBookings : []);
-        }
-    }, [tutorBookings, minimumUnavailability, tutorAvailability, emptyBookings, pastUnavailability]);
 
     useEffect(() => {
         calcPosition();
@@ -790,7 +719,7 @@ const TutorBookingsNew = () => {
                                 setOpenSlot(e);
                                 getBookingsWithTutor({
                                     tutorId: tutorId,
-                                    dateFrom: moment(value).startOf('isoWeek').toISOString(),
+                                    dateFrom: moment().toISOString(),
                                     dateTo: moment(value).endOf('isoWeek').toISOString(),
                                 });
                             }}
@@ -849,6 +778,9 @@ const TutorBookingsNew = () => {
                                 hideShowHighlight(e.activeStartDate);
                             }}
                             onChange={(e: Date) => {
+                                // const momentDate = moment(e.getTime()).tz('UTC');
+                                // const newDate = momentDate.toDate();
+
                                 onChange(e);
                                 setCalChange(!calChange);
                             }}
