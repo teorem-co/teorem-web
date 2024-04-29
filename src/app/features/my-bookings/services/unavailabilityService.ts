@@ -1,11 +1,12 @@
 import { baseService } from '../../../baseService';
 import { HttpMethods } from '../../../lookups/httpMethods';
 import { IUnavailability } from '../interfaces/IUnavailability';
+import moment from 'moment/moment';
 
 //bookings/week/:tutorSlug
 
 const URL = 'api/v1/tutors/unavailability';
-const TUTORS_URL= 'api/v1/tutors';
+const TUTORS_URL = 'api/v1/tutors';
 
 interface IUnavailabilityTransformed {
     id: string;
@@ -35,11 +36,13 @@ export const unavailabilityService = baseService.injectEndpoints({
             }),
             transformResponse: (response: IUnavailability[]) => {
                 const bookings: IUnavailabilityTransformed[] = response.map((x) => {
+                    console.log('END TIME FOR UNAVA: ', x.endTime);
                     return {
                         id: x.id,
                         label: 'unavailableCustom',
                         start: new Date(x.startTime),
-                        end: new Date(x.endTime),
+                        // end: new Date(x.endTime),
+                        end: new Date(moment(x.endTime).subtract(1, 'second').toISOString()), // this is because it will add 1 minute to the end time (if end time is 18:00 it will show as 18:01)
                         allDay: false,
                     };
                 });
@@ -70,8 +73,5 @@ export const unavailabilityService = baseService.injectEndpoints({
     }),
 });
 
-export const {
-    useLazyGetUnavailableBookingsQuery,
-    useCreateTutorUnavailabilityMutation,
-    useDeleteTutorUnavailabilityMutation
-} = unavailabilityService;
+export const { useLazyGetUnavailableBookingsQuery, useCreateTutorUnavailabilityMutation, useDeleteTutorUnavailabilityMutation } =
+    unavailabilityService;

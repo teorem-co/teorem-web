@@ -302,8 +302,6 @@ const SearchTutors = () => {
             const innerHeight = e.scrollHeight;
             const scrollPosition = e.scrollTop + e.clientHeight;
 
-            // console.log('innerHeight: ', innerHeight);
-            // console.log('scrollPosition: ', scrollPosition);
             const roundedInnerHeight = Math.floor(innerHeight);
             const roundedScrollPosition = Math.floor(scrollPosition);
 
