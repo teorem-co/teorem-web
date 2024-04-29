@@ -584,6 +584,7 @@ export const HR_HR = {
         EMPTY_LESSONS_TITLE: 'Nema lekcija',
         LEAVE_REVIEW: 'Ostavite recenziju',
         VIEW_CALENDAR: 'Pregledajte kalendar',
+        BOOK_LESSON: 'Rezerviraj predavanje',
         VIDEOS_TITLE: 'Preuzmite račune i video lekcije',
         EMPTY_VIDEOS: 'Nema dostupnih završenih lekcija za odabir',
         LINK: 'Idi na kalendar',

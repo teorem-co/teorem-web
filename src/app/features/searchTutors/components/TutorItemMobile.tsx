@@ -101,7 +101,7 @@ export const TutorItemMobile = (props: Props) => {
             {/*buttons*/}
             <div className={'flex flex--row mt-2 flex-gap-2'}>
                 <Link
-                    className="btn btn--normal btn--ghost type--center type--wgt--extra-bold flex--grow"
+                    className="btn btn--normal btn--secondary type--center type--wgt--extra-bold flex--grow"
                     to={`${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug)}`}
                 >
                     <span>{t('SEARCH_TUTORS.VIEW_PROFILE')}</span>
