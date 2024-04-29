@@ -42,7 +42,6 @@ import { SignupRoleSelect } from './features/register/sign_up_rework/SignupRoleS
 import { AdminTutorVideoPage } from './components/admin/tutor-video/AdminTutorVideoPage';
 import TokenNotValid from './pages/TokenNotValid';
 import TutorBookingsNew from './features/tutor-bookings/TutorBookingsNew';
-import { ButtonPage } from './components/ButtonPage';
 
 export const PATHS = {
     ROLE_SELECTION: t('PATHS.ROLE_SELECTION'),
@@ -104,12 +103,6 @@ interface IMenuPerRole {
 }
 
 export const ROUTES: any = [
-    {
-        path: '/en/button',
-        key: 'enbutton',
-        exact: true,
-        component: () => <ButtonPage />,
-    },
     {
         path: PATHS.TOKEN_NOT_VALID,
         key: 'TOKEN_NOT_VALID',
