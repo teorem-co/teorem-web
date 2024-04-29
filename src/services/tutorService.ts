@@ -306,6 +306,25 @@ export const tutorService = baseService.injectEndpoints({
                 return periods;
             },
         }),
+        getTutorGeneralUnavailability: builder.query<IBookingTransformed[], ITutorUnavailablePeriodParams>({
+            query: (params) => ({
+                url: `${BOOKING_URL}/tutor-general-unavailability?tutorId=${params.tutorId}&startOfWeek=${params.startOfWeek}&endOfWeek=${params.endOfWeek}&timeZone=${params.timeZone}`,
+                method: HttpMethods.GET,
+            }),
+            transformResponse: (response: ITutorUnavailablePeriod[]) => {
+                const periods: IBookingTransformed[] = response.map((period, index) => {
+                    return {
+                        id: uuidv4(),
+                        label: period.label ? period.label : 'unavailable',
+                        start: new Date(period.start),
+                        end: new Date(moment(period.end).subtract(1, 'second').toISOString()), // this is because it will add 1 minute to the end time (if end time is 18:00 it will show as 18:01)
+                        allDay: false,
+                    };
+                });
+
+                return periods;
+            },
+        }),
         getTutorTimeZone: builder.query<string, string>({
             query: (tutorId) => ({
                 url: `${URL}/${tutorId}/time-zone`,
@@ -340,6 +359,7 @@ export const {
     useLazyDeclineTutorVideoQuery,
     useLazyGetTutorUnavalabilitesForCalendarQuery,
     useLazyGetTutorTimeZoneQuery,
+    useLazyGetTutorGeneralUnavailabilityQuery,
 } = tutorService;
 
 export function getUserRoleAbbrv() {
