@@ -13,7 +13,7 @@
   transition: all 200ms ease-out;
 
   &:focus {
-    box-shadow: 0 0 2px 2px var(--box-shadow-color);
+    //box-shadow: 0 0 2px 2px var(--box-shadow-color);
     outline: none;
   }
 
@@ -26,19 +26,24 @@
   //button styles
   &--primary {
     background-color: $color-primary;
-    background: linear-gradient(226.69deg, rgba(127, 95, 211, 0.9) 4.52%, #5c3ee8 94.64%);
     color: $white;
+    transition: none !important;
 
     &:hover {
-      background-color: darken($color-primary, 10%);
+      background: linear-gradient(226.69deg, rgba(127, 95, 211, 0.9) 4.52%, #5c3ee8 94.64%);
     }
 
     &:active {
-      background-color: darken($color-primary, 15%);
+      background: #{darken($color-primary, 40%)};
     }
 
     &:focus {
       --box-shadow-color: #{darken($color-primary, 15%)};
+    }
+
+    &:disabled {
+      background: $grey-d8;
+      color: $grey-30;
     }
 
     &--landing {
@@ -46,15 +51,17 @@
       font-size: 16px;
       border-radius: 8px;
     }
+
   }
 
   &--secondary {
     background-color: $grey-d8;
     background: linear-gradient(226.69deg, rgba(240, 240, 240, 0.9) 4.52%, #ffffff 94.64%);
-    color: $color-text-primary;
+    color: $color-primary-dark;
+    outline: 1px solid $color-primary-dark;
 
     &:hover {
-      background-color: darken($grey-d8, 10%);
+      background: $grey-ed;
     }
 
     &:active {
@@ -67,21 +74,16 @@
   }
 
   &--tertiary {
-    width: calc(#{$unit} * 150);
 
     @media (max-width: $responsive-sm) {
       width: calc(#{$unit} * 50);
     }
 
-    place-self: center;
-    margin-top: 13px;
-    background-color: $grey-d8;
-    background: linear-gradient(226.69deg, rgba(240, 240, 240, 0.9) 4.52%, #ffffff 94.64%);
-    //color: $color-text-primary;
-    text-align: center;
+    background-color: transparent;
+    color: $color-primary-dark;
 
     &:hover {
-      background-color: darken($grey-d8, 10%);
+      color: darken($color-primary-dark, 20%)
     }
 
     &:active {
@@ -111,19 +113,44 @@
   }
 
   &--error {
-    background-color: $color-error;
-    color: $white;
 
-    &:hover {
-      background-color: darken($color-error, 10%);
+    &--primary {
+      background-color: $color-error;
+      color: $white;
+
+      &:hover {
+        background-color: darken($color-error, 10%);
+      }
+
+      &:active {
+        background-color: darken($color-error, 15%);
+      }
+
+      &:focus {
+        --box-shadow-color: #{darken($color-error, 15%)};
+      }
     }
 
-    &:active {
-      background-color: darken($color-error, 15%);
+    &--secondary {
+      background: $white;
+      color: $color-error;
+      outline: 1px solid $color-error;
+
+      &:hover {
+        background: $grey-ed;
+      }
+
+      &:active {
+        //background-color: darken($color-error, 15%);
+        outline: 1px solid $color-error;
+      }
+
     }
 
-    &:focus {
-      --box-shadow-color: #{darken($color-error, 15%)};
+    &--tertiary {
+      background: transparent;
+      color: $color-error;
+      //outline: 1px solid $color-error;
     }
   }
 

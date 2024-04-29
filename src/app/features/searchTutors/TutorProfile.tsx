@@ -361,7 +361,7 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                                                                     )}
 
                                                                     <Link
-                                                                        className="btn btn--base btn--ghost type--center flex flex--center flex--jc--center mt-2"
+                                                                        className="btn btn--base btn--secondary type--center flex flex--center flex--jc--center mt-2"
                                                                         onClick={() => createNewChat()}
                                                                         to={PATHS.CHAT}
                                                                     >
@@ -537,7 +537,7 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                                                                                 )}
 
                                                                                 <Link
-                                                                                    className="btn btn--base btn--ghost type--center flex flex--center flex--jc--center mt-2 type--wgt--extra-bold"
+                                                                                    className="btn btn--base btn--secondary type--center flex flex--center flex--jc--center mt-2 type--wgt--extra-bold"
                                                                                     onClick={() => createNewChat()}
                                                                                     to={PATHS.CHAT}
                                                                                 >

@@ -1408,7 +1408,7 @@ const Dashboard = () => {
                                                                     .subtract(5, 'minutes')
                                                                     .isBefore(moment()) ? (
                                                                     <button
-                                                                        className="btn btn--base card--dashboard__btn"
+                                                                        className="btn btn--base btn--primary"
                                                                         onClick={() => handleJoinBooking(todayScheduled[activeIndex])}
                                                                     >
                                                                         {t('DASHBOARD.SCHEDULE.BUTTON')}
@@ -1416,7 +1416,7 @@ const Dashboard = () => {
                                                                 ) : (
                                                                     <button
                                                                         disabled
-                                                                        className="btn btn--base card--dashboard__btn"
+                                                                        className="btn btn--base btn--primary"
                                                                         // style={{ visibility: 'hidden' }}
                                                                     >
                                                                         {t('DASHBOARD.SCHEDULE.BUTTON')}
