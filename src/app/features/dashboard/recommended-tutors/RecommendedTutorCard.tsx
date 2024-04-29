@@ -91,7 +91,7 @@ export const RecommendedTutorCard = (props: Props) => {
 
                 <div className="flex flex--row flex--jc--space-evenly mt-3">
                     <Link
-                        className="btn btn--base btn--ghost--bordered type--wgt--extra-bold pl-8 pr-8 pt-3 pb-3"
+                        className="btn btn--base btn--secondary type--wgt--extra-bold pl-8 pr-8 pt-3 pb-3"
                         to={`${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug)}`}
                     >
                         {t('SEARCH_TUTORS.VIEW_PROFILE')}
