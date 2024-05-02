@@ -28,6 +28,7 @@
     background-color: $color-primary;
     color: $white;
     transition: none !important;
+    outline: 1px solid white;
 
     &:hover {
       background: linear-gradient(226.69deg, rgba(127, 95, 211, 0.9) 4.52%, #5c3ee8 94.64%);
