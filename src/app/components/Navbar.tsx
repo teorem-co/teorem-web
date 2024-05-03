@@ -68,11 +68,12 @@ const Navbar = () => {
                 }
             }
         }
+
         getUserInfo();
     }, [user]);
 
     return (
-        <div className="navbar">
+        <div className="navbar flex--grow">
             <div>
                 <NavLink
                     className="d--b"

@@ -183,7 +183,7 @@ export const EN_US = {
         NO_VIDEO: 'Tutor did not upload a video yet',
         TUTOR_PROFILE: {
             ABOUT_ME: 'About me',
-            ABOUT_TEACHINGS: 'About subjects',
+            ABOUT_TEACHINGS: "Here's how I teach",
             EMPTY_STATE_ABOUT: 'This tutor has not filled out about me section',
             EMPTY_STATE_LESSON: 'This tutor has not filled out his profile about subjects',
             ADDITIONAL_INFORMATION_TITLE: 'About me',
@@ -307,7 +307,7 @@ export const EN_US = {
             SEND_AGAIN_SUCCESS: 'Activation mail sent again',
         },
         FORGOT_PASSWORD: 'Forgot Password?',
-        ACCOUNT: 'Dont have an account?',
+        ACCOUNT: "Don't have an account?",
         REGISTER: 'Register',
     },
     BACKEND_ERRORS: {
@@ -388,7 +388,7 @@ export const EN_US = {
             COUNTRY: 'Country*',
             COUNTRY_PLACEHOLDER: 'Choose your country',
             PHONE_NUMBER: 'Phone Number*',
-            PHONE_INFO: 'Your phone number will not be visible to the public, we use it in case of support.',
+            PHONE_INFO: 'Your contact details will not be visible to the public, we use it in case of support.',
             DATE_OF_BIRTH: 'Date of Birth*',
             PROFILE_IMAGE: 'Profile Image',
             CHILD_NAME: "Child's Name",
@@ -448,7 +448,7 @@ export const EN_US = {
         TITLE: 'Add new Child',
         DESCRIPTION: 'Select to Add new Child',
         SAVE: 'Save Child',
-        PART_1: 'Add a',
+        PART_1: 'Add a ',
         PART_2: 'child',
     },
     MY_BOOKINGS: {

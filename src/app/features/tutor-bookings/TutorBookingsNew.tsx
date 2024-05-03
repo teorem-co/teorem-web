@@ -647,7 +647,7 @@ const TutorBookingsNew = () => {
                 <ConditionalWrapper condition={!isMobile}>
                     {/* {(isLoading && <LoaderPrimary />) || ( */}
 
-                    <div className="flex flex--jc--space-between flex--center p-6">
+                    <div className={`flex ${isMobile ? 'flex--col' : 'flex--row'} flex--jc--space-between flex--center p-6`}>
                         {/* <Link to={PATHS.SEARCH_TUTORS}>
                             <div>
                                 <i className="icon icon--base icon--arrow-left icon--black"></i>
@@ -665,10 +665,10 @@ const TutorBookingsNew = () => {
                                 }`}
                             </h2>
                         </div>
-                        <div className={'flex flex--jc--center flex--center'}>
+                        <div className={`flex ${isMobile ? 'flex--col' : 'flex--row'} flex--jc--center flex--center`}>
                             <h1 className={'font__md mr-2'}>{t('MY_PROFILE.GENERAL_AVAILABILITY.TIME_ZONE')}</h1>
                             <TimeZoneSelect
-                                className={'z-index-10'}
+                                className={'z-index-5'}
                                 defaultUserZone={timeZoneState.timeZone ? timeZoneState.timeZone : moment.tz.guess()}
                                 selectedZone={selectedZone}
                                 setSelectedZone={setSelectedZone}

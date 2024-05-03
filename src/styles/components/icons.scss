@@ -379,3 +379,10 @@
 //.icon-hover-color-change:hover {
 //  color: $color-primary; /* Color changes to blue on hover */
 //}
+
+.mobile-icon {
+  @media (max-width: $responsive-md) {
+    top: 0;
+    margin: $unit !important;
+  }
+}

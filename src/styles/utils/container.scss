@@ -254,3 +254,11 @@ progress::-moz-progress-bar {
     flex-direction: column;
   }
 }
+
+.select-width {
+  width: 250px;
+
+  @media (max-width: $responsive-md) {
+    width: 200px;
+  }
+}
