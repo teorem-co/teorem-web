@@ -38,7 +38,7 @@ export const Banner = (props: Props) => {
                     className="icon mobile-icon icon--base icon--close icon--grey m-4 "
                     onClick={hide}
                     style={{
-                        right: 0,
+                        // right: '15px',
                         position: 'absolute',
                     }}
                 ></i>

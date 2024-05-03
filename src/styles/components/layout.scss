@@ -179,6 +179,7 @@ $mobile-height: 50px;
   display: flex;
   justify-content: space-between;
   flex-direction: row;
+  padding-right: 20px;
 
   @media(max-width: $responsive-md) {
     flex-direction: column;
