@@ -81,7 +81,7 @@ export const TimeZoneSelect = (props: Props) => {
         <div className={'flex flex--center timezone-container'}>
             {showTitle && <span className={'mr-2'}>{t('MY_PROFILE.GENERAL_AVAILABILITY.SELECT_ZONE')}</span>}
             <Select
-                className={`w--250 ${className}`}
+                className={`select-width ${className}`}
                 classNamePrefix="select"
                 value={timeZoneOptions.find((option) => option.value === selectedZone)}
                 onChange={handleChangeZone}

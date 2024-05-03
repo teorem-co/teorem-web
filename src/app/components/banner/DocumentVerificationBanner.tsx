@@ -10,25 +10,24 @@ interface Props {
 }
 
 export const DocumentVerificationBanner = (props: Props) => {
-  const {hideBanner} = props;
-  const loggedInUser = useSelector((state: RootState) => state.auth.user);
+    const { hideBanner } = props;
+    const loggedInUser = useSelector((state: RootState) => state.auth.user);
 
-  function hide(){
-    hideBanner('true');
-    sessionStorage.setItem('hideStripeBanner', 'true');
-  }
+    function hide() {
+        hideBanner('true');
+        sessionStorage.setItem('hideStripeBanner', 'true');
+    }
 
-  return (
-    <>
-      {loggedInUser
-        && loggedInUser.stripeVerifiedStatus !== 'verified'
-        && !loggedInUser.stripeVerificationDocumentsUploaded
-        && <Banner
-          text={t('ID_VERIFICATION.BANNER')}
-          hide={hide}
-          redirectionPath={PROFILE_PATHS.MY_PROFILE_INFO_PERSONAL}
-        />
-      }
-    </>
-  );
+    return (
+        <>
+            {loggedInUser && loggedInUser.stripeVerifiedStatus !== 'verified' && !loggedInUser.stripeVerificationDocumentsUploaded && (
+                <Banner
+                    text={t('ID_VERIFICATION.BANNER')}
+                    hide={hide}
+                    buttonText={t('COMPLETE_PROFILE.PROFILE_SETTINGS')}
+                    redirectionPath={PROFILE_PATHS.MY_PROFILE_INFO_PERSONAL}
+                />
+            )}
+        </>
+    );
 };

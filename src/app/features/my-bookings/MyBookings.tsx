@@ -430,7 +430,7 @@ const MyBookings: React.FC = (props: any) => {
                                 {/*</a>*/}
 
                                 <TimeZoneSelect
-                                    className={'z-index-10'}
+                                    className={'z-index-5'}
                                     defaultUserZone={timeZoneState.timeZone ? timeZoneState.timeZone : moment.tz.guess()}
                                     selectedZone={selectedZone}
                                     setSelectedZone={setSelectedZone}

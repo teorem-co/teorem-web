@@ -116,7 +116,7 @@ const ToastFreeConsultationMessage = (props: Props) => {
                 <Link className={`btn btn--secondary btn--base Toastify--button`} onClick={onAcceptConsultation} to={PATHS.CHAT}>
                     {t('CHAT.ACCEPT_CONSULTATION')}
                 </Link>
-                <button className={`btn btn--error btn--base Toastify--button Toastify--button--deny`} onClick={onDenyConsultation}>
+                <button className={`btn btn--error--primary btn--base Toastify--button Toastify--button--deny`} onClick={onDenyConsultation}>
                     {t('CHAT.DENY_CONSULTATION')}
                 </button>
             </div>

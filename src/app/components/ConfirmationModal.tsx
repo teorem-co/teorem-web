@@ -17,7 +17,7 @@ export const ConfirmationModal = (props: Props) => {
                     <h2 className="type--md mb-4 type--center">{title}</h2>
                     {description && <span className="type--sm mb-4 type--center">{description}</span>}
                     <div className="flex flex--row flex--jc--space-between flex--gap-10">
-                        <button className="btn confirm-modal-button btn--error " onClick={onConfirm}>
+                        <button className="btn confirm-modal-button btn--error--primary " onClick={onConfirm}>
                             {confirmButtonTitle}
                         </button>
                         <button className="btn  confirm-modal-button" onClick={onCancel}>

@@ -103,7 +103,7 @@ export const AdminTutorVideoItem = (props: Props) => {
                         <button
                             disabled={message.length === 0}
                             onClick={onDeleteVideo}
-                            className="btn btn--error btn--md field__w-fit-content align-self-center mt-2"
+                            className="btn btn--error--primary btn--md field__w-fit-content align-self-center mt-2"
                         >
                             {t('TUTOR_MANAGMENT.VIDEO_PREVIEW.DECLINE_AND_SEND_BUTTON')}
                         </button>

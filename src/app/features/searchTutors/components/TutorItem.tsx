@@ -165,7 +165,7 @@ const TutorItem: FC<Props> = (props: Props) => {
                                 </Link>
 
                                 <a
-                                    className="btn btn--base btn--ghost type--center flex flex--center flex--jc--center mt-2 type--wgt--extra-bold"
+                                    className="btn btn--base btn--secondary flex flex--center flex--jc--center mt-2 type--wgt--extra-bold"
                                     href={`${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug)}`}
                                     target="_blank" // Opens link in a new tab
                                 >

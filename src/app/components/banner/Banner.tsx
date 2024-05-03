@@ -1,36 +1,48 @@
-import React, { useEffect } from 'react';
-import { PROFILE_PATHS } from '../../routes';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 interface Props {
-  text:string;
-  hide:()=>void;
-  redirectionPath?: string;
+    text: string;
+    hide: () => void;
+    redirectionPath?: string;
+    buttonText?: string;
 }
 
-export const Banner = (props:Props) => {
-  const {text, hide, redirectionPath} = props;
+export const Banner = (props: Props) => {
+    const { text, hide, redirectionPath, buttonText } = props;
+    const isMobile = window.innerWidth < 776;
 
-  return (
-    <div className="banner flex flex--row flex--jc--center flex--ai--center p-1"
-         style={{
-           color: 'white',
-           backgroundColor: 'rgba(126, 108, 242, 1)',
-           position: 'absolute',
-           width: '100%',
-           top: 0,
-           zIndex: 100
-         }}>
+    return (
+        <div
+            className="banner flex  flex--ai--center p-5"
+            style={{
+                color: 'white',
+                borderBottom: '1px solid white',
+                backgroundColor: 'rgba(126, 108, 242, 1)',
+                width: '100%',
+                top: 0,
+                position: 'relative',
+            }}
+        >
+            <p className={'type--normal'}> {text}</p>
+            <div className={'flex--row flex  flex--center mr-5 banner'}>
+                {redirectionPath && (
+                    <NavLink to={redirectionPath} className="ml-6 mr-5 type--start type--wgt--bold type--color--white align-self-end">
+                        <button onClick={hide} className={'btn btn--base btn--secondary'}>
+                            {buttonText}
+                        </button>
+                    </NavLink>
+                )}
 
-      {redirectionPath ?
-      <NavLink to={redirectionPath} className="ml-6 align-self-center type--wgt--bold type--color--white">
-          {text}
-        </NavLink>
-      :
-      <p> {text}</p>
-      }
-      <i onClick={hide} style={{ right: 0, position: 'absolute' }}
-         className="icon icon--sm icon--close icon--grey"></i>
-    </div>
-  );
+                <i
+                    className="icon mobile-icon icon--base icon--close icon--grey m-4 "
+                    onClick={hide}
+                    style={{
+                        right: 0,
+                        position: 'absolute',
+                    }}
+                ></i>
+            </div>
+        </div>
+    );
 };

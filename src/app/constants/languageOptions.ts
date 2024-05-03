@@ -8,12 +8,12 @@ export interface ILanguageOption {
 
 const languageOptions: ILanguageOption[] = [
     {
-        label: 'ENGLISH',
+        label: 'English',
         value: 'en-US',
         path: 'en',
     },
     {
-        label: 'HRVATSKI',
+        label: 'Hrvatski',
         value: 'hr-HR',
         path: 'hr',
     },
