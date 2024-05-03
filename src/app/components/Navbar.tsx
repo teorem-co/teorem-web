@@ -73,7 +73,7 @@ const Navbar = () => {
     }, [user]);
 
     return (
-        <div className="navbar flex--grow">
+        <div className="navbar">
             <div>
                 <NavLink
                     className="d--b"
