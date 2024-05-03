@@ -62,6 +62,20 @@ export const SignupFirstStep = ({ nextStep }: StepOneProps) => {
                 .min(2, t('FORM_VALIDATION.TOO_SHORT'))
                 .max(100, t('FORM_VALIDATION.TOO_LONG'))
                 .required(t('FORM_VALIDATION.REQUIRED')),
+            dateOfBirth: Yup.string()
+                .required(t('FORM_VALIDATION.REQUIRED'))
+                .test('dateOfBirth', t('FORM_VALIDATION.FUTURE_DATE'), (value) => {
+                    const dateDiff = moment(value).diff(moment(), 'days');
+                    return dateDiff < 0;
+                })
+                .test('dateOfBirth', '', (value) => {
+                    const isMoreThan100YearsOld: boolean = moment(value).isBefore(moment().subtract(100, 'years'));
+                    return !isMoreThan100YearsOld;
+                })
+                .test('dateOfBirth', t('FORM_VALIDATION.TUTOR_AGE'), (value) => {
+                    const dateDiff = moment(value).diff(moment().subtract(18, 'years'), 'days');
+                    return dateDiff <= 0;
+                }),
         }),
     });
 
