@@ -9,6 +9,7 @@
   background-color: $white;
   justify-content: space-between;
   transition: height ease 0.2s;
+  z-index: 1000;
 
   &__logo {
     display: block;

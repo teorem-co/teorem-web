@@ -11,7 +11,6 @@ import { useAppDispatch, useAppSelector } from '../../../hooks';
 import AddChildSidebar from '../components/AddChildSidebar';
 import { setMyProfileProgress } from '../slices/myProfileSlice';
 import CircularProgress from '../components/CircularProgress';
-import { t } from 'i18next';
 import { Link } from 'react-router-dom';
 
 interface Props {
@@ -93,7 +92,7 @@ const AddChildModal = (props: Props) => {
                     </div>
                     <div className="flex flex--col flex--jc--center ml-6">
                         <h4 className="signup-title ml-6 text-align--center">
-                            {t('ADD_CHILD.PART_1')} <span className="primary-color">{t('ADD_CHILD.PART_2')}</span>
+                            {t('ADD_CHILD.PART_1')}&nbsp;<span className="primary-color">{t('ADD_CHILD.PART_2')}</span>
                         </h4>
                     </div>
                 </div>
@@ -148,14 +147,27 @@ const AddChildModal = (props: Props) => {
                         </div>
                     </div>
                 )}
-                <Link to={closeModal} style={{ margin: '0 auto', display: 'flex', justifyContent: 'left', marginBottom: '10px', marginTop: '-25px' }}>
+                <Link
+                    to={closeModal}
+                    style={{
+                        margin: '0 auto',
+                        display: 'flex',
+                        justifyContent: 'left',
+                        marginBottom: '10px',
+                        marginTop: '-25px',
+                    }}
+                >
                     {t('SKIP_FOR_NOW')}
                 </Link>
                 <button
                     disabled={childlessButton}
                     onClick={closeModal}
                     className="btn btn--base btn--primary"
-                    style={{ margin: '0 auto', display: 'flex', justifyContent: 'center' }}
+                    style={{
+                        margin: '0 auto',
+                        display: 'flex',
+                        justifyContent: 'center',
+                    }}
                 >
                     {t('REGISTER.NEXT_BUTTON')}
                 </button>

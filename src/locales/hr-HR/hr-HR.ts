@@ -386,7 +386,7 @@ export const HR_HR = {
             COUNTRY: 'Država*',
             COUNTRY_PLACEHOLDER: 'Izaberite državu',
             PHONE_NUMBER: 'Broj telefona*',
-            PHONE_INFO: 'Vaš broj telefona neće biti vidljiv javnosti, koristimo ga u slučaju podrške.',
+            PHONE_INFO: 'Vaši kontakt detalji neće biti vidljiv javnosti, koristimo ih u slučaju podrške.',
             DATE_OF_BIRTH: 'Datum rođenja*',
             PROFILE_IMAGE: 'Slika profila',
             CHILD_NAME: 'Ime djeteta',
@@ -446,7 +446,7 @@ export const HR_HR = {
         TITLE: 'Dodajte novo dijete',
         DESCRIPTION: 'Izaberite za dodavanje novog djeteta',
         SAVE: 'Spremi dijete',
-        PART_1: 'Dodajte',
+        PART_1: 'Dodajte ',
         PART_2: 'dijete',
     },
     MY_BOOKINGS: {

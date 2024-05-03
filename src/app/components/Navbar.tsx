@@ -68,6 +68,7 @@ const Navbar = () => {
                 }
             }
         }
+
         getUserInfo();
     }, [user]);
 
