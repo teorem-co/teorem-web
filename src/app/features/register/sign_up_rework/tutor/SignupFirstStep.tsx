@@ -1,6 +1,5 @@
 import { Field, Form, FormikProvider, useFormik } from 'formik';
 import { t } from 'i18next';
-import moment from 'moment/moment';
 import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 
@@ -11,6 +10,7 @@ import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import moment from 'moment/moment';
 
 interface StepOneValues {
     firstName: string;
@@ -62,20 +62,6 @@ export const SignupFirstStep = ({ nextStep }: StepOneProps) => {
                 .min(2, t('FORM_VALIDATION.TOO_SHORT'))
                 .max(100, t('FORM_VALIDATION.TOO_LONG'))
                 .required(t('FORM_VALIDATION.REQUIRED')),
-            dateOfBirth: Yup.string()
-                .required(t('FORM_VALIDATION.REQUIRED'))
-                .test('dateOfBirth', t('FORM_VALIDATION.FUTURE_DATE'), (value) => {
-                    const dateDiff = moment(value).diff(moment(), 'days');
-                    return dateDiff < 0;
-                })
-                // .test('dateOfBirth', '', (value) => {
-                //     const isMoreThan100YearsOld: boolean = moment(value).isBefore(moment().subtract(100, 'years'));
-                //     return !isMoreThan100YearsOld;
-                // })
-                .test('dateOfBirth', t('FORM_VALIDATION.TUTOR_AGE'), (value) => {
-                    const dateDiff = moment(value).diff(moment().subtract(18, 'years'), 'days');
-                    return dateDiff <= 0;
-                }),
         }),
     });
 
@@ -90,8 +76,8 @@ export const SignupFirstStep = ({ nextStep }: StepOneProps) => {
         if (formik.values.dateOfBirth) {
             const dateDiff = moment(formik.values.dateOfBirth).diff(moment().subtract(18, 'years'), 'days');
             setShowMinDateErrorMessage(dateDiff > 0);
-            // const isMoreThan100YearsOld: boolean = moment(formik.values.dateOfBirth).isBefore(moment().subtract(100, 'years'));
-            // setShowMaxDateErrorMessage(isMoreThan100YearsOld);
+            const isMoreThan100YearsOld: boolean = moment(formik.values.dateOfBirth).isBefore(moment().subtract(100, 'years'));
+            setShowMaxDateErrorMessage(isMoreThan100YearsOld);
         }
     }, [formik.values.dateOfBirth]);
 
@@ -174,18 +160,19 @@ export const SignupFirstStep = ({ nextStep }: StepOneProps) => {
                         </div>
 
                         {/*date of birth*/}
-                        <div className="field align--center field__w-fit-content mb-5">
+                        <div className="field align--center mb-5">
                             <DatePicker
+                                className={'w--100'}
                                 label={t('MY_PROFILE.PROFILE_SETTINGS.BIRTHDAY')}
-                                defaultValue={dayjs(dateOfBirth)}
-                                value={dayjs(formik.values.dateOfBirth)}
-                                format="DD/MM/YYYY"
+                                defaultValue={dateOfBirth ? dayjs(dateOfBirth) : null}
+                                value={formik.values.dateOfBirth ? dayjs(formik.values.dateOfBirth) : null}
+                                format={`${t('BIRTH_DATE_FORMAT')}`}
                                 disableFuture
                                 sx={{ backgroundColor: 'white' }}
                                 onChange={(newValue) => formik.setFieldValue(formik.getFieldProps('dateOfBirth').name, newValue?.toString())}
                             />
                             {showMinDateErrorMessage && <p className={'type--color--error type--base'}>{t('FORM_VALIDATION.MINIMUM_AGE')}</p>}
-                            {/*{showMaxDateErrorMessage && <p className={'type--color--error type--base'}>{t('FORM_VALIDATION.MAXIMUM_AGE')}</p>}*/}
+                            {showMaxDateErrorMessage && <p className={'type--color--error type--base'}>{t('FORM_VALIDATION.MAXIMUM_AGE')}</p>}
                         </div>
 
                         <button

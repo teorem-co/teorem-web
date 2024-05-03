@@ -1408,7 +1408,7 @@ const Dashboard = () => {
                                                                     .subtract(5, 'minutes')
                                                                     .isBefore(moment()) ? (
                                                                     <button
-                                                                        className="btn btn--base btn--primary"
+                                                                        className="btn btn--base btn--secondary"
                                                                         onClick={() => handleJoinBooking(todayScheduled[activeIndex])}
                                                                     >
                                                                         {t('DASHBOARD.SCHEDULE.BUTTON')}
