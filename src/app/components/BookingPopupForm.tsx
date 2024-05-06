@@ -4,6 +4,7 @@ import { TextField } from '@mui/material';
 import { t } from 'i18next';
 import green_check from '../../assets/icons/green-check.svg';
 import { BookingChatMessageDTO, useSendBookingInfoMessageMutation } from '../features/chat/services/chatService';
+import { ButtonPrimaryGradient } from './ButtonPrimaryGradient';
 
 interface BookingInfoForm {
     curriculum: string;
@@ -235,9 +236,9 @@ export const BookingPopupForm = (props: Props) => {
                         />
 
                         <div className="div-3">
-                            <button disabled={submitButtonDisabled} className="btn btn--lg btn--primary w--100 p-2" type={'submit'}>
+                            <ButtonPrimaryGradient disabled={submitButtonDisabled} className="btn btn--lg w--100 p-2" type={'submit'}>
                                 {t('BOOKING_POPUP.BUTTON.COMPLETE')}
-                            </button>
+                            </ButtonPrimaryGradient>
                             <button className={'btn btn--sm btn--tertiary mb-1'} onClick={handleSkip} type={'button'}>
                                 {t('BOOKING_POPUP.BUTTON.SKIP')}
                             </button>

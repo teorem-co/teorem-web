@@ -1,6 +1,7 @@
 import { t } from 'i18next';
 import { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
+import { ButtonPrimaryGradient } from './ButtonPrimaryGradient';
 
 interface Props {
     when: boolean;
@@ -72,16 +73,16 @@ const RouterPrompt = (props: Props) => {
                     </div>
                     <div className="modal__body type--color--secondary">{t('ROUTER_MODAL.DESC')}</div>
                     <div className="modal__footer">
-                        <button
+                        <ButtonPrimaryGradient
                             onClick={() => {
                                 handleOK();
                                 //onOK();
                             }}
                             type="button"
-                            className="btn btn--primary btn--base mr-4"
+                            className="btn btn--base mr-4"
                         >
                             {t('ROUTER_MODAL.SAVE')}
-                        </button>
+                        </ButtonPrimaryGradient>
                         <button
                             onClick={() => {
                                 handleCancel();

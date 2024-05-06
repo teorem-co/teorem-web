@@ -5,6 +5,7 @@ import { VideoRecorder } from './VideoRecorder';
 import { BiSolidVideoRecording } from 'react-icons/bi';
 import { VideoFIleUploadModal } from './VideoFIleUploadModal';
 import { t } from 'i18next';
+import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 
 interface Props {
     fetchData: () => void;
@@ -40,15 +41,15 @@ export const VideoPreviewUpload = (props: Props) => {
                         <>
                             <div>
                                 <h4 className={'type--center type--wgt--regular'}>{t('VIDEO_PREVIEW.RECORD_VIDEO')}</h4>
-                                <div
+                                <ButtonPrimaryGradient
                                     onClick={() => setShowRecorder(true)}
                                     className={
-                                        'btn btn--md btn--primary btn align-center record-video-button flex flex-row flex--jc--center flex--ai--center w--260'
+                                        'btn btn--md btn align-center record-video-button flex flex-row flex--jc--center flex--ai--center w--260'
                                     }
                                 >
                                     <BiSolidVideoRecording size={25} className={'mr-2'} />
                                     <p>{t('VIDEO_PREVIEW.START')}</p>
-                                </div>
+                                </ButtonPrimaryGradient>
                             </div>
 
                             <p className={'align-self-center'}>{t('VIDEO_PREVIEW.OR')}</p>

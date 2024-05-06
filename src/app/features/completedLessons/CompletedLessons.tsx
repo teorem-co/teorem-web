@@ -23,6 +23,7 @@ import moment from 'moment';
 import ImageCircle from '../../components/ImageCircle';
 import MediaQuery from 'react-responsive';
 import { AiOutlineLeft } from 'react-icons/ai';
+import { ButtonPrimaryGradient } from '../../components/ButtonPrimaryGradient';
 
 const CompletedLessons = () => {
     const [studentCompletedBookings, setStudentCompletedBookings] = useState<IBookingInfo[]>([]);
@@ -302,10 +303,12 @@ const CompletedLessons = () => {
                                                     )}
 
                                                     <Link
-                                                        className="btn btn--primary btn--base"
+                                                        className="type--color--white"
                                                         to={`${PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS.replace(':tutorSlug', activeLesson.Tutor.slug)}`}
                                                     >
-                                                        {t('COMPLETED_LESSONS.BOOK_LESSON')}
+                                                        <ButtonPrimaryGradient className={'btn btn--base border-button'}>
+                                                            {t('COMPLETED_LESSONS.BOOK_LESSON')}
+                                                        </ButtonPrimaryGradient>
                                                     </Link>
                                                 </div>
                                             </div>
@@ -486,12 +489,14 @@ const CompletedLessons = () => {
                                                     )}
 
                                                     <Link
-                                                        className={`btn btn--primary btn--base ${
+                                                        className={`type--color--white ${
                                                             activeLesson.isReview && userRole != 'child' ? 'button-view-calendar' : ''
                                                         }`}
                                                         to={`${PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS.replace(':tutorSlug', activeLesson.Tutor.slug)}`}
                                                     >
-                                                        {t('COMPLETED_LESSONS.BOOK_LESSON')}
+                                                        <ButtonPrimaryGradient className={'btn btn--base border-button'}>
+                                                            {t('COMPLETED_LESSONS.BOOK_LESSON')}
+                                                        </ButtonPrimaryGradient>
                                                     </Link>
                                                 </div>
                                             </div>

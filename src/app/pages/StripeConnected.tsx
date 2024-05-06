@@ -15,7 +15,7 @@ const StripeConnected = () => {
                 </div>
                 <div className="type--lg type--wgt--bold mb-4">{t('STRIPE_CONNECTED.WELCOME')}</div>
                 <div className="type--color--secondary mb-8 w--448--max">{t('STRIPE_CONNECTED.DESCRIPTION')}</div>
-                {false && <div className="btn btn--primary btn--lg mt-6 mb-4">{t('STRIPE_CONNECTED.EXPIRATION')}</div>}
+                {/*{false && <div className="btn btn--primary btn--lg mt-6 mb-4">{t('STRIPE_CONNECTED.EXPIRATION')}</div>}*/}
                 <div
                     onClick={() => {
                         history.push(PATHS.DASHBOARD);

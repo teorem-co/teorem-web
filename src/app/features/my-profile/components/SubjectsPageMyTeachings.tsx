@@ -10,6 +10,7 @@ import ITutorSubjectLevel from '../../../../interfaces/ITutorSubjectLevel';
 import { ICreateSubjectOnboarding, useCreateSubjectsOnboardingMutation } from '../../../../services/subjectService';
 import { CreateSubjectCard } from '../../onboarding/tutorOnboardingNew/CreateSubjectCard';
 import toastService from '../../../services/toastService';
+import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 
 const SubjectsPage = () => {
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
@@ -285,9 +286,13 @@ const SubjectsPage = () => {
                                 </div>
                                 {showButton && (
                                     <div className="flex flex--col flex--ai--center flex--jc--center">
-                                        <button onClick={() => handleSubmit()} disabled={btnDisabled} className="btn btn--lg btn--primary mt-4 mb-4">
+                                        <ButtonPrimaryGradient
+                                            onClick={() => handleSubmit()}
+                                            disabled={btnDisabled}
+                                            className="btn btn--lg mt-4 mb-4"
+                                        >
                                             {t('MY_PROFILE.MY_TEACHINGS.SAVE')}
-                                        </button>
+                                        </ButtonPrimaryGradient>
 
                                         {/*<button*/}
                                         {/*  onClick={() => handleCancel()}*/}

@@ -37,6 +37,7 @@ import { setCredits } from '../../../../slices/creditsSlice';
 import { FaCoins } from 'react-icons/fa';
 import { UploadVerificationDocuments } from '../../../components/UploadVerificationDocuments';
 import { CurrencySymbol } from '../../../components/CurrencySymbol';
+import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 
 interface Values {
     firstName: string;
@@ -362,14 +363,14 @@ const PersonalInformation = () => {
                                                 <div className="type--color--tertiary w--200--max">
                                                     {t('MY_PROFILE.PROFILE_SETTINGS.DESCRIPTION')}
                                                 </div>
-                                                <button
-                                                    className={`btn btn--primary btn--lg mt-6 card--profile__savebtn`}
+                                                <ButtonPrimaryGradient
+                                                    className={`btn btn--lg mt-6 card--profile__savebtn`}
                                                     type="submit"
                                                     // disabled={isLoading || !saveBtnActive}
                                                     disabled={isLoading || !saveBtnActive}
                                                 >
                                                     {t('MY_PROFILE.SUBMIT')}
-                                                </button>
+                                                </ButtonPrimaryGradient>
                                             </div>
                                             <div className="w--800--max">
                                                 <div className="row">

@@ -9,6 +9,7 @@ import { resetStudentRegister } from '../../../slices/studentRegisterSlice';
 import { resetTutorRegister } from '../../../slices/tutorRegisterSlice';
 import { useAppDispatch } from '../../hooks';
 import { PATHS } from '../../routes';
+import { ButtonPrimaryGradient } from '../../components/ButtonPrimaryGradient';
 
 const TrialPopup = () => {
     const history = useHistory();
@@ -34,10 +35,10 @@ const TrialPopup = () => {
                 </div>
                 <div className="type--lg type--wgt--bold mb-4">{t('TRIAL_POPUP.WELCOME')}</div>
                 <div className="type--color--secondary mb-16 w--448--max">{t('TRIAL_POPUP.DESCRIPTION')}</div>
-                <div className="btn btn--primary trial__btn mb-4" onClick={() => backToLogin()}>
+                <ButtonPrimaryGradient className="btn trial__btn mb-4" onClick={() => backToLogin()}>
                     <div className="mb-2">{t('TRIAL_POPUP.EXPIRATION')}</div>
                     <div>{t('TRIAL_POPUP.REMIND')}</div>
-                </div>
+                </ButtonPrimaryGradient>
                 <div onClick={() => backToLogin()}>
                     <button className="btn btn--base btn--clear">{t('TRIAL_POPUP.CONFIRM_BUTTON')}</button>
                 </div>

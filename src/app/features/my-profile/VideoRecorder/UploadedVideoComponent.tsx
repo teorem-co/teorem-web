@@ -4,6 +4,7 @@ import { ConfirmationModal } from '../../../components/ConfirmationModal';
 import { useAppSelector } from '../../../hooks';
 import { BiSolidTrash } from 'react-icons/bi';
 import { t } from 'i18next';
+import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 
 interface Props {
     videoInformation: ITutorVideoInformation;
@@ -45,13 +46,13 @@ export const UploadedVideoComponent = (props: Props) => {
                             allowFullScreen
                             style={{ background: 'black' }}
                         ></iframe>
-                        <button
+                        <ButtonPrimaryGradient
                             onClick={() => setShowConfirmationModal(true)}
-                            className={'btn btn--primary btn--md align--center flex flex-row flex--jc--center flex--ai--center'}
+                            className={'btn btn--md align--center flex flex-row flex--jc--center flex--ai--center'}
                         >
                             <BiSolidTrash size={25} />
                             <p className={'ml-2'}>{t('VIDEO_PREVIEW.DELETE')}</p>
-                        </button>
+                        </ButtonPrimaryGradient>
                     </div>
                     {showConfirmationModal && (
                         <ConfirmationModal

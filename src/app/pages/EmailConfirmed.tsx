@@ -15,7 +15,7 @@ const EmailConfirmed = () => {
                 </div>
                 <div className="type--lg type--wgt--bold mb-4">{t('EMAIL_CONFIRMED.WELCOME')}</div>
                 <div className="type--color--secondary mb-8 w--448--max">{t('EMAIL_CONFIRMED.DESCRIPTION')}</div>
-                {false && <div className="btn btn--primary btn--lg mt-6 mb-4">{t('EMAIL_CONFIRMED.EXPIRATION')}</div>}
+                {/*{false && <div className="btn btn--primary btn--lg mt-6 mb-4">{t('EMAIL_CONFIRMED.EXPIRATION')}</div>}*/}
                 <div
                     onClick={() => {
                         history.push(PATHS.LOGIN);

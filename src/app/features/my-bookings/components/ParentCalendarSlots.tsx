@@ -21,6 +21,7 @@ import { useDispatch } from 'react-redux';
 import { IBookingChatMessageInfo } from '../../tutor-bookings/TutorBookings';
 import { setCredits } from '../../../../slices/creditsSlice';
 import { CurrencySymbol } from '../../../components/CurrencySymbol';
+import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY!);
 
@@ -507,15 +508,15 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                     {/*  delayShow={1000}*/}
                     {/*  style={{ backgroundColor: "rgba(70,70,70, 0.9)", color: 'white', fontSize:'smaller' }}*/}
                     {/*/>}*/}
-                    <button
+                    <ButtonPrimaryGradient
                         data-tooltip-id="bookAndPayButton"
                         data-tooltip-html={`${t('BOOK.FORM.TUTOR_DISABLED')}`}
                         disabled={tutorDisabled}
-                        className="btn btn--base btn--primary type--wgt--extra-bold mb-1 mt-1"
+                        className="btn btn--base type--wgt--extra-bold mb-1 mt-1"
                         onClick={() => handleSubmitForm()}
                     >
                         {tutorDisabled ? t('BOOK.FORM.TUTOR_DISABLED') : stripeCustomerId ? t('BOOK.FORM.SUBMIT') : t('BOOK.FORM.ADD_CARD')}
-                    </button>
+                    </ButtonPrimaryGradient>
                     <button
                         className="btn btn--base type--wtg--extra-bold btn--clear"
                         onClick={() => {

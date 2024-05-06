@@ -10,6 +10,7 @@ import { getUserId } from '../../../utils/getUserId';
 import { useConnectAccountMutation } from '../../my-profile/services/stripeService';
 import { setMyProfileProgress } from '../../my-profile/slices/myProfileSlice';
 import { TextField } from '@mui/material';
+import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 
 interface Props {
     nextStep: () => void;
@@ -405,9 +406,9 @@ export const PayoutFormIndividual = (props: Props) => {
                                 flexDirection: 'column',
                             }}
                         >
-                            <button id="tutor-onboarding-step-5" type="submit" disabled={!formik.isValid} className="btn btn--lg btn--primary mt-4">
+                            <ButtonPrimaryGradient id="tutor-onboarding-step-5" type="submit" disabled={!formik.isValid} className="btn btn--lg mt-4">
                                 {t('REGISTER.NEXT_BUTTON')}
-                            </button>
+                            </ButtonPrimaryGradient>
                         </div>
                     </div>
                 </Form>

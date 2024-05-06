@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { updateStateOfVerificationDocument } from '../../slices/authSlice';
 import { SyncLoader } from 'react-spinners';
 import { t } from 'i18next';
+import { ButtonPrimaryGradient } from './ButtonPrimaryGradient';
 
 export const UploadVerificationDocuments: React.FC = () => {
     // States to store each document
@@ -50,14 +51,14 @@ export const UploadVerificationDocuments: React.FC = () => {
                         loggedinUser &&
                         loggedinUser.stripeVerifiedStatus !== 'verified' &&
                         !loggedinUser.stripeVerificationDocumentsUploaded && (
-                            <button
+                            <ButtonPrimaryGradient
                                 type={'button'}
-                                className={'btn btn--primary btn--lg mt-6'}
+                                className={'btn  btn--lg mt-6'}
                                 disabled={!(frontDocument && backDocument)}
                                 onClick={onSubmit}
                             >
                                 {t('ID_VERIFICATION.FORM.SUBMIT')}
-                            </button>
+                            </ButtonPrimaryGradient>
                         )}
                     <SyncLoader color={'#7e6cf2'} loading={showLoader} size={12} />
                 </div>

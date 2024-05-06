@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 import { NoReviews } from '../../../components/NoReviews';
 import playButton from '../../../../../src/assets/icons/play-button.svg';
 import { CurrencySymbol } from '../../../components/CurrencySymbol';
+import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 
 export interface VimeoResponse {
     thumbnail_large: string;
@@ -156,12 +157,11 @@ const TutorItem: FC<Props> = (props: Props) => {
                         </div>
                         <div className="flex flex--col profile-btn-container flex--jc--center  w--250 ml-1">
                             <>
-                                <Link
-                                    className="btn btn--xl btn--primary type--center type--wgt--extra-bold"
-                                    to={`${PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS.replace(':tutorSlug', tutor.slug)}`}
-                                >
-                                    <i className="icon icon--base icon--thunder icon--white mr-1"></i>
-                                    {t('TUTOR_PROFILE.BOOK')}
+                                <Link className="type--color--white" to={`${PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS.replace(':tutorSlug', tutor.slug)}`}>
+                                    <ButtonPrimaryGradient className="btn btn--xl type--center type--wgt--extra-bold w--100">
+                                        <i className="icon icon--base icon--thunder icon--white mr-1"></i>
+                                        {t('TUTOR_PROFILE.BOOK')}
+                                    </ButtonPrimaryGradient>
                                 </Link>
 
                                 <a

@@ -15,7 +15,7 @@ const StripeFail = () => {
                 </div>
                 <div className="type--lg type--wgt--bold mb-4">{t('STRIPE_FAIL.WELCOME')}</div>
                 <div className="type--color--secondary mb-8 w--448--max">{t('STRIPE_FAIL.DESCRIPTION')}</div>
-                {false && <div className="btn btn--primary btn--lg mt-6 mb-4">{t('STRIPE_FAIL.EXPIRATION')}</div>}
+                {/*{false && <div className="btn btn--primary btn--lg mt-6 mb-4">{t('STRIPE_FAIL.EXPIRATION')}</div>}*/}
                 <div
                     onClick={() => {
                         history.push(PATHS.DASHBOARD);
