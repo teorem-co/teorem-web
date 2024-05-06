@@ -11,6 +11,7 @@ import dayjs from 'dayjs';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import moment from 'moment/moment';
+import { ButtonPrimaryGradient } from '../../../../components/ButtonPrimaryGradient';
 
 interface StepOneValues {
     firstName: string;
@@ -189,15 +190,15 @@ export const SignupFirstStep = ({ nextStep }: StepOneProps) => {
                             {showMaxDateErrorMessage && <p className={'type--color--error type--base'}>{t('FORM_VALIDATION.MAXIMUM_AGE')}</p>}
                         </div>
 
-                        <button
+                        <ButtonPrimaryGradient
                             disabled={!formik.isValid}
                             id={`next-button-first-step-${selectedRole}`}
                             type="button"
-                            className="btn btn--lg btn--primary cur--pointer mt-5 btn-signup"
+                            className="btn btn--lg cur--pointer mt-5 btn-signup"
                             onClick={() => formik.handleSubmit()}
                         >
                             {t('REGISTER.NEXT_BUTTON')}
-                        </button>
+                        </ButtonPrimaryGradient>
                     </Form>
                 </FormikProvider>
             </LocalizationProvider>

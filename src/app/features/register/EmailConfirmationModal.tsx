@@ -3,9 +3,7 @@ import { useState } from 'react';
 import { useHistory } from 'react-router';
 
 import logo from '../../../assets/images/logo.svg';
-import {
-  useResendActivationEmailMutation,
-} from '../../../services/authService';
+import { useResendActivationEmailMutation } from '../../../services/authService';
 import { useAppSelector } from '../../hooks';
 import { PATHS } from '../../routes';
 
@@ -32,11 +30,11 @@ const EmailConfirmatioPopup = () => {
                 </div>
                 <div className="type--lg type--wgt--bold mb-4">{t('EMAIL_CONFIRMATION_POPUP.WELCOME')}</div>
                 <div className="type--color--secondary mb-8 w--448--max">{t('EMAIL_CONFIRMATION_POPUP.DESCRIPTION')}</div>
-                {false && (
-                    <div className="btn btn--primary btn--lg mt-6 mb-4" onClick={resendActivationEmail}>
-                        {t('EMAIL_CONFIRMATION_POPUP.EXPIRATION')}
-                    </div>
-                )}
+                {/*{false && (*/}
+                {/*    <div className="btn btn--primary btn--lg mt-6 mb-4" onClick={resendActivationEmail}>*/}
+                {/*        {t('EMAIL_CONFIRMATION_POPUP.EXPIRATION')}*/}
+                {/*    </div>*/}
+                {/*)}*/}
                 <div
                     onClick={() => {
                         history.push(PATHS.LOGIN);

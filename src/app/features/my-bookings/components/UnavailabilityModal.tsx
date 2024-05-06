@@ -8,6 +8,7 @@ import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyTimePicker from '../../../components/form/MyTimePicker';
 import toastService from '../../../services/toastService';
 import { IPostUnavailability, useCreateTutorUnavailabilityMutation } from '../services/unavailabilityService';
+import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 
 interface Props {
     handleClose?: (close: boolean) => void;
@@ -210,9 +211,9 @@ const UnavailabilityModal: React.FC<Props> = (props) => {
                         </FormikProvider>
                     </div>
                     <div className="modal--parent__footer mt-6">
-                        <button form="unavailability-form" className="btn btn--base btn--primary w--100">
+                        <ButtonPrimaryGradient form="unavailability-form" className="btn btn--base w--100">
                             {t('MY_BOOKINGS.MODAL.SET_UNAVAILABILITY')}
-                        </button>
+                        </ButtonPrimaryGradient>
                         <button
                             className="btn btn--base btn--error--tertiary"
                             onClick={() => {

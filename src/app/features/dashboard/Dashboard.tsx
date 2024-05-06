@@ -64,6 +64,7 @@ import { LessonRescheduleRequestItem } from './upcoming-lessons/LessonReschedule
 import { BookingRequestItem } from './upcoming-lessons/BookingRequestItem';
 import { PendingRescheduleRequestItem } from './upcoming-lessons/PendingRescheduleRequestItem';
 import { NotAcceptedLesson } from './upcoming-lessons/NotAcceptedLesson';
+import { ButtonPrimaryGradient } from '../../components/ButtonPrimaryGradient';
 
 interface Values {
     subject: string;
@@ -1107,18 +1108,13 @@ const Dashboard = () => {
                                         >
                                             {t('SKIP_FOR_NOW')}
                                         </button>
-                                        <button
+                                        <ButtonPrimaryGradient
                                             disabled={childlessButton}
                                             onClick={closeModal}
-                                            className="btn btn--base btn--primary"
-                                            style={{
-                                                margin: '0 auto',
-                                                display: 'flex',
-                                                justifyContent: 'center',
-                                            }}
+                                            className="btn btn--base flex align--center justify--center"
                                         >
                                             {t('REGISTER.NEXT_BUTTON')}
-                                        </button>
+                                        </ButtonPrimaryGradient>
                                     </div>
                                     <AddChildSidebar closeSidebar={closeAddCardSidebar} sideBarIsOpen={addSidebarOpen} childData={childForEdit} />
                                 </>
@@ -1268,7 +1264,6 @@ const Dashboard = () => {
                                     <div className="card--secondary card--secondary--alt">
                                         <div className={`card--secondary__head flex--jc--space-between`}>
                                             <h2 className="type--wgt--bold type--lg">{t('DASHBOARD.TITLE')}</h2>
-                                            {/*<button className={"btn btn--lg btn--primary"} onClick={startTutorial}>Click to start tutorial</button>*/}
                                             <IoNotificationsOutline
                                                 className="cur--pointer primary-color scale-hover--scale-110"
                                                 size={25}
@@ -1414,11 +1409,7 @@ const Dashboard = () => {
                                                                         {t('DASHBOARD.SCHEDULE.BUTTON')}
                                                                     </button>
                                                                 ) : (
-                                                                    <button
-                                                                        disabled
-                                                                        className="btn btn--base btn--primary"
-                                                                        // style={{ visibility: 'hidden' }}
-                                                                    >
+                                                                    <button disabled className="btn btn--base btn--secondary">
                                                                         {t('DASHBOARD.SCHEDULE.BUTTON')}
                                                                     </button>
                                                                 )}

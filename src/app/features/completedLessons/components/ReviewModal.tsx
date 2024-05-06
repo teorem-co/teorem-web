@@ -9,9 +9,8 @@ import MyTextField from '../../../components/form/MyTextField';
 import toastService from '../../../services/toastService';
 import ICompletedLesson from '../../my-bookings/interfaces/ICompletedLesson';
 import IAddReview from '../../myReviews/interfaces/IAddReview';
-import {
-  useAddReviewMutation,
-} from '../../myReviews/services/myReviewsService';
+import { useAddReviewMutation } from '../../myReviews/services/myReviewsService';
+import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 
 interface Props {
     activeLesson: ICompletedLesson | null;
@@ -75,8 +74,11 @@ const ReviewModal: FC<Props> = (props: Props) => {
                     <div className="modal__head">
                         <div className="type--md type--wgt--bold">{t('WRITE_REVIEW.SECTION_TITLE')}</div>
                         <div className="type--color--secondary">
-                            {activeLesson?.Tutor.User.firstName} {activeLesson?.Tutor.User.lastName}, {t(`SUBJECTS.${activeLesson?.Subject.abrv.replaceAll('-','')}`)}, {t(`LEVELS.${activeLesson?.level.abrv.replaceAll('-','')}`)}
-                            {/*Maria Diaz, Mathematics, A level*/}</div>
+                            {activeLesson?.Tutor.User.firstName} {activeLesson?.Tutor.User.lastName},{' '}
+                            {t(`SUBJECTS.${activeLesson?.Subject.abrv.replaceAll('-', '')}`)},{' '}
+                            {t(`LEVELS.${activeLesson?.level.abrv.replaceAll('-', '')}`)}
+                            {/*Maria Diaz, Mathematics, A level*/}
+                        </div>
                         <i onClick={handleClose} className="modal__close icon icon--base icon--close icon--grey"></i>
                     </div>
                     <div className="modal__separator"></div>
@@ -99,20 +101,15 @@ const ReviewModal: FC<Props> = (props: Props) => {
                                     <label htmlFor="review" className="field__label">
                                         {t('WRITE_REVIEW.REVIEW')}*
                                     </label>
-                                    <TextArea
-                                        name="review"
-                                        id="review"
-                                        placeholder={t('WRITE_REVIEW.TEXT_PLACEHOLDER')}
-                                        maxLength={2500}
-                                    />
+                                    <TextArea name="review" id="review" placeholder={t('WRITE_REVIEW.TEXT_PLACEHOLDER')} maxLength={2500} />
                                 </div>
                             </Form>
                         </FormikProvider>
                     </div>
                     <div className="modal__footer">
-                        <button form="review-form" type="submit" className="btn btn--base btn--primary w--100 mb-4">
+                        <ButtonPrimaryGradient form="review-form" type="submit" className="btn btn--base w--100 mb-4">
                             {t('WRITE_REVIEW.SUBMIT')}
-                        </button>
+                        </ButtonPrimaryGradient>
                         <button onClick={handleClose} className="btn btn--base btn--clear w--100">
                             {t('WRITE_REVIEW.CANCEL')}
                         </button>

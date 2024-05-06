@@ -25,6 +25,7 @@ import { TextField } from '@mui/material';
 import { RoleOptions } from '../../../../slices/roleSlice';
 import { VideoPreviewUpload } from '../VideoRecorder/VideoPreviewUpload';
 import { UploadedVideoComponent } from '../VideoRecorder/UploadedVideoComponent';
+import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 
 const AdditionalInformation = () => {
     const userRole: string = useAppSelector((state) => state.auth.user?.Role.abrv) || '';
@@ -183,9 +184,9 @@ const AdditionalInformation = () => {
                                         {t('SEARCH_TUTORS.TUTOR_PROFILE.ADDITIONAL_INFORMATION_DESC')}
                                     </div>
                                     {saveBtnActive ? (
-                                        <button className="btn btn--primary btn--lg mt-6 type--wgt--extra-bold" type="submit" disabled={isLoading}>
+                                        <ButtonPrimaryGradient className="btn btn--lg mt-6 type--wgt--extra-bold" type="submit" disabled={isLoading}>
                                             {t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.SUBMIT_BTN')}
-                                        </button>
+                                        </ButtonPrimaryGradient>
                                     ) : (
                                         <></>
                                     )}

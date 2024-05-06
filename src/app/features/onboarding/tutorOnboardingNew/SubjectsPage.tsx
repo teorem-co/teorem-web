@@ -14,6 +14,7 @@ import { CreateSubjectCard } from './CreateSubjectCard';
 import ITutorSubjectLevel from '../../../../interfaces/ITutorSubjectLevel';
 import { ICreateSubjectOnboarding, useCreateSubjectsOnboardingMutation } from '../../../../services/subjectService';
 import logo from '../../../../assets/images/teorem_logo_purple.png';
+import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 
 interface SubjectsValues {
     subjects: ISubject[];
@@ -302,14 +303,14 @@ const SubjectsPage = ({ nextStep, backStep }: SubjectsProps) => {
                         flexDirection: 'column',
                     }}
                 >
-                    <button
+                    <ButtonPrimaryGradient
                         id="tutor-onboarding-step-2"
                         onClick={() => handleSubmit()}
                         disabled={btnDisabled}
-                        className="btn btn--lg btn--primary mt-4 mb-4"
+                        className="btn btn--lg mt-4 mb-4"
                     >
                         {t('REGISTER.NEXT_BUTTON')}
-                    </button>
+                    </ButtonPrimaryGradient>
                 </div>
             </div>
         </>

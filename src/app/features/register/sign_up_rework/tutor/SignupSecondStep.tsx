@@ -9,6 +9,7 @@ import { setStepTwo } from '../../../../../slices/signUpSlice';
 import MyPhoneInput from '../../../../components/form/MyPhoneInput';
 import { useAppSelector } from '../../../../hooks';
 import { TextField } from '@mui/material';
+import { ButtonPrimaryGradient } from '../../../../components/ButtonPrimaryGradient';
 
 type StepTwoProps = {
     nextStep: () => void;
@@ -148,15 +149,15 @@ export const SignupSecondStep = ({ nextStep }: StepTwoProps) => {
                     </Form>
                 </FormikProvider>
 
-                <button
+                <ButtonPrimaryGradient
                     disabled={!formik.isValid || !formik2.isValid}
                     id={`next-button-second-step-${selectedRole}`}
                     type="button"
-                    className="btn btn--lg btn--primary cur--pointer mt-5 btn-signup"
+                    className="btn btn--lg cur--pointer mt-5 btn-signup"
                     onClick={() => handleSubmitStepTwo()}
                 >
                     {t('REGISTER.NEXT_BUTTON')}
-                </button>
+                </ButtonPrimaryGradient>
             </div>
         </>
     );

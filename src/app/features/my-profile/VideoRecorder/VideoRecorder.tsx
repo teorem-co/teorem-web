@@ -8,6 +8,7 @@ import MicrophoneTest from '../../dashboard/MicrophoneTest';
 import { MdOutlineCloudUpload } from 'react-icons/md';
 import { ClipLoader, SyncLoader } from 'react-spinners';
 import Select, { SingleValue } from 'react-select';
+import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 
 const MINUTE_AND_A_HALF_IN_SECONDS = 90;
 const TWO_MINUTES_IN_SECONDS = 120;
@@ -290,15 +291,15 @@ export const VideoRecorder = (props: Props) => {
                                                             <p>{t('VIDEO_PREVIEW.RECORD_MODAL.START')}</p>
                                                         </button>
                                                     )}
-                                                    <button
-                                                        className={'btn btn--primary btn--base flex flex--row flex--ai--center flex--jc--center'}
+                                                    <ButtonPrimaryGradient
+                                                        className={'btn btn--base flex flex--row flex--ai--center flex--jc--center'}
                                                         onClick={onSubmit}
                                                         type={'button'}
                                                         disabled={capturing || recordedChunks.length == 0}
                                                     >
                                                         <MdOutlineCloudUpload size={25} className={'mr-2'} />
                                                         {t('VIDEO_PREVIEW.RECORD_MODAL.UPLOAD')}
-                                                    </button>
+                                                    </ButtonPrimaryGradient>
                                                 </div>
                                             </div>
                                         )}

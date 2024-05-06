@@ -23,6 +23,7 @@ import { getUserId } from '../../../utils/getUserId';
 import { TimeZoneSelect } from '../../../components/TimeZoneSelect';
 import { useLazyGetUserTimeZoneQuery } from '../../../../services/userService';
 import { setTimeZone } from '../../../../slices/timeZoneSlice';
+import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 
 const GeneralAvailability = () => {
     //const { data: profileProgress } = useGetProfileProgressQuery();
@@ -225,9 +226,9 @@ const GeneralAvailability = () => {
                                 <div className="mb-2 type--wgt--bold">{t('MY_PROFILE.GENERAL_AVAILABILITY.TITLE')}</div>
                                 <div className="type--color--tertiary w--200--max">{t('MY_PROFILE.GENERAL_AVAILABILITY.DESCRIPTION')}</div>
                                 {saveBtnActive ? (
-                                    <button onClick={() => handleSubmit()} className="btn btn--base btn--primary mt-4">
+                                    <ButtonPrimaryGradient onClick={() => handleSubmit()} className="btn btn--base mt-4">
                                         {t('MY_PROFILE.SUBMIT')}
-                                    </button>
+                                    </ButtonPrimaryGradient>
                                 ) : (
                                     <></>
                                 )}
