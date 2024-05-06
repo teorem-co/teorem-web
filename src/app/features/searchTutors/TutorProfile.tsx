@@ -31,6 +31,7 @@ import { Tooltip } from 'react-tooltip';
 import { NoReviews } from '../../components/NoReviews';
 import playButton from '../../../assets/icons/play-button.svg';
 import { CurrencySymbol } from '../../components/CurrencySymbol';
+import { ButtonPrimaryGradient } from '../../components/ButtonPrimaryGradient';
 
 const TutorProfile = () => {
     const { t } = useTranslation();
@@ -347,16 +348,18 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                                                             {userRole !== RoleOptions.Tutor && (
                                                                 <>
                                                                     {tutorData.disabled ? (
-                                                                        <button
+                                                                        <ButtonPrimaryGradient
                                                                             disabled={tutorData.disabled}
-                                                                            className="btn btn--lg btn--primary type--center"
+                                                                            className="btn btn--lg type--center"
                                                                         >
                                                                             {t('TUTOR_PROFILE.TUTOR_DISABLED')}
-                                                                        </button>
+                                                                        </ButtonPrimaryGradient>
                                                                     ) : (
-                                                                        <Link className="btn btn--base btn--primary type--center" to={tutorPath}>
-                                                                            <i className="icon icon--base icon--thunder icon--white mr-1" />
-                                                                            {t('TUTOR_PROFILE.BOOK')}
+                                                                        <Link className="type--color--white" to={tutorPath}>
+                                                                            <ButtonPrimaryGradient className={'btn btn--base  type--center w--100'}>
+                                                                                <i className="icon icon--base icon--thunder icon--white mr-1" />
+                                                                                {t('TUTOR_PROFILE.BOOK')}
+                                                                            </ButtonPrimaryGradient>
                                                                         </Link>
                                                                     )}
 
@@ -520,19 +523,22 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                                                                         {userRole !== RoleOptions.Tutor && (
                                                                             <>
                                                                                 {tutorData.disabled ? (
-                                                                                    <button
+                                                                                    <ButtonPrimaryGradient
                                                                                         disabled={tutorData.disabled}
-                                                                                        className="btn btn--lg btn--primary type--center"
+                                                                                        className="btn btn--lg type--center"
                                                                                     >
                                                                                         {t('TUTOR_PROFILE.TUTOR_DISABLED')}
-                                                                                    </button>
+                                                                                    </ButtonPrimaryGradient>
                                                                                 ) : (
-                                                                                    <Link
-                                                                                        className="btn btn--xl btn--primary type--center type--wgt--extra-bold"
-                                                                                        to={tutorPath}
-                                                                                    >
-                                                                                        <i className="icon icon--base icon--thunder icon--white mr-1"></i>
-                                                                                        {t('TUTOR_PROFILE.BOOK')}
+                                                                                    <Link className="type--color-white" to={tutorPath}>
+                                                                                        <ButtonPrimaryGradient
+                                                                                            className={
+                                                                                                'btn btn--xl type--center type--wgt--extra-bold w--100'
+                                                                                            }
+                                                                                        >
+                                                                                            <i className="icon icon--base icon--thunder icon--white mr-1"></i>
+                                                                                            {t('TUTOR_PROFILE.BOOK')}
+                                                                                        </ButtonPrimaryGradient>
                                                                                     </Link>
                                                                                 )}
 

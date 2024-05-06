@@ -12,6 +12,7 @@ import { PATHS } from '../../routes';
 import logo from './../../../assets/images/logo.svg';
 import { useDispatch } from 'react-redux';
 import { setToken } from '../../../slices/authSlice';
+import { ButtonPrimaryGradient } from '../../components/ButtonPrimaryGradient';
 
 interface Values {
     email: string;
@@ -19,16 +20,6 @@ interface Values {
 }
 
 const Login: React.FC = () => {
-    const [gradient, setGradient] = useState('linear-gradient(226.69deg, rgba(127, 95, 211, 0.9) 4.52%, #5c3ee8 94.64%)');
-
-    const handleMouseMove = (e: any) => {
-        const { left, top, width, height } = e.target.getBoundingClientRect();
-        const x = ((e.clientX - left) / width) * 100;
-        const y = ((e.clientY - top) / height) * 100;
-
-        setGradient(`radial-gradient(circle at ${x}% ${y}%, rgba(127, 95, 211, 0.9), #5c3ee8)`);
-    };
-
     const history = useHistory();
     const { t } = useTranslation();
     const [loginErrorMessage, setLoginErrorMessage] = useState<string>();
@@ -174,25 +165,22 @@ const Login: React.FC = () => {
                                 {loginSentAgainMessage ? <div className="type--color--success">{t('LOGIN.FORM.SEND_AGAIN_SUCCESS')}</div> : <></>}
                                 {loginUserNotActive && !loginSentAgainMessage && (
                                     <div>
-                                        <button
-                                            className="btn btn--base btn--primary w--100 mb-2 mt-6 type--wgt--extra-bold"
+                                        <ButtonPrimaryGradient
+                                            className="btn btn--base w--100 mb-2 mt-6 type--wgt--extra-bold"
                                             onClick={resendActivationEmail}
                                         >
                                             {t('LOGIN.FORM.SEND_AGAIN')}
-                                        </button>
+                                        </ButtonPrimaryGradient>
                                     </div>
                                 )}
-                                <button
-                                    className="btn btn--base btn--primary w--100 mb-2 mt-6 type--wgt--extra-bold"
+                                <ButtonPrimaryGradient
+                                    className="btn btn--base w--100 mb-2 mt-6 type--wgt--extra-bold"
                                     type="submit"
                                     disabled={isLoadingLogin}
                                 >
                                     {t('LOGIN.FORM.SUBMIT_BTN')}
-                                </button>
+                                </ButtonPrimaryGradient>
 
-                                {/*<button className="btn btn--base btn--primary w--100" onMouseMove={handleMouseMove} style={{ background: gradient }}>*/}
-                                {/*    Save*/}
-                                {/*</button>*/}
                                 <div className={'flex flex--col flex--center mt-2'}>
                                     <Link
                                         id="zapocni-danas-login-1"

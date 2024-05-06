@@ -12,6 +12,7 @@ import toastService from '../../services/toastService';
 import getUrlParams from '../../utils/getUrlParams';
 import TooltipPassword from '../register/TooltipPassword';
 import logo from './../../../assets/images/logo.svg';
+import { ButtonPrimaryGradient } from '../../components/ButtonPrimaryGradient';
 
 interface Values {
     password: string;
@@ -123,9 +124,8 @@ const ResetPassword = () => {
         toastService.success(t('RESET_PASSWORD.PASSWORD_CHANGED_SUCCESS'), delay, true);
 
         setTimeout(() => {
-          history.push(PATHS.LOGIN);
+            history.push(PATHS.LOGIN);
         }, delay);
-
     };
 
     const handleGoBack = () => {
@@ -191,9 +191,9 @@ const ResetPassword = () => {
                                     />
                                 </div>
 
-                                <button className="btn btn--base btn--primary w--100 mb-2 mt-6 type--wgt--extra-bold" type="submit">
+                                <ButtonPrimaryGradient className="btn btn--base w--100 mb-2 mt-6 type--wgt--extra-bold" type="submit">
                                     {t('RESET_PASSWORD.FORM.SUBMIT_BTN')}
-                                </button>
+                                </ButtonPrimaryGradient>
                                 <div className="flex flex--jc--center">
                                     <div onClick={() => handleGoBack()} className="btn btn--clear btn--base type--color--brand type--wgt--extra-bold">
                                         <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i> {t('RESET_PASSWORD.BACK_BTN')}

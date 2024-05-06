@@ -19,6 +19,7 @@ import toastService from '../../../services/toastService';
 import useOutsideAlerter from '../../../utils/useOutsideAlerter';
 import TooltipPassword from '../../register/TooltipPassword';
 import { ICountry, useLazyGetCountriesQuery } from '../services/countryService';
+import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 
 interface StepOneValues {
     firstName: string;
@@ -266,14 +267,14 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
                             meta={formikStepOne.getFieldMeta('dateOfBirth')}
                         />
                     </div>
-                    <div
-                        className="btn btn--base btn--primary type--center w--100 mb-2 type--wgt--extra-bold mt-6"
+                    <ButtonPrimaryGradient
+                        className="btn btn--base  type--center w--100 mb-2 type--wgt--extra-bold mt-6"
                         // type="submit"
                         onClick={() => formikStepOne.handleSubmit()}
                         // disabled={isLoading}
                     >
                         {t('REGISTER.NEXT_BUTTON')}
-                    </div>
+                    </ButtonPrimaryGradient>
                     <div className="flex flex--jc--center">
                         <div onClick={() => handleGoBack()} className="btn btn--clear btn--base type--color--brand type--wgt--extra-bold">
                             <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>
@@ -299,11 +300,11 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
     const submitStepTwo = async () => {
         /*
 const toSend: IChatEnginePost = {
-    email: email,
-    first_name: firstName,
-    last_name: lastName,
-    secret: 'Teorem1!',
-    username: email.split('@')[0],
+email: email,
+first_name: firstName,
+last_name: lastName,
+secret: 'Teorem1!',
+username: email.split('@')[0],
 };
 */
         if (skip) {
@@ -574,13 +575,13 @@ const toSend: IChatEnginePost = {
 
                         <TooltipPassword passTooltip={passTooltip} />
                     </div>
-                    <div
-                        className="btn btn--base btn--primary type--center w--100 mb-2 mt-6 type--wgt--extra-bold"
+                    <ButtonPrimaryGradient
+                        className="btn btn--base type--center w--100 mb-2 mt-6 type--wgt--extra-bold"
                         onClick={() => formikStepThree.handleSubmit()}
                         // disabled={isLoading}
                     >
                         {t('REGISTER.SAVE_BUTTON')}
-                    </div>
+                    </ButtonPrimaryGradient>
                     {childUsername ? (
                         <div
                             className="btn btn--base btn--ghost btn--ghost--error type--center w--100 type--wgt--extra-bold mb-2 mt-2"

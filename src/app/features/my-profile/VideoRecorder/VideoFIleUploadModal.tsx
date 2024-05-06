@@ -4,6 +4,7 @@ import { useLazyGetUploadVideoUrlQuery } from '../../onboarding/services/vimeoSe
 import { uploadToVimeo } from './uploadToVimeo';
 import { MdOutlineCloudUpload } from 'react-icons/md';
 import { t } from 'i18next';
+import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 
 interface Props {
     file: File;
@@ -48,15 +49,15 @@ export const VideoFIleUploadModal = (props: Props) => {
             <h2>{t('VIDEO_PREVIEW.TITLE')}</h2>
             <video src={videoSrc} controls height={300}></video>
             {!showLoader && !showProgressBar && (
-                <button
-                    className={'btn btn--primary btn--md flex flex--row flex--ai--center flex--jc--center mt-2'}
+                <ButtonPrimaryGradient
+                    className={'btn btn--md flex flex--row flex--ai--center flex--jc--center mt-2'}
                     onClick={onSubmit}
                     type={'button'}
                     disabled={!file}
                 >
                     <MdOutlineCloudUpload size={25} className={'mr-2'} />
                     {t('VIDEO_PREVIEW.UPLOAD_VIDEO')}
-                </button>
+                </ButtonPrimaryGradient>
             )}
 
             <div className={'mt-2 w--30'}>

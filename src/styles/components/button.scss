@@ -42,7 +42,7 @@
     }
 
     &:disabled {
-      background: $grey-d8;
+      background: $grey-d8 !important;
       color: $grey-30;
     }
 
@@ -68,6 +68,11 @@
 
     &:active {
       background-color: darken($grey-d8, 15%);
+    }
+
+    &:disabled {
+      background: $grey-d8;
+      color: $grey-30;
     }
 
     &:focus {
@@ -308,4 +313,8 @@
     padding-left: 80px;
     padding-right: 80px;
   }
+}
+
+.border-button {
+  border: 1px solid $color-primary;
 }

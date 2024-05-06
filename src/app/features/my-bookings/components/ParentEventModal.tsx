@@ -1,13 +1,12 @@
 import { t } from 'i18next';
 import moment from 'moment';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import { RoleOptions } from '../../../../slices/roleSlice';
 import { useAppSelector } from '../../../hooks';
-import toastService from '../../../services/toastService';
 import IBooking from '../interfaces/IBooking';
-import { useDeleteBookingMutation } from '../services/bookingService';
 import { Tooltip } from 'react-tooltip';
+import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 
 interface IProps {
     handleClose?: (close: boolean) => void;
@@ -25,6 +24,7 @@ const ParentEventModal: React.FC<IProps> = (props) => {
     const ALLOWED_MINUTES_TO_JOIN_BEFORE_MEETING = 5;
     const { topOffset, handleClose, positionClass, event, tutorName, openEditModal, bookingStart, eventIsAccepted, openLearnCube } = props;
     const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
+
     function isJoinButtonDisabled(event: IBooking) {
         // you can't join more than 5 minutes before start OR after meeting has ended
         return !(
@@ -103,17 +103,17 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                         />
 
                         {event.isAccepted && (
-                            <button
+                            <ButtonPrimaryGradient
                                 id="join-meeting-button"
                                 data-tip="Click to view invoice"
                                 data-tooltip-id="join-meeting-button"
                                 data-tooltip-html={`<div>${t('BOOK.JOIN_TOOLTIP')}</div>`}
                                 disabled={isJoinButtonDisabled(event)}
-                                className="btn btn--base type--wgt--extra-bold btn--primary"
+                                className="btn btn--base type--wgt--extra-bold"
                                 onClick={() => openLearnCube && openLearnCube()}
                             >
                                 {t('BOOK.JOIN')}
-                            </button>
+                            </ButtonPrimaryGradient>
                         )}
 
                         {moment(bookingStart).isAfter(moment()) && (

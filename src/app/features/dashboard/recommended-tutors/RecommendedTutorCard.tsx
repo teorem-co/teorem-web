@@ -8,6 +8,7 @@ import { LuBookOpenCheck } from 'react-icons/lu';
 import { Link } from 'react-router-dom';
 import { PATHS } from '../../../routes';
 import CustomSubjectList from '../../searchTutors/components/CustomSubjectList';
+import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 
 interface Props {
     tutor: ITutorItem;
@@ -96,11 +97,8 @@ export const RecommendedTutorCard = (props: Props) => {
                     >
                         {t('SEARCH_TUTORS.VIEW_PROFILE')}
                     </Link>
-                    <Link
-                        className="btn btn--primary btn--base pl-8 pr-8 pt-3 pb-3"
-                        to={`${PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS.replace(':tutorSlug', tutor.slug)}`}
-                    >
-                        {t('SEARCH_TUTORS.BOOK_LESSON')}
+                    <Link className="type--color--white" to={`${PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS.replace(':tutorSlug', tutor.slug)}`}>
+                        <ButtonPrimaryGradient className="btn--base pl-8 pr-8 pt-4 pb-4">{t('SEARCH_TUTORS.BOOK_LESSON')}</ButtonPrimaryGradient>
                     </Link>
                 </div>
             </div>

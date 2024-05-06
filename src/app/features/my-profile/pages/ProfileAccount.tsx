@@ -31,6 +31,7 @@ import { loadStripe, StripeElementsOptions } from '@stripe/stripe-js';
 import AddCreditCard from '../components/AddCreditCard';
 import { InputAdornment, TextField } from '@mui/material';
 import LanguageSelector from '../../../components/LanguageSelector';
+import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 
 interface Values {
     currentPassword: string;
@@ -356,9 +357,9 @@ const ProfileAccount = () => {
                                 <div className="mb-2 type--wgt--bold">{t('ACCOUNT.CHANGE_PASSWORD.TITLE')}</div>
                                 <div className="type--color--tertiary w--200--max">{t('ACCOUNT.CHANGE_PASSWORD.DESCRIPTION')}</div>
                                 {saveBtnActive ? (
-                                    <button className="btn btn--primary btn--lg mt-6" type="submit">
+                                    <ButtonPrimaryGradient className="btn btn--lg mt-6" type="submit">
                                         {t('ACCOUNT.SUBMIT')}
-                                    </button>
+                                    </ButtonPrimaryGradient>
                                 ) : (
                                     <></>
                                 )}
@@ -523,13 +524,13 @@ const ProfileAccount = () => {
                                                     ></span>
                                                 </div>
                                                 {!userInfo?.stripeConnected && (
-                                                    <div
+                                                    <ButtonPrimaryGradient
                                                         id={`connectToStripeTutor`}
                                                         onClick={() => setStripeModalOpen(true)}
-                                                        className="btn btn--primary btn--base"
+                                                        className="btn btn--base"
                                                     >
                                                         {t('STRIPE_CONNECT.TITLE')}
-                                                    </div>
+                                                    </ButtonPrimaryGradient>
                                                 )}
                                             </div>
                                         </>

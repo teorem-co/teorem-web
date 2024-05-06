@@ -25,6 +25,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { FormControl, InputLabel, MenuItem, OutlinedInput } from '@mui/material';
 import { useLazyGetTutorUnavailableDaysQuery } from '../../../../services/tutorService';
 import { TeoremConstants } from '../../../TeoremConstants';
+import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 
 interface IProps {
     start?: string;
@@ -309,17 +310,16 @@ const UpdateBooking: React.FC<IProps> = (props) => {
                         </FormikProvider>
                     </div>
                     <div className="modal--parent__footer">
-                        {/* <button className="btn btn--base type--wgt--extra-bold btn--primary mb-1" onClick={() => handleSubmitForm()}> */}
-                        <button
+                        <ButtonPrimaryGradient
                             // form="updateBookingForm"
                             type="submit"
-                            className="btn btn--base type--wgt--extra-bold btn--primary mb-1"
+                            className="btn btn--base type--wgt--extra-bold mb-1"
                             onClick={() => formik.handleSubmit()}
                             //moment(start, 'HH:mm').isSame(moment(formik.values.selectedTime, 'HH:mm')) maybe add to disable
                             disabled={booking?.inReschedule}
                         >
                             {!booking?.inReschedule ? t('BOOK.FORM.UPDATE') : t('BOOK.FORM.ALREADY_IN_RESCHEDULE')}
-                        </button>
+                        </ButtonPrimaryGradient>
                         <button
                             disabled={
                                 userRole !== RoleOptions.Tutor &&

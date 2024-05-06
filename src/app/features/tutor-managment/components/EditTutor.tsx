@@ -8,16 +8,15 @@ import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import { countryInput } from '../../../constants/countryInput';
 import { countryOption } from '../../../constants/countryOption';
 import { ICountry, useLazyGetCountriesQuery } from '../../onboarding/services/countryService';
-import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyTextArea from '../../../components/form/MyTextArea';
 import { useEditTutorMutation } from '../../../../services/tutorService';
 import UploadFile from '../../../components/form/MyUploadField';
 import moment from 'moment/moment';
-import { RoleOptions } from '../../../../slices/roleSlice';
 import toastService from '../../../services/toastService';
 import dayjs from 'dayjs';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 
 export function EditTutor({ tutorData, setRefetch }: any) {
     const [getCountries, { data: countries }] = useLazyGetCountriesQuery();
@@ -45,7 +44,11 @@ export function EditTutor({ tutorData, setRefetch }: any) {
 
             if (!values.yearsOfExperience) delete values.yearsOfExperience;
 
-            editTutor({ ...values, tutorId: tutorData.User.id, dateOfBirth: moment(values.dateOfBirth).format('YYYY-MM-DD') }).then(() => {
+            editTutor({
+                ...values,
+                tutorId: tutorData.User.id,
+                dateOfBirth: moment(values.dateOfBirth).format('YYYY-MM-DD'),
+            }).then(() => {
                 setOpened(false);
                 setRefetch((prevState: number) => prevState + 1);
             });
@@ -56,6 +59,7 @@ export function EditTutor({ tutorData, setRefetch }: any) {
         async function fetchCountries() {
             getCountries();
         }
+
         fetchCountries();
     }, []);
     useEffect(() => {
@@ -254,9 +258,9 @@ export function EditTutor({ tutorData, setRefetch }: any) {
                                         </div>
                                     </div>
                                     <div className="flex">
-                                        <button type="submit" className="btn btn--base btn--primary w--100">
+                                        <ButtonPrimaryGradient type="submit" className="btn btn--base w--100">
                                             Save
-                                        </button>
+                                        </ButtonPrimaryGradient>
                                         <button
                                             onClick={() => {
                                                 formik.resetForm();

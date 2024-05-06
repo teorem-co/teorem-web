@@ -10,6 +10,7 @@ import MyTextField from '../../components/form/MyTextField';
 import { PATHS } from '../../routes';
 import toastService from '../../services/toastService';
 import logo from './../../../assets/images/logo.svg';
+import { ButtonPrimaryGradient } from '../../components/ButtonPrimaryGradient';
 
 interface Values {
     email: string;
@@ -43,13 +44,13 @@ const ForgotPassword = () => {
 
     useEffect(() => {
         if (isSuccess) {
-          const delay = 2 * 1000; // 2 seconds in milliseconds
+            const delay = 2 * 1000; // 2 seconds in milliseconds
 
-          toastService.success(t('RESET_PASSWORD.EMAIL_SENT'), delay, false);
+            toastService.success(t('RESET_PASSWORD.EMAIL_SENT'), delay, false);
 
-          setTimeout(() => {
-            history.push(PATHS.LOGIN);
-          }, delay);
+            setTimeout(() => {
+                history.push(PATHS.LOGIN);
+            }, delay);
         }
     }, [isSuccess]);
 
@@ -78,13 +79,13 @@ const ForgotPassword = () => {
                                     <MyTextField name="email" id="email" placeholder={t('RESET_PASSWORD.FORM.ENTER_MAIL')} disabled={isLoading} />
                                 </div>
 
-                                <button
-                                    className="btn btn--base btn--primary w--100 mb-2 mt-6 type--wgt--extra-bold"
+                                <ButtonPrimaryGradient
+                                    className="btn btn--base w--100 mb-2 mt-6 type--wgt--extra-bold"
                                     type="submit"
                                     disabled={isLoading}
                                 >
                                     {t('RESET_PASSWORD.FORM.SUBMIT_BTN')}
-                                </button>
+                                </ButtonPrimaryGradient>
                                 <div className="flex flex--jc--center">
                                     <div onClick={() => handleGoBack()} className="btn btn--clear btn--base type--color--brand type--wgt--extra-bold">
                                         <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i> {t('RESET_PASSWORD.BACK_BTN')}

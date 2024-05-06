@@ -21,6 +21,7 @@ import { setStepZero } from '../../../../slices/onboardingSlice';
 import logo from '../../../../assets/images/teorem_logo_purple.png';
 import { TimeZoneSelect } from '../../../components/TimeZoneSelect';
 import { useLazyGetUserTimeZoneQuery } from '../../../../services/userService';
+import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 
 interface AvailabilityValues {
     availability: ITutorAvailability[];
@@ -284,14 +285,14 @@ const AvailabilityPage = ({ nextStep }: AvailabilityProps) => {
                         <div className="type--base align--center field__w-fit-content p-2" style={{ color: '#636363', textAlign: 'center' }}>
                             <span>{t('TUTOR_ONBOARDING.TOOLTIPS.AVAILABILITY_2')}</span>
                         </div>
-                        <button
+                        <ButtonPrimaryGradient
                             id="tutor-onboarding-step-1"
                             onClick={() => handleSubmit()}
-                            className="btn btn--lg btn--primary mt-4"
+                            className="btn btn--lg mt-4"
                             disabled={!saveBtnActive}
                         >
                             {t('REGISTER.NEXT_BUTTON')}
-                        </button>
+                        </ButtonPrimaryGradient>
                     </div>
                 )}
             </div>
