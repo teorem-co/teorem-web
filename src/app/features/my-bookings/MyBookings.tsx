@@ -32,6 +32,7 @@ import { InformationCard } from '../../components/InformationCard';
 import { CustomToolbar } from './CustomToolbar';
 import { TimeZoneSelect } from '../../components/TimeZoneSelect';
 import { useLazyGetTutorGeneralUnavailabilityQuery } from '../../../services/tutorService';
+import { IBookingModalInfo } from '../tutor-bookings/TutorBookings';
 
 i18n.language !== 'en' && Array.from(languageOptions.map((l) => l.path)).includes(i18n.language) && require(`moment/locale/${i18n.language}.js`);
 
@@ -75,7 +76,9 @@ const MyBookings: React.FC = (props: any) => {
     const [value, onChange] = useState(location.state ? new Date(location.state.value) : new Date());
     const [calChange, setCalChange] = useState<boolean>(false);
     const [learnCubeModal, setLearnCubeModal] = useState<boolean>(false);
-    const [currentlyActiveBooking, setCurentlyActiveBooking] = useState<string>('');
+    // const [currentlyActiveBooking, setCurentlyActiveBooking] = useState<string>('');
+    const [currentlyActiveBooking, setCurentlyActiveBooking] = useState<IBookingModalInfo>();
+
     const [highlightCoords, setHighlightCoords] = useState<ICoords>({
         x: 0,
         y: 0,
@@ -197,7 +200,10 @@ const MyBookings: React.FC = (props: any) => {
     };
 
     const handleSelectedEvent = (e: IBookingTransformed) => {
-        setCurentlyActiveBooking(e.id);
+        setCurentlyActiveBooking({
+            bookingId: e.id,
+            endTime: moment(e.end).toISOString(),
+        });
         setScrollTopOffset(topOffset + 150); // add 150px so its closer because I dont get information where user clicked
 
         if (userRole === RoleOptions.Tutor) {
@@ -597,9 +603,9 @@ const MyBookings: React.FC = (props: any) => {
                         <InformationCard title={t('MY_BOOKINGS.INFORMATION.CARD2.TITLE')} desc={t('MY_BOOKINGS.INFORMATION.CARD2.DESC')} />
                         {/*<UpcomingLessons upcomingLessons={upcomingLessons ? upcomingLessons : []} />*/}
                     </div>
-                    {learnCubeModal && (
+                    {learnCubeModal && currentlyActiveBooking && (
                         <LearnCubeModal
-                            bookingId={currentlyActiveBooking}
+                            bookingInfo={currentlyActiveBooking}
                             handleClose={() => {
                                 setLearnCubeModal(false);
                             }}

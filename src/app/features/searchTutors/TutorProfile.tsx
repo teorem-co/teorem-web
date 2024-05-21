@@ -728,20 +728,58 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
 
                                         <div className="mb-10">
                                             <div className="type--wgt--bold mb-2">{t('TUTOR_PROFILE.RATING.TITLE')}</div>
-                                            <div className="flex flex--jc--space-between">
-                                                <div className="flex flex--col flex--ai--center">
-                                                    <div className="review-mark-big">
-                                                        {tutorStatistics?.statistic ? tutorStatistics.statistic.toFixed(1) : 0}
-                                                    </div>
+                                            <div className="flex flex--jc--space-between flex--row flex--wrap reviews-flex-container">
+                                                <div className={'flex flex--row flex--center flex-gap-10'}>
+                                                    <div className="flex flex--col flex--ai--center">
+                                                        <div className="review-mark-big bg-color-light">
+                                                            {tutorStatistics?.statistic ? tutorStatistics.statistic.toFixed(1) : 0}
+                                                        </div>
 
-                                                    {tutorStatistics && (
-                                                        <StarRating mark={tutorStatistics.statistic} size={isMobile ? 'small' : 'medium'} />
-                                                    )}
-                                                    <div className="type--color--secondary">({myReviews?.count})</div>
+                                                        <div className="type--color--secondary">
+                                                            {myReviews?.count}&nbsp;{t('WRITE_REVIEW.REVIEWS')}
+                                                        </div>
+                                                    </div>
+                                                    {tutorStatistics &&
+                                                        tutorStatistics.punctuality > 0 &&
+                                                        tutorStatistics.communication > 0 &&
+                                                        tutorStatistics.knowledge > 0 && (
+                                                            <table className={'table--no-border'}>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td className={'text-align--start'}>{t('WRITE_REVIEW.PUNCTUALITY')}</td>
+                                                                        <td className={'flex'}>
+                                                                            <StarRating
+                                                                                mark={tutorStatistics.punctuality}
+                                                                                size={isMobile ? 'small' : 'medium'}
+                                                                            />
+                                                                        </td>
+                                                                        <td className={''}>{tutorStatistics.punctuality.toFixed(1)}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td className={'text-align--start'}>{t('WRITE_REVIEW.KNOWLEDGE')}</td>
+                                                                        <td className={'flex'}>
+                                                                            <StarRating
+                                                                                mark={tutorStatistics.knowledge}
+                                                                                size={isMobile ? 'small' : 'medium'}
+                                                                            />
+                                                                        </td>
+                                                                        <td className={''}>{tutorStatistics.knowledge.toFixed(1)}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td className={'text-align--start '}>{t('WRITE_REVIEW.COMMUNICATION')}</td>
+                                                                        <td className={'flex'}>
+                                                                            <StarRating
+                                                                                mark={tutorStatistics.communication}
+                                                                                size={isMobile ? 'small' : 'medium'}
+                                                                            />
+                                                                        </td>
+                                                                        <td className={''}>{tutorStatistics.communication.toFixed(1)}</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        )}
                                                 </div>
-                                                <div>
-                                                    <Ratings ratings={tutorStatistics ? tutorStatistics.result : []} />
-                                                </div>
+                                                <Ratings ratings={tutorStatistics ? tutorStatistics.result : []} />
                                             </div>
                                         </div>
                                         <div className="divider--primary"></div>

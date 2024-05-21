@@ -53,6 +53,11 @@ interface ICoords {
     y: number;
 }
 
+export interface IBookingModalInfo {
+    bookingId: string;
+    endTime: string;
+}
+
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY!);
 
 const TutorBookings = () => {
@@ -96,7 +101,7 @@ const TutorBookings = () => {
     const [calChange, setCalChange] = useState<boolean>(false);
     const [value, onChange] = useState(new Date());
     const [learnCubeModal, setLearnCubeModal] = useState<boolean>(false);
-    const [currentlyActiveBooking, setCurentlyActiveBooking] = useState<string>('');
+    const [currentlyActiveBooking, setCurrentlyActiveBooking] = useState<IBookingModalInfo>();
     const [highlightCoords, setHighlightCoords] = useState<ICoords>({
         x: 0,
         y: 0,
@@ -362,7 +367,10 @@ const TutorBookings = () => {
     };
 
     const handleSelectedEvent = (e: IBookingTransformed) => {
-        setCurentlyActiveBooking(e.id);
+        setCurrentlyActiveBooking({
+            bookingId: e.id,
+            endTime: moment(e.end).toISOString(),
+        });
         // check whole date not only hours this is a bug
 
         if (e.userId === userId) {
@@ -809,7 +817,9 @@ const TutorBookings = () => {
                     ) : (
                         <></>
                     )}
-                    {learnCubeModal && <LearnCubeModal bookingId={currentlyActiveBooking} handleClose={() => setLearnCubeModal(false)} />}
+                    {learnCubeModal && currentlyActiveBooking && (
+                        <LearnCubeModal bookingInfo={currentlyActiveBooking} handleClose={() => setLearnCubeModal(false)} />
+                    )}
                 </div>
             </div>
         </MainWrapper>

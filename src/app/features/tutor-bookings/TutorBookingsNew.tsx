@@ -35,6 +35,7 @@ import { loadStripe, StripeElementsOptions } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import { BookingPopupForm } from '../../components/BookingPopupForm';
 import { TimeZoneSelect } from '../../components/TimeZoneSelect';
+import { IBookingModalInfo } from './TutorBookings';
 
 export interface IBookingChatMessageInfo {
     tutorId: string;
@@ -146,7 +147,8 @@ const TutorBookingsNew = () => {
     const [calChange, setCalChange] = useState<boolean>(false);
 
     const [learnCubeModal, setLearnCubeModal] = useState<boolean>(false);
-    const [currentlyActiveBooking, setCurentlyActiveBooking] = useState<string>('');
+    const [currentlyActiveBooking, setCurentlyActiveBooking] = useState<IBookingModalInfo>();
+
     const [highlightCoords, setHighlightCoords] = useState<ICoords>({
         x: 0,
         y: 0,
@@ -402,7 +404,10 @@ const TutorBookingsNew = () => {
     };
 
     const handleSelectedEvent = (e: IBookingTransformed) => {
-        setCurentlyActiveBooking(e.id);
+        setCurentlyActiveBooking({
+            bookingId: e.id,
+            endTime: moment(e.end).toISOString(),
+        });
         // check whole date not only hours this is a bug
 
         if (e.userId === userId) {
@@ -811,7 +816,9 @@ const TutorBookingsNew = () => {
                     ) : (
                         <></>
                     )}
-                    {learnCubeModal && <LearnCubeModal bookingId={currentlyActiveBooking} handleClose={() => setLearnCubeModal(false)} />}
+                    {learnCubeModal && currentlyActiveBooking && (
+                        <LearnCubeModal bookingInfo={currentlyActiveBooking} handleClose={() => setLearnCubeModal(false)} />
+                    )}
                 </div>
             </div>
         </MainWrapper>

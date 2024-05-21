@@ -1,15 +1,18 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { Tooltip } from 'react-tooltip';
 
 interface Props {
     text: string;
     hide: () => void;
     redirectionPath?: string;
     buttonText?: string;
+    showTooltip?: boolean;
+    tooltipText?: string;
 }
 
 export const Banner = (props: Props) => {
-    const { text, hide, redirectionPath, buttonText } = props;
+    const { text, hide, redirectionPath, buttonText, showTooltip, tooltipText } = props;
     const isMobile = window.innerWidth < 776;
 
     return (
@@ -24,11 +27,13 @@ export const Banner = (props: Props) => {
                 position: 'relative',
             }}
         >
-            <p className={'type--normal'}> {text}</p>
+            <div data-tooltip-id={'leave-review'} data-tooltip-content={tooltipText} data-tooltip-float>
+                <p className={'type--normal'}> {text}</p>
+            </div>
             <div className={'flex--row flex  flex--center mr-5 banner'}>
                 {redirectionPath && (
-                    <NavLink to={redirectionPath} className="ml-6 mr-5 type--start type--wgt--bold type--color--white align-self-end">
-                        <button onClick={hide} className={'btn btn--base btn--secondary'}>
+                    <NavLink className="ml-6 mr-5 type--start type--wgt--bold type--color--white align-self-end" to={redirectionPath}>
+                        <button className={'btn btn--base btn--secondary'} onClick={hide}>
                             {buttonText}
                         </button>
                     </NavLink>
@@ -43,6 +48,7 @@ export const Banner = (props: Props) => {
                     }}
                 ></i>
             </div>
+            <Tooltip id={`leave-review`} place="right-end" hidden={!showTooltip} />
         </div>
     );
 };

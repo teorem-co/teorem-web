@@ -122,6 +122,7 @@ export const EN_US = {
         MAX_2500_CHARS: 'Maximum is 2500 characters',
         MAX_75_CHARS: 'Maximum is 75 characters',
         MAX_100_CHARS: 'Maximum is 100 characters',
+        MIN_10_CHARS: 'Minimum is 10 characters',
     },
     NAVIGATION: {
         MY_BOOKINGS: 'Calendar',
@@ -356,7 +357,7 @@ export const EN_US = {
             NOT_FOUND: 'Role not found',
         },
         REVIEW: {
-            CONFLICT: 'You have already written a review',
+            CONFLICT: 'You have already written a review for this tutor',
         },
         INPUT_FAILED: 'Wrong input data',
         INVALID_IMAGE: 'Invalid image',
@@ -599,16 +600,29 @@ export const EN_US = {
         DATE_AT_WORD: 'at',
         DOWNLOAD_INVOICE_SUCCESS: 'Invoice download succeeded!',
         DOWNLOAD_INVOICE_FAIL: 'Invoice download failed!',
+        NUMBER_OF_COMPLETED_LESSONS: ' completed lessons',
     },
     WRITE_REVIEW: {
         SECTION_TITLE: 'Write a review',
-        TITLE: 'Title',
-        RATING: 'Rating',
+        SUBTITLE:
+            'Your feedback is important for improving our tutoring service. Take a moment to share your experience and help others like you find the perfect tutor!',
+        OVERALL: 'Overall',
+        PUNCTUALITY: 'Punctuality',
+        COMMUNICATION: 'Communication',
+        KNOWLEDGE: 'Knowledge',
         REVIEW: 'Review',
         SUBMIT: 'Post',
         CANCEL: 'Cancel',
         HEADING_PLACEHOLDER: 'Write title of your review',
         TEXT_PLACEHOLDER: 'Describe your overall experience with this lesson',
+        REVIEWS: 'reviews',
+        THANKS_MESSAGE: 'Thank you for your review!',
+        NEW_TUTOR: 'New tutor',
+        COMPLETED_LESSONS: {
+            PART_1: 'You have ',
+            PART_2: ' completed lessons with this tutor',
+        },
+        COMMENT_LABEL: 'How was your overall experience with this tutor?',
     },
     COMPLETE_PROFILE: {
         TITLE: 'Complete my profile',
@@ -1595,5 +1609,17 @@ export const EN_US = {
         PLACEHOLDER: 'Country',
         HR: 'Croatia',
         US: 'USA',
+    },
+
+    BANNER: {
+        REVIEW: {
+            PART_1: 'Recently you had a lesson with ',
+            PART_2: 'for subject ',
+            PART_3: '. Please leave a review.',
+            TOOLTIP: 'Leaving a review helps others. It creates a more efficient, transparent marketplace',
+        },
+        ADD_CHILD: {
+            BUTTON: 'Add child',
+        },
     },
 };

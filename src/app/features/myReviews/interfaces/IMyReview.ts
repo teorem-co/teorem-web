@@ -10,6 +10,9 @@ interface IMyReview {
     title: string;
     comment: string;
     mark: number;
+    punctualityMark: number;
+    communicationMark: number;
+    knowledgeMark: number;
     tutorId: string;
     Tutor: ITutor;
     levelId: string;
@@ -20,6 +23,7 @@ interface IMyReview {
     User: IUser;
     userName: string;
     role: string;
+    numberOfCompletedLessons: number;
 }
 
 export default IMyReview;
