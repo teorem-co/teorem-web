@@ -224,3 +224,9 @@
   text-overflow: ellipsis;
   width: 100%; /* Ensure the span takes up the full width of the div */
 }
+
+
+.type--no-decoration {
+  text-decoration: none !important;
+  color: inherit;
+}

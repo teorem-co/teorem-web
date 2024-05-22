@@ -282,7 +282,7 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                                                     <div className="flex flex--col w--100 flex--jc--center flex--ai--center flex--gap-30 type--sm">
                                                         <div className="flex flex--center tag tag--primary">
                                                             <div className=" flex flex--center">
-                                                                <i className="icon icon--completed-lessons icon--base icon--primary"></i>
+                                                                <i className="icon icon--completed-lessons icon--base icon--primary cur--default"></i>
                                                                 <span className="d--ib mr-1">
                                                                     {tutorData.completedLessons
                                                                         ? tutorData.completedLessons
@@ -292,7 +292,7 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
 
                                                             {tutorData.completedLessons > 0 && <span> {t('SEARCH_TUTORS.COMPLETED_LESSONS')}</span>}
                                                         </div>
-                                                        {/*TODO: uncomment*/}
+                                                        {/*TODO: uncomment later when we have this*/}
                                                         {/*<div className={'ml-2'}>*/}
                                                         {/*    <div className={'flex flex--row flex--ai--center'}>*/}
                                                         {/*        <i className={'icon icon--base icon--star'}></i>*/}
@@ -311,7 +311,9 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                                                         {tutorData.averageGrade > 0 && tutorData.numberOfGrades && (
                                                             <div className="flex flex--col flex--ai--center">
                                                                 <div className="flex flex--row flex--ai--center">
-                                                                    <i className="icon icon--base icon--star"></i>
+                                                                    <a href="#reviews">
+                                                                        <i className="icon icon--base icon--star"></i>
+                                                                    </a>
                                                                     <span className={'type--md type--wgt--extra-bold'}>
                                                                         {tutorData.averageGrade.toFixed(1)}
                                                                     </span>
@@ -459,7 +461,7 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
 
                                                                 <div className="flex flex--center tag tag--primary field__w-fit-content mt-5">
                                                                     <div className=" flex flex--center">
-                                                                        <i className="icon icon--completed-lessons icon--base icon--primary"></i>
+                                                                        <i className="icon icon--completed-lessons icon--base icon--primary cur--default"></i>
                                                                         <span className="d--ib mr-1">
                                                                             {tutorData.completedLessons
                                                                                 ? tutorData.completedLessons
@@ -479,15 +481,17 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                                                                     <div className="flex flex--row flex--ai--center flex--jc--space-around mt-2 mb-2">
                                                                         {tutorData.averageGrade > 0 && tutorData.numberOfGrades ? (
                                                                             <div className="flex flex--col flex--ai--center">
-                                                                                <div className="flex flex--row flex--ai--center">
-                                                                                    <i className="icon icon--base icon--star"></i>
-                                                                                    <span className={'type--md type--wgt--extra-bold'}>
-                                                                                        {tutorData.averageGrade.toFixed(1)}
+                                                                                <a href="#reviews" className={'type--no-decoration'}>
+                                                                                    <div className="flex flex--row flex--ai--center">
+                                                                                        <i className="icon icon--base icon--star"></i>
+                                                                                        <span className={'type--md type--wgt--extra-bold'}>
+                                                                                            {tutorData.averageGrade.toFixed(1)}
+                                                                                        </span>
+                                                                                    </div>
+                                                                                    <span>
+                                                                                        {tutorData.numberOfGrades}&nbsp;{t('TUTOR_PROFILE.REVIEWS')}
                                                                                     </span>
-                                                                                </div>
-                                                                                <span>
-                                                                                    {tutorData.numberOfGrades}&nbsp;{t('TUTOR_PROFILE.REVIEWS')}
-                                                                                </span>
+                                                                                </a>
                                                                             </div>
                                                                         ) : (
                                                                             // <span className={'type--md type--wgt--extra-bold'}>
@@ -783,25 +787,27 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                                             </div>
                                         </div>
                                         <div className="divider--primary"></div>
-                                        <div>
-                                            {myReviews && myReviews.rows.length > 0 ? (
-                                                <>
+                                        <section id={'reviews'}>
+                                            <div>
+                                                {myReviews && myReviews.rows.length > 0 ? (
+                                                    <>
+                                                        <div className="reviews-list">
+                                                            {loadedMyReviews &&
+                                                                loadedMyReviews.map((item: IMyReview, index: number) => (
+                                                                    <ReviewItem key={index} reviewItem={item} />
+                                                                ))}
+                                                        </div>
+                                                    </>
+                                                ) : (
                                                     <div className="reviews-list">
-                                                        {loadedMyReviews &&
-                                                            loadedMyReviews.map((item: IMyReview, index: number) => (
-                                                                <ReviewItem key={index} reviewItem={item} />
-                                                            ))}
+                                                        <div className="type--center mt-22">
+                                                            <h1 className="type--xxl">{t('MY_REVIEWS.NO_RESULT.TITLE')}</h1>
+                                                            <p className="type--color--secondary">{t('MY_REVIEWS.NO_RESULT.DESC')}</p>
+                                                        </div>
                                                     </div>
-                                                </>
-                                            ) : (
-                                                <div className="reviews-list">
-                                                    <div className="type--center mt-22">
-                                                        <h1 className="type--xxl">{t('MY_REVIEWS.NO_RESULT.TITLE')}</h1>
-                                                        <p className="type--color--secondary">{t('MY_REVIEWS.NO_RESULT.DESC')}</p>
-                                                    </div>
-                                                </div>
-                                            )}
-                                        </div>
+                                                )}
+                                            </div>
+                                        </section>
                                     </div>
                                 </div>
                             </div>
