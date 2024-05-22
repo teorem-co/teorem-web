@@ -88,10 +88,12 @@ const MainWrapper = (props: Props) => {
                     <>
                         {/*<div data-tooltip-id={'leave-review'} data-tooltip-content={t('BANNER.REVIEW.TOOLTIP')} data-tooltip-float>*/}
                         <Banner
-                            showTooltip
-                            tooltipText={t('BANNER.REVIEW.TOOLTIP')}
-                            text={`${t('BANNER.REVIEW.PART_1')}${recentBookings[0].tutorName} ${t('BANNER.REVIEW.PART_2')}
-                        ${t('SUBJECTS.' + recentBookings[0].subjectAbrv.replaceAll('-', ''))}`}
+                            text={
+                                `${t('BANNER.REVIEW.PART_1')}${recentBookings[0].tutorName} ${t('BANNER.REVIEW.PART_2')}
+                        ${t('SUBJECTS.' + recentBookings[0].subjectAbrv.replaceAll('-', ''))}` +
+                                '. ' +
+                                t('BANNER.REVIEW.TOOLTIP')
+                            }
                             hide={() => {
                                 setHideReviewBanner('true');
                                 sessionStorage.setItem('hideReviewBanner', 'true');

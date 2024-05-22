@@ -1616,7 +1616,7 @@ export const EN_US = {
             PART_1: 'Recently you had a lesson with ',
             PART_2: 'for subject ',
             PART_3: '. Please leave a review.',
-            TOOLTIP: 'Leaving a review helps others. It creates a more efficient, transparent marketplace',
+            TOOLTIP: 'Leaving a review helps others. It creates a more efficient, transparent marketplace.',
         },
         ADD_CHILD: {
             BUTTON: 'Add child',

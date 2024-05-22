@@ -112,12 +112,13 @@ const ReviewModal: FC<Props> = (props: Props) => {
         <>
             <div className="modal__overlay">
                 <div className="modal review-modal ">
-                    <div className="modal__head flex flex--col flex--center">
-                        {/*<GiStarsStack size={50} />*/}
-                        <i className={'icon icon--xxl icon--review-modal icon--primary'}></i>
-                        <div className="type--md type--wgt--bold">{t('WRITE_REVIEW.SECTION_TITLE')}</div>
-                        <p className={'type--center type--color--secondary'}>{t('WRITE_REVIEW.SUBTITLE')}</p>
-                    </div>
+                    {!isSuccess && (
+                        <div className="modal__head flex flex--col flex--center">
+                            <i className={'icon icon--xxl icon--review-modal icon--primary'}></i>
+                            <div className="type--md type--wgt--bold">{t('WRITE_REVIEW.SECTION_TITLE')}</div>
+                            <p className={'type--center type--base type--color--secondary'}>{t('WRITE_REVIEW.SUBTITLE')}</p>
+                        </div>
+                    )}
                     <i onClick={closeModal} className="modal__close icon icon--base icon--close icon--grey"></i>
 
                     {isSuccess && (
@@ -133,7 +134,7 @@ const ReviewModal: FC<Props> = (props: Props) => {
                                     }}
                                 ></Lottie>
 
-                                {showThanksText && <p className={'type--center'}>{t('WRITE_REVIEW.THANKS_MESSAGE')}</p>}
+                                {showThanksText && <p className={'type--center type--md'}>{t('WRITE_REVIEW.THANKS_MESSAGE')}</p>}
                             </>
                         </div>
                     )}
@@ -160,7 +161,7 @@ const ReviewModal: FC<Props> = (props: Props) => {
                                         </div>
                                     )}
 
-                                    {!infoData?.averageGrade ? (
+                                    {infoData?.averageGrade && infoData?.averageGrade > 0 ? (
                                         <div className="flex flex--col flex--ai--end">
                                             <div className="flex flex--row flex--ai--center">
                                                 <i className="icon icon--sm icon--star"></i>
