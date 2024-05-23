@@ -1616,7 +1616,7 @@ export const EN_US = {
     BANNER: {
         REVIEW: {
             PART_1: 'You recently had a lesson in ',
-            PART_2: 'with ',
+            PART_2: 'with tutor ',
             PART_3: '. Take a moment to share your experience by leaving a review.',
             TOOLTIP: 'Leaving a review helps others. It creates a more efficient, transparent marketplace.',
         },
