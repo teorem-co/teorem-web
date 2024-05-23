@@ -173,6 +173,7 @@ const CompletedLessons = () => {
     const [bookingId, setBookingId] = useState<string | null>(null);
 
     const location = useLocation();
+
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search);
         const bookingIdURL = queryParams.get('bookingId');
@@ -182,7 +183,7 @@ const CompletedLessons = () => {
             setBookingId(bookingIdURL);
             setActiveReviewModal(true);
         }
-    }, []);
+    }, [location]);
 
     return (
         <>
