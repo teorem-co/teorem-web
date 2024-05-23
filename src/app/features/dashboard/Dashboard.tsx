@@ -65,6 +65,7 @@ import { BookingRequestItem } from './upcoming-lessons/BookingRequestItem';
 import { PendingRescheduleRequestItem } from './upcoming-lessons/PendingRescheduleRequestItem';
 import { NotAcceptedLesson } from './upcoming-lessons/NotAcceptedLesson';
 import { ButtonPrimaryGradient } from '../../components/ButtonPrimaryGradient';
+import { IBookingModalInfo } from '../tutor-bookings/TutorBookings';
 
 interface Values {
     subject: string;
@@ -280,7 +281,7 @@ const Dashboard = () => {
     const [todayScheduled, setTodayScheduled] = useState<IBooking[]>([]);
     const [unreadChatrooms, setUnreadChatrooms] = useState<any[]>([]);
     const [learnCubeModal, setLearnCubeModal] = useState<boolean>(false);
-    const [currentlyActiveBooking, setCurrentlyActiveBooking] = useState<string>('');
+    const [currentlyActiveBooking, setCurrentlyActiveBooking] = useState<IBookingModalInfo>();
     const [activeIndex, setActiveIndex] = useState<number>(0);
     const [activeMsgIndex, setActiveMsgIndex] = useState<number>(0);
     const [params, setParams] = useState<IParams>({
@@ -410,7 +411,10 @@ const Dashboard = () => {
             setTutorHiLinkModalActive(true);
             return;
         }
-        setCurrentlyActiveBooking(event.id);
+        setCurrentlyActiveBooking({
+            bookingId: event.id,
+            endTime: moment(event.endTime).toISOString(),
+        });
         setLearnCubeModal(true);
     };
 
@@ -1124,33 +1128,6 @@ const Dashboard = () => {
                         <MainWrapper>
                             <div className="layout--primary">
                                 <div>
-                                    {/*{userRole === RoleOptions.Tutor && profileProgressState && !profileProgressState.verified ? (*/}
-                                    {/*  <div className="flex flex--col flex--jc--center mb-2 p-2" style={{ borderRadius: '0.5em', color: 'white', backgroundColor:'#7e6cf2'}}>*/}
-                                    {/*    <h4 className="type--md mb-2 ml-6 align-self-center">{t(`TUTOR_VERIFIED_NOTE.TITLE`)}</h4>*/}
-                                    {/*    <p className="ml-6 align-self-center">{t(`TUTOR_VERIFIED_NOTE.DESCRIPTION`)}</p>*/}
-                                    {/*  </div>*/}
-                                    {/*) : null}*/}
-                                    {userRole === RoleOptions.Parent && childrenData?.length === 0 ? (
-                                        <div>
-                                            <div
-                                                className="flex flex--col flex--jc--center mb-2 p-2"
-                                                style={{
-                                                    borderRadius: '0.5em',
-                                                    color: 'white',
-                                                    background: '#7e6cf2',
-                                                }}
-                                            >
-                                                <h4 className="type--md mb-2 ml-6 align-self-center">{t(`CHILDLESS_PARENT_NOTE.TITLE`)}</h4>
-                                                <p className="ml-6 align-self-center">{t(`CHILDLESS_PARENT_NOTE.DESCRIPTION`)}</p>
-                                                <Link
-                                                    className="btn btn--base btn--tertiary mb-4 type--center"
-                                                    to={PROFILE_PATHS.MY_PROFILE_CHILD_INFO}
-                                                >
-                                                    {t('MY_PROFILE.PROFILE_SETTINGS.DESCRIPTION')}
-                                                </Link>
-                                            </div>
-                                        </div>
-                                    ) : null}
                                     {userRole == RoleOptions.Tutor && profileProgressState.percentage && profileProgressState.percentage < 100 ? (
                                         <div className="card--dashboard mb-6">
                                             <div>
@@ -1683,9 +1660,9 @@ const Dashboard = () => {
                                     </div>
                                 </div>
 
-                                {learnCubeModal && (
+                                {learnCubeModal && currentlyActiveBooking && (
                                     <LearnCubeModal
-                                        bookingId={currentlyActiveBooking}
+                                        bookingInfo={currentlyActiveBooking}
                                         handleClose={() => {
                                             setLearnCubeModal(false);
                                         }}

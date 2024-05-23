@@ -9,6 +9,9 @@ import { setTopOffset } from '../../slices/scrollSlice';
 import { RoleOptions } from '../../slices/roleSlice';
 import { DocumentVerificationBanner } from './banner/DocumentVerificationBanner';
 import { Banner } from './banner/Banner';
+import { IRecentBooking, useLazyGetRecentBookingsQuery } from '../features/my-bookings/services/bookingService';
+import { PROFILE_PATHS } from '../routes';
+import { useLazyGetChildrenQuery } from '../../services/userService';
 
 interface Props {
     children: JSX.Element | JSX.Element[];
@@ -27,6 +30,12 @@ const MainWrapper = (props: Props) => {
     const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
     const [hideBanner, setHideBanner] = useState<string | null>(null);
     const [hideStripeBanner, setHideStripeBanner] = useState<string | null>(null);
+    const [hideReviewBanner, setHideReviewBanner] = useState<string | null>(null);
+    const [hideAddChildBanner, setHideAddChildBanner] = useState<string | null>(null);
+    const [getRecentBookings] = useLazyGetRecentBookingsQuery();
+    const [recentBookings, setRecentBookings] = useState<IRecentBooking[]>([]);
+    const userId = useAppSelector((state) => state.auth.user?.id);
+    const [getChildren, { data: childrenData, isLoading: childrenLoading, isSuccess: childrenSuccess }] = useLazyGetChildrenQuery();
 
     const handleScroll = async (e: HTMLDivElement) => {
         if (e.scrollTop) dispatch(setTopOffset(e.scrollTop));
@@ -35,7 +44,32 @@ const MainWrapper = (props: Props) => {
     useEffect(() => {
         setHideBanner(sessionStorage.getItem('hideApprovedBanner'));
         setHideStripeBanner(sessionStorage.getItem('hideStripeBanner'));
+        setHideReviewBanner(sessionStorage.getItem('hideReviewBanner'));
+        setHideAddChildBanner(sessionStorage.getItem('hideAddChildBanner'));
+
+        if (userId && userRole === RoleOptions.Parent) {
+            getChildren(userId);
+        }
+        if (loggedInUser) {
+            fetchRecentBookings();
+        }
     }, []);
+
+    async function fetchRecentBookings() {
+        if (
+            (loggedInUser?.Role.abrv === RoleOptions.Parent || loggedInUser?.Role.abrv === RoleOptions.Student) &&
+            !sessionStorage.getItem('hideReviewBanner')
+        ) {
+            getRecentBookings()
+                .unwrap()
+                .then((res) => {
+                    setRecentBookings(res);
+                    if (res.length == 0) {
+                        sessionStorage.setItem('hideReviewBanner', 'true');
+                    }
+                });
+        }
+    }
 
     function hide() {
         setHideBanner('true');
@@ -50,11 +84,40 @@ const MainWrapper = (props: Props) => {
                 )}
                 {userRole === RoleOptions.Tutor && !hideStripeBanner && <DocumentVerificationBanner hideBanner={setHideStripeBanner} />}
 
+                {!hideReviewBanner && recentBookings.length > 0 && (
+                    <>
+                        <Banner
+                            text={
+                                `${t('BANNER.REVIEW.PART_1')}${t('SUBJECTS.' + recentBookings[0].subjectAbrv.replaceAll('-', ''))} ${t(
+                                    'BANNER.REVIEW.PART_2'
+                                )}
+                                ${recentBookings[0].tutorName}` + t('BANNER.REVIEW.PART_3')
+                            }
+                            hide={() => {
+                                setHideReviewBanner('true');
+                                sessionStorage.setItem('hideReviewBanner', 'true');
+                            }}
+                            redirectionPath={`${t('PATHS.COMPLETED_LESSONS')}?bookingId=${recentBookings[0].bookingId}&showModal=true`}
+                            buttonText={t('COMPLETED_LESSONS.LEAVE_REVIEW')}
+                        />
+                    </>
+                )}
+
+                {userRole === RoleOptions.Parent && childrenData?.length === 0 && !hideAddChildBanner && (
+                    <Banner
+                        text={t(`CHILDLESS_PARENT_NOTE.TITLE`)}
+                        hide={() => {
+                            setHideAddChildBanner('true');
+                            sessionStorage.setItem('hideAddChildBanner', 'true');
+                        }}
+                        redirectionPath={PROFILE_PATHS.MY_PROFILE_CHILD_INFO}
+                        buttonText={t('BANNER.ADD_CHILD.BUTTON')}
+                    />
+                )}
+
                 <div className="layout">
                     <div className="layout__mobile">
-                        {/*<div className="flex flex--row flex--ai--center">*/}
                         <img src="/logo.svg" alt="" className="" style={{ height: '20px' }} />
-                        {/*</div>*/}
                         <i className="icon icon--md icon--menu icon--black" onClick={() => setAsideActive(!asideActive)}>
                             hamburger
                         </i>

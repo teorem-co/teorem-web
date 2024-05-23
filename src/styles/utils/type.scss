@@ -182,6 +182,8 @@
 
 .review-mark-big {
   font-size: xxx-large;
+  font-weight: bold;
+  color: $color-primary;
 
   @media (max-width: $responsive-sm) {
     font-size: xx-large;
@@ -221,4 +223,10 @@
   overflow: hidden;
   text-overflow: ellipsis;
   width: 100%; /* Ensure the span takes up the full width of the div */
+}
+
+
+.type--no-decoration {
+  text-decoration: none !important;
+  color: inherit;
 }

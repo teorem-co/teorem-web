@@ -122,6 +122,7 @@ export const HR_HR = {
         MAX_2500_CHARS: 'Najviše 2500 znakova',
         MAX_75_CHARS: 'Najviše 75 znakova',
         MAX_100_CHARS: 'Najviše 100 znakova',
+        MIN_100_CHARS: 'Najmanje 10 znakova',
     },
     NAVIGATION: {
         MY_BOOKINGS: 'Kalendar',
@@ -354,7 +355,7 @@ export const HR_HR = {
             NOT_FOUND: 'Uloga nije pronađena',
         },
         REVIEW: {
-            CONFLICT: 'Već ste napisali recenziju',
+            CONFLICT: 'Već ste napisali recenziju za ovog instruktora',
         },
         INPUT_FAILED: 'Pogrešni ulazni podatci',
         INVALID_IMAGE: 'Nevažeća slika',
@@ -596,17 +597,33 @@ export const HR_HR = {
         DATE_AT_WORD: 'u',
         DOWNLOAD_INVOICE_SUCCESS: 'Preuzimanje računa uspješno!',
         DOWNLOAD_INVOICE_FAIL: 'Preuzimanje računa neuspješno!',
+        NUMBER_OF_COMPLETED_LESSONS: ' završenih predavanja',
     },
     WRITE_REVIEW: {
         SECTION_TITLE: 'Napišite recenziju',
-        TITLE: 'Naslov',
-        RATING: 'Ocjena',
+        SUBTITLE:
+            'Vaše mišljenje važno je za poboljšanje naše usluge instrukcija. Odvojite trenutak da podijelite svoje iskustvo i pomognete drugima poput Vas da pronađu savršenog instruktora!',
+        OVERALL: 'Sveukupno',
+        PUNCTUALITY: 'Točnost',
+        COMMUNICATION: 'Komunikacija',
+        KNOWLEDGE: 'Znanje',
         REVIEW: 'Recenzija',
         SUBMIT: 'Objavi',
         CANCEL: 'Odustani',
+        CLOSE: 'Zatvori',
+        FINISH: 'Završi',
         HEADING_PLACEHOLDER: 'Napiši naslov svoje recenzije',
-        TEXT_PLACEHOLDER: 'Opiši svoje cjelokupno iskustvo s ovom lekcijom',
+        TEXT_PLACEHOLDER: 'Opišite Vaše iskustvo s ovim instruktorom',
+        REVIEWS: 'recenzije',
+        THANKS_MESSAGE: 'Hvala na recenziji!',
+        NEW_TUTOR: 'Novi instruktor',
+        COMPLETED_LESSONS: {
+            PART_1: 'Završili ste ',
+            PART_2: ' predavanja s ovim instruktorom.',
+        },
+        COMMENT_LABEL: 'Opišite Vaše iskustvo s ovim instruktorom.',
     },
+
     COMPLETE_PROFILE: {
         TITLE: 'Završi svoj profil',
         DESCRIPTION: 'Ispuni nedostajeće podatke kako bi završio svoj profil',
@@ -1600,5 +1617,16 @@ export const HR_HR = {
         PLACEHOLDER: 'Država',
         HR: 'Hrvatska',
         US: 'SAD',
+    },
+    BANNER: {
+        REVIEW: {
+            PART_1: 'Nedavno ste imali lekciju iz predmeta ',
+            PART_2: 's instruktorom ',
+            PART_3: '. Odvojite trenutak da podijelite svoje iskustvo ostavljajući recenziju.',
+            TOOLTIP: 'Ostavljanje recenzije pomaže ostalima. Stvara učinkovito i transparentno okruženje.',
+        },
+        ADD_CHILD: {
+            BUTTON: 'Dodaj dijete',
+        },
     },
 };

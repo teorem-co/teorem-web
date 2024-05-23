@@ -42,6 +42,11 @@
     height: calc(#{$unit} * 10);
   }
 
+  &--xxl {
+    width: calc(#{$unit} * 30);
+    height: calc(#{$unit} * 30);
+  }
+
   //position
   &--pos {
     &--dropdown {
@@ -277,6 +282,12 @@
     mask-image: url('./../../assets/icons/thunder.svg');
     mask-size: contain;
   }
+
+  &--review-modal {
+    mask-image: url('./../../assets/icons/review-modal.svg');
+    mask-size: contain;
+  }
+
 
   //flags
   &--af {
