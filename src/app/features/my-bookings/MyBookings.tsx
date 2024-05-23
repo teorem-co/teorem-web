@@ -76,7 +76,6 @@ const MyBookings: React.FC = (props: any) => {
     const [value, onChange] = useState(location.state ? new Date(location.state.value) : new Date());
     const [calChange, setCalChange] = useState<boolean>(false);
     const [learnCubeModal, setLearnCubeModal] = useState<boolean>(false);
-    // const [currentlyActiveBooking, setCurentlyActiveBooking] = useState<string>('');
     const [currentlyActiveBooking, setCurentlyActiveBooking] = useState<IBookingModalInfo>();
 
     const [highlightCoords, setHighlightCoords] = useState<ICoords>({

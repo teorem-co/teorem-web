@@ -13,7 +13,6 @@ import CustomSubjectList from '../../searchTutors/components/CustomSubjectList';
 import { TextField } from '@mui/material';
 
 interface Props {
-    // activeLesson: ICompletedLesson | null;
     id?: string;
     handleClose: () => void;
     onCompletedReview: (lessonId: string) => void;
@@ -35,7 +34,6 @@ const ReviewModal: FC<Props> = (props: Props) => {
     const history = useHistory();
     const [reviewInfo] = useLazyGetReviewInfoQuery();
     const [infoData, setInfoData] = useState<IReviewInfo | null>();
-    //get variable from url
 
     const [addNewReview, { data: postResonse, isSuccess }] = useAddReviewMutation();
 
@@ -47,11 +45,6 @@ const ReviewModal: FC<Props> = (props: Props) => {
         communicationMark: '',
         review: '',
     });
-
-    function closeModal() {
-        handleClose();
-        history.push(t('PATHS.COMPLETED_LESSONS'));
-    }
 
     useEffect(() => {
         if (bookingId) {
@@ -84,7 +77,6 @@ const ReviewModal: FC<Props> = (props: Props) => {
     });
 
     const handleSubmit = async (values: InitialValues) => {
-        //alert(JSON.stringify(values, null, 2));
         if (infoData) {
             const toSend: IAddReview = {
                 subjectId: infoData.subject.id,
@@ -102,7 +94,6 @@ const ReviewModal: FC<Props> = (props: Props) => {
                 return;
             }
             await addNewReview(toSend).unwrap();
-            // toastService.success('Your review is published.');
             fetchCompletedLessons();
             if (id) onCompletedReview(id);
         }

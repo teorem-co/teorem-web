@@ -12,7 +12,6 @@ import { RoleOptions } from '../../../../slices/roleSlice';
 
 interface Props {
     handleClose: () => void;
-    // bookingId: string;
     bookingInfo: IBookingModalInfo;
 }
 
@@ -51,32 +50,22 @@ const LearnCubeModal = (props: Props) => {
     });
 
     function closeModal() {
-        // handleClose();
-
-        console.log('bookingInfo', bookingInfo);
-
         // check if end time is in 5 minutes or less
         const endTime = moment(bookingInfo.endTime).subtract(10, 'minutes'); // removed 10 mins because lessons last 50min
         const currentTime = moment();
         const diff = endTime.diff(currentTime, 'minutes');
-        console.log('diff...', diff);
         if (userRole != RoleOptions.Tutor && moment().isAfter(endTime.subtract(5, 'minutes'))) {
             //remove 5 mins because we want to give some buffer
             canLeaveReview(bookingInfo.bookingId).then((res) => {
-                console.log('canLeaveReview...', res.data);
                 if (res.data) {
-                    console.log('leaving review...');
                     history.push(PATHS.COMPLETED_LESSONS + `?bookingId=${bookingInfo.bookingId}&showModal=true`);
                 } else {
-                    console.log('cannot leave review...');
                     handleClose();
                 }
             });
         } else {
             handleClose();
-            console.log('CLOSING....');
         }
-        // history.push(t('PATHS.COMPLETED_LESSONS' + `?bookingId=${bookingInfo.bookingId}&showModal=true`));
     }
 
     return (

@@ -86,7 +86,6 @@ const MainWrapper = (props: Props) => {
 
                 {!hideReviewBanner && recentBookings.length > 0 && (
                     <>
-                        {/*<div data-tooltip-id={'leave-review'} data-tooltip-content={t('BANNER.REVIEW.TOOLTIP')} data-tooltip-float>*/}
                         <Banner
                             text={
                                 `${t('BANNER.REVIEW.PART_1')}${recentBookings[0].tutorName} ${t('BANNER.REVIEW.PART_2')}
@@ -101,7 +100,6 @@ const MainWrapper = (props: Props) => {
                             redirectionPath={`${t('PATHS.COMPLETED_LESSONS')}?bookingId=${recentBookings[0].bookingId}&showModal=true`}
                             buttonText={t('COMPLETED_LESSONS.LEAVE_REVIEW')}
                         />
-                        {/*</div>*/}
                     </>
                 )}
 
@@ -119,9 +117,7 @@ const MainWrapper = (props: Props) => {
 
                 <div className="layout">
                     <div className="layout__mobile">
-                        {/*<div className="flex flex--row flex--ai--center">*/}
                         <img src="/logo.svg" alt="" className="" style={{ height: '20px' }} />
-                        {/*</div>*/}
                         <i className="icon icon--md icon--menu icon--black" onClick={() => setAsideActive(!asideActive)}>
                             hamburger
                         </i>

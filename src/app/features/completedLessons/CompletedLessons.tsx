@@ -129,10 +129,6 @@ const CompletedLessons = () => {
         ));
     };
 
-    useEffect(() => {
-        console.log(activeLesson);
-    }, [activeLesson]);
-
     const fetchData = async () => {
         const completedLessonsResponse = await getCompletedLessons().unwrap();
         setCompletedLessonsState(completedLessonsResponse);
