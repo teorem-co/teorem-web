@@ -603,7 +603,7 @@ export const EN_US = {
         NUMBER_OF_COMPLETED_LESSONS: ' completed lessons',
     },
     WRITE_REVIEW: {
-        SECTION_TITLE: 'Write a review',
+        SECTION_TITLE: 'Write a Review',
         SUBTITLE:
             'Your feedback is important for improving our tutoring service. Take a moment to share your experience and help others like you find the perfect tutor!',
         OVERALL: 'Overall',
@@ -615,13 +615,13 @@ export const EN_US = {
         CANCEL: 'Cancel',
         CLOSE: 'Close',
         HEADING_PLACEHOLDER: 'Write title of your review',
-        TEXT_PLACEHOLDER: 'Describe your overall experience with this lesson',
+        TEXT_PLACEHOLDER: 'Describe your overall experience with this tutor',
         REVIEWS: 'reviews',
         THANKS_MESSAGE: 'Thank you for your review!',
         NEW_TUTOR: 'New tutor',
         COMPLETED_LESSONS: {
             PART_1: 'You have ',
-            PART_2: ' completed lessons with this tutor',
+            PART_2: ' completed lessons with this tutor.',
         },
         COMMENT_LABEL: 'How was your overall experience with this tutor?',
     },

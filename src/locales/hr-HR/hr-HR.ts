@@ -603,7 +603,7 @@ export const HR_HR = {
         SECTION_TITLE: 'Napišite recenziju',
         SUBTITLE:
             'Vaše mišljenje važno je za poboljšanje naše usluge instrukcija. Odvojite trenutak da podijelite svoje iskustvo i pomognete drugima poput Vas da pronađu savršenog instruktora!',
-        OVERALL: 'Sveukupna',
+        OVERALL: 'Sveukupno',
         PUNCTUALITY: 'Točnost',
         COMMUNICATION: 'Komunikacija',
         KNOWLEDGE: 'Znanje',
@@ -612,15 +612,15 @@ export const HR_HR = {
         CANCEL: 'Odustani',
         CLOSE: 'Zatvori',
         HEADING_PLACEHOLDER: 'Napiši naslov svoje recenzije',
-        TEXT_PLACEHOLDER: 'Opiši svoje cjelokupno iskustvo s ovom lekcijom',
+        TEXT_PLACEHOLDER: 'Opišite Vaše iskustvo s ovim instruktorom',
         REVIEWS: 'recenzije',
         THANKS_MESSAGE: 'Hvala na recenziji!',
         NEW_TUTOR: 'Novi instruktor',
         COMPLETED_LESSONS: {
             PART_1: 'Završili ste ',
-            PART_2: ' predavanja s ovim instruktorom',
+            PART_2: ' predavanja s ovim instruktorom.',
         },
-        COMMENT_LABEL: 'Kakvo je bilo vaše cjelokupno iskustvo s ovim učiteljem?',
+        COMMENT_LABEL: 'Opišite Vaše iskustvo s ovim instruktorom.',
     },
 
     COMPLETE_PROFILE: {

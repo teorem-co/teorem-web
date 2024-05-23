@@ -107,7 +107,7 @@ const ReviewModal: FC<Props> = (props: Props) => {
                         <div className="modal__head flex flex--col flex--center">
                             <i className={'icon icon--xxl icon--review-modal icon--primary cur--default'}></i>
                             <div className="type--md type--wgt--bold">{t('WRITE_REVIEW.SECTION_TITLE')}</div>
-                            <p className={'type--center type--base type--color--secondary'}>{t('WRITE_REVIEW.SUBTITLE')}</p>
+                            <p className={'type--center type--normal type--color--secondary mt-3 mb-3'}>{t('WRITE_REVIEW.SUBTITLE')}</p>
                         </div>
                     )}
                     {/*<i onClick={closeModal} className="modal__close icon icon--base icon--close icon--grey"></i>*/}
@@ -163,7 +163,7 @@ const ReviewModal: FC<Props> = (props: Props) => {
                                             </span>
                                         </div>
                                     ) : (
-                                        <div className="flex flex--col flex--ai--end">
+                                        <div className="flex flex--col flex--ai--end type--wgt--extra-bold">
                                             <div>{t('WRITE_REVIEW.NEW_TUTOR')}</div>
                                         </div>
                                     )}
@@ -254,7 +254,9 @@ const ReviewModal: FC<Props> = (props: Props) => {
                                                     maxLength: 300,
                                                 }}
                                             />
-                                            <span className={'type--right d--b'}>{formik.values.review.length}/300</span>
+                                            <span className={'type--right type--color--tertiary type--wgt--extra-bold d--b'}>
+                                                {formik.values.review.length}/300
+                                            </span>
                                         </div>
                                     </Form>
                                 </FormikProvider>
@@ -268,7 +270,7 @@ const ReviewModal: FC<Props> = (props: Props) => {
                                 >
                                     {t('WRITE_REVIEW.SUBMIT')}
                                 </ButtonPrimaryGradient>
-                                <button onClick={handleClose} className="btn btn--base btn--clear w--100">
+                                <button onClick={handleClose} className="btn btn--base btn--clear btn--tertiary type--color--secondary w--100">
                                     {t('WRITE_REVIEW.CANCEL')}
                                 </button>
                             </div>

@@ -31,7 +31,7 @@ const RatingField: React.FC<IRatingField> = (props: IRatingField) => {
     return (
         <div className={'flex flex--col'}>
             <div className={'flex flex--col'}>
-                <Rating onClick={handleRating} fillColor={'black'} size={25} />
+                <Rating onClick={handleRating} fillColor={'black'} size={20} />
             </div>
 
             {/*<div className="field__validation">{errorText ? errorText : ''}</div>*/}
