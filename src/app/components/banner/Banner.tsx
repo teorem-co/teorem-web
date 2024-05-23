@@ -27,8 +27,8 @@ export const Banner = (props: Props) => {
             <p className={'type--normal'}> {text}</p>
             <div className={'flex--row flex  flex--center mr-5 banner'}>
                 {redirectionPath && (
-                    <NavLink to={redirectionPath} className="ml-6 mr-5 type--start type--wgt--bold type--color--white align-self-end">
-                        <button onClick={hide} className={'btn btn--base btn--secondary'}>
+                    <NavLink className="ml-6 mr-5 type--start type--wgt--bold type--color--white align-self-end" to={redirectionPath}>
+                        <button className={'btn btn--base btn--secondary'} onClick={hide}>
                             {buttonText}
                         </button>
                     </NavLink>

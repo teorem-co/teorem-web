@@ -218,7 +218,7 @@ const PublicTutorProfile = () => {
                                                 <div className="flex flex--col w--100 flex--jc--center flex--ai--center flex--gap-30 type--sm">
                                                     <div className="flex flex--center tag tag--primary">
                                                         <div className=" flex flex--center">
-                                                            <i className="icon icon--completed-lessons icon--base icon--primary"></i>
+                                                            <i className="icon icon--completed-lessons icon--base icon--primary cur--default"></i>
                                                             <span className="d--ib mr-1">
                                                                 {tutorData.completedLessons
                                                                     ? tutorData.completedLessons
@@ -389,7 +389,7 @@ const PublicTutorProfile = () => {
 
                                                             <div className="flex flex--center tag tag--primary field__w-fit-content mt-5">
                                                                 <div className=" flex flex--center">
-                                                                    <i className="icon icon--completed-lessons icon--base icon--primary"></i>
+                                                                    <i className="icon icon--completed-lessons icon--base icon--primary cur--default"></i>
                                                                     <span className="d--ib mr-1">
                                                                         {tutorData.completedLessons
                                                                             ? tutorData.completedLessons
@@ -410,15 +410,17 @@ const PublicTutorProfile = () => {
                                                                 <div className="flex flex--row flex--ai--center flex--jc--space-around mt-2 mb-2">
                                                                     {tutorData.averageGrade > 0 && tutorData.numberOfGrades ? (
                                                                         <div className="flex flex--col flex--ai--center">
-                                                                            <div className="flex flex--row flex--ai--center">
-                                                                                <i className="icon icon--base icon--star"></i>
-                                                                                <span className={'type--md type--wgt--extra-bold'}>
-                                                                                    {tutorData.averageGrade.toFixed(1)}
+                                                                            <a href="#reviews" className={'type--no-decoration'}>
+                                                                                <div className="flex flex--row flex--ai--center">
+                                                                                    <i className="icon icon--base icon--star"></i>
+                                                                                    <span className={'type--md type--wgt--extra-bold'}>
+                                                                                        {tutorData.averageGrade.toFixed(1)}
+                                                                                    </span>
+                                                                                </div>
+                                                                                <span>
+                                                                                    {tutorData.numberOfGrades}&nbsp;{t('TUTOR_PROFILE.REVIEWS')}
                                                                                 </span>
-                                                                            </div>
-                                                                            <span>
-                                                                                {tutorData.numberOfGrades}&nbsp;{t('TUTOR_PROFILE.REVIEWS')}
-                                                                            </span>
+                                                                            </a>
                                                                         </div>
                                                                     ) : (
                                                                         // <span className={'type--md type--wgt--extra-bold'}>
@@ -652,42 +654,79 @@ const PublicTutorProfile = () => {
 
                                     <div className="mb-10">
                                         <div className="type--wgt--bold mb-2">{t('TUTOR_PROFILE.RATING.TITLE')}</div>
-                                        <div className="flex flex--jc--space-between">
-                                            <div className="flex flex--col flex--ai--center">
-                                                <div className="review-mark-big">
-                                                    {tutorStatistics?.statistic ? tutorStatistics.statistic.toFixed(1) : 0}
-                                                </div>
+                                        <div className="flex flex--jc--space-between flex--row flex--wrap reviews-flex-container">
+                                            <div className={'flex flex--row flex--center flex-gap-10'}>
+                                                <div className="flex flex--col flex--ai--center">
+                                                    <div className="review-mark-big bg-color-light">
+                                                        {tutorStatistics?.statistic ? tutorStatistics.statistic.toFixed(1) : 0}
+                                                    </div>
 
+                                                    <div className="type--color--secondary">
+                                                        {myReviews?.count}&nbsp;{t('WRITE_REVIEW.REVIEWS')}
+                                                    </div>
+                                                </div>
                                                 {tutorStatistics && (
-                                                    <StarRating mark={tutorStatistics.statistic} size={isMobile ? 'small' : 'medium'} />
+                                                    <table className={'table--no-border'}>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td className={'text-align--start'}>{t('WRITE_REVIEW.PUNCTUALITY')}</td>
+                                                                <td className={'flex'}>
+                                                                    <StarRating
+                                                                        mark={tutorStatistics.punctuality}
+                                                                        size={isMobile ? 'small' : 'medium'}
+                                                                    />
+                                                                </td>
+                                                                <td className={''}>{tutorStatistics.punctuality.toFixed(1)}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td className={'text-align--start'}>{t('WRITE_REVIEW.KNOWLEDGE')}</td>
+                                                                <td className={'flex'}>
+                                                                    <StarRating
+                                                                        mark={tutorStatistics.knowledge}
+                                                                        size={isMobile ? 'small' : 'medium'}
+                                                                    />
+                                                                </td>
+                                                                <td className={''}>{tutorStatistics.knowledge.toFixed(1)}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td className={'text-align--start '}>{t('WRITE_REVIEW.COMMUNICATION')}</td>
+                                                                <td className={'flex'}>
+                                                                    <StarRating
+                                                                        mark={tutorStatistics.communication}
+                                                                        size={isMobile ? 'small' : 'medium'}
+                                                                    />
+                                                                </td>
+                                                                <td className={''}>{tutorStatistics.communication.toFixed(1)}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
                                                 )}
-                                                <div className="type--color--secondary">({myReviews?.count})</div>
                                             </div>
-                                            <div>
-                                                <Ratings ratings={tutorStatistics ? tutorStatistics.result : []} />
-                                            </div>
+                                            <Ratings ratings={tutorStatistics ? tutorStatistics.result : []} />
                                         </div>
                                     </div>
                                     <div className="divider--primary"></div>
-                                    <div>
-                                        {myReviews && myReviews.rows.length > 0 ? (
-                                            <>
+                                    <section id={'reviews'}>
+                                        <div>
+                                            {myReviews && myReviews.rows.length > 0 ? (
+                                                <>
+                                                    <div className="reviews-list">
+                                                        {loadedMyReviews &&
+                                                            loadedMyReviews.map((item: IMyReview, index: number) => (
+                                                                <ReviewItem key={index} reviewItem={item} />
+                                                            ))}
+                                                    </div>
+                                                </>
+                                            ) : (
                                                 <div className="reviews-list">
-                                                    {loadedMyReviews &&
-                                                        loadedMyReviews.map((item: IMyReview, index: number) => (
-                                                            <ReviewItem key={index} reviewItem={item} />
-                                                        ))}
+                                                    <div className="type--center mt-22">
+                                                        <h1 className="type--xxl">{t('MY_REVIEWS.NO_RESULT.TITLE')}</h1>
+                                                        <p className="type--color--secondary">{t('MY_REVIEWS.NO_RESULT.DESC')}</p>
+                                                    </div>
                                                 </div>
-                                            </>
-                                        ) : (
-                                            <div className="reviews-list">
-                                                <div className="type--center mt-22">
-                                                    <h1 className="type--xxl">{t('MY_REVIEWS.NO_RESULT.TITLE')}</h1>
-                                                    <p className="type--color--secondary">{t('MY_REVIEWS.NO_RESULT.DESC')}</p>
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
+                                            )}
+                                        </div>
+                                    </section>
                                 </div>
                             </div>
                         </div>

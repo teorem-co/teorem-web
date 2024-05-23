@@ -262,3 +262,19 @@ progress::-moz-progress-bar {
     width: 200px;
   }
 }
+
+.bg-color-light {
+  background-color: $color-primary-lighter;
+  padding: 0 15px;
+  border-radius: 15px;
+}
+
+.reviews-flex-container {
+  justify-content: space-between;
+  align-items: center;
+
+  @media (max-width: $responsive-sm) {
+    justify-content: center;
+    gap: 20px;
+  }
+}

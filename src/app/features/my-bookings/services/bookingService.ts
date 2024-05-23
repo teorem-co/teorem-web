@@ -70,6 +70,12 @@ export interface IBookingWithTutorParams {
     dateTo: string;
 }
 
+export interface IRecentBooking {
+    bookingId: string;
+    tutorName: string;
+    subjectAbrv: string;
+}
+
 const URL = '/api/v1/bookings';
 
 export const bookingService = baseService.injectEndpoints({
@@ -241,6 +247,13 @@ export const bookingService = baseService.injectEndpoints({
             },
             providesTags: ['bookings'],
         }),
+
+        getRecentBookings: builder.query<IRecentBooking[], void>({
+            query: () => ({
+                url: `${URL}/recent`,
+                method: HttpMethods.GET,
+            }),
+        }),
     }),
 });
 
@@ -261,4 +274,5 @@ export const {
     useDenyRescheduleRequestMutation,
     useLazyGetPendingBookingsQuery,
     useLazyGetBookingsWithTutorQuery,
+    useLazyGetRecentBookingsQuery,
 } = bookingService;

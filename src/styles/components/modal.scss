@@ -328,8 +328,10 @@
 }
 
 .review-modal {
-  @media screen {
-    width: calc(100vw - 10px);
+  width: 450px;
+  border-radius: 10px;
+  @media (max-width: $responsive-md) {
+    width: calc(100vw - $unit * 6);
   }
 }
 

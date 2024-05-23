@@ -24,11 +24,12 @@ import ImageCircle from '../../components/ImageCircle';
 import MediaQuery from 'react-responsive';
 import { AiOutlineLeft } from 'react-icons/ai';
 import { ButtonPrimaryGradient } from '../../components/ButtonPrimaryGradient';
+import { useLocation } from 'react-router';
 
 const CompletedLessons = () => {
     const [studentCompletedBookings, setStudentCompletedBookings] = useState<IBookingInfo[]>([]);
     const [page, setPage] = useState<number>(0);
-    const lessonsRpp = 10;
+    const lessonsRpp = 20;
     const [activeLesson, setActiveLesson] = useState<ICompletedLesson | null>(null);
     const studentBookingsRef = useRef<HTMLDivElement>(null);
     const asideContainerRef = useRef<HTMLDivElement>(null);
@@ -139,7 +140,7 @@ const CompletedLessons = () => {
                 subjectId: currentlyActiveLesson?.subjectId,
                 tutorId: currentlyActiveLesson?.tutorId,
                 studentId: currentlyActiveLesson?.studentId,
-                page: 0,
+                page: 0, // TODO: do pagination
                 rpp: lessonsRpp,
             };
 
@@ -169,7 +170,20 @@ const CompletedLessons = () => {
         return moment(startTime).format('MMMM').charAt(0).toUpperCase() + moment(startTime).format('MMMM').slice(1);
     };
 
-    const [dropdownVisible, setDropdownVisible] = useState(false);
+    const [bookingId, setBookingId] = useState<string | null>(null);
+
+    const location = useLocation();
+
+    useEffect(() => {
+        const queryParams = new URLSearchParams(location.search);
+        const bookingIdURL = queryParams.get('bookingId');
+        const showModal = queryParams.get('showModal');
+
+        if (bookingIdURL && showModal === 'true') {
+            setBookingId(bookingIdURL);
+            setActiveReviewModal(true);
+        }
+    }, [location]);
 
     return (
         <>
@@ -295,7 +309,11 @@ const CompletedLessons = () => {
                                                 <div>
                                                     {!activeLesson.isReview && userRole !== 'child' && (
                                                         <button
-                                                            onClick={() => setActiveReviewModal(true)}
+                                                            onClick={() => {
+                                                                setActiveReviewModal(true);
+                                                                console.log(activeLesson?.id);
+                                                                setBookingId(studentCompletedBookings[0].bookingId); // doesn't matter which booking id we send
+                                                            }}
                                                             className="btn btn--base btn--secondary mr-4"
                                                         >
                                                             {t('COMPLETED_LESSONS.LEAVE_REVIEW')}
@@ -481,7 +499,11 @@ const CompletedLessons = () => {
                                                 <div className="flex flex--row flex--ai--center flex--jc--center">
                                                     {!activeLesson.isReview && userRole !== 'child' && (
                                                         <button
-                                                            onClick={() => setActiveReviewModal(true)}
+                                                            onClick={() => {
+                                                                setActiveReviewModal(true);
+                                                                console.log(activeLesson?.id);
+                                                                setBookingId(studentCompletedBookings[0].bookingId); // doesn't matter which booking id we send
+                                                            }}
                                                             className="btn btn--base btn--secondary mr-4"
                                                         >
                                                             {t('COMPLETED_LESSONS.LEAVE_REVIEW')}
@@ -542,8 +564,14 @@ const CompletedLessons = () => {
                         </MediaQuery>
                     </div>
                 </div>
-                {activeReviewModal ? (
-                    <ReviewModal activeLesson={activeLesson} handleClose={() => setActiveReviewModal(false)} onCompletedReview={onReviewSubmit} />
+                {activeReviewModal && bookingId ? (
+                    <ReviewModal
+                        bookingId={bookingId}
+                        handleClose={() => setActiveReviewModal(false)}
+                        onCompletedReview={onReviewSubmit}
+                        id={activeLesson?.id}
+                        fetchCompletedLessons={fetchData}
+                    />
                 ) : (
                     <></>
                 )}
