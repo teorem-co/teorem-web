@@ -115,6 +115,7 @@ const ReviewModal: FC<Props> = (props: Props) => {
                     {isSuccess && (
                         <div className={'modal__body'}>
                             <>
+                                <p className={'type--center type--md'}>{t('WRITE_REVIEW.THANKS_MESSAGE')}</p>
                                 <Lottie
                                     loop={false}
                                     speed={0.7}
@@ -125,14 +126,13 @@ const ReviewModal: FC<Props> = (props: Props) => {
                                     }}
                                 ></Lottie>
 
-                                {showThanksText && (
-                                    <div className={'flex flex--col flex--ai--center  w--fit-content align--center'}>
-                                        <p className={'type--center type--md'}>{t('WRITE_REVIEW.THANKS_MESSAGE')}</p>
-                                        <ButtonPrimaryGradient onClick={handleClose} className="btn btn--base w--100 mt-3">
-                                            {t('WRITE_REVIEW.FINISH')}
-                                        </ButtonPrimaryGradient>
-                                    </div>
-                                )}
+                                {/*{showThanksText && (*/}
+                                <div className={'flex flex--col flex--ai--center  w--fit-content align--center'}>
+                                    <ButtonPrimaryGradient onClick={handleClose} className="btn btn--base w--100">
+                                        {t('WRITE_REVIEW.FINISH')}
+                                    </ButtonPrimaryGradient>
+                                </div>
+                                {/*)}*/}
                             </>
                         </div>
                     )}

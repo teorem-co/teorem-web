@@ -88,10 +88,10 @@ const MainWrapper = (props: Props) => {
                     <>
                         <Banner
                             text={
-                                `${t('BANNER.REVIEW.PART_1')}${recentBookings[0].tutorName} ${t('BANNER.REVIEW.PART_2')}
-                        ${t('SUBJECTS.' + recentBookings[0].subjectAbrv.replaceAll('-', ''))}` +
-                                '. ' +
-                                t('BANNER.REVIEW.TOOLTIP')
+                                `${t('BANNER.REVIEW.PART_1')}${t('SUBJECTS.' + recentBookings[0].subjectAbrv.replaceAll('-', ''))} ${t(
+                                    'BANNER.REVIEW.PART_2'
+                                )}
+                                ${recentBookings[0].tutorName}` + t('BANNER.REVIEW.PART_3')
                             }
                             hide={() => {
                                 setHideReviewBanner('true');

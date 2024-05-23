@@ -1620,9 +1620,9 @@ export const HR_HR = {
     },
     BANNER: {
         REVIEW: {
-            PART_1: 'Nedavno ste imali instrukcije s instruktorom ',
-            PART_2: 'iz predmeta ',
-            PART_3: '. Molimo ostavite recenziju.',
+            PART_1: 'Nedavno ste imali lekciju iz predmeta ',
+            PART_2: 's instruktorom ',
+            PART_3: '. Odvojite trenutak da podijelite svoje iskustvo ostavljajući recenziju.',
             TOOLTIP: 'Ostavljanje recenzije pomaže ostalima. Stvara učinkovito i transparentno okruženje.',
         },
         ADD_CHILD: {
