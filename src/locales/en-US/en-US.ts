@@ -614,6 +614,7 @@ export const EN_US = {
         SUBMIT: 'Post',
         CANCEL: 'Cancel',
         CLOSE: 'Close',
+        FINISH: 'Finish',
         HEADING_PLACEHOLDER: 'Write title of your review',
         TEXT_PLACEHOLDER: 'Describe your overall experience with this tutor',
         REVIEWS: 'reviews',

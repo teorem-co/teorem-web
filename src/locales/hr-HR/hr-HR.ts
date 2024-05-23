@@ -611,6 +611,7 @@ export const HR_HR = {
         SUBMIT: 'Objavi',
         CANCEL: 'Odustani',
         CLOSE: 'Zatvori',
+        FINISH: 'Završi',
         HEADING_PLACEHOLDER: 'Napiši naslov svoje recenzije',
         TEXT_PLACEHOLDER: 'Opišite Vaše iskustvo s ovim instruktorom',
         REVIEWS: 'recenzije',

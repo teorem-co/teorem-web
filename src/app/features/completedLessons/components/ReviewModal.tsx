@@ -125,7 +125,14 @@ const ReviewModal: FC<Props> = (props: Props) => {
                                     }}
                                 ></Lottie>
 
-                                {showThanksText && <p className={'type--center type--md'}>{t('WRITE_REVIEW.THANKS_MESSAGE')}</p>}
+                                {showThanksText && (
+                                    <div className={'flex flex--col flex--ai--center  w--fit-content align--center'}>
+                                        <p className={'type--center type--md'}>{t('WRITE_REVIEW.THANKS_MESSAGE')}</p>
+                                        <ButtonPrimaryGradient onClick={handleClose} className="btn btn--base w--100 mt-3">
+                                            {t('WRITE_REVIEW.FINISH')}
+                                        </ButtonPrimaryGradient>
+                                    </div>
+                                )}
                             </>
                         </div>
                     )}
@@ -275,11 +282,6 @@ const ReviewModal: FC<Props> = (props: Props) => {
                                 </button>
                             </div>
                         </>
-                    )}
-                    {isSuccess && showThanksText && (
-                        <button onClick={handleClose} className="btn btn--base btn--clear w--100">
-                            {t('WRITE_REVIEW.CLOSE')}
-                        </button>
                     )}
                 </div>
             </div>
