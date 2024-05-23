@@ -114,12 +114,12 @@ const ReviewModal: FC<Props> = (props: Props) => {
                 <div className="modal review-modal ">
                     {!isSuccess && (
                         <div className="modal__head flex flex--col flex--center">
-                            <i className={'icon icon--xxl icon--review-modal icon--primary'}></i>
+                            <i className={'icon icon--xxl icon--review-modal icon--primary cur--default'}></i>
                             <div className="type--md type--wgt--bold">{t('WRITE_REVIEW.SECTION_TITLE')}</div>
                             <p className={'type--center type--base type--color--secondary'}>{t('WRITE_REVIEW.SUBTITLE')}</p>
                         </div>
                     )}
-                    <i onClick={closeModal} className="modal__close icon icon--base icon--close icon--grey"></i>
+                    {/*<i onClick={closeModal} className="modal__close icon icon--base icon--close icon--grey"></i>*/}
 
                     {isSuccess && (
                         <div className={'modal__body'}>
@@ -161,10 +161,10 @@ const ReviewModal: FC<Props> = (props: Props) => {
                                         </div>
                                     )}
 
-                                    {infoData?.averageGrade && infoData?.averageGrade > 0 ? (
+                                    {infoData?.averageGrade && infoData?.averageGrade > 0 && infoData.totalNumberOfReviews > 0 ? (
                                         <div className="flex flex--col flex--ai--end">
                                             <div className="flex flex--row flex--ai--center">
-                                                <i className="icon icon--sm icon--star"></i>
+                                                <i className="icon icon--sm icon--star cur--default"></i>
                                                 <span className={'type--wgt--extra-bold'}>{infoData?.averageGrade.toFixed(1)}</span>
                                             </div>
                                             <span className={'type--sm'}>
@@ -282,6 +282,11 @@ const ReviewModal: FC<Props> = (props: Props) => {
                                 </button>
                             </div>
                         </>
+                    )}
+                    {isSuccess && showThanksText && (
+                        <button onClick={handleClose} className="btn btn--base btn--clear w--100">
+                            {t('WRITE_REVIEW.CLOSE')}
+                        </button>
                     )}
                 </div>
             </div>
