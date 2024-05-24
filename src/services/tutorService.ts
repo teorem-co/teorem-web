@@ -331,6 +331,12 @@ export const tutorService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
+        getIsTutorDisabled: builder.query<boolean, string>({
+            query: (tutorId) => ({
+                url: `${URL}/${tutorId}/is-disabled`,
+                method: HttpMethods.GET,
+            }),
+        }),
     }),
 });
 
@@ -360,6 +366,7 @@ export const {
     useLazyGetTutorUnavalabilitesForCalendarQuery,
     useLazyGetTutorTimeZoneQuery,
     useLazyGetTutorGeneralUnavailabilityQuery,
+    useLazyGetIsTutorDisabledQuery,
 } = tutorService;
 
 export function getUserRoleAbbrv() {
