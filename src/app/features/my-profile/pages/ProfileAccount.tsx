@@ -620,7 +620,7 @@ const ProfileAccount = () => {
                 </div>
 
                 {/*TODO: this is profile visibility*/}
-                {userRole === RoleOptions.Tutor && isSuccessGettingProfileVisibility ? (
+                {userRole === RoleOptions.Tutor && isSuccessGettingProfileVisibility && (
                     <div className="card--profile__section">
                         <div>
                             <div className="mb-2 type--wgt--bold">{t('MY_PROFILE.TUTOR_DISABLE.TITLE')}</div>
@@ -668,8 +668,6 @@ const ProfileAccount = () => {
                             )}
                         </div>
                     </div>
-                ) : (
-                    <LoaderSecondary />
                 )}
                 <StripeConnectForm
                     onConnect={(accountId: string) => {
