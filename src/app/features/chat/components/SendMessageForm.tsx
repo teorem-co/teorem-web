@@ -133,7 +133,6 @@ const SendMessageForm = (props: Props) => {
         if (event.key === 'Enter' && !event.shiftKey) {
             event.preventDefault();
             // Here you can add the action you want to perform on Enter without Shift
-            console.log('Submit the form or do something else');
             onSubmit(event);
         }
         // If Shift+Enter is pressed, it will naturally insert a newline
@@ -149,9 +148,7 @@ const SendMessageForm = (props: Props) => {
         if (lines !== lineCount) {
             if (lines <= maxLines) {
                 setLineCount(lines);
-                console.log('setting lines to', `${baseHeight + lineHeight * Math.min(lineCount, maxLines)}%`);
             } else if (lineCount > maxLines && lines < lineCount) {
-                console.log('setting lines to in ELSE', `${baseHeight + lineHeight * Math.min(lineCount, maxLines)}%`);
                 setLineCount(lines);
             }
         }
