@@ -12,6 +12,7 @@ import { Banner } from './banner/Banner';
 import { IRecentBooking, useLazyGetRecentBookingsQuery } from '../features/my-bookings/services/bookingService';
 import { PROFILE_PATHS } from '../routes';
 import { useLazyGetChildrenQuery } from '../../services/userService';
+import { useLazyGetVideoPreviewInfoQuery } from '../../services/tutorService';
 
 interface Props {
     children: JSX.Element | JSX.Element[];
@@ -31,8 +32,10 @@ const MainWrapper = (props: Props) => {
     const [hideBanner, setHideBanner] = useState<string | null>(null);
     const [hideStripeBanner, setHideStripeBanner] = useState<string | null>(null);
     const [hideReviewBanner, setHideReviewBanner] = useState<string | null>(null);
+    const [hideVideoBanner, setHideVideoBanner] = useState<string | null>(null);
     const [hideAddChildBanner, setHideAddChildBanner] = useState<string | null>(null);
     const [getRecentBookings] = useLazyGetRecentBookingsQuery();
+    const [getVideoPreviewInfo] = useLazyGetVideoPreviewInfoQuery();
     const [recentBookings, setRecentBookings] = useState<IRecentBooking[]>([]);
     const userId = useAppSelector((state) => state.auth.user?.id);
     const [getChildren, { data: childrenData, isLoading: childrenLoading, isSuccess: childrenSuccess }] = useLazyGetChildrenQuery();
@@ -46,12 +49,14 @@ const MainWrapper = (props: Props) => {
         setHideStripeBanner(sessionStorage.getItem('hideStripeBanner'));
         setHideReviewBanner(sessionStorage.getItem('hideReviewBanner'));
         setHideAddChildBanner(sessionStorage.getItem('hideAddChildBanner'));
+        setHideVideoBanner(sessionStorage.getItem('hideVideoBanner'));
 
         if (userId && userRole === RoleOptions.Parent) {
             getChildren(userId);
         }
         if (loggedInUser) {
             fetchRecentBookings();
+            fetchVideoPreviewInfo();
         }
     }, []);
 
@@ -66,6 +71,19 @@ const MainWrapper = (props: Props) => {
                     setRecentBookings(res);
                     if (res.length == 0) {
                         sessionStorage.setItem('hideReviewBanner', 'true');
+                    }
+                });
+        }
+    }
+
+    async function fetchVideoPreviewInfo() {
+        if (userRole === RoleOptions.Tutor && !sessionStorage.getItem('hideVideoBanner')) {
+            getVideoPreviewInfo()
+                .unwrap()
+                .then((res) => {
+                    if (res.videoUploaded) {
+                        sessionStorage.setItem('hideVideoBanner', 'true');
+                        setHideVideoBanner('true');
                     }
                 });
         }
@@ -99,6 +117,20 @@ const MainWrapper = (props: Props) => {
                             }}
                             redirectionPath={`${t('PATHS.COMPLETED_LESSONS')}?bookingId=${recentBookings[0].bookingId}&showModal=true`}
                             buttonText={t('COMPLETED_LESSONS.LEAVE_REVIEW')}
+                        />
+                    </>
+                )}
+
+                {!hideVideoBanner && userRole === RoleOptions.Tutor && (
+                    <>
+                        <Banner
+                            text={t('BANNER.VIDEO_PREVIEW.TEXT')}
+                            hide={() => {
+                                setHideVideoBanner('true');
+                                sessionStorage.setItem('hideVideoBanner', 'true');
+                            }}
+                            redirectionPath={PROFILE_PATHS.MY_PROFILE_INFO_ADDITIONAL}
+                            buttonText={t('BANNER.VIDEO_PREVIEW.BUTTON')}
                         />
                     </>
                 )}
