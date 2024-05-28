@@ -1628,5 +1628,9 @@ export const HR_HR = {
         ADD_CHILD: {
             BUTTON: 'Dodaj dijete',
         },
+        VIDEO_PREVIEW: {
+            TEXT: 'Dodajte video na svoj profil kako biste povećali svoju vidljivost roditeljima. Od 30. lipnja 2024. videozapisi postat će obavezni kako biste zadržali svoj profil instruktora.',
+            BUTTON: 'Dodaj video',
+        },
     },
 };

@@ -96,6 +96,10 @@ export interface IDeclineTutorVideo {
     message: string;
 }
 
+export interface IVideoPreviewInfo {
+    videoUploaded: boolean;
+}
+
 const URL = 'api/v1/tutors';
 const BOOKING_URL = 'api/v1/bookings';
 
@@ -337,6 +341,12 @@ export const tutorService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
+        getVideoPreviewInfo: builder.query<IVideoPreviewInfo, void>({
+            query: () => ({
+                url: `${URL}/is-video-uploaded`,
+                method: HttpMethods.GET,
+            }),
+        }),
     }),
 });
 
@@ -367,6 +377,7 @@ export const {
     useLazyGetTutorTimeZoneQuery,
     useLazyGetTutorGeneralUnavailabilityQuery,
     useLazyGetIsTutorDisabledQuery,
+    useLazyGetVideoPreviewInfoQuery,
 } = tutorService;
 
 export function getUserRoleAbbrv() {
