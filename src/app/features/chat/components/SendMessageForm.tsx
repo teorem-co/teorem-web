@@ -13,7 +13,7 @@ interface Props {
 }
 
 const SendMessageForm = (props: Props) => {
-    const newMessageRef = useRef<HTMLInputElement>(null);
+    const newMessageRef = useRef<HTMLTextAreaElement>(null);
     const fileRef = useRef<HTMLInputElement>(null);
 
     const chat = useAppSelector((state) => state.chat);
@@ -54,7 +54,10 @@ const SendMessageForm = (props: Props) => {
 
                 props.scrollOnSend();
 
-                if (newMessageRef.current) newMessageRef.current.value = '';
+                if (newMessageRef.current) {
+                    newMessageRef.current.value = '';
+                    setLineCount(1);
+                }
             }
         }
     };
@@ -126,6 +129,34 @@ const SendMessageForm = (props: Props) => {
         }
     }, [isSuccessPostFile]);
 
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault();
+            // Here you can add the action you want to perform on Enter without Shift
+            console.log('Submit the form or do something else');
+            onSubmit(event);
+        }
+        // If Shift+Enter is pressed, it will naturally insert a newline
+    };
+
+    const [lineCount, setLineCount] = useState(1);
+    const baseHeight = 25; // Initial height in percent
+    const lineHeight = 20; // Additional height per line in percent
+    const maxLines = 4;
+
+    const handleInput = () => {
+        const lines = newMessageRef.current?.value.split('\n').length || 1;
+        if (lines !== lineCount) {
+            if (lines <= maxLines) {
+                setLineCount(lines);
+                console.log('setting lines to', `${baseHeight + lineHeight * Math.min(lineCount, maxLines)}%`);
+            } else if (lineCount > maxLines && lines < lineCount) {
+                console.log('setting lines to in ELSE', `${baseHeight + lineHeight * Math.min(lineCount, maxLines)}%`);
+                setLineCount(lines);
+            }
+        }
+    };
+
     return (
         <>
             {/*{fileToSend && <div className="chat-file-message-send"><button className="close-button-popup" onClick={onCancelFileSend}><i className="icon--close"></i></button><p>{fileToSend.name}</p><button onClick={onFileSend}><i className="icon--upload"></i></button></div>}*/}
@@ -134,7 +165,16 @@ const SendMessageForm = (props: Props) => {
                     <label htmlFor="uploadFile" className="file-upload-label">
                         <ImAttachment className="border-hover" size="25" />
 
-                        <input ref={fileRef} type="file" id="uploadFile" name="uploadFile" onChange={onFileUpload} style={{ display: 'none' }} />
+                        <input
+                            ref={fileRef}
+                            type="file"
+                            id="uploadFile"
+                            name="uploadFile"
+                            onChange={onFileUpload}
+                            style={{
+                                display: 'none',
+                            }}
+                        />
                     </label>
 
                     {/*<div className="flex--shrink input-file-relative">*/}
@@ -143,7 +183,17 @@ const SendMessageForm = (props: Props) => {
                     {/*/!*    className="input-file-hidden"*!/*/}
                     {/*</div>*/}
 
-                    <input ref={newMessageRef} type="textArea" className="input ml-5 p-2 mr-5" />
+                    <textarea
+                        ref={newMessageRef}
+                        className="input ml-5 p-2 mr-5"
+                        onInput={handleInput}
+                        onKeyDown={handleKeyDown}
+                        style={{
+                            resize: 'none',
+                            height: `${baseHeight + lineHeight * Math.min(lineCount, maxLines)}%`,
+                            maxHeight: '85%',
+                        }}
+                    />
                     <IoSendSharp className={'cur--pointer scale-hover--scale-105'} size="25" onClick={onSubmit} />
                 </form>
             </div>
