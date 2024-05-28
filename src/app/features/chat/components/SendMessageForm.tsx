@@ -157,6 +157,31 @@ const SendMessageForm = (props: Props) => {
         }
     };
 
+    const [text, setText] = useState('');
+    const handleKeyDown2 = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault(); // Prevent the default Enter key behavior (e.g., form submission)
+            // Manually add a newline at the current cursor position
+            const currentValue = newMessageRef.current?.value;
+            const selectionStart = newMessageRef.current?.selectionStart;
+            const selectionEnd = newMessageRef.current?.selectionEnd;
+            if (currentValue !== undefined && selectionStart !== undefined && selectionEnd !== undefined) {
+                const before = currentValue.substring(0, selectionStart);
+                const after = currentValue.substring(selectionEnd);
+                setText(before + '\n' + after);
+                // Setting cursor position right after the inserted newline
+                setTimeout(() => {
+                    newMessageRef.current!.selectionStart = selectionStart + 1;
+                    newMessageRef.current!.selectionEnd = selectionStart + 1;
+                }, 0);
+            }
+        }
+    };
+
+    const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setText(event.target.value);
+    };
+
     return (
         <>
             {/*{fileToSend && <div className="chat-file-message-send"><button className="close-button-popup" onClick={onCancelFileSend}><i className="icon--close"></i></button><p>{fileToSend.name}</p><button onClick={onFileSend}><i className="icon--upload"></i></button></div>}*/}
@@ -187,6 +212,9 @@ const SendMessageForm = (props: Props) => {
                         ref={newMessageRef}
                         className="input ml-5 p-2 mr-5"
                         onInput={handleInput}
+                        // onKeyDown={handleKeyDown}
+                        value={text}
+                        onChange={handleChange}
                         onKeyDown={handleKeyDown}
                         style={{
                             resize: 'none',
