@@ -665,6 +665,7 @@ export const HR_HR = {
             DESCRIPTION_TUTOR: 'Odaberi kako zeliš biti plaćen za instrukcije.',
             ADD_NEW: 'Dodaj novu karticu',
             ADD_NEW_DESC: 'Izaberi za dodavanje nove kartice',
+            NOTE: 'Nakon dodavanja kartice, slijedi proces verifikacije koji uključuje privremenu naplatu od €0.00.',
         },
         NEW_CARD: {
             ADD: 'DODAJTE NOVU KARTICU',
