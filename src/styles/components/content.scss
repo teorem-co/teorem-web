@@ -10,6 +10,7 @@ $footer-height: 72px;
   flex-direction: column;
   width: 100%;
   height: 100%;
+  position: relative;
 
   //background-color: red;
 
@@ -56,10 +57,17 @@ $footer-height: 72px;
 
     //height: $footer-height;
     //height: 250px;
+    max-height: 400px;
     min-height: $footer-height;
     padding: 0 calc(#{$unit} * 6);
     border-top: 1px solid $border-color;
     background-color: $white;
+    width: 100%;
+    margin: 0 auto;
+    z-index: 10;
+
+    position: absolute;
+    bottom: 0;
 
     &--chat {
       flex-wrap: wrap;

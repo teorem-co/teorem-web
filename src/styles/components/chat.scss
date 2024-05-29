@@ -82,7 +82,7 @@
     }
 
     &__item {
-      border-radius: 50px;
+      border-radius: calc($unit * 4); //todo: change this
       padding: calc($unit * 2) calc($unit * 6);
       margin-top: 6px;
       width: fit-content;

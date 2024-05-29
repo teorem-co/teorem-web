@@ -39,7 +39,7 @@ const SendMessageForm = (props: Props) => {
                     userId: props.data.user?.userId + '',
                     message: {
                         messageNew: true,
-                        message: text,
+                        message: text.trim(),
                         createdAt: date.toISOString(),
                         isRead: false,
                         messageId: '',
@@ -139,17 +139,17 @@ const SendMessageForm = (props: Props) => {
     };
 
     const [lineCount, setLineCount] = useState(1);
-    const baseHeight = 25; // Initial height in percent
-    const lineHeight = 20; // Additional height per line in percent
-    const maxLines = 4;
+    const baseHeight = 15; // Initial height
+    const lineHeight = 20; // Additional height
+    const maxLines = 15;
 
     const handleInput = () => {
         const lines = newMessageRef.current?.value.split('\n').length || 1;
-        if (lines !== lineCount) {
+        if (lines != lineCount) {
             if (lines <= maxLines) {
                 setLineCount(lines);
-            } else if (lineCount > maxLines && lines < lineCount) {
-                setLineCount(lines);
+            } else if (lineCount > maxLines || lines > maxLines) {
+                setLineCount(maxLines);
             }
         }
     };
@@ -182,13 +182,14 @@ const SendMessageForm = (props: Props) => {
 
                     <textarea
                         ref={newMessageRef}
-                        className="input ml-5 p-2 mr-5"
+                        className="input ml-5 p-2 mr-5 mt-2"
                         onInput={handleInput}
+                        // onChange={handleInput}
                         onKeyDown={handleKeyDown}
                         style={{
                             resize: 'none',
-                            height: `${baseHeight + lineHeight * Math.min(lineCount, maxLines)}%`,
-                            maxHeight: '85%',
+                            height: `${baseHeight + lineHeight * Math.min(lineCount, maxLines)}px`,
+                            maxHeight: '300px',
                         }}
                     />
                     <IoSendSharp className={'cur--pointer scale-hover--scale-105'} size="25" onClick={onSubmit} />
