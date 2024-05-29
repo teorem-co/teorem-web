@@ -667,6 +667,7 @@ export const EN_US = {
             DESCRIPTION_TUTOR: 'Select how you would like to get paid for tutoring.',
             ADD_NEW: 'Add new Card',
             ADD_NEW_DESC: 'Select to add new Card',
+            NOTE: 'After adding your card, a verification process will occur which includes a temporary €0.00 charge.',
         },
         NEW_CARD: {
             ADD: 'ADD NEW CARD',
