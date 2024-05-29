@@ -184,7 +184,6 @@ const SendMessageForm = (props: Props) => {
                         ref={newMessageRef}
                         className="input ml-5 p-2 mr-5 mt-2"
                         onInput={handleInput}
-                        // onChange={handleInput}
                         onKeyDown={handleKeyDown}
                         style={{
                             resize: 'none',
