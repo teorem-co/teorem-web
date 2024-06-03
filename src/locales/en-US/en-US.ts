@@ -667,6 +667,7 @@ export const EN_US = {
             DESCRIPTION_TUTOR: 'Select how you would like to get paid for tutoring.',
             ADD_NEW: 'Add new Card',
             ADD_NEW_DESC: 'Select to add new Card',
+            NOTE: 'After adding your card, a verification process will occur which includes a temporary €0.00 charge.',
         },
         NEW_CARD: {
             ADD: 'ADD NEW CARD',
@@ -1622,6 +1623,10 @@ export const EN_US = {
         },
         ADD_CHILD: {
             BUTTON: 'Add child',
+        },
+        VIDEO_PREVIEW: {
+            TEXT: 'Add a video preview to your profile to boost your ranking and visibility to parents. Video previews will become mandatory to keep your tutor profile from June 30th 2024.',
+            BUTTON: 'Add video',
         },
     },
 };

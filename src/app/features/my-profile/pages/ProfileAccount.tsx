@@ -5,7 +5,12 @@ import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
 import { useChangeCurrentPasswordMutation } from '../../../../services/authService';
-import { useLazyDisableTutorQuery, useLazyEnableTutorQuery, useLazyGetProfileProgressQuery } from '../../../../services/tutorService';
+import {
+    useLazyDisableTutorQuery,
+    useLazyEnableTutorQuery,
+    useLazyGetIsTutorDisabledQuery,
+    useLazyGetProfileProgressQuery,
+} from '../../../../services/tutorService';
 import { addStripeId, connectStripe } from '../../../../slices/authSlice';
 import { RoleOptions } from '../../../../slices/roleSlice';
 import MainWrapper from '../../../components/MainWrapper';
@@ -43,6 +48,7 @@ const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY!);
 
 const ProfileAccount = () => {
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
+    const [getIsTutorDisabled, { isSuccess: isSuccessGettingProfileVisibility }] = useLazyGetIsTutorDisabledQuery();
     const [addStripeCustomer, { data: dataStripeCustomer, isSuccess: isSuccessDataStripeCustomer, isError: isErrorDataStripeCustomer }] =
         useAddCustomerMutation();
     const [setDefaultCreditCard, { isSuccess: isSuccessSetDefaultCreditCard }] = useSetDefaultCreditCardMutation();
@@ -88,6 +94,15 @@ const ProfileAccount = () => {
             setSaveBtnActive(false);
         }
     };
+
+    useEffect(() => {
+        if (userRole === RoleOptions.Tutor && userInfo) {
+            getIsTutorDisabled(userInfo.id).then((res) => {
+                if (res.data) setTutorDisabledValue(res.data);
+                else setTutorDisabledValue(false);
+            });
+        }
+    }, [userInfo]);
 
     const handlePasswordFocus = () => {
         setPassTooltip(true);
@@ -605,29 +620,52 @@ const ProfileAccount = () => {
                 </div>
 
                 {/*TODO: this is profile visibility*/}
-                {userRole === RoleOptions.Tutor && (
+                {userRole === RoleOptions.Tutor && isSuccessGettingProfileVisibility && (
                     <div className="card--profile__section">
                         <div>
                             <div className="mb-2 type--wgt--bold">{t('MY_PROFILE.TUTOR_DISABLE.TITLE')}</div>
                             <div className="type--color--tertiary w--200--max">{t('MY_PROFILE.TUTOR_DISABLE.SUBTITLE')}</div>
                         </div>
                         <div className="w--800--max">
-                            <div
-                                className={`btn btn--base btn--${tutorDisabled ? 'primary' : 'disabled'} mr-2`}
-                                onClick={() => {
-                                    setTutorDisabled(true);
-                                }}
-                            >
-                                {t('MY_PROFILE.TUTOR_DISABLE.NO')}
-                            </div>
-                            <div
-                                className={`btn btn--base btn--${!tutorDisabled ? 'primary' : 'disabled'} mr-2`}
-                                onClick={() => {
-                                    setTutorDisabled(false);
-                                }}
-                            >
-                                {t('MY_PROFILE.TUTOR_DISABLE.YES')}
-                            </div>
+                            {tutorDisabled ? (
+                                <ButtonPrimaryGradient
+                                    className={`btn btn--base mr-2`}
+                                    onClick={() => {
+                                        setTutorDisabled(true);
+                                    }}
+                                >
+                                    {t('MY_PROFILE.TUTOR_DISABLE.NO')}
+                                </ButtonPrimaryGradient>
+                            ) : (
+                                <button
+                                    className={`btn btn--base btn--disabled mr-2`}
+                                    onClick={() => {
+                                        setTutorDisabled(true);
+                                    }}
+                                >
+                                    {t('MY_PROFILE.TUTOR_DISABLE.NO')}
+                                </button>
+                            )}
+
+                            {!tutorDisabled ? (
+                                <ButtonPrimaryGradient
+                                    className={`btn btn--base mr-2`}
+                                    onClick={() => {
+                                        setTutorDisabled(false);
+                                    }}
+                                >
+                                    {t('MY_PROFILE.TUTOR_DISABLE.YES')}
+                                </ButtonPrimaryGradient>
+                            ) : (
+                                <button
+                                    className={`btn btn--base btn--disabled mr-2`}
+                                    onClick={() => {
+                                        setTutorDisabled(false);
+                                    }}
+                                >
+                                    {t('MY_PROFILE.TUTOR_DISABLE.YES')}
+                                </button>
+                            )}
                         </div>
                     </div>
                 )}
