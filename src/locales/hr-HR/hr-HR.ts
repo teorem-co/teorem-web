@@ -129,6 +129,7 @@ export const HR_HR = {
         MY_REVIEWS: 'Moje recenzije',
         SEARCH_TUTORS: 'Pretraga instruktora',
         TUTOR_MANAGMENT: 'Upravljanje instruktorima',
+        STUDENT_MANAGEMENT: 'Upravljanje studentima',
         TUTOR_VIDEOS: 'Preview videi',
         MY_PROFILE: 'Moj profil',
         COMPLETED_LESSONS: 'Završene lekcije',
@@ -237,6 +238,9 @@ export const HR_HR = {
             PREVIEW_PROFILE: 'Pregled profila',
             PHONE_NUMBER: 'BROJ TELEFONA',
             CREATED_AT: 'DATUM KREIRANJA',
+            ROLE: 'ULOGA',
+            CREDITS: 'KREDITI',
+            NUMBER_OF_LESSONS: 'PREDAVANJA',
         },
         ACTIONS: {
             APPROVE: 'Odobri',
@@ -1389,6 +1393,7 @@ export const HR_HR = {
         TERMS: '/hr/uvjeti-koristenja',
         PRIVACY: '/hr/politika-privatnosti',
         TUTOR_MANAGMENT: '/hr/upravljanje-instruktorima',
+        STUDENT_MANAGEMENT: '/hr/upravljanje-studentima',
         TUTOR_MANAGMENT_TUTOR_PROFILE: '/hr/upravljanje-instruktorima/profil/:tutorSlug',
         LANDING_PATHS: {
             HOW_IT_WORKS: '/hr/online-instrukcije',

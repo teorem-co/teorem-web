@@ -129,6 +129,7 @@ export const EN_US = {
         MY_REVIEWS: 'My reviews',
         SEARCH_TUTORS: 'Search tutors',
         TUTOR_MANAGMENT: 'Tutor managment',
+        STUDENT_MANAGEMENT: 'Student managment',
         TUTOR_VIDEOS: 'Video previews',
         MY_PROFILE: 'My Profile',
         COMPLETED_LESSONS: 'Completed lessons',
@@ -239,6 +240,9 @@ export const EN_US = {
             PREVIEW_PROFILE: 'Preview profile',
             PHONE_NUMBER: 'PHONE NUMBER',
             CREATED_AT: 'CREATED AT',
+            ROLE: 'ROLE',
+            CREDITS: 'CREDITS',
+            NUMBER_OF_LESSONS: 'LESSONS',
         },
         ACTIONS: {
             APPROVE: 'Approve',
@@ -1385,6 +1389,7 @@ export const EN_US = {
         TERMS: '/en/terms',
         PRIVACY: '/en/privacy-policy',
         TUTOR_MANAGMENT: '/en/tutor-managment',
+        STUDENT_MANAGEMENT: '/en/student-management',
         TUTOR_MANAGMENT_TUTOR_PROFILE: '/en/tutor-managment/profile/:tutorSlug',
         LANDING_PATHS: {
             HOW_IT_WORKS: '/en/online-tutoring',

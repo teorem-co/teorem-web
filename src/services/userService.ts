@@ -5,6 +5,8 @@ import { HttpMethods } from '../app/lookups/httpMethods';
 import typeToFormData from '../app/utils/typeToFormData';
 import { IChild } from '../interfaces/IChild';
 import IUser from '../interfaces/IUser';
+import IPage from '../interfaces/notification/IPage';
+import IParams from '../interfaces/IParams';
 
 const URL = '/api/v1/users';
 
@@ -33,6 +35,17 @@ export interface IDeleteChildRequest {
 
 export interface ICredits {
     credits: number;
+}
+
+export interface ITutorStudentSearch {
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    role: string;
+    numberOfCompletedLessons: number;
+    creditsAmount: number;
 }
 
 export const userService = baseService.injectEndpoints({
@@ -126,6 +139,12 @@ export const userService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
+        getStudentInformation: builder.query<IPage<ITutorStudentSearch>, IParams>({
+            query: (params) => ({
+                url: `${URL}/student-information?page=${params.page}&size=${params.rpp}`,
+                method: HttpMethods.GET,
+            }),
+        }),
     }),
 });
 
@@ -143,4 +162,5 @@ export const {
     useDisconnectStripeMutation,
     useLazyGetCreditsQuery,
     useLazyGetUserTimeZoneQuery,
+    useLazyGetStudentInformationQuery,
 } = userService;
