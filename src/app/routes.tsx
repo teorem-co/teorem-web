@@ -69,6 +69,7 @@ export const PATHS = {
   MY_BOOKINGS: t('PATHS.MY_BOOKINGS'),
   SEARCH_TUTORS: t('PATHS.SEARCH_TUTORS'),
   SEARCH_TUTORS_TUTOR_PROFILE: t('PATHS.SEARCH_TUTORS_TUTOR_PROFILE'),
+  STUDENT_PROFILE: t('PATHS.STUDENT_PROFILE'),
   SEARCH_TUTORS_TUTOR_BOOKINGS: t('PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS'),
   ONBOARDING: t('PATHS.ONBOARDING'),
   MY_REVIEWS: t('PATHS.MY_REVIEWS'),
@@ -123,16 +124,21 @@ interface IMenuPerRole {
 export const ROUTES: any = [
 
   {
+    path: PATHS.STUDENT_PROFILE,
+    key: 'STUDENT_PROFILE',
+    exact: true,
+    component: () =>
+      <PermissionsGate roles={[Role.SuperAdmin]}>
+        <StudentProfile />
+      </PermissionsGate>,
+  },
+  {
     path: '/en/test',
     key: 'entest',
     exact: true,
     component: () => (
       <PermissionsGate roles={[Role.SuperAdmin]}>
-        <StudentProfile creditsAmount={10} email={'antonio@gmail.com'}
-                        firstName={'Antonio'}
-                        lastName={'Bukovac'} numberOfCompletedLessons={10}
-                        phone={'385923560110'} role={'PARENT'}
-                        userId={'cf086ccd-18ed-4dff-adb6-5ff4db4d1573'} />
+        <StudentProfile />
       </PermissionsGate>
     ),
   },

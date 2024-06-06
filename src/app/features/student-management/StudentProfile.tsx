@@ -4,146 +4,109 @@ import {
   useLazyGetStudentBookingDetailsQuery,
 } from '../my-bookings/services/bookingService';
 import React, { useEffect, useState } from 'react';
-import { debounce } from 'lodash';
 import { t } from 'i18next';
 import moment from 'moment/moment';
 import MainWrapper from '../../components/MainWrapper';
+import { useParams } from 'react-router-dom';
+import {
+  ITutorStudentSearch,
+  useLazyGetStudentDetailsQuery,
+} from '../../../services/userService';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
-interface Props {
-  userId: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  role: string;
-  numberOfCompletedLessons: number;
-  creditsAmount: number;
-}
-
-export const StudentProfile = (props: Props) => {
-  const {
-    userId,
-    firstName,
-    lastName,
-    email,
-    phone,
-    role,
-    numberOfCompletedLessons,
-    creditsAmount,
-  } = props;
+export const StudentProfile = () => {
+  const { userId } = useParams();
 
   const [getStudentBookingDetails, { data: bookingDetails }] = useLazyGetStudentBookingDetailsQuery();
+  const [getStudentDetails, { data: studentDetails }] = useLazyGetStudentDetailsQuery();
   const [studentBookings, setStudentBookings] = useState<IStudentBookingDetails[]>([]);
+  const [studentDetailsState, setStudentDetailsState] = useState<ITutorStudentSearch>();
   const [params, setParams] = useState<IStudentBookingParams>({
     rpp: 20,
     page: 0,
     studentId: userId,
   });
 
+  async function fetchStudentDetails() {
+    const detailsResponse = await getStudentDetails(userId).unwrap();
+    setStudentDetailsState(detailsResponse);
+  }
+
   useEffect(() => {
-    fetchData();
+    fetchStudentDetails();
   }, []);
 
+  useEffect(() => {
+    fetchData();
+  }, [params]);
+
   async function fetchData() {
-
-    const params: IStudentBookingParams = {
-      studentId: userId,
-      rpp: 20,
-      page: 0, // TODO: add pagination
-    };
-
     const response = await getStudentBookingDetails(params).unwrap();
     setStudentBookings((prevItems) => [...prevItems, ...response.content]);
   }
 
-  const debouncedScrollHandler = debounce((e) => handleScroll(e), 300);
-
-  const handleScroll = async (e: HTMLDivElement) => {
-    if (bookingDetails && studentBookings.length != bookingDetails.totalElements) {
-      const innerHeight = e.scrollHeight;
-      const scrollPosition = e.scrollTop + e.clientHeight;
-
-      const roundedInnerHeight = Math.floor(innerHeight);
-      const roundedScrollPosition = Math.floor(scrollPosition);
-
-      // if (roundedInnerHeight === roundedScrollPosition) {
-      if (roundedScrollPosition / roundedInnerHeight > 0.8) {
-        // handleLoadMore();
-        if (!bookingDetails.last) {
-          const tutorResponse = await getStudentBookingDetails({
-            ...params,
-            page: bookingDetails.number + 1,
-          }).unwrap();
-          setStudentBookings((prevItems) => [...prevItems, ...tutorResponse.content]);
-        }
-      }
-    }
-  };
-
-  type GroupedBookings = {
-    [date: string]: IStudentBookingDetails[];
-  };
-
-  function groupBookingsByDate(bookings: IStudentBookingDetails[]): GroupedBookings {
-    return bookings.reduce((groupedBookings: GroupedBookings, booking) => {
-      const date = moment(booking.startTime).format('DD.MM.YYYY');
-      if (!groupedBookings[date]) {
-        groupedBookings[date] = [];
-      }
-      groupedBookings[date].push(booking);
-      return groupedBookings;
-    }, {});
+  function handleLoadMore() {
+    setParams({
+      ...params,
+      page: params.page + 1,
+    });
   }
-
-  const groupedBookings = groupBookingsByDate(studentBookings);
 
   return (
     <MainWrapper>
-      <div className={'flex flex--col'}>
+      <div className={'flex flex--col'} style={{ height: '100%' }}>
 
-        <div className='flex flex-row flex--gap-10'>
-          <div className={'flex flex--col '}>
-            <span className={'type--lg'}>{firstName}</span>
-            <span className={'type--lg'}>{lastName}</span>
-            <span className={'type--md'}>{email}</span>
-            <span className={'type--md'}>{phone}</span>
+        {studentDetailsState &&
+          <div className='h--200'>
+            <div className={'flex flex--col '}>
+              <span
+                className={'type--lg'}>{studentDetailsState.firstName}</span>
+              <span className={'type--lg'}>{studentDetailsState.lastName}</span>
+              <span className={'type--md'}>{studentDetailsState.email}</span>
+              <span className={'type--md'}>{studentDetailsState.phone}</span>
+            </div>
+            <div className={'flex flex--col type--md'}>
+              <span>Role: {studentDetailsState.role}</span>
+              <span>CompletedLessons: {studentDetailsState.numberOfCompletedLessons}</span>
+              <span>Credits: {studentDetailsState.creditsAmount}</span>
+            </div>
           </div>
-          <div className={'flex flex--col type--md'}>
-            <span>Role: {role}</span>
-            <span>CompletedLessons: {numberOfCompletedLessons}</span>
-            <span>Credits: {creditsAmount}</span>
-          </div>
-        </div>
-
-        <div onScroll={(e) => debouncedScrollHandler(e.target)}
-             className={'student-bookings outline-purple '}> {/*TODO: here should be fixed height maybe*/}
-
+        }
+        <div className={'flex--grow'}>
 
           <table className='tutors-table'>
-            <thead>
+            <thead className={'type--md'}>
             <tr className={'text-align--center type--normal'}>
-              <td width={120}>student</td>
-              <td>subject</td>
-              <td width={170}>tutor</td>
-              <td width={250}>tutor email</td>
-              <td>tutor phone</td>
-              <td>start time</td>
-              <td>created at</td>
-              <td width={100}>price</td>
-              <td width={100}>accepted</td>
-              <td width={100}>deleted</td>
-              <td width={100}>reschedule</td>
+              <td width={120}>{t('STUDENT_MANAGEMENT.TABLE.STUDENT')}</td>
+              <td>{t('STUDENT_MANAGEMENT.TABLE.SUBJECT')}</td>
+              <td width={170}>{t('STUDENT_MANAGEMENT.TABLE.TUTOR')}</td>
+              <td width={250}>{t('STUDENT_MANAGEMENT.TABLE.TUTOR_EMAIL')}</td>
+              <td>{t('STUDENT_MANAGEMENT.TABLE.TUTOR_PHONE')}</td>
+              <td>{t('STUDENT_MANAGEMENT.TABLE.START_TIME')}</td>
+              <td>{t('STUDENT_MANAGEMENT.TABLE.CREATED_AT')}</td>
+              <td width={100}>{t('STUDENT_MANAGEMENT.TABLE.PRICE')}</td>
+              <td width={100}>{t('STUDENT_MANAGEMENT.TABLE.ACCEPTED')}</td>
+              <td width={100}>{t('STUDENT_MANAGEMENT.TABLE.DELETED')}</td>
+              <td width={100}>{t('STUDENT_MANAGEMENT.TABLE.RESCHEDULE')}</td>
             </tr>
             </thead>
 
-            <tbody className='student-table-scrollable-tbody'>
-            {Object.entries(groupedBookings).map(([date, bookings]) => (
-              <React.Fragment key={date}>
-                <tr>
-                  <td colSpan={10}
-                      className='text-align--center type--md'>{date}</td>
-                </tr>
-                {bookings.map((booking) => (
+            <tbody className='d--b'>
+
+            {bookingDetails &&
+              <InfiniteScroll
+                dataLength={studentBookings.length} //This is important field to render the next data
+                next={handleLoadMore}
+                height={'80vh'}
+                hasMore={!bookingDetails.last}
+                loader={<h4>Loading...</h4>}
+                endMessage={
+                  <p style={{ textAlign: 'center' }}>
+                    <b>Yay! You have seen it all</b>
+                  </p>
+                }
+              >
+                {studentBookings.map((booking) => (
                   <tr key={booking.bookingId} className={'text-align--center'}>
                     <td width={120}>{booking.studentName}</td>
                     <td className={''}>
@@ -164,13 +127,10 @@ export const StudentProfile = (props: Props) => {
                     <td width={100}>{booking.inReschedule ? 'YES' : 'NO'}</td>
                   </tr>
                 ))}
-              </React.Fragment>
-            ))}
+              </InfiniteScroll>}
             </tbody>
           </table>
-
         </div>
-
       </div>
     </MainWrapper>
   );
