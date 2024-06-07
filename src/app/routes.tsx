@@ -133,16 +133,6 @@ export const ROUTES: any = [
       </PermissionsGate>,
   },
   {
-    path: '/en/test',
-    key: 'entest',
-    exact: true,
-    component: () => (
-      <PermissionsGate roles={[Role.SuperAdmin]}>
-        <StudentProfile />
-      </PermissionsGate>
-    ),
-  },
-  {
     path: PATHS.STUDENT_MANAGEMENT,
     key: 'STUDENT_MANAGEMENT',
     exact: true,

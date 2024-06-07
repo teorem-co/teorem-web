@@ -21,9 +21,6 @@ export const StudentManagement = () => {
   const totalPages = studentResponse?.totalPages ?? 3;
   const searchInputRef = useRef<HTMLInputElement>(null);
 
-  //create tablebody ref
-
-
   const tableRef = useRef<HTMLTableSectionElement>(null);
 
   const [params, setParams] = useState<IParams>({
