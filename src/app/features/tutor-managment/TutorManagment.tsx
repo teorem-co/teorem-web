@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useHistory } from 'react-router-dom';
-import IParams from '../../../interfaces/IParams';
 import {
   ITutorAdminSearch,
   useApproveTutorMutation,
@@ -23,6 +22,8 @@ import {
 } from 'libphonenumber-js';
 import { useAppSelector } from '../../hooks';
 import moment from 'moment';
+import IParams from '../../../interfaces/IParams';
+import getUrlParams from '../../utils/getUrlParams';
 
 const TutorManagment = () => {
   const history = useHistory();
@@ -52,9 +53,6 @@ const TutorManagment = () => {
   const [params, setParams] = useState<IParams>({
     rpp: 20,
     page: 0,
-    verified: 0,
-    unprocessed: 1,
-    search: '',
   });
 
   const [loadedTutorItems, setLoadedTutorItems] = useState<ITutorAdminSearch[]>([]);
@@ -63,10 +61,34 @@ const TutorManagment = () => {
   const isLoading = isLoadingSearchTutors || searchTutorsFetching;
 
   const fetchData = async () => {
-    const tutorResponse = await searchTutors(params).unwrap();
+    const urlQueries: IParams = getUrlParams(history.location.search.replace('?', ''));
+    console.log('URL QUERIES: ', urlQueries);
+    if (Object.keys(urlQueries).length > 0) {
+      setParams({
+        ...params,
+        unprocessed: urlQueries.unprocessed,
+        verified: urlQueries.verified,
+        page: urlQueries.page,
+        rpp: urlQueries.rpp,
+      });
 
-    setTutorResponse(tutorResponse);
-    setLoadedTutorItems(tutorResponse.content);
+      setParams(urlQueries);
+    } else {
+
+      const newParams = {
+        ...params,
+        unprocessed: 1,
+        verified: 0,
+        page: 0,
+        rpp: 20,
+        search: '',
+      };
+
+      setParams(newParams);
+    }
+
+
+    // fetchFilteredData();
   };
 
   const switchTab = (tab: string) => {
@@ -84,18 +106,43 @@ const TutorManagment = () => {
     setActiveTab(tab);
   };
 
+
   const handleSearch = () => {
     searchInputRef.current?.value && searchInputRef.current?.value.length > 0
-      ? setParams({ ...params, search: searchInputRef.current.value })
+      ? setParams({ ...params, search: searchInputRef.current.value, page: 0 })
       : setParams({ ...params, search: '' });
   };
+
 
   useEffect(() => {
     fetchData();
   }, []);
+
+  // useEffect(() => {
+  //   setActiveTabFromParams();
+  // }, [params]);
+
   useEffect(() => {
-    fetchData();
+    fetchFilteredData();
   }, [params, isSuccessDenyTutor, isSuccessApproveTutor, isSuccessDeleteTutors]);
+
+  const fetchFilteredData = async () => {
+    const filterParams = new URLSearchParams();
+    if (Object.keys(params).length !== 0 && params.constructor === Object) {
+      for (const [key, value] of Object.entries(params)) {
+        filterParams.append(key, value);
+      }
+      history.push({ search: filterParams.toString() });
+    } else {
+      history.push({ search: filterParams.toString() });
+    }
+
+    const tutorResponse = await searchTutors(params).unwrap();
+
+    setTutorResponse(tutorResponse);
+    setLoadedTutorItems(tutorResponse.content);
+  };
+
 
   function formatPhoneNumber(input: string, countryCode: string) {
     const allCountryCodes = getCountries(); // get all valid country codes
@@ -327,7 +374,7 @@ const TutorManagment = () => {
                 onClick={() =>
                   setParams((prevState) => ({
                     ...prevState,
-                    page: prevState.page > 0 ? prevState.page - 1 : 0,
+                    page: prevState.page > 0 ? +prevState.page - 1 : 0,
                   }))
                 }
                 disabled={params.page <= 0}
@@ -339,7 +386,7 @@ const TutorManagment = () => {
               {Array.from({ length: totalPages }).map((_, index) => (
                 <button
                   key={index}
-                  className={`btn--base ml-2 ${params.page === index ? 'btn-active' : ''}`}
+                  className={`btn--base ml-2 ${+params.page === index ? 'btn-active' : ''}`}
                   onClick={() => setParams({ ...params, page: index })}
                 >
                   {index + 1}
@@ -352,7 +399,7 @@ const TutorManagment = () => {
                 onClick={() =>
                   setParams((prevState) => ({
                     ...prevState,
-                    page: prevState.page + 1,
+                    page: +prevState.page + 1,
                   }))
                 }
                 disabled={params.page >= totalPages - 1}

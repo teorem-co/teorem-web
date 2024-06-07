@@ -71,17 +71,13 @@ export const StudentManagement = () => {
           />
         </div>
         <div className='tutor-list flex flex--grow'>
-          <table className='tutors-table'>
+          <table className='bookings-table'>
             <thead>
             <tr>
               <td
                 className='type--color--secondary mb-3 mb-xl-0'>{t('STUDENT_MANAGEMENT.TABLE.FIRST_NAME')}</td>
               <td
                 className='type--color--secondary mb-3 mb-xl-0'>{t('STUDENT_MANAGEMENT.TABLE.LAST_NAME')}</td>
-              <td
-                className='type--color--secondary mb-3 mb-xl-0'>{t('STUDENT_MANAGEMENT.TABLE.EMAIL')}</td>
-              <td
-                className='type--color--secondary mb-3 mb-xl-0'>{t('STUDENT_MANAGEMENT.TABLE.PHONE_NUMBER')}</td>
               <td width={100} className='type--color--secondary mb-3 mb-xl-0'>
                 {t('STUDENT_MANAGEMENT.TABLE.ROLE')}
               </td>
@@ -102,8 +98,6 @@ export const StudentManagement = () => {
                     onClick={() => history.push(PATHS.STUDENT_PROFILE.replace(':userId', student.id))}>
                   <td>{student.firstName}</td>
                   <td>{student.lastName}</td>
-                  <td>{student.email}</td>
-                  <td>{student.phone}</td>
                   <td width={100}>{student.role}</td>
                   <td width={100}>{student.numberOfCompletedLessons}</td>
                   <td width={100}>{student.creditsAmount}</td>

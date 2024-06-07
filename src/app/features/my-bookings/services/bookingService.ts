@@ -78,6 +78,7 @@ export interface IRecentBooking {
 }
 
 export interface IStudentBookingDetails {
+  ordinalNumber: number;
   bookingId: string;
   studentName: string;
   subject: string; //abrv
