@@ -60,15 +60,20 @@ export const StudentProfile = () => {
 
   function getStateOfBooking(booking: IStudentBookingDetails) {
     if (booking.deleted) {
-      return 'CANCELLED';
+      return <span
+        className='tag tag--primary tag--color--red'>CANCELLED</span>;
     } else if (moment(booking.startTime).add(1, 'h').isBefore(moment()) && booking.accepted) {
-      return 'COMPLETED';
+      return <span
+        className='tag tag--primary tag--color--dark-green'>COMPLETED</span>;
     } else if (booking.accepted && !booking.deleted && !booking.inReschedule) {
-      return 'ACCEPTED';
+      return <span
+        className='tag tag--primary tag--color--light-green'>ACCEPTED</span>;
     } else if (booking.inReschedule) {
-      return 'RESCHEDULE';
+      return <span
+        className='tag tag--primary tag--color--orange'>RESCHEDULE</span>;
     } else if (moment(booking.startTime).isAfter(moment()) && !booking.accepted && !booking.deleted && !booking.inReschedule) {
-      return 'REQUEST SENT';
+      return <span
+        className='tag tag--primary tag--color--light-yellow'>REQUEST SENT</span>;
     }
   }
 
