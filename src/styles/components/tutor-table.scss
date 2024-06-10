@@ -298,7 +298,7 @@
     border-collapse: collapse;
 
     td {
-      cursor: pointer;
+      cursor: default;
       border: 1px solid #EDEDED;
       padding: 2px;
 
@@ -316,15 +316,6 @@
         .btn {
           width: 50%;
         }
-      }
-    }
-
-    &:first-of-type {
-      border: none;
-
-      td {
-        border: none;
-        padding: 12px 16px;
       }
     }
 
@@ -515,4 +506,14 @@
   display: table;
   width: 100%;
   table-layout: fixed;
+}
+
+
+.no-border-row {
+  border: none;
+
+  td {
+    border: none;
+    padding: 12px 16px;
+  }
 }

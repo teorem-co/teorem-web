@@ -136,7 +136,7 @@ export const StudentProfile = () => {
 
           <table className='bookings-table'>
             <thead className={'type--md'}>
-            <tr className={'text-align--center type--normal'}>
+            <tr className={'text-align--center type--normal no-border-row'}>
               <td width={20}>{'RBR'}</td>
               <td width={100}>{t('STUDENT_MANAGEMENT.TABLE.STUDENT')}</td>
               <td width={80}>{t('STUDENT_MANAGEMENT.TABLE.LEVEL')}</td>
@@ -151,6 +151,7 @@ export const StudentProfile = () => {
             </thead>
 
             <tbody className='d--b'>
+            <tr></tr>
             {bookingDetails &&
               <InfiniteScroll
                 dataLength={studentBookings.length} //This is important field to render the next data
@@ -177,11 +178,14 @@ export const StudentProfile = () => {
                         className={'d--b'}>{t(`SUBJECTS.${booking.subject.replaceAll('-', '')}`)}</span>
                     </td>
                     <td
+                      style={{ cursor: 'pointer' }}
                       onClick={() => {
                         history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', booking.tutorSlug));
                       }}
                       width={170}
-                    >{booking.tutorFirstName + ' ' + booking.tutorLastName}</td>
+                    ><span
+                      className={'tag tag--primary tag--color--primary'}>{booking.tutorFirstName + ' ' + booking.tutorLastName}</span>
+                    </td>
                     <td width={80}>{booking.price}</td>
                     <td
                       width={100}>{moment(booking.createdAt).format('DD/MM/YYYY' + ', HH:mm')}</td>

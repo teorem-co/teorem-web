@@ -180,11 +180,14 @@ export const BookingManagement = () => {
                         className={'d--b'}>{t(`SUBJECTS.${booking.subject.replaceAll('-', '')}`)}</span>
                 </td>
                 <td
+                  style={{ cursor: 'pointer' }}
                   onClick={() => {
                     history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', booking.tutorSlug));
                   }}
                   width={170}
-                >{booking.tutorFirstName + ' ' + booking.tutorLastName}</td>
+                ><span
+                  className={'tag tag--primary tag--color--primary'}>{booking.tutorFirstName + ' ' + booking.tutorLastName}</span>
+                </td>
                 <td width={80}>{booking.price}</td>
                 <td
                   width={100}>{moment(booking.createdAt).format('DD/MM/YYYY' + ', HH:mm')}</td>
