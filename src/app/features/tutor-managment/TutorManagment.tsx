@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import {
   ITutorAdminSearch,
   useApproveTutorMutation,
@@ -260,45 +260,50 @@ const TutorManagment = () => {
                   <tr key={key}>
                     <td
                       onClick={() => {
-                        activeTab == 'unprocessed'
-                          ? history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug))
-                          : setSelectedTutor(tutor);
+                        // activeTab == 'unprocessed'
+                        //   ?
+                        history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug));
+                        // : setSelectedTutor(tutor);
                       }}
                     >
                       {tutor.firstName}
                     </td>
                     <td
                       onClick={() => {
-                        activeTab == 'unprocessed'
-                          ? history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug))
-                          : setSelectedTutor(tutor);
+                        // activeTab == 'unprocessed'
+                        //   ?
+                        history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug));
+                        // : setSelectedTutor(tutor);
                       }}
                     >
                       {tutor.lastName}
                     </td>
                     <td
                       onClick={() => {
-                        activeTab == 'unprocessed'
-                          ? history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug))
-                          : setSelectedTutor(tutor);
+                        // activeTab == 'unprocessed'
+                        //   ?
+                        history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug));
+                        // : setSelectedTutor(tutor);
                       }}
                     >
                       {tutor.email}
                     </td>
                     <td
                       onClick={() => {
-                        activeTab == 'unprocessed'
-                          ? history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug))
-                          : setSelectedTutor(tutor);
+                        // activeTab == 'unprocessed'
+                        //   ?
+                        history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug));
+                        // : setSelectedTutor(tutor);
                       }}
                     >
                       {formatPhoneNumber(tutor.phoneNumber, tutor.countryAbrv)}
                     </td>
                     <td
                       onClick={() => {
-                        activeTab == 'unprocessed'
-                          ? history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug))
-                          : setSelectedTutor(tutor);
+                        // activeTab == 'unprocessed'
+                        //   ?
+                        history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug));
+                        // : setSelectedTutor(tutor);
                       }}
                     >
                       {moment(tutor.createdAt, 'YYYY-MM-DD').format('DD-MM-YYYY')}
@@ -316,10 +321,10 @@ const TutorManagment = () => {
                       </td>
                     ) : (
                       <td className='menu-container'>
-                        <Link
-                          to={PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug)}>
-                          {t('TUTOR_MANAGMENT.TABLE.PREVIEW_PROFILE')}
-                        </Link>
+                        {/*<Link*/}
+                        {/*  to={PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug)}>*/}
+                        {/*  {t('TUTOR_MANAGMENT.TABLE.PREVIEW_PROFILE')}*/}
+                        {/*</Link>*/}
                         <div className='dots' tabIndex={1}>
                           <span></span>
                           <span></span>
