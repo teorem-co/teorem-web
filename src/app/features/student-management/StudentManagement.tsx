@@ -9,13 +9,11 @@ import IPage from '../../../interfaces/notification/IPage';
 import { t } from 'i18next';
 import { PATHS } from '../../routes';
 import { useHistory } from 'react-router-dom';
+import moment from 'moment/moment';
 
 export const StudentManagement = () => {
   const history = useHistory();
-  const [searchStudents, {
-    isLoading: isLoadingSearchStudents,
-    isFetching: searchStudentsFetching,
-  }] = useLazyGetStudentInformationQuery();
+  const [searchStudents] = useLazyGetStudentInformationQuery();
   const [loadedStudentItems, setLoadedStudentItems] = useState<ITutorStudentSearch[]>([]);
   const [studentResponse, setStudentResponse] = useState<IPage<ITutorStudentSearch>>();
   const totalPages = studentResponse?.totalPages ?? 3;
@@ -24,7 +22,7 @@ export const StudentManagement = () => {
   const tableRef = useRef<HTMLTableSectionElement>(null);
 
   const [params, setParams] = useState<IParams>({
-    rpp: 20,
+    rpp: 30,
     page: 0,
     search: '',
   });
@@ -59,7 +57,7 @@ export const StudentManagement = () => {
       <div className='card--secondary__body tutor-managment-card'>
         <div
           className='flex flex--center'
-          style={{ width: '400px', margin: '0 auto' }}
+          style={{ width: '400px', margin: '10px auto' }}
         >
           <i className='icon icon--md icon--search icon--black search-icon'></i>
           <input
@@ -74,10 +72,10 @@ export const StudentManagement = () => {
           <table className='bookings-table'>
             <thead>
             <tr>
-              <td
-                className='type--color--secondary mb-3 mb-xl-0'>{t('STUDENT_MANAGEMENT.TABLE.FIRST_NAME')}</td>
-              <td
-                className='type--color--secondary mb-3 mb-xl-0'>{t('STUDENT_MANAGEMENT.TABLE.LAST_NAME')}</td>
+              <td width={150}
+                  className='type--color--secondary mb-3 mb-xl-0'>{t('STUDENT_MANAGEMENT.TABLE.FIRST_NAME')}</td>
+              <td width={150}
+                  className='type--color--secondary mb-3 mb-xl-0'>{t('STUDENT_MANAGEMENT.TABLE.LAST_NAME')}</td>
               <td width={100} className='type--color--secondary mb-3 mb-xl-0'>
                 {t('STUDENT_MANAGEMENT.TABLE.ROLE')}
               </td>
@@ -86,6 +84,9 @@ export const StudentManagement = () => {
               </td>
               <td width={100} className='type--color--secondary mb-3 mb-xl-0'>
                 {t('STUDENT_MANAGEMENT.TABLE.CREDITS')}
+              </td>
+              <td width={200} className='type--color--secondary mb-3 mb-xl-0'>
+                {t('TUTOR_MANAGMENT.TABLE.CREATED_AT')}
               </td>
             </tr>
             </thead>
@@ -96,11 +97,13 @@ export const StudentManagement = () => {
               {loadedStudentItems.map((student: ITutorStudentSearch, key) => (
                 <tr key={key}
                     onClick={() => history.push(PATHS.STUDENT_PROFILE.replace(':userId', student.id))}>
-                  <td>{student.firstName}</td>
-                  <td>{student.lastName}</td>
+                  <td width={150}>{student.firstName}</td>
+                  <td width={150}>{student.lastName}</td>
                   <td width={100}>{student.role}</td>
                   <td width={100}>{student.numberOfCompletedLessons}</td>
                   <td width={100}>{student.creditsAmount}</td>
+                  <td
+                    width={200}>{moment(student.createdAt).format('DD/MM/YYYY')}</td>
                 </tr>
               ))}
               </tbody>

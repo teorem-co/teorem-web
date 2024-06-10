@@ -130,6 +130,7 @@ export const EN_US = {
     SEARCH_TUTORS: 'Search tutors',
     TUTOR_MANAGMENT: 'Tutor managment',
     STUDENT_MANAGEMENT: 'Student managment',
+    BOOKING_MANAGEMENT: 'Booking management',
     TUTOR_VIDEOS: 'Video previews',
     MY_PROFILE: 'My Profile',
     COMPLETED_LESSONS: 'Completed lessons',
@@ -270,6 +271,7 @@ export const EN_US = {
       TITLE: 'No results',
       DESC: ' Hmm, looks like there are no students/parents for this specific search.',
     },
+    SEARCH_PLACEHOLDER: 'Search students/parents',
     TABLE: {
       FIRST_NAME: 'FIRST NAME',
       LAST_NAME: 'LAST NAME',
@@ -1420,6 +1422,7 @@ export const EN_US = {
     PRIVACY: '/en/privacy-policy',
     TUTOR_MANAGMENT: '/en/tutor-managment',
     STUDENT_MANAGEMENT: '/en/student-management',
+    BOOKING_MANAGEMENT: '/en/all-bookings',
     TUTOR_MANAGMENT_TUTOR_PROFILE: '/en/tutor-managment/profile/:tutorSlug',
     LANDING_PATHS: {
       HOW_IT_WORKS: '/en/online-tutoring',

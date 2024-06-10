@@ -59,6 +59,9 @@ import {
   StudentManagement,
 } from './features/student-management/StudentManagement';
 import { StudentProfile } from './features/student-management/StudentProfile';
+import {
+  BookingManagement,
+} from './features/booking-management/BookingManagement';
 
 export const PATHS = {
   ROLE_SELECTION: t('PATHS.ROLE_SELECTION'),
@@ -82,6 +85,7 @@ export const PATHS = {
   PRIVACY: t('PATHS.PRIVACY'),
   TUTOR_MANAGMENT: t('PATHS.TUTOR_MANAGMENT'),
   STUDENT_MANAGEMENT: t('PATHS.STUDENT_MANAGEMENT'),
+  BOOKING_MANAGEMENT: t('PATHS.BOOKING_MANAGEMENT'),
   TUTOR_VIDEOS: t('PATHS.TUTOR_VIDEOS'),
   TUTOR_MANAGMENT_TUTOR_PROFILE: t('PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE'),
   EMAIL_CONFIRMED: t('PATHS.EMAIL_CONFIRMED'),
@@ -359,7 +363,6 @@ export const ROUTES: any = [
       </PermissionsGate>
     ),
   },
-
   {
     path: PATHS.STUDENT_MANAGEMENT,
     key: 'STUDENT_MANAGEMENT',
@@ -387,6 +390,16 @@ export const ROUTES: any = [
     component: () => (
       <PermissionsGate roles={[Role.SuperAdmin]}>
         <TutorManagmentProfile />
+      </PermissionsGate>
+    ),
+  },
+  {
+    path: PATHS.BOOKING_MANAGEMENT,
+    key: 'BOOKING_MANAGEMENT',
+    exact: true,
+    component: () => (
+      <PermissionsGate roles={[Role.SuperAdmin]}>
+        <BookingManagement />
       </PermissionsGate>
     ),
   },
@@ -610,7 +623,6 @@ export function menuPerRole(stripeConnected: boolean): IMenuPerRole {
         key: 'TUTOR_MANAGMENT',
         path: PATHS.TUTOR_MANAGMENT,
       },
-
       {
         name: 'STUDENT_MANAGEMENT',
         icon: 'student-management',
@@ -628,6 +640,12 @@ export function menuPerRole(stripeConnected: boolean): IMenuPerRole {
         icon: 'video',
         key: 'TUTOR_VIDEOS',
         path: PATHS.TUTOR_VIDEOS,
+      },
+      {
+        name: 'BOOKING_MANAGEMENT',
+        icon: 'calendar',
+        key: 'BOOKING_MANAGEMENT',
+        path: PATHS.BOOKING_MANAGEMENT,
       },
     ],
     [Role.Child]: [

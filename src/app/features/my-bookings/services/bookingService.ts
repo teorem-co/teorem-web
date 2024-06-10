@@ -7,6 +7,7 @@ import IUpcomingLessons from '../interfaces/IUpcomingLessons';
 import { getUserRoleAbbrv } from '../../../../services/tutorService';
 import { RoleOptions } from '../../../../slices/roleSlice';
 import IPage from '../../../../interfaces/notification/IPage';
+import IParams from '../../../../interfaces/IParams';
 
 //bookings/week/:tutorSlug
 
@@ -287,6 +288,13 @@ export const bookingService = baseService.injectEndpoints({
         method: HttpMethods.GET,
       }),
     }),
+
+    getAllBookingsForTutorManagement: builder.query<IPage<IStudentBookingDetails>, IParams>({
+      query: (params) => ({
+        url: `${URL}/booking-management?page=${params.page}&size=${params.rpp}&search=${params.search}&sort=${params.sort}`,
+        method: HttpMethods.GET,
+      }),
+    }),
   }),
 });
 
@@ -309,4 +317,5 @@ export const {
   useLazyGetBookingsWithTutorQuery,
   useLazyGetRecentBookingsQuery,
   useLazyGetStudentBookingDetailsQuery,
+  useLazyGetAllBookingsForTutorManagementQuery,
 } = bookingService;

@@ -130,6 +130,7 @@ export const HR_HR = {
     SEARCH_TUTORS: 'Pretraga instruktora',
     TUTOR_MANAGMENT: 'Upravljanje instruktorima',
     STUDENT_MANAGEMENT: 'Upravljanje studentima',
+    BOOKING_MANAGEMENT: 'Upravljanje rezervacijama',
     TUTOR_VIDEOS: 'Preview videi',
     MY_PROFILE: 'Moj profil',
     COMPLETED_LESSONS: 'Završene lekcije',
@@ -248,6 +249,7 @@ export const HR_HR = {
         TITLE: 'Nema rezultata',
         DESC: ' Hmm, izgleda da nema studenata/roditelja za ovu određenu pretragu.',
       },
+      SEARCH_PLACEHOLDER: 'Pronađi studenta/roditelja',
       TABLE: {
         FIRST_NAME: 'IME',
         LAST_NAME: 'PREZIME',
@@ -1425,6 +1427,7 @@ export const HR_HR = {
     PRIVACY: '/hr/politika-privatnosti',
     TUTOR_MANAGMENT: '/hr/upravljanje-instruktorima',
     STUDENT_MANAGEMENT: '/hr/upravljanje-studentima',
+    BOOKING_MANAGEMENT: '/hr/sve-rezervacije',
     TUTOR_MANAGMENT_TUTOR_PROFILE: '/hr/upravljanje-instruktorima/profil/:tutorSlug',
     LANDING_PATHS: {
       HOW_IT_WORKS: '/hr/online-instrukcije',

@@ -47,6 +47,7 @@ export interface ITutorStudentSearch {
   role: string;
   numberOfCompletedLessons: number;
   creditsAmount: number;
+  createdAt: string;
 }
 
 export const userService = baseService.injectEndpoints({

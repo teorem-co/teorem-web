@@ -131,6 +131,7 @@ export const StudentProfile = () => {
             </div>
           </div>
         }
+        <div className={'separator-line'}></div>
         <div className={'flex--grow'}>
 
           <table className='bookings-table'>
