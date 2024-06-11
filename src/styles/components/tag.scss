@@ -3,17 +3,17 @@
 */
 
 .tag {
-    &--primary {
-        background-color: $color-primary-lighter;
-        color: $color-primary;
-        padding: calc(#{$unit} / 2) calc(#{$unit} * 2);
-        border-radius: $border-rounded;
-        margin-right: calc(#{$unit} * 2);
+  &--primary {
+    background-color: $color-primary-lighter;
+    color: $color-primary;
+    padding: calc(#{$unit} / 2) calc(#{$unit} * 2);
+    border-radius: $border-rounded;
+    margin-right: calc(#{$unit} * 2);
 
-        &:last-child {
-            margin-right: 0;
-        }
+    &:last-child {
+      margin-right: 0;
     }
+  }
 
 
   $color-success: #2ecc71;
@@ -42,6 +42,70 @@
     &:last-child {
       margin-right: 0;
     }
+  }
+
+  &--color {
+
+    &--red {
+      background-color: red;
+      color: whitesmoke;
+      padding: calc(#{$unit} / 2) calc(#{$unit} * 2);
+      border-radius: $border-rounded;
+      margin-right: calc(#{$unit} * 2);
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    &--dark-green {
+      background-color: darkgreen;
+      color: white;
+      padding: calc(#{$unit} / 2) calc(#{$unit} * 2);
+      border-radius: $border-rounded;
+      margin-right: calc(#{$unit} * 2);
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    &--light-green {
+      background-color: lightgreen;
+      color: green;
+      padding: calc(#{$unit} / 2) calc(#{$unit} * 2);
+      border-radius: $border-rounded;
+      margin-right: calc(#{$unit} * 2);
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    &--orange {
+      background-color: orange;
+      color: black;
+      padding: calc(#{$unit} / 2) calc(#{$unit} * 2);
+      border-radius: $border-rounded;
+      margin-right: calc(#{$unit} * 2);
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    &--light-yellow {
+      background-color: #f8dbc2;
+      color: $color-warning;
+      padding: calc(#{$unit} / 2) calc(#{$unit} * 2);
+      border-radius: $border-rounded;
+      margin-right: calc(#{$unit} * 2);
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
   }
 
 }
