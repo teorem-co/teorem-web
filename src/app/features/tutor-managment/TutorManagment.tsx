@@ -198,18 +198,19 @@ const TutorManagment = () => {
               <table className='tutors-table'>
                 <thead>
                 <tr>
+                  <td width={150}
+                      className='type--color--secondary mb-3 mb-xl-0'>{t('TUTOR_MANAGMENT.TABLE.FIRST_NAME')}</td>
                   <td
-                    className='type--color--secondary mb-3 mb-xl-0'>{t('TUTOR_MANAGMENT.TABLE.FIRST_NAME')}</td>
-                  <td
+                    width={150}
                     className='type--color--secondary mb-3 mb-xl-0'>{t('TUTOR_MANAGMENT.TABLE.LAST_NAME')}</td>
                   <td
                     className='type--color--secondary mb-3 mb-xl-0'>{t('TUTOR_MANAGMENT.TABLE.EMAIL')}</td>
                   <td
                     className='type--color--secondary mb-3 mb-xl-0'>{t('TUTOR_MANAGMENT.TABLE.PHONE_NUMBER')}</td>
+                  <td width={150}
+                      className='type--color--secondary mb-3 mb-xl-0'>{t('TUTOR_MANAGMENT.TABLE.CREATED_AT')}</td>
                   <td
-                    className='type--color--secondary mb-3 mb-xl-0'>{t('TUTOR_MANAGMENT.TABLE.CREATED_AT')}</td>
-                  <td
-                    width={100}
+                    width={150}
                     className='type--color--secondary mb-3 mb-xl-0'>{t('TUTOR_MANAGMENT.TABLE.ID_VERIFIED')}</td>
                   <td
                     width={100}
@@ -222,63 +223,46 @@ const TutorManagment = () => {
                 <tr></tr>
                 {loadedTutorItems.map((tutor: ITutorAdminSearch, key) => (
                   <tr key={key}>
-                    <td
-                      onClick={() => {
-                        // activeTab == 'unprocessed'
-                        //   ?
-                        history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug));
-                        // : setSelectedTutor(tutor);
-                      }}
+                    <td width={150}
+                        onClick={() => {
+                          history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug));
+                        }}
                     >
                       {tutor.firstName}
                     </td>
                     <td
+                      width={150}
                       onClick={() => {
-                        // activeTab == 'unprocessed'
-                        //   ?
                         history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug));
-                        // : setSelectedTutor(tutor);
                       }}
                     >
                       {tutor.lastName}
                     </td>
                     <td
                       onClick={() => {
-                        // activeTab == 'unprocessed'
-                        //   ?
                         history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug));
-                        // : setSelectedTutor(tutor);
                       }}
                     >
                       {tutor.email}
                     </td>
                     <td
                       onClick={() => {
-                        // activeTab == 'unprocessed'
-                        //   ?
                         history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug));
-                        // : setSelectedTutor(tutor);
                       }}
                     >
                       {formatPhoneNumber(tutor.phoneNumber, tutor.countryAbrv)}
                     </td>
-                    <td
-                      onClick={() => {
-                        // activeTab == 'unprocessed'
-                        //   ?
-                        history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug));
-                        // : setSelectedTutor(tutor);
-                      }}
+                    <td width={150}
+                        onClick={() => {
+                          history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug));
+                        }}
                     >
                       {moment(tutor.createdAt, 'YYYY-MM-DD').format('DD-MM-YYYY')}
                     </td>
                     <td
-                      width={100}
+                      width={150}
                       onClick={() => {
-                        // activeTab == 'unprocessed'
-                        //   ?
                         history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug));
-                        // : setSelectedTutor(tutor);
                       }}
                     >
                       {<span className='d--ib ml-4'>{tutor.idVerified ?
@@ -289,10 +273,7 @@ const TutorManagment = () => {
                     <td
                       width={100}
                       onClick={() => {
-                        // activeTab == 'unprocessed'
-                        //   ?
                         history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug));
-                        // : setSelectedTutor(tutor);
                       }}
                     >
                       {<span
