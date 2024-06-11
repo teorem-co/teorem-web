@@ -24,7 +24,6 @@ import {
 import { useAppSelector } from '../../hooks';
 import moment from 'moment';
 import IParams from '../../../interfaces/IParams';
-import getUrlParams from '../../utils/getUrlParams';
 
 const TutorManagment = () => {
   const history = useHistory();
@@ -54,6 +53,9 @@ const TutorManagment = () => {
   const [params, setParams] = useState<IParams>({
     rpp: 20,
     page: 0,
+    verified: 0,
+    unprocessed: 1,
+    search: '',
   });
 
   const [loadedTutorItems, setLoadedTutorItems] = useState<ITutorAdminSearch[]>([]);
@@ -62,33 +64,9 @@ const TutorManagment = () => {
   const isLoading = isLoadingSearchTutors || searchTutorsFetching;
 
   const fetchData = async () => {
-    const urlQueries: IParams = getUrlParams(history.location.search.replace('?', ''));
-    console.log('URL QUERIES: ', urlQueries);
-    if (Object.keys(urlQueries).length > 0) {
-      setParams({
-        ...params,
-        unprocessed: urlQueries.unprocessed,
-        verified: urlQueries.verified,
-        page: urlQueries.page,
-        rpp: urlQueries.rpp,
-      });
-
-      setParams(urlQueries);
-    } else {
-
-      const newParams = {
-        ...params,
-        unprocessed: 1,
-        verified: 0,
-        page: 0,
-        rpp: 20,
-        search: '',
-      };
-
-      setParams(newParams);
-    }
-
-    // fetchFilteredData();
+    const tutorResponse = await searchTutors(params).unwrap();
+    setTutorResponse(tutorResponse);
+    setLoadedTutorItems(tutorResponse.content);
   };
 
   const switchTab = (tab: string) => {
@@ -109,7 +87,7 @@ const TutorManagment = () => {
 
   const handleSearch = () => {
     searchInputRef.current?.value && searchInputRef.current?.value.length > 0
-      ? setParams({ ...params, search: searchInputRef.current.value, page: 0 })
+      ? setParams({ ...params, search: searchInputRef.current.value })
       : setParams({ ...params, search: '' });
   };
 
@@ -120,25 +98,8 @@ const TutorManagment = () => {
 
 
   useEffect(() => {
-    fetchFilteredData();
+    fetchData();
   }, [params, isSuccessDenyTutor, isSuccessApproveTutor, isSuccessDeleteTutors]);
-
-  const fetchFilteredData = async () => {
-    const filterParams = new URLSearchParams();
-    if (Object.keys(params).length !== 0 && params.constructor === Object) {
-      for (const [key, value] of Object.entries(params)) {
-        filterParams.append(key, value);
-      }
-      history.push({ search: filterParams.toString() });
-    } else {
-      history.push({ search: filterParams.toString() });
-    }
-
-    const tutorResponse = await searchTutors(params).unwrap();
-
-    setTutorResponse(tutorResponse);
-    setLoadedTutorItems(tutorResponse.content);
-  };
 
 
   function formatPhoneNumber(input: string, countryCode: string) {
