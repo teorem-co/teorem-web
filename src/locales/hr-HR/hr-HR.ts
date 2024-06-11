@@ -242,6 +242,8 @@ export const HR_HR = {
       ROLE: 'ULOGA',
       CREDITS: 'KREDITI',
       NUMBER_OF_LESSONS: 'PREDAVANJA',
+      ID_VERIFIED: 'POTVRÐEN IDENTITET',
+      DOCUMENTS_UPLOADED: 'DOKUMENTI UČITANI',
     },
     STUDENT_MANAGEMENT: {
       TITLE: 'Popis studenata/roditelja',
@@ -981,6 +983,8 @@ export const HR_HR = {
     TUTOR_DISABLED: 'Privremeno nedostupno',
     SEND: 'Pošalji poruku',
     EMPTY: 'Korisnik nije pronađen',
+    ID_VERIFIED: 'Potvrđen identitet',
+    DOCUMENTS_UPLOADED: 'Dokumenti učitani',
     SUBJECTS: {
       TITLE: 'Predmeti',
       SUBJECT: 'Predmet',

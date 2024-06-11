@@ -475,6 +475,31 @@ const TutorProfile = () => {
                       {tutorData.completedLessons}
                                         </span>
                   </div>
+
+                  <div className='flex--primary mt-4'>
+                    <div>
+                      <i
+                        className='icon icon--info icon--base icon--grey'></i>
+                      <span
+                        className='d--ib ml-2 type--color--secondary'>{t('TUTOR_PROFILE.ID_VERIFIED')}:</span>
+                    </div>
+                    <span className='d--ib ml-4'>{tutorData.idVerified ?
+                      <i className={'icon icon--base icon--check'} /> :
+                      <i className={'icon icon--base icon--close'} />}</span>
+                  </div>
+
+                  <div className='flex--primary'>
+                    <div>
+                      <i
+                        className='icon icon--upload icon--base icon--grey'></i>
+                      <span
+                        className='d--ib ml-2 type--color--secondary'>{t('TUTOR_PROFILE.DOCUMENTS_UPLOADED')}:</span>
+                    </div>
+                    <span
+                      className='d--ib ml-4'>{tutorData.stripeDocumentsUploaded ?
+                      <i className={'icon icon--base icon--check'} /> :
+                      <i className={'icon icon--base icon--close'} />}</span>
+                  </div>
                 </div>
                 {userRole !== RoleOptions.Tutor && (
                   <>
@@ -513,6 +538,7 @@ const TutorProfile = () => {
                         className={'btn btn--base btn--ghost'}>{t('TUTOR_MANAGMENT.ACTIONS.DECLINE')}
                       </button>
                     </div>
+
                     <StripeConnectForm
                       onConnect={(accountId: string) => {
                         dispatch(

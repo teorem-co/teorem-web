@@ -244,6 +244,8 @@ export const EN_US = {
       ROLE: 'ROLE',
       CREDITS: 'CREDITS',
       NUMBER_OF_LESSONS: 'LESSONS',
+      ID_VERIFIED: 'ID VERIFIED',
+      DOCUMENTS_UPLOADED: 'DOCUMENTS UPLOADED',
     },
     ACTIONS: {
       APPROVE: 'Approve',
@@ -982,6 +984,8 @@ export const EN_US = {
     TUTOR_DISABLED: 'Currently unavailable',
     SEND: 'Send a message',
     EMPTY: 'User not found',
+    ID_VERIFIED: 'ID verified',
+    DOCUMENTS_UPLOADED: 'Documents uploaded',
     SUBJECTS: {
       TITLE: 'Subjects',
       SUBJECT: 'Subject',

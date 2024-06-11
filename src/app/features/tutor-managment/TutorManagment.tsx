@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
@@ -250,6 +251,12 @@ const TutorManagment = () => {
                     className='type--color--secondary mb-3 mb-xl-0'>{t('TUTOR_MANAGMENT.TABLE.PHONE_NUMBER')}</td>
                   <td
                     className='type--color--secondary mb-3 mb-xl-0'>{t('TUTOR_MANAGMENT.TABLE.CREATED_AT')}</td>
+                  <td
+                    width={100}
+                    className='type--color--secondary mb-3 mb-xl-0'>{t('TUTOR_MANAGMENT.TABLE.ID_VERIFIED')}</td>
+                  <td
+                    width={100}
+                    className='type--color--secondary mb-3 mb-xl-0'>{t('TUTOR_MANAGMENT.TABLE.DOCUMENTS_UPLOADED')}</td>
                   <td className='type--color--secondary mb-3 mb-xl-0'></td>
                 </tr>
                 </thead>
@@ -307,6 +314,34 @@ const TutorManagment = () => {
                       }}
                     >
                       {moment(tutor.createdAt, 'YYYY-MM-DD').format('DD-MM-YYYY')}
+                    </td>
+                    <td
+                      width={100}
+                      onClick={() => {
+                        // activeTab == 'unprocessed'
+                        //   ?
+                        history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug));
+                        // : setSelectedTutor(tutor);
+                      }}
+                    >
+                      {<span className='d--ib ml-4'>{tutor.idVerified ?
+                        <i className={'icon icon--base icon--check'} /> :
+                        <i className={'icon icon--base icon--close'} />}</span>
+                      }
+                    </td>
+                    <td
+                      width={100}
+                      onClick={() => {
+                        // activeTab == 'unprocessed'
+                        //   ?
+                        history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug));
+                        // : setSelectedTutor(tutor);
+                      }}
+                    >
+                      {<span
+                        className='d--ib ml-4'>{tutor.stripeDocumentsUploaded ?
+                        <i className={'icon icon--base icon--check'} /> :
+                        <i className={'icon icon--base icon--close'} />}</span>}
                     </td>
                     {tutor.verified == null ? (
                       <td className='approve-deny'>

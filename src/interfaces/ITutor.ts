@@ -21,4 +21,5 @@ export default interface ITutor {
   videoUrl?: string;
   idVerified?: boolean;
   verified?: boolean; // did admin verify
+  stripeDocumentsUploaded?: boolean;
 }
