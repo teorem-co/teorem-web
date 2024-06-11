@@ -88,7 +88,6 @@ const TutorManagment = () => {
       setParams(newParams);
     }
 
-
     // fetchFilteredData();
   };
 
@@ -119,9 +118,6 @@ const TutorManagment = () => {
     fetchData();
   }, []);
 
-  // useEffect(() => {
-  //   setActiveTabFromParams();
-  // }, [params]);
 
   useEffect(() => {
     fetchFilteredData();
