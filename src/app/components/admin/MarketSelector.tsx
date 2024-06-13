@@ -11,12 +11,6 @@ const MarketSelector = () => {
   const countriesState = useAppSelector((state) => state.countryMarket);
   const dispatch = useDispatch();
   const languageRef = useRef<HTMLDivElement>(null);
-  const [selectedMarket, setSelectedMarket] = useState(countriesState.selectedCountry);
-
-  useEffect(() => {
-    console.log('SELECTED MARKET: ', countriesState.selectedCountry);
-    setSelectedMarket(countriesState.selectedCountry);
-  }, [countriesState]);
 
   const changeLanguage = (option: ICountry) => {
     dispatch(setSelectedCountry(option));
