@@ -4,7 +4,8 @@ import { combineReducers } from 'redux';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
-import myProfileProgressReducer from '../app/features/my-profile/slices/myProfileSlice';
+import myProfileProgressReducer
+  from '../app/features/my-profile/slices/myProfileSlice';
 import authReducer from '../slices/authSlice';
 import childrenReducer from '../slices/childrenSlice';
 import langReducer from '../slices/langSlice';
@@ -24,66 +25,69 @@ import scrollReducer from '../slices/scrollSlice';
 import searchFiltersReducer from '../slices/searchFiltesSlice';
 import creditsReducer from '../slices/creditsSlice';
 import timeZoneReducer from '../slices/timeZoneSlice';
+import countryMarketReducer from '../slices/countryMarketSlice';
 
 const persistConfig = {
-    key: 'root',
-    version: 1,
-    storage,
-    whitelist: [
-        'auth',
-        'user',
-        'role',
-        'user',
-        'myReviews',
-        'tutorRegister',
-        'parentRegisterSlice',
-        'myProfileProgress',
-        'lang',
-        'searchFilters',
-        'credits',
-        'timeZone',
-    ],
+  key: 'root',
+  version: 1,
+  storage,
+  whitelist: [
+    'auth',
+    'user',
+    'role',
+    'user',
+    'myReviews',
+    'tutorRegister',
+    'parentRegisterSlice',
+    'myProfileProgress',
+    'lang',
+    'searchFilters',
+    'credits',
+    'timeZone',
+    'countryMarket',
+  ],
 };
 
 const appReducer = combineReducers({
-    [baseService.reducerPath]: baseService.reducer,
-    auth: authReducer,
-    role: roleReducer,
-    user: userReducer,
-    myReviews: myReviewsReducer,
-    uploadFile: uploadFileReducer,
-    tutorRegister: tutorRegisterReducer,
-    studentRegister: studentRegisterReducer,
-    parentRegister: parentRegisterReducer,
-    children: childrenReducer,
-    myProfileProgress: myProfileProgressReducer,
-    chat: chatReducer,
-    lang: langReducer,
-    signUp: signUpReducer,
-    onboarding: onboardingReducer,
-    scroll: scrollReducer,
-    searchFilters: searchFiltersReducer,
-    credits: creditsReducer,
-    timeZone: timeZoneReducer,
+  [baseService.reducerPath]: baseService.reducer,
+  auth: authReducer,
+  role: roleReducer,
+  user: userReducer,
+  myReviews: myReviewsReducer,
+  uploadFile: uploadFileReducer,
+  tutorRegister: tutorRegisterReducer,
+  studentRegister: studentRegisterReducer,
+  parentRegister: parentRegisterReducer,
+  children: childrenReducer,
+  myProfileProgress: myProfileProgressReducer,
+  chat: chatReducer,
+  lang: langReducer,
+  signUp: signUpReducer,
+  onboarding: onboardingReducer,
+  scroll: scrollReducer,
+  searchFilters: searchFiltersReducer,
+  credits: creditsReducer,
+  timeZone: timeZoneReducer,
+  countryMarket: countryMarketReducer,
 });
 
 const rootReducer = (state: any, action: any) => {
-    if (action.type === 'USER_LOGOUT') {
-        storage.removeItem('persist:root');
+  if (action.type === 'USER_LOGOUT') {
+    storage.removeItem('persist:root');
 
-        return appReducer(undefined, action);
-    }
-    return appReducer(state, action);
+    return appReducer(undefined, action);
+  }
+  return appReducer(state, action);
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-    reducer: persistedReducer,
-    middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware({
-            serializableCheck: false,
-        }).concat(baseService.middleware, rtkQueryErrorLogger),
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }).concat(baseService.middleware, rtkQueryErrorLogger),
 });
 
 setupListeners(store.dispatch);

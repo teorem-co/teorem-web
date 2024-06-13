@@ -10,6 +10,7 @@ import { t } from 'i18next';
 import { PATHS } from '../../routes';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment/moment';
+import { useAppSelector } from '../../hooks';
 
 export const StudentManagement = () => {
   const history = useHistory();
@@ -20,6 +21,7 @@ export const StudentManagement = () => {
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   const tableRef = useRef<HTMLTableSectionElement>(null);
+  const countriesState = useAppSelector((state) => state.countryMarket);
 
   const [params, setParams] = useState<IParams>({
     rpp: 30,
@@ -27,7 +29,10 @@ export const StudentManagement = () => {
     search: '',
   });
   const fetchData = async () => {
-    const studentsResponse = await searchStudents(params).unwrap();
+    const studentsResponse = await searchStudents({
+      ...params,
+      countryId: countriesState.selectedCountry?.id,
+    }).unwrap();
 
     setStudentResponse(studentsResponse);
     setLoadedStudentItems(studentsResponse.content);

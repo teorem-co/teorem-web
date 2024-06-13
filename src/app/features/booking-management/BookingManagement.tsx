@@ -14,6 +14,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { OptionsItem } from '../dashboard/upcoming-lessons/UpcomingLessonItem';
 import IParams from '../../../interfaces/IParams';
 import { ArrowDownward, ArrowUpward } from '@mui/icons-material';
+import { useAppSelector } from '../../hooks';
 
 export const BookingManagement = () => {
   const history = useHistory();
@@ -50,7 +51,6 @@ export const BookingManagement = () => {
   }, [sortField]);
 
   useEffect(() => {
-    console.log('changed sortOrder', sortOrder);
     setStudentBookings([]);
     setParams({
       ...params,
@@ -64,8 +64,13 @@ export const BookingManagement = () => {
     fetchData();
   }, [params]);
 
+  const countriesState = useAppSelector((state) => state.countryMarket);
+
   async function fetchData() {
-    const response = await getBookingsForBookingManagement(params).unwrap();
+    const response = await getBookingsForBookingManagement({
+      ...params,
+      countryId: countriesState.selectedCountry?.id,
+    }).unwrap();
     setStudentBookings((prevItems) => [...prevItems, ...response.content]);
   }
 
