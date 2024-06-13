@@ -177,7 +177,7 @@ const SendMessageForm = (props: Props) => {
             onKeyDown={handleKeyDown}
             style={{
               resize: 'none',
-              height: '35px', // Initial height for 2 rows
+              height: 'auto', // Initial height for 2 rows
               maxHeight: '300px',
               overflow: 'hidden',
             }}
