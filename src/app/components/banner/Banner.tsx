@@ -70,7 +70,7 @@ export const Banner = (props: Props) => {
           </div>
           {redirectionPath && (
             <NavLink
-              className='type--start type--wgt--bold type--color--white align-self-end align--center w--90'
+              className='type--start type--wgt--bold type--color--white align-self-end align--center w--100'
               to={redirectionPath}>
               <button className={'btn btn--base btn--secondary w--100'}
                       onClick={hide}>
