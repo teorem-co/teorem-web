@@ -291,7 +291,7 @@ export const bookingService = baseService.injectEndpoints({
 
     getAllBookingsForTutorManagement: builder.query<IPage<IStudentBookingDetails>, IParams>({
       query: (params) => ({
-        url: `${URL}/booking-management?page=${params.page}&size=${params.rpp}&search=${params.search}&sort=${params.sort}`,
+        url: `${URL}/booking-management?page=${params.page}&size=${params.rpp}&search=${params.search}&sort=${params.sort}&countryId=${params.countryId}`,
         method: HttpMethods.GET,
       }),
     }),
