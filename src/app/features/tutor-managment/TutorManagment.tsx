@@ -202,10 +202,10 @@ const TutorManagment = () => {
               <table className='tutors-table'>
                 <thead>
                 <tr>
-                  <td width={120}
+                  <td width={150}
                       className='type--color--secondary mb-3 mb-xl-0'>{t('TUTOR_MANAGMENT.TABLE.FIRST_NAME')}</td>
                   <td
-                    width={120}
+                    width={150}
                     className='type--color--secondary mb-3 mb-xl-0'>{t('TUTOR_MANAGMENT.TABLE.LAST_NAME')}</td>
                   <td
                     className='type--color--secondary mb-3 mb-xl-0'>{t('TUTOR_MANAGMENT.TABLE.EMAIL')}</td>
@@ -224,13 +224,13 @@ const TutorManagment = () => {
                 </tr>
                 </thead>
 
-                <tbody className='table-scrollable-tbody type--sm'>
+                <tbody className='table-scrollable-tbody type--base'>
                 <tr></tr>
                 {loadedTutorItems.map((tutor: ITutorAdminSearch, key) => (
                   <tr key={key}>
                     <td
-                      className={'type--sm'}
-                      width={120}
+                      className={'type--base'}
+                      width={150}
                       onClick={() => {
                         history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug));
                       }}
@@ -238,8 +238,7 @@ const TutorManagment = () => {
                       {tutor.firstName}
                     </td>
                     <td
-                      className={'type--sm'}
-                      width={120}
+                      width={150}
                       onClick={() => {
                         history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug));
                       }}
@@ -247,7 +246,6 @@ const TutorManagment = () => {
                       {tutor.lastName}
                     </td>
                     <td
-                      className={'type--sm'}
                       onClick={() => {
                         history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug));
                       }}
