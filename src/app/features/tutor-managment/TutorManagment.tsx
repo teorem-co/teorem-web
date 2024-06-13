@@ -62,9 +62,13 @@ const TutorManagment = () => {
   const { t } = useTranslation();
   const cardRef = useRef<HTMLDivElement>(null);
   const isLoading = isLoadingSearchTutors || searchTutorsFetching;
+  const countriesState = useAppSelector((state) => state.countryMarket);
 
   const fetchData = async () => {
-    const tutorResponse = await searchTutors(params).unwrap();
+    const tutorResponse = await searchTutors({
+      ...params,
+      countryId: countriesState.selectedCountry?.id,
+    }).unwrap();
     setTutorResponse(tutorResponse);
     setLoadedTutorItems(tutorResponse.content);
   };
@@ -198,19 +202,20 @@ const TutorManagment = () => {
               <table className='tutors-table'>
                 <thead>
                 <tr>
-                  <td width={150}
+                  <td width={120}
                       className='type--color--secondary mb-3 mb-xl-0'>{t('TUTOR_MANAGMENT.TABLE.FIRST_NAME')}</td>
                   <td
-                    width={150}
+                    width={120}
                     className='type--color--secondary mb-3 mb-xl-0'>{t('TUTOR_MANAGMENT.TABLE.LAST_NAME')}</td>
                   <td
                     className='type--color--secondary mb-3 mb-xl-0'>{t('TUTOR_MANAGMENT.TABLE.EMAIL')}</td>
                   <td
+                    width={150}
                     className='type--color--secondary mb-3 mb-xl-0'>{t('TUTOR_MANAGMENT.TABLE.PHONE_NUMBER')}</td>
                   <td width={150}
                       className='type--color--secondary mb-3 mb-xl-0'>{t('TUTOR_MANAGMENT.TABLE.CREATED_AT')}</td>
                   <td
-                    width={150}
+                    width={100}
                     className='type--color--secondary mb-3 mb-xl-0'>{t('TUTOR_MANAGMENT.TABLE.ID_VERIFIED')}</td>
                   <td
                     width={100}
@@ -219,19 +224,22 @@ const TutorManagment = () => {
                 </tr>
                 </thead>
 
-                <tbody className='table-scrollable-tbody'>
+                <tbody className='table-scrollable-tbody type--sm'>
                 <tr></tr>
                 {loadedTutorItems.map((tutor: ITutorAdminSearch, key) => (
                   <tr key={key}>
-                    <td width={150}
-                        onClick={() => {
-                          history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug));
-                        }}
+                    <td
+                      className={'type--sm'}
+                      width={120}
+                      onClick={() => {
+                        history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug));
+                      }}
                     >
                       {tutor.firstName}
                     </td>
                     <td
-                      width={150}
+                      className={'type--sm'}
+                      width={120}
                       onClick={() => {
                         history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug));
                       }}
@@ -239,6 +247,7 @@ const TutorManagment = () => {
                       {tutor.lastName}
                     </td>
                     <td
+                      className={'type--sm'}
                       onClick={() => {
                         history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug));
                       }}
@@ -246,6 +255,7 @@ const TutorManagment = () => {
                       {tutor.email}
                     </td>
                     <td
+                      width={150}
                       onClick={() => {
                         history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug));
                       }}
@@ -260,7 +270,7 @@ const TutorManagment = () => {
                       {moment(tutor.createdAt, 'YYYY-MM-DD').format('DD-MM-YYYY')}
                     </td>
                     <td
-                      width={150}
+                      width={100}
                       onClick={() => {
                         history.push(PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug));
                       }}

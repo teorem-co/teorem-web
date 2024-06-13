@@ -143,7 +143,7 @@ export const userService = baseService.injectEndpoints({
     }),
     getStudentInformation: builder.query<IPage<ITutorStudentSearch>, IParams>({
       query: (params) => ({
-        url: `${URL}/student-information?page=${params.page}&size=${params.rpp}&search=${params.search}`,
+        url: `${URL}/student-information?page=${params.page}&size=${params.rpp}&search=${params.search}&countryId=${params.countryId}`,
         method: HttpMethods.GET,
       }),
     }),

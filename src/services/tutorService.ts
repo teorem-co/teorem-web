@@ -111,9 +111,9 @@ export const tutorService = baseService.injectEndpoints({
   endpoints: (builder) => ({
     // this one sends request for Admin page
     searchTutors: builder.query({
-      query: (params: any) => {
+      query: (params: IParams) => {
         const queryData = {
-          url: `${URL}/admin-search?page=${params.page}&size=${params.rpp}&unprocessed=${params.unprocessed ? 'true' : 'false'}${
+          url: `${URL}/admin-search?page=${params.page}&countryId=${params.countryId}&size=${params.rpp}&unprocessed=${params.unprocessed ? 'true' : 'false'}${
             params.verified ? (params.verified == 1 ? '&verified=true' : '&verified=false') : ''
           }&search=${params.search}&sort=createdAt,desc`, //TODO: fix later
           method: HttpMethods.GET,
@@ -273,7 +273,7 @@ export const tutorService = baseService.injectEndpoints({
     }),
     getAdminTutorVideoInformation: builder.query<IPage<IAdminTutorVideoInformation>, IParams>({
       query: (params) => ({
-        url: `${URL}/admin/video-information?page=${params.page}&rpp=${params.rpp}&approved=${params.videoApproved}`,
+        url: `${URL}/admin/video-information?page=${params.page}&rpp=${params.rpp}&approved=${params.videoApproved}&countryId=${params.countryId}`,
         method: HttpMethods.GET,
       }),
     }),
