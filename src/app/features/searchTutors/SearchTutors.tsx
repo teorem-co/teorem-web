@@ -235,7 +235,6 @@ const SearchTutors = () => {
 
   const fetchData = async () => {
     const urlQueries: IParams = getUrlParams(history.location.search.replace('?', ''));
-    console.log('urlQueries: ', urlQueries);
 
     if (Object.keys(urlQueries).length > 0) {
       urlQueries.subject && (await formik.setFieldValue('subject', urlQueries.subject)) && setIsInitialSubject(true);

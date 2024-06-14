@@ -29,36 +29,24 @@ export const BookingManagement = () => {
 
   const [sortOrder, setSortOrder] = useState('');
   const [sortField, setSortField] = useState('');
-  const toggleSortOrder = () => {
-    setSortOrder(prevSortOrder => {
-      return prevSortOrder === 'startTime,asc' ? 'startTime,desc' : 'startTime,asc';
-    });
-  };
 
-  const toggleSortField = (field: string) => {
-    if (sortField !== field) {
-      setSortField(field);
+  const toggleSortOrder = (field: string) => {
+    if (sortField === field) {
+      setSortOrder(prevOrder => (prevOrder === 'asc' ? 'desc' : 'asc'));
     } else {
-      toggleSortOrder();
+      setSortField(field);
+      setSortOrder('asc');
     }
   };
 
   useEffect(() => {
-    setSortOrder(prevSortOrder => {
-      return prevSortOrder.split(',')[1] === 'asc' ? `${sortField},desc` : `${sortField},asc`;
-    });
-
-  }, [sortField]);
-
-  useEffect(() => {
-    setStudentBookings([]);
-    setParams({
-      ...params,
+    setParams(prevParams => ({
+      ...prevParams,
       page: 0,
-      sort: sortOrder,
-    });
-
-  }, [sortOrder]);
+      sort: `${sortField},${sortOrder}`,
+    }));
+    setStudentBookings([]);
+  }, [sortField, sortOrder]);
 
   useEffect(() => {
     fetchData();
@@ -144,13 +132,13 @@ export const BookingManagement = () => {
           <td width={170}>{t('STUDENT_MANAGEMENT.TABLE.TUTOR')}</td>
           <td width={80}>{t('STUDENT_MANAGEMENT.TABLE.PRICE')}</td>
           <td width={100}
-              onClick={() => toggleSortField('createdAt')}>{t('STUDENT_MANAGEMENT.TABLE.CREATED_AT')}
-            {sortField === 'createdAt' && (sortOrder.split(',')[1] === 'asc' ?
+              onClick={() => toggleSortOrder('createdAt')}>{t('STUDENT_MANAGEMENT.TABLE.CREATED_AT')}
+            {sortField === 'createdAt' && (sortOrder === 'asc' ?
               <ArrowUpward /> : <ArrowDownward />)}
           </td>
           <td width={100}
-              onClick={() => toggleSortField('startTime')}>{t('STUDENT_MANAGEMENT.TABLE.START_TIME')}
-            {sortField === 'startTime' && (sortOrder.split(',')[1] === 'asc' ?
+              onClick={() => toggleSortOrder('startTime')}>{t('STUDENT_MANAGEMENT.TABLE.START_TIME')}
+            {sortField === 'startTime' && (sortOrder === 'asc' ?
               <ArrowUpward /> : <ArrowDownward />)}
           </td>
           <td width={100}>{t('STUDENT_MANAGEMENT.TABLE.STATE')}</td>
