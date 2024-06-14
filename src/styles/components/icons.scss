@@ -42,6 +42,11 @@
     height: calc(#{$unit} * 10);
   }
 
+  &--xl {
+    width: calc(#{$unit} * 20);
+    height: calc(#{$unit} * 20);
+  }
+
   &--xxl {
     width: calc(#{$unit} * 30);
     height: calc(#{$unit} * 30);
