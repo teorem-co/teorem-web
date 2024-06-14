@@ -104,7 +104,9 @@ const MainWrapper = (props: Props) => {
   }
 
   const getBannerToShow = () => {
-    if (userRole === RoleOptions.Tutor && profileProgressState && !profileProgressState.verified) {
+    console.log('hideBanner', hideBanner);
+    !hideBanner ? console.log('TRUE') : console.log('FALSE');
+    if (userRole === RoleOptions.Tutor && profileProgressState && !profileProgressState.verified && !hideBanner) {
       return (
         <Banner
           text={t(`TUTOR_VERIFIED_NOTE.TITLE`) + t(`TUTOR_VERIFIED_NOTE.DESCRIPTION`)}
