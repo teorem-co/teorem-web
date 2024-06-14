@@ -104,8 +104,6 @@ const MainWrapper = (props: Props) => {
   }
 
   const getBannerToShow = () => {
-    console.log('hideBanner', hideBanner);
-    !hideBanner ? console.log('TRUE') : console.log('FALSE');
     if (userRole === RoleOptions.Tutor && profileProgressState && !profileProgressState.verified && !hideBanner) {
       return (
         <Banner
