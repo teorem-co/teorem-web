@@ -278,3 +278,31 @@ progress::-moz-progress-bar {
     gap: 20px;
   }
 }
+
+
+.timeslot-container {
+  overflow: hidden;
+  max-height: calc(21 * 10px); /* Adjust this height to show default 10 rows */
+  transition: max-height 0.3s ease;
+}
+
+.timeslot-container.expanded {
+  max-height: none; /* No limit when expanded */
+}
+
+.show-more-button {
+  cursor: pointer;
+  color: blue;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.border-top-calendar {
+  &--primary {
+    border-top: 4px solid $color-primary;
+  }
+
+  &--secondary {
+    border-top: 4px solid $grey-bb;
+  }
+}

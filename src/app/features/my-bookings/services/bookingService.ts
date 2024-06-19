@@ -8,6 +8,7 @@ import { getUserRoleAbbrv } from '../../../../services/tutorService';
 import { RoleOptions } from '../../../../slices/roleSlice';
 import IPage from '../../../../interfaces/notification/IPage';
 import IParams from '../../../../interfaces/IParams';
+import { TimeSlots } from '../../../components/WeekBookingSlots';
 
 //bookings/week/:tutorSlug
 
@@ -104,6 +105,13 @@ export interface IStudentBookingParams {
 }
 
 const URL = '/api/v1/bookings';
+
+interface WeekPeriodsParams {
+  tutorId: string;
+  startDate: string;
+  endDate: string;
+  timeZone: string;
+}
 
 export const bookingService = baseService.injectEndpoints({
   endpoints: (builder) => ({
@@ -295,6 +303,13 @@ export const bookingService = baseService.injectEndpoints({
         method: HttpMethods.GET,
       }),
     }),
+
+    getWeekPeriodsForTutor: builder.query<TimeSlots, WeekPeriodsParams>({
+      query: (params) => ({
+        url: `${URL}/tutor-available-periods/week?tutorId=${params.tutorId}&startDate=${params.startDate}&endDate=${params.endDate}&timeZone=${params.timeZone}`,
+        method: HttpMethods.GET,
+      }),
+    }),
   }),
 });
 
@@ -318,4 +333,5 @@ export const {
   useLazyGetRecentBookingsQuery,
   useLazyGetStudentBookingDetailsQuery,
   useLazyGetAllBookingsForTutorManagementQuery,
+  useLazyGetWeekPeriodsForTutorQuery,
 } = bookingService;
