@@ -20,10 +20,11 @@ interface Period {
 interface Props {
   tutorId: string;
   className?: string;
+  onClickPeriod?: (arg: string) => void;
 }
 
 export const WeekBookingSlots = (props: Props) => {
-  const { tutorId, className } = props;
+  const { tutorId, className, onClickPeriod } = props;
   const isMobile = window.innerWidth < 765;
 
   const timeZoneState = useAppSelector((state) => state.timeZone);
@@ -98,24 +99,19 @@ export const WeekBookingSlots = (props: Props) => {
     <div
       className={`${className} w--800--max  flex flex--col booking-slots-container`}>
       <div>
-        <div className={'flex flex--jc--space-between w--100'}>
-          <div className={'flex flex-gap-2'}>
-            <div className={'flex calendar-button-container'}>
+        {isMobile ?
+          <div>
+            <div className={'flex flex--col flex--jc--space-between w--100'}>
+              <div className={'flex flex-gap-2 flex--grow w--100'}>
+                <div className={'flex flex--jc--space-between w--100 mb-2'}>
+                  <button
+                    onClick={decreaseWeek}
+                    className={'btn pr-2 pl-2 flex flex--center calendar-button'}
+                    disabled={moment(period.startDate).tz(selectedZone).isSameOrBefore(moment().tz(selectedZone))}>
 
-              <button
-                onClick={decreaseWeek}
-                className={'btn pr-2 pl-2 flex flex--center calendar-button'}
-                disabled={moment(period.startDate).tz(selectedZone).isSameOrBefore(moment().tz(selectedZone))}>
-
-                <FaChevronLeft size={15} />
-              </button>
-              <button
-                onClick={increaseWeek}
-                className={'btn pr-2 pl-2 flex flex--center calendar-button'}>
-                <FaChevronRight size={15} />
-              </button>
-            </div>
-            <span>
+                    <FaChevronLeft size={15} />
+                  </button>
+                  <span className={'type--calendar'}>
               {moment(period.startDate).tz(selectedZone).format('MMM D') +
                 (moment(period.startDate).tz(selectedZone).format('MMM') !== moment(period.endDate).tz(selectedZone).format('MMM')
                     ? ' - ' + moment(period.endDate).tz(selectedZone).format('MMM DD, YYYY')
@@ -123,15 +119,60 @@ export const WeekBookingSlots = (props: Props) => {
                 )
               }
             </span>
+                  <button
+                    onClick={increaseWeek}
+                    className={'btn pr-2 pl-2 flex flex--center calendar-button'}>
+                    <FaChevronRight size={15} />
+                  </button>
+                </div>
+
+              </div>
+              <TimeZoneSelect
+                className={'z-index-5 mb-3'}
+                widthClass={isMobile ? 'w--100' : undefined}
+                defaultUserZone={timeZoneState.timeZone ? timeZoneState.timeZone : moment.tz.guess()}
+                selectedZone={selectedZone}
+                setSelectedZone={setSelectedZone}
+              />
+            </div>
           </div>
-          <TimeZoneSelect
-            className={'z-index-5 mb-3'}
-            widthClass={isMobile ? 'w--100' : undefined}
-            defaultUserZone={timeZoneState.timeZone ? timeZoneState.timeZone : moment.tz.guess()}
-            selectedZone={selectedZone}
-            setSelectedZone={setSelectedZone}
-          />
-        </div>
+          :
+          <div className={'flex flex--jc--space-between w--100'}>
+            <div className={'flex flex-gap-2'}>
+              <div className={'flex calendar-button-container'}>
+
+                <button
+                  onClick={decreaseWeek}
+                  className={'btn pr-2 pl-2 flex flex--center calendar-button'}
+                  disabled={moment(period.startDate).tz(selectedZone).isSameOrBefore(moment().tz(selectedZone))}>
+
+                  <FaChevronLeft size={15} />
+                </button>
+                <button
+                  onClick={increaseWeek}
+                  className={'btn pr-2 pl-2 flex flex--center calendar-button'}>
+                  <FaChevronRight size={15} />
+                </button>
+              </div>
+              <span>
+              {moment(period.startDate).tz(selectedZone).format('MMM D') +
+                (moment(period.startDate).tz(selectedZone).format('MMM') !== moment(period.endDate).tz(selectedZone).format('MMM')
+                    ? ' - ' + moment(period.endDate).tz(selectedZone).format('MMM DD, YYYY')
+                    : ' - ' + moment(period.endDate).tz(selectedZone).format('DD, YYYY')
+                )
+              }
+            </span>
+            </div>
+            <TimeZoneSelect
+              className={'z-index-5 mb-3'}
+              widthClass={isMobile ? 'w--100' : undefined}
+              defaultUserZone={timeZoneState.timeZone ? timeZoneState.timeZone : moment.tz.guess()}
+              selectedZone={selectedZone}
+              setSelectedZone={setSelectedZone}
+            />
+          </div>
+        }
+
       </div>
       <div>
         {timeSlots &&
@@ -150,8 +191,12 @@ export const WeekBookingSlots = (props: Props) => {
 
                   {timeSlots[date].map(timeSlot => (
                     <span
-                      className='d--b mt-3 type--underline cur--pointer type--calendar-slot'
-                      onClick={() => alert('selected time: ' + moment(timeSlot).toISOString())}
+                      className='d--b mt-4 type--underline cur--pointer type--calendar-slot'
+                      onClick={() => {
+                        if (onClickPeriod) {
+                          onClickPeriod(moment(timeSlot).toISOString());
+                        }
+                      }}
                       key={timeSlot}
                     >
                       {moment(timeSlot).format('HH:mm')}

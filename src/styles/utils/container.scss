@@ -282,7 +282,10 @@ progress::-moz-progress-bar {
 
 .timeslot-container {
   overflow: hidden;
-  max-height: calc(21 * 10px); /* Adjust this height to show default 10 rows */
+  @media (max-width: $responsive-md) {
+    max-height: calc(8 * 36px);
+  }
+  max-height: calc(8 * 37px); /* Adjust this height to show default 10 rows => 16margin +21text = 37*/
   transition: max-height 0.3s ease;
 }
 

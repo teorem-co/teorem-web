@@ -323,4 +323,9 @@
 .calendar-button {
   border: 1px solid lightgray;
   flex: 0;
+
+  @media (max-width: $responsive-md) {
+    font-size: 14px;
+    padding: calc(#{$unit} * 1.5) calc(#{$unit} * 2);
+  }
 }

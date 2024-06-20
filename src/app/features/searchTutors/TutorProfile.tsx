@@ -789,8 +789,12 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                         </div>
                       </div>
 
-                      <WeekBookingSlots tutorId={tutorId}
-                                        className={`${isMobile ? 'w--100' : 'w--50'}`} />
+                      <WeekBookingSlots
+                        onClickPeriod={(arg) => {
+                          alert('ARG je:  ' + arg);
+                        }}
+                        tutorId={tutorId}
+                        className={`${isMobile ? 'w--100' : 'w--50'}`} />
                     </div>
 
 

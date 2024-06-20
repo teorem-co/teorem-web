@@ -38,6 +38,7 @@ interface Props {
   defaultUserZone?: string;
   useSystemDefaultZone?: boolean;
   className?: string;
+  widthClass?: string;
 }
 
 export const TimeZoneSelect = (props: Props) => {
@@ -49,6 +50,7 @@ export const TimeZoneSelect = (props: Props) => {
     defaultUserZone,
     useSystemDefaultZone,
     className,
+    widthClass,
   } = props;
   const [getAllTimeZones] = useLazyGetAllTimeZonesQuery();
 
@@ -97,7 +99,7 @@ export const TimeZoneSelect = (props: Props) => {
       {showTitle && <span
         className={'mr-2'}>{t('MY_PROFILE.GENERAL_AVAILABILITY.SELECT_ZONE')}</span>}
       <Select
-        className={`select-width ${className}`}
+        className={`${widthClass ? widthClass : 'select-width'} ${className}`}
         classNamePrefix='select'
         value={timeZoneOptions.find((option) => option.value === selectedZone)}
         onChange={handleChangeZone}

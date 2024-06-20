@@ -238,3 +238,11 @@
   text-decoration: none !important;
   color: inherit;
 }
+
+.type--calendar {
+  font-size: $type-base;
+
+  @media (max-width: $responsive-md) {
+    font-size: $type-md;
+  }
+}
