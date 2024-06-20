@@ -24,6 +24,7 @@ interface Props {
 
 export const WeekBookingSlots = (props: Props) => {
   const { tutorId, className } = props;
+  const isMobile = window.innerWidth < 765;
 
   const timeZoneState = useAppSelector((state) => state.timeZone);
   const [selectedZone, setSelectedZone] = useState(timeZoneState.timeZone ? timeZoneState.timeZone : moment.tz.guess());
@@ -124,7 +125,8 @@ export const WeekBookingSlots = (props: Props) => {
             </span>
           </div>
           <TimeZoneSelect
-            className={'z-index-5'}
+            className={'z-index-5 mb-3'}
+            widthClass={isMobile ? 'w--100' : undefined}
             defaultUserZone={timeZoneState.timeZone ? timeZoneState.timeZone : moment.tz.guess()}
             selectedZone={selectedZone}
             setSelectedZone={setSelectedZone}
