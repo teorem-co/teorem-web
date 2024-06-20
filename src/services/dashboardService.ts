@@ -1,8 +1,13 @@
-import {baseService} from '../app/baseService';
-import {HttpMethods} from "../app/lookups/httpMethods";
-import IBooking from "../app/features/my-bookings/interfaces/IBooking";
+import { baseService } from '../app/baseService';
+import { HttpMethods } from '../app/lookups/httpMethods';
+import IBooking from '../app/features/my-bookings/interfaces/IBooking';
 
 const URL = '/api/v1/dashboard';
+
+export interface ITimeZone {
+  timeZoneId: string;
+  offset: string;
+}
 
 export const dashboardService = baseService.injectEndpoints({
   endpoints: (builder) => ({
@@ -24,12 +29,12 @@ export const dashboardService = baseService.injectEndpoints({
         method: HttpMethods.GET,
       }),
     }),
-    getAllTimeZones: builder.query<string[], void>({
+    getAllTimeZones: builder.query<ITimeZone[], void>({
       query: () => ({
         url: `${URL}/allTimeZones`,
         method: HttpMethods.GET,
       }),
-    })
+    }),
   }),
 });
 

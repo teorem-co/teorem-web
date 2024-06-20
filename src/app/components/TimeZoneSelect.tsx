@@ -4,7 +4,7 @@ import { Option } from '../features/my-profile/VideoRecorder/VideoRecorder';
 import { useLazyGetAllTimeZonesQuery } from '../../services/dashboardService';
 import { t } from 'i18next';
 import moment from 'moment/moment';
-import { useAppDispatch, useAppSelector } from '../hooks';
+import { useAppDispatch } from '../hooks';
 import { setTimeZone } from '../../slices/timeZoneSlice';
 
 const customStyles: StylesConfig<Option, false> = {
@@ -53,7 +53,6 @@ export const TimeZoneSelect = (props: Props) => {
   const [getAllTimeZones] = useLazyGetAllTimeZonesQuery();
 
   const [timeZoneOptions, setTimeZoneOptions] = useState<Option[]>([]);
-  const timeZoneState = useAppSelector((state) => state.timeZone);
 
   const dispatch = useAppDispatch();
 
@@ -68,8 +67,13 @@ export const TimeZoneSelect = (props: Props) => {
     const res = await getAllTimeZones().unwrap();
     const timeZones = res.map((timeZone) => {
       return {
-        value: timeZone,
-        label: timeZone,
+        value: timeZone.timeZoneId,
+        label:
+          <div className={'flex flex--col'}>
+            <span className={'type--base'}>{timeZone.timeZoneId}</span>
+            <span
+              className={'type--sm type--color--secondary'}>({timeZone.offset})</span>
+          </div>,
       };
     });
 

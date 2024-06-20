@@ -42,6 +42,7 @@ import { NoReviews } from '../../components/NoReviews';
 import playButton from '../../../assets/icons/play-button.svg';
 import { CurrencySymbol } from '../../components/CurrencySymbol';
 import { ButtonPrimaryGradient } from '../../components/ButtonPrimaryGradient';
+import { WeekBookingSlots } from '../../components/WeekBookingSlots';
 
 const TutorProfile = () => {
   const { t } = useTranslation();
@@ -704,31 +705,37 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                         ></iframe>
                       </div>
                     )}
-                    <div
-                      className={`w--100 ${isMobile ? '' : 'flex flex--jc--space-between'} `}>
-                      <div className={`${isMobile ? '' : 'w--45'} mb-10`}>
-                        <div
-                          className='type--wgt--bold mb-2 type--lg'>{t('SEARCH_TUTORS.TUTOR_PROFILE.ABOUT_ME')}</div>
-                        <div
-                          className='type--color--secondary type--break type--normal'>
-                          {tutorData ? tutorData.aboutTutor : <>{t('SEARCH_TUTORS.TUTOR_PROFILE.EMPTY_STATE_ABOUT')}</>}
+
+
+                    <div className={`flex flex-gap-5 flex--jc--space-between`}>
+                      <div className='flex flex--col w--45'>
+                        <div className={`${isMobile ? '' : ''} mb-10`}>
+                          <div
+                            className='type--wgt--bold mb-2 type--lg'>{t('SEARCH_TUTORS.TUTOR_PROFILE.ABOUT_ME')}</div>
+                          <div
+                            className='type--color--secondary type--break type--normal'>
+                            {tutorData ? tutorData.aboutTutor : <>{t('SEARCH_TUTORS.TUTOR_PROFILE.EMPTY_STATE_ABOUT')}</>}
+                          </div>
+                        </div>
+
+                        <div className={`${isMobile ? '' : ''} mb-10`}>
+                          <div className='type--wgt--bold mb-2 type--lg'>
+                            {t('SEARCH_TUTORS.TUTOR_PROFILE.ABOUT_TEACHINGS')}
+                          </div>
+                          <div
+                            className='type--color--secondary type--break type--normal'>
+                            {tutorData && tutorData.aboutLessons ? (
+                              tutorData.aboutLessons
+                            ) : (
+                              <>{t('SEARCH_TUTORS.TUTOR_PROFILE.EMPTY_STATE_LESSON')}</>
+                            )}
+                          </div>
                         </div>
                       </div>
 
-                      <div className={`${isMobile ? '' : 'w--50'} mb-10`}>
-                        <div className='type--wgt--bold mb-2 type--lg'>
-                          {t('SEARCH_TUTORS.TUTOR_PROFILE.ABOUT_TEACHINGS')}
-                        </div>
-                        <div
-                          className='type--color--secondary type--break type--normal'>
-                          {tutorData && tutorData.aboutLessons ? (
-                            tutorData.aboutLessons
-                          ) : (
-                            <>{t('SEARCH_TUTORS.TUTOR_PROFILE.EMPTY_STATE_LESSON')}</>
-                          )}
-                        </div>
-                      </div>
+                      <WeekBookingSlots tutorId={tutorId} className={'w--50'} />
                     </div>
+
                     <div
                       className={`${isMobile ? '' : 'flex flex--jc--space-between'} mb-10`}>
                       <div className={`${isMobile ? 'mb-10' : 'w--45'}`}>

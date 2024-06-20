@@ -306,3 +306,11 @@ progress::-moz-progress-bar {
     border-top: 4px solid $grey-bb;
   }
 }
+
+.calendar-button-container {
+  height: 23px;
+  background: lightgray;
+  border-radius: 4px;
+  padding: 1px;
+  box-sizing: content-box;
+}

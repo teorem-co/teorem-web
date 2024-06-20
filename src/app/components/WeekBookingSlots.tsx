@@ -17,7 +17,14 @@ interface Period {
   endDate: string,
 };
 
-export const WeekBookingSlots = () => {
+interface Props {
+  tutorId: string;
+  className?: string;
+}
+
+export const WeekBookingSlots = (props: Props) => {
+  const { tutorId, className } = props;
+
   const timeZoneState = useAppSelector((state) => state.timeZone);
   const [selectedZone, setSelectedZone] = useState(timeZoneState.timeZone ? timeZoneState.timeZone : moment.tz.guess());
 
@@ -73,7 +80,7 @@ export const WeekBookingSlots = () => {
     if (!period.startDate || !period.endDate) return;
 
     const res = await getTimeSlots({
-      tutorId: 'e3523194-444d-4cf0-b771-cc9ab782790c', //TODO: set tutorID
+      tutorId: tutorId,
       startDate: moment(period.startDate).tz(selectedZone).format('YYYY-MM-DD'),
       endDate: moment(period.endDate).tz(selectedZone).format('YYYY-MM-DD'),
       timeZone: selectedZone,
@@ -87,35 +94,33 @@ export const WeekBookingSlots = () => {
   }, [selectedZone, period]);
 
   return (
-    <div className='w--800 align--center p-5'>
+    <div className={`${className} w--800--max  flex flex--col`}>
       <div>
         <div className={'flex flex--jc--space-between w--100'}>
           <div className={'flex flex-gap-2'}>
-            <div className={'flex'}
-                 style={{
-                   height: '23px',
-                   background: 'lightgray',
-                   borderRadius: '4px',
-                   padding: '1px',
-                   boxSizing: 'content-box',
-                 }}>
+            <div className={'flex calendar-button-container'}>
 
               <button
                 onClick={decreaseWeek}
-                className={'btn pr-2 pl-2 flex flex--center'}
-                disabled={moment(period.startDate).tz(selectedZone).isSameOrBefore(moment().tz(selectedZone))}
-                style={{ border: '1px solid lightgray', flex: 0 }}>
+                className={'btn pr-2 pl-2 flex flex--center calendar-button'}
+                disabled={moment(period.startDate).tz(selectedZone).isSameOrBefore(moment().tz(selectedZone))}>
 
                 <FaChevronLeft size={15} />
               </button>
               <button
                 onClick={increaseWeek}
-                className={'btn pr-2 pl-2 flex flex--center'}
-                style={{ border: '1px solid lightgray', flex: 0 }}>
+                className={'btn pr-2 pl-2 flex flex--center calendar-button'}>
                 <FaChevronRight size={15} />
               </button>
             </div>
-            <span>{moment(period.startDate).tz(selectedZone).format('MMM D') + '-' + moment(period.endDate).tz(selectedZone).format('DD, YYYY')}</span>
+            <span>
+              {moment(period.startDate).tz(selectedZone).format('MMM D') +
+                (moment(period.startDate).tz(selectedZone).format('MMM') !== moment(period.endDate).tz(selectedZone).format('MMM')
+                    ? ' - ' + moment(period.endDate).tz(selectedZone).format('MMM DD, YYYY')
+                    : ' - ' + moment(period.endDate).tz(selectedZone).format('DD, YYYY')
+                )
+              }
+            </span>
           </div>
           <TimeZoneSelect
             className={'z-index-5'}
@@ -127,14 +132,13 @@ export const WeekBookingSlots = () => {
       </div>
       <div>
         {timeSlots &&
-          <div className={'flex flex-gap-1 mt-4'}>
+          <div className={'flex mt-4 flex-gap-1'}>
             {Object.keys(timeSlots).map(date => (
               <div key={date} className={'w--50'}>
                 <div
                   className={`flex pt-1 pb-2 type--wgt--bold flex--col type--md type--center border-top-calendar${timeSlots[date].length > 0 ? '--primary' : '--secondary'}`}>
                   <span
                     className={'d--b type--base'}>{(moment(date).format('ddd').substring(0, 3)).charAt(0).toUpperCase() + (moment(date).format('ddd').substring(0, 3)).slice(1)}</span>
-                  {/*className={'d--b type--base'}>{moment(date).format('ddd').substring(0, 3)}</span>*/}
                   <span
                     className={'d--b type--base'}>{moment(date).format('DD')}</span>
                 </div>
@@ -152,9 +156,9 @@ export const WeekBookingSlots = () => {
           </div>
         }
       </div>
-      <div className='show-more-button' onClick={toggleExpand}>
-        {isExpanded ? 'Show Less' : 'Show More'}
-      </div>
+      <button
+        onClick={toggleExpand}
+        className={'btn btn--secondary  pt-2 pb-2 pr-6 pl-6 mt-4 w--25 align-self-center'}>{isExpanded ? 'Show Less' : 'View full schedule'}</button>
     </div>
   );
 };

@@ -62,7 +62,6 @@ import { StudentProfile } from './features/student-management/StudentProfile';
 import {
   BookingManagement,
 } from './features/booking-management/BookingManagement';
-import { WeekBookingSlots } from './components/WeekBookingSlots';
 
 export const PATHS = {
   ROLE_SELECTION: t('PATHS.ROLE_SELECTION'),
@@ -127,21 +126,6 @@ interface IMenuPerRole {
 }
 
 export const ROUTES: any = [
-  {
-    path: '/en/book-component',
-    key: 'bok component',
-    exact: true,
-    component: () =>
-      <WeekBookingSlots />,
-  },
-  {
-    path: '/hr/book-component',
-    key: 'bok component',
-    exact: true,
-    component: () =>
-      <WeekBookingSlots />,
-  },
-
   {
     path: PATHS.STUDENT_PROFILE,
     key: 'STUDENT_PROFILE',
