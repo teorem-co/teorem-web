@@ -178,6 +178,14 @@
   &--italic {
     font-style: italic;
   }
+
+  &--calendar-slot {
+    font-size: $type-sm;
+
+    @media (min-width: $responsive-md) {
+      font-size: $type-base;
+    }
+  }
 }
 
 .review-mark-big {

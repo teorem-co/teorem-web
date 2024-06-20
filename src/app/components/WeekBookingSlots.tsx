@@ -94,7 +94,8 @@ export const WeekBookingSlots = (props: Props) => {
   }, [selectedZone, period]);
 
   return (
-    <div className={`${className} w--800--max  flex flex--col`}>
+    <div
+      className={`${className} w--800--max  flex flex--col booking-slots-container`}>
       <div>
         <div className={'flex flex--jc--space-between w--100'}>
           <div className={'flex flex-gap-2'}>
@@ -146,9 +147,13 @@ export const WeekBookingSlots = (props: Props) => {
                   className={`type--center timeslot-container ${isExpanded ? 'expanded' : ''}`}>
 
                   {timeSlots[date].map(timeSlot => (
-                    <div className='mt-3 type--underline cur--pointer'
-                         onClick={() => alert('selected time: ' + moment(timeSlot).toISOString())}
-                         key={timeSlot}>{moment(timeSlot).format('HH:mm')}</div>
+                    <span
+                      className='d--b mt-3 type--underline cur--pointer type--calendar-slot'
+                      onClick={() => alert('selected time: ' + moment(timeSlot).toISOString())}
+                      key={timeSlot}
+                    >
+                      {moment(timeSlot).format('HH:mm')}
+                    </span>
                   ))}
                 </div>
               </div>

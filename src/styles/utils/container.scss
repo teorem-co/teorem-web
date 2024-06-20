@@ -314,3 +314,10 @@ progress::-moz-progress-bar {
   padding: 1px;
   box-sizing: content-box;
 }
+
+.booking-slots-container {
+  @media (max-width: $responsive-md) {
+    margin-bottom: calc(4 * $unit);
+
+  }
+}

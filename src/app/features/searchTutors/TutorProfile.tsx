@@ -707,8 +707,10 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                     )}
 
 
-                    <div className={`flex flex-gap-5 flex--jc--space-between`}>
-                      <div className='flex flex--col w--45'>
+                    <div
+                      className={`flex ${isMobile ? 'flex--col' : ''} flex-gap-5 flex--jc--space-between`}>
+                      <div
+                        className={`flex flex--col  ${isMobile ? 'w--100' : 'w--45'} `}>
                         <div className={`${isMobile ? '' : ''} mb-10`}>
                           <div
                             className='type--wgt--bold mb-2 type--lg'>{t('SEARCH_TUTORS.TUTOR_PROFILE.ABOUT_ME')}</div>
@@ -731,85 +733,66 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                             )}
                           </div>
                         </div>
-                      </div>
-
-                      <WeekBookingSlots tutorId={tutorId} className={'w--50'} />
-                    </div>
-
-                    <div
-                      className={`${isMobile ? '' : 'flex flex--jc--space-between'} mb-10`}>
-                      <div className={`${isMobile ? 'mb-10' : 'w--45'}`}>
                         <div
-                          className='type--wgt--bold mb-2 type--lg'>{t('TUTOR_PROFILE.SUBJECTS.TITLE')}</div>
-                        <table className='table table--primary type--normal'>
-                          <thead>
-                          <tr
-                            className={`${isMobile ? 'type--sm type--left' : ''}`}>
-                            <th>{t('TUTOR_PROFILE.SUBJECTS.SUBJECT')}</th>
-                            <th>{t('TUTOR_PROFILE.SUBJECTS.QUALIFICATION')}</th>
-                            <th>{t('TUTOR_PROFILE.SUBJECTS.PRICE')}</th>
-                          </tr>
-                          </thead>
-                          <tbody>
-                          {tutorData.TutorSubjects.length > 0 ? (
-                            tutorData.TutorSubjects.map((item: ITutorSubjectLevel) => {
-                              return (
-                                <tr key={item.id}
-                                    className={`${isMobile ? 'type--sm p-0 type--left' : ''}`}>
-                                  <td>{t(`SUBJECTS.${item.Subject.abrv.replaceAll('-', '')}`)}</td>
-                                  {item.Level.name === 'IB (International Baccalaurate)' ? (
-                                    <td>{t('LEVELS.ib')}</td>
-                                  ) : (
-                                    <td>
-                                      {t(
-                                        `LEVELS.${item.Level.name
-                                          .replaceAll('-', '')
-                                          .replaceAll(' ', '')
-                                          .toLowerCase()}`,
+                          className={`${isMobile ? '' : 'flex flex--jc--space-between'} mb-10`}>
+                          <div className={`${isMobile ? 'mb-10' : 'w--100'}`}>
+                            <div
+                              className='type--wgt--bold mb-2 type--lg'>{t('TUTOR_PROFILE.SUBJECTS.TITLE')}</div>
+                            <table
+                              className='table table--primary type--normal'>
+                              <thead>
+                              <tr
+                                className={`${isMobile ? 'type--sm type--left' : ''}`}>
+                                <th>{t('TUTOR_PROFILE.SUBJECTS.SUBJECT')}</th>
+                                <th>{t('TUTOR_PROFILE.SUBJECTS.QUALIFICATION')}</th>
+                                <th>{t('TUTOR_PROFILE.SUBJECTS.PRICE')}</th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              {tutorData.TutorSubjects.length > 0 ? (
+                                tutorData.TutorSubjects.map((item: ITutorSubjectLevel) => {
+                                  return (
+                                    <tr key={item.id}
+                                        className={`${isMobile ? 'type--sm p-0 type--left' : ''}`}>
+                                      <td>{t(`SUBJECTS.${item.Subject.abrv.replaceAll('-', '')}`)}</td>
+                                      {item.Level.name === 'IB (International Baccalaurate)' ? (
+                                        <td>{t('LEVELS.ib')}</td>
+                                      ) : (
+                                        <td>
+                                          {t(
+                                            `LEVELS.${item.Level.name
+                                              .replaceAll('-', '')
+                                              .replaceAll(' ', '')
+                                              .toLowerCase()}`,
+                                          )}
+                                        </td>
                                       )}
-                                    </td>
-                                  )}
-                                  <td>
-                                    {item.price}
-                                    <span className='type--color--tertiary'>
+                                      <td>
+                                        {item.price}
+                                        <span className='type--color--tertiary'>
                                                                                 {' ' + tutorData.User.Country.currencyCode}/
-                                      {t('TUTOR_PROFILE.SUBJECTS.HOUR_ABRV')}
+                                          {t('TUTOR_PROFILE.SUBJECTS.HOUR_ABRV')}
                                                                             </span>
-                                  </td>
+                                      </td>
+                                    </tr>
+                                  );
+                                })
+                              ) : (
+                                <tr>
+                                  <td
+                                    colSpan={3}>{t('TUTOR_PROFILE.SUBJECTS.EMPTY')}</td>
                                 </tr>
-                              );
-                            })
-                          ) : (
-                            <tr>
-                              <td
-                                colSpan={3}>{t('TUTOR_PROFILE.SUBJECTS.EMPTY')}</td>
-                            </tr>
-                          )}
-                          </tbody>
-                        </table>
+                              )}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
                       </div>
-                      <div className={`${isMobile ? '' : 'w--50'}`}>
-                        <div
-                          className='type--wgt--bold mb-2 type--lg'>{t('MY_PROFILE.GENERAL_AVAILABILITY.TITLE')}</div>
-                        {tutorAvailability && tutorAvailability[1].length > 1 ? (
-                          <table className='table table--availability'>
-                            <tbody>
-                            {tutorAvailability.map((row: (string | boolean)[], index: number) => {
-                              return (
-                                <tr key={index}>
-                                  {row.map((column: string | boolean, index: number) => {
-                                    return renderTableCells(column, index);
-                                  })}
-                                </tr>
-                              );
-                            })}
-                            </tbody>
-                          </table>
-                        ) : (
-                          <>{t('TUTOR_PROFILE.AVAILABILITY_EMPTY')}</>
-                        )}
-                      </div>
+
+                      <WeekBookingSlots tutorId={tutorId}
+                                        className={`${isMobile ? 'w--100' : 'w--50'}`} />
                     </div>
+
 
                     <div className='mb-10'>
                       <div
