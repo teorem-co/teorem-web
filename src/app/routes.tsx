@@ -126,7 +126,6 @@ interface IMenuPerRole {
 }
 
 export const ROUTES: any = [
-
   {
     path: PATHS.STUDENT_PROFILE,
     key: 'STUDENT_PROFILE',
