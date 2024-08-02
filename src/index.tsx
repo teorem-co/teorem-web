@@ -14,7 +14,7 @@ import { ToastContainer } from 'react-toastify';
 import { PersistGate } from 'redux-persist/integration/react';
 
 import App from './App';
-import { persistor, store } from './app/store';
+import { persistor, store } from './app/store/store';
 import * as serviceWorker from './serviceWorker';
 import AuthWrapper from './app/features/auth/providers/AuthWrapper';
 

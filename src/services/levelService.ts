@@ -1,6 +1,6 @@
 import { t } from 'i18next';
 
-import { baseService } from '../app/baseService';
+import { baseService } from '../app/store/baseService';
 import { OptionType } from '../app/components/form/MySelectField';
 import { HttpMethods } from '../app/lookups/httpMethods';
 import ILevel from '../interfaces/ILevel';
@@ -9,7 +9,6 @@ const URL = 'api/v1/levels';
 
 export const levelService = baseService.injectEndpoints({
     endpoints: (builder) => ({
-
         getLevels: builder.query<OptionType[], void>({
             query: () => ({
                 url: `${URL}`,
@@ -23,11 +22,8 @@ export const levelService = baseService.injectEndpoints({
 
                 return levelOptions;
             },
-        })
+        }),
     }),
 });
 
-export const {
-    useGetLevelsQuery,
-    useLazyGetLevelsQuery
-} = levelService;
+export const { useGetLevelsQuery, useLazyGetLevelsQuery } = levelService;

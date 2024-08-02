@@ -8,7 +8,7 @@ import { useLazyGetChildrenQuery } from '../../../../services/userService';
 import ImageCircle from '../../../components/ImageCircle';
 import MainWrapper from '../../../components/MainWrapper';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import AddChildSidebar from '../components/AddChildSidebar';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';

@@ -17,7 +17,7 @@ import { addStripeId } from '../../../slices/authSlice';
 import { RoleOptions } from '../../../slices/roleSlice';
 import MainWrapper from '../../components/MainWrapper';
 import LoaderSecondary from '../../components/skeleton-loaders/LoaderSecondary';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import toastService from '../../services/toastService';
 import { calcModalPosition } from '../../utils/calcModalPosition';
 import ParentCalendarSlots from '../my-bookings/components/ParentCalendarSlots';

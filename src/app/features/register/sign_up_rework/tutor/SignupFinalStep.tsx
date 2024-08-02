@@ -1,6 +1,6 @@
 import { t } from 'i18next';
 import React, { useEffect, useState } from 'react';
-import { useAppSelector } from '../../../../hooks';
+import { useAppSelector } from '../../../../store/hooks';
 import { useResendActivationEmailMutation } from '../../../../../services/authService';
 import { ButtonPrimaryGradient } from '../../../../components/ButtonPrimaryGradient';
 

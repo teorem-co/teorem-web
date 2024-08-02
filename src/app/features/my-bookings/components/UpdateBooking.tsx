@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import { useLazyGetChildQuery } from '../../../../services/userService';
 import { RoleOptions } from '../../../../slices/roleSlice';
 import Select from '@mui/material/Select';
-import { useAppSelector } from '../../../hooks';
+import { useAppSelector } from '../../../store/hooks';
 import toastService from '../../../services/toastService';
 import IBooking from '../interfaces/IBooking';
 import {

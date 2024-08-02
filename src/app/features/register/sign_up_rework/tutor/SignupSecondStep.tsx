@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import { useCheckMailMutation } from '../../../../../services/authService';
 import { setStepTwo } from '../../../../../slices/signUpSlice';
 import MyPhoneInput from '../../../../components/form/MyPhoneInput';
-import { useAppSelector } from '../../../../hooks';
+import { useAppSelector } from '../../../../store/hooks';
 import { TextField } from '@mui/material';
 import { ButtonPrimaryGradient } from '../../../../components/ButtonPrimaryGradient';
 

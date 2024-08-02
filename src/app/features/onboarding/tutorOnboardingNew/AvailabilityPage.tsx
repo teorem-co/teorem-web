@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useLazyGetProfileProgressQuery } from '../../../../services/tutorService';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
 import availabilityTable from '../../../constants/availabilityTable';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { getUserId } from '../../../utils/getUserId';
 import {
     useCreateTutorAvailabilityMutation,

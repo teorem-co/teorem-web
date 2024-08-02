@@ -2,7 +2,7 @@ import { t } from 'i18next';
 import { NavLink } from 'react-router-dom';
 
 import { RoleOptions } from '../../../../slices/roleSlice';
-import { useAppSelector } from '../../../hooks';
+import { useAppSelector } from '../../../store/hooks';
 import { PROFILE_PATHS } from '../../../routes';
 
 interface Props {

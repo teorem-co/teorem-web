@@ -10,7 +10,7 @@ import { t } from 'i18next';
 import { PATHS } from '../../routes';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment/moment';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../store/hooks';
 
 export const StudentManagement = () => {
   const history = useHistory();

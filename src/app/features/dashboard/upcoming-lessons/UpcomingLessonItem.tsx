@@ -10,7 +10,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {
   useDeleteBookingMutation,
 } from '../../my-bookings/services/bookingService';
-import { useAppSelector } from '../../../hooks';
+import { useAppSelector } from '../../../store/hooks';
 import { RoleOptions } from '../../../../slices/roleSlice';
 
 export interface OptionsItem {

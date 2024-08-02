@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import Navbar from './Navbar';
 import { debounce } from 'lodash';
-import { useAppSelector } from '../hooks';
+import { useAppSelector } from '../store/hooks';
 import { useDispatch } from 'react-redux';
 import { setTopOffset } from '../../slices/scrollSlice';
 import { RoleOptions } from '../../slices/roleSlice';

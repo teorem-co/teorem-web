@@ -1,4 +1,4 @@
-import { useAppSelector } from '../hooks';
+import { useAppSelector } from '../store/hooks';
 import { countryMap } from './countries';
 
 interface Props {

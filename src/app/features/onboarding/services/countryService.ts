@@ -1,6 +1,6 @@
-import { baseService } from '../../../baseService';
 import { t } from 'i18next';
 import { HttpMethods } from '../../../lookups/httpMethods';
+import { baseService } from '../../../store/baseService';
 
 //bookings/week/:tutorSlug
 

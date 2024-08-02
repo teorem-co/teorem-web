@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useRef, useState } from 'react';
 import Peer from 'simple-peer';
 import { ContextType } from '../../../../interfaces/IVideoChat';
-import { useAppSelector } from '../../../hooks';
+import { useAppSelector } from '../../../store/hooks';
 // import { Stream } from "stream";
 
 const defaultValues: ContextType = {

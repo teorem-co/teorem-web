@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
-import { useAppSelector } from '../../../hooks';
+import { useAppSelector } from '../../../store/hooks';
 import { useLazyGetRoomLinkQuery } from '../../../services/hiLinkService';
 import { useHistory } from 'react-router';
 import { IBookingModalInfo } from '../../tutor-bookings/TutorBookings';

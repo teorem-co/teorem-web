@@ -13,7 +13,7 @@ import {
 import IGetRecordingLinks from '../../../interfaces/IGetRecordingLinks';
 import { BeatLoader } from 'react-spinners';
 import { AiOutlineDown } from 'react-icons/ai';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../store/hooks';
 import toastService from '../../services/toastService';
 
 export interface IBookingInfo {

@@ -9,7 +9,7 @@ import {
   useAddPaymentIntentMutation,
   useLazyGetCustomerByIdQuery,
 } from '../services/stripeService';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { StripeError } from '@stripe/stripe-js';
 import { setMyProfileProgress } from '../slices/myProfileSlice';
 import { addStripeId } from '../../../../slices/authSlice';

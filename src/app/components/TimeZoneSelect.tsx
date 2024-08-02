@@ -4,7 +4,7 @@ import { Option } from '../features/my-profile/VideoRecorder/VideoRecorder';
 import { useLazyGetAllTimeZonesQuery } from '../../services/dashboardService';
 import { t } from 'i18next';
 import moment from 'moment/moment';
-import { useAppDispatch } from '../hooks';
+import { useAppDispatch } from '../store/hooks';
 import { setTimeZone } from '../../slices/timeZoneSlice';
 
 const customStyles: StylesConfig<Option, false> = {

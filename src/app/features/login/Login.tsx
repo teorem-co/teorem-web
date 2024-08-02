@@ -11,7 +11,7 @@ import {
     useResendActivationEmailMutation,
 } from '../../../services/authService';
 import MyTextField from '../../components/form/MyTextField';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../store/hooks';
 import { Role } from '../../lookups/role';
 import { PATHS } from '../../routes';
 import logo from './../../../assets/images/logo.svg';

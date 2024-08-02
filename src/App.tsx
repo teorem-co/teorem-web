@@ -17,11 +17,11 @@ import {
     setUser,
 } from './app/features/chat/slices/chatSlice';
 import { useLazyGetCountriesQuery } from './app/features/onboarding/services/countryService';
-import { useAppSelector } from './app/hooks';
+import { useAppSelector } from './app/store/hooks';
 import { Role } from './app/lookups/role';
 import ROUTES, { RenderRoutes } from './app/routes';
 import toastService from './app/services/toastService';
-import { persistor } from './app/store';
+import { persistor } from './app/store/store';
 import useMount from './app/utils/useMount';
 import { NotificationType } from './interfaces/notification/INotification';
 import ISocketNotification from './interfaces/notification/ISocketNotification';

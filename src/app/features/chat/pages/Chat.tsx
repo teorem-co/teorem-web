@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import MainWrapper from '../../../components/MainWrapper';
-import { useAppSelector } from '../../../hooks';
+import { useAppSelector } from '../../../store/hooks';
 import AsideWrapper from '../components/AsideWrapper';
 import SingleConversation from '../components/SingleConversation';
 import { ContextProvider } from '../contexts/Context';

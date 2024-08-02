@@ -1,7 +1,7 @@
 import { t } from 'i18next';
 import React, { useState } from 'react';
 import toastService from '../../services/toastService';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../store/hooks';
 import { LiaFileInvoiceDollarSolid } from 'react-icons/lia';
 import IBookingDetails from './interfaces/IBookingDetails';
 import moment from 'moment/moment';

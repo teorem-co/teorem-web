@@ -34,7 +34,7 @@ import MainWrapper from '../../components/MainWrapper';
 import NotificationsSidebar from '../../components/NotificationsSidebar';
 import LoaderPrimary from '../../components/skeleton-loaders/LoaderPrimary';
 import { TutorialModal } from '../../components/TutorialModal';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../store/hooks';
 import { PATHS, PROFILE_PATHS } from '../../routes';
 import { useLazyGetTutorTestingLinkQuery } from '../../services/hiLinkService';
 import toastService from '../../services/toastService';

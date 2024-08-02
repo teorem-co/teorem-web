@@ -1,7 +1,7 @@
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
 import { useLazyGetProfileProgressQuery, useLazyGetTutorByIdQuery } from '../../../../services/tutorService';
 import React, { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { getUserId } from '../../../utils/getUserId';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';

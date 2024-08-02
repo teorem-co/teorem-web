@@ -1,7 +1,7 @@
-import { baseService } from '../app/baseService';
+import { baseService } from '../app/store/baseService';
 import IParams from '../app/features/notifications/interfaces/IParams';
 import { HttpMethods } from '../app/lookups/httpMethods';
-import IPage from "../interfaces/notification/IPage";
+import IPage from '../interfaces/notification/IPage';
 import INotification from '../interfaces/notification/INotification';
 
 const URL = 'api/v1/notifications';
@@ -10,14 +10,14 @@ export const notificationService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         getAllNotifications: builder.query<IPage<INotification>, IParams>({
             query: (params) => ({
-                url: `${URL}?size=${params.size}&page=${params.page-1}&sort=${params.sort},${params.sortDirection}`,
+                url: `${URL}?size=${params.size}&page=${params.page - 1}&sort=${params.sort},${params.sortDirection}`,
                 method: HttpMethods.GET,
             }),
             providesTags: ['notifications'],
         }),
         getAllUnreadNotifications: builder.query<IPage<INotification>, IParams>({
             query: (params) => ({
-                url: `${URL}?size=${params.size}&page=${params.page-1}&read=${params.read}&sort=${params.sort},${params.sortDirection}`,
+                url: `${URL}?size=${params.size}&page=${params.page - 1}&read=${params.read}&sort=${params.sort},${params.sortDirection}`,
                 method: HttpMethods.GET,
             }),
             providesTags: ['notificationsUnread'],
@@ -39,5 +39,9 @@ export const notificationService = baseService.injectEndpoints({
     }),
 });
 
-export const { useLazyGetAllNotificationsQuery, useMarkAsReadMutation, useLazyGetAllUnreadNotificationsQuery, useMarkAllAsReadMutation } =
-    notificationService;
+export const {
+    useLazyGetAllNotificationsQuery,
+    useMarkAsReadMutation,
+    useLazyGetAllUnreadNotificationsQuery,
+    useMarkAllAsReadMutation,
+} = notificationService;

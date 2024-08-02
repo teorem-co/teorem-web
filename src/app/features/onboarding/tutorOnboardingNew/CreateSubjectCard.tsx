@@ -9,7 +9,7 @@ import { useCreateSubjectMutation, useGetSubjectsQuery } from '../../../../servi
 import { useLazyGetProfileProgressQuery } from '../../../../services/tutorService';
 import MySelect from '../../../components/form/MySelectField';
 import { useLazyGetCountriesQuery } from '../../../features/onboarding/services/countryService';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import toastService from '../../../services/toastService';
 import { getUserId } from '../../../utils/getUserId';
 import { setMyProfileProgress } from '../../my-profile/slices/myProfileSlice';

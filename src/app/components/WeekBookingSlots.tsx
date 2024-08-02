@@ -1,6 +1,6 @@
 import { TimeZoneSelect } from './TimeZoneSelect';
 import React, { useEffect, useState } from 'react';
-import { useAppSelector } from '../hooks';
+import { useAppSelector } from '../store/hooks';
 import moment from 'moment-timezone';
 import {
   useLazyGetWeekPeriodsForTutorQuery,

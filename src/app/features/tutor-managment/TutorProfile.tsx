@@ -15,7 +15,7 @@ import MainWrapper from '../../components/MainWrapper';
 import LoaderPrimary from '../../components/skeleton-loaders/LoaderPrimary';
 import LoaderTutorProfile
   from '../../components/skeleton-loaders/LoaderTutorProfile';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../store/hooks';
 import { PATHS } from '../../routes';
 import { useGetOrCreateChatMutation } from '../../services/chatEngineService';
 import handleRatingStars from '../../utils/handleRatingStarts';

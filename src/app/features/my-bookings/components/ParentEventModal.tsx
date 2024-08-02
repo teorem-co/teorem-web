@@ -3,7 +3,7 @@ import moment from 'moment';
 import React from 'react';
 
 import { RoleOptions } from '../../../../slices/roleSlice';
-import { useAppSelector } from '../../../hooks';
+import { useAppSelector } from '../../../store/hooks';
 import IBooking from '../interfaces/IBooking';
 import { Tooltip } from 'react-tooltip';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';

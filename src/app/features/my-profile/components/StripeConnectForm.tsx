@@ -4,7 +4,7 @@ import * as yup from 'yup';
 
 import MyTextField from '../../../components/form/MyTextField';
 import { useConnectAccountMutation } from '../services/stripeService';
-import { useAppSelector } from '../../../hooks';
+import { useAppSelector } from '../../../store/hooks';
 import toastService from '../../../services/toastService';
 import { useState } from 'react';
 import { ScaleLoader } from 'react-spinners';

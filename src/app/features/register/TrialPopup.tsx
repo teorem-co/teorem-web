@@ -7,7 +7,7 @@ import { resetParentRegister } from '../../../slices/parentRegisterSlice';
 import { resetSelectedRole } from '../../../slices/roleSlice';
 import { resetStudentRegister } from '../../../slices/studentRegisterSlice';
 import { resetTutorRegister } from '../../../slices/tutorRegisterSlice';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch } from '../../store/hooks';
 import { PATHS } from '../../routes';
 import { ButtonPrimaryGradient } from '../../components/ButtonPrimaryGradient';
 

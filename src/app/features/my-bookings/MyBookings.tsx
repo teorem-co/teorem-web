@@ -12,7 +12,7 @@ import { RoleOptions } from '../../../slices/roleSlice';
 import MainWrapper from '../../components/MainWrapper';
 import LoaderSecondary from '../../components/skeleton-loaders/LoaderSecondary';
 import languageOptions from '../../constants/languageOptions';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../store/hooks';
 import { calcModalPosition } from '../../utils/calcModalPosition';
 import LearnCubeModal from '../my-profile/components/LearnCubeModal';
 import TutorEventModal from './components/TutorEventModal';

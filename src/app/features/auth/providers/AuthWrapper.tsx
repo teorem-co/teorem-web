@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import useMount from '../../../utils/useMount';
 import { useConfirmLoginMutation } from '../../../../services/authService';
 import removeParamsFromURI from '../../../utils/removeParamsFromUri';

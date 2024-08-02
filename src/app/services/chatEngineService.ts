@@ -1,6 +1,6 @@
 import IChatEnginePost from '../../interfaces/IChatEnginePost';
-import { baseService } from '../baseService';
 import { HttpMethods } from '../lookups/httpMethods';
+import { baseService } from '../store/baseService';
 
 interface IGetOrCreateChat {
     username: string;

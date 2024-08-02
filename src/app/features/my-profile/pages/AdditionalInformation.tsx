@@ -14,7 +14,7 @@ import {
 import MainWrapper from '../../../components/MainWrapper';
 import RouterPrompt from '../../../components/RouterPrompt';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import toastService from '../../../services/toastService';
 import { getUserId } from '../../../utils/getUserId';
 import ProfileCompletion from '../components/ProfileCompletion';

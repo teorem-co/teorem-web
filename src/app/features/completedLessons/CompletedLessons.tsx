@@ -6,7 +6,7 @@ import { RoleOptions } from '../../../slices/roleSlice';
 import MainWrapper from '../../components/MainWrapper';
 import LoaderAvailableLessons
   from '../../components/skeleton-loaders/LoaderAvailableLessons';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../store/hooks';
 import { PATHS } from '../../routes';
 import ICompletedLesson from '../my-bookings/interfaces/ICompletedLesson';
 import {

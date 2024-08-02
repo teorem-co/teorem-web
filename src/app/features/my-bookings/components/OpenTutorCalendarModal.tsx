@@ -2,7 +2,7 @@ import { t } from 'i18next';
 import moment from 'moment';
 
 import { RoleOptions } from '../../../../slices/roleSlice';
-import { useAppSelector } from '../../../hooks';
+import { useAppSelector } from '../../../store/hooks';
 import IBooking from '../interfaces/IBooking';
 import React, { useState } from 'react';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';

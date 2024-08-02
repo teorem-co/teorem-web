@@ -4,7 +4,7 @@ import { useHistory } from 'react-router';
 
 import logo from '../../../assets/images/logo.svg';
 import { useResendActivationEmailMutation } from '../../../services/authService';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../store/hooks';
 import { PATHS } from '../../routes';
 
 const EmailConfirmatioPopup = () => {

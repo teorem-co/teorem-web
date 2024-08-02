@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useAppSelector } from '../../../hooks';
+import { useAppSelector } from '../../../store/hooks';
 import { usePostUploadFileMutation } from '../services/chatService';
 import { addMessage, IChatRoom, ISendChatMessage } from '../slices/chatSlice';
 import { ImAttachment } from 'react-icons/im';

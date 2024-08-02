@@ -3,7 +3,7 @@ import { FC, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import { RoleOptions } from '../../../../slices/roleSlice';
-import { useAppSelector } from '../../../hooks';
+import { useAppSelector } from '../../../store/hooks';
 import { PATHS } from '../../../routes';
 import { getUserId } from '../../../utils/getUserId';
 import {

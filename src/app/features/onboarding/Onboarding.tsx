@@ -9,7 +9,7 @@ import {
 import { resetSelectedRole, RoleOptions } from '../../../slices/roleSlice';
 import { resetStudentRegister } from '../../../slices/studentRegisterSlice';
 import { resetTutorRegister } from '../../../slices/tutorRegisterSlice';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { PATHS } from '../../routes';
 import EmailConfirmationModal from '../register/EmailConfirmationModal';
 import TrialPopup from '../register/TrialPopup';

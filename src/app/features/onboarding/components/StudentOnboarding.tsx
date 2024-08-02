@@ -10,7 +10,7 @@ import { resetTutorRegister } from '../../../../slices/tutorRegisterSlice';
 import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyPhoneInput from '../../../components/form/MyPhoneInput';
 import { OptionType } from '../../../components/form/MySelectField';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import toastService from '../../../services/toastService';
 import useOutsideAlerter from '../../../utils/useOutsideAlerter';
 import { ICountry, useLazyGetCountriesQuery } from '../services/countryService';

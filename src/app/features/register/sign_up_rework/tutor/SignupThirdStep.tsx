@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 
 import { setStepThree } from '../../../../../slices/signUpSlice';
-import { useAppSelector } from '../../../../hooks';
+import { useAppSelector } from '../../../../store/hooks';
 import PasswordTooltip from '../../PasswordTooltip';
 import { InputAdornment, TextField } from '@mui/material';
 import { ButtonPrimaryGradient } from '../../../../components/ButtonPrimaryGradient';

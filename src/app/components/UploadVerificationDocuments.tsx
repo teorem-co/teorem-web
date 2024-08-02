@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { IVerificationDocument, useUploadVerificationDocumentMutation } from '../features/my-profile/services/stripeService';
 import { VerificationUploadInput } from './VerificationUploadInput';
-import { useAppSelector } from '../hooks';
+import { useAppSelector } from '../store/hooks';
 import moment from 'moment';
 import { useDispatch } from 'react-redux';
 import { updateStateOfVerificationDocument } from '../../slices/authSlice';

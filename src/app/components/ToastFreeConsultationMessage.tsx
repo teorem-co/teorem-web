@@ -10,7 +10,7 @@ import {
     setFreeConsultation,
     setLink,
 } from '../features/chat/slices/chatSlice';
-import { useAppSelector } from '../hooks';
+import { useAppSelector } from '../store/hooks';
 import { PATHS } from '../routes';
 
 interface Props {

@@ -9,7 +9,7 @@ import {
   useLazyGetTutorByTutorSlugQuery,
 } from '../../../../services/tutorService';
 import {useGetOrCreateChatMutation} from "../../../services/chatEngineService";
-import {useAppSelector} from "../../../hooks";
+import {useAppSelector} from "../../../store/hooks";
 import IMyReviewParams from "../../myReviews/interfaces/IMyReviewParams";
 import IMyReview from "../../myReviews/interfaces/IMyReview";
 import {

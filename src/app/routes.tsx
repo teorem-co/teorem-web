@@ -26,7 +26,7 @@ import SearchTutors from './features/searchTutors/SearchTutors';
 import TutorProfile from './features/searchTutors/TutorProfile';
 import TutorManagment from './features/tutor-managment/TutorManagment';
 import TutorManagmentProfile from './features/tutor-managment/TutorProfile';
-import { useAppDispatch, useAppSelector } from './hooks';
+import { useAppDispatch, useAppSelector } from './store/hooks';
 import { Role } from './lookups/role';
 import EmailConfirmed from './pages/EmailConfirmed';
 import ResetToken from './pages/ResetToken';

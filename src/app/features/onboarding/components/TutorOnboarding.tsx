@@ -13,7 +13,7 @@ import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyPhoneInput from '../../../components/form/MyPhoneInput';
 import { OptionType } from '../../../components/form/MySelectField';
 import MyTextField from '../../../components/form/MyTextField';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import toastService from '../../../services/toastService';
 import { resetTutorImageUploadState } from '../../../slices/tutorImageUploadSlice';
 import useOutsideAlerter from '../../../utils/useOutsideAlerter';

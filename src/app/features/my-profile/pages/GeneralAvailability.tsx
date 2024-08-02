@@ -18,7 +18,7 @@ import {
     useUpdateTutorAvailabilityMutation,
 } from '../services/tutorAvailabilityService';
 import { setMyProfileProgress } from '../slices/myProfileSlice';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { getUserId } from '../../../utils/getUserId';
 import { TimeZoneSelect } from '../../../components/TimeZoneSelect';
 import { useLazyGetUserTimeZoneQuery } from '../../../../services/userService';

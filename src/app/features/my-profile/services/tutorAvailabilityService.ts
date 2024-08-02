@@ -1,5 +1,5 @@
-import { baseService } from '../../../baseService';
 import { HttpMethods } from '../../../lookups/httpMethods';
+import { baseService } from '../../../store/baseService';
 import IPartOfDayOption from '../interfaces/IPartOfDayOption';
 import ITutorAvailability from '../interfaces/ITutorAvailability';
 
@@ -79,4 +79,8 @@ export const tutorAvailabilityService = baseService.injectEndpoints({
     }),
 });
 
-export const { useLazyGetTutorAvailabilityQuery, useUpdateTutorAvailabilityMutation, useCreateTutorAvailabilityMutation } = tutorAvailabilityService;
+export const {
+    useLazyGetTutorAvailabilityQuery,
+    useUpdateTutorAvailabilityMutation,
+    useCreateTutorAvailabilityMutation,
+} = tutorAvailabilityService;

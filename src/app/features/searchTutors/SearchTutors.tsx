@@ -18,7 +18,7 @@ import getUrlParams from '../../utils/getUrlParams';
 import PriceSort from './components/PriceSort';
 import TutorItem from './components/TutorItem';
 import ITutorItem from '../../../interfaces/ITutorItem';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../store/hooks';
 import { useDispatch } from 'react-redux';
 import {
   ISearchFiltersState,

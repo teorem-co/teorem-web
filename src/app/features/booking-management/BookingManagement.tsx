@@ -14,7 +14,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { OptionsItem } from '../dashboard/upcoming-lessons/UpcomingLessonItem';
 import IParams from '../../../interfaces/IParams';
 import { ArrowDownward, ArrowUpward } from '@mui/icons-material';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../store/hooks';
 
 export const BookingManagement = () => {
   const history = useHistory();

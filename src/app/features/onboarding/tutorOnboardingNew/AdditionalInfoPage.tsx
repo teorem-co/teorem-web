@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 
 import { useLazyGetProfileProgressQuery, useLazyGetTutorByIdQuery, useUpdateAditionalInfoMutation } from '../../../../services/tutorService';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { getUserId } from '../../../utils/getUserId';
 import IUpdateAdditionalInfo from '../../my-profile/interfaces/IUpdateAdditionalInfo';
 import { setMyProfileProgress } from '../../my-profile/slices/myProfileSlice';

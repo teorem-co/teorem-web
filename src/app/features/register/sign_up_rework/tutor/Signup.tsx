@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { SignupFirstStep } from './SignupFirstStep';
 import { SignupSecondStep } from './SignupSecondStep';
 import { SignupThirdStep } from './SignupThirdStep';
-import { useAppSelector } from '../../../../hooks';
+import { useAppSelector } from '../../../../store/hooks';
 import moment from 'moment/moment';
 import { IRegister, useRegisterUserMutation } from '../../../../../services/authService';
 import { useHistory } from 'react-router';

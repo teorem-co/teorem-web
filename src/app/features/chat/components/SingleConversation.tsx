@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { useLazyGetUserQuery } from '../../../../services/userService';
-import { useAppSelector } from '../../../hooks';
+import { useAppSelector } from '../../../store/hooks';
 import { Role } from '../../../lookups/role';
 import { PATHS } from '../../../routes';
 import {

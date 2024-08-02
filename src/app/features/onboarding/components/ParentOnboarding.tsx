@@ -14,7 +14,7 @@ import MyPhoneInput from '../../../components/form/MyPhoneInput';
 import { OptionType } from '../../../components/form/MySelectField';
 import MyTextField from '../../../components/form/MyTextField';
 import ImageCircle from '../../../components/ImageCircle';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import toastService from '../../../services/toastService';
 import useOutsideAlerter from '../../../utils/useOutsideAlerter';
 import TooltipPassword from '../../register/TooltipPassword';

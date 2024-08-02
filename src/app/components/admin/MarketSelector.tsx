@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setSelectedCountry } from '../../../slices/countryMarketSlice';
 import { ICountry } from '../../features/onboarding/services/countryService';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../store/hooks';
 import { CiShop } from 'react-icons/ci';
 import { t } from 'i18next';
 

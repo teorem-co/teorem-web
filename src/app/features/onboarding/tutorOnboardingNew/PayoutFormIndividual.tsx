@@ -5,7 +5,7 @@ import { ScaleLoader } from 'react-spinners';
 import * as yup from 'yup';
 
 import { connectStripe } from '../../../../slices/authSlice';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { getUserId } from '../../../utils/getUserId';
 import {
   useConnectAccountMutation,

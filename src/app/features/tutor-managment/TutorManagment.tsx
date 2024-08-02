@@ -21,7 +21,7 @@ import {
   getCountries,
   parsePhoneNumberFromString,
 } from 'libphonenumber-js';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../store/hooks';
 import moment from 'moment';
 import IParams from '../../../interfaces/IParams';
 

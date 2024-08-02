@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import useOutsideAlerter from '../../../utils/useOutsideAlerter';
-import { useAppSelector } from '../../../hooks';
+import { useAppSelector } from '../../../store/hooks';
 import {
   allActiveSubjects,
 } from '../../register/sign_up_rework/student_and_parent/subjects';

@@ -8,14 +8,14 @@ import { useLazyGetTutorByIdQuery } from '../../services/tutorService';
 import { logout } from '../../slices/authSlice';
 import { RoleOptions } from '../../slices/roleSlice';
 import { logoutUser } from '../../slices/userSlice';
-import { useAppDispatch, useAppSelector } from '../hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 import {
   LANDING_PATHS,
   PATHS,
   PROFILE_PATHS,
   RenderMenuLinks,
 } from '../routes';
-import { persistor } from '../store';
+import { persistor } from '../store/store';
 import ImageCircle from './ImageCircle';
 import { useLazyGetUserQuery } from '../../services/userService';
 import MarketSelector from './admin/MarketSelector';

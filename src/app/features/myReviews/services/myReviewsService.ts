@@ -1,4 +1,3 @@
-import { baseService } from '../../../baseService';
 import { HttpMethods } from '../../../lookups/httpMethods';
 import IAddReview from '../interfaces/IAddReview';
 import IMyReviews from '../interfaces/IMyReviews';
@@ -6,6 +5,7 @@ import ITutorStatistics from '../interfaces/ITutorStatistics';
 import { IGetMyReviews } from '../MyReviews';
 import ISubject from '../../../../interfaces/ISubject';
 import ILevel from '../../../../interfaces/ILevel';
+import { baseService } from '../../../store/baseService';
 
 const URL = 'api/v1/reviews';
 

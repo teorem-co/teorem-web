@@ -1,7 +1,7 @@
 import { Redirect } from 'react-router';
 
 import { PATHS } from '../routes';
-import { useAppSelector } from '../hooks';
+import { useAppSelector } from '../store/hooks';
 import { ReactNode } from 'react';
 
 interface IPermissionsGateProps {
