@@ -27,22 +27,6 @@
                 "argsIgnorePattern": "^_[a-zA-Z]+",
             },
         ],
-        "simple-import-sort/imports": [
-            "warn",
-            {
-                "groups": [
-                    // Side effect imports.
-                    ["^\\u0000"],
-                    ["^@?\\w"],
-                    // Internal packages.
-                    //  [^(${importPaths})(/.*|$)],
-                    // Parent imports. Put .. last.
-                    ["^\\.\\.(?!/?$)', '^\\.\\./?$"],
-                    // Other relative imports. Put same-folder imports and . last.
-                    ["^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$"],
-                ],
-            },
-        ],
         "react-hooks/exhaustive-deps": "warn",
         "react-hooks/rules-of-hooks": "error",
     },
