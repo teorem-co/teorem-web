@@ -11,7 +11,7 @@ import {
   useDeleteBookingMutation,
 } from '../../my-bookings/services/bookingService';
 import { useAppSelector } from '../../../store/hooks';
-import { RoleOptions } from '../../../../slices/roleSlice';
+import { RoleOptions } from '../../../store/slices/roleSlice';
 
 export interface OptionsItem {
   id: string;

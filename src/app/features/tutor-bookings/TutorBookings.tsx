@@ -9,9 +9,9 @@ import { useHistory } from 'react-router';
 import { useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
-import { useLazyGetTutorBookingsQuery, useLazyGetTutorByTutorSlugQuery } from '../../../services/tutorService';
-import { addStripeId } from '../../../slices/authSlice';
-import { RoleOptions } from '../../../slices/roleSlice';
+import { useLazyGetTutorBookingsQuery, useLazyGetTutorByTutorSlugQuery } from '../../store/services/tutorService';
+import { addStripeId } from '../../store/slices/authSlice';
+import { RoleOptions } from '../../store/slices/roleSlice';
 import MainWrapper from '../../components/MainWrapper';
 import LoaderSecondary from '../../components/skeleton-loaders/LoaderSecondary';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';

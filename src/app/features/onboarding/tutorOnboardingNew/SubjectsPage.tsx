@@ -1,5 +1,5 @@
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
-import { useLazyGetProfileProgressQuery, useLazyGetTutorByIdQuery } from '../../../../services/tutorService';
+import { useLazyGetProfileProgressQuery, useLazyGetTutorByIdQuery } from '../../../store/services/tutorService';
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { getUserId } from '../../../utils/getUserId';
@@ -9,10 +9,10 @@ import { setMyProfileProgress } from '../../my-profile/slices/myProfileSlice';
 import CircularProgress from '../../my-profile/components/CircularProgress';
 import ISubject from '../../../../interfaces/ISubject';
 import { AiOutlineLeft } from 'react-icons/ai';
-import { ITutorSubject, setStepOne } from '../../../../slices/onboardingSlice';
+import { ITutorSubject, setStepOne } from '../../../store/slices/onboardingSlice';
 import { CreateSubjectCard } from './CreateSubjectCard';
 import ITutorSubjectLevel from '../../../../interfaces/ITutorSubjectLevel';
-import { ICreateSubjectOnboarding, useCreateSubjectsOnboardingMutation } from '../../../../services/subjectService';
+import { ICreateSubjectOnboarding, useCreateSubjectsOnboardingMutation } from '../../../store/services/subjectService';
 import logo from '../../../../assets/images/teorem_logo_purple.png';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 

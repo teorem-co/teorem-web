@@ -34,7 +34,7 @@ import StripeConnected from './pages/StripeConnected';
 import StripeFail from './pages/StripeFail';
 import PermissionsGate from './components/PermissionGate';
 import { getUserRoleAbrv } from './utils/getUserRoleAbrv';
-import { setLang } from '../slices/langSlice';
+import { setLang } from './store/slices/langSlice';
 import { Badge } from '@mui/material';
 
 import { Signup } from './features/register/sign_up_rework/tutor/Signup';

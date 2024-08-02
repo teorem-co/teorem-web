@@ -10,7 +10,7 @@ import {
     useLazyGetTutorByIdQuery,
     useLazyGetTutorVideoInformationQuery,
     useUpdateAditionalInfoMutation,
-} from '../../../../services/tutorService';
+} from '../../../store/services/tutorService';
 import MainWrapper from '../../../components/MainWrapper';
 import RouterPrompt from '../../../components/RouterPrompt';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
@@ -22,7 +22,7 @@ import ProfileHeader from '../components/ProfileHeader';
 import IUpdateAdditionalInfo from '../interfaces/IUpdateAdditionalInfo';
 import { setMyProfileProgress } from '../slices/myProfileSlice';
 import { TextField } from '@mui/material';
-import { RoleOptions } from '../../../../slices/roleSlice';
+import { RoleOptions } from '../../../store/slices/roleSlice';
 import { VideoPreviewUpload } from '../VideoRecorder/VideoPreviewUpload';
 import { UploadedVideoComponent } from '../VideoRecorder/UploadedVideoComponent';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';

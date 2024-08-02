@@ -6,9 +6,9 @@ import { useHistory } from 'react-router';
 import Select, { components, MenuProps } from 'react-select';
 
 import IParams from '../../../interfaces/IParams';
-import { useLazyGetLevelsQuery } from '../../../services/levelService';
-import { useLazyGetSubjectsQuery } from '../../../services/subjectService';
-import { useLazyGetAvailableTutorsQuery } from '../../../services/tutorService';
+import { useLazyGetLevelsQuery } from '../../store/services/levelService';
+import { useLazyGetSubjectsQuery } from '../../store/services/subjectService';
+import { useLazyGetAvailableTutorsQuery } from '../../store/services/tutorService';
 import CustomCheckbox from '../../components/form/CustomCheckbox';
 import MySelect, { OptionType } from '../../components/form/MySelectField';
 import MainWrapper from '../../components/MainWrapper';
@@ -24,7 +24,7 @@ import {
   ISearchFiltersState,
   resetSearchFilters,
   setSearchFilters,
-} from '../../../slices/searchFiltesSlice';
+} from '../../store/slices/searchFiltesSlice';
 import {
   allActiveSubjects,
 } from '../register/sign_up_rework/student_and_parent/subjects';

@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import ITutorAvailability
-  from "../app/features/my-profile/interfaces/ITutorAvailability";
-import ISubject from "../interfaces/ISubject";
-import ITutorSubjectLevel from "../interfaces/ITutorSubjectLevel";
+  from "../../features/my-profile/interfaces/ITutorAvailability";
+import ISubject from "../../../interfaces/ISubject";
+import ITutorSubjectLevel from "../../../interfaces/ITutorSubjectLevel";
 
 export interface ITutorSubject{
   tutorId?:string,

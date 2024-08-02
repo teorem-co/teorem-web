@@ -5,7 +5,7 @@ import { Link, useParams } from 'react-router-dom';
 import ITutorSubjectLevel from '../../../interfaces/ITutorSubjectLevel';
 import {
   useLazyGetTutorByTutorSlugQuery,
-} from '../../../services/tutorService';
+} from '../../store/services/tutorService';
 import LoaderTutorProfile
   from '../../components/skeleton-loaders/LoaderTutorProfile';
 import { PATHS } from '../../routes';

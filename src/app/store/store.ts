@@ -5,26 +5,26 @@ import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
 import myProfileProgressReducer from '../features/my-profile/slices/myProfileSlice';
-import authReducer from '../../slices/authSlice';
-import childrenReducer from '../../slices/childrenSlice';
-import langReducer from '../../slices/langSlice';
-import parentRegisterReducer from '../../slices/parentRegisterSlice';
-import roleReducer from '../../slices/roleSlice';
-import studentRegisterReducer from '../../slices/studentRegisterSlice';
-import tutorRegisterReducer from '../../slices/tutorRegisterSlice';
-import userReducer from '../../slices/userSlice';
+import authReducer from './slices/authSlice';
+import childrenReducer from './slices/childrenSlice';
+import langReducer from './slices/langSlice';
+import parentRegisterReducer from './slices/parentRegisterSlice';
+import roleReducer from './slices/roleSlice';
+import studentRegisterReducer from './slices/studentRegisterSlice';
+import tutorRegisterReducer from './slices/tutorRegisterSlice';
+import userReducer from './slices/userSlice';
 import { baseService } from './baseService';
 import chatReducer from '../features/chat/slices/chatSlice';
 import myReviewsReducer from '../features/myReviews/slices/MyReviewsSlice';
 import { rtkQueryErrorLogger } from './middleware/rtkQueryErrorLogger';
-import uploadFileReducer from '../slices/tutorImageUploadSlice';
-import signUpReducer from '../../slices/signUpSlice';
-import onboardingReducer from '../../slices/onboardingSlice';
-import scrollReducer from '../../slices/scrollSlice';
-import searchFiltersReducer from '../../slices/searchFiltesSlice';
-import creditsReducer from '../../slices/creditsSlice';
-import timeZoneReducer from '../../slices/timeZoneSlice';
-import countryMarketReducer from '../../slices/countryMarketSlice';
+import uploadFileReducer from './slices/tutorImageUploadSlice';
+import signUpReducer from './slices/signUpSlice';
+import onboardingReducer from './slices/onboardingSlice';
+import scrollReducer from './slices/scrollSlice';
+import searchFiltersReducer from './slices/searchFiltesSlice';
+import creditsReducer from './slices/creditsSlice';
+import timeZoneReducer from './slices/timeZoneSlice';
+import countryMarketReducer from './slices/countryMarketSlice';
 
 const persistConfig = {
     key: 'root',

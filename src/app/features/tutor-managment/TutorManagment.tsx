@@ -8,7 +8,7 @@ import {
   useDeleteTutorMutation,
   useDenyTutorMutation,
   useLazySearchTutorsQuery,
-} from '../../../services/tutorService';
+} from '../../store/services/tutorService';
 import MainWrapper from '../../components/MainWrapper';
 import Sidebar from '../../components/Sidebar';
 import LoaderTutor from '../../components/skeleton-loaders/LoaderTutor';

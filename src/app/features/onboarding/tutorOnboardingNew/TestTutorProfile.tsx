@@ -7,7 +7,7 @@ import {Link, useParams} from 'react-router-dom';
 import {
   useLazyGetTutorByIdQuery,
   useLazyGetTutorByTutorSlugQuery,
-} from '../../../../services/tutorService';
+} from '../../../store/services/tutorService';
 import {useGetOrCreateChatMutation} from "../../../services/chatEngineService";
 import {useAppSelector} from "../../../store/hooks";
 import IMyReviewParams from "../../myReviews/interfaces/IMyReviewParams";
@@ -30,11 +30,11 @@ import handleRatingStars from "../../../utils/handleRatingStarts";
 import Ratings from "../../myReviews/components/Ratings";
 import ReviewItem from "../../myReviews/components/ReviewItem";
 import ImageCircle from "../../../components/ImageCircle";
-import {RoleOptions} from "../../../../slices/roleSlice";
+import {RoleOptions} from "../../../store/slices/roleSlice";
 import LoaderPrimary from "../../../components/skeleton-loaders/LoaderPrimary";
 import {
   resetTutorImageUploadState
-} from '../../../slices/tutorImageUploadSlice';
+} from '../../../store/slices/tutorImageUploadSlice';
 
 type Props = {
   occupation?: string;

@@ -2,7 +2,7 @@ import { t } from 'i18next';
 import { cloneDeep, debounce, groupBy } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { RoleOptions } from '../../../slices/roleSlice';
+import { RoleOptions } from '../../store/slices/roleSlice';
 import MainWrapper from '../../components/MainWrapper';
 import LoaderAvailableLessons
   from '../../components/skeleton-loaders/LoaderAvailableLessons';

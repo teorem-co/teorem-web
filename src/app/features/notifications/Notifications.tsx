@@ -7,7 +7,7 @@ import { useHistory } from 'react-router';
 import INotification from '../../../interfaces/notification/INotification';
 import {
   useLazyGetAllNotificationsQuery,
-} from '../../../services/notificationService';
+} from '../../store/services/notificationService';
 import MainWrapper from '../../components/MainWrapper';
 import LoaderPrimary from '../../components/skeleton-loaders/LoaderPrimary';
 import NotificationItem from './components/NotificationItem';

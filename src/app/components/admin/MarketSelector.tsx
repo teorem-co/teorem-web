@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setSelectedCountry } from '../../../slices/countryMarketSlice';
+import { setSelectedCountry } from '../../store/slices/countryMarketSlice';
 import { ICountry } from '../../features/onboarding/services/countryService';
 import { useAppSelector } from '../../store/hooks';
 import { CiShop } from 'react-icons/ci';

@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { IChild } from '../../../../interfaces/IChild';
-import { useLazyGetProfileProgressQuery } from '../../../../services/tutorService';
-import { useLazyGetChildrenQuery } from '../../../../services/userService';
+import { useLazyGetProfileProgressQuery } from '../../../store/services/tutorService';
+import { useLazyGetChildrenQuery } from '../../../store/services/userService';
 import ImageCircle from '../../../components/ImageCircle';
 import MainWrapper from '../../../components/MainWrapper';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';

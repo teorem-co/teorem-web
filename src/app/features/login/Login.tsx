@@ -9,14 +9,14 @@ import {
     useLazyGetServerVersionQuery,
     useLoginMutation,
     useResendActivationEmailMutation,
-} from '../../../services/authService';
+} from '../../store/services/authService';
 import MyTextField from '../../components/form/MyTextField';
 import { useAppSelector } from '../../store/hooks';
 import { Role } from '../../lookups/role';
 import { PATHS } from '../../routes';
 import logo from './../../../assets/images/logo.svg';
 import { useDispatch } from 'react-redux';
-import { setToken } from '../../../slices/authSlice';
+import { setToken } from '../../store/slices/authSlice';
 import { ButtonPrimaryGradient } from '../../components/ButtonPrimaryGradient';
 
 interface Values {

@@ -1,12 +1,12 @@
-import { baseService } from '../app/store/baseService';
-import { OptionType } from '../app/components/form/MySelectField';
-import IChangePassword from '../app/features/my-profile/interfaces/IChangePassword';
-import { HttpMethods } from '../app/lookups/httpMethods';
-import typeToFormData from '../app/utils/typeToFormData';
-import { IChild } from '../interfaces/IChild';
-import IUser from '../interfaces/IUser';
-import IPage from '../interfaces/notification/IPage';
-import IParams from '../interfaces/IParams';
+import { baseService } from '../baseService';
+import { OptionType } from '../../components/form/MySelectField';
+import IChangePassword from '../../features/my-profile/interfaces/IChangePassword';
+import { HttpMethods } from '../../lookups/httpMethods';
+import typeToFormData from '../../utils/typeToFormData';
+import { IChild } from '../../../interfaces/IChild';
+import IUser from '../../../interfaces/IUser';
+import IPage from '../../../interfaces/notification/IPage';
+import IParams from '../../../interfaces/IParams';
 
 const URL = '/api/v1/users';
 

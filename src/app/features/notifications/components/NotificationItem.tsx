@@ -8,7 +8,7 @@ import INotification, {
 } from '../../../../interfaces/notification/INotification';
 import {
   useMarkAsReadMutation,
-} from '../../../../services/notificationService';
+} from '../../../store/services/notificationService';
 import { PATHS } from '../../../routes';
 
 interface Props {

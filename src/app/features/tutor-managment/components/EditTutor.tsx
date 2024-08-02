@@ -9,7 +9,7 @@ import { countryInput } from '../../../constants/countryInput';
 import { countryOption } from '../../../constants/countryOption';
 import { ICountry, useLazyGetCountriesQuery } from '../../onboarding/services/countryService';
 import MyTextArea from '../../../components/form/MyTextArea';
-import { useEditTutorMutation } from '../../../../services/tutorService';
+import { useEditTutorMutation } from '../../../store/services/tutorService';
 import UploadFile from '../../../components/form/MyUploadField';
 import moment from 'moment/moment';
 import toastService from '../../../services/toastService';

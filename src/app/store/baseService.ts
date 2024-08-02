@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import { RootState } from './store';
 import { BaseQueryApi } from '@reduxjs/toolkit/src/query/baseQueryTypes';
-import { logout, setToken } from '../../slices/authSlice';
+import { logout, setToken } from './slices/authSlice';
 
 const baseQuery = fetchBaseQuery({
     baseUrl: `${process.env.REACT_APP_SCHEMA}://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_API_PORT}/`,

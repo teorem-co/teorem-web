@@ -4,10 +4,10 @@ import { NavLink } from 'react-router-dom';
 
 import gradientCircle from '../../assets/images/gradient-circle.svg';
 import logo from '../../assets/images/logo.svg';
-import { useLazyGetTutorByIdQuery } from '../../services/tutorService';
-import { logout } from '../../slices/authSlice';
-import { RoleOptions } from '../../slices/roleSlice';
-import { logoutUser } from '../../slices/userSlice';
+import { useLazyGetTutorByIdQuery } from '../store/services/tutorService';
+import { logout } from '../store/slices/authSlice';
+import { RoleOptions } from '../store/slices/roleSlice';
+import { logoutUser } from '../store/slices/userSlice';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import {
   LANDING_PATHS,
@@ -17,7 +17,7 @@ import {
 } from '../routes';
 import { persistor } from '../store/store';
 import ImageCircle from './ImageCircle';
-import { useLazyGetUserQuery } from '../../services/userService';
+import { useLazyGetUserQuery } from '../store/services/userService';
 import MarketSelector from './admin/MarketSelector';
 
 const Navbar = () => {

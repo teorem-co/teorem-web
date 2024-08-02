@@ -4,8 +4,8 @@ import moment from 'moment-timezone';
 import React, { useCallback, useEffect, useState } from 'react';
 import * as Yup from 'yup';
 
-import { useLazyGetChildQuery } from '../../../../services/userService';
-import { RoleOptions } from '../../../../slices/roleSlice';
+import { useLazyGetChildQuery } from '../../../store/services/userService';
+import { RoleOptions } from '../../../store/slices/roleSlice';
 import Select from '@mui/material/Select';
 import { useAppSelector } from '../../../store/hooks';
 import toastService from '../../../services/toastService';
@@ -23,7 +23,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { FormControl, InputLabel, MenuItem, OutlinedInput } from '@mui/material';
-import { useLazyGetTutorUnavailableDaysQuery } from '../../../../services/tutorService';
+import { useLazyGetTutorUnavailableDaysQuery } from '../../../store/services/tutorService';
 import { TeoremConstants } from '../../../constants/TeoremConstants';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 

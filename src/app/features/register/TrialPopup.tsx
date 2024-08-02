@@ -3,10 +3,10 @@ import { useEffect } from 'react';
 import { useHistory } from 'react-router';
 
 import logo from '../../../assets/images/logo.svg';
-import { resetParentRegister } from '../../../slices/parentRegisterSlice';
-import { resetSelectedRole } from '../../../slices/roleSlice';
-import { resetStudentRegister } from '../../../slices/studentRegisterSlice';
-import { resetTutorRegister } from '../../../slices/tutorRegisterSlice';
+import { resetParentRegister } from '../../store/slices/parentRegisterSlice';
+import { resetSelectedRole } from '../../store/slices/roleSlice';
+import { resetStudentRegister } from '../../store/slices/studentRegisterSlice';
+import { resetTutorRegister } from '../../store/slices/tutorRegisterSlice';
 import { useAppDispatch } from '../../store/hooks';
 import { PATHS } from '../../routes';
 import { ButtonPrimaryGradient } from '../../components/ButtonPrimaryGradient';

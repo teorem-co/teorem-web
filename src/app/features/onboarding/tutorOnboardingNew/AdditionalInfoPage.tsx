@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
-import { useLazyGetProfileProgressQuery, useLazyGetTutorByIdQuery, useUpdateAditionalInfoMutation } from '../../../../services/tutorService';
+import { useLazyGetProfileProgressQuery, useLazyGetTutorByIdQuery, useUpdateAditionalInfoMutation } from '../../../store/services/tutorService';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { getUserId } from '../../../utils/getUserId';
@@ -12,7 +12,7 @@ import IUpdateAdditionalInfo from '../../my-profile/interfaces/IUpdateAdditional
 import { setMyProfileProgress } from '../../my-profile/slices/myProfileSlice';
 import { AiOutlineLeft } from 'react-icons/ai';
 import CircularProgress from '../../my-profile/components/CircularProgress';
-import { setStepTwo } from '../../../../slices/onboardingSlice';
+import { setStepTwo } from '../../../store/slices/onboardingSlice';
 import TestTutorProfile from './TestTutorProfile';
 import logo from '../../../../assets/images/teorem_logo_purple.png';
 import { TextField } from '@mui/material';

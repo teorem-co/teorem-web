@@ -7,7 +7,7 @@ import AsideWrapper from '../components/AsideWrapper';
 import SingleConversation from '../components/SingleConversation';
 import { ContextProvider } from '../contexts/Context';
 import { clearActiveChatRoom, IChatRoom } from '../slices/chatSlice';
-import { setStepOne } from '../../../../slices/signUpSlice';
+import { setStepOne } from '../../../store/slices/signUpSlice';
 import MediaQuery from 'react-responsive';
 
 

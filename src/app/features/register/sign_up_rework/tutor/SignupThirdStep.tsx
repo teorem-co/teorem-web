@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 
-import { setStepThree } from '../../../../../slices/signUpSlice';
+import { setStepThree } from '../../../../store/slices/signUpSlice';
 import { useAppSelector } from '../../../../store/hooks';
 import PasswordTooltip from '../../PasswordTooltip';
 import { InputAdornment, TextField } from '@mui/material';

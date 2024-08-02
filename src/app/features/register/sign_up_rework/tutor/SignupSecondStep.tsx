@@ -4,8 +4,8 @@ import React, { useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 
-import { useCheckMailMutation } from '../../../../../services/authService';
-import { setStepTwo } from '../../../../../slices/signUpSlice';
+import { useCheckMailMutation } from '../../../../store/services/authService';
+import { setStepTwo } from '../../../../store/slices/signUpSlice';
 import MyPhoneInput from '../../../../components/form/MyPhoneInput';
 import { useAppSelector } from '../../../../store/hooks';
 import { TextField } from '@mui/material';

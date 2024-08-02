@@ -1,8 +1,8 @@
-import { baseService } from '../app/store/baseService';
-import IParams from '../app/features/notifications/interfaces/IParams';
-import { HttpMethods } from '../app/lookups/httpMethods';
-import IPage from '../interfaces/notification/IPage';
-import INotification from '../interfaces/notification/INotification';
+import { baseService } from '../baseService';
+import IParams from '../../features/notifications/interfaces/IParams';
+import { HttpMethods } from '../../lookups/httpMethods';
+import IPage from '../../../interfaces/notification/IPage';
+import INotification from '../../../interfaces/notification/INotification';
 
 const URL = 'api/v1/notifications';
 

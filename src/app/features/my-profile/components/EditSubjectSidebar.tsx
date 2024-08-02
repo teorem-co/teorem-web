@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import * as Yup from 'yup';
 
-import { useGetLevelsQuery } from '../../../../services/levelService';
-import { useDeleteSubjectMutation, useGetSubjectsQuery, useUpdateSubjectMutation } from '../../../../services/subjectService';
-import { useLazyGetProfileProgressQuery, useLazyGetTutorByIdQuery } from '../../../../services/tutorService';
+import { useGetLevelsQuery } from '../../../store/services/levelService';
+import { useDeleteSubjectMutation, useGetSubjectsQuery, useUpdateSubjectMutation } from '../../../store/services/subjectService';
+import { useLazyGetProfileProgressQuery, useLazyGetTutorByIdQuery } from '../../../store/services/tutorService';
 import MySelect from '../../../components/form/MySelectField';
 import MyTextField from '../../../components/form/MyTextField';
 import { useLazyGetCountriesQuery } from '../../onboarding/services/countryService';

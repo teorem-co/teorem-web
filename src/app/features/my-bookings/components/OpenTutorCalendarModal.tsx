@@ -1,7 +1,7 @@
 import { t } from 'i18next';
 import moment from 'moment';
 
-import { RoleOptions } from '../../../../slices/roleSlice';
+import { RoleOptions } from '../../../store/slices/roleSlice';
 import { useAppSelector } from '../../../store/hooks';
 import IBooking from '../interfaces/IBooking';
 import React, { useState } from 'react';

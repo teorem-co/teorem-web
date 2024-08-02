@@ -11,9 +11,9 @@ import {
     useLazyEnableTutorQuery,
     useLazyGetProfileProgressQuery,
     useLazyGetTutorByIdQuery,
-} from '../../../../services/tutorService';
-import { useLazyGetCreditsQuery, useLazyGetUserQuery, useUpdateUserInformationMutation } from '../../../../services/userService';
-import { RoleOptions } from '../../../../slices/roleSlice';
+} from '../../../store/services/tutorService';
+import { useLazyGetCreditsQuery, useLazyGetUserQuery, useUpdateUserInformationMutation } from '../../../store/services/userService';
+import { RoleOptions } from '../../../store/slices/roleSlice';
 import MyPhoneInput from '../../../components/form/MyPhoneInput';
 import { OptionType } from '../../../components/form/MySelectField';
 import UploadFile from '../../../components/form/MyUploadField';
@@ -33,7 +33,7 @@ import { TextField } from '@mui/material';
 import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { setCredits } from '../../../../slices/creditsSlice';
+import { setCredits } from '../../../store/slices/creditsSlice';
 import { FaCoins } from 'react-icons/fa';
 import { UploadVerificationDocuments } from '../../../components/UploadVerificationDocuments';
 import { CurrencySymbol } from '../../../components/CurrencySymbol';

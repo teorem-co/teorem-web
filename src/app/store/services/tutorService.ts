@@ -1,17 +1,17 @@
 import { t } from 'i18next';
 
-import { baseService } from '../app/store/baseService';
-import IProgressProfile from '../app/features/my-profile/interfaces/IProgressProfile';
-import IUpdateAdditionalInfo from '../app/features/my-profile/interfaces/IUpdateAdditionalInfo';
-import { HttpMethods } from '../app/lookups/httpMethods';
-import { getAppState } from '../app/utils/getAppState';
-import IParams from '../interfaces/IParams';
-import ITutor from '../interfaces/ITutor';
+import { baseService } from '../baseService';
+import IProgressProfile from '../../features/my-profile/interfaces/IProgressProfile';
+import IUpdateAdditionalInfo from '../../features/my-profile/interfaces/IUpdateAdditionalInfo';
+import { HttpMethods } from '../../lookups/httpMethods';
+import { getAppState } from '../../utils/getAppState';
+import IParams from '../../../interfaces/IParams';
+import ITutor from '../../../interfaces/ITutor';
 import { RoleOptions } from '../slices/roleSlice';
-import typeToFormData from '../app/utils/typeToFormData';
-import IBooking from '../app/features/my-bookings/interfaces/IBooking';
-import ITutorItem from '../interfaces/ITutorItem';
-import IPage from '../interfaces/notification/IPage';
+import typeToFormData from '../../utils/typeToFormData';
+import IBooking from '../../features/my-bookings/interfaces/IBooking';
+import ITutorItem from '../../../interfaces/ITutorItem';
+import IPage from '../../../interfaces/notification/IPage';
 import { v4 as uuidv4 } from 'uuid';
 import moment from 'moment';
 

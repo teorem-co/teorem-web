@@ -4,9 +4,9 @@ import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 
-import { useGetTutorSubjectLevelPairsQuery } from '../../../../services/subjectService';
-import { useLazyGetChildQuery, useLazyGetCreditsQuery, useLazyGetUserQuery } from '../../../../services/userService';
-import { RoleOptions } from '../../../../slices/roleSlice';
+import { useGetTutorSubjectLevelPairsQuery } from '../../../store/services/subjectService';
+import { useLazyGetChildQuery, useLazyGetCreditsQuery, useLazyGetUserQuery } from '../../../store/services/userService';
+import { RoleOptions } from '../../../store/slices/roleSlice';
 import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import MyTimePicker from '../../../components/form/MyTimePicker';
 import MyTextField from '../../../components/form/MyTextField';
@@ -16,10 +16,10 @@ import toastService from '../../../services/toastService';
 import { useLazyGetCustomerByIdQuery } from '../../my-profile/services/stripeService';
 import { ICreateBookingDTO, useCreatebookingMutation, useCreateBookingMutation } from '../services/bookingService';
 import { loadStripe } from '@stripe/stripe-js';
-import { addStripeId } from '../../../../slices/authSlice';
+import { addStripeId } from '../../../store/slices/authSlice';
 import { useDispatch } from 'react-redux';
 import { IBookingChatMessageInfo } from '../../tutor-bookings/TutorBookings';
-import { setCredits } from '../../../../slices/creditsSlice';
+import { setCredits } from '../../../store/slices/creditsSlice';
 import { CurrencySymbol } from '../../../components/CurrencySymbol';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 

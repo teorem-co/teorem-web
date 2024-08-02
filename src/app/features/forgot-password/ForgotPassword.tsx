@@ -5,7 +5,7 @@ import { useHistory } from 'react-router';
 import * as Yup from 'yup';
 
 import heroImg from '../../../assets/images/hero-img.png';
-import { useResetPasswordMutation } from '../../../services/authService';
+import { useResetPasswordMutation } from '../../store/services/authService';
 import MyTextField from '../../components/form/MyTextField';
 import { PATHS } from '../../routes';
 import toastService from '../../services/toastService';

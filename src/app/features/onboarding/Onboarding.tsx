@@ -5,10 +5,10 @@ import { useHistory } from 'react-router';
 import {
   resetParentRegister,
   setSkip,
-} from '../../../slices/parentRegisterSlice';
-import { resetSelectedRole, RoleOptions } from '../../../slices/roleSlice';
-import { resetStudentRegister } from '../../../slices/studentRegisterSlice';
-import { resetTutorRegister } from '../../../slices/tutorRegisterSlice';
+} from '../../store/slices/parentRegisterSlice';
+import { resetSelectedRole, RoleOptions } from '../../store/slices/roleSlice';
+import { resetStudentRegister } from '../../store/slices/studentRegisterSlice';
+import { resetTutorRegister } from '../../store/slices/tutorRegisterSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { PATHS } from '../../routes';
 import EmailConfirmationModal from '../register/EmailConfirmationModal';

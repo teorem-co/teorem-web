@@ -3,7 +3,7 @@ import {
   IDeclineTutorVideo,
   useLazyApproveTutorVideoQuery,
   useLazyDeclineTutorVideoQuery,
-} from '../../../../services/tutorService';
+} from '../../../store/services/tutorService';
 import React, { useState } from 'react';
 import { t } from 'i18next';
 import {

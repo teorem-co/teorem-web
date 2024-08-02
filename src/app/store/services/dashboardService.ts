@@ -1,6 +1,6 @@
-import { baseService } from '../app/store/baseService';
-import { HttpMethods } from '../app/lookups/httpMethods';
-import IBooking from '../app/features/my-bookings/interfaces/IBooking';
+import { baseService } from '../baseService';
+import { HttpMethods } from '../../lookups/httpMethods';
+import IBooking from '../../features/my-bookings/interfaces/IBooking';
 
 const URL = '/api/v1/dashboard';
 

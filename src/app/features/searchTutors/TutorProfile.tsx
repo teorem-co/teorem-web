@@ -6,8 +6,8 @@ import { useHistory } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
 import {
   useLazyGetTutorByTutorSlugQuery,
-} from '../../../services/tutorService';
-import { RoleOptions } from '../../../slices/roleSlice';
+} from '../../store/services/tutorService';
+import { RoleOptions } from '../../store/slices/roleSlice';
 import MainWrapper from '../../components/MainWrapper';
 import LoaderPrimary from '../../components/skeleton-loaders/LoaderPrimary';
 import LoaderTutorProfile

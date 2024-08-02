@@ -5,8 +5,8 @@ import Navbar from './Navbar';
 import { debounce } from 'lodash';
 import { useAppSelector } from '../store/hooks';
 import { useDispatch } from 'react-redux';
-import { setTopOffset } from '../../slices/scrollSlice';
-import { RoleOptions } from '../../slices/roleSlice';
+import { setTopOffset } from '../store/slices/scrollSlice';
+import { RoleOptions } from '../store/slices/roleSlice';
 import {
   DocumentVerificationBanner,
 } from './banner/DocumentVerificationBanner';
@@ -16,8 +16,8 @@ import {
   useLazyGetRecentBookingsQuery,
 } from '../features/my-bookings/services/bookingService';
 import { PROFILE_PATHS } from '../routes';
-import { useLazyGetChildrenQuery } from '../../services/userService';
-import { useLazyGetVideoPreviewInfoQuery } from '../../services/tutorService';
+import { useLazyGetChildrenQuery } from '../store/services/userService';
+import { useLazyGetVideoPreviewInfoQuery } from '../store/services/tutorService';
 
 interface Props {
   children: JSX.Element | JSX.Element[];

@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { ScaleLoader } from 'react-spinners';
 import * as yup from 'yup';
 
-import { connectStripe } from '../../../../slices/authSlice';
+import { connectStripe } from '../../../store/slices/authSlice';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { getUserId } from '../../../utils/getUserId';
 import { useConnectCompanyAccountMutation } from '../../my-profile/services/stripeService';

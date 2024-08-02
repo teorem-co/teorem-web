@@ -9,8 +9,8 @@ import {
   useApproveTutorMutation,
   useDenyTutorMutation,
   useLazyGetTutorByTutorSlugQuery,
-} from '../../../services/tutorService';
-import { RoleOptions } from '../../../slices/roleSlice';
+} from '../../store/services/tutorService';
+import { RoleOptions } from '../../store/slices/roleSlice';
 import MainWrapper from '../../components/MainWrapper';
 import LoaderPrimary from '../../components/skeleton-loaders/LoaderPrimary';
 import LoaderTutorProfile
@@ -37,7 +37,7 @@ import { EditTutorAvailability } from './components/EditTutorAvailability';
 import { EditTutorSubjects } from './components/EditTutorSubjects';
 import { DisconnectStripe } from './components/DisconnectStripe';
 import StripeConnectForm from '../my-profile/components/StripeConnectForm';
-import { connectStripe } from '../../../slices/authSlice';
+import { connectStripe } from '../../store/slices/authSlice';
 import ImageCircle from '../../components/ImageCircle';
 import { ButtonPrimaryGradient } from '../../components/ButtonPrimaryGradient';
 import toastService from '../../services/toastService';

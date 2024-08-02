@@ -8,7 +8,7 @@ import availabilityTable from '../../../constants/availabilityTable';
 import ITutorAvailability from '../../my-profile/interfaces/ITutorAvailability';
 import toastService from '../../../services/toastService';
 import { TimeZoneSelect } from '../../../components/TimeZoneSelect';
-import { useLazyGetUserTimeZoneQuery } from '../../../../services/userService';
+import { useLazyGetUserTimeZoneQuery } from '../../../store/services/userService';
 
 export function EditTutorAvailability({ tutorId }: any) {
     const [opened, setOpened] = useState(false);

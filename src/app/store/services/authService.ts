@@ -1,8 +1,8 @@
-import { baseService } from '../app/store/baseService';
-import { HttpMethods } from '../app/lookups/httpMethods';
-import IGenerateUsername from '../interfaces/IGenerateUsername';
-import { IChild } from '../interfaces/IChild';
-import IUser from '../interfaces/IUser';
+import { baseService } from '../baseService';
+import { HttpMethods } from '../../lookups/httpMethods';
+import IGenerateUsername from '../../../interfaces/IGenerateUsername';
+import { IChild } from '../../../interfaces/IChild';
+import IUser from '../../../interfaces/IUser';
 
 interface ILoginRequest {
     email: string;

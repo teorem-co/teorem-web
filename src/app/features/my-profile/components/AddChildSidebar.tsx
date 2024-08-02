@@ -6,14 +6,14 @@ import * as Yup from 'yup';
 
 import { IChild } from '../../../../interfaces/IChild';
 import IChildUpdate from '../../../../interfaces/IChildUpdate';
-import { useCheckUsernameMutation, useGenerateChildUsernameMutation } from '../../../../services/authService';
+import { useCheckUsernameMutation, useGenerateChildUsernameMutation } from '../../../store/services/authService';
 import {
     ICreateChildRequest,
     IDeleteChildRequest,
     useCreateChildMutation,
     useDeleteChildMutation,
     useUpdateChildMutation,
-} from '../../../../services/userService';
+} from '../../../store/services/userService';
 import MyDatePicker from '../../../components/form/MyDatePicker';
 import { useAppSelector } from '../../../store/hooks';
 import toastService from '../../../services/toastService';

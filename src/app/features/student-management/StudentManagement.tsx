@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import {
   ITutorStudentSearch,
   useLazyGetStudentInformationQuery,
-} from '../../../services/userService';
+} from '../../store/services/userService';
 import IParams from '../../../interfaces/IParams';
 import IPage from '../../../interfaces/notification/IPage';
 import { t } from 'i18next';

@@ -1,7 +1,7 @@
 import {
   IAdminTutorVideoInformation,
   useLazyGetAdminTutorVideoInformationQuery,
-} from '../../../../services/tutorService';
+} from '../../../store/services/tutorService';
 import { AdminTutorVideoItem } from './AdminTutorVideoItem';
 import React, { useEffect, useState } from 'react';
 import IParams from '../../../../interfaces/IParams';

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import IUser from '../interfaces/IUser';
-import { IVerificationDocumentResponse } from '../app/features/my-profile/services/stripeService';
+import IUser from '../../../interfaces/IUser';
+import { IVerificationDocumentResponse } from '../../features/my-profile/services/stripeService';
 
 interface ILoginPayload {
     token?: string;

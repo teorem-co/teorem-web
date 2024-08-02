@@ -8,7 +8,7 @@ import { IBookingModalInfo } from '../../tutor-bookings/TutorBookings';
 import moment from 'moment-timezone';
 import { PATHS } from '../../../routes';
 import { useLazyCheckIfCanLeaveReviewQuery } from '../../myReviews/services/myReviewsService';
-import { RoleOptions } from '../../../../slices/roleSlice';
+import { RoleOptions } from '../../../store/slices/roleSlice';
 
 interface Props {
     handleClose: () => void;

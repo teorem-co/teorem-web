@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useHistory } from 'react-router';
 
 import logo from '../../../assets/images/logo.svg';
-import { useResendActivationEmailMutation } from '../../../services/authService';
+import { useResendActivationEmailMutation } from '../../store/services/authService';
 import { useAppSelector } from '../../store/hooks';
 import { PATHS } from '../../routes';
 

@@ -3,10 +3,10 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 
 import logo from '../../../../assets/images/teorem_logo_purple.png';
-import { resetSignUp } from '../../../../slices/signUpSlice';
+import { resetSignUp } from '../../../store/slices/signUpSlice';
 import { PATHS } from '../../../routes';
 import { t } from 'i18next';
-import { RoleOptions, setSelectedCountryState, setSelectedRole } from '../../../../slices/roleSlice';
+import { RoleOptions, setSelectedCountryState, setSelectedRole } from '../../../store/slices/roleSlice';
 import Select, { SingleValue } from 'react-select';
 import { useLazyGetCountriesQuery } from '../../onboarding/services/countryService';
 import { Option } from '../../my-profile/VideoRecorder/VideoRecorder';

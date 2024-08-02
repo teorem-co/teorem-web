@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import ISubject from '../../../../../interfaces/ISubject';
-import { setStepZero } from '../../../../../slices/signUpSlice';
+import { setStepZero } from '../../../../store/slices/signUpSlice';
 import { useAppSelector } from '../../../../store/hooks';
 import { LevelCard } from './LevelCard';
 import { levels } from './levels';

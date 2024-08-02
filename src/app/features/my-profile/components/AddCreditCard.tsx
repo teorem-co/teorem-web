@@ -12,7 +12,7 @@ import {
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { StripeError } from '@stripe/stripe-js';
 import { setMyProfileProgress } from '../slices/myProfileSlice';
-import { addStripeId } from '../../../../slices/authSlice';
+import { addStripeId } from '../../../store/slices/authSlice';
 import { ScaleLoader } from 'react-spinners';
 
 interface Props {

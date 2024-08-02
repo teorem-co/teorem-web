@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { useLazyGetUserQuery } from '../../../../services/userService';
+import { useLazyGetUserQuery } from '../../../store/services/userService';
 import { useAppSelector } from '../../../store/hooks';
 import { Role } from '../../../lookups/role';
 import { PATHS } from '../../../routes';
@@ -32,7 +32,7 @@ import ImageCircle from '../../../components/ImageCircle';
 import {
   getUserRoleAbbrv,
   useLazyGetTutorByIdQuery,
-} from '../../../../services/tutorService';
+} from '../../../store/services/tutorService';
 import 'react-tooltip/dist/react-tooltip.css';
 import { Tooltip } from 'react-tooltip';
 import 'bootstrap-icons/font/bootstrap-icons.css';

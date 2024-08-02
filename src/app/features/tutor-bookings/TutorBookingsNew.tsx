@@ -12,9 +12,9 @@ import {
     useLazyGetTutorBookingsQuery,
     useLazyGetTutorByTutorSlugQuery,
     useLazyGetTutorUnavalabilitesForCalendarQuery,
-} from '../../../services/tutorService';
-import { addStripeId } from '../../../slices/authSlice';
-import { RoleOptions } from '../../../slices/roleSlice';
+} from '../../store/services/tutorService';
+import { addStripeId } from '../../store/slices/authSlice';
+import { RoleOptions } from '../../store/slices/roleSlice';
 import MainWrapper from '../../components/MainWrapper';
 import LoaderSecondary from '../../components/skeleton-loaders/LoaderSecondary';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';

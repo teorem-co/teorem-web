@@ -2,7 +2,7 @@ import { t } from 'i18next';
 import { cloneDeep, isEqual } from 'lodash';
 import React, { useEffect, useState } from 'react';
 
-import { useLazyGetProfileProgressQuery } from '../../../../services/tutorService';
+import { useLazyGetProfileProgressQuery } from '../../../store/services/tutorService';
 import MainWrapper from '../../../components/MainWrapper';
 import RouterPrompt from '../../../components/RouterPrompt';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
@@ -21,8 +21,8 @@ import { setMyProfileProgress } from '../slices/myProfileSlice';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { getUserId } from '../../../utils/getUserId';
 import { TimeZoneSelect } from '../../../components/TimeZoneSelect';
-import { useLazyGetUserTimeZoneQuery } from '../../../../services/userService';
-import { setTimeZone } from '../../../../slices/timeZoneSlice';
+import { useLazyGetUserTimeZoneQuery } from '../../../store/services/userService';
+import { setTimeZone } from '../../../store/slices/timeZoneSlice';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 
 const GeneralAvailability = () => {

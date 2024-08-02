@@ -5,7 +5,7 @@ import { SignupSecondStep } from './SignupSecondStep';
 import { SignupThirdStep } from './SignupThirdStep';
 import { useAppSelector } from '../../../../store/hooks';
 import moment from 'moment/moment';
-import { IRegister, useRegisterUserMutation } from '../../../../../services/authService';
+import { IRegister, useRegisterUserMutation } from '../../../../store/services/authService';
 import { useHistory } from 'react-router';
 
 import { AiOutlineClose, AiOutlineLeft } from 'react-icons/ai';
@@ -17,7 +17,7 @@ import { SignupSubjectSelect } from '../student_and_parent/SignupSubjectSelect';
 import { useDispatch } from 'react-redux';
 import ROUTES, { PATHS } from '../../../../routes';
 import { Role } from '../../../../lookups/role';
-import { RoleOptions } from '../../../../../slices/roleSlice';
+import { RoleOptions } from '../../../../store/slices/roleSlice';
 
 function ConfettiWrapper() {
     const confettiElements = [];

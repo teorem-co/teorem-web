@@ -25,13 +25,13 @@ import { persistor } from './app/store/store';
 import useMount from './app/utils/useMount';
 import { NotificationType } from './interfaces/notification/INotification';
 import ISocketNotification from './interfaces/notification/ISocketNotification';
-import { useLazyGetServerVersionQuery } from './services/authService';
-import { useLazyGetTutorTimeZoneQuery } from './services/tutorService';
-import { useLazyGetUserQuery } from './services/userService';
-import { logout, setServerVersion, setToken } from './slices/authSlice';
-import { setCountries } from './slices/countryMarketSlice';
-import { setTimeZone } from './slices/timeZoneSlice';
-import { logoutUser } from './slices/userSlice';
+import { useLazyGetServerVersionQuery } from './app/store/services/authService';
+import { useLazyGetTutorTimeZoneQuery } from './app/store/services/tutorService';
+import { useLazyGetUserQuery } from './app/store/services/userService';
+import { logout, setServerVersion, setToken } from './app/store/slices/authSlice';
+import { setCountries } from './app/store/slices/countryMarketSlice';
+import { setTimeZone } from './app/store/slices/timeZoneSlice';
+import { logoutUser } from './app/store/slices/userSlice';
 
 function App() {
     const { t } = useTranslation();

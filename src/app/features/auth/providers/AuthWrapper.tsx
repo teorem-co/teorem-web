@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import useMount from '../../../utils/useMount';
-import { useConfirmLoginMutation } from '../../../../services/authService';
+import { useConfirmLoginMutation } from '../../../store/services/authService';
 import removeParamsFromURI from '../../../utils/removeParamsFromUri';
-import { setToken } from '../../../../slices/authSlice';
+import { setToken } from '../../../store/slices/authSlice';
 
 interface IAuthWrapperProps {
     children?: React.ReactNode;
