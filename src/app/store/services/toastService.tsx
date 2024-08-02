@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import ToastFreeConsultationMessage
-  from '../components/ToastFreeConsultationMessage';
-import { PROFILE_PATHS } from '../routes';
+  from '../../components/ToastFreeConsultationMessage';
+import { PROFILE_PATHS } from '../../routes';
 
 class ToastService {
     private static opts: object = {

@@ -6,5 +6,6 @@ export default interface ICountry {
     currencyCode: string;
     currencyName: string;
     isEuMember: boolean;
-    timeZone: string;
+    flag: string;
+    timeZone: number;
 }

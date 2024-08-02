@@ -8,7 +8,7 @@ import heroImg from '../../../assets/images/hero-img.png';
 import { useResetPasswordMutation } from '../../store/services/authService';
 import MyTextField from '../../components/form/MyTextField';
 import { PATHS } from '../../routes';
-import toastService from '../../services/toastService';
+import toastService from '../../store/services/toastService';
 import logo from './../../../assets/images/logo.svg';
 import { ButtonPrimaryGradient } from '../../components/ButtonPrimaryGradient';
 

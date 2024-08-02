@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 
 import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyTimePicker from '../../../components/form/MyTimePicker';
-import toastService from '../../../services/toastService';
+import toastService from '../../../store/services/toastService';
 import { IPostUnavailability, useCreateTutorUnavailabilityMutation } from '../services/unavailabilityService';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 

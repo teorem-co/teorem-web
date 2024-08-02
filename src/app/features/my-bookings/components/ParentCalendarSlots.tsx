@@ -12,7 +12,7 @@ import MyTimePicker from '../../../components/form/MyTimePicker';
 import MyTextField from '../../../components/form/MyTextField';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
 import { useAppSelector } from '../../../store/hooks';
-import toastService from '../../../services/toastService';
+import toastService from '../../../store/services/toastService';
 import { useLazyGetCustomerByIdQuery } from '../../my-profile/services/stripeService';
 import { ICreateBookingDTO, useCreatebookingMutation, useCreateBookingMutation } from '../services/bookingService';
 import { loadStripe } from '@stripe/stripe-js';

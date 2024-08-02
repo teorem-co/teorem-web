@@ -16,7 +16,7 @@ import { RoleOptions } from '../../../store/slices/roleSlice';
 import MainWrapper from '../../../components/MainWrapper';
 import LoaderSecondary from '../../../components/skeleton-loaders/LoaderSecondary';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import toastService from '../../../services/toastService';
+import toastService from '../../../store/services/toastService';
 import TooltipPassword from '../../register/TooltipPassword';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';

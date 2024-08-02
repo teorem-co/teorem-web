@@ -7,7 +7,7 @@ import MainWrapper from '../../../components/MainWrapper';
 import RouterPrompt from '../../../components/RouterPrompt';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
 import availabilityTable from '../../../constants/availabilityTable';
-import toastService from '../../../services/toastService';
+import toastService from '../../../store/services/toastService';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
 import IAvailabilityIndex from '../interfaces/IAvailabilityIndex';

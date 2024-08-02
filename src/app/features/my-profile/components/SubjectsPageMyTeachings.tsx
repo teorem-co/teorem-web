@@ -9,7 +9,7 @@ import { ITutorSubject, setStepOne } from '../../../store/slices/onboardingSlice
 import ITutorSubjectLevel from '../../../../interfaces/ITutorSubjectLevel';
 import { ICreateSubjectOnboarding, useCreateSubjectsOnboardingMutation } from '../../../store/services/subjectService';
 import { CreateSubjectCard } from '../../onboarding/tutorOnboardingNew/CreateSubjectCard';
-import toastService from '../../../services/toastService';
+import toastService from '../../../store/services/toastService';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 
 const SubjectsPage = () => {

@@ -7,16 +7,17 @@ import MyPhoneInput from '../../../components/form/MyPhoneInput';
 import MySelect, { OptionType } from '../../../components/form/MySelectField';
 import { countryInput } from '../../../constants/countryInput';
 import { countryOption } from '../../../constants/countryOption';
-import { ICountry, useLazyGetCountriesQuery } from '../../onboarding/services/countryService';
+import { useLazyGetCountriesQuery } from '../../onboarding/services/countryService';
 import MyTextArea from '../../../components/form/MyTextArea';
 import { useEditTutorMutation } from '../../../store/services/tutorService';
 import UploadFile from '../../../components/form/MyUploadField';
 import moment from 'moment/moment';
-import toastService from '../../../services/toastService';
+import toastService from '../../../store/services/toastService';
 import dayjs from 'dayjs';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
+import ICountry from '../../../../interfaces/ICountry';
 
 export function EditTutor({ tutorData, setRefetch }: any) {
     const [getCountries, { data: countries }] = useLazyGetCountriesQuery();
@@ -101,7 +102,9 @@ export function EditTutor({ tutorData, setRefetch }: any) {
                                                 <MyTextField
                                                     name="firstName"
                                                     id="firstName"
-                                                    placeholder={t('MY_PROFILE.PROFILE_SETTINGS.FIRST_NAME_PLACEHOLDER')}
+                                                    placeholder={t(
+                                                        'MY_PROFILE.PROFILE_SETTINGS.FIRST_NAME_PLACEHOLDER'
+                                                    )}
                                                 />
                                             </div>
                                         </div>
@@ -158,7 +161,10 @@ export function EditTutor({ tutorData, setRefetch }: any) {
                                                         format="DD/MM/YYYY"
                                                         disableFuture
                                                         onChange={(newValue) =>
-                                                            formik.setFieldValue(formik.getFieldProps('dateOfBirth').name, newValue?.toString())
+                                                            formik.setFieldValue(
+                                                                formik.getFieldProps('dateOfBirth').name,
+                                                                newValue?.toString()
+                                                            )
                                                         }
                                                     />
                                                 </LocalizationProvider>
@@ -170,7 +176,9 @@ export function EditTutor({ tutorData, setRefetch }: any) {
                                                     setFieldValue={formik.setFieldValue}
                                                     id="profileImage"
                                                     name="profileImage"
-                                                    value={tutorData.User?.profileImage ? tutorData.User.profileImage : ''}
+                                                    value={
+                                                        tutorData.User?.profileImage ? tutorData.User.profileImage : ''
+                                                    }
                                                     imagePreview={formik.values.profileImage}
                                                     removePreviewOnUnmount={true}
                                                 />
@@ -238,7 +246,9 @@ export function EditTutor({ tutorData, setRefetch }: any) {
                                                 <MyTextArea
                                                     maxLength={2500}
                                                     name="aboutTutor"
-                                                    placeholder={t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_PLACEHOLDER')}
+                                                    placeholder={t(
+                                                        'SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_PLACEHOLDER'
+                                                    )}
                                                     id="aboutTutor"
                                                 />
                                             </div>
@@ -251,7 +261,9 @@ export function EditTutor({ tutorData, setRefetch }: any) {
                                                 <MyTextArea
                                                     maxLength={2500}
                                                     name="aboutLessons"
-                                                    placeholder={t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_PLACEHOLDER')}
+                                                    placeholder={t(
+                                                        'SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_PLACEHOLDER'
+                                                    )}
                                                     id="aboutLessons"
                                                 />
                                             </div>
@@ -277,7 +289,10 @@ export function EditTutor({ tutorData, setRefetch }: any) {
                     </div>
                 </div>
             )}
-            <button className="btn btn--base btn--ghost w--100 type--center flex flex--center flex--jc--center mt-2" onClick={() => setOpened(true)}>
+            <button
+                className="btn btn--base btn--ghost w--100 type--center flex flex--center flex--jc--center mt-2"
+                onClick={() => setOpened(true)}
+            >
                 <span>Edit details</span>
             </button>
         </>

@@ -14,7 +14,7 @@ import LoaderTutorProfile
   from '../../components/skeleton-loaders/LoaderTutorProfile';
 import { useAppSelector } from '../../store/hooks';
 import { PATHS } from '../../routes';
-import { useGetOrCreateChatMutation } from '../../services/chatEngineService';
+import { useGetOrCreateChatMutation } from '../../store/services/chatEngineService';
 import { addChatRoom, IChatRoom } from '../chat/slices/chatSlice';
 import {
   useLazyGetTutorAvailabilityQuery,

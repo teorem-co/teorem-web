@@ -20,7 +20,7 @@ import { useLazyGetCountriesQuery } from './app/features/onboarding/services/cou
 import { useAppSelector } from './app/store/hooks';
 import { Role } from './app/lookups/role';
 import ROUTES, { RenderRoutes } from './app/routes';
-import toastService from './app/services/toastService';
+import toastService from './app/store/services/toastService';
 import { persistor } from './app/store/store';
 import useMount from './app/utils/useMount';
 import { NotificationType } from './interfaces/notification/INotification';
@@ -28,7 +28,7 @@ import ISocketNotification from './interfaces/notification/ISocketNotification';
 import { useLazyGetServerVersionQuery } from './app/store/services/authService';
 import { useLazyGetTutorTimeZoneQuery } from './app/store/services/tutorService';
 import { useLazyGetUserQuery } from './app/store/services/userService';
-import { logout, setServerVersion, setToken } from './app/store/slices/authSlice';
+import { logout, setServerVersion } from './app/store/slices/authSlice';
 import { setCountries } from './app/store/slices/countryMarketSlice';
 import { setTimeZone } from './app/store/slices/timeZoneSlice';
 import { logoutUser } from './app/store/slices/userSlice';
@@ -56,10 +56,12 @@ function App() {
     const [getUserById1, { data: user2Data1 }] = useLazyGetUserQuery();
     const [getUserById3, { data: user2Data3 }] = useLazyGetUserQuery();
 
-    const [getServerVersion, { data: serverVersion, isSuccess: isSuccessServerVersion }] = useLazyGetServerVersionQuery();
+    const [getServerVersion, { data: serverVersion, isSuccess: isSuccessServerVersion }] =
+        useLazyGetServerVersionQuery();
 
     const [getChatRooms, { data: chatRooms, isSuccess: isSuccessChatRooms }] = useLazyGetChatRoomsQuery();
-    const [getChildBookingTutors, { data: childTutors, isSuccess: isSuccessChildTutors }] = useLazyGetChildBookingTutorsQuery();
+    const [getChildBookingTutors, { data: childTutors, isSuccess: isSuccessChildTutors }] =
+        useLazyGetChildBookingTutorsQuery();
     const timeZoneState = useAppSelector((state) => state.timeZone);
     const [getTutorTimeZone] = useLazyGetTutorTimeZoneQuery();
     const dispatch = useDispatch();
@@ -173,7 +175,10 @@ function App() {
 
             let exists = false;
             for (let i = 0; i < chat.chatRooms.length; i++) {
-                if (chat.chatRooms[i].tutor?.userId == sendMessageObject.tutorId && chat.chatRooms[i].user?.userId == sendMessageObject.userId)
+                if (
+                    chat.chatRooms[i].tutor?.userId == sendMessageObject.tutorId &&
+                    chat.chatRooms[i].user?.userId == sendMessageObject.userId
+                )
                     exists = true;
             }
 
@@ -197,9 +202,12 @@ function App() {
                 notification.description = notification.description.replace(/date=\{(.*?)\}/g, function (match, token) {
                     return moment(new Date(token)).format('HH:mm, ' + t('DATE_FORMAT'));
                 });
-                notification.description = notification.description.replace(/stringTranslate=\{(.*?)\}/g, function (match, token) {
-                    return t(token);
-                });
+                notification.description = notification.description.replace(
+                    /stringTranslate=\{(.*?)\}/g,
+                    function (match, token) {
+                        return t(token);
+                    }
+                );
 
                 toastService.notification(notification.description);
             }

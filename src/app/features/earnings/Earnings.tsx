@@ -22,7 +22,7 @@ import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import PayoutsTableElement from './PayoutsTableElement';
 import IGraph from './interfaces/IGraph';
 import { LiaFileInvoiceDollarSolid } from 'react-icons/lia';
-import toastService from '../../services/toastService';
+import toastService from '../../store/services/toastService';
 import { useAppSelector } from '../../store/hooks';
 import BookingsTableElement from './BookingsTableElement';
 import { getCurrencySymbol } from '../../components/countries';

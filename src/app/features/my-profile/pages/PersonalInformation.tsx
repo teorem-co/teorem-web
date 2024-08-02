@@ -12,7 +12,11 @@ import {
     useLazyGetProfileProgressQuery,
     useLazyGetTutorByIdQuery,
 } from '../../../store/services/tutorService';
-import { useLazyGetCreditsQuery, useLazyGetUserQuery, useUpdateUserInformationMutation } from '../../../store/services/userService';
+import {
+    useLazyGetCreditsQuery,
+    useLazyGetUserQuery,
+    useUpdateUserInformationMutation,
+} from '../../../store/services/userService';
 import { RoleOptions } from '../../../store/slices/roleSlice';
 import MyPhoneInput from '../../../components/form/MyPhoneInput';
 import { OptionType } from '../../../components/form/MySelectField';
@@ -21,9 +25,9 @@ import MainWrapper from '../../../components/MainWrapper';
 import RouterPrompt from '../../../components/RouterPrompt';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import toastService from '../../../services/toastService';
+import toastService from '../../../store/services/toastService';
 import { getUserId } from '../../../utils/getUserId';
-import { ICountry, useLazyGetCountriesQuery } from '../../onboarding/services/countryService';
+import { useLazyGetCountriesQuery } from '../../onboarding/services/countryService';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
 import { setMyProfileProgress } from '../slices/myProfileSlice';
@@ -38,6 +42,7 @@ import { FaCoins } from 'react-icons/fa';
 import { UploadVerificationDocuments } from '../../../components/UploadVerificationDocuments';
 import { CurrencySymbol } from '../../../components/CurrencySymbol';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
+import ICountry from '../../../../interfaces/ICountry';
 
 interface Values {
     firstName: string;
@@ -49,11 +54,19 @@ interface Values {
 }
 
 const PersonalInformation = () => {
-    const [getCountries, { data: countries, isLoading: countriesLoading, isUninitialized: countriesUninitialized, isFetching: countriesFetching }] =
-        useLazyGetCountriesQuery();
+    const [
+        getCountries,
+        {
+            data: countries,
+            isLoading: countriesLoading,
+            isUninitialized: countriesUninitialized,
+            isFetching: countriesFetching,
+        },
+    ] = useLazyGetCountriesQuery();
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
     const [updateUserInformation, { isLoading: isLoadingUserUpdate }] = useUpdateUserInformationMutation();
-    const [getUser, { isLoading: isLoadingUser, isUninitialized: userUninitialized, isFetching: userFetching }] = useLazyGetUserQuery();
+    const [getUser, { isLoading: isLoadingUser, isUninitialized: userUninitialized, isFetching: userFetching }] =
+        useLazyGetUserQuery();
 
     const [getTutor, { data: tutorData, isSuccess: isSuccessTutor }] = useLazyGetTutorByIdQuery();
     const [updateTutorDisabled] = useLazyDisableTutorQuery();
@@ -81,7 +94,13 @@ const PersonalInformation = () => {
     const user = useAppSelector((state) => state.auth.user);
     const userId = getUserId();
     const isLoading = isLoadingUser || isLoadingUserUpdate;
-    const pageLoading = countriesLoading || countriesUninitialized || isLoadingUser || userUninitialized || countriesFetching || userFetching;
+    const pageLoading =
+        countriesLoading ||
+        countriesUninitialized ||
+        isLoadingUser ||
+        userUninitialized ||
+        countriesFetching ||
+        userFetching;
     const [dateOfBirth, setDateOfBirth] = useState('');
 
     const handleSubmit = async (values: Values) => {
@@ -231,7 +250,12 @@ const PersonalInformation = () => {
                     if (typeof value === 'string') {
                         return true;
                     } else {
-                        if (value.type === 'image/jpg' || value.type === 'image/jpeg' || value.type === 'image/png' || value.type === 'image/svg') {
+                        if (
+                            value.type === 'image/jpg' ||
+                            value.type === 'image/jpeg' ||
+                            value.type === 'image/png' ||
+                            value.type === 'image/svg'
+                        ) {
                             return true;
                         }
 
@@ -343,7 +367,8 @@ const PersonalInformation = () => {
                                 {/* PERSONAL INFO */}
                                 {(pageLoading && <LoaderPrimary />) || (
                                     <>
-                                        {(user?.Role.abrv === RoleOptions.Parent || user?.Role.abrv === RoleOptions.Student) && (
+                                        {(user?.Role.abrv === RoleOptions.Parent ||
+                                            user?.Role.abrv === RoleOptions.Student) && (
                                             <div
                                                 className={
                                                     'card--profile__section type--color--brand type--md flex flex-row flex--ai--center flex-gap-2'
@@ -351,7 +376,8 @@ const PersonalInformation = () => {
                                             >
                                                 <FaCoins />
                                                 <p>
-                                                    {t('MY_PROFILE.PROFILE_SETTINGS.CREDITS')}: <span className={'mr-1'}>{userCredits}</span>
+                                                    {t('MY_PROFILE.PROFILE_SETTINGS.CREDITS')}:{' '}
+                                                    <span className={'mr-1'}>{userCredits}</span>
                                                     <CurrencySymbol />
                                                 </p>
                                             </div>
@@ -359,7 +385,9 @@ const PersonalInformation = () => {
 
                                         <div className="card--profile__section">
                                             <div>
-                                                <div className="mb-2 type--wgt--bold">{t('MY_PROFILE.PROFILE_SETTINGS.TITLE')}</div>
+                                                <div className="mb-2 type--wgt--bold">
+                                                    {t('MY_PROFILE.PROFILE_SETTINGS.TITLE')}
+                                                </div>
                                                 <div className="type--color--tertiary w--200--max">
                                                     {t('MY_PROFILE.PROFILE_SETTINGS.DESCRIPTION')}
                                                 </div>
@@ -384,8 +412,13 @@ const PersonalInformation = () => {
                                                                 id="firstName"
                                                                 label={t('MY_PROFILE.PROFILE_SETTINGS.FIRST_NAME')}
                                                                 variant="outlined"
-                                                                error={formik.touched.firstName && !!formik.errors.firstName}
-                                                                helperText={formik.touched.firstName && formik.errors.firstName}
+                                                                error={
+                                                                    formik.touched.firstName &&
+                                                                    !!formik.errors.firstName
+                                                                }
+                                                                helperText={
+                                                                    formik.touched.firstName && formik.errors.firstName
+                                                                }
                                                                 color="secondary"
                                                                 InputProps={{
                                                                     style: {
@@ -416,8 +449,13 @@ const PersonalInformation = () => {
                                                                 id="lastName"
                                                                 label={t('MY_PROFILE.PROFILE_SETTINGS.LAST_NAME')}
                                                                 variant="outlined"
-                                                                error={formik.touched.firstName && !!formik.errors.firstName}
-                                                                helperText={formik.touched.firstName && formik.errors.firstName}
+                                                                error={
+                                                                    formik.touched.firstName &&
+                                                                    !!formik.errors.firstName
+                                                                }
+                                                                helperText={
+                                                                    formik.touched.firstName && formik.errors.firstName
+                                                                }
                                                                 color="secondary"
                                                                 InputProps={{
                                                                     style: {

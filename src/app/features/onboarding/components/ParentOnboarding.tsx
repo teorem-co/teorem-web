@@ -5,7 +5,11 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import { IChild } from '../../../../interfaces/IChild';
-import { useCheckUsernameMutation, useGenerateChildUsernameMutation, useRegisterParentMutation } from '../../../store/services/authService';
+import {
+    useCheckUsernameMutation,
+    useGenerateChildUsernameMutation,
+    useRegisterParentMutation,
+} from '../../../store/services/authService';
 import { resetParentRegister, setChildList, setStepOne } from '../../../store/slices/parentRegisterSlice';
 import { resetStudentRegister } from '../../../store/slices/studentRegisterSlice';
 import { resetTutorRegister } from '../../../store/slices/tutorRegisterSlice';
@@ -15,11 +19,12 @@ import { OptionType } from '../../../components/form/MySelectField';
 import MyTextField from '../../../components/form/MyTextField';
 import ImageCircle from '../../../components/ImageCircle';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import toastService from '../../../services/toastService';
+import toastService from '../../../store/services/toastService';
 import useOutsideAlerter from '../../../utils/useOutsideAlerter';
 import TooltipPassword from '../../register/TooltipPassword';
-import { ICountry, useLazyGetCountriesQuery } from '../services/countryService';
+import { useLazyGetCountriesQuery } from '../services/countryService';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
+import ICountry from '../../../../interfaces/ICountry';
 
 interface StepOneValues {
     firstName: string;
@@ -56,7 +61,8 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
     const [checkUsernameValidation, setCheckUsernameValidation] = useState<string>('');
     const [checkUsername] = useCheckUsernameMutation();
     const parentCreds = useAppSelector((state) => state.parentRegister);
-    const { firstName, lastName, password, passwordRepeat, email, dateOfBirth, phoneNumber, countryId, child, skip } = parentCreds;
+    const { firstName, lastName, password, passwordRepeat, email, dateOfBirth, phoneNumber, countryId, child, skip } =
+        parentCreds;
     //const [addUserQuery] = useAddUserMutation();
 
     const [generateChildUsernamePost] = useGenerateChildUsernameMutation();
@@ -276,7 +282,10 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
                         {t('REGISTER.NEXT_BUTTON')}
                     </ButtonPrimaryGradient>
                     <div className="flex flex--jc--center">
-                        <div onClick={() => handleGoBack()} className="btn btn--clear btn--base type--color--brand type--wgt--extra-bold">
+                        <div
+                            onClick={() => handleGoBack()}
+                            className="btn btn--clear btn--base type--color--brand type--wgt--extra-bold"
+                        >
                             <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>
                             {t('REGISTER.BACK_TO_REGISTER')}
                         </div>
@@ -366,11 +375,17 @@ username: email.split('@')[0],
                             {child.length > 0 &&
                                 child.map((x: IChild) => {
                                     return (
-                                        <div className="role-selection__item" key={x.username} onClick={() => handleEditChild(x)}>
+                                        <div
+                                            className="role-selection__item"
+                                            key={x.username}
+                                            onClick={() => handleEditChild(x)}
+                                        >
                                             <ImageCircle initials={`${x.firstName.charAt(0)}`} />
                                             <div className="flex--grow ml-4">
                                                 <div className="mb-1">{x.firstName}</div>
-                                                <div className="type--color--secondary">{moment(x.dateOfBirth).format('MM/DD/YYYY')}</div>
+                                                <div className="type--color--secondary">
+                                                    {moment(x.dateOfBirth).format('MM/DD/YYYY')}
+                                                </div>
                                             </div>
                                             <i className="icon icon--base icon--edit icon--primary"></i>
                                         </div>
@@ -386,8 +401,12 @@ username: email.split('@')[0],
                             {t('REGISTER.FINISH')}
                         </div>
                         <div className="flex flex--jc--center">
-                            <div onClick={() => handleGoBack()} className="btn btn--clear btn--base type--color--brand type--wgt--extra-bold">
-                                <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i> {t('REGISTER.BACK_TO_STEP_ONE')}
+                            <div
+                                onClick={() => handleGoBack()}
+                                className="btn btn--clear btn--base type--color--brand type--wgt--extra-bold"
+                            >
+                                <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>{' '}
+                                {t('REGISTER.BACK_TO_STEP_ONE')}
                             </div>
                         </div>
                     </Form>
@@ -600,7 +619,8 @@ username: email.split('@')[0],
                             }}
                             className="btn btn--clear btn--base type--color--brand type--wgt--extra-bold"
                         >
-                            <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i> {t('REGISTER.BACK_TO_LIST')}
+                            <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>{' '}
+                            {t('REGISTER.BACK_TO_LIST')}
                         </div>
                     </div>
                 </Form>
@@ -682,7 +702,19 @@ username: email.split('@')[0],
         }
     }, [isSuccess]);
 
-    return <>{step === 1 ? stepOne() : step === 2 && detailsOpen === false ? stepTwo() : detailsOpen && step === 2 ? stepThree() : <></>}</>;
+    return (
+        <>
+            {step === 1 ? (
+                stepOne()
+            ) : step === 2 && detailsOpen === false ? (
+                stepTwo()
+            ) : detailsOpen && step === 2 ? (
+                stepThree()
+            ) : (
+                <></>
+            )}
+        </>
+    );
 };
 
 export default ParentOnboarding;

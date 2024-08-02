@@ -17,7 +17,7 @@ import LoaderTutorProfile
   from '../../components/skeleton-loaders/LoaderTutorProfile';
 import { useAppSelector } from '../../store/hooks';
 import { PATHS } from '../../routes';
-import { useGetOrCreateChatMutation } from '../../services/chatEngineService';
+import { useGetOrCreateChatMutation } from '../../store/services/chatEngineService';
 import handleRatingStars from '../../utils/handleRatingStarts';
 import { addChatRoom, IChatRoom } from '../chat/slices/chatSlice';
 import {
@@ -40,7 +40,7 @@ import StripeConnectForm from '../my-profile/components/StripeConnectForm';
 import { connectStripe } from '../../store/slices/authSlice';
 import ImageCircle from '../../components/ImageCircle';
 import { ButtonPrimaryGradient } from '../../components/ButtonPrimaryGradient';
-import toastService from '../../services/toastService';
+import toastService from '../../store/services/toastService';
 
 const TutorProfile = () => {
   const [stripeModalOpen, setStripeModalOpen] = useState<boolean>(false);

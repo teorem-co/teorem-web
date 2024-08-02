@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import {
   IMeetRecording,
-} from '../../services/hiLinkService';
+} from '../../store/services/hiLinkService';
 import { ClipLoader } from 'react-spinners';
 
 interface Props {

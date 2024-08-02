@@ -8,7 +8,7 @@ import { useLazyGetChildQuery } from '../../../store/services/userService';
 import { RoleOptions } from '../../../store/slices/roleSlice';
 import Select from '@mui/material/Select';
 import { useAppSelector } from '../../../store/hooks';
-import toastService from '../../../services/toastService';
+import toastService from '../../../store/services/toastService';
 import IBooking from '../interfaces/IBooking';
 import {
     IGetStudentAvailablePeriodsParams,

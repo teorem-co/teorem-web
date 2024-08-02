@@ -1,4 +1,4 @@
-interface IChatEnginePost {
+export default interface IChatEnginePost {
     username: string;
     secret: string;
     email: string;
@@ -6,5 +6,3 @@ interface IChatEnginePost {
     last_name: string;
     avatar?: string;
 }
-
-export default IChatEnginePost;

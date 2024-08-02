@@ -15,7 +15,7 @@ import { RoleOptions } from '../../store/slices/roleSlice';
 import MainWrapper from '../../components/MainWrapper';
 import LoaderSecondary from '../../components/skeleton-loaders/LoaderSecondary';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import toastService from '../../services/toastService';
+import toastService from '../../store/services/toastService';
 import { calcModalPosition } from '../../utils/calcModalPosition';
 import ParentCalendarSlots from '../my-bookings/components/ParentCalendarSlots';
 import ParentEventModal from '../my-bookings/components/ParentEventModal';

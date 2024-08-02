@@ -14,11 +14,12 @@ import MyPhoneInput from '../../../components/form/MyPhoneInput';
 import { OptionType } from '../../../components/form/MySelectField';
 import MyTextField from '../../../components/form/MyTextField';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import toastService from '../../../services/toastService';
+import toastService from '../../../store/services/toastService';
 import { resetTutorImageUploadState } from '../../../store/slices/tutorImageUploadSlice';
 import useOutsideAlerter from '../../../utils/useOutsideAlerter';
-import { ICountry, useLazyGetCountriesQuery } from '../services/countryService';
+import { useLazyGetCountriesQuery } from '../services/countryService';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
+import ICountry from '../../../../interfaces/ICountry';
 
 interface StepOneValues {
     firstName: string;
@@ -258,8 +259,12 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
                         {t('REGISTER.NEXT_BUTTON')}
                     </ButtonPrimaryGradient>
                     <div className="flex flex--jc--center">
-                        <div onClick={() => handleGoBack()} className="btn btn--clear btn--base type--color--brand type--wgt--extra-bold">
-                            <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i> {t('REGISTER.BACK_TO_REGISTER')}
+                        <div
+                            onClick={() => handleGoBack()}
+                            className="btn btn--clear btn--base type--color--brand type--wgt--extra-bold"
+                        >
+                            <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>{' '}
+                            {t('REGISTER.BACK_TO_REGISTER')}
                         </div>
                     </div>
                 </Form>
@@ -424,8 +429,12 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
                         {t('REGISTER.FINISH')}
                     </button>
                     <div className="flex flex--jc--center">
-                        <div onClick={() => handleGoBack()} className="btn btn--clear btn--base type--color--brand type--wgt--extra-bold">
-                            <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i> {t('REGISTER.BACK_TO_STEP_TWO')}
+                        <div
+                            onClick={() => handleGoBack()}
+                            className="btn btn--clear btn--base type--color--brand type--wgt--extra-bold"
+                        >
+                            <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>{' '}
+                            {t('REGISTER.BACK_TO_STEP_TWO')}
                         </div>
                     </div>
                 </Form>

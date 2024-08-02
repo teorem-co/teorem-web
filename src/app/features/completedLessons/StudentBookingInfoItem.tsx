@@ -9,12 +9,12 @@ import { PiPlayBold } from 'react-icons/pi';
 import {
   IMeetRecording,
   useLazyGetLessonRecordingsQuery,
-} from '../../services/hiLinkService';
+} from '../../store/services/hiLinkService';
 import IGetRecordingLinks from '../../../interfaces/IGetRecordingLinks';
 import { BeatLoader } from 'react-spinners';
 import { AiOutlineDown } from 'react-icons/ai';
 import { useAppSelector } from '../../store/hooks';
-import toastService from '../../services/toastService';
+import toastService from '../../store/services/toastService';
 
 export interface IBookingInfo {
   bookingId: string;

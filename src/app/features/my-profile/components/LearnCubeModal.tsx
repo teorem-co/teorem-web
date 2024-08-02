@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
 import { useAppSelector } from '../../../store/hooks';
-import { useLazyGetRoomLinkQuery } from '../../../services/hiLinkService';
+import { useLazyGetRoomLinkQuery } from '../../../store/services/hiLinkService';
 import { useHistory } from 'react-router';
 import { IBookingModalInfo } from '../../tutor-bookings/TutorBookings';
 import moment from 'moment-timezone';

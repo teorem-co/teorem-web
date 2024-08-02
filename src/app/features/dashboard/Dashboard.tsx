@@ -36,8 +36,8 @@ import LoaderPrimary from '../../components/skeleton-loaders/LoaderPrimary';
 import { TutorialModal } from '../../components/TutorialModal';
 import { useAppSelector } from '../../store/hooks';
 import { PATHS, PROFILE_PATHS } from '../../routes';
-import { useLazyGetTutorTestingLinkQuery } from '../../services/hiLinkService';
-import toastService from '../../services/toastService';
+import { useLazyGetTutorTestingLinkQuery } from '../../store/services/hiLinkService';
+import toastService from '../../store/services/toastService';
 import { IChatRoom, ISendChatMessage, setActiveChatRoomById } from '../chat/slices/chatSlice';
 import IBooking from '../my-bookings/interfaces/IBooking';
 import {

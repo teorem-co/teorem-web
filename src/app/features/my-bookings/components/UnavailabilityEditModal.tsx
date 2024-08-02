@@ -1,7 +1,7 @@
 import { t } from 'i18next';
 import moment from 'moment';
 
-import toastService from '../../../services/toastService';
+import toastService from '../../../store/services/toastService';
 import {
   useDeleteTutorUnavailabilityMutation,
 } from '../services/unavailabilityService';
