@@ -24,7 +24,7 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { FormControl, InputLabel, MenuItem, OutlinedInput } from '@mui/material';
 import { useLazyGetTutorUnavailableDaysQuery } from '../../../../services/tutorService';
-import { TeoremConstants } from '../../../TeoremConstants';
+import { TeoremConstants } from '../../../constants/TeoremConstants';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 
 interface IProps {
@@ -49,13 +49,24 @@ interface Values {
 }
 
 const UpdateBooking: React.FC<IProps> = (props) => {
-    const { topOffset, start, end, handleClose, positionClass, setSidebarOpen, clearEmptyBookings, booking, fetchDataInParent } = props;
+    const {
+        topOffset,
+        start,
+        end,
+        handleClose,
+        positionClass,
+        setSidebarOpen,
+        clearEmptyBookings,
+        booking,
+        fetchDataInParent,
+    } = props;
 
     const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
     const userId = useAppSelector((state) => state.auth.user?.id);
 
     const [deleteBooking] = useDeleteBookingMutation();
-    const [getUnavailableDays, { data: unavailableDays, isLoading: unavailableDaysIsLoading }] = useLazyGetTutorUnavailableDaysQuery();
+    const [getUnavailableDays, { data: unavailableDays, isLoading: unavailableDaysIsLoading }] =
+        useLazyGetTutorUnavailableDaysQuery();
     const [getTutorAvailablePeriods, { data: tutorAvailablePeriods }] = useLazyGetTutorAvailablePeriodsQuery();
     const [getStudentAvailablePeriods, { data: studentAvailablePeriods }] = useLazyGetStudentAvailablePeriodsQuery();
     const [getChildOptions] = useLazyGetChildQuery();
@@ -94,7 +105,9 @@ const UpdateBooking: React.FC<IProps> = (props) => {
     const handleSubmit = useCallback((values: Values) => {
         props.setSidebarOpen(false);
 
-        const momentDate = moment(values.selectedDate).set('hours', Number(values.selectedTime)).set('minutes', Number(values.selectedTime));
+        const momentDate = moment(values.selectedDate)
+            .set('hours', Number(values.selectedTime))
+            .set('minutes', Number(values.selectedTime));
         const dateTime = `${values.selectedDate} ${values.selectedTime}`;
         const momentObj = moment(dateTime, 'YYYY-MM-DD HH:mm');
 
@@ -241,8 +254,13 @@ const UpdateBooking: React.FC<IProps> = (props) => {
                             <div className="flex flex--center mb-4">
                                 <i className="icon icon--base icon--subject icon--grey mr-4"></i>
                                 <div className="type--color--secondary w--100">
-                                    {t(`SUBJECTS.${booking?.Subject.abrv.replaceAll(' ', '').replaceAll('-', '').toLowerCase()}`)}&nbsp;-&nbsp;
-                                    {t(`LEVELS.${booking?.Level.name.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`)}
+                                    {t(
+                                        `SUBJECTS.${booking?.Subject.abrv.replaceAll(' ', '').replaceAll('-', '').toLowerCase()}`
+                                    )}
+                                    &nbsp;-&nbsp;
+                                    {t(
+                                        `LEVELS.${booking?.Level.name.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`
+                                    )}
                                 </div>
                             </div>
 
@@ -283,20 +301,28 @@ const UpdateBooking: React.FC<IProps> = (props) => {
                                                 />
 
                                                 <FormControl className={'w--45'}>
-                                                    <InputLabel id="selectedTime">{t('BOOK.FORM.TIME_OF_BOOKING')}</InputLabel>
+                                                    <InputLabel id="selectedTime">
+                                                        {t('BOOK.FORM.TIME_OF_BOOKING')}
+                                                    </InputLabel>
                                                     <Select
                                                         label={'labela'}
                                                         id="selectedTime"
                                                         name="selectedTime"
                                                         value={formik.values.selectedTime}
                                                         onChange={(newValue) =>
-                                                            formik.setFieldValue(formik.getFieldProps('selectedTime').name, newValue.target.value)
+                                                            formik.setFieldValue(
+                                                                formik.getFieldProps('selectedTime').name,
+                                                                newValue.target.value
+                                                            )
                                                         }
                                                         input={<OutlinedInput label={t('BOOK.FORM.TIME_OF_BOOKING')} />}
                                                         MenuProps={MenuProps}
                                                     >
                                                         {availableDates.map((availableDate) => (
-                                                            <MenuItem key={availableDate} value={moment(availableDate).format('HH:mm')}>
+                                                            <MenuItem
+                                                                key={availableDate}
+                                                                value={moment(availableDate).format('HH:mm')}
+                                                            >
                                                                 {moment(availableDate).format('HH:mm')}
                                                             </MenuItem>
                                                         ))}
@@ -324,7 +350,9 @@ const UpdateBooking: React.FC<IProps> = (props) => {
                             disabled={
                                 userRole !== RoleOptions.Tutor &&
                                 booking?.isAccepted &&
-                                moment(booking?.startTime).isBefore(moment().add(TeoremConstants.MIN_HOURS_BEFORE_CANCEL, 'hour'))
+                                moment(booking?.startTime).isBefore(
+                                    moment().add(TeoremConstants.MIN_HOURS_BEFORE_CANCEL, 'hour')
+                                )
                             }
                             className="btn btn--base type--wgt--extra-bold btn--clear type--color--error"
                             onClick={() => {
@@ -332,7 +360,9 @@ const UpdateBooking: React.FC<IProps> = (props) => {
                                 setShowConfirmModal(true);
                             }}
                         >
-                            {!booking?.isAccepted && userRole === RoleOptions.Tutor ? t('MY_BOOKINGS.MODAL.DENY') : t('BOOK.FORM.CANCEL_BOOKING')}
+                            {!booking?.isAccepted && userRole === RoleOptions.Tutor
+                                ? t('MY_BOOKINGS.MODAL.DENY')
+                                : t('BOOK.FORM.CANCEL_BOOKING')}
                         </button>
                     </div>
                 </div>
