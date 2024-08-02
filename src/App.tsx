@@ -69,10 +69,6 @@ function App() {
             setUserTimeZone();
         }
         getAndSetCountries();
-        const params = new URLSearchParams(window.location.search);
-        if (params.get('access_token')) {
-            dispatch(setToken({ token: params.get('access_token')! }));
-        }
     });
 
     const [getCountries] = useLazyGetCountriesQuery();

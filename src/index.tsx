@@ -16,22 +16,24 @@ import { PersistGate } from 'redux-persist/integration/react';
 import App from './App';
 import { persistor, store } from './app/store';
 import * as serviceWorker from './serviceWorker';
+import AuthWrapper from './app/features/auth/providers/AuthWrapper';
 
 ReactDOM.render(
     <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-            <Router
-                getUserConfirmation={() => {
-                    /* Empty callback to block the default browser prompt */
-                }}
-            >
-
-                <App />
-                <ToastContainer />
-            </Router>
+            <AuthWrapper>
+                <Router
+                    getUserConfirmation={() => {
+                        /* Empty callback to block the default browser prompt */
+                    }}
+                >
+                    <App />
+                    <ToastContainer />
+                </Router>
+            </AuthWrapper>
         </PersistGate>
-    </Provider>
-    , document.getElementById('root')
+    </Provider>,
+    document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change
