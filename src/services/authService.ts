@@ -4,41 +4,49 @@ import IGenerateUsername from '../interfaces/IGenerateUsername';
 import { IChild } from '../interfaces/IChild';
 import IUser from '../interfaces/IUser';
 
-interface ILogin {
+interface ILoginRequest {
     email: string;
     password: string;
 }
 
-interface ILoginPayload {
-  token: string;
-  user: IUser;
+interface ILoginResponse {
+    loginToken: string;
+}
+
+interface IConfirmLoginRequest {
+    loginToken: string;
+}
+
+interface IConfirmLoginResponse {
+    token: string;
+    user: IUser;
 }
 
 export interface IRegister {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  roleAbrv: string;
-  countryId: string;
-  phoneNumber: string;
-  dateOfBirth: string;
-  subjectId?:string;
-  levelId?:string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+    roleAbrv: string;
+    countryId: string;
+    phoneNumber: string;
+    dateOfBirth: string;
+    subjectId?: string;
+    levelId?: string;
 }
 
 export interface IRegisterTutor {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  roleAbrv: string;
-  countryId: string;
-  phoneNumber: string;
-  dateOfBirth: string;
-  profileImage?: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+    roleAbrv: string;
+    countryId: string;
+    phoneNumber: string;
+    dateOfBirth: string;
+    profileImage?: string;
 }
 
 interface IRegisterParent {
@@ -97,28 +105,35 @@ interface IResendEmail {
 const URL = '/api/v1/users';
 export const authService = baseService.injectEndpoints({
     endpoints: (builder) => ({
-      login: builder.mutation<ILoginPayload, ILogin>({
-        query: (body) => ({
-          url: `/api/v1/auth/login`,
-          method: HttpMethods.POST,
-          body,
+        login: builder.mutation<ILoginResponse, ILoginRequest>({
+            query: (body) => ({
+                url: `/api/v1/auth/login`,
+                method: HttpMethods.POST,
+                body,
+            }),
         }),
-      }),
-      resetPassword: builder.mutation<void, IResetPassword>({
-        query: (body) => ({
-          url: `${URL}/request-reset-password`,
-          method: HttpMethods.POST,
-          body,
+        confirmLogin: builder.mutation<IConfirmLoginResponse, IConfirmLoginRequest>({
+            query: (body) => ({
+                url: `/api/v1/auth/confirm-login`,
+                method: HttpMethods.POST,
+                body,
+            }),
         }),
-      }),
-      changePassword: builder.mutation<void, IChangePassword>({
-        query: (body) => ({
-          url: `${URL}/reset-password`,
+        resetPassword: builder.mutation<void, IResetPassword>({
+            query: (body) => ({
+                url: `${URL}/request-reset-password`,
+                method: HttpMethods.POST,
+                body,
+            }),
+        }),
+        changePassword: builder.mutation<void, IChangePassword>({
+            query: (body) => ({
+                url: `${URL}/reset-password`,
                 method: HttpMethods.PATCH,
                 body: {
                     password: body.password,
                     confirmPassword: body.repeatPassword,
-                    token: body.token
+                    token: body.token,
                 },
             }),
         }),
@@ -174,7 +189,7 @@ export const authService = baseService.injectEndpoints({
         }),
         getServerVersion: builder.query<string, void>({
             query: () => ({
-                url: '/get-server-version',//`/get-server-version`,
+                url: '/get-server-version', //`/get-server-version`,
                 method: HttpMethods.GET,
             }),
         }),
@@ -186,17 +201,18 @@ export const authService = baseService.injectEndpoints({
             }),
         }),
         registerUser: builder.mutation<void, IRegister>({
-          query: (body) => ({
-            url: `${URL}/register`,
-            method: HttpMethods.POST,
-            body: body,
-          }),
+            query: (body) => ({
+                url: `${URL}/register`,
+                method: HttpMethods.POST,
+                body: body,
+            }),
         }),
     }),
 });
 
 export const {
     useLoginMutation,
+    useConfirmLoginMutation,
     useRegisterTutorMutation,
     useRegisterParentMutation,
     useRegisterStudentMutation,
@@ -208,5 +224,5 @@ export const {
     useChangeCurrentPasswordMutation,
     useLazyGetServerVersionQuery,
     useResendActivationEmailMutation,
-    useRegisterUserMutation
+    useRegisterUserMutation,
 } = authService;

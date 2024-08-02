@@ -4,7 +4,12 @@ import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
-import { useLazyGetServerVersionQuery, useLoginMutation, useResendActivationEmailMutation } from '../../../services/authService';
+import {
+    useConfirmLoginMutation,
+    useLazyGetServerVersionQuery,
+    useLoginMutation,
+    useResendActivationEmailMutation,
+} from '../../../services/authService';
 import MyTextField from '../../components/form/MyTextField';
 import { useAppSelector } from '../../hooks';
 import { Role } from '../../lookups/role';
@@ -27,6 +32,7 @@ const Login: React.FC = () => {
     const [loginUserNotActive, setLoginUserNotActive] = useState<boolean>(false);
 
     const [login, { data: loginData, isSuccess: isSuccessLogin, isLoading: isLoadingLogin, error: errorLogin }] = useLoginMutation();
+    const [confirmLogin] = useConfirmLoginMutation();
     const [getServerVersion, { data: serverVersion, isSuccess: isSuccessServerVersion }] = useLazyGetServerVersionQuery();
     const [resendEmail, setResendEmail] = useState<string>('');
 
@@ -47,7 +53,7 @@ const Login: React.FC = () => {
 
     const formik = useFormik({
         initialValues: initialValues,
-        onSubmit: (values) => {
+        onSubmit: async (values) => {
             const data = {
                 email: values.email,
                 password: values.password,
@@ -55,11 +61,11 @@ const Login: React.FC = () => {
 
             setResendEmail(values.email);
 
-            login(data)
-                .unwrap()
-                .then((resp) => {
-                    dispatch(setToken(resp));
-                });
+            const resp1 = await login(data).unwrap();
+
+            const resp2 = await confirmLogin(resp1).unwrap();
+
+            dispatch(setToken(resp2));
 
             getServerVersion();
         },

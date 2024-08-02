@@ -29,7 +29,7 @@ export const userSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder.addMatcher(authService.endpoints.login.matchFulfilled, (state, action: PayloadAction<ILoginPayload>) => {
+        builder.addMatcher(authService.endpoints.confirmLogin.matchFulfilled, (state, action: PayloadAction<ILoginPayload>) => {
             const { user } = action.payload;
             state.user = user;
         });

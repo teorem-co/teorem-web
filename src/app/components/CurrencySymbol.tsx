@@ -14,7 +14,7 @@ export const CurrencySymbol = (props: Props) => {
         <span
             className={`d--ib ${className ? className : ''}`}
             dangerouslySetInnerHTML={{
-                __html: countryMap[countryId ? countryId : 'da98ad50-5138-4f0d-b297-62c5cb101247'].htmlCurrencyCode || '&euro;',
+                __html: countryMap[countryId ? countryId : 'da98ad50-5138-4f0d-b297-62c5cb101247']?.htmlCurrencyCode || '&euro;',
             }}
         />
     );
