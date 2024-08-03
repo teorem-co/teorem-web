@@ -12,7 +12,7 @@ import {
 } from '../../store/services/authService';
 import MyTextField from '../../components/form/MyTextField';
 import { useAppSelector } from '../../store/hooks';
-import { Role } from '../../lookups/role';
+import { Role } from '../../../types/role';
 import { PATHS } from '../../routes';
 import logo from './../../../assets/images/logo.svg';
 import { useDispatch } from 'react-redux';

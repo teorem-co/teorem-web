@@ -2,7 +2,7 @@ import { t } from 'i18next';
 import moment from 'moment';
 import React from 'react';
 import { Tooltip } from 'react-tooltip';
-import IBooking from '../../../../interfaces/IBooking';
+import IBooking from '../../../../types/IBooking';
 
 interface Props {
     booking: IBooking;

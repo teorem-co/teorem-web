@@ -1,4 +1,4 @@
-import { HttpMethods } from '../../../lookups/httpMethods';
+import { HttpMethods } from '../../../../types/httpMethods';
 import { baseService } from '../../../store/baseService';
 import IPartOfDayOption from '../interfaces/IPartOfDayOption';
 import ITutorAvailability from '../interfaces/ITutorAvailability';

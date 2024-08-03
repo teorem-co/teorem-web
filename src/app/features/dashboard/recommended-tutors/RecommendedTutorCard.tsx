@@ -1,7 +1,7 @@
 import { t } from 'i18next';
 import React from 'react';
 
-import ITutorItem from '../../../../interfaces/ITutorItem';
+import ITutorItem from '../../../../types/ITutorItem';
 import ImageCircle from '../../../components/ImageCircle';
 import { StarRating } from '../../myReviews/components/StarRating';
 import { LuBookOpenCheck } from 'react-icons/lu';

@@ -3,7 +3,7 @@ import { uniq } from 'lodash';
 import React, { FC, useEffect, useState } from 'react';
 import ImageCircle from '../../../components/ImageCircle';
 import { PATHS } from '../../../routes';
-import ITutorItem from '../../../../interfaces/ITutorItem';
+import ITutorItem from '../../../../types/ITutorItem';
 import CustomSubjectList from './CustomSubjectList';
 import { TutorItemVideoPopup } from './TutorItemVideoPopup';
 import { getAndSetThumbnailUrl } from '../../my-profile/VideoRecorder/getThumbnail';

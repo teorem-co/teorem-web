@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
-import { IChild } from '../../../../interfaces/IChild';
+import { IChild } from '../../../../types/IChild';
 import { useCheckUsernameMutation, useGenerateChildUsernameMutation } from '../../../store/services/authService';
 import {
     ICreateChildRequest,

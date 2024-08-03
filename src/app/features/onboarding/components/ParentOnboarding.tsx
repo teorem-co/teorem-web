@@ -4,7 +4,7 @@ import moment from 'moment';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
-import { IChild } from '../../../../interfaces/IChild';
+import { IChild } from '../../../../types/IChild';
 import {
     useCheckUsernameMutation,
     useGenerateChildUsernameMutation,
@@ -24,7 +24,7 @@ import useOutsideAlerter from '../../../utils/useOutsideAlerter';
 import TooltipPassword from '../../register/TooltipPassword';
 import { useLazyGetCountriesQuery } from '../services/countryService';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
-import ICountry from '../../../../interfaces/ICountry';
+import ICountry from '../../../../types/ICountry';
 
 interface StepOneValues {
     firstName: string;

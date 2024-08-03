@@ -35,7 +35,7 @@ import {
   getAndSetThumbnailUrl,
 } from '../my-profile/VideoRecorder/getThumbnail';
 import { TutorItemVideoPopup } from './components/TutorItemVideoPopup';
-import ITutorSubjectLevel from '../../../interfaces/ITutorSubjectLevel';
+import ITutorSubjectLevel from '../../../types/ITutorSubjectLevel';
 import { RiVerifiedBadgeFill } from 'react-icons/ri';
 import { Tooltip } from 'react-tooltip';
 import { NoReviews } from '../../components/NoReviews';

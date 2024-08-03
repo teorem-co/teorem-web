@@ -1,5 +1,5 @@
-import IChatEnginePost from '../../../interfaces/IChatEnginePost';
-import { HttpMethods } from '../../lookups/httpMethods';
+import IChatEnginePost from '../../../types/IChatEnginePost';
+import { HttpMethods } from '../../../types/httpMethods';
 import { baseService } from '../baseService';
 
 interface IGetOrCreateChat {

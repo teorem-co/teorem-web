@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import ICountry from '../../../interfaces/ICountry';
+import ICountry from '../../../types/ICountry';
 
 export interface ICountryMarketState {
     countries: ICountry[];

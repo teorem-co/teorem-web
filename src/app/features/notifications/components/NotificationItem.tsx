@@ -5,7 +5,7 @@ import { useHistory } from 'react-router';
 
 import INotification, {
   NotificationType,
-} from '../../../../interfaces/notification/INotification';
+} from '../../../../types/notification/INotification';
 import {
   useMarkAsReadMutation,
 } from '../../../store/services/notificationService';

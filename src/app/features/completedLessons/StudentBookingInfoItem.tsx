@@ -10,7 +10,7 @@ import {
   IMeetRecording,
   useLazyGetLessonRecordingsQuery,
 } from '../../store/services/hiLinkService';
-import IGetRecordingLinks from '../../../interfaces/IGetRecordingLinks';
+import IGetRecordingLinks from '../../../types/IGetRecordingLinks';
 import { BeatLoader } from 'react-spinners';
 import { AiOutlineDown } from 'react-icons/ai';
 import { useAppSelector } from '../../store/hooks';

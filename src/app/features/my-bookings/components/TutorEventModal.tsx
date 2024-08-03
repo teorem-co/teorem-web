@@ -6,7 +6,7 @@ import { Tooltip } from 'react-tooltip';
 import React, { useState } from 'react';
 import { ConfirmationModal } from '../../../components/ConfirmationModal';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
-import IBooking from '../../../../interfaces/IBooking';
+import IBooking from '../../../../types/IBooking';
 
 interface IProps {
     handleClose?: (close: boolean) => void;

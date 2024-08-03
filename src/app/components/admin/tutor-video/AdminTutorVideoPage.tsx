@@ -4,7 +4,7 @@ import {
 } from '../../../store/services/tutorService';
 import { AdminTutorVideoItem } from './AdminTutorVideoItem';
 import React, { useEffect, useState } from 'react';
-import IParams from '../../../../interfaces/IParams';
+import IParams from '../../../../types/IParams';
 import { t } from 'i18next';
 import MainWrapper from '../../MainWrapper';
 import { useAppSelector } from '../../../store/hooks';

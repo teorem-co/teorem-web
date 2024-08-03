@@ -4,7 +4,7 @@ import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 
-import INotification from '../../../interfaces/notification/INotification';
+import INotification from '../../../types/notification/INotification';
 import {
   useLazyGetAllNotificationsQuery,
 } from '../../store/services/notificationService';

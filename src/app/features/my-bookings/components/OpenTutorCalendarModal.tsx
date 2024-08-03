@@ -5,7 +5,7 @@ import { RoleOptions } from '../../../store/slices/roleSlice';
 import { useAppSelector } from '../../../store/hooks';
 import React, { useState } from 'react';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
-import IBooking from '../../../../interfaces/IBooking';
+import IBooking from '../../../../types/IBooking';
 
 interface IEvent {
     id?: string;

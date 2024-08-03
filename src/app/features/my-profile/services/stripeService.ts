@@ -1,4 +1,4 @@
-import { HttpMethods } from '../../../lookups/httpMethods';
+import { HttpMethods } from '../../../../types/httpMethods';
 import { baseService } from '../../../store/baseService';
 import IAddCustomerPost from '../interfaces/IAddCustomerPost';
 import IDeleteCreditCard from '../interfaces/IDeleteCreditCard';

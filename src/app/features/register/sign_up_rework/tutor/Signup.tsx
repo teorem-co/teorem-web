@@ -16,7 +16,7 @@ import logo from '../../../../../assets/images/teorem_logo_purple.png';
 import { SignupSubjectSelect } from '../student_and_parent/SignupSubjectSelect';
 import { useDispatch } from 'react-redux';
 import ROUTES, { PATHS } from '../../../../routes';
-import { Role } from '../../../../lookups/role';
+import { Role } from '../../../../../types/role';
 import { RoleOptions } from '../../../../store/slices/roleSlice';
 
 function ConfettiWrapper() {

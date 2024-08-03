@@ -2,7 +2,7 @@ import { t } from 'i18next';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import ISubject from '../../../../../interfaces/ISubject';
+import ISubject from '../../../../../types/ISubject';
 import { setStepZero } from '../../../../store/slices/signUpSlice';
 import { useAppSelector } from '../../../../store/hooks';
 import { LevelCard } from './LevelCard';

@@ -42,7 +42,7 @@ import { FaCoins } from 'react-icons/fa';
 import { UploadVerificationDocuments } from '../../../components/UploadVerificationDocuments';
 import { CurrencySymbol } from '../../../components/CurrencySymbol';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
-import ICountry from '../../../../interfaces/ICountry';
+import ICountry from '../../../../types/ICountry';
 
 interface Values {
     firstName: string;

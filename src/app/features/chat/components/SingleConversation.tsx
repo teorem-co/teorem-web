@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 import { useLazyGetUserQuery } from '../../../store/services/userService';
 import { useAppSelector } from '../../../store/hooks';
-import { Role } from '../../../lookups/role';
+import { Role } from '../../../../types/role';
 import { PATHS } from '../../../routes';
 import {
   useLazyGetFreeConsultationLinkQuery,

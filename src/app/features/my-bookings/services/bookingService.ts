@@ -1,14 +1,14 @@
 import { t } from 'i18next';
 
-import { HttpMethods } from '../../../lookups/httpMethods';
+import { HttpMethods } from '../../../../types/httpMethods';
 import IUpcomingLessons from '../interfaces/IUpcomingLessons';
 import { getUserRoleAbbrv } from '../../../store/services/tutorService';
 import { RoleOptions } from '../../../store/slices/roleSlice';
-import IPage from '../../../../interfaces/notification/IPage';
-import IParams from '../../../../interfaces/IParams';
+import IPage from '../../../../types/notification/IPage';
+import IParams from '../../../../types/IParams';
 import { TimeSlots } from '../../../components/WeekBookingSlots';
 import { baseService } from '../../../store/baseService';
-import IBooking from '../../../../interfaces/IBooking';
+import IBooking from '../../../../types/IBooking';
 
 //bookings/week/:tutorSlug
 

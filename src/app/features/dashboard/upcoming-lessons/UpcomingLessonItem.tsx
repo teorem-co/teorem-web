@@ -9,7 +9,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useDeleteBookingMutation } from '../../my-bookings/services/bookingService';
 import { useAppSelector } from '../../../store/hooks';
 import { RoleOptions } from '../../../store/slices/roleSlice';
-import IBooking from '../../../../interfaces/IBooking';
+import IBooking from '../../../../types/IBooking';
 
 export interface OptionsItem {
     id: string;
