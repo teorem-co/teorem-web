@@ -3,9 +3,9 @@ import moment from 'moment';
 
 import { RoleOptions } from '../../../store/slices/roleSlice';
 import { useAppSelector } from '../../../store/hooks';
-import IBooking from '../interfaces/IBooking';
 import React, { useState } from 'react';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
+import IBooking from '../../../../interfaces/IBooking';
 
 interface IEvent {
     id?: string;
@@ -79,7 +79,9 @@ const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
                                 {t(`SUBJECTS.${event.Subject.abrv}`)} -{' '}
                                 {event.Level.name === 'IB (International Baccalaurate)'
                                     ? t('LEVELS.ib')
-                                    : t(`LEVELS.${event.Level.name.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`)}
+                                    : t(
+                                          `LEVELS.${event.Level.name.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`
+                                      )}
                             </div>
                         </div>
 
@@ -92,7 +94,10 @@ const OpenTutorCalendarModal: React.FC<IProps> = (props) => {
                     </div>
                     <div className="modal--parent__footer mt-6">
                         {userRole !== RoleOptions.Child && (
-                            <ButtonPrimaryGradient className="btn btn--base type--wgt--extra-bold" onClick={() => goToTutorCalendar()}>
+                            <ButtonPrimaryGradient
+                                className="btn btn--base type--wgt--extra-bold"
+                                onClick={() => goToTutorCalendar()}
+                            >
                                 {t('MY_BOOKINGS.MODAL.TUTOR_CALENDAR')}
                             </ButtonPrimaryGradient>
                         )}

@@ -1,9 +1,9 @@
 import { t } from 'i18next';
 import moment from 'moment/moment';
 import React, { useState } from 'react';
-import IBooking from '../../my-bookings/interfaces/IBooking';
 import UpdateBooking from '../../my-bookings/components/UpdateBooking';
 import { Tooltip } from 'react-tooltip';
+import IBooking from '../../../../interfaces/IBooking';
 
 interface Props {
     booking: IBooking;
@@ -32,25 +32,33 @@ export const BookingRequestItem = (props: Props) => {
     return (
         <>
             {isMobile ? (
-                <div className=" dashboard__requests__item flex flex--col flex--jc--center flex--ai--center" key={booking.id}>
+                <div
+                    className=" dashboard__requests__item flex flex--col flex--jc--center flex--ai--center"
+                    key={booking.id}
+                >
                     <div
                         data-tooltip-id={`new-booking-${booking.id}`}
                         data-tooltip-content={tooltipMessage}
                         data-tooltip-float
                         className={'dashboard-booking-request-parent-mobile'}
                     >
-                        <span className="tag tag--success mb-2">{t('DASHBOARD.REQUESTS.STATUS.NEW_BOOKING_DO_ACTION')}</span>
+                        <span className="tag tag--success mb-2">
+                            {t('DASHBOARD.REQUESTS.STATUS.NEW_BOOKING_DO_ACTION')}
+                        </span>
                         <div className="flex flex--row flex--jc--center"></div>
                         <span className={'mb-1'}>
                             {booking.User.firstName}&nbsp;{booking.User.lastName}
                         </span>
                         <div className={''}>
-                            <span className=" tag tag--primary">{t(`SUBJECTS.${booking.Subject.abrv.replaceAll('-', '')}`)}</span>
+                            <span className=" tag tag--primary">
+                                {t(`SUBJECTS.${booking.Subject.abrv.replaceAll('-', '')}`)}
+                            </span>
                         </div>
                         <div className={'mb-2'}>{t(`LEVELS.${booking.Level.abrv.toLowerCase().replace('-', '')}`)}</div>
                         <div>
                             {date}&nbsp;@&nbsp;
-                            {moment(booking.startTime).format('HH:mm')} - {moment(booking.endTime).add(1, 'minute').format('HH:mm')}
+                            {moment(booking.startTime).format('HH:mm')} -{' '}
+                            {moment(booking.endTime).add(1, 'minute').format('HH:mm')}
                         </div>
                     </div>
                     <div className={'flex flex--row flex--jc--center flex-gap-1 mt-2'}>
@@ -87,18 +95,23 @@ export const BookingRequestItem = (props: Props) => {
                         data-tooltip-float
                     >
                         <div>
-                            <span className="tag tag--success">{t('DASHBOARD.REQUESTS.STATUS.NEW_BOOKING_DO_ACTION')}</span>
+                            <span className="tag tag--success">
+                                {t('DASHBOARD.REQUESTS.STATUS.NEW_BOOKING_DO_ACTION')}
+                            </span>
                         </div>
                         <div>
                             {booking.User.firstName}&nbsp;{booking.User.lastName}
                         </div>
                         <div>{t(`LEVELS.${booking.Level.abrv.toLowerCase().replace('-', '')}`)}</div>
                         <div className={''}>
-                            <span className=" tag tag--primary">{t(`SUBJECTS.${booking.Subject.abrv.replaceAll('-', '')}`)}</span>
+                            <span className=" tag tag--primary">
+                                {t(`SUBJECTS.${booking.Subject.abrv.replaceAll('-', '')}`)}
+                            </span>
                         </div>
                         <div>
                             {date} @&nbsp;
-                            {moment(booking.startTime).format('HH:mm')} - {moment(booking.endTime).add(1, 'minute').format('HH:mm')}
+                            {moment(booking.startTime).format('HH:mm')} -{' '}
+                            {moment(booking.endTime).add(1, 'minute').format('HH:mm')}
                         </div>
                     </div>
                     <div className={'flex flex--row flex--jc--end flex-gap-1'}>

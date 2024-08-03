@@ -18,9 +18,16 @@ import ISearchParams from '../../../interfaces/IParams';
 import ITutorItem from '../../../interfaces/ITutorItem';
 import INotification from '../../../interfaces/notification/INotification';
 import ISocketNotification from '../../../interfaces/notification/ISocketNotification';
-import { useLazyGetRequestsQuery, useLazyGetTodayScheduleQuery, useLazyGetUpcomingQuery } from '../../store/services/dashboardService';
+import {
+    useLazyGetRequestsQuery,
+    useLazyGetTodayScheduleQuery,
+    useLazyGetUpcomingQuery,
+} from '../../store/services/dashboardService';
 import { useLazyGetLevelsQuery } from '../../store/services/levelService';
-import { useLazyGetAllUnreadNotificationsQuery, useMarkAllAsReadMutation } from '../../store/services/notificationService';
+import {
+    useLazyGetAllUnreadNotificationsQuery,
+    useMarkAllAsReadMutation,
+} from '../../store/services/notificationService';
 import { useLazyGetSubjectsQuery } from '../../store/services/subjectService';
 import { useLazyGetAvailableTutorsQuery, useLazyGetProfileProgressQuery } from '../../store/services/tutorService';
 import { useLazyGetChildrenQuery, useLazyGetUserQuery } from '../../store/services/userService';
@@ -39,7 +46,6 @@ import { PATHS, PROFILE_PATHS } from '../../routes';
 import { useLazyGetTutorTestingLinkQuery } from '../../store/services/hiLinkService';
 import toastService from '../../store/services/toastService';
 import { IChatRoom, ISendChatMessage, setActiveChatRoomById } from '../chat/slices/chatSlice';
-import IBooking from '../my-bookings/interfaces/IBooking';
 import {
     useAcceptBookingMutation,
     useAcceptRescheduleRequestMutation,
@@ -63,6 +69,7 @@ import { LessonRescheduleRequestItem } from './upcoming-lessons/LessonReschedule
 import { NotAcceptedLesson } from './upcoming-lessons/NotAcceptedLesson';
 import { PendingRescheduleRequestItem } from './upcoming-lessons/PendingRescheduleRequestItem';
 import { UpcomingLessonItem } from './upcoming-lessons/UpcomingLessonItem';
+import IBooking from '../../../interfaces/IBooking';
 
 interface Values {
     subject: string;
@@ -258,7 +265,8 @@ const Dashboard = () => {
     const [getUserById0, { data: userDataFirst }] = useLazyGetUserQuery();
     const [getUserById1, { data: userDataSecond }] = useLazyGetUserQuery();
     const [getProfileProgress, { isSuccess }] = useLazyGetProfileProgressQuery();
-    const [getUpcoming, { data: upcomingData, isLoading: upcomingLoading, isSuccess: upcomingSuccessful }] = useLazyGetUpcomingQuery();
+    const [getUpcoming, { data: upcomingData, isLoading: upcomingLoading, isSuccess: upcomingSuccessful }] =
+        useLazyGetUpcomingQuery();
     const [getTodaySchedule] = useLazyGetTodayScheduleQuery();
     const [getRequests] = useLazyGetRequestsQuery();
     const [acceptRequest] = useAcceptBookingMutation();
@@ -267,7 +275,8 @@ const Dashboard = () => {
     const [denyReschedule, { error: denyingRescheduletError }] = useDenyRescheduleRequestMutation();
     const [getPendingBookings] = useLazyGetPendingBookingsQuery();
 
-    const [getChildren, { data: childrenData, isLoading: childrenLoading, isSuccess: childrenSuccess }] = useLazyGetChildrenQuery();
+    const [getChildren, { data: childrenData, isLoading: childrenLoading, isSuccess: childrenSuccess }] =
+        useLazyGetChildrenQuery();
     const [childless, setChildless] = useState(false);
 
     const [groupedUpcomming, setGroupedUpcoming] = useState<IGroupedDashboardData>({});
@@ -322,7 +331,9 @@ const Dashboard = () => {
     const fetchData = async () => {
         await getUnreadNotifications(params).unwrap();
         const upcoming = await getUpcoming().unwrap();
-        const groupedDashboardData: IGroupedDashboardData = groupBy(upcoming, (e) => moment(e.startTime).format(t('DATE_FORMAT')));
+        const groupedDashboardData: IGroupedDashboardData = groupBy(upcoming, (e) =>
+            moment(e.startTime).format(t('DATE_FORMAT'))
+        );
         setGroupedUpcoming(groupedDashboardData);
         const todaySchedule = await getTodaySchedule().unwrap();
         setTodayScheduled(todaySchedule);
@@ -621,7 +632,11 @@ const Dashboard = () => {
     });
 
     useEffect(() => {
-        if (userRole === RoleOptions.Tutor && !localStorage.getItem('hideTutorIntro') && profileProgressState.percentage === 100) {
+        if (
+            userRole === RoleOptions.Tutor &&
+            !localStorage.getItem('hideTutorIntro') &&
+            profileProgressState.percentage === 100
+        ) {
             setModalActive(true);
         }
     }, [profileProgressState.percentage]);
@@ -643,7 +658,8 @@ const Dashboard = () => {
 
     function updateLocalStorage() {
         if (userRole === RoleOptions.Tutor) localStorage.setItem('hideTutorIntro', 'true');
-        else if (userRole === RoleOptions.Parent || userRole === RoleOptions.Student) localStorage.setItem('hideStudentIntro', 'true');
+        else if (userRole === RoleOptions.Parent || userRole === RoleOptions.Student)
+            localStorage.setItem('hideStudentIntro', 'true');
     }
 
     //always triggers, even on skip
@@ -785,7 +801,9 @@ const Dashboard = () => {
         return (
             <components.Menu className="react-select--availability availability-filter-width" {...props}>
                 <div className="align--center">
-                    <div className="type--uppercase type--color--tertiary mb-4 ">{t('SEARCH_TUTORS.TUTOR_AVAILABLE')}</div>
+                    <div className="type--uppercase type--color--tertiary mb-4 ">
+                        {t('SEARCH_TUTORS.TUTOR_AVAILABLE')}
+                    </div>
 
                     <div className="availability-container-time">
                         <CustomCheckbox
@@ -808,7 +826,9 @@ const Dashboard = () => {
                         />
                     </div>
                     <div className="mt-6">
-                        <div className="type--uppercase type--color--tertiary mb-4">{t('SEARCH_TUTORS.TUTOR_AVAILABLE')}</div>
+                        <div className="type--uppercase type--color--tertiary mb-4">
+                            {t('SEARCH_TUTORS.TUTOR_AVAILABLE')}
+                        </div>
                         <div className="availability-container">
                             <CustomCheckbox
                                 id="mon"
@@ -900,7 +920,10 @@ const Dashboard = () => {
     const [getSubjects, { data: subjects, isLoading: isLoadingSubjects }] = useLazyGetSubjectsQuery();
     const [getLevels, { data: levels, isLoading: isLoadingLevels }] = useLazyGetLevelsQuery();
     const resetFilterDisabled =
-        formik.values.level == '' && formik.values.subject == '' && formik.values.dayOfWeek.length == 0 && formik.values.timeOfDay.length == 0;
+        formik.values.level == '' &&
+        formik.values.subject == '' &&
+        formik.values.dayOfWeek.length == 0 &&
+        formik.values.timeOfDay.length == 0;
 
     const levelDisabled = !levels || isLoadingLevels;
 
@@ -997,7 +1020,12 @@ const Dashboard = () => {
     return (
         <>
             {!isMobile && modalActive && userRole !== RoleOptions.Child ? (
-                <TutorialModal title={t('TUTOR_INTRO.MODAL.TITLE')} body={t('TUTOR_INTRO.MODAL.BODY')} skip={skipTutorial} start={startTutorial} />
+                <TutorialModal
+                    title={t('TUTOR_INTRO.MODAL.TITLE')}
+                    body={t('TUTOR_INTRO.MODAL.BODY')}
+                    skip={skipTutorial}
+                    start={startTutorial}
+                />
             ) : (
                 <></>
             )}
@@ -1006,7 +1034,11 @@ const Dashboard = () => {
                 <Steps
                     enabled
                     steps={
-                        userRole === RoleOptions.Tutor ? tutorSteps : Object.keys(groupedUpcomming).length > 0 ? studentStepsPartial : studentSteps
+                        userRole === RoleOptions.Tutor
+                            ? tutorSteps
+                            : Object.keys(groupedUpcomming).length > 0
+                              ? studentStepsPartial
+                              : studentSteps
                     }
                     initialStep={0}
                     onExit={onExit}
@@ -1035,7 +1067,10 @@ const Dashboard = () => {
                                         {/* HEADER */}
                                         <div style={{ margin: '40px' }} className="flex">
                                             <div className="flex flex--center flex--shrink w--105">
-                                                <CircularProgress className="progress-circle ml-1" progressNumber={50} />
+                                                <CircularProgress
+                                                    className="progress-circle ml-1"
+                                                    progressNumber={50}
+                                                />
                                             </div>
                                             <div className="flex flex--col flex--jc--center ml-6">
                                                 <h4 className="signup-title ml-6 text-align--center">
@@ -1058,8 +1093,12 @@ const Dashboard = () => {
                                                             <div className="dash-wrapper__item__element">
                                                                 <div className="flex--primary cur--pointer">
                                                                     <div>
-                                                                        <div className="mb-1">{t('ADD_CHILD.TITLE')}</div>
-                                                                        <div className="type--color--secondary">{t('ADD_CHILD.DESCRIPTION')}</div>
+                                                                        <div className="mb-1">
+                                                                            {t('ADD_CHILD.TITLE')}
+                                                                        </div>
+                                                                        <div className="type--color--secondary">
+                                                                            {t('ADD_CHILD.DESCRIPTION')}
+                                                                        </div>
                                                                     </div>
                                                                     <i className="icon icon--base icon--plus icon--primary"></i>
                                                                 </div>
@@ -1077,11 +1116,19 @@ const Dashboard = () => {
                                                                         <div className="dash-wrapper__item__element">
                                                                             <div className="flex--primary cur--pointer">
                                                                                 <div className="flex flex--center">
-                                                                                    <ImageCircle initials={`${x.firstName.charAt(0)}`} />
+                                                                                    <ImageCircle
+                                                                                        initials={`${x.firstName.charAt(0)}`}
+                                                                                    />
                                                                                     <div className="flex--grow ml-4">
-                                                                                        <div className="mb-1">{x.firstName}</div>
+                                                                                        <div className="mb-1">
+                                                                                            {x.firstName}
+                                                                                        </div>
                                                                                         <div className="type--color--secondary">
-                                                                                            {moment(x.dateOfBirth).format(t('BIRTH_DATE_FORMAT'))}
+                                                                                            {moment(
+                                                                                                x.dateOfBirth
+                                                                                            ).format(
+                                                                                                t('BIRTH_DATE_FORMAT')
+                                                                                            )}
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -1116,7 +1163,11 @@ const Dashboard = () => {
                                             {t('REGISTER.NEXT_BUTTON')}
                                         </ButtonPrimaryGradient>
                                     </div>
-                                    <AddChildSidebar closeSidebar={closeAddCardSidebar} sideBarIsOpen={addSidebarOpen} childData={childForEdit} />
+                                    <AddChildSidebar
+                                        closeSidebar={closeAddCardSidebar}
+                                        sideBarIsOpen={addSidebarOpen}
+                                        childData={childForEdit}
+                                    />
                                 </>
                             </div>
                         </div>
@@ -1124,7 +1175,9 @@ const Dashboard = () => {
                         <MainWrapper>
                             <div className="layout--primary">
                                 <div>
-                                    {userRole == RoleOptions.Tutor && profileProgressState.percentage && profileProgressState.percentage < 100 ? (
+                                    {userRole == RoleOptions.Tutor &&
+                                    profileProgressState.percentage &&
+                                    profileProgressState.percentage < 100 ? (
                                         <div className="card--dashboard mb-6">
                                             <div>
                                                 <div className="row">
@@ -1133,13 +1186,17 @@ const Dashboard = () => {
                                                             <div className="flex flex--center flex--shrink">
                                                                 <CircularProgress
                                                                     progressNumber={
-                                                                        profileProgressState.percentage ? profileProgressState.percentage : 0
+                                                                        profileProgressState.percentage
+                                                                            ? profileProgressState.percentage
+                                                                            : 0
                                                                     }
                                                                     size={80}
                                                                 />
                                                             </div>
                                                             <div className="flex flex--col flex--jc--center ml-6">
-                                                                <h4 className="type--md mb-2">{t(`COMPLETE_TUTOR_PROFILE_CARD.TITLE`)}</h4>
+                                                                <h4 className="type--md mb-2">
+                                                                    {t(`COMPLETE_TUTOR_PROFILE_CARD.TITLE`)}
+                                                                </h4>
                                                                 <p>{t(`COMPLETE_TUTOR_PROFILE_CARD.DESCRIPTION`)}</p>
                                                             </div>
                                                         </div>
@@ -1159,7 +1216,9 @@ const Dashboard = () => {
                                                                     <div className="nav-link--profile__wrapper">
                                                                         <i
                                                                             className={`icon icon--base icon--${
-                                                                                profileProgressState.generalAvailability ? 'check' : 'calendar'
+                                                                                profileProgressState.generalAvailability
+                                                                                    ? 'check'
+                                                                                    : 'calendar'
                                                                             } nav-link--profile__icon`}
                                                                         ></i>
                                                                     </div>
@@ -1178,7 +1237,9 @@ const Dashboard = () => {
                                                                     <div className="nav-link--profile__wrapper">
                                                                         <i
                                                                             className={`icon icon--base icon--${
-                                                                                profileProgressState.myTeachings ? 'check' : 'subject'
+                                                                                profileProgressState.myTeachings
+                                                                                    ? 'check'
+                                                                                    : 'subject'
                                                                             } nav-link--profile__icon`}
                                                                         ></i>
                                                                     </div>
@@ -1197,7 +1258,9 @@ const Dashboard = () => {
                                                                     <div className="nav-link--profile__wrapper">
                                                                         <i
                                                                             className={`icon icon--base icon--${
-                                                                                profileProgressState.aboutMe ? 'check' : 'profile'
+                                                                                profileProgressState.aboutMe
+                                                                                    ? 'check'
+                                                                                    : 'profile'
                                                                             } nav-link--profile__icon`}
                                                                         ></i>
                                                                     </div>
@@ -1219,7 +1282,9 @@ const Dashboard = () => {
                                                                     <div className="nav-link--profile__wrapper">
                                                                         <i
                                                                             className={`icon icon--base icon--${
-                                                                                profileProgressState.payment ? 'check' : 'pricing'
+                                                                                profileProgressState.payment
+                                                                                    ? 'check'
+                                                                                    : 'pricing'
                                                                             } nav-link--profile__icon`}
                                                                         ></i>
                                                                     </div>
@@ -1246,34 +1311,57 @@ const Dashboard = () => {
                                         <div className="card--secondary__body pl-3 pr-3">
                                             {userRole === RoleOptions.Tutor ? (
                                                 <div className="dashboard__requests tutor-intro-1">
-                                                    <div className="type--color--tertiary mb-2">{t('DASHBOARD.REQUESTS.TITLE')}</div>
+                                                    <div className="type--color--tertiary mb-2">
+                                                        {t('DASHBOARD.REQUESTS.TITLE')}
+                                                    </div>
                                                     {Object.keys(groupedPendingBookingsRequests).map((key: string) => {
                                                         return (
                                                             <React.Fragment key={key}>
-                                                                {groupedPendingBookingsRequests[key].map((item: IBooking) => {
-                                                                    if (item.inReschedule && item.lastSuggestedUpdateUserId !== userId) {
-                                                                        return (
-                                                                            <LessonRescheduleRequestItem
-                                                                                acceptReschedule={handleAcceptReschedule}
-                                                                                denyReschedule={handleDenyReschedule}
-                                                                                key={item.id}
-                                                                                booking={item}
-                                                                            />
-                                                                        );
-                                                                    } else if (item.inReschedule && item.lastSuggestedUpdateUserId === userId) {
-                                                                        return <PendingRescheduleRequestItem booking={item} />;
-                                                                    } else if (!item.inReschedule && !item.isAccepted) {
-                                                                        return (
-                                                                            <BookingRequestItem
-                                                                                booking={item}
-                                                                                date={moment(item.startTime).format(t('DATE_FORMAT')).toString()}
-                                                                                fetchData={fetchData}
-                                                                                handleAccept={handleAccept}
-                                                                                handleDeny={handleDeny}
-                                                                            />
-                                                                        );
+                                                                {groupedPendingBookingsRequests[key].map(
+                                                                    (item: IBooking) => {
+                                                                        if (
+                                                                            item.inReschedule &&
+                                                                            item.lastSuggestedUpdateUserId !== userId
+                                                                        ) {
+                                                                            return (
+                                                                                <LessonRescheduleRequestItem
+                                                                                    acceptReschedule={
+                                                                                        handleAcceptReschedule
+                                                                                    }
+                                                                                    denyReschedule={
+                                                                                        handleDenyReschedule
+                                                                                    }
+                                                                                    key={item.id}
+                                                                                    booking={item}
+                                                                                />
+                                                                            );
+                                                                        } else if (
+                                                                            item.inReschedule &&
+                                                                            item.lastSuggestedUpdateUserId === userId
+                                                                        ) {
+                                                                            return (
+                                                                                <PendingRescheduleRequestItem
+                                                                                    booking={item}
+                                                                                />
+                                                                            );
+                                                                        } else if (
+                                                                            !item.inReschedule &&
+                                                                            !item.isAccepted
+                                                                        ) {
+                                                                            return (
+                                                                                <BookingRequestItem
+                                                                                    booking={item}
+                                                                                    date={moment(item.startTime)
+                                                                                        .format(t('DATE_FORMAT'))
+                                                                                        .toString()}
+                                                                                    fetchData={fetchData}
+                                                                                    handleAccept={handleAccept}
+                                                                                    handleDeny={handleDeny}
+                                                                                />
+                                                                            );
+                                                                        }
                                                                     }
-                                                                })}
+                                                                )}
                                                             </React.Fragment>
                                                         );
                                                     })}
@@ -1290,33 +1378,59 @@ const Dashboard = () => {
                                             ) : userRole === RoleOptions.Student || userRole == RoleOptions.Parent ? (
                                                 <div>
                                                     <div className="dashboard__requests tutor-intro-1">
-                                                        <div className="type--color--tertiary mb-2">{t('DASHBOARD.REQUESTS.TITLE')}</div>
+                                                        <div className="type--color--tertiary mb-2">
+                                                            {t('DASHBOARD.REQUESTS.TITLE')}
+                                                        </div>
                                                         <div>
-                                                            {Object.keys(groupedPendingBookingsRequests).map((key: string) => {
-                                                                return (
-                                                                    <React.Fragment key={key}>
-                                                                        {groupedPendingBookingsRequests[key].map((item: IBooking) => {
-                                                                            if (item.inReschedule && item.lastSuggestedUpdateUserId !== userId) {
-                                                                                return (
-                                                                                    <LessonRescheduleRequestItem
-                                                                                        acceptReschedule={handleAcceptReschedule}
-                                                                                        denyReschedule={handleDenyReschedule}
-                                                                                        key={item.id}
-                                                                                        booking={item}
-                                                                                    />
-                                                                                );
-                                                                            } else if (
-                                                                                item.inReschedule &&
-                                                                                item.lastSuggestedUpdateUserId === userId
-                                                                            ) {
-                                                                                return <PendingRescheduleRequestItem booking={item} />;
-                                                                            } else if (!item.inReschedule && !item.isAccepted) {
-                                                                                return <NotAcceptedLesson booking={item} />;
-                                                                            }
-                                                                        })}
-                                                                    </React.Fragment>
-                                                                );
-                                                            })}
+                                                            {Object.keys(groupedPendingBookingsRequests).map(
+                                                                (key: string) => {
+                                                                    return (
+                                                                        <React.Fragment key={key}>
+                                                                            {groupedPendingBookingsRequests[key].map(
+                                                                                (item: IBooking) => {
+                                                                                    if (
+                                                                                        item.inReschedule &&
+                                                                                        item.lastSuggestedUpdateUserId !==
+                                                                                            userId
+                                                                                    ) {
+                                                                                        return (
+                                                                                            <LessonRescheduleRequestItem
+                                                                                                acceptReschedule={
+                                                                                                    handleAcceptReschedule
+                                                                                                }
+                                                                                                denyReschedule={
+                                                                                                    handleDenyReschedule
+                                                                                                }
+                                                                                                key={item.id}
+                                                                                                booking={item}
+                                                                                            />
+                                                                                        );
+                                                                                    } else if (
+                                                                                        item.inReschedule &&
+                                                                                        item.lastSuggestedUpdateUserId ===
+                                                                                            userId
+                                                                                    ) {
+                                                                                        return (
+                                                                                            <PendingRescheduleRequestItem
+                                                                                                booking={item}
+                                                                                            />
+                                                                                        );
+                                                                                    } else if (
+                                                                                        !item.inReschedule &&
+                                                                                        !item.isAccepted
+                                                                                    ) {
+                                                                                        return (
+                                                                                            <NotAcceptedLesson
+                                                                                                booking={item}
+                                                                                            />
+                                                                                        );
+                                                                                    }
+                                                                                }
+                                                                            )}
+                                                                        </React.Fragment>
+                                                                    );
+                                                                }
+                                                            )}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1324,7 +1438,9 @@ const Dashboard = () => {
 
                                             <div className="row">
                                                 <div className="col col-12 col-xl-5  tutor-intro-4 student-intro-1">
-                                                    <div className="type--color--tertiary mb-2">{t('DASHBOARD.SCHEDULE.TITLE')}</div>
+                                                    <div className="type--color--tertiary mb-2">
+                                                        {t('DASHBOARD.SCHEDULE.TITLE')}
+                                                    </div>
                                                     {todayScheduled.length > 0 ? (
                                                         <div className="card--dashboard card--dashboard--brand mb-xl-0 mb-8 h2 h--150">
                                                             <div className="flex--primary mb-2">
@@ -1344,7 +1460,8 @@ const Dashboard = () => {
                                                                         className="btn card--dashboard__btn"
                                                                         onClick={() => handleNextIndex()}
                                                                         disabled={
-                                                                            activeIndex === todayScheduled.length - 1 || todayScheduled.length == 0
+                                                                            activeIndex === todayScheduled.length - 1 ||
+                                                                            todayScheduled.length == 0
                                                                         }
                                                                     >
                                                                         <i className="icon icon--base icon--chevron-right icon--white"></i>
@@ -1368,8 +1485,13 @@ const Dashboard = () => {
                                                             </div>
                                                             <div className="flex--primary">
                                                                 <div>
-                                                                    {moment(todayScheduled[activeIndex].startTime).format('HH:mm')} -{' '}
-                                                                    {moment(todayScheduled[activeIndex].endTime).add(1, 'minute').format('HH:mm')}
+                                                                    {moment(
+                                                                        todayScheduled[activeIndex].startTime
+                                                                    ).format('HH:mm')}{' '}
+                                                                    -{' '}
+                                                                    {moment(todayScheduled[activeIndex].endTime)
+                                                                        .add(1, 'minute')
+                                                                        .format('HH:mm')}
                                                                 </div>
                                                                 {todayScheduled[activeIndex].isAccepted &&
                                                                 moment(todayScheduled[activeIndex].startTime)
@@ -1377,12 +1499,19 @@ const Dashboard = () => {
                                                                     .isBefore(moment()) ? (
                                                                     <button
                                                                         className="btn btn--base btn--secondary"
-                                                                        onClick={() => handleJoinBooking(todayScheduled[activeIndex])}
+                                                                        onClick={() =>
+                                                                            handleJoinBooking(
+                                                                                todayScheduled[activeIndex]
+                                                                            )
+                                                                        }
                                                                     >
                                                                         {t('DASHBOARD.SCHEDULE.BUTTON')}
                                                                     </button>
                                                                 ) : (
-                                                                    <button disabled className="btn btn--base btn--secondary">
+                                                                    <button
+                                                                        disabled
+                                                                        className="btn btn--base btn--secondary"
+                                                                    >
                                                                         {t('DASHBOARD.SCHEDULE.BUTTON')}
                                                                     </button>
                                                                 )}
@@ -1406,7 +1535,8 @@ const Dashboard = () => {
                                                                         className="btn card--dashboard__btn"
                                                                         onClick={() => handleNextIndex()}
                                                                         disabled={
-                                                                            activeIndex === todayScheduled.length - 1 || todayScheduled.length == 0
+                                                                            activeIndex === todayScheduled.length - 1 ||
+                                                                            todayScheduled.length == 0
                                                                         }
                                                                     >
                                                                         <i className="icon icon--base icon--chevron-right icon--white"></i>
@@ -1417,15 +1547,19 @@ const Dashboard = () => {
                                                     )}
                                                 </div>
                                                 <div className="col col-12 col-xl-7 student-intro-2">
-                                                    <div className="type--color--tertiary mb-2">{t('DASHBOARD.MESSAGES.TITLE')}</div>
+                                                    <div className="type--color--tertiary mb-2">
+                                                        {t('DASHBOARD.MESSAGES.TITLE')}
+                                                    </div>
 
                                                     {unreadChatrooms[activeMsgIndex] != undefined ? (
                                                         <div className="card--dashboard h--150 ">
                                                             <div className="flex--primary mb-2 ">
                                                                 <div>
                                                                     {userRole === RoleOptions.Tutor
-                                                                        ? unreadChatrooms[activeMsgIndex].user.userNickname
-                                                                        : unreadChatrooms[activeMsgIndex].tutor.userNickname}
+                                                                        ? unreadChatrooms[activeMsgIndex].user
+                                                                              .userNickname
+                                                                        : unreadChatrooms[activeMsgIndex].tutor
+                                                                              .userNickname}
                                                                 </div>
                                                                 <div>
                                                                     <button
@@ -1439,7 +1573,8 @@ const Dashboard = () => {
                                                                         className="btn card--dashboard__btn"
                                                                         onClick={() => handleNextMsgIndex()}
                                                                         disabled={
-                                                                            activeMsgIndex === unreadChatrooms.length - 1 ||
+                                                                            activeMsgIndex ===
+                                                                                unreadChatrooms.length - 1 ||
                                                                             unreadChatrooms.length == 0
                                                                         }
                                                                     >
@@ -1452,12 +1587,14 @@ const Dashboard = () => {
                                                                 dangerouslySetInnerHTML={{
                                                                     __html:
                                                                         (unreadChatrooms[activeMsgIndex].messages[
-                                                                            unreadChatrooms[activeMsgIndex].messages.length - 1
+                                                                            unreadChatrooms[activeMsgIndex].messages
+                                                                                .length - 1
                                                                         ]?.isFile
                                                                             ? '<i class="icon--attachment chat-file-icon"></i>'
                                                                             : '') +
                                                                         unreadChatrooms[activeMsgIndex].messages[
-                                                                            unreadChatrooms[activeMsgIndex].messages.length - 1
+                                                                            unreadChatrooms[activeMsgIndex].messages
+                                                                                .length - 1
                                                                         ]?.message?.message,
                                                                 }}
                                                             ></div>
@@ -1465,14 +1602,17 @@ const Dashboard = () => {
                                                                 <div className="type--color--secondary">
                                                                     {moment(
                                                                         unreadChatrooms[activeMsgIndex].messages[
-                                                                            unreadChatrooms[activeMsgIndex].messages.length - 1
+                                                                            unreadChatrooms[activeMsgIndex].messages
+                                                                                .length - 1
                                                                         ]?.message?.createdAt
                                                                     ).format('DD/MMM/yyy')}
                                                                 </div>
                                                                 <Link
                                                                     to={PATHS.CHAT}
                                                                     className="btn btn--sm card--dashboard__btn"
-                                                                    onClick={() => handleGoToChat(unreadChatrooms[activeMsgIndex])}
+                                                                    onClick={() =>
+                                                                        handleGoToChat(unreadChatrooms[activeMsgIndex])
+                                                                    }
                                                                 >
                                                                     {t('DASHBOARD.MESSAGES.BUTTON')}
                                                                 </Link>
@@ -1494,7 +1634,8 @@ const Dashboard = () => {
                                                                         className="btn card--dashboard__btn"
                                                                         onClick={() => handleNextMsgIndex()}
                                                                         disabled={
-                                                                            activeMsgIndex === unreadChatrooms.length - 1 ||
+                                                                            activeMsgIndex ===
+                                                                                unreadChatrooms.length - 1 ||
                                                                             unreadChatrooms.length == 0
                                                                         }
                                                                     >
@@ -1511,11 +1652,16 @@ const Dashboard = () => {
                                                     Object.keys(groupedUpcomming).map((key: string) => {
                                                         return (
                                                             <React.Fragment key={key}>
-                                                                <div className="type--color--tertiary mb-2">{t('DASHBOARD.BOOKINGS.TITLE')}</div>
+                                                                <div className="type--color--tertiary mb-2">
+                                                                    {t('DASHBOARD.BOOKINGS.TITLE')}
+                                                                </div>
                                                                 <div className="flex--primary">
-                                                                    <div className="mb-4 mt-6 type--wgt--bold">{key}</div>
+                                                                    <div className="mb-4 mt-6 type--wgt--bold">
+                                                                        {key}
+                                                                    </div>
                                                                     <div className="type--color--secondary">
-                                                                        {t('DASHBOARD.BOOKINGS.TOTAL')}: {groupedUpcomming[key].length}:00h
+                                                                        {t('DASHBOARD.BOOKINGS.TOTAL')}:{' '}
+                                                                        {groupedUpcomming[key].length}:00h
                                                                     </div>
                                                                 </div>
                                                                 {groupedUpcomming[key].map((item: IBooking) => {
@@ -1539,11 +1685,16 @@ const Dashboard = () => {
                                                     })
                                                 ) : userRole !== RoleOptions.Tutor ? (
                                                     <>
-                                                        <div className="type--color--tertiary mb-2">{t('DASHBOARD.BOOKINGS.RECOMMENDED')}</div>
+                                                        <div className="type--color--tertiary mb-2">
+                                                            {t('DASHBOARD.BOOKINGS.RECOMMENDED')}
+                                                        </div>
                                                         <div className="filter flex flex--col flex--ai--center student-intro-3">
                                                             <div className="flex flex--wrap flex--center mb-3">
                                                                 <FormikProvider value={formik}>
-                                                                    <Form className="flex flex--wrap flex--jc--center filters-container" noValidate>
+                                                                    <Form
+                                                                        className="flex flex--wrap flex--jc--center filters-container"
+                                                                        noValidate
+                                                                    >
                                                                         <MySelect
                                                                             key={`level-select-${resetKey}`}
                                                                             field={formik.getFieldProps('level')}
@@ -1553,7 +1704,9 @@ const Dashboard = () => {
                                                                             isMulti={false}
                                                                             options={levelOptions}
                                                                             isDisabled={levelDisabled}
-                                                                            placeholder={t('SEARCH_TUTORS.PLACEHOLDER.LEVEL')}
+                                                                            placeholder={t(
+                                                                                'SEARCH_TUTORS.PLACEHOLDER.LEVEL'
+                                                                            )}
                                                                         ></MySelect>
                                                                         <MySelect
                                                                             key={`subject-select-${resetKey}`}
@@ -1564,12 +1717,20 @@ const Dashboard = () => {
                                                                             className=""
                                                                             classNamePrefix="pos--r--0-mobile react-select--search-tutor"
                                                                             options={subjectOptions}
-                                                                            isDisabled={levelDisabled || isLoadingSubjects}
-                                                                            noOptionsMessage={() => t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')}
-                                                                            placeholder={t('SEARCH_TUTORS.PLACEHOLDER.SUBJECT')}
+                                                                            isDisabled={
+                                                                                levelDisabled || isLoadingSubjects
+                                                                            }
+                                                                            noOptionsMessage={() =>
+                                                                                t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')
+                                                                            }
+                                                                            placeholder={t(
+                                                                                'SEARCH_TUTORS.PLACEHOLDER.SUBJECT'
+                                                                            )}
                                                                         ></MySelect>
                                                                         <Select
-                                                                            placeholder={t('SEARCH_TUTORS.PLACEHOLDER.AVAILABILITY')}
+                                                                            placeholder={t(
+                                                                                'SEARCH_TUTORS.PLACEHOLDER.AVAILABILITY'
+                                                                            )}
                                                                             components={{
                                                                                 Menu: CustomMenu,
                                                                             }}
@@ -1588,7 +1749,8 @@ const Dashboard = () => {
                                                                     {t('SEARCH_TUTORS.RESET_FILTER')}
                                                                 </button>
                                                             </div>
-                                                            {isLoadingAvailableTutors || availableTutorsUninitialized ? (
+                                                            {isLoadingAvailableTutors ||
+                                                            availableTutorsUninitialized ? (
                                                                 <LoaderPrimary />
                                                             ) : loadedTutorItems.length > 0 ? (
                                                                 <>
@@ -1638,7 +1800,9 @@ const Dashboard = () => {
                                                             <LoaderPrimary />
                                                         ) : (
                                                             <>
-                                                                <div className="type--color--tertiary mb-2">{t('DASHBOARD.BOOKINGS.TITLE')}</div>
+                                                                <div className="type--color--tertiary mb-2">
+                                                                    {t('DASHBOARD.BOOKINGS.TITLE')}
+                                                                </div>
                                                                 <div className="tutor-list__no-results mt-30">
                                                                     <h1 className="tutor-list__no-results__title">
                                                                         <p>{t('DASHBOARD.BOOKINGS.EMPTY')}</p>
@@ -1664,7 +1828,9 @@ const Dashboard = () => {
                                         }}
                                     />
                                 )}
-                                {tutorHiLinkModalActive && <HiLinkModalForTutorIntro roomLink={tutorialRoomLink} handleClose={handleClose} />}
+                                {tutorHiLinkModalActive && (
+                                    <HiLinkModalForTutorIntro roomLink={tutorialRoomLink} handleClose={handleClose} />
+                                )}
 
                                 <NotificationsSidebar
                                     sideBarIsOpen={notificationSidebarOpen}
@@ -1672,22 +1838,35 @@ const Dashboard = () => {
                                     closeSidebar={() => setNotificationSidebarOpen(false)}
                                 >
                                     <div className="flex--primary mb-2 mr-2">
-                                        <div className="type--color--tertiary">{t('DASHBOARD.NOTIFICATIONS.TITLE')}</div>
+                                        <div className="type--color--tertiary">
+                                            {t('DASHBOARD.NOTIFICATIONS.TITLE')}
+                                        </div>
                                         {notificationsData?.content && notificationsData.content.length > 0 && (
-                                            <div className="type--color--brand type--wgt--bold cur--pointer" onClick={() => markAllAsRead()}>
+                                            <div
+                                                className="type--color--brand type--wgt--bold cur--pointer"
+                                                onClick={() => markAllAsRead()}
+                                            >
                                                 {t('DASHBOARD.NOTIFICATIONS.CLEAR')}
                                             </div>
                                         )}
                                     </div>
                                     <div className="mr-2">
-                                        {notificationsData?.content && notificationsData.content.find((x) => x.read === false) ? (
+                                        {notificationsData?.content &&
+                                        notificationsData.content.find((x) => x.read === false) ? (
                                             notificationsData.content.map((notification: INotification) => {
                                                 if (!notification.read) {
-                                                    return <NotificationItem key={notification.id} notificationData={notification} />;
+                                                    return (
+                                                        <NotificationItem
+                                                            key={notification.id}
+                                                            notificationData={notification}
+                                                        />
+                                                    );
                                                 }
                                             })
                                         ) : (
-                                            <div className="card--primary card--primary--shadow">{t('DASHBOARD.NOTIFICATIONS.EMPTY')}</div>
+                                            <div className="card--primary card--primary--shadow">
+                                                {t('DASHBOARD.NOTIFICATIONS.EMPTY')}
+                                            </div>
                                         )}
                                         <div className="type--center mt-4">
                                             <Link to={t(PATHS.NOTIFICATIONS)} className="btn btn--clear">

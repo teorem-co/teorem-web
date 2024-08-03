@@ -1,6 +1,6 @@
 import { baseService } from '../baseService';
 import { HttpMethods } from '../../lookups/httpMethods';
-import IBooking from '../../features/my-bookings/interfaces/IBooking';
+import IBooking from '../../../interfaces/IBooking';
 
 const URL = '/api/v1/dashboard';
 

@@ -1,7 +1,7 @@
-import ILevel from '../../../../interfaces/ILevel';
-import ISubject from '../../../../interfaces/ISubject';
-import ITutor from '../../../../interfaces/ITutor';
-import IUser from '../../../../interfaces/IUser';
+import ILevel from './ILevel';
+import ISubject from './ISubject';
+import ITutor from './ITutor';
+import IUser from './IUser';
 
 export default interface IBooking {
     id: string;

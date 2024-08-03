@@ -1,7 +1,6 @@
 import { t } from 'i18next';
 
 import { HttpMethods } from '../../../lookups/httpMethods';
-import IBooking from '../interfaces/IBooking';
 import IUpcomingLessons from '../interfaces/IUpcomingLessons';
 import { getUserRoleAbbrv } from '../../../store/services/tutorService';
 import { RoleOptions } from '../../../store/slices/roleSlice';
@@ -9,6 +8,7 @@ import IPage from '../../../../interfaces/notification/IPage';
 import IParams from '../../../../interfaces/IParams';
 import { TimeSlots } from '../../../components/WeekBookingSlots';
 import { baseService } from '../../../store/baseService';
+import IBooking from '../../../../interfaces/IBooking';
 
 //bookings/week/:tutorSlug
 

@@ -9,11 +9,11 @@ import IParams from '../../../interfaces/IParams';
 import ITutor from '../../../interfaces/ITutor';
 import { RoleOptions } from '../slices/roleSlice';
 import typeToFormData from '../../utils/typeToFormData';
-import IBooking from '../../features/my-bookings/interfaces/IBooking';
 import ITutorItem from '../../../interfaces/ITutorItem';
 import IPage from '../../../interfaces/notification/IPage';
 import { v4 as uuidv4 } from 'uuid';
 import moment from 'moment';
+import IBooking from '../../../interfaces/IBooking';
 
 interface ITutorUnavailablePeriod {
     start: string;

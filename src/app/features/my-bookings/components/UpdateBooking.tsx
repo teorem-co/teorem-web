@@ -9,7 +9,6 @@ import { RoleOptions } from '../../../store/slices/roleSlice';
 import Select from '@mui/material/Select';
 import { useAppSelector } from '../../../store/hooks';
 import toastService from '../../../store/services/toastService';
-import IBooking from '../interfaces/IBooking';
 import {
     IGetStudentAvailablePeriodsParams,
     IGetTutorAvailablePeriodsParams,
@@ -26,6 +25,7 @@ import { FormControl, InputLabel, MenuItem, OutlinedInput } from '@mui/material'
 import { useLazyGetTutorUnavailableDaysQuery } from '../../../store/services/tutorService';
 import { TeoremConstants } from '../../../constants/TeoremConstants';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
+import IBooking from '../../../../interfaces/IBooking';
 
 interface IProps {
     start?: string;
