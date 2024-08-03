@@ -19,7 +19,7 @@ import { resetTutorImageUploadState } from '../../../store/slices/tutorImageUplo
 import useOutsideAlerter from '../../../utils/useOutsideAlerter';
 import { useLazyGetCountriesQuery } from '../services/countryService';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
-import ICountry from '../../../../types/ICountry';
+import ICountry from '../../../types/ICountry';
 
 interface StepOneValues {
     firstName: string;

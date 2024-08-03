@@ -3,7 +3,7 @@ import moment from 'moment/moment';
 import React, { useState } from 'react';
 import UpdateBooking from '../../my-bookings/components/UpdateBooking';
 import { Tooltip } from 'react-tooltip';
-import IBooking from '../../../../types/IBooking';
+import IBooking from '../../../types/IBooking';
 
 interface Props {
     booking: IBooking;

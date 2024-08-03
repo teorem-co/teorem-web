@@ -1,6 +1,6 @@
 import img from '../../../../../assets/images/subjects/math.png';
 import { t } from 'i18next';
-import ISubject from '../../../../../types/ISubject';
+import ISubject from '../../../../types/ISubject';
 
 
 interface Props{

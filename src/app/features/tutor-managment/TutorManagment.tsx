@@ -23,7 +23,7 @@ import {
 } from 'libphonenumber-js';
 import { useAppSelector } from '../../store/hooks';
 import moment from 'moment';
-import IParams from '../../../types/IParams';
+import IParams from '../../types/IParams';
 
 const TutorManagment = () => {
   const history = useHistory();

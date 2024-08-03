@@ -12,7 +12,7 @@ import { useHistory } from 'react-router';
 import { IconButton, Menu, MenuItem } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { OptionsItem } from '../dashboard/upcoming-lessons/UpcomingLessonItem';
-import IParams from '../../../types/IParams';
+import IParams from '../../types/IParams';
 import { ArrowDownward, ArrowUpward } from '@mui/icons-material';
 import { useAppSelector } from '../../store/hooks';
 

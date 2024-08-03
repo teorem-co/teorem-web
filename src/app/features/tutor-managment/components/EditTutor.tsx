@@ -17,7 +17,7 @@ import dayjs from 'dayjs';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
-import ICountry from '../../../../types/ICountry';
+import ICountry from '../../../types/ICountry';
 
 export function EditTutor({ tutorData, setRefetch }: any) {
     const [getCountries, { data: countries }] = useLazyGetCountriesQuery();

@@ -6,7 +6,7 @@ import { getUserId } from '../../../utils/getUserId';
 import { useTranslation } from 'react-i18next';
 import { setMyProfileProgress } from '../../my-profile/slices/myProfileSlice';
 import { ITutorSubject, setStepOne } from '../../../store/slices/onboardingSlice';
-import ITutorSubjectLevel from '../../../../types/ITutorSubjectLevel';
+import ITutorSubjectLevel from '../../../types/ITutorSubjectLevel';
 import { ICreateSubjectOnboarding, useCreateSubjectsOnboardingMutation } from '../../../store/services/subjectService';
 import { CreateSubjectCard } from '../../onboarding/tutorOnboardingNew/CreateSubjectCard';
 import toastService from '../../../store/services/toastService';

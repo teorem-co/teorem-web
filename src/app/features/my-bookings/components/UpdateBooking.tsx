@@ -25,7 +25,7 @@ import { FormControl, InputLabel, MenuItem, OutlinedInput } from '@mui/material'
 import { useLazyGetTutorUnavailableDaysQuery } from '../../../store/services/tutorService';
 import { TeoremConstants } from '../../../constants/TeoremConstants';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
-import IBooking from '../../../../types/IBooking';
+import IBooking from '../../../types/IBooking';
 
 interface IProps {
     start?: string;

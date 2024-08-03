@@ -1,12 +1,12 @@
 import { baseService } from '../baseService';
 import { OptionType } from '../../components/form/MySelectField';
 import IChangePassword from '../../features/my-profile/interfaces/IChangePassword';
-import { HttpMethods } from '../../../types/httpMethods';
+import { HttpMethods } from '../../types/httpMethods';
 import typeToFormData from '../../utils/typeToFormData';
-import { IChild } from '../../../types/IChild';
-import IUser from '../../../types/IUser';
-import IPage from '../../../types/notification/IPage';
-import IParams from '../../../types/IParams';
+import { IChild } from '../../types/IChild';
+import IUser from '../../types/IUser';
+import IPage from '../../types/notification/IPage';
+import IParams from '../../types/IParams';
 
 const URL = '/api/v1/users';
 

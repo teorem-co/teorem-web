@@ -1,7 +1,7 @@
-import ILevel from '../../../../types/ILevel';
-import ISubject from '../../../../types/ISubject';
-import ITutor from '../../../../types/ITutor';
-import IUser from '../../../../types/IUser';
+import ILevel from '../../../types/ILevel';
+import ISubject from '../../../types/ISubject';
+import ITutor from '../../../types/ITutor';
+import IUser from '../../../types/IUser';
 
 interface ICompletedLesson {
     tutorId: string;

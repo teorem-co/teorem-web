@@ -1,4 +1,4 @@
-import ISubject from '../../../../../types/ISubject';
+import ISubject from '../../../../types/ISubject';
 
 export const popularSubjects:ISubject[] = [
   {

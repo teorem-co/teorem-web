@@ -1,6 +1,6 @@
-import IGetRecordingLinks from '../../../types/IGetRecordingLinks';
-import IGetRoomLink from '../../../types/IGetRoomLink';
-import { HttpMethods } from '../../../types/httpMethods';
+import IGetRecordingLinks from '../../types/IGetRecordingLinks';
+import IGetRoomLink from '../../types/IGetRoomLink';
+import { HttpMethods } from '../../types/httpMethods';
 import { baseService } from '../baseService';
 
 const URL = '/api/v1/meetings';

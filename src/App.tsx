@@ -18,13 +18,13 @@ import {
 } from './app/features/chat/slices/chatSlice';
 import { useLazyGetCountriesQuery } from './app/features/onboarding/services/countryService';
 import { useAppSelector } from './app/store/hooks';
-import { Role } from './types/role';
+import { Role } from './app/types/role';
 import ROUTES, { RenderRoutes } from './app/routes';
 import toastService from './app/store/services/toastService';
 import { persistor } from './app/store/store';
 import useMount from './app/utils/useMount';
-import { NotificationType } from './types/notification/INotification';
-import ISocketNotification from './types/notification/ISocketNotification';
+import { NotificationType } from './app/types/notification/INotification';
+import ISocketNotification from './app/types/notification/ISocketNotification';
 import { useLazyGetServerVersionQuery } from './app/store/services/authService';
 import { useLazyGetTutorTimeZoneQuery } from './app/store/services/tutorService';
 import { useLazyGetUserQuery } from './app/store/services/userService';

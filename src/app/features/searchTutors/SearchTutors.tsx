@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import Select, { components, MenuProps } from 'react-select';
 
-import IParams from '../../../types/IParams';
+import IParams from '../../types/IParams';
 import { useLazyGetLevelsQuery } from '../../store/services/levelService';
 import { useLazyGetSubjectsQuery } from '../../store/services/subjectService';
 import { useLazyGetAvailableTutorsQuery } from '../../store/services/tutorService';
@@ -13,11 +13,11 @@ import CustomCheckbox from '../../components/form/CustomCheckbox';
 import MySelect, { OptionType } from '../../components/form/MySelectField';
 import MainWrapper from '../../components/MainWrapper';
 import LoaderTutor from '../../components/skeleton-loaders/LoaderTutor';
-import { SortDirection } from '../../../types/sortDirection';
+import { SortDirection } from '../../types/sortDirection';
 import getUrlParams from '../../utils/getUrlParams';
 import PriceSort from './components/PriceSort';
 import TutorItem from './components/TutorItem';
-import ITutorItem from '../../../types/ITutorItem';
+import ITutorItem from '../../types/ITutorItem';
 import { useAppSelector } from '../../store/hooks';
 import { useDispatch } from 'react-redux';
 import {

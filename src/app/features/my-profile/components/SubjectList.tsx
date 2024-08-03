@@ -1,6 +1,6 @@
 import { t } from 'i18next';
 
-import ITutorSubjectLevel from '../../../../types/ITutorSubjectLevel';
+import ITutorSubjectLevel from '../../../types/ITutorSubjectLevel';
 
 interface IProps {
     tutorSubjects: ITutorSubjectLevel[];

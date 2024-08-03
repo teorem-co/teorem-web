@@ -1,7 +1,7 @@
 import { t } from 'i18next';
 import { FC } from 'react';
 
-import { SortDirection } from '../../../../types/sortDirection';
+import { SortDirection } from '../../../types/sortDirection';
 
 interface Props {
     sortDirection: SortDirection;

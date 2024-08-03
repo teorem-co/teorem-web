@@ -13,11 +13,10 @@ import { Link, NavLink } from 'react-router-dom';
 import Select, { components, MenuProps } from 'react-select';
 
 import logo from '../../../assets/images/teorem_logo_purple.png';
-import { IChild } from '../../../types/IChild';
-import ISearchParams from '../../../types/IParams';
-import ITutorItem from '../../../types/ITutorItem';
-import INotification from '../../../types/notification/INotification';
-import ISocketNotification from '../../../types/notification/ISocketNotification';
+import { IChild } from '../../types/IChild';
+import ISearchParams from '../../types/IParams';
+import ITutorItem from '../../types/ITutorItem';
+import INotification from '../../types/notification/INotification';
 import {
     useLazyGetRequestsQuery,
     useLazyGetTodayScheduleQuery,
@@ -69,7 +68,8 @@ import { LessonRescheduleRequestItem } from './upcoming-lessons/LessonReschedule
 import { NotAcceptedLesson } from './upcoming-lessons/NotAcceptedLesson';
 import { PendingRescheduleRequestItem } from './upcoming-lessons/PendingRescheduleRequestItem';
 import { UpcomingLessonItem } from './upcoming-lessons/UpcomingLessonItem';
-import IBooking from '../../../types/IBooking';
+import IBooking from '../../types/IBooking';
+import ISocketNotification from '../../types/notification/ISocketNotification';
 
 interface Values {
     subject: string;

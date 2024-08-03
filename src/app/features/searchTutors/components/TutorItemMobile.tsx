@@ -2,7 +2,7 @@ import { RiVerifiedBadgeFill } from 'react-icons/ri';
 import CustomSubjectList from './CustomSubjectList';
 import { t } from 'i18next';
 import React from 'react';
-import ITutorItem from '../../../../types/ITutorItem';
+import ITutorItem from '../../../types/ITutorItem';
 import { Link } from 'react-router-dom';
 import { PATHS } from '../../../routes';
 import { CurrencySymbol } from '../../../components/CurrencySymbol';

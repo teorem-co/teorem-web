@@ -6,7 +6,7 @@ import { RoleOptions } from '../../../store/slices/roleSlice';
 import { useAppSelector } from '../../../store/hooks';
 import { Tooltip } from 'react-tooltip';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
-import IBooking from '../../../../types/IBooking';
+import IBooking from '../../../types/IBooking';
 
 interface IProps {
     handleClose?: (close: boolean) => void;

@@ -25,7 +25,7 @@ import PublicTutorProfile from "../../searchTutors/PublicTutorProfile";
 import MainWrapper from "../../../components/MainWrapper";
 import LoaderTutorProfile
   from "../../../components/skeleton-loaders/LoaderTutorProfile";
-import ITutorSubjectLevel from "../../../../types/ITutorSubjectLevel";
+import ITutorSubjectLevel from "../../../types/ITutorSubjectLevel";
 import handleRatingStars from "../../../utils/handleRatingStarts";
 import Ratings from "../../myReviews/components/Ratings";
 import ReviewItem from "../../myReviews/components/ReviewItem";

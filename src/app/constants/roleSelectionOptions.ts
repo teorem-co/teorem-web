@@ -1,4 +1,4 @@
-import IRoleSelectionOption from '../../types/IRoleSelectionOption';
+import IRoleSelectionOption from '../types/IRoleSelectionOption';
 
 export enum RoleSelectionEnum {
     Student = 0,

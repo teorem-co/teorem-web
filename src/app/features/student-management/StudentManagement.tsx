@@ -4,7 +4,7 @@ import {
   ITutorStudentSearch,
   useLazyGetStudentInformationQuery,
 } from '../../store/services/userService';
-import IParams from '../../../types/IParams';
+import IParams from '../../types/IParams';
 import IPage from '../../../types/notification/IPage';
 import { t } from 'i18next';
 import { PATHS } from '../../routes';

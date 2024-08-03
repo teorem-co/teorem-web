@@ -27,7 +27,7 @@ import TutorProfile from './features/searchTutors/TutorProfile';
 import TutorManagment from './features/tutor-managment/TutorManagment';
 import TutorManagmentProfile from './features/tutor-managment/TutorProfile';
 import { useAppDispatch, useAppSelector } from './store/hooks';
-import { Role } from '../types/role';
+import { Role } from './types/role';
 import EmailConfirmed from './pages/EmailConfirmed';
 import ResetToken from './pages/ResetToken';
 import StripeConnected from './pages/StripeConnected';

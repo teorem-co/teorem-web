@@ -1,4 +1,4 @@
-import { HttpMethods } from '../../../../types/httpMethods';
+import { HttpMethods } from '../../../types/httpMethods';
 import { baseService } from '../../../store/baseService';
 import { IUnavailability } from '../interfaces/IUnavailability';
 import moment from 'moment/moment';

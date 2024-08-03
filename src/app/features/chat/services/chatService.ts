@@ -1,6 +1,6 @@
 import 'moment/locale/en-gb';
 
-import { HttpMethods } from '../../../../types/httpMethods';
+import { HttpMethods } from '../../../types/httpMethods';
 import { IChatRoom, ISendChatMessage } from '../slices/chatSlice';
 import { baseService } from '../../../store/baseService';
 

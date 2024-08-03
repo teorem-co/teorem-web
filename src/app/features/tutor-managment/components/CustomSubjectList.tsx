@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import ISubject from '../../../../types/ISubject';
+import ISubject from '../../../types/ISubject';
 import useOutsideAlerter from '../../../utils/useOutsideAlerter';
 
 interface Props {

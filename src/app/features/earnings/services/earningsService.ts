@@ -1,4 +1,4 @@
-import { HttpMethods } from '../../../../types/httpMethods';
+import { HttpMethods } from '../../../types/httpMethods';
 import IEarnings from '../interfaces/IEarnings';
 import IPayouts from '../interfaces/IPayouts';
 import IBookingInvoice from '../interfaces/IBookingInvoices';

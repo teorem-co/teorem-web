@@ -2,7 +2,7 @@ import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { IChild } from '../../../../types/IChild';
+import { IChild } from '../../../types/IChild';
 import { useLazyGetProfileProgressQuery } from '../../../store/services/tutorService';
 import { useLazyGetChildrenQuery } from '../../../store/services/userService';
 import ImageCircle from '../../../components/ImageCircle';

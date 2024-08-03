@@ -1,7 +1,7 @@
 import { t } from 'i18next';
-import { HttpMethods } from '../../../../types/httpMethods';
+import { HttpMethods } from '../../../types/httpMethods';
 import { baseService } from '../../../store/baseService';
-import ICountry from '../../../../types/ICountry';
+import ICountry from '../../../types/ICountry';
 
 //bookings/week/:tutorSlug
 

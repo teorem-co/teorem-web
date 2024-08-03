@@ -4,7 +4,7 @@ import { setSelectedCountry } from '../../store/slices/countryMarketSlice';
 import { useAppSelector } from '../../store/hooks';
 import { CiShop } from 'react-icons/ci';
 import { t } from 'i18next';
-import ICountry from '../../../types/ICountry';
+import ICountry from '../../types/ICountry';
 
 const MarketSelector = () => {
     const [isActive, setIsActive] = useState<boolean>(false);

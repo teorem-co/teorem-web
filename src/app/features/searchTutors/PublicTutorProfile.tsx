@@ -2,7 +2,7 @@ import { cloneDeep, debounce } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
-import ITutorSubjectLevel from '../../../types/ITutorSubjectLevel';
+import ITutorSubjectLevel from '../../types/ITutorSubjectLevel';
 import {
   useLazyGetTutorByTutorSlugQuery,
 } from '../../store/services/tutorService';

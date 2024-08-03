@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { IChild } from '../../../types/IChild';
+import { IChild } from '../../types/IChild';
 
 interface IRegister {
     firstName: string;

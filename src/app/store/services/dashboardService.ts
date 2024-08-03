@@ -1,6 +1,6 @@
 import { baseService } from '../baseService';
-import { HttpMethods } from '../../../types/httpMethods';
-import IBooking from '../../../types/IBooking';
+import { HttpMethods } from '../../types/httpMethods';
+import IBooking from '../../types/IBooking';
 
 const URL = '/api/v1/dashboard';
 

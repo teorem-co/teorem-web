@@ -15,7 +15,7 @@ import toastService from '../../../store/services/toastService';
 import useOutsideAlerter from '../../../utils/useOutsideAlerter';
 import { useLazyGetCountriesQuery } from '../services/countryService';
 import MyTextField from '../../../components/form/MyTextField';
-import ICountry from '../../../../types/ICountry';
+import ICountry from '../../../types/ICountry';
 
 interface StepOneValues {
     firstName: string;

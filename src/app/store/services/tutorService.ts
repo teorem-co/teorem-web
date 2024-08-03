@@ -3,17 +3,17 @@ import { t } from 'i18next';
 import { baseService } from '../baseService';
 import IProgressProfile from '../../features/my-profile/interfaces/IProgressProfile';
 import IUpdateAdditionalInfo from '../../features/my-profile/interfaces/IUpdateAdditionalInfo';
-import { HttpMethods } from '../../../types/httpMethods';
+import { HttpMethods } from '../../types/httpMethods';
 import { getAppState } from '../../utils/getAppState';
-import IParams from '../../../types/IParams';
-import ITutor from '../../../types/ITutor';
+import IParams from '../../types/IParams';
+import ITutor from '../../types/ITutor';
 import { RoleOptions } from '../slices/roleSlice';
 import typeToFormData from '../../utils/typeToFormData';
-import ITutorItem from '../../../types/ITutorItem';
-import IPage from '../../../types/notification/IPage';
+import ITutorItem from '../../types/ITutorItem';
 import { v4 as uuidv4 } from 'uuid';
 import moment from 'moment';
-import IBooking from '../../../types/IBooking';
+import IBooking from '../../types/IBooking';
+import IPage from '../../types/notification/IPage';
 
 interface ITutorUnavailablePeriod {
     start: string;

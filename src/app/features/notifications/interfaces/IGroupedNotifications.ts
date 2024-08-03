@@ -1,4 +1,4 @@
-import INotification from '../../../../types/notification/INotification';
+import INotification from '../../../types/notification/INotification';
 
 interface IGroupedNotifications {
     [date: string]: INotification[];

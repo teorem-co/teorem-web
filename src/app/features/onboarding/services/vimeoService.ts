@@ -1,4 +1,4 @@
-import { HttpMethods } from '../../../../types/httpMethods';
+import { HttpMethods } from '../../../types/httpMethods';
 import { baseService } from '../../../store/baseService';
 
 const URL = '/api/v1/vimeo';

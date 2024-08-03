@@ -4,10 +4,8 @@ import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 
-import INotification from '../../../types/notification/INotification';
-import {
-  useLazyGetAllNotificationsQuery,
-} from '../../store/services/notificationService';
+import INotification from '../../types/notification/INotification';
+import { useLazyGetAllNotificationsQuery } from '../../store/services/notificationService';
 import MainWrapper from '../../components/MainWrapper';
 import LoaderPrimary from '../../components/skeleton-loaders/LoaderPrimary';
 import NotificationItem from './components/NotificationItem';
@@ -15,11 +13,12 @@ import IGroupedNotifications from './interfaces/IGroupedNotifications';
 import IParams from './interfaces/IParams';
 
 const Notifications = () => {
-    const [getNotifications, { data: notificationsData, isFetching: notificationsFetching }] = useLazyGetAllNotificationsQuery();
+    const [getNotifications, { data: notificationsData, isFetching: notificationsFetching }] =
+        useLazyGetAllNotificationsQuery();
 
     const [groupedNotifications, setGroupedNotifications] = useState<IGroupedNotifications>({});
     const [loadedNotifications, setLoadedNotifications] = useState<INotification[]>([]);
-    const [params, setParams] = useState<IParams>({ page: 1, size: 10, sort:"createdAt", sortDirection:"desc" });
+    const [params, setParams] = useState<IParams>({ page: 1, size: 10, sort: 'createdAt', sortDirection: 'desc' });
 
     const history = useHistory();
     const debouncedScrollHandler = debounce((e) => handleScroll(e), 500);
@@ -29,8 +28,8 @@ const Notifications = () => {
         newParams = {
             page: params.page + 1,
             size: params.size,
-          sort: params.sort,
-          sortDirection: params.sortDirection
+            sort: params.sort,
+            sortDirection: params.sortDirection,
         };
 
         setParams(newParams);
@@ -55,13 +54,15 @@ const Notifications = () => {
     };
 
     const fetchData = async (params: IParams) => {
-      const res = await getNotifications(params).unwrap();
-      setLoadedNotifications(res.content.concat(loadedNotifications));
+        const res = await getNotifications(params).unwrap();
+        setLoadedNotifications(res.content.concat(loadedNotifications));
     };
 
     const groupNotifications = (notifications: INotification[]) => {
         const sortedRes = orderBy(notifications, ['createdAt'], ['desc']);
-        const groupedRes = groupBy(sortedRes, (notification: INotification) => moment(notification['createdAt']).format(t('DATE_FORMAT')));
+        const groupedRes = groupBy(sortedRes, (notification: INotification) =>
+            moment(notification['createdAt']).format(t('DATE_FORMAT'))
+        );
         setGroupedNotifications(groupedRes);
     };
 
