@@ -13,7 +13,6 @@ import MainWrapper from '../../components/MainWrapper';
 import Sidebar from '../../components/Sidebar';
 import LoaderTutor from '../../components/skeleton-loaders/LoaderTutor';
 import { PATHS } from '../../routes';
-import IPage from '../../../types/notification/IPage';
 import { AiOutlineCheck, AiOutlineClose } from 'react-icons/ai';
 import { FiTrash } from 'react-icons/fi';
 import {
@@ -24,6 +23,7 @@ import {
 import { useAppSelector } from '../../store/hooks';
 import moment from 'moment';
 import IParams from '../../types/IParams';
+import IPage from '../../types/notification/IPage';
 
 const TutorManagment = () => {
   const history = useHistory();

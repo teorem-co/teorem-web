@@ -55,5 +55,6 @@ export const authSlice = createSlice({
     },
 });
 
-export const { logout, addStripeId, connectStripe, setServerVersion, setToken, updateStateOfVerificationDocument } = authSlice.actions;
+export const { logout, addStripeId, connectStripe, setServerVersion, setToken, updateStateOfVerificationDocument } =
+    authSlice.actions;
 export default authSlice.reducer;

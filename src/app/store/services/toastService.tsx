@@ -2,8 +2,7 @@ import i18next from 'i18next';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import ToastFreeConsultationMessage
-  from '../../components/ToastFreeConsultationMessage';
+import ToastFreeConsultationMessage from '../../components/ToastFreeConsultationMessage';
 import { PROFILE_PATHS } from '../../routes';
 
 class ToastService {
@@ -33,22 +32,23 @@ class ToastService {
         progress: undefined,
     };
 
-    success = (message: string, time = 3000, hideProgressBar=true): void => {
+    success = (message: string, time = 3000, hideProgressBar = true): void => {
         const opts: object = {
-          autoClose: time,
-          position: 'bottom-center',
-          hideProgressBar: hideProgressBar,
+            autoClose: time,
+            position: 'bottom-center',
+            hideProgressBar: hideProgressBar,
         };
         toast.success(message, opts);
     };
 
     error = (message: string): void => {
-        const globalErrorMessage = message ? message : i18next.t('ERROR_HANDLING.UNHANDLED_ERROR');
-        toast.error(globalErrorMessage, Object.assign({}, ToastService.opts, { toastId: 'errorId' }));
+        const globalErrorMessage =
+            typeof message === 'string' && message.length ? message : i18next.t('ERROR_HANDLING.UNHANDLED_ERROR');
+        toast.error(globalErrorMessage.toString(), { ...ToastService.opts, toastId: 'errorId' });
     };
 
     info = (message: string): void => {
-        toast.info(message, Object.assign({}, ToastService.opts, { toastId: 'infoId' }));
+        toast.info(message, { ...ToastService.opts, toastId: 'infoId' });
     };
 
     notification = (message: string): void => {
@@ -60,13 +60,13 @@ class ToastService {
                 <div className="Toastify--custom__message">{message}</div>
             </div>
         );
-        toast.warning(customToast, Object.assign({}, ToastService.notificationOpts));
+        toast.warning(customToast, ToastService.notificationOpts);
     };
 
     freeConsultation = (buffer: any, accept: () => void, deny: () => void): React.ReactText => {
         return toast.warning(
             <ToastFreeConsultationMessage buffer={buffer} accept={accept} deny={deny} />,
-            Object.assign({}, ToastService.freeConsultationOpts)
+            ToastService.freeConsultationOpts
         );
     };
 

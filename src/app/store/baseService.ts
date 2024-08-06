@@ -37,8 +37,12 @@ const baseQueryWithReauth = async (args: any, api: BaseQueryApi, extraOptions: a
             refreshInProgress = new Promise((resolve) => {
                 resolveRefresh = resolve;
             });
-
-            const refreshResult = await baseQuery('/api/v1/auth/refresh', api, extraOptions);
+            let refreshResult: any = { data: null };
+            try {
+                refreshResult = await baseQuery('/api/v1/auth/refresh', api, extraOptions);
+            } catch (e) {
+                refreshResult = null;
+            }
 
             if (refreshResult?.data) {
                 console.log('Refresh token successful. Saving it in the store.');
@@ -57,7 +61,6 @@ const baseQueryWithReauth = async (args: any, api: BaseQueryApi, extraOptions: a
             } else {
                 console.log('Refresh token failed. Logging out.');
                 api.dispatch(logout());
-                window.location.href = `${window.location.origin}/en/login`;
             }
 
             // Declare end of refresh

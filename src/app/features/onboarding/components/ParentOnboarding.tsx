@@ -21,7 +21,7 @@ import ImageCircle from '../../../components/ImageCircle';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import toastService from '../../../store/services/toastService';
 import useOutsideAlerter from '../../../utils/useOutsideAlerter';
-import TooltipPassword from '../../register/TooltipPassword';
+import TooltipPassword from '../../../components/TooltipPassword';
 import { useLazyGetCountriesQuery } from '../services/countryService';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 import ICountry from '../../../types/ICountry';
@@ -281,15 +281,6 @@ const ParentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step
                     >
                         {t('REGISTER.NEXT_BUTTON')}
                     </ButtonPrimaryGradient>
-                    <div className="flex flex--jc--center">
-                        <div
-                            onClick={() => handleGoBack()}
-                            className="btn btn--clear btn--base type--color--brand type--wgt--extra-bold"
-                        >
-                            <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>
-                            {t('REGISTER.BACK_TO_REGISTER')}
-                        </div>
-                    </div>
                 </Form>
             </FormikProvider>
         );

@@ -32,6 +32,9 @@ import { logout, setServerVersion } from './app/store/slices/authSlice';
 import { setCountries } from './app/store/slices/countryMarketSlice';
 import { setTimeZone } from './app/store/slices/timeZoneSlice';
 import { logoutUser } from './app/store/slices/userSlice';
+import LoginModal from './app/features/auth/components/LoginModal';
+import RegistrationModal from './app/features/auth/components/RegistrationModal';
+import ResetPasswordModal from './app/features/auth/components/ResetPasswordModal';
 
 function App() {
     const { t } = useTranslation();
@@ -295,9 +298,16 @@ function App() {
         if (isSuccessChildTutors) {
             dispatch(addChatRooms(childTutors || null));
         }
-    }, [childTutors]);
+    }, [childTutors, dispatch, isSuccessChildTutors]);
 
-    return versionSame ? <RenderRoutes routes={ROUTES} /> : <></>;
+    return versionSame ? (
+        <>
+            <RenderRoutes routes={ROUTES} />
+            <LoginModal />
+            <RegistrationModal />
+            <ResetPasswordModal />
+        </>
+    ) : null;
 }
 
 export default App;

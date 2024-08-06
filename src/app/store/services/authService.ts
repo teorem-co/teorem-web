@@ -4,7 +4,7 @@ import IGenerateUsername from '../../types/IGenerateUsername';
 import { IChild } from '../../types/IChild';
 import IUser from '../../types/IUser';
 
-interface ILoginRequest {
+export interface ILoginRequest {
     email: string;
     password: string;
 }
@@ -22,7 +22,7 @@ interface IConfirmLoginResponse {
     user: IUser;
 }
 
-export interface IRegister {
+export interface IRegisterRequest {
     firstName: string;
     lastName: string;
     email: string;
@@ -30,6 +30,7 @@ export interface IRegister {
     confirmPassword: string;
     roleAbrv: string;
     countryId: string;
+    languageId: string;
     phoneNumber: string;
     dateOfBirth: string;
     subjectId?: string;
@@ -86,7 +87,7 @@ interface IChangeCurrentPassword {
     confirmPassword: string;
 }
 
-interface IResetPassword {
+export interface IResetPasswordRequest {
     email: string;
 }
 
@@ -98,7 +99,7 @@ interface ICheckUsername {
     username: string;
 }
 
-interface IResendEmail {
+export interface IResendEmailRequest {
     email: string;
 }
 
@@ -119,7 +120,7 @@ export const authService = baseService.injectEndpoints({
                 body,
             }),
         }),
-        resetPassword: builder.mutation<void, IResetPassword>({
+        resetPassword: builder.mutation<void, IResetPasswordRequest>({
             query: (body) => ({
                 url: `${URL}/request-reset-password`,
                 method: HttpMethods.POST,
@@ -193,14 +194,14 @@ export const authService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
-        resendActivationEmail: builder.mutation<string, IResendEmail>({
+        resendActivationEmail: builder.mutation<string, IResendEmailRequest>({
             query: (body) => ({
                 url: `${URL}/resend-activation-email`,
                 method: HttpMethods.POST,
                 body: body,
             }),
         }),
-        registerUser: builder.mutation<void, IRegister>({
+        registerUser: builder.mutation<void, IRegisterRequest>({
             query: (body) => ({
                 url: `${URL}/register`,
                 method: HttpMethods.POST,

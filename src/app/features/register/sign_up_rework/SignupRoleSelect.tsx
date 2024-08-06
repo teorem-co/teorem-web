@@ -4,7 +4,6 @@ import { useHistory } from 'react-router';
 
 import logo from '../../../../assets/images/teorem_logo_purple.png';
 import { resetSignUp } from '../../../store/slices/signUpSlice';
-import { PATHS } from '../../../routes';
 import { t } from 'i18next';
 import { RoleOptions, setSelectedCountryState, setSelectedRole } from '../../../store/slices/roleSlice';
 import Select, { SingleValue } from 'react-select';
@@ -22,7 +21,6 @@ export const SignupRoleSelect = () => {
 
     async function setRoleInStore(role: RoleOptions) {
         await dispatch(setSelectedRole(role));
-        history.push(PATHS.REGISTER);
     }
 
     useEffect(() => {
@@ -87,7 +85,9 @@ export const SignupRoleSelect = () => {
 
                 <div className="flex flex--col mt-20 flex--center" style={{ fontSize: '16px' }}>
                     <div className="flex flex--center timezone-container flex--gap-10">
-                        <span className="text-align--center mt-5 mb-5 signup-title">{t('ONBOARDING.COUNTRY_SELECT')}</span>
+                        <span className="text-align--center mt-5 mb-5 signup-title">
+                            {t('ONBOARDING.COUNTRY_SELECT')}
+                        </span>
                         <Select
                             className={'w--156'}
                             classNamePrefix="select"
@@ -123,7 +123,12 @@ export const SignupRoleSelect = () => {
                                 alignItems: 'center',
                             }}
                         >
-                            <img className="card-role-select" style={{ padding: '15%' }} src={`${IMAGES_PATH}/parent.svg`} alt="parent" />
+                            <img
+                                className="card-role-select"
+                                style={{ padding: '15%' }}
+                                src={`${IMAGES_PATH}/parent.svg`}
+                                alt="parent"
+                            />
                             <p className="text-align--center">{t('ROLE_SELECTION.PARENT_TITLE')}</p>
                         </div>
 
@@ -139,14 +144,21 @@ export const SignupRoleSelect = () => {
                                 alignItems: 'center',
                             }}
                         >
-                            <img className="card-role-select" style={{ padding: '15%' }} src={`${IMAGES_PATH}/student.svg`} alt="parent" />
+                            <img
+                                className="card-role-select"
+                                style={{ padding: '15%' }}
+                                src={`${IMAGES_PATH}/student.svg`}
+                                alt="parent"
+                            />
                             <p className="text-align--center">{t('ROLE_SELECTION.STUDENT_TITLE')}</p>
                         </div>
                     </div>
 
                     {/*tutor*/}
                     <div onClick={() => setRoleInStore(TUTOR)} className="text-align--center">
-                        <h3 className="mt-5 cur--pointer underline-hover primary-color ">{t('REGISTER.FORM.BECOME_A_TUTOR')}</h3>
+                        <h3 className="mt-5 cur--pointer underline-hover primary-color ">
+                            {t('REGISTER.FORM.BECOME_A_TUTOR')}
+                        </h3>
                     </div>
                 </div>
             </div>

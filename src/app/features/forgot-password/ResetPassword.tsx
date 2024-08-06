@@ -7,12 +7,13 @@ import * as Yup from 'yup';
 import heroImg from '../../../assets/images/hero-img.png';
 import { useChangePasswordMutation } from '../../store/services/authService';
 import MyTextField from '../../components/form/MyTextField';
-import { PATHS } from '../../routes';
 import toastService from '../../store/services/toastService';
 import getUrlParams from '../../utils/getUrlParams';
-import TooltipPassword from '../register/TooltipPassword';
+import TooltipPassword from '../../components/TooltipPassword';
 import logo from './../../../assets/images/logo.svg';
 import { ButtonPrimaryGradient } from '../../components/ButtonPrimaryGradient';
+import { useAppDispatch } from '../../store/hooks';
+import { setLoginModalOpen } from '../../store/slices/modalsSlice';
 
 interface Values {
     password: string;
@@ -28,6 +29,7 @@ const ResetPassword = () => {
 
     const [token, setToken] = useState<string>('');
     const [passTooltip, setPassTooltip] = useState<boolean>(false);
+    const dispatch = useAppDispatch();
 
     const { t } = useTranslation();
     const history = useHistory();
@@ -124,12 +126,12 @@ const ResetPassword = () => {
         toastService.success(t('RESET_PASSWORD.PASSWORD_CHANGED_SUCCESS'), delay, true);
 
         setTimeout(() => {
-            history.push(PATHS.LOGIN);
+            dispatch(setLoginModalOpen(true));
         }, delay);
     };
 
     const handleGoBack = () => {
-        history.push(PATHS.LOGIN);
+        dispatch(setLoginModalOpen(true));
     };
 
     const handlePasswordBlur = () => {
@@ -143,71 +145,76 @@ const ResetPassword = () => {
     useEffect(() => {
         const urlQueries: IUrlQuery = getUrlParams(history.location.search.replace('?', ''));
         setToken(urlQueries.token);
-    }, []);
+    }, [history.location.search]);
 
     return (
-        <>
-            <div className="login">
-                <div className="login__aside">
-                    <img src={heroImg} alt="Hero Img" />
-                </div>
-                <div className="login__content">
-                    <div className="flex--grow w--448--max">
-                        <div className="mb-22">
-                            <img className="w--128" src={logo} alt="Theorem" />
-                        </div>
-                        <div className="type--lg type--wgt--bold mb-4">{t('RESET_PASSWORD.TITLE')}</div>
-                        <FormikProvider value={formik}>
-                            <Form>
-                                <div className="field">
-                                    <label htmlFor="password" className="field__label">
-                                        {t('RESET_PASSWORD.FORM.PASSWORD')}
-                                    </label>
-                                    <MyTextField
-                                        name="password"
-                                        id="password"
-                                        placeholder="Type your password"
-                                        className="input input--base input--text input--icon"
-                                        password={true}
-                                        onFocus={handlePasswordFocus}
-                                        onBlur={(e: any) => {
-                                            handlePasswordBlur();
-                                            formik.handleBlur(e);
-                                        }}
-                                        onKeyUp={handleKeyUp}
-                                    />
-                                    <TooltipPassword passTooltip={passTooltip} />
-                                </div>
-                                <div className="field">
-                                    <label htmlFor="repeatPassword" className="field__label">
-                                        {t('RESET_PASSWORD.FORM.REPEAT_PASSWORD')}
-                                    </label>
-                                    <MyTextField
-                                        name="repeatPassword"
-                                        id="repeatPassword"
-                                        placeholder="Repeat password"
-                                        className="input input--base input--text input--icon"
-                                        password={true}
-                                    />
-                                </div>
+        <div className="login">
+            <div className="login__aside">
+                <img src={heroImg} alt="Hero Img" />
+            </div>
+            <div className="login__content">
+                <div className="flex--grow w--448--max">
+                    <div className="mb-22">
+                        <img className="w--128" src={logo} alt="Theorem" />
+                    </div>
+                    <div className="type--lg type--wgt--bold mb-4">{t('RESET_PASSWORD.TITLE')}</div>
+                    <FormikProvider value={formik}>
+                        <Form>
+                            <div className="field">
+                                <label htmlFor="password" className="field__label">
+                                    {t('RESET_PASSWORD.FORM.PASSWORD')}
+                                </label>
+                                <MyTextField
+                                    name="password"
+                                    id="password"
+                                    placeholder="Type your password"
+                                    className="input input--base input--text input--icon"
+                                    password={true}
+                                    onFocus={handlePasswordFocus}
+                                    onBlur={(e: any) => {
+                                        handlePasswordBlur();
+                                        formik.handleBlur(e);
+                                    }}
+                                    onKeyUp={handleKeyUp}
+                                />
+                                <TooltipPassword passTooltip={passTooltip} />
+                            </div>
+                            <div className="field">
+                                <label htmlFor="repeatPassword" className="field__label">
+                                    {t('RESET_PASSWORD.FORM.REPEAT_PASSWORD')}
+                                </label>
+                                <MyTextField
+                                    name="repeatPassword"
+                                    id="repeatPassword"
+                                    placeholder="Repeat password"
+                                    className="input input--base input--text input--icon"
+                                    password={true}
+                                />
+                            </div>
 
-                                <ButtonPrimaryGradient className="btn btn--base w--100 mb-2 mt-6 type--wgt--extra-bold" type="submit">
-                                    {t('RESET_PASSWORD.FORM.SUBMIT_BTN')}
-                                </ButtonPrimaryGradient>
-                                <div className="flex flex--jc--center">
-                                    <div onClick={() => handleGoBack()} className="btn btn--clear btn--base type--color--brand type--wgt--extra-bold">
-                                        <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i> {t('RESET_PASSWORD.BACK_BTN')}
-                                    </div>
+                            <ButtonPrimaryGradient
+                                className="btn btn--base w--100 mb-2 mt-6 type--wgt--extra-bold"
+                                type="submit"
+                            >
+                                {t('RESET_PASSWORD.FORM.SUBMIT_BTN')}
+                            </ButtonPrimaryGradient>
+                            <div className="flex flex--jc--center">
+                                <div
+                                    onClick={() => handleGoBack()}
+                                    className="btn btn--clear btn--base type--color--brand type--wgt--extra-bold"
+                                >
+                                    <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>{' '}
+                                    {t('RESET_PASSWORD.BACK_BTN')}
                                 </div>
-                            </Form>
-                        </FormikProvider>
-                    </div>
-                    <div className="mt-8">
-                        <div className="type--color--tertiary"> {t('WATERMARK')}</div>
-                    </div>
+                            </div>
+                        </Form>
+                    </FormikProvider>
+                </div>
+                <div className="mt-8">
+                    <div className="type--color--tertiary"> {t('WATERMARK')}</div>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 

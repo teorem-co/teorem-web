@@ -329,31 +329,35 @@ const Dashboard = () => {
     };
 
     const fetchData = async () => {
-        await getUnreadNotifications(params).unwrap();
-        const upcoming = await getUpcoming().unwrap();
-        const groupedDashboardData: IGroupedDashboardData = groupBy(upcoming, (e) =>
-            moment(e.startTime).format(t('DATE_FORMAT'))
-        );
-        setGroupedUpcoming(groupedDashboardData);
-        const todaySchedule = await getTodaySchedule().unwrap();
-        setTodayScheduled(todaySchedule);
-        const requestedBookings = await getPendingBookings().unwrap();
-        const groupedRequestedBookingsRequestData: IGroupedDashboardData = groupBy(requestedBookings, (e) =>
-            moment(e.startTime).format(t('DATE_FORMAT'))
-        );
-        setGroupedPendingBookingsRequests(groupedRequestedBookingsRequestData);
+        try {
+            await getUnreadNotifications(params).unwrap();
+            const upcoming = await getUpcoming().unwrap();
+            const groupedDashboardData: IGroupedDashboardData = groupBy(upcoming, (e) =>
+                moment(e.startTime).format(t('DATE_FORMAT'))
+            );
+            setGroupedUpcoming(groupedDashboardData);
 
-        let children = [];
-        if (userRole === RoleOptions.Parent && userId !== undefined) {
-            children = await getChildren(userId).unwrap().then();
-        }
-        if (!childrenLoading && (children.length === 0 || children.length === undefined)) {
-            setChildless(true);
-        }
-        if (!childrenLoading && (children.length === 0 || children.length === undefined)) {
-            setChildless(true);
-        }
+            const todaySchedule = await getTodaySchedule().unwrap();
+            setTodayScheduled(todaySchedule);
+            const requestedBookings = await getPendingBookings().unwrap();
+            const groupedRequestedBookingsRequestData: IGroupedDashboardData = groupBy(requestedBookings, (e) =>
+                moment(e.startTime).format(t('DATE_FORMAT'))
+            );
+            setGroupedPendingBookingsRequests(groupedRequestedBookingsRequestData);
 
+            let children = [];
+            if (userRole === RoleOptions.Parent && userId !== undefined) {
+                children = await getChildren(userId).unwrap().then();
+            }
+            if (!childrenLoading && (children.length === 0 || children.length === undefined)) {
+                setChildless(true);
+            }
+            if (!childrenLoading && (children.length === 0 || children.length === undefined)) {
+                setChildless(true);
+            }
+        } catch (error) {
+            console.log(error);
+        }
         //TODO: uncomment later when we have picker for timezone
         //const allTimeZones = await getAllTimeZones().then((res) => console.log(res));
     };

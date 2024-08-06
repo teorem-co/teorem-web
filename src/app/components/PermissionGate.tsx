@@ -1,8 +1,9 @@
 import { Redirect } from 'react-router';
 
 import { PATHS } from '../routes';
-import { useAppSelector } from '../store/hooks';
-import { ReactNode } from 'react';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { ReactNode, useEffect, useMemo, useState } from 'react';
+import { setLoginModalOpen } from '../store/slices/modalsSlice';
 
 interface IPermissionsGateProps {
     children: ReactNode;
@@ -12,14 +13,15 @@ interface IPermissionsGateProps {
 
 export default function PermissionsGate({ children, roles, checkStripeConnection }: Readonly<IPermissionsGateProps>) {
     const { user } = useAppSelector((state) => state.auth);
-    const permissionGranted = roles.some((role: any) => role === user?.Role.abrv);
+    const dispatch = useAppDispatch();
+    const permissionGranted = useMemo(() => roles.some((role: any) => role === user?.Role.abrv), [roles, user]);
 
     if (checkStripeConnection && !user?.stripeConnected) {
         return <Redirect to={PATHS.DASHBOARD} />;
     }
 
     if (!permissionGranted) {
-        return <Redirect to={PATHS.LOGIN} />;
+        dispatch(setLoginModalOpen(true));
     }
 
     return <>{children}</>;

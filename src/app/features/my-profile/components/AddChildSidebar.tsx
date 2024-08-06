@@ -13,12 +13,10 @@ import {
     useDeleteChildMutation,
     useUpdateChildMutation,
 } from '../../../store/services/userService';
-import MyDatePicker from '../../../components/form/MyDatePicker';
 import { useAppSelector } from '../../../store/hooks';
 import toastService from '../../../store/services/toastService';
-import TooltipPassword from '../../register/TooltipPassword';
+import TooltipPassword from '../../../components/TooltipPassword';
 import { InputAdornment, TextField } from '@mui/material';
-import { t } from 'i18next';
 import dayjs from 'dayjs';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';

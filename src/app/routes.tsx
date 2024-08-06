@@ -9,9 +9,7 @@ import Chat from './features/chat/pages/Chat';
 import CompletedLessons from './features/completedLessons/CompletedLessons';
 import Dashboard from './features/dashboard/Dashboard';
 import Earnings from './features/earnings/Earnings';
-import ForgotPassword from './features/forgot-password/ForgotPassword';
 import ResetPassword from './features/forgot-password/ResetPassword';
-import Login from './features/login/Login';
 import MyBookings from './features/my-bookings/MyBookings';
 import AdditionalInformation from './features/my-profile/pages/AdditionalInformation';
 import ChildInformations from './features/my-profile/pages/ChildInformations';
@@ -28,16 +26,13 @@ import TutorManagment from './features/tutor-managment/TutorManagment';
 import TutorManagmentProfile from './features/tutor-managment/TutorProfile';
 import { useAppDispatch, useAppSelector } from './store/hooks';
 import { Role } from './types/role';
-import EmailConfirmed from './pages/EmailConfirmed';
 import ResetToken from './pages/ResetToken';
 import StripeConnected from './pages/StripeConnected';
 import StripeFail from './pages/StripeFail';
 import PermissionsGate from './components/PermissionGate';
 import { getUserRoleAbrv } from './utils/getUserRoleAbrv';
-import { setLang } from './store/slices/langSlice';
 import { Badge } from '@mui/material';
 
-import { Signup } from './features/register/sign_up_rework/tutor/Signup';
 import { SignupRoleSelect } from './features/register/sign_up_rework/SignupRoleSelect';
 import { AdminTutorVideoPage } from './components/admin/tutor-video/AdminTutorVideoPage';
 import TokenNotValid from './pages/TokenNotValid';
@@ -45,13 +40,14 @@ import TutorBookingsNew from './features/tutor-bookings/TutorBookingsNew';
 import { StudentManagement } from './features/student-management/StudentManagement';
 import { StudentProfile } from './features/student-management/StudentProfile';
 import { BookingManagement } from './features/booking-management/BookingManagement';
+import { setSelectedLang } from './store/slices/langSlice';
+import { setLoginModalOpen } from './store/slices/modalsSlice';
+import { Redirect } from 'react-router-dom';
 
 export const PATHS = {
     ROLE_SELECTION: t('PATHS.ROLE_SELECTION'),
-    REGISTER: t('PATHS.REGISTER'),
     FORGOT_PASSWORD: t('PATHS.FORGOT_PASSWORD'),
     RESET_PASSWORD: t('PATHS.RESET_PASSWORD'),
-    LOGIN: t('PATHS.LOGIN'),
     MY_BOOKINGS: t('PATHS.MY_BOOKINGS'),
     SEARCH_TUTORS: t('PATHS.SEARCH_TUTORS'),
     SEARCH_TUTORS_TUTOR_PROFILE: t('PATHS.SEARCH_TUTORS_TUTOR_PROFILE'),
@@ -71,7 +67,6 @@ export const PATHS = {
     BOOKING_MANAGEMENT: t('PATHS.BOOKING_MANAGEMENT'),
     TUTOR_VIDEOS: t('PATHS.TUTOR_VIDEOS'),
     TUTOR_MANAGMENT_TUTOR_PROFILE: t('PATHS.TUTOR_MANAGMENT_TUTOR_PROFILE'),
-    EMAIL_CONFIRMED: t('PATHS.EMAIL_CONFIRMED'),
     RESEND_ACTIVATION_TOKEN: t('PATHS.RESEND_ACTIVATION_TOKEN'),
     STRIPE_CONNECTED: t('PATHS.STRIPE_CONNECTED'),
     STRIPE_FAIL: t('PATHS.STRIPE_FAIL'),
@@ -139,16 +134,9 @@ export const ROUTES: any = [
         path: PATHS.ROLE_SELECTION,
         key: 'ROLE_SELECTION',
         exact: true,
-        // component: () => <RoleSelection />,
         component: () => <SignupRoleSelect />,
     },
-    {
-        path: PATHS.REGISTER,
-        key: 'REGISTER',
-        exact: true,
-        // component: () => <Register />,
-        component: () => <Signup />,
-    },
+
     {
         path: PATHS.ONBOARDING,
         key: 'ONBOARDING',
@@ -159,22 +147,10 @@ export const ROUTES: any = [
         component: () => <Onboarding />,
     },
     {
-        path: PATHS.FORGOT_PASSWORD,
-        key: 'FORGOT_PASSWORD',
-        exact: true,
-        component: () => <ForgotPassword />,
-    },
-    {
         path: PATHS.RESET_PASSWORD,
         key: 'RESET_PASSWORD',
         exact: true,
         component: () => <ResetPassword />,
-    },
-    {
-        path: PATHS.LOGIN,
-        key: 'LOGIN',
-        exact: true,
-        component: () => <Login />,
     },
     {
         path: PATHS.MY_BOOKINGS,
@@ -380,12 +356,6 @@ export const ROUTES: any = [
         ),
     },
     {
-        path: PATHS.EMAIL_CONFIRMED,
-        key: 'EMAIL_CONFIRMED',
-        exact: true,
-        component: () => <EmailConfirmed />,
-    },
-    {
         path: PATHS.RESEND_ACTIVATION_TOKEN,
         key: 'RESEND_ACTIVATION_TOKEN',
         exact: true,
@@ -403,6 +373,11 @@ export const ROUTES: any = [
         exact: true,
         component: () => <StripeFail />,
     },
+    {
+        path: '*',
+        key: 'DEFAULT',
+        component: () => <Redirect to={PATHS.DASHBOARD} />,
+    },
 ];
 //handle subroutes by <RenderRoutes {...props} /> inside PermissionGate if needed
 
@@ -410,7 +385,12 @@ export default ROUTES;
 
 function RouteWithSubRoutes(route: any) {
     return (
-        <Route key={route.key} path={route.path} exact={route.exact} render={(props: any) => <route.component {...props} routes={route.routes} />} />
+        <Route
+            key={route.key}
+            path={route.path}
+            exact={route.exact}
+            render={(props: any) => <route.component {...props} routes={route.routes} />}
+        />
     );
 }
 
@@ -434,7 +414,7 @@ export function RenderRoutes(routesObj: any) {
             })?.params.lang;
 
             document.documentElement.lang = lang;
-            dispatch(setLang(lang));
+            dispatch(setSelectedLang({ name: lang, abrv: lang, id: '' }));
 
             if (lang !== i18n.language) {
                 i18n.changeLanguage(lang);
@@ -442,16 +422,18 @@ export function RenderRoutes(routesObj: any) {
             }
 
             if (location.pathname.replaceAll('/', '') === lang) {
-                history.push(t('PATHS.LOGIN'));
+                dispatch(setLoginModalOpen(true));
             }
         } else {
             const lang = i18n.languages[i18n.languages.length - 1];
             i18n.changeLanguage(lang);
-            dispatch(setLang(lang));
+            dispatch(setSelectedLang({ name: lang, abrv: lang, id: '' }));
 
             location.pathname.length > 1
-                ? history.push(`/${i18n.languages[i18n.languages.length - 1]}${location.pathname}${location.search ? location.search : ''}`)
-                : history.push(t('PATHS.LOGIN')); // redirect to login if no path
+                ? history.push(
+                      `/${i18n.languages[i18n.languages.length - 1]}${location.pathname}${location.search ? location.search : ''}`
+                  )
+                : dispatch(setLoginModalOpen(true));
         }
     };
 
@@ -694,7 +676,9 @@ export function RenderMenuLinks() {
                         <div className={`navbar__item`} style={{ cursor: route.disabled ? 'not-allowed' : 'pointer' }}>
                             <i className={`icon icon--base navbar__item__icon navbar__item--${route.icon}`}></i>
                             <span className={`navbar__item__label`}>{t(`NAVIGATION.${route.name}`)}</span>
-                            {route.key == 'CHAT' && chat.newMessages != null && chat.newMessages > 0 && <i className={`navbar__item__unread`}></i>}
+                            {route.key == 'CHAT' && chat.newMessages != null && chat.newMessages > 0 && (
+                                <i className={`navbar__item__unread`}></i>
+                            )}
                         </div>
                     ) : (
                         <NavLink
@@ -720,13 +704,20 @@ export function RenderMenuLinks() {
                             }}
                         >
                             {route.key == 'CHAT' && chat.newMessages != null && chat.newMessages > 0 ? (
-                                <Badge badgeContent={chat.newMessages} className={showBadge ? 'badge-pulse' : ''} sx={badgeStyle} max={10}>
+                                <Badge
+                                    badgeContent={chat.newMessages}
+                                    className={showBadge ? 'badge-pulse' : ''}
+                                    sx={badgeStyle}
+                                    max={10}
+                                >
                                     <i className={`icon icon--base navbar__item__icon navbar__item--${route.icon}`}></i>
                                 </Badge>
                             ) : (
                                 <i className={`icon icon--base navbar__item__icon navbar__item--${route.icon}`}></i>
                             )}
-                            <span className={`navbar__item__label ${isMobile ? 'font__lg' : ''}`}>{t(`NAVIGATION.${route.name}`)}</span>
+                            <span className={`navbar__item__label ${isMobile ? 'font__lg' : ''}`}>
+                                {t(`NAVIGATION.${route.name}`)}
+                            </span>
                         </NavLink>
                     )
                 )}

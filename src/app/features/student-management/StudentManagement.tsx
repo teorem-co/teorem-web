@@ -5,7 +5,7 @@ import {
   useLazyGetStudentInformationQuery,
 } from '../../store/services/userService';
 import IParams from '../../types/IParams';
-import IPage from '../../../types/notification/IPage';
+import IPage from '../../types/notification/IPage';
 import { t } from 'i18next';
 import { PATHS } from '../../routes';
 import { useHistory } from 'react-router-dom';

@@ -226,16 +226,6 @@ const StudentOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep }) =
                     >
                         {t('REGISTER.FINISH')}
                     </button>
-
-                    <div className="flex flex--jc--center">
-                        <div
-                            onClick={() => handleGoBack()}
-                            className="btn btn--clear btn--base type--color--brand type--wgt--extra-bold"
-                        >
-                            <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>
-                            {t('REGISTER.BACK_TO_REGISTER')}
-                        </div>
-                    </div>
                 </Form>
             </FormikProvider>
         </>

@@ -17,20 +17,24 @@ import App from './App';
 import { persistor, store } from './app/store/store';
 import * as serviceWorker from './serviceWorker';
 import AuthWrapper from './app/features/auth/providers/AuthWrapper';
+import ThemeProvider from '@mui/material/styles/ThemeProvider';
+import THEME from './app/constants/theme';
 
 ReactDOM.render(
     <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-            <AuthWrapper>
-                <Router
-                    getUserConfirmation={() => {
-                        /* Empty callback to block the default browser prompt */
-                    }}
-                >
-                    <App />
-                    <ToastContainer />
-                </Router>
-            </AuthWrapper>
+            <ThemeProvider theme={THEME}>
+                <AuthWrapper>
+                    <Router
+                        getUserConfirmation={() => {
+                            /* Empty callback to block the default browser prompt */
+                        }}
+                    >
+                        <App />
+                        <ToastContainer />
+                    </Router>
+                </AuthWrapper>
+            </ThemeProvider>
         </PersistGate>
     </Provider>,
     document.getElementById('root')
