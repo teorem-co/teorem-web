@@ -31,12 +31,15 @@ const Login: React.FC = () => {
     const [loginSentAgainMessage, setLoginSentAgainMessage] = useState<boolean>();
     const [loginUserNotActive, setLoginUserNotActive] = useState<boolean>(false);
 
-    const [login, { data: loginData, isSuccess: isSuccessLogin, isLoading: isLoadingLogin, error: errorLogin }] = useLoginMutation();
+    const [login, { data: loginData, isSuccess: isSuccessLogin, isLoading: isLoadingLogin, error: errorLogin }] =
+        useLoginMutation();
     const [confirmLogin] = useConfirmLoginMutation();
-    const [getServerVersion, { data: serverVersion, isSuccess: isSuccessServerVersion }] = useLazyGetServerVersionQuery();
+    const [getServerVersion, { data: serverVersion, isSuccess: isSuccessServerVersion }] =
+        useLazyGetServerVersionQuery();
     const [resendEmail, setResendEmail] = useState<string>('');
 
-    const [resendActivationEmailPost, { isSuccess: isSuccessResendActivationEmail }] = useResendActivationEmailMutation();
+    const [resendActivationEmailPost, { isSuccess: isSuccessResendActivationEmail }] =
+        useResendActivationEmailMutation();
     const userRoleAbrv = useAppSelector((state) => state.auth.user?.Role?.abrv);
     const userToken = useAppSelector((state) => state.auth.token);
 
@@ -148,7 +151,12 @@ const Login: React.FC = () => {
                                     <label htmlFor="email" className="field__label">
                                         {t('LOGIN.FORM.EMAIL')}
                                     </label>
-                                    <MyTextField name="email" id="email" placeholder={t('LOGIN.FORM.EMAIL_PLACEHOLDER')} disabled={isLoadingLogin} />
+                                    <MyTextField
+                                        name="email"
+                                        id="email"
+                                        placeholder={t('LOGIN.FORM.EMAIL_PLACEHOLDER')}
+                                        disabled={isLoadingLogin}
+                                    />
                                 </div>
                                 <div className="field">
                                     <label className="field__label" htmlFor="password">
@@ -168,7 +176,11 @@ const Login: React.FC = () => {
                                 ) : (
                                     <></>
                                 )}
-                                {loginSentAgainMessage ? <div className="type--color--success">{t('LOGIN.FORM.SEND_AGAIN_SUCCESS')}</div> : <></>}
+                                {loginSentAgainMessage ? (
+                                    <div className="type--color--success">{t('LOGIN.FORM.SEND_AGAIN_SUCCESS')}</div>
+                                ) : (
+                                    <></>
+                                )}
                                 {loginUserNotActive && !loginSentAgainMessage && (
                                     <div>
                                         <ButtonPrimaryGradient
@@ -197,11 +209,7 @@ const Login: React.FC = () => {
                                     </Link>
                                     <div className={'mt-3'}>
                                         {t('LOGIN.ACCOUNT')}{' '}
-                                        <Link
-                                            id="zapocni-danas-login-1"
-                                            className="type--wgt--extra-bold"
-                                            to={!isLoadingLogin ? PATHS.ROLE_SELECTION : '#'}
-                                        >
+                                        <Link id="zapocni-danas-login-1" className="type--wgt--extra-bold" to={'#'}>
                                             {t('LOGIN.REGISTER')}
                                         </Link>
                                     </div>

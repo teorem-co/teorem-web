@@ -58,10 +58,6 @@ export function Signup() {
         'REGISTER.FORM.STEPS.FINAL',
     ];
 
-    useEffect(() => {
-        if (!selectedRole) history.push(PATHS.ROLE_SELECTION);
-    }, []);
-
     function nextStep() {
         if (currentStepIndex != penultimateIndex) {
             return next();

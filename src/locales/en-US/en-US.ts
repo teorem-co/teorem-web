@@ -139,6 +139,8 @@ export const EN_US = {
     EARNINGS: 'Earnings',
     SHARE_PROFILE: 'Share profile',
     TEXT_COPIED: 'Profile copied to clipboard!',
+    LOGIN: "Log in",
+    REGISTER: "Register"
   },
   SEARCH_TUTORS: {
     AVAILABILITY: {
@@ -1397,7 +1399,6 @@ export const EN_US = {
   },
   PATHS: {
     ADD_CHILD: '/en/add-child',
-    ROLE_SELECTION: '/en/role-selection',
     FORGOT_PASSWORD: '/en/forgot-password',
     RESET_PASSWORD: '/en/reset-password',
     MY_BOOKINGS: '/en/my-bookings',

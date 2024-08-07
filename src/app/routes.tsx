@@ -32,8 +32,6 @@ import StripeFail from './pages/StripeFail';
 import PermissionsGate from './components/PermissionGate';
 import { getUserRoleAbrv } from './utils/getUserRoleAbrv';
 import { Badge } from '@mui/material';
-
-import { SignupRoleSelect } from './features/register/sign_up_rework/SignupRoleSelect';
 import { AdminTutorVideoPage } from './components/admin/tutor-video/AdminTutorVideoPage';
 import TokenNotValid from './pages/TokenNotValid';
 import TutorBookingsNew from './features/tutor-bookings/TutorBookingsNew';
@@ -45,7 +43,6 @@ import { setLoginModalOpen } from './store/slices/modalsSlice';
 import { Redirect } from 'react-router-dom';
 
 export const PATHS = {
-    ROLE_SELECTION: t('PATHS.ROLE_SELECTION'),
     FORGOT_PASSWORD: t('PATHS.FORGOT_PASSWORD'),
     RESET_PASSWORD: t('PATHS.RESET_PASSWORD'),
     MY_BOOKINGS: t('PATHS.MY_BOOKINGS'),
@@ -129,12 +126,6 @@ export const ROUTES: any = [
         key: 'TOKEN_NOT_VALID',
         exact: true,
         component: () => <TokenNotValid />,
-    },
-    {
-        path: PATHS.ROLE_SELECTION,
-        key: 'ROLE_SELECTION',
-        exact: true,
-        component: () => <SignupRoleSelect />,
     },
 
     {
@@ -372,6 +363,16 @@ export const ROUTES: any = [
         key: 'STRIPE_FAIL',
         exact: true,
         component: () => <StripeFail />,
+    },
+    {
+        path: '/en/*',
+        key: 'DEFAULT',
+        component: () => <Redirect to={PATHS.DASHBOARD} />,
+    },
+    {
+        path: '/hr/*',
+        key: 'DEFAULT',
+        component: () => <Redirect to={PATHS.DASHBOARD} />,
     },
     {
         path: '*',

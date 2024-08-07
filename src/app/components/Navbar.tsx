@@ -15,6 +15,7 @@ import ImageCircle from './ImageCircle';
 import { useLazyGetUserQuery } from '../store/services/userService';
 import MarketSelector from './admin/MarketSelector';
 import getLandingLink from '../utils/getLandingLink';
+import PublicNavbar from './PublicNavbar';
 
 const Navbar = () => {
     const dispatch = useAppDispatch();
@@ -65,6 +66,8 @@ const Navbar = () => {
 
         getUserInfo();
     }, [user]);
+
+    if (!user) return <PublicNavbar />;
 
     return (
         <div className="navbar">

@@ -25,7 +25,6 @@ const baseQueryWithReauth = async (args: any, api: BaseQueryApi, extraOptions: a
         // Wait for the refresh to complete
         await refreshInProgress;
     }
-
     let result = await baseQuery(args, api, extraOptions);
 
     if (result?.error?.status === 403) {

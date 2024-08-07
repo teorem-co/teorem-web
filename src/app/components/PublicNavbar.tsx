@@ -1,14 +1,12 @@
 import { t } from 'i18next';
 import React, { useEffect, useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
 
 import logo from '../../assets/images/logo.svg';
-import { PATHS } from '../routes';
 import { ButtonPrimaryGradient } from './ButtonPrimaryGradient';
 import { useAppDispatch } from '../store/hooks';
-import { setLoginModalOpen } from '../store/slices/modalsSlice';
+import { setLoginModalOpen, setRegistrationModalOpen } from '../store/slices/modalsSlice';
 
-const PublicNavbar = () => {
+export default function PublicNavbar() {
     const dispatch = useAppDispatch();
     const [textCopiedToClipboard, setTextCopiedToClipboard] = useState<boolean>(false);
 
@@ -18,34 +16,28 @@ const PublicNavbar = () => {
 
     return (
         <div className="navbar">
-            <NavLink className="d--b" onClick={() => dispatch(setLoginModalOpen(true))}>
+            <a className="d--b" onClick={() => dispatch(setLoginModalOpen(true))}>
                 <img className="navbar__logo" src={logo} alt="logo" />
-            </NavLink>
+            </a>
             <div className="flex--grow">
-                <NavLink
-                    className={`navbar__item`}
-                    activeClassName="active"
-                    onClick={() => dispatch(setLoginModalOpen(true))}
-                >
+                <a className={`navbar__item`} onClick={() => dispatch(setLoginModalOpen(true))}>
                     <i className={`icon icon--base navbar__item__icon navbar__item--search-tutors`}></i>
                     <span className={`navbar__item__label`}>{t(`NAVIGATION.SEARCH_TUTORS`)}</span>
-                </NavLink>
+                </a>
             </div>
             <div className="type--center" style={{ padding: '10px' }}>
-                <Link className="type--color--white" onClick={() => dispatch(setLoginModalOpen(true))}>
+                <a className="type--color--white" onClick={() => dispatch(setLoginModalOpen(true))}>
                     <ButtonPrimaryGradient className="btn btn--base w--100 mb-3">
-                        {t('ROLE_SELECTION.LOG_IN')}
+                        {t('NAVIGATION.LOGIN')}
                     </ButtonPrimaryGradient>
-                </Link>
-                <Link
+                </a>
+                <a
                     className="btn btn--base btn--ghost--bordered w--100 type--wgt--extra-bold"
-                    to={PATHS.ROLE_SELECTION}
+                    onClick={() => dispatch(setRegistrationModalOpen(true))}
                 >
-                    {t('ROLE_SELECTION.TITLE')}
-                </Link>
+                    {t('NAVIGATION.REGISTER')}
+                </a>
             </div>
         </div>
     );
-};
-
-export default PublicNavbar;
+}

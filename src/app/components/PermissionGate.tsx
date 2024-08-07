@@ -21,7 +21,7 @@ export default function PermissionsGate({ children, roles, checkStripeConnection
     }
 
     if (!permissionGranted) {
-        dispatch(setLoginModalOpen(true));
+        // dispatch(setLoginModalOpen(true));
     }
 
     return <>{children}</>;

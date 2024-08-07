@@ -139,6 +139,8 @@ export const HR_HR = {
     EARNINGS: 'Prihod',
     SHARE_PROFILE: 'Podijeli profil',
     TEXT_COPIED: 'Profil kopiran!',
+    LOGIN: 'Prijava',
+    REGISTER: 'Registracija',
   },
   SEARCH_TUTORS: {
     AVAILABILITY: {
@@ -1395,7 +1397,6 @@ export const HR_HR = {
   },
   PATHS: {
     ADD_CHILD: '/hr/dodaj-dijete',
-    ROLE_SELECTION: '/hr/odabir-uloge',
     FORGOT_PASSWORD: '/hr/zaboravljena-lozinka',
     RESET_PASSWORD: '/hr/reset-password',
     MY_BOOKINGS: '/hr/kalendar',

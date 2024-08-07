@@ -82,7 +82,7 @@ interface IGroupedDashboardData {
     [date: string]: IBooking[];
 }
 
-const Dashboard = () => {
+export default function Dashboard() {
     const mockRequest: IBooking = {
         id: 'mockRequest',
         userFullName: 'Ivan Horvat',
@@ -1030,9 +1030,7 @@ const Dashboard = () => {
                     skip={skipTutorial}
                     start={startTutorial}
                 />
-            ) : (
-                <></>
-            )}
+            ) : null}
 
             {!isMobile && isStepsEnabled && showTutorial && (
                 <Steps
@@ -1066,113 +1064,104 @@ const Dashboard = () => {
                         <div>
                             <img src={logo} alt="logo" className="mt-5 ml-5 signup-logo" />
                             <div className="flex field__w-fit-content align--center flex--center">
-                                <>
-                                    <div>
-                                        {/* HEADER */}
-                                        <div style={{ margin: '40px' }} className="flex">
-                                            <div className="flex flex--center flex--shrink w--105">
-                                                <CircularProgress
-                                                    className="progress-circle ml-1"
-                                                    progressNumber={50}
-                                                />
-                                            </div>
-                                            <div className="flex flex--col flex--jc--center ml-6">
-                                                <h4 className="signup-title ml-6 text-align--center">
-                                                    {t('ADD_CHILD.PART_1')}
-                                                    <span className="primary-color">{t('ADD_CHILD.PART_2')}</span>
-                                                </h4>
-                                            </div>
+                                <div>
+                                    {/* HEADER */}
+                                    <div style={{ margin: '40px' }} className="flex">
+                                        <div className="flex flex--center flex--shrink w--105">
+                                            <CircularProgress className="progress-circle ml-1" progressNumber={50} />
                                         </div>
-                                        {(childrenLoading && <LoaderPrimary />) || (
-                                            <div className="card--profile__section">
-                                                <div>
-                                                    <div className="dash-wrapper dash-wrapper--adaptive">
-                                                        <div
-                                                            className="dash-wrapper__item"
-                                                            style={{ width: '95%' }}
-                                                            onClick={() => {
-                                                                handleAddNewchild();
-                                                            }}
-                                                        >
-                                                            <div className="dash-wrapper__item__element">
-                                                                <div className="flex--primary cur--pointer">
-                                                                    <div>
-                                                                        <div className="mb-1">
-                                                                            {t('ADD_CHILD.TITLE')}
-                                                                        </div>
-                                                                        <div className="type--color--secondary">
-                                                                            {t('ADD_CHILD.DESCRIPTION')}
-                                                                        </div>
+                                        <div className="flex flex--col flex--jc--center ml-6">
+                                            <h4 className="signup-title ml-6 text-align--center">
+                                                {t('ADD_CHILD.PART_1')}
+                                                <span className="primary-color">{t('ADD_CHILD.PART_2')}</span>
+                                            </h4>
+                                        </div>
+                                    </div>
+                                    {(childrenLoading && <LoaderPrimary />) || (
+                                        <div className="card--profile__section">
+                                            <div>
+                                                <div className="dash-wrapper dash-wrapper--adaptive">
+                                                    <div
+                                                        className="dash-wrapper__item"
+                                                        style={{ width: '95%' }}
+                                                        onClick={() => {
+                                                            handleAddNewchild();
+                                                        }}
+                                                    >
+                                                        <div className="dash-wrapper__item__element">
+                                                            <div className="flex--primary cur--pointer">
+                                                                <div>
+                                                                    <div className="mb-1">{t('ADD_CHILD.TITLE')}</div>
+                                                                    <div className="type--color--secondary">
+                                                                        {t('ADD_CHILD.DESCRIPTION')}
                                                                     </div>
-                                                                    <i className="icon icon--base icon--plus icon--primary"></i>
                                                                 </div>
+                                                                <i className="icon icon--base icon--plus icon--primary"></i>
                                                             </div>
                                                         </div>
-                                                        {childrenData &&
-                                                            childrenData.map((x: IChild) => {
-                                                                return (
-                                                                    <div
-                                                                        className="dash-wrapper__item"
-                                                                        key={x.username}
-                                                                        style={{ width: '100%' }}
-                                                                        onClick={() => handleEditChild(x)}
-                                                                    >
-                                                                        <div className="dash-wrapper__item__element">
-                                                                            <div className="flex--primary cur--pointer">
-                                                                                <div className="flex flex--center">
-                                                                                    <ImageCircle
-                                                                                        initials={`${x.firstName.charAt(0)}`}
-                                                                                    />
-                                                                                    <div className="flex--grow ml-4">
-                                                                                        <div className="mb-1">
-                                                                                            {x.firstName}
-                                                                                        </div>
-                                                                                        <div className="type--color--secondary">
-                                                                                            {moment(
-                                                                                                x.dateOfBirth
-                                                                                            ).format(
-                                                                                                t('BIRTH_DATE_FORMAT')
-                                                                                            )}
-                                                                                        </div>
+                                                    </div>
+                                                    {childrenData &&
+                                                        childrenData.map((x: IChild) => {
+                                                            return (
+                                                                <div
+                                                                    className="dash-wrapper__item"
+                                                                    key={x.username}
+                                                                    style={{ width: '100%' }}
+                                                                    onClick={() => handleEditChild(x)}
+                                                                >
+                                                                    <div className="dash-wrapper__item__element">
+                                                                        <div className="flex--primary cur--pointer">
+                                                                            <div className="flex flex--center">
+                                                                                <ImageCircle
+                                                                                    initials={`${x.firstName.charAt(0)}`}
+                                                                                />
+                                                                                <div className="flex--grow ml-4">
+                                                                                    <div className="mb-1">
+                                                                                        {x.firstName}
+                                                                                    </div>
+                                                                                    <div className="type--color--secondary">
+                                                                                        {moment(x.dateOfBirth).format(
+                                                                                            t('BIRTH_DATE_FORMAT')
+                                                                                        )}
                                                                                     </div>
                                                                                 </div>
-                                                                                <i className="icon icon--base icon--edit icon--primary"></i>
                                                                             </div>
+                                                                            <i className="icon icon--base icon--edit icon--primary"></i>
                                                                         </div>
                                                                     </div>
-                                                                );
-                                                            })}
-                                                    </div>
+                                                                </div>
+                                                            );
+                                                        })}
                                                 </div>
                                             </div>
-                                        )}
-                                        <button
-                                            onClick={closeModal}
-                                            className="link-button"
-                                            style={{
-                                                margin: '0 auto',
-                                                display: 'flex',
-                                                justifyContent: 'left',
-                                                marginBottom: '10px',
-                                                marginTop: '-25px',
-                                            }}
-                                        >
-                                            {t('SKIP_FOR_NOW')}
-                                        </button>
-                                        <ButtonPrimaryGradient
-                                            disabled={childlessButton}
-                                            onClick={closeModal}
-                                            className="btn btn--base flex align--center justify--center"
-                                        >
-                                            {t('REGISTER.NEXT_BUTTON')}
-                                        </ButtonPrimaryGradient>
-                                    </div>
-                                    <AddChildSidebar
-                                        closeSidebar={closeAddCardSidebar}
-                                        sideBarIsOpen={addSidebarOpen}
-                                        childData={childForEdit}
-                                    />
-                                </>
+                                        </div>
+                                    )}
+                                    <button
+                                        onClick={closeModal}
+                                        className="link-button"
+                                        style={{
+                                            margin: '0 auto',
+                                            display: 'flex',
+                                            justifyContent: 'left',
+                                            marginBottom: '10px',
+                                            marginTop: '-25px',
+                                        }}
+                                    >
+                                        {t('SKIP_FOR_NOW')}
+                                    </button>
+                                    <ButtonPrimaryGradient
+                                        disabled={childlessButton}
+                                        onClick={closeModal}
+                                        className="btn btn--base flex align--center justify--center"
+                                    >
+                                        {t('REGISTER.NEXT_BUTTON')}
+                                    </ButtonPrimaryGradient>
+                                </div>
+                                <AddChildSidebar
+                                    closeSidebar={closeAddCardSidebar}
+                                    sideBarIsOpen={addSidebarOpen}
+                                    childData={childForEdit}
+                                />
                             </div>
                         </div>
                     ) : (
@@ -1886,6 +1875,4 @@ const Dashboard = () => {
             )}
         </>
     );
-};
-
-export default Dashboard;
+}
