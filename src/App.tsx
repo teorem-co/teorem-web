@@ -109,7 +109,7 @@ function App() {
     useEffect(() => {
         if (isSuccessServerVersion) {
             if (version != serverVersion) {
-                if (userId) {
+                if (userId && version?.length) {
                     persistor.purge();
                     dispatch(logout());
                     dispatch(logoutUser());

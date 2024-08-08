@@ -8,12 +8,13 @@ import * as Yup from 'yup';
 import { TextField, Typography } from '@mui/material';
 import { IResetPasswordRequest, useResetPasswordMutation } from '../../../../store/services/authService';
 import { setResetPasswordModalOpen } from '../../../../store/slices/modalsSlice';
+import { useEffect } from 'react';
 
 export default function ResetPasswordModal() {
     const dispatch = useAppDispatch();
     const { resetPasswordModalOpen } = useAppSelector((state) => state.modals);
     const { t } = useTranslation();
-    const [resetPassword, { isError, isLoading, isSuccess }] = useResetPasswordMutation();
+    const [resetPassword, { isError, isLoading, isSuccess, reset }] = useResetPasswordMutation();
 
     const handleSubmit = async (values: IResetPasswordRequest) => {
         try {
@@ -38,6 +39,13 @@ export default function ResetPasswordModal() {
             email: Yup.string().email(t('FORM_VALIDATION.INVALID_EMAIL')).required(t('FORM_VALIDATION.REQUIRED')),
         }),
     });
+
+    useEffect(() => {
+        if (!resetPasswordModalOpen) {
+            formik.resetForm();
+            reset();
+        }
+    }, [resetPasswordModalOpen]);
 
     return (
         <Modal

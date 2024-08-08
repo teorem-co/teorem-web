@@ -15,7 +15,14 @@ interface IModalProps {
     title?: string;
 }
 
-export default function Modal({ open, onClose, onBackdropClick, backdropClickDisabled, children, title }: Readonly<IModalProps>) {
+export default function Modal({
+    open,
+    onClose,
+    onBackdropClick,
+    backdropClickDisabled,
+    children,
+    title,
+}: Readonly<IModalProps>) {
     useEffect(() => {
         const html = document.getElementsByTagName('html')[0];
         if (html) {
@@ -25,12 +32,6 @@ export default function Modal({ open, onClose, onBackdropClick, backdropClickDis
                 html.style.overflow = 'auto';
             }
         }
-
-        () => {
-            if (html) {
-                html.style.overflow = 'auto';
-            }
-        };
     }, [open]);
 
     return (

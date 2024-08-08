@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import IUser from '../../types/IUser';
 import { IVerificationDocumentResponse } from '../../features/my-profile/services/stripeService';
+import deleteCookie from '../../utils/deleteCookie';
 
 interface ILoginPayload {
     token?: string;
@@ -25,6 +26,7 @@ export const authSlice = createSlice({
     initialState,
     reducers: {
         logout(state) {
+            deleteCookie('token');
             state.token = null;
             state.user = null;
         },

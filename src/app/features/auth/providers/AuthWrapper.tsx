@@ -17,33 +17,36 @@ export default function AuthWrapper({ children, fallback }: Readonly<IAuthWrappe
     const [confirmLogin, { isLoading, isError, isSuccess }] = useConfirmLoginMutation();
 
     useMount(() => {
-        if (user && token) {
-            return setIsLoaded(true);
-        }
+        console.log('AuthWrapper mounted');
         const params = new URLSearchParams(window.location.search);
 
         const loginToken = params.get('login_token');
 
-        if (!loginToken) {
-            return setIsLoaded(true);
+        if (loginToken) {
+            confirmLogin({
+                loginToken,
+            })
+                .unwrap()
+                .then((res) => {
+                    dispatch(setToken(res));
+                    setIsLoaded(true);
+
+                    window.history.replaceState(
+                        null,
+                        '',
+                        removeParamsFromURI({ params: ['login_token'], uri: window.location.href })
+                    );
+                })
+                .catch((e) => {
+                    console.error(e);
+                })
+                .finally(() => {
+                    setIsLoaded(true);
+                });
+            return;
         }
 
-        confirmLogin({
-            loginToken,
-        })
-            .unwrap()
-            .then((res) => {
-                dispatch(setToken(res));
-                setIsLoaded(true);
-
-                window.history.replaceState(null, '', removeParamsFromURI({ params: ['login_token'], uri: window.location.href }));
-            })
-            .catch((e) => {
-                console.error(e);
-            })
-            .finally(() => {
-                setIsLoaded(true);
-            });
+        return setIsLoaded(true);
     });
 
     if (!isLoaded) {

@@ -12,6 +12,8 @@ import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 
 import Divider from '../../../../components/Divider';
 import {
@@ -29,13 +31,19 @@ export default function LoginModal() {
     const [login, { isError, isLoading }] = useLoginMutation();
     const [confirmLogin] = useConfirmLoginMutation();
     const [showPassword, setShowPassword] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleSubmit = async (values: ILoginRequest) => {
         try {
             const resp1 = await login({
                 email: values.email,
                 password: values.password,
-            }).unwrap();
+            })
+                .unwrap()
+                .catch((e) => {
+                    setErrorMessage(e.data.message);
+                    throw e;
+                });
 
             const resp2 = await confirmLogin(resp1).unwrap();
 
@@ -84,6 +92,12 @@ export default function LoginModal() {
         >
             <FormikProvider value={formik}>
                 <Form>
+                    {isError ? (
+                        <Alert severity="error" style={{ marginBottom: '12px' }}>
+                            <AlertTitle>{t(errorMessage + '.TITLE')}</AlertTitle>
+                            {t(errorMessage + '.BODY')}
+                        </Alert>
+                    ) : null}
                     <Field
                         as={TextField}
                         name="email"

@@ -354,7 +354,10 @@ export const HR_HR = {
     },
     USER: {
       EMAIL_CONFLICT: 'Korisnik s ovom email adresom već postoji',
-      LOGIN_WRONG_FORM_DATA: 'Pogrešan email ili lozinka',
+      LOGIN_WRONG_FORM_DATA: {
+        BODY: 'Pogrešni podaci. Molimo vas pokušajte ponovo.',
+        TITLE: "Probajmo još jednom",
+      },
       NOT_FOUND: 'Korisnik nije pronađen',
       USERNAME_CONFLICT: 'Korisničko ime već postoji',
       PROFILE_NOT_ACTIVE: {

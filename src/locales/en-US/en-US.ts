@@ -357,7 +357,10 @@ export const EN_US = {
     },
     USER: {
       EMAIL_CONFLICT: 'User with this email already exists',
-      LOGIN_WRONG_FORM_DATA: 'Wrong email or password',
+      LOGIN_WRONG_FORM_DATA: {
+        BODY: 'Invalid login credentials. Please try again.',
+        TITLE: "Let's try that again",
+      },
       NOT_FOUND: 'User not found',
       USERNAME_CONFLICT: 'Username already exists',
       PROFILE_NOT_ACTIVE: {
