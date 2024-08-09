@@ -26,6 +26,7 @@ import creditsReducer from './slices/creditsSlice';
 import timeZoneReducer from './slices/timeZoneSlice';
 import countryMarketReducer from './slices/countryMarketSlice';
 import modalsSlice from './slices/modalsSlice';
+import tutorialSlice from './slices/tutorialSlice';
 
 const persistConfig = {
     key: 'root',
@@ -45,6 +46,7 @@ const persistConfig = {
         'credits',
         'timeZone',
         'countryMarket',
+        'tutorial',
         //modals intentionally not persisted
     ],
 };
@@ -71,6 +73,7 @@ const appReducer = combineReducers({
     timeZone: timeZoneReducer,
     countryMarket: countryMarketReducer,
     modals: modalsSlice,
+    tutorial: tutorialSlice,
 });
 
 const rootReducer = (state: any, action: any) => {

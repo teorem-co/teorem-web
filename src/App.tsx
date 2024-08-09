@@ -35,6 +35,8 @@ import { logoutUser } from './app/store/slices/userSlice';
 import LoginModal from './app/features/auth/components/LoginModal';
 import RegistrationModal from './app/features/auth/components/RegistrationModal';
 import ResetPasswordModal from './app/features/auth/components/ResetPasswordModal';
+import { useLazyGetTutorialStateQuery } from './app/store/services/tutorialService';
+import { setTutorialFinished } from './app/store/slices/tutorialSlice';
 
 function App() {
     const { t } = useTranslation();
@@ -69,23 +71,27 @@ function App() {
     const [getTutorTimeZone] = useLazyGetTutorTimeZoneQuery();
     const dispatch = useDispatch();
 
+    const [getCountries] = useLazyGetCountriesQuery();
+    const [getTutorialState] = useLazyGetTutorialStateQuery();
+
     useMount(() => {
         if (!timeZoneState.timeZone) {
             setUserTimeZone();
         }
-        getAndSetCountries();
-    });
+        getCountries()
+            .unwrap()
+            .then((res) => dispatch(setCountries(res)))
+            .catch((e) => console.log(e));
 
-    const [getCountries] = useLazyGetCountriesQuery();
-
-    async function getAndSetCountries() {
-        try {
-            const res = await getCountries().unwrap();
-            dispatch(setCountries(res));
-        } catch (e) {
-            console.log(e);
+        if (userId) {
+            getTutorialState(userId)
+                .unwrap()
+                .then((res) => {
+                    dispatch(setTutorialFinished(res.isFinished));
+                })
+                .catch((e) => console.log(e));
         }
-    }
+    });
 
     async function setUserTimeZone() {
         if (!timeZoneState.timeZone) {
