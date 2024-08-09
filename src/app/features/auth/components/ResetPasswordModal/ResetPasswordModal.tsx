@@ -81,7 +81,11 @@ export default function ResetPasswordModal() {
                                 formik.handleBlur(e);
                             }}
                         />
-                        <CtaButton type="submit" disabled={!formik.isValid || isLoading} style={{ marginTop: '16px' }}>
+                        <CtaButton
+                            type="submit"
+                            disabled={!formik.isValid || isLoading || !formik.values.email.length}
+                            style={{ marginTop: '16px' }}
+                        >
                             {t('RESET_PASSWORD.FORM.SUBMIT_BTN')}
                         </CtaButton>
                     </Form>

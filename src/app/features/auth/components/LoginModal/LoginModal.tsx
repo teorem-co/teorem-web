@@ -9,7 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Alert from '@mui/material/Alert';
@@ -28,7 +28,7 @@ export default function LoginModal() {
     const { loginModalOpen } = useAppSelector((state) => state.modals);
     const dispatch = useAppDispatch();
     const { t } = useTranslation();
-    const [login, { isError, isLoading }] = useLoginMutation();
+    const [login, { isError, isLoading, reset }] = useLoginMutation();
     const [confirmLogin] = useConfirmLoginMutation();
     const [showPassword, setShowPassword] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
@@ -82,6 +82,13 @@ export default function LoginModal() {
             password: Yup.string().min(8).required(t('FORM_VALIDATION.REQUIRED')),
         }),
     });
+
+    useEffect(() => {
+        if (!loginModalOpen) {
+            formik.resetForm();
+            reset();
+        }
+    }, [loginModalOpen]);
 
     return (
         <Modal
@@ -149,7 +156,11 @@ export default function LoginModal() {
                         sx={{ marginBottom: '0px' }}
                         // onKeyUp={handleKeyUp}
                     />
-                    <CtaButton type="submit" style={{ marginTop: '16px' }} disabled={!formik.isValid || isLoading}>
+                    <CtaButton
+                        type="submit"
+                        style={{ marginTop: '16px' }}
+                        disabled={!formik.isValid || isLoading || !formik.values.email.length}
+                    >
                         {t('LOGIN.FORM.SUBMIT_BTN')}
                     </CtaButton>
                     <div className="flex flex--col flex--center m-3">
