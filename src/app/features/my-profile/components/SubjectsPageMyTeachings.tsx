@@ -1,15 +1,15 @@
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
-import { useLazyGetProfileProgressQuery, useLazyGetTutorByIdQuery } from '../../../../services/tutorService';
+import { useLazyGetProfileProgressQuery, useLazyGetTutorByIdQuery } from '../../../store/services/tutorService';
 import React, { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { getUserId } from '../../../utils/getUserId';
 import { useTranslation } from 'react-i18next';
 import { setMyProfileProgress } from '../../my-profile/slices/myProfileSlice';
-import { ITutorSubject, setStepOne } from '../../../../slices/onboardingSlice';
-import ITutorSubjectLevel from '../../../../interfaces/ITutorSubjectLevel';
-import { ICreateSubjectOnboarding, useCreateSubjectsOnboardingMutation } from '../../../../services/subjectService';
+import { ITutorSubject, setStepOne } from '../../../store/slices/onboardingSlice';
+import ITutorSubjectLevel from '../../../types/ITutorSubjectLevel';
+import { ICreateSubjectOnboarding, useCreateSubjectsOnboardingMutation } from '../../../store/services/subjectService';
 import { CreateSubjectCard } from '../../onboarding/tutorOnboardingNew/CreateSubjectCard';
-import toastService from '../../../services/toastService';
+import toastService from '../../../store/services/toastService';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 
 const SubjectsPage = () => {

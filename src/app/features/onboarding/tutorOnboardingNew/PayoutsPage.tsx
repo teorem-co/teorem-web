@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { useLazyGetProfileProgressQuery } from '../../../../services/tutorService';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useLazyGetProfileProgressQuery } from '../../../store/services/tutorService';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { getUserId } from '../../../utils/getUserId';
 import { setMyProfileProgress } from '../../my-profile/slices/myProfileSlice';
 import { AiOutlineLeft } from 'react-icons/ai';

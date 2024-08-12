@@ -5,10 +5,10 @@ import { useHistory } from 'react-router-dom';
 import {
   useLazyGetProfileProgressQuery,
   useLazyGetTutorByIdQuery,
-} from '../../../../services/tutorService';
+} from '../../../store/services/tutorService';
 import MainWrapper from '../../../components/MainWrapper';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { getUserId } from '../../../utils/getUserId';
 import AddSubjectSidebar from '../components/AddSubjectSidebar';
 import EditSubjectSidebar from '../components/EditSubjectSidebar';

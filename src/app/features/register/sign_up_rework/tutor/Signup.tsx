@@ -3,9 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { SignupFirstStep } from './SignupFirstStep';
 import { SignupSecondStep } from './SignupSecondStep';
 import { SignupThirdStep } from './SignupThirdStep';
-import { useAppSelector } from '../../../../hooks';
+import { useAppSelector } from '../../../../store/hooks';
 import moment from 'moment/moment';
-import { IRegister, useRegisterUserMutation } from '../../../../../services/authService';
+import { IRegisterRequest, useRegisterUserMutation } from '../../../../store/services/authService';
 import { useHistory } from 'react-router';
 
 import { AiOutlineClose, AiOutlineLeft } from 'react-icons/ai';
@@ -15,24 +15,26 @@ import { SignupFinalStep } from './SignupFinalStep';
 import logo from '../../../../../assets/images/teorem_logo_purple.png';
 import { SignupSubjectSelect } from '../student_and_parent/SignupSubjectSelect';
 import { useDispatch } from 'react-redux';
-import ROUTES, { PATHS } from '../../../../routes';
-import { Role } from '../../../../lookups/role';
-import { RoleOptions } from '../../../../../slices/roleSlice';
+import { PATHS } from '../../../../routes';
 
-function ConfettiWrapper() {
-    const confettiElements = [];
-    for (let i = 150; i >= 0; i--) {
-        const className = `confetti-${i}`;
-        confettiElements.push(<div className={className} key={i}></div>);
-    }
-    return <div className="wrapper">{confettiElements}</div>;
-}
+import { RoleOptions } from '../../../../store/slices/roleSlice';
 
 export function Signup() {
     const state = useAppSelector((state) => state.signUp);
     const selectedRole = useAppSelector((state) => state.role.selectedRole);
 
-    const { firstName, lastName, dateOfBirth, email, phoneNumber, countryId, password, confirmPassword, subjectId, levelId } = state;
+    const {
+        firstName,
+        lastName,
+        dateOfBirth,
+        email,
+        phoneNumber,
+        countryId,
+        password,
+        confirmPassword,
+        subjectId,
+        levelId,
+    } = state;
 
     const { steps, currentStepIndex, goTo, step, isFirstStep, isLastStep, back, next } = useMultistepForm([
         ...(selectedRole !== RoleOptions.Tutor ? [<SignupSubjectSelect nextStep={nextStep} />] : []),
@@ -56,10 +58,6 @@ export function Signup() {
         'REGISTER.FORM.STEPS.FINAL',
     ];
 
-    useEffect(() => {
-        if (!selectedRole) history.push(PATHS.ROLE_SELECTION);
-    }, []);
-
     function nextStep() {
         if (currentStepIndex != penultimateIndex) {
             return next();
@@ -70,13 +68,14 @@ export function Signup() {
 
     async function sendRequest() {
         if (!selectedRole) return;
-        const toSend: IRegister = {
+        const toSend: IRegisterRequest = {
             firstName: firstName,
             lastName: lastName,
             dateOfBirth: moment(dateOfBirth).format('YYYY-MM-DD'),
             email: email,
             phoneNumber: phoneNumber,
             countryId: countryId,
+            languageId: '1',
             password: password,
             confirmPassword: confirmPassword,
             roleAbrv: selectedRole.toString(),
@@ -124,7 +123,9 @@ export function Signup() {
             </div>
 
             {selectedRole != RoleOptions.Tutor && isFirstStep && (
-                <p className="text-align--center font-family__poppins fw-300 info-text">{t('REGISTER.FORM.CHOOSE_SUBJECTS_TIP')}</p>
+                <p className="text-align--center font-family__poppins fw-300 info-text">
+                    {t('REGISTER.FORM.CHOOSE_SUBJECTS_TIP')}
+                </p>
             )}
 
             <div style={{ background: '#f8f4fe' }} className="signup-container">

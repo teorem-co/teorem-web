@@ -278,3 +278,49 @@ progress::-moz-progress-bar {
     gap: 20px;
   }
 }
+
+
+.timeslot-container {
+  overflow: hidden;
+  @media (max-width: $responsive-md) {
+    max-height: calc(8 * 36px);
+  }
+  max-height: calc(8 * 37px); /* Adjust this height to show default 10 rows => 16margin +21text = 37*/
+  transition: max-height 0.3s ease;
+}
+
+.timeslot-container.expanded {
+  max-height: none; /* No limit when expanded */
+}
+
+.show-more-button {
+  cursor: pointer;
+  color: blue;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.border-top-calendar {
+  &--primary {
+    border-top: 4px solid $color-primary;
+  }
+
+  &--secondary {
+    border-top: 4px solid $grey-bb;
+  }
+}
+
+.calendar-button-container {
+  height: 23px;
+  background: lightgray;
+  border-radius: 4px;
+  padding: 1px;
+  box-sizing: content-box;
+}
+
+.booking-slots-container {
+  @media (max-width: $responsive-md) {
+    margin-bottom: calc(4 * $unit);
+
+  }
+}

@@ -4,7 +4,7 @@ import EditSubjectSidebar from '../../my-profile/components/EditSubjectSidebar';
 import AddSubjectSidebar from '../../my-profile/components/AddSubjectSidebar';
 import {
   useLazyGetTutorByIdQuery,
-} from '../../../../services/tutorService';
+} from '../../../store/services/tutorService';
 import SubjectList from '../../my-profile/components/SubjectList';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';

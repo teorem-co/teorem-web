@@ -3,18 +3,18 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
-import { useGetLevelsQuery } from '../../../../services/levelService';
+import { useGetLevelsQuery } from '../../../store/services/levelService';
 
-import { useCreateSubjectMutation, useGetSubjectsQuery } from '../../../../services/subjectService';
-import { useLazyGetProfileProgressQuery } from '../../../../services/tutorService';
+import { useCreateSubjectMutation, useGetSubjectsQuery } from '../../../store/services/subjectService';
+import { useLazyGetProfileProgressQuery } from '../../../store/services/tutorService';
 import MySelect from '../../../components/form/MySelectField';
 import { useLazyGetCountriesQuery } from '../../../features/onboarding/services/countryService';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
-import toastService from '../../../services/toastService';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import toastService from '../../../store/services/toastService';
 import { getUserId } from '../../../utils/getUserId';
 import { setMyProfileProgress } from '../../my-profile/slices/myProfileSlice';
 import { BiSolidTrash } from 'react-icons/bi';
-import { ITutorSubject } from '../../../../slices/onboardingSlice';
+import { ITutorSubject } from '../../../store/slices/onboardingSlice';
 import { InputAdornment, TextField } from '@mui/material';
 import { CurrencySymbol } from '../../../components/CurrencySymbol';
 

@@ -1,4 +1,4 @@
-import ILevel from '../../../../../interfaces/ILevel';
+import ILevel from '../../../../types/ILevel';
 
 export const levels:ILevel[] = [
   {

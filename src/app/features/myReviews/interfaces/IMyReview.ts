@@ -1,7 +1,7 @@
-import ILevel from '../../../../interfaces/ILevel';
-import ISubject from '../../../../interfaces/ISubject';
-import ITutor from '../../../../interfaces/ITutor';
-import IUser from '../../../../interfaces/IUser';
+import ILevel from '../../../types/ILevel';
+import ISubject from '../../../types/ISubject';
+import ITutor from '../../../types/ITutor';
+import IUser from '../../../types/IUser';
 
 interface IMyReview {
     id: string;

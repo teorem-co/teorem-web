@@ -8,12 +8,11 @@ import {
   useDeleteTutorMutation,
   useDenyTutorMutation,
   useLazySearchTutorsQuery,
-} from '../../../services/tutorService';
+} from '../../store/services/tutorService';
 import MainWrapper from '../../components/MainWrapper';
 import Sidebar from '../../components/Sidebar';
 import LoaderTutor from '../../components/skeleton-loaders/LoaderTutor';
 import { PATHS } from '../../routes';
-import IPage from '../../../interfaces/notification/IPage';
 import { AiOutlineCheck, AiOutlineClose } from 'react-icons/ai';
 import { FiTrash } from 'react-icons/fi';
 import {
@@ -21,9 +20,10 @@ import {
   getCountries,
   parsePhoneNumberFromString,
 } from 'libphonenumber-js';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../store/hooks';
 import moment from 'moment';
-import IParams from '../../../interfaces/IParams';
+import IParams from '../../types/IParams';
+import IPage from '../../types/notification/IPage';
 
 const TutorManagment = () => {
   const history = useHistory();

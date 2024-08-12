@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { ITutorVideoInformation, useLazyDeleteTutorVideoQuery } from '../../../../services/tutorService';
+import { ITutorVideoInformation, useLazyDeleteTutorVideoQuery } from '../../../store/services/tutorService';
 import { ConfirmationModal } from '../../../components/ConfirmationModal';
-import { useAppSelector } from '../../../hooks';
+import { useAppSelector } from '../../../store/hooks';
 import { BiSolidTrash } from 'react-icons/bi';
 import { t } from 'i18next';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';

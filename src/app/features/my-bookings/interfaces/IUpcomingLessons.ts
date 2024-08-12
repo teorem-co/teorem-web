@@ -1,6 +1,6 @@
-import ISubject from '../../../../interfaces/ISubject';
-import ITutor from '../../../../interfaces/ITutor';
-import IUser from '../../../../interfaces/IUser';
+import ISubject from '../../../types/ISubject';
+import ITutor from '../../../types/ITutor';
+import IUser from '../../../types/IUser';
 
 export interface IUpcomingLessons {
     id: string;

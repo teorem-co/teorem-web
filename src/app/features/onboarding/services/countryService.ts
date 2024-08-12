@@ -1,21 +1,11 @@
-import { baseService } from '../../../baseService';
 import { t } from 'i18next';
-import { HttpMethods } from '../../../lookups/httpMethods';
+import { HttpMethods } from '../../../types/httpMethods';
+import { baseService } from '../../../store/baseService';
+import ICountry from '../../../types/ICountry';
 
 //bookings/week/:tutorSlug
 
 const URL = '/api/v1/countries';
-
-export interface ICountry {
-    id: string;
-    abrv: string;
-    name: string;
-    phonePrefix: string;
-    currencyCode: string;
-    currentcyName: string;
-    isEuMember: boolean;
-    flag: string;
-}
 
 export const countryService = baseService.injectEndpoints({
     endpoints: (builder) => ({

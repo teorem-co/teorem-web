@@ -3,7 +3,7 @@ import moment from 'moment';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { useAppSelector } from '../../../hooks';
+import { useAppSelector } from '../../../store/hooks';
 import { useLazyGetChatRoomsQuery, useLazyGetOnSearchChatRoomsQuery } from '../services/chatService';
 import { addChatRooms, IChatRoom } from '../slices/chatSlice';
 import ConversationAside from './ConversationAside';

@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
+import { RootState } from '../../store/store';
 import React from 'react';
 import { t } from 'i18next';
 import { Banner } from './Banner';

@@ -3,22 +3,23 @@ import moment from 'moment';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
-import { useRegisterTutorMutation } from '../../../../services/authService';
-import { resetParentRegister } from '../../../../slices/parentRegisterSlice';
-import { resetStudentRegister } from '../../../../slices/studentRegisterSlice';
-import { resetTutorRegister, setStepOne, setStepTwo } from '../../../../slices/tutorRegisterSlice';
+import { useRegisterTutorMutation } from '../../../store/services/authService';
+import { resetParentRegister } from '../../../store/slices/parentRegisterSlice';
+import { resetStudentRegister } from '../../../store/slices/studentRegisterSlice';
+import { resetTutorRegister, setStepOne, setStepTwo } from '../../../store/slices/tutorRegisterSlice';
 import CreditCardfield from '../../../components/CreditCardField';
 import ExpDateField from '../../../components/form/ExpDateField';
 import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyPhoneInput from '../../../components/form/MyPhoneInput';
 import { OptionType } from '../../../components/form/MySelectField';
 import MyTextField from '../../../components/form/MyTextField';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
-import toastService from '../../../services/toastService';
-import { resetTutorImageUploadState } from '../../../slices/tutorImageUploadSlice';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import toastService from '../../../store/services/toastService';
+import { resetTutorImageUploadState } from '../../../store/slices/tutorImageUploadSlice';
 import useOutsideAlerter from '../../../utils/useOutsideAlerter';
-import { ICountry, useLazyGetCountriesQuery } from '../services/countryService';
+import { useLazyGetCountriesQuery } from '../services/countryService';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
+import ICountry from '../../../types/ICountry';
 
 interface StepOneValues {
     firstName: string;
@@ -257,11 +258,6 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
                     >
                         {t('REGISTER.NEXT_BUTTON')}
                     </ButtonPrimaryGradient>
-                    <div className="flex flex--jc--center">
-                        <div onClick={() => handleGoBack()} className="btn btn--clear btn--base type--color--brand type--wgt--extra-bold">
-                            <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i> {t('REGISTER.BACK_TO_REGISTER')}
-                        </div>
-                    </div>
                 </Form>
             </FormikProvider>
         );
@@ -424,8 +420,12 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
                         {t('REGISTER.FINISH')}
                     </button>
                     <div className="flex flex--jc--center">
-                        <div onClick={() => handleGoBack()} className="btn btn--clear btn--base type--color--brand type--wgt--extra-bold">
-                            <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i> {t('REGISTER.BACK_TO_STEP_TWO')}
+                        <div
+                            onClick={() => handleGoBack()}
+                            className="btn btn--clear btn--base type--color--brand type--wgt--extra-bold"
+                        >
+                            <i className="icon icon--arrow-left icon--base icon--primary d--ib mr-2"></i>{' '}
+                            {t('REGISTER.BACK_TO_STEP_TWO')}
                         </div>
                     </div>
                 </Form>

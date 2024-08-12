@@ -6,7 +6,7 @@ import MainWrapper from '../../components/MainWrapper';
 import LoaderMyReviews from '../../components/skeleton-loaders/LoaderMyReviews';
 import LoaderStatistics
   from '../../components/skeleton-loaders/LoaderStatistics';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../store/hooks';
 import Ratings from './components/Ratings';
 import ReviewItem from './components/ReviewItem';
 import IMyReview from './interfaces/IMyReview';

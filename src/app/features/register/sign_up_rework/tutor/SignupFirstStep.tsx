@@ -3,8 +3,8 @@ import { t } from 'i18next';
 import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 
-import { setStepOne } from '../../../../../slices/signUpSlice';
-import { useAppSelector } from '../../../../hooks';
+import { setStepOne } from '../../../../store/slices/signUpSlice';
+import { useAppSelector } from '../../../../store/hooks';
 import { TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';

@@ -1,0 +1,22 @@
+.card {
+    display: flex;
+    flex-direction: column;
+}
+
+.img {
+    height: 40px;
+    width: 40px;
+    margin-left: 12px;
+}
+
+.logo {
+    height: 60px;
+    width: 60px;
+    margin: 0 auto;
+}
+
+.tabs {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4px;
+}

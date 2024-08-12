@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router';
-import { ITutorStudentSearch } from '../../../services/userService';
+import { ITutorStudentSearch } from '../../store/services/userService';
 
 export interface Props {
     studentInfo: ITutorStudentSearch;

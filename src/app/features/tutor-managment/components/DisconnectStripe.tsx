@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import toastService from '../../../services/toastService';
-import { useDisconnectStripeMutation } from '../../../../services/userService';
+import toastService from '../../../store/services/toastService';
+import { useDisconnectStripeMutation } from '../../../store/services/userService';
 
 export function DisconnectStripe({ tutorId, setRefetch }: { tutorId: string; setRefetch: React.Dispatch<React.SetStateAction<number>> }) {
     const [opened, setOpened] = React.useState(false);

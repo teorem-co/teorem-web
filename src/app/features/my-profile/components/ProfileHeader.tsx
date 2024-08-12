@@ -2,13 +2,13 @@ import { t } from 'i18next';
 import { FC, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-import { RoleOptions } from '../../../../slices/roleSlice';
-import { useAppSelector } from '../../../hooks';
+import { RoleOptions } from '../../../store/slices/roleSlice';
+import { useAppSelector } from '../../../store/hooks';
 import { PATHS } from '../../../routes';
 import { getUserId } from '../../../utils/getUserId';
 import {
   useLazyGetTutorByIdQuery,
-} from '../../../../services/tutorService';
+} from '../../../store/services/tutorService';
 import { useHistory } from 'react-router';
 
 interface Props {
