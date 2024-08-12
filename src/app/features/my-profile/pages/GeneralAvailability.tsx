@@ -2,12 +2,12 @@ import { t } from 'i18next';
 import { cloneDeep, isEqual } from 'lodash';
 import React, { useEffect, useState } from 'react';
 
-import { useLazyGetProfileProgressQuery } from '../../../../services/tutorService';
+import { useLazyGetProfileProgressQuery } from '../../../store/services/tutorService';
 import MainWrapper from '../../../components/MainWrapper';
 import RouterPrompt from '../../../components/RouterPrompt';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
 import availabilityTable from '../../../constants/availabilityTable';
-import toastService from '../../../services/toastService';
+import toastService from '../../../store/services/toastService';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
 import IAvailabilityIndex from '../interfaces/IAvailabilityIndex';
@@ -18,11 +18,11 @@ import {
     useUpdateTutorAvailabilityMutation,
 } from '../services/tutorAvailabilityService';
 import { setMyProfileProgress } from '../slices/myProfileSlice';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { getUserId } from '../../../utils/getUserId';
 import { TimeZoneSelect } from '../../../components/TimeZoneSelect';
-import { useLazyGetUserTimeZoneQuery } from '../../../../services/userService';
-import { setTimeZone } from '../../../../slices/timeZoneSlice';
+import { useLazyGetUserTimeZoneQuery } from '../../../store/services/userService';
+import { setTimeZone } from '../../../store/slices/timeZoneSlice';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 
 const GeneralAvailability = () => {

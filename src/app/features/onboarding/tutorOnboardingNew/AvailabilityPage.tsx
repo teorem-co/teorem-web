@@ -2,10 +2,10 @@ import { t } from 'i18next';
 import { cloneDeep, isEqual } from 'lodash';
 import React, { useEffect, useState } from 'react';
 
-import { useLazyGetProfileProgressQuery } from '../../../../services/tutorService';
+import { useLazyGetProfileProgressQuery } from '../../../store/services/tutorService';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
 import availabilityTable from '../../../constants/availabilityTable';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { getUserId } from '../../../utils/getUserId';
 import {
     useCreateTutorAvailabilityMutation,
@@ -17,10 +17,10 @@ import ITutorAvailability from '../../my-profile/interfaces/ITutorAvailability';
 import { setMyProfileProgress } from '../../my-profile/slices/myProfileSlice';
 import CircularProgress from '../../my-profile/components/CircularProgress';
 import { useHistory } from 'react-router';
-import { setStepZero } from '../../../../slices/onboardingSlice';
+import { setStepZero } from '../../../store/slices/onboardingSlice';
 import logo from '../../../../assets/images/teorem_logo_purple.png';
 import { TimeZoneSelect } from '../../../components/TimeZoneSelect';
-import { useLazyGetUserTimeZoneQuery } from '../../../../services/userService';
+import { useLazyGetUserTimeZoneQuery } from '../../../store/services/userService';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 
 interface AvailabilityValues {

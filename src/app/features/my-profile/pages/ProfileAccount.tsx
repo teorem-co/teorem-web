@@ -4,20 +4,20 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
-import { useChangeCurrentPasswordMutation } from '../../../../services/authService';
+import { useChangeCurrentPasswordMutation } from '../../../store/services/authService';
 import {
     useLazyDisableTutorQuery,
     useLazyEnableTutorQuery,
     useLazyGetIsTutorDisabledQuery,
     useLazyGetProfileProgressQuery,
-} from '../../../../services/tutorService';
-import { addStripeId, connectStripe } from '../../../../slices/authSlice';
-import { RoleOptions } from '../../../../slices/roleSlice';
+} from '../../../store/services/tutorService';
+import { addStripeId, connectStripe } from '../../../store/slices/authSlice';
+import { RoleOptions } from '../../../store/slices/roleSlice';
 import MainWrapper from '../../../components/MainWrapper';
 import LoaderSecondary from '../../../components/skeleton-loaders/LoaderSecondary';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
-import toastService from '../../../services/toastService';
-import TooltipPassword from '../../register/TooltipPassword';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import toastService from '../../../store/services/toastService';
+import TooltipPassword from '../../../components/TooltipPassword';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
 import IChangePassword from '../interfaces/IChangePassword';

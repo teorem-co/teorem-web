@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { IChatConversationItem } from '../../../constants/chatConstants';
 import { IChatRoom, setActiveChatRoom } from '../slices/chatSlice';
 import ImageCircle from '../../../components/ImageCircle';
-import { getUserRoleAbbrv } from '../../../../services/tutorService';
+import { getUserRoleAbbrv } from '../../../store/services/tutorService';
 
 interface Props {
   data: IChatConversationItem;

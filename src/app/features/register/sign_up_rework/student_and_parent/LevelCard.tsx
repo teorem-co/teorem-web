@@ -1,4 +1,4 @@
-import ILevel from '../../../../../interfaces/ILevel';
+import ILevel from '../../../../types/ILevel';
 import { t } from 'i18next';
 
 interface Props{

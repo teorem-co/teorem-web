@@ -4,22 +4,19 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
-import { IChild } from '../../../../interfaces/IChild';
-import IChildUpdate from '../../../../interfaces/IChildUpdate';
-import { useCheckUsernameMutation, useGenerateChildUsernameMutation } from '../../../../services/authService';
+import { IChild } from '../../../types/IChild';
+import { useCheckUsernameMutation, useGenerateChildUsernameMutation } from '../../../store/services/authService';
 import {
     ICreateChildRequest,
     IDeleteChildRequest,
     useCreateChildMutation,
     useDeleteChildMutation,
     useUpdateChildMutation,
-} from '../../../../services/userService';
-import MyDatePicker from '../../../components/form/MyDatePicker';
-import { useAppSelector } from '../../../hooks';
-import toastService from '../../../services/toastService';
-import TooltipPassword from '../../register/TooltipPassword';
+} from '../../../store/services/userService';
+import { useAppSelector } from '../../../store/hooks';
+import toastService from '../../../store/services/toastService';
+import TooltipPassword from '../../../components/TooltipPassword';
 import { InputAdornment, TextField } from '@mui/material';
-import { t } from 'i18next';
 import dayjs from 'dayjs';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -270,7 +267,9 @@ const AddChildSidebar = (props: Props) => {
                     onClick={() => handleClose()}
                 ></div>
 
-                <div className={`sidebar sidebar--secondary sidebar--secondary ${!sideBarIsOpen ? 'sidebar--secondary--close' : ''}`}>
+                <div
+                    className={`sidebar sidebar--secondary sidebar--secondary ${!sideBarIsOpen ? 'sidebar--secondary--close' : ''}`}
+                >
                     <div className="flex--primary flex--shrink">
                         <div className="type--color--secondary">
                             {(childData && t('MY_PROFILE.CHILD.EDIT_TITLE')) || t('MY_PROFILE.CHILD.ADD_TITLE')}
@@ -363,7 +362,12 @@ const AddChildSidebar = (props: Props) => {
                                         defaultValue={dayjs()}
                                         value={dayjs(formik.values.dateOfBirth)}
                                         format="DD/MM/YYYY"
-                                        onChange={(newValue) => formik.setFieldValue(formik.getFieldProps('dateOfBirth').name, newValue?.toString())}
+                                        onChange={(newValue) =>
+                                            formik.setFieldValue(
+                                                formik.getFieldProps('dateOfBirth').name,
+                                                newValue?.toString()
+                                            )
+                                        }
                                     />
                                 </div>
                                 <div className="field">
@@ -375,7 +379,11 @@ const AddChildSidebar = (props: Props) => {
                                         error={formik.touched.password && !!formik.errors.password}
                                         helperText={formik.touched.password && formik.errors.password}
                                         id="password"
-                                        label={childData ? t('MY_PROFILE.CHILD.PASSWORD_OPTIONAL') : t('MY_PROFILE.CHILD.PASSWORD')}
+                                        label={
+                                            childData
+                                                ? t('MY_PROFILE.CHILD.PASSWORD_OPTIONAL')
+                                                : t('MY_PROFILE.CHILD.PASSWORD')
+                                        }
                                         variant="outlined"
                                         color="secondary"
                                         InputProps={{
@@ -405,7 +413,11 @@ const AddChildSidebar = (props: Props) => {
                                         onFocus={handlePasswordFocus}
                                         onKeyUp={handleKeyUp}
                                     />
-                                    {childData && <p className="mb-2 type--color--tertiary">{t('MY_PROFILE.CHILD.PASSWORD_OPTIONAL')}</p>}
+                                    {childData && (
+                                        <p className="mb-2 type--color--tertiary">
+                                            {t('MY_PROFILE.CHILD.PASSWORD_OPTIONAL')}
+                                        </p>
+                                    )}
 
                                     <TooltipPassword passTooltip={passTooltip} />
                                 </div>
@@ -414,15 +426,24 @@ const AddChildSidebar = (props: Props) => {
                     </div>
                     <div className="flex--shirnk sidebar--secondary__bottom mt-10">
                         <div className="flex--primary mt-6">
-                            <button className="btn btn--clear type--wgt--extra-bold" onClick={() => formik.handleSubmit()}>
+                            <button
+                                className="btn btn--clear type--wgt--extra-bold"
+                                onClick={() => formik.handleSubmit()}
+                            >
                                 {(childData && t('ADD_CHILD.SAVE')) || t('ADD_CHILD.TITLE')}
                             </button>
                             {(childData && (
-                                <button onClick={() => handleDelete()} className="btn btn--clear type--color--error type--wgt--extra-bold">
+                                <button
+                                    onClick={() => handleDelete()}
+                                    className="btn btn--clear type--color--error type--wgt--extra-bold"
+                                >
                                     {t('MY_PROFILE.CHILD.DELETE')}
                                 </button>
                             )) || (
-                                <button onClick={() => handleClose()} className="btn btn--clear type--color--error type--wgt--extra-bold">
+                                <button
+                                    onClick={() => handleClose()}
+                                    className="btn btn--clear type--color--error type--wgt--extra-bold"
+                                >
                                     {t('MY_PROFILE.CHILD.CANCEL')}
                                 </button>
                             )}

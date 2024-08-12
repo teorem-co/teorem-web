@@ -1,11 +1,11 @@
 import Select, { SingleValue, StylesConfig } from 'react-select';
 import React, { useEffect, useState } from 'react';
 import { Option } from '../features/my-profile/VideoRecorder/VideoRecorder';
-import { useLazyGetAllTimeZonesQuery } from '../../services/dashboardService';
+import { useLazyGetAllTimeZonesQuery } from '../store/services/dashboardService';
 import { t } from 'i18next';
 import moment from 'moment/moment';
-import { useAppDispatch } from '../hooks';
-import { setTimeZone } from '../../slices/timeZoneSlice';
+import { useAppDispatch } from '../store/hooks';
+import { setTimeZone } from '../store/slices/timeZoneSlice';
 
 const customStyles: StylesConfig<Option, false> = {
   option: (provided, state) => ({

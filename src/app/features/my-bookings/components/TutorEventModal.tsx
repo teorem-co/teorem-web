@@ -1,12 +1,12 @@
 import { t } from 'i18next';
 import moment from 'moment';
 
-import IBooking from '../interfaces/IBooking';
 import { useAcceptBookingMutation, useDeleteBookingMutation } from '../services/bookingService';
 import { Tooltip } from 'react-tooltip';
 import React, { useState } from 'react';
 import { ConfirmationModal } from '../../../components/ConfirmationModal';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
+import IBooking from '../../../types/IBooking';
 
 interface IProps {
     handleClose?: (close: boolean) => void;
@@ -88,14 +88,18 @@ const TutorEventModal: React.FC<IProps> = (props) => {
                         <div className="flex flex--center mb-4">
                             <i className="icon icon--base icon--subject icon--grey mr-4"></i>
                             <div className="type--color--secondary">
-                                {t(`SUBJECTS.${event.Subject.abrv.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`)}
+                                {t(
+                                    `SUBJECTS.${event.Subject.abrv.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`
+                                )}
                                 &nbsp;-&nbsp;
                                 {t(`LEVELS.${event.Level.abrv.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`)}
                             </div>
                         </div>
 
                         <div className="flex flex--center">
-                            <i className={`icon icon--base icon--${event.User?.parentId ? 'child' : 'profile'} icon--grey mr-4`}></i>
+                            <i
+                                className={`icon icon--base icon--${event.User?.parentId ? 'child' : 'profile'} icon--grey mr-4`}
+                            ></i>
                             <div className="type--color--secondary">
                                 {(event.studentId && (
                                     <>
@@ -134,7 +138,10 @@ const TutorEventModal: React.FC<IProps> = (props) => {
                         )}
 
                         {!event.isAccepted ? (
-                            <ButtonPrimaryGradient className="btn btn--base type--wgt--extra-bold" onClick={() => handleAcceptBooking()}>
+                            <ButtonPrimaryGradient
+                                className="btn btn--base type--wgt--extra-bold"
+                                onClick={() => handleAcceptBooking()}
+                            >
                                 {t('MY_BOOKINGS.MODAL.ACCEPT')}
                             </ButtonPrimaryGradient>
                         ) : (
@@ -143,10 +150,14 @@ const TutorEventModal: React.FC<IProps> = (props) => {
 
                         {moment(event.startTime).isAfter(moment()) && (
                             <p
-                                className={'text-align--center mt-2 cur--pointer scale-hover type--color--secondary change-color-hover--primary'}
+                                className={
+                                    'text-align--center mt-2 cur--pointer scale-hover type--color--secondary change-color-hover--primary'
+                                }
                                 onClick={() => openEditModal(true)}
                             >
-                                {event.isAccepted ? t('BOOK.FORM.EDIT_OR_CANCEL_BOOKING') : t('BOOK.FORM.EDIT_OR_DENY_BOOKING')}
+                                {event.isAccepted
+                                    ? t('BOOK.FORM.EDIT_OR_CANCEL_BOOKING')
+                                    : t('BOOK.FORM.EDIT_OR_DENY_BOOKING')}
                             </p>
                         )}
                     </div>

@@ -1,14 +1,9 @@
 {
     "parser": "@typescript-eslint/parser",
-    "plugins": [
-        "@typescript-eslint",
-        "simple-import-sort",
-        "import",
-        "prettier"
-    ],
+    "plugins": ["@typescript-eslint", "simple-import-sort", "import", "prettier", "react", "react-hooks"],
     "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
     "parserOptions": {
-        "ecmaVersion": 2020
+        "ecmaVersion": 2020,
     },
     "rules": {
         "indent": "off",
@@ -29,36 +24,22 @@
         "@typescript-eslint/no-unused-vars": [
             "warn",
             {
-                "argsIgnorePattern": "^_[a-zA-Z]+"
-            }
+                "argsIgnorePattern": "^_[a-zA-Z]+",
+            },
         ],
-        "simple-import-sort/imports": [
-            "warn",
-            {
-              "groups": [
-                    // Side effect imports.
-                    ["^\\u0000"],
-                    ["^@?\\w"],
-                    // Internal packages.
-                    //  [^(${importPaths})(/.*|$)],
-                    // Parent imports. Put .. last.
-                    ["^\\.\\.(?!/?$)', '^\\.\\./?$"],
-                    // Other relative imports. Put same-folder imports and . last.
-                   ["^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$"]
-              ]
-          }
-       ]
+        "react-hooks/exhaustive-deps": "warn",
+        "react-hooks/rules-of-hooks": "error",
     },
     "settings": {
         "react": {
-            "version": "16.6.3"
-        }
+            "version": "16.6.3",
+        },
     },
     "globals": {
         "before": false,
         "describe": false,
         "env": false,
         "Cypress": false,
-        "cy": false
-    }
+        "cy": false,
+    },
 }

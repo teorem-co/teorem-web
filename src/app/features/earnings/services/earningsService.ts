@@ -1,8 +1,8 @@
-import { baseService } from '../../../baseService';
-import { HttpMethods } from '../../../lookups/httpMethods';
+import { HttpMethods } from '../../../types/httpMethods';
 import IEarnings from '../interfaces/IEarnings';
-import IPayouts from "../interfaces/IPayouts";
-import IBookingInvoice from "../interfaces/IBookingInvoices";
+import IPayouts from '../interfaces/IPayouts';
+import IBookingInvoice from '../interfaces/IBookingInvoices';
+import { baseService } from '../../../store/baseService';
 
 const URL = '/api/v1/tutors';
 
@@ -15,17 +15,17 @@ export const earningsService = baseService.injectEndpoints({
             }),
         }),
         getPayouts: builder.query<IPayouts, void>({
-          query: () => ({
-            url: `${URL}/payouts`,
-            method: HttpMethods.GET,
-          }),
+            query: () => ({
+                url: `${URL}/payouts`,
+                method: HttpMethods.GET,
+            }),
         }),
-      getBookingInvoices: builder.query<IBookingInvoice, void>({
-        query: () => ({
-          url: `${URL}/bookings`,
-          method: HttpMethods.GET,
+        getBookingInvoices: builder.query<IBookingInvoice, void>({
+            query: () => ({
+                url: `${URL}/bookings`,
+                method: HttpMethods.GET,
+            }),
         }),
-      }),
     }),
 });
 

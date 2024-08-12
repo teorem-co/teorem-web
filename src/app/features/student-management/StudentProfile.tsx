@@ -11,7 +11,7 @@ import { useParams } from 'react-router-dom';
 import {
   ITutorStudentSearch,
   useLazyGetStudentDetailsQuery,
-} from '../../../services/userService';
+} from '../../store/services/userService';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { PATHS } from '../../routes';
 import { useHistory } from 'react-router';

@@ -2,11 +2,11 @@ import { t } from 'i18next';
 import moment from 'moment';
 import React from 'react';
 
-import { RoleOptions } from '../../../../slices/roleSlice';
-import { useAppSelector } from '../../../hooks';
-import IBooking from '../interfaces/IBooking';
+import { RoleOptions } from '../../../store/slices/roleSlice';
+import { useAppSelector } from '../../../store/hooks';
 import { Tooltip } from 'react-tooltip';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
+import IBooking from '../../../types/IBooking';
 
 interface IProps {
     handleClose?: (close: boolean) => void;
@@ -22,7 +22,17 @@ interface IProps {
 
 const ParentEventModal: React.FC<IProps> = (props) => {
     const ALLOWED_MINUTES_TO_JOIN_BEFORE_MEETING = 5;
-    const { topOffset, handleClose, positionClass, event, tutorName, openEditModal, bookingStart, eventIsAccepted, openLearnCube } = props;
+    const {
+        topOffset,
+        handleClose,
+        positionClass,
+        event,
+        tutorName,
+        openEditModal,
+        bookingStart,
+        eventIsAccepted,
+        openLearnCube,
+    } = props;
     const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
 
     function isJoinButtonDisabled(event: IBooking) {
@@ -44,7 +54,9 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                         <div className="flex flex--primary">
                             <div>
                                 <div className="type--wgt--bold type--md mb-1">
-                                    {t(`SUBJECTS.${event.Subject.abrv.replace(' ', '').replaceAll('-', '').toLowerCase()}`)}
+                                    {t(
+                                        `SUBJECTS.${event.Subject.abrv.replace(' ', '').replaceAll('-', '').toLowerCase()}`
+                                    )}
                                 </div>
 
                                 <div className="type--color--secondary">
@@ -75,7 +87,9 @@ const ParentEventModal: React.FC<IProps> = (props) => {
                         <div className="flex flex--center mb-4">
                             <i className="icon icon--base icon--subject icon--grey mr-4"></i>
                             <div className="type--color--secondary">
-                                {t(`SUBJECTS.${event.Subject.abrv.replaceAll(' ', '').replaceAll('-', '').toLowerCase()}`)}
+                                {t(
+                                    `SUBJECTS.${event.Subject.abrv.replaceAll(' ', '').replaceAll('-', '').toLowerCase()}`
+                                )}
                                 &nbsp;-&nbsp;
                                 {t(`LEVELS.${event.Level.name.replaceAll('-', '').replaceAll(' ', '').toLowerCase()}`)}
                             </div>
@@ -118,7 +132,9 @@ const ParentEventModal: React.FC<IProps> = (props) => {
 
                         {moment(bookingStart).isAfter(moment()) && (
                             <p
-                                className={'text-align--center mt-2 cur--pointer scale-hover type--color--secondary change-color-hover--primary'}
+                                className={
+                                    'text-align--center mt-2 cur--pointer scale-hover type--color--secondary change-color-hover--primary'
+                                }
                                 onClick={() => openEditModal(true)}
                             >
                                 {t('BOOK.FORM.EDIT_OR_CANCEL_BOOKING')}

@@ -8,11 +8,11 @@ import Calendar from 'react-calendar';
 import { useHistory } from 'react-router';
 import { useLocation } from 'react-router-dom';
 
-import { RoleOptions } from '../../../slices/roleSlice';
+import { RoleOptions } from '../../store/slices/roleSlice';
 import MainWrapper from '../../components/MainWrapper';
 import LoaderSecondary from '../../components/skeleton-loaders/LoaderSecondary';
 import languageOptions from '../../constants/languageOptions';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../store/hooks';
 import { calcModalPosition } from '../../utils/calcModalPosition';
 import LearnCubeModal from '../my-profile/components/LearnCubeModal';
 import TutorEventModal from './components/TutorEventModal';
@@ -31,7 +31,7 @@ import UpdateBooking from './components/UpdateBooking';
 import { InformationCard } from '../../components/InformationCard';
 import { CustomToolbar } from './CustomToolbar';
 import { TimeZoneSelect } from '../../components/TimeZoneSelect';
-import { useLazyGetTutorGeneralUnavailabilityQuery } from '../../../services/tutorService';
+import { useLazyGetTutorGeneralUnavailabilityQuery } from '../../store/services/tutorService';
 import { IBookingModalInfo } from '../tutor-bookings/TutorBookings';
 
 i18n.language !== 'en' && Array.from(languageOptions.map((l) => l.path)).includes(i18n.language) && require(`moment/locale/${i18n.language}.js`);

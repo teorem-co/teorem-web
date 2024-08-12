@@ -1,24 +1,34 @@
 import React, { createContext, useEffect, useRef, useState } from 'react';
 import Peer from 'simple-peer';
-import { ContextType } from '../../../../interfaces/IVideoChat';
-import { useAppSelector } from '../../../hooks';
+import ContextType from '../types/IVideoChat';
+import { useAppSelector } from '../../../store/hooks';
 // import { Stream } from "stream";
 
 const defaultValues: ContextType = {
     callAccepted: false,
     callEnded: false,
     stream: undefined,
-    name: "defaultName",
+    name: 'defaultName',
     call: null,
-    me: "defaultMe",
+    me: 'defaultMe',
     myVideo: null,
     userVideo: null,
     connectionRef: null,
-    setName: () => { console.log(""); },
-    callUser: () => { console.log(""); },
-    leaveCall: () => { console.log(""); },
-    answerCall: () => { console.log(""); },
-    setStream: () => { console.log(""); },
+    setName: () => {
+        console.log('');
+    },
+    callUser: () => {
+        console.log('');
+    },
+    leaveCall: () => {
+        console.log('');
+    },
+    answerCall: () => {
+        console.log('');
+    },
+    setStream: () => {
+        console.log('');
+    },
 };
 export const SocketContext = createContext<ContextType>(defaultValues);
 
@@ -44,7 +54,6 @@ export const ContextProvider = (props: IContextProps) => {
     const socket = useAppSelector((state) => state.chat.socket);
 
     useEffect(() => {
-
         // navigator.mediaDevices.getUserMedia({ video: true, audio: true })
         //     .then((currentStream) => {
         //         setStream(currentStream);
@@ -62,7 +71,7 @@ export const ContextProvider = (props: IContextProps) => {
     const answerCall = () => {
         setCallAccepted(true);
 
-        alert("on answer call");
+        alert('on answer call');
         if (stream) {
             const peer = new Peer({ initiator: false, trickle: false, stream });
 
@@ -78,14 +87,10 @@ export const ContextProvider = (props: IContextProps) => {
 
             connectionRef.current = peer;
         }
-
-
     };
 
-
     const callUser = (id: string) => {
-
-        alert("on call user");
+        alert('on call user');
         if (stream) {
             const peer = new Peer({ initiator: true, trickle: false, stream });
 
@@ -105,7 +110,6 @@ export const ContextProvider = (props: IContextProps) => {
 
             connectionRef.current = peer;
         }
-
     };
 
     const leaveCall = () => {
@@ -117,7 +121,8 @@ export const ContextProvider = (props: IContextProps) => {
     };
 
     return (
-            <SocketContext.Provider value={{
+        <SocketContext.Provider
+            value={{
                 call,
                 callAccepted,
                 myVideo,
@@ -131,11 +136,10 @@ export const ContextProvider = (props: IContextProps) => {
                 leaveCall,
                 answerCall,
                 setStream,
-            }
-            }
-            >
-                {props.children}
-            </SocketContext.Provider>
+            }}
+        >
+            {props.children}
+        </SocketContext.Provider>
         // <>
         //     {stream && <SocketContext.Provider value={{
         //         call,
@@ -157,7 +161,5 @@ export const ContextProvider = (props: IContextProps) => {
         //         {props.children}
         //     </SocketContext.Provider>}
         // </>
-
     );
 };
-

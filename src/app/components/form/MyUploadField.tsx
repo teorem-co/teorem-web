@@ -3,11 +3,11 @@ import { t } from 'i18next';
 import React, { FC, useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import {
   resetTutorImageUploadState,
   setFile,
-} from '../../slices/tutorImageUploadSlice';
+} from '../../store/slices/tutorImageUploadSlice';
 
 interface PreviewFileType {
     preview: string | null;

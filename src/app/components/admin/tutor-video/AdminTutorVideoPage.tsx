@@ -1,13 +1,13 @@
 import {
   IAdminTutorVideoInformation,
   useLazyGetAdminTutorVideoInformationQuery,
-} from '../../../../services/tutorService';
+} from '../../../store/services/tutorService';
 import { AdminTutorVideoItem } from './AdminTutorVideoItem';
 import React, { useEffect, useState } from 'react';
-import IParams from '../../../../interfaces/IParams';
+import IParams from '../../../types/IParams';
 import { t } from 'i18next';
 import MainWrapper from '../../MainWrapper';
-import { useAppSelector } from '../../../hooks';
+import { useAppSelector } from '../../../store/hooks';
 
 export const AdminTutorVideoPage = () => {
   const [getAdminTutorVideos, { data: tutorVideoData }] = useLazyGetAdminTutorVideoInformationQuery();
@@ -42,7 +42,7 @@ export const AdminTutorVideoPage = () => {
     }).unwrap();
     setLoadedTutorVideosInfo(tutorResponse.content);
   };
-  
+
   return (
     <MainWrapper>
       <div className='card--secondary'>

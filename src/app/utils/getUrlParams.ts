@@ -20,10 +20,7 @@ const getUrlParams = (url: string) => {
             // set parameter name and value (use 'true' if empty)
             const paramName = a[0];
             //decoded special characters from search input for eg.
-            const paramValue =
-                typeof a[1] === 'undefined'
-                    ? true
-                    : decodeURIComponent(decodeURIComponent(a[1]));
+            const paramValue = typeof a[1] === 'undefined' ? true : decodeURIComponent(decodeURIComponent(a[1]));
 
             // (optional) keep case consistent
             //paramName = paramName.toLowerCase();
@@ -50,10 +47,7 @@ const getUrlParams = (url: string) => {
                 if (!obj[paramName]) {
                     // if it doesn't exist, create property
                     obj[paramName] = paramValue;
-                } else if (
-                    obj[paramName] &&
-                    typeof obj[paramName] === 'string'
-                ) {
+                } else if (obj[paramName] && typeof obj[paramName] === 'string') {
                     // if property does exist and it's a string, convert it to an array
                     obj[paramName] = [obj[paramName]];
                     obj[paramName].push(paramValue);

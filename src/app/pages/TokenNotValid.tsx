@@ -1,12 +1,12 @@
 import { t } from 'i18next';
-import { useHistory } from 'react-router';
 
 import logo from '../../assets/images/logo.svg';
-import { PATHS } from '../routes';
 import { MdReportGmailerrorred } from 'react-icons/md';
+import { useAppDispatch } from '../store/hooks';
+import { setLoginModalOpen } from '../store/slices/modalsSlice';
 
 const TokenNotValid = () => {
-    const history = useHistory();
+    const dispatch = useAppDispatch();
 
     return (
         <>
@@ -17,11 +17,13 @@ const TokenNotValid = () => {
 
                 <MdReportGmailerrorred size={70} color={'red'} />
                 <div className="type--lg type--wgt--bold mb-4">{t('TOKEN_NOT_VALID.TITLE')}</div>
-                <div className="type--color--secondary type--md mb-4 w--448--max">{t('TOKEN_NOT_VALID.DESCRIPTION')}</div>
+                <div className="type--color--secondary type--md mb-4 w--448--max">
+                    {t('TOKEN_NOT_VALID.DESCRIPTION')}
+                </div>
                 <div className="type--color--secondary type--sm mb-8 w--448--max">{t('TOKEN_NOT_VALID.HINT')}</div>
                 <div
                     onClick={() => {
-                        history.push(PATHS.LOGIN);
+                        dispatch(setLoginModalOpen(true));
                     }}
                 >
                     <button className={`btn btn--base btn--clear`}>{t('TOKEN_NOT_VALID.BUTTON')}</button>

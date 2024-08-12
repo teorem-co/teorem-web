@@ -1,4 +1,4 @@
-import ISubject from "../../../../interfaces/ISubject";
+import ISubject from "../../../types/ISubject";
 
 interface IBookingDetails {
   id: string,

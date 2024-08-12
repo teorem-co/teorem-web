@@ -1,0 +1,229 @@
+import { baseService } from '../baseService';
+import { HttpMethods } from '../../types/httpMethods';
+import IGenerateUsername from '../../types/IGenerateUsername';
+import { IChild } from '../../types/IChild';
+import IUser from '../../types/IUser';
+
+export interface ILoginRequest {
+    email: string;
+    password: string;
+}
+
+interface ILoginResponse {
+    loginToken: string;
+}
+
+interface IConfirmLoginRequest {
+    loginToken: string;
+}
+
+interface IConfirmLoginResponse {
+    token: string;
+    user: IUser;
+}
+
+export interface IRegisterRequest {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+    roleAbrv: string;
+    countryId: string;
+    languageId: string;
+    phoneNumber: string;
+    dateOfBirth: string;
+    subjectId?: string;
+    levelId?: string;
+}
+
+export interface IRegisterTutor {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+    roleAbrv: string;
+    countryId: string;
+    phoneNumber: string;
+    dateOfBirth: string;
+    profileImage?: string;
+}
+
+interface IRegisterParent {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+    roleAbrv: string;
+    countryId: string;
+    phoneNumber: string;
+    dateOfBirth: string;
+    children?: IChild[];
+}
+
+interface IRegisterStudent {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+    roleAbrv: string;
+    countryId: string;
+    phoneNumber: string;
+    dateOfBirth: string;
+}
+
+interface IChangePassword {
+    token: string;
+    password: string;
+    repeatPassword: string;
+}
+
+interface IChangeCurrentPassword {
+    oldPassword: string;
+    password: string;
+    confirmPassword: string;
+}
+
+export interface IResetPasswordRequest {
+    email: string;
+}
+
+interface ICheckMail {
+    email: string;
+}
+
+interface ICheckUsername {
+    username: string;
+}
+
+export interface IResendEmailRequest {
+    email: string;
+}
+
+const URL = '/api/v1/users';
+export const authService = baseService.injectEndpoints({
+    endpoints: (builder) => ({
+        login: builder.mutation<ILoginResponse, ILoginRequest>({
+            query: (body) => ({
+                url: `/api/v1/auth/login`,
+                method: HttpMethods.POST,
+                body,
+            }),
+        }),
+        confirmLogin: builder.mutation<IConfirmLoginResponse, IConfirmLoginRequest>({
+            query: (body) => ({
+                url: `/api/v1/auth/confirm-login`,
+                method: HttpMethods.POST,
+                body,
+            }),
+        }),
+        resetPassword: builder.mutation<void, IResetPasswordRequest>({
+            query: (body) => ({
+                url: `${URL}/request-reset-password`,
+                method: HttpMethods.POST,
+                body,
+            }),
+        }),
+        changePassword: builder.mutation<void, IChangePassword>({
+            query: (body) => ({
+                url: `${URL}/reset-password`,
+                method: HttpMethods.PATCH,
+                body: {
+                    password: body.password,
+                    confirmPassword: body.repeatPassword,
+                    token: body.token,
+                },
+            }),
+        }),
+        changeCurrentPassword: builder.mutation<void, IChangeCurrentPassword>({
+            query: (body) => ({
+                url: `/users/change-password`,
+                method: HttpMethods.PUT,
+                body: {
+                    oldPassword: body.oldPassword,
+                    password: body.password,
+                    confirmPassword: body.confirmPassword,
+                },
+            }),
+        }),
+        registerTutor: builder.mutation<void, IRegisterTutor>({
+            query: (body) => ({
+                url: `${URL}/register`,
+                method: HttpMethods.POST,
+                body: body,
+            }),
+        }),
+        registerParent: builder.mutation<void, IRegisterParent>({
+            query: (body) => ({
+                url: `${URL}/register`,
+                method: HttpMethods.POST,
+                body: body,
+            }),
+        }),
+        registerStudent: builder.mutation<void, IRegisterStudent>({
+            query: (body) => ({
+                url: `${URL}/register`,
+                method: HttpMethods.POST,
+                body: body,
+            }),
+        }),
+        checkMail: builder.mutation<boolean, ICheckMail>({
+            query: (body) => ({
+                url: `${URL}/check-email?mail=` + body.email,
+                method: HttpMethods.GET,
+            }),
+        }),
+        checkUsername: builder.mutation<boolean, ICheckUsername>({
+            query: (body) => ({
+                url: `${URL}/check-username?username=` + body.username,
+                method: HttpMethods.GET,
+            }),
+        }),
+        generateChildUsername: builder.mutation<IGenerateUsername, IGenerateUsername>({
+            query: (body) => ({
+                url: `${URL}/generate-username?username=` + body.username,
+                method: HttpMethods.GET,
+            }),
+        }),
+        getServerVersion: builder.query<string, void>({
+            query: () => ({
+                url: '/get-server-version', //`/get-server-version`,
+                method: HttpMethods.GET,
+            }),
+        }),
+        resendActivationEmail: builder.mutation<string, IResendEmailRequest>({
+            query: (body) => ({
+                url: `${URL}/resend-activation-email`,
+                method: HttpMethods.POST,
+                body: body,
+            }),
+        }),
+        registerUser: builder.mutation<void, IRegisterRequest>({
+            query: (body) => ({
+                url: `${URL}/register`,
+                method: HttpMethods.POST,
+                body: body,
+            }),
+        }),
+    }),
+});
+
+export const {
+    useLoginMutation,
+    useConfirmLoginMutation,
+    useRegisterTutorMutation,
+    useRegisterParentMutation,
+    useRegisterStudentMutation,
+    useResetPasswordMutation,
+    useCheckMailMutation,
+    useCheckUsernameMutation,
+    useGenerateChildUsernameMutation,
+    useChangePasswordMutation,
+    useChangeCurrentPasswordMutation,
+    useLazyGetServerVersionQuery,
+    useResendActivationEmailMutation,
+    useRegisterUserMutation,
+} = authService;

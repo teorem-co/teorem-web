@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
-import { useAppSelector } from '../../../hooks';
-import { useLazyGetRoomLinkQuery } from '../../../services/hiLinkService';
+import { useAppSelector } from '../../../store/hooks';
+import { useLazyGetRoomLinkQuery } from '../../../store/services/hiLinkService';
 import { useHistory } from 'react-router';
 import { IBookingModalInfo } from '../../tutor-bookings/TutorBookings';
 import moment from 'moment-timezone';
 import { PATHS } from '../../../routes';
 import { useLazyCheckIfCanLeaveReviewQuery } from '../../myReviews/services/myReviewsService';
-import { RoleOptions } from '../../../../slices/roleSlice';
+import { RoleOptions } from '../../../store/slices/roleSlice';
 
 interface Props {
     handleClose: () => void;

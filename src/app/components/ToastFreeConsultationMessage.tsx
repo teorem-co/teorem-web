@@ -1,7 +1,7 @@
 import { t } from 'i18next';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { useLazyGetUserQuery } from '../../services/userService';
+import { useLazyGetUserQuery } from '../store/services/userService';
 import {
     addChatRoom,
     addMessage,
@@ -10,7 +10,7 @@ import {
     setFreeConsultation,
     setLink,
 } from '../features/chat/slices/chatSlice';
-import { useAppSelector } from '../hooks';
+import { useAppSelector } from '../store/hooks';
 import { PATHS } from '../routes';
 
 interface Props {

@@ -4,14 +4,19 @@ import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
-import { useLazyGetServerVersionQuery, useLoginMutation, useResendActivationEmailMutation } from '../../../services/authService';
+import {
+    useConfirmLoginMutation,
+    useLazyGetServerVersionQuery,
+    useLoginMutation,
+    useResendActivationEmailMutation,
+} from '../../store/services/authService';
 import MyTextField from '../../components/form/MyTextField';
-import { useAppSelector } from '../../hooks';
-import { Role } from '../../lookups/role';
+import { useAppSelector } from '../../store/hooks';
+import { Role } from '../../types/role';
 import { PATHS } from '../../routes';
 import logo from './../../../assets/images/logo.svg';
 import { useDispatch } from 'react-redux';
-import { setToken } from '../../../slices/authSlice';
+import { setToken } from '../../store/slices/authSlice';
 import { ButtonPrimaryGradient } from '../../components/ButtonPrimaryGradient';
 
 interface Values {
@@ -26,11 +31,15 @@ const Login: React.FC = () => {
     const [loginSentAgainMessage, setLoginSentAgainMessage] = useState<boolean>();
     const [loginUserNotActive, setLoginUserNotActive] = useState<boolean>(false);
 
-    const [login, { data: loginData, isSuccess: isSuccessLogin, isLoading: isLoadingLogin, error: errorLogin }] = useLoginMutation();
-    const [getServerVersion, { data: serverVersion, isSuccess: isSuccessServerVersion }] = useLazyGetServerVersionQuery();
+    const [login, { data: loginData, isSuccess: isSuccessLogin, isLoading: isLoadingLogin, error: errorLogin }] =
+        useLoginMutation();
+    const [confirmLogin] = useConfirmLoginMutation();
+    const [getServerVersion, { data: serverVersion, isSuccess: isSuccessServerVersion }] =
+        useLazyGetServerVersionQuery();
     const [resendEmail, setResendEmail] = useState<string>('');
 
-    const [resendActivationEmailPost, { isSuccess: isSuccessResendActivationEmail }] = useResendActivationEmailMutation();
+    const [resendActivationEmailPost, { isSuccess: isSuccessResendActivationEmail }] =
+        useResendActivationEmailMutation();
     const userRoleAbrv = useAppSelector((state) => state.auth.user?.Role?.abrv);
     const userToken = useAppSelector((state) => state.auth.token);
 
@@ -47,7 +56,7 @@ const Login: React.FC = () => {
 
     const formik = useFormik({
         initialValues: initialValues,
-        onSubmit: (values) => {
+        onSubmit: async (values) => {
             const data = {
                 email: values.email,
                 password: values.password,
@@ -55,11 +64,11 @@ const Login: React.FC = () => {
 
             setResendEmail(values.email);
 
-            login(data)
-                .unwrap()
-                .then((resp) => {
-                    dispatch(setToken(resp));
-                });
+            const resp1 = await login(data).unwrap();
+
+            const resp2 = await confirmLogin(resp1).unwrap();
+
+            dispatch(setToken(resp2));
 
             getServerVersion();
         },
@@ -142,7 +151,12 @@ const Login: React.FC = () => {
                                     <label htmlFor="email" className="field__label">
                                         {t('LOGIN.FORM.EMAIL')}
                                     </label>
-                                    <MyTextField name="email" id="email" placeholder={t('LOGIN.FORM.EMAIL_PLACEHOLDER')} disabled={isLoadingLogin} />
+                                    <MyTextField
+                                        name="email"
+                                        id="email"
+                                        placeholder={t('LOGIN.FORM.EMAIL_PLACEHOLDER')}
+                                        disabled={isLoadingLogin}
+                                    />
                                 </div>
                                 <div className="field">
                                     <label className="field__label" htmlFor="password">
@@ -162,7 +176,11 @@ const Login: React.FC = () => {
                                 ) : (
                                     <></>
                                 )}
-                                {loginSentAgainMessage ? <div className="type--color--success">{t('LOGIN.FORM.SEND_AGAIN_SUCCESS')}</div> : <></>}
+                                {loginSentAgainMessage ? (
+                                    <div className="type--color--success">{t('LOGIN.FORM.SEND_AGAIN_SUCCESS')}</div>
+                                ) : (
+                                    <></>
+                                )}
                                 {loginUserNotActive && !loginSentAgainMessage && (
                                     <div>
                                         <ButtonPrimaryGradient
@@ -191,11 +209,7 @@ const Login: React.FC = () => {
                                     </Link>
                                     <div className={'mt-3'}>
                                         {t('LOGIN.ACCOUNT')}{' '}
-                                        <Link
-                                            id="zapocni-danas-login-1"
-                                            className="type--wgt--extra-bold"
-                                            to={!isLoadingLogin ? PATHS.ROLE_SELECTION : '#'}
-                                        >
+                                        <Link id="zapocni-danas-login-1" className="type--wgt--extra-bold" to={'#'}>
                                             {t('LOGIN.REGISTER')}
                                         </Link>
                                     </div>
