@@ -279,7 +279,7 @@ export default function PublicTutorProfile() {
                                                 <div className="flex flex--row flex--ai--center">
                                                     <i className="icon icon--base icon--star"></i>
                                                     <span className={'type--md type--wgt--extra-bold'}>
-                                                        {tutorData.averageGrade.toFixed(1)}
+                                                        {tutorData.averageGrade?.toFixed(1)}
                                                     </span>
                                                 </div>
                                                 <span>
@@ -456,7 +456,7 @@ export default function PublicTutorProfile() {
                                                                         <span
                                                                             className={'type--md type--wgt--extra-bold'}
                                                                         >
-                                                                            {tutorData.averageGrade.toFixed(1)}
+                                                                            {tutorData.averageGrade?.toFixed(1)}
                                                                         </span>
                                                                     </div>
                                                                     <span>
@@ -713,7 +713,7 @@ export default function PublicTutorProfile() {
                                 <div className={'flex flex--row flex--center flex-gap-10'}>
                                     <div className="flex flex--col flex--ai--center">
                                         <div className="review-mark-big bg-color-light">
-                                            {tutorStatistics?.statistic ? tutorStatistics.statistic.toFixed(1) : 0}
+                                            {tutorStatistics?.statistic ? tutorStatistics.statistic?.toFixed(1) : 0}
                                         </div>
 
                                         <div className="type--color--secondary">
@@ -745,7 +745,7 @@ export default function PublicTutorProfile() {
                                                             size={isMobile ? 'small' : 'medium'}
                                                         />
                                                     </td>
-                                                    <td className={''}>{tutorStatistics.knowledge.toFixed(1)}</td>
+                                                    <td className={''}>{tutorStatistics.knowledge?.toFixed(1)}</td>
                                                 </tr>
                                                 <tr>
                                                     <td className={'text-align--start '}>
@@ -757,7 +757,7 @@ export default function PublicTutorProfile() {
                                                             size={isMobile ? 'small' : 'medium'}
                                                         />
                                                     </td>
-                                                    <td className={''}>{tutorStatistics.communication.toFixed(1)}</td>
+                                                    <td className={''}>{tutorStatistics.communication?.toFixed(1)}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
