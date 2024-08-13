@@ -1,10 +1,9 @@
 import { t } from 'i18next';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { matchPath, NavLink, Route, Switch, useHistory } from 'react-router-dom';
+import { matchPath, Route, Switch, useHistory, Redirect } from 'react-router-dom';
 
 import languageOptions from './constants/languageOptions';
-import { SEO } from './constants/seo';
 import Chat from './features/chat/pages/Chat';
 import CompletedLessons from './features/completedLessons/CompletedLessons';
 import Dashboard from './features/dashboard/Dashboard';
@@ -19,19 +18,17 @@ import PersonalInformation from './features/my-profile/pages/PersonalInformation
 import ProfileAccount from './features/my-profile/pages/ProfileAccount';
 import MyReviews from './features/myReviews/MyReviews';
 import Notifications from './features/notifications/Notifications';
-import Onboarding from './features/onboarding/Onboarding';
+import Onboarding from './features/onboarding/pages/Onboarding';
 import SearchTutors from './features/searchTutors/SearchTutors';
 import TutorProfile from './features/searchTutors/TutorProfile';
 import TutorManagment from './features/tutor-managment/TutorManagment';
 import TutorManagmentProfile from './features/tutor-managment/TutorProfile';
-import { useAppDispatch, useAppSelector } from './store/hooks';
+import { useAppDispatch } from './store/hooks';
 import { Role } from './types/role';
 import ResetToken from './pages/ResetToken';
 import StripeConnected from './pages/StripeConnected';
 import StripeFail from './pages/StripeFail';
 import PermissionsGate from './components/PermissionGate';
-import { getUserRoleAbrv } from './utils/getUserRoleAbrv';
-import { Badge } from '@mui/material';
 import { AdminTutorVideoPage } from './components/admin/tutor-video/AdminTutorVideoPage';
 import TokenNotValid from './pages/TokenNotValid';
 import TutorBookingsNew from './features/tutor-bookings/TutorBookingsNew';
@@ -40,7 +37,10 @@ import { StudentProfile } from './features/student-management/StudentProfile';
 import { BookingManagement } from './features/booking-management/BookingManagement';
 import { setSelectedLang } from './store/slices/langSlice';
 import { setLoginModalOpen } from './store/slices/modalsSlice';
-import { Redirect } from 'react-router-dom';
+import useMount from './utils/useMount';
+import TutorOnboarding from './features/onboarding/tutor/pages/TutorOnboarding';
+import StudentOnboarding from './features/onboarding/student/pages/StudentOnboarding';
+import ParentOnboarding from './features/onboarding/parent/pages/ParentOnboarding';
 
 export const PATHS = {
     FORGOT_PASSWORD: t('PATHS.FORGOT_PASSWORD'),
@@ -50,7 +50,6 @@ export const PATHS = {
     SEARCH_TUTORS_TUTOR_PROFILE: t('PATHS.SEARCH_TUTORS_TUTOR_PROFILE'),
     STUDENT_PROFILE: t('PATHS.STUDENT_PROFILE'),
     SEARCH_TUTORS_TUTOR_BOOKINGS: t('PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS'),
-    ONBOARDING: t('PATHS.ONBOARDING'),
     MY_REVIEWS: t('PATHS.MY_REVIEWS'),
     COMPLETED_LESSONS: t('PATHS.COMPLETED_LESSONS'),
     CHAT: t('PATHS.CHAT'),
@@ -87,20 +86,26 @@ export const PROFILE_PATHS = {
     MY_PROFILE_CHILD_INFO: t('PATHS.PROFILE_PATHS.MY_PROFILE_CHILD_INFO'),
 };
 
-interface IMenuItem {
-    name: string;
-    icon: string;
-    key: string;
+export const ONBOARDING_PATHS = {
+    ONBOARDING: t('PATHS.ONBOARDING_PATHS.ONBOARDING'),
+    TUTOR_ONBOARDING: t('PATHS.ONBOARDING_PATHS.TUTOR_ONBOARDING'),
+    STUDENT_ONBOARDING: t('PATHS.ONBOARDING_PATHS.STUDENT_ONBOARDING'),
+    PARENT_ONBOARDING: t('PATHS.ONBOARDING_PATHS.PARENT_ONBOARDING'),
+};
+
+interface IRoute {
     path: string;
-    rootPath?: string;
-    disabled?: boolean;
+    key: string;
+    exact?: boolean;
+    component: React.ComponentType;
+    roles?: Role[];
+    isMenu?: boolean;
+    isPublic?: boolean;
+    routes?: IRoute[];
+    lang?: string;
 }
 
-interface IMenuPerRole {
-    [key: string]: IMenuItem[];
-}
-
-export const ROUTES: any = [
+export const ROUTES: IRoute[] = [
     {
         path: PATHS.STUDENT_PROFILE,
         key: 'STUDENT_PROFILE',
@@ -129,13 +134,49 @@ export const ROUTES: any = [
     },
 
     {
-        path: PATHS.ONBOARDING,
+        path: ONBOARDING_PATHS.ONBOARDING,
         key: 'ONBOARDING',
-        exact: true,
-        roles: [Role.Tutor],
         isMenu: false,
-        isPublic: true,
-        component: () => <Onboarding />,
+        component: () => (
+            <PermissionsGate roles={[Role.Parent, Role.Student, Role.Tutor]}>
+                <Onboarding />
+            </PermissionsGate>
+        ),
+        routes: [
+            {
+                path: ONBOARDING_PATHS.TUTOR_ONBOARDING,
+                key: 'TUTOR_ONBOARDING',
+                isMenu: false,
+                exact: true,
+                component: () => (
+                    <PermissionsGate roles={[Role.Tutor]}>
+                        <TutorOnboarding />
+                    </PermissionsGate>
+                ),
+            },
+            {
+                path: ONBOARDING_PATHS.STUDENT_ONBOARDING,
+                key: 'STUDENT_ONBOARDING',
+                isMenu: false,
+                exact: true,
+                component: () => (
+                    <PermissionsGate roles={[Role.Student]}>
+                        <StudentOnboarding />
+                    </PermissionsGate>
+                ),
+            },
+            {
+                path: ONBOARDING_PATHS.PARENT_ONBOARDING,
+                key: 'PARENT_ONBOARDING',
+                isMenu: false,
+                exact: true,
+                component: () => (
+                    <PermissionsGate roles={[Role.Parent]}>
+                        <ParentOnboarding />
+                    </PermissionsGate>
+                ),
+            },
+        ],
     },
     {
         path: PATHS.RESET_PASSWORD,
@@ -455,276 +496,15 @@ export function RenderRoutes(routesObj: any) {
         });
     }, [locationKeys]);
 
-    useEffect(() => {
+    useMount(() => {
         syncLanguage();
-    }, []);
+    });
 
     return (
-        <>
-            <Switch>
-                {routes.map((route: any) => {
-                    return <RouteWithSubRoutes key={route.key} {...route} />;
-                })}
-                {/*<Route component={() => <NotFound />} />*/}
-                {/*<Redirect to='/' />*/}
-            </Switch>
-            <SEO />
-        </>
+        <Switch>
+            {routes.map((route: any) => {
+                return <RouteWithSubRoutes key={route.key} {...route} />;
+            })}
+        </Switch>
     );
-}
-
-//has to be in this file to prevent app crash when importing
-export function menuPerRole(stripeConnected: boolean): IMenuPerRole {
-    return {
-        [Role.Tutor]: [
-            {
-                name: 'DASHBOARD',
-                icon: 'dashboard',
-                key: 'DASHBOARD',
-                path: PATHS.DASHBOARD,
-            },
-            {
-                name: 'MY_BOOKINGS',
-                icon: 'calendar',
-                key: 'MY_BOOKINGS',
-                path: PATHS.MY_BOOKINGS,
-            },
-            {
-                name: 'CHAT',
-                icon: 'chat',
-                key: 'CHAT',
-                path: PATHS.CHAT,
-            },
-            {
-                name: 'MY_REVIEWS',
-                icon: 'reviews',
-                key: 'MY_REVIEWS',
-                path: PATHS.MY_REVIEWS,
-            },
-            {
-                name: 'EARNINGS',
-                icon: 'earnings',
-                key: 'EARNINGS',
-                path: PATHS.EARNINGS,
-                disabled: !stripeConnected,
-            },
-        ],
-        [Role.Student]: [
-            {
-                name: 'DASHBOARD',
-                icon: 'dashboard',
-                key: 'DASHBOARD',
-                path: PATHS.DASHBOARD,
-            },
-            {
-                name: 'MY_BOOKINGS',
-                icon: 'calendar',
-                key: 'MY_BOOKINGS',
-                path: PATHS.MY_BOOKINGS,
-            },
-            {
-                name: 'CHAT',
-                icon: 'chat',
-                key: 'CHAT',
-                path: PATHS.CHAT,
-            },
-            {
-                name: 'SEARCH_TUTORS',
-                icon: 'search-tutors',
-                key: 'SEARCH_TUTORS',
-                path: PATHS.SEARCH_TUTORS,
-            },
-            {
-                name: 'COMPLETED_LESSONS',
-                icon: 'completed-lessons',
-                key: 'COMPLETED_LESSONS',
-                path: PATHS.COMPLETED_LESSONS,
-            },
-        ],
-        [Role.Parent]: [
-            {
-                name: 'DASHBOARD',
-                icon: 'dashboard',
-                key: 'DASHBOARD',
-                path: PATHS.DASHBOARD,
-            },
-            {
-                name: 'MY_BOOKINGS',
-                icon: 'calendar',
-                key: 'MY_BOOKINGS',
-                path: PATHS.MY_BOOKINGS,
-            },
-            {
-                name: 'CHAT',
-                icon: 'chat',
-                key: 'CHAT',
-                path: PATHS.CHAT,
-            },
-            {
-                name: 'SEARCH_TUTORS',
-                icon: 'search-tutors',
-                key: 'SEARCH_TUTORS',
-                path: PATHS.SEARCH_TUTORS,
-            },
-            {
-                name: 'COMPLETED_LESSONS',
-                icon: 'completed-lessons',
-                key: 'COMPLETED_LESSONS',
-                path: PATHS.COMPLETED_LESSONS,
-            },
-        ],
-        [Role.SuperAdmin]: [
-            {
-                name: 'TUTOR_MANAGMENT',
-                icon: 'tutor-managment',
-                key: 'TUTOR_MANAGMENT',
-                path: PATHS.TUTOR_MANAGMENT,
-            },
-            {
-                name: 'STUDENT_MANAGEMENT',
-                icon: 'student-management',
-                key: 'STUDENT_MANAGEMENT',
-                path: PATHS.STUDENT_MANAGEMENT,
-            },
-            {
-                name: 'CHAT',
-                icon: 'chat',
-                key: 'CHAT',
-                path: PATHS.CHAT,
-            },
-            {
-                name: 'TUTOR_VIDEOS',
-                icon: 'video',
-                key: 'TUTOR_VIDEOS',
-                path: PATHS.TUTOR_VIDEOS,
-            },
-            {
-                name: 'BOOKING_MANAGEMENT',
-                icon: 'calendar',
-                key: 'BOOKING_MANAGEMENT',
-                path: PATHS.BOOKING_MANAGEMENT,
-            },
-        ],
-        [Role.Child]: [
-            {
-                name: 'MY_BOOKINGS',
-                icon: 'calendar',
-                key: 'MY_BOOKINGS',
-                path: PATHS.MY_BOOKINGS,
-            },
-            {
-                name: 'CHAT',
-                icon: 'chat',
-                key: 'CHAT',
-                path: PATHS.CHAT,
-            },
-            {
-                name: 'COMPLETED_LESSONS',
-                icon: 'completed-lessons',
-                key: 'COMPLETED_LESSONS',
-                path: PATHS.COMPLETED_LESSONS,
-            },
-        ],
-    };
-}
-
-export function RenderMenuLinks() {
-    const userRole = getUserRoleAbrv();
-    const user = useAppSelector((state) => state.user);
-
-    const chat = useAppSelector((state) => state.chat);
-
-    const { t } = useTranslation();
-
-    const badgeStyle = {
-        '& .MuiBadge-badge': {
-            color: 'white',
-            backgroundColor: '#7E6CF2',
-        },
-    };
-
-    const [showBadge, setShowBadge] = useState(false);
-    const [doAnimation, setDoAnimation] = useState(true);
-    const [oldNumOfNewMessages, setoldNumOfNewMessages] = useState(chat.newMessages);
-    // Function to trigger the badge pop-up animation
-
-    const isMobile = window.innerWidth < 1200;
-
-    useEffect(() => {
-        if (chat.newMessages) {
-            if (chat.newMessages == 0) {
-                setDoAnimation(true);
-            }
-
-            if (chat.newMessages > 0 && doAnimation && oldNumOfNewMessages != chat.newMessages) {
-                setShowBadge(true);
-
-                setTimeout(() => {
-                    setShowBadge(false);
-                }, 1800);
-
-                setDoAnimation(false);
-                setoldNumOfNewMessages(chat.newMessages);
-            }
-        }
-    }, [chat.newMessages]);
-
-    if (userRole) {
-        return (
-            <>
-                {menuPerRole(user?.user?.stripeConnected || false)[userRole].map((route: any) =>
-                    route.disabled ? (
-                        <div className={`navbar__item`} style={{ cursor: route.disabled ? 'not-allowed' : 'pointer' }}>
-                            <i className={`icon icon--base navbar__item__icon navbar__item--${route.icon}`}></i>
-                            <span className={`navbar__item__label`}>{t(`NAVIGATION.${route.name}`)}</span>
-                            {route.key == 'CHAT' && chat.newMessages != null && chat.newMessages > 0 && (
-                                <i className={`navbar__item__unread`}></i>
-                            )}
-                        </div>
-                    ) : (
-                        <NavLink
-                            key={route.key}
-                            to={route.path}
-                            className={`navbar__item`}
-                            activeClassName="active"
-                            isActive={(match: any, location: Location) => {
-                                //format nicer later
-                                if (route.rootPath) {
-                                    if (location.pathname.startsWith(route.rootPath)) {
-                                        return true;
-                                    } else {
-                                        return false;
-                                    }
-                                } else {
-                                    if (!match) {
-                                        return false;
-                                    }
-                                }
-
-                                return true;
-                            }}
-                        >
-                            {route.key == 'CHAT' && chat.newMessages != null && chat.newMessages > 0 ? (
-                                <Badge
-                                    badgeContent={chat.newMessages}
-                                    className={showBadge ? 'badge-pulse' : ''}
-                                    sx={badgeStyle}
-                                    max={10}
-                                >
-                                    <i className={`icon icon--base navbar__item__icon navbar__item--${route.icon}`}></i>
-                                </Badge>
-                            ) : (
-                                <i className={`icon icon--base navbar__item__icon navbar__item--${route.icon}`}></i>
-                            )}
-                            <span className={`navbar__item__label ${isMobile ? 'font__lg' : ''}`}>
-                                {t(`NAVIGATION.${route.name}`)}
-                            </span>
-                        </NavLink>
-                    )
-                )}
-            </>
-        );
-    }
-
-    return <></>;
 }

@@ -11,15 +11,15 @@ import CreditCardfield from '../../../components/CreditCardField';
 import ExpDateField from '../../../components/form/ExpDateField';
 import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyPhoneInput from '../../../components/form/MyPhoneInput';
-import { OptionType } from '../../../components/form/MySelectField';
 import MyTextField from '../../../components/form/MyTextField';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import toastService from '../../../store/services/toastService';
 import { resetTutorImageUploadState } from '../../../store/slices/tutorImageUploadSlice';
 import useOutsideAlerter from '../../../utils/useOutsideAlerter';
-import { useLazyGetCountriesQuery } from '../services/countryService';
+import { useLazyGetCountriesQuery } from '../../../store/services/countryService';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 import ICountry from '../../../types/ICountry';
+import OptionType from '../../../types/OptionType';
 
 interface StepOneValues {
     firstName: string;
@@ -462,7 +462,7 @@ const TutorOnboarding: React.FC<IProps> = ({ handleGoBack, handleNextStep, step 
         }
     }, [isSuccess]);
 
-    return <>{step === 1 ? stepOne() : step === 2 ? stepTwo() : <></>}</>;
+    return step === 1 ? stepOne() : step === 2 ? stepTwo() : null;
 };
 
 export default TutorOnboarding;

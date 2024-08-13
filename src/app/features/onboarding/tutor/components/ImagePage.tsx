@@ -3,18 +3,18 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
-import { useLazyGetProfileProgressQuery, useLazyGetTutorByIdQuery } from '../../../store/services/tutorService';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { getUserId } from '../../../utils/getUserId';
-import { setMyProfileProgress } from '../../my-profile/slices/myProfileSlice';
+import { useLazyGetProfileProgressQuery, useLazyGetTutorByIdQuery } from '../../../../store/services/tutorService';
+import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
+import { getUserId } from '../../../../utils/getUserId';
+import { setMyProfileProgress } from '../../../my-profile/slices/myProfileSlice';
 import { AiOutlineLeft } from 'react-icons/ai';
-import CircularProgress from '../../my-profile/components/CircularProgress';
+import CircularProgress from '../../../my-profile/components/CircularProgress';
 import TestTutorProfile from './TestTutorProfile';
-import UploadFile from '../../../components/form/MyUploadField';
-import { useLazyGetUserQuery, useSetTutorProfileImageMutation } from '../../../store/services/userService';
+import UploadFile from '../../../../components/form/MyUploadField';
+import { useLazyGetUserQuery, useSetTutorProfileImageMutation } from '../../../../store/services/userService';
 import imageCompression from 'browser-image-compression';
 import logo from '../../../../assets/images/teorem_logo_purple.png';
-import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
+import { ButtonPrimaryGradient } from '../../../../components/ButtonPrimaryGradient';
 
 interface Values {
     profileImage: string;

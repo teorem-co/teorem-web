@@ -19,7 +19,6 @@ import {
 } from '../../../store/services/userService';
 import { RoleOptions } from '../../../store/slices/roleSlice';
 import MyPhoneInput from '../../../components/form/MyPhoneInput';
-import { OptionType } from '../../../components/form/MySelectField';
 import UploadFile from '../../../components/form/MyUploadField';
 import MainWrapper from '../../../components/MainWrapper';
 import RouterPrompt from '../../../components/RouterPrompt';
@@ -27,7 +26,7 @@ import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import toastService from '../../../store/services/toastService';
 import { getUserId } from '../../../utils/getUserId';
-import { useLazyGetCountriesQuery } from '../../onboarding/services/countryService';
+import { useLazyGetCountriesQuery } from '../../../store/services/countryService';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
 import { setMyProfileProgress } from '../slices/myProfileSlice';
@@ -43,6 +42,7 @@ import { UploadVerificationDocuments } from '../../../components/UploadVerificat
 import { CurrencySymbol } from '../../../components/CurrencySymbol';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 import ICountry from '../../../types/ICountry';
+import OptionType from '../../../types/OptionType';
 
 interface Values {
     firstName: string;

@@ -1,9 +1,7 @@
 import { t } from 'i18next';
-import { HttpMethods } from '../../../types/httpMethods';
-import { baseService } from '../../../store/baseService';
-import ICountry from '../../../types/ICountry';
-
-//bookings/week/:tutorSlug
+import { HttpMethods } from '../../types/httpMethods';
+import { baseService } from '../baseService';
+import ICountry from '../../types/ICountry';
 
 const URL = '/api/v1/countries';
 

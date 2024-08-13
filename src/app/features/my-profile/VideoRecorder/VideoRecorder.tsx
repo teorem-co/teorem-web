@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Webcam from 'react-webcam';
 import {
   useLazyGetUploadVideoUrlQuery,
-} from '../../onboarding/services/vimeoService';
+} from '../../../store/services/vimeoService';
 import { uploadToVimeo } from './uploadToVimeo';
 import { t } from 'i18next';
 import moment from 'moment';

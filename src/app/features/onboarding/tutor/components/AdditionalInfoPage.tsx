@@ -4,19 +4,23 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
-import { useLazyGetProfileProgressQuery, useLazyGetTutorByIdQuery, useUpdateAditionalInfoMutation } from '../../../store/services/tutorService';
-import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { getUserId } from '../../../utils/getUserId';
-import IUpdateAdditionalInfo from '../../my-profile/interfaces/IUpdateAdditionalInfo';
-import { setMyProfileProgress } from '../../my-profile/slices/myProfileSlice';
+import {
+    useLazyGetProfileProgressQuery,
+    useLazyGetTutorByIdQuery,
+    useUpdateAditionalInfoMutation,
+} from '../../../../store/services/tutorService';
+import LoaderPrimary from '../../../../components/skeleton-loaders/LoaderPrimary';
+import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
+import { getUserId } from '../../../../utils/getUserId';
+import IUpdateAdditionalInfo from '../../../my-profile/interfaces/IUpdateAdditionalInfo';
+import { setMyProfileProgress } from '../../../my-profile/slices/myProfileSlice';
 import { AiOutlineLeft } from 'react-icons/ai';
-import CircularProgress from '../../my-profile/components/CircularProgress';
-import { setStepTwo } from '../../../store/slices/onboardingSlice';
+import CircularProgress from '../../../my-profile/components/CircularProgress';
+import { setStepTwo } from '../../../../store/slices/onboardingSlice';
 import TestTutorProfile from './TestTutorProfile';
 import logo from '../../../../assets/images/teorem_logo_purple.png';
 import { TextField } from '@mui/material';
-import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
+import { ButtonPrimaryGradient } from '../../../../components/ButtonPrimaryGradient';
 
 interface AdditionalValues {
     currentOccupation: string;
@@ -35,8 +39,12 @@ const AdditionalInfoPage = ({ nextStep, backStep }: AdditionalProps) => {
     const { currentOccupation, aboutYou, aboutYourLessons } = state;
 
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
-    const [getProfileData, { isLoading: isLoadingGetInfo, isLoading: dataLoading, isUninitialized: dataUninitialized }] = useLazyGetTutorByIdQuery();
-    const [updateAditionalInfo, { isLoading: isUpdatingInfo, isSuccess: isSuccessUpdateInfo }] = useUpdateAditionalInfoMutation();
+    const [
+        getProfileData,
+        { isLoading: isLoadingGetInfo, isLoading: dataLoading, isUninitialized: dataUninitialized },
+    ] = useLazyGetTutorByIdQuery();
+    const [updateAditionalInfo, { isLoading: isUpdatingInfo, isSuccess: isSuccessUpdateInfo }] =
+        useUpdateAditionalInfoMutation();
 
     const isLoading = isLoadingGetInfo || isUpdatingInfo;
     const pageLoading = dataLoading || dataUninitialized;
@@ -75,7 +83,11 @@ const AdditionalInfoPage = ({ nextStep, backStep }: AdditionalProps) => {
             })
         );
 
-        if (values.currentOccupation.length === 0 || values.aboutTutor.length === 0 || values.aboutLessons.length === 0) {
+        if (
+            values.currentOccupation.length === 0 ||
+            values.aboutTutor.length === 0 ||
+            values.aboutLessons.length === 0
+        ) {
             setSaveBtnActive(false);
         }
 
@@ -196,14 +208,23 @@ const AdditionalInfoPage = ({ nextStep, backStep }: AdditionalProps) => {
                     <div className="flex field__w-fit-content align--center">
                         <div className="flex flex--col flex--jc--center">
                             <div style={{ margin: '40px' }} className="flex flex--center">
-                                <AiOutlineLeft className={`ml-2 mr-6 cur--pointer signup-icon`} color="grey" onClick={backStep} />
+                                <AiOutlineLeft
+                                    className={`ml-2 mr-6 cur--pointer signup-icon`}
+                                    color="grey"
+                                    onClick={backStep}
+                                />
 
                                 <div className="flex flex--row flex--jc--center">
                                     <div className="flex flex--center flex--shrink ">
-                                        <CircularProgress progressNumber={progressPercentage} size={isMobile ? 65 : 80} />
+                                        <CircularProgress
+                                            progressNumber={progressPercentage}
+                                            size={isMobile ? 65 : 80}
+                                        />
                                     </div>
                                     <div className="flex flex--col flex--jc--center">
-                                        <h4 className="signup-title ml-6 text-align--center">{t('SEARCH_TUTORS.TUTOR_PROFILE.ABOUT_ME')}</h4>
+                                        <h4 className="signup-title ml-6 text-align--center">
+                                            {t('SEARCH_TUTORS.TUTOR_PROFILE.ABOUT_ME')}
+                                        </h4>
                                     </div>
                                 </div>
                             </div>
@@ -242,8 +263,14 @@ const AdditionalInfoPage = ({ nextStep, backStep }: AdditionalProps) => {
                                                             label={t('MY_PROFILE.ABOUT_ME.OCCUPATION')}
                                                             variant="outlined"
                                                             color="secondary"
-                                                            error={formik.touched.currentOccupation && !!formik.errors.currentOccupation}
-                                                            helperText={formik.touched.currentOccupation && formik.errors.currentOccupation}
+                                                            error={
+                                                                formik.touched.currentOccupation &&
+                                                                !!formik.errors.currentOccupation
+                                                            }
+                                                            helperText={
+                                                                formik.touched.currentOccupation &&
+                                                                formik.errors.currentOccupation
+                                                            }
                                                             InputProps={{
                                                                 style: {
                                                                     fontFamily: "'Lato', sans-serif",
@@ -273,8 +300,14 @@ const AdditionalInfoPage = ({ nextStep, backStep }: AdditionalProps) => {
                                                             label={t('MY_PROFILE.ABOUT_ME.YEARS')}
                                                             variant="outlined"
                                                             color="secondary"
-                                                            error={formik.touched.yearsOfExperience && !!formik.errors.yearsOfExperience}
-                                                            helperText={formik.touched.yearsOfExperience && formik.errors.yearsOfExperience}
+                                                            error={
+                                                                formik.touched.yearsOfExperience &&
+                                                                !!formik.errors.yearsOfExperience
+                                                            }
+                                                            helperText={
+                                                                formik.touched.yearsOfExperience &&
+                                                                formik.errors.yearsOfExperience
+                                                            }
                                                             InputProps={{
                                                                 style: {
                                                                     fontFamily: "'Lato', sans-serif",
@@ -314,8 +347,12 @@ const AdditionalInfoPage = ({ nextStep, backStep }: AdditionalProps) => {
                                                             multiline
                                                             rows={5}
                                                             id="aboutTutor"
-                                                            error={formik.touched.aboutTutor && !!formik.errors.aboutTutor}
-                                                            helperText={formik.touched.aboutTutor && formik.errors.aboutTutor}
+                                                            error={
+                                                                formik.touched.aboutTutor && !!formik.errors.aboutTutor
+                                                            }
+                                                            helperText={
+                                                                formik.touched.aboutTutor && formik.errors.aboutTutor
+                                                            }
                                                             InputProps={{
                                                                 style: {
                                                                     fontFamily: "'Lato', sans-serif",
@@ -331,16 +368,22 @@ const AdditionalInfoPage = ({ nextStep, backStep }: AdditionalProps) => {
                                                             inputProps={{
                                                                 maxLength: 2500,
                                                             }}
-                                                            label={t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_LABEL')}
+                                                            label={t(
+                                                                'SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_LABEL'
+                                                            )}
                                                             variant="outlined"
                                                             color="secondary"
                                                         />
                                                         <>
-                                                            <table className={`text-align--start password-tooltip`} style={{ color: '#636363' }}>
+                                                            <table
+                                                                className={`text-align--start password-tooltip`}
+                                                                style={{ color: '#636363' }}
+                                                            >
                                                                 <tbody>
                                                                     <tr>
                                                                         <td>
-                                                                            {formik.values.aboutTutor.trim().split(' ').length >= 50 ? (
+                                                                            {formik.values.aboutTutor.trim().split(' ')
+                                                                                .length >= 50 ? (
                                                                                 <i
                                                                                     id="length"
                                                                                     className="icon icon--sm icon--check icon--success mr-3"
@@ -354,11 +397,16 @@ const AdditionalInfoPage = ({ nextStep, backStep }: AdditionalProps) => {
                                                                                 ></i>
                                                                             )}
                                                                         </td>
-                                                                        <td>{t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_REQUEST')}</td>
+                                                                        <td>
+                                                                            {t(
+                                                                                'SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_REQUEST'
+                                                                            )}
+                                                                        </td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td>
-                                                                            {formik.values.aboutTutor.trim().split(' ').length >= 100 ? (
+                                                                            {formik.values.aboutTutor.trim().split(' ')
+                                                                                .length >= 100 ? (
                                                                                 <i
                                                                                     id="length"
                                                                                     className="icon icon--sm icon--check icon--success mr-3"
@@ -372,7 +420,11 @@ const AdditionalInfoPage = ({ nextStep, backStep }: AdditionalProps) => {
                                                                                 ></i>
                                                                             )}
                                                                         </td>
-                                                                        <td>{t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.TOOLTIP_EFFECTIVE')}</td>
+                                                                        <td>
+                                                                            {t(
+                                                                                'SEARCH_TUTORS.TUTOR_PROFILE.FORM.TOOLTIP_EFFECTIVE'
+                                                                            )}
+                                                                        </td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td>
@@ -382,7 +434,11 @@ const AdditionalInfoPage = ({ nextStep, backStep }: AdditionalProps) => {
                                                                                 style={{ pointerEvents: 'none' }}
                                                                             ></i>
                                                                         </td>
-                                                                        <td>{t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_TOOLTIP')}</td>
+                                                                        <td>
+                                                                            {t(
+                                                                                'SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_TOOLTIP'
+                                                                            )}
+                                                                        </td>
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
@@ -398,8 +454,14 @@ const AdditionalInfoPage = ({ nextStep, backStep }: AdditionalProps) => {
                                                             fullWidth
                                                             multiline
                                                             rows={5}
-                                                            error={formik.touched.aboutLessons && !!formik.errors.aboutLessons}
-                                                            helperText={formik.touched.aboutLessons && formik.errors.aboutLessons}
+                                                            error={
+                                                                formik.touched.aboutLessons &&
+                                                                !!formik.errors.aboutLessons
+                                                            }
+                                                            helperText={
+                                                                formik.touched.aboutLessons &&
+                                                                formik.errors.aboutLessons
+                                                            }
                                                             InputProps={{
                                                                 style: {
                                                                     fontFamily: "'Lato', sans-serif",
@@ -416,16 +478,23 @@ const AdditionalInfoPage = ({ nextStep, backStep }: AdditionalProps) => {
                                                                 maxLength: 2500,
                                                             }}
                                                             id="aboutLessons"
-                                                            label={t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_LABEL')}
+                                                            label={t(
+                                                                'SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_LABEL'
+                                                            )}
                                                             variant="outlined"
                                                             color="secondary"
                                                         />
                                                         <>
-                                                            <table className={`text-align--start password-tooltip`} style={{ color: '#636363' }}>
+                                                            <table
+                                                                className={`text-align--start password-tooltip`}
+                                                                style={{ color: '#636363' }}
+                                                            >
                                                                 <tbody>
                                                                     <tr>
                                                                         <td>
-                                                                            {formik.values.aboutLessons.trim().split(' ').length >= 50 ? (
+                                                                            {formik.values.aboutLessons
+                                                                                .trim()
+                                                                                .split(' ').length >= 50 ? (
                                                                                 <i
                                                                                     id="length"
                                                                                     className="icon icon--sm icon--check icon--success mr-3"
@@ -439,11 +508,17 @@ const AdditionalInfoPage = ({ nextStep, backStep }: AdditionalProps) => {
                                                                                 ></i>
                                                                             )}
                                                                         </td>
-                                                                        <td>{t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_REQUEST')}</td>
+                                                                        <td>
+                                                                            {t(
+                                                                                'SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_REQUEST'
+                                                                            )}
+                                                                        </td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td>
-                                                                            {formik.values.aboutLessons.trim().split(' ').length >= 100 ? (
+                                                                            {formik.values.aboutLessons
+                                                                                .trim()
+                                                                                .split(' ').length >= 100 ? (
                                                                                 <i
                                                                                     id="length"
                                                                                     className="icon icon--sm icon--check icon--success mr-3"
@@ -457,7 +532,11 @@ const AdditionalInfoPage = ({ nextStep, backStep }: AdditionalProps) => {
                                                                                 ></i>
                                                                             )}
                                                                         </td>
-                                                                        <td>{t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.TOOLTIP_EFFECTIVE')}</td>
+                                                                        <td>
+                                                                            {t(
+                                                                                'SEARCH_TUTORS.TUTOR_PROFILE.FORM.TOOLTIP_EFFECTIVE'
+                                                                            )}
+                                                                        </td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td>
@@ -467,7 +546,11 @@ const AdditionalInfoPage = ({ nextStep, backStep }: AdditionalProps) => {
                                                                                 style={{ pointerEvents: 'none' }}
                                                                             ></i>
                                                                         </td>
-                                                                        <td>{t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_TOOLTIP')}</td>
+                                                                        <td>
+                                                                            {t(
+                                                                                'SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_TOOLTIP'
+                                                                            )}
+                                                                        </td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td>
@@ -477,7 +560,11 @@ const AdditionalInfoPage = ({ nextStep, backStep }: AdditionalProps) => {
                                                                                 style={{ pointerEvents: 'none' }}
                                                                             ></i>
                                                                         </td>
-                                                                        <td>{t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_TOOLTIP_2')}</td>
+                                                                        <td>
+                                                                            {t(
+                                                                                'SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_TOOLTIP_2'
+                                                                            )}
+                                                                        </td>
                                                                     </tr>
                                                                 </tbody>
                                                             </table>

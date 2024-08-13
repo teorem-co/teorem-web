@@ -9,13 +9,14 @@ import { logout } from '../store/slices/authSlice';
 import { RoleOptions } from '../store/slices/roleSlice';
 import { logoutUser } from '../store/slices/userSlice';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { LANDING_PATHS, PATHS, PROFILE_PATHS, RenderMenuLinks } from '../routes';
+import { LANDING_PATHS, PATHS, PROFILE_PATHS } from '../routes';
 import { persistor } from '../store/store';
 import ImageCircle from './ImageCircle';
 import { useLazyGetUserQuery } from '../store/services/userService';
 import MarketSelector from './admin/MarketSelector';
 import getLandingLink from '../utils/getLandingLink';
 import PublicNavbar from './PublicNavbar';
+import { RenderMenuLinks } from './RenderMenuLinks';
 
 const Navbar = () => {
     const dispatch = useAppDispatch();

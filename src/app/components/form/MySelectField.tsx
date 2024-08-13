@@ -2,14 +2,7 @@ import { FieldProps, useField } from 'formik';
 import Select, { components } from 'react-select';
 import { PROFILE_PATHS } from '../../routes';
 import { t } from 'i18next';
-
-export interface OptionType {
-    label: string;
-    value: string;
-    icon?: string;
-    countryId?: string;
-    priority?: number;
-}
+import OptionType from '../../types/OptionType';
 
 export interface PhoneOptionType {
     label: string;

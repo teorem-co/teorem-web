@@ -1,20 +1,20 @@
-import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
-import { useLazyGetProfileProgressQuery, useLazyGetTutorByIdQuery } from '../../../store/services/tutorService';
+import LoaderPrimary from '../../../../components/skeleton-loaders/LoaderPrimary';
+import { useLazyGetProfileProgressQuery, useLazyGetTutorByIdQuery } from '../../../../store/services/tutorService';
 import React, { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { getUserId } from '../../../utils/getUserId';
+import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
+import { getUserId } from '../../../../utils/getUserId';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-import { setMyProfileProgress } from '../../my-profile/slices/myProfileSlice';
-import CircularProgress from '../../my-profile/components/CircularProgress';
-import ISubject from '../../../types/ISubject';
+import { setMyProfileProgress } from '../../../my-profile/slices/myProfileSlice';
+import CircularProgress from '../../../my-profile/components/CircularProgress';
+import ISubject from '../../../../types/ISubject';
 import { AiOutlineLeft } from 'react-icons/ai';
-import { ITutorSubject, setStepOne } from '../../../store/slices/onboardingSlice';
-import { CreateSubjectCard } from './CreateSubjectCard';
-import ITutorSubjectLevel from '../../../types/ITutorSubjectLevel';
-import { ICreateSubjectOnboarding, useCreateSubjectsOnboardingMutation } from '../../../store/services/subjectService';
+import { ITutorSubject, setStepOne } from '../../../../store/slices/onboardingSlice';
+import { TutorSingleTeachingCard } from '../../../my-profile/components/TutorSingleTeachingCard';
+import ITutorSubjectLevel from '../../../../types/ITutorSubjectLevel';
+import { ICreateSubjectOnboarding, useCreateSubjectsOnboardingMutation } from '../../../../store/services/subjectService';
 import logo from '../../../../assets/images/teorem_logo_purple.png';
-import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
+import { ButtonPrimaryGradient } from '../../../../components/ButtonPrimaryGradient';
 
 interface SubjectsValues {
     subjects: ISubject[];
@@ -267,7 +267,7 @@ const SubjectsPage = ({ nextStep, backStep }: SubjectsProps) => {
                                 >
                                     <div>
                                         {forms.map((subject) => (
-                                            <CreateSubjectCard
+                                            <TutorSingleTeachingCard
                                                 data={subject}
                                                 key={subject.id}
                                                 isLastForm={isLastForm}

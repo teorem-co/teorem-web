@@ -4,10 +4,10 @@ import { t } from 'i18next';
 import { Form, FormikProvider, useFormik } from 'formik';
 import MyTextField from '../../../components/form/MyTextField';
 import MyPhoneInput from '../../../components/form/MyPhoneInput';
-import MySelect, { OptionType } from '../../../components/form/MySelectField';
+import MySelect from '../../../components/form/MySelectField';
 import { countryInput } from '../../../constants/countryInput';
 import { countryOption } from '../../../constants/countryOption';
-import { useLazyGetCountriesQuery } from '../../onboarding/services/countryService';
+import { useLazyGetCountriesQuery } from '../../../store/services/countryService';
 import MyTextArea from '../../../components/form/MyTextArea';
 import { useEditTutorMutation } from '../../../store/services/tutorService';
 import UploadFile from '../../../components/form/MyUploadField';
@@ -18,6 +18,7 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 import ICountry from '../../../types/ICountry';
+import OptionType from '../../../types/OptionType';
 
 export function EditTutor({ tutorData, setRefetch }: any) {
     const [getCountries, { data: countries }] = useLazyGetCountriesQuery();

@@ -9,13 +9,13 @@ import { resetStudentRegister } from '../../../store/slices/studentRegisterSlice
 import { resetTutorRegister } from '../../../store/slices/tutorRegisterSlice';
 import MyDatePicker from '../../../components/form/MyDatePicker';
 import MyPhoneInput from '../../../components/form/MyPhoneInput';
-import { OptionType } from '../../../components/form/MySelectField';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import toastService from '../../../store/services/toastService';
 import useOutsideAlerter from '../../../utils/useOutsideAlerter';
-import { useLazyGetCountriesQuery } from '../services/countryService';
+import { useLazyGetCountriesQuery } from '../../../store/services/countryService';
 import MyTextField from '../../../components/form/MyTextField';
 import ICountry from '../../../types/ICountry';
+import OptionType from '../../../types/OptionType';
 
 interface StepOneValues {
     firstName: string;

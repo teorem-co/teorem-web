@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { SyncLoader } from 'react-spinners';
-import { useLazyGetUploadVideoUrlQuery } from '../../onboarding/services/vimeoService';
+import { useLazyGetUploadVideoUrlQuery } from '../../../store/services/vimeoService';
 import { uploadToVimeo } from './uploadToVimeo';
 import { MdOutlineCloudUpload } from 'react-icons/md';
 import { t } from 'i18next';

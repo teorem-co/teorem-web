@@ -13,7 +13,7 @@ import {
 import { useLazyGetProfileProgressQuery } from '../../../store/services/tutorService';
 import MySelect from '../../../components/form/MySelectField';
 import MyTextField from '../../../components/form/MyTextField';
-import { useLazyGetCountriesQuery } from '../../../features/onboarding/services/countryService';
+import { useLazyGetCountriesQuery } from '../../../store/services/countryService';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import toastService from '../../../store/services/toastService';
 import { getUserId } from '../../../utils/getUserId';

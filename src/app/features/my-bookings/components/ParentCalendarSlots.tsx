@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import { useGetTutorSubjectLevelPairsQuery } from '../../../store/services/subjectService';
 import { useLazyGetChildQuery, useLazyGetCreditsQuery, useLazyGetUserQuery } from '../../../store/services/userService';
 import { RoleOptions } from '../../../store/slices/roleSlice';
-import MySelect, { OptionType } from '../../../components/form/MySelectField';
+import MySelect from '../../../components/form/MySelectField';
 import MyTimePicker from '../../../components/form/MyTimePicker';
 import MyTextField from '../../../components/form/MyTextField';
 import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
@@ -22,6 +22,7 @@ import { IBookingChatMessageInfo } from '../../tutor-bookings/TutorBookings';
 import { setCredits } from '../../../store/slices/creditsSlice';
 import { CurrencySymbol } from '../../../components/CurrencySymbol';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
+import OptionType from '../../../types/OptionType';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY!);
 
@@ -48,11 +49,13 @@ interface Values {
 }
 
 const ParentCalendarSlots: React.FC<IProps> = (props) => {
-    const { topOffset, start, end, handleClose, positionClass, setSidebarOpen, tutorDisabled, setShowLessonInfoPopup } = props;
+    const { topOffset, start, end, handleClose, positionClass, setSidebarOpen, tutorDisabled, setShowLessonInfoPopup } =
+        props;
 
     const tutorId = props.tutorId;
     const dispatch = useDispatch();
-    const { data: subjectLevelPairs, isSuccess: isSuccessSubjectsLevelPairs } = useGetTutorSubjectLevelPairsQuery(tutorId);
+    const { data: subjectLevelPairs, isSuccess: isSuccessSubjectsLevelPairs } =
+        useGetTutorSubjectLevelPairsQuery(tutorId);
     const [tutorLevelOptions, setTutorLevelOptions] = useState<OptionType[]>();
     const [tutorSubjectOptions, setTutorSubjectOptions] = useState<OptionType[]>();
 
@@ -127,7 +130,10 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                 // toastService.success(t('BOOKING.SUCCESS'));
                 const bookingInfo: IBookingChatMessageInfo = {
                     tutorId: tutorId,
-                    startTime: moment(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
+                    startTime: moment(start)
+                        .set('hours', Number(splitString[0]))
+                        .set('minutes', Number(splitString[1]))
+                        .toISOString(),
                     subjectId: values.subject,
                     levelId: values.level,
                 };
@@ -143,7 +149,10 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
             userRole === RoleOptions.Parent
                 ? {
                       requesterId: userId,
-                      startTime: moment(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
+                      startTime: moment(start)
+                          .set('hours', Number(splitString[0]))
+                          .set('minutes', Number(splitString[1]))
+                          .toISOString(),
                       subjectId: values.subject,
                       studentId: values.child,
                       tutorId: tutorId,
@@ -153,7 +162,10 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                 : {
                       requesterId: userId,
                       studentId: userId,
-                      startTime: moment(start).set('hours', Number(splitString[0])).set('minutes', Number(splitString[1])).toISOString(),
+                      startTime: moment(start)
+                          .set('hours', Number(splitString[0]))
+                          .set('minutes', Number(splitString[1]))
+                          .toISOString(),
                       subjectId: values.subject,
                       tutorId: tutorId,
                       levelId: values.level,
@@ -223,7 +235,9 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
 
     function filterSubjectsByLevelId(levelId: string) {
         if (subjectLevelPairs) {
-            const subjectOptions: OptionType[] = subjectLevelPairs.filter((item) => item.level.value === levelId).map((item) => item.subject);
+            const subjectOptions: OptionType[] = subjectLevelPairs
+                .filter((item) => item.level.value === levelId)
+                .map((item) => item.subject);
 
             setTutorSubjectOptions(subjectOptions);
         }
@@ -477,7 +491,10 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                                     ) : (
                                         <></>
                                     )}
-                                    <div style={{ justifyContent: 'flex-start', marginBottom: 0 }} className="flex flex--row flex--ai--center mt-4">
+                                    <div
+                                        style={{ justifyContent: 'flex-start', marginBottom: 0 }}
+                                        className="flex flex--row flex--ai--center mt-4"
+                                    >
                                         <input
                                             disabled={isCreateBookingLoading}
                                             className={'mr-2'}
@@ -515,7 +532,11 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                         className="btn btn--base type--wgt--extra-bold mb-1 mt-1"
                         onClick={() => handleSubmitForm()}
                     >
-                        {tutorDisabled ? t('BOOK.FORM.TUTOR_DISABLED') : stripeCustomerId ? t('BOOK.FORM.SUBMIT') : t('BOOK.FORM.ADD_CARD')}
+                        {tutorDisabled
+                            ? t('BOOK.FORM.TUTOR_DISABLED')
+                            : stripeCustomerId
+                              ? t('BOOK.FORM.SUBMIT')
+                              : t('BOOK.FORM.ADD_CARD')}
                     </ButtonPrimaryGradient>
                     <button
                         className="btn btn--base type--wtg--extra-bold btn--clear"

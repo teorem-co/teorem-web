@@ -1,5 +1,5 @@
-import { HttpMethods } from '../../../types/httpMethods';
-import { baseService } from '../../../store/baseService';
+import { HttpMethods } from '../../types/httpMethods';
+import { baseService } from '../baseService';
 
 const URL = '/api/v1/vimeo';
 

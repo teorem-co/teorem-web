@@ -2,26 +2,26 @@ import { t } from 'i18next';
 import { cloneDeep, isEqual } from 'lodash';
 import React, { useEffect, useState } from 'react';
 
-import { useLazyGetProfileProgressQuery } from '../../../store/services/tutorService';
-import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
-import availabilityTable from '../../../constants/availabilityTable';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { getUserId } from '../../../utils/getUserId';
+import { useLazyGetProfileProgressQuery } from '../../../../store/services/tutorService';
+import LoaderPrimary from '../../../../components/skeleton-loaders/LoaderPrimary';
+import availabilityTable from '../../../../constants/availabilityTable';
+import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
+import { getUserId } from '../../../../utils/getUserId';
 import {
     useCreateTutorAvailabilityMutation,
     useLazyGetTutorAvailabilityQuery,
     useUpdateTutorAvailabilityMutation,
-} from '../../my-profile/services/tutorAvailabilityService';
-import IAvailabilityIndex from '../../my-profile/interfaces/IAvailabilityIndex';
-import ITutorAvailability from '../../my-profile/interfaces/ITutorAvailability';
-import { setMyProfileProgress } from '../../my-profile/slices/myProfileSlice';
-import CircularProgress from '../../my-profile/components/CircularProgress';
+} from '../../../my-profile/services/tutorAvailabilityService';
+import IAvailabilityIndex from '../../../my-profile/interfaces/IAvailabilityIndex';
+import ITutorAvailability from '../../../my-profile/interfaces/ITutorAvailability';
+import { setMyProfileProgress } from '../../../my-profile/slices/myProfileSlice';
+import CircularProgress from '../../../my-profile/components/CircularProgress';
 import { useHistory } from 'react-router';
-import { setStepZero } from '../../../store/slices/onboardingSlice';
+import { setStepZero } from '../../../../store/slices/onboardingSlice';
 import logo from '../../../../assets/images/teorem_logo_purple.png';
-import { TimeZoneSelect } from '../../../components/TimeZoneSelect';
-import { useLazyGetUserTimeZoneQuery } from '../../../store/services/userService';
-import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
+import { TimeZoneSelect } from '../../../../components/TimeZoneSelect';
+import { useLazyGetUserTimeZoneQuery } from '../../../../store/services/userService';
+import { ButtonPrimaryGradient } from '../../../../components/ButtonPrimaryGradient';
 
 interface AvailabilityValues {
     availability: ITutorAvailability[];
@@ -33,8 +33,10 @@ type AvailabilityProps = {
 
 const AvailabilityPage = ({ nextStep }: AvailabilityProps) => {
     // const { data: profileProgress } = useGetProfileProgressQuery();
-    const [getTutorAvailability, { data: tutorAvailability, isUninitialized: availabilityUninitialized, isLoading: availabilityLoading }] =
-        useLazyGetTutorAvailabilityQuery();
+    const [
+        getTutorAvailability,
+        { data: tutorAvailability, isUninitialized: availabilityUninitialized, isLoading: availabilityLoading },
+    ] = useLazyGetTutorAvailabilityQuery();
     const [updateTutorAvailability] = useUpdateTutorAvailabilityMutation();
     const [createTutorAvailability] = useCreateTutorAvailabilityMutation();
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
@@ -194,7 +196,8 @@ const AvailabilityPage = ({ nextStep }: AvailabilityProps) => {
     }, []);
 
     useEffect(() => {
-        const isLoaded: boolean = tutorAvailability && tutorAvailability.length > 0 && currentAvailabilities.length > 0 ? true : false;
+        const isLoaded: boolean =
+            tutorAvailability && tutorAvailability.length > 0 && currentAvailabilities.length > 0 ? true : false;
 
         if (isLoaded) {
             if (isEqual(tutorAvailability, currentAvailabilities)) {
@@ -252,7 +255,9 @@ const AvailabilityPage = ({ nextStep }: AvailabilityProps) => {
                                 <CircularProgress progressNumber={progressPercentage} size={isMobile ? 65 : 80} />
                             </div>
                             <div className="flex flex--col flex--jc--center">
-                                <h4 className="signup-title ml-6 text-align--center">{t('MY_PROFILE.GENERAL_AVAILABILITY.TITLE')}</h4>
+                                <h4 className="signup-title ml-6 text-align--center">
+                                    {t('MY_PROFILE.GENERAL_AVAILABILITY.TITLE')}
+                                </h4>
                             </div>
                         </div>
                     </div>
@@ -276,13 +281,19 @@ const AvailabilityPage = ({ nextStep }: AvailabilityProps) => {
                             setSelectedZone={setSelectedZone}
                         />
 
-                        <div className="type--base align--center field__w-fit-content p-2" style={{ color: '#636363', textAlign: 'center' }}>
+                        <div
+                            className="type--base align--center field__w-fit-content p-2"
+                            style={{ color: '#636363', textAlign: 'center' }}
+                        >
                             <span>{t('TUTOR_ONBOARDING.TOOLTIPS.AVAILABILITY_1')}</span>
                         </div>
                         <table style={{ backgroundColor: 'white' }} className="table table--availability ">
                             <tbody>{renderAvailabilityTable()}</tbody>
                         </table>
-                        <div className="type--base align--center field__w-fit-content p-2" style={{ color: '#636363', textAlign: 'center' }}>
+                        <div
+                            className="type--base align--center field__w-fit-content p-2"
+                            style={{ color: '#636363', textAlign: 'center' }}
+                        >
                             <span>{t('TUTOR_ONBOARDING.TOOLTIPS.AVAILABILITY_2')}</span>
                         </div>
                         <ButtonPrimaryGradient

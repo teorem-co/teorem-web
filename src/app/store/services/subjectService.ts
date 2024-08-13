@@ -1,10 +1,9 @@
 import { t } from 'i18next';
 
 import { baseService } from '../baseService';
-import { OptionType } from '../../components/form/MySelectField';
 import { HttpMethods } from '../../types/httpMethods';
 import ISubject from '../../types/ISubject';
-import ISubjectLevel from '../../types/ISubjectLevel';
+import OptionType from '../../types/OptionType';
 
 const URL_TUTORS = 'api/v1/tutors';
 const URL_SUBJECTS = 'api/v1/subjects';

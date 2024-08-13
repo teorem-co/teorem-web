@@ -1425,7 +1425,6 @@ export const HR_HR = {
     STUDENT_PROFILE: '/hr/student-profil/:userId',
     PROFILE: '/hr/pretraga-instruktora/profil/:tutorSlug',
     SEARCH_TUTORS_TUTOR_BOOKINGS: '/hr/pretraga-instruktora/kalendar/:tutorSlug',
-    ONBOARDING: '/hr/onboarding',
     MY_REVIEWS: '/hr/moje-recenzije',
     COMPLETED_LESSONS: '/hr/zavrsene-lekcije',
     CHAT: '/hr/razgovor',
@@ -1438,6 +1437,12 @@ export const HR_HR = {
     STUDENT_MANAGEMENT: '/hr/upravljanje-studentima',
     BOOKING_MANAGEMENT: '/hr/sve-rezervacije',
     TUTOR_MANAGMENT_TUTOR_PROFILE: '/hr/upravljanje-instruktorima/profil/:tutorSlug',
+    ONBOARDING_PATHS: {
+      ONBOARDING: "/hr/onboarding",
+      TUTOR_ONBOARDING: "/hr/onboarding/tutor",
+      STUDENT_ONBOARDING: "/hr/onboarding/student",
+      PARENT_ONBOARDING: "/hr/onboarding/parent",
+    },
     LANDING_PATHS: {
       HOW_IT_WORKS: '/hr/online-instrukcije',
       BECOME_TUTOR: '/hr/postani-instruktor',

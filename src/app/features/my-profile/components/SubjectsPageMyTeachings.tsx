@@ -8,7 +8,7 @@ import { setMyProfileProgress } from '../../my-profile/slices/myProfileSlice';
 import { ITutorSubject, setStepOne } from '../../../store/slices/onboardingSlice';
 import ITutorSubjectLevel from '../../../types/ITutorSubjectLevel';
 import { ICreateSubjectOnboarding, useCreateSubjectsOnboardingMutation } from '../../../store/services/subjectService';
-import { CreateSubjectCard } from '../../onboarding/tutorOnboardingNew/CreateSubjectCard';
+import { TutorSingleTeachingCard } from './TutorSingleTeachingCard';
 import toastService from '../../../store/services/toastService';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 
@@ -265,7 +265,7 @@ const SubjectsPage = () => {
                             >
                                 <div>
                                     {forms.map((subject) => (
-                                        <CreateSubjectCard
+                                        <TutorSingleTeachingCard
                                             data={subject}
                                             key={subject.id + subject.subjectId + subject.levelId}
                                             isLastForm={isLastForm}

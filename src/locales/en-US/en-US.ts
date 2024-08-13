@@ -1426,7 +1426,6 @@ export const EN_US = {
     SEARCH_TUTORS_TUTOR_PROFILE: '/en/profile/:tutorSlug',
     STUDENT_PROFILE: '/en/student-profile/:userId',
     SEARCH_TUTORS_TUTOR_BOOKINGS: '/en/search-tutors/bookings/:tutorSlug',
-    ONBOARDING: '/en/onboarding',
     MY_REVIEWS: '/en/my-reviews',
     COMPLETED_LESSONS: '/en/completed-lessons',
     CHAT: '/en/chat',
@@ -1439,6 +1438,12 @@ export const EN_US = {
     STUDENT_MANAGEMENT: '/en/student-management',
     BOOKING_MANAGEMENT: '/en/all-bookings',
     TUTOR_MANAGMENT_TUTOR_PROFILE: '/en/tutor-managment/profile/:tutorSlug',
+    ONBOARDING_PATHS: {
+      ONBOARDING: "/en/onboarding",
+      TUTOR_ONBOARDING: "/en/onboarding/tutor",
+      STUDENT_ONBOARDING: "/en/onboarding/student",
+      PARENT_ONBOARDING: "/en/onboarding/parent",
+    },
     LANDING_PATHS: {
       HOW_IT_WORKS: '/en/online-tutoring',
       BECOME_TUTOR: '/en/become-tutor',

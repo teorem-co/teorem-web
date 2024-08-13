@@ -16,7 +16,7 @@ import {
     setMessagesAsRead,
     setUser,
 } from './app/features/chat/slices/chatSlice';
-import { useLazyGetCountriesQuery } from './app/features/onboarding/services/countryService';
+import { useLazyGetCountriesQuery } from './app/store/services/countryService';
 import { useAppSelector } from './app/store/hooks';
 import { Role } from './app/types/role';
 import ROUTES, { RenderRoutes } from './app/routes';
@@ -37,8 +37,9 @@ import RegistrationModal from './app/features/auth/components/RegistrationModal'
 import ResetPasswordModal from './app/features/auth/components/ResetPasswordModal';
 import { useLazyGetTutorialStateQuery } from './app/store/services/tutorialService';
 import { setTutorialFinished } from './app/store/slices/tutorialSlice';
+import SEO from './app/components/Seo';
 
-function App() {
+export default function App() {
     const { t } = useTranslation();
 
     const version = useAppSelector((state) => state.auth.serverVersion);
@@ -309,11 +310,10 @@ function App() {
     return versionSame ? (
         <>
             <RenderRoutes routes={ROUTES} />
+            <SEO />
             <LoginModal />
             <RegistrationModal />
             <ResetPasswordModal />
         </>
     ) : null;
 }
-
-export default App;

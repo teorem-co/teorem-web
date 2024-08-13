@@ -29,14 +29,14 @@ import { RoleOptions } from '../../store/slices/roleSlice';
 import { ISearchFiltersState, resetSearchFilters, setSearchFilters } from '../../store/slices/searchFiltesSlice';
 import { ButtonPrimaryGradient } from '../../components/ButtonPrimaryGradient';
 import CustomCheckbox from '../../components/form/CustomCheckbox';
-import MySelect, { OptionType } from '../../components/form/MySelectField';
+import MySelect from '../../components/form/MySelectField';
 import ImageCircle from '../../components/ImageCircle';
 import MainWrapper from '../../components/MainWrapper';
 import NotificationsSidebar from '../../components/NotificationsSidebar';
 import LoaderPrimary from '../../components/skeleton-loaders/LoaderPrimary';
 import { TutorialModal } from '../../components/TutorialModal';
 import { useAppSelector } from '../../store/hooks';
-import { PATHS, PROFILE_PATHS } from '../../routes';
+import { ONBOARDING_PATHS, PATHS, PROFILE_PATHS } from '../../routes';
 import { useLazyGetTutorTestingLinkQuery } from '../../store/services/hiLinkService';
 import toastService from '../../store/services/toastService';
 import { IChatRoom, ISendChatMessage, setActiveChatRoomById } from '../chat/slices/chatSlice';
@@ -53,8 +53,6 @@ import { HiLinkModalForTutorIntro } from '../my-profile/components/HiLinkModalFo
 import LearnCubeModal from '../my-profile/components/LearnCubeModal';
 import { setMyProfileProgress } from '../my-profile/slices/myProfileSlice';
 import NotificationItem from '../notifications/components/NotificationItem';
-import IParams from '../notifications/interfaces/IParams';
-import { OnboardingTutor } from '../onboarding/tutorOnboardingNew/OnboardingTutor';
 import { IBookingModalInfo } from '../tutor-bookings/TutorBookings';
 import { RecommendedTutorCard } from './recommended-tutors/RecommendedTutorCard';
 import { RecommendedTutorCardMobile } from './recommended-tutors/RecommendedTutorCardMobile';
@@ -70,6 +68,8 @@ import { setTutorialFinished } from '../../store/slices/tutorialSlice';
 import useMount from '../../utils/useMount';
 import TUTORIAL_REQUEST from '../tutorial/constants/tutorialRequest';
 import TUTORIAL_SCHEDULE from '../tutorial/constants/tutorialSchedule';
+import OptionType from '../../types/OptionType';
+import { Redirect } from 'react-router';
 
 export default function Dashboard() {
     const { subject, level, dayOfWeek, timeOfDay } = useAppSelector((state) => state.searchFilters);
@@ -130,14 +130,24 @@ export default function Dashboard() {
     const chatrooms = useAppSelector((state) => state.chat.chatRooms);
     const socket = useAppSelector((state) => state.chat.socket);
     const profileProgressState = useAppSelector((state) => state.myProfileProgress);
-    const dispatch = useDispatch();
+    const [getTestingRoomLink] = useLazyGetTutorTestingLinkQuery();
+    const [tutorialModalOpen, setTutorialModalOpen] = useState(false);
+    const [tutorialStepsOpen, setTutorialStepsOpen] = useState(false);
+    const [tutorialRoomLink, setTutorialRoomLink] = useState('');
 
-    const fetchProgress = () => {
-        //If there is no state in redux for profileProgress fetch data and save result to redux
-        getProfileProgress()
-            .unwrap()
-            .then((res) => dispatch(setMyProfileProgress(res)));
-    };
+    const [tutorHiLinkModalActive, setTutorHiLinkModalActive] = useState(false);
+    const [notificationSidebarOpen, setNotificationSidebarOpen] = useState(false);
+    const [paramsSearch, setParamsSearch] = useState<ISearchParams>({
+        rpp: 3,
+        page: 0,
+    });
+    const [resetKey, setResetKey] = useState(false);
+    const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
+    const [levelOptions, setLevelOptions] = useState<OptionType[]>([]);
+    const [getSubjects, { data: subjects, isLoading: isLoadingSubjects }] = useLazyGetSubjectsQuery();
+    const [getLevels, { data: levels, isLoading: isLoadingLevels }] = useLazyGetLevelsQuery();
+
+    const dispatch = useDispatch();
 
     const fetchData = async () => {
         try {
@@ -255,10 +265,12 @@ export default function Dashboard() {
 
     useMount(() => {
         fetchData();
-        fetchProgress();
         getLevels();
         getSubjects();
         getSubjectLevels();
+        getProfileProgress()
+            .unwrap()
+            .then((res) => dispatch(setMyProfileProgress(res)));
 
         socket.on('showNotification', (notification: ISocketNotification) => {
             if (userId && notification.userId === userId) {
@@ -439,18 +451,6 @@ export default function Dashboard() {
             element: '.student-intro-2',
         },
     ];
-
-    const [getTestingRoomLink] = useLazyGetTutorTestingLinkQuery();
-    const [tutorialModalOpen, setTutorialModalOpen] = useState(false);
-    const [tutorialStepsOpen, setTutorialStepsOpen] = useState(false);
-    const [tutorialRoomLink, setTutorialRoomLink] = useState('');
-
-    const [tutorHiLinkModalActive, setTutorHiLinkModalActive] = useState(false);
-    const [notificationSidebarOpen, setNotificationSidebarOpen] = useState(false);
-    const [paramsSearch, setParamsSearch] = useState<ISearchParams>({
-        rpp: 3,
-        page: 0,
-    });
 
     useEffect(() => {
         if (userRole === RoleOptions.Tutor && profileProgressState.percentage === 100) {
@@ -716,12 +716,8 @@ export default function Dashboard() {
         },
     });
 
-    const [resetKey, setResetKey] = useState(false);
-    const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
-    const [levelOptions, setLevelOptions] = useState<OptionType[]>([]);
-    const [getSubjects, { data: subjects, isLoading: isLoadingSubjects }] = useLazyGetSubjectsQuery();
-    const [getLevels, { data: levels, isLoading: isLoadingLevels }] = useLazyGetLevelsQuery();
-    const [getSubjectLevels, { data: subjectLevels, isLoading: isLoadingSubjectLevels }] =
+
+     const [getSubjectLevels, { data: subjectLevels, isLoading: isLoadingSubjectLevels }] =
         useLazyGetSubjectLevelsQuery();
     const resetFilterDisabled =
         formik.values.level == '' &&
@@ -819,7 +815,7 @@ export default function Dashboard() {
     };
 
     if (userRole === RoleOptions.Tutor && profileProgressState.percentage !== 100) {
-        return <OnboardingTutor />;
+        return <Redirect to={ONBOARDING_PATHS.TUTOR_ONBOARDING} />;
     }
 
     return (
