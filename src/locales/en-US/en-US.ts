@@ -415,7 +415,7 @@ export const EN_US = {
     FORM: {
         BUTTONS_SUBTITLE: 'Account type',
         BUTTON_PARENT: 'Parent',
-        BUTTON_STUDENT: 'Student',
+        BUTTON_STUDENT: 'Learner',
         BUTTON_TUTOR: 'Tutor',
         NAME_SUBTITLE: 'Legal name',
         FIRST_NAME: 'First Name on ID',
