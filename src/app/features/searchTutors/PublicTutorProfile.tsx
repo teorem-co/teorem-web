@@ -733,7 +733,7 @@ export default function PublicTutorProfile() {
                                                             size={isMobile ? 'small' : 'medium'}
                                                         />
                                                     </td>
-                                                    <td className={''}>{tutorStatistics.punctuality.toFixed(1)}</td>
+                                                    <td className={''}>{tutorStatistics.punctuality?.toFixed(1)}</td>
                                                 </tr>
                                                 <tr>
                                                     <td className={'text-align--start'}>
