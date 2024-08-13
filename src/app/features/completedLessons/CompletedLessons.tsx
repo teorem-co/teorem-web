@@ -14,7 +14,7 @@ import {
   IGetBookingInfo,
   useLazyGetCompletedLessonsBookingInfoQuery,
   useLazyGetCompletedLessonsQuery,
-} from '../my-bookings/services/completedLessonsService';
+} from '../../store/services/completedLessonsService';
 import CompletedLessonsItem from './components/CompletedLessonsItem';
 import GroupedLessons from './components/GroupedLessons';
 import ReviewModal from './components/ReviewModal';

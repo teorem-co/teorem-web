@@ -46,16 +46,16 @@ import {
     useDeleteBookingMutation,
     useDenyRescheduleRequestMutation,
     useLazyGetPendingBookingsQuery,
-} from '../my-bookings/services/bookingService';
+} from '../../store/services/bookingService';
 import AddChildSidebar from '../my-profile/components/AddChildSidebar';
 import CircularProgress from '../my-profile/components/CircularProgress';
 import { HiLinkModalForTutorIntro } from '../my-profile/components/HiLinkModalForTutorIntro';
 import LearnCubeModal from '../my-profile/components/LearnCubeModal';
-import { setMyProfileProgress } from '../my-profile/slices/myProfileSlice';
+import { setMyProfileProgress } from '../../store/slices/myProfileSlice';
 import NotificationItem from '../notifications/components/NotificationItem';
 import { IBookingModalInfo } from '../tutor-bookings/TutorBookings';
-import { RecommendedTutorCard } from './recommended-tutors/RecommendedTutorCard';
-import { RecommendedTutorCardMobile } from './recommended-tutors/RecommendedTutorCardMobile';
+import { RecommendedTutorCard } from './components/RecommendedTutorCard';
+import { RecommendedTutorCardMobile } from './components/RecommendedTutorCardMobile';
 import { BookingRequestItem } from './upcoming-lessons/BookingRequestItem';
 import { LessonRescheduleRequestItem } from './upcoming-lessons/LessonRescheduleRequestItem';
 import { NotAcceptedLesson } from './upcoming-lessons/NotAcceptedLesson';

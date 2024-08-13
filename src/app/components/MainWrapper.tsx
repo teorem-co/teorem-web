@@ -14,7 +14,7 @@ import { Banner } from './banner/Banner';
 import {
   IRecentBooking,
   useLazyGetRecentBookingsQuery,
-} from '../features/my-bookings/services/bookingService';
+} from '../store/services/bookingService';
 import { PROFILE_PATHS } from '../routes';
 import { useLazyGetChildrenQuery } from '../store/services/userService';
 import { useLazyGetVideoPreviewInfoQuery } from '../store/services/tutorService';

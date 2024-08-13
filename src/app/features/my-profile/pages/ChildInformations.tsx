@@ -12,7 +12,7 @@ import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import AddChildSidebar from '../components/AddChildSidebar';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
-import { setMyProfileProgress } from '../slices/myProfileSlice';
+import { setMyProfileProgress } from '../../../store/slices/myProfileSlice';
 import { userInfo } from 'os';
 
 const ChildInformations = () => {

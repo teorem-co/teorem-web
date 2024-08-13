@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { getUserId } from '../../../../utils/getUserId';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-import { setMyProfileProgress } from '../../../my-profile/slices/myProfileSlice';
+import { setMyProfileProgress } from '../../../../store/slices/myProfileSlice';
 import CircularProgress from '../../../my-profile/components/CircularProgress';
 import ISubject from '../../../../types/ISubject';
 import { AiOutlineLeft } from 'react-icons/ai';

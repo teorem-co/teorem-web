@@ -22,7 +22,7 @@ import handleRatingStars from '../../utils/handleRatingStarts';
 import { addChatRoom, IChatRoom } from '../chat/slices/chatSlice';
 import {
   useLazyGetTutorAvailabilityQuery,
-} from '../my-profile/services/tutorAvailabilityService';
+} from '../../store/services/tutorAvailabilityService';
 import Ratings from '../myReviews/components/Ratings';
 import ReviewItem from '../myReviews/components/ReviewItem';
 import IMyReview from '../myReviews/interfaces/IMyReview';

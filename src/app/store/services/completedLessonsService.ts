@@ -1,6 +1,6 @@
-import { HttpMethods } from '../../../types/httpMethods';
-import { baseService } from '../../../store/baseService';
-import ICompletedLesson from '../interfaces/ICompletedLesson';
+import { HttpMethods } from '../../types/httpMethods';
+import { baseService } from '../baseService';
+import ICompletedLesson from '../../features/my-bookings/interfaces/ICompletedLesson';
 
 const URL = '/api/v1/completed-lessons';
 

@@ -14,7 +14,7 @@ import AddSubjectSidebar from '../components/AddSubjectSidebar';
 import EditSubjectSidebar from '../components/EditSubjectSidebar';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
-import { setMyProfileProgress } from '../slices/myProfileSlice';
+import { setMyProfileProgress } from '../../../store/slices/myProfileSlice';
 import SubjectsPageMyTeachings from '../components/SubjectsPageMyTeachings';
 
 const MyTeachings = () => {

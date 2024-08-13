@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import IUser from '../../types/IUser';
-import { IVerificationDocumentResponse } from '../../features/my-profile/services/stripeService';
+import { IVerificationDocumentResponse } from '../services/stripeService';
 import deleteCookie from '../../utils/deleteCookie';
 
 interface ILoginPayload {

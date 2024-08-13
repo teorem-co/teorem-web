@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router';
-import { useMultistepForm } from '../../register/sign_up_rework/useMultiStepForm';
-import { PATHS } from '../../../routes';
+import { useMultistepForm } from '../../../register/sign_up_rework/useMultiStepForm';
+import { PATHS } from '../../../../routes';
 import AvailabilityPage from './AvailabilityPage';
 import SubjectsPage from './SubjectsPage';
 import AdditionalInfoPage from './AdditionalInfoPage';

@@ -20,7 +20,7 @@ import { getUserId } from '../../../utils/getUserId';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
 import IUpdateAdditionalInfo from '../interfaces/IUpdateAdditionalInfo';
-import { setMyProfileProgress } from '../slices/myProfileSlice';
+import { setMyProfileProgress } from '../../../store/slices/myProfileSlice';
 import { TextField } from '@mui/material';
 import { RoleOptions } from '../../../store/slices/roleSlice';
 import { VideoPreviewUpload } from '../VideoRecorder/VideoPreviewUpload';

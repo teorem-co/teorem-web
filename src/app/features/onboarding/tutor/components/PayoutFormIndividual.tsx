@@ -4,17 +4,15 @@ import { useTranslation } from 'react-i18next';
 import { ScaleLoader } from 'react-spinners';
 import * as yup from 'yup';
 
-import { connectStripe } from '../../../store/slices/authSlice';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { getUserId } from '../../../utils/getUserId';
-import {
-  useConnectAccountMutation,
-} from '../../my-profile/services/stripeService';
-import { setMyProfileProgress } from '../../my-profile/slices/myProfileSlice';
+import { connectStripe } from '../../../../store/slices/authSlice';
+import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
+import { getUserId } from '../../../../utils/getUserId';
 import { TextField } from '@mui/material';
 import {
   ButtonPrimaryGradient,
-} from '../../../components/ButtonPrimaryGradient';
+} from '../../../../components/ButtonPrimaryGradient';
+import { useConnectAccountMutation } from '../../../../store/services/stripeService';
+import { setMyProfileProgress } from '../../../../store/slices/myProfileSlice';
 
 interface Props {
   nextStep: () => void;

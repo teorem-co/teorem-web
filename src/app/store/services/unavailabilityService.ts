@@ -1,6 +1,6 @@
-import { HttpMethods } from '../../../types/httpMethods';
-import { baseService } from '../../../store/baseService';
-import { IUnavailability } from '../interfaces/IUnavailability';
+import { HttpMethods } from '../../types/httpMethods';
+import { baseService } from '../baseService';
+import { IUnavailability } from '../../features/my-bookings/interfaces/IUnavailability';
 import moment from 'moment/moment';
 
 //bookings/week/:tutorSlug

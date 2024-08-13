@@ -9,7 +9,7 @@ import { useAppSelector } from '../../../../store/hooks';
 import IMyReviewParams from '../../../myReviews/interfaces/IMyReviewParams';
 import IMyReview from '../../../myReviews/interfaces/IMyReview';
 import { useLazyGetMyReviewsQuery, useLazyGetStatisticsQuery } from '../../../myReviews/services/myReviewsService';
-import { useLazyGetTutorAvailabilityQuery } from '../../../my-profile/services/tutorAvailabilityService';
+import { useLazyGetTutorAvailabilityQuery } from '../../../../store/services/tutorAvailabilityService';
 import { IGetMyReviews } from '../../../myReviews/MyReviews';
 import PublicTutorProfile from '../../../searchTutors/PublicTutorProfile';
 import LoaderTutorProfile from '../../../../components/skeleton-loaders/LoaderTutorProfile';

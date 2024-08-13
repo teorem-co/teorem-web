@@ -13,7 +13,7 @@ import { useLazyGetCountriesQuery } from '../../../store/services/countryService
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import toastService from '../../../store/services/toastService';
 import getUrlParams from '../../../utils/getUrlParams';
-import { setMyProfileProgress } from '../slices/myProfileSlice';
+import { setMyProfileProgress } from '../../../store/slices/myProfileSlice';
 import { getUserId } from '../../../utils/getUserId';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 

@@ -13,7 +13,7 @@ import { useAppSelector } from '../../store/hooks';
 import { PATHS } from '../../routes';
 import { useGetOrCreateChatMutation } from '../../store/services/chatEngineService';
 import { addChatRoom, IChatRoom } from '../chat/slices/chatSlice';
-import { useLazyGetTutorAvailabilityQuery } from '../my-profile/services/tutorAvailabilityService';
+import { useLazyGetTutorAvailabilityQuery } from '../../store/services/tutorAvailabilityService';
 import Ratings from '../myReviews/components/Ratings';
 import ReviewItem from '../myReviews/components/ReviewItem';
 import IMyReview from '../myReviews/interfaces/IMyReview';

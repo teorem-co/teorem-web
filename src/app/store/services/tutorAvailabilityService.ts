@@ -1,7 +1,7 @@
-import { HttpMethods } from '../../../types/httpMethods';
-import { baseService } from '../../../store/baseService';
-import IPartOfDayOption from '../interfaces/IPartOfDayOption';
-import ITutorAvailability from '../interfaces/ITutorAvailability';
+import { HttpMethods } from '../../types/httpMethods';
+import { baseService } from '../baseService';
+import IPartOfDayOption from '../../features/my-profile/interfaces/IPartOfDayOption';
+import ITutorAvailability from '../../features/my-profile/interfaces/ITutorAvailability';
 
 const URL = 'api/v1/tutors/availability';
 const TUTORS_URL = 'api/v1/tutors';

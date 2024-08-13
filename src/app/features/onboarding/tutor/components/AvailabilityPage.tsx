@@ -11,10 +11,10 @@ import {
     useCreateTutorAvailabilityMutation,
     useLazyGetTutorAvailabilityQuery,
     useUpdateTutorAvailabilityMutation,
-} from '../../../my-profile/services/tutorAvailabilityService';
+} from '../../../../store/services/tutorAvailabilityService';
 import IAvailabilityIndex from '../../../my-profile/interfaces/IAvailabilityIndex';
 import ITutorAvailability from '../../../my-profile/interfaces/ITutorAvailability';
-import { setMyProfileProgress } from '../../../my-profile/slices/myProfileSlice';
+import { setMyProfileProgress } from '../../../../store/slices/myProfileSlice';
 import CircularProgress from '../../../my-profile/components/CircularProgress';
 import { useHistory } from 'react-router';
 import { setStepZero } from '../../../../store/slices/onboardingSlice';

@@ -17,7 +17,7 @@ import { useLazyGetCountriesQuery } from '../../../store/services/countryService
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import toastService from '../../../store/services/toastService';
 import { getUserId } from '../../../utils/getUserId';
-import { setMyProfileProgress } from '../slices/myProfileSlice';
+import { setMyProfileProgress } from '../../../store/slices/myProfileSlice';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 import useMount from '../../../utils/useMount';
 

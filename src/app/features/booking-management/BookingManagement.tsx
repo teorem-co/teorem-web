@@ -1,7 +1,7 @@
 import {
   IStudentBookingDetails,
   useLazyGetAllBookingsForTutorManagementQuery,
-} from '../my-bookings/services/bookingService';
+} from '../../store/services/bookingService';
 import React, { useEffect, useState } from 'react';
 import { t } from 'i18next';
 import moment from 'moment/moment';

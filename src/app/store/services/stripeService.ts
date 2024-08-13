@@ -1,10 +1,10 @@
-import { HttpMethods } from '../../../types/httpMethods';
-import { baseService } from '../../../store/baseService';
-import IAddCustomerPost from '../interfaces/IAddCustomerPost';
-import IDeleteCreditCard from '../interfaces/IDeleteCreditCard';
-import IGetCreditCards from '../interfaces/IGetCreditCards';
-import ISetDefaultCreditCard from '../interfaces/ISetDefaultCreditCard';
-import IStripeConnectAccount from '../interfaces/IStripeConnectAccount';
+import { HttpMethods } from '../../types/httpMethods';
+import { baseService } from '../baseService';
+import IAddCustomerPost from '../../features/my-profile/interfaces/IAddCustomerPost';
+import IDeleteCreditCard from '../../features/my-profile/interfaces/IDeleteCreditCard';
+import IGetCreditCards from '../../features/my-profile/interfaces/IGetCreditCards';
+import ISetDefaultCreditCard from '../../features/my-profile/interfaces/ISetDefaultCreditCard';
+import IStripeConnectAccount from '../../features/my-profile/interfaces/IStripeConnectAccount';
 
 const URL = 'api/v1/stripe';
 

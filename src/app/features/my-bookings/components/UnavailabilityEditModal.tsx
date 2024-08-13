@@ -4,7 +4,7 @@ import moment from 'moment';
 import toastService from '../../../store/services/toastService';
 import {
   useDeleteTutorUnavailabilityMutation,
-} from '../services/unavailabilityService';
+} from '../../../store/services/unavailabilityService';
 
 interface Props {
     handleClose?: (close: boolean) => void;

@@ -13,7 +13,7 @@ import LoaderPrimary from '../../../../components/skeleton-loaders/LoaderPrimary
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { getUserId } from '../../../../utils/getUserId';
 import IUpdateAdditionalInfo from '../../../my-profile/interfaces/IUpdateAdditionalInfo';
-import { setMyProfileProgress } from '../../../my-profile/slices/myProfileSlice';
+import { setMyProfileProgress } from '../../../../store/slices/myProfileSlice';
 import { AiOutlineLeft } from 'react-icons/ai';
 import CircularProgress from '../../../my-profile/components/CircularProgress';
 import { setStepTwo } from '../../../../store/slices/onboardingSlice';

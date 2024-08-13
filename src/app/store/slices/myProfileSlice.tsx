@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import IProgressProfile from '../interfaces/IProgressProfile';
+import IProgressProfile from '../../types/IProgressProfile';
 
 const initialState: IProgressProfile = {
     aboutMe: false,

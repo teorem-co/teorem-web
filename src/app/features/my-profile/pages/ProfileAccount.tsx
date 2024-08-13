@@ -28,8 +28,8 @@ import {
     useLazyGetCustomerByIdQuery,
     useRemoveCreditCardMutation,
     useSetDefaultCreditCardMutation,
-} from '../services/stripeService';
-import { setMyProfileProgress } from '../slices/myProfileSlice';
+} from '../../../store/services/stripeService';
+import { setMyProfileProgress } from '../../../store/slices/myProfileSlice';
 import StripeConnectForm from '../components/StripeConnectForm';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe, StripeElementsOptions } from '@stripe/stripe-js';

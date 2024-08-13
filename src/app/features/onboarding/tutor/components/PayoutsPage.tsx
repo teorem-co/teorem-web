@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { useLazyGetProfileProgressQuery } from '../../../store/services/tutorService';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { getUserId } from '../../../utils/getUserId';
-import { setMyProfileProgress } from '../../my-profile/slices/myProfileSlice';
+import { useLazyGetProfileProgressQuery } from '../../../../store/services/tutorService';
+import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
+import { getUserId } from '../../../../utils/getUserId';
+
 import { AiOutlineLeft } from 'react-icons/ai';
-import CircularProgress from '../../my-profile/components/CircularProgress';
+import CircularProgress from '../../../my-profile/components/CircularProgress';
 import TestTutorProfile from './TestTutorProfile';
 import { PayoutFormIndividual } from './PayoutFormIndividual';
 import { PayoutFormCompany } from './PayoutFormCompany';
 import logo from '../../../../assets/images/teorem_logo_purple.png';
+import { setMyProfileProgress } from '../../../../store/slices/myProfileSlice';
 
 //TODO: add saving to database
 
@@ -91,13 +92,22 @@ const PayoutsPage = ({ nextStep, backStep }: AdditionalProps) => {
                     <div className="flex field__w-fit-content align--center">
                         <div className="flex flex--col flex--jc--center ml-6">
                             <div style={{ margin: '40px' }} className="flex flex--center">
-                                <AiOutlineLeft className={`ml-2 mr-6 cur--pointer signup-icon`} color="grey" onClick={backStep} />
+                                <AiOutlineLeft
+                                    className={`ml-2 mr-6 cur--pointer signup-icon`}
+                                    color="grey"
+                                    onClick={backStep}
+                                />
                                 <div className="flex flex--row flex--jc--center">
                                     <div className="flex flex--center flex--shrink ">
-                                        <CircularProgress progressNumber={progressPercentage} size={isMobile ? 65 : 80} />
+                                        <CircularProgress
+                                            progressNumber={progressPercentage}
+                                            size={isMobile ? 65 : 80}
+                                        />
                                     </div>
                                     <div className="flex flex--col flex--jc--center">
-                                        <h4 className="signup-title ml-6 text-align--center">{t('MY_PROFILE.PAYOUTS')}</h4>
+                                        <h4 className="signup-title ml-6 text-align--center">
+                                            {t('MY_PROFILE.PAYOUTS')}
+                                        </h4>
                                     </div>
                                 </div>
                             </div>
@@ -154,7 +164,9 @@ const PayoutsPage = ({ nextStep, backStep }: AdditionalProps) => {
                         </div>
                         <div>
                             {individual && <PayoutFormIndividual nextStep={nextStep} />}
-                            {business && user?.countryId !== 'c4c4acdc-57b9-4567-a3ca-a03faa0b58f9' && <PayoutFormCompany nextStep={nextStep} />}
+                            {business && user?.countryId !== 'c4c4acdc-57b9-4567-a3ca-a03faa0b58f9' && (
+                                <PayoutFormCompany nextStep={nextStep} />
+                            )}
                         </div>
                     </div>
                 </div>

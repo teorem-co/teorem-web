@@ -4,7 +4,7 @@ import { combineReducers } from 'redux';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
-import myProfileProgressReducer from '../features/my-profile/slices/myProfileSlice';
+import myProfileProgressReducer from './slices/myProfileSlice';
 import authReducer from './slices/authSlice';
 import childrenReducer from './slices/childrenSlice';
 import langReducer from './slices/langSlice';

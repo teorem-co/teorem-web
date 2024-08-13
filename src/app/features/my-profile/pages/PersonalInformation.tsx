@@ -29,7 +29,7 @@ import { getUserId } from '../../../utils/getUserId';
 import { useLazyGetCountriesQuery } from '../../../store/services/countryService';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
-import { setMyProfileProgress } from '../slices/myProfileSlice';
+import { setMyProfileProgress } from '../../../store/slices/myProfileSlice';
 
 import imageCompression from 'browser-image-compression';
 import { TextField } from '@mui/material';

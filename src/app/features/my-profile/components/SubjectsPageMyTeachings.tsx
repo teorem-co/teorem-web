@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { getUserId } from '../../../utils/getUserId';
 import { useTranslation } from 'react-i18next';
-import { setMyProfileProgress } from '../../my-profile/slices/myProfileSlice';
+import { setMyProfileProgress } from '../../../store/slices/myProfileSlice';
 import { ITutorSubject, setStepOne } from '../../../store/slices/onboardingSlice';
 import ITutorSubjectLevel from '../../../types/ITutorSubjectLevel';
 import { ICreateSubjectOnboarding, useCreateSubjectsOnboardingMutation } from '../../../store/services/subjectService';
