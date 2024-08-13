@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from '../../../../../store/hooks';
 import { useLazyGetProfileProgressQuery } from '../../../../../store/services/tutorService';
 import useMount from '../../../../../utils/useMount';
 import { PATHS } from '../../../../../routes';
+import OnboardingLayout from '../../../components/OnboardingLayout';
 
 export default function TutorOnboarding() {
     const dispatch = useAppDispatch();
@@ -21,5 +22,5 @@ export default function TutorOnboarding() {
         init();
     });
 
-    return <div></div>;
+    return <OnboardingLayout></OnboardingLayout>;
 }
