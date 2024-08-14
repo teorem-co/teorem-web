@@ -137,10 +137,10 @@ export const ROUTES: IRoute[] = [
         path: ONBOARDING_PATHS.ONBOARDING,
         key: 'ONBOARDING',
         isMenu: false,
-        component: () => (
-            <PermissionsGate roles={[Role.Parent, Role.Student, Role.Tutor]}>
-                <Onboarding />
-            </PermissionsGate>
+        component: (props) => (
+            <Onboarding>
+                <RenderRoutes {...props} />
+            </Onboarding>
         ),
         routes: [
             {
@@ -155,17 +155,6 @@ export const ROUTES: IRoute[] = [
                 ),
             },
             {
-                path: ONBOARDING_PATHS.STUDENT_ONBOARDING,
-                key: 'STUDENT_ONBOARDING',
-                isMenu: false,
-                exact: true,
-                component: () => (
-                    <PermissionsGate roles={[Role.Student]}>
-                        <StudentOnboarding />
-                    </PermissionsGate>
-                ),
-            },
-            {
                 path: ONBOARDING_PATHS.PARENT_ONBOARDING,
                 key: 'PARENT_ONBOARDING',
                 isMenu: false,
@@ -173,6 +162,17 @@ export const ROUTES: IRoute[] = [
                 component: () => (
                     <PermissionsGate roles={[Role.Parent]}>
                         <ParentOnboarding />
+                    </PermissionsGate>
+                ),
+            },
+            {
+                path: ONBOARDING_PATHS.STUDENT_ONBOARDING,
+                key: 'STUDENT_ONBOARDING',
+                isMenu: false,
+                exact: true,
+                component: () => (
+                    <PermissionsGate roles={[Role.Student]}>
+                        <StudentOnboarding />
                     </PermissionsGate>
                 ),
             },

@@ -1,0 +1,29 @@
+.layout {
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto auto;
+}
+
+.headerContainer {
+}
+
+.header {
+}
+
+.children {
+}
+
+.footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 90px;
+}
+
+.back {
+}
+
+.actions {
+}

@@ -3,8 +3,13 @@ import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import useMount from '../../../utils/useMount';
 import { useHistory } from 'react-router';
 import { ONBOARDING_PATHS } from '../../../routes';
+import { ReactNode } from 'react';
 
-export default function Onboarding() {
+interface IOnboardingProps {
+    children?: ReactNode;
+}
+
+export default function Onboarding({ children }: IOnboardingProps) {
     const dispatch = useAppDispatch();
     const history = useHistory();
     const { user } = useAppSelector((state) => state.auth);
@@ -29,5 +34,5 @@ export default function Onboarding() {
         init();
     });
 
-    return null;
+    return <>{children}</>;
 }

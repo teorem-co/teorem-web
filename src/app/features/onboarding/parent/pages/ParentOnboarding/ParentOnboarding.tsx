@@ -22,5 +22,5 @@ export default function ParentOnboarding() {
         init();
     });
 
-    return <OnboardingLayout></OnboardingLayout>;
+    return <OnboardingLayout step={1}>tekst</OnboardingLayout>;
 }
