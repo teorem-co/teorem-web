@@ -91,7 +91,6 @@ export const PayoutFormCompany = (props: Props) => {
                     setMyProfileProgress({
                         ...profileProgressState,
                         payment: true,
-                        percentage: profileProgressState.percentage + 20,
                     })
                 );
                 // toastService.success(t('STRIPE_CONNECT.SUCCESS'));
@@ -280,7 +279,10 @@ export const PayoutFormCompany = (props: Props) => {
                             />
                         </div>
 
-                        <div style={{ textAlign: 'center' }} dangerouslySetInnerHTML={{ __html: t('STRIPE_CONNECT.TERMS') }} />
+                        <div
+                            style={{ textAlign: 'center' }}
+                            dangerouslySetInnerHTML={{ __html: t('STRIPE_CONNECT.TERMS') }}
+                        />
                         <div className="flex flex--center align-self-center mt-3">
                             <ScaleLoader color={'#7e6cf2'} loading={loading} style={{ margin: '0 auto' }} />
                         </div>
@@ -293,7 +295,12 @@ export const PayoutFormCompany = (props: Props) => {
                                 flexDirection: 'column',
                             }}
                         >
-                            <ButtonPrimaryGradient id="tutor-onboarding-step-5" type="submit" disabled={!formik.isValid} className="btn btn--lg mt-4">
+                            <ButtonPrimaryGradient
+                                id="tutor-onboarding-step-5"
+                                type="submit"
+                                disabled={!formik.isValid}
+                                className="btn btn--lg mt-4"
+                            >
                                 {t('REGISTER.NEXT_BUTTON')}
                             </ButtonPrimaryGradient>
                         </div>

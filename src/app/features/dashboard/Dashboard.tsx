@@ -453,10 +453,10 @@ export default function Dashboard() {
     ];
 
     useEffect(() => {
-        if (userRole === RoleOptions.Tutor && profileProgressState.percentage === 100) {
+        if (userRole === RoleOptions.Tutor && user?.onboardingCompleted) {
             setTutorialModalOpen(true);
         }
-    }, [profileProgressState.percentage, userRole]);
+    }, [user, userRole]);
 
     useEffect(() => {
         if (userRole === RoleOptions.Parent) {
@@ -814,7 +814,7 @@ export default function Dashboard() {
         }
     };
 
-    if (userRole === RoleOptions.Tutor && profileProgressState.percentage !== 100) {
+    if (userRole === RoleOptions.Tutor && !user?.onboardingCompleted) {
         return <Redirect to={ONBOARDING_PATHS.TUTOR_ONBOARDING} />;
     }
 
@@ -960,130 +960,6 @@ export default function Dashboard() {
                 <MainWrapper>
                     <div className="layout--primary">
                         <div>
-                            {userRole == RoleOptions.Tutor &&
-                            profileProgressState.percentage &&
-                            profileProgressState.percentage < 100 ? (
-                                <div className="card--dashboard mb-6">
-                                    <div>
-                                        <div className="row">
-                                            <div className="col col-12 col-xl-6">
-                                                <div className="flex">
-                                                    <div className="flex flex--center flex--shrink">
-                                                        <CircularProgress
-                                                            progressNumber={
-                                                                profileProgressState.percentage
-                                                                    ? profileProgressState.percentage
-                                                                    : 0
-                                                            }
-                                                            size={80}
-                                                        />
-                                                    </div>
-                                                    <div className="flex flex--col flex--jc--center ml-6">
-                                                        <h4 className="type--md mb-2">
-                                                            {t(`COMPLETE_TUTOR_PROFILE_CARD.TITLE`)}
-                                                        </h4>
-                                                        <p>{t(`COMPLETE_TUTOR_PROFILE_CARD.DESCRIPTION`)}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="col col-12 col-xl-6">
-                                                <div
-                                                    className="flex flex--center flex--jc--space-between flex--wrap dashboard-complete-profile-btns"
-                                                    style={{ height: '100%', gap: 16 }}
-                                                >
-                                                    <NavLink
-                                                        exact
-                                                        to={PROFILE_PATHS.MY_PROFILE_INFO_AVAILABILITY}
-                                                        className="nav-link--profile"
-                                                        activeClassName="active"
-                                                    >
-                                                        <div className="flex flex--col flex--center">
-                                                            <div className="nav-link--profile__wrapper">
-                                                                <i
-                                                                    className={`icon icon--base icon--${
-                                                                        profileProgressState.generalAvailability
-                                                                            ? 'check'
-                                                                            : 'calendar'
-                                                                    } nav-link--profile__icon`}
-                                                                ></i>
-                                                            </div>
-                                                            <div className="nav-link--profile__label type--center mt-4 pl-2 pr-2">
-                                                                {t('COMPLETE_PROFILE.GENERAL_AVAILABILITY')}
-                                                            </div>
-                                                        </div>
-                                                    </NavLink>
-                                                    <NavLink
-                                                        exact
-                                                        to={PROFILE_PATHS.MY_PROFILE_INFO_TEACHINGS}
-                                                        className="nav-link--profile"
-                                                        activeClassName="active"
-                                                    >
-                                                        <div className="flex flex--col flex--center">
-                                                            <div className="nav-link--profile__wrapper">
-                                                                <i
-                                                                    className={`icon icon--base icon--${
-                                                                        profileProgressState.myTeachings
-                                                                            ? 'check'
-                                                                            : 'subject'
-                                                                    } nav-link--profile__icon`}
-                                                                ></i>
-                                                            </div>
-                                                            <div className="nav-link--profile__label type--center mt-4 pl-2 pr-2">
-                                                                {t('COMPLETE_PROFILE.MY_TEACHINGS')}
-                                                            </div>
-                                                        </div>
-                                                    </NavLink>
-                                                    <NavLink
-                                                        exact
-                                                        to={PROFILE_PATHS.MY_PROFILE_INFO_ADDITIONAL}
-                                                        className="nav-link--profile"
-                                                        activeClassName="active"
-                                                    >
-                                                        <div className="flex flex--col flex--center">
-                                                            <div className="nav-link--profile__wrapper">
-                                                                <i
-                                                                    className={`icon icon--base icon--${
-                                                                        profileProgressState.aboutMe
-                                                                            ? 'check'
-                                                                            : 'profile'
-                                                                    } nav-link--profile__icon`}
-                                                                ></i>
-                                                            </div>
-                                                            <div
-                                                                className="nav-link--profile__label type--center mt-4 pl-2 pr-2"
-                                                                style={{ whiteSpace: 'nowrap' }}
-                                                            >
-                                                                {t('COMPLETE_PROFILE.ABOUT_ME')}
-                                                            </div>
-                                                        </div>
-                                                    </NavLink>
-                                                    <NavLink
-                                                        exact
-                                                        to={PROFILE_PATHS.MY_PROFILE_ACCOUNT}
-                                                        className="nav-link--profile"
-                                                        activeClassName="active"
-                                                    >
-                                                        <div className="flex flex--col flex--center">
-                                                            <div className="nav-link--profile__wrapper">
-                                                                <i
-                                                                    className={`icon icon--base icon--${
-                                                                        profileProgressState.payment
-                                                                            ? 'check'
-                                                                            : 'pricing'
-                                                                    } nav-link--profile__icon`}
-                                                                ></i>
-                                                            </div>
-                                                            <div className="nav-link--profile__label type--center mt-4 pl-2 pr-2">
-                                                                {t('COMPLETE_PROFILE.EARNINGS')}
-                                                            </div>
-                                                        </div>
-                                                    </NavLink>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            ) : null}
                             <div className="card--secondary card--secondary--alt">
                                 <div className={`card--secondary__head flex--jc--space-between`}>
                                     <h2 className="type--wgt--bold type--lg">{t('DASHBOARD.TITLE')}</h2>
@@ -1147,7 +1023,7 @@ export default function Dashboard() {
                                                 </div>
                                             )}
                                         </div>
-                                    ) : userRole === RoleOptions.Student || userRole == RoleOptions.Parent ? (
+                                    ) : userRole === RoleOptions.Student || userRole === RoleOptions.Parent ? (
                                         <div>
                                             <div className="dashboard__requests tutor-intro-1">
                                                 <div className="type--color--tertiary mb-2">

@@ -9,12 +9,15 @@ import { setMyProfileProgress } from '../../../../store/slices/myProfileSlice';
 import CircularProgress from '../../../my-profile/components/CircularProgress';
 import ISubject from '../../../../types/ISubject';
 import { AiOutlineLeft } from 'react-icons/ai';
-import { ITutorSubject, setStepOne } from '../../../../store/slices/onboardingSlice';
 import { TutorSingleTeachingCard } from '../../../my-profile/components/TutorSingleTeachingCard';
 import ITutorSubjectLevel from '../../../../types/ITutorSubjectLevel';
-import { ICreateSubjectOnboarding, useCreateSubjectsOnboardingMutation } from '../../../../store/services/subjectService';
+import {
+    ICreateSubjectOnboarding,
+    useCreateSubjectsOnboardingMutation,
+} from '../../../../store/services/subjectService';
 import logo from '../../../../assets/images/teorem_logo_purple.png';
 import { ButtonPrimaryGradient } from '../../../../components/ButtonPrimaryGradient';
+import { ITutorSubject } from '../../../../types/ITutorSubject';
 
 interface SubjectsValues {
     subjects: ISubject[];
@@ -27,8 +30,10 @@ type SubjectsProps = {
 
 const SubjectsPage = ({ nextStep, backStep }: SubjectsProps) => {
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
-    const [getProfileData, { data: myTeachingsData, isLoading: myTeachingsLoading, isUninitialized: myTeachingsUninitialized }] =
-        useLazyGetTutorByIdQuery();
+    const [
+        getProfileData,
+        { data: myTeachingsData, isLoading: myTeachingsLoading, isUninitialized: myTeachingsUninitialized },
+    ] = useLazyGetTutorByIdQuery();
 
     const [createSubjectsOnboarding] = useCreateSubjectsOnboardingMutation();
     const [editSidebarOpen, setEditSidebarOpen] = useState(false);
@@ -36,7 +41,6 @@ const SubjectsPage = ({ nextStep, backStep }: SubjectsProps) => {
     const [btnDisabled, setBtnDisabled] = useState(true);
     const dispatch = useAppDispatch();
     const profileProgressState = useAppSelector((state) => state.myProfileProgress);
-    const [progressPercentage, setProgressPercentage] = useState(profileProgressState.percentage);
     const tutorId = getUserId();
     const [currency, setCurrency] = useState('');
     const { t } = useTranslation();
@@ -55,11 +59,9 @@ const SubjectsPage = ({ nextStep, backStep }: SubjectsProps) => {
             const tutorCurrency = await (await getProfileData(tutorId).unwrap()).User.Country.currencyCode;
             setCurrency(tutorCurrency);
             const progressResponse = await getProfileProgress().unwrap();
-            setProgressPercentage(progressResponse.percentage);
             //If there is no state in redux for profileProgress fetch data and save result to redux
-            if (profileProgressState.percentage === 0) {
+            if (profileProgressState.step === 0) {
                 const progressResponse = await getProfileProgress().unwrap();
-                setProgressPercentage(progressResponse.percentage);
                 dispatch(setMyProfileProgress(progressResponse));
             }
         }
@@ -96,12 +98,6 @@ const SubjectsPage = ({ nextStep, backStep }: SubjectsProps) => {
 
     async function handleSubmit() {
         if (tutorId) {
-            dispatch(
-                setStepOne({
-                    subjects: myTeachingsData?.TutorSubjects ? myTeachingsData.TutorSubjects : [],
-                })
-            );
-
             const oldAndNewSubjectsAreEqual = areArraysEqual(oldSubjects, forms);
             const mappedSubjects = mapToCreateSubject(forms);
             if (!oldAndNewSubjectsAreEqual) {
@@ -115,7 +111,6 @@ const SubjectsPage = ({ nextStep, backStep }: SubjectsProps) => {
                         setMyProfileProgress({
                             ...profileProgressState,
                             myTeachings: true,
-                            // percentage: profileProgressState.percentage + 25,
                         })
                     );
                 }
@@ -166,12 +161,20 @@ const SubjectsPage = ({ nextStep, backStep }: SubjectsProps) => {
         return (
             arr1.every((obj1) =>
                 arr2.some(
-                    (obj2) => obj1.id === obj2.id && obj1.subjectId === obj2.subjectId && obj1.levelId === obj2.levelId && obj1.price === obj2.price
+                    (obj2) =>
+                        obj1.id === obj2.id &&
+                        obj1.subjectId === obj2.subjectId &&
+                        obj1.levelId === obj2.levelId &&
+                        obj1.price === obj2.price
                 )
             ) &&
             arr2.every((obj1) =>
                 arr1.some(
-                    (obj2) => obj1.id === obj2.id && obj1.subjectId === obj2.subjectId && obj1.levelId === obj2.levelId && obj1.price === obj2.price
+                    (obj2) =>
+                        obj1.id === obj2.id &&
+                        obj1.subjectId === obj2.subjectId &&
+                        obj1.levelId === obj2.levelId &&
+                        obj1.price === obj2.price
                 )
             )
         );
@@ -184,7 +187,9 @@ const SubjectsPage = ({ nextStep, backStep }: SubjectsProps) => {
     const [forms, setForms] = useState<ITutorSubject[]>([]);
 
     useEffect(() => {
-        const allValid = forms.every((form) => form.subjectId && form.levelId && form.price && +form.price >= 10 && Number.isInteger(+form.price));
+        const allValid = forms.every(
+            (form) => form.subjectId && form.levelId && form.price && +form.price >= 10 && Number.isInteger(+form.price)
+        );
         setBtnDisabled(!allValid);
     }, [forms]);
 
@@ -219,21 +224,30 @@ const SubjectsPage = ({ nextStep, backStep }: SubjectsProps) => {
                 <div className="flex field__w-fit-content align--center flex--center">
                     <div className="flex flex--col flex--jc--center">
                         <div style={{ margin: '40px' }} className="flex flex--center">
-                            <AiOutlineLeft className={`ml-2 mr-6 cur--pointer signup-icon`} color="grey" onClick={backStep} />
+                            <AiOutlineLeft
+                                className={`ml-2 mr-6 cur--pointer signup-icon`}
+                                color="grey"
+                                onClick={backStep}
+                            />
 
                             <div className="flex flex--row flex--jc--center">
                                 <div className="flex flex--center flex--shrink ">
-                                    <CircularProgress progressNumber={progressPercentage} size={isMobile ? 65 : 80} />
+                                    <CircularProgress progressNumber={23} size={isMobile ? 65 : 80} />
                                 </div>
                                 <div className="flex flex--col flex--jc--center">
-                                    <h4 className="signup-title ml-6 text-align--center">{t('MY_PROFILE.MY_TEACHINGS.TITLE')}</h4>
+                                    <h4 className="signup-title ml-6 text-align--center">
+                                        {t('MY_PROFILE.MY_TEACHINGS.TITLE')}
+                                    </h4>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div className="type--base align--center field__w-fit-content p-2" style={{ color: '#636363', textAlign: 'center' }}>
+                <div
+                    className="type--base align--center field__w-fit-content p-2"
+                    style={{ color: '#636363', textAlign: 'center' }}
+                >
                     <span>{t('TUTOR_ONBOARDING.TOOLTIPS.SUBJECTS_TIP_1')}</span>
                     <br />
                     <span>{t('TUTOR_ONBOARDING.TOOLTIPS.SUBJECTS_TIP_2')}</span>
@@ -279,9 +293,14 @@ const SubjectsPage = ({ nextStep, backStep }: SubjectsProps) => {
                                         ))}
                                     </div>
                                     <div className="dash-wrapper__item w--100">
-                                        <div className="dash-wrapper__item__element dash-border" onClick={() => handleAddForm()}>
+                                        <div
+                                            className="dash-wrapper__item__element dash-border"
+                                            onClick={() => handleAddForm()}
+                                        >
                                             <div className="flex--primary cur--pointer flex-gap-10">
-                                                <div className="type--wgt--bold">{t('MY_PROFILE.MY_TEACHINGS.ADD_NEW')}</div>
+                                                <div className="type--wgt--bold">
+                                                    {t('MY_PROFILE.MY_TEACHINGS.ADD_NEW')}
+                                                </div>
                                                 <i className="icon icon--base icon--plus icon--primary"></i>
                                             </div>
                                         </div>

@@ -49,12 +49,16 @@ const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY!);
 const ProfileAccount = () => {
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
     const [getIsTutorDisabled, { isSuccess: isSuccessGettingProfileVisibility }] = useLazyGetIsTutorDisabledQuery();
-    const [addStripeCustomer, { data: dataStripeCustomer, isSuccess: isSuccessDataStripeCustomer, isError: isErrorDataStripeCustomer }] =
-        useAddCustomerMutation();
+    const [
+        addStripeCustomer,
+        { data: dataStripeCustomer, isSuccess: isSuccessDataStripeCustomer, isError: isErrorDataStripeCustomer },
+    ] = useAddCustomerMutation();
     const [setDefaultCreditCard, { isSuccess: isSuccessSetDefaultCreditCard }] = useSetDefaultCreditCardMutation();
     const [getCustomerById] = useLazyGetCustomerByIdQuery();
-    const [getCreditCards, { data: creditCards, isLoading: creditCardLoading, isUninitialized: creditCardUninitialized }] =
-        useLazyGetCreditCardsQuery();
+    const [
+        getCreditCards,
+        { data: creditCards, isLoading: creditCardLoading, isUninitialized: creditCardUninitialized },
+    ] = useLazyGetCreditCardsQuery();
     const [changeCurrentPassword] = useChangeCurrentPasswordMutation();
 
     const [deleteCreditCard] = useRemoveCreditCardMutation();
@@ -230,7 +234,7 @@ const ProfileAccount = () => {
 
     const fetchProgress = async () => {
         //If there is no state in redux for profileProgress fetch data and save result to redux
-        if (profileProgressState.percentage === 0) {
+        if (profileProgressState.step === 0) {
             const progressResponse = await getProfileProgress().unwrap();
             dispatch(setMyProfileProgress(progressResponse));
         }
@@ -242,7 +246,14 @@ const ProfileAccount = () => {
             cards = await getCreditCards(userInfo.id).unwrap();
         }
 
-        if (userInfo && userRole !== RoleOptions.Tutor && stripeCustomerId && cards && Array.isArray(cards) && cards.length > 0) {
+        if (
+            userInfo &&
+            userRole !== RoleOptions.Tutor &&
+            stripeCustomerId &&
+            cards &&
+            Array.isArray(cards) &&
+            cards.length > 0
+        ) {
             const res = await getCustomerById(userInfo.id).unwrap();
             setActiveDefaultPaymentMethod(res.paymentMethods[0]);
         }
@@ -301,7 +312,8 @@ const ProfileAccount = () => {
 
                 '.Tab--selected': {
                     borderColor: '#E0E6EB',
-                    boxShadow: '0px 1px 1px rgba(0, 0, 0, 0.03), 0px 3px 6px rgba(18, 42, 66, 0.02), 0 0 0 2px var(--colorPrimary)',
+                    boxShadow:
+                        '0px 1px 1px rgba(0, 0, 0, 0.03), 0px 3px 6px rgba(18, 42, 66, 0.02), 0 0 0 2px var(--colorPrimary)',
                 },
 
                 '.Input--invalid': {
@@ -356,13 +368,7 @@ const ProfileAccount = () => {
                 <ProfileHeader className="mb-1" />
 
                 {/* PROGRESS */}
-                <ProfileCompletion
-                    generalAvailability={profileProgressState.generalAvailability}
-                    additionalInformation={profileProgressState.aboutMe}
-                    myTeachings={profileProgressState.myTeachings}
-                    percentage={profileProgressState.percentage}
-                    payment={profileProgressState.payment}
-                />
+                <ProfileCompletion />
 
                 {/* PERSONAL INFO */}
                 <FormikProvider value={formik}>
@@ -370,7 +376,9 @@ const ProfileAccount = () => {
                         <div className="card--profile__section">
                             <div>
                                 <div className="mb-2 type--wgt--bold">{t('ACCOUNT.CHANGE_PASSWORD.TITLE')}</div>
-                                <div className="type--color--tertiary w--200--max">{t('ACCOUNT.CHANGE_PASSWORD.DESCRIPTION')}</div>
+                                <div className="type--color--tertiary w--200--max">
+                                    {t('ACCOUNT.CHANGE_PASSWORD.DESCRIPTION')}
+                                </div>
                                 {saveBtnActive ? (
                                     <ButtonPrimaryGradient className="btn btn--lg mt-6" type="submit">
                                         {t('ACCOUNT.SUBMIT')}
@@ -388,8 +396,12 @@ const ProfileAccount = () => {
                                                 name="currentPassword"
                                                 type={currPass}
                                                 fullWidth
-                                                error={formik.touched.currentPassword && !!formik.errors.currentPassword}
-                                                helperText={formik.touched.currentPassword && formik.errors.currentPassword}
+                                                error={
+                                                    formik.touched.currentPassword && !!formik.errors.currentPassword
+                                                }
+                                                helperText={
+                                                    formik.touched.currentPassword && formik.errors.currentPassword
+                                                }
                                                 id="currentPassword"
                                                 label={t('ACCOUNT.CHANGE_PASSWORD.CURRENT_PASSWORD_PLACEHOLDER')}
                                                 variant="outlined"
@@ -473,8 +485,12 @@ const ProfileAccount = () => {
                                                 name="confirmPassword"
                                                 type={confirmPass}
                                                 fullWidth
-                                                error={formik.touched.confirmPassword && !!formik.errors.confirmPassword}
-                                                helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
+                                                error={
+                                                    formik.touched.confirmPassword && !!formik.errors.confirmPassword
+                                                }
+                                                helperText={
+                                                    formik.touched.confirmPassword && formik.errors.confirmPassword
+                                                }
                                                 id="confirmPassword"
                                                 label={t('ACCOUNT.CHANGE_PASSWORD.CONFIRM_PASSWORD')}
                                                 variant="outlined"
@@ -514,7 +530,9 @@ const ProfileAccount = () => {
                             <div className="card--profile__section">
                                 <div>
                                     <div className="mb-2 type--wgt--bold">
-                                        {userRole == RoleOptions.Tutor ? t('ACCOUNT.CARD_DETAILS.TITLE_TUTOR') : t('ACCOUNT.CARD_DETAILS.TITLE')}
+                                        {userRole == RoleOptions.Tutor
+                                            ? t('ACCOUNT.CARD_DETAILS.TITLE_TUTOR')
+                                            : t('ACCOUNT.CARD_DETAILS.TITLE')}
                                     </div>
                                     <div className="type--color--tertiary w--200--max">
                                         {userRole == RoleOptions.Tutor
@@ -527,14 +545,19 @@ const ProfileAccount = () => {
                                         <>
                                             <div className="flex">
                                                 <div className="flex--inline flex--jc--cente mr-4">
-                                                    <div style={{ lineHeight: '40px' }} className="type--wgt--bold type--center">
+                                                    <div
+                                                        style={{ lineHeight: '40px' }}
+                                                        className="type--wgt--bold type--center"
+                                                    >
                                                         {userInfo?.stripeConnected
                                                             ? t('MY_PROFILE.PROFILE_ACCOUNT.STRIPE_CONNECTED')
                                                             : t('MY_PROFILE.PROFILE_ACCOUNT.STRIPE_DISCONNECTED')}
                                                     </div>
                                                     <span
                                                         className={`stripe-dot ${
-                                                            userInfo?.stripeConnected ? 'stripe-dot-connected' : 'stripe-dot-disconnected'
+                                                            userInfo?.stripeConnected
+                                                                ? 'stripe-dot-connected'
+                                                                : 'stripe-dot-disconnected'
                                                         }`}
                                                     ></span>
                                                 </div>
@@ -552,10 +575,15 @@ const ProfileAccount = () => {
                                     ) : (
                                         <div className="dash-wrapper">
                                             <div className="dash-wrapper__item">
-                                                <div className="dash-wrapper__item__element" onClick={() => setAddSidebarOpen(true)}>
+                                                <div
+                                                    className="dash-wrapper__item__element"
+                                                    onClick={() => setAddSidebarOpen(true)}
+                                                >
                                                     <div className="flex--primary cur--pointer">
                                                         <div>
-                                                            <div className="type--wgt--bold">{t('ACCOUNT.CARD_DETAILS.ADD_NEW')}</div>
+                                                            <div className="type--wgt--bold">
+                                                                {t('ACCOUNT.CARD_DETAILS.ADD_NEW')}
+                                                            </div>
                                                             <div>{t('ACCOUNT.CARD_DETAILS.ADD_NEW_DESC')}</div>
                                                         </div>
                                                         <div>
@@ -571,7 +599,10 @@ const ProfileAccount = () => {
                                                 Array.isArray(creditCards) &&
                                                 creditCards.map((item: ICreditCard) => {
                                                     return (
-                                                        <div className="dash-wrapper__item" onClick={() => handleDefaultCreditCard(item.id)}>
+                                                        <div
+                                                            className="dash-wrapper__item"
+                                                            onClick={() => handleDefaultCreditCard(item.id)}
+                                                        >
                                                             <div
                                                                 className={`dash-wrapper__item__element ${
                                                                     item.id === activeDefaultPaymentMethod && 'active'
@@ -581,7 +612,9 @@ const ProfileAccount = () => {
                                                                     {' '}
                                                                     {/*TODO: add class later: cur--pointer*/}
                                                                     <div>
-                                                                        <div className="type--wgt--bold">**** **** **** {item.card.last4}</div>
+                                                                        <div className="type--wgt--bold">
+                                                                            **** **** **** {item.card.last4}
+                                                                        </div>
                                                                         <div>{item.card.brand}</div>
                                                                     </div>
                                                                     <div>
@@ -624,7 +657,9 @@ const ProfileAccount = () => {
                     <div className="card--profile__section">
                         <div>
                             <div className="mb-2 type--wgt--bold">{t('MY_PROFILE.TUTOR_DISABLE.TITLE')}</div>
-                            <div className="type--color--tertiary w--200--max">{t('MY_PROFILE.TUTOR_DISABLE.SUBTITLE')}</div>
+                            <div className="type--color--tertiary w--200--max">
+                                {t('MY_PROFILE.TUTOR_DISABLE.SUBTITLE')}
+                            </div>
                         </div>
                         <div className="w--800--max">
                             {tutorDisabled ? (
@@ -689,7 +724,11 @@ const ProfileAccount = () => {
                 />
             </div>
             <Elements stripe={stripePromise} options={options}>
-                <AddCreditCard closeSidebar={closeAddCardSidebar} sideBarIsOpen={addSidebarOpen} onSuccess={fetchData} />
+                <AddCreditCard
+                    closeSidebar={closeAddCardSidebar}
+                    sideBarIsOpen={addSidebarOpen}
+                    onSuccess={fetchData}
+                />
             </Elements>
         </MainWrapper>
     );

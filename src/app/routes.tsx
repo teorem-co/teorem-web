@@ -39,8 +39,6 @@ import { setSelectedLang } from './store/slices/langSlice';
 import { setLoginModalOpen } from './store/slices/modalsSlice';
 import useMount from './utils/useMount';
 import TutorOnboarding from './features/onboarding/tutor/pages/TutorOnboarding';
-import StudentOnboarding from './features/onboarding/student/pages/StudentOnboarding';
-import ParentOnboarding from './features/onboarding/parent/pages/ParentOnboarding';
 
 export const PATHS = {
     FORGOT_PASSWORD: t('PATHS.FORGOT_PASSWORD'),
@@ -89,8 +87,6 @@ export const PROFILE_PATHS = {
 export const ONBOARDING_PATHS = {
     ONBOARDING: t('PATHS.ONBOARDING_PATHS.ONBOARDING'),
     TUTOR_ONBOARDING: t('PATHS.ONBOARDING_PATHS.TUTOR_ONBOARDING'),
-    STUDENT_ONBOARDING: t('PATHS.ONBOARDING_PATHS.STUDENT_ONBOARDING'),
-    PARENT_ONBOARDING: t('PATHS.ONBOARDING_PATHS.PARENT_ONBOARDING'),
 };
 
 interface IRoute {
@@ -151,28 +147,6 @@ export const ROUTES: IRoute[] = [
                 component: () => (
                     <PermissionsGate roles={[Role.Tutor]}>
                         <TutorOnboarding />
-                    </PermissionsGate>
-                ),
-            },
-            {
-                path: ONBOARDING_PATHS.PARENT_ONBOARDING,
-                key: 'PARENT_ONBOARDING',
-                isMenu: false,
-                exact: true,
-                component: () => (
-                    <PermissionsGate roles={[Role.Parent]}>
-                        <ParentOnboarding />
-                    </PermissionsGate>
-                ),
-            },
-            {
-                path: ONBOARDING_PATHS.STUDENT_ONBOARDING,
-                key: 'STUDENT_ONBOARDING',
-                isMenu: false,
-                exact: true,
-                component: () => (
-                    <PermissionsGate roles={[Role.Student]}>
-                        <StudentOnboarding />
                     </PermissionsGate>
                 ),
             },

@@ -26,4 +26,5 @@ export default interface IUser {
     stripeVerifiedStatus?: string;
     stripeVerificationDeadline?: number;
     stripeVerificationDocumentsUploaded?: boolean;
+    onboardingCompleted?: boolean;
 }

@@ -19,10 +19,10 @@ import toastService from '../../../store/services/toastService';
 import { getUserId } from '../../../utils/getUserId';
 import { setMyProfileProgress } from '../../../store/slices/myProfileSlice';
 import { BiSolidTrash } from 'react-icons/bi';
-import { ITutorSubject } from '../../../store/slices/onboardingSlice';
 import { InputAdornment, TextField } from '@mui/material';
 import { CurrencySymbol } from '../../../components/CurrencySymbol';
 import useMount from '../../../utils/useMount';
+import { ITutorSubject } from '../../../types/ITutorSubject';
 
 interface Props {
     // sideBarIsOpen: boolean;

@@ -27,10 +27,12 @@ type AdditionalProps = {
 
 const ImagePage = ({ nextStep, backStep }: AdditionalProps) => {
     const state = useAppSelector((state) => state.onboarding);
-    const { yearsOfExperience, currentOccupation, aboutYou, aboutYourLessons } = state;
 
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
-    const [getProfileData, { isLoading: isLoadingGetInfo, isLoading: dataLoading, isUninitialized: dataUninitialized }] = useLazyGetTutorByIdQuery();
+    const [
+        getProfileData,
+        { isLoading: isLoadingGetInfo, isLoading: dataLoading, isUninitialized: dataUninitialized },
+    ] = useLazyGetTutorByIdQuery();
 
     const [getUser] = useLazyGetUserQuery();
 
@@ -39,7 +41,6 @@ const ImagePage = ({ nextStep, backStep }: AdditionalProps) => {
     const tutorId = getUserId();
     const dispatch = useAppDispatch();
     const profileProgressState = useAppSelector((state) => state.myProfileProgress);
-    const [progressPercentage, setProgressPercentage] = useState(profileProgressState.percentage);
 
     const [updateUserInformation, { isLoading: isLoadingUserUpdate }] = useSetTutorProfileImageMutation();
 
@@ -90,12 +91,10 @@ const ImagePage = ({ nextStep, backStep }: AdditionalProps) => {
             }
             //If there is no state in redux for profileProgress fetch data and save result to redux
             const progressResponse = await getProfileProgress().unwrap();
-            setProgressPercentage(progressResponse.percentage);
             dispatch(setMyProfileProgress(progressResponse));
 
-            if (profileProgressState.percentage === 0) {
+            if (profileProgressState.step === 0) {
                 const progressResponse = await getProfileProgress().unwrap();
-                setProgressPercentage(progressResponse.percentage);
                 dispatch(setMyProfileProgress(progressResponse));
             }
 
@@ -120,7 +119,12 @@ const ImagePage = ({ nextStep, backStep }: AdditionalProps) => {
                 if (typeof value === 'string') {
                     return true;
                 } else {
-                    if (value.type === 'image/jpg' || value.type === 'image/jpeg' || value.type === 'image/png' || value.type === 'image/svg') {
+                    if (
+                        value.type === 'image/jpg' ||
+                        value.type === 'image/jpeg' ||
+                        value.type === 'image/png' ||
+                        value.type === 'image/svg'
+                    ) {
                         setSaveBtnActive(true);
                         return true;
                     }
@@ -189,13 +193,19 @@ const ImagePage = ({ nextStep, backStep }: AdditionalProps) => {
                                 <div className="flex field__w-fit-content align--center">
                                     <div className="flex flex--col flex--jc--center ">
                                         <div style={{ margin: '40px' }} className="flex flex--center">
-                                            <AiOutlineLeft className={`ml-2 mr-6 cur--pointer signup-icon`} color="grey" onClick={backStep} />
+                                            <AiOutlineLeft
+                                                className={`ml-2 mr-6 cur--pointer signup-icon`}
+                                                color="grey"
+                                                onClick={backStep}
+                                            />
                                             <div className="flex flex--row flex--jc--center">
                                                 <div className="flex flex--center flex--shrink ">
-                                                    <CircularProgress progressNumber={progressPercentage} size={isMobile ? 65 : 80} />
+                                                    <CircularProgress progressNumber={3} size={isMobile ? 65 : 80} />
                                                 </div>
                                                 <div className="flex flex--col flex--jc--center">
-                                                    <h4 className="signup-title ml-6 text-align--center">{t('MY_PROFILE.IMAGE')}</h4>
+                                                    <h4 className="signup-title ml-6 text-align--center">
+                                                        {t('MY_PROFILE.IMAGE')}
+                                                    </h4>
                                                 </div>
                                             </div>
                                         </div>
@@ -219,7 +229,10 @@ const ImagePage = ({ nextStep, backStep }: AdditionalProps) => {
                                     </div>
 
                                     <div className="field__w-fit-content type--base align--center">
-                                        <table className={`text-align--start password-tooltip`} style={{ color: '#636363', fontSize: '15px' }}>
+                                        <table
+                                            className={`text-align--start password-tooltip`}
+                                            style={{ color: '#636363', fontSize: '15px' }}
+                                        >
                                             <tbody>
                                                 <tr>
                                                     <td>
@@ -277,10 +290,6 @@ const ImagePage = ({ nextStep, backStep }: AdditionalProps) => {
                     <TestTutorProfile
                         // profileImage={formik.values.profileImage}
                         profileImage={image}
-                        occupation={currentOccupation}
-                        aboutTutor={aboutYou}
-                        aboutLessons={aboutYourLessons}
-                        yearsOfExperience={yearsOfExperience}
                     ></TestTutorProfile>
                 </div>
             </div>

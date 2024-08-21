@@ -31,8 +31,12 @@ const AdditionalInformation = () => {
     const userRole: string = useAppSelector((state) => state.auth.user?.Role.abrv) || '';
 
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
-    const [getProfileData, { isLoading: isLoadingGetInfo, isLoading: dataLoading, isUninitialized: dataUninitialized }] = useLazyGetTutorByIdQuery();
-    const [updateAditionalInfo, { isLoading: isUpdatingInfo, isSuccess: isSuccessUpdateInfo }] = useUpdateAditionalInfoMutation();
+    const [
+        getProfileData,
+        { isLoading: isLoadingGetInfo, isLoading: dataLoading, isUninitialized: dataUninitialized },
+    ] = useLazyGetTutorByIdQuery();
+    const [updateAditionalInfo, { isLoading: isUpdatingInfo, isSuccess: isSuccessUpdateInfo }] =
+        useUpdateAditionalInfoMutation();
     const [getVideoInformation, { isLoading: isLoadingGetVideoInformation }] = useLazyGetTutorVideoInformationQuery();
 
     const [showVideoSection, setShowVideoSection] = useState(false);
@@ -103,7 +107,7 @@ const AdditionalInformation = () => {
             }
 
             //If there is no state in redux for profileProgress fetch data and save result to redux
-            if (profileProgressState.percentage === 0) {
+            if (profileProgressState.step === 0) {
                 const progressResponse = await getProfileProgress().unwrap();
                 dispatch(setMyProfileProgress(progressResponse));
             }
@@ -129,7 +133,10 @@ const AdditionalInformation = () => {
                 .min(2, t('FORM_VALIDATION.TOO_SHORT'))
                 .max(50, t('FORM_VALIDATION.TOO_LONG'))
                 .required(t('FORM_VALIDATION.REQUIRED')),
-            yearsOfExperience: Yup.number().min(0, t('FORM_VALIDATION.NEGATIVE')).max(100, t('FORM_VALIDATION.TOO_BIG')).nullable(),
+            yearsOfExperience: Yup.number()
+                .min(0, t('FORM_VALIDATION.NEGATIVE'))
+                .max(100, t('FORM_VALIDATION.TOO_BIG'))
+                .nullable(),
         }),
     });
 
@@ -165,13 +172,7 @@ const AdditionalInformation = () => {
                 <ProfileHeader className="mb-1" />
 
                 {/* PROGRESS */}
-                <ProfileCompletion
-                    generalAvailability={profileProgressState.generalAvailability}
-                    additionalInformation={profileProgressState.aboutMe}
-                    myTeachings={profileProgressState.myTeachings}
-                    percentage={profileProgressState.percentage}
-                    payment={profileProgressState.payment}
-                />
+                <ProfileCompletion />
 
                 {/* ADDITIONAL INFO */}
                 <FormikProvider value={formik}>
@@ -179,12 +180,18 @@ const AdditionalInformation = () => {
                         {(pageLoading && <LoaderPrimary />) || (
                             <div className="card--profile__section">
                                 <div>
-                                    <div className="mb-2 type--wgt--bold">{t('SEARCH_TUTORS.TUTOR_PROFILE.ADDITIONAL_INFORMATION_TITLE')}</div>
+                                    <div className="mb-2 type--wgt--bold">
+                                        {t('SEARCH_TUTORS.TUTOR_PROFILE.ADDITIONAL_INFORMATION_TITLE')}
+                                    </div>
                                     <div className="type--color--tertiary w--200--max">
                                         {t('SEARCH_TUTORS.TUTOR_PROFILE.ADDITIONAL_INFORMATION_DESC')}
                                     </div>
                                     {saveBtnActive ? (
-                                        <ButtonPrimaryGradient className="btn btn--lg mt-6 type--wgt--extra-bold" type="submit" disabled={isLoading}>
+                                        <ButtonPrimaryGradient
+                                            className="btn btn--lg mt-6 type--wgt--extra-bold"
+                                            type="submit"
+                                            disabled={isLoading}
+                                        >
                                             {t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.SUBMIT_BTN')}
                                         </ButtonPrimaryGradient>
                                     ) : (
@@ -204,8 +211,14 @@ const AdditionalInformation = () => {
                                                     label={t('MY_PROFILE.ABOUT_ME.OCCUPATION')}
                                                     variant="outlined"
                                                     color="secondary"
-                                                    error={formik.touched.currentOccupation && !!formik.errors.currentOccupation}
-                                                    helperText={formik.touched.currentOccupation && formik.errors.currentOccupation}
+                                                    error={
+                                                        formik.touched.currentOccupation &&
+                                                        !!formik.errors.currentOccupation
+                                                    }
+                                                    helperText={
+                                                        formik.touched.currentOccupation &&
+                                                        formik.errors.currentOccupation
+                                                    }
                                                     InputProps={{
                                                         style: {
                                                             fontFamily: "'Lato', sans-serif",
@@ -235,8 +248,14 @@ const AdditionalInformation = () => {
                                                     label={t('MY_PROFILE.ABOUT_ME.YEARS')}
                                                     variant="outlined"
                                                     color="secondary"
-                                                    error={formik.touched.yearsOfExperience && !!formik.errors.yearsOfExperience}
-                                                    helperText={formik.touched.yearsOfExperience && formik.errors.yearsOfExperience}
+                                                    error={
+                                                        formik.touched.yearsOfExperience &&
+                                                        !!formik.errors.yearsOfExperience
+                                                    }
+                                                    helperText={
+                                                        formik.touched.yearsOfExperience &&
+                                                        formik.errors.yearsOfExperience
+                                                    }
                                                     InputProps={{
                                                         style: {
                                                             fontFamily: "'Lato', sans-serif",
@@ -309,7 +328,9 @@ const AdditionalInformation = () => {
                                                     multiline
                                                     rows={5}
                                                     error={formik.touched.aboutLessons && !!formik.errors.aboutLessons}
-                                                    helperText={formik.touched.aboutLessons && formik.errors.aboutLessons}
+                                                    helperText={
+                                                        formik.touched.aboutLessons && formik.errors.aboutLessons
+                                                    }
                                                     InputProps={{
                                                         style: {
                                                             fontFamily: "'Lato', sans-serif",

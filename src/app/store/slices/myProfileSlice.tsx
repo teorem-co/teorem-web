@@ -6,10 +6,11 @@ const initialState: IProgressProfile = {
     aboutMe: false,
     generalAvailability: false,
     myTeachings: false,
-    percentage: 0,
+    step: 0,
+    substep: 0,
     payment: false,
     verified: true,
-    profileImage: false
+    profileImage: false,
 };
 
 export const myProfileSlice = createSlice({

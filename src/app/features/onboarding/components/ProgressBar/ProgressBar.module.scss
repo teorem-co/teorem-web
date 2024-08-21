@@ -1,11 +1,19 @@
 .bar {
+    height: 6px;
+    display: grid;
     position: relative;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+}
+
+.step {
+    position: relative;
     background-color: #dcdce5;
-    height: 8px;
+    height: 100%;
+
+    &.filled {
+        background-color: black;
+    }
 }
 
 .progress {
@@ -15,10 +23,4 @@
     width: 0px;
     height: 100%;
     background-color: black;
-}
-
-.divider {
-    width: 16px;
-    background-color: #f8f4fe;
-    height: 120%;
 }

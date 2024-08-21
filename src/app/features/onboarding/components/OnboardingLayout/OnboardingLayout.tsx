@@ -5,21 +5,31 @@ import ProgressBar from '../ProgressBar';
 
 interface IOnboardingLayoutProps {
     step?: number;
+    substep?: number;
+    maxSubstep?: number;
     children?: ReactNode;
     onBack?: () => void;
     actions?: ReactNode;
     header?: ReactNode;
 }
 
-export default function OnboardingLayout({ step, children, onBack, actions, header }: IOnboardingLayoutProps) {
+export default function OnboardingLayout({
+    step,
+    substep,
+    maxSubstep,
+    children,
+    onBack,
+    actions,
+    header,
+}: Readonly<IOnboardingLayoutProps>) {
     return (
         <div className={styles.layout}>
             <div className={styles.headerContainer}>
-                <img src={logo} alt="logo" className="mt-5 ml-5 signup-logo" />
+                <img src={logo} alt="logo" className={styles.logo} />
                 <div className={styles.header}>{header}</div>
             </div>
             <div className={styles.children}>{children}</div>
-            <ProgressBar step={step} maxStep={6} />
+            <ProgressBar step={step} substep={substep} maxSubstep={maxSubstep} />
             <div className={styles.footer}>
                 <button className={styles.back} onClick={onBack}>
                     <span>Back</span>

@@ -54,9 +54,19 @@ export const authSlice = createSlice({
             state.user!.stripeVerifiedStatus = action.payload.stripeVerifiedStatus;
             state.user!.stripeVerificationDocumentsUploaded = action.payload.stripeVerificationDocumentsUploaded;
         },
+        setUser(state, action: PayloadAction<IUser>) {
+            state.user = action.payload;
+        },
     },
 });
 
-export const { logout, addStripeId, connectStripe, setServerVersion, setToken, updateStateOfVerificationDocument } =
-    authSlice.actions;
+export const {
+    logout,
+    addStripeId,
+    connectStripe,
+    setServerVersion,
+    setToken,
+    updateStateOfVerificationDocument,
+    setUser,
+} = authSlice.actions;
 export default authSlice.reducer;

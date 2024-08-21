@@ -16,7 +16,6 @@ import IUpdateAdditionalInfo from '../../../my-profile/interfaces/IUpdateAdditio
 import { setMyProfileProgress } from '../../../../store/slices/myProfileSlice';
 import { AiOutlineLeft } from 'react-icons/ai';
 import CircularProgress from '../../../my-profile/components/CircularProgress';
-import { setStepTwo } from '../../../../store/slices/onboardingSlice';
 import TestTutorProfile from './TestTutorProfile';
 import logo from '../../../../assets/images/teorem_logo_purple.png';
 import { TextField } from '@mui/material';
@@ -36,7 +35,6 @@ type AdditionalProps = {
 
 const AdditionalInfoPage = ({ nextStep, backStep }: AdditionalProps) => {
     const state = useAppSelector((state) => state.onboarding);
-    const { currentOccupation, aboutYou, aboutYourLessons } = state;
 
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
     const [
@@ -52,7 +50,6 @@ const AdditionalInfoPage = ({ nextStep, backStep }: AdditionalProps) => {
     const tutorId = getUserId();
     const dispatch = useAppDispatch();
     const profileProgressState = useAppSelector((state) => state.myProfileProgress);
-    const [progressPercentage, setProgressPercentage] = useState(profileProgressState.percentage);
 
     const [saveBtnActive, setSaveBtnActive] = useState(false);
     const [initialValues, setInitialValues] = useState<IUpdateAdditionalInfo>({
@@ -71,17 +68,8 @@ const AdditionalInfoPage = ({ nextStep, backStep }: AdditionalProps) => {
         };
         await updateAditionalInfo(toSend);
         const progressResponse = await getProfileProgress().unwrap();
-        setProgressPercentage(progressResponse.percentage);
         dispatch(setMyProfileProgress(progressResponse));
         setSaveBtnActive(false);
-        dispatch(
-            setStepTwo({
-                currentOccupation: values.currentOccupation,
-                yearsOfExperience: values.yearsOfExperience ? values.yearsOfExperience : '0',
-                aboutYou: values.aboutTutor,
-                aboutYourLessons: values.aboutLessons,
-            })
-        );
 
         if (
             values.currentOccupation.length === 0 ||
@@ -127,12 +115,10 @@ const AdditionalInfoPage = ({ nextStep, backStep }: AdditionalProps) => {
 
             //If there is no state in redux for profileProgress fetch data and save result to redux
             const progressResponse = await getProfileProgress().unwrap();
-            setProgressPercentage(progressResponse.percentage);
-            setProgressPercentage(progressResponse.percentage);
+
             dispatch(setMyProfileProgress(progressResponse));
-            if (profileProgressState.percentage === 0) {
+            if (profileProgressState.step === 0) {
                 const progressResponse = await getProfileProgress().unwrap();
-                setProgressPercentage(progressResponse.percentage);
                 dispatch(setMyProfileProgress(progressResponse));
             }
         }
@@ -216,10 +202,7 @@ const AdditionalInfoPage = ({ nextStep, backStep }: AdditionalProps) => {
 
                                 <div className="flex flex--row flex--jc--center">
                                     <div className="flex flex--center flex--shrink ">
-                                        <CircularProgress
-                                            progressNumber={progressPercentage}
-                                            size={isMobile ? 65 : 80}
-                                        />
+                                        <CircularProgress progressNumber={50} size={isMobile ? 65 : 80} />
                                     </div>
                                     <div className="flex flex--col flex--jc--center">
                                         <h4 className="signup-title ml-6 text-align--center">

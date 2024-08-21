@@ -17,7 +17,6 @@ import ITutorAvailability from '../../../my-profile/interfaces/ITutorAvailabilit
 import { setMyProfileProgress } from '../../../../store/slices/myProfileSlice';
 import CircularProgress from '../../../my-profile/components/CircularProgress';
 import { useHistory } from 'react-router';
-import { setStepZero } from '../../../../store/slices/onboardingSlice';
 import logo from '../../../../assets/images/teorem_logo_purple.png';
 import { TimeZoneSelect } from '../../../../components/TimeZoneSelect';
 import { useLazyGetUserTimeZoneQuery } from '../../../../store/services/userService';
@@ -47,7 +46,6 @@ const AvailabilityPage = ({ nextStep }: AvailabilityProps) => {
 
     const dispatch = useAppDispatch();
     const profileProgressState = useAppSelector((state) => state.myProfileProgress);
-    const [progressPercentage, setProgressPercentage] = useState(profileProgressState.percentage);
     const [banner, setBanner] = useState(true);
 
     const userId = useAppSelector((state) => state.auth.user?.id);
@@ -55,11 +53,6 @@ const AvailabilityPage = ({ nextStep }: AvailabilityProps) => {
     const history = useHistory();
 
     const store = useAppSelector((store) => store.onboarding);
-    const { availability } = store;
-
-    const initialValues: AvailabilityValues = {
-        availability: availability,
-    };
 
     const isMobile = window.innerWidth < 765;
     const renderTableCells = (column: string | boolean, availabilityIndex: IAvailabilityIndex) => {
@@ -147,7 +140,6 @@ const AvailabilityPage = ({ nextStep }: AvailabilityProps) => {
                 timeZone: selectedZone,
             });
             const progressResponse = await getProfileProgress().unwrap();
-            setProgressPercentage(progressResponse.percentage);
             await dispatch(setMyProfileProgress(progressResponse));
         } else {
             await createTutorAvailability({
@@ -155,14 +147,8 @@ const AvailabilityPage = ({ nextStep }: AvailabilityProps) => {
                 timeZone: selectedZone,
             });
             const progressResponse = await getProfileProgress().unwrap();
-            setProgressPercentage(progressResponse.percentage);
             await dispatch(setMyProfileProgress(progressResponse));
         }
-        dispatch(
-            setStepZero({
-                availability: toSend,
-            })
-        );
         nextStep();
     };
 
@@ -177,12 +163,10 @@ const AvailabilityPage = ({ nextStep }: AvailabilityProps) => {
             setCurrentAvailabilities(tutorAvailabilityResponse);
 
             const progressResponse = await getProfileProgress().unwrap();
-            setProgressPercentage(progressResponse.percentage);
             dispatch(setMyProfileProgress(progressResponse));
             //If there is no state in redux for profileProgress fetch data and save result to redux
-            if (profileProgressState.percentage === 0) {
+            if (profileProgressState.step === 0) {
                 const progressResponse = await getProfileProgress().unwrap();
-                setProgressPercentage(progressResponse.percentage);
                 dispatch(setMyProfileProgress(progressResponse));
             }
 
@@ -251,8 +235,7 @@ const AvailabilityPage = ({ nextStep }: AvailabilityProps) => {
                     <div className="flex flex--col flex--jc--center">
                         <div style={{ margin: '40px' }} className="flex flex--row flex--jc--center">
                             <div className="flex flex--center flex--shrink ">
-                                {/*<CircularProgress progressNumber={profileProgressState.percentage ? profileProgressState.percentage : 0} size={80}  />*/}
-                                <CircularProgress progressNumber={progressPercentage} size={isMobile ? 65 : 80} />
+                                <CircularProgress progressNumber={50} size={isMobile ? 65 : 80} />
                             </div>
                             <div className="flex flex--col flex--jc--center">
                                 <h4 className="signup-title ml-6 text-align--center">

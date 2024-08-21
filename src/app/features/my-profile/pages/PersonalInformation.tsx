@@ -194,7 +194,7 @@ const PersonalInformation = () => {
                 setInitialValues(values);
             }
             //If there is no state in redux for profileProgress fetch data and save result to redux
-            if (profileProgressState.percentage === 0) {
+            if (profileProgressState.step === 0) {
                 const progressResponse = await getProfileProgress().unwrap();
                 dispatch(setMyProfileProgress(progressResponse));
             }
@@ -338,231 +338,221 @@ const PersonalInformation = () => {
     }, []);
 
     return (
-        <>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <RouterPrompt
-                    when={saveBtnActive}
-                    onOK={handleUpdateOnRouteChange}
-                    onCancel={() => {
-                        //if you pass "false" router will be blocked and you will stay on the current page
-                        return true;
-                    }}
-                />
-                <MainWrapper>
-                    <div className="card--profile">
-                        <FormikProvider value={formik}>
-                            <Form>
-                                {/* HEADER */}
-                                <ProfileHeader className="mb-1" />
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <RouterPrompt
+                when={saveBtnActive}
+                onOK={handleUpdateOnRouteChange}
+                onCancel={() => {
+                    //if you pass "false" router will be blocked and you will stay on the current page
+                    return true;
+                }}
+            />
+            <MainWrapper>
+                <div className="card--profile">
+                    <FormikProvider value={formik}>
+                        <Form>
+                            {/* HEADER */}
+                            <ProfileHeader className="mb-1" />
 
-                                {/* PROGRESS */}
-                                <ProfileCompletion
-                                    generalAvailability={profileProgressState.generalAvailability}
-                                    additionalInformation={profileProgressState.aboutMe}
-                                    myTeachings={profileProgressState.myTeachings}
-                                    percentage={profileProgressState.percentage}
-                                    payment={profileProgressState.payment}
-                                />
+                            {/* PROGRESS */}
+                            <ProfileCompletion />
 
-                                {/* PERSONAL INFO */}
-                                {(pageLoading && <LoaderPrimary />) || (
-                                    <>
-                                        {(user?.Role.abrv === RoleOptions.Parent ||
-                                            user?.Role.abrv === RoleOptions.Student) && (
-                                            <div
-                                                className={
-                                                    'card--profile__section type--color--brand type--md flex flex-row flex--ai--center flex-gap-2'
-                                                }
+                            {/* PERSONAL INFO */}
+                            {(pageLoading && <LoaderPrimary />) || (
+                                <>
+                                    {(user?.Role.abrv === RoleOptions.Parent ||
+                                        user?.Role.abrv === RoleOptions.Student) && (
+                                        <div
+                                            className={
+                                                'card--profile__section type--color--brand type--md flex flex-row flex--ai--center flex-gap-2'
+                                            }
+                                        >
+                                            <FaCoins />
+                                            <p>
+                                                {t('MY_PROFILE.PROFILE_SETTINGS.CREDITS')}:{' '}
+                                                <span className={'mr-1'}>{userCredits}</span>
+                                                <CurrencySymbol />
+                                            </p>
+                                        </div>
+                                    )}
+
+                                    <div className="card--profile__section">
+                                        <div>
+                                            <div className="mb-2 type--wgt--bold">
+                                                {t('MY_PROFILE.PROFILE_SETTINGS.TITLE')}
+                                            </div>
+                                            <div className="type--color--tertiary w--200--max">
+                                                {t('MY_PROFILE.PROFILE_SETTINGS.DESCRIPTION')}
+                                            </div>
+                                            <ButtonPrimaryGradient
+                                                className={`btn btn--lg mt-6 card--profile__savebtn`}
+                                                type="submit"
+                                                // disabled={isLoading || !saveBtnActive}
+                                                disabled={isLoading || !saveBtnActive}
                                             >
-                                                <FaCoins />
-                                                <p>
-                                                    {t('MY_PROFILE.PROFILE_SETTINGS.CREDITS')}:{' '}
-                                                    <span className={'mr-1'}>{userCredits}</span>
-                                                    <CurrencySymbol />
-                                                </p>
-                                            </div>
-                                        )}
-
-                                        <div className="card--profile__section">
-                                            <div>
-                                                <div className="mb-2 type--wgt--bold">
-                                                    {t('MY_PROFILE.PROFILE_SETTINGS.TITLE')}
-                                                </div>
-                                                <div className="type--color--tertiary w--200--max">
-                                                    {t('MY_PROFILE.PROFILE_SETTINGS.DESCRIPTION')}
-                                                </div>
-                                                <ButtonPrimaryGradient
-                                                    className={`btn btn--lg mt-6 card--profile__savebtn`}
-                                                    type="submit"
-                                                    // disabled={isLoading || !saveBtnActive}
-                                                    disabled={isLoading || !saveBtnActive}
-                                                >
-                                                    {t('MY_PROFILE.SUBMIT')}
-                                                </ButtonPrimaryGradient>
-                                            </div>
-                                            <div className="w--800--max">
-                                                <div className="row">
-                                                    <div className="col col-12 col-xl-6">
-                                                        <div className="field align--center mb-5">
-                                                            <Field
-                                                                as={TextField}
-                                                                name="firstName"
-                                                                type="text"
-                                                                fullWidth
-                                                                id="firstName"
-                                                                label={t('MY_PROFILE.PROFILE_SETTINGS.FIRST_NAME')}
-                                                                variant="outlined"
-                                                                error={
-                                                                    formik.touched.firstName &&
-                                                                    !!formik.errors.firstName
-                                                                }
-                                                                helperText={
-                                                                    formik.touched.firstName && formik.errors.firstName
-                                                                }
-                                                                color="secondary"
-                                                                InputProps={{
-                                                                    style: {
-                                                                        fontFamily: "'Lato', sans-serif",
-                                                                        backgroundColor: 'white',
-                                                                    },
-                                                                }}
-                                                                InputLabelProps={{
-                                                                    style: { fontFamily: "'Lato', sans-serif" },
-                                                                }}
-                                                                FormHelperTextProps={{
-                                                                    style: { color: 'red' }, // Change the color of the helper text here
-                                                                }}
-                                                                inputProps={{
-                                                                    maxLength: 100,
-                                                                }}
-                                                                disabled={isLoading}
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                    <div className="col col-12 col-xl-6">
-                                                        <div className="field align--center mb-5">
-                                                            <Field
-                                                                as={TextField}
-                                                                name="lastName"
-                                                                type="text"
-                                                                fullWidth
-                                                                id="lastName"
-                                                                label={t('MY_PROFILE.PROFILE_SETTINGS.LAST_NAME')}
-                                                                variant="outlined"
-                                                                error={
-                                                                    formik.touched.firstName &&
-                                                                    !!formik.errors.firstName
-                                                                }
-                                                                helperText={
-                                                                    formik.touched.firstName && formik.errors.firstName
-                                                                }
-                                                                color="secondary"
-                                                                InputProps={{
-                                                                    style: {
-                                                                        fontFamily: "'Lato', sans-serif",
-                                                                        backgroundColor: 'white',
-                                                                    },
-                                                                }}
-                                                                InputLabelProps={{
-                                                                    style: { fontFamily: "'Lato', sans-serif" },
-                                                                }}
-                                                                FormHelperTextProps={{
-                                                                    style: { color: 'red' }, // Change the color of the helper text here
-                                                                }}
-                                                                inputProps={{
-                                                                    maxLength: 100,
-                                                                }}
-                                                                disabled={isLoading}
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                    {/*todo: commented out due to TRM-179*/}
-                                                    {/*<div className="col col-12 col-xl-6">*/}
-                                                    {/*  <div className="field align--center mb-5">*/}
-                                                    {/*    <Field*/}
-                                                    {/*      name="countryId"*/}
-                                                    {/*      component={CountrySelectField}*/}
-                                                    {/*      label={t('MY_PROFILE.PROFILE_SETTINGS.COUNTRY')}*/}
-                                                    {/*      fullWidth*/}
-                                                    {/*      options={countryOptions}*/}
-                                                    {/*    />*/}
-                                                    {/*  </div>*/}
-                                                    {/*</div>*/}
-                                                    <div className="col col-12 col-xl-6">
-                                                        <div
-                                                            className="field align--center mb-5"
-                                                            style={{
-                                                                fontFamily: "'Lato', sans-serif",
-                                                                color: 'rgba(0, 0, 0, 0.6)',
+                                                {t('MY_PROFILE.SUBMIT')}
+                                            </ButtonPrimaryGradient>
+                                        </div>
+                                        <div className="w--800--max">
+                                            <div className="row">
+                                                <div className="col col-12 col-xl-6">
+                                                    <div className="field align--center mb-5">
+                                                        <Field
+                                                            as={TextField}
+                                                            name="firstName"
+                                                            type="text"
+                                                            fullWidth
+                                                            id="firstName"
+                                                            label={t('MY_PROFILE.PROFILE_SETTINGS.FIRST_NAME')}
+                                                            variant="outlined"
+                                                            error={
+                                                                formik.touched.firstName && !!formik.errors.firstName
+                                                            }
+                                                            helperText={
+                                                                formik.touched.firstName && formik.errors.firstName
+                                                            }
+                                                            color="secondary"
+                                                            InputProps={{
+                                                                style: {
+                                                                    fontFamily: "'Lato', sans-serif",
+                                                                    backgroundColor: 'white',
+                                                                },
                                                             }}
-                                                        >
-                                                            <MyPhoneInput
-                                                                form={formik}
-                                                                name="phoneNumber"
-                                                                field={formik.getFieldProps('phoneNumber')}
-                                                                meta={formik.getFieldMeta('phoneNumber')}
-                                                                disabled={isLoading}
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                    <div className="col col-12 col-xl-6">
-                                                        <div
-                                                            className="field align--center mb-5"
-                                                            style={{
-                                                                fontFamily: "'Lato', sans-serif",
-                                                                color: 'rgba(0, 0, 0, 0.6)',
+                                                            InputLabelProps={{
+                                                                style: { fontFamily: "'Lato', sans-serif" },
                                                             }}
-                                                        >
-                                                            <DatePicker
-                                                                label={t('MY_PROFILE.PROFILE_SETTINGS.BIRTHDAY')}
-                                                                defaultValue={dayjs(dateOfBirth)}
-                                                                value={dayjs(formik.values.dateOfBirth)}
-                                                                format="DD/MM/YYYY"
-                                                                disableFuture
-                                                                onChange={(newValue) =>
-                                                                    formik.setFieldValue(
-                                                                        formik.getFieldProps('dateOfBirth').name,
-                                                                        newValue?.toString()
-                                                                    )
-                                                                }
+                                                            FormHelperTextProps={{
+                                                                style: { color: 'red' }, // Change the color of the helper text here
+                                                            }}
+                                                            inputProps={{
+                                                                maxLength: 100,
+                                                            }}
+                                                            disabled={isLoading}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="col col-12 col-xl-6">
+                                                    <div className="field align--center mb-5">
+                                                        <Field
+                                                            as={TextField}
+                                                            name="lastName"
+                                                            type="text"
+                                                            fullWidth
+                                                            id="lastName"
+                                                            label={t('MY_PROFILE.PROFILE_SETTINGS.LAST_NAME')}
+                                                            variant="outlined"
+                                                            error={
+                                                                formik.touched.firstName && !!formik.errors.firstName
+                                                            }
+                                                            helperText={
+                                                                formik.touched.firstName && formik.errors.firstName
+                                                            }
+                                                            color="secondary"
+                                                            InputProps={{
+                                                                style: {
+                                                                    fontFamily: "'Lato', sans-serif",
+                                                                    backgroundColor: 'white',
+                                                                },
+                                                            }}
+                                                            InputLabelProps={{
+                                                                style: { fontFamily: "'Lato', sans-serif" },
+                                                            }}
+                                                            FormHelperTextProps={{
+                                                                style: { color: 'red' }, // Change the color of the helper text here
+                                                            }}
+                                                            inputProps={{
+                                                                maxLength: 100,
+                                                            }}
+                                                            disabled={isLoading}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                {/*todo: commented out due to TRM-179*/}
+                                                {/*<div className="col col-12 col-xl-6">*/}
+                                                {/*  <div className="field align--center mb-5">*/}
+                                                {/*    <Field*/}
+                                                {/*      name="countryId"*/}
+                                                {/*      component={CountrySelectField}*/}
+                                                {/*      label={t('MY_PROFILE.PROFILE_SETTINGS.COUNTRY')}*/}
+                                                {/*      fullWidth*/}
+                                                {/*      options={countryOptions}*/}
+                                                {/*    />*/}
+                                                {/*  </div>*/}
+                                                {/*</div>*/}
+                                                <div className="col col-12 col-xl-6">
+                                                    <div
+                                                        className="field align--center mb-5"
+                                                        style={{
+                                                            fontFamily: "'Lato', sans-serif",
+                                                            color: 'rgba(0, 0, 0, 0.6)',
+                                                        }}
+                                                    >
+                                                        <MyPhoneInput
+                                                            form={formik}
+                                                            name="phoneNumber"
+                                                            field={formik.getFieldProps('phoneNumber')}
+                                                            meta={formik.getFieldMeta('phoneNumber')}
+                                                            disabled={isLoading}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="col col-12 col-xl-6">
+                                                    <div
+                                                        className="field align--center mb-5"
+                                                        style={{
+                                                            fontFamily: "'Lato', sans-serif",
+                                                            color: 'rgba(0, 0, 0, 0.6)',
+                                                        }}
+                                                    >
+                                                        <DatePicker
+                                                            label={t('MY_PROFILE.PROFILE_SETTINGS.BIRTHDAY')}
+                                                            defaultValue={dayjs(dateOfBirth)}
+                                                            value={dayjs(formik.values.dateOfBirth)}
+                                                            format="DD/MM/YYYY"
+                                                            disableFuture
+                                                            onChange={(newValue) =>
+                                                                formik.setFieldValue(
+                                                                    formik.getFieldProps('dateOfBirth').name,
+                                                                    newValue?.toString()
+                                                                )
+                                                            }
+                                                        />
+                                                    </div>
+                                                </div>
+                                                {userRole === RoleOptions.Tutor && (
+                                                    <div className="col col-12">
+                                                        <div className="field field__file">
+                                                            <label className="field__label" htmlFor="profileImage">
+                                                                {/*t('MY_PROFILE.PROFILE_SETTINGS.IMAGE')*/}
+                                                            </label>
+                                                            <UploadFile
+                                                                setFieldValue={formik.setFieldValue}
+                                                                id="profileImage"
+                                                                name="profileImage"
+                                                                value={user?.profileImage ? user.profileImage : ''}
+                                                                disabled={isLoading}
+                                                                imagePreview={formik.values.profileImage}
+                                                                removePreviewOnUnmount={true}
                                                             />
                                                         </div>
                                                     </div>
-                                                    {userRole === RoleOptions.Tutor && (
-                                                        <div className="col col-12">
-                                                            <div className="field field__file">
-                                                                <label className="field__label" htmlFor="profileImage">
-                                                                    {/*t('MY_PROFILE.PROFILE_SETTINGS.IMAGE')*/}
-                                                                </label>
-                                                                <UploadFile
-                                                                    setFieldValue={formik.setFieldValue}
-                                                                    id="profileImage"
-                                                                    name="profileImage"
-                                                                    value={user?.profileImage ? user.profileImage : ''}
-                                                                    disabled={isLoading}
-                                                                    imagePreview={formik.values.profileImage}
-                                                                    removePreviewOnUnmount={true}
-                                                                />
-                                                            </div>
-                                                        </div>
-                                                    )}
-                                                </div>
+                                                )}
                                             </div>
                                         </div>
+                                    </div>
 
-                                        {userRole === RoleOptions.Tutor && (
-                                            <div className="card--profile__section">
-                                                <UploadVerificationDocuments />
-                                            </div>
-                                        )}
-                                    </>
-                                )}
-                            </Form>
-                        </FormikProvider>
-                    </div>
-                </MainWrapper>
-            </LocalizationProvider>
-        </>
+                                    {userRole === RoleOptions.Tutor && (
+                                        <div className="card--profile__section">
+                                            <UploadVerificationDocuments />
+                                        </div>
+                                    )}
+                                </>
+                            )}
+                        </Form>
+                    </FormikProvider>
+                </div>
+            </MainWrapper>
+        </LocalizationProvider>
     );
 };
 

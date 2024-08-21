@@ -23,7 +23,6 @@ type AdditionalProps = {
 const PayoutsPage = ({ nextStep, backStep }: AdditionalProps) => {
     const isMobile = window.innerWidth < 765;
     const state = useAppSelector((state) => state.onboarding);
-    const { yearsOfExperience, currentOccupation, aboutYou, aboutYourLessons } = state;
 
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
     // const [getProfileData, {
@@ -43,7 +42,6 @@ const PayoutsPage = ({ nextStep, backStep }: AdditionalProps) => {
     const tutorId = getUserId();
     const dispatch = useAppDispatch();
     const profileProgressState = useAppSelector((state) => state.myProfileProgress);
-    const [progressPercentage, setProgressPercentage] = useState(profileProgressState.percentage);
     const user = useAppSelector((state) => state.auth.user);
 
     const [individual, setIndividual] = useState(true);
@@ -52,10 +50,9 @@ const PayoutsPage = ({ nextStep, backStep }: AdditionalProps) => {
     const fetchData = async () => {
         if (tutorId) {
             const progressResponse = await getProfileProgress().unwrap();
-            setProgressPercentage(progressResponse.percentage);
             dispatch(setMyProfileProgress(progressResponse));
 
-            if (profileProgressState.percentage === 0) {
+            if (profileProgressState.step === 0) {
                 const progressResponse = await getProfileProgress().unwrap();
                 dispatch(setMyProfileProgress(progressResponse));
             }
@@ -99,10 +96,7 @@ const PayoutsPage = ({ nextStep, backStep }: AdditionalProps) => {
                                 />
                                 <div className="flex flex--row flex--jc--center">
                                     <div className="flex flex--center flex--shrink ">
-                                        <CircularProgress
-                                            progressNumber={progressPercentage}
-                                            size={isMobile ? 65 : 80}
-                                        />
+                                        <CircularProgress progressNumber={43} size={isMobile ? 65 : 80} />
                                     </div>
                                     <div className="flex flex--col flex--jc--center">
                                         <h4 className="signup-title ml-6 text-align--center">
@@ -172,12 +166,7 @@ const PayoutsPage = ({ nextStep, backStep }: AdditionalProps) => {
                 </div>
 
                 <div className="profile-preview-wrapper">
-                    <TestTutorProfile
-                        occupation={currentOccupation}
-                        aboutTutor={aboutYou}
-                        aboutLessons={aboutYourLessons}
-                        yearsOfExperience={yearsOfExperience}
-                    ></TestTutorProfile>
+                    <TestTutorProfile></TestTutorProfile>
                 </div>
             </div>
         </>
