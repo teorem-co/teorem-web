@@ -89,6 +89,10 @@ const THEME = createTheme({
                 root: {
                     minHeight: '48px',
                 },
+                outlinedSecondary: {
+                    border: '1px solid var(--border-color)',
+                    color: 'black',
+                },
             },
         },
         MuiButtonBase: {
@@ -117,11 +121,9 @@ const THEME = createTheme({
                 },
             },
         },
-        MuiInputLabel: {
-        },
+        MuiInputLabel: {},
         MuiOutlinedInput: {
-            defaultProps: {
-            },
+            defaultProps: {},
             styleOverrides: {
                 root: {
                     fontSize: '16px',

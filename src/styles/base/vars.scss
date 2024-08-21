@@ -38,7 +38,7 @@ $sidebar-overlay: #8f8f8f;
 
 //main colors
 $color-primary: #7e6cf2;
-$color-primary-dark: #553DEE;
+$color-primary-dark: #553dee;
 $color-primary-light: #cbc3fb;
 $color-primary-lighter: #f2f1fe;
 $color-primary-bright: #f8f7fe;
@@ -87,18 +87,18 @@ $responsive-xl: 1200px;
 
 //spacers building configs
 $modifiers: (
-  '': '',
-  't': '-top',
-  'r': '-right',
-  'b': '-bottom',
-  'l': '-left',
+    '': '',
+    't': '-top',
+    'r': '-right',
+    'b': '-bottom',
+    'l': '-left',
 );
 
 $responsiveConfig: (
-  $responsive-sm: 'sm',
-  $responsive-md: 'md',
-  $responsive-lg: 'lg',
-  $responsive-xl: 'xl',
+    $responsive-sm: 'sm',
+    $responsive-md: 'md',
+    $responsive-lg: 'lg',
+    $responsive-xl: 'xl',
 );
 
 // FLUID TYPOGRAPHY
@@ -110,3 +110,65 @@ $fluid-max-width: $responsive-xl;
 //set min & max font sizes
 $fluid-min-font: $type-base - $fluid-type-modifier;
 $fluid-max-font: $type-base;
+
+// css vars for global usage
+:root {
+    --unit: $unit;
+    --scale: #{$scale};
+    --grey-30: #{$grey-30};
+    --grey-63: #{$grey-63};
+    --grey-7f: #{$grey-7f};
+    --grey-bb: #{$grey-bb};
+    --grey-b9: #{$grey-b9};
+    --grey-c4: #{$grey-c4};
+    --grey-d8: #{$grey-d8};
+    --grey-ed: #{$grey-ed};
+    --grey-f2: #{$grey-f2};
+    --grey-f5: #{$grey-f5};
+    --grey-f7: #{$grey-f7};
+    --grey-fb: #{$grey-fb};
+    --grey-fc: #{$grey-fc};
+    --black: #{$black};
+    --white: #{$white};
+    --background-color: #{$background-color};
+    --background-overlay: #{$background-overlay};
+    --background-overlay-grey: #{$background-overlay-grey};
+    --sidebar-overlay: #{$sidebar-overlay};
+    --color-primary: #{$color-primary};
+    --color-primary-dark: #{$color-primary-dark};
+    --color-primary-light: #{$color-primary-light};
+    --color-primary-lighter: #{$color-primary-lighter};
+    --color-primary-bright: #{$color-primary-bright};
+    --color-secondary: #{$color-secondary};
+    --color-success: #{$color-success};
+    --color-error: #{$color-error};
+    --color-warning: #{$color-warning};
+    --color-status-blue: #{$color-status-blue};
+    --color-status-green: #{$color-status-green};
+    --border-color: #{$border-color};
+    --border-rounded: #{$border-rounded};
+    --border-circle: #{$border-circle};
+    --color-text-primary: #{$color-text-primary};
+    --color-text-placeholder: #{$color-text-placeholder};
+    --color-text-secondary: #{$color-text-secondary};
+    --color-text-tertiary: #{$color-text-tertiary};
+    --type-ty: #{$type-ty};
+    --type-xs: #{$type-xs};
+    --type-sm: #{$type-sm};
+    --type-base: #{$type-base};
+    --type-normal: #{$type-normal};
+    --type-md: #{$type-md};
+    --type-lg: #{$type-lg};
+    --type-xl: #{$type-xl};
+    --type-xxl: #{$type-xxl};
+    --type-huge: #{$type-huge};
+    --responsive-sm: #{$responsive-sm};
+    --responsive-md: #{$responsive-md};
+    --responsive-lg: #{$responsive-lg};
+    --responsive-xl: #{$responsive-xl};
+    --fluid-type-modifier: #{$fluid-type-modifier};
+    --fluid-min-width: #{$fluid-min-width};
+    --fluid-max-width: #{$fluid-max-width};
+    --fluid-min-font: #{$fluid-min-font};
+    --fluid-max-font: #{$fluid-max-font};
+}
