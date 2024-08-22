@@ -4,6 +4,7 @@ import { baseService } from '../baseService';
 import { OptionType } from '../../components/form/MySelectField';
 import { HttpMethods } from '../../types/httpMethods';
 import ISubject from '../../types/ISubject';
+import ISubjectLevel from '../../types/ISubjectLevel';
 
 const URL_TUTORS = 'api/v1/tutors';
 const URL_SUBJECTS = 'api/v1/subjects';
@@ -66,10 +67,17 @@ export const subjectService = baseService.injectEndpoints({
                 const subjectOptions: OptionType[] = sortedResponse.map((subject) => ({
                     value: subject.id,
                     label: t(`SUBJECTS.${subject.abrv.replace(' ', '').replaceAll('-', '').toLowerCase()}`),
+                    countryId: subject.countryId,
                 }));
 
                 return subjectOptions;
             },
+        }),
+        getSubjectLevels: builder.query<ISubjectLevel[], void>({
+            query: () => ({
+                url: `${URL_SUBJECTS}/levels`,
+                method: HttpMethods.GET,
+            }),
         }),
         updateSubject: builder.mutation<void, ICreateSubject>({
             query(body) {
@@ -139,6 +147,8 @@ export const {
     useCreateSubjectsOnboardingMutation,
     useGetSubjectsQuery,
     useLazyGetSubjectsQuery,
+    useGetSubjectLevelsQuery,
+    useLazyGetSubjectLevelsQuery,
     useCreateSubjectMutation,
     useUpdateSubjectMutation,
     useDeleteSubjectMutation,

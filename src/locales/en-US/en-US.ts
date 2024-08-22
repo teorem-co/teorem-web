@@ -1293,6 +1293,11 @@ export const EN_US = {
     philosophy: 'Philosophy',
     politics: 'Politics',
     statistics: 'Statistics',
+    calculus: 'Calculus',
+    economy: 'Economy',
+    reading: 'Reading',
+    writing: 'Writing',
+    precalculus: 'Precalculus',
   },
   SUBJECTS_GENITIVE: {
     biology: 'Biology',
@@ -1333,6 +1338,11 @@ export const EN_US = {
     philosophy: 'Philosophy',
     politics: 'Politics',
     statistics: 'Statistics',
+    calculus: 'Calculus',
+    economy: 'Economy',
+    reading: 'Reading',
+    writing: 'Writing',
+    precalculus: 'Precalculus',
   },
   SEO_TITLE: {
     TUTOR_SEARCH: 'Online :subject instructors and tutors for private :subject lessons',
@@ -1351,6 +1361,11 @@ export const EN_US = {
     ib: 'IB',
     maturaprep: 'Matura Prep',
     university: 'University',
+    "elementary": "Elementary school",
+    "middle": "Middle school",
+    "high": "High school",
+    "ap": "Advanced Placement",
+    "sat": "SAT",
   },
   CONSTANTS: {
     MONTHS_SHORT: {

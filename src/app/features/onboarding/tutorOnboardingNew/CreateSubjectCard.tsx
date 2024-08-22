@@ -1,11 +1,16 @@
 import { Field, Form, FormikProvider, useFormik } from 'formik';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
 import { useGetLevelsQuery } from '../../../store/services/levelService';
 
-import { useCreateSubjectMutation, useGetSubjectsQuery } from '../../../store/services/subjectService';
+import {
+    useCreateSubjectMutation,
+    useGetSubjectLevelsQuery,
+    useGetSubjectsQuery,
+    useLazyGetSubjectLevelsQuery,
+} from '../../../store/services/subjectService';
 import { useLazyGetProfileProgressQuery } from '../../../store/services/tutorService';
 import MySelect from '../../../components/form/MySelectField';
 import { useLazyGetCountriesQuery } from '../../../features/onboarding/services/countryService';
@@ -17,6 +22,7 @@ import { BiSolidTrash } from 'react-icons/bi';
 import { ITutorSubject } from '../../../store/slices/onboardingSlice';
 import { InputAdornment, TextField } from '@mui/material';
 import { CurrencySymbol } from '../../../components/CurrencySymbol';
+import useMount from '../../../utils/useMount';
 
 interface Props {
     // sideBarIsOpen: boolean;
@@ -38,15 +44,21 @@ interface Values {
 
 export const CreateSubjectCard = (props: Props) => {
     const { data, isLastForm, updateForm, id, removeItem, handleGetData } = props;
-
-    const { data: subjectOptions, isLoading: isLoadingSubjects } = useGetSubjectsQuery();
-    const { data: levelOptions, isLoading: isLoadingLevels } = useGetLevelsQuery();
+    const { user } = useAppSelector((state) => state.auth);
 
     const [createSubject, { isSuccess }] = useCreateSubjectMutation();
 
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
+    const { data: subjects, isLoading: isLoadingSubjects } = useGetSubjectsQuery();
+    const { data: levels, isLoading: isLoadingLevels } = useGetLevelsQuery();
+    const { data: subjectLevels, isLoading: isLoadingSubjectLevels } = useGetSubjectLevelsQuery();
 
-    const levelDisabled = !levelOptions || isLoadingLevels;
+    const levelOptions = useMemo(() => {
+        return levels?.filter((l) => l.countryId === user?.countryId) || [];
+    }, [levels, user?.countryId]);
+
+    const levelDisabled = !levelOptions?.length || isLoadingLevels || isLoadingSubjectLevels;
+
     const { t } = useTranslation();
     const dispatch = useAppDispatch();
     const profileProgressState = useAppSelector((state) => state.myProfileProgress);
@@ -109,9 +121,25 @@ export const CreateSubjectCard = (props: Props) => {
         }),
     });
 
-    useEffect(() => {
+    const subjectOptions = useMemo(() => {
+        const selectedLevel = formik.values.level;
+        const availableSubjects = subjectLevels
+            ?.filter((sl) => (selectedLevel ? sl.levelId === selectedLevel : true))
+            .map((sl) => sl.subjectId);
+
+        return (
+            subjects
+                ?.filter((s) => s.countryId === user?.countryId)
+                .filter((s) => {
+                    if (!selectedLevel?.length) return true;
+                    return availableSubjects?.includes(s.value);
+                }) || []
+        );
+    }, [formik.values.level, subjectLevels, subjects, user?.countryId]);
+
+    useMount(() => {
         getCurrency();
-    }, []);
+    });
 
     useEffect(() => {
         updateForm(id, {
@@ -126,7 +154,10 @@ export const CreateSubjectCard = (props: Props) => {
         <div className="card--primary mt-1 flex flex--jc--space-around">
             <FormikProvider value={formik}>
                 <Form noValidate>
-                    <div style={{ gap: '10px' }} className="subject-form-container field__w-fit-content flex--ai--center ">
+                    <div
+                        style={{ gap: '10px' }}
+                        className="subject-form-container field__w-fit-content flex--ai--center "
+                    >
                         <div>
                             <MySelect
                                 className="flex--grow w--220--min w--220--max mb-5"

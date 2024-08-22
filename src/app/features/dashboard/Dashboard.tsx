@@ -22,7 +22,7 @@ import {
     useLazyGetAllUnreadNotificationsQuery,
     useMarkAllAsReadMutation,
 } from '../../store/services/notificationService';
-import { useLazyGetSubjectsQuery } from '../../store/services/subjectService';
+import { useLazyGetSubjectLevelsQuery, useLazyGetSubjectsQuery } from '../../store/services/subjectService';
 import { useLazyGetAvailableTutorsQuery, useLazyGetProfileProgressQuery } from '../../store/services/tutorService';
 import { useLazyGetChildrenQuery, useLazyGetUserQuery } from '../../store/services/userService';
 import { RoleOptions } from '../../store/slices/roleSlice';
@@ -258,6 +258,7 @@ export default function Dashboard() {
         fetchProgress();
         getLevels();
         getSubjects();
+        getSubjectLevels();
 
         socket.on('showNotification', (notification: ISocketNotification) => {
             if (userId && notification.userId === userId) {
@@ -720,25 +721,38 @@ export default function Dashboard() {
     const [levelOptions, setLevelOptions] = useState<OptionType[]>([]);
     const [getSubjects, { data: subjects, isLoading: isLoadingSubjects }] = useLazyGetSubjectsQuery();
     const [getLevels, { data: levels, isLoading: isLoadingLevels }] = useLazyGetLevelsQuery();
+    const [getSubjectLevels, { data: subjectLevels, isLoading: isLoadingSubjectLevels }] =
+        useLazyGetSubjectLevelsQuery();
     const resetFilterDisabled =
         formik.values.level == '' &&
         formik.values.subject == '' &&
         formik.values.dayOfWeek.length == 0 &&
         formik.values.timeOfDay.length == 0;
 
-    const levelDisabled = !levels || isLoadingLevels;
+    const levelDisabled = !levels || isLoadingLevels || isLoadingSubjectLevels;
 
     useEffect(() => {
         if (levels) {
-            setLevelOptions(levels);
+            setLevelOptions(levels.filter((l) => l.countryId === user?.countryId));
         }
-    }, [levels]);
+    }, [levels, user?.countryId]);
 
     useEffect(() => {
         if (subjects) {
-            setSubjectOptions(subjects);
+            const selectedLevel = formik.values.level;
+            const availableSubjects = subjectLevels
+                ?.filter((sl) => (selectedLevel ? sl.levelId === selectedLevel : true))
+                .map((sl) => sl.subjectId);
+            setSubjectOptions(
+                subjects
+                    .filter((s) => s.countryId === user?.countryId)
+                    .filter((s) => {
+                        if (!selectedLevel?.length) return true;
+                        return availableSubjects?.includes(s.value);
+                    })
+            );
         }
-    }, [subjects]);
+    }, [formik.values.level, subjectLevels, subjects, user?.countryId]);
 
     useEffect(() => {
         if (formik.values.subject) {
@@ -882,36 +896,37 @@ export default function Dashboard() {
                                                     </div>
                                                 </div>
                                             </div>
-                                            {childrenData &&
-                                                childrenData.map((x: IChild) => {
-                                                    return (
-                                                        <div
-                                                            className="dash-wrapper__item"
-                                                            key={x.username}
-                                                            style={{ width: '100%' }}
-                                                            onClick={() => handleEditChild(x)}
-                                                        >
-                                                            <div className="dash-wrapper__item__element">
-                                                                <div className="flex--primary cur--pointer">
-                                                                    <div className="flex flex--center">
-                                                                        <ImageCircle
-                                                                            initials={`${x.firstName.charAt(0)}`}
-                                                                        />
-                                                                        <div className="flex--grow ml-4">
-                                                                            <div className="mb-1">{x.firstName}</div>
-                                                                            <div className="type--color--secondary">
-                                                                                {moment(x.dateOfBirth).format(
-                                                                                    t('BIRTH_DATE_FORMAT')
-                                                                                )}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <i className="icon icon--base icon--edit icon--primary"></i>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    );
-                                                })}
+                                            {childrenData
+                                                ? childrenData.map((x: IChild) => {
+                                                      return (
+                                                          <div
+                                                              className="dash-wrapper__item"
+                                                              key={x.username}
+                                                              style={{ width: '100%' }}
+                                                              onClick={() => handleEditChild(x)}
+                                                          >
+                                                              <div className="dash-wrapper__item__element">
+                                                                  <div className="flex--primary cur--pointer">
+                                                                      <div className="flex flex--center">
+                                                                          <ImageCircle
+                                                                              initials={`${x.firstName.charAt(0)}`}
+                                                                          />
+                                                                          <div className="flex--grow ml-4">
+                                                                              <div className="mb-1">{x.firstName}</div>
+                                                                              <div className="type--color--secondary">
+                                                                                  {moment(x.dateOfBirth).format(
+                                                                                      t('BIRTH_DATE_FORMAT')
+                                                                                  )}
+                                                                              </div>
+                                                                          </div>
+                                                                      </div>
+                                                                      <i className="icon icon--base icon--edit icon--primary"></i>
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+                                                      );
+                                                  })
+                                                : null}
                                         </div>
                                     </div>
                                 </div>
