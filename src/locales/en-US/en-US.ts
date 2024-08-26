@@ -23,6 +23,7 @@ export const EN_US = {
     DESCRIPTION: 'Please check your email and confirm your e-mail address by clicking the link we sent you.',
     EXPIRATION: 'Resend confirmation e-mail.',
     CONFIRM_BUTTON: 'Got it',
+    RESEND_TIMEOUT: 'Try again in',
   },
   ONBOARDING: {
     COUNTRY_SELECT: 'Select your market: ',
@@ -123,6 +124,7 @@ export const EN_US = {
     MAX_75_CHARS: 'Maximum is 75 characters',
     MAX_100_CHARS: 'Maximum is 100 characters',
     MIN_10_CHARS: 'Minimum is 10 characters',
+    NAME_EMAIL_NOT_IN_PASSWORD: "Can't contain your name or email address",
   },
   NAVIGATION: {
     MY_BOOKINGS: 'Calendar',
@@ -1361,11 +1363,11 @@ export const EN_US = {
     ib: 'IB',
     maturaprep: 'Matura Prep',
     university: 'University',
-    "elementary": "Elementary school",
-    "middle": "Middle school",
-    "high": "High school",
+    "elementary": "Elementary School",
+    "middle": "Middle School",
+    "high": "High School",
     "ap": "Advanced Placement",
-    "sat": "SAT",
+    "sat": "SAT Prep",
   },
   CONSTANTS: {
     MONTHS_SHORT: {

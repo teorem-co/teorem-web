@@ -8,6 +8,7 @@ export interface OptionType {
     value: string;
     icon?: string;
     countryId?: string;
+    priority?: number;
 }
 
 export interface PhoneOptionType {

@@ -750,6 +750,7 @@ export default function Dashboard() {
                         if (!selectedLevel?.length) return true;
                         return availableSubjects?.includes(s.value);
                     })
+                    .sort((a, b) => (a.priority || 0) - (b.priority || 0))
             );
         }
     }, [formik.values.level, subjectLevels, subjects, user?.countryId]);

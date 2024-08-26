@@ -68,6 +68,7 @@ export const subjectService = baseService.injectEndpoints({
                     value: subject.id,
                     label: t(`SUBJECTS.${subject.abrv.replace(' ', '').replaceAll('-', '').toLowerCase()}`),
                     countryId: subject.countryId,
+                    priority: subject.priority,
                 }));
 
                 return subjectOptions;

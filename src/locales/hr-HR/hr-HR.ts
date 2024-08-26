@@ -23,6 +23,7 @@ export const HR_HR = {
     DESCRIPTION: 'Molimo provjerite svoj sandučiċ i potvrdite Vašu e-mail adresu klikom na link koji smo Vam poslali.',
     EXPIRATION: 'Ponovno pošalji email za potvrdu',
     CONFIRM_BUTTON: 'U redu',
+    RESEND_TIMEOUT: 'Probajte ponovno za',
   },
   ONBOARDING: {
     COUNTRY_SELECT: 'Odaberite svoje tržište: ',
@@ -123,6 +124,7 @@ export const HR_HR = {
     MAX_75_CHARS: 'Najviše 75 znakova',
     MAX_100_CHARS: 'Najviše 100 znakova',
     MIN_100_CHARS: 'Najmanje 10 znakova',
+    NAME_EMAIL_NOT_IN_PASSWORD: 'Ne sadržava ni ime ni email adresu',
   },
   NAVIGATION: {
     MY_BOOKINGS: 'Kalendar',
