@@ -1,12 +1,14 @@
 import { FieldProps, useField } from 'formik';
 import Select, { components } from 'react-select';
-import {PROFILE_PATHS} from "../../routes";
-import {t} from "i18next";
+import { PROFILE_PATHS } from '../../routes';
+import { t } from 'i18next';
 
 export interface OptionType {
     label: string;
     value: string;
     icon?: string;
+    countryId?: string;
+    priority?: number;
 }
 
 export interface PhoneOptionType {
@@ -55,14 +57,18 @@ const MySelect = ({
     isSearchable,
     withoutErr,
     customValue,
-    positionFixed
+    positionFixed,
 }: CustomSelectProps) => {
     const [formikField, meta] = useField(form.getFieldProps(field.name));
 
     const onChange = (option: any) => {
         form.setFieldValue(
             field.name,
-            isMulti ? (option ? option.map((item: OptionType | PhoneOptionType) => item.value) : '') : (option as OptionType | PhoneOptionType).value
+            isMulti
+                ? option
+                    ? option.map((item: OptionType | PhoneOptionType) => item.value)
+                    : ''
+                : (option as OptionType | PhoneOptionType).value
         );
 
         isMulti
@@ -74,7 +80,10 @@ const MySelect = ({
         if (options && field.value) {
             return isMulti
                 ? options.filter((option: any) => field.value.indexOf(option.value) >= 0)
-                : options.find((option: any) => option.value === (typeof field.value !== 'string' ? field.value.toString() : field.value));
+                : options.find(
+                      (option: any) =>
+                          option.value === (typeof field.value !== 'string' ? field.value.toString() : field.value)
+                  );
         } else {
             return isMulti ? [] : ('' as any);
         }
@@ -152,17 +161,26 @@ const MySelect = ({
                 menuPosition={positionFixed ? 'fixed' : 'absolute'}
                 isLoading={isLoading}
                 noOptionsMessage={() => {
-                  if(noOptionsMessage?.toString().includes("childless", 6)) {
-                    return (
-                      <div>
-                        {t('FORM_VALIDATION.CHILDLESS_CALENDAR_1')}
-                        <a href={PROFILE_PATHS.MY_PROFILE_CHILD_INFO}> {t('FORM_VALIDATION.CHILDLESS_CALENDAR_2')}</a>.
-                      </div>
-                    );
-                  }}}
+                    if (noOptionsMessage?.toString().includes('childless', 6)) {
+                        return (
+                            <div>
+                                {t('FORM_VALIDATION.CHILDLESS_CALENDAR_1')}
+                                <a href={PROFILE_PATHS.MY_PROFILE_CHILD_INFO}>
+                                    {' '}
+                                    {t('FORM_VALIDATION.CHILDLESS_CALENDAR_2')}
+                                </a>
+                                .
+                            </div>
+                        );
+                    }
+                }}
                 isSearchable={isSearchable}
             />
-            {withoutErr ? <></> : <div className="field__validation">{meta.error && meta.touched ? meta.error : ''}</div>}
+            {withoutErr ? (
+                <></>
+            ) : (
+                <div className="field__validation">{meta.error && meta.touched ? meta.error : ''}</div>
+            )}
         </>
     );
 };

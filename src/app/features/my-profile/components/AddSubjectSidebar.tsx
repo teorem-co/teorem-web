@@ -1,11 +1,15 @@
 import { Form, FormikProvider, useFormik } from 'formik';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
 import { useGetLevelsQuery } from '../../../store/services/levelService';
 
-import { useCreateSubjectMutation, useGetSubjectsQuery } from '../../../store/services/subjectService';
+import {
+    useCreateSubjectMutation,
+    useGetSubjectLevelsQuery,
+    useGetSubjectsQuery,
+} from '../../../store/services/subjectService';
 import { useLazyGetProfileProgressQuery } from '../../../store/services/tutorService';
 import MySelect from '../../../components/form/MySelectField';
 import MyTextField from '../../../components/form/MyTextField';
@@ -15,6 +19,7 @@ import toastService from '../../../store/services/toastService';
 import { getUserId } from '../../../utils/getUserId';
 import { setMyProfileProgress } from '../slices/myProfileSlice';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
+import useMount from '../../../utils/useMount';
 
 interface Props {
     sideBarIsOpen: boolean;
@@ -32,14 +37,21 @@ interface Values {
 const AddSubjectSidebar = (props: Props) => {
     const { closeSidebar, sideBarIsOpen, handleGetData } = props;
 
-    const { data: subjectOptions, isLoading: isLoadingSubjects } = useGetSubjectsQuery();
-    const { data: levelOptions, isLoading: isLoadingLevels } = useGetLevelsQuery();
-
     const [createSubject, { isSuccess }] = useCreateSubjectMutation();
+    const { user } = useAppSelector((state) => state.auth);
 
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
 
-    const levelDisabled = !levelOptions || isLoadingLevels;
+    const { data: subjects, isLoading: isLoadingSubjects } = useGetSubjectsQuery();
+    const { data: levels, isLoading: isLoadingLevels } = useGetLevelsQuery();
+    const { data: subjectLevels, isLoading: isLoadingSubjectLevels } = useGetSubjectLevelsQuery();
+
+    const levelOptions = useMemo(() => {
+        return levels?.filter((l) => l.countryId === user?.countryId) || [];
+    }, [levels, user?.countryId]);
+
+    const levelDisabled = !levelOptions?.length || isLoadingLevels || isLoadingSubjectLevels;
+
     const { t } = useTranslation();
     const dispatch = useAppDispatch();
     const profileProgressState = useAppSelector((state) => state.myProfileProgress);
@@ -51,12 +63,11 @@ const AddSubjectSidebar = (props: Props) => {
 
     const [currency, setCurrency] = useState('PZL');
     const [minPrice, setMinPrice] = useState(47);
-    const countryId = useAppSelector((state) => state?.user?.user?.countryId);
     const [getCountries] = useLazyGetCountriesQuery();
     const getCurrency = async () => {
         const res = await getCountries().unwrap();
         res.forEach((c) => {
-            if (c.id === countryId) {
+            if (c.id === user?.countryId) {
                 setCurrency(c.currencyCode);
                 if (c.currencyCode == 'EUR') setMinPrice(10);
                 if (c.currencyCode == 'PLZ') setMinPrice(47);
@@ -103,15 +114,36 @@ const AddSubjectSidebar = (props: Props) => {
         }),
     });
 
-    useEffect(() => {
+    const subjectOptions = useMemo(() => {
+        const selectedLevel = formik.values.level;
+        const availableSubjects = subjectLevels
+            ?.filter((sl) => (selectedLevel ? sl.levelId === selectedLevel : true))
+            .map((sl) => sl.subjectId);
+        return (
+            subjects
+                ?.filter((s) => s.countryId === user?.countryId)
+                .filter((s) => {
+                    if (!selectedLevel?.length) return true;
+                    return availableSubjects?.includes(s.value);
+                })
+                .sort((a, b) => (a.priority || 0) - (b.priority || 0)) || []
+        );
+    }, [formik.values.level, subjectLevels, subjects, user?.countryId]);
+
+    useMount(() => {
         getCurrency();
-    }, []);
+    });
 
     return (
         <div>
-            <div className={`cur--pointer sidebar__overlay ${!sideBarIsOpen ? 'sidebar__overlay--close' : ''}`} onClick={closeSidebar}></div>
+            <div
+                className={`cur--pointer sidebar__overlay ${!sideBarIsOpen ? 'sidebar__overlay--close' : ''}`}
+                onClick={closeSidebar}
+            ></div>
 
-            <div className={`sidebar sidebar--secondary sidebar--secondary ${!sideBarIsOpen ? 'sidebar--secondary--close' : ''}`}>
+            <div
+                className={`sidebar sidebar--secondary sidebar--secondary ${!sideBarIsOpen ? 'sidebar--secondary--close' : ''}`}
+            >
                 <div className="flex--primary flex--shrink">
                     <div className="type--color--secondary">{t('MY_PROFILE.MY_TEACHINGS.ADD_TITLE')}</div>
                     <div>
@@ -156,7 +188,9 @@ const AddSubjectSidebar = (props: Props) => {
                                 <MyTextField
                                     name="price"
                                     id="price"
-                                    placeholder={t('MY_PROFILE.MY_TEACHINGS.PRICING_PLACEHOLDER') + ' ' + currency + '/h'}
+                                    placeholder={
+                                        t('MY_PROFILE.MY_TEACHINGS.PRICING_PLACEHOLDER') + ' ' + currency + '/h'
+                                    }
                                     withoutErr={!(formik.errors.price && formik.touched.price)}
                                     type="number"
                                 />
@@ -166,10 +200,16 @@ const AddSubjectSidebar = (props: Props) => {
                 </div>
                 <div className="flex--shirnk sidebar--secondary__bottom mt-10">
                     <div className="flex--primary mt-6">
-                        <ButtonPrimaryGradient className="btn btn--base type--wgt--extra-bold" onClick={() => formik.handleSubmit()}>
+                        <ButtonPrimaryGradient
+                            className="btn btn--base type--wgt--extra-bold"
+                            onClick={() => formik.handleSubmit()}
+                        >
                             {t('MY_PROFILE.MY_TEACHINGS.SAVE')}
                         </ButtonPrimaryGradient>
-                        <button className="btn btn--clear type--color--error type--wgt--extra-bold" onClick={closeSidebar}>
+                        <button
+                            className="btn btn--clear type--color--error type--wgt--extra-bold"
+                            onClick={closeSidebar}
+                        >
                             {t('MY_PROFILE.MY_TEACHINGS.CANCEL')}
                         </button>
                     </div>

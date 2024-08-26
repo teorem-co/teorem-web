@@ -23,6 +23,7 @@ export const HR_HR = {
     DESCRIPTION: 'Molimo provjerite svoj sandučiċ i potvrdite Vašu e-mail adresu klikom na link koji smo Vam poslali.',
     EXPIRATION: 'Ponovno pošalji email za potvrdu',
     CONFIRM_BUTTON: 'U redu',
+    RESEND_TIMEOUT: 'Probajte ponovno za',
   },
   ONBOARDING: {
     COUNTRY_SELECT: 'Odaberite svoje tržište: ',
@@ -123,6 +124,7 @@ export const HR_HR = {
     MAX_75_CHARS: 'Najviše 75 znakova',
     MAX_100_CHARS: 'Najviše 100 znakova',
     MIN_100_CHARS: 'Najmanje 10 znakova',
+    NAME_EMAIL_NOT_IN_PASSWORD: 'Ne sadržava ni ime ni email adresu',
   },
   NAVIGATION: {
     MY_BOOKINGS: 'Kalendar',
@@ -1291,6 +1293,11 @@ export const HR_HR = {
     philosophy: 'Filozofija',
     politics: 'Politika',
     statistics: 'Statistika',
+    calculus: 'Matematička analiza 2',
+    economy: 'Ekonomija',
+    reading: 'Čitanje',
+    writing: 'Pisanje',
+    precalculus: 'Matematička analiza 1',
   },
   SUBJECTS_GENITIVE: {
     biology: 'Biologije',
@@ -1331,6 +1338,11 @@ export const HR_HR = {
     philosophy: 'Filozofije',
     politics: 'Politike',
     statistics: 'Statistike',
+    calculus: 'Matematičke analize 2',
+    economy: 'Ekonomije',
+    reading: 'Čitanja',
+    writing: 'Pisanja',
+    precalculus: 'Matematičke analize 1',
   },
   SEO_TITLE: {
     TUTOR_SEARCH: 'Online instruktori i učitelji :subject za privatne instrukcije :subject',
@@ -1342,6 +1354,11 @@ export const HR_HR = {
     ib: 'IB',
     maturaprep: 'Priprema za maturu',
     university: 'Fakultet',
+    "elementary": "Osnovna škola",
+    "middle": "Srednja škola",
+    "high": "Srednja škola",
+    "ap": "Za napredne",
+    "sat": "Priprema za maturu",
   },
   ROLES: {
     student: 'Učenik',

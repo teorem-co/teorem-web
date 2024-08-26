@@ -81,11 +81,13 @@ const TUTORIAL_SCHEDULE: IBooking = {
         id: 'bb589332-eb38-4455-9259-1773bf88d60a',
         abrv: 'high-school',
         name: 'High School',
+        countryId: "da98ad50-5138-4f0d-b297-62c5cb101247"
     },
     Subject: {
         id: '2da9dfdb-e9cc-479a-802d-fa2a9b906575',
         abrv: 'maths',
         name: 'Maths',
+        countryId: "da98ad50-5138-4f0d-b297-62c5cb101247"
     },
 };
 
