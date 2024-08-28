@@ -4,6 +4,7 @@ import { baseService } from '../baseService';
 import { HttpMethods } from '../../types/httpMethods';
 import ISubject from '../../types/ISubject';
 import OptionType from '../../types/OptionType';
+import ISubjectLevel from '../../types/ISubjectLevel';
 
 const URL_TUTORS = 'api/v1/tutors';
 const URL_SUBJECTS = 'api/v1/subjects';

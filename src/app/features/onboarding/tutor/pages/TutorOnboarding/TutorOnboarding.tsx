@@ -34,9 +34,12 @@ export default function TutorOnboarding() {
     const [getUser] = useLazyGetUserQuery();
 
     const init = async () => {
-        if (user?.onboardingCompleted) {
+        if (user?.onboardingCompleted || !user?.id) {
             return history.replace(PATHS.DASHBOARD);
         }
+        getOnboardingState({
+            userId: user?.id,
+        });
     };
 
     useMount(() => {
