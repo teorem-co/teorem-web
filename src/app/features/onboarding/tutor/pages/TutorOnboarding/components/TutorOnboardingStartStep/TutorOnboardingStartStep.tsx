@@ -1,7 +1,3 @@
-interface ITutorOnboardingStartStepProps {
-    formik: any;
-}
-
-export default function TutorOnboardingStartStep({ formik }: Readonly<ITutorOnboardingStartStepProps>) {
+export default function TutorOnboardingStartStep() {
     return <div>StartStep</div>;
 }

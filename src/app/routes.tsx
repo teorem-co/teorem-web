@@ -39,6 +39,7 @@ import { setSelectedLang } from './store/slices/langSlice';
 import { setLoginModalOpen } from './store/slices/modalsSlice';
 import useMount from './utils/useMount';
 import TutorOnboarding from './features/onboarding/tutor/pages/TutorOnboarding';
+import TutorOnboardingProvider from './features/onboarding/tutor/providers/TutorOnboardingProvider';
 
 export const PATHS = {
     FORGOT_PASSWORD: t('PATHS.FORGOT_PASSWORD'),
@@ -146,7 +147,9 @@ export const ROUTES: IRoute[] = [
                 exact: true,
                 component: () => (
                     <PermissionsGate roles={[Role.Tutor]}>
-                        <TutorOnboarding />
+                        <TutorOnboardingProvider>
+                            <TutorOnboarding />
+                        </TutorOnboardingProvider>
                     </PermissionsGate>
                 ),
             },

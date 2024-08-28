@@ -1,7 +1,3 @@
-interface ITutorOnboardingPhotoStepProps {
-    formik: any;
-}
-
-export default function TutorOnboardingPhotoStep({ formik }: Readonly<ITutorOnboardingPhotoStepProps>) {
+export default function TutorOnboardingPhotoStep() {
     return <div>PhotoStep</div>;
 }

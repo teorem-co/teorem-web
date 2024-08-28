@@ -1,7 +1,3 @@
-interface ITutorOnboardingVideoStepProps {
-    formik: any;
-}
-
-export default function TutorOnboardingVideoStep({ formik }: Readonly<ITutorOnboardingVideoStepProps>) {
+export default function TutorOnboardingVideoStep() {
     return <div>VideoStep</div>;
 }

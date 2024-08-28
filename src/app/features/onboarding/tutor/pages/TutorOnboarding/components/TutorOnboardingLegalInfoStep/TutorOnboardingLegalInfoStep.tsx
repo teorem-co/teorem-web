@@ -1,7 +1,3 @@
-interface ITutorOnboardingLegalInfoStepProps {
-    formik: any;
-}
-
-export default function TutorOnboardingLegalInfoStep({ formik }: Readonly<ITutorOnboardingLegalInfoStepProps>) {
+export default function TutorOnboardingLegalInfoStep() {
     return <div>LegalInfoStep</div>;
 }

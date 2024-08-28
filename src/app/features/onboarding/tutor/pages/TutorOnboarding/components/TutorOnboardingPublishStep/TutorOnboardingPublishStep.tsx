@@ -1,7 +1,3 @@
-interface ITutorOnboardingPublishStepProps {
-    formik: any;
-}
-
-export default function TutorOnboardingPublishStep({ formik }: Readonly<ITutorOnboardingPublishStepProps>) {
+export default function TutorOnboardingPublishStep() {
     return <div>PublishStep</div>;
 }

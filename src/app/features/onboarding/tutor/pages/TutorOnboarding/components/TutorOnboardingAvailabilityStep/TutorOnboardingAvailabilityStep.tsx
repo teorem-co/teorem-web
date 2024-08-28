@@ -1,7 +1,3 @@
-interface ITutorOnboardingAvailabilityStepProps {
-    formik: any;
-}
-
-export default function TutorOnboardingAvailabilityStep({ formik }: Readonly<ITutorOnboardingAvailabilityStepProps>) {
+export default function TutorOnboardingAvailabilityStep() {
     return <div>AvailabilityStep</div>;
 }

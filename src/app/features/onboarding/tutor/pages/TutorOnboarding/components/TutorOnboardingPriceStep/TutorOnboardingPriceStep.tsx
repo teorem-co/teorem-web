@@ -1,7 +1,3 @@
-interface ITutorOnboardingPriceStepProps {
-    formik: any;
-}
-
-export default function TutorOnboardingPriceStep({ formik }: Readonly<ITutorOnboardingPriceStepProps>) {
+export default function TutorOnboardingPriceStep() {
     return <div>PriceStep</div>;
 }

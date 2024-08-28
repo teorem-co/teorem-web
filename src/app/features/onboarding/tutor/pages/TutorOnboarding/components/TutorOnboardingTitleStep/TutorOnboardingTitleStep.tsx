@@ -1,7 +1,3 @@
-interface ITutorOnboardingTitleStepProps {
-    formik: any;
-}
-
-export default function TutorOnboardingTitleStep({ formik }: Readonly<ITutorOnboardingTitleStepProps>) {
+export default function TutorOnboardingTitleStep() {
     return <div>TitleStep</div>;
 }

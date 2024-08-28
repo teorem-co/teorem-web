@@ -1,7 +1,3 @@
-interface ITutorOnboardingPayoutInfoStepProps {
-    formik: any;
-}
-
-export default function TutorOnboardingPayoutInfoStep({ formik }: Readonly<ITutorOnboardingPayoutInfoStepProps>) {
+export default function TutorOnboardingPayoutInfoStep() {
     return <div>PayoutInfoStep</div>;
 }

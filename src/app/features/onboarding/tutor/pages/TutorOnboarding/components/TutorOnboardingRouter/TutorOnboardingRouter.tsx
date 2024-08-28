@@ -1,3 +1,4 @@
+import { useTutorOnboarding } from '../../../../providers/TutorOnboardingProvider';
 import TutorOnboardingAddressStep from '../TutorOnboardingAddressStep';
 import TutorOnboardingAvailabilityStep from '../TutorOnboardingAvailabilityStep';
 import TutorOnboardingDescriptionStep from '../TutorOnboardingDescriptionStep';
@@ -17,23 +18,18 @@ import TutorOnboardingSubjectsStep from '../TutorOnboardingSubjectsStep';
 import TutorOnboardingTitleStep from '../TutorOnboardingTitleStep';
 import TutorOnboardingVideoStep from '../TutorOnboardingVideoStep';
 
-interface ITutorOnboardingRouterProps {
-    step: number;
-    substep: number;
-    formik: any;
-}
-
-export default function TutorOnboardingRouter({ step, substep, formik }: Readonly<ITutorOnboardingRouterProps>) {
+export default function TutorOnboardingRouter() {
+    const { step, substep } = useTutorOnboarding();
     if (step === 1) {
         switch (substep) {
             case 0:
-                return <TutorOnboardingStartStep formik={formik} />;
+                return <TutorOnboardingStartStep />;
             case 1:
-                return <TutorOnboardingLessonsStep formik={formik} />;
+                return <TutorOnboardingLessonsStep />;
             case 2:
-                return <TutorOnboardingSubjectsStep formik={formik} />;
+                return <TutorOnboardingSubjectsStep />;
             case 3:
-                return <TutorOnboardingAvailabilityStep formik={formik} />;
+                return <TutorOnboardingAvailabilityStep />;
 
             default:
                 return null;
@@ -43,17 +39,17 @@ export default function TutorOnboardingRouter({ step, substep, formik }: Readonl
     if (step === 2) {
         switch (substep) {
             case 0:
-                return <TutorOnboardingProfileStep formik={formik} />;
+                return <TutorOnboardingProfileStep />;
             case 1:
-                return <TutorOnboardingPhotoStep formik={formik} />;
+                return <TutorOnboardingPhotoStep />;
             case 2:
-                return <TutorOnboardingEducationStep formik={formik} />;
+                return <TutorOnboardingEducationStep />;
             case 3:
-                return <TutorOnboardingTitleStep formik={formik} />;
+                return <TutorOnboardingTitleStep />;
             case 4:
-                return <TutorOnboardingDescriptionStep formik={formik} />;
+                return <TutorOnboardingDescriptionStep />;
             case 5:
-                return <TutorOnboardingVideoStep formik={formik} />;
+                return <TutorOnboardingVideoStep />;
             default:
                 return null;
         }
@@ -62,21 +58,21 @@ export default function TutorOnboardingRouter({ step, substep, formik }: Readonl
     if (step === 3) {
         switch (substep) {
             case 0:
-                return <TutorOnboardingFinishingStep formik={formik} />;
+                return <TutorOnboardingFinishingStep />;
             case 1:
-                return <TutorOnboardingNotificationStep formik={formik} />;
+                return <TutorOnboardingNotificationStep />;
             case 2:
-                return <TutorOnboardingPriceStep formik={formik} />;
+                return <TutorOnboardingPriceStep />;
             case 3:
-                return <TutorOnboardingEntityStep formik={formik} />;
+                return <TutorOnboardingEntityStep />;
             case 4:
-                return <TutorOnboardingLegalInfoStep formik={formik} />;
+                return <TutorOnboardingLegalInfoStep />;
             case 5:
-                return <TutorOnboardingPayoutInfoStep formik={formik} />;
+                return <TutorOnboardingPayoutInfoStep />;
             case 6:
-                return <TutorOnboardingAddressStep formik={formik} />;
+                return <TutorOnboardingAddressStep />;
             case 7:
-                return <TutorOnboardingPublishStep formik={formik} />;
+                return <TutorOnboardingPublishStep />;
             default:
                 return null;
         }

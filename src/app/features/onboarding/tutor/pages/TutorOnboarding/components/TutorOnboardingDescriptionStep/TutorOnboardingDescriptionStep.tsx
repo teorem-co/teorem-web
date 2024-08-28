@@ -1,7 +1,3 @@
-interface ITutorOnboardingDescriptionStepProps {
-    formik: any;
-}
-
-export default function TutorOnboardingDescriptionStep({ formik }: Readonly<ITutorOnboardingDescriptionStepProps>) {
+export default function TutorOnboardingDescriptionStep() {
     return <div>DescriptionStep</div>;
 }

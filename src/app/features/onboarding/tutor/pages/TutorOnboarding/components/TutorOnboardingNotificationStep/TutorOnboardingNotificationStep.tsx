@@ -1,7 +1,3 @@
-interface ITutorOnboardingNotificationStepProps {
-    formik: any;
-}
-
-export default function TutorOnboardingNotificationStep({ formik }: Readonly<ITutorOnboardingNotificationStepProps>) {
+export default function TutorOnboardingNotificationStep() {
     return <div>NotificationStep</div>;
 }

@@ -1,7 +1,3 @@
-interface ITutorOnboardingFinishingStepProps {
-    formik: any;
-}
-
-export default function TutorOnboardingFinishingStep({ formik }: Readonly<ITutorOnboardingFinishingStepProps>) {
+export default function TutorOnboardingFinishingStep() {
     return <div>FinishingStep</div>;
 }

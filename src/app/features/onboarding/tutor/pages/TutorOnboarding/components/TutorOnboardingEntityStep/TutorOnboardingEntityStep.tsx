@@ -1,7 +1,3 @@
-interface ITutorOnboardingEntityStepProps {
-    formik: any;
-}
-
-export default function TutorOnboardingEntityStep({ formik }: Readonly<ITutorOnboardingEntityStepProps>) {
+export default function TutorOnboardingEntityStep() {
     return <div>EntityStep</div>;
 }
