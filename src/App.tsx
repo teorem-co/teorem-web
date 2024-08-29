@@ -44,7 +44,7 @@ export default function App() {
 
     const version = useAppSelector((state) => state.auth.serverVersion);
 
-    const [versionSame, setVersionSame] = useState<boolean>(false);
+    const [versionSame, setVersionSame] = useState<boolean>(true);
     const userId = useAppSelector((state) => state.auth.user?.id);
     const childIds = useAppSelector((state) => state.auth.user?.childIds);
     const chat = useAppSelector((state) => state.chat);
@@ -113,23 +113,26 @@ export default function App() {
         }
     }
 
-    useEffect(() => {
-        if (isSuccessServerVersion) {
-            if (version != serverVersion) {
-                if (userId && version?.length) {
-                    persistor.purge();
-                    dispatch(logout());
-                    dispatch(logoutUser());
-                    dispatch({ type: 'USER_LOGOUT' });
-                    setVersionSame(false);
-                }
 
-                dispatch(setServerVersion(serverVersion || '0.0.0'));
+    // commenting this out untill we need it, hopefully never
 
-                setVersionSame(true);
-            } else setVersionSame(true);
-        }
-    }, [version, isSuccessServerVersion, serverVersion, userId, dispatch]);
+    // useEffect(() => {
+    //     if (isSuccessServerVersion) {
+    //         if (version != serverVersion) {
+    //             if (userId && version?.length) {
+    //                 persistor.purge();
+    //                 dispatch(logout());
+    //                 dispatch(logoutUser());
+    //                 dispatch({ type: 'USER_LOGOUT' });
+    //                 setVersionSame(false);
+    //             }
+
+    //             dispatch(setServerVersion(serverVersion || '0.0.0'));
+
+    //             setVersionSame(true);
+    //         } else setVersionSame(true);
+    //     }
+    // }, [version, isSuccessServerVersion, serverVersion, userId, dispatch]);
 
     useEffect(() => {
         if (missedCall && missedCallBuffer) {

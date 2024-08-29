@@ -27,28 +27,58 @@ export const EN_US = {
         CONFIRM_BUTTON: 'Got it',
     },
     ONBOARDING: {
-        COUNTRY_SELECT: 'Select your market: ',
-        NAVIGATION: {
-            TITLE: 'Welcome to Teorem!',
-            DESCRIPTION: "Please follow the onboarding process to finish up your profile. It'll take only few minutes.",
-            STEP_ONE: {
-                TITLE: 'Personal information',
-                DESCRIPTION: 'Let us get to know you a little bit better',
-            },
-            TUTOR: {
-                STEP_TWO: {
-                    TITLE: 'Card Details',
-                    DESCRIPTION: "It's never too much information",
+        BACK: 'Back',
+        QUESTIONS: 'Questions?',
+        NEXT: 'Next',
+        GET_STARTED: 'Get started',
+        TUTOR: {
+            START: {
+                TITLE: "It's easy to get started on Teorem",
+                POINT_1: {
+                    TITLE: 'Tell us abount your lessons',
+                    DESCRIPTION: 'Set your availability, and select the subjects and levels you teach.',
+                },
+                POINT_2: {
+                    TITLE: 'Make your profile stand out',
+                    DESCRIPTION: 'Add a video, a photo, and some info, like your interests and experience.',
+                },
+                POINT_3: {
+                    TITLE: 'Finish up and publish',
+                    DESCRIPTION: "Set a price and publish your listing when you're ready.",
                 },
             },
-            PARENT: {
-                STEP_TWO: {
-                    TITLE: "Child's List",
-                    DESCRIPTION: 'Fill in information for your child and set his/her login credentials.',
-                },
+            LESSONS: {
+                STEP_LABEL: 'Step 1',
+                TITLE: 'Tell us about your lessons',
+                DESCRIPTION:
+                    "In this step, we'll ask you which subjects you tutor and what levels you are comfortable with. Then let us know when you are available to teach your lessons.",
             },
+            SUBJECTS: {},
+            AVAILABILITY: {},
+            PROFILE: {
+                STEP_LABEL: 'Step 2',
+                TITLE: 'Make your profile stand out',
+                DESCRIPTION:
+                    "In this step, you'll add your profile photo and some basic info about your interests and experience. Then you'll record or upload a brief video so that potential students can get to know you.",
+            },
+            PHOTO: {},
+            EDUCATION: {},
+            TITLE: {},
+            DESCRIPTION: {},
+            VIDEO: {},
+            FINISHING: {
+                STEP_LABEL: 'Step 3',
+                TITLE: 'Finish up and publish',
+                DESCRIPTION: "Finally, you'll set up pricing, payouts and publish your profile.",
+            },
+            NOTIFICATION: {},
+            PRICE: {},
+            ENTITY: {},
+            LEGAL_INFO: {},
+            PAYOUT_INFO: {},
+            ADDRESS: {},
+            PUBLISH: {},
         },
-        EDIT_CHILD_DETAILS: "Edit child's details",
     },
     TUTOR_ONBOARDING: {
         TITLE: "Thank you for verifying your email address! Let's complete your tutor profile!",

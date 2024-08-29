@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 import styles from './OnboardingLayout.module.scss';
 import logo from '../../../../../assets/images/teorem-logo-black.png';
 import ProgressBar from '../ProgressBar';
+import { useTranslation } from 'react-i18next';
 
 interface IOnboardingLayoutProps {
     step?: number;
@@ -22,6 +23,7 @@ export default function OnboardingLayout({
     actions,
     header,
 }: Readonly<IOnboardingLayoutProps>) {
+    const { t } = useTranslation();
     return (
         <div className={styles.layout}>
             <div className={styles.headerContainer}>
@@ -32,7 +34,7 @@ export default function OnboardingLayout({
             <ProgressBar step={step} substep={substep} maxSubstep={maxSubstep} />
             <div className={styles.footer}>
                 <button className={styles.back} onClick={onBack}>
-                    <span>Back</span>
+                    <span>{t('ONBOADING.BACK')}</span>
                 </button>
                 <div className={styles.actions}>{actions}</div>
             </div>

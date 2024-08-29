@@ -1,3 +1,46 @@
+import { useTranslation } from 'react-i18next';
+import styles from './TutorOnboardingStartStep.module.scss';
+import point1Image from './assets/point-1.png';
+import point2Image from './assets/point-2.png';
+import point3Image from './assets/point-3.png';
+import Divider from '../../../../../../../components/Divider';
+
 export default function TutorOnboardingStartStep() {
-    return <div>StartStep</div>;
+    const { t } = useTranslation();
+
+    return (
+        <div className={styles.container}>
+            <div className={styles.titleContainer}>
+                <h1 className={styles.title}>{t('ONBOARDING.TUTOR.START.TITLE')}</h1>
+            </div>
+            <div className={styles.pointsContainer}>
+                <div className={styles.point}>
+                    <div className={styles.pointNumber}>1</div>
+                    <div className={styles.pointBody}>
+                        <div className={styles.pointTitle}>{t('ONBOARDING.TUTOR.START.POINT_1.TITLE')}</div>
+                        <div className={styles.pointDescription}>{t('ONBOARDING.TUTOR.START.POINT_1.DESCRIPTION')}</div>
+                    </div>
+                    <img className={styles.pointImage} src={point1Image} alt="point1" />
+                </div>
+                <Divider />
+                <div className={styles.point}>
+                    <div className={styles.pointNumber}>2</div>
+                    <div className={styles.pointBody}>
+                        <div className={styles.pointTitle}>{t('ONBOARDING.TUTOR.START.POINT_2.TITLE')}</div>
+                        <div className={styles.pointDescription}>{t('ONBOARDING.TUTOR.START.POINT_2.DESCRIPTION')}</div>
+                    </div>
+                    <img className={styles.pointImage} src={point2Image} alt="point2" />
+                </div>
+                <Divider />
+                <div className={styles.point}>
+                    <div className={styles.pointNumber}>3</div>
+                    <div className={styles.pointBody}>
+                        <div className={styles.pointTitle}>{t('ONBOARDING.TUTOR.START.POINT_3.TITLE')}</div>
+                        <div className={styles.pointDescription}>{t('ONBOARDING.TUTOR.START.POINT_3.DESCRIPTION')}</div>
+                    </div>
+                    <img className={styles.pointImage} src={point3Image} alt="point3" />
+                </div>
+            </div>
+        </div>
+    );
 }
