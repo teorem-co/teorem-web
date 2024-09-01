@@ -35,7 +35,7 @@ export const EN_US = {
             START: {
                 TITLE: "It's easy to get started on Teorem",
                 POINT_1: {
-                    TITLE: 'Tell us abount your lessons',
+                    TITLE: 'Tell us about your lessons',
                     DESCRIPTION: 'Set your availability, and select the subjects and levels you teach.',
                 },
                 POINT_2: {
@@ -73,7 +73,7 @@ export const EN_US = {
             },
             PHOTO: {
                 TITLE: 'Add your profile photo',
-                DESCRIPTION: 'Use a high quality portrait photo with your whole face visible.',
+                SUBTITLE: 'Use a high quality portrait photo with your whole face visible.',
                 DRAG_LABEL: 'Drag and drop',
                 DRAG_DESCRIPTION: 'or drag and drop a photo here',
                 BROWSE: 'Browse',
@@ -517,6 +517,7 @@ export const EN_US = {
             EMAIL_CONFLICT: 'User with this email already exists',
             LOGIN_WRONG_FORM_DATA: {
                 TITLE: "Let's try that again",
+                BODY: "It looks like you've entered the wrong email or password. Please try again.",
             },
             NOT_FOUND: 'User not found',
             USERNAME_CONFLICT: 'Username already exists',

@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import styles from './OnboardingStepStartLayout.module.scss';
+import Typography from '@mui/material/Typography';
 
 interface IOnboardingStepStartLayoutProps {
     stepLabel: ReactNode;
@@ -18,8 +19,12 @@ export default function OnboardingStepStartLayout({
         <div className={styles.layout}>
             <div className={styles.textContainer}>
                 <div className={styles.stepLabel}>{stepLabel}</div>
-                <div className={styles.title}>{title}</div>
-                <div className={styles.description}>{description}</div>
+                <Typography variant="h1" className={styles.title}>
+                    {title}
+                </Typography>
+                <Typography variant="body2" className={styles.description}>
+                    {description}
+                </Typography>
             </div>
             <div className={styles.imageContainer}>
                 <img className={styles.image} src={imageSrc} alt={imageSrc} />

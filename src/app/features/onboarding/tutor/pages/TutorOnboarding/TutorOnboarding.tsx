@@ -5,25 +5,48 @@ import { Button } from '@mui/material';
 import Sidebar from '../../../../../components/Sidebar';
 import TutorOnboardingRouter from './components/TutorOnboardingRouter';
 import { useTutorOnboarding } from '../../providers/TutorOnboardingProvider';
-import { useTranslation } from 'react-i18next';
+import { TFunction, useTranslation } from 'react-i18next';
+import styles from './TutorOnboarding.module.scss';
+
+function getCtaText(t: TFunction<'translation', undefined>, step: number, substep: number) {
+    if (step === 1 && substep === 0) {
+        return t('ONBOARDING.GET_STARTED');
+    }
+
+    if (step === 3 && substep === 7) {
+        return t('ONBOARDING.PUBLISH');
+    }
+    return t('ONBOARDING.NEXT');
+}
 
 export default function TutorOnboarding() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const { step, substep, maxSubstep, formik, onBack } = useTutorOnboarding();
+    const { step, substep, maxSubstep, onBack, onNext } = useTutorOnboarding();
     const { t } = useTranslation();
+
+    const ctaText = getCtaText(t, step, substep);
 
     return (
         <OnboardingLayout
             header={
-                <Button variant="outlined" color="secondary" onClick={() => setIsSidebarOpen(true)}>
-                    {t('ONBOADING.QUESTIONS')}
+                <Button
+                    variant="outlined"
+                    color="secondary"
+                    className={styles.questions}
+                    onClick={() => setIsSidebarOpen(true)}
+                >
+                    {t('ONBOARDING.QUESTIONS')}
                 </Button>
             }
             step={step}
             substep={substep}
             maxSubstep={maxSubstep}
             onBack={onBack}
-            actions={<CtaButton onClick={() => formik.handleSubmit()}>{t('ONBOADING.NEXT')}</CtaButton>}
+            actions={
+                <CtaButton fullWidth onClick={onNext}>
+                    {ctaText}
+                </CtaButton>
+            }
         >
             <Sidebar sideBarIsOpen={isSidebarOpen} closeSidebar={() => setIsSidebarOpen(false)}></Sidebar>
             <TutorOnboardingRouter />

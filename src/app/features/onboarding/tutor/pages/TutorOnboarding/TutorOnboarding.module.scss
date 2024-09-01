@@ -1,0 +1,22 @@
+.questions {
+    border-radius: 16px !important;
+    height: 32px !important;
+    min-height: 24px !important;
+    font-size: 14px !important;
+    line-height: 14px !important;
+    font-weight: 400 !important;
+    padding: 0 16px !important;
+}
+
+@media screen and (min-width: 768px) {
+    .questions {
+        height: 40px !important;
+        min-height: 32px !important;
+        font-size: 18px !important;
+        line-height: 18px !important;
+        font-weight: 600 !important;
+        padding: 16px 32px !important;
+        border-radius: 20px !important;
+        border-width: 2px !important;
+    }
+}

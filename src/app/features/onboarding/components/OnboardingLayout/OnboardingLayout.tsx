@@ -3,6 +3,7 @@ import styles from './OnboardingLayout.module.scss';
 import logo from '../../../../../assets/images/teorem-logo-black.png';
 import ProgressBar from '../ProgressBar';
 import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
 
 interface IOnboardingLayoutProps {
     step?: number;
@@ -24,6 +25,7 @@ export default function OnboardingLayout({
     header,
 }: Readonly<IOnboardingLayoutProps>) {
     const { t } = useTranslation();
+    console.log('step, substep, maxSubstep', step, substep, maxSubstep);
     return (
         <div className={styles.layout}>
             <div className={styles.headerContainer}>
@@ -33,10 +35,14 @@ export default function OnboardingLayout({
             <div className={styles.children}>{children}</div>
             <ProgressBar step={step} substep={substep} maxSubstep={maxSubstep} />
             <div className={styles.footer}>
-                <button className={styles.back} onClick={onBack}>
-                    <span>{t('ONBOADING.BACK')}</span>
-                </button>
-                <div className={styles.actions}>{actions}</div>
+                {step === 1 && substep === 0 ? null : (
+                    <button className={styles.back} onClick={onBack}>
+                        <span>{t('ONBOARDING.BACK')}</span>
+                    </button>
+                )}
+                <div className={clsx(styles.actions, { [styles.fullwidth]: step === 1 && substep === 0 })}>
+                    {actions}
+                </div>
             </div>
         </div>
     );

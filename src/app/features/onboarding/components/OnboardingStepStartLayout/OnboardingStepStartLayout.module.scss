@@ -1,17 +1,44 @@
 .layout {
+    padding: 0px 24px 16px 24px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto;
+    grid-template-areas:
+        'image'
+        'text';
 }
 
 .textContainer {
+    grid-area: text;
 }
 
 .imageContainer {
+    grid-area: image;
+}
+
+.image {
+    width: 100%;
+    object-fit: contain;
 }
 
 .stepLabel {
+    font-weight: 400;
+    font-size: 16px;
 }
 
 .title {
+    padding-bottom: 8px;
 }
 
 .description {
+}
+
+@media screen and (min-width: 768px) {
+    .layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr;
+        grid-template-areas: 'text image';
+        height: 100%;
+    }
 }

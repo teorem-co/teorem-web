@@ -28,17 +28,23 @@ const THEME = createTheme({
     },
     typography: {
         fontFamily: 'Lato',
+        fontSize: 14,
         button: {
             textTransform: 'none',
             fontWeight: 700,
             fontSize: '18px',
             lineHeight: '20px',
         },
+        body2: {
+            color: '#636363',
+        },
         h1: {
-            fontWeight: 600,
+            fontWeight: 700,
+            fontSize: '2.4em',
         },
         h2: {
-            fontWeight: 600,
+            fontSize: '2em',
+            fontWeight: 700,
         },
         h3: {
             fontWeight: 600,
@@ -91,6 +97,9 @@ const THEME = createTheme({
                 },
                 outlinedSecondary: {
                     border: '1px solid var(--border-color)',
+                    ':hover': {
+                        border: '1px solid var(--color-text-primary)',
+                    },
                     color: 'black',
                 },
             },
