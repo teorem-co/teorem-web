@@ -52,7 +52,7 @@
 }
 
 .actions {
-    min-width: 30%;
+    min-width: 15%;
     &.fullwidth {
         width: 100%;
     }
@@ -71,5 +71,12 @@
         height: 52px;
         width: 272px;
         object-fit: contain;
+    }
+
+    .actions {
+        min-width: 15%;
+        &.fullwidth {
+            width: 15%;
+        }
     }
 }

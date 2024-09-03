@@ -21,7 +21,7 @@ function getCtaText(t: TFunction<'translation', undefined>, step: number, subste
 
 export default function TutorOnboarding() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const { step, substep, maxSubstep, onBack, onNext } = useTutorOnboarding();
+    const { step, substep, maxSubstep, onBack, onNext, nextDisabled } = useTutorOnboarding();
     const { t } = useTranslation();
 
     const ctaText = getCtaText(t, step, substep);
@@ -43,7 +43,7 @@ export default function TutorOnboarding() {
             maxSubstep={maxSubstep}
             onBack={onBack}
             actions={
-                <CtaButton fullWidth onClick={onNext}>
+                <CtaButton fullWidth onClick={onNext} disabled={nextDisabled}>
                     {ctaText}
                 </CtaButton>
             }

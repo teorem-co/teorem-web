@@ -59,7 +59,7 @@ export const stripeService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
-        addCustomer: builder.mutation<any, IAddCustomerPost>({
+        addCustomer: builder.mutation<any, IAddCustomerPost>({ // remove candidate, possibly unused
             query: (body) => ({
                 url: `${URL}/add-customer/${body.userId}`,
                 method: HttpMethods.POST,
@@ -112,7 +112,7 @@ export const stripeService = baseService.injectEndpoints({
 export const {
     useConnectCompanyAccountMutation,
     useConnectAccountMutation,
-    useAddCustomerMutation,
+    useAddCustomerMutation, // remove candidate
     useAddPaymentIntentMutation,
     useLazyGetCreditCardsQuery,
     useSetDefaultCreditCardMutation,

@@ -1,0 +1,17 @@
+.button {
+    text-align: left;
+}
+
+.buttonContent {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    width: 100%;
+    align-items: center;
+}
+
+.image {
+    height: 40px;
+    width: 40px;
+    object-fit: contain;
+}

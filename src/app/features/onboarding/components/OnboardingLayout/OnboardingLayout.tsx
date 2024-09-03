@@ -40,6 +40,7 @@ export default function OnboardingLayout({
                         <span>{t('ONBOARDING.BACK')}</span>
                     </button>
                 )}
+                <div />
                 <div className={clsx(styles.actions, { [styles.fullwidth]: step === 1 && substep === 0 })}>
                     {actions}
                 </div>

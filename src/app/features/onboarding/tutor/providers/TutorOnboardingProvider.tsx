@@ -22,6 +22,8 @@ interface ITutorOnboardingContextValue {
     formik: FormikContextType<ITutorOnboardingFormValues>;
     onBack: () => void;
     onNext: () => void;
+    nextDisabled?: boolean;
+    setNextDisabled?: (value: boolean) => void;
 }
 
 const TutorOnboardingContext = createContext<ITutorOnboardingContextValue>({} as ITutorOnboardingContextValue);
@@ -37,6 +39,7 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
     const [finishOnboarding] = useFinishOnboardingMutation();
     const [getUser] = useLazyGetUserQuery();
     const [getOnboardingState] = useLazyGetOnboardingStateQuery();
+    const [nextDisabled, setNextDisabled] = useState(false);
 
     const goToNextStep = useCallback(() => {
         if (step === 1 && substep === 3) {
@@ -68,16 +71,13 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
 
     const handleSubmit = useCallback(
         async (values: ITutorOnboardingFormValues) => {
+            console.log('Handle submit');
             if (!user) throw new Error('User not found');
 
             if (step === 3 && substep === 7) {
                 const res = await finishOnboarding({
                     userId: user?.id,
-                    onboardingState: {
-                        step,
-                        substep,
-                        formData: JSON.stringify(values),
-                    },
+                    onboardingState: values,
                 }).unwrap();
                 console.log(res);
 
@@ -85,6 +85,7 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
                 dispatch(setUser(res1));
                 history.push(PATHS.DASHBOARD);
             } else {
+                console.log('Set onboarding state');
                 const res = await setOnboardingState({
                     userId: user?.id,
                     onboardingState: {
@@ -110,11 +111,22 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
         const res = await getOnboardingState({
             userId: user?.id,
         }).unwrap();
+        console.log(res);
 
         if (res?.step && res.substep) {
-            setStep(res.step);
-            setSubstep(res.substep);
-            setMaxSubstep(MAX_STEPS_MAP[res.step as 1 | 2 | 3]);
+            if (res.step === 3 && res.substep === MAX_STEPS_MAP[3]) {
+                setStep(3);
+                setSubstep(7);
+                setMaxSubstep(MAX_STEPS_MAP[3]);
+            } else if (substep === MAX_STEPS_MAP[res.step as 1 | 2 | 3]) {
+                setStep(res.step + 1);
+                setSubstep(0);
+                setMaxSubstep(MAX_STEPS_MAP[(res.step + 1) as 1 | 2 | 3]);
+            } else {
+                setStep(res.step);
+                setSubstep(res.substep + 1);
+                setMaxSubstep(MAX_STEPS_MAP[res.step as 1 | 2 | 3]);
+            }
 
             if (res.formData) {
                 formik.setValues(JSON.parse(res.formData));
@@ -134,8 +146,9 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
         if (step === 1 && substep === 0) {
             return goToNextStep();
         }
-        formik.handleSubmit();
-    }, [formik, goToNextStep, step, substep]);
+        console.log('Handle next');
+        handleSubmit(formik.values);
+    }, [formik.values, goToNextStep, handleSubmit, step, substep]);
 
     return (
         <TutorOnboardingContext.Provider
@@ -146,6 +159,8 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
                 formik,
                 onBack: handleBack,
                 onNext: handleNext,
+                nextDisabled,
+                setNextDisabled,
             }}
         >
             <FormikProvider value={formik}>{children}</FormikProvider>

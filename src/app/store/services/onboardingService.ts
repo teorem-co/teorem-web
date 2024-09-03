@@ -1,6 +1,7 @@
 import { HttpMethods } from '../../types/httpMethods';
 import { baseService } from '../baseService';
 import IOnboardingState from '../../types/IOnboardingState';
+import ITutorOnboardingFormValues from '../../features/onboarding/tutor/types/ITutorOnboardingFormValues';
 
 const URL = '/api/v1/users';
 
@@ -30,7 +31,7 @@ export const onboardingService = baseService.injectEndpoints({
         }),
         finishOnboarding: builder.mutation<
             IOnboardingState,
-            { userId: string; onboardingState: IOnboardingStateRequest }
+            { userId: string; onboardingState: ITutorOnboardingFormValues }
         >({
             query: ({ userId, onboardingState }) => ({
                 url: `${URL}/${userId}/onboarding-finish`,

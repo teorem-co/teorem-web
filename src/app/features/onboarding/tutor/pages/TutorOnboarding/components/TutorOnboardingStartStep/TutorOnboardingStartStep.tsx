@@ -5,9 +5,16 @@ import point2Image from './assets/point-2.png';
 import point3Image from './assets/point-3.png';
 import Divider from '../../../../../../../components/Divider';
 import Typography from '@mui/material/Typography';
+import { useTutorOnboarding } from '../../../../providers/TutorOnboardingProvider';
+import { useEffect } from 'react';
 
 export default function TutorOnboardingStartStep() {
     const { t } = useTranslation();
+    const { setNextDisabled } = useTutorOnboarding();
+
+    useEffect(() => {
+        setNextDisabled?.(false);
+    }, [setNextDisabled]);
 
     return (
         <div className={styles.container}>
