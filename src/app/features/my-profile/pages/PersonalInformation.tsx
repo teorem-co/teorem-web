@@ -310,6 +310,7 @@ const PersonalInformation = () => {
         const currentCountries: OptionType[] = countries
             ? countries.map((x: ICountry) => {
                   return {
+                      id: x.id,
                       label: x.name,
                       value: x.id,
                       icon: x.flag,
@@ -322,11 +323,6 @@ const PersonalInformation = () => {
     useEffect(() => {
         handleBlur();
     }, [formik.values]);
-
-    interface CustomSelectFieldProps extends FieldProps {
-        label: string;
-        options: Array<{ label: string; value: string; icon: string }>;
-    }
 
     useEffect(() => {
         const res = getCredits().unwrap();

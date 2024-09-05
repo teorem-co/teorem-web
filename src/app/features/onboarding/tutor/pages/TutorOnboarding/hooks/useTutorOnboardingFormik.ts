@@ -26,17 +26,54 @@ export default function useTutorOnboardingFormik(onSubmit: (values: ITutorOnboar
             addressApartment: '',
             routingNumber: '',
             accountNumber: '',
+            imageLink: '',
             iban: '',
         },
         validationSchema: Yup.object().shape({
-            subjects: Yup.array(
-                Yup.object().shape({
-                    subjectId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-                    levelId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-                })
-            ).min(1, t('FORM_VALIDATION.MIN_ONE')),
+            subjects: Yup.array()
+                .of(
+                    Yup.object().shape({
+                        subjectId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+                        levelId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+                    })
+                )
+                .min(1, t('FORM_VALIDATION.MIN_ONE')),
+            availability: Yup.array()
+                .of(
+                    Yup.object().shape({
+                        day: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+                        startTime: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+                        endTime: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+                    })
+                )
+                .min(1, t('FORM_VALIDATION.MIN_ONE')),
+            imageLink: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            degrees: Yup.array().when('hasNoDegree', {
+                is: false,
+                then: Yup.array()
+                    .of(
+                        Yup.object().shape({
+                            degreeId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+                            universityId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+                            majorName: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+                            startYear: Yup.number()
+                                .required(t('FORM_VALIDATION.REQUIRED'))
+                                .test('endYear', t('FORM_VALIDATION.START_YEAR'), function (value) {
+                                    return (value || 9999) <= new Date().getFullYear();
+                                }),
+                            endYear: Yup.number()
+                                .required(t('FORM_VALIDATION.REQUIRED'))
+                                .test('endYear', t('FORM_VALIDATION.END_YEAR'), function (value) {
+                                    return value === 0 || (value ?? 0) > this.parent.startYear;
+                                }),
+                        })
+                    )
+                    .min(1, t('FORM_VALIDATION.MIN_ONE')),
+            }),
             profileTitle: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             profileDescription: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            videoId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+
             price: Yup.number().required(t('FORM_VALIDATION.REQUIRED')),
             ssn4Digits: Yup.string().when('addressCountryId', {
                 is: () => countries.find((c) => c.id === user?.countryId)?.abrv === 'US',

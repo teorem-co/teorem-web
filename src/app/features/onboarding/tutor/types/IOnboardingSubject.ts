@@ -1,4 +1,4 @@
 export default interface IOnboardingSubject {
-    subjectId: string;
-    levelId: string;
+    subjectId?: string;
+    levelId?: string;
 }

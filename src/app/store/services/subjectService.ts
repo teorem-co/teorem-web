@@ -65,6 +65,7 @@ export const subjectService = baseService.injectEndpoints({
                 });
 
                 const subjectOptions: OptionType[] = sortedResponse.map((subject) => ({
+                    id: subject.id,
                     value: subject.id,
                     label: t(`SUBJECTS.${subject.abrv.replace(' ', '').replaceAll('-', '').toLowerCase()}`),
                     countryId: subject.countryId,
@@ -72,6 +73,24 @@ export const subjectService = baseService.injectEndpoints({
                 }));
 
                 return subjectOptions;
+            },
+        }),
+        getSubjectsPure: builder.query<ISubject[], void>({
+            query: () => ({
+                url: `${URL_SUBJECTS}`,
+                method: HttpMethods.GET,
+            }),
+            transformResponse: (response: ISubject[]) => {
+                return response.sort((a, b) => {
+                    const aName = t(`SUBJECTS.${a.abrv.replace(' ', '').replaceAll('-', '').toLowerCase()}`);
+                    const bName = t(`SUBJECTS.${b.abrv.replace(' ', '').replaceAll('-', '').toLowerCase()}`);
+
+                    if (a.priority && b.priority && a.priority !== b.priority) {
+                        return a.priority - b.priority; // Sort by priority ascending
+                    } else {
+                        return aName.localeCompare(bName); // Sort alphabetically by name
+                    }
+                });
             },
         }),
         getSubjectLevels: builder.query<ISubjectLevel[], void>({
@@ -148,6 +167,8 @@ export const {
     useCreateSubjectsOnboardingMutation,
     useGetSubjectsQuery,
     useLazyGetSubjectsQuery,
+    useGetSubjectsPureQuery,
+    useLazyGetSubjectsPureQuery,
     useGetSubjectLevelsQuery,
     useLazyGetSubjectLevelsQuery,
     useCreateSubjectMutation,

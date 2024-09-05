@@ -42,11 +42,11 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
     const [nextDisabled, setNextDisabled] = useState(false);
 
     const goToNextStep = useCallback(() => {
-        if (step === 1 && substep === 3) {
+        if (step === 1 && substep >= MAX_STEPS_MAP[1]) {
             setStep(2);
             setSubstep(0);
             setMaxSubstep(MAX_STEPS_MAP[2]);
-        } else if (step === 2 && substep === 5) {
+        } else if (step === 2 && substep >= MAX_STEPS_MAP[2]) {
             setStep(3);
             setSubstep(0);
             setMaxSubstep(MAX_STEPS_MAP[3]);
@@ -58,11 +58,11 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
     const goToPreviousStep = useCallback(() => {
         if (step === 2 && substep === 0) {
             setStep((prevStep) => prevStep - 1);
-            setSubstep(3);
+            setSubstep(MAX_STEPS_MAP[1] - 1);
             setMaxSubstep(MAX_STEPS_MAP[1]);
         } else if (step === 3 && substep === 0) {
             setStep((prevStep) => prevStep - 1);
-            setSubstep(6);
+            setSubstep(MAX_STEPS_MAP[2] - 1);
             setMaxSubstep(MAX_STEPS_MAP[2]);
         } else {
             setSubstep((prevSubstep) => prevSubstep - 1);
@@ -114,11 +114,11 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
         console.log(res);
 
         if (res?.step && res.substep) {
-            if (res.step === 3 && res.substep === MAX_STEPS_MAP[3]) {
+            if (res.step === 3 && res.substep === MAX_STEPS_MAP[3] - 1) {
                 setStep(3);
                 setSubstep(7);
                 setMaxSubstep(MAX_STEPS_MAP[3]);
-            } else if (substep === MAX_STEPS_MAP[res.step as 1 | 2 | 3]) {
+            } else if (substep === MAX_STEPS_MAP[res.step as 1 | 2 | 3] - 1) {
                 setStep(res.step + 1);
                 setSubstep(0);
                 setMaxSubstep(MAX_STEPS_MAP[(res.step + 1) as 1 | 2 | 3]);

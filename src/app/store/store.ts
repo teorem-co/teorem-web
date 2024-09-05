@@ -29,6 +29,8 @@ import modalsSlice from './slices/modalsSlice';
 import tutorialSlice from './slices/tutorialSlice';
 import degreeSlice from './slices/degreeSlice';
 import universitySlice from './slices/universitySlice';
+import levelSlice from './slices/levelSlice';
+import subjectSlice from './slices/subjectSlice';
 
 const persistConfig = {
     key: 'root',
@@ -51,6 +53,8 @@ const persistConfig = {
         'tutorial',
         'degree',
         'university',
+        'level',
+        'subject',
         //modals intentionally not persisted
     ],
 };
@@ -80,6 +84,8 @@ const appReducer = combineReducers({
     tutorial: tutorialSlice,
     degree: degreeSlice,
     university: universitySlice,
+    level: levelSlice,
+    subject: subjectSlice,
 });
 
 const rootReducer = (state: any, action: any) => {

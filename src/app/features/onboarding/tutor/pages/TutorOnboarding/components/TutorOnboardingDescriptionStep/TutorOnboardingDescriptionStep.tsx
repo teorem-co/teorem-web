@@ -1,13 +1,45 @@
 import { useTranslation } from 'react-i18next';
 import OnboardingStepFormLayout from '../../../../../components/OnboardingStepFormLayout';
 import styles from './TutorOnboardingDescriptionStep.module.scss';
+import { useTutorOnboarding } from '../../../../providers/TutorOnboardingProvider';
+import { useEffect } from 'react';
+import { Field } from 'formik';
+import { TextField } from '@mui/material';
 
 export default function TutorOnboardingDescriptionStep() {
     const { t } = useTranslation();
+
+    const { setNextDisabled, formik } = useTutorOnboarding();
+
+    useEffect(() => {
+        setNextDisabled?.(!!formik.errors.profileDescription);
+    }, [formik.errors.profileDescription, setNextDisabled]);
+
     return (
         <OnboardingStepFormLayout
             title={t('ONBOARDING.TUTOR.DESCRIPTION.TITLE')}
             subtitle={t('ONBOARDING.TUTOR.DESCRIPTION.SUBTITLE')}
-        ></OnboardingStepFormLayout>
+        >
+            <Field
+                as={TextField}
+                name="profileDescription"
+                type="text"
+                fullWidth
+                error={formik.touched.profileDescription && !!formik.errors.profileDescription}
+                helperText={formik.touched.profileDescription && formik.errors.profileDescription}
+                id="profileDescription"
+                variant="outlined"
+                FormHelperTextProps={{
+                    style: { color: 'red' }, // Change the color of the helper text here
+                }}
+                inputProps={{
+                    maxLength: 300,
+                }}
+                onBlur={(e: any) => {
+                    formik.handleBlur(e);
+                }}
+            />
+            {formik.values.profileDescription?.length ?? 0} / 300
+        </OnboardingStepFormLayout>
     );
 }

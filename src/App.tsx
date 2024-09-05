@@ -39,6 +39,14 @@ import { useLazyGetDegreesQuery } from './app/store/services/degreeService';
 import { useLazyGetUniversitiesQuery } from './app/store/services/universityService';
 import { setDegrees } from './app/store/slices/degreeSlice';
 import { setUniversities } from './app/store/slices/universitySlice';
+import {
+    useLazyGetSubjectLevelsQuery,
+    useLazyGetSubjectsPureQuery,
+    useLazyGetSubjectsQuery,
+} from './app/store/services/subjectService';
+import { useLazyGetLevelsPureQuery, useLazyGetLevelsQuery } from './app/store/services/levelService';
+import { setSubjectLevels, setSubjects } from './app/store/slices/subjectSlice';
+import { setLevels } from './app/store/slices/levelSlice';
 
 export default function App() {
     const { t } = useTranslation();
@@ -77,6 +85,9 @@ export default function App() {
     const [getDegrees] = useLazyGetDegreesQuery();
     const [getUniversities] = useLazyGetUniversitiesQuery();
     const [getTutorialState] = useLazyGetTutorialStateQuery();
+    const [getSubjects] = useLazyGetSubjectsPureQuery();
+    const [getLevels] = useLazyGetLevelsPureQuery();
+    const [getSubjectLevels] = useLazyGetSubjectLevelsQuery();
 
     useMount(() => {
         if (!timeZoneState.timeZone) {
@@ -93,6 +104,18 @@ export default function App() {
         getUniversities()
             .unwrap()
             .then((res) => dispatch(setUniversities(res)))
+            .catch((e) => console.log(e));
+        getSubjects()
+            .unwrap()
+            .then((res) => dispatch(setSubjects(res)))
+            .catch((e) => console.log(e));
+        getLevels()
+            .unwrap()
+            .then((res) => dispatch(setLevels(res)))
+            .catch((e) => console.log(e));
+        getSubjectLevels()
+            .unwrap()
+            .then((res) => dispatch(setSubjectLevels(res)))
             .catch((e) => console.log(e));
 
         if (userId) {
