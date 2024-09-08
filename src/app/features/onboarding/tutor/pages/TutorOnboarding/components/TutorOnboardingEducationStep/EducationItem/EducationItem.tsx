@@ -1,7 +1,7 @@
 import styles from './EducationItem.module.scss';
 import IDegree from '../../../../../../../../types/IDegree';
 import IUniversity from '../../../../../../../../types/IUniversity';
-import { FormControl, IconButton, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import { Autocomplete, FormControl, IconButton, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import { Delete, Remove } from '@mui/icons-material';
 import YEARS from '../constants/years';
 import { useTranslation } from 'react-i18next';
@@ -11,14 +11,14 @@ interface IEducationItemProps {
     degrees: IDegree[];
     universities: IUniversity[];
     selectedDegreeId?: string;
-    selectedUniversityId?: string;
+    selectedUniversity?: IUniversity;
     selectedStartYear?: number;
     selectedEndYear?: number;
     major?: string;
     onDelete?: () => void;
     disabledDelete?: boolean;
     onDegreeChange: (degreeId: string) => void;
-    onUniversityChange: (universityId: string) => void;
+    onUniversityChange: (universityId: string | undefined) => void;
     onStartYearChange: (startYear: number) => void;
     onEndYearChange: (endYear: number) => void;
     onMajorChange: (major: string) => void;
@@ -28,7 +28,7 @@ export default function EducationItem({
     degrees,
     universities,
     selectedDegreeId,
-    selectedUniversityId,
+    selectedUniversity,
     major,
     selectedEndYear,
     selectedStartYear,
@@ -44,22 +44,20 @@ export default function EducationItem({
     return (
         <div className={styles.educationItem}>
             <FormControl variant="outlined" fullWidth>
-                <InputLabel id="university-select-label">University</InputLabel>
-                <Select
-                    labelId="university-select-label"
-                    placeholder="University"
-                    value={selectedUniversityId}
-                    onChange={(e) => onUniversityChange(e.target.value)}
-                >
-                    {universities.map((university) => (
-                        <MenuItem key={university.id} value={university.id}>
-                            {university.name}
-                        </MenuItem>
-                    ))}
-                </Select>
+                <Autocomplete
+                    disablePortal
+                    fullWidth
+                    value={selectedUniversity}
+                    getOptionLabel={(o) => t('UNIVERSITIES.' + o.abrv)}
+                    onChange={(e, v) => onUniversityChange(v?.id)}
+                    options={universities}
+                    renderInput={(params) => (
+                        <TextField {...params} label={t('ONBOARDING.TUTOR.EDUCATION.UNI_LABEL')} />
+                    )}
+                />
             </FormControl>
             <FormControl variant="outlined" fullWidth>
-                <InputLabel id="degree-select-label">Degree</InputLabel>
+                <InputLabel id="degree-select-label">{t('ONBOARDING.TUTOR.EDUCATION.DEGREE_LABEL')}</InputLabel>
                 <Select
                     labelId="degree-select-label"
                     placeholder="Degree"
@@ -68,7 +66,7 @@ export default function EducationItem({
                 >
                     {degrees.map((degree) => (
                         <MenuItem key={degree.id} value={degree.id}>
-                            {degree.name}
+                            {t('DEGREES.' + degree.abrv)}
                         </MenuItem>
                     ))}
                 </Select>

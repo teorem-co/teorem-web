@@ -9,6 +9,7 @@ import TutorOnboardingLegalInfoStep from '../TutorOnboardingLegalInfoStep';
 import TutorOnboardingLessonsStep from '../TutorOnboardingLessonsStep';
 import TutorOnboardingNotificationStep from '../TutorOnboardingNotificationStep';
 import TutorOnboardingPayoutInfoStep from '../TutorOnboardingPayoutInfoStep';
+import TutorOnboardingPhoneStep from '../TutorOnboardingPhoneStep';
 import TutorOnboardingPhotoStep from '../TutorOnboardingPhotoStep';
 import TutorOnboardingPriceStep from '../TutorOnboardingPriceStep';
 import TutorOnboardingProfileStep from '../TutorOnboardingProfileStep';
@@ -72,6 +73,8 @@ export default function TutorOnboardingRouter() {
             case 6:
                 return <TutorOnboardingAddressStep />;
             case 7:
+                return <TutorOnboardingPhoneStep />;
+            case 8:
                 return <TutorOnboardingPublishStep />;
             default:
                 return null;

@@ -62,7 +62,9 @@ export default function TutorOnboardingEducationStep() {
                           degrees={possibleDegrees}
                           universities={possibleUniversities}
                           selectedDegreeId={item.degreeId}
-                          selectedUniversityId={item.universityId}
+                          selectedUniversity={
+                              item.universityId ? universities.find((u) => u.id === item.universityId) : undefined
+                          }
                           selectedStartYear={item.startYear}
                           selectedEndYear={item.endYear}
                           major={item.majorName}

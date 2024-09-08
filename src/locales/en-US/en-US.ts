@@ -86,7 +86,7 @@ export const EN_US = {
                 SUBTITLE:
                     'Parents often search for tutors that studied at specific universities. Share more about your studies to increase your profile visibility.',
                 CHECKBOX_NO_DEGREE: "I don't have a higher education degree",
-                COLLEGE_LABEL: 'Which college did you attend?',
+                UNI_LABEL: 'Which university did you attend?',
                 DEGREE_LABEL: 'Select your degree type',
                 MAJOR_LABEL: 'Enter the name of your course or major',
                 STARTED_LABEL: 'Started',
@@ -196,6 +196,11 @@ export const EN_US = {
                 POSTAL_CODE_LABEL: 'Postal code',
                 STATE_LABEL: 'State / province',
                 CITY_LABEL: 'City / municipality',
+            },
+            PHONE: {
+                TITLE: 'Before we wrap up, is this your phone number?',
+                SUBTITLE: "We'll use this for secuirty purposes and payout verification.",
+                PHONE_LABEL: 'Phone number',
             },
             PUBLISH: {
                 TITLE: "Yay! It's time to publish.",
@@ -1529,7 +1534,24 @@ export const EN_US = {
         'high-school': 'High School',
         'matura-prep': 'Matura Prep',
     },
+    DEGREES: {
+        bachelor: 'Bachelor',
+        master: 'Master',
+        phd: 'PhD',
+        'bachelor-degree': 'Bachelor',
+        'master-degree': 'Master',
+        'phd-degree': 'PhD',
+        bacc: 'Baccaulerate',
+        mag: 'Master',
+        postdipl: 'Postgraduate',
+    },
+    UNIVERSITIES: {},
     CONSTANTS: {
+        TIME_OF_DAY: {
+            BEFORE_NOON: '07:00 - 12:00',
+            NOON_TO_FIVE: '12:00 - 17:00',
+            AFTER_FIVE: '17:00 - 22:00',
+        },
         MONTHS_SHORT: {
             JAN: 'Jan',
             FEB: 'Feb',
@@ -1575,6 +1597,13 @@ export const EN_US = {
             FRI: 'Friday',
             SAT: 'Saturday',
             SUN: 'Sunday',
+            '1': 'Monday',
+            '2': 'Tuesday',
+            '3': 'Wednesday',
+            '4': 'Thursday',
+            '5': 'Friday',
+            '6': 'Saturday',
+            '7': 'Sunday',
         },
     },
     PATHS: {

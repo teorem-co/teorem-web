@@ -14,6 +14,8 @@ import { PATHS } from '../../../../routes';
 import { FormikContextType, FormikProvider } from 'formik';
 import useMount from '../../../../utils/useMount';
 import MAX_STEPS_MAP from '../constants/maxStepsMap';
+import IOnboardingAvailability from '../types/IOnboardingAvailability';
+import { DAY_STRINGS_MAP } from '../types/DayEnum';
 
 interface ITutorOnboardingContextValue {
     step: number;
@@ -74,10 +76,22 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
             console.log('Handle submit');
             if (!user) throw new Error('User not found');
 
-            if (step === 3 && substep === 7) {
+            if (step === 3 && substep === MAX_STEPS_MAP[3] - 1) {
                 const res = await finishOnboarding({
                     userId: user?.id,
-                    onboardingState: values,
+                    onboardingState: {
+                        ...values,
+                        // flatten availability object to array
+                        availability: Object.values(values.availability || {})
+                            .reduce(
+                                (acc, val) => (val.selected ? acc.concat(val.entries || []) : []),
+                                [] as IOnboardingAvailability[]
+                            )
+                            .map((a) => ({
+                                ...a,
+                                day: DAY_STRINGS_MAP[a.day],
+                            })),
+                    },
                 }).unwrap();
                 console.log(res);
 
@@ -108,6 +122,7 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
         if (user?.onboardingCompleted || !user?.id) {
             return history.replace(PATHS.DASHBOARD);
         }
+
         const res = await getOnboardingState({
             userId: user?.id,
         }).unwrap();
@@ -116,7 +131,7 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
         if (res?.step && res.substep) {
             if (res.step === 3 && res.substep === MAX_STEPS_MAP[3] - 1) {
                 setStep(3);
-                setSubstep(7);
+                setSubstep(MAX_STEPS_MAP[3] - 1);
                 setMaxSubstep(MAX_STEPS_MAP[3]);
             } else if (substep === MAX_STEPS_MAP[res.step as 1 | 2 | 3] - 1) {
                 setStep(res.step + 1);

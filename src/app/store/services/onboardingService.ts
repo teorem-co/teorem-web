@@ -2,6 +2,7 @@ import { HttpMethods } from '../../types/httpMethods';
 import { baseService } from '../baseService';
 import IOnboardingState from '../../types/IOnboardingState';
 import ITutorOnboardingFormValues from '../../features/onboarding/tutor/types/ITutorOnboardingFormValues';
+import IOnboardingAvailability from '../../features/onboarding/tutor/types/IOnboardingAvailability';
 
 const URL = '/api/v1/users';
 
@@ -9,6 +10,13 @@ interface IOnboardingStateRequest {
     step: number;
     substep: number;
     formData: string;
+}
+
+interface IAvailabilityRequestDTO {
+    day: string;
+    beforeNoon: boolean;
+    noonToFive: boolean;
+    afterFive: boolean;
 }
 
 export const onboardingService = baseService.injectEndpoints({
@@ -31,7 +39,12 @@ export const onboardingService = baseService.injectEndpoints({
         }),
         finishOnboarding: builder.mutation<
             IOnboardingState,
-            { userId: string; onboardingState: ITutorOnboardingFormValues }
+            {
+                userId: string;
+                onboardingState: Omit<ITutorOnboardingFormValues, 'availability'> & {
+                    availability: IAvailabilityRequestDTO[];
+                };
+            }
         >({
             query: ({ userId, onboardingState }) => ({
                 url: `${URL}/${userId}/onboarding-finish`,

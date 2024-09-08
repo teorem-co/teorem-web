@@ -152,7 +152,7 @@ export default function RegistrationModal() {
             email: Yup.string().email(t('FORM_VALIDATION.INVALID_EMAIL')).required(t('FORM_VALIDATION.REQUIRED')),
             phoneNumber: Yup.string()
                 .required(t('FORM_VALIDATION.REQUIRED'))
-                .min(10, t('FORM_VALIDATION.PHONE_SHORT')) // 10 characters
+                .min(7, t('FORM_VALIDATION.PHONE_SHORT')) // 10 characters
                 .matches(
                     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/gm,
                     t('FORM_VALIDATION.PHONE_NUMBER')

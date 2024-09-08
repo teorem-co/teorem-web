@@ -1,5 +1,8 @@
+import DayEnum from './DayEnum';
+
 export default interface IOnboardingAvailability {
-    day: string;
-    startTime: string;
-    endTime: string;
+    day: DayEnum;
+    beforeNoon: boolean;
+    noonToFive: boolean;
+    afterFive: boolean;
 }
