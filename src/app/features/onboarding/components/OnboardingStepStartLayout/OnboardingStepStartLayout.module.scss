@@ -39,6 +39,28 @@
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 1fr;
         grid-template-areas: 'text image';
+        margin: 0 10%;
         height: 100%;
+    }
+
+    .textContainer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: 0 15%;
+    }
+
+    .imageContainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .image {
+        max-height: 500px;
+    }
+
+    .title {
+        padding-bottom: 32px;
     }
 }

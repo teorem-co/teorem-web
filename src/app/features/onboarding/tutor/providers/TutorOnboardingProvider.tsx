@@ -35,7 +35,7 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
     const history = useHistory();
     const [step, setStep] = useState(1);
     const [substep, setSubstep] = useState(0);
-    const [maxSubstep, setMaxSubstep] = useState(3);
+    const [maxSubstep, setMaxSubstep] = useState(MAX_STEPS_MAP[1]);
     const { user } = useAppSelector((state) => state.auth);
     const [setOnboardingState] = useSetOnboardingStateMutation();
     const [finishOnboarding] = useFinishOnboardingMutation();
@@ -60,11 +60,11 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
     const goToPreviousStep = useCallback(() => {
         if (step === 2 && substep === 0) {
             setStep((prevStep) => prevStep - 1);
-            setSubstep(MAX_STEPS_MAP[1] - 1);
+            setSubstep(MAX_STEPS_MAP[1]);
             setMaxSubstep(MAX_STEPS_MAP[1]);
         } else if (step === 3 && substep === 0) {
             setStep((prevStep) => prevStep - 1);
-            setSubstep(MAX_STEPS_MAP[2] - 1);
+            setSubstep(MAX_STEPS_MAP[2]);
             setMaxSubstep(MAX_STEPS_MAP[2]);
         } else {
             setSubstep((prevSubstep) => prevSubstep - 1);
@@ -76,7 +76,7 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
             console.log('Handle submit');
             if (!user) throw new Error('User not found');
 
-            if (step === 3 && substep === MAX_STEPS_MAP[3] - 1) {
+            if (step === 3 && substep === MAX_STEPS_MAP[3]) {
                 const res = await finishOnboarding({
                     userId: user?.id,
                     onboardingState: {
@@ -99,8 +99,7 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
                 dispatch(setUser(res1));
                 history.push(PATHS.DASHBOARD);
             } else {
-                console.log('Set onboarding state');
-                const res = await setOnboardingState({
+                await setOnboardingState({
                     userId: user?.id,
                     onboardingState: {
                         step,
@@ -108,7 +107,6 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
                         formData: JSON.stringify(values),
                     },
                 }).unwrap();
-                console.log(res);
 
                 goToNextStep();
             }
@@ -128,12 +126,12 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
         }).unwrap();
         console.log(res);
 
-        if (res?.step && res.substep) {
-            if (res.step === 3 && res.substep === MAX_STEPS_MAP[3] - 1) {
+        if (res?.step) {
+            if (res.step === 3 && res.substep === MAX_STEPS_MAP[3]) {
                 setStep(3);
-                setSubstep(MAX_STEPS_MAP[3] - 1);
+                setSubstep(MAX_STEPS_MAP[3]);
                 setMaxSubstep(MAX_STEPS_MAP[3]);
-            } else if (substep === MAX_STEPS_MAP[res.step as 1 | 2 | 3] - 1) {
+            } else if (res.substep === MAX_STEPS_MAP[res.step as 1 | 2 | 3]) {
                 setStep(res.step + 1);
                 setSubstep(0);
                 setMaxSubstep(MAX_STEPS_MAP[(res.step + 1) as 1 | 2 | 3]);
@@ -144,7 +142,15 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
             }
 
             if (res.formData) {
-                formik.setValues(JSON.parse(res.formData));
+                try {
+                    formik.setValues(JSON.parse(res.formData));
+                } catch (e) {
+                    console.error(e);
+                    setStep(1);
+                    setSubstep(0);
+                    setMaxSubstep(MAX_STEPS_MAP[1]);
+                    formik.setValues({} as ITutorOnboardingFormValues);
+                }
             }
         }
     };

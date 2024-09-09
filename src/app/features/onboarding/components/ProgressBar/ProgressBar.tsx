@@ -16,7 +16,7 @@ export default function ProgressBar({ step = 1, substep = 0, maxSubstep = 1 }: R
                     style={{
                         width:
                             substep && step === 1
-                                ? `calc((${substep < (maxSubstep || 1) ? substep : maxSubstep}/${maxSubstep})* 100%)`
+                                ? `calc((${substep < (maxSubstep || 1) ? substep : maxSubstep}/${maxSubstep + 1})* 100%)`
                                 : '0px',
                     }}
                 />
@@ -27,7 +27,7 @@ export default function ProgressBar({ step = 1, substep = 0, maxSubstep = 1 }: R
                     style={{
                         width:
                             substep && step === 2
-                                ? `calc((${substep < (maxSubstep || 1) ? substep : maxSubstep}/${maxSubstep})* 100%)`
+                                ? `calc((${substep < (maxSubstep || 1) ? substep : maxSubstep}/${maxSubstep + 1})* 100%)`
                                 : '0px',
                     }}
                 />
@@ -38,7 +38,7 @@ export default function ProgressBar({ step = 1, substep = 0, maxSubstep = 1 }: R
                     style={{
                         width:
                             substep && step === 3
-                                ? `calc((${substep < (maxSubstep || 1) ? substep : maxSubstep}/${maxSubstep})* 100%)`
+                                ? `calc((${substep < (maxSubstep || 1) ? substep : maxSubstep}/${maxSubstep + 1})* 100%)`
                                 : '0px',
                     }}
                 />

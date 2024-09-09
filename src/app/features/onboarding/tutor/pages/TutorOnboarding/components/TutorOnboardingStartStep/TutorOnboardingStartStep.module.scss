@@ -1,8 +1,10 @@
 .container {
     padding: 0px 24px 16px 24px;
+    height: 100%;
 }
 
 .titleContainer {
+    padding-bottom: 20px;
 }
 
 .pointsContainer {
@@ -42,5 +44,30 @@
     .container {
         display: grid;
         grid-template-columns: 1fr 1fr;
+        margin: 0 10%;
+    }
+
+    .titleContainer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: 0 15%;
+        padding-bottom: initial;
+    }
+
+    .pointsContainer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: 0 15%;
+    }
+
+    .title {
+        font-weight: 700;
+        font-size: 48px;
+    }
+
+    .point {
+        padding: 20px 0px;
     }
 }
