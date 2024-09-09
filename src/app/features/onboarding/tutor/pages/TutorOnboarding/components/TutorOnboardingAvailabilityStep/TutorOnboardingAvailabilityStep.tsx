@@ -1,14 +1,18 @@
 import { useTranslation } from 'react-i18next';
 import styles from './TutorOnboardingAvailabilityStep.module.scss';
 import OnboardingStepFormLayout from '../../../../../components/OnboardingStepFormLayout';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTutorOnboarding } from '../../../../providers/TutorOnboardingProvider';
 import DayEnum from '../../../../types/DayEnum';
 import AvailabilityDayItem from './components/AvailabilityDayItem';
+import { TimeZoneSelect } from '../../../../../../../components/TimeZoneSelect';
+import { useAppSelector } from '../../../../../../../store/hooks';
 
 export default function TutorOnboardingAvailabilityStep() {
     const { t } = useTranslation();
     const { setNextDisabled, formik } = useTutorOnboarding();
+    const { user } = useAppSelector((state) => state.auth);
+    const [defaultZone, setDefaultZone] = useState<string | undefined>();
 
     useEffect(() => {
         console.log(formik.values.availability);
@@ -23,6 +27,11 @@ export default function TutorOnboardingAvailabilityStep() {
             title={t('ONBOARDING.TUTOR.AVAILABILITY.TITLE')}
             subtitle={t('ONBOARDING.TUTOR.AVAILABILITY.SUBTITLE')}
         >
+            <TimeZoneSelect
+                defaultUserZone={defaultZone}
+                selectedZone={formik.values.timeZone ?? ''}
+                setSelectedZone={(z) => formik.setFieldValue('timeZone', z)}
+            />
             {Object.entries(formik.values.availability || {})?.map(([day, item]) => (
                 <AvailabilityDayItem
                     key={day}
