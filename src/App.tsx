@@ -89,7 +89,26 @@ export default function App() {
     const [getLevels] = useLazyGetLevelsPureQuery();
     const [getSubjectLevels] = useLazyGetSubjectLevelsQuery();
 
-    useMount(() => {
+    useEffect(() => {
+        async function setUserTimeZone() {
+            if (!timeZoneState.timeZone) {
+                if (userData?.user?.Role.abrv == Role.Tutor) {
+                    //Send request to get timezone from tutor
+                    const response = await getTutorTimeZone(userData.user?.id);
+                    if (response.data) {
+                        dispatch(setTimeZone(response.data));
+                        moment.tz.setDefault(response.data);
+                    } else {
+                        dispatch(setTimeZone(moment.tz.guess()));
+                        moment.tz.setDefault(moment.tz.guess());
+                    }
+                } else {
+                    dispatch(setTimeZone(moment.tz.guess()));
+                    moment.tz.setDefault(moment.tz.guess());
+                }
+            }
+        }
+
         if (!timeZoneState.timeZone) {
             setUserTimeZone();
         }
@@ -126,26 +145,21 @@ export default function App() {
                 })
                 .catch((e) => console.log(e));
         }
-    });
-
-    async function setUserTimeZone() {
-        if (!timeZoneState.timeZone) {
-            if (userData?.user?.Role.abrv == Role.Tutor) {
-                //Send request to get timezone from tutor
-                const response = await getTutorTimeZone(userData.user?.id);
-                if (response.data) {
-                    dispatch(setTimeZone(response.data));
-                    moment.tz.setDefault(response.data);
-                } else {
-                    dispatch(setTimeZone(moment.tz.guess()));
-                    moment.tz.setDefault(moment.tz.guess());
-                }
-            } else {
-                dispatch(setTimeZone(moment.tz.guess()));
-                moment.tz.setDefault(moment.tz.guess());
-            }
-        }
-    }
+    }, [
+        dispatch,
+        getCountries,
+        getDegrees,
+        getLevels,
+        getSubjectLevels,
+        getSubjects,
+        getTutorTimeZone,
+        getTutorialState,
+        getUniversities,
+        timeZoneState.timeZone,
+        userData.user?.Role.abrv,
+        userData.user?.id,
+        userId,
+    ]);
 
     // commenting this out untill we need it, hopefully never
 
