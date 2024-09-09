@@ -158,12 +158,8 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
     }, [goToPreviousStep]);
 
     const handleNext = useCallback(() => {
-        if (step === 1 && substep === 0) {
-            return goToNextStep();
-        }
-        console.log('Handle next');
         handleSubmit(formik.values);
-    }, [formik.values, goToNextStep, handleSubmit, step, substep]);
+    }, [formik.values, handleSubmit]);
 
     return (
         <TutorOnboardingContext.Provider
