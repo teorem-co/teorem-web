@@ -203,7 +203,7 @@ export default function useTutorOnboardingFormik(onSubmit: (values: ITutorOnboar
             addressApartment: Yup.string(),
             postalCode: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             city: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            phone: Yup.string()
+            phoneNumber: Yup.string()
                 .required(t('FORM_VALIDATION.REQUIRED'))
                 .min(7, t('FORM_VALIDATION.PHONE_SHORT')) // 10 characters
                 .matches(

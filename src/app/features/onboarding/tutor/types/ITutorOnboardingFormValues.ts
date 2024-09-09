@@ -35,5 +35,5 @@ export default interface ITutorOnboardingFormValues {
     addressApartment?: string; // done
     postalCode?: string; // done
     city?: string; // done
-    phone?: string; // done
+    phoneNumber?: string; // done
 }

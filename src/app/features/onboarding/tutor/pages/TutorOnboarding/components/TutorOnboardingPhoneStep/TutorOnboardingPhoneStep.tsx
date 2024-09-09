@@ -12,15 +12,15 @@ export default function TutorOnboardingPhoneStep() {
     const { user } = useAppSelector((state) => state.auth);
 
     useEffect(() => {
-        if (!set.current && !formik.values.phone) {
-            formik.setFieldValue('phone', user?.phoneNumber ?? '');
+        if (!set.current && !formik.values.phoneNumber) {
+            formik.setFieldValue('phoneNumber', user?.phoneNumber ?? '');
             set.current = true;
         }
     }, [formik, user]);
 
     useEffect(() => {
-        setNextDisabled?.(!formik.values.phone);
-    }, [formik.values.phone, setNextDisabled]);
+        setNextDisabled?.(!formik.values.phoneNumber);
+    }, [formik.values.phoneNumber, setNextDisabled]);
 
     return (
         <OnboardingStepFormLayout
@@ -29,9 +29,9 @@ export default function TutorOnboardingPhoneStep() {
         >
             <MyPhoneInput
                 form={formik}
-                name="phone"
-                field={formik.getFieldProps('phone')}
-                meta={formik.getFieldMeta('phone')}
+                name="phoneNumber"
+                field={formik.getFieldProps('phoneNumber')}
+                meta={formik.getFieldMeta('phoneNumber')}
             />
         </OnboardingStepFormLayout>
     );
