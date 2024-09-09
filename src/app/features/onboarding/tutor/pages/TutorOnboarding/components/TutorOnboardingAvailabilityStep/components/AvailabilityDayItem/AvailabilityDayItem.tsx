@@ -1,4 +1,6 @@
-import { Checkbox, FormControlLabel, IconButton } from '@mui/material';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+
 import DayEnum from '../../../../../../types/DayEnum';
 import IOnboardingAvailability from '../../../../../../types/IOnboardingAvailability';
 import { useTranslation } from 'react-i18next';
@@ -20,10 +22,6 @@ export default function AvailabilityDayItem({
     onDayChange,
 }: Readonly<IAvailabilityDayItemProps>) {
     const { t } = useTranslation();
-
-    const handleEntryChange = (newEntry: IOnboardingAvailability) => {
-        onDayChange(newEntry);
-    };
 
     return (
         <div className={styles.item}>

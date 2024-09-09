@@ -15,10 +15,6 @@ export default function TutorOnboardingAvailabilityStep() {
     const [defaultZone, setDefaultZone] = useState<string | undefined>();
 
     useEffect(() => {
-        console.log(formik.values.availability);
-    }, [formik.values.availability]);
-
-    useEffect(() => {
         setNextDisabled?.(!!formik.errors.availability);
     }, [setNextDisabled, formik.errors.availability]);
 
@@ -28,6 +24,8 @@ export default function TutorOnboardingAvailabilityStep() {
             subtitle={t('ONBOARDING.TUTOR.AVAILABILITY.SUBTITLE')}
         >
             <TimeZoneSelect
+                title={t('ONBOARDING.TUTOR.AVAILABILITY.TIMEZONE_LABEL')}
+                className={styles.timeZoneSelect}
                 defaultUserZone={defaultZone}
                 selectedZone={formik.values.timeZone ?? ''}
                 setSelectedZone={(z) => formik.setFieldValue('timeZone', z)}

@@ -130,9 +130,14 @@ const THEME = createTheme({
                 },
             },
         },
-        MuiInputLabel: {},
+        MuiInputLabel: {
+            defaultProps: { shrink: true },
+        },
+
         MuiOutlinedInput: {
-            defaultProps: {},
+            defaultProps: {
+                notched: true,
+            },
             styleOverrides: {
                 root: {
                     fontSize: '16px',

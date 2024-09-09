@@ -1,6 +1,37 @@
 .levelSubjectSelect {
     margin: 16px 0px;
     display: grid;
-    grid-template-columns: 1fr 1fr auto;
+    grid-template-columns: 1fr;
     gap: 12px;
+}
+
+.input > * {
+    min-height: initial !important;
+}
+
+.deleteIcon {
+    display: none;
+}
+
+.deleteText {
+    display: flex;
+    background-color: transparent;
+    flex-direction: row;
+    border: none;
+    text-decoration: underline;
+}
+
+@media screen and (min-width: 768px) {
+    .levelSubjectSelect {
+        margin: 16px 0px;
+        display: grid;
+        grid-template-columns: 1fr 1fr auto;
+        gap: 12px;
+    }
+    .deleteIcon {
+        display: initial;
+    }
+    .deleteText {
+        display: none;
+    }
 }

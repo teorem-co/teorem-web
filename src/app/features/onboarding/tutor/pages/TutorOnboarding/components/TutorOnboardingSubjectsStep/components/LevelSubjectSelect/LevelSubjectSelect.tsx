@@ -1,4 +1,4 @@
-import { FormControl, IconButton, InputLabel, MenuItem, Select } from '@mui/material';
+import { FormControl, IconButton, InputLabel, MenuItem, OutlinedInput, Select } from '@mui/material';
 import styles from './LevelSubjectSelect.module.scss';
 import Delete from '@mui/icons-material/Delete';
 import ISubject from '../../../../../../../../../types/ISubject';
@@ -38,6 +38,9 @@ export default function LevelSubjectSelect({
                     labelId="level-select-label"
                     placeholder={t('ONBOARDING.TUTOR.SUBJECTS.LEVEL_LABEL')}
                     value={selectedLevelId}
+                    input={
+                        <OutlinedInput className={styles.input} label={t('ONBOARDING.TUTOR.SUBJECTS.LEVEL_LABEL')} />
+                    }
                     onChange={(e) => onLevelChange(e.target.value)}
                 >
                     {levels
@@ -59,6 +62,9 @@ export default function LevelSubjectSelect({
                     labelId="subject-select-label"
                     placeholder={t('ONBOARDING.TUTOR.SUBJECTS.SUBJECT_LABEL')}
                     value={selectedSubjectId}
+                    input={
+                        <OutlinedInput className={styles.input} label={t('ONBOARDING.TUTOR.SUBJECTS.SUBJECT_LABEL')} />
+                    }
                     onChange={(e) => onSubjectChange(e.target.value)}
                 >
                     {subjects
@@ -74,7 +80,10 @@ export default function LevelSubjectSelect({
                         ))}
                 </Select>
             </FormControl>
-            <IconButton size="small" disabled={disabledDelete} className={styles.close} onClick={onDelete}>
+            <button className={styles.deleteText} disabled={disabledDelete} onClick={onDelete}>
+                - {t('ONBOARDING.TUTOR.SUBJECTS.REMOVE_SUBJECT')}
+            </button>
+            <IconButton size="small" disabled={disabledDelete} className={styles.deleteIcon} onClick={onDelete}>
                 <Delete fontSize="small" />
             </IconButton>
         </div>

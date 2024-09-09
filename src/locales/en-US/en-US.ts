@@ -60,6 +60,7 @@ export const EN_US = {
                 LEVEL_LABEL: 'Level',
                 SUBJECT_LABEL: 'Subject',
                 ADD_SUBJECT: 'Add another subject',
+                REMOVE_SUBJECT: 'Remove this level & subject',
             },
             AVAILABILITY: {
                 TITLE: 'When are you available?',
