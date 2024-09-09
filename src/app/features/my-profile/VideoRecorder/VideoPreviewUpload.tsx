@@ -19,7 +19,6 @@ export const VideoPreviewUpload = (props: Props) => {
 
     const [file, setFile] = useState<File>();
     const ACCEPTED_TYPES = 'video/*';
-    const isMobile = window.innerWidth < 765;
 
     useEffect(() => {
         if (file) {
@@ -31,30 +30,27 @@ export const VideoPreviewUpload = (props: Props) => {
         if (!showSuccessfullPopup) {
             fetchData();
         }
-    }, [showSuccessfullPopup]);
+    }, [fetchData, showSuccessfullPopup]);
 
     return (
         <>
             <div className={'flex flex--col'}>
-                <div className={`flex  ${isMobile ? 'flex--col flex--ai--center' : 'flex--row flex--ai--start'} flex-gap-5 `}>
-                    {!isMobile && (
-                        <>
-                            <div>
-                                <h4 className={'type--center type--wgt--regular'}>{t('VIDEO_PREVIEW.RECORD_VIDEO')}</h4>
-                                <ButtonPrimaryGradient
-                                    onClick={() => setShowRecorder(true)}
-                                    className={
-                                        'btn btn--md btn align-center record-video-button flex flex-row flex--jc--center flex--ai--center w--260'
-                                    }
-                                >
-                                    <BiSolidVideoRecording size={25} className={'mr-2'} />
-                                    <p>{t('VIDEO_PREVIEW.START')}</p>
-                                </ButtonPrimaryGradient>
-                            </div>
+                <div className={`flex   flex-gap-5 `}>
+                    <div>
+                        <h4 className={'type--center type--wgt--regular'}>{t('VIDEO_PREVIEW.RECORD_VIDEO')}</h4>
+                        <ButtonPrimaryGradient
+                            onClick={() => setShowRecorder(true)}
+                            className={
+                                'btn btn--md btn align-center record-video-button flex flex-row flex--jc--center flex--ai--center w--260'
+                            }
+                        >
+                            <BiSolidVideoRecording size={25} className={'mr-2'} />
+                            <p>{t('VIDEO_PREVIEW.START')}</p>
+                        </ButtonPrimaryGradient>
+                    </div>
 
-                            <p className={'align-self-center'}>{t('VIDEO_PREVIEW.OR')}</p>
-                        </>
-                    )}
+                    <p className={'align-self-center'}>{t('VIDEO_PREVIEW.OR')}</p>
+
                     <div>
                         <h4 className={'type--center type--wgt--regular'}>{t('VIDEO_PREVIEW.UPLOAD_VIDEO')}</h4>
                         <VideoFileUpload
