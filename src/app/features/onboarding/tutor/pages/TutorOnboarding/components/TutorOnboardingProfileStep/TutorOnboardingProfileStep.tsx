@@ -6,9 +6,10 @@ import { useTutorOnboarding } from '../../../../providers/TutorOnboardingProvide
 
 export default function TutorOnboardingProfileStep() {
     const { t } = useTranslation();
-    const { formik, setNextDisabled } = useTutorOnboarding();
+    const { formik, setNextDisabled, setShowQuestions } = useTutorOnboarding();
 
     useMount(() => {
+        setShowQuestions?.(false);
         setNextDisabled?.(false);
     });
 

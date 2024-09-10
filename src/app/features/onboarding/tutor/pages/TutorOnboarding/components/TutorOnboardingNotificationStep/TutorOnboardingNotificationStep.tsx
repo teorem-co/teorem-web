@@ -9,11 +9,12 @@ import OnboardingTabButton from '../../../../../components/OnboardingTabButton';
 
 export default function TutorOnboardingNotificationStep() {
     const { t } = useTranslation();
-    const { setNextDisabled, formik } = useTutorOnboarding();
+    const { setNextDisabled, formik, setShowQuestions } = useTutorOnboarding();
 
     useEffect(() => {
+        setShowQuestions?.(true);
         setNextDisabled?.(formik.values.autoAcceptBooking === null);
-    }, [formik.values.autoAcceptBooking, setNextDisabled]);
+    }, [formik.values.autoAcceptBooking, setNextDisabled, setShowQuestions]);
 
     return (
         <OnboardingStepFormLayout

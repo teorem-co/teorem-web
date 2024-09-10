@@ -71,7 +71,31 @@ export const TimeZoneSelect = ({
 
     async function fetchZones() {
         const res = await getAllTimeZones().unwrap();
-        const timeZones = res.map((timeZone) => {
+        const arrayForSort = [...res];
+        arrayForSort.sort((a, b) => {
+            //strings look like this "(GMT +01:00)
+            //compare the strings to sort the timezones
+
+            const aOffset = a.offset.split(' ')[1];
+            const bOffset = b.offset.split(' ')[1];
+
+            // parse the offset to get the number
+            const aOffsetNumber = parseInt(aOffset.split(':')[0]);
+            const bOffsetNumber = parseInt(bOffset.split(':')[0]);
+
+            // compare the numbers
+
+            if (aOffsetNumber < bOffsetNumber) {
+                return -1;
+            }
+
+            if (aOffsetNumber > bOffsetNumber) {
+                return 1;
+            }
+
+            return 0;
+        });
+        const timeZones = arrayForSort.map((timeZone) => {
             return {
                 value: timeZone.timeZoneId,
                 label: (

@@ -7,7 +7,7 @@ import MyPhoneInput from '../../../../../../../components/form/MyPhoneInput';
 
 export default function TutorOnboardingPhoneStep() {
     const { t } = useTranslation();
-    const { setNextDisabled, formik } = useTutorOnboarding();
+    const { setNextDisabled, formik, setShowQuestions } = useTutorOnboarding();
     const set = useRef(false);
     const { user } = useAppSelector((state) => state.auth);
 
@@ -19,8 +19,9 @@ export default function TutorOnboardingPhoneStep() {
     }, [formik, user]);
 
     useEffect(() => {
+        setShowQuestions?.(true);
         setNextDisabled?.(!formik.values.phoneNumber);
-    }, [formik.values.phoneNumber, setNextDisabled]);
+    }, [formik.values.phoneNumber, setNextDisabled, setShowQuestions]);
 
     return (
         <OnboardingStepFormLayout

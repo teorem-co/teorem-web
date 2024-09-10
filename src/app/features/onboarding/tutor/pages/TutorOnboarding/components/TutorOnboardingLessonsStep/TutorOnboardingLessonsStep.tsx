@@ -6,9 +6,10 @@ import useMount from '../../../../../../../utils/useMount';
 
 export default function TutorOnboardingLessonsStep() {
     const { t } = useTranslation();
-    const { setNextDisabled } = useTutorOnboarding();
+    const { setNextDisabled, setShowQuestions } = useTutorOnboarding();
 
     useMount(() => {
+        setShowQuestions?.(false);
         setNextDisabled?.(false);
     });
 

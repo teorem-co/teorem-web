@@ -10,7 +10,7 @@ import { Add } from '@mui/icons-material';
 
 export default function TutorOnboardingSubjectsStep() {
     const { t } = useTranslation();
-    const { setNextDisabled, formik } = useTutorOnboarding();
+    const { setNextDisabled, formik, setShowQuestions } = useTutorOnboarding();
     const { user } = useAppSelector((state) => state.auth);
     const { levels } = useAppSelector((state) => state.level);
     const { subjects, subjectLevels } = useAppSelector((state) => state.subject);
@@ -26,11 +26,12 @@ export default function TutorOnboardingSubjectsStep() {
     );
 
     useEffect(() => {
+        setShowQuestions?.(true);
         setNextDisabled?.(!!formik.errors.subjects);
         if (!formik.values.subjects?.length) {
             formik.setFieldValue('subjects', [{ levelId: undefined, subjectId: undefined }]);
         }
-    }, [setNextDisabled, formik.errors.subjects, formik]);
+    }, [setNextDisabled, setShowQuestions, formik.errors.subjects, formik]);
 
     const handleDelete = (index: number) => {
         const subjects = formik.values.subjects;
@@ -49,6 +50,7 @@ export default function TutorOnboardingSubjectsStep() {
         <OnboardingStepFormLayout
             title={t('ONBOARDING.TUTOR.SUBJECTS.TITLE')}
             subtitle={t('ONBOARDING.TUTOR.SUBJECTS.SUBTITLE')}
+            className={styles.layout}
         >
             {formik.values.subjects?.map((pair, i) => (
                 <LevelSubjectSelect

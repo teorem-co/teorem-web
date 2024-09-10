@@ -67,6 +67,19 @@ export default function useTutorOnboardingFormik(onSubmit: (values: ITutorOnboar
                         levelId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
                     })
                 )
+                // no duplicates
+                .test('unique', t('FORM_VALIDATION.UNIQUE_SUBJECT'), function (value) {
+                    const seen = new Set();
+                    return (
+                        Array.isArray(value) &&
+                        value.every((item) =>
+                            item
+                                ? !seen.has(item.subjectId! + item.levelId!) &&
+                                  seen.add(item.subjectId! + item.levelId!)
+                                : true
+                        )
+                    );
+                })
                 .min(1, t('FORM_VALIDATION.MIN_ONE')),
             availability: Yup.object()
                 .shape({

@@ -1,6 +1,10 @@
 .item {
 }
 
+.day > * {
+    font-weight: bold !important;
+}
+
 .subItems {
     margin-left: 24px;
     display: flex;

@@ -9,12 +9,13 @@ import { useSetTutorProfileImageMutation } from '../../../../../../../store/serv
 
 export default function TutorOnboardingPhotoStep() {
     const { t } = useTranslation();
-    const { setNextDisabled, formik } = useTutorOnboarding();
+    const { setNextDisabled, formik, setShowQuestions } = useTutorOnboarding();
     const [updateUserInformation, { isLoading: isLoadingUserUpdate }] = useSetTutorProfileImageMutation();
 
     useEffect(() => {
         setNextDisabled?.(!!formik.errors.imageLink);
-    }, [formik.errors.imageLink, setNextDisabled]);
+        setShowQuestions?.(true);
+    }, [formik.errors.imageLink, setNextDisabled, setShowQuestions]);
 
     const uploadImage = useCallback(
         (image: File) => {

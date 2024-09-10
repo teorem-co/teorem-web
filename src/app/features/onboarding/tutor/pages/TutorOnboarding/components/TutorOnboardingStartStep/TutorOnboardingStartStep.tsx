@@ -10,11 +10,12 @@ import { useEffect } from 'react';
 
 export default function TutorOnboardingStartStep() {
     const { t } = useTranslation();
-    const { setNextDisabled } = useTutorOnboarding();
+    const { setNextDisabled, setShowQuestions } = useTutorOnboarding();
 
     useEffect(() => {
+        setShowQuestions?.(false);
         setNextDisabled?.(false);
-    }, [setNextDisabled]);
+    }, [setNextDisabled, setShowQuestions]);
 
     return (
         <div className={styles.container}>

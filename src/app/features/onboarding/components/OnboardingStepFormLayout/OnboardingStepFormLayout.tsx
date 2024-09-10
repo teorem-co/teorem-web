@@ -1,20 +1,23 @@
 import React from 'react';
 import styles from './OnboardingStepFormLayout.module.scss';
 import Typography from '@mui/material/Typography';
+import clsx from 'clsx';
 
 interface IOnboardingStepFormLayoutProps {
     children?: React.ReactNode;
     title: React.ReactNode;
     subtitle?: React.ReactNode;
+    className?: string;
 }
 
 export default function OnboardingStepFormLayout({
     children,
     title,
     subtitle,
+    className,
 }: Readonly<IOnboardingStepFormLayoutProps>) {
     return (
-        <div className={styles.container}>
+        <div className={clsx(styles.container, className)}>
             <div className={styles.form}>
                 <Typography variant="h2" className={styles.title}>
                     {title}

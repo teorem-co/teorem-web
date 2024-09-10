@@ -21,7 +21,7 @@ function getCtaText(t: TFunction<'translation', undefined>, step: number, subste
 
 export default function TutorOnboarding() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const { step, substep, maxSubstep, onBack, onNext, nextDisabled } = useTutorOnboarding();
+    const { step, substep, maxSubstep, onBack, onNext, nextDisabled, showQuestions } = useTutorOnboarding();
     const { t } = useTranslation();
 
     const ctaText = getCtaText(t, step, substep);
@@ -29,14 +29,16 @@ export default function TutorOnboarding() {
     return (
         <OnboardingLayout
             header={
-                <Button
-                    variant="outlined"
-                    color="secondary"
-                    className={styles.questions}
-                    onClick={() => setIsSidebarOpen(true)}
-                >
-                    {t('ONBOARDING.QUESTIONS')}
-                </Button>
+                showQuestions ? (
+                    <Button
+                        variant="outlined"
+                        color="secondary"
+                        className={styles.questions}
+                        onClick={() => setIsSidebarOpen(true)}
+                    >
+                        {t('ONBOARDING.QUESTIONS')}
+                    </Button>
+                ) : null
             }
             step={step}
             substep={substep}

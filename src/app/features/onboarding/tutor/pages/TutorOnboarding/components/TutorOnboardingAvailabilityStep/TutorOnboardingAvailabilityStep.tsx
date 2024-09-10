@@ -10,13 +10,14 @@ import { useAppSelector } from '../../../../../../../store/hooks';
 
 export default function TutorOnboardingAvailabilityStep() {
     const { t } = useTranslation();
-    const { setNextDisabled, formik } = useTutorOnboarding();
+    const { setNextDisabled, formik, setShowQuestions } = useTutorOnboarding();
     const { user } = useAppSelector((state) => state.auth);
     const [defaultZone, setDefaultZone] = useState<string | undefined>();
 
     useEffect(() => {
         setNextDisabled?.(!!formik.errors.availability);
-    }, [setNextDisabled, formik.errors.availability]);
+        setShowQuestions?.(true);
+    }, [setNextDisabled, setShowQuestions, formik.errors.availability]);
 
     return (
         <OnboardingStepFormLayout

@@ -26,6 +26,7 @@ export default function AvailabilityDayItem({
     return (
         <div className={styles.item}>
             <FormControlLabel
+                className={styles.day}
                 control={<Checkbox checked={selected} onChange={() => onSelectedChange(!selected)} />}
                 label={t(`CONSTANTS.DAYS_LONG.${day}`)}
             />

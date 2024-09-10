@@ -8,7 +8,7 @@ import { TextField } from '@mui/material';
 
 export default function TutorOnboardingAddressStep() {
     const { t } = useTranslation();
-    const { setNextDisabled, formik } = useTutorOnboarding();
+    const { setNextDisabled, formik, setShowQuestions } = useTutorOnboarding();
     const { user } = useAppSelector((state) => state.auth);
     const { countries } = useAppSelector((state) => state.countryMarket);
 
@@ -16,6 +16,7 @@ export default function TutorOnboardingAddressStep() {
     const isCompany = formik.values.isCompany;
 
     useEffect(() => {
+        setShowQuestions?.(true);
         setNextDisabled?.(
             !formik.values.addressState ||
                 !formik.values.city ||
@@ -29,6 +30,7 @@ export default function TutorOnboardingAddressStep() {
         formik.values.city,
         formik.values.postalCode,
         setNextDisabled,
+        setShowQuestions,
     ]);
 
     return (

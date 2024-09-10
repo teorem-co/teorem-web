@@ -4,13 +4,16 @@ import OnboardingStepFormLayout from '../../../../../components/OnboardingStepFo
 import { useTutorOnboarding } from '../../../../providers/TutorOnboardingProvider';
 import { useAppSelector } from '../../../../../../../store/hooks';
 import { useEffect, useMemo } from 'react';
-import { Button, Checkbox, FormControlLabel, Typography } from '@mui/material';
-import { Add } from '@mui/icons-material';
+import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Typography from '@mui/material/Typography';
+import Add from '@mui/icons-material/Add';
 import EducationItem from './EducationItem';
 
 export default function TutorOnboardingEducationStep() {
     const { t } = useTranslation();
-    const { setNextDisabled, formik } = useTutorOnboarding();
+    const { setNextDisabled, formik, setShowQuestions } = useTutorOnboarding();
     const { user } = useAppSelector((state) => state.auth);
     const { degrees } = useAppSelector((state) => state.degree);
     const { universities } = useAppSelector((state) => state.university);
@@ -26,11 +29,12 @@ export default function TutorOnboardingEducationStep() {
     );
 
     useEffect(() => {
+        setShowQuestions?.(true);
         setNextDisabled?.(!!formik.errors.degrees);
         if (!formik.values.degrees?.length) {
             formik.setFieldValue('degrees', [{}]);
         }
-    }, [setNextDisabled, formik.errors.subjects, formik]);
+    }, [setNextDisabled, setShowQuestions, formik.errors.subjects, formik]);
 
     const handleCheckbox = () => {
         formik.setFieldValue('hasNoDegree', !formik.values.hasNoDegree);

@@ -4,16 +4,17 @@ import styles from './TutorOnboardingDescriptionStep.module.scss';
 import { useTutorOnboarding } from '../../../../providers/TutorOnboardingProvider';
 import { useEffect } from 'react';
 import { Field } from 'formik';
-import { TextField } from '@mui/material';
+import TextField from '@mui/material/TextField';
 
 export default function TutorOnboardingDescriptionStep() {
     const { t } = useTranslation();
 
-    const { setNextDisabled, formik } = useTutorOnboarding();
+    const { setNextDisabled, setShowQuestions, formik } = useTutorOnboarding();
 
     useEffect(() => {
+        setShowQuestions?.(true);
         setNextDisabled?.(!!formik.errors.profileDescription);
-    }, [formik.errors.profileDescription, setNextDisabled]);
+    }, [formik.errors.profileDescription, setNextDisabled, setShowQuestions]);
 
     return (
         <OnboardingStepFormLayout

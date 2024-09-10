@@ -8,11 +8,12 @@ import { useEffect } from 'react';
 
 export default function TutorOnboardingTitleStep() {
     const { t } = useTranslation();
-    const { setNextDisabled, formik } = useTutorOnboarding();
+    const { setNextDisabled, formik, setShowQuestions } = useTutorOnboarding();
 
     useEffect(() => {
         setNextDisabled?.(!!formik.errors.profileTitle);
-    }, [formik.errors.profileTitle, setNextDisabled]);
+        setShowQuestions?.(true);
+    }, [formik.errors.profileTitle, setNextDisabled, setShowQuestions]);
 
     return (
         <OnboardingStepFormLayout

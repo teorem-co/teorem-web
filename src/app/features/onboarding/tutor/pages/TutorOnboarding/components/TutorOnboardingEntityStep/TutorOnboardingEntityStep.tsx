@@ -9,12 +9,13 @@ import { Checkbox } from '@mui/material';
 
 export default function TutorOnboardingEntityStep() {
     const { t } = useTranslation();
-    const { setNextDisabled, formik } = useTutorOnboarding();
+    const { setNextDisabled, setShowQuestions, formik } = useTutorOnboarding();
     const [checked, setChecked] = useState(false);
 
     useEffect(() => {
+        setShowQuestions?.(true);
         setNextDisabled?.(formik.values.isCompany === null || !checked);
-    }, [setNextDisabled, formik.values.isCompany, checked]);
+    }, [setNextDisabled, setShowQuestions, formik.values.isCompany, checked]);
     return (
         <OnboardingStepFormLayout title={t('ONBOARDING.TUTOR.ENTITY.TITLE')}>
             <OnboardingTabButton

@@ -3,6 +3,8 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: 12px;
+    width: 100%;
+    align-items: center;
 }
 
 .input > * {
@@ -10,7 +12,9 @@
 }
 
 .deleteIcon {
-    display: none;
+    display: none !important;
+    width: 44px;
+    height: 44px;
 }
 
 .deleteText {

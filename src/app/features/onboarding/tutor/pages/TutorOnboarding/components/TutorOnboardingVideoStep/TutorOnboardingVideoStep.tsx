@@ -13,7 +13,7 @@ import { VideoPreviewUpload } from '../../../../../../my-profile/VideoRecorder/V
 
 export default function TutorOnboardingVideoStep() {
     const { t } = useTranslation();
-    const { formik, setNextDisabled } = useTutorOnboarding();
+    const { formik, setNextDisabled, setShowQuestions } = useTutorOnboarding();
     const [getVideoInformation] = useLazyGetTutorVideoInformationQuery();
     const [showVideoSection, setShowVideoSection] = useState(false);
     const [videoInformation, setVideoInformation] = useState<ITutorVideoInformation>({
@@ -36,9 +36,10 @@ export default function TutorOnboardingVideoStep() {
     }, [formik, getVideoInformation]);
 
     useEffect(() => {
+        setShowQuestions?.(true);
         setNextDisabled?.(!!formik.errors.videoId);
         fetchData();
-    }, [fetchData, formik.errors.videoId, setNextDisabled]);
+    }, [fetchData, formik.errors.videoId, setNextDisabled, setShowQuestions]);
     return (
         <OnboardingStepFormLayout
             title={t('ONBOARDING.TUTOR.VIDEO.TITLE')}

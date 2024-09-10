@@ -8,7 +8,7 @@ import { Field } from 'formik';
 
 export default function TutorOnboardingLegalInfoStep() {
     const { t } = useTranslation();
-    const { setNextDisabled, formik } = useTutorOnboarding();
+    const { setNextDisabled, setShowQuestions, formik } = useTutorOnboarding();
     const { user } = useAppSelector((state) => state.auth);
     const { countries } = useAppSelector((state) => state.countryMarket);
 
@@ -16,6 +16,7 @@ export default function TutorOnboardingLegalInfoStep() {
     const isCompany = formik.values.isCompany;
 
     useEffect(() => {
+        setShowQuestions?.(true);
         if (formik.values.isCompany) {
             if (isCroatian) {
                 setNextDisabled?.(!!formik.errors.companyName || !formik.values.oib);
@@ -37,6 +38,7 @@ export default function TutorOnboardingLegalInfoStep() {
         formik.values.ssn4Digits,
         isCroatian,
         setNextDisabled,
+        setShowQuestions,
     ]);
 
     const personTitle = isCroatian ? t('ONBOARDING.TUTOR.LEGAL_INFO.TITLE_HR') : t('ONBOARDING.TUTOR.LEGAL_INFO.TITLE');

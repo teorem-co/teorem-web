@@ -8,7 +8,7 @@ import { TextField } from '@mui/material';
 
 export default function TutorOnboardingPayoutInfoStep() {
     const { t } = useTranslation();
-    const { setNextDisabled, formik } = useTutorOnboarding();
+    const { setNextDisabled, formik, setShowQuestions } = useTutorOnboarding();
     const { user } = useAppSelector((state) => state.auth);
     const { countries } = useAppSelector((state) => state.countryMarket);
 
@@ -16,12 +16,20 @@ export default function TutorOnboardingPayoutInfoStep() {
     const isCompany = formik.values.isCompany;
 
     useEffect(() => {
+        setShowQuestions?.(true);
         if (isCroatian) {
             setNextDisabled?.(!!formik.errors.iban);
         } else {
             setNextDisabled?.(!!formik.errors.accountNumber || !!formik.errors.routingNumber);
         }
-    }, [formik.errors.accountNumber, formik.errors.iban, formik.errors.routingNumber, isCroatian, setNextDisabled]);
+    }, [
+        formik.errors.accountNumber,
+        formik.errors.iban,
+        formik.errors.routingNumber,
+        isCroatian,
+        setNextDisabled,
+        setShowQuestions,
+    ]);
 
     return (
         <OnboardingStepFormLayout

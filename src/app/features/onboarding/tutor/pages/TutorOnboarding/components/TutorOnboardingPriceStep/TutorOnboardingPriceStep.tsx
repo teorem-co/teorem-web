@@ -6,15 +6,16 @@ import { useTutorOnboarding } from '../../../../providers/TutorOnboardingProvide
 
 export default function TutorOnboardingPriceStep() {
     const { t } = useTranslation();
-    const { setNextDisabled, formik } = useTutorOnboarding();
+    const { setNextDisabled, formik, setShowQuestions } = useTutorOnboarding();
 
     useEffect(() => {
+        setShowQuestions?.(true);
         if (formik.values.price) {
             setNextDisabled?.(formik.values.price < 10);
         } else {
             setNextDisabled?.(true);
         }
-    }, [setNextDisabled, formik.values.price]);
+    }, [setNextDisabled, setShowQuestions, formik.values.price]);
     return (
         <OnboardingStepFormLayout
             title={t('ONBOARDING.TUTOR.PRICE.TITLE')}
