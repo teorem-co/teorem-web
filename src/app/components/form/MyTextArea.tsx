@@ -1,6 +1,7 @@
 import { FieldAttributes, useField } from 'formik';
 import React, { useEffect, useRef, useState } from 'react';
-import {t} from "i18next";
+import { t } from 'i18next';
+import clsx from 'clsx';
 
 type TextFieldType = {
     min?: number;
@@ -9,7 +10,7 @@ type TextFieldType = {
 } & FieldAttributes<{}>;
 
 //const MyTextField: React.FC<TextFieldType> = ( { type, placeholder, id, disabled, min, onChange, ...props } ) =>
-const TextArea: React.FC<TextFieldType> = (props: any) => {
+const TextArea: React.FC<TextFieldType> = ({ className, ...props }: any) => {
     const { password, maxLength, minLength } = props;
     const [field, meta] = useField(props);
     const [characterCount, setCharacterCount] = useState<number>(0);
@@ -21,9 +22,7 @@ const TextArea: React.FC<TextFieldType> = (props: any) => {
     const visiblePassToggle = (e: any) => {
         const currentInput = e.target.parentNode.childNodes[0];
 
-        e.target && currentInput.type === 'password'
-            ? (currentInput.type = 'text')
-            : (currentInput.type = 'password');
+        e.target && currentInput.type === 'password' ? (currentInput.type = 'text') : (currentInput.type = 'password');
     };
 
     useEffect(() => {
@@ -33,23 +32,21 @@ const TextArea: React.FC<TextFieldType> = (props: any) => {
         }
     }, [field.value]);
 
-    const handleCharacterCount = (
-        e: React.KeyboardEvent<HTMLTextAreaElement>
-    ) => {
+    const handleCharacterCount = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if (e.currentTarget.textContent) {
             const textareaLength = e.currentTarget.textContent.length;
             setCharacterCount(textareaLength);
-            const numOfWords = e.currentTarget.textContent.trim().split(" ").length;
-            if(numOfWords >= 50) {
-              setTooShort(false);
+            const numOfWords = e.currentTarget.textContent.trim().split(' ').length;
+            if (numOfWords >= 50) {
+                setTooShort(false);
             } else {
-              setTooShort(true);
+                setTooShort(true);
             }
         }
-        if(characterCount >= maxLength) {
-          setTooLong(true);
+        if (characterCount >= maxLength) {
+            setTooLong(true);
         } else {
-          setTooLong(false);
+            setTooLong(false);
         }
     };
 
@@ -62,10 +59,13 @@ const TextArea: React.FC<TextFieldType> = (props: any) => {
                     {...field}
                     {...props}
                     onKeyUp={(e) => handleCharacterCount(e)}
-                    className={`${
-                        props.className ??
-                        'input input--base input--text input--textarea'
-                    } ${errorText ? 'input__border--error' : ''}`}
+                    className={clsx(
+                        'input input--base input--text input--textarea',
+                        {
+                            ['input__border--error']: errorText,
+                        },
+                        className
+                    )}
                 />
                 {
                     /* toggle password visibility */
@@ -82,8 +82,8 @@ const TextArea: React.FC<TextFieldType> = (props: any) => {
 
             <div className="field__validation">
                 {errorText ? errorText : ''}
-              {!errorText && tooLong ? t('FORM_VALIDATION.MAX_LIMIT') + " " + maxLength : ''}
-              {!errorText && minLength && tooShort ? t('FORM_VALIDATION.MIN_LIMIT') + " " + minLength : ''}
+                {!errorText && tooLong ? t('FORM_VALIDATION.MAX_LIMIT') + ' ' + maxLength : ''}
+                {!errorText && minLength && tooShort ? t('FORM_VALIDATION.MIN_LIMIT') + ' ' + minLength : ''}
             </div>
         </>
     );

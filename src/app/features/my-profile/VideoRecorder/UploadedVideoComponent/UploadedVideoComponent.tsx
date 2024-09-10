@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { ITutorVideoInformation, useLazyDeleteTutorVideoQuery } from '../../../store/services/tutorService';
-import { ConfirmationModal } from '../../../components/ConfirmationModal';
-import { useAppSelector } from '../../../store/hooks';
+import { ITutorVideoInformation, useLazyDeleteTutorVideoQuery } from '../../../../store/services/tutorService';
+import { ConfirmationModal } from '../../../../components/ConfirmationModal';
+import { useAppSelector } from '../../../../store/hooks';
 import { BiSolidTrash } from 'react-icons/bi';
 import { t } from 'i18next';
-import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
+import { ButtonPrimaryGradient } from '../../../../components/ButtonPrimaryGradient';
 
 interface Props {
     videoInformation: ITutorVideoInformation;

@@ -5,6 +5,7 @@ import { Field } from 'formik';
 import { TextField } from '@mui/material';
 import { useTutorOnboarding } from '../../../../providers/TutorOnboardingProvider';
 import { useEffect } from 'react';
+import TextArea from '../../../../../../../components/form/MyTextArea';
 
 export default function TutorOnboardingTitleStep() {
     const { t } = useTranslation();
@@ -21,7 +22,7 @@ export default function TutorOnboardingTitleStep() {
             subtitle={t('ONBOARDING.TUTOR.TITLE.SUBTITLE')}
         >
             <Field
-                as={TextField}
+                as={TextArea}
                 name="profileTitle"
                 type="text"
                 fullWidth
@@ -29,12 +30,11 @@ export default function TutorOnboardingTitleStep() {
                 helperText={formik.touched.profileTitle && formik.errors.profileTitle}
                 id="profileTitle"
                 variant="outlined"
+                className={styles.textArea}
                 FormHelperTextProps={{
                     style: { color: 'red' }, // Change the color of the helper text here
                 }}
-                inputProps={{
-                    maxLength: 50,
-                }}
+                maxLength={50}
                 onBlur={(e: any) => {
                     formik.handleBlur(e);
                 }}

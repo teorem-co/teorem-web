@@ -4,7 +4,7 @@ import styles from './TutorOnboardingDescriptionStep.module.scss';
 import { useTutorOnboarding } from '../../../../providers/TutorOnboardingProvider';
 import { useEffect } from 'react';
 import { Field } from 'formik';
-import TextField from '@mui/material/TextField';
+import TextArea from '../../../../../../../components/form/MyTextArea';
 
 export default function TutorOnboardingDescriptionStep() {
     const { t } = useTranslation();
@@ -22,7 +22,7 @@ export default function TutorOnboardingDescriptionStep() {
             subtitle={t('ONBOARDING.TUTOR.DESCRIPTION.SUBTITLE')}
         >
             <Field
-                as={TextField}
+                as={TextArea}
                 name="profileDescription"
                 type="text"
                 fullWidth
@@ -33,9 +33,8 @@ export default function TutorOnboardingDescriptionStep() {
                 FormHelperTextProps={{
                     style: { color: 'red' }, // Change the color of the helper text here
                 }}
-                inputProps={{
-                    maxLength: 300,
-                }}
+                maxLength={300}
+                className={styles.textArea}
                 onBlur={(e: any) => {
                     formik.handleBlur(e);
                 }}

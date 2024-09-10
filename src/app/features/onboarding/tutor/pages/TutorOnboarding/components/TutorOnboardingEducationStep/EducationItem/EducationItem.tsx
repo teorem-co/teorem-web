@@ -1,8 +1,17 @@
 import styles from './EducationItem.module.scss';
 import IDegree from '../../../../../../../../types/IDegree';
 import IUniversity from '../../../../../../../../types/IUniversity';
-import { Autocomplete, FormControl, IconButton, InputLabel, MenuItem, Select, TextField } from '@mui/material';
-import { Delete, Remove } from '@mui/icons-material';
+
+import Autocomplete from '@mui/material/Autocomplete';
+import FormControl from '@mui/material/FormControl';
+import IconButton from '@mui/material/IconButton';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import Select from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
+import Delete from '@mui/icons-material/Delete';
+import Remove from '@mui/icons-material/Remove';
 import YEARS from '../constants/years';
 import { useTranslation } from 'react-i18next';
 import START_YEARS from '../constants/startYears';
@@ -63,6 +72,7 @@ export default function EducationItem({
                     placeholder="Degree"
                     value={selectedDegreeId}
                     onChange={(e) => onDegreeChange(e.target.value)}
+                    input={<OutlinedInput label={t('ONBOARDING.TUTOR.EDUCATION.DEGREE_LABEL')} />}
                 >
                     {degrees.map((degree) => (
                         <MenuItem key={degree.id} value={degree.id}>
@@ -85,6 +95,7 @@ export default function EducationItem({
                                 typeof e.target.value === 'string' ? parseInt(e.target.value) : e.target.value
                             )
                         }
+                        input={<OutlinedInput label={t('ONBOARDING.TUTOR.EDUCATION.STARTED_LABEL')} />}
                         placeholder="-"
                     >
                         {START_YEARS.map((y) => (
@@ -105,6 +116,7 @@ export default function EducationItem({
                                 typeof e.target.value === 'string' ? parseInt(e.target.value) : e.target.value
                             )
                         }
+                        input={<OutlinedInput label={t('ONBOARDING.TUTOR.EDUCATION.FINISHED_LABEL')} />}
                         placeholder="-"
                     >
                         <MenuItem value={0}>{t('ONBOARDING.TUTOR.EDUCATION.ONGOING')}</MenuItem>
