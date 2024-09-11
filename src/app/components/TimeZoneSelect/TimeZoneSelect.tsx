@@ -1,6 +1,6 @@
 import Select, { SingleValue, StylesConfig } from 'react-select';
 import React, { useEffect, useState } from 'react';
-import { Option } from '../../features/my-profile/VideoRecorder/VideoRecorder';
+import { Option } from '../../features/my-profile/VideoRecorder/RecorderModal/RecorderModal';
 import { useLazyGetAllTimeZonesQuery } from '../../store/services/dashboardService';
 import { t } from 'i18next';
 import moment from 'moment/moment';

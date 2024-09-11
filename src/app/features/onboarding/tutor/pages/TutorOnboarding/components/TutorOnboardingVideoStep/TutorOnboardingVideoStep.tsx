@@ -7,15 +7,15 @@ import {
     ITutorVideoInformation,
     useLazyGetTutorVideoInformationQuery,
 } from '../../../../../../../store/services/tutorService';
-import LoaderPrimary from '../../../../../../../components/skeleton-loaders/LoaderPrimary';
-import { UploadedVideoComponent } from '../../../../../../my-profile/VideoRecorder/UploadedVideoComponent';
-import { VideoPreviewUpload } from '../../../../../../my-profile/VideoRecorder/VideoPreviewUpload';
+import { UploadedVideoComponent } from '../../../../../../my-profile/VideoRecorder/UploadedVideoComponent/UploadedVideoComponent';
+import CheckBox from '@mui/icons-material/CheckBox';
+import Close from '@mui/icons-material/Close';
+import { VideoUploadArea } from '../../../../../../my-profile/VideoRecorder/VideoUploadArea';
 
 export default function TutorOnboardingVideoStep() {
     const { t } = useTranslation();
     const { formik, setNextDisabled, setShowQuestions } = useTutorOnboarding();
     const [getVideoInformation] = useLazyGetTutorVideoInformationQuery();
-    const [showVideoSection, setShowVideoSection] = useState(false);
     const [videoInformation, setVideoInformation] = useState<ITutorVideoInformation>({
         url: undefined,
         approved: undefined,
@@ -24,7 +24,6 @@ export default function TutorOnboardingVideoStep() {
 
     const fetchData = useCallback(async () => {
         const videoInfo = await getVideoInformation().unwrap();
-        setShowVideoSection(true);
         setVideoInformation({
             ...videoInfo,
         });
@@ -45,13 +44,55 @@ export default function TutorOnboardingVideoStep() {
             title={t('ONBOARDING.TUTOR.VIDEO.TITLE')}
             subtitle={t('ONBOARDING.TUTOR.VIDEO.SUBTITLE')}
         >
-            {!showVideoSection ? (
-                <LoaderPrimary />
-            ) : videoInformation.url ? (
-                <UploadedVideoComponent fetchData={fetchData} videoInformation={videoInformation} />
-            ) : (
-                <VideoPreviewUpload fetchData={fetchData} />
-            )}
+            <div className={styles.content}>
+                {videoInformation.url ? (
+                    <UploadedVideoComponent fetchData={fetchData} videoInformation={videoInformation} />
+                ) : (
+                    <VideoUploadArea fetchData={fetchData} />
+                )}
+            </div>
+            <div className={styles.points}>
+                <div className={styles.point}>
+                    <CheckBox className={styles.icon} />
+                    <span className={styles.pointText}>{t('ONBOARDING.TUTOR.VIDEO.POINT_LENGTH')}</span>
+                </div>
+                <div className={styles.point}>
+                    <CheckBox className={styles.icon} />
+                    <span className={styles.pointText}>{t('ONBOARDING.TUTOR.VIDEO.POINT_HORIZONTAL')}</span>
+                </div>
+                <div className={styles.point}>
+                    <CheckBox className={styles.icon} />
+                    <span className={styles.pointText}>{t('ONBOARDING.TUTOR.VIDEO.POINT_BACKGROUND')}</span>
+                </div>
+                <div className={styles.point}>
+                    <CheckBox className={styles.icon} />
+                    <span className={styles.pointText}>{t('ONBOARDING.TUTOR.VIDEO.POINT_SURFACE')}</span>
+                </div>
+                <div className={styles.point}>
+                    <CheckBox className={styles.icon} />
+                    <span className={styles.pointText}>{t('ONBOARDING.TUTOR.VIDEO.POINT_FACE')}</span>
+                </div>
+                <div className={styles.point}>
+                    <CheckBox className={styles.icon} />
+                    <span className={styles.pointText}>{t('ONBOARDING.TUTOR.VIDEO.POINT_EXPERIENCE')}</span>
+                </div>
+                <div className={styles.point}>
+                    <CheckBox className={styles.icon} />
+                    <span className={styles.pointText}>{t('ONBOARDING.TUTOR.VIDEO.POINT_GREET')}</span>
+                </div>
+                <div className={styles.point}>
+                    <Close className={styles.icon} />
+                    <span className={styles.pointText}>{t('ONBOARDING.TUTOR.VIDEO.POINT_SURNAME')}</span>
+                </div>
+                <div className={styles.point}>
+                    <Close className={styles.icon} />
+                    <span className={styles.pointText}>{t('ONBOARDING.TUTOR.VIDEO.POINT_LOGO')}</span>
+                </div>
+                <div className={styles.point}>
+                    <Close className={styles.icon} />
+                    <span className={styles.pointText}>{t('ONBOARDING.TUTOR.VIDEO.POINT_PEOPLE')}</span>
+                </div>
+            </div>
         </OnboardingStepFormLayout>
     );
 }

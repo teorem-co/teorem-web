@@ -11,13 +11,11 @@ interface Props {
     setFile: (file: File) => void;
     description: string;
     acceptedTypes: string;
-    uploadedSectionTitle: string;
     maxSize?: number;
     className?: string;
 }
 
-export const VideoFileUpload = (props: Props) => {
-    const { setFile, acceptedTypes, description, className, maxSize } = props;
+export function VideoFileUpload({ setFile, acceptedTypes, description, className, maxSize }: Props) {
     const [showMaxSizeError, setShowMaxSizeError] = useState(false);
     const [showMaxDurationError, setShowMaxDurationError] = useState(false);
 
@@ -53,27 +51,20 @@ export const VideoFileUpload = (props: Props) => {
 
     return (
         <div>
-            <div className={className}>
-                <div {...getRootProps()} className={`upload`}>
-                    <input {...getInputProps()} multiple={false} accept={acceptedTypes} />
-                    <div className="upload__text" role="presentation">
-                        <div className="flex--primary flex--col" style={{ margin: '10px' }}>
-                            <i className="icon icon--base icon--upload icon--black"></i>
-                            <div
-                                className="type--color--secondary type--wgt--bold type--center"
-                                dangerouslySetInnerHTML={{ __html: t('MY_PROFILE.PROFILE_SETTINGS.UPLOAD_IMAGE') }}
-                            ></div>
-                            <div className="type--color--tertiary type--wgt--regular" style={{ fontSize: '12px' }}>
-                                {description}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div {...getRootProps()}>
+                <input {...getInputProps()} multiple={false} accept={acceptedTypes} />
+                <button className={className}>{description}</button>
             </div>
-            {showMaxSizeError && <h1 className={'type--color--error type--sm type--center'}>{t('VIDEO_PREVIEW.FILE_UPLOAD.SIZE_MESSAGE')}</h1>}
+            {showMaxSizeError && (
+                <div className={'type--color--error type--sm type--center'}>
+                    {t('VIDEO_PREVIEW.FILE_UPLOAD.SIZE_MESSAGE')}
+                </div>
+            )}
             {showMaxDurationError && (
-                <h1 className={'type--color--error type--sm type--center'}>{t('VIDEO_PREVIEW.FILE_UPLOAD.DURATION_MESSAGE')}</h1>
+                <div className={'type--color--error type--sm type--center'}>
+                    {t('VIDEO_PREVIEW.FILE_UPLOAD.DURATION_MESSAGE')}
+                </div>
             )}
         </div>
     );
-};
+}

@@ -23,7 +23,7 @@ import IUpdateAdditionalInfo from '../interfaces/IUpdateAdditionalInfo';
 import { setMyProfileProgress } from '../../../store/slices/myProfileSlice';
 import { TextField } from '@mui/material';
 import { RoleOptions } from '../../../store/slices/roleSlice';
-import { VideoPreviewUpload } from '../VideoRecorder/VideoPreviewUpload';
+import { VideoUploadArea } from '../VideoRecorder/VideoUploadArea';
 import { UploadedVideoComponent } from '../VideoRecorder/UploadedVideoComponent';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 
@@ -371,7 +371,7 @@ const AdditionalInformation = () => {
                         ) : videoInformation.url ? (
                             <UploadedVideoComponent fetchData={fetchData} videoInformation={videoInformation} />
                         ) : (
-                            <VideoPreviewUpload fetchData={fetchData} />
+                            <VideoUploadArea fetchData={fetchData} />
                         )}
                     </div>
                 )}
