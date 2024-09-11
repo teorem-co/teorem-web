@@ -7,56 +7,84 @@ import DayEnum from '../../../../types/DayEnum';
 import AvailabilityDayItem from './components/AvailabilityDayItem';
 import { TimeZoneSelect } from '../../../../../../../components/TimeZoneSelect';
 import { useAppSelector } from '../../../../../../../store/hooks';
+import OnboardingLayout from '../../../../../components/OnboardingLayout';
+import { Button } from '@mui/material';
+import onboardingStyles from '../../TutorOnboarding.module.scss';
+import CtaButton from '../../../../../../../components/CtaButton';
 
 export default function TutorOnboardingAvailabilityStep() {
     const { t } = useTranslation();
-    const { setNextDisabled, formik, setShowQuestions } = useTutorOnboarding();
+    const { setNextDisabled, formik, step, substep, maxSubstep, onBack, onNext, nextDisabled } = useTutorOnboarding();
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const { user } = useAppSelector((state) => state.auth);
     const [defaultZone, setDefaultZone] = useState<string | undefined>();
 
     useEffect(() => {
         setNextDisabled?.(!!formik.errors.availability);
-        setShowQuestions?.(true);
-    }, [setNextDisabled, setShowQuestions, formik.errors.availability]);
+    }, [setNextDisabled, formik.errors.availability]);
 
     return (
-        <OnboardingStepFormLayout
-            title={t('ONBOARDING.TUTOR.AVAILABILITY.TITLE')}
-            subtitle={t('ONBOARDING.TUTOR.AVAILABILITY.SUBTITLE')}
+        <OnboardingLayout
+            header={
+                <Button
+                    variant="outlined"
+                    color="secondary"
+                    className={onboardingStyles.questions}
+                    onClick={() => setIsSidebarOpen(true)}
+                >
+                    {t('ONBOARDING.QUESTIONS')}
+                </Button>
+            }
+            step={step}
+            substep={substep}
+            maxSubstep={maxSubstep}
+            onBack={onBack}
+            actions={
+                <CtaButton fullWidth onClick={onNext} disabled={nextDisabled}>
+                    {t('ONBOARDING.NEXT')}
+                </CtaButton>
+            }
+            isSidebarOpen={isSidebarOpen}
+            onSidebarClose={() => setIsSidebarOpen(false)}
         >
-            <TimeZoneSelect
-                title={t('ONBOARDING.TUTOR.AVAILABILITY.TIMEZONE_LABEL')}
-                className={styles.timeZoneSelect}
-                defaultUserZone={defaultZone}
-                selectedZone={formik.values.timeZone ?? ''}
-                setSelectedZone={(z) => formik.setFieldValue('timeZone', z)}
-            />
-            {Object.entries(formik.values.availability || {})?.map(([day, item]) => (
-                <AvailabilityDayItem
-                    key={day}
-                    day={parseInt(day) as DayEnum}
-                    availability={item.entries}
-                    selected={item.selected}
-                    onDayChange={(newEntries) => {
-                        formik.setFieldValue('availability', {
-                            ...formik.values.availability,
-                            [day]: {
-                                selected: item.selected,
-                                entries: newEntries,
-                            },
-                        });
-                    }}
-                    onSelectedChange={(selected) => {
-                        formik.setFieldValue('availability', {
-                            ...formik.values.availability,
-                            [day]: {
-                                selected,
-                                entries: item.entries,
-                            },
-                        });
-                    }}
+            <OnboardingStepFormLayout
+                title={t('ONBOARDING.TUTOR.AVAILABILITY.TITLE')}
+                subtitle={t('ONBOARDING.TUTOR.AVAILABILITY.SUBTITLE')}
+            >
+                <TimeZoneSelect
+                    title={t('ONBOARDING.TUTOR.AVAILABILITY.TIMEZONE_LABEL')}
+                    className={styles.timeZoneSelect}
+                    defaultUserZone={defaultZone}
+                    selectedZone={formik.values.timeZone ?? ''}
+                    setSelectedZone={(z) => formik.setFieldValue('timeZone', z)}
                 />
-            ))}
-        </OnboardingStepFormLayout>
+                {Object.entries(formik.values.availability || {})?.map(([day, item]) => (
+                    <AvailabilityDayItem
+                        key={day}
+                        day={parseInt(day) as DayEnum}
+                        availability={item.entries}
+                        selected={item.selected}
+                        onDayChange={(newEntries) => {
+                            formik.setFieldValue('availability', {
+                                ...formik.values.availability,
+                                [day]: {
+                                    selected: item.selected,
+                                    entries: newEntries,
+                                },
+                            });
+                        }}
+                        onSelectedChange={(selected) => {
+                            formik.setFieldValue('availability', {
+                                ...formik.values.availability,
+                                [day]: {
+                                    selected,
+                                    entries: item.entries,
+                                },
+                            });
+                        }}
+                    />
+                ))}
+            </OnboardingStepFormLayout>
+        </OnboardingLayout>
     );
 }

@@ -4,41 +4,69 @@ import styles from './TutorOnboardingNotificationStep.module.scss';
 import instantBookImage from './assets/thunder.png';
 import manualApproveImage from './assets/chat.png';
 import { useTutorOnboarding } from '../../../../providers/TutorOnboardingProvider';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import OnboardingTabButton from '../../../../../components/OnboardingTabButton';
+import OnboardingLayout from '../../../../../components/OnboardingLayout';
+import { Button } from '@mui/material';
+import CtaButton from '../../../../../../../components/CtaButton';
+import onboardingStyles from '../../TutorOnboarding.module.scss';
 
 export default function TutorOnboardingNotificationStep() {
     const { t } = useTranslation();
-    const { setNextDisabled, formik, setShowQuestions } = useTutorOnboarding();
+    const { setNextDisabled, formik, onBack, onNext, nextDisabled, step, substep, maxSubstep } = useTutorOnboarding();
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     useEffect(() => {
-        setShowQuestions?.(true);
         setNextDisabled?.(formik.values.autoAcceptBooking === null);
-    }, [formik.values.autoAcceptBooking, setNextDisabled, setShowQuestions]);
+    }, [formik.values.autoAcceptBooking, setNextDisabled]);
 
     return (
-        <OnboardingStepFormLayout
-            title={t('ONBOARDING.TUTOR.NOTIFICATION.TITLE')}
-            subtitle={t('ONBOARDING.TUTOR.NOTIFICATION.SUBTITLE')}
+        <OnboardingLayout
+            header={
+                <Button
+                    variant="outlined"
+                    color="secondary"
+                    className={onboardingStyles.questions}
+                    onClick={() => setIsSidebarOpen(true)}
+                >
+                    {t('ONBOARDING.QUESTIONS')}
+                </Button>
+            }
+            step={step}
+            substep={substep}
+            maxSubstep={maxSubstep}
+            onBack={onBack}
+            actions={
+                <CtaButton fullWidth onClick={onNext} disabled={nextDisabled}>
+                    {t('ONBOARDING.NEXT')}
+                </CtaButton>
+            }
+            isSidebarOpen={isSidebarOpen}
+            onSidebarClose={() => setIsSidebarOpen(false)}
         >
-            <OnboardingTabButton
-                active={formik.values.autoAcceptBooking === true}
-                onClick={() => {
-                    formik.setFieldValue('autoAcceptBooking', true);
-                }}
-                image={instantBookImage}
-                title={t('ONBOARDING.TUTOR.NOTIFICATION.INSTANT_BOOK_TITLE')}
-                subtitle={t('ONBOARDING.TUTOR.NOTIFICATION.INSTANT_BOOK_SUBTITLE')}
-            />
-            <OnboardingTabButton
-                active={formik.values.autoAcceptBooking === false}
-                onClick={() => {
-                    formik.setFieldValue('autoAcceptBooking', false);
-                }}
-                image={manualApproveImage}
-                title={t('ONBOARDING.TUTOR.NOTIFICATION.MANUAL_APPROVE_TITLE')}
-                subtitle={t('ONBOARDING.TUTOR.NOTIFICATION.MANUAL_APPROVE_SUBTITLE')}
-            />
-        </OnboardingStepFormLayout>
+            <OnboardingStepFormLayout
+                title={t('ONBOARDING.TUTOR.NOTIFICATION.TITLE')}
+                subtitle={t('ONBOARDING.TUTOR.NOTIFICATION.SUBTITLE')}
+            >
+                <OnboardingTabButton
+                    active={formik.values.autoAcceptBooking === true}
+                    onClick={() => {
+                        formik.setFieldValue('autoAcceptBooking', true);
+                    }}
+                    image={instantBookImage}
+                    title={t('ONBOARDING.TUTOR.NOTIFICATION.INSTANT_BOOK_TITLE')}
+                    subtitle={t('ONBOARDING.TUTOR.NOTIFICATION.INSTANT_BOOK_SUBTITLE')}
+                />
+                <OnboardingTabButton
+                    active={formik.values.autoAcceptBooking === false}
+                    onClick={() => {
+                        formik.setFieldValue('autoAcceptBooking', false);
+                    }}
+                    image={manualApproveImage}
+                    title={t('ONBOARDING.TUTOR.NOTIFICATION.MANUAL_APPROVE_TITLE')}
+                    subtitle={t('ONBOARDING.TUTOR.NOTIFICATION.MANUAL_APPROVE_SUBTITLE')}
+                />
+            </OnboardingStepFormLayout>
+        </OnboardingLayout>
     );
 }

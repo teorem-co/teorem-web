@@ -4,6 +4,7 @@ import logo from '../../../../../assets/images/teorem-logo-black.png';
 import ProgressBar from '../ProgressBar';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
+import Sidebar from '../../../../components/Sidebar';
 
 interface IOnboardingLayoutProps {
     step?: number;
@@ -13,6 +14,9 @@ interface IOnboardingLayoutProps {
     onBack?: () => void;
     actions?: ReactNode;
     header?: ReactNode;
+    sidebar?: ReactNode;
+    isSidebarOpen?: boolean;
+    onSidebarClose?: () => void;
 }
 
 export default function OnboardingLayout({
@@ -23,6 +27,9 @@ export default function OnboardingLayout({
     onBack,
     actions,
     header,
+    sidebar,
+    isSidebarOpen,
+    onSidebarClose,
 }: Readonly<IOnboardingLayoutProps>) {
     const { t } = useTranslation();
     console.log('step, substep, maxSubstep', step, substep, maxSubstep);
@@ -45,6 +52,11 @@ export default function OnboardingLayout({
                     {actions}
                 </div>
             </div>
+            {sidebar ? (
+                <Sidebar sideBarIsOpen={isSidebarOpen} closeSidebar={onSidebarClose}>
+                    {sidebar}
+                </Sidebar>
+            ) : null}
         </div>
     );
 }

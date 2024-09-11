@@ -11,10 +11,15 @@ import { UploadedVideoComponent } from '../../../../../../my-profile/VideoRecord
 import CheckBox from '@mui/icons-material/CheckBox';
 import Close from '@mui/icons-material/Close';
 import { VideoUploadArea } from '../../../../../../my-profile/VideoRecorder/VideoUploadArea';
+import OnboardingLayout from '../../../../../components/OnboardingLayout';
+import { Button } from '@mui/material';
+import CtaButton from '../../../../../../../components/CtaButton';
+import onboardingStyles from '../../TutorOnboarding.module.scss';
 
 export default function TutorOnboardingVideoStep() {
     const { t } = useTranslation();
-    const { formik, setNextDisabled, setShowQuestions } = useTutorOnboarding();
+    const { formik, setNextDisabled, onBack, onNext, nextDisabled, step, substep, maxSubstep } = useTutorOnboarding();
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [getVideoInformation] = useLazyGetTutorVideoInformationQuery();
     const [videoInformation, setVideoInformation] = useState<ITutorVideoInformation>({
         url: undefined,
@@ -35,64 +40,87 @@ export default function TutorOnboardingVideoStep() {
     }, [formik, getVideoInformation]);
 
     useEffect(() => {
-        setShowQuestions?.(true);
         setNextDisabled?.(!!formik.errors.videoId);
         fetchData();
-    }, [fetchData, formik.errors.videoId, setNextDisabled, setShowQuestions]);
+    }, [fetchData, formik.errors.videoId, setNextDisabled]);
     return (
-        <OnboardingStepFormLayout
-            title={t('ONBOARDING.TUTOR.VIDEO.TITLE')}
-            subtitle={t('ONBOARDING.TUTOR.VIDEO.SUBTITLE')}
+        <OnboardingLayout
+            header={
+                <Button
+                    variant="outlined"
+                    color="secondary"
+                    className={onboardingStyles.questions}
+                    onClick={() => setIsSidebarOpen(true)}
+                >
+                    {t('ONBOARDING.QUESTIONS')}
+                </Button>
+            }
+            step={step}
+            substep={substep}
+            maxSubstep={maxSubstep}
+            onBack={onBack}
+            actions={
+                <CtaButton fullWidth onClick={onNext} disabled={nextDisabled}>
+                    {t('ONBOARDING.NEXT')}
+                </CtaButton>
+            }
+            isSidebarOpen={isSidebarOpen}
+            onSidebarClose={() => setIsSidebarOpen(false)}
         >
-            <div className={styles.content}>
-                {videoInformation.url ? (
-                    <UploadedVideoComponent fetchData={fetchData} videoInformation={videoInformation} />
-                ) : (
-                    <VideoUploadArea fetchData={fetchData} />
-                )}
-            </div>
-            <div className={styles.points}>
-                <div className={styles.point}>
-                    <CheckBox className={styles.icon} />
-                    <span className={styles.pointText}>{t('ONBOARDING.TUTOR.VIDEO.POINT_LENGTH')}</span>
+            <OnboardingStepFormLayout
+                title={t('ONBOARDING.TUTOR.VIDEO.TITLE')}
+                subtitle={t('ONBOARDING.TUTOR.VIDEO.SUBTITLE')}
+            >
+                <div className={styles.content}>
+                    {videoInformation.url ? (
+                        <UploadedVideoComponent fetchData={fetchData} videoInformation={videoInformation} />
+                    ) : (
+                        <VideoUploadArea fetchData={fetchData} />
+                    )}
                 </div>
-                <div className={styles.point}>
-                    <CheckBox className={styles.icon} />
-                    <span className={styles.pointText}>{t('ONBOARDING.TUTOR.VIDEO.POINT_HORIZONTAL')}</span>
+                <div className={styles.points}>
+                    <div className={styles.point}>
+                        <CheckBox className={styles.icon} />
+                        <span className={styles.pointText}>{t('ONBOARDING.TUTOR.VIDEO.POINT_LENGTH')}</span>
+                    </div>
+                    <div className={styles.point}>
+                        <CheckBox className={styles.icon} />
+                        <span className={styles.pointText}>{t('ONBOARDING.TUTOR.VIDEO.POINT_HORIZONTAL')}</span>
+                    </div>
+                    <div className={styles.point}>
+                        <CheckBox className={styles.icon} />
+                        <span className={styles.pointText}>{t('ONBOARDING.TUTOR.VIDEO.POINT_BACKGROUND')}</span>
+                    </div>
+                    <div className={styles.point}>
+                        <CheckBox className={styles.icon} />
+                        <span className={styles.pointText}>{t('ONBOARDING.TUTOR.VIDEO.POINT_SURFACE')}</span>
+                    </div>
+                    <div className={styles.point}>
+                        <CheckBox className={styles.icon} />
+                        <span className={styles.pointText}>{t('ONBOARDING.TUTOR.VIDEO.POINT_FACE')}</span>
+                    </div>
+                    <div className={styles.point}>
+                        <CheckBox className={styles.icon} />
+                        <span className={styles.pointText}>{t('ONBOARDING.TUTOR.VIDEO.POINT_EXPERIENCE')}</span>
+                    </div>
+                    <div className={styles.point}>
+                        <CheckBox className={styles.icon} />
+                        <span className={styles.pointText}>{t('ONBOARDING.TUTOR.VIDEO.POINT_GREET')}</span>
+                    </div>
+                    <div className={styles.point}>
+                        <Close className={styles.icon} />
+                        <span className={styles.pointText}>{t('ONBOARDING.TUTOR.VIDEO.POINT_SURNAME')}</span>
+                    </div>
+                    <div className={styles.point}>
+                        <Close className={styles.icon} />
+                        <span className={styles.pointText}>{t('ONBOARDING.TUTOR.VIDEO.POINT_LOGO')}</span>
+                    </div>
+                    <div className={styles.point}>
+                        <Close className={styles.icon} />
+                        <span className={styles.pointText}>{t('ONBOARDING.TUTOR.VIDEO.POINT_PEOPLE')}</span>
+                    </div>
                 </div>
-                <div className={styles.point}>
-                    <CheckBox className={styles.icon} />
-                    <span className={styles.pointText}>{t('ONBOARDING.TUTOR.VIDEO.POINT_BACKGROUND')}</span>
-                </div>
-                <div className={styles.point}>
-                    <CheckBox className={styles.icon} />
-                    <span className={styles.pointText}>{t('ONBOARDING.TUTOR.VIDEO.POINT_SURFACE')}</span>
-                </div>
-                <div className={styles.point}>
-                    <CheckBox className={styles.icon} />
-                    <span className={styles.pointText}>{t('ONBOARDING.TUTOR.VIDEO.POINT_FACE')}</span>
-                </div>
-                <div className={styles.point}>
-                    <CheckBox className={styles.icon} />
-                    <span className={styles.pointText}>{t('ONBOARDING.TUTOR.VIDEO.POINT_EXPERIENCE')}</span>
-                </div>
-                <div className={styles.point}>
-                    <CheckBox className={styles.icon} />
-                    <span className={styles.pointText}>{t('ONBOARDING.TUTOR.VIDEO.POINT_GREET')}</span>
-                </div>
-                <div className={styles.point}>
-                    <Close className={styles.icon} />
-                    <span className={styles.pointText}>{t('ONBOARDING.TUTOR.VIDEO.POINT_SURNAME')}</span>
-                </div>
-                <div className={styles.point}>
-                    <Close className={styles.icon} />
-                    <span className={styles.pointText}>{t('ONBOARDING.TUTOR.VIDEO.POINT_LOGO')}</span>
-                </div>
-                <div className={styles.point}>
-                    <Close className={styles.icon} />
-                    <span className={styles.pointText}>{t('ONBOARDING.TUTOR.VIDEO.POINT_PEOPLE')}</span>
-                </div>
-            </div>
-        </OnboardingStepFormLayout>
+            </OnboardingStepFormLayout>
+        </OnboardingLayout>
     );
 }

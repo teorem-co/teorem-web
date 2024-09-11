@@ -26,8 +26,6 @@ interface ITutorOnboardingContextValue {
     onNext: () => void;
     nextDisabled?: boolean;
     setNextDisabled?: (value: boolean) => void;
-    showQuestions: boolean;
-    setShowQuestions: (value: boolean) => void;
 }
 
 const TutorOnboardingContext = createContext<ITutorOnboardingContextValue>({} as ITutorOnboardingContextValue);
@@ -44,7 +42,6 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
     const [getUser] = useLazyGetUserQuery();
     const [getOnboardingState] = useLazyGetOnboardingStateQuery();
     const [nextDisabled, setNextDisabled] = useState(false);
-    const [showQuestions, setShowQuestions] = useState(false);
 
     const goToNextStep = useCallback(() => {
         if (step === 1 && substep >= MAX_STEPS_MAP[1]) {
@@ -181,8 +178,6 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
                 onNext: handleNext,
                 nextDisabled,
                 setNextDisabled,
-                showQuestions,
-                setShowQuestions,
             }}
         >
             <FormikProvider value={formik}>{children}</FormikProvider>

@@ -1,14 +1,19 @@
 import { useTranslation } from 'react-i18next';
 import OnboardingStepFormLayout from '../../../../../components/OnboardingStepFormLayout';
 import { useTutorOnboarding } from '../../../../providers/TutorOnboardingProvider';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useAppSelector } from '../../../../../../../store/hooks';
 import TextField from '@mui/material/TextField';
 import { Field } from 'formik';
+import OnboardingLayout from '../../../../../components/OnboardingLayout';
+import { Button } from '@mui/material';
+import CtaButton from '../../../../../../../components/CtaButton';
+import onboardingStyles from '../../TutorOnboarding.module.scss';
 
 export default function TutorOnboardingLegalInfoStep() {
     const { t } = useTranslation();
-    const { setNextDisabled, setShowQuestions, formik } = useTutorOnboarding();
+    const { setNextDisabled, formik, onBack, onNext, nextDisabled, step, substep, maxSubstep } = useTutorOnboarding();
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const { user } = useAppSelector((state) => state.auth);
     const { countries } = useAppSelector((state) => state.countryMarket);
 
@@ -16,7 +21,6 @@ export default function TutorOnboardingLegalInfoStep() {
     const isCompany = formik.values.isCompany;
 
     useEffect(() => {
-        setShowQuestions?.(true);
         if (formik.values.isCompany) {
             if (isCroatian) {
                 setNextDisabled?.(!!formik.errors.companyName || !formik.values.oib);
@@ -38,7 +42,6 @@ export default function TutorOnboardingLegalInfoStep() {
         formik.values.ssn4Digits,
         isCroatian,
         setNextDisabled,
-        setShowQuestions,
     ]);
 
     const personTitle = isCroatian ? t('ONBOARDING.TUTOR.LEGAL_INFO.TITLE_HR') : t('ONBOARDING.TUTOR.LEGAL_INFO.TITLE');
@@ -47,46 +50,48 @@ export default function TutorOnboardingLegalInfoStep() {
         : t('ONBOARDING.TUTOR.LEGAL_INFO.SUBTITLE');
 
     return (
-        <OnboardingStepFormLayout
-            title={isCompany ? t('ONBOARDING.TUTOR.LEGAL_INFO.TITLE_COMPANY') : personTitle}
-            subtitle={isCompany ? t('ONBOARDING.TUTOR.LEGAL_INFO.SUBTITLE') : personSubtitle}
+        <OnboardingLayout
+            header={
+                <Button
+                    variant="outlined"
+                    color="secondary"
+                    className={onboardingStyles.questions}
+                    onClick={() => setIsSidebarOpen(true)}
+                >
+                    {t('ONBOARDING.QUESTIONS')}
+                </Button>
+            }
+            step={step}
+            substep={substep}
+            maxSubstep={maxSubstep}
+            onBack={onBack}
+            actions={
+                <CtaButton fullWidth onClick={onNext} disabled={nextDisabled}>
+                    {t('ONBOARDING.NEXT')}
+                </CtaButton>
+            }
+            isSidebarOpen={isSidebarOpen}
+            onSidebarClose={() => setIsSidebarOpen(false)}
         >
-            {isCroatian ? (
-                <>
-                    <Field
-                        as={TextField}
-                        name="oib"
-                        type="text"
-                        fullWidth
-                        error={formik.touched.oib && !!formik.errors.oib}
-                        helperText={formik.touched.oib && formik.errors.oib}
-                        id="oib"
-                        label={
-                            isCompany
-                                ? t('ONBOARDING.TUTOR.LEGAL_INFO.OIB_LABEL_COMPANY')
-                                : t('ONBOARDING.TUTOR.LEGAL_INFO.OIB_LABEL')
-                        }
-                        variant="outlined"
-                        FormHelperTextProps={{
-                            style: { color: 'red' }, // Change the color of the helper text here
-                        }}
-                        inputProps={{
-                            maxLength: 100,
-                        }}
-                        onBlur={(e: any) => {
-                            formik.handleBlur(e);
-                        }}
-                    />
-                    {isCompany ? (
+            <OnboardingStepFormLayout
+                title={isCompany ? t('ONBOARDING.TUTOR.LEGAL_INFO.TITLE_COMPANY') : personTitle}
+                subtitle={isCompany ? t('ONBOARDING.TUTOR.LEGAL_INFO.SUBTITLE') : personSubtitle}
+            >
+                {isCroatian ? (
+                    <>
                         <Field
                             as={TextField}
-                            name="companyName"
+                            name="oib"
                             type="text"
                             fullWidth
-                            error={formik.touched.companyName && !!formik.errors.companyName}
-                            helperText={formik.touched.companyName && formik.errors.companyName}
-                            id="companyName"
-                            label={t('ONBOARDING.TUTOR.LEGAL_INFO.NAME_LABEL_COMPANY')}
+                            error={formik.touched.oib && !!formik.errors.oib}
+                            helperText={formik.touched.oib && formik.errors.oib}
+                            id="oib"
+                            label={
+                                isCompany
+                                    ? t('ONBOARDING.TUTOR.LEGAL_INFO.OIB_LABEL_COMPANY')
+                                    : t('ONBOARDING.TUTOR.LEGAL_INFO.OIB_LABEL')
+                            }
                             variant="outlined"
                             FormHelperTextProps={{
                                 style: { color: 'red' }, // Change the color of the helper text here
@@ -98,55 +103,77 @@ export default function TutorOnboardingLegalInfoStep() {
                                 formik.handleBlur(e);
                             }}
                         />
-                    ) : null}
-                </>
-            ) : (
-                <>
-                    {isCompany ? (
-                        <Field
-                            as={TextField}
-                            name="companyName"
-                            type="text"
-                            fullWidth
-                            error={formik.touched.companyName && !!formik.errors.companyName}
-                            helperText={formik.touched.companyName && formik.errors.companyName}
-                            id="companyName"
-                            label={t('ONBOARDING.TUTOR.LEGAL_INFO.NAME_LABEL_COMPANY')}
-                            variant="outlined"
-                            FormHelperTextProps={{
-                                style: { color: 'red' }, // Change the color of the helper text here
-                            }}
-                            inputProps={{
-                                maxLength: 100,
-                            }}
-                            onBlur={(e: any) => {
-                                formik.handleBlur(e);
-                            }}
-                        />
-                    ) : (
-                        <Field
-                            as={TextField}
-                            name="ssn4Digits"
-                            type="text"
-                            fullWidth
-                            error={formik.touched.ssn4Digits && !!formik.errors.ssn4Digits}
-                            helperText={formik.touched.ssn4Digits && formik.errors.ssn4Digits}
-                            id="ssn4Digits"
-                            label={t('ONBOARDING.TUTOR.LEGAL_INFO.SSN_LABEL')}
-                            variant="outlined"
-                            FormHelperTextProps={{
-                                style: { color: 'red' }, // Change the color of the helper text here
-                            }}
-                            inputProps={{
-                                maxLength: 100,
-                            }}
-                            onBlur={(e: any) => {
-                                formik.handleBlur(e);
-                            }}
-                        />
-                    )}
-                </>
-            )}
-        </OnboardingStepFormLayout>
+                        {isCompany ? (
+                            <Field
+                                as={TextField}
+                                name="companyName"
+                                type="text"
+                                fullWidth
+                                error={formik.touched.companyName && !!formik.errors.companyName}
+                                helperText={formik.touched.companyName && formik.errors.companyName}
+                                id="companyName"
+                                label={t('ONBOARDING.TUTOR.LEGAL_INFO.NAME_LABEL_COMPANY')}
+                                variant="outlined"
+                                FormHelperTextProps={{
+                                    style: { color: 'red' }, // Change the color of the helper text here
+                                }}
+                                inputProps={{
+                                    maxLength: 100,
+                                }}
+                                onBlur={(e: any) => {
+                                    formik.handleBlur(e);
+                                }}
+                            />
+                        ) : null}
+                    </>
+                ) : (
+                    <>
+                        {isCompany ? (
+                            <Field
+                                as={TextField}
+                                name="companyName"
+                                type="text"
+                                fullWidth
+                                error={formik.touched.companyName && !!formik.errors.companyName}
+                                helperText={formik.touched.companyName && formik.errors.companyName}
+                                id="companyName"
+                                label={t('ONBOARDING.TUTOR.LEGAL_INFO.NAME_LABEL_COMPANY')}
+                                variant="outlined"
+                                FormHelperTextProps={{
+                                    style: { color: 'red' }, // Change the color of the helper text here
+                                }}
+                                inputProps={{
+                                    maxLength: 100,
+                                }}
+                                onBlur={(e: any) => {
+                                    formik.handleBlur(e);
+                                }}
+                            />
+                        ) : (
+                            <Field
+                                as={TextField}
+                                name="ssn4Digits"
+                                type="text"
+                                fullWidth
+                                error={formik.touched.ssn4Digits && !!formik.errors.ssn4Digits}
+                                helperText={formik.touched.ssn4Digits && formik.errors.ssn4Digits}
+                                id="ssn4Digits"
+                                label={t('ONBOARDING.TUTOR.LEGAL_INFO.SSN_LABEL')}
+                                variant="outlined"
+                                FormHelperTextProps={{
+                                    style: { color: 'red' }, // Change the color of the helper text here
+                                }}
+                                inputProps={{
+                                    maxLength: 100,
+                                }}
+                                onBlur={(e: any) => {
+                                    formik.handleBlur(e);
+                                }}
+                            />
+                        )}
+                    </>
+                )}
+            </OnboardingStepFormLayout>
+        </OnboardingLayout>
     );
 }
