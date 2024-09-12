@@ -1,0 +1,99 @@
+.container {
+    margin: 0px auto;
+    overflow: hidden;
+    max-width: 100%;
+}
+
+.priceRow {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    font-weight: 900;
+    font-size: 60px;
+    border-bottom: 2px solid var(--grey-d8);
+}
+
+.input {
+    border: none;
+    width: 180px;
+    background-color: transparent;
+
+    &:focus,
+    &:focus-visible {
+        outline: none;
+    }
+}
+
+.breakdown {
+    width: fit-content;
+    margin: 0 auto;
+    min-width: 200px;
+}
+
+.breakdownContainer {
+    border: 2px solid black;
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.paidContainer {
+    border: 2px solid var(--grey-d8);
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 16px;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 32px;
+}
+
+.expandButton {
+    border: none;
+    background-color: transparent;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 auto;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+}
+
+.learnMoreButton {
+    background-color: transparent;
+    border: none;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    text-decoration: underline;
+    position: fixed;
+    bottom: 25%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: fit-content;
+}
+
+.learnMore {
+    color: var(--color-text-secondary);
+    strong {
+        color: var(--color-text-primary);
+    }
+    > * {
+        margin-bottom: 12px;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .priceRow {
+        font-size: 100px;
+    }
+
+    .input {
+        width: 300px;
+    }
+}

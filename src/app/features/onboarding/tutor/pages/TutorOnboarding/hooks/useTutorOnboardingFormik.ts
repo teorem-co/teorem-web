@@ -182,8 +182,10 @@ export default function useTutorOnboardingFormik(onSubmit: (values: ITutorOnboar
             profileTitle: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             profileDescription: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             videoId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-
-            price: Yup.number().required(t('FORM_VALIDATION.REQUIRED')),
+            price: Yup.number()
+                .transform((value) => (isNaN(parseFloat(value)) ? 0 : parseFloat(value)))
+                .min(10, t('FORM_VALIDATION.MIN_PRICE'))
+                .required(t('FORM_VALIDATION.REQUIRED')),
             ssn4Digits: Yup.string().when('addressCountryId', {
                 is: () => countries.find((c) => c.id === user?.countryId)?.abrv === 'US',
                 then: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),

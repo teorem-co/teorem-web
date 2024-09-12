@@ -47,6 +47,7 @@ export default function TutorOnboardingNotificationStep() {
             <OnboardingStepFormLayout
                 title={t('ONBOARDING.TUTOR.NOTIFICATION.TITLE')}
                 subtitle={t('ONBOARDING.TUTOR.NOTIFICATION.SUBTITLE')}
+                centerOnDesktop
             >
                 <OnboardingTabButton
                     active={formik.values.autoAcceptBooking === true}

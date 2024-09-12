@@ -54,6 +54,7 @@ export default function TutorOnboardingPhoneStep() {
             <OnboardingStepFormLayout
                 title={t('ONBOARDING.TUTOR.PHONE.TITLE')}
                 subtitle={t('ONBOARDING.TUTOR.PHONE.SUBTITLE')}
+                centerOnDesktop
             >
                 <MyPhoneInput
                     form={formik}

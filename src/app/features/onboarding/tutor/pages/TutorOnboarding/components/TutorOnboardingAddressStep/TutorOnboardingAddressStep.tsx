@@ -4,10 +4,11 @@ import { useTutorOnboarding } from '../../../../providers/TutorOnboardingProvide
 import { useAppSelector } from '../../../../../../../store/hooks';
 import { useEffect, useMemo, useState } from 'react';
 import { Field } from 'formik';
-import { Button, TextField } from '@mui/material';
+import { Button, FormControl, InputLabel, MenuItem, OutlinedInput, Select, TextField } from '@mui/material';
 import OnboardingLayout from '../../../../../components/OnboardingLayout';
 import CtaButton from '../../../../../../../components/CtaButton';
 import onboardingStyles from '../../TutorOnboarding.module.scss';
+import styles from './TutorOnboardingAddressStep.module.scss';
 
 export default function TutorOnboardingAddressStep() {
     const { t } = useTranslation();
@@ -21,17 +22,16 @@ export default function TutorOnboardingAddressStep() {
 
     useEffect(() => {
         setNextDisabled?.(
-            !formik.values.addressState ||
-                !formik.values.city ||
-                !formik.values.postalCode ||
-                !formik.values.addressStreet
+            !!formik.errors.addressState ||
+                !!formik.errors.city ||
+                !!formik.errors.postalCode ||
+                !!formik.errors.addressStreet
         );
     }, [
-        formik.values.addressApartment,
-        formik.values.addressState,
-        formik.values.addressStreet,
-        formik.values.city,
-        formik.values.postalCode,
+        formik.errors.addressState,
+        formik.errors.addressStreet,
+        formik.errors.city,
+        formik.errors.postalCode,
         setNextDisabled,
     ]);
 
@@ -62,9 +62,27 @@ export default function TutorOnboardingAddressStep() {
             <OnboardingStepFormLayout
                 title={t('ONBOARDING.TUTOR.ADDRESS.TITLE')}
                 subtitle={t('ONBOARDING.TUTOR.ADDRESS.SUBTITLE')}
+                centerOnDesktop
             >
-                <div>{t('ONBOARDING.TUTOR.ADDRESS.COUNTRY_LABEL')}</div>
-                <div>{t('COUNTRY.' + userCountry?.abrv)}</div>
+                <FormControl disabled variant="outlined" fullWidth>
+                    <InputLabel id="country-label">{t('ONBOARDING.TUTOR.ADDRESS.COUNTRY_LABEL')}</InputLabel>
+                    <Select
+                        labelId="country-label"
+                        placeholder="Country"
+                        disabled
+                        value={userCountry?.abrv}
+                        input={
+                            <OutlinedInput
+                                className={styles.input}
+                                label={t('ONBOARDING.TUTOR.ADDRESS.COUNTRY_LABEL')}
+                            />
+                        }
+                    >
+                        <MenuItem key={userCountry?.abrv} value={userCountry?.abrv}>
+                            {t('COUNTRY.' + userCountry?.abrv)}
+                        </MenuItem>
+                    </Select>
+                </FormControl>
                 <Field
                     as={TextField}
                     name="addressStreet"

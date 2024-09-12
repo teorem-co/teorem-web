@@ -3,6 +3,13 @@ import OnboardingStepFormLayout from '../../../../../components/OnboardingStepFo
 import { useTutorOnboarding } from '../../../../providers/TutorOnboardingProvider';
 import OnboardingLayout from '../../../../../components/OnboardingLayout';
 import CtaButton from '../../../../../../../components/CtaButton';
+import styles from './TutorOnboardingPublishStep.module.scss';
+import calendarImage from './assets/calendar.png';
+import deviceImage from './assets/device.png';
+import shareImage from './assets/share.png';
+import TutorCard from '../../../../../../../components/TutorCard';
+import { Typography } from '@mui/material';
+import PublishStep from './components/PublishStep';
 
 export default function TutorOnboardingPublishStep() {
     const { t } = useTranslation();
@@ -24,7 +31,32 @@ export default function TutorOnboardingPublishStep() {
             <OnboardingStepFormLayout
                 title={t('ONBOARDING.TUTOR.PUBLISH.TITLE')}
                 subtitle={t('ONBOARDING.TUTOR.PUBLISH.SUBTITLE')}
-            ></OnboardingStepFormLayout>
+                centerOnDesktop
+            >
+                <div className={styles.container}>
+                    <div>
+                        <TutorCard />
+                    </div>
+                    <div className={styles.steps}>
+                        <Typography variant="h5">{t('ONBOARDING.TUTOR.PUBLISH.STEPS_TITLE')}</Typography>
+                        <PublishStep
+                            icon={calendarImage}
+                            title={t('ONBOARDING.TUTOR.PUBLISH.STEP_1_TITLE')}
+                            description={t('ONBOARDING.TUTOR.PUBLISH.STEP_1_DESCRIPTION')}
+                        />
+                        <PublishStep
+                            icon={deviceImage}
+                            title={t('ONBOARDING.TUTOR.PUBLISH.STEP_2_TITLE')}
+                            description={t('ONBOARDING.TUTOR.PUBLISH.STEP_2_DESCRIPTION')}
+                        />
+                        <PublishStep
+                            icon={shareImage}
+                            title={t('ONBOARDING.TUTOR.PUBLISH.STEP_3_TITLE')}
+                            description={t('ONBOARDING.TUTOR.PUBLISH.STEP_3_DESCRIPTION')}
+                        />
+                    </div>
+                </div>
+            </OnboardingStepFormLayout>
         </OnboardingLayout>
     );
 }

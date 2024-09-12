@@ -84,6 +84,7 @@ export default function TutorOnboardingSubjectsStep() {
                         subjects={possibleSubjects}
                         levels={possibleLevels}
                         subjectLevels={subjectLevels}
+                        allPairs={formik.values.subjects}
                         selectedLevelId={pair.levelId}
                         selectedSubjectId={pair.subjectId}
                         onLevelChange={(levelId) => {
@@ -102,9 +103,11 @@ export default function TutorOnboardingSubjectsStep() {
                         onDelete={() => handleDelete(i)}
                     />
                 ))}
-                <Button onClick={handleAdd}>
-                    <Add /> {t('ONBOARDING.TUTOR.SUBJECTS.ADD_SUBJECT')}
-                </Button>
+                <div>
+                    <Button onClick={handleAdd} color="inherit" fullWidth={false}>
+                        <Add /> <span className={styles.add}>{t('ONBOARDING.TUTOR.SUBJECTS.ADD_SUBJECT')}</span>
+                    </Button>
+                </div>
             </OnboardingStepFormLayout>
         </OnboardingLayout>
     );

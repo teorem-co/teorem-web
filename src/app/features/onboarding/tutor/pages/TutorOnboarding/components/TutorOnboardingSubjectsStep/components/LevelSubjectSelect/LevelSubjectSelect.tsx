@@ -5,12 +5,14 @@ import ISubject from '../../../../../../../../../types/ISubject';
 import ILevel from '../../../../../../../../../types/ILevel';
 import ISubjectLevel from '../../../../../../../../../types/ISubjectLevel';
 import { useTranslation } from 'react-i18next';
+import IOnboardingSubject from '../../../../../../types/IOnboardingSubject';
 
 interface ILevelSubjectSelectProps {
     disabledDelete?: boolean;
     onDelete?: () => void;
     subjects: ISubject[];
     levels: ILevel[];
+    allPairs?: IOnboardingSubject[];
     subjectLevels: ISubjectLevel[];
     onSubjectChange: (subjectId: string) => void;
     onLevelChange: (levelId: string) => void;
@@ -18,6 +20,7 @@ interface ILevelSubjectSelectProps {
     selectedLevelId?: string;
 }
 
+// TODO: add filter to not offer existing pairs, add id to IOnboardingSubject object to prevent hiding the selected pair
 export default function LevelSubjectSelect({
     onDelete,
     subjects,
@@ -28,6 +31,7 @@ export default function LevelSubjectSelect({
     selectedSubjectId,
     selectedLevelId,
     disabledDelete,
+    allPairs = [], // TODO: use the allPairs prop to filter out existing pairs
 }: Readonly<ILevelSubjectSelectProps>) {
     const { t } = useTranslation();
     return (

@@ -76,6 +76,7 @@ export default function TutorOnboardingLegalInfoStep() {
             <OnboardingStepFormLayout
                 title={isCompany ? t('ONBOARDING.TUTOR.LEGAL_INFO.TITLE_COMPANY') : personTitle}
                 subtitle={isCompany ? t('ONBOARDING.TUTOR.LEGAL_INFO.SUBTITLE') : personSubtitle}
+                centerOnDesktop
             >
                 {isCroatian ? (
                     <>

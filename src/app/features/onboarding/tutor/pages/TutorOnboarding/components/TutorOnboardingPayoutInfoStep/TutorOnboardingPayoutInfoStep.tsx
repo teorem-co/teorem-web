@@ -58,6 +58,7 @@ export default function TutorOnboardingPayoutInfoStep() {
                         ? t('ONBOARDING.TUTOR.PAYOUT_INFO.SUBTITLE_COMPANY')
                         : t('ONBOARDING.TUTOR.PAYOUT_INFO.SUBTITLE')
                 }
+                centerOnDesktop
             >
                 {isCroatian ? (
                     <Field

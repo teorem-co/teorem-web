@@ -1,0 +1,32 @@
+.step {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 12px;
+}
+
+.img {
+    height: 30px;
+    width: 30px;
+}
+
+.title {
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.description {
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--color-text-secondary);
+}
+
+@media screen and (min-width: 768px) {
+    .step {
+        gap: 16px;
+    }
+
+    .img {
+        height: 40px;
+        width: 40px;
+    }
+}

@@ -17,6 +17,7 @@ import { useTranslation } from 'react-i18next';
 import START_YEARS from '../constants/startYears';
 
 interface IEducationItemProps {
+    disabled?: boolean;
     degrees: IDegree[];
     universities: IUniversity[];
     selectedDegreeId?: string;
@@ -43,6 +44,7 @@ export default function EducationItem({
     selectedStartYear,
     onDelete,
     disabledDelete,
+    disabled,
     onDegreeChange,
     onUniversityChange,
     onStartYearChange,
@@ -52,10 +54,11 @@ export default function EducationItem({
     const { t } = useTranslation();
     return (
         <div className={styles.educationItem}>
-            <FormControl variant="outlined" fullWidth>
+            <FormControl disabled={disabled} variant="outlined" fullWidth>
                 <Autocomplete
                     disablePortal
                     fullWidth
+                    disabled={disabled}
                     value={selectedUniversity}
                     getOptionLabel={(o) => t('UNIVERSITIES.' + o.abrv)}
                     onChange={(e, v) => onUniversityChange(v?.id)}
@@ -65,11 +68,12 @@ export default function EducationItem({
                     )}
                 />
             </FormControl>
-            <FormControl variant="outlined" fullWidth>
+            <FormControl disabled={disabled} variant="outlined" fullWidth>
                 <InputLabel id="degree-select-label">{t('ONBOARDING.TUTOR.EDUCATION.DEGREE_LABEL')}</InputLabel>
                 <Select
                     labelId="degree-select-label"
                     placeholder="Degree"
+                    disabled={disabled}
                     value={selectedDegreeId}
                     onChange={(e) => onDegreeChange(e.target.value)}
                     input={<OutlinedInput label={t('ONBOARDING.TUTOR.EDUCATION.DEGREE_LABEL')} />}
@@ -81,15 +85,16 @@ export default function EducationItem({
                     ))}
                 </Select>
             </FormControl>
-            <TextField fullWidth value={major} onChange={(e) => onMajorChange(e.target.value)} />
+            <TextField fullWidth value={major} disabled={disabled} onChange={(e) => onMajorChange(e.target.value)} />
             <div className={styles.bottomRow}>
-                <FormControl variant="outlined" fullWidth>
+                <FormControl disabled={disabled} variant="outlined" fullWidth>
                     <InputLabel id="start-year-select-label">
                         {t('ONBOARDING.TUTOR.EDUCATION.STARTED_LABEL')}
                     </InputLabel>
                     <Select
                         labelId="start-year-select-label"
                         value={selectedStartYear}
+                        disabled={disabled}
                         onChange={(e) =>
                             onStartYearChange(
                                 typeof e.target.value === 'string' ? parseInt(e.target.value) : e.target.value
@@ -106,11 +111,12 @@ export default function EducationItem({
                     </Select>
                 </FormControl>
                 <Remove />
-                <FormControl variant="outlined" fullWidth>
+                <FormControl disabled={disabled} variant="outlined" fullWidth>
                     <InputLabel id="end-year-select-label">{t('ONBOARDING.TUTOR.EDUCATION.FINISHED_LABEL')}</InputLabel>
                     <Select
                         labelId="end-year-select-label"
                         value={selectedEndYear}
+                        disabled={disabled}
                         onChange={(e) =>
                             onEndYearChange(
                                 typeof e.target.value === 'string' ? parseInt(e.target.value) : e.target.value
@@ -127,7 +133,7 @@ export default function EducationItem({
                         ))}
                     </Select>
                 </FormControl>
-                <IconButton className={styles.deleteButton} onClick={onDelete} disabled={disabledDelete}>
+                <IconButton className={styles.deleteButton} onClick={onDelete} disabled={disabled || disabledDelete}>
                     <Delete />
                 </IconButton>
             </div>

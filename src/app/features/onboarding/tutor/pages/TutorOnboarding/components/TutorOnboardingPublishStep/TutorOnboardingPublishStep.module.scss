@@ -1,0 +1,22 @@
+.container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+.steps {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+}
+
+@media screen and (min-width: 768px) {
+    .container {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .steps {
+        gap: 16px;
+    }
+}

@@ -8,10 +8,20 @@
     gap: 1rem;
     width: 100%;
     align-items: center;
+    padding: 16px;
+    font-weight: 400;
 }
 
 .image {
     height: 40px;
     width: 40px;
     object-fit: contain;
+}
+
+.title {
+}
+
+.subtitle {
+    font-size: 14px;
+    color: var(--color-text-secondary);
 }

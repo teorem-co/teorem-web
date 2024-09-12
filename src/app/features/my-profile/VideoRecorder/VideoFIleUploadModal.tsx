@@ -5,16 +5,24 @@ import { uploadToVimeo } from './uploadToVimeo';
 import { MdOutlineCloudUpload } from 'react-icons/md';
 import { t } from 'i18next';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
+import Modal from '../../../components/Modal';
+import CtaButton from '../../../components/CtaButton';
 
-interface Props {
+interface IVideoFileUploadModalProps {
     file: File;
     className?: string;
     triggerSuccess: () => void;
     onClose: () => void;
+    open: boolean;
 }
 
-export const VideoFIleUploadModal = (props: Props) => {
-    const { file, className, triggerSuccess, onClose } = props;
+export function VideoFIleUploadModal({
+    file,
+    className,
+    triggerSuccess,
+    onClose,
+    open,
+}: Readonly<IVideoFileUploadModalProps>) {
     const [getVideoUrl] = useLazyGetUploadVideoUrlQuery();
     const [showLoader, setShowLoader] = useState(false);
     const [showProgressBar, setShowProgressBar] = useState(false);
@@ -45,22 +53,24 @@ export const VideoFIleUploadModal = (props: Props) => {
     }
 
     return (
-        <div className={`${className} bg__white w--60 video-recorder-container m-2 p-2 h--45 flex flex--col flex--ai--center h--450`}>
-            <h2>{t('VIDEO_PREVIEW.TITLE')}</h2>
-            <video src={videoSrc} controls height={300}></video>
-            {!showLoader && !showProgressBar && (
-                <ButtonPrimaryGradient
-                    className={'btn btn--md flex flex--row flex--ai--center flex--jc--center mt-2'}
-                    onClick={onSubmit}
-                    type={'button'}
-                    disabled={!file}
-                >
-                    <MdOutlineCloudUpload size={25} className={'mr-2'} />
-                    {t('VIDEO_PREVIEW.UPLOAD_VIDEO')}
-                </ButtonPrimaryGradient>
-            )}
+        <Modal title={t('VIDEO_PREVIEW.TITLE')} open={open} onClose={onClose} onBackdropClick={onClose}>
+            <div
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: '16px',
+                    width: '100%',
+                    overflowX: 'hidden',
+                }}
+            >
+                <video src={videoSrc} controls height={250}></video>
+                {!showLoader && !showProgressBar && (
+                    <CtaButton onClick={onSubmit} type={'button'} disabled={!file}>
+                        {t('VIDEO_PREVIEW.UPLOAD_VIDEO')}
+                    </CtaButton>
+                )}
 
-            <div className={'mt-2 w--30'}>
                 {showLoader && (
                     <div className={'flex flex--col flex--ai--center'}>
                         <p className={'mb-2'}>{t('VIDEO_PREVIEW.LOADING.PREPARING')}</p>
@@ -70,16 +80,11 @@ export const VideoFIleUploadModal = (props: Props) => {
 
                 {!showLoader && showProgressBar && (
                     <div className={'mt-4'}>
-                        <h3 className={''}>{t('VIDEO_PREVIEW.LOADING.UPLOADING')}</h3>
+                        <h3>{t('VIDEO_PREVIEW.LOADING.UPLOADING')}</h3>
                         <progress className={'w--100'} value={uploadProgress} max="100" color={'#7e6cf2'} />
                     </div>
                 )}
             </div>
-            <div
-                className="icon icon--grey icon--base icon--close"
-                onClick={onClose}
-                style={{ position: 'absolute', top: '5px', right: '5px' }}
-            ></div>
-        </div>
+        </Modal>
     );
-};
+}

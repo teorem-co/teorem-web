@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { VideoFileUpload } from '../VideoFileUpload';
+import VideoFileUpload from '../VideoFileUpload';
 import { VideoFIleUploadModal } from '../VideoFIleUploadModal';
 import { VideoUploadPopup } from '../VideoUploadPopup';
 import { useTranslation } from 'react-i18next';
@@ -16,6 +16,8 @@ export default function VideoUploadArea({ fetchData }: IVideoUploadAreaProps) {
     const [showRecorder, setShowRecorder] = useState(false);
     const [showSuccessfullPopup, setShowSuccessfullPopup] = useState(false);
     const [showFileUploadPopup, setShowFileUploadPopup] = useState(false);
+    const [showMaxSizeError, setShowMaxSizeError] = useState(false);
+    const [showMaxDurationError, setShowMaxDurationError] = useState(false);
     const { t } = useTranslation();
 
     const [file, setFile] = useState<File>();
@@ -45,6 +47,8 @@ export default function VideoUploadArea({ fetchData }: IVideoUploadAreaProps) {
                         acceptedTypes={ACCEPTED_TYPES}
                         description={t('VIDEO_PREVIEW.BROWSE')}
                         maxSize={10 * 1024 * 1024} //10MB
+                        setShowMaxSizeError={setShowMaxSizeError}
+                        setShowMaxDurationError={setShowMaxDurationError}
                     />
                     <p className={'align-self-center'}>{t('VIDEO_PREVIEW.OR')}</p>
                     <button onClick={() => setShowRecorder(true)} className={clsx(styles.cta, styles.white)}>
@@ -52,11 +56,22 @@ export default function VideoUploadArea({ fetchData }: IVideoUploadAreaProps) {
                     </button>
                 </div>
             </div>
+            {showMaxSizeError && (
+                <div className={'type--color--error type--sm type--center'}>
+                    {t('VIDEO_PREVIEW.FILE_UPLOAD.SIZE_MESSAGE')}
+                </div>
+            )}
+            {showMaxDurationError && (
+                <div className={'type--color--error type--sm type--center'}>
+                    {t('VIDEO_PREVIEW.FILE_UPLOAD.DURATION_MESSAGE')}
+                </div>
+            )}
 
-            {showFileUploadPopup && file ? (
+            {file ? (
                 <div className={'flex flex--col flex--ai--start modal__overlay'}>
                     <VideoFIleUploadModal
                         file={file}
+                        open={showFileUploadPopup}
                         onClose={() => setShowFileUploadPopup(false)}
                         triggerSuccess={() => {
                             setShowSuccessfullPopup(true);

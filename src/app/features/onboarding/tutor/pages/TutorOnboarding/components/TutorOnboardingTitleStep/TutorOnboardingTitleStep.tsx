@@ -46,6 +46,7 @@ export default function TutorOnboardingTitleStep() {
             <OnboardingStepFormLayout
                 title={t('ONBOARDING.TUTOR.TITLE.TITLE')}
                 subtitle={t('ONBOARDING.TUTOR.TITLE.SUBTITLE')}
+                centerOnDesktop
             >
                 <Field
                     as={TextArea}

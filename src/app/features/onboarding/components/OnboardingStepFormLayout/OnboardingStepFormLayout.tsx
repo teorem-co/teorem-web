@@ -8,6 +8,7 @@ interface IOnboardingStepFormLayoutProps {
     title: React.ReactNode;
     subtitle?: React.ReactNode;
     className?: string;
+    centerOnDesktop?: boolean;
 }
 
 export default function OnboardingStepFormLayout({
@@ -15,20 +16,23 @@ export default function OnboardingStepFormLayout({
     title,
     subtitle,
     className,
+    centerOnDesktop,
 }: Readonly<IOnboardingStepFormLayoutProps>) {
     return (
-        <div className={clsx(styles.container, className)}>
-            <div className={styles.form}>
-                <Typography variant="h2" className={styles.title}>
-                    {title}
-                </Typography>
-                {subtitle ? (
-                    <Typography variant="body2" className={styles.subtitle}>
-                        {subtitle}
+        <div className={clsx(styles.container, { [styles.centered]: centerOnDesktop }, className)}>
+            <div className={clsx(styles.form)}>
+                <div>
+                    <Typography variant="h2" className={styles.title}>
+                        {title}
                     </Typography>
-                ) : (
-                    subtitle
-                )}
+                    {subtitle ? (
+                        <Typography variant="body2" className={styles.subtitle}>
+                            {subtitle}
+                        </Typography>
+                    ) : (
+                        subtitle
+                    )}
+                </div>
                 {children}
             </div>
         </div>

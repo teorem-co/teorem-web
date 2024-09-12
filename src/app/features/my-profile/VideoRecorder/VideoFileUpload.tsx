@@ -1,5 +1,4 @@
-import { t } from 'i18next';
-import React, { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 /**
@@ -7,41 +6,51 @@ import { useDropzone } from 'react-dropzone';
  *
  * @param {number} [maxSize] - (Optional) The maximum file size allowed for upload in MEGAbytes.
  */
-interface Props {
+interface IVideoFileUploadProps {
     setFile: (file: File) => void;
     description: string;
     acceptedTypes: string;
     maxSize?: number;
     className?: string;
+    setShowMaxSizeError: (show: boolean) => void;
+    setShowMaxDurationError: (show: boolean) => void;
 }
 
-export function VideoFileUpload({ setFile, acceptedTypes, description, className, maxSize }: Props) {
-    const [showMaxSizeError, setShowMaxSizeError] = useState(false);
-    const [showMaxDurationError, setShowMaxDurationError] = useState(false);
+export default function VideoFileUpload({
+    setFile,
+    acceptedTypes,
+    description,
+    className,
+    maxSize,
+    setShowMaxDurationError,
+    setShowMaxSizeError,
+}: Readonly<IVideoFileUploadProps>) {
+    const onDrop = useCallback(
+        (acceptedFiles, fileRejections) => {
+            setShowMaxSizeError(false); // Reset the error message state on each drop attempt
 
-    const onDrop = useCallback((acceptedFiles, fileRejections) => {
-        setShowMaxSizeError(false); // Reset the error message state on each drop attempt
+            if (fileRejections.length > 0) {
+                setShowMaxSizeError(true);
+            } else if (acceptedFiles.length > 0) {
+                const video = document.createElement('video');
+                video.src = URL.createObjectURL(acceptedFiles[0]);
 
-        if (fileRejections.length > 0) {
-            setShowMaxSizeError(true);
-        } else if (acceptedFiles.length > 0) {
-            const video = document.createElement('video');
-            video.src = URL.createObjectURL(acceptedFiles[0]);
+                video.addEventListener('loadedmetadata', function () {
+                    // Duration is in seconds
+                    const maxDurationInSeconds = 120 + 5;
+                    const duration = video.duration;
+                    if (duration >= maxDurationInSeconds) {
+                        setShowMaxDurationError(true);
+                    } else {
+                        setFile(acceptedFiles[0]);
+                    }
 
-            video.addEventListener('loadedmetadata', function () {
-                // Duration is in seconds
-                const maxDurationInSeconds = 120 + 5;
-                const duration = video.duration;
-                if (duration >= maxDurationInSeconds) {
-                    setShowMaxDurationError(true);
-                } else {
-                    setFile(acceptedFiles[0]);
-                }
-
-                URL.revokeObjectURL(video.src);
-            });
-        }
-    }, []);
+                    URL.revokeObjectURL(video.src);
+                });
+            }
+        },
+        [setFile, setShowMaxDurationError, setShowMaxSizeError]
+    );
 
     const maxFileSize = maxSize || 10 * 1024 * 1024;
     const { getRootProps, getInputProps } = useDropzone({
@@ -50,21 +59,9 @@ export function VideoFileUpload({ setFile, acceptedTypes, description, className
     });
 
     return (
-        <div>
-            <div {...getRootProps()}>
-                <input {...getInputProps()} multiple={false} accept={acceptedTypes} />
-                <button className={className}>{description}</button>
-            </div>
-            {showMaxSizeError && (
-                <div className={'type--color--error type--sm type--center'}>
-                    {t('VIDEO_PREVIEW.FILE_UPLOAD.SIZE_MESSAGE')}
-                </div>
-            )}
-            {showMaxDurationError && (
-                <div className={'type--color--error type--sm type--center'}>
-                    {t('VIDEO_PREVIEW.FILE_UPLOAD.DURATION_MESSAGE')}
-                </div>
-            )}
+        <div {...getRootProps()}>
+            <input {...getInputProps()} multiple={false} accept={acceptedTypes} />
+            <button className={className}>{description}</button>
         </div>
     );
 }

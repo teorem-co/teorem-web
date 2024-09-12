@@ -40,7 +40,7 @@ export default function TutorOnboardingVideoStep() {
     }, [formik, getVideoInformation]);
 
     useEffect(() => {
-        setNextDisabled?.(!!formik.errors.videoId);
+        setNextDisabled?.(!!formik.errors.videoId && false); //TODO: Remove false
         fetchData();
     }, [fetchData, formik.errors.videoId, setNextDisabled]);
     return (

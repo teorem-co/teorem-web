@@ -80,11 +80,13 @@ const TextArea: React.FC<TextFieldType> = ({ className, ...props }: any) => {
                 }
             </div>
 
-            <div className="field__validation">
-                {errorText ? errorText : ''}
-                {!errorText && tooLong ? t('FORM_VALIDATION.MAX_LIMIT') + ' ' + maxLength : ''}
-                {!errorText && minLength && tooShort ? t('FORM_VALIDATION.MIN_LIMIT') + ' ' + minLength : ''}
-            </div>
+            {errorText ? (
+                <div className="field__validation">
+                    {errorText ? errorText : ''}
+                    {!errorText && tooLong ? t('FORM_VALIDATION.MAX_LIMIT') + ' ' + maxLength : ''}
+                    {!errorText && minLength && tooShort ? t('FORM_VALIDATION.MIN_LIMIT') + ' ' + minLength : ''}
+                </div>
+            ) : null}
         </>
     );
 };

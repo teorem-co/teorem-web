@@ -144,8 +144,9 @@ export const EN_US = {
                 SUBTITLE: 'You can change it anytime.',
                 PRICE_BREAKDOWN_SHORT: 'You earn',
                 PRICE_BREAKDOWN_BASE: 'Base price',
-                PRICE_BREAKDOWN_COMMISSION: 'Teorem fee',
-                PRICE_BREAKDOWN_TOTAL: 'You earn',
+                PRICE_BREAKDOWN_FEE: 'Teorem fee',
+                PRICE_BREAKDOWN_EARNED: 'You earn',
+                PRICE_BREAKDOWN_PAID: 'Studens pay',
                 SHOW_LESS: 'Show less',
                 LEARN_MORE_LABEL: 'Learn more about pricing',
                 LEARN_MORE: {
@@ -212,7 +213,7 @@ export const EN_US = {
                     "Here's what we'll show to parents and students. Before you publish, make sure to review the details.",
                 SHOW_PREVIEW_BUTTON: 'Show preview',
                 LESSON: 'lesson',
-                STEPS_LABEL: "What's next?",
+                STEPS_TITLE: "What's next?",
                 STEP_1_TITLE: 'Sync your calendar',
                 STEP_1_DESCRIPTION:
                     'Sync your Google (or other) calendar. This will make sure your availability is always up to date.',

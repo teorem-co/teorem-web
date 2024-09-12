@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import OnboardingTabButton from '../../../../../components/OnboardingTabButton';
 import privateEntityImage from './assets/person.png';
 import companyImage from './assets/company.png';
-import { Button, Checkbox } from '@mui/material';
+import { Button, Checkbox, FormControlLabel, Typography } from '@mui/material';
 import OnboardingLayout from '../../../../../components/OnboardingLayout';
 import CtaButton from '../../../../../../../components/CtaButton';
 import onboardingStyles from '../../TutorOnboarding.module.scss';
@@ -44,7 +44,7 @@ export default function TutorOnboardingEntityStep() {
             isSidebarOpen={isSidebarOpen}
             onSidebarClose={() => setIsSidebarOpen(false)}
         >
-            <OnboardingStepFormLayout title={t('ONBOARDING.TUTOR.ENTITY.TITLE')}>
+            <OnboardingStepFormLayout title={t('ONBOARDING.TUTOR.ENTITY.TITLE')} centerOnDesktop>
                 <OnboardingTabButton
                     active={formik.values.isCompany === false}
                     onClick={() => {
@@ -63,10 +63,22 @@ export default function TutorOnboardingEntityStep() {
                     subtitle={t('ONBOARDING.TUTOR.ENTITY.COMPANY_ENTITY_SUBTITLE')}
                     image={companyImage}
                 />
-                <Checkbox checked={checked} onClick={() => setChecked((c) => !c)} />
-                <div>
-                    {t('ONBOARDING.TUTOR.ENTITY.CHECKBOX_AGREE')} <a>{t('ONBOARDING.TUTOR.ENTITY.CHECKBOX_TERMS')}</a>.
-                </div>
+                <FormControlLabel
+                    control={<Checkbox checked={checked} onClick={() => setChecked((c) => !c)} />}
+                    label={
+                        <Typography>
+                            {t('ONBOARDING.TUTOR.ENTITY.CHECKBOX_AGREE')}{' '}
+                            <a
+                                target="_blank"
+                                href="https://stripe.com/en-hr/legal/connect-account"
+                                rel="noopener noreferrer"
+                            >
+                                {t('ONBOARDING.TUTOR.ENTITY.CHECKBOX_TERMS')}
+                            </a>
+                            .
+                        </Typography>
+                    }
+                />
             </OnboardingStepFormLayout>
         </OnboardingLayout>
     );
