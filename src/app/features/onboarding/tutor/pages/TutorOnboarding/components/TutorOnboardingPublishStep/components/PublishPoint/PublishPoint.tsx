@@ -1,14 +1,14 @@
-import styles from './PublishStep.module.scss';
+import styles from './PublishPoint.module.scss';
 
-interface IPublishStepProps {
+interface IPublishPointProps {
     icon: string;
     title: string;
     description: string;
 }
 
-export default function PublishStep({ icon, title, description }: Readonly<IPublishStepProps>) {
+export default function PublishPoint({ icon, title, description }: Readonly<IPublishPointProps>) {
     return (
-        <div className={styles.step}>
+        <div className={styles.point}>
             <img className={styles.img} src={icon} alt={title} />
             <div>
                 <h6 className={styles.title}>{title}</h6>

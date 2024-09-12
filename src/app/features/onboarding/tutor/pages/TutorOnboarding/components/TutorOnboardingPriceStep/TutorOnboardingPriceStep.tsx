@@ -12,12 +12,15 @@ import { ExpandLess } from '@mui/icons-material';
 import Divider from '../../../../../../../components/Divider';
 import clsx from 'clsx';
 import Modal from '../../../../../../../components/Modal';
+import { useAppSelector } from '../../../../../../../store/hooks';
 
 const FEE_PERCENTAGE = 0.15;
 
 export default function TutorOnboardingPriceStep() {
     const [t, i18n] = useTranslation();
     const { setNextDisabled, formik, onBack, onNext, nextDisabled, step, substep, maxSubstep } = useTutorOnboarding();
+    const { user } = useAppSelector((state) => state.auth);
+    const { countries } = useAppSelector((state) => state.countryMarket);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [earned, setEarned] = useState(0);
     const [fee, setFee] = useState(0);
@@ -31,6 +34,8 @@ export default function TutorOnboardingPriceStep() {
 
         setNextDisabled?.(!!formik.errors.price);
     }, [setNextDisabled, formik.values.price, formik.errors.price]);
+
+    const marketAbrv = countries.find((c) => c.id === user?.countryId)?.abrv;
 
     return (
         <OnboardingLayout
@@ -62,7 +67,7 @@ export default function TutorOnboardingPriceStep() {
             >
                 <div className={styles.container}>
                     <div className={styles.priceRow}>
-                        <div className={styles.currency}>{t('ONBOARDING.TUTOR.PRICE.CURRENCY')}</div>
+                        <div className={styles.currency}>{t('CURRENCY.' + marketAbrv)}</div>
                         <input
                             className={styles.input}
                             type="tel"
@@ -87,7 +92,7 @@ export default function TutorOnboardingPriceStep() {
                                 <div className={styles.row}>
                                     <span>{t('ONBOARDING.TUTOR.PRICE.PRICE_BREAKDOWN_BASE')}</span>
                                     <span>
-                                        {t('ONBOARDING.TUTOR.PRICE.CURRENCY')}
+                                        {t('CURRENCY.' + marketAbrv)}
                                         {parseFloat('0' + formik.values.price).toLocaleString(i18n.language, {
                                             maximumFractionDigits: 2,
                                             minimumFractionDigits: 2,
@@ -97,7 +102,7 @@ export default function TutorOnboardingPriceStep() {
                                 <div className={styles.row}>
                                     <span>{t('ONBOARDING.TUTOR.PRICE.PRICE_BREAKDOWN_FEE')}</span>
                                     <span>
-                                        -{t('ONBOARDING.TUTOR.PRICE.CURRENCY')}
+                                        -{t('CURRENCY.' + marketAbrv)}
                                         {parseFloat(fee + '' || '0').toLocaleString(i18n.language, {
                                             maximumFractionDigits: 2,
                                             minimumFractionDigits: 2,
@@ -108,7 +113,7 @@ export default function TutorOnboardingPriceStep() {
                                 <div className={styles.row}>
                                     <span>{t('ONBOARDING.TUTOR.PRICE.PRICE_BREAKDOWN_EARNED')}</span>
                                     <span>
-                                        {t('ONBOARDING.TUTOR.PRICE.CURRENCY')}
+                                        {t('CURRENCY.' + marketAbrv)}
                                         {parseFloat(earned + '' || '0').toLocaleString(i18n.language, {
                                             maximumFractionDigits: 2,
                                             minimumFractionDigits: 2,
@@ -132,7 +137,7 @@ export default function TutorOnboardingPriceStep() {
                         </>
                     ) : (
                         <button className={styles.expandButton} onClick={() => setShowDetailedBreakdown((v) => !v)}>
-                            {t('ONBOARDING.TUTOR.PRICE.CURRENCY')}
+                            {t('ONBOARDING.TUTOR.PRICE.PRICE_BREAKDOWN_SHORT')} {t('CURRENCY.' + marketAbrv)}
                             {parseFloat('0' + earned).toLocaleString(i18n.language, {
                                 maximumFractionDigits: 2,
                                 minimumFractionDigits: 2,

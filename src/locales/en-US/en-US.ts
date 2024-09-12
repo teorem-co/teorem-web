@@ -157,7 +157,7 @@ export const EN_US = {
                         'You are setting your price for 50-minute lessons. Please make sure to leave a few minutes between lessons to complete Lesson Reports.',
                     BULLET_2: 'Teorem fee',
                     DESCRIPTION_3:
-                        "When you're setting a price and price breakdown is shown, The teorem service fee will automatically be calculated as a 10% of your lesson price. Toerem reserves the right to make changes in commission rates.",
+                        "When you're setting a price and price breakdown is shown, The teorem service fee will automatically be calculated as a 15% of your lesson price. Toerem reserves the right to make changes in commission rates.",
                 },
                 ERROR_LOW_TITLE: 'Oops, there is an issue with your price',
                 ERROR_LOW_DESCRIPTION: 'Please enter a base price higher than',
@@ -1863,12 +1863,19 @@ export const EN_US = {
             },
         },
     },
+    TUTOR_CARD: {
+        LESSON: 'lesson',
+        SHOW_PREVIEW: 'Show preview',
+    },
     COUNTRY: {
         PLACEHOLDER: 'Country',
         HR: 'Croatia',
         US: 'USA',
     },
-
+    CURRENCY: {
+        HR: '€',
+        US: '$',
+    },
     BANNER: {
         REVIEW: {
             PART_1: 'You recently had a lesson in ',
