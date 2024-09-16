@@ -7,6 +7,12 @@
     padding-bottom: 20px;
 }
 
+.title {
+  font-size: 35px;
+  line-height: 42px;
+  font-weight: 700;
+}
+
 .pointsContainer {
 }
 
@@ -19,7 +25,8 @@
 
 .pointNumber {
     font-weight: 400;
-    font-size: 16px;
+    font-size: 18px;
+    line-height: 20px;
 }
 
 .pointBody {
@@ -27,7 +34,8 @@
 
 .pointTitle {
     font-weight: 400;
-    font-size: 16px;
+    font-size: 18px;
+    line-height: 20px;
     padding-bottom: 8px;
 }
 
@@ -35,8 +43,8 @@
 }
 
 .pointImage {
-    height: 80px;
-    width: 80px;
+    height: 84px;
+    width: 84px;
     object-fit: contain;
 }
 
@@ -45,13 +53,13 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         margin: 0 10%;
+        gap: 40px;
     }
 
     .titleContainer {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        margin: 0 15%;
         padding-bottom: initial;
     }
 
@@ -59,15 +67,32 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        margin: 0 15%;
     }
 
     .title {
         font-weight: 700;
-        font-size: 48px;
+        font-size: 65px;
+        line-height: 78px;
     }
 
     .point {
         padding: 20px 0px;
+    }
+
+    .pointTitle,
+    .pointNumber {
+        font-size: 24px;
+        line-height: 20px;
+    }
+
+    .pointDescription {
+        font-size: 20px !important;
+        line-height: 20px !important;
+        font-weight: 400;
+    }
+
+    .pointImage {
+        height: 136px;
+        width: 136px;
     }
 }
