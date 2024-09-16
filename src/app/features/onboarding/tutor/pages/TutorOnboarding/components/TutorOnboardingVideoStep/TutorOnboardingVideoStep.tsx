@@ -78,6 +78,9 @@ export default function TutorOnboardingVideoStep() {
                         <VideoUploadArea fetchData={fetchData} />
                     )}
                 </div>
+                {formik.touched?.videoId && formik.errors?.videoId ? (
+                    <div className="field__validation">{formik.errors.videoId}</div>
+                ) : null}
                 <div className={styles.points}>
                     <div className={styles.point}>
                         <CheckBox className={styles.icon} />

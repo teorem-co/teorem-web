@@ -103,6 +103,9 @@ export default function TutorOnboardingSubjectsStep() {
                         onDelete={() => handleDelete(i)}
                     />
                 ))}
+                {formik.touched?.subjects && formik.errors?.subjects ? (
+                    <div className="field__validation">{formik.errors.subjects}</div>
+                ) : null}
                 <div>
                     <Button onClick={handleAdd} color="inherit" fullWidth={false}>
                         <Add /> <span className={styles.add}>{t('ONBOARDING.TUTOR.SUBJECTS.ADD_SUBJECT')}</span>

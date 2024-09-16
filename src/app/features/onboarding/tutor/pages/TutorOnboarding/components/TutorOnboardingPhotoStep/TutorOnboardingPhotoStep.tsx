@@ -97,8 +97,8 @@ export default function TutorOnboardingPhotoStep() {
                     ) : (
                         <PhotoUploadArea
                             setFieldValue={(_, value) => uploadImage(value)}
-                            id="profileImage"
-                            name="profileImage"
+                            id="imageLink"
+                            name="imageLink"
                             value={formik.values.imageLink ?? ''}
                             disabled={false}
                             removePreviewOnUnmount={true}

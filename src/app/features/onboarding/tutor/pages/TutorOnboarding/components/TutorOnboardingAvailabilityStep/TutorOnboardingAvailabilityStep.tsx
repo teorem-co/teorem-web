@@ -84,6 +84,9 @@ export default function TutorOnboardingAvailabilityStep() {
                         }}
                     />
                 ))}
+                {formik.touched.availability && formik.errors?.availability ? (
+                    <div className="field__validation">{formik.errors.availability}</div>
+                ) : null}
             </OnboardingStepFormLayout>
         </OnboardingLayout>
     );

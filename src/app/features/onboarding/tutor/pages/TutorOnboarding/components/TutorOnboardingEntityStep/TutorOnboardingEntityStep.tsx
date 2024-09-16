@@ -79,6 +79,9 @@ export default function TutorOnboardingEntityStep() {
                         </Typography>
                     }
                 />
+                {formik.touched?.isCompany && formik.errors?.isCompany ? (
+                    <div className="field__validation">{formik.errors.isCompany}</div>
+                ) : null}
             </OnboardingStepFormLayout>
         </OnboardingLayout>
     );

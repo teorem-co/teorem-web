@@ -6,6 +6,7 @@ import { resetTutorImageUploadState, setFile } from '../../../../../../../../../
 import styles from './PhotoUploadArea.module.scss';
 import addPhotoImg from './assets/add-photo.png';
 import { Typography } from '@mui/material';
+import clsx from 'clsx';
 
 interface PreviewFileType {
     preview: string | null;
@@ -67,7 +68,7 @@ export default function PhotoUploadArea({
                 <Typography variant="body2">{description}</Typography>
                 {cta ? <div className={styles.cta}>{cta}</div> : null}
             </div>
-            <div className={styles.error}>{errorText || ''}</div>
+            {errorText ? <div className={clsx('field__validation', styles.error)}>{errorText || ''}</div> : null}
         </>
     );
 }

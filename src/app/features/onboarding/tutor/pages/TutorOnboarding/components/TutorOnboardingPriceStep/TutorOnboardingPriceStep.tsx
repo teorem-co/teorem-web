@@ -146,7 +146,9 @@ export default function TutorOnboardingPriceStep() {
                         </button>
                     )}
                 </div>
-
+                {formik.touched?.price && formik.errors?.price ? (
+                    <div className="field__validation">{formik.errors.price}</div>
+                ) : null}
                 <button className={styles.learnMoreButton} onClick={() => setShowLearnMoreModal(true)}>
                     {t('ONBOARDING.TUTOR.PRICE.LEARN_MORE_LABEL')}
                 </button>

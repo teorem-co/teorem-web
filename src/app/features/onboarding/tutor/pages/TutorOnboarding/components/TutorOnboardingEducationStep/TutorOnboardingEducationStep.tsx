@@ -132,6 +132,9 @@ export default function TutorOnboardingEducationStep() {
                         disabledDelete={formik.values.degrees?.length === 1}
                     />
                 ))}
+                {formik.touched?.degrees && formik.errors?.degrees ? (
+                    <div className="field__validation">{formik.errors.degrees}</div>
+                ) : null}
                 {formik.values.hasNoDegree ? null : (
                     <Button onClick={handleAdd}>
                         <Add /> {t('ONBOARDING.TUTOR.EDUCATION.ADD_DEGREE')}

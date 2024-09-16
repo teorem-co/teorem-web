@@ -56,16 +56,13 @@ export default function VideoUploadArea({ fetchData }: IVideoUploadAreaProps) {
                     </button>
                 </div>
             </div>
-            {showMaxSizeError && (
-                <div className={'type--color--error type--sm type--center'}>
-                    {t('VIDEO_PREVIEW.FILE_UPLOAD.SIZE_MESSAGE')}
-                </div>
-            )}
-            {showMaxDurationError && (
-                <div className={'type--color--error type--sm type--center'}>
-                    {t('VIDEO_PREVIEW.FILE_UPLOAD.DURATION_MESSAGE')}
-                </div>
-            )}
+
+            {showMaxSizeError ? (
+                <div className="field__validation">{t('VIDEO_PREVIEW.FILE_UPLOAD.SIZE_MESSAGE')}</div>
+            ) : null}
+            {showMaxDurationError ? (
+                <div className="field__validation">{t('VIDEO_PREVIEW.FILE_UPLOAD.DURATION_MESSAGE')}</div>
+            ) : null}
 
             {file ? (
                 <div className={'flex flex--col flex--ai--start modal__overlay'}>

@@ -27,9 +27,7 @@ export default function TutorOnboardingStartStep() {
         >
             <div className={styles.container}>
                 <div className={styles.titleContainer}>
-                    <Typography variant="h1" className={styles.title}>
-                        {t('ONBOARDING.TUTOR.START.TITLE')}
-                    </Typography>
+                    <h1 className={styles.title}>{t('ONBOARDING.TUTOR.START.TITLE')}</h1>
                 </div>
                 <div className={styles.pointsContainer}>
                     <div className={styles.point}>
