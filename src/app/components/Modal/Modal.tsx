@@ -45,12 +45,14 @@ export default function Modal({
             }}
         >
             <div className={styles.container}>
-                {title ? (
+                {title || onClose ? (
                     <>
                         <div className={styles.header}>
-                            <Typography className={styles.title} variant="h5" component="h2" fontWeight="bold">
-                                {title}
-                            </Typography>
+                            {title ? (
+                                <Typography className={styles.title} variant="h5" component="h2" fontWeight="bold">
+                                    {title}
+                                </Typography>
+                            ) : null}
                             {onClose ? (
                                 <IconButton size="small" className={styles.close} onClick={(e: any) => onClose(e, '')}>
                                     <CloseIcon fontSize="small" />
