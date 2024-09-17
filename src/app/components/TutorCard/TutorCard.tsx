@@ -23,7 +23,7 @@ export default function TutorCard({ image, name, price, education, subjects, cur
                     </p>
                     <p className={styles.price}>
                         <strong>
-                            {currency ?? t('CURRENCY.US')}
+                            {currency ?? t('CURRENCY.USD')}
                             {price}
                         </strong>{' '}
                         {t('TUTOR_CARD.LESSON')}
