@@ -90,11 +90,13 @@ export default function TutorOnboardingPublishStep() {
                 </CtaButton>
             }
         >
-            <OnboardingStepFormLayout
-                title={t('ONBOARDING.TUTOR.PUBLISH.TITLE')}
-                subtitle={t('ONBOARDING.TUTOR.PUBLISH.SUBTITLE')}
-                centerOnDesktop
-            >
+            <div className={styles.layout}>
+                <div>
+                    <h1 className={styles.title}>{t('ONBOARDING.TUTOR.PUBLISH.TITLE')}</h1>
+                    <Typography variant="body2" className={styles.subtitle}>
+                        {t('ONBOARDING.TUTOR.PUBLISH.SUBTITLE')}
+                    </Typography>
+                </div>
                 <div className={styles.container}>
                     <div className={styles.tutorContainer}>
                         <TutorCard
@@ -137,7 +139,7 @@ export default function TutorOnboardingPublishStep() {
                         />
                     </div>
                 </div>
-            </OnboardingStepFormLayout>
+            </div>
             <Modal
                 open={showPreview}
                 title={t('ONBOARDING.TUTOR.PUBLISH.SHOW_PREVIEW_BUTTON')}
@@ -157,7 +159,7 @@ export default function TutorOnboardingPublishStep() {
                         src={`${window.location.origin}${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(':tutorSlug', tutorData?.slug ?? '')}`}
                         width="100%"
                         loading="lazy"
-                        sandbox='allow-same-origin allow-scripts '
+                        sandbox="allow-same-origin allow-scripts "
                         height={window.innerHeight * 2}
                     ></iframe>
                 </div>
