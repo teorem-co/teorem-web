@@ -1,4 +1,6 @@
-export const HR_HR = {
+import { EN_US } from '../en-US/en-US';
+
+export const HR_HR: typeof EN_US = {
     MAIN_TITLE: 'Teorem',
     WATERMARK: '© Teorem',
     BIRTH_DATE_FORMAT: 'DD/MM/YYYY',
@@ -28,29 +30,203 @@ export const HR_HR = {
         CONFIRM_BUTTON: 'U redu',
     },
     ONBOARDING: {
-        COUNTRY_SELECT: 'Odaberite svoje tržište: ',
-        NAVIGATION: {
-            TITLE: 'Dobrodošli na Teorem!',
-            DESCRIPTION:
-                'Molimo Vas pratite proces kako bi završili izradu profila. Proces traje samo nekoliko minuta.',
-            STEP_ONE: {
-                TITLE: 'Osobni podatci',
-                DESCRIPTION: 'Dopustite nam da Vas upoznamo malo bolje',
-            },
-            TUTOR: {
-                STEP_TWO: {
-                    TITLE: 'Podatci za plaćanje',
-                    DESCRIPTION: 'Nikada nije previše podataka',
+        BACK: 'Povratak',
+        QUESTIONS: 'Pitanja?',
+        NEXT: 'Nastavi',
+        GET_STARTED: 'Započni',
+        PUBLISH: 'Objavi',
+        TUTOR: {
+            START: {
+                TITLE: 'Lako je započeti na Teoremu',
+                POINT_1: {
+                    TITLE: 'Recite nam o svojim lekcijama',
+                    DESCRIPTION: 'Postavite svoju dostupnost i odaberite predmete i razine koje podučavate.',
+                },
+                POINT_2: {
+                    TITLE: 'Učinite svoj profil posebnim',
+                    DESCRIPTION: 'Dodajte video, fotografiju i neke informacije, poput vaših interesa i iskustva.',
+                },
+                POINT_3: {
+                    TITLE: 'Dovršite i objavite',
+                    DESCRIPTION: 'Postavite cijenu i objavite svoj profil kad budete spremni.',
                 },
             },
-            PARENT: {
-                STEP_TWO: {
-                    TITLE: 'Podatci o djeci',
-                    DESCRIPTION: 'Ispunite podatke za Vaše dijete i odredite njegove/njene podatke za prijavu.',
+            LESSONS: {
+                STEP_LABEL: 'Korak 1',
+                TITLE: 'Recite nam o svojim lekcijama',
+                DESCRIPTION:
+                    'U ovom koraku pitat ćemo vas koje predmete podučavate i na kojim razinama se osjećate ugodno. Zatim nam recite kada ste dostupni za podučavanje svojih lekcija.',
+            },
+            SUBJECTS: {
+                TITLE: 'Koje predmete podučavate?',
+                SUBTITLE: 'Kasnije možete dodati ili ukloniti predmete putem postavki svog profila.',
+                LEVEL_LABEL: 'Razina',
+                SUBJECT_LABEL: 'Predmet',
+                ADD_SUBJECT: 'Dodajte još jedan predmet',
+                REMOVE_SUBJECT: 'Uklonite ovu razinu i predmet',
+            },
+            AVAILABILITY: {
+                TITLE: 'Kada ste dostupni?',
+                SUBTITLE:
+                    'Studenti mogu rezervirati lekcije u ovim terminima. Imat ćete 24 sata da prihvatite rezervacije.',
+                TIMEZONE_LABEL: 'Odaberite svoju vremensku zonu',
+            },
+            PROFILE: {
+                STEP_LABEL: 'Korak 2',
+                TITLE: 'Učinite svoj profil posebnim',
+                DESCRIPTION:
+                    'U ovom koraku ćete dodati svoju profilnu sliku i neke osnovne informacije o vašim interesima i iskustvu. Zatim ćete snimiti ili prenijeti kratki video kako bi vas potencijalni studenti bolje upoznali.',
+            },
+            PHOTO: {
+                TITLE: 'Dodajte svoju profilnu sliku',
+                SUBTITLE: 'Koristite kvalitetnu sliku u portretu na kojoj je cijelo vaše lice vidljivo.',
+                DRAG_TITLE: 'Dovucite mišem',
+                DRAG_DESCRIPTION: 'ili pretražite sliku',
+                BROWSE: 'Pretraži',
+                POINT_SMILE: 'Nasmiješite se i gledajte u kameru',
+                POINT_FRAME: 'Kadrirajte glavu i ramena',
+                POINT_FACE: 'Vaše lice i oči su potpuno vidljivi',
+                POINT_PERSON: 'Vi ste jedina osoba na fotografiji',
+                POINT_LOGO: 'Nemojte uključivati logotipe ili kontaktne informacije',
+            },
+            EDUCATION: {
+                TITLE: 'Recite nam više o svom obrazovanju',
+                SUBTITLE:
+                    'Roditelji često traže tutore koji su studirali na određenim sveučilištima. Podijelite više o svojim studijima kako biste povećali vidljivost svog profila.',
+                CHECKBOX_NO_DEGREE: 'Nemam diplomu visoke škole',
+                UNI_LABEL: 'Na kojem ste sveučilištu studirali?',
+                DEGREE_LABEL: 'Odaberite vrstu diplome',
+                MAJOR_LABEL: 'Unesite naziv svog kolegija ili glavnog predmeta',
+                STARTED_LABEL: 'Počeo',
+                FINISHED_LABEL: 'Završio',
+                ONGOING: 'U tijeku',
+                ADD_DEGREE: 'Dodajte još jednu diplomu',
+            },
+            TITLE: {
+                TITLE: 'Postavite naslov svog profila',
+                SUBTITLE: 'Neka bude kratko. Uvijek ga možete promijeniti kasnije.',
+            },
+            DESCRIPTION: {
+                TITLE: 'Napišite svoj opis',
+                SUBTITLE: 'Recite nešto o svojim interesima i metodama podučavanja.',
+            },
+            VIDEO: {
+                TITLE: 'Sada dodajmo video na vaš profil',
+                SUBTITLE: 'Predstavite se studentima! Možete pregledati i ponovno snimiti prije nego što pošaljete.',
+                ADD_VIDEO_LABEL: 'Dodajte svoj video',
+                RECORD_BUTTON: 'Snimite',
+                OR: 'ili',
+                UPLOAD_BUTTON: 'Prenesite',
+                POINT_TITLE: 'Molimo slijedite ove smjernice kako bi vaš profil bio odobren',
+                POINT_LENGTH: 'Neka vaš video traje između 30 sekundi i 2 minute',
+                POINT_HORIZONTAL: 'Snimajte u horizontalnom načinu i u visini očiju',
+                POINT_BACKGROUND: 'Koristite neutralnu pozadinu i dobro osvjetljenje',
+                POINT_SURFACE: 'Koristite stabilnu površinu kako bi video bio bez treskanja',
+                POINT_FACE: 'Lice i oči potpuno vidljivi',
+                POINT_EXPERIENCE: 'Istaknite svoje iskustvo u podučavanju i znanje',
+                POINT_GREET: 'Toplo pozdravite svoje studente i pozovite ih da rezerviraju lekciju',
+                POINT_SURNAME: 'Nemojte uključivati svoje prezime niti kontaktne podatke',
+                POINT_LOGO: 'Nemojte uključivati logotipe ili poveznice',
+                POINT_PEOPLE: 'Neka u vašem videu ne budu vidljive druge osobe',
+            },
+            FINISHING: {
+                STEP_LABEL: 'Korak 3',
+                TITLE: 'Dovršite i objavite',
+                DESCRIPTION: 'Na kraju, postavit ćete cijene, isplate i objaviti svoj profil.',
+            },
+            NOTIFICATION: {
+                TITLE: 'Odlučite kako ćete potvrditi rezervacije',
+                SUBTITLE: 'Moći ćete sinkronizirati svoj Google kalendar kako biste izbjegli dvostruke rezervacije.',
+                INSTANT_BOOK_TITLE: 'Koristite trenutnu rezervaciju',
+                INSTANT_BOOK_SUBTITLE: 'Roditelji i studenti mogu automatski rezervirati.',
+                MANUAL_APPROVE_TITLE: 'Odobrite ili odbijte zahtjeve',
+                MANUAL_APPROVE_SUBTITLE: 'Imat ćete 24 sata da odgovorite na zahtjev za rezervaciju.',
+            },
+            PRICE: {
+                CURRENCY: '€',
+                TITLE: 'Sada postavite svoju cijenu',
+                SUBTITLE: 'Možete je promijeniti u bilo kojem trenutku.',
+                PRICE_BREAKDOWN_SHORT: 'Zarađujete',
+                PRICE_BREAKDOWN_BASE: 'Osnovna cijena',
+                PRICE_BREAKDOWN_FEE: 'Teoremova naknada',
+                PRICE_BREAKDOWN_EARNED: 'Zarađujete',
+                PRICE_BREAKDOWN_PAID: 'Studenti plaćaju',
+                SHOW_LESS: 'Prikaži manje',
+                LEARN_MORE_LABEL: 'Saznajte više o cijenama',
+                LEARN_MORE: {
+                    TITLE: 'Više o cijenama',
+                    DESCRIPTION_1:
+                        'Vi birate svoju cijenu, a možete je promijeniti u bilo kojem trenutku. Rezervacije nisu zajamčene.',
+                    BULLET_1: 'Cijena po lekciji',
+                    DESCRIPTION_2:
+                        'Postavljate cijenu za lekcije od 50 minuta. Obavezno ostavite nekoliko minuta između lekcija za dovršavanje izvještaja o lekcijama.',
+                    BULLET_2: 'Teoremova naknada',
+                    DESCRIPTION_3:
+                        'Kada postavljate cijenu i prikazuje se razdioba cijene, Teoremova uslužna naknada automatski će se izračunati kao 15% vaše cijene lekcije. Teorem zadržava pravo na promjene u stopama provizije.',
                 },
+                ERROR_LOW_TITLE: 'Ups, postoji problem s vašom cijenom',
+                ERROR_LOW_DESCRIPTION: 'Unesite osnovnu cijenu veću od',
+            },
+            ENTITY: {
+                TITLE: 'Kako podučavate na Teoremu?',
+                PRIVATE_ENTITY_TITLE: 'Podučavam kao privatna osoba',
+                PRIVATE_ENTITY_SUBTITLE: 'Želite primati isplate na svoj osobni bankovni račun.',
+                COMPANY_ENTITY_TITLE: 'Podučavam kao tvrtka',
+                COMPANY_ENTITY_SUBTITLE: 'Imate registriranu tvrtku preko koje želite primati isplate.',
+                CHECKBOX_AGREE: 'Slažem se s Stripeovim',
+                CHECKBOX_TERMS: 'Uvjetima korištenja',
+            },
+            LEGAL_INFO: {
+                TITLE: 'Molimo vas da unesete zadnja 4 broja vašeg SSN broja',
+                TITLE_HR: 'Molimo vas da unesete svoj OIB broj',
+                TITLE_COMPANY: 'Molimo vas da unesete informacije o vašoj tvrtki',
+                SUBTITLE:
+                    'Provest ćemo provjeru identiteta kako bismo bili sigurni da se vaše ime, SSN i ostali podaci podudaraju.',
+                SUBTITLE_HR: 'Trebamo vaš OIB broj za obradu isplata. Nećemo ga javno dijeliti.',
+                SUBTITLE_COMPANY: '',
+                SSN_LABEL: 'Zadnja 4 broja SSN-a',
+                OIB_LABEL: 'OIB broj',
+                OIB_LABEL_COMPANY: 'OIB broj tvrtke',
+                NAME_LABEL_COMPANY: 'Naziv tvrtke',
+            },
+            PAYOUT_INFO: {
+                TITLE: 'Gdje želite da šaljemo vaše isplate?',
+                SUBTITLE: 'Provjerite koristite li bankovni račun registriran na vaše ime.',
+                SUBTITLE_COMPANY: 'Provjerite koristite li bankovni račun registriran na ime vaše tvrtke.',
+                ROUTING_NUMBER_LABEL: 'Broj usmjeravanja',
+                ACCOUNT_NUMBER_LABEL: 'Broj računa',
+                IBAN_LABEL: 'IBAN',
+            },
+            ADDRESS: {
+                TITLE: 'Koja je vaša adresa?',
+                SUBTITLE: 'Trebamo vašu adresu za obradu isplata. Nećemo je javno dijeliti.',
+                COUNTRY_LABEL: 'Država',
+                STREET_LABEL: 'Ulica i kućni broj',
+                APARTMENT_LABEL: 'Stan, apartman, jedinica (ako je primjenjivo)',
+                POSTAL_CODE_LABEL: 'Poštanski broj',
+                STATE_LABEL: 'Država / pokrajina',
+                CITY_LABEL: 'Grad / općina',
+            },
+            PHONE: {
+                TITLE: 'Prije nego završimo, je li ovo vaš broj telefona?',
+                SUBTITLE: 'Koristit ćemo ga za sigurnosne svrhe i verifikaciju isplata.',
+                PHONE_LABEL: 'Broj telefona',
+            },
+            PUBLISH: {
+                TITLE: 'Sjajno! Vrijeme je za objavu.',
+                SUBTITLE: 'Ovo ćemo prikazati roditeljima i studentima. Prije objave, provjerite detalje.',
+                SHOW_PREVIEW_BUTTON: 'Pregled profila',
+                STEPS_TITLE: 'Što slijedi?',
+                STEP_1_TITLE: 'Sinkronizirajte svoj kalendar',
+                STEP_1_DESCRIPTION:
+                    'Sinkronizirajte svoj Google (ili drugi) kalendar. Time ćete osigurati da vaša dostupnost uvijek bude ažurirana.',
+                STEP_2_TITLE: 'Pripremite se za svoju prvu lekciju',
+                STEP_2_DESCRIPTION: 'Prođite kroz našu interaktivnu ploču i postavite svoje preferencije obavijesti.',
+                STEP_3_TITLE: 'Podijelite svoj profil',
+                STEP_3_DESCRIPTION:
+                    'Podijelite poveznicu svog profila na društvenim mrežama kako biste brže dobili prvu rezervaciju.',
             },
         },
-        EDIT_CHILD_DETAILS: 'Izmijenite podatke o djetetu',
     },
     TUTOR_ONBOARDING: {
         TITLE: 'Hvala što ste potvrdili svoju adresu e-pošte! Dovršimo vaš profil!',
@@ -80,12 +256,20 @@ export const HR_HR = {
         },
     },
     FORM_VALIDATION: {
+        AVAILABILITY: 'Dostupnost je obvezna',
+        END_YEAR: 'Godina završetka mora biti veća od godine početka',
+        MIN_ONE: 'Mora biti barem jedan',
+        MIN_PRICE: 'Cijena mora biti veća od 10,00',
+        PHONE_SHORT: 'Broj telefona mora imati najmanje 7 znakova',
+        START_YEAR: 'Godina početka mora biti veća od 1950',
+        UNIQUE_SUBJECT: 'Predmeti moraju biti jedinstveni',
         INVALID_EMAIL: 'Neispravan email',
         INVALID_IMAGE: 'Slika mora biti formata jpg, png, jpeg ili svg i manja od 2MB veličine.',
         IMAGE_TYPE: 'Slika mora biti formata jpg, png, jpeg ili svg',
         IMAGE_SIZE: 'Slika mora biti manja od 5MB veličine.',
         TOO_SHORT: 'Pretratko!',
         TOO_LONG: 'Predugo!',
+        EMAIL_EXISTS: 'Ovaj email se već koristi. Molimo ulogirajte se.',
         MAX_LIMIT: 'Maksimalni broj slova je',
         MIN_LIMIT: 'Minimalni broj riječi je',
         TOO_BIG: 'Broj je prevelik',
@@ -127,7 +311,7 @@ export const HR_HR = {
         MAX_2500_CHARS: 'Najviše 2500 znakova',
         MAX_75_CHARS: 'Najviše 75 znakova',
         MAX_100_CHARS: 'Najviše 100 znakova',
-        MIN_100_CHARS: 'Najmanje 10 znakova',
+        MIN_10_CHARS: 'Najmanje 10 znakova',
         NAME_EMAIL_NOT_IN_PASSWORD: 'Ne sadržava ni ime ni email adresu',
     },
     NAVIGATION: {
@@ -254,36 +438,6 @@ export const HR_HR = {
             ID_VERIFIED: 'POTVRÐEN IDENTITET',
             DOCUMENTS_UPLOADED: 'DOKUMENTI UČITANI',
         },
-        STUDENT_MANAGEMENT: {
-            TITLE: 'Popis studenata/roditelja',
-            NO_RESULT: {
-                TITLE: 'Nema rezultata',
-                DESC: ' Hmm, izgleda da nema studenata/roditelja za ovu određenu pretragu.',
-            },
-            SEARCH_PLACEHOLDER: 'Pronađi studenta/roditelja',
-            TABLE: {
-                FIRST_NAME: 'IME',
-                LAST_NAME: 'PREZIME',
-                EMAIL: 'EMAIL',
-                PHONE_NUMBER: 'BROJ TELEFONA',
-                ROLE: 'ULOGA',
-                NUMBER_OF_LESSONS: 'LESSONS',
-                CREDITS: 'CREDITS',
-                STUDENT: 'STUDENT',
-                LEVEL: 'RAZINA',
-                SUBJECT: 'PREDMET',
-                TUTOR: 'INSTRUKTOR',
-                TUTOR_EMAIL: 'EMAIL INSTRUKTORA',
-                TUTOR_PHONE: 'BROJ TELEFONA INSTRUKTORA',
-                START_TIME: 'VRIJEME POČETKA',
-                CREATED_AT: 'KREIRANO',
-                PRICE: 'CIJENA',
-                STATE: 'STANJE',
-                ACCEPTED: 'PRIHVAĆENO',
-                DELETED: 'OBRISANO',
-                RESCHEDULE: 'RESCHEDULE',
-            },
-        },
         ACTIONS: {
             APPROVE: 'Odobri',
             DECLINE: 'Odbij',
@@ -302,6 +456,36 @@ export const HR_HR = {
         VIDEO_PREVIEW: {
             DECLINE_AND_SEND_BUTTON: 'Odbij i pošalji',
             MESSAGE_TITLE: 'Razlog odbijanja videa',
+        },
+    },
+    STUDENT_MANAGEMENT: {
+        TITLE: 'Popis studenata/roditelja',
+        NO_RESULT: {
+            TITLE: 'Nema rezultata',
+            DESC: ' Hmm, izgleda da nema studenata/roditelja za ovu određenu pretragu.',
+        },
+        SEARCH_PLACEHOLDER: 'Pronađi studenta/roditelja',
+        TABLE: {
+            FIRST_NAME: 'IME',
+            LAST_NAME: 'PREZIME',
+            EMAIL: 'EMAIL',
+            PHONE_NUMBER: 'BROJ TELEFONA',
+            ROLE: 'ULOGA',
+            NUMBER_OF_LESSONS: 'LESSONS',
+            CREDITS: 'CREDITS',
+            STUDENT: 'STUDENT',
+            LEVEL: 'RAZINA',
+            SUBJECT: 'PREDMET',
+            TUTOR: 'INSTRUKTOR',
+            TUTOR_EMAIL: 'EMAIL INSTRUKTORA',
+            TUTOR_PHONE: 'BROJ TELEFONA INSTRUKTORA',
+            START_TIME: 'VRIJEME POČETKA',
+            CREATED_AT: 'KREIRANO',
+            PRICE: 'CIJENA',
+            STATE: 'STANJE',
+            ACCEPTED: 'PRIHVAĆENO',
+            DELETED: 'OBRISANO',
+            RESCHEDULE: 'RESCHEDULE',
         },
     },
     CHAT: {
@@ -331,13 +515,13 @@ export const HR_HR = {
     RESET_PASSWORD: {
         TITLE: 'Zaboravili ste lozinku?',
         FORM: {
+            PASSWORD: 'Lozinka',
+            REPEAT_PASSWORD: 'Ponovite lozinku',
             EMAIL: 'Email',
             SUBMIT_BTN: 'Resetiraj lozinku',
         },
         SUCCESS: 'Uspješno ste resetirali lozinku. Molimo provjerite svoj email.',
         BACK_BTN: 'Povratak na prijavu',
-        PASSWORD_CHANGED_SUCCESS: 'Lozinka uspjesno promijenjena, biti ćete prebačeni na stranicu za prijavu',
-        EMAIL_SENT: 'E-mail poslan, biti ćete prebačeni na stranicu za prijavu',
     },
     LOGIN: {
         TITLE: 'Prijava',
@@ -366,7 +550,6 @@ export const HR_HR = {
                 TITLE: 'Probajmo još jednom',
             },
             NOT_FOUND: 'Korisnik nije pronađen',
-            USERNAME_CONFLICT: 'Korisničko ime već postoji',
             PROFILE_NOT_ACTIVE: {
                 SENT_AGAIN: 'Molimo potvrdite vašu e-mail adresu.',
             },
@@ -451,7 +634,10 @@ export const HR_HR = {
             CHILD_NAME_PLACEHOLDER: 'Unesite ime djeteta',
             CHILD_DATE_OF_BIRTH: 'Datum rođenja djeteta*',
             USERNAME: 'Korisničko ime*',
-            EMAIL_EXISTS: 'Ovaj email se već koristi. Molimo ulogirajte se.',
+            COUNTRY: 'Država',
+            COUNTRY_PLACEHOLDER: 'Odaberite državu',
+            EMAIL_CONFLICT: 'Korisnik s ovom email adresom već postoji',
+            PROFILE_IMAGE: 'Profilna slika',
             TERMS_AND_CONDITIONS:
                 '<div>Klikom na <strong>Slažem se i nastavi</strong>, slažem se s <a href="https://teorem.hr/hr/uvjeti-koristenja" target="_blank">Uvjetima pružanja usluge</a> i <a href="https://teorem.hr/hr/politika-privatnosti" target="_blank">Politikom privatnosti</a> Teorema.</div>',
         },
@@ -474,16 +660,6 @@ export const HR_HR = {
         SAVE_BUTTON: 'Spremi',
         DELETE_BUTTON: 'Obriši',
         BACK_TO_LIST: 'Natrag na popis',
-        NAVIGATION: {
-            STEP1: {
-                TITLE: 'Osobni podatci',
-                DESC: 'Dopustite nam da Vas bolje upoznamo',
-            },
-            STEP2: {
-                TITLE: 'Popis djece',
-                DESC: 'Ispunite podatke o Vašem djetetu i postavite njegove/njezine podatke za prijavu.',
-            },
-        },
     },
     ADD_CHILD: {
         TITLE: 'Dodajte novo dijete',
@@ -1267,6 +1443,8 @@ export const HR_HR = {
         SUCCESS: 'Račun za plaćanje povezan',
     },
     SUBJECTS: {
+        'classical-greek': 'Klasični grčki jezik',
+        'government-and-politics': 'Politika i gospodarstvo',
         biology: 'Biologija',
         chemistry: 'Kemija',
         economics: 'Ekonomija',
@@ -1350,19 +1528,35 @@ export const HR_HR = {
         TUTOR_SEARCH: 'Online instruktori i učitelji :subject za privatne instrukcije :subject',
         TUTOR_PROFILE: ' | Uči s instruktorima ',
     },
-    LEVELS: {
-        primaryschool: 'Osnovna škola',
-        highschool: 'Srednja škola',
-        ib: 'IB',
-        maturaprep: 'Priprema za maturu',
-        university: 'Fakultet',
-    },
     ROLES: {
         student: 'Učenik',
         parent: 'Roditelj',
         child: 'Dijete',
         tutor: 'Instruktor',
         admin: 'Administrator',
+    },
+    LEVELS: {
+        primaryschool: 'Osnovna škola',
+        highschool: 'Srednja škola',
+        ib: 'IB',
+        maturaprep: 'Priprema za maturu',
+        university: 'Fakultet',
+        'primary-school': 'Osnovna škola',
+        'high-school': 'Srednja škola',
+        'matura-prep': 'Priprema za maturu',
+        elementary: 'Osnovna škola',
+        middle: 'Srednja škola',
+        high: 'Srednja škola',
+        ap: 'Za napredne',
+        sat: 'Priprema za SAT',
+    },
+    DEGREES: {
+        bacc: 'Bakalar',
+        master: 'Magistar',
+        phd: 'Doktor znanosti',
+        mag: 'Magistar',
+        postdipl: 'Specijalistički diplomski studij',
+        other: 'Ostalo',
     },
     UNIVERSITIES: {
         AgronomskifakultetSveuiliteuZagrebu: 'Agronomski fakultet - Sveučilište u Zagrebu',
@@ -3876,6 +4070,11 @@ export const HR_HR = {
         SouthFloridaStateCollege: 'South Florida State College',
     },
     CONSTANTS: {
+        TIME_OF_DAY: {
+            BEFORE_NOON: '07:00 - 12:00',
+            NOON_TO_FIVE: '12:00 - 17:00',
+            AFTER_FIVE: '17:00 - 22:00',
+        },
         MONTHS_SHORT: {
             JAN: 'SIJ',
             FEB: 'VELJ',
@@ -3921,6 +4120,13 @@ export const HR_HR = {
             FRI: 'Petak',
             SAT: 'Subota',
             SUN: 'Nedjelja',
+            '1': 'Ponedjeljak',
+            '2': 'Utorak',
+            '3': 'Srijeda',
+            '4': 'Četvrtak',
+            '5': 'Petak',
+            '6': 'Subota',
+            '7': 'Nedjelja',
         },
     },
     PATHS: {
@@ -4118,8 +4324,11 @@ export const HR_HR = {
         UPLOAD_VIDEO: 'Učitaj video',
         START: 'Započni',
         DELETE: 'Obriši',
-
+        ADD_VIDEO: 'Dodaj video',
+        BROWSE: 'Pretraži',
+        RECORD: 'Snimi',
         RECORD_MODAL: {
+            TITLE: 'Snimite video',
             SETTINGS: 'Audio i video postavke',
             CAMERA: 'Kamera',
             MICROPHONE: 'Mikrofon',
@@ -4175,10 +4384,17 @@ export const HR_HR = {
             },
         },
     },
+    TUTOR_CARD: {
+        LESSON: 'po lekciji',
+    },
     COUNTRY: {
         PLACEHOLDER: 'Država',
         HR: 'Hrvatska',
         US: 'SAD',
+    },
+    CURRENCY: {
+        EUR: '€',
+        USD: '$',
     },
     BANNER: {
         REVIEW: {

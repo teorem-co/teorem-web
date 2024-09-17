@@ -212,7 +212,6 @@ export const EN_US = {
                 SUBTITLE:
                     "Here's what we'll show to parents and students. Before you publish, make sure to review the details.",
                 SHOW_PREVIEW_BUTTON: 'Show preview',
-                LESSON: 'lesson',
                 STEPS_TITLE: "What's next?",
                 STEP_1_TITLE: 'Sync your calendar',
                 STEP_1_DESCRIPTION:
@@ -259,6 +258,7 @@ export const EN_US = {
         IMAGE_SIZE: 'Image has to be less than 5MB in size.',
         TOO_SHORT: 'Too Short!',
         TOO_LONG: 'Too Long!',
+        EMAIL_EXISTS: 'This email already exists. Please log in.',
         MAX_LIMIT: 'Max number of characters is',
         MIN_LIMIT: 'Min number of words is',
         TOO_BIG: 'Number is too big',
@@ -302,6 +302,13 @@ export const EN_US = {
         MAX_100_CHARS: 'Maximum is 100 characters',
         MIN_10_CHARS: 'Minimum is 10 characters',
         NAME_EMAIL_NOT_IN_PASSWORD: "Can't contain your name or email address",
+        UNIQUE_SUBJECT: "You can't add the same subject and level combination twice",
+        MIN_ONE: 'You must select at least one',
+        AVAILABILITY: 'You must select at least one day and time of day',
+        START_YEAR: 'Start year must be between 1950 and current year',
+        END_YEAR: 'End year must be greater than start year',
+        MIN_PRICE: "Price can't be lower than 10.00",
+        PHONE_SHORT: "Phone number can't be shorter than 7 digits",
     },
     NAVIGATION: {
         MY_BOOKINGS: 'Calendar',
@@ -383,7 +390,6 @@ export const EN_US = {
                 TOOLTIP_EFFECTIVE: 'Most visited profiles contain 100+ words in this category.',
                 ABOUT_LESSONS_LABEL: 'Tell us more about your lessons*',
                 ABOUT_LESSONS_PLACEHOLDER: 'Describe your lessons, approach, way of teaching...',
-                ABOUT_EFFECTIVE: 'Most visited profiles contain 100+ words in this category.',
                 ABOUT_LESSONS_TOOLTIP: 'In detail describe how you work with students.',
                 ABOUT_LESSONS_TOOLTIP_2:
                     'Describe which methods of tutoring to you use (visual, auditory, kinesthetic, etc.) ',
@@ -418,7 +424,6 @@ export const EN_US = {
             LAST_NAME: 'LAST NAME',
             EMAIL: 'EMAIL',
             COUNTRY: 'COUNTRY',
-            USERNAME: 'USERNAME',
             DATE_OF_BIRTH: 'DATE OF BIRTH',
             PREVIEW_PROFILE: 'Preview profile',
             PHONE_NUMBER: 'PHONE NUMBER',
@@ -540,7 +545,6 @@ export const EN_US = {
                 BODY: "It looks like you've entered the wrong email or password. Please try again.",
             },
             NOT_FOUND: 'User not found',
-            USERNAME_CONFLICT: 'Username already exists',
             PROFILE_NOT_ACTIVE: {
                 SENT_AGAIN: 'Please confirm your e-mail address.',
             },
@@ -652,15 +656,6 @@ export const EN_US = {
         SAVE_BUTTON: 'Save',
         DELETE_BUTTON: 'Delete',
         BACK_TO_LIST: 'Back to list',
-        NAVIGATION: {
-            STEP1: {
-                TITLE: 'Personal information',
-                DESC: 'Let us get to know you a little bit better',
-            },
-            STEP2: {
-                TITLE: 'Child`s List',
-            },
-        },
     },
     ADD_CHILD: {
         TITLE: 'Add new Child',
@@ -1457,6 +1452,8 @@ export const EN_US = {
         maths: 'Maths',
         music: 'Music',
         physics: 'Physics',
+        psychology: 'Psychology',
+        designandtechnology: 'Design and Technology',
         polish: 'Polish',
         religion: 'Religion',
         russian: 'Russian',
@@ -1483,6 +1480,10 @@ export const EN_US = {
         statistics: 'Statistics',
     },
     SUBJECTS_GENITIVE: {
+        biology: 'Biology',
+        psychology: 'Psychology',
+        sociology: 'Sociology',
+        designandtechnology: 'Design and Technology',
         chemistry: 'Chemistry',
         economics: 'Economics',
         english: 'English',
@@ -1538,17 +1539,19 @@ export const EN_US = {
         'primary-school': 'Primary School',
         'high-school': 'High School',
         'matura-prep': 'Matura Prep',
+        elementary: 'Elementary School',
+        middle: 'Middle School',
+        high: 'High School',
+        ap: 'AP',
+        sat: 'SAT',
     },
     DEGREES: {
-        bachelor: 'Bachelor',
+        bacc: 'Bachelor',
         master: 'Master',
         phd: 'PhD',
-        'bachelor-degree': 'Bachelor',
-        'master-degree': 'Master',
-        'phd-degree': 'PhD',
-        bacc: 'Baccaulerate',
         mag: 'Master',
         postdipl: 'Postgraduate',
+        other: 'Other',
     },
     UNIVERSITIES: {
         AgronomskifakultetSveuiliteuZagrebu: 'Faculty of Agriculture - University of Zagreb',
@@ -4131,6 +4134,7 @@ export const EN_US = {
         SEARCH_TUTORS: '/en/search-tutors',
         SEARCH_TUTORS_TUTOR_PROFILE: '/en/profile/:tutorSlug',
         STUDENT_PROFILE: '/en/student-profile/:userId',
+        PROFILE: '/en/search-tutors/profile/:tutorSlug',
         SEARCH_TUTORS_TUTOR_BOOKINGS: '/en/search-tutors/bookings/:tutorSlug',
         MY_REVIEWS: '/en/my-reviews',
         COMPLETED_LESSONS: '/en/completed-lessons',
@@ -4369,6 +4373,7 @@ export const EN_US = {
                 TITLE: "Don't:",
                 LIST: {
                     TIP_1: 'Include your surname or any contact details',
+                    TIP_2: 'Use logos or links',
                     TIP_3: 'Use slideshows or presentations',
                     TIP_4: 'Have any other people visible in your video',
                 },
@@ -4377,7 +4382,6 @@ export const EN_US = {
     },
     TUTOR_CARD: {
         LESSON: 'lesson',
-        SHOW_PREVIEW: 'Show preview',
     },
     COUNTRY: {
         PLACEHOLDER: 'Country',
@@ -4385,8 +4389,8 @@ export const EN_US = {
         US: 'USA',
     },
     CURRENCY: {
-        HR: '€',
-        US: '$',
+        EUR: '€',
+        USD: '$',
     },
     BANNER: {
         REVIEW: {
