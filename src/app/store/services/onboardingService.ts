@@ -2,7 +2,6 @@ import { HttpMethods } from '../../types/httpMethods';
 import { baseService } from '../baseService';
 import IOnboardingState from '../../types/IOnboardingState';
 import ITutorOnboardingFormValues from '../../features/onboarding/tutor/types/ITutorOnboardingFormValues';
-import IOnboardingAvailability from '../../features/onboarding/tutor/types/IOnboardingAvailability';
 
 const URL = '/api/v1/users';
 
@@ -44,10 +43,11 @@ export const onboardingService = baseService.injectEndpoints({
                 onboardingState: Omit<ITutorOnboardingFormValues, 'availability'> & {
                     availability: IAvailabilityRequestDTO[];
                 };
+                isPreview?: boolean;
             }
         >({
-            query: ({ userId, onboardingState }) => ({
-                url: `${URL}/${userId}/onboarding-finish`,
+            query: ({ userId, onboardingState, isPreview }) => ({
+                url: `${URL}/${userId}/onboarding-commit${isPreview ? '?preview=true' : ''}`,
                 method: HttpMethods.POST,
                 body: onboardingState,
             }),

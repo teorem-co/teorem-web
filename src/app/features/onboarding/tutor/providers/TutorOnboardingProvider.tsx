@@ -24,6 +24,7 @@ interface ITutorOnboardingContextValue {
     formik: FormikContextType<ITutorOnboardingFormValues>;
     onBack: () => void;
     onNext: () => void;
+    onSavePreview?: () => Promise<void>;
     nextDisabled?: boolean;
     setNextDisabled?: (value: boolean) => void;
 }
@@ -72,46 +73,36 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
     }, [step, substep]);
 
     const handleSubmit = useCallback(
-        async (values: ITutorOnboardingFormValues) => {
-            console.log('Handle submit');
+        async (values: ITutorOnboardingFormValues, isPreview?: boolean) => {
             if (!user) throw new Error('User not found');
 
-            if (step === 3 && substep === MAX_STEPS_MAP[3]) {
-                const res = await finishOnboarding({
-                    userId: user?.id,
-                    onboardingState: {
-                        ...values,
-                        // flatten availability object to array
-                        availability: Object.values(values.availability || {})
-                            .reduce(
-                                (acc, val) => (val.selected ? acc.concat(val.entries || []) : []),
-                                [] as IOnboardingAvailability[]
-                            )
-                            .map((a) => ({
-                                ...a,
-                                day: DAY_STRINGS_MAP[a.day],
-                            })),
-                    },
-                }).unwrap();
-                console.log(res);
+            const res = await finishOnboarding({
+                userId: user?.id,
+                isPreview,
+                onboardingState: {
+                    ...values,
+                    // flatten availability object to array
+                    availability: Object.values(values.availability || {})
+                        .reduce(
+                            (acc, val) => (val.selected ? acc.concat(val.entries || []) : []),
+                            [] as IOnboardingAvailability[]
+                        )
+                        .map((a) => ({
+                            ...a,
+                            day: DAY_STRINGS_MAP[a.day],
+                        })),
+                },
+            }).unwrap();
+            console.log(res);
 
-                const res1 = await getUser(user?.id).unwrap();
-                dispatch(setUser(res1));
-                history.push(PATHS.DASHBOARD);
-            } else {
-                await setOnboardingState({
-                    userId: user?.id,
-                    onboardingState: {
-                        step,
-                        substep,
-                        formData: JSON.stringify(values),
-                    },
-                }).unwrap();
+            if (isPreview) return;
 
-                goToNextStep();
-            }
+            // when saving for preview there is no redirect, we open a modal with the preview
+            const res1 = await getUser(user?.id).unwrap();
+            dispatch(setUser(res1));
+            history.push(PATHS.DASHBOARD);
         },
-        [dispatch, finishOnboarding, getUser, goToNextStep, history, setOnboardingState, step, substep, user]
+        [dispatch, finishOnboarding, getUser, history, user]
     );
 
     const formik = useTutorOnboardingFormik(handleSubmit);
@@ -163,8 +154,27 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
         goToPreviousStep();
     }, [goToPreviousStep]);
 
-    const handleNext = useCallback(() => {
-        handleSubmit(formik.values);
+    const handleNext = useCallback(async () => {
+        if (!user) throw new Error('User not found');
+
+        if (step === 3 && substep === MAX_STEPS_MAP[3]) {
+            return handleSubmit(formik.values);
+        } else {
+            await setOnboardingState({
+                userId: user?.id,
+                onboardingState: {
+                    step,
+                    substep,
+                    formData: JSON.stringify(formik.values),
+                },
+            }).unwrap();
+
+            goToNextStep();
+        }
+    }, [formik.values, goToNextStep, handleSubmit, setOnboardingState, step, substep, user]);
+
+    const handleSavePreview = useCallback(() => {
+        return handleSubmit(formik.values, true);
     }, [formik.values, handleSubmit]);
 
     return (
@@ -176,6 +186,7 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
                 formik,
                 onBack: handleBack,
                 onNext: handleNext,
+                onSavePreview: handleSavePreview,
                 nextDisabled,
                 setNextDisabled,
             }}
