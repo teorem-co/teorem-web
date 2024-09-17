@@ -8,11 +8,18 @@ import calendarImage from './assets/calendar.png';
 import deviceImage from './assets/device.png';
 import shareImage from './assets/share.png';
 import TutorCard from '../../../../../../../components/TutorCard';
-import { Typography } from '@mui/material';
+import Typography from '@mui/material/Typography';
 import PublishPoint from './components/PublishPoint';
 import { useAppSelector } from '../../../../../../../store/hooks';
-import { useMemo } from 'react';
+import { Suspense, useMemo, useState } from 'react';
 import IOnboardingSubject from '../../../../types/IOnboardingSubject';
+import useMount from '../../../../../../../utils/useMount';
+import Modal from '../../../../../../../components/Modal';
+import Button from '@mui/material/Button';
+import { PATHS } from '../../../../../../../routes';
+import { useLazyGetTutorByIdQuery } from '../../../../../../../store/services/tutorService';
+import LoaderPrimary from '../../../../../../../components/skeleton-loaders/LoaderPrimary';
+import Skeleton from '@mui/material/Skeleton';
 
 export default function TutorOnboardingPublishStep() {
     const [t, i18n] = useTranslation();
@@ -21,8 +28,11 @@ export default function TutorOnboardingPublishStep() {
     const { universities } = useAppSelector((state) => state.university);
     const { subjects } = useAppSelector((state) => state.subject);
     const { countries } = useAppSelector((state) => state.countryMarket);
+    const [showPreview, setShowPreview] = useState(false);
+    const [showIframeLoader, setShowIframeLoader] = useState(true);
 
-    const { onBack, onNext, step, substep, maxSubstep, formik, setNextDisabled } = useTutorOnboarding();
+    const { onBack, onNext, onSavePreview, step, substep, maxSubstep, formik, setNextDisabled } = useTutorOnboarding();
+    const [getTutor, { data: tutorData }] = useLazyGetTutorByIdQuery();
 
     const education = useMemo(() => {
         if (formik.values.hasNoDegree) return undefined;
@@ -53,12 +63,20 @@ export default function TutorOnboardingPublishStep() {
             .filter((s) => s.length > 0);
     }, [formik.values.subjects, subjects, t]);
 
-    const marketAbrv = countries.find((c) => c.id === user?.countryId)?.abrv;
+    const marketCurrency = countries.find((c) => c.id === user?.countryId)?.currencyCode;
 
     const handlePublish = () => {
         onNext();
         setNextDisabled?.(true);
     };
+
+    useMount(() => {
+        if (!user?.id) {
+            throw new Error('There is no user id');
+        }
+        onSavePreview?.();
+        getTutor(user?.id);
+    });
 
     return (
         <OnboardingLayout
@@ -78,7 +96,7 @@ export default function TutorOnboardingPublishStep() {
                 centerOnDesktop
             >
                 <div className={styles.container}>
-                    <div>
+                    <div className={styles.tutorContainer}>
                         <TutorCard
                             name={user?.firstName + ' ' + user?.lastName[0] + '.'}
                             image={formik.values.imageLink}
@@ -88,8 +106,17 @@ export default function TutorOnboardingPublishStep() {
                             })}
                             education={education}
                             subjects={displaySubjects}
-                            currency={t('CURRENCY.' + marketAbrv)}
+                            currency={t('CURRENCY.' + marketCurrency)}
                         />
+                        <Button
+                            className={styles.previewButton}
+                            onClick={() => {
+                                setShowIframeLoader(true);
+                                setShowPreview(true);
+                            }}
+                        >
+                            {t('ONBOARDING.TUTOR.PUBLISH.SHOW_PREVIEW_BUTTON')}
+                        </Button>
                     </div>
                     <div className={styles.steps}>
                         <Typography variant="h5">{t('ONBOARDING.TUTOR.PUBLISH.STEPS_TITLE')}</Typography>
@@ -111,6 +138,30 @@ export default function TutorOnboardingPublishStep() {
                     </div>
                 </div>
             </OnboardingStepFormLayout>
+            <Modal
+                open={showPreview}
+                title={t('ONBOARDING.TUTOR.PUBLISH.SHOW_PREVIEW_BUTTON')}
+                onBackdropClick={() => setShowPreview(false)}
+                onClose={() => setShowPreview(false)}
+            >
+                <div className={styles.iframeContainer}>
+                    {showIframeLoader ? (
+                        <div className={styles.loader}>
+                            <Skeleton variant="rounded" width={'100%'} height={'100%'} />
+                        </div>
+                    ) : null}
+                    <iframe
+                        className={styles.iframe}
+                        title="Preview"
+                        onLoad={() => setShowIframeLoader(false)}
+                        src={`${window.location.origin}${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(':tutorSlug', tutorData?.slug ?? '')}`}
+                        width="100%"
+                        loading="lazy"
+                        sandbox='allow-same-origin allow-scripts '
+                        height={window.innerHeight * 2}
+                    ></iframe>
+                </div>
+            </Modal>
         </OnboardingLayout>
     );
 }

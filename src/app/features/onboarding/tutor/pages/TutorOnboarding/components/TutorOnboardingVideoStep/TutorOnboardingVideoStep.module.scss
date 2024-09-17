@@ -48,4 +48,14 @@
         top: 16px;
         right: 16px;
     }
+
+    .point {
+        font-size: 20px !important;
+        line-height: 20px !important;
+
+        .icon {
+            height: 25px !important;
+            width: 25px !important;
+        }
+    }
 }

@@ -35,7 +35,7 @@ export default function TutorOnboardingPriceStep() {
         setNextDisabled?.(!!formik.errors.price);
     }, [setNextDisabled, formik.values.price, formik.errors.price]);
 
-    const marketAbrv = countries.find((c) => c.id === user?.countryId)?.abrv;
+    const marketCurrency = countries.find((c) => c.id === user?.countryId)?.currencyCode;
 
     return (
         <OnboardingLayout
@@ -67,7 +67,7 @@ export default function TutorOnboardingPriceStep() {
             >
                 <div className={styles.container}>
                     <div className={styles.priceRow}>
-                        <div className={styles.currency}>{t('CURRENCY.' + marketAbrv)}</div>
+                        <div className={styles.currency}>{t('CURRENCY.' + marketCurrency)}</div>
                         <input
                             className={styles.input}
                             type="tel"
@@ -92,7 +92,7 @@ export default function TutorOnboardingPriceStep() {
                                 <div className={styles.row}>
                                     <span>{t('ONBOARDING.TUTOR.PRICE.PRICE_BREAKDOWN_BASE')}</span>
                                     <span>
-                                        {t('CURRENCY.' + marketAbrv)}
+                                        {t('CURRENCY.' + marketCurrency)}
                                         {parseFloat('0' + formik.values.price).toLocaleString(i18n.language, {
                                             maximumFractionDigits: 2,
                                             minimumFractionDigits: 2,
@@ -102,7 +102,7 @@ export default function TutorOnboardingPriceStep() {
                                 <div className={styles.row}>
                                     <span>{t('ONBOARDING.TUTOR.PRICE.PRICE_BREAKDOWN_FEE')}</span>
                                     <span>
-                                        -{t('CURRENCY.' + marketAbrv)}
+                                        -{t('CURRENCY.' + marketCurrency)}
                                         {parseFloat(fee + '' || '0').toLocaleString(i18n.language, {
                                             maximumFractionDigits: 2,
                                             minimumFractionDigits: 2,
@@ -113,7 +113,7 @@ export default function TutorOnboardingPriceStep() {
                                 <div className={styles.row}>
                                     <span>{t('ONBOARDING.TUTOR.PRICE.PRICE_BREAKDOWN_EARNED')}</span>
                                     <span>
-                                        {t('CURRENCY.' + marketAbrv)}
+                                        {t('CURRENCY.' + marketCurrency)}
                                         {parseFloat(earned + '' || '0').toLocaleString(i18n.language, {
                                             maximumFractionDigits: 2,
                                             minimumFractionDigits: 2,
@@ -137,7 +137,7 @@ export default function TutorOnboardingPriceStep() {
                         </>
                     ) : (
                         <button className={styles.expandButton} onClick={() => setShowDetailedBreakdown((v) => !v)}>
-                            {t('ONBOARDING.TUTOR.PRICE.PRICE_BREAKDOWN_SHORT')} {t('CURRENCY.' + marketAbrv)}
+                            {t('ONBOARDING.TUTOR.PRICE.PRICE_BREAKDOWN_SHORT')} {t('CURRENCY.' + marketCurrency)}
                             {parseFloat('0' + earned).toLocaleString(i18n.language, {
                                 maximumFractionDigits: 2,
                                 minimumFractionDigits: 2,

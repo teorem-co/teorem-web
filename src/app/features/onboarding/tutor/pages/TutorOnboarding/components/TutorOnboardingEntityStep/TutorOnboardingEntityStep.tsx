@@ -9,6 +9,7 @@ import { Button, Checkbox, FormControlLabel, Typography } from '@mui/material';
 import OnboardingLayout from '../../../../../components/OnboardingLayout';
 import CtaButton from '../../../../../../../components/CtaButton';
 import onboardingStyles from '../../TutorOnboarding.module.scss';
+import styles from './TutorOnboardingEntityStep.module.scss';
 
 export default function TutorOnboardingEntityStep() {
     const { t } = useTranslation();
@@ -64,9 +65,12 @@ export default function TutorOnboardingEntityStep() {
                     image={companyImage}
                 />
                 <FormControlLabel
-                    control={<Checkbox checked={checked} onClick={() => setChecked((c) => !c)} />}
+                    className={styles.consent}
+                    control={
+                        <Checkbox checked={checked} className={styles.check} onClick={() => setChecked((c) => !c)} />
+                    }
                     label={
-                        <Typography>
+                        <div className={styles.consent}>
                             {t('ONBOARDING.TUTOR.ENTITY.CHECKBOX_AGREE')}{' '}
                             <a
                                 target="_blank"
@@ -76,7 +80,7 @@ export default function TutorOnboardingEntityStep() {
                                 {t('ONBOARDING.TUTOR.ENTITY.CHECKBOX_TERMS')}
                             </a>
                             .
-                        </Typography>
+                        </div>
                     }
                 />
                 {formik.touched?.isCompany && formik.errors?.isCompany ? (

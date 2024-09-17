@@ -22,9 +22,9 @@ export default function OnboardingStepFormLayout({
         <div className={clsx(styles.container, { [styles.centered]: centerOnDesktop }, className)}>
             <div className={clsx(styles.form)}>
                 <div>
-                    <Typography variant="h2" className={styles.title}>
+                    <h1 className={styles.title}>
                         {title}
-                    </Typography>
+                    </h1>
                     {subtitle ? (
                         <Typography variant="body2" className={styles.subtitle}>
                             {subtitle}

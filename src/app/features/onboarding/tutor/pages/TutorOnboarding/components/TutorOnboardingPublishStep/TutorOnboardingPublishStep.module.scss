@@ -11,6 +11,38 @@
     gap: 8px;
 }
 
+.tutorContainer {
+    position: relative;
+
+    .previewButton {
+        position: absolute;
+    }
+}
+
+.iframeContainer {
+    position: relative;
+    display: flex;
+    width: calc(100% + 48px);
+    margin: -24px;
+
+    .iframe {
+        border: none;
+        z-index: 2;
+    }
+
+    .loader {
+        top: 20px;
+        left: 5%;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 400px;
+        width: 90%;
+        z-index: 1;
+    }
+}
+
 @media screen and (min-width: 768px) {
     .container {
         grid-template-columns: 1fr 1fr;

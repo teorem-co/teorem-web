@@ -19,9 +19,7 @@ export default function OnboardingStepStartLayout({
         <div className={styles.layout}>
             <div className={styles.textContainer}>
                 <div className={styles.stepLabel}>{stepLabel}</div>
-                <Typography variant="h1" className={styles.title}>
-                    {title}
-                </Typography>
+                <h1 className={styles.title}>{title}</h1>
                 <Typography variant="body2" className={styles.description}>
                     {description}
                 </Typography>

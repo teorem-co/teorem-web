@@ -23,14 +23,19 @@
 
 .stepLabel {
     font-weight: 400;
-    font-size: 16px;
+    font-size: 15px;
+    line-height: 20px;
 }
 
 .title {
     padding-bottom: 8px;
+    font-size: 31px;
+    line-height: 37px;
 }
 
 .description {
+    font-size: 15px !important;
+    line-height: 25px !important;
 }
 
 @media screen and (min-width: 768px) {
@@ -41,13 +46,13 @@
         grid-template-areas: 'text image';
         margin: 0 10%;
         height: 100%;
+        gap: 40px;
     }
 
     .textContainer {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        margin: 0 15%;
     }
 
     .imageContainer {
@@ -57,10 +62,23 @@
     }
 
     .image {
-        max-height: 500px;
+        max-height: 565px;
+    }
+
+    .stepLabel {
+        font-size: 20px;
+        line-height: 20px;
     }
 
     .title {
         padding-bottom: 32px;
+        font-size: 50px;
+        line-height: 60px;
+    }
+
+    .description {
+        font-size: 20px !important;
+        line-height: 25px !important;
+        font-weight: 400 !important;
     }
 }
