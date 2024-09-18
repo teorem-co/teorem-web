@@ -29,12 +29,6 @@ export default function VideoUploadArea({ fetchData }: IVideoUploadAreaProps) {
         }
     }, [file]);
 
-    useEffect(() => {
-        if (!showSuccessfullPopup) {
-            fetchData();
-        }
-    }, [fetchData, showSuccessfullPopup]);
-
     return (
         <>
             <div className={styles.container}>
@@ -65,38 +59,31 @@ export default function VideoUploadArea({ fetchData }: IVideoUploadAreaProps) {
             ) : null}
 
             {file ? (
-                <div className={'flex flex--col flex--ai--start modal__overlay'}>
-                    <VideoFIleUploadModal
-                        file={file}
-                        open={showFileUploadPopup}
-                        onClose={() => setShowFileUploadPopup(false)}
-                        triggerSuccess={() => {
-                            setShowSuccessfullPopup(true);
-                            setShowFileUploadPopup(false);
-                        }}
-                    />
-                </div>
+                <VideoFIleUploadModal
+                    file={file}
+                    open={showFileUploadPopup}
+                    onClose={() => setShowFileUploadPopup(false)}
+                    triggerSuccess={() => {
+                        setShowSuccessfullPopup(true);
+                        fetchData();
+                        setShowFileUploadPopup(false);
+                    }}
+                />
             ) : null}
 
-            {!showSuccessfullPopup ? (
+            {!showSuccessfullPopup && showRecorder ? ( // must have showRecorder condition becase it asks for permission immediately on mount
                 <RecorderModal
                     open={showRecorder}
                     onSuccess={() => {
                         setShowSuccessfullPopup(true);
+                        fetchData();
                         setShowRecorder(false);
-                        setTimeout(() => {
-                            location.reload();
-                        }, 1500);
                     }}
                     onClose={() => setShowRecorder(false)}
                 />
             ) : null}
 
-            {showSuccessfullPopup ? (
-                <div className="flex flex--col flex--ai--start modal__overlay">
-                    <VideoUploadPopup setShowPopup={setShowSuccessfullPopup} />
-                </div>
-            ) : null}
+            {showSuccessfullPopup ? <VideoUploadPopup setShowPopup={setShowSuccessfullPopup} /> : null}
         </>
     );
 }
