@@ -32,6 +32,7 @@ export const EN_US = {
         NEXT: 'Next',
         GET_STARTED: 'Get started',
         PUBLISH: 'Publish',
+        GET_QUICK_TIPS: 'Get quick tips',
         TUTOR: {
             START: {
                 TITLE: "It's easy to get started on Teorem",

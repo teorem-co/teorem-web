@@ -1,4 +1,9 @@
 import { ReactNode, useCallback, useEffect } from 'react';
+import styles from './Sidebar.module.scss';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import Divider from '../Divider';
 
 interface ISidebarProps {
     children?: ReactNode;
@@ -51,13 +56,17 @@ export default function Sidebar({
                     !sideBarIsOpen ? 'sidebar--secondary--close' : ''
                 }`}
             >
-                <div className="flex--primary flex--shrink">
-                    <div className="type--color--secondary">{title}</div>
-                    <div>
-                        <i className="icon icon--base icon--close icon--grey" onClick={closeSidebar}></i>
-                    </div>
+                <div className={styles.header}>
+                    {title ? (
+                        <Typography className={styles.title} variant="h5" component="h2" fontWeight="bold">
+                            {title}
+                        </Typography>
+                    ) : null}
+                    <IconButton size="small" className={styles.close} onClick={(e: any) => closeSidebar?.()}>
+                        <CloseIcon fontSize="small" />
+                    </IconButton>
                 </div>
-                <div className="flex--grow mt-10">{children}</div>
+                <div className="flex--grow">{children}</div>
                 <div className="flex--shirnk sidebar--secondary__bottom mt-10">
                     <div className="flex--primary mt-6">
                         {onSubmit ? (

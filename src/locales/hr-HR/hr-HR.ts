@@ -35,6 +35,7 @@ export const HR_HR: typeof EN_US = {
         NEXT: 'Nastavi',
         GET_STARTED: 'Započni',
         PUBLISH: 'Objavi',
+        GET_QUICK_TIPS: 'Potraži brze savjete',
         TUTOR: {
             START: {
                 TITLE: 'Lako je započeti na Teoremu',

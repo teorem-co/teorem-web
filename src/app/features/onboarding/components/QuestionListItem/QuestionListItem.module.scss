@@ -25,25 +25,32 @@
 .body {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    padding: 16px;
+    gap: 8px;
+    padding: 12px;
 }
 
 .title {
-    font-size: 20;
+    font-size: 15px;
+}
+
+.description {
+    font-size: 15px;
+    line-height: 20px;
 }
 
 @media screen and (min-width: 768px) {
     .body {
-        padding: 24px;
+        padding: 16px;
+        gap: 12px;
     }
     .title {
-        font-size: 20px;
-        line-height: 25px;
+        font-size: 15px;
+        line-height: 20px;
     }
 
     .description {
-        font-size: 20px;
+        font-size: 14px;
         line-height: 20px;
+        color: var(--color-text-secondary);
     }
 }
