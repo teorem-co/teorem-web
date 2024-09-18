@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import OnboardingStepFormLayout from '../../../../../components/OnboardingStepFormLayout';
 import styles from './TutorOnboardingPriceStep.module.scss';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTutorOnboarding } from '../../../../providers/TutorOnboardingProvider';
 import OnboardingLayout from '../../../../../components/OnboardingLayout';
 import { Button } from '@mui/material';
@@ -13,19 +13,27 @@ import Divider from '../../../../../../../components/Divider';
 import clsx from 'clsx';
 import Modal from '../../../../../../../components/Modal';
 import { useAppSelector } from '../../../../../../../store/hooks';
+import QUESTION_ARTICLES from '../../../../constants/questionArticles';
+import QuestionListItem from '../../../../../components/QuestionListItem';
 
 const FEE_PERCENTAGE = 0.15;
 
 export default function TutorOnboardingPriceStep() {
     const [t, i18n] = useTranslation();
     const { setNextDisabled, formik, onBack, onNext, nextDisabled, step, substep, maxSubstep } = useTutorOnboarding();
-    const { user } = useAppSelector((state) => state.auth);
-    const { countries } = useAppSelector((state) => state.countryMarket);
+
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [earned, setEarned] = useState(0);
     const [fee, setFee] = useState(0);
     const [showDetailedBreakdown, setShowDetailedBreakdown] = useState(false);
     const [showLearnMoreModal, setShowLearnMoreModal] = useState(false);
+    const { user } = useAppSelector((state) => state.auth);
+    const { countries } = useAppSelector((state) => state.countryMarket);
+
+    const countryAbrv = useMemo(
+        () => countries.find((c) => c.id === user?.countryId)?.abrv,
+        [countries, user?.countryId]
+    );
 
     useEffect(() => {
         const price = parseFloat(formik.values.price + '' || '0');
@@ -60,6 +68,15 @@ export default function TutorOnboardingPriceStep() {
             }
             isSidebarOpen={isSidebarOpen}
             onSidebarClose={() => setIsSidebarOpen(false)}
+            sidebar={QUESTION_ARTICLES.PRICE[countryAbrv ?? '']?.map((article) => (
+                <QuestionListItem
+                    key={article.title}
+                    description={article.description}
+                    title={article.title}
+                    link={article.link}
+                    image={article.image}
+                />
+            ))}
         >
             <OnboardingStepFormLayout
                 title={t('ONBOARDING.TUTOR.PRICE.TITLE')}

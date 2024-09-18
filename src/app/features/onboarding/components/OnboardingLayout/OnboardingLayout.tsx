@@ -53,7 +53,7 @@ export default function OnboardingLayout({
                 </div>
             </div>
             {sidebar ? (
-                <Sidebar sideBarIsOpen={isSidebarOpen} closeSidebar={onSidebarClose}>
+                <Sidebar sideBarIsOpen={isSidebarOpen} closeSidebar={onSidebarClose} title={t('ONBOARDING.QUESTIONS')}>
                     {sidebar}
                 </Sidebar>
             ) : null}

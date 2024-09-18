@@ -10,14 +10,22 @@ import { Add } from '@mui/icons-material';
 import OnboardingLayout from '../../../../../components/OnboardingLayout';
 import CtaButton from '../../../../../../../components/CtaButton';
 import onboardingStyles from '../../TutorOnboarding.module.scss';
+import QUESTION_ARTICLES from '../../../../constants/questionArticles';
+import QuestionListItem from '../../../../../components/QuestionListItem';
 
 export default function TutorOnboardingSubjectsStep() {
     const { t } = useTranslation();
     const { setNextDisabled, formik, step, substep, maxSubstep, onBack, onNext, nextDisabled } = useTutorOnboarding();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const { user } = useAppSelector((state) => state.auth);
+    const { countries } = useAppSelector((state) => state.countryMarket);
     const { levels } = useAppSelector((state) => state.level);
     const { subjects, subjectLevels } = useAppSelector((state) => state.subject);
+
+    const countryAbrv = useMemo(
+        () => countries.find((c) => c.id === user?.countryId)?.abrv,
+        [countries, user?.countryId]
+    );
 
     const possibleLevels = useMemo(
         () => levels.filter((l) => l.countryId === user?.countryId),
@@ -64,6 +72,15 @@ export default function TutorOnboardingSubjectsStep() {
             step={step}
             substep={substep}
             maxSubstep={maxSubstep}
+            sidebar={QUESTION_ARTICLES.SUBJECTS[countryAbrv ?? '']?.map((article) => (
+                <QuestionListItem
+                    key={article.title}
+                    description={article.description}
+                    title={article.title}
+                    link={article.link}
+                    image={article.image}
+                />
+            ))}
             onBack={onBack}
             actions={
                 <CtaButton fullWidth onClick={onNext} disabled={nextDisabled}>

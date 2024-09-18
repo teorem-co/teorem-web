@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import OnboardingStepFormLayout from '../../../../../components/OnboardingStepFormLayout';
 import styles from './TutorOnboardingVideoStep.module.scss';
 import { useTutorOnboarding } from '../../../../providers/TutorOnboardingProvider';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
     ITutorVideoInformation,
     useLazyGetTutorVideoInformationQuery,
@@ -15,6 +15,23 @@ import OnboardingLayout from '../../../../../components/OnboardingLayout';
 import { Button } from '@mui/material';
 import CtaButton from '../../../../../../../components/CtaButton';
 import onboardingStyles from '../../TutorOnboarding.module.scss';
+import QUESTION_ARTICLES from '../../../../constants/questionArticles';
+import QuestionListItem from '../../../../../components/QuestionListItem';
+import { useAppSelector } from '../../../../../../../store/hooks';
+import { FormikContextType } from 'formik';
+import ITutorOnboardingFormValues from '../../../../types/ITutorOnboardingFormValues';
+import useMount from '../../../../../../../utils/useMount';
+
+const fetchData = async (formik: FormikContextType<ITutorOnboardingFormValues>, getter: () => any) => {
+    const videoInfo = await getter().unwrap();
+
+    if (videoInfo.url) {
+        const lastIndexOfSlash = videoInfo.url.lastIndexOf('/');
+        const videoId = videoInfo.url.substring(lastIndexOfSlash + 1);
+        formik.setFieldValue('videoId', videoId);
+    }
+    return videoInfo;
+};
 
 export default function TutorOnboardingVideoStep() {
     const { t } = useTranslation();
@@ -26,23 +43,23 @@ export default function TutorOnboardingVideoStep() {
         approved: undefined,
         videoTranscoded: false,
     });
+    const { user } = useAppSelector((state) => state.auth);
+    const { countries } = useAppSelector((state) => state.countryMarket);
 
-    const fetchData = useCallback(async () => {
-        const videoInfo = await getVideoInformation().unwrap();
-        setVideoInformation({
-            ...videoInfo,
-        });
-        if (videoInfo.url) {
-            const lastIndexOfSlash = videoInfo.url.lastIndexOf('/');
-            const videoId = videoInfo.url.substring(lastIndexOfSlash + 1);
-            formik.setFieldValue('videoId', videoId);
-        }
-    }, [formik, getVideoInformation]);
+    const countryAbrv = useMemo(
+        () => countries.find((c) => c.id === user?.countryId)?.abrv,
+        [countries, user?.countryId]
+    );
+
+    useMount(() => {
+        setNextDisabled?.(!!formik.errors.videoId && false); //TODO: Remove false
+        fetchData(formik, getVideoInformation).then((videoInfo) => setVideoInformation(videoInfo));
+    });
 
     useEffect(() => {
-        setNextDisabled?.(!!formik.errors.videoId && false); //TODO: Remove false
-        fetchData();
-    }, [fetchData, formik.errors.videoId, setNextDisabled]);
+        setNextDisabled?.(!!formik.errors.videoId && false);
+    }, [ setNextDisabled]);
+
     return (
         <OnboardingLayout
             header={
@@ -66,6 +83,15 @@ export default function TutorOnboardingVideoStep() {
             }
             isSidebarOpen={isSidebarOpen}
             onSidebarClose={() => setIsSidebarOpen(false)}
+            sidebar={QUESTION_ARTICLES.VIDEO[countryAbrv ?? '']?.map((article) => (
+                <QuestionListItem
+                    key={article.title}
+                    description={article.description}
+                    title={article.title}
+                    link={article.link}
+                    image={article.image}
+                />
+            ))}
         >
             <OnboardingStepFormLayout
                 title={t('ONBOARDING.TUTOR.VIDEO.TITLE')}
@@ -73,9 +99,14 @@ export default function TutorOnboardingVideoStep() {
             >
                 <div className={styles.content}>
                     {videoInformation.url ? (
-                        <UploadedVideoComponent fetchData={fetchData} videoInformation={videoInformation} />
+                        <UploadedVideoComponent
+                            fetchData={() => fetchData(formik, getVideoInformation).then((d) => setVideoInformation(d))}
+                            videoInformation={videoInformation}
+                        />
                     ) : (
-                        <VideoUploadArea fetchData={fetchData} />
+                        <VideoUploadArea
+                            fetchData={() => fetchData(formik, getVideoInformation).then((d) => setVideoInformation(d))}
+                        />
                     )}
                 </div>
                 {formik.touched?.videoId && formik.errors?.videoId ? (

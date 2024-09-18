@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import OnboardingStepFormLayout from '../../../../../components/OnboardingStepFormLayout';
 import styles from './TutorOnboardingPhotoStep.module.scss';
 import { useTutorOnboarding } from '../../../../providers/TutorOnboardingProvider';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import imageCompression from 'browser-image-compression';
 import { useSetTutorProfileImageMutation } from '../../../../../../../store/services/userService';
 import { Button, IconButton } from '@mui/material';
@@ -13,12 +13,22 @@ import Close from '@mui/icons-material/Close';
 import OnboardingLayout from '../../../../../components/OnboardingLayout';
 import CtaButton from '../../../../../../../components/CtaButton';
 import onboardingStyles from '../../TutorOnboarding.module.scss';
+import QUESTION_ARTICLES from '../../../../constants/questionArticles';
+import QuestionListItem from '../../../../../components/QuestionListItem';
+import { useAppSelector } from '../../../../../../../store/hooks';
 
 export default function TutorOnboardingPhotoStep() {
     const { t } = useTranslation();
     const { setNextDisabled, formik, onBack, onNext, nextDisabled, step, substep, maxSubstep } = useTutorOnboarding();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [updateUserInformation, { isLoading: isLoadingUserUpdate }] = useSetTutorProfileImageMutation();
+    const { user } = useAppSelector((state) => state.auth);
+    const { countries } = useAppSelector((state) => state.countryMarket);
+
+    const countryAbrv = useMemo(
+        () => countries.find((c) => c.id === user?.countryId)?.abrv,
+        [countries, user?.countryId]
+    );
 
     useEffect(() => {
         setNextDisabled?.(!!formik.errors.imageLink);
@@ -81,6 +91,15 @@ export default function TutorOnboardingPhotoStep() {
             }
             isSidebarOpen={isSidebarOpen}
             onSidebarClose={() => setIsSidebarOpen(false)}
+            sidebar={QUESTION_ARTICLES.PHOTO[countryAbrv ?? '']?.map((article) => (
+                <QuestionListItem
+                    key={article.title}
+                    description={article.description}
+                    title={article.title}
+                    link={article.link}
+                    image={article.image}
+                />
+            ))}
         >
             <OnboardingStepFormLayout
                 title={t('ONBOARDING.TUTOR.PHOTO.TITLE')}

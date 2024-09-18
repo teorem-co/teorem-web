@@ -8,6 +8,8 @@ import { Button, TextField } from '@mui/material';
 import OnboardingLayout from '../../../../../components/OnboardingLayout';
 import CtaButton from '../../../../../../../components/CtaButton';
 import onboardingStyles from '../../TutorOnboarding.module.scss';
+import QUESTION_ARTICLES from '../../../../constants/questionArticles';
+import QuestionListItem from '../../../../../components/QuestionListItem';
 
 export default function TutorOnboardingPayoutInfoStep() {
     const { t } = useTranslation();
@@ -16,7 +18,12 @@ export default function TutorOnboardingPayoutInfoStep() {
     const { user } = useAppSelector((state) => state.auth);
     const { countries } = useAppSelector((state) => state.countryMarket);
 
-    const isCroatian = useMemo(() => countries.find((c) => c.id === user?.countryId)?.abrv === 'HR', [user, countries]);
+    const countryAbrv = useMemo(
+        () => countries.find((c) => c.id === user?.countryId)?.abrv,
+        [countries, user?.countryId]
+    );
+
+    const isCroatian = countryAbrv === 'HR';
     const isCompany = formik.values.isCompany;
 
     useEffect(() => {
@@ -50,6 +57,15 @@ export default function TutorOnboardingPayoutInfoStep() {
             }
             isSidebarOpen={isSidebarOpen}
             onSidebarClose={() => setIsSidebarOpen(false)}
+            sidebar={QUESTION_ARTICLES.PAYOUT_INFO[countryAbrv ?? '']?.map((article) => (
+                <QuestionListItem
+                    key={article.title}
+                    description={article.description}
+                    title={article.title}
+                    link={article.link}
+                    image={article.image}
+                />
+            ))}
         >
             <OnboardingStepFormLayout
                 title={t('ONBOARDING.TUTOR.PAYOUT_INFO.TITLE')}

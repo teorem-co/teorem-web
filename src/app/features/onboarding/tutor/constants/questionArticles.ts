@@ -1,6 +1,6 @@
 import IQuestionArticle from '../types/IQuestionArticle';
 
-const QUESTION_ARTICLES: Record<string, { US: IQuestionArticle[]; HR: IQuestionArticle[] }> = {
+const QUESTION_ARTICLES: Record<string, Record<string, IQuestionArticle[]>> = {
     SUBJECTS: {
         US: [
             {

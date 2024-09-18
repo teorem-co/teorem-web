@@ -9,6 +9,8 @@ import OnboardingLayout from '../../../../../components/OnboardingLayout';
 import { Button } from '@mui/material';
 import CtaButton from '../../../../../../../components/CtaButton';
 import onboardingStyles from '../../TutorOnboarding.module.scss';
+import QUESTION_ARTICLES from '../../../../constants/questionArticles';
+import QuestionListItem from '../../../../../components/QuestionListItem';
 
 export default function TutorOnboardingLegalInfoStep() {
     const { t } = useTranslation();
@@ -17,7 +19,12 @@ export default function TutorOnboardingLegalInfoStep() {
     const { user } = useAppSelector((state) => state.auth);
     const { countries } = useAppSelector((state) => state.countryMarket);
 
-    const isCroatian = useMemo(() => countries.find((c) => c.id === user?.countryId)?.abrv === 'HR', [user, countries]);
+    const countryAbrv = useMemo(
+        () => countries.find((c) => c.id === user?.countryId)?.abrv,
+        [countries, user?.countryId]
+    );
+
+    const isCroatian = countryAbrv === 'HR';
     const isCompany = formik.values.isCompany;
 
     useEffect(() => {
@@ -72,6 +79,15 @@ export default function TutorOnboardingLegalInfoStep() {
             }
             isSidebarOpen={isSidebarOpen}
             onSidebarClose={() => setIsSidebarOpen(false)}
+            sidebar={QUESTION_ARTICLES.LEGAL_INFO[countryAbrv ?? '']?.map((article) => (
+                <QuestionListItem
+                    key={article.title}
+                    description={article.description}
+                    title={article.title}
+                    link={article.link}
+                    image={article.image}
+                />
+            ))}
         >
             <OnboardingStepFormLayout
                 title={isCompany ? t('ONBOARDING.TUTOR.LEGAL_INFO.TITLE_COMPANY') : personTitle}

@@ -1,0 +1,49 @@
+.link {
+    display: grid;
+    grid-template-columns: 1fr;
+    color: inherit;
+    cursor: pointer;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+
+    &:hover {
+        background-color: var(--grey-f7);
+    }
+
+    &.withImage {
+        grid-template-columns: 1fr 3fr;
+    }
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+}
+
+.title {
+    font-size: 20;
+}
+
+@media screen and (min-width: 768px) {
+    .body {
+        padding: 24px;
+    }
+    .title {
+        font-size: 20px;
+        line-height: 25px;
+    }
+
+    .description {
+        font-size: 20px;
+        line-height: 20px;
+    }
+}

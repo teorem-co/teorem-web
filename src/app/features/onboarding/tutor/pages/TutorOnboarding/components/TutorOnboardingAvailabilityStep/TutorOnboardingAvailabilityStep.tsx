@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import styles from './TutorOnboardingAvailabilityStep.module.scss';
 import OnboardingStepFormLayout from '../../../../../components/OnboardingStepFormLayout';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTutorOnboarding } from '../../../../providers/TutorOnboardingProvider';
 import DayEnum from '../../../../types/DayEnum';
 import AvailabilityDayItem from './components/AvailabilityDayItem';
@@ -11,13 +11,20 @@ import OnboardingLayout from '../../../../../components/OnboardingLayout';
 import { Button } from '@mui/material';
 import onboardingStyles from '../../TutorOnboarding.module.scss';
 import CtaButton from '../../../../../../../components/CtaButton';
+import QUESTION_ARTICLES from '../../../../constants/questionArticles';
+import QuestionListItem from '../../../../../components/QuestionListItem';
 
 export default function TutorOnboardingAvailabilityStep() {
     const { t } = useTranslation();
     const { setNextDisabled, formik, step, substep, maxSubstep, onBack, onNext, nextDisabled } = useTutorOnboarding();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const { user } = useAppSelector((state) => state.auth);
-    const [defaultZone, setDefaultZone] = useState<string | undefined>();
+    const { countries } = useAppSelector((state) => state.countryMarket);
+
+    const countryAbrv = useMemo(
+        () => countries.find((c) => c.id === user?.countryId)?.abrv,
+        [countries, user?.countryId]
+    );
 
     useEffect(() => {
         setNextDisabled?.(!!formik.errors.availability);
@@ -46,6 +53,15 @@ export default function TutorOnboardingAvailabilityStep() {
             }
             isSidebarOpen={isSidebarOpen}
             onSidebarClose={() => setIsSidebarOpen(false)}
+            sidebar={QUESTION_ARTICLES.AVAILABILITY[countryAbrv ?? '']?.map((article) => (
+                <QuestionListItem
+                    key={article.title}
+                    description={article.description}
+                    title={article.title}
+                    link={article.link}
+                    image={article.image}
+                />
+            ))}
         >
             <OnboardingStepFormLayout
                 title={t('ONBOARDING.TUTOR.AVAILABILITY.TITLE')}
@@ -54,7 +70,6 @@ export default function TutorOnboardingAvailabilityStep() {
                 <TimeZoneSelect
                     title={t('ONBOARDING.TUTOR.AVAILABILITY.TIMEZONE_LABEL')}
                     className={styles.timeZoneSelect}
-                    defaultUserZone={defaultZone}
                     selectedZone={formik.values.timeZone ?? ''}
                     setSelectedZone={(z) => formik.setFieldValue('timeZone', z)}
                 />

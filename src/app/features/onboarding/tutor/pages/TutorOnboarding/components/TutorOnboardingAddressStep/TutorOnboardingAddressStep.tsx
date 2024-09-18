@@ -9,6 +9,8 @@ import OnboardingLayout from '../../../../../components/OnboardingLayout';
 import CtaButton from '../../../../../../../components/CtaButton';
 import onboardingStyles from '../../TutorOnboarding.module.scss';
 import styles from './TutorOnboardingAddressStep.module.scss';
+import QUESTION_ARTICLES from '../../../../constants/questionArticles';
+import QuestionListItem from '../../../../../components/QuestionListItem';
 
 export default function TutorOnboardingAddressStep() {
     const { t } = useTranslation();
@@ -17,8 +19,10 @@ export default function TutorOnboardingAddressStep() {
     const { user } = useAppSelector((state) => state.auth);
     const { countries } = useAppSelector((state) => state.countryMarket);
 
-    const userCountry = useMemo(() => countries.find((c) => c.id === user?.countryId), [user, countries]);
-    const isCompany = formik.values.isCompany;
+    const countryAbrv = useMemo(
+        () => countries.find((c) => c.id === user?.countryId)?.abrv,
+        [countries, user?.countryId]
+    );
 
     useEffect(() => {
         setNextDisabled?.(
@@ -58,6 +62,15 @@ export default function TutorOnboardingAddressStep() {
             }
             isSidebarOpen={isSidebarOpen}
             onSidebarClose={() => setIsSidebarOpen(false)}
+            sidebar={QUESTION_ARTICLES.ADDRESS[countryAbrv ?? '']?.map((article) => (
+                <QuestionListItem
+                    key={article.title}
+                    description={article.description}
+                    title={article.title}
+                    link={article.link}
+                    image={article.image}
+                />
+            ))}
         >
             <OnboardingStepFormLayout
                 title={t('ONBOARDING.TUTOR.ADDRESS.TITLE')}
@@ -70,7 +83,7 @@ export default function TutorOnboardingAddressStep() {
                         labelId="country-label"
                         placeholder="Country"
                         disabled
-                        value={userCountry?.abrv}
+                        value={countryAbrv}
                         input={
                             <OutlinedInput
                                 className={styles.input}
@@ -78,8 +91,8 @@ export default function TutorOnboardingAddressStep() {
                             />
                         }
                     >
-                        <MenuItem key={userCountry?.abrv} value={userCountry?.abrv}>
-                            {t('COUNTRY.' + userCountry?.abrv)}
+                        <MenuItem key={countryAbrv} value={countryAbrv}>
+                            {t('COUNTRY.' + countryAbrv)}
                         </MenuItem>
                     </Select>
                 </FormControl>

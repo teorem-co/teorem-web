@@ -13,6 +13,8 @@ import EducationItem from './EducationItem';
 import OnboardingLayout from '../../../../../components/OnboardingLayout';
 import CtaButton from '../../../../../../../components/CtaButton';
 import onboardingStyles from '../../TutorOnboarding.module.scss';
+import QUESTION_ARTICLES from '../../../../constants/questionArticles';
+import QuestionListItem from '../../../../../components/QuestionListItem';
 
 export default function TutorOnboardingEducationStep() {
     const { t } = useTranslation();
@@ -21,6 +23,12 @@ export default function TutorOnboardingEducationStep() {
     const { user } = useAppSelector((state) => state.auth);
     const { degrees } = useAppSelector((state) => state.degree);
     const { universities } = useAppSelector((state) => state.university);
+    const { countries } = useAppSelector((state) => state.countryMarket);
+
+    const countryAbrv = useMemo(
+        () => countries.find((c) => c.id === user?.countryId)?.abrv,
+        [countries, user?.countryId]
+    );
 
     const possibleDegrees = useMemo(
         () => degrees.filter((d) => d.countryId === user?.countryId),
@@ -75,6 +83,15 @@ export default function TutorOnboardingEducationStep() {
             }
             isSidebarOpen={isSidebarOpen}
             onSidebarClose={() => setIsSidebarOpen(false)}
+            sidebar={QUESTION_ARTICLES.EDUCATION[countryAbrv ?? '']?.map((article) => (
+                <QuestionListItem
+                    key={article.title}
+                    description={article.description}
+                    title={article.title}
+                    link={article.link}
+                    image={article.image}
+                />
+            ))}
         >
             <OnboardingStepFormLayout
                 title={t('ONBOARDING.TUTOR.EDUCATION.TITLE')}

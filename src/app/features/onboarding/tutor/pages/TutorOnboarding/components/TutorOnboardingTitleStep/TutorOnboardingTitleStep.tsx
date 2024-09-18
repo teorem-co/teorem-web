@@ -4,16 +4,26 @@ import styles from './TutorOnboardingTitleStep.module.scss';
 import { Field } from 'formik';
 import { Button } from '@mui/material';
 import { useTutorOnboarding } from '../../../../providers/TutorOnboardingProvider';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import TextArea from '../../../../../../../components/form/MyTextArea';
 import OnboardingLayout from '../../../../../components/OnboardingLayout';
 import CtaButton from '../../../../../../../components/CtaButton';
 import onboardingStyles from '../../TutorOnboarding.module.scss';
+import QUESTION_ARTICLES from '../../../../constants/questionArticles';
+import QuestionListItem from '../../../../../components/QuestionListItem';
+import { useAppSelector } from '../../../../../../../store/hooks';
 
 export default function TutorOnboardingTitleStep() {
     const { t } = useTranslation();
     const { setNextDisabled, formik, onBack, onNext, nextDisabled, step, substep, maxSubstep } = useTutorOnboarding();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const { user } = useAppSelector((state) => state.auth);
+    const { countries } = useAppSelector((state) => state.countryMarket);
+
+    const countryAbrv = useMemo(
+        () => countries.find((c) => c.id === user?.countryId)?.abrv,
+        [countries, user?.countryId]
+    );
 
     useEffect(() => {
         setNextDisabled?.(!!formik.errors.profileTitle);
@@ -42,6 +52,15 @@ export default function TutorOnboardingTitleStep() {
             }
             isSidebarOpen={isSidebarOpen}
             onSidebarClose={() => setIsSidebarOpen(false)}
+            sidebar={QUESTION_ARTICLES.TITLE[countryAbrv ?? '']?.map((article) => (
+                <QuestionListItem
+                    key={article.title}
+                    description={article.description}
+                    title={article.title}
+                    link={article.link}
+                    image={article.image}
+                />
+            ))}
         >
             <OnboardingStepFormLayout
                 title={t('ONBOARDING.TUTOR.TITLE.TITLE')}
