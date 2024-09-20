@@ -38,7 +38,7 @@ import { BookingManagement } from './features/booking-management/BookingManageme
 import { setSelectedLang } from './store/slices/langSlice';
 import { setLoginModalOpen } from './store/slices/modalsSlice';
 import useMount from './utils/useMount';
-import TutorOnboarding from './features/onboarding/tutor/pages/TutorOnboarding';
+import TutorOnboarding from './features/onboarding/tutor/TutorOnboarding';
 import TutorOnboardingProvider from './features/onboarding/tutor/providers/TutorOnboardingProvider';
 
 export const PATHS = {
