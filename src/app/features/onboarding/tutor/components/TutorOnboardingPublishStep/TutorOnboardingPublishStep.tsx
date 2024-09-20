@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next';
-import OnboardingStepFormLayout from '../../../components/OnboardingStepFormLayout';
 import { useTutorOnboarding } from '../../providers/TutorOnboardingProvider';
 import OnboardingLayout from '../../../components/OnboardingLayout';
 import CtaButton from '../../../../../components/CtaButton';
@@ -8,18 +7,15 @@ import calendarImage from './assets/calendar.png';
 import deviceImage from './assets/device.png';
 import shareImage from './assets/share.png';
 import TutorCard from '../../../../../components/TutorCard';
-import Typography from '@mui/material/Typography';
 import PublishPoint from './components/PublishPoint';
 import { useAppSelector } from '../../../../../store/hooks';
-import { Suspense, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import IOnboardingSubject from '../../types/IOnboardingSubject';
 import useMount from '../../../../../utils/useMount';
 import Modal from '../../../../../components/Modal';
-import Button from '@mui/material/Button';
 import { PATHS } from '../../../../../routes';
 import { useLazyGetTutorByIdQuery } from '../../../../../store/services/tutorService';
-import LoaderPrimary from '../../../../../components/skeleton-loaders/LoaderPrimary';
-import Skeleton from '@mui/material/Skeleton';
+import OnboardingLoader from '../../../components/OnboardingLoader';
 
 export default function TutorOnboardingPublishStep() {
     const [t, i18n] = useTranslation();
@@ -147,28 +143,7 @@ export default function TutorOnboardingPublishStep() {
                 onClose={() => setShowPreview(false)}
             >
                 <div className={styles.iframeContainer}>
-                    {showIframeLoader ? (
-                        <div className={styles.loader}>
-                            <Skeleton variant="rounded" width={'100%'} height={'30px'} />
-                            <Skeleton variant="rounded" width={'100%'} height={'30px'} />
-                            <Skeleton variant="rounded" width={'100%'} height={'30px'} />
-                            <Skeleton variant="rounded" width={'100%'} height={'30px'} />
-                            <Skeleton variant="rounded" width={'100%'} height={'30px'} />
-                            <Skeleton variant="rounded" width={'100%'} height={'30px'} />
-                            <Skeleton variant="rounded" width={'100%'} height={'30px'} />
-                            <Skeleton variant="rounded" width={'100%'} height={'30px'} />
-                            <Skeleton variant="rounded" width={'100%'} height={'30px'} />
-                            <Skeleton variant="rounded" width={'100%'} height={'30px'} />
-                            <Skeleton variant="rounded" width={'100%'} height={'30px'} />
-                            <Skeleton variant="rounded" width={'100%'} height={'30px'} />
-                            <Skeleton variant="rounded" width={'100%'} height={'30px'} />
-                            <Skeleton variant="rounded" width={'100%'} height={'30px'} />
-                            <Skeleton variant="rounded" width={'100%'} height={'30px'} />
-                            <Skeleton variant="rounded" width={'100%'} height={'30px'} />
-                            <Skeleton variant="rounded" width={'100%'} height={'30px'} />
-                            <Skeleton variant="rounded" width={'100%'} height={'30px'} />
-                        </div>
-                    ) : null}
+                    {showIframeLoader ? <OnboardingLoader /> : null}
                     <iframe
                         className={styles.iframe}
                         title="Preview"
