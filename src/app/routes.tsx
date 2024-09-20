@@ -18,7 +18,7 @@ import PersonalInformation from './features/my-profile/pages/PersonalInformation
 import ProfileAccount from './features/my-profile/pages/ProfileAccount';
 import MyReviews from './features/myReviews/MyReviews';
 import Notifications from './features/notifications/Notifications';
-import Onboarding from './features/onboarding/pages/Onboarding';
+import Onboarding from './features/onboarding';
 import SearchTutors from './features/searchTutors/SearchTutors';
 import TutorProfile from './features/searchTutors/TutorProfile';
 import TutorManagment from './features/tutor-managment/TutorManagment';
@@ -38,7 +38,7 @@ import { BookingManagement } from './features/booking-management/BookingManageme
 import { setSelectedLang } from './store/slices/langSlice';
 import { setLoginModalOpen } from './store/slices/modalsSlice';
 import useMount from './utils/useMount';
-import TutorOnboarding from './features/onboarding/tutor/TutorOnboarding';
+import TutorOnboarding from './features/onboarding/tutor';
 import TutorOnboardingProvider from './features/onboarding/tutor/providers/TutorOnboardingProvider';
 
 export const PATHS = {

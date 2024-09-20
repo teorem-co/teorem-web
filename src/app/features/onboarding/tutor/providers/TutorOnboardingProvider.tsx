@@ -8,7 +8,7 @@ import {
 } from '../../../../store/services/onboardingService';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { useHistory } from 'react-router';
-import useTutorOnboardingFormik from '../TutorOnboarding/hooks/useTutorOnboardingFormik';
+import useTutorOnboardingFormik from '../hooks/useTutorOnboardingFormik';
 import { setUser } from '../../../../store/slices/authSlice';
 import { PATHS } from '../../../../routes';
 import { FormikContextType, FormikProvider } from 'formik';
