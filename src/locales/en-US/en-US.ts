@@ -96,7 +96,7 @@ export const EN_US = {
                 MAJOR_LABEL: 'Enter the name of your course or major',
                 STARTED_LABEL: 'Started',
                 FINISHED_LABEL: 'Finished',
-                ONGOING: 'Ongoing',
+                PRESENT: 'Present',
                 ADD_DEGREE: 'Add another degree',
             },
             TITLE: {
@@ -158,7 +158,7 @@ export const EN_US = {
                         'You are setting your price for 50-minute lessons. Please make sure to leave a few minutes between lessons to complete Lesson Reports.',
                     BULLET_2: 'Teorem fee',
                     DESCRIPTION_3:
-                        "When you're setting a price and price breakdown is shown, The teorem service fee will automatically be calculated as a 15% of your lesson price. Toerem reserves the right to make changes in commission rates.",
+                        "When you're setting a price and price breakdown is shown, The Teorem service fee will automatically be calculated as a 15% of your lesson price. Teorem reserves the right to make changes in commission rates.",
                 },
                 ERROR_LOW_TITLE: 'Oops, there is an issue with your price',
                 ERROR_LOW_DESCRIPTION: 'Please enter a base price higher than',

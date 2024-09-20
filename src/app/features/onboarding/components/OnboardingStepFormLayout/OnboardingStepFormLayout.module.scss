@@ -1,7 +1,6 @@
 .container {
     position: relative;
     padding: 0px 24px 16px 24px;
-    min-height: 100%;
 }
 
 .form {
@@ -35,9 +34,8 @@
     }
 
     .centered {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+        margin-top: 20vh;
+        margin-bottom: 20vh;
     }
 
     .title {

@@ -100,7 +100,7 @@ export const HR_HR: typeof EN_US = {
                 MAJOR_LABEL: 'Unesite naziv svog kolegija ili glavnog predmeta',
                 STARTED_LABEL: 'Počeo',
                 FINISHED_LABEL: 'Završio',
-                ONGOING: 'U tijeku',
+                PRESENT: 'Trenutno studiram',
                 ADD_DEGREE: 'Dodajte još jednu diplomu',
             },
             TITLE: {

@@ -9,13 +9,14 @@
     grid-template-columns: 1fr auto;
     font-weight: 900;
     font-size: 75px;
-    line-height: 90px;
+    line-height: 90px !important;
     border-bottom: 2px solid var(--grey-d8);
 }
 
 .input {
     border: none;
     width: 180px;
+    line-height: 90px;
     background-color: transparent;
     font-weight: 900;
 
@@ -67,16 +68,24 @@
     cursor: pointer;
 }
 
+.learnMoreContainer {
+    position: fixed;
+    bottom: 92px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+}
+
 .learnMoreButton {
     background-color: transparent;
     border: none;
     color: var(--color-text-secondary);
     cursor: pointer;
     text-decoration: underline;
-    position: fixed;
-    bottom: 25%;
-    left: 50%;
-    transform: translateX(-50%);
     width: fit-content;
 }
 
@@ -93,15 +102,20 @@
 @media screen and (min-width: 768px) {
     .priceRow {
         font-size: 100px;
-        line-height: 120px;
+        line-height: 120px !important;
     }
 
     .input {
-        width: 300px;
+        width: 200px;
+        line-height: 120px !important;
     }
 
-    .expandButton{
-      font-size: 20px;
-      line-height: 25px;
+    .expandButton {
+        font-size: 20px;
+        line-height: 25px;
+    }
+
+    .learnMoreContainer {
+        bottom: 128px;
     }
 }

@@ -93,9 +93,7 @@ export default function TutorOnboardingPublishStep() {
             <div className={styles.layout}>
                 <div>
                     <h1 className={styles.title}>{t('ONBOARDING.TUTOR.PUBLISH.TITLE')}</h1>
-                    <Typography variant="body2" className={styles.subtitle}>
-                        {t('ONBOARDING.TUTOR.PUBLISH.SUBTITLE')}
-                    </Typography>
+                    <p className={styles.subtitle}>{t('ONBOARDING.TUTOR.PUBLISH.SUBTITLE')}</p>
                 </div>
                 <div className={styles.container}>
                     <div className={styles.tutorContainer}>
@@ -109,19 +107,21 @@ export default function TutorOnboardingPublishStep() {
                             education={education}
                             subjects={displaySubjects}
                             currency={t('CURRENCY.' + marketCurrency)}
+                            actions={
+                                <button
+                                    className={styles.previewButton}
+                                    onClick={() => {
+                                        setShowIframeLoader(true);
+                                        setShowPreview(true);
+                                    }}
+                                >
+                                    {t('ONBOARDING.TUTOR.PUBLISH.SHOW_PREVIEW_BUTTON')}
+                                </button>
+                            }
                         />
-                        <Button
-                            className={styles.previewButton}
-                            onClick={() => {
-                                setShowIframeLoader(true);
-                                setShowPreview(true);
-                            }}
-                        >
-                            {t('ONBOARDING.TUTOR.PUBLISH.SHOW_PREVIEW_BUTTON')}
-                        </Button>
                     </div>
                     <div className={styles.steps}>
-                        <Typography variant="h5">{t('ONBOARDING.TUTOR.PUBLISH.STEPS_TITLE')}</Typography>
+                        <h2 className={styles.pointsTitle}>{t('ONBOARDING.TUTOR.PUBLISH.STEPS_TITLE')}</h2>
                         <PublishPoint
                             icon={calendarImage}
                             title={t('ONBOARDING.TUTOR.PUBLISH.STEP_1_TITLE')}
@@ -149,7 +149,24 @@ export default function TutorOnboardingPublishStep() {
                 <div className={styles.iframeContainer}>
                     {showIframeLoader ? (
                         <div className={styles.loader}>
-                            <Skeleton variant="rounded" width={'100%'} height={'100%'} />
+                            <Skeleton variant="rounded" width={'100%'} height={'30px'} />
+                            <Skeleton variant="rounded" width={'100%'} height={'30px'} />
+                            <Skeleton variant="rounded" width={'100%'} height={'30px'} />
+                            <Skeleton variant="rounded" width={'100%'} height={'30px'} />
+                            <Skeleton variant="rounded" width={'100%'} height={'30px'} />
+                            <Skeleton variant="rounded" width={'100%'} height={'30px'} />
+                            <Skeleton variant="rounded" width={'100%'} height={'30px'} />
+                            <Skeleton variant="rounded" width={'100%'} height={'30px'} />
+                            <Skeleton variant="rounded" width={'100%'} height={'30px'} />
+                            <Skeleton variant="rounded" width={'100%'} height={'30px'} />
+                            <Skeleton variant="rounded" width={'100%'} height={'30px'} />
+                            <Skeleton variant="rounded" width={'100%'} height={'30px'} />
+                            <Skeleton variant="rounded" width={'100%'} height={'30px'} />
+                            <Skeleton variant="rounded" width={'100%'} height={'30px'} />
+                            <Skeleton variant="rounded" width={'100%'} height={'30px'} />
+                            <Skeleton variant="rounded" width={'100%'} height={'30px'} />
+                            <Skeleton variant="rounded" width={'100%'} height={'30px'} />
+                            <Skeleton variant="rounded" width={'100%'} height={'30px'} />
                         </div>
                     ) : null}
                     <iframe
@@ -162,6 +179,7 @@ export default function TutorOnboardingPublishStep() {
                         sandbox="allow-same-origin allow-scripts "
                         height={window.innerHeight * 2}
                     ></iframe>
+                    <div className={styles.overlay} />
                 </div>
             </Modal>
         </OnboardingLayout>

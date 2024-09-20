@@ -85,7 +85,13 @@ export default function EducationItem({
                     ))}
                 </Select>
             </FormControl>
-            <TextField fullWidth value={major} disabled={disabled} onChange={(e) => onMajorChange(e.target.value)} />
+            <TextField
+                fullWidth
+                label={t('ONBOARDING.TUTOR.EDUCATION.MAJOR_LABEL')}
+                value={major}
+                disabled={disabled}
+                onChange={(e) => onMajorChange(e.target.value)}
+            />
             <div className={styles.bottomRow}>
                 <FormControl disabled={disabled} variant="outlined" fullWidth>
                     <InputLabel id="start-year-select-label">
@@ -125,7 +131,7 @@ export default function EducationItem({
                         input={<OutlinedInput label={t('ONBOARDING.TUTOR.EDUCATION.FINISHED_LABEL')} />}
                         placeholder="-"
                     >
-                        <MenuItem value={0}>{t('ONBOARDING.TUTOR.EDUCATION.ONGOING')}</MenuItem>
+                        <MenuItem value={0}>{t('ONBOARDING.TUTOR.EDUCATION.PRESENT')}</MenuItem>
                         {YEARS.map((y) => (
                             <MenuItem key={y} value={y}>
                                 {y}

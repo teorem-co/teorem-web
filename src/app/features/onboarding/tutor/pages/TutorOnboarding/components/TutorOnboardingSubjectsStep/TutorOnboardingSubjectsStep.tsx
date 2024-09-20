@@ -94,6 +94,7 @@ export default function TutorOnboardingSubjectsStep() {
                 title={t('ONBOARDING.TUTOR.SUBJECTS.TITLE')}
                 subtitle={t('ONBOARDING.TUTOR.SUBJECTS.SUBTITLE')}
                 className={styles.layout}
+                centerOnDesktop
             >
                 {formik.values.subjects?.map((pair, i) => (
                     <LevelSubjectSelect

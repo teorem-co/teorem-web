@@ -4,7 +4,14 @@
     padding: 16px 24px;
     display: flex;
     flex-direction: column;
+    position: relative;
     gap: 8px;
+}
+
+.actions {
+    position: absolute;
+    top: 26px;
+    left: 34px;
 }
 
 .image {
@@ -29,14 +36,20 @@
     flex-wrap: wrap;
 
     > span {
-        padding: 4px 8px;
+        padding: 5px 8px;
         border-radius: 8px;
+        font-size: 17px;
+        font-weight: 400;
         background-color: var(--color-primary-lighter);
         color: var(--color-primary-dark);
     }
 }
 
 @media screen and (min-width: 768px) {
+    .card {
+        max-width: 405px;
+    }
+
     .image {
         height: 300px;
     }

@@ -7,11 +7,18 @@
 }
 
 .headerContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: white;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
     padding: 16px 24px;
+    height: 64px;
+    z-index: 2;
 }
 
 .logo {
@@ -26,8 +33,19 @@
 }
 
 .children {
-    height: 100%;
+    padding-top: 64px;
+    padding-bottom: 78px;
+    min-height: 100%;
     overflow-y: auto;
+}
+
+.footerContainer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    z-index: 2;
 }
 
 .footer {
@@ -35,7 +53,8 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 16px 24px;
+    padding: 12px 24px;
+    height: 72px;
 }
 
 .back {
@@ -45,6 +64,7 @@
     text-decoration: underline;
     font-size: 18px;
     line-height: 20px;
+    color: black;
     &:hover {
         text-decoration: none;
         cursor: pointer;
@@ -52,7 +72,7 @@
 }
 
 .actions {
-    min-width: 15%;
+    min-width: 30%;
     &.fullwidth {
         width: 100%;
     }
@@ -65,6 +85,7 @@
         justify-content: space-between;
         align-items: center;
         padding: 20px 30px;
+        height: 72px;
     }
 
     .logo {
@@ -72,12 +93,20 @@
         object-fit: contain;
     }
 
+    .children {
+        min-height: 100vh;
+        padding-top: 72px;
+        padding-bottom: 88px;
+    }
+
     .footer {
         padding: 20px 30px;
+        height: 88px;
     }
 
     .actions {
-        min-width: 15%;
+        width: 15%;
+        min-width: 173px;
         &.fullwidth {
             width: 15%;
         }

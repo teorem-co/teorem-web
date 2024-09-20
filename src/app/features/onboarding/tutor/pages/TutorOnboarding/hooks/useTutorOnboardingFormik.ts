@@ -53,7 +53,7 @@ export default function useTutorOnboardingFormik(onSubmit: (values: ITutorOnboar
             oib: '',
             companyName: '',
             addressCountryId: user?.countryId,
-            addressApartment: '',
+            addressApartment: undefined,
             routingNumber: '',
             accountNumber: '',
             imageLink: '',

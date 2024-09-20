@@ -30,7 +30,7 @@ export default function TutorOnboardingPriceStep() {
     const { user } = useAppSelector((state) => state.auth);
     const { countries } = useAppSelector((state) => state.countryMarket);
 
-    const countryAbrv = useMemo(
+    const marketAbrv = useMemo(
         () => countries.find((c) => c.id === user?.countryId)?.abrv,
         [countries, user?.countryId]
     );
@@ -44,6 +44,8 @@ export default function TutorOnboardingPriceStep() {
     }, [setNextDisabled, formik.values.price, formik.errors.price]);
 
     const marketCurrency = countries.find((c) => c.id === user?.countryId)?.currencyCode;
+
+    const placeholder = marketAbrv === 'US' ? '40' : '15'; // placeholder zavisi o tržištu
 
     return (
         <OnboardingLayout
@@ -68,7 +70,7 @@ export default function TutorOnboardingPriceStep() {
             }
             isSidebarOpen={isSidebarOpen}
             onSidebarClose={() => setIsSidebarOpen(false)}
-            sidebar={QUESTION_ARTICLES.PRICE[countryAbrv ?? '']?.map((article) => (
+            sidebar={QUESTION_ARTICLES.PRICE[marketAbrv ?? '']?.map((article) => (
                 <QuestionListItem
                     key={article.title}
                     description={article.description}
@@ -88,16 +90,20 @@ export default function TutorOnboardingPriceStep() {
                         <input
                             className={styles.input}
                             type="tel"
-                            placeholder="10.00"
-                            maxLength={5}
+                            placeholder={placeholder} // placeholder zavisi o tržištu
+                            maxLength={3}
                             value={formik.values.price}
                             onChange={(e) => {
-                                const value = parseFloat(e.target.value || '0');
+                                //leave only digits with regex
+
+                                const digits = e.target.value.replace(/\D/g, '');
+
+                                const value = parseFloat(digits || '0');
                                 // Check if the value is a number
                                 if (isNaN(value)) {
                                     return;
                                 }
-                                formik.setFieldValue('price', e.target.value);
+                                formik.setFieldValue('price', digits);
                             }}
                         />
                     </div>
@@ -166,9 +172,11 @@ export default function TutorOnboardingPriceStep() {
                 {formik.touched?.price && formik.errors?.price ? (
                     <div className="field__validation">{formik.errors.price}</div>
                 ) : null}
-                <button className={styles.learnMoreButton} onClick={() => setShowLearnMoreModal(true)}>
-                    {t('ONBOARDING.TUTOR.PRICE.LEARN_MORE_LABEL')}
-                </button>
+                <div className={styles.learnMoreContainer}>
+                    <button className={styles.learnMoreButton} onClick={() => setShowLearnMoreModal(true)}>
+                        {t('ONBOARDING.TUTOR.PRICE.LEARN_MORE_LABEL')}
+                    </button>
+                </div>
                 <Modal
                     open={showLearnMoreModal}
                     title={t('ONBOARDING.TUTOR.PRICE.LEARN_MORE.TITLE')}

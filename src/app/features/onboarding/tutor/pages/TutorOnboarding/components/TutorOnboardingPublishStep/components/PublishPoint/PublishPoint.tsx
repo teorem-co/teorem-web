@@ -11,7 +11,7 @@ export default function PublishPoint({ icon, title, description }: Readonly<IPub
         <div className={styles.point}>
             <img className={styles.img} src={icon} alt={title} />
             <div>
-                <h6 className={styles.title}>{title}</h6>
+                <h3 className={styles.title}>{title}</h3>
                 <p className={styles.description}>{description}</p>
             </div>
         </div>

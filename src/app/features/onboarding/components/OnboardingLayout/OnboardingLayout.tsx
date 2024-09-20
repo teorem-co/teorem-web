@@ -40,16 +40,18 @@ export default function OnboardingLayout({
                 <div className={styles.header}>{header}</div>
             </div>
             <div className={styles.children}>{children}</div>
-            <ProgressBar step={step} substep={substep} maxSubstep={maxSubstep} />
-            <div className={styles.footer}>
-                {step === 1 && substep === 0 ? null : (
-                    <button className={styles.back} onClick={onBack}>
-                        <span>{t('ONBOARDING.BACK')}</span>
-                    </button>
-                )}
-                <div />
-                <div className={clsx(styles.actions, { [styles.fullwidth]: step === 1 && substep === 0 })}>
-                    {actions}
+            <div className={styles.footerContainer}>
+                <ProgressBar step={step} substep={substep} maxSubstep={maxSubstep} />
+                <div className={styles.footer}>
+                    {step === 1 && substep === 0 ? null : (
+                        <button className={styles.back} onClick={onBack}>
+                            <span>{t('ONBOARDING.BACK')}</span>
+                        </button>
+                    )}
+                    <div />
+                    <div className={clsx(styles.actions, { [styles.fullwidth]: step === 1 && substep === 0 })}>
+                        {actions}
+                    </div>
                 </div>
             </div>
             {sidebar ? (

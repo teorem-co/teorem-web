@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import styles from './TutorCard.module.scss';
+import { ReactNode } from 'react';
 
 interface ITutorCardProps {
     image?: string;
@@ -8,13 +9,23 @@ interface ITutorCardProps {
     education?: string;
     subjects?: string[];
     currency?: string;
+    actions?: ReactNode;
 }
 
-export default function TutorCard({ image, name, price, education, subjects, currency }: Readonly<ITutorCardProps>) {
+export default function TutorCard({
+    image,
+    name,
+    price,
+    education,
+    subjects,
+    currency,
+    actions,
+}: Readonly<ITutorCardProps>) {
     const [t] = useTranslation();
 
     return (
         <div className={styles.card}>
+            {actions ? <div className={styles.actions}>{actions}</div> : null}
             {image?.length ? <img className={styles.image} src={image} alt={name} /> : null}
             {name?.length || price?.length ? (
                 <div className={styles.nameContainer}>
