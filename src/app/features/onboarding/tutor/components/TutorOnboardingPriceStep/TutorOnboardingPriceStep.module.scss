@@ -16,7 +16,8 @@
 .input {
     border: none;
     width: 180px;
-    line-height: 90px;
+    line-height: 75px !important;
+    font-size: 75px !important;
     background-color: transparent;
     font-weight: 900;
 
@@ -24,6 +25,7 @@
     &:focus-visible {
         outline: none;
     }
+    height: 90px;
 }
 
 .breakdown {
@@ -102,12 +104,14 @@
 @media screen and (min-width: 768px) {
     .priceRow {
         font-size: 100px;
-        line-height: 120px !important;
+        line-height: 100px !important;
     }
 
     .input {
         width: 200px;
-        line-height: 120px !important;
+        font-size: 100px !important;
+        line-height: 100px !important;
+        height: 100px !important;
     }
 
     .expandButton {

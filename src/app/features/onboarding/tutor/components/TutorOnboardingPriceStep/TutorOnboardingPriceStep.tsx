@@ -83,6 +83,7 @@ export default function TutorOnboardingPriceStep() {
             <OnboardingStepFormLayout
                 title={t('ONBOARDING.TUTOR.PRICE.TITLE')}
                 subtitle={t('ONBOARDING.TUTOR.PRICE.SUBTITLE')}
+                centerOnDesktop
             >
                 <div className={styles.container}>
                     <div className={styles.priceRow}>

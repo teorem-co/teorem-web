@@ -27,6 +27,7 @@ interface ITutorOnboardingContextValue {
     onSavePreview?: () => Promise<void>;
     nextDisabled?: boolean;
     setNextDisabled?: (value: boolean) => void;
+    isLoading: boolean;
 }
 
 const TutorOnboardingContext = createContext<ITutorOnboardingContextValue>({} as ITutorOnboardingContextValue);
@@ -43,6 +44,7 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
     const [getUser] = useLazyGetUserQuery();
     const [getOnboardingState] = useLazyGetOnboardingStateQuery();
     const [nextDisabled, setNextDisabled] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     const goToNextStep = useCallback(() => {
         if (step === 1 && substep >= MAX_STEPS_MAP[1]) {
@@ -147,7 +149,7 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
     };
 
     useMount(() => {
-        init();
+        init().finally(() => setIsLoading(false));
     });
 
     const handleBack = useCallback(() => {
@@ -189,6 +191,7 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
                 onSavePreview: handleSavePreview,
                 nextDisabled,
                 setNextDisabled,
+                isLoading,
             }}
         >
             <FormikProvider value={formik}>{children}</FormikProvider>

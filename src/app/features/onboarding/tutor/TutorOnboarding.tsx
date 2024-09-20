@@ -19,20 +19,15 @@ import TutorOnboardingStartStep from './components/TutorOnboardingStartStep';
 import TutorOnboardingSubjectsStep from './components/TutorOnboardingSubjectsStep';
 import TutorOnboardingTitleStep from './components/TutorOnboardingTitleStep';
 import TutorOnboardingVideoStep from './components/TutorOnboardingVideoStep';
-
-function getCtaText(t: TFunction<'translation', undefined>, step: number, substep: number) {
-    if (step === 1 && substep === 0) {
-        return t('ONBOARDING.GET_STARTED');
-    }
-
-    if (step === 3 && substep === 7) {
-        return t('ONBOARDING.PUBLISH');
-    }
-    return t('ONBOARDING.NEXT');
-}
+import OnboardingLoader from '../components/OnboardingLoader';
 
 export default function TutorOnboarding() {
-    const { step, substep } = useTutorOnboarding();
+    const { step, substep, isLoading } = useTutorOnboarding();
+
+    if (isLoading) {
+        return <OnboardingLoader />;
+    }
+
     if (step === 1) {
         switch (substep) {
             case 0:
