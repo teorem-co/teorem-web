@@ -130,7 +130,7 @@ export default function TutorOnboardingVideoStep() {
                                     if (!info.videoTranscoded) {
                                         setTimeout(() => {
                                             pinger();
-                                        }, 1000);
+                                        }, 5000);
                                     }
                                 }
 

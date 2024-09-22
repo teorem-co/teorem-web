@@ -45,19 +45,17 @@ export default function VideoUploadArea({ fetchData }: IVideoUploadAreaProps) {
                         setShowMaxDurationError={setShowMaxDurationError}
                     />
                     <p className={'align-self-center'}>{t('VIDEO_PREVIEW.OR')}</p>
+                    {showMaxSizeError ? (
+                        <div className="field__validation">{t('VIDEO_PREVIEW.FILE_UPLOAD.SIZE_MESSAGE')}</div>
+                    ) : null}
+                    {showMaxDurationError ? (
+                        <div className="field__validation">{t('VIDEO_PREVIEW.FILE_UPLOAD.DURATION_MESSAGE')}</div>
+                    ) : null}
                     <button onClick={() => setShowRecorder(true)} className={clsx(styles.cta, styles.white)}>
                         {t('VIDEO_PREVIEW.RECORD')}
                     </button>
                 </div>
             </div>
-
-            {showMaxSizeError ? (
-                <div className="field__validation">{t('VIDEO_PREVIEW.FILE_UPLOAD.SIZE_MESSAGE')}</div>
-            ) : null}
-            {showMaxDurationError ? (
-                <div className="field__validation">{t('VIDEO_PREVIEW.FILE_UPLOAD.DURATION_MESSAGE')}</div>
-            ) : null}
-
             {file ? (
                 <VideoFIleUploadModal
                     file={file}
