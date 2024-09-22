@@ -460,6 +460,8 @@ export const HR_HR: typeof EN_US = {
         VIDEO_PREVIEW: {
             DECLINE_AND_SEND_BUTTON: 'Odbij i pošalji',
             MESSAGE_TITLE: 'Razlog odbijanja videa',
+            SUCCESS_TITLE: 'Uspjeh! Vaš video je uploadan!',
+            SUCCESS_DESCRIPTION: 'Dodajemo neke završne detalje. U međuvremenu možete nastaviti izradu profila!',
         },
     },
     STUDENT_MANAGEMENT: {

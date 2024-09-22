@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Webcam from 'react-webcam';
 import { useLazyGetUploadVideoUrlQuery } from '../../../../store/services/vimeoService';
 import { uploadToVimeo } from '../uploadToVimeo';
@@ -38,9 +39,9 @@ export default function RecorderModal({ open, onSuccess, onClose }: Readonly<IRe
         const selectedValue = selectedOption ? selectedOption.value : '';
         setSelectedVideoDevice(selectedValue);
     };
-    const webcamRef = useRef<Webcam>(null);
-    const [videoDevices, setVideoDevices] = useState<MediaDeviceInfo[]>([]);
-    const [microphoneDevices, setMicrophoneDevices] = useState<MediaDeviceInfo[]>([]);
+    const webcamRef = useRef<Webcam | null>(null);
+    const streamRef = useRef<MediaStream | null>(null);
+
     const [selectedVideoDevice, setSelectedVideoDevice] = useState<string>('');
     const [selectedMicrophoneDevice, setSelectedMicrophoneDevice] = useState<string>('');
     const [recordedChunks, setRecordedChunks] = useState<BlobPart[]>([]);
@@ -60,9 +61,13 @@ export default function RecorderModal({ open, onSuccess, onClose }: Readonly<IRe
 
     async function onSubmit() {
         if (recordedChunks.length === 0) return;
-        if (webcamRef.current && webcamRef.current.stream) {
-            webcamRef.current.stream.getTracks().forEach((track) => track.stop());
-        }
+
+        mediaRecorderRef.current?.stop();
+
+        streamRef.current?.getTracks().forEach((track) => {
+            track.stop();
+        });
+
         const file: File = new File(recordedChunks, 'video.webm', { type: 'video/webm' }); // todo: change it later
         const size = file.size; // change later
         setShowLoader(true);
@@ -75,18 +80,17 @@ export default function RecorderModal({ open, onSuccess, onClose }: Readonly<IRe
 
     const cleanup = () => {
         // Stop all tracks
-        if (webcamRef.current && webcamRef.current.stream) {
-            webcamRef.current.stream.getTracks().forEach((track) => track.stop());
-        }
+        streamRef.current?.getTracks().forEach((track) => {
+            track.stop();
+        });
 
-        onClose(); // Assuming this calls the passed onClose prop to notify parent components.
+        onClose?.(); // Assuming this calls the passed onClose prop to notify parent components.
     };
 
     useEffect(() => {
         const updateDevices = () => {
             navigator.mediaDevices.enumerateDevices().then((devices) => {
                 const videoDevices = devices.filter((device) => device.kind === 'videoinput');
-                setVideoDevices(videoDevices);
                 if (videoDevices.length > 0) {
                     setSelectedVideoDevice(videoDevices[0].deviceId);
                 }
@@ -98,7 +102,6 @@ export default function RecorderModal({ open, onSuccess, onClose }: Readonly<IRe
                 setCameraOptions(cameraOptions);
 
                 const audioDevices = devices.filter((device) => device.kind === 'audioinput');
-                setMicrophoneDevices(audioDevices);
 
                 const options: Option[] = audioDevices.map((device) => ({
                     value: device.deviceId,
@@ -139,7 +142,7 @@ export default function RecorderModal({ open, onSuccess, onClose }: Readonly<IRe
         }
     };
 
-    const handleStartCaptureClick = async () => {
+    const handleStartCaptureClick = useCallback(async () => {
         setCapturing(true);
         setRecordedChunks([]);
         setReplayVideoUrl('');
@@ -152,7 +155,10 @@ export default function RecorderModal({ open, onSuccess, onClose }: Readonly<IRe
             });
 
             // Here, the stream includes both video and audio from the specified devices
-            webcamRef.current!.stream! = stream;
+            //@ts-ignore
+            webcamRef.current = { stream };
+            //this one is for cleanup
+            streamRef.current = stream;
 
             const options = {
                 mimeType: 'video/webm',
@@ -170,10 +176,11 @@ export default function RecorderModal({ open, onSuccess, onClose }: Readonly<IRe
             console.error('Error accessing media devices:', error);
             // Handle errors (e.g., user denied access to devices)
         }
-    };
+    }, [selectedVideoDevice, selectedMicrophoneDevice]);
 
     const handleStopCaptureClick = () => {
         mediaRecorderRef.current!.stop();
+
         setCapturing(false);
         if (intervalId) clearInterval(intervalId);
         setTimer(0);

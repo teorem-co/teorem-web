@@ -67,7 +67,7 @@ export default function TutorOnboardingVideoStep() {
 
     useEffect(() => {
         setNextDisabled?.(!!formik.errors.videoId && false);
-    }, [setNextDisabled]);
+    }, [setNextDisabled, formik.errors.videoId]);
 
     const demoLink = VIDEO_EXAMPLE[(languageAbrv as 'HR' | 'EN') ?? 'EN'];
 
@@ -116,7 +116,24 @@ export default function TutorOnboardingVideoStep() {
                         />
                     ) : (
                         <VideoUploadArea
-                            fetchData={() => fetchData(formik, getVideoInformation).then((d) => setVideoInformation(d))}
+                            fetchData={() => {
+                                async function pinger() {
+                                    const info = (await fetchData(
+                                        formik,
+                                        getVideoInformation
+                                    )) as ITutorVideoInformation;
+
+                                    setVideoInformation(info);
+
+                                    if (!info.videoTranscoded) {
+                                        setTimeout(() => {
+                                            pinger();
+                                        }, 1000);
+                                    }
+                                }
+
+                                pinger();
+                            }}
                         />
                     )}
                 </div>
