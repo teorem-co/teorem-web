@@ -12,12 +12,13 @@ import { useTranslation } from 'react-i18next';
 
 interface Props {
     videoInformation: ITutorVideoInformation;
-    fetchData: () => void;
+    fetchData: () => Promise<void>;
+    onDelete?: () => void;
 }
 
 export const UploadedVideoComponent = (props: Props) => {
     const [t] = useTranslation();
-    const { videoInformation, fetchData } = props;
+    const { videoInformation, fetchData, onDelete } = props;
     const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
     const [deleteVideo] = useLazyDeleteTutorVideoQuery();
     const userId = useAppSelector((state) => state.auth.user?.id);
@@ -26,7 +27,7 @@ export const UploadedVideoComponent = (props: Props) => {
         if (userId) {
             await deleteVideo(userId).unwrap();
             setShowDeleteConfirmModal(false);
-            fetchData();
+            fetchData().then(() => onDelete?.());
         }
     }
 

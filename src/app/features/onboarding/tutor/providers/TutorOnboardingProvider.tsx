@@ -16,6 +16,7 @@ import useMount from '../../../../utils/useMount';
 import MAX_STEPS_MAP from '../constants/maxStepsMap';
 import IOnboardingAvailability from '../types/IOnboardingAvailability';
 import { DAY_STRINGS_MAP } from '../types/DayEnum';
+import IOnboardingState from '../../../../types/IOnboardingState';
 
 interface ITutorOnboardingContextValue {
     step: number;
@@ -24,6 +25,7 @@ interface ITutorOnboardingContextValue {
     formik: FormikContextType<ITutorOnboardingFormValues>;
     onBack: () => void;
     onNext: () => void;
+    onSaveState: () => Promise<IOnboardingState>;
     onSavePreview?: () => Promise<void>;
     nextDisabled?: boolean;
     setNextDisabled?: (value: boolean) => void;
@@ -151,6 +153,18 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
         init().finally(() => setIsLoading(false));
     });
 
+    const handleSaveState = useCallback(async () => {
+        if (!user) throw new Error('User not found');
+        return await setOnboardingState({
+            userId: user?.id,
+            onboardingState: {
+                step,
+                substep,
+                formData: JSON.stringify(formik.values),
+            },
+        }).unwrap();
+    }, [formik.values, setOnboardingState, step, substep, user]);
+
     const handleBack = useCallback(() => {
         goToPreviousStep();
     }, [goToPreviousStep]);
@@ -161,18 +175,9 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
         if (step === 3 && substep === MAX_STEPS_MAP[3]) {
             return handleSubmit(formik.values);
         } else {
-            await setOnboardingState({
-                userId: user?.id,
-                onboardingState: {
-                    step,
-                    substep,
-                    formData: JSON.stringify(formik.values),
-                },
-            }).unwrap();
-
-            goToNextStep();
+            handleSaveState().then(() => goToNextStep());
         }
-    }, [formik.values, goToNextStep, handleSubmit, setOnboardingState, step, substep, user]);
+    }, [formik.values, goToNextStep, handleSaveState, handleSubmit, step, substep, user]);
 
     const handleSavePreview = useCallback(() => {
         return handleSubmit(formik.values, true);
@@ -187,6 +192,7 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
                 formik,
                 onBack: handleBack,
                 onNext: handleNext,
+                onSaveState: handleSaveState,
                 onSavePreview: handleSavePreview,
                 nextDisabled,
                 setNextDisabled,

@@ -38,7 +38,8 @@ const fetchData = async (formik: FormikContextType<ITutorOnboardingFormValues>, 
 
 export default function TutorOnboardingVideoStep() {
     const { t } = useTranslation();
-    const { formik, setNextDisabled, onBack, onNext, nextDisabled, step, substep, maxSubstep } = useTutorOnboarding();
+    const { formik, setNextDisabled, onBack, onNext, onSaveState, nextDisabled, step, substep, maxSubstep } =
+        useTutorOnboarding();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [getVideoInformation] = useLazyGetTutorVideoInformationQuery();
     const [videoInformation, setVideoInformation] = useState<ITutorVideoInformation>({
@@ -112,6 +113,7 @@ export default function TutorOnboardingVideoStep() {
                     {videoInformation.url ? (
                         <UploadedVideoComponent
                             fetchData={() => fetchData(formik, getVideoInformation).then((d) => setVideoInformation(d))}
+                            onDelete={onSaveState}
                             videoInformation={videoInformation}
                         />
                     ) : (
