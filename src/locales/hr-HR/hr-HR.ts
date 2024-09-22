@@ -460,8 +460,6 @@ export const HR_HR: typeof EN_US = {
         VIDEO_PREVIEW: {
             DECLINE_AND_SEND_BUTTON: 'Odbij i pošalji',
             MESSAGE_TITLE: 'Razlog odbijanja videa',
-            SUCCESS_TITLE: 'Uspjeh! Vaš video je uploadan!',
-            SUCCESS_DESCRIPTION: 'Dodajemo neke završne detalje. U međuvremenu možete nastaviti izradu profila!',
         },
     },
     STUDENT_MANAGEMENT: {
@@ -4333,6 +4331,8 @@ export const HR_HR: typeof EN_US = {
         ADD_VIDEO: 'Dodaj video',
         BROWSE: 'Pretraži',
         RECORD: 'Snimi',
+        SUCCESS_TITLE: 'Uspjeh! Vaš video je uploadan!',
+        SUCCESS_DESCRIPTION: 'Dodajemo neke završne detalje. U međuvremenu možete nastaviti izradu profila!',
         RECORD_MODAL: {
             TITLE: 'Snimite video',
             SETTINGS: 'Audio i video postavke',

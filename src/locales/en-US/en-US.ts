@@ -455,9 +455,6 @@ export const EN_US = {
         VIDEO_PREVIEW: {
             DECLINE_AND_SEND_BUTTON: 'Decline and send',
             MESSAGE_TITLE: 'Reason for video decline',
-            SUCCESS_TITLE: 'Success! Your video has been uploaded!',
-            SUCCESS_DESCRIPTION:
-                "We're adding some finishing touches. You can finish onboarding while we take care of the rest!",
         },
     },
     STUDENT_MANAGEMENT: {
@@ -4329,6 +4326,9 @@ export const EN_US = {
         BROWSE: 'Browse',
         RECORD: 'Record',
         DELETE: 'Delete',
+        SUCCESS_TITLE: 'Success! Your video has been uploaded!',
+        SUCCESS_DESCRIPTION:
+            "We're adding some finishing touches. You can finish onboarding while we take care of the rest!",
         RECORD_MODAL: {
             TITLE: 'Record video',
             SETTINGS: 'Audio and Video Settings',

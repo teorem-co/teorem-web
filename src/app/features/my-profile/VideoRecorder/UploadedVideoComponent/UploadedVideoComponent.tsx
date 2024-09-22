@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { ITutorVideoInformation, useLazyDeleteTutorVideoQuery } from '../../../../store/services/tutorService';
 import { ConfirmationModal } from '../../../../components/ConfirmationModal';
 import { useAppSelector } from '../../../../store/hooks';
-import { t } from 'i18next';
 import styles from './UploadedVideoComponent.module.scss';
 import successImage from './assets/successImage.png';
 import recordImage from './assets/record.png';
 import IconButton from '@mui/material/IconButton';
 import Delete from '@mui/icons-material/Delete';
 import Typography from '@mui/material/Typography';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
     videoInformation: ITutorVideoInformation;
@@ -16,6 +16,7 @@ interface Props {
 }
 
 export const UploadedVideoComponent = (props: Props) => {
+    const [t] = useTranslation();
     const { videoInformation, fetchData } = props;
     const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
     const [deleteVideo] = useLazyDeleteTutorVideoQuery();
