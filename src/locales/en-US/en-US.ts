@@ -307,6 +307,7 @@ export const EN_US = {
         UNIQUE_SUBJECT: "You can't add the same subject and level combination twice",
         MIN_ONE: 'You must select at least one',
         AVAILABILITY: 'You must select at least one day and time of day',
+        AVAILABILITY_TIME: 'You must select at least one period in a day',
         START_YEAR: 'Start year must be between 1950 and current year',
         END_YEAR: 'End year must be greater than start year',
         MIN_PRICE: "Price can't be lower than 10.00",

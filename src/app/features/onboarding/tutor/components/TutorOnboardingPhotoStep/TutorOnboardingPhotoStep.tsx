@@ -127,6 +127,9 @@ export default function TutorOnboardingPhotoStep() {
                         />
                     )}
                 </div>
+                {formik.errors?.imageLink && formik.values.imageLink ? (
+                    <div className="field__validation">{formik.errors.imageLink}</div>
+                ) : null}
                 <div className={styles.points}>
                     <div className={styles.point}>
                         <CheckBox className={styles.icon} />

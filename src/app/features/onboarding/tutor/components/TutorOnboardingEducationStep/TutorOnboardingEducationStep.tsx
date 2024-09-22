@@ -107,6 +107,9 @@ export default function TutorOnboardingEducationStep() {
                     <>
                         <EducationItem
                             key={index}
+                            errors={
+                                typeof formik.errors?.degrees !== 'string' ? formik.errors?.degrees?.[index] : undefined
+                            }
                             disabled={formik.values.hasNoDegree}
                             degrees={possibleDegrees}
                             universities={possibleUniversities}
@@ -153,7 +156,7 @@ export default function TutorOnboardingEducationStep() {
                         {index + 1 !== formik?.values.degrees?.length && <Divider />}
                     </>
                 ))}
-                {formik.touched?.degrees && formik.errors?.degrees ? (
+                {typeof formik.errors?.degrees === 'string' && formik.errors.degrees.length ? (
                     <div className="field__validation">{formik.errors.degrees}</div>
                 ) : null}
                 {formik.values.hasNoDegree ? null : (

@@ -17,6 +17,9 @@ import { useTranslation } from 'react-i18next';
 import START_YEARS from '../constants/startYears';
 
 interface IEducationItemProps {
+    errors?:
+        | { degreeId?: string; endYear?: string; majorName?: string; startYear?: string; universityId?: string }
+        | any;
     disabled?: boolean;
     degrees: IDegree[];
     universities: IUniversity[];
@@ -35,11 +38,12 @@ interface IEducationItemProps {
 }
 
 export default function EducationItem({
+    errors,
     degrees,
     universities,
     selectedDegreeId,
     selectedUniversity,
-    major,
+    major: majorName,
     selectedEndYear,
     selectedStartYear,
     onDelete,
@@ -54,22 +58,26 @@ export default function EducationItem({
     const { t } = useTranslation();
     return (
         <div className={styles.educationItem}>
-            <FormControl disabled={disabled} variant="outlined" fullWidth>
+            <FormControl disabled={disabled} variant="outlined" fullWidth error={!!errors?.universityId}>
                 <Autocomplete
                     disablePortal
                     fullWidth
                     disabled={disabled}
                     value={selectedUniversity}
-
                     getOptionLabel={(o) => t('UNIVERSITIES.' + o.abrv)}
                     onChange={(e, v) => onUniversityChange(v?.id)}
                     options={universities}
                     renderInput={(params) => (
-                        <TextField {...params} label={t('ONBOARDING.TUTOR.EDUCATION.UNI_LABEL')} />
+                        <TextField
+                            {...params}
+                            label={t('ONBOARDING.TUTOR.EDUCATION.UNI_LABEL')}
+                            error={!!errors?.universityId}
+                        />
                     )}
                 />
+                {errors?.universityId ? <div className="field__validation">{errors.universityId}</div> : null}
             </FormControl>
-            <FormControl disabled={disabled} variant="outlined" fullWidth>
+            <FormControl disabled={disabled} variant="outlined" fullWidth error={!!errors?.degreeId}>
                 <InputLabel id="degree-select-label">{t('ONBOARDING.TUTOR.EDUCATION.DEGREE_LABEL')}</InputLabel>
                 <Select
                     labelId="degree-select-label"
@@ -85,16 +93,19 @@ export default function EducationItem({
                         </MenuItem>
                     ))}
                 </Select>
+                {errors?.degreeId ? <div className="field__validation">{errors.degreeId}</div> : null}
             </FormControl>
             <TextField
                 fullWidth
                 label={t('ONBOARDING.TUTOR.EDUCATION.MAJOR_LABEL')}
-                value={major}
+                value={majorName}
                 disabled={disabled}
                 onChange={(e) => onMajorChange(e.target.value)}
+                error={!!errors?.majorName}
             />
+            {errors?.majorName ? <div className="field__validation">{errors.majorName}</div> : null}
             <div className={styles.bottomRow}>
-                <FormControl disabled={disabled} variant="outlined" fullWidth>
+                <FormControl disabled={disabled} variant="outlined" fullWidth error={!!errors?.startYear}>
                     <InputLabel id="start-year-select-label">
                         {t('ONBOARDING.TUTOR.EDUCATION.STARTED_LABEL')}
                     </InputLabel>
@@ -118,7 +129,7 @@ export default function EducationItem({
                     </Select>
                 </FormControl>
                 <Remove />
-                <FormControl disabled={disabled} variant="outlined" fullWidth>
+                <FormControl disabled={disabled} variant="outlined" fullWidth error={!!errors?.endYear}>
                     <InputLabel id="end-year-select-label">{t('ONBOARDING.TUTOR.EDUCATION.FINISHED_LABEL')}</InputLabel>
                     <Select
                         labelId="end-year-select-label"
@@ -144,6 +155,9 @@ export default function EducationItem({
                     <Delete />
                 </IconButton>
             </div>
+            {errors?.startYear || errors?.endYear ? (
+                <div className="field__validation">{errors.startYear || errors?.endYear}</div>
+            ) : null}
         </div>
     );
 }

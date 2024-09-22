@@ -16,6 +16,9 @@ import Modal from '../../../../../components/Modal';
 import { PATHS } from '../../../../../routes';
 import { useLazyGetTutorByIdQuery } from '../../../../../store/services/tutorService';
 import OnboardingLoader from '../../../components/OnboardingLoader';
+import CalendarToday from '@mui/icons-material/CalendarToday';
+import EditNote from '@mui/icons-material/EditNote';
+import IosShare from '@mui/icons-material/IosShare';
 
 export default function TutorOnboardingPublishStep() {
     const [t, i18n] = useTranslation();
@@ -119,17 +122,17 @@ export default function TutorOnboardingPublishStep() {
                     <div className={styles.steps}>
                         <h2 className={styles.pointsTitle}>{t('ONBOARDING.TUTOR.PUBLISH.STEPS_TITLE')}</h2>
                         <PublishPoint
-                            icon={calendarImage}
+                            icon={<CalendarToday />}
                             title={t('ONBOARDING.TUTOR.PUBLISH.STEP_1_TITLE')}
                             description={t('ONBOARDING.TUTOR.PUBLISH.STEP_1_DESCRIPTION')}
                         />
                         <PublishPoint
-                            icon={deviceImage}
+                            icon={<EditNote />}
                             title={t('ONBOARDING.TUTOR.PUBLISH.STEP_2_TITLE')}
                             description={t('ONBOARDING.TUTOR.PUBLISH.STEP_2_DESCRIPTION')}
                         />
                         <PublishPoint
-                            icon={shareImage}
+                            icon={<IosShare />}
                             title={t('ONBOARDING.TUTOR.PUBLISH.STEP_3_TITLE')}
                             description={t('ONBOARDING.TUTOR.PUBLISH.STEP_3_DESCRIPTION')}
                         />

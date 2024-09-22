@@ -32,7 +32,6 @@ export default function OnboardingLayout({
     onSidebarClose,
 }: Readonly<IOnboardingLayoutProps>) {
     const { t } = useTranslation();
-    console.log('step, substep, maxSubstep', step, substep, maxSubstep);
     return (
         <div className={styles.layout}>
             <div className={styles.headerContainer}>

@@ -61,12 +61,6 @@ export default function useTutorOnboardingFormik(onSubmit: (values: ITutorOnboar
         },
         validationSchema: Yup.object().shape({
             subjects: Yup.array()
-                .of(
-                    Yup.object().shape({
-                        subjectId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-                        levelId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-                    })
-                )
                 // no duplicates
                 .test('unique', t('FORM_VALIDATION.UNIQUE_SUBJECT'), function (value) {
                     const seen = new Set();
@@ -83,69 +77,139 @@ export default function useTutorOnboardingFormik(onSubmit: (values: ITutorOnboar
                 .min(1, t('FORM_VALIDATION.MIN_ONE')),
             availability: Yup.object()
                 .shape({
-                    [DayEnum.MONDAY]: Yup.object().shape({
-                        selected: Yup.boolean(),
-                        entries: Yup.object().shape({
-                            day: Yup.number().required(),
-                            beforeNoon: Yup.boolean(),
-                            noonToFive: Yup.boolean(),
-                            afterFive: Yup.boolean(),
+                    [DayEnum.MONDAY]: Yup.object()
+                        .shape({
+                            selected: Yup.boolean(),
+                            entries: Yup.object().shape({
+                                day: Yup.number().required(),
+                                beforeNoon: Yup.boolean(),
+                                noonToFive: Yup.boolean(),
+                                afterFive: Yup.boolean(),
+                            }),
+                        })
+                        .test('availability', t('FORM_VALIDATION.AVAILABILITY_TIME'), function (value) {
+                            if (value.selected) {
+                                if (value.entries.beforeNoon || value.entries.noonToFive || value.entries.afterFive) {
+                                    return true;
+                                }
+                                return false;
+                            }
+                            return true;
                         }),
-                    }),
-                    [DayEnum.TUESDAY]: Yup.object().shape({
-                        selected: Yup.boolean(),
-                        entries: Yup.object().shape({
-                            day: Yup.number().required(),
-                            beforeNoon: Yup.boolean(),
-                            noonToFive: Yup.boolean(),
-                            afterFive: Yup.boolean(),
+                    [DayEnum.TUESDAY]: Yup.object()
+                        .shape({
+                            selected: Yup.boolean(),
+                            entries: Yup.object().shape({
+                                day: Yup.number().required(),
+                                beforeNoon: Yup.boolean(),
+                                noonToFive: Yup.boolean(),
+                                afterFive: Yup.boolean(),
+                            }),
+                        })
+                        .test('availability', t('FORM_VALIDATION.AVAILABILITY_TIME'), function (value) {
+                            if (value.selected) {
+                                if (value.entries.beforeNoon || value.entries.noonToFive || value.entries.afterFive) {
+                                    return true;
+                                }
+                                return false;
+                            }
+                            return true;
                         }),
-                    }),
-                    [DayEnum.WEDNESDAY]: Yup.object().shape({
-                        selected: Yup.boolean(),
-                        entries: Yup.object().shape({
-                            day: Yup.number().required(),
-                            beforeNoon: Yup.boolean(),
-                            noonToFive: Yup.boolean(),
-                            afterFive: Yup.boolean(),
+                    [DayEnum.WEDNESDAY]: Yup.object()
+                        .shape({
+                            selected: Yup.boolean(),
+                            entries: Yup.object().shape({
+                                day: Yup.number().required(),
+                                beforeNoon: Yup.boolean(),
+                                noonToFive: Yup.boolean(),
+                                afterFive: Yup.boolean(),
+                            }),
+                        })
+                        .test('availability', t('FORM_VALIDATION.AVAILABILITY_TIME'), function (value) {
+                            if (value.selected) {
+                                if (value.entries.beforeNoon || value.entries.noonToFive || value.entries.afterFive) {
+                                    return true;
+                                }
+                                return false;
+                            }
+                            return true;
                         }),
-                    }),
-                    [DayEnum.THURSDAY]: Yup.object().shape({
-                        selected: Yup.boolean(),
-                        entries: Yup.object().shape({
-                            day: Yup.number().required(),
-                            beforeNoon: Yup.boolean(),
-                            noonToFive: Yup.boolean(),
-                            afterFive: Yup.boolean(),
+                    [DayEnum.THURSDAY]: Yup.object()
+                        .shape({
+                            selected: Yup.boolean(),
+                            entries: Yup.object().shape({
+                                day: Yup.number().required(),
+                                beforeNoon: Yup.boolean(),
+                                noonToFive: Yup.boolean(),
+                                afterFive: Yup.boolean(),
+                            }),
+                        })
+                        .test('availability', t('FORM_VALIDATION.AVAILABILITY_TIME'), function (value) {
+                            if (value.selected) {
+                                if (value.entries.beforeNoon || value.entries.noonToFive || value.entries.afterFive) {
+                                    return true;
+                                }
+                                return false;
+                            }
+                            return true;
                         }),
-                    }),
-                    [DayEnum.FRIDAY]: Yup.object().shape({
-                        selected: Yup.boolean(),
-                        entries: Yup.object().shape({
-                            day: Yup.number().required(),
-                            beforeNoon: Yup.boolean(),
-                            noonToFive: Yup.boolean(),
-                            afterFive: Yup.boolean(),
+                    [DayEnum.FRIDAY]: Yup.object()
+                        .shape({
+                            selected: Yup.boolean(),
+                            entries: Yup.object().shape({
+                                day: Yup.number().required(),
+                                beforeNoon: Yup.boolean(),
+                                noonToFive: Yup.boolean(),
+                                afterFive: Yup.boolean(),
+                            }),
+                        })
+                        .test('availability', t('FORM_VALIDATION.AVAILABILITY_TIME'), function (value) {
+                            if (value.selected) {
+                                if (value.entries.beforeNoon || value.entries.noonToFive || value.entries.afterFive) {
+                                    return true;
+                                }
+                                return false;
+                            }
+                            return true;
                         }),
-                    }),
-                    [DayEnum.SATURDAY]: Yup.object().shape({
-                        selected: Yup.boolean(),
-                        entries: Yup.object().shape({
-                            day: Yup.number().required(),
-                            beforeNoon: Yup.boolean(),
-                            noonToFive: Yup.boolean(),
-                            afterFive: Yup.boolean(),
+                    [DayEnum.SATURDAY]: Yup.object()
+                        .shape({
+                            selected: Yup.boolean(),
+                            entries: Yup.object().shape({
+                                day: Yup.number().required(),
+                                beforeNoon: Yup.boolean(),
+                                noonToFive: Yup.boolean(),
+                                afterFive: Yup.boolean(),
+                            }),
+                        })
+                        .test('availability', t('FORM_VALIDATION.AVAILABILITY_TIME'), function (value) {
+                            if (value.selected) {
+                                if (value.entries.beforeNoon || value.entries.noonToFive || value.entries.afterFive) {
+                                    return true;
+                                }
+                                return false;
+                            }
+                            return true;
                         }),
-                    }),
-                    [DayEnum.SUNDAY]: Yup.object().shape({
-                        selected: Yup.boolean(),
-                        entries: Yup.object().shape({
-                            day: Yup.number().required(),
-                            beforeNoon: Yup.boolean(),
-                            noonToFive: Yup.boolean(),
-                            afterFive: Yup.boolean(),
+                    [DayEnum.SUNDAY]: Yup.object()
+                        .shape({
+                            selected: Yup.boolean(),
+                            entries: Yup.object().shape({
+                                day: Yup.number().required(),
+                                beforeNoon: Yup.boolean(),
+                                noonToFive: Yup.boolean(),
+                                afterFive: Yup.boolean(),
+                            }),
+                        })
+                        .test('availability', t('FORM_VALIDATION.AVAILABILITY_TIME'), function (value) {
+                            if (value.selected) {
+                                if (value.entries.beforeNoon || value.entries.noonToFive || value.entries.afterFive) {
+                                    return true;
+                                }
+                                return false;
+                            }
+                            return true;
                         }),
-                    }),
                 })
                 .test('availability', t('FORM_VALIDATION.AVAILABILITY'), function (value) {
                     const selectedDays = Object.entries(value).filter(([key, item]) => item.selected);
@@ -184,8 +248,8 @@ export default function useTutorOnboardingFormik(onSubmit: (values: ITutorOnboar
             videoId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             price: Yup.number()
                 .transform((value) => (isNaN(parseFloat(value)) ? 0 : parseFloat(value)))
-                .min(10, t('FORM_VALIDATION.MIN_PRICE'))
-                .required(t('FORM_VALIDATION.REQUIRED')),
+                .required(t('FORM_VALIDATION.REQUIRED'))
+                .min(10, t('FORM_VALIDATION.MIN_PRICE')),
             ssn4Digits: Yup.string().when('addressCountryId', {
                 is: () => countries.find((c) => c.id === user?.countryId)?.abrv === 'US',
                 then: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),

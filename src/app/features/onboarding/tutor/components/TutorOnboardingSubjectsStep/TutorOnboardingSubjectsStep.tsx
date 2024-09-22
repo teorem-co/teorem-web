@@ -98,7 +98,7 @@ export default function TutorOnboardingSubjectsStep() {
             >
                 {formik.values.subjects?.map((pair, i) => (
                     <LevelSubjectSelect
-                        key={'' + pair?.levelId + pair?.subjectId}
+                        key={i + '' + pair?.levelId + pair?.subjectId}
                         subjects={possibleSubjects}
                         levels={possibleLevels}
                         subjectLevels={subjectLevels}
@@ -121,9 +121,7 @@ export default function TutorOnboardingSubjectsStep() {
                         onDelete={() => handleDelete(i)}
                     />
                 ))}
-                {formik.touched?.subjects && formik.errors?.subjects ? (
-                    <div className="field__validation">{formik.errors.subjects}</div>
-                ) : null}
+                {formik.errors?.subjects ? <div className="field__validation">{formik.errors?.subjects}</div> : null}
                 <div>
                     <Button onClick={handleAdd} color="inherit" fullWidth={false}>
                         <Add /> <span className={styles.add}>{t('ONBOARDING.TUTOR.SUBJECTS.ADD_SUBJECT')}</span>

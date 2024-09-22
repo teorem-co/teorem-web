@@ -29,6 +29,7 @@ export default function TutorOnboardingPriceStep() {
     const [showLearnMoreModal, setShowLearnMoreModal] = useState(false);
     const { user } = useAppSelector((state) => state.auth);
     const { countries } = useAppSelector((state) => state.countryMarket);
+    const [touched, setTouched] = useState(false);
 
     const marketAbrv = useMemo(
         () => countries.find((c) => c.id === user?.countryId)?.abrv,
@@ -95,6 +96,7 @@ export default function TutorOnboardingPriceStep() {
                             maxLength={3}
                             value={formik.values.price}
                             onChange={(e) => {
+                                setTouched(true);
                                 //leave only digits with regex
 
                                 const digits = e.target.value.replace(/\D/g, '');
@@ -108,6 +110,9 @@ export default function TutorOnboardingPriceStep() {
                             }}
                         />
                     </div>
+                    {touched && formik.errors?.price ? (
+                        <div className="field__validation">{formik.errors.price}</div>
+                    ) : null}
                 </div>
                 <div className={styles.breakdown}>
                     {showDetailedBreakdown ? (
@@ -170,9 +175,7 @@ export default function TutorOnboardingPriceStep() {
                         </button>
                     )}
                 </div>
-                {formik.touched?.price && formik.errors?.price ? (
-                    <div className="field__validation">{formik.errors.price}</div>
-                ) : null}
+
                 <div className={styles.learnMoreContainer}>
                     <button className={styles.learnMoreButton} onClick={() => setShowLearnMoreModal(true)}>
                         {t('ONBOARDING.TUTOR.PRICE.LEARN_MORE_LABEL')}

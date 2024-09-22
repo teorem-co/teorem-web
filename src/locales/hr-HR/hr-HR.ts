@@ -260,6 +260,7 @@ export const HR_HR: typeof EN_US = {
     },
     FORM_VALIDATION: {
         AVAILABILITY: 'Dostupnost je obvezna',
+        AVAILABILITY_TIME: 'Morate odabrati barem jedan termin u danu',
         END_YEAR: 'Godina završetka mora biti veća od godine početka',
         MIN_ONE: 'Mora biti barem jedan',
         MIN_PRICE: 'Cijena mora biti veća od 10,00',

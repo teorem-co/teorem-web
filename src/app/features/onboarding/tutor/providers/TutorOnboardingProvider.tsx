@@ -1,4 +1,4 @@
-import { createContext, PropsWithChildren, useCallback, useContext, useState } from 'react';
+import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useState } from 'react';
 import ITutorOnboardingFormValues from '../types/ITutorOnboardingFormValues';
 import { useLazyGetUserQuery } from '../../../../store/services/userService';
 import {
@@ -117,7 +117,6 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
         const res = await getOnboardingState({
             userId: user?.id,
         }).unwrap();
-        console.log(res);
 
         if (res?.step) {
             if (res.step === 3 && res.substep === MAX_STEPS_MAP[3]) {

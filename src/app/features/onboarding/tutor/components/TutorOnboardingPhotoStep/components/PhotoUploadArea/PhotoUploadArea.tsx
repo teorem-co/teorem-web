@@ -1,5 +1,5 @@
 import { FieldAttributes, useField } from 'formik';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useAppDispatch, useAppSelector } from '../../../../../../../store/hooks';
 import { resetTutorImageUploadState, setFile } from '../../../../../../../store/slices/tutorImageUploadSlice';
@@ -7,6 +7,7 @@ import styles from './PhotoUploadArea.module.scss';
 import addPhotoImg from './assets/add-photo.png';
 import { Typography } from '@mui/material';
 import clsx from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 interface PreviewFileType {
     preview: string | null;
@@ -29,9 +30,11 @@ export default function PhotoUploadArea({
     ...props
 }: IUploadFileProps & FieldAttributes<{}>) {
     const dispatch = useAppDispatch();
+    const [t] = useTranslation();
 
     const [field, meta, helper] = useField<{}>(props);
     const errorText = meta.error && meta.touched ? meta.error : '';
+    const [sizeError, setSizeError] = useState(false);
 
     const { file } = useAppSelector((state) => state.uploadFile);
 
@@ -54,7 +57,13 @@ export default function PhotoUploadArea({
         onDropAccepted: (acceptedFiles: File[]) => {
             setFieldValue(field.name, acceptedFiles[0]);
             dispatch(setFile(acceptedFiles[0]));
-            helper.setTouched(true);
+        },
+        onDropRejected: (rejections) => {
+            rejections.forEach(({ errors }) => {
+                if (errors.some((e) => e.code === 'file-too-large')) {
+                    setSizeError(true);
+                }
+            });
         },
     });
 
@@ -66,9 +75,11 @@ export default function PhotoUploadArea({
                 <img className={styles.photoIcon} src={addPhotoImg} />
                 <div className={styles.title}>{title}</div>
                 <Typography variant="body2">{description}</Typography>
+                {sizeError ? (
+                    <div className={clsx('field__validation', styles.error)}>{t('FORM_VALIDATION.IMAGE_SIZE')}</div>
+                ) : null}
                 {cta ? <div className={styles.cta}>{cta}</div> : null}
             </div>
-            {errorText ? <div className={clsx('field__validation', styles.error)}>{errorText || ''}</div> : null}
         </>
     );
 }
