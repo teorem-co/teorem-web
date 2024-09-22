@@ -15,6 +15,7 @@ import CtaButton from '../../../../../components/CtaButton';
 import onboardingStyles from '../../TutorOnboarding.module.scss';
 import QUESTION_ARTICLES from '../../constants/questionArticles';
 import QuestionListItem from '../../../components/QuestionListItem';
+import Divider from '../../../../../components/Divider';
 
 export default function TutorOnboardingEducationStep() {
     const { t } = useTranslation();
@@ -103,51 +104,54 @@ export default function TutorOnboardingEducationStep() {
                 />
 
                 {formik.values.degrees?.map((item, index) => (
-                    <EducationItem
-                        key={index}
-                        disabled={formik.values.hasNoDegree}
-                        degrees={possibleDegrees}
-                        universities={possibleUniversities}
-                        selectedDegreeId={item.degreeId}
-                        selectedUniversity={
-                            item.universityId ? universities.find((u) => u.id === item.universityId) : undefined
-                        }
-                        selectedStartYear={item.startYear}
-                        selectedEndYear={item.endYear}
-                        major={item.majorName}
-                        onDegreeChange={(degreeId) =>
-                            formik.setFieldValue(
-                                `degrees`,
-                                formik.values.degrees?.map((d, i) => (index === i ? { ...d, degreeId } : d))
-                            )
-                        }
-                        onUniversityChange={(universityId) =>
-                            formik.setFieldValue(
-                                `degrees`,
-                                formik.values.degrees?.map((d, i) => (index === i ? { ...d, universityId } : d))
-                            )
-                        }
-                        onStartYearChange={(startYear) =>
-                            formik.setFieldValue(
-                                `degrees`,
-                                formik.values.degrees?.map((d, i) => (index === i ? { ...d, startYear } : d))
-                            )
-                        }
-                        onEndYearChange={(endYear) =>
-                            formik.setFieldValue(
-                                `degrees`,
-                                formik.values.degrees?.map((d, i) => (index === i ? { ...d, endYear } : d))
-                            )
-                        }
-                        onMajorChange={(majorName) =>
-                            formik.setFieldValue(
-                                `degrees`,
-                                formik.values.degrees?.map((d, i) => (index === i ? { ...d, majorName } : d))
-                            )
-                        }
-                        onDelete={() => handleDelete(index)}
-                        disabledDelete={formik.values.degrees?.length === 1}
-                    />
+                    <>
+                        <EducationItem
+                            key={index}
+                            disabled={formik.values.hasNoDegree}
+                            degrees={possibleDegrees}
+                            universities={possibleUniversities}
+                            selectedDegreeId={item.degreeId}
+                            selectedUniversity={
+                                item.universityId ? universities.find((u) => u.id === item.universityId) : undefined
+                            }
+                            selectedStartYear={item.startYear}
+                            selectedEndYear={item.endYear}
+                            major={item.majorName}
+                            onDegreeChange={(degreeId) =>
+                                formik.setFieldValue(
+                                    `degrees`,
+                                    formik.values.degrees?.map((d, i) => (index === i ? { ...d, degreeId } : d))
+                                )
+                            }
+                            onUniversityChange={(universityId) =>
+                                formik.setFieldValue(
+                                    `degrees`,
+                                    formik.values.degrees?.map((d, i) => (index === i ? { ...d, universityId } : d))
+                                )
+                            }
+                            onStartYearChange={(startYear) =>
+                                formik.setFieldValue(
+                                    `degrees`,
+                                    formik.values.degrees?.map((d, i) => (index === i ? { ...d, startYear } : d))
+                                )
+                            }
+                            onEndYearChange={(endYear) =>
+                                formik.setFieldValue(
+                                    `degrees`,
+                                    formik.values.degrees?.map((d, i) => (index === i ? { ...d, endYear } : d))
+                                )
+                            }
+                            onMajorChange={(majorName) =>
+                                formik.setFieldValue(
+                                    `degrees`,
+                                    formik.values.degrees?.map((d, i) => (index === i ? { ...d, majorName } : d))
+                                )
+                            }
+                            onDelete={() => handleDelete(index)}
+                            disabledDelete={formik.values.degrees?.length === 1}
+                        />
+                        {index + 1 !== formik?.values.degrees?.length && <Divider />}
+                    </>
                 ))}
                 {formik.touched?.degrees && formik.errors?.degrees ? (
                     <div className="field__validation">{formik.errors.degrees}</div>

@@ -33,6 +33,7 @@ export default function AvailabilityDayItem({
             {selected ? (
                 <div className={styles.subItems}>
                     <FormControlLabel
+                        className={styles.hours}
                         control={
                             <Checkbox
                                 checked={availability?.beforeNoon}
@@ -42,6 +43,7 @@ export default function AvailabilityDayItem({
                         label={t(`CONSTANTS.TIME_OF_DAY.BEFORE_NOON`)}
                     />
                     <FormControlLabel
+                        className={styles.hours}
                         control={
                             <Checkbox
                                 checked={availability?.noonToFive}
@@ -52,6 +54,7 @@ export default function AvailabilityDayItem({
                         label={t(`CONSTANTS.TIME_OF_DAY.NOON_TO_FIVE`)}
                     />
                     <FormControlLabel
+                        className={styles.hours}
                         control={
                             <Checkbox
                                 checked={availability?.afterFive}

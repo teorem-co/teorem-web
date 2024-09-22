@@ -38,6 +38,9 @@ export default function Modal({
         <MuiModal
             open={open}
             onClose={(e: any, reason: any) => {
+                const html = document.getElementsByTagName('html')[0];
+                if (html) html.style.overflow = 'auto';
+
                 if (reason === 'backdropClick' && !backdropClickDisabled) {
                     return onBackdropClick?.(e);
                 }

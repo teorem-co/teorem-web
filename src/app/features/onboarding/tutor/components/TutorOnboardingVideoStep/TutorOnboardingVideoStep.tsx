@@ -21,6 +21,9 @@ import { useAppSelector } from '../../../../../store/hooks';
 import { FormikContextType } from 'formik';
 import ITutorOnboardingFormValues from '../../types/ITutorOnboardingFormValues';
 import useMount from '../../../../../utils/useMount';
+import OndemandVideo from '@mui/icons-material/OndemandVideo';
+import clsx from 'clsx';
+import VIDEO_EXAMPLE from './constant/videoExample';
 
 const fetchData = async (formik: FormikContextType<ITutorOnboardingFormValues>, getter: () => any) => {
     const videoInfo = await getter().unwrap();
@@ -45,10 +48,16 @@ export default function TutorOnboardingVideoStep() {
     });
     const { user } = useAppSelector((state) => state.auth);
     const { countries } = useAppSelector((state) => state.countryMarket);
+    const { languages } = useAppSelector((state) => state.lang);
 
     const countryAbrv = useMemo(
         () => countries.find((c) => c.id === user?.countryId)?.abrv,
         [countries, user?.countryId]
+    );
+
+    const languageAbrv = useMemo(
+        () => languages.find((l) => l.id === user?.languageId)?.abrv,
+        [languages, user?.languageId]
     );
 
     useMount(() => {
@@ -58,7 +67,9 @@ export default function TutorOnboardingVideoStep() {
 
     useEffect(() => {
         setNextDisabled?.(!!formik.errors.videoId && false);
-    }, [ setNextDisabled]);
+    }, [setNextDisabled]);
+
+    const demoLink = VIDEO_EXAMPLE[(languageAbrv as 'HR' | 'EN') ?? 'EN'];
 
     return (
         <OnboardingLayout
@@ -112,7 +123,19 @@ export default function TutorOnboardingVideoStep() {
                 {formik.touched?.videoId && formik.errors?.videoId ? (
                     <div className="field__validation">{formik.errors.videoId}</div>
                 ) : null}
+                <h2 className={styles.pointsTitle}>{t('ONBOARDING.TUTOR.VIDEO.POINT_TITLE')}</h2>
                 <div className={styles.points}>
+                    <div className={styles.point}>
+                        <OndemandVideo className={styles.icon} />
+                        <a
+                            href={demoLink}
+                            rel="noopener noreferrer"
+                            target="_blank"
+                            className={clsx(styles.pointText, styles.pointLink)}
+                        >
+                            {t('ONBOARDING.TUTOR.VIDEO.POINT_DEMO')}
+                        </a>
+                    </div>
                     <div className={styles.point}>
                         <CheckBox className={styles.icon} />
                         <span className={styles.pointText}>{t('ONBOARDING.TUTOR.VIDEO.POINT_LENGTH')}</span>

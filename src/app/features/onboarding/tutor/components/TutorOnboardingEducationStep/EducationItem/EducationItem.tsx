@@ -60,6 +60,7 @@ export default function EducationItem({
                     fullWidth
                     disabled={disabled}
                     value={selectedUniversity}
+
                     getOptionLabel={(o) => t('UNIVERSITIES.' + o.abrv)}
                     onChange={(e, v) => onUniversityChange(v?.id)}
                     options={universities}

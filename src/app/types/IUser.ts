@@ -11,6 +11,7 @@ export default interface IUser {
     email: string;
     roleId: string;
     countryId: string;
+    languageId?: string;
     dateOfBirth: string;
     phoneNumber: string;
     phonePrefix: string;

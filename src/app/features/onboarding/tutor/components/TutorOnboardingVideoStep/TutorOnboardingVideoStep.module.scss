@@ -23,8 +23,14 @@
     background-color: white !important;
 }
 
+.pointsTitle {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21.6px;
+}
+
 .points {
-    color: var(--grey-63);
+    color: var(--grey-63) !important;
 }
 
 .point {
@@ -38,15 +44,26 @@
     }
 }
 
+.pointLink {
+    color: var(--grey-63) !important;
+    text-decoration: underline;
+}
+
 @media screen and (min-width: 768px) {
     .content {
         width: 100%;
-        height: 600px;
+        height: 355px;
     }
 
     .delete {
         top: 16px;
         right: 16px;
+    }
+
+    .pointsTitle {
+        font-weight: 400;
+        font-size: 25px;
+        line-height: 30px;
     }
 
     .point {

@@ -9,7 +9,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
 }
 
 .icon {
@@ -45,6 +44,7 @@
     border-radius: 8px;
     padding: 8px 12px;
     font-size: 12px;
+    cursor: pointer;
 
     &.black {
         background-color: black;

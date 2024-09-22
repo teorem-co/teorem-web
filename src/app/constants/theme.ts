@@ -118,6 +118,7 @@ const THEME = createTheme({
             styleOverrides: {
                 root: {
                     fontSize: '14px',
+                    lineHeight: '14px',
                     marginBottom: '8px',
                 },
             },
@@ -130,17 +131,19 @@ const THEME = createTheme({
                 },
             },
         },
-        MuiInputLabel: {
-            defaultProps: { shrink: true },
-        },
 
         MuiOutlinedInput: {
-            defaultProps: {
-                notched: true,
-            },
             styleOverrides: {
                 root: {
                     fontSize: '16px',
+                    lineHeight: '18px',
+                },
+            },
+        },
+        MuiSelect: {
+            styleOverrides: {
+                select: {
+                    minHeight: 'initial',
                 },
             },
         },
