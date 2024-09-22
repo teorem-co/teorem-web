@@ -41,6 +41,7 @@ export default function TutorOnboardingVideoStep() {
     const { formik, setNextDisabled, onBack, onNext, onSaveState, nextDisabled, step, substep, maxSubstep } =
         useTutorOnboarding();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [initialized, setInitialized] = useState(false);
     const [getVideoInformation] = useLazyGetTutorVideoInformationQuery();
     const [videoInformation, setVideoInformation] = useState<ITutorVideoInformation>({
         url: undefined,
@@ -63,7 +64,9 @@ export default function TutorOnboardingVideoStep() {
 
     useMount(() => {
         setNextDisabled?.(!!formik.errors.videoId && false); //TODO: Remove false
-        fetchData(formik, getVideoInformation).then((videoInfo) => setVideoInformation(videoInfo));
+        fetchData(formik, getVideoInformation)
+            .then((videoInfo) => setVideoInformation(videoInfo))
+            .then(() => setInitialized(true));
     });
 
     useEffect(() => {
@@ -109,36 +112,40 @@ export default function TutorOnboardingVideoStep() {
                 title={t('ONBOARDING.TUTOR.VIDEO.TITLE')}
                 subtitle={t('ONBOARDING.TUTOR.VIDEO.SUBTITLE')}
             >
-                <div className={styles.content}>
-                    {videoInformation.url ? (
-                        <UploadedVideoComponent
-                            fetchData={() => fetchData(formik, getVideoInformation).then((d) => setVideoInformation(d))}
-                            onDelete={onSaveState}
-                            videoInformation={videoInformation}
-                        />
-                    ) : (
-                        <VideoUploadArea
-                            fetchData={() => {
-                                async function pinger() {
-                                    const info = (await fetchData(
-                                        formik,
-                                        getVideoInformation
-                                    )) as ITutorVideoInformation;
-
-                                    setVideoInformation(info);
-
-                                    if (!info.videoTranscoded) {
-                                        setTimeout(() => {
-                                            pinger();
-                                        }, 5000);
-                                    }
+                {initialized ? (
+                    <div className={styles.content}>
+                        {videoInformation.url ? (
+                            <UploadedVideoComponent
+                                fetchData={() =>
+                                    fetchData(formik, getVideoInformation).then((d) => setVideoInformation(d))
                                 }
+                                onDelete={onSaveState}
+                                videoInformation={videoInformation}
+                            />
+                        ) : (
+                            <VideoUploadArea
+                                fetchData={() => {
+                                    async function pinger() {
+                                        const info = (await fetchData(
+                                            formik,
+                                            getVideoInformation
+                                        )) as ITutorVideoInformation;
 
-                                pinger();
-                            }}
-                        />
-                    )}
-                </div>
+                                        setVideoInformation(info);
+
+                                        if (!info.videoTranscoded) {
+                                            setTimeout(() => {
+                                                pinger();
+                                            }, 5000);
+                                        }
+                                    }
+
+                                    pinger();
+                                }}
+                            />
+                        )}
+                    </div>
+                ) : null}
                 {formik.touched?.videoId && formik.errors?.videoId ? (
                     <div className="field__validation">{formik.errors.videoId}</div>
                 ) : null}
