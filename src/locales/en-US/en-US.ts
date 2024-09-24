@@ -180,7 +180,8 @@ export const EN_US = {
                 SUBTITLE:
                     "We'll perform a know-your-customer check to make sure your name, SSN and other details match.",
                 SUBTITLE_HR: 'We need your OIB number to process payouts. We will not share it publicly.',
-                SUBTITLE_COMPANY: '',
+                SUBTITLE_COMPANY:
+                    "We'll perform a know-your-customer check to make sure your name and other details match.",
                 SSN_LABEL: 'Last 4 SSN digits',
                 OIB_LABEL: 'OIB number',
                 OIB_LABEL_COMPANY: "Company's OIB number",
@@ -310,7 +311,7 @@ export const EN_US = {
         AVAILABILITY_TIME: 'You must select at least one period in a day',
         START_YEAR: 'Start year must be between 1950 and current year',
         END_YEAR: 'End year must be greater than start year',
-        MIN_PRICE: "Price can't be lower than 10.00",
+        MIN_PRICE: "Price can't be lower than ",
         PHONE_SHORT: "Phone number can't be shorter than 7 digits",
     },
     NAVIGATION: {
@@ -1481,6 +1482,11 @@ export const EN_US = {
         philosophy: 'Philosophy',
         politics: 'Politics',
         statistics: 'Statistics',
+        calculus: 'Calculus',
+        precalculus: 'Precalculus',
+        economy: 'Economy',
+        reading: 'Reading',
+        writing: 'Writing',
     },
     SUBJECTS_GENITIVE: {
         biology: 'Biology',
@@ -1521,6 +1527,13 @@ export const EN_US = {
         philosophy: 'Philosophy',
         politics: 'Politics',
         statistics: 'Statistics',
+        calculus: 'Kalkulus',
+        economy: 'Ekonomija',
+        precalculus: 'Prekalkulus',
+        reading: 'Čitanje',
+        writing: 'Pisanje',
+        'classical-greek': 'Classical Greek',
+        'government-and-politics': 'Government and Politics',
     },
     SEO_TITLE: {
         TUTOR_SEARCH: 'Online :subject instructors and tutors for private :subject lessons',

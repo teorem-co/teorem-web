@@ -220,7 +220,7 @@ export default function RecorderModal({ open, onSuccess, onClose }: Readonly<IRe
                 )}
                 {recordedChunks.length > 0 && !capturing ? (
                     <div>
-                        <video style={{ width: '100%', height: 'auto' }} src={replayVideoUrl} controls></video>
+                        <video style={{ height: 'auto', maxWidth: '100%' }} src={replayVideoUrl} controls></video>
                     </div>
                 ) : (
                     <div className={''}>
@@ -234,7 +234,7 @@ export default function RecorderModal({ open, onSuccess, onClose }: Readonly<IRe
                                 height: 720,
                             }}
                             audioConstraints={{ deviceId: selectedMicrophoneDevice }}
-                            style={{ width: '100%', height: '100%' }}
+                            style={{ width: '100%', height: 'auto' }}
                         />
                     </div>
                 )}

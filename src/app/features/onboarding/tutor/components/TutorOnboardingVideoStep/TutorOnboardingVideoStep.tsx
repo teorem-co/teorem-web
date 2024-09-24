@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import OnboardingStepFormLayout from '../../../components/OnboardingStepFormLayout';
 import styles from './TutorOnboardingVideoStep.module.scss';
 import { useTutorOnboarding } from '../../providers/TutorOnboardingProvider';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
     ITutorVideoInformation,
     useLazyGetTutorVideoInformationQuery,
@@ -51,6 +51,7 @@ export default function TutorOnboardingVideoStep() {
     const { user } = useAppSelector((state) => state.auth);
     const { countries } = useAppSelector((state) => state.countryMarket);
     const { languages } = useAppSelector((state) => state.lang);
+    const deleted = useRef(false);
 
     const countryAbrv = useMemo(
         () => countries.find((c) => c.id === user?.countryId)?.abrv,
@@ -119,13 +120,17 @@ export default function TutorOnboardingVideoStep() {
                                 fetchData={() =>
                                     fetchData(formik, getVideoInformation).then((d) => setVideoInformation(d))
                                 }
-                                onDelete={onSaveState}
+                                onDelete={() => {
+                                    onSaveState();
+                                    deleted.current = true;
+                                }}
                                 videoInformation={videoInformation}
                             />
                         ) : (
                             <VideoUploadArea
                                 fetchData={() => {
                                     async function pinger() {
+                                        if (deleted.current) return;
                                         const info = (await fetchData(
                                             formik,
                                             getVideoInformation
@@ -140,6 +145,7 @@ export default function TutorOnboardingVideoStep() {
                                         }
                                     }
 
+                                    deleted.current = false;
                                     pinger();
                                 }}
                             />

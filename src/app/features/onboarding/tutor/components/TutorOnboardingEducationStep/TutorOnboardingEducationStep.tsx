@@ -37,9 +37,10 @@ export default function TutorOnboardingEducationStep() {
     );
 
     const possibleUniversities = useMemo(
-        () => universities.filter((u) => u.countryId === user?.countryId),
+        () => universities.filter((u) => u.countryId === user?.countryId).sort((a, b) => a.abrv.localeCompare(b.abrv)),
         [universities, user?.countryId]
     );
+    console.log('possibleUniversities', possibleUniversities);
 
     useEffect(() => {
         setNextDisabled?.(!!formik.errors.degrees);
@@ -107,9 +108,6 @@ export default function TutorOnboardingEducationStep() {
                     <>
                         <EducationItem
                             key={index}
-                            errors={
-                                typeof formik.errors?.degrees !== 'string' ? formik.errors?.degrees?.[index] : undefined
-                            }
                             disabled={formik.values.hasNoDegree}
                             degrees={possibleDegrees}
                             universities={possibleUniversities}

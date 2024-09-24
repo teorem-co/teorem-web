@@ -120,7 +120,7 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
             userId: user?.id,
         }).unwrap();
 
-        if (res?.step) {
+        if (res?.step && res?.substep) {
             if (res.step === 3 && res.substep === MAX_STEPS_MAP[3]) {
                 setStep(3);
                 setSubstep(MAX_STEPS_MAP[3]);

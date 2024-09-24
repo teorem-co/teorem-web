@@ -17,9 +17,6 @@ import { useTranslation } from 'react-i18next';
 import START_YEARS from '../constants/startYears';
 
 interface IEducationItemProps {
-    errors?:
-        | { degreeId?: string; endYear?: string; majorName?: string; startYear?: string; universityId?: string }
-        | any;
     disabled?: boolean;
     degrees: IDegree[];
     universities: IUniversity[];
@@ -38,12 +35,11 @@ interface IEducationItemProps {
 }
 
 export default function EducationItem({
-    errors,
     degrees,
     universities,
     selectedDegreeId,
     selectedUniversity,
-    major: majorName,
+    major,
     selectedEndYear,
     selectedStartYear,
     onDelete,
@@ -58,7 +54,7 @@ export default function EducationItem({
     const { t } = useTranslation();
     return (
         <div className={styles.educationItem}>
-            <FormControl disabled={disabled} variant="outlined" fullWidth error={!!errors?.universityId}>
+            <FormControl disabled={disabled} variant="outlined" fullWidth>
                 <Autocomplete
                     disablePortal
                     fullWidth
@@ -68,16 +64,11 @@ export default function EducationItem({
                     onChange={(e, v) => onUniversityChange(v?.id)}
                     options={universities}
                     renderInput={(params) => (
-                        <TextField
-                            {...params}
-                            label={t('ONBOARDING.TUTOR.EDUCATION.UNI_LABEL')}
-                            error={!!errors?.universityId}
-                        />
+                        <TextField {...params} label={t('ONBOARDING.TUTOR.EDUCATION.UNI_LABEL')} />
                     )}
                 />
-                {errors?.universityId ? <div className="field__validation">{errors.universityId}</div> : null}
             </FormControl>
-            <FormControl disabled={disabled} variant="outlined" fullWidth error={!!errors?.degreeId}>
+            <FormControl disabled={disabled} variant="outlined" fullWidth>
                 <InputLabel id="degree-select-label">{t('ONBOARDING.TUTOR.EDUCATION.DEGREE_LABEL')}</InputLabel>
                 <Select
                     labelId="degree-select-label"
@@ -93,19 +84,16 @@ export default function EducationItem({
                         </MenuItem>
                     ))}
                 </Select>
-                {errors?.degreeId ? <div className="field__validation">{errors.degreeId}</div> : null}
             </FormControl>
             <TextField
                 fullWidth
                 label={t('ONBOARDING.TUTOR.EDUCATION.MAJOR_LABEL')}
-                value={majorName}
+                value={major}
                 disabled={disabled}
                 onChange={(e) => onMajorChange(e.target.value)}
-                error={!!errors?.majorName}
             />
-            {errors?.majorName ? <div className="field__validation">{errors.majorName}</div> : null}
             <div className={styles.bottomRow}>
-                <FormControl disabled={disabled} variant="outlined" fullWidth error={!!errors?.startYear}>
+                <FormControl disabled={disabled} variant="outlined" fullWidth>
                     <InputLabel id="start-year-select-label">
                         {t('ONBOARDING.TUTOR.EDUCATION.STARTED_LABEL')}
                     </InputLabel>
@@ -118,6 +106,11 @@ export default function EducationItem({
                                 typeof e.target.value === 'string' ? parseInt(e.target.value) : e.target.value
                             )
                         }
+                        MenuProps={{
+                            style: {
+                                maxHeight: 248,
+                            },
+                        }}
                         input={<OutlinedInput label={t('ONBOARDING.TUTOR.EDUCATION.STARTED_LABEL')} />}
                         placeholder="-"
                     >
@@ -129,7 +122,7 @@ export default function EducationItem({
                     </Select>
                 </FormControl>
                 <Remove />
-                <FormControl disabled={disabled} variant="outlined" fullWidth error={!!errors?.endYear}>
+                <FormControl disabled={disabled} variant="outlined" fullWidth>
                     <InputLabel id="end-year-select-label">{t('ONBOARDING.TUTOR.EDUCATION.FINISHED_LABEL')}</InputLabel>
                     <Select
                         labelId="end-year-select-label"
@@ -140,6 +133,11 @@ export default function EducationItem({
                                 typeof e.target.value === 'string' ? parseInt(e.target.value) : e.target.value
                             )
                         }
+                        MenuProps={{
+                            style: {
+                                maxHeight: 248,
+                            },
+                        }}
                         input={<OutlinedInput label={t('ONBOARDING.TUTOR.EDUCATION.FINISHED_LABEL')} />}
                         placeholder="-"
                     >
@@ -155,9 +153,6 @@ export default function EducationItem({
                     <Delete />
                 </IconButton>
             </div>
-            {errors?.startYear || errors?.endYear ? (
-                <div className="field__validation">{errors.startYear || errors?.endYear}</div>
-            ) : null}
         </div>
     );
 }

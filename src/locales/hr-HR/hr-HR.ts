@@ -185,7 +185,7 @@ export const HR_HR: typeof EN_US = {
                 SUBTITLE:
                     'Provest ćemo provjeru identiteta kako bi bili sigurni da se vaše ime, SSN i ostali podaci podudaraju.',
                 SUBTITLE_HR:
-                    'Provest ćemo provjeru identiteta kako bi bili sigurni da se Vaše ime, OIB i ostali podaci podudaraju.',
+                    'Provest ćemo provjeru identiteta kako bi bili sigurni da se Vaše ime i ostali podaci podudaraju.',
                 SUBTITLE_COMPANY: '',
                 SSN_LABEL: 'Zadnja 4 broja SSN-a',
                 OIB_LABEL: 'OIB',
@@ -263,7 +263,7 @@ export const HR_HR: typeof EN_US = {
         AVAILABILITY_TIME: 'Morate odabrati barem jedan termin u danu',
         END_YEAR: 'Godina završetka mora biti veća od godine početka',
         MIN_ONE: 'Mora biti barem jedan',
-        MIN_PRICE: 'Cijena mora biti veća od 10,00',
+        MIN_PRICE: 'Cijena mora biti veća od',
         PHONE_SHORT: 'Broj telefona mora imati najmanje 7 znakova',
         START_YEAR: 'Godina početka mora biti veća od 1950',
         UNIQUE_SUBJECT: 'Predmeti moraju biti jedinstveni',
@@ -1487,6 +1487,11 @@ export const HR_HR: typeof EN_US = {
         philosophy: 'Filozofija',
         politics: 'Politika',
         statistics: 'Statistika',
+        calculus: 'Kalkulus',
+        economy: 'Ekonomija',
+        precalculus: 'Prekalkulus',
+        reading: 'Čitanje',
+        writing: 'Pisanje',
     },
     SUBJECTS_GENITIVE: {
         biology: 'Biologije',
@@ -1527,6 +1532,13 @@ export const HR_HR: typeof EN_US = {
         philosophy: 'Filozofije',
         politics: 'Politike',
         statistics: 'Statistike',
+        calculus: 'Kalkulusa',
+        economy: 'Ekonomije',
+        precalculus: 'Prekalkulusa',
+        reading: 'Čitanja',
+        writing: 'Pisanja',
+        'classical-greek': 'Klasičnog grčkog jezika',
+        'government-and-politics': 'Politike i gospodarstva',
     },
     SEO_TITLE: {
         TUTOR_SEARCH: 'Online instruktori i učitelji :subject za privatne instrukcije :subject',

@@ -5,13 +5,9 @@ import { useAppDispatch, useAppSelector } from '../../../../../../../store/hooks
 import { resetTutorImageUploadState, setFile } from '../../../../../../../store/slices/tutorImageUploadSlice';
 import styles from './PhotoUploadArea.module.scss';
 import addPhotoImg from './assets/add-photo.png';
-import { Typography } from '@mui/material';
-import clsx from 'clsx';
+import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
-
-interface PreviewFileType {
-    preview: string | null;
-}
+import Alert from '@mui/material/Alert';
 
 interface IUploadFileProps {
     setFieldValue: (field: string, value: any) => void;
@@ -75,11 +71,9 @@ export default function PhotoUploadArea({
                 <img className={styles.photoIcon} src={addPhotoImg} />
                 <div className={styles.title}>{title}</div>
                 <Typography variant="body2">{description}</Typography>
-                {sizeError ? (
-                    <div className={clsx('field__validation', styles.error)}>{t('FORM_VALIDATION.IMAGE_SIZE')}</div>
-                ) : null}
                 {cta ? <div className={styles.cta}>{cta}</div> : null}
             </div>
+            {sizeError ? <Alert severity="error">{t('FORM_VALIDATION.IMAGE_SIZE')}</Alert> : null}
         </>
     );
 }

@@ -75,7 +75,6 @@ export default function TutorOnboardingAddressStep() {
             <OnboardingStepFormLayout
                 title={t('ONBOARDING.TUTOR.ADDRESS.TITLE')}
                 subtitle={t('ONBOARDING.TUTOR.ADDRESS.SUBTITLE')}
-                centerOnDesktop
             >
                 <FormControl disabled variant="outlined" fullWidth>
                     <InputLabel id="country-label">{t('ONBOARDING.TUTOR.ADDRESS.COUNTRY_LABEL')}</InputLabel>

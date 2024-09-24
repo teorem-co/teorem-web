@@ -34,8 +34,8 @@
 
 .children {
     padding-top: 64px;
-    padding-bottom: 78px;
-    min-height: 100vh;
+    margin-bottom: 78px;
+    min-height: calc(100vh - 78px);
     overflow-y: auto;
 }
 
@@ -94,9 +94,9 @@
     }
 
     .children {
-        min-height: 100vh;
+        min-height: calc(100vh - 88px);
         padding-top: 72px;
-        padding-bottom: 88px;
+        margin-bottom: 88px;
     }
 
     .footer {

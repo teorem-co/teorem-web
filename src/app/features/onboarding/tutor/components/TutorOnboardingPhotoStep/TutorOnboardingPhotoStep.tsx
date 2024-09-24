@@ -105,28 +105,26 @@ export default function TutorOnboardingPhotoStep() {
                 title={t('ONBOARDING.TUTOR.PHOTO.TITLE')}
                 subtitle={t('ONBOARDING.TUTOR.PHOTO.SUBTITLE')}
             >
-                <div className={styles.content}>
-                    {formik.values.imageLink?.length ? (
-                        <div className={styles.imgContainer}>
-                            <img src={formik.values.imageLink} alt="profile image" />
-                            <IconButton className={styles.delete} onClick={handleDelete}>
-                                <Delete />
-                            </IconButton>
-                        </div>
-                    ) : (
-                        <PhotoUploadArea
-                            setFieldValue={(_, value) => uploadImage(value)}
-                            id="imageLink"
-                            name="imageLink"
-                            value={formik.values.imageLink ?? ''}
-                            disabled={false}
-                            removePreviewOnUnmount={true}
-                            title={t('ONBOARDING.TUTOR.PHOTO.DRAG_TITLE')}
-                            description={t('ONBOARDING.TUTOR.PHOTO.DRAG_DESCRIPTION')}
-                            cta={t('ONBOARDING.TUTOR.PHOTO.BROWSE')}
-                        />
-                    )}
-                </div>
+                {formik.values.imageLink?.length ? (
+                    <div className={styles.imgContainer}>
+                        <img src={formik.values.imageLink} alt="profile image" />
+                        <IconButton className={styles.delete} onClick={handleDelete}>
+                            <Delete />
+                        </IconButton>
+                    </div>
+                ) : (
+                    <PhotoUploadArea
+                        setFieldValue={(_, value) => uploadImage(value)}
+                        id="imageLink"
+                        name="imageLink"
+                        value={formik.values.imageLink ?? ''}
+                        disabled={false}
+                        removePreviewOnUnmount={true}
+                        title={t('ONBOARDING.TUTOR.PHOTO.DRAG_TITLE')}
+                        description={t('ONBOARDING.TUTOR.PHOTO.DRAG_DESCRIPTION')}
+                        cta={t('ONBOARDING.TUTOR.PHOTO.BROWSE')}
+                    />
+                )}
                 {formik.errors?.imageLink && formik.values.imageLink ? (
                     <div className="field__validation">{formik.errors.imageLink}</div>
                 ) : null}

@@ -7,6 +7,7 @@ import styles from './VideoUploadArea.module.scss';
 import clsx from 'clsx';
 import recordImage from './assets/record.png';
 import RecorderModal from '../RecorderModal';
+import Alert from '@mui/material/Alert';
 
 interface IVideoUploadAreaProps {
     fetchData: () => void;
@@ -46,10 +47,14 @@ export default function VideoUploadArea({ fetchData }: IVideoUploadAreaProps) {
                     />
                     <p className={'align-self-center'}>{t('VIDEO_PREVIEW.OR')}</p>
                     {showMaxSizeError ? (
-                        <div className="field__validation">{t('VIDEO_PREVIEW.FILE_UPLOAD.SIZE_MESSAGE')}</div>
+                        <Alert severity="error" style={{ marginBottom: '12px' }}>
+                            {t('VIDEO_PREVIEW.FILE_UPLOAD.SIZE_MESSAGE')}
+                        </Alert>
                     ) : null}
                     {showMaxDurationError ? (
-                        <div className="field__validation">{t('VIDEO_PREVIEW.FILE_UPLOAD.DURATION_MESSAGE')}</div>
+                        <Alert severity="error" style={{ marginBottom: '12px' }}>
+                            {t('VIDEO_PREVIEW.FILE_UPLOAD.DURATION_MESSAGE')}
+                        </Alert>
                     ) : null}
                     <button onClick={() => setShowRecorder(true)} className={clsx(styles.cta, styles.white)}>
                         {t('VIDEO_PREVIEW.RECORD')}

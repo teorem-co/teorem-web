@@ -106,7 +106,7 @@ export default function TutorOnboardingPayoutInfoStep() {
                             fullWidth
                             error={formik.touched.accountNumber && !!formik.errors.accountNumber}
                             helperText={formik.touched.accountNumber && formik.errors.accountNumber}
-                            label={t('ONBOARDING.TUTOR.PAYOUT_INFO.ACCOUNT_NUMBER')}
+                            label={t('ONBOARDING.TUTOR.PAYOUT_INFO.ACCOUNT_NUMBER_LABEL')}
                             variant="outlined"
                             FormHelperTextProps={{
                                 style: { color: 'red' }, // Change the color of the helper text here
@@ -125,7 +125,7 @@ export default function TutorOnboardingPayoutInfoStep() {
                             fullWidth
                             error={formik.touched.routingNumber && !!formik.errors.routingNumber}
                             helperText={formik.touched.routingNumber && formik.errors.routingNumber}
-                            label={t('ONBOARDING.TUTOR.PAYOUT_INFO.ROUTING_NUMBER')}
+                            label={t('ONBOARDING.TUTOR.PAYOUT_INFO.ROUTING_NUMBER_LABEL')}
                             variant="outlined"
                             FormHelperTextProps={{
                                 style: { color: 'red' }, // Change the color of the helper text here

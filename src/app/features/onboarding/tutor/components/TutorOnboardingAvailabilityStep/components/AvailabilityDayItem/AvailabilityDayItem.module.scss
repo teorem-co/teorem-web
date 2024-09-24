@@ -6,10 +6,6 @@
     font-size: 15px !important;
 }
 
-.hours > * {
-  font-size: 14px !important;
-}
-
 .subItems {
     margin-left: 24px;
     display: flex;
@@ -19,9 +15,5 @@
 @media screen and (min-width: 768px) {
     .day > * {
         font-size: 20px !important;
-    }
-
-    .hours > * {
-        font-size: 17px !important;
     }
 }

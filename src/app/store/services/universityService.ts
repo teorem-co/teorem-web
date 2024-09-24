@@ -11,6 +11,10 @@ export const universityService = baseService.injectEndpoints({
                 url: `${URL}`,
                 method: HttpMethods.GET,
             }),
+            transformResponse: (response: IUniversity[]) => {
+                console.log(response);
+                return response.sort((a, b) => a.abrv.localeCompare(b.abrv));
+            },
         }),
     }),
 });
