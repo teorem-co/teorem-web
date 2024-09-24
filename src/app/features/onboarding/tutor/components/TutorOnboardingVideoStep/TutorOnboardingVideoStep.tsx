@@ -120,9 +120,9 @@ export default function TutorOnboardingVideoStep() {
                                 fetchData={() =>
                                     fetchData(formik, getVideoInformation).then((d) => setVideoInformation(d))
                                 }
+                                beforeDelete={() => (deleted.current = true)}
                                 onDelete={() => {
                                     onSaveState();
-                                    deleted.current = true;
                                 }}
                                 videoInformation={videoInformation}
                             />

@@ -15,17 +15,19 @@ interface Props {
     videoInformation: ITutorVideoInformation;
     fetchData: () => Promise<void>;
     onDelete?: () => void;
+    beforeDelete?: () => void;
 }
 
 export const UploadedVideoComponent = (props: Props) => {
     const [t] = useTranslation();
-    const { videoInformation, fetchData, onDelete } = props;
+    const { videoInformation, fetchData, onDelete, beforeDelete } = props;
     const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
     const [deleteVideo] = useLazyDeleteTutorVideoQuery();
     const userId = useAppSelector((state) => state.auth.user?.id);
 
     async function handleDelete() {
         if (userId) {
+            beforeDelete?.();
             await deleteVideo(userId).unwrap();
             setShowDeleteConfirmModal(false);
             fetchData().then(() => onDelete?.());

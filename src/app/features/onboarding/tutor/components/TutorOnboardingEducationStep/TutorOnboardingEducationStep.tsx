@@ -40,7 +40,6 @@ export default function TutorOnboardingEducationStep() {
         () => universities.filter((u) => u.countryId === user?.countryId).sort((a, b) => a.abrv.localeCompare(b.abrv)),
         [universities, user?.countryId]
     );
-    console.log('possibleUniversities', possibleUniversities);
 
     useEffect(() => {
         setNextDisabled?.(!!formik.errors.degrees);
