@@ -158,9 +158,11 @@ export default function TutorOnboardingEducationStep() {
                     <div className="field__validation">{formik.errors.degrees}</div>
                 ) : null}
                 {formik.values.hasNoDegree ? null : (
-                    <Button onClick={handleAdd}>
-                        <Add /> {t('ONBOARDING.TUTOR.EDUCATION.ADD_DEGREE')}
-                    </Button>
+                    <div>
+                        <Button onClick={handleAdd} color="inherit" fullWidth={false}>
+                            <Add /> <span className={styles.add}>{t('ONBOARDING.TUTOR.EDUCATION.ADD_DEGREE')}</span>
+                        </Button>
+                    </div>
                 )}
             </OnboardingStepFormLayout>
         </OnboardingLayout>

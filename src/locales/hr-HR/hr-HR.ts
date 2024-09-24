@@ -267,6 +267,7 @@ export const HR_HR: typeof EN_US = {
         PHONE_SHORT: 'Broj telefona mora imati najmanje 7 znakova',
         START_YEAR: 'Godina početka mora biti veća od 1950',
         UNIQUE_SUBJECT: 'Predmeti moraju biti jedinstveni',
+        NO_EMPTY_SUBJECT: 'Morate odabrati predmet i razinu',
         INVALID_EMAIL: 'Neispravan email',
         INVALID_IMAGE: 'Slika mora biti formata jpg, png, jpeg ili svg i manja od 2MB veličine.',
         IMAGE_TYPE: 'Slika mora biti formata jpg, png, jpeg ili svg',

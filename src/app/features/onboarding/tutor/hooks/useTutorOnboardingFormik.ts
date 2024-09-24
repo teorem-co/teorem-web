@@ -74,6 +74,10 @@ export default function useTutorOnboardingFormik(onSubmit: (values: ITutorOnboar
                         )
                     );
                 })
+                .test('noEmpty', t('FORM_VALIDATION.NO_EMPTY_SUBJECT'), function (value) {
+                    if (!value?.length) return false;
+                    return value.every((item) => item.subjectId && item.levelId);
+                })
                 .min(1, t('FORM_VALIDATION.MIN_ONE')),
             availability: Yup.object()
                 .shape({

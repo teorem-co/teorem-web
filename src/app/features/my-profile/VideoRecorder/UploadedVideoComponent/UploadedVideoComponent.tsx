@@ -9,6 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import Delete from '@mui/icons-material/Delete';
 import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
 
 interface Props {
     videoInformation: ITutorVideoInformation;
@@ -33,7 +34,7 @@ export const UploadedVideoComponent = (props: Props) => {
 
     if (!videoInformation.videoTranscoded) {
         return (
-            <div className={styles.container}>
+            <div className={clsx(styles.container, styles.loading)}>
                 <img src={successImage} alt="Success" className={styles.icon} />
                 <h2 className={styles.title}>{t('VIDEO_PREVIEW.SUCCESS_TITLE')}</h2>
                 <Typography variant="body2">{t('VIDEO_PREVIEW.SUCCESS_DESCRIPTION')}</Typography>
@@ -56,7 +57,7 @@ export const UploadedVideoComponent = (props: Props) => {
 
     return (
         <div className={styles.container}>
-            <video style={{ height: 'auto', maxWidth: '100%' }} src={videoInformation.url} controls></video>
+            <iframe className={styles.iframe} src={videoInformation.url}></iframe>
             <IconButton className={styles.delete} onClick={() => setShowDeleteConfirmModal(true)}>
                 <Delete />
             </IconButton>

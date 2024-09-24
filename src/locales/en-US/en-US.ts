@@ -306,6 +306,7 @@ export const EN_US = {
         MIN_10_CHARS: 'Minimum is 10 characters',
         NAME_EMAIL_NOT_IN_PASSWORD: "Can't contain your name or email address",
         UNIQUE_SUBJECT: "You can't add the same subject and level combination twice",
+        NO_EMPTY_SUBJECT: 'You must select a level and a subject',
         MIN_ONE: 'You must select at least one',
         AVAILABILITY: 'You must select at least one day and time of day',
         AVAILABILITY_TIME: 'You must select at least one period in a day',
