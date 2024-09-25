@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import VideoFileUpload from '../VideoFileUpload';
 import { VideoFIleUploadModal } from '../VideoFIleUploadModal';
-import { VideoUploadPopup } from '../VideoUploadPopup';
 import { useTranslation } from 'react-i18next';
 import styles from './VideoUploadArea.module.scss';
 import clsx from 'clsx';
@@ -15,7 +14,6 @@ interface IVideoUploadAreaProps {
 
 export default function VideoUploadArea({ fetchData }: IVideoUploadAreaProps) {
     const [showRecorder, setShowRecorder] = useState(false);
-    const [showSuccessfullPopup, setShowSuccessfullPopup] = useState(false);
     const [showFileUploadPopup, setShowFileUploadPopup] = useState(false);
     const [showMaxSizeError, setShowMaxSizeError] = useState(false);
     const [showMaxDurationError, setShowMaxDurationError] = useState(false);
@@ -67,26 +65,22 @@ export default function VideoUploadArea({ fetchData }: IVideoUploadAreaProps) {
                     open={showFileUploadPopup}
                     onClose={() => setShowFileUploadPopup(false)}
                     triggerSuccess={() => {
-                        setShowSuccessfullPopup(true);
                         fetchData();
                         setShowFileUploadPopup(false);
                     }}
                 />
             ) : null}
 
-            {!showSuccessfullPopup && showRecorder ? ( // must have showRecorder condition becase it asks for permission immediately on mount
+            {showRecorder ? ( // must have showRecorder condition becase it asks for permission immediately on mount
                 <RecorderModal
                     open={showRecorder}
                     onSuccess={() => {
-                        setShowSuccessfullPopup(true);
                         fetchData();
                         setShowRecorder(false);
                     }}
                     onClose={() => setShowRecorder(false)}
                 />
             ) : null}
-
-            {showSuccessfullPopup ? <VideoUploadPopup setShowPopup={setShowSuccessfullPopup} /> : null}
         </>
     );
 }

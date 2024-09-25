@@ -5,8 +5,8 @@
 }
 
 .priceRow {
-    display: grid;
-    grid-template-columns: 1fr auto;
+    display: flex;
+    flex-direction: row;
     font-weight: 900;
     font-size: 75px;
     line-height: 90px !important;
@@ -19,7 +19,7 @@
 
 .input {
     border: none;
-    width: 220px !important;
+    width: 180px !important;
     line-height: 75px !important;
     font-size: 75px !important;
     background-color: transparent;

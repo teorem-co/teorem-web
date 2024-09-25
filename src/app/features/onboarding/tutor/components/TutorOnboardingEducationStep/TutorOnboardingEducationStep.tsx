@@ -106,7 +106,7 @@ export default function TutorOnboardingEducationStep() {
                 {formik.values.degrees?.map((item, index) => (
                     <>
                         <EducationItem
-                            key={index}
+                            key={index + (item.degreeId ?? '') + (item.universityId ?? '')}
                             disabled={formik.values.hasNoDegree}
                             degrees={possibleDegrees}
                             universities={possibleUniversities}

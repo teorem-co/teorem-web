@@ -4,7 +4,8 @@ import styles from './TutorOnboardingPriceStep.module.scss';
 import { useEffect, useMemo, useState } from 'react';
 import { useTutorOnboarding } from '../../providers/TutorOnboardingProvider';
 import OnboardingLayout from '../../../components/OnboardingLayout';
-import { Button } from '@mui/material';
+import Button from '@mui/material/Button';
+import Alert from '@mui/material/Alert';
 import CtaButton from '../../../../../components/CtaButton';
 import onboardingStyles from '../../TutorOnboarding.module.scss';
 import ExpandMore from '@mui/icons-material/ExpandMore';
@@ -110,10 +111,8 @@ export default function TutorOnboardingPriceStep() {
                             }}
                         />
                     </div>
-                    {touched && formik.errors?.price ? (
-                        <div className="field__validation">{formik.errors.price}</div>
-                    ) : null}
                 </div>
+                {touched && formik.errors?.price ? <Alert severity="error">{formik.errors.price}</Alert> : null}
                 <div className={styles.breakdown}>
                     {showDetailedBreakdown ? (
                         <>
