@@ -28,6 +28,7 @@ export default function TutorOnboardingDescriptionStep() {
     );
 
     useMount(() => {
+        window.scrollTo(0, 0);
         setTimeout(() => {
             document.getElementById('root')?.scrollIntoView({ behavior: 'smooth' });
         }, 237);

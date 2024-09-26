@@ -15,6 +15,7 @@ export default function TutorOnboardingStartStep() {
     const { onNext, onBack, step, substep, maxSubstep } = useTutorOnboarding();
 
     useMount(() => {
+        window.scrollTo(0, 0);
         setTimeout(() => {
             document.getElementById('root')?.scrollIntoView({ behavior: 'smooth' });
         }, 237);

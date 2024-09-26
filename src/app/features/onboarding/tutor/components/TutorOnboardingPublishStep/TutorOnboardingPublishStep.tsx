@@ -70,6 +70,7 @@ export default function TutorOnboardingPublishStep() {
     };
 
     useMount(() => {
+        window.scrollTo(0, 0);
         setTimeout(() => {
             document.getElementById('root')?.scrollIntoView({ behavior: 'smooth' });
         }, 237);

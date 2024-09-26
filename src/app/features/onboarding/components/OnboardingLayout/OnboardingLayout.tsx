@@ -40,6 +40,7 @@ export default function OnboardingLayout({
                 <div className={styles.header}>{header}</div>
             </div>
             <div className={styles.children}>{children}</div>
+            <div className={styles.background} />
             <div className={styles.footerContainer}>
                 <ProgressBar step={step} substep={substep} maxSubstep={maxSubstep} />
                 <div className={styles.footer}>

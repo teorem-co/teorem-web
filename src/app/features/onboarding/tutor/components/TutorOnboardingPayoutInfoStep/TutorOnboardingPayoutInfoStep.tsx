@@ -28,6 +28,7 @@ export default function TutorOnboardingPayoutInfoStep() {
     const isCompany = formik.values.isCompany;
 
     useMount(() => {
+        window.scrollTo(0, 0);
         setTimeout(() => {
             document.getElementById('root')?.scrollIntoView({ behavior: 'smooth' });
         }, 237);
