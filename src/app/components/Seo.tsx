@@ -2,7 +2,7 @@ import { t } from 'i18next';
 import { Helmet } from 'react-helmet';
 import { matchPath } from 'react-router-dom';
 
-import { ROUTES } from '../routes';
+import ROUTES from '../routes';
 
 export default function SEO() {
     const routesWithData: string[] = ['HOW_IT_WORKS', 'PRICING', 'BECOME_TUTOR', 'TERMS', 'PRIVACY'];

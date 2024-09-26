@@ -4,6 +4,7 @@ import useMount from '../../../utils/useMount';
 import { useConfirmLoginMutation } from '../../../store/services/authService';
 import removeParamsFromURI from '../../../utils/removeParamsFromUri';
 import { setToken } from '../../../store/slices/authSlice';
+import useSyncLanguage from '../../../utils/useSyncLanguage';
 
 interface IAuthWrapperProps {
     children?: React.ReactNode;
@@ -11,10 +12,10 @@ interface IAuthWrapperProps {
 }
 
 export default function AuthWrapper({ children, fallback }: Readonly<IAuthWrapperProps>) {
-    const { user, token } = useAppSelector((state) => state.auth);
     const dispatch = useAppDispatch();
     const [isLoaded, setIsLoaded] = useState(false);
     const [confirmLogin, { isLoading, isError, isSuccess }] = useConfirmLoginMutation();
+    const sync = useSyncLanguage();
 
     useMount(() => {
         console.log('AuthWrapper mounted');
@@ -36,6 +37,7 @@ export default function AuthWrapper({ children, fallback }: Readonly<IAuthWrappe
                         '',
                         removeParamsFromURI({ params: ['login_token'], uri: window.location.href })
                     );
+                    sync(res.user);
                 })
                 .catch((e) => {
                     console.error(e);

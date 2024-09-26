@@ -9,7 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Alert from '@mui/material/Alert';
@@ -23,6 +23,7 @@ import {
 } from '../../../../store/slices/modalsSlice';
 import { ILoginRequest, useConfirmLoginMutation, useLoginMutation } from '../../../../store/services/authService';
 import { setToken } from '../../../../store/slices/authSlice';
+import useSyncLanguage from '../../../../utils/useSyncLanguage';
 
 export default function LoginModal() {
     const { loginModalOpen } = useAppSelector((state) => state.modals);
@@ -32,28 +33,33 @@ export default function LoginModal() {
     const [confirmLogin] = useConfirmLoginMutation();
     const [showPassword, setShowPassword] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const sync = useSyncLanguage();
 
-    const handleSubmit = async (values: ILoginRequest) => {
-        try {
-            const resp1 = await login({
-                email: values.email,
-                password: values.password,
-            })
-                .unwrap()
-                .catch((e) => {
-                    setErrorMessage(e.data.message);
-                    throw e;
-                });
+    const handleSubmit = useCallback(
+        async (values: ILoginRequest) => {
+            try {
+                const resp1 = await login({
+                    email: values.email,
+                    password: values.password,
+                })
+                    .unwrap()
+                    .catch((e) => {
+                        setErrorMessage(e.data.message);
+                        throw e;
+                    });
 
-            const resp2 = await confirmLogin(resp1).unwrap();
+                const resp2 = await confirmLogin(resp1).unwrap();
 
-            dispatch(setToken(resp2));
+                dispatch(setToken(resp2));
 
-            dispatch(setLoginModalOpen(false));
-        } catch (e) {
-            console.log(e);
-        }
-    };
+                sync(resp2.user);
+                dispatch(setLoginModalOpen(false));
+            } catch (e) {
+                console.log(e);
+            }
+        },
+        [confirmLogin, dispatch, login, sync]
+    );
 
     const handleForgotClick = () => {
         dispatch(setLoginModalOpen(false));

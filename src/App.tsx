@@ -19,7 +19,7 @@ import {
 import { useLazyGetCountriesQuery } from './app/store/services/countryService';
 import { useAppSelector } from './app/store/hooks';
 import { Role } from './app/types/role';
-import ROUTES, { RenderRoutes } from './app/routes';
+import ROUTES, { Routes } from './app/routes';
 import toastService from './app/store/services/toastService';
 import useMount from './app/utils/useMount';
 import { NotificationType } from './app/types/notification/INotification';
@@ -39,14 +39,12 @@ import { useLazyGetDegreesQuery } from './app/store/services/degreeService';
 import { useLazyGetUniversitiesQuery } from './app/store/services/universityService';
 import { setDegrees } from './app/store/slices/degreeSlice';
 import { setUniversities } from './app/store/slices/universitySlice';
-import {
-    useLazyGetSubjectLevelsQuery,
-    useLazyGetSubjectsPureQuery,
-    useLazyGetSubjectsQuery,
-} from './app/store/services/subjectService';
-import { useLazyGetLevelsPureQuery, useLazyGetLevelsQuery } from './app/store/services/levelService';
+import { useLazyGetSubjectLevelsQuery, useLazyGetSubjectsPureQuery } from './app/store/services/subjectService';
+import { useLazyGetLevelsPureQuery } from './app/store/services/levelService';
 import { setSubjectLevels, setSubjects } from './app/store/slices/subjectSlice';
 import { setLevels } from './app/store/slices/levelSlice';
+import { useLazyGetLanguagesQuery } from './app/store/services/langService';
+import { setLanguages } from './app/store/slices/langSlice';
 
 export default function App() {
     const { t } = useTranslation();
@@ -88,6 +86,7 @@ export default function App() {
     const [getSubjects] = useLazyGetSubjectsPureQuery();
     const [getLevels] = useLazyGetLevelsPureQuery();
     const [getSubjectLevels] = useLazyGetSubjectLevelsQuery();
+    const [getLanguages] = useLazyGetLanguagesQuery();
 
     useEffect(() => {
         async function setUserTimeZone() {
@@ -136,6 +135,10 @@ export default function App() {
             .unwrap()
             .then((res) => dispatch(setSubjectLevels(res)))
             .catch((e) => console.log(e));
+        getLanguages()
+            .unwrap()
+            .then((res) => dispatch(setLanguages(res)))
+            .catch((e) => console.log(e));
 
         if (userId) {
             getTutorialState(userId)
@@ -149,6 +152,7 @@ export default function App() {
         dispatch,
         getCountries,
         getDegrees,
+        getLanguages,
         getLevels,
         getSubjectLevels,
         getSubjects,
@@ -359,7 +363,7 @@ export default function App() {
 
     return versionSame ? (
         <>
-            <RenderRoutes routes={ROUTES} />
+            <Routes routes={ROUTES} />
             <SEO />
             <LoginModal />
             <RegistrationModal />

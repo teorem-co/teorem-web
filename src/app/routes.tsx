@@ -1,9 +1,7 @@
 import { t } from 'i18next';
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { matchPath, Route, Switch, useHistory, Redirect } from 'react-router-dom';
+import React from 'react';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
-import languageOptions from './constants/languageOptions';
 import Chat from './features/chat/pages/Chat';
 import CompletedLessons from './features/completedLessons/CompletedLessons';
 import Dashboard from './features/dashboard/Dashboard';
@@ -23,7 +21,6 @@ import SearchTutors from './features/searchTutors/SearchTutors';
 import TutorProfile from './features/searchTutors/TutorProfile';
 import TutorManagment from './features/tutor-managment/TutorManagment';
 import TutorManagmentProfile from './features/tutor-managment/TutorProfile';
-import { useAppDispatch } from './store/hooks';
 import { Role } from './types/role';
 import ResetToken from './pages/ResetToken';
 import StripeConnected from './pages/StripeConnected';
@@ -35,11 +32,11 @@ import TutorBookingsNew from './features/tutor-bookings/TutorBookingsNew';
 import { StudentManagement } from './features/student-management/StudentManagement';
 import { StudentProfile } from './features/student-management/StudentProfile';
 import { BookingManagement } from './features/booking-management/BookingManagement';
-import { setSelectedLang } from './store/slices/langSlice';
-import { setLoginModalOpen } from './store/slices/modalsSlice';
 import useMount from './utils/useMount';
 import TutorOnboarding from './features/onboarding/tutor';
 import TutorOnboardingProvider from './features/onboarding/tutor/providers/TutorOnboardingProvider';
+import useSyncLanguage from './utils/useSyncLanguage';
+import { useAppSelector } from './store/hooks';
 
 export const PATHS = {
     FORGOT_PASSWORD: t('PATHS.FORGOT_PASSWORD'),
@@ -102,7 +99,7 @@ interface IRoute {
     lang?: string;
 }
 
-export const ROUTES: IRoute[] = [
+const ROUTES: IRoute[] = [
     {
         path: PATHS.STUDENT_PROFILE,
         key: 'STUDENT_PROFILE',
@@ -134,7 +131,7 @@ export const ROUTES: IRoute[] = [
         path: ONBOARDING_PATHS.ONBOARDING,
         key: 'ONBOARDING',
         isMenu: false,
-        component: (props) => (
+        component: (props: any) => (
             <Onboarding>
                 <RenderRoutes {...props} />
             </Onboarding>
@@ -400,8 +397,6 @@ export const ROUTES: IRoute[] = [
 ];
 //handle subroutes by <RenderRoutes {...props} /> inside PermissionGate if needed
 
-export default ROUTES;
-
 function RouteWithSubRoutes(route: any) {
     return (
         <Route
@@ -413,68 +408,28 @@ function RouteWithSubRoutes(route: any) {
     );
 }
 
-export function RenderRoutes(routesObj: any) {
+export function RenderRoutes(routesObj: IRoutesProps) {
     const { routes } = routesObj;
-    const { i18n } = useTranslation();
-    const history = useHistory();
-    const [locationKeys, setLocationKeys] = useState<(string | undefined)[]>([]);
-    const dispatch = useAppDispatch();
 
-    const syncLanguage = () => {
-        const match = '/:lang(' + Array.from(languageOptions.map((l) => l.path)).join('|') + ')';
+    return (
+        <Switch>
+            {routes.map((route: any) => {
+                return <RouteWithSubRoutes key={route.key} {...route} />;
+            })}
+        </Switch>
+    );
+}
 
-        if (
-            matchPath(location.pathname, {
-                path: match,
-            })
-        ) {
-            const lang = matchPath(location.pathname, {
-                path: match,
-            })?.params.lang;
+interface IRoutesProps {
+    routes: IRoute[];
+}
 
-            document.documentElement.lang = lang;
-            dispatch(setSelectedLang({ name: lang, abrv: lang, id: '' }));
-
-            if (lang !== i18n.language) {
-                i18n.changeLanguage(lang);
-                window.location.reload();
-            }
-
-            if (location.pathname.replaceAll('/', '') === lang) {
-                dispatch(setLoginModalOpen(true));
-            }
-        } else {
-            const lang = i18n.languages[i18n.languages.length - 1];
-            i18n.changeLanguage(lang);
-            dispatch(setSelectedLang({ name: lang, abrv: lang, id: '' }));
-
-            location.pathname.length > 1
-                ? history.push(
-                      `/${i18n.languages[i18n.languages.length - 1]}${location.pathname}${location.search ? location.search : ''}`
-                  )
-                : dispatch(setLoginModalOpen(true));
-        }
-    };
-
-    useEffect(() => {
-        return history.listen((location: any) => {
-            if (history.action === 'PUSH') {
-                if (location.key) setLocationKeys([location.key]);
-            }
-
-            if (history.action === 'POP') {
-                if (locationKeys[1] === location.key) {
-                    setLocationKeys(([_, ...keys]) => keys);
-                } else {
-                    setLocationKeys((keys) => [location.key, ...keys]);
-                    syncLanguage();
-                }
-            }
-        });
-    }, [locationKeys]);
+export function Routes({ routes }: IRoutesProps) {
+    const sync = useSyncLanguage();
+    const { user } = useAppSelector((state) => state.auth);
 
     useMount(() => {
-        syncLanguage();
+        sync(user);
     });
 
     return (
@@ -485,3 +440,4 @@ export function RenderRoutes(routesObj: any) {
         </Switch>
     );
 }
+export default ROUTES;

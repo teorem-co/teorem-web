@@ -12,7 +12,6 @@ export const universityService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
             transformResponse: (response: IUniversity[]) => {
-                console.log(response);
                 return response.sort((a, b) => a.abrv.localeCompare(b.abrv));
             },
         }),
