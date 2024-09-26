@@ -10,6 +10,7 @@ import CtaButton from '../../../../../components/CtaButton';
 import onboardingStyles from '../../TutorOnboarding.module.scss';
 import QUESTION_ARTICLES from '../../constants/questionArticles';
 import QuestionListItem from '../../../components/QuestionListItem';
+import useMount from '../../../../../utils/useMount';
 
 export default function TutorOnboardingPhoneStep() {
     const { t } = useTranslation();
@@ -23,6 +24,11 @@ export default function TutorOnboardingPhoneStep() {
         () => countries.find((c) => c.id === user?.countryId)?.abrv,
         [countries, user?.countryId]
     );
+
+    useMount(() => {
+        window.scrollTo(0, 0);
+    });
+
     useEffect(() => {
         if (!set.current && !formik.values.phoneNumber) {
             formik.setFieldValue('phoneNumber', user?.phoneNumber ?? '');

@@ -10,6 +10,7 @@ import CtaButton from '../../../../../components/CtaButton';
 import onboardingStyles from '../../TutorOnboarding.module.scss';
 import QUESTION_ARTICLES from '../../constants/questionArticles';
 import QuestionListItem from '../../../components/QuestionListItem';
+import useMount from '../../../../../utils/useMount';
 
 export default function TutorOnboardingPayoutInfoStep() {
     const { t } = useTranslation();
@@ -25,6 +26,10 @@ export default function TutorOnboardingPayoutInfoStep() {
 
     const isCroatian = countryAbrv === 'HR';
     const isCompany = formik.values.isCompany;
+
+    useMount(() => {
+        window.scrollTo(0, 0);
+    });
 
     useEffect(() => {
         if (isCroatian) {

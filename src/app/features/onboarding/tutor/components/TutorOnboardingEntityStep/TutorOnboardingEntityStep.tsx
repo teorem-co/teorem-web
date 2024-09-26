@@ -13,6 +13,7 @@ import styles from './TutorOnboardingEntityStep.module.scss';
 import { useAppSelector } from '../../../../../store/hooks';
 import QUESTION_ARTICLES from '../../constants/questionArticles';
 import QuestionListItem from '../../../components/QuestionListItem';
+import useMount from '../../../../../utils/useMount';
 
 export default function TutorOnboardingEntityStep() {
     const { t } = useTranslation();
@@ -26,6 +27,10 @@ export default function TutorOnboardingEntityStep() {
         () => countries.find((c) => c.id === user?.countryId)?.abrv,
         [countries, user?.countryId]
     );
+
+    useMount(() => {
+        window.scrollTo(0, 0);
+    });
 
     useEffect(() => {
         setNextDisabled?.(formik.values.isCompany === null || !checked);

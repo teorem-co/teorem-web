@@ -5,7 +5,6 @@ import ProgressBar from '../ProgressBar';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import Sidebar from '../../../../components/Sidebar';
-import useMount from '../../../../utils/useMount';
 
 interface IOnboardingLayoutProps {
     step?: number;
@@ -33,10 +32,6 @@ export default function OnboardingLayout({
     onSidebarClose,
 }: Readonly<IOnboardingLayoutProps>) {
     const { t } = useTranslation();
-
-    useMount(() => {
-        window.scrollTo(0, 0);
-    });
 
     return (
         <div className={styles.layout}>

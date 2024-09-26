@@ -13,6 +13,7 @@ import onboardingStyles from '../../TutorOnboarding.module.scss';
 import CtaButton from '../../../../../components/CtaButton';
 import QUESTION_ARTICLES from '../../constants/questionArticles';
 import QuestionListItem from '../../../components/QuestionListItem';
+import useMount from '../../../../../utils/useMount';
 
 export default function TutorOnboardingAvailabilityStep() {
     const { t } = useTranslation();
@@ -25,6 +26,10 @@ export default function TutorOnboardingAvailabilityStep() {
         () => countries.find((c) => c.id === user?.countryId)?.abrv,
         [countries, user?.countryId]
     );
+
+    useMount(() => {
+        window.scrollTo(0, 0);
+    });
 
     useEffect(() => {
         setNextDisabled?.(!!formik.errors.availability);

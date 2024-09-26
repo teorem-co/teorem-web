@@ -4,11 +4,16 @@ import finishImage from './assets/finish-image.png';
 import { useTutorOnboarding } from '../../providers/TutorOnboardingProvider';
 import CtaButton from '../../../../../components/CtaButton';
 import OnboardingLayout from '../../../components/OnboardingLayout';
+import useMount from '../../../../../utils/useMount';
 
 export default function TutorOnboardingFinishingStep() {
     const { t } = useTranslation();
 
     const { onBack, onNext, step, substep, maxSubstep } = useTutorOnboarding();
+
+    useMount(() => {
+        window.scrollTo(0, 0);
+    });
 
     return (
         <OnboardingLayout

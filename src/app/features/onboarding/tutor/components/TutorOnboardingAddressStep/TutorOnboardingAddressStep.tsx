@@ -11,6 +11,7 @@ import onboardingStyles from '../../TutorOnboarding.module.scss';
 import styles from './TutorOnboardingAddressStep.module.scss';
 import QUESTION_ARTICLES from '../../constants/questionArticles';
 import QuestionListItem from '../../../components/QuestionListItem';
+import useMount from '../../../../../utils/useMount';
 
 export default function TutorOnboardingAddressStep() {
     const { t } = useTranslation();
@@ -23,6 +24,10 @@ export default function TutorOnboardingAddressStep() {
         () => countries.find((c) => c.id === user?.countryId)?.abrv,
         [countries, user?.countryId]
     );
+
+    useMount(() => {
+        window.scrollTo(0, 0);
+    });
 
     useEffect(() => {
         setNextDisabled?.(

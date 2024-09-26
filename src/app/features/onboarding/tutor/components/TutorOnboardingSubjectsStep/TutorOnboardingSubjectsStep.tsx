@@ -12,6 +12,7 @@ import CtaButton from '../../../../../components/CtaButton';
 import onboardingStyles from '../../TutorOnboarding.module.scss';
 import QUESTION_ARTICLES from '../../constants/questionArticles';
 import QuestionListItem from '../../../components/QuestionListItem';
+import useMount from '../../../../../utils/useMount';
 
 export default function TutorOnboardingSubjectsStep() {
     const { t } = useTranslation();
@@ -36,6 +37,10 @@ export default function TutorOnboardingSubjectsStep() {
         () => subjects.filter((s) => s.countryId === user?.countryId),
         [subjects, user?.countryId]
     );
+
+    useMount(() => {
+        window.scrollTo(0, 0);
+    });
 
     useEffect(() => {
         setNextDisabled?.(!!formik.errors.subjects);

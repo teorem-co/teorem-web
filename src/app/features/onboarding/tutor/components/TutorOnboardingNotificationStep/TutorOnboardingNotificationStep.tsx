@@ -13,6 +13,7 @@ import onboardingStyles from '../../TutorOnboarding.module.scss';
 import QUESTION_ARTICLES from '../../constants/questionArticles';
 import QuestionListItem from '../../../components/QuestionListItem';
 import { useAppSelector } from '../../../../../store/hooks';
+import useMount from '../../../../../utils/useMount';
 
 export default function TutorOnboardingNotificationStep() {
     const { t } = useTranslation();
@@ -25,6 +26,10 @@ export default function TutorOnboardingNotificationStep() {
         () => countries.find((c) => c.id === user?.countryId)?.abrv,
         [countries, user?.countryId]
     );
+
+    useMount(() => {
+        window.scrollTo(0, 0);
+    });
 
     useEffect(() => {
         setNextDisabled?.(formik.values.autoAcceptBooking === null);

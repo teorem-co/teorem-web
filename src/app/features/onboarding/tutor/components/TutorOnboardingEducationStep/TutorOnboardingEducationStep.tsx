@@ -16,6 +16,7 @@ import onboardingStyles from '../../TutorOnboarding.module.scss';
 import QUESTION_ARTICLES from '../../constants/questionArticles';
 import QuestionListItem from '../../../components/QuestionListItem';
 import Divider from '../../../../../components/Divider';
+import useMount from '../../../../../utils/useMount';
 
 export default function TutorOnboardingEducationStep() {
     const { t } = useTranslation();
@@ -40,6 +41,10 @@ export default function TutorOnboardingEducationStep() {
         () => universities.filter((u) => u.countryId === user?.countryId).sort((a, b) => a.abrv.localeCompare(b.abrv)),
         [universities, user?.countryId]
     );
+
+    useMount(() => {
+        window.scrollTo(0, 0);
+    });
 
     useEffect(() => {
         setNextDisabled?.(!!formik.errors.degrees);

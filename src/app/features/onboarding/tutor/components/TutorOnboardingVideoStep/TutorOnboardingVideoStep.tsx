@@ -64,6 +64,8 @@ export default function TutorOnboardingVideoStep() {
     );
 
     useMount(() => {
+        window.scrollTo(0, 0);
+
         setNextDisabled?.(!!formik.errors.videoId && false); //TODO: Remove false
         fetchData(formik, getVideoInformation)
             .then((videoInfo) => setVideoInformation(videoInfo))

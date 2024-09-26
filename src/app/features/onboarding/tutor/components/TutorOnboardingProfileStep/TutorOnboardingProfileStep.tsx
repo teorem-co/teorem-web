@@ -4,10 +4,15 @@ import image from './assets/profile-image.png';
 import { useTutorOnboarding } from '../../providers/TutorOnboardingProvider';
 import OnboardingLayout from '../../../components/OnboardingLayout';
 import CtaButton from '../../../../../components/CtaButton';
+import useMount from '../../../../../utils/useMount';
 
 export default function TutorOnboardingProfileStep() {
     const { t } = useTranslation();
     const { onBack, onNext, step, substep, maxSubstep } = useTutorOnboarding();
+
+    useMount(() => {
+        window.scrollTo(0, 0);
+    });
 
     return (
         <OnboardingLayout

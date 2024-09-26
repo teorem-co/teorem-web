@@ -16,6 +16,7 @@ import Modal from '../../../../../components/Modal';
 import { useAppSelector } from '../../../../../store/hooks';
 import QUESTION_ARTICLES from '../../constants/questionArticles';
 import QuestionListItem from '../../../components/QuestionListItem';
+import useMount from '../../../../../utils/useMount';
 
 const FEE_PERCENTAGE = 0.15;
 
@@ -36,6 +37,10 @@ export default function TutorOnboardingPriceStep() {
         () => countries.find((c) => c.id === user?.countryId)?.abrv,
         [countries, user?.countryId]
     );
+
+    useMount(() => {
+        window.scrollTo(0, 0);
+    });
 
     useEffect(() => {
         const price = parseFloat(formik.values.price + '' || '0');

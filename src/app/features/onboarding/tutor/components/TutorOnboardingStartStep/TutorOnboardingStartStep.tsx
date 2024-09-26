@@ -8,10 +8,15 @@ import Typography from '@mui/material/Typography';
 import { useTutorOnboarding } from '../../providers/TutorOnboardingProvider';
 import OnboardingLayout from '../../../components/OnboardingLayout';
 import CtaButton from '../../../../../components/CtaButton';
+import useMount from '../../../../../utils/useMount';
 
 export default function TutorOnboardingStartStep() {
     const { t } = useTranslation();
     const { onNext, onBack, step, substep, maxSubstep } = useTutorOnboarding();
+
+    useMount(() => {
+        window.scrollTo(0, 0);
+    });
 
     return (
         <OnboardingLayout
