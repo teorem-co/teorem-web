@@ -70,7 +70,9 @@ export default function TutorOnboardingPublishStep() {
     };
 
     useMount(() => {
-        window.scrollTo(0, 0);
+        setTimeout(() => {
+            document.getElementById('root')?.scrollIntoView({ behavior: 'smooth' });
+        }, 237);
         if (!user?.id) {
             throw new Error('There is no user id');
         }

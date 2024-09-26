@@ -255,11 +255,11 @@ export default function useTutorOnboardingFormik(onSubmit: (values: ITutorOnboar
                 .required(t('FORM_VALIDATION.REQUIRED'))
                 .when('minPriceHr', {
                     is: () => countries.find((c) => c.id === user?.countryId)?.abrv === 'HR',
-                    then: Yup.number().min(10, t('FORM_VALIDATION.MIN_PRICE') + '10,00 €.'),
+                    then: Yup.number().min(10, t('FORM_VALIDATION.MIN_PRICE') + ' 10,00 €.'),
                 })
                 .when('minPriceUs', {
                     is: () => countries.find((c) => c.id === user?.countryId)?.abrv === 'US',
-                    then: Yup.number().min(25, t('FORM_VALIDATION.MIN_PRICE') + '$25.00.'),
+                    then: Yup.number().min(25, t('FORM_VALIDATION.MIN_PRICE') + ' $25.00.'),
                 }),
             ssn4Digits: Yup.string().when('addressCountryId', {
                 is: () => countries.find((c) => c.id === user?.countryId)?.abrv === 'US',
