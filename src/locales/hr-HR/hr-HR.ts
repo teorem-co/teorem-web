@@ -1568,11 +1568,11 @@ export const HR_HR: typeof EN_US = {
         sat: 'Priprema za SAT',
     },
     DEGREES: {
-        bacc: 'Bakalar',
-        master: 'Magistar',
-        phd: 'Doktor znanosti',
-        mag: 'Magistar',
-        postdipl: 'Specijalistički diplomski studij',
+        bacc: 'preddiplomski',
+        master: 'Magisterij',
+        phd: 'Doktorat',
+        mag: 'Magisterij',
+        postdipl: 'Postdiplomski',
         other: 'Ostalo',
     },
     UNIVERSITIES: {
