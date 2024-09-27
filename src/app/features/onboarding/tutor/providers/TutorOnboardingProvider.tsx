@@ -1,4 +1,4 @@
-import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useState } from 'react';
+import { createContext, PropsWithChildren, useCallback, useContext, useState } from 'react';
 import ITutorOnboardingFormValues from '../types/ITutorOnboardingFormValues';
 import { useLazyGetUserQuery } from '../../../../store/services/userService';
 import {
@@ -17,6 +17,7 @@ import MAX_STEPS_MAP from '../constants/maxStepsMap';
 import IOnboardingAvailability from '../types/IOnboardingAvailability';
 import { DAY_STRINGS_MAP } from '../types/DayEnum';
 import IOnboardingState from '../../../../types/IOnboardingState';
+import { useLazyGetTutorByIdQuery } from '../../../../store/services/tutorService';
 
 interface ITutorOnboardingContextValue {
     step: number;
@@ -41,6 +42,7 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
     const [substep, setSubstep] = useState(0);
     const [maxSubstep, setMaxSubstep] = useState(MAX_STEPS_MAP[1]);
     const { user } = useAppSelector((state) => state.auth);
+    const [getTutor] = useLazyGetTutorByIdQuery();
     const [setOnboardingState] = useSetOnboardingStateMutation();
     const [finishOnboarding] = useFinishOnboardingMutation();
     const [getUser] = useLazyGetUserQuery();
@@ -119,6 +121,7 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
         const res = await getOnboardingState({
             userId: user?.id,
         }).unwrap();
+        const tutorRes = await getTutor(user?.id).unwrap();
 
         if (res?.step && res?.substep) {
             if (res.step === 3 && res.substep === MAX_STEPS_MAP[3]) {
@@ -135,7 +138,7 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
                 setMaxSubstep(MAX_STEPS_MAP[res.step as 1 | 2 | 3]);
             }
 
-            if (res.formData) {
+            if (res.formData?.length) {
                 try {
                     formik.setValues(JSON.parse(res.formData));
                 } catch (e) {
@@ -146,6 +149,26 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
                     formik.setValues({} as ITutorOnboardingFormValues);
                 }
             }
+        } else {
+            const initValues = {
+                imageLink: user?.profileImage,
+                phoneNumber: user?.phoneNumber,
+                profileTitle: tutorRes?.aboutTutor,
+                profileDescription: tutorRes?.aboutLessons,
+                subjects: tutorRes?.TutorSubjects.map((ts) => ({
+                    levelId: ts.levelId,
+                    subjectId: ts.subjectId,
+                })),
+                price: tutorRes?.maximumPrice,
+                videoId: tutorRes?.videoUrl?.split('/')?.pop() ?? '',
+            } as ITutorOnboardingFormValues;
+
+            setStep(1);
+            setSubstep(0);
+            formik.setValues({
+                ...formik.values,
+                ...initValues,
+            });
         }
     };
 
