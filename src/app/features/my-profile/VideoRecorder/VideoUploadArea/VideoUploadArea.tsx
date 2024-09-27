@@ -9,10 +9,10 @@ import RecorderModal from '../RecorderModal';
 import Alert from '@mui/material/Alert';
 
 interface IVideoUploadAreaProps {
-    fetchData: () => void;
+    onSuccess: () => void;
 }
 
-export default function VideoUploadArea({ fetchData }: IVideoUploadAreaProps) {
+export default function VideoUploadArea({ onSuccess }: IVideoUploadAreaProps) {
     const [showRecorder, setShowRecorder] = useState(false);
     const [showFileUploadPopup, setShowFileUploadPopup] = useState(false);
     const [showMaxSizeError, setShowMaxSizeError] = useState(false);
@@ -65,7 +65,7 @@ export default function VideoUploadArea({ fetchData }: IVideoUploadAreaProps) {
                     open={showFileUploadPopup}
                     onClose={() => setShowFileUploadPopup(false)}
                     triggerSuccess={() => {
-                        fetchData();
+                        onSuccess();
                         setShowFileUploadPopup(false);
                     }}
                 />
@@ -75,7 +75,7 @@ export default function VideoUploadArea({ fetchData }: IVideoUploadAreaProps) {
                 <RecorderModal
                     open={showRecorder}
                     onSuccess={() => {
-                        fetchData();
+                        onSuccess();
                         setShowRecorder(false);
                     }}
                     onClose={() => setShowRecorder(false)}

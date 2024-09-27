@@ -90,7 +90,7 @@
     .layout {
         max-width: 1000px;
         margin: 0 10%;
-        height: 100%;
+        min-height: calc(100vh - 160px);
         justify-content: center;
         margin: 0 auto;
     }

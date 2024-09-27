@@ -132,7 +132,7 @@ export default function TutorOnboardingVideoStep() {
                             />
                         ) : (
                             <VideoUploadArea
-                                fetchData={() => {
+                                onSuccess={() => {
                                     async function pinger() {
                                         if (deleted.current) return;
                                         const info = (await fetchData(

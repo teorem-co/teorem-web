@@ -61,14 +61,31 @@ export default function RecorderModal({ open, onSuccess, onClose }: Readonly<IRe
     const [buttonDisabled, setButtonDisabled] = useState(false);
     const [chosenOptions, setChosenOptions] = useState<{ mimeType: string; videoBitsPerSecond: number } | null>(null);
 
-    async function onSubmit() {
+    const onSubmit = useCallback(async () => {
         if (recordedChunks.length === 0) return;
 
-        mediaRecorderRef.current?.stop();
 
         streamRef.current?.getTracks().forEach((track) => {
             track.stop();
         });
+
+        const stream = await navigator.mediaDevices?.getUserMedia({
+            video: { deviceId: { exact: selectedVideoDevice } },
+            audio: { deviceId: { exact: selectedMicrophoneDevice } }, // Assuming selectedMicrophoneDevice is defined
+        });
+
+        const allStreams = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
+
+        allStreams.getTracks().forEach((track) => {
+            track.stop();
+        });
+
+        // iOs fix
+        stream.getTracks().forEach((track) => {
+            track.stop();
+        });
+
+        if (mediaRecorderRef.current?.state !== 'inactive') mediaRecorderRef.current?.stop();
 
         const file: File = new File(recordedChunks, 'video.webm', { type: 'video/webm' }); // todo: change it later
         const size = file.size; // change later
@@ -78,16 +95,16 @@ export default function RecorderModal({ open, onSuccess, onClose }: Readonly<IRe
         setShowProgressBar(true);
 
         await uploadToVimeo(file, linkUrl, setUploadProgress, onSuccess, webcamRef.current);
-    }
+    }, [getVideoUrl, onSuccess, recordedChunks, selectedMicrophoneDevice, selectedVideoDevice]);
 
-    const cleanup = () => {
+    const cleanup = useCallback(() => {
         // Stop all tracks
         streamRef.current?.getTracks().forEach((track) => {
             track.stop();
         });
 
         onClose?.(); // Assuming this calls the passed onClose prop to notify parent components.
-    };
+    }, [onClose]);
 
     useEffect(() => {
         const updateDevices = () => {
@@ -152,7 +169,7 @@ export default function RecorderModal({ open, onSuccess, onClose }: Readonly<IRe
         try {
             // Request the media streams from the specified devices
             const stream = await navigator.mediaDevices?.getUserMedia({
-                video: { deviceId: { exact: selectedVideoDevice } },
+                video: { deviceId: { exact: selectedVideoDevice }, aspectRatio: 16 / 9, width: 1280, height: 720 },
                 audio: { deviceId: { exact: selectedMicrophoneDevice } }, // Assuming selectedMicrophoneDevice is defined
             });
 

@@ -371,7 +371,7 @@ const AdditionalInformation = () => {
                         ) : videoInformation.url ? (
                             <UploadedVideoComponent fetchData={fetchData} videoInformation={videoInformation} />
                         ) : (
-                            <VideoUploadArea fetchData={fetchData} />
+                            <VideoUploadArea onSuccess={fetchData} />
                         )}
                     </div>
                 )}

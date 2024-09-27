@@ -54,6 +54,7 @@
         grid-template-columns: 1fr 1fr;
         margin: 0 10%;
         gap: 10vw;
+        min-height: calc(100vh - 160px);
     }
 
     .titleContainer {
