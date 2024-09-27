@@ -63,15 +63,31 @@ export default function TutorOnboardingVideoStep() {
         [languages, user?.languageId]
     );
 
+    async function pinger() {
+        if (deleted.current) return;
+        const info = (await fetchData(formik, getVideoInformation)) as ITutorVideoInformation;
+
+        setVideoInformation(info);
+        if (!info.url) return;
+
+        if (!info.videoTranscoded) {
+            setTimeout(() => {
+                pinger();
+            }, 5000);
+        }
+    }
+
     useMount(() => {
         window.scrollTo(0, 0);
         setTimeout(() => {
             document.getElementById('root')?.scrollIntoView({ behavior: 'smooth' });
         }, 237);
         setNextDisabled?.(!!formik.errors.videoId && false); //TODO: Remove false
-        fetchData(formik, getVideoInformation)
-            .then((videoInfo) => setVideoInformation(videoInfo))
-            .then(() => setInitialized(true));
+        deleted.current = false;
+        pinger();
+        setTimeout(() => {
+            setInitialized(true);
+        }, 1000);
     });
 
     useEffect(() => {
@@ -133,24 +149,13 @@ export default function TutorOnboardingVideoStep() {
                         ) : (
                             <VideoUploadArea
                                 onSuccess={() => {
-                                    async function pinger() {
-                                        if (deleted.current) return;
-                                        const info = (await fetchData(
-                                            formik,
-                                            getVideoInformation
-                                        )) as ITutorVideoInformation;
-
-                                        setVideoInformation(info);
-
-                                        if (!info.videoTranscoded) {
-                                            setTimeout(() => {
-                                                pinger();
-                                            }, 5000);
-                                        }
-                                    }
-
                                     deleted.current = false;
                                     pinger();
+                                }}
+                                onClose={() => {
+                                    deleted.current = false;
+
+                                    window.location.reload();
                                 }}
                             />
                         )}

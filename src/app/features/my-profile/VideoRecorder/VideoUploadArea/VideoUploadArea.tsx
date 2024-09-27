@@ -10,9 +10,10 @@ import Alert from '@mui/material/Alert';
 
 interface IVideoUploadAreaProps {
     onSuccess: () => void;
+    onClose?: () => void;
 }
 
-export default function VideoUploadArea({ onSuccess }: IVideoUploadAreaProps) {
+export default function VideoUploadArea({ onClose, onSuccess }: IVideoUploadAreaProps) {
     const [showRecorder, setShowRecorder] = useState(false);
     const [showFileUploadPopup, setShowFileUploadPopup] = useState(false);
     const [showMaxSizeError, setShowMaxSizeError] = useState(false);
@@ -76,9 +77,13 @@ export default function VideoUploadArea({ onSuccess }: IVideoUploadAreaProps) {
                     open={showRecorder}
                     onSuccess={() => {
                         onSuccess();
+                        onClose?.();
                         setShowRecorder(false);
                     }}
-                    onClose={() => setShowRecorder(false)}
+                    onClose={() => {
+                        onClose?.();
+                        setShowRecorder(false);
+                    }}
                 />
             ) : null}
         </>
