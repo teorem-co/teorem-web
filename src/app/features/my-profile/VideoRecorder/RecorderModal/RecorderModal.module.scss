@@ -6,6 +6,10 @@
     gap: 8px;
 }
 
+.webcamContainer {
+    height: 224px;
+}
+
 .buttons {
     width: 100%;
     display: grid;
@@ -13,4 +17,14 @@
     grid-template-columns: 1fr 1fr;
     gap: 16px;
     padding-top: 16px;
+}
+
+@media screen and (min-width: 768px) {
+    .container {
+        height: initial;
+    }
+
+    .webcamContainer {
+        height: initial;
+    }
 }

@@ -149,7 +149,7 @@ export default function RecorderModal({ open, onSuccess, onClose }: Readonly<IRe
 
         try {
             // Request the media streams from the specified devices
-            const stream = await navigator.mediaDevices.getUserMedia({
+            const stream = await navigator.mediaDevices?.getUserMedia({
                 video: { deviceId: { exact: selectedVideoDevice } },
                 audio: { deviceId: { exact: selectedMicrophoneDevice } }, // Assuming selectedMicrophoneDevice is defined
             });
@@ -174,6 +174,7 @@ export default function RecorderModal({ open, onSuccess, onClose }: Readonly<IRe
             setIntervalId(id);
         } catch (error) {
             console.error('Error accessing media devices:', error);
+            throw error;
             // Handle errors (e.g., user denied access to devices)
         }
     }, [selectedVideoDevice, selectedMicrophoneDevice]);
@@ -223,7 +224,7 @@ export default function RecorderModal({ open, onSuccess, onClose }: Readonly<IRe
                         <video style={{ height: 'auto', maxWidth: '100%' }} src={replayVideoUrl} controls></video>
                     </div>
                 ) : (
-                    <div className={''}>
+                    <div className={styles.webcamContainer}>
                         <Webcam
                             muted={true}
                             audio={true}
@@ -234,7 +235,7 @@ export default function RecorderModal({ open, onSuccess, onClose }: Readonly<IRe
                                 height: 720,
                             }}
                             audioConstraints={{ deviceId: selectedMicrophoneDevice }}
-                            style={{ width: '100%', height: 'auto' }}
+                            style={{ width: '100%', height: '100%' }}
                         />
                     </div>
                 )}
