@@ -58,6 +58,8 @@ export default function RecorderModal({ open, onSuccess, onClose }: Readonly<IRe
     const mediaRecorderRef = useRef<MediaRecorder>();
     const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
     const [timer, setTimer] = useState(0);
+    const [buttonDisabled, setButtonDisabled] = useState(false);
+    const [chosenOptions, setChosenOptions] = useState<{ mimeType: string; videoBitsPerSecond: number } | null>(null);
 
     async function onSubmit() {
         if (recordedChunks.length === 0) return;
@@ -129,12 +131,12 @@ export default function RecorderModal({ open, onSuccess, onClose }: Readonly<IRe
     }, []);
 
     useEffect(() => {
-        if (recordedChunks.length) {
-            const blob = new Blob(recordedChunks, { type: 'video/webm' });
+        if (recordedChunks.length && chosenOptions) {
+            const blob = new Blob(recordedChunks, { type: chosenOptions.mimeType });
             const url = URL.createObjectURL(blob);
             setReplayVideoUrl(url);
         }
-    }, [recordedChunks]);
+    }, [chosenOptions, recordedChunks]);
 
     const handleDataAvailable = (event: BlobEvent) => {
         if (event.data && event.data.size > 0) {
@@ -143,7 +145,7 @@ export default function RecorderModal({ open, onSuccess, onClose }: Readonly<IRe
     };
 
     const handleStartCaptureClick = useCallback(async () => {
-        setCapturing(true);
+        setButtonDisabled(true);
         setRecordedChunks([]);
         setReplayVideoUrl('');
 
@@ -160,10 +162,21 @@ export default function RecorderModal({ open, onSuccess, onClose }: Readonly<IRe
             //this one is for cleanup
             streamRef.current = stream;
 
-            const options = {
-                mimeType: 'video/webm',
-                videoBitsPerSecond: 550000, // Lower bitrate for smaller size
-            };
+            const options = (() => {
+                if (MediaRecorder.isTypeSupported('video/webm; codecs=vp9')) {
+                    return { mimeType: 'video/webm; codecs=vp9', videoBitsPerSecond: 550000 };
+                } else if (MediaRecorder.isTypeSupported('video/webm')) {
+                    return {
+                        mimeType: 'video/webm',
+                        videoBitsPerSecond: 550000, // Lower bitrate for smaller size
+                    };
+                } else if (MediaRecorder.isTypeSupported('video/mp4')) {
+                    return { mimeType: 'video/mp4', videoBitsPerSecond: 550000 };
+                } else {
+                    throw new Error('no suitable mimetype found for this device');
+                }
+            })();
+            setChosenOptions(options);
 
             mediaRecorderRef.current = new MediaRecorder(stream, options);
             mediaRecorderRef.current.addEventListener('dataavailable', handleDataAvailable);
@@ -172,6 +185,10 @@ export default function RecorderModal({ open, onSuccess, onClose }: Readonly<IRe
             // Timer setup
             const id = setInterval(() => setTimer((t) => t + 1), 1000);
             setIntervalId(id);
+            setCapturing(true);
+            setTimeout(() => {
+                setButtonDisabled(false);
+            }, 1000);
         } catch (error) {
             console.error('Error accessing media devices:', error);
             throw error;
@@ -180,8 +197,11 @@ export default function RecorderModal({ open, onSuccess, onClose }: Readonly<IRe
     }, [selectedVideoDevice, selectedMicrophoneDevice]);
 
     const handleStopCaptureClick = () => {
+        setButtonDisabled(true);
         mediaRecorderRef.current!.stop();
-
+        setTimeout(() => {
+            setButtonDisabled(false);
+        }, 1000);
         setCapturing(false);
         if (intervalId) clearInterval(intervalId);
         setTimer(0);
@@ -220,11 +240,11 @@ export default function RecorderModal({ open, onSuccess, onClose }: Readonly<IRe
                     </div>
                 )}
                 {recordedChunks.length > 0 && !capturing ? (
-                    <div>
-                        <video style={{ height: 'auto', maxWidth: '100%' }} src={replayVideoUrl} controls></video>
+                    <div className={styles.videoContainer}>
+                        <video style={{ height: '100%', maxWidth: '100%' }} src={replayVideoUrl} controls></video>
                     </div>
                 ) : (
-                    <div className={styles.webcamContainer}>
+                    <div className={styles.videoContainer}>
                         <Webcam
                             muted={true}
                             audio={true}
@@ -274,6 +294,7 @@ export default function RecorderModal({ open, onSuccess, onClose }: Readonly<IRe
                                     <Button
                                         variant="contained"
                                         color="error"
+                                        disabled={buttonDisabled}
                                         onClick={handleStopCaptureClick}
                                         type={'button'}
                                     >
@@ -283,6 +304,7 @@ export default function RecorderModal({ open, onSuccess, onClose }: Readonly<IRe
                                     <Button
                                         variant="contained"
                                         color="secondary"
+                                        disabled={buttonDisabled}
                                         onClick={handleStartCaptureClick}
                                         type={'button'}
                                     >

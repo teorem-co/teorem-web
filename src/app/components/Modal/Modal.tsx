@@ -27,7 +27,8 @@ export default function Modal({
         const html = document.getElementsByTagName('html')[0];
         if (html) {
             if (open) {
-                html.style.overflow = 'hidden';
+                // TODO: figure out how to prevent scrolling when modal is open
+                //   html.style.overflow = 'hidden';
             } else {
                 html.style.overflow = 'auto';
             }
