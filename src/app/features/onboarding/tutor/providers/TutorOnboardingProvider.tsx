@@ -1,4 +1,4 @@
-import { createContext, PropsWithChildren, useCallback, useContext, useState } from 'react';
+import { createContext, PropsWithChildren, useCallback, useContext, useMemo, useState } from 'react';
 import ITutorOnboardingFormValues from '../types/ITutorOnboardingFormValues';
 import { useLazyGetUserQuery } from '../../../../store/services/userService';
 import {
@@ -50,6 +50,10 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
     const [nextDisabled, setNextDisabled] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
+    const isStripePendingOrVerified = useMemo(() => {
+        return user?.stripeVerifiedStatus === 'verified' || user?.stripeVerificationDocumentsUploaded || false;
+    }, [user]);
+
     const goToNextStep = useCallback(() => {
         if (step === 1 && substep >= MAX_STEPS_MAP[1]) {
             setStep(2);
@@ -60,9 +64,12 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
             setSubstep(0);
             setMaxSubstep(MAX_STEPS_MAP[3]);
         } else {
+            if (step === 3 && substep === 2 && isStripePendingOrVerified) {
+                return setSubstep(MAX_STEPS_MAP[3]);
+            }
             setSubstep((prevSubstep) => prevSubstep + 1);
         }
-    }, [step, substep]);
+    }, [step, isStripePendingOrVerified, substep]);
 
     const goToPreviousStep = useCallback(() => {
         if (step === 2 && substep === 0) {
@@ -74,9 +81,12 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
             setSubstep(MAX_STEPS_MAP[2]);
             setMaxSubstep(MAX_STEPS_MAP[2]);
         } else {
+            if (step === 3 && substep === MAX_STEPS_MAP[3] && isStripePendingOrVerified) {
+                return setSubstep(2);
+            }
             setSubstep((prevSubstep) => prevSubstep - 1);
         }
-    }, [step, substep]);
+    }, [step, isStripePendingOrVerified, substep]);
 
     const handleSubmit = useCallback(
         async (values: ITutorOnboardingFormValues, isPreview?: boolean) => {
@@ -113,10 +123,13 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
 
     const formik = useTutorOnboardingFormik(handleSubmit);
 
-    const init = async () => {
+    const init = useCallback(async () => {
         if (user?.onboardingCompleted || !user?.id) {
             return history.replace(PATHS.DASHBOARD);
         }
+
+        const stripePendingOrVerified =
+            user?.stripeVerifiedStatus === 'verified' || user?.stripeVerificationDocumentsUploaded || false;
 
         const res = await getOnboardingState({
             userId: user?.id,
@@ -134,8 +147,12 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
                 setMaxSubstep(MAX_STEPS_MAP[(res.step + 1) as 1 | 2 | 3]);
             } else {
                 setStep(res.step);
-                setSubstep(res.substep + 1);
                 setMaxSubstep(MAX_STEPS_MAP[res.step as 1 | 2 | 3]);
+                if (step === 3 && substep >= 2 && stripePendingOrVerified) {
+                    setSubstep(MAX_STEPS_MAP[3]);
+                } else {
+                    setSubstep(res.substep + 1);
+                }
             }
 
             if (res.formData?.length) {
@@ -170,7 +187,7 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
                 ...initValues,
             });
         }
-    };
+    }, [formik, getOnboardingState, getTutor, history, step, user]);
 
     useMount(() => {
         init().finally(() => setIsLoading(false));
