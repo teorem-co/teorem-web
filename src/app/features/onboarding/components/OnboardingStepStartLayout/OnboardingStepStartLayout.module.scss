@@ -1,0 +1,85 @@
+.layout {
+    padding: 0px 24px 16px 24px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto;
+    grid-template-areas:
+        'image'
+        'text';
+}
+
+.textContainer {
+    grid-area: text;
+}
+
+.imageContainer {
+    grid-area: image;
+}
+
+.image {
+    width: 100%;
+    object-fit: contain;
+}
+
+.stepLabel {
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 20px;
+}
+
+.title {
+    padding-bottom: 8px;
+    font-size: 31px;
+    line-height: 37px;
+}
+
+.description {
+    font-size: 15px !important;
+    line-height: 25px !important;
+}
+
+@media screen and (min-width: 768px) {
+    .layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr;
+        grid-template-areas: 'text image';
+        margin: 0 10%;
+        min-height: calc(100vh - 160px);
+        gap: 40px;
+    }
+
+    .textContainer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        max-width: 661px;
+    }
+
+    .imageContainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .image {
+        max-height: 565px;
+    }
+
+    .stepLabel {
+        font-size: 20px;
+        line-height: 20px;
+    }
+
+    .title {
+        padding-bottom: 32px;
+        font-size: 50px;
+        line-height: 60px;
+    }
+
+    .description {
+        font-size: 20px !important;
+        line-height: 25px !important;
+        font-weight: 400 !important;
+    }
+}

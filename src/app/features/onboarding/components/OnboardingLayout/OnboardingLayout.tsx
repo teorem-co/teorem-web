@@ -1,0 +1,65 @@
+import { ReactNode } from 'react';
+import styles from './OnboardingLayout.module.scss';
+import logo from '../../../../../assets/images/teorem-logo-black.png';
+import ProgressBar from '../ProgressBar';
+import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
+import Sidebar from '../../../../components/Sidebar';
+
+interface IOnboardingLayoutProps {
+    step?: number;
+    substep?: number;
+    maxSubstep?: number;
+    children?: ReactNode;
+    onBack?: () => void;
+    actions?: ReactNode;
+    header?: ReactNode;
+    sidebar?: ReactNode;
+    isSidebarOpen?: boolean;
+    onSidebarClose?: () => void;
+}
+
+export default function OnboardingLayout({
+    step,
+    substep,
+    maxSubstep,
+    children,
+    onBack,
+    actions,
+    header,
+    sidebar,
+    isSidebarOpen,
+    onSidebarClose,
+}: Readonly<IOnboardingLayoutProps>) {
+    const { t } = useTranslation();
+
+    return (
+        <div className={styles.layout}>
+            <div className={styles.headerContainer}>
+                <img src={logo} alt="logo" className={styles.logo} />
+                <div className={styles.header}>{header}</div>
+            </div>
+            <div className={styles.children}>{children}</div>
+            <div className={styles.background} />
+            <div className={styles.footerContainer}>
+                <ProgressBar step={step} substep={substep} maxSubstep={maxSubstep} />
+                <div className={styles.footer}>
+                    {step === 1 && substep === 0 ? null : (
+                        <button className={styles.back} onClick={onBack}>
+                            <span>{t('ONBOARDING.BACK')}</span>
+                        </button>
+                    )}
+                    <div />
+                    <div className={clsx(styles.actions, { [styles.fullwidth]: step === 1 && substep === 0 })}>
+                        {actions}
+                    </div>
+                </div>
+            </div>
+            {sidebar ? (
+                <Sidebar sideBarIsOpen={isSidebarOpen} closeSidebar={onSidebarClose} title={t('ONBOARDING.QUESTIONS')}>
+                    {sidebar}
+                </Sidebar>
+            ) : null}
+        </div>
+    );
+}

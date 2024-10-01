@@ -1,8 +1,8 @@
 import { FieldProps, useField } from 'formik';
 import { FC, useEffect, useState } from 'react';
 import PhoneInput from 'react-phone-input-2';
-import { useLazyGetCountriesQuery } from '../../features/onboarding/services/countryService';
-import { PATHS } from '../../routes';
+import { useLazyGetCountriesQuery } from '../../store/services/countryService';
+import { ONBOARDING_PATHS, PATHS } from '../../routes';
 import 'react-phone-input-2/lib/material.css';
 import { t } from 'i18next';
 
@@ -45,7 +45,7 @@ const MyPhoneInput: FC<TextFieldType> = (props: any) => {
     }, [countryId]);
 
     useEffect(() => {
-        window && window.location.pathname === PATHS.ONBOARDING && updateCountry();
+        window && window.location.pathname === ONBOARDING_PATHS.ONBOARDING && updateCountry();
     }, [form.values.countryId]);
 
     // set font size based on device

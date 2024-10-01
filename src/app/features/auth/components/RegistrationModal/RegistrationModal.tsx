@@ -48,8 +48,8 @@ export default function RegistrationModal() {
     const [marketingOptOut, setMarketingOptOut] = useState<boolean>(false);
     const [registerUser, { isSuccess, isLoading }] = useRegisterUserMutation();
     const [resendActivationEmail] = useResendActivationEmailMutation();
-    const { selectedCountry } = useAppSelector((state) => state.countryMarket);
-    const { selectedLanguage } = useAppSelector((state) => state.lang);
+    const { selectedCountry, countries } = useAppSelector((state) => state.countryMarket);
+    const { selectedLanguage, languages } = useAppSelector((state) => state.lang);
     const [resendTimer, setResendTimer] = useState<number>(RESET_PERIOD);
     const [showPassword, setShowPassword] = useState(false);
     const [roleNotSelected, setRoleNotSelected] = useState(false);
@@ -82,14 +82,17 @@ export default function RegistrationModal() {
                 return;
             }
 
+            const resolvedSelectedCountry = countries.find((c) => c.abrv === selectedCountry?.abrv);
+            const resolvedSelectedLanguage = languages.find((l) => l.abrv === selectedLanguage?.abrv);
+
             await registerUser({
                 firstName: values.firstName!,
                 lastName: values.lastName!,
                 dateOfBirth: values.dateOfBirth ? dayjs(values.dateOfBirth).format('YYYY-MM-DD') : '',
                 email: values.email!,
                 phoneNumber: values.phoneNumber!,
-                countryId: selectedCountry?.id || '',
-                languageId: selectedLanguage?.id || '',
+                countryId: resolvedSelectedCountry?.id || '',
+                languageId: resolvedSelectedLanguage?.id || '',
                 password: values.password!,
                 confirmPassword: values.password!,
                 roleAbrv: selectedRole,
@@ -107,7 +110,18 @@ export default function RegistrationModal() {
             setResendTimer(40);
             setTimeout(timer, 1000);
         },
-        [selectedRole, checkMail, registerUser, selectedCountry?.id, selectedLanguage?.id, dispatch, timer, t]
+        [
+            selectedRole,
+            checkMail,
+            countries,
+            languages,
+            registerUser,
+            dispatch,
+            timer,
+            t,
+            selectedCountry?.abrv,
+            selectedLanguage?.abrv,
+        ]
     );
 
     const formik: any = useFormik({
@@ -152,7 +166,7 @@ export default function RegistrationModal() {
             email: Yup.string().email(t('FORM_VALIDATION.INVALID_EMAIL')).required(t('FORM_VALIDATION.REQUIRED')),
             phoneNumber: Yup.string()
                 .required(t('FORM_VALIDATION.REQUIRED'))
-                .min(10, t('FORM_VALIDATION.PHONE_SHORT')) // 10 characters
+                .min(7, t('FORM_VALIDATION.PHONE_SHORT')) // 10 characters
                 .matches(
                     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/gm,
                     t('FORM_VALIDATION.PHONE_NUMBER')

@@ -1,9 +1,9 @@
 import { t } from 'i18next';
 
 import { baseService } from '../baseService';
-import { OptionType } from '../../components/form/MySelectField';
 import { HttpMethods } from '../../types/httpMethods';
 import ILevel from '../../types/ILevel';
+import OptionType from '../../types/OptionType';
 
 const URL = 'api/v1/levels';
 
@@ -16,6 +16,7 @@ export const levelService = baseService.injectEndpoints({
             }),
             transformResponse: (response: ILevel[]) => {
                 const levelOptions: OptionType[] = response.map((level) => ({
+                    id: level.id,
                     value: level.id,
                     label: t(`LEVELS.${level.abrv.replaceAll(' ', '').replaceAll('-', '').toLowerCase()}`),
                     countryId: level.countryId,
@@ -24,7 +25,14 @@ export const levelService = baseService.injectEndpoints({
                 return levelOptions;
             },
         }),
+        getLevelsPure: builder.query<ILevel[], void>({
+            query: () => ({
+                url: `${URL}`,
+                method: HttpMethods.GET,
+            }),
+        }),
     }),
 });
 
-export const { useGetLevelsQuery, useLazyGetLevelsQuery } = levelService;
+export const { useGetLevelsQuery, useLazyGetLevelsQuery, useLazyGetLevelsPureQuery, useGetLevelsPureQuery } =
+    levelService;

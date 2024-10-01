@@ -1,7 +1,7 @@
 import { t } from 'i18next';
 
 import { baseService } from '../baseService';
-import IProgressProfile from '../../features/my-profile/interfaces/IProgressProfile';
+import IProgressProfile from '../../types/IProgressProfile';
 import IUpdateAdditionalInfo from '../../features/my-profile/interfaces/IUpdateAdditionalInfo';
 import { HttpMethods } from '../../types/httpMethods';
 import { getAppState } from '../../utils/getAppState';

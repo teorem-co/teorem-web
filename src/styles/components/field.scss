@@ -2,62 +2,62 @@
     components: field
 */
 
-.signup-title{
-  font-family: 'Poppins', sans-serif;
-  font-weight: 500;
+.signup-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
 }
 
 @media (max-width: 767px) {
-  .sign-up-form-wrapper {
-    font-size: small;
-    width: 80%;
-    max-width: 300px;
-  }
+    .sign-up-form-wrapper {
+        font-size: small;
+        width: 80%;
+        max-width: 300px;
+    }
 
-  .field__w-60 {
-    width: 100%;
-  }
+    .field__w-60 {
+        width: 100%;
+    }
 
-  .signup-title{
-    font-size: 18px;
-  }
+    .signup-title {
+        font-size: 18px;
+    }
 
-  .password-tooltip{
-    font-size: 10px;
-  }
+    .password-tooltip {
+        font-size: 10px;
+    }
 }
 
 @media (min-width: 767px) {
-  .sign-up-form-wrapper {
-    width: 20%;
-    min-width: 300px;
-    font-size: medium;
-  }
-  .signup-title{
-    font-size: 35px;
-  }
+    .sign-up-form-wrapper {
+        width: 20%;
+        min-width: 300px;
+        font-size: medium;
+    }
+    .signup-title {
+        font-size: 35px;
+    }
 
-  .password-tooltip{
-    font-size: small;
-  }
+    .password-tooltip {
+        font-size: small;
+    }
 }
 
-.sign-up-form-wrapper{
-  //margin: 0 auto;
-  text-align: center;
-  flex-direction: column;
-  //align-items: center;
-  //width: 20%;
-  //font-size: large;
-  //background-color: red;
+.sign-up-form-wrapper {
+    //margin: 0 auto;
+    text-align: center;
+    flex-direction: column;
+    //align-items: center;
+    //width: 20%;
+    //font-size: large;
+    //background-color: red;
 }
 
 .react-tel-input .form-control {
-  height: 57px !important; /* Adjusts the height of the input field */
+    height: 57px !important; /* Adjusts the height of the input field */
 }
 
 .react-tel-input .flag-dropdown {
-  height: 57px !important; /* Adjusts the height of the dropdown button */
+    height: 57px !important; /* Adjusts the height of the dropdown button */
 }
 
 .field {
@@ -65,29 +65,29 @@
     margin-bottom: calc(#{$unit} * 1);
 
     &__w {
-      &-30{
-        width: 30%;
-      }
+        &-30 {
+            width: 30%;
+        }
 
-       &-40{
-        width: 40%;
-      }
+        &-40 {
+            width: 40%;
+        }
 
-      &-50{
-        width: 50%;
-      }
+        &-50 {
+            width: 50%;
+        }
 
-      &-60{
-        width: 60%;
-      }
+        &-60 {
+            width: 60%;
+        }
 
-      &-70{
-        width: 70%;
-      }
+        &-70 {
+            width: 70%;
+        }
 
-      &-fit-content{
-        width: fit-content;
-      }
+        &-fit-content {
+            width: fit-content;
+        }
     }
 
     &__label {
@@ -100,9 +100,10 @@
 
     &__validation {
         color: $color-error;
-        margin-top: calc(#{$unit} * 1);
+        margin-top: calc(#{$unit} * 0.5);
         min-height: 15px;
         font-size: $type-sm;
+        margin-bottom: calc(#{$unit} * 1);
     }
 
     &__file {

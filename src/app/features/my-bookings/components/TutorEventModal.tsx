@@ -1,7 +1,7 @@
 import { t } from 'i18next';
 import moment from 'moment';
 
-import { useAcceptBookingMutation, useDeleteBookingMutation } from '../services/bookingService';
+import { useAcceptBookingMutation, useDeleteBookingMutation } from '../../../store/services/bookingService';
 import { Tooltip } from 'react-tooltip';
 import React, { useState } from 'react';
 import { ConfirmationModal } from '../../../components/ConfirmationModal';

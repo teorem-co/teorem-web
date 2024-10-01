@@ -16,7 +16,7 @@ import {
     useLazyGetStudentAvailablePeriodsQuery,
     useLazyGetTutorAvailablePeriodsQuery,
     useUpdateBookingMutation,
-} from '../services/bookingService';
+} from '../../../store/services/bookingService';
 import { ConfirmationModal } from '../../../components/ConfirmationModal';
 import dayjs, { Dayjs } from 'dayjs';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';

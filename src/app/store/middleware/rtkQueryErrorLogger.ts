@@ -9,7 +9,7 @@ export const rtkQueryErrorLogger: Middleware = (_api: MiddlewareAPI) => (next) =
             if (action.meta.arg.endpointName !== 'login') {
                 toastService.error(i18next.t(action.payload.data.message));
             }
-        } else {
+        } else if (action.payload.status !== 403) {
             toastService.error(i18next.t('ERROR_HANDLING.UNHANDLED_ERROR'));
         }
     }

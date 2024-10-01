@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { useLazyGetTutorAvailabilityQuery, useUpdateTutorAvailabilityMutation } from '../../my-profile/services/tutorAvailabilityService';
+import { useLazyGetTutorAvailabilityQuery, useUpdateTutorAvailabilityMutation } from '../../../store/services/tutorAvailabilityService';
 import IAvailabilityIndex from '../../my-profile/interfaces/IAvailabilityIndex';
 import { t } from 'i18next';
 import { cloneDeep } from 'lodash';

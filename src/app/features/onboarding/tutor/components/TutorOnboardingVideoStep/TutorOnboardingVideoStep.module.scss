@@ -1,0 +1,79 @@
+.content {
+    position: relative;
+    width: 100%;
+    height: 224px;
+    margin: 16px auto;
+    text-align: center;
+}
+
+.imgContainer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: var(--grey-f7);
+    border: 2px solid black;
+    border-radius: 8px;
+}
+
+.delete {
+    position: absolute !important;
+    top: 4px;
+    right: 4px;
+    height: 42px;
+    width: 42px;
+    background-color: white !important;
+}
+
+.pointsTitle {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21.6px;
+}
+
+.points {
+    color: var(--grey-63) !important;
+}
+
+.point {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    gap: 4px;
+
+    .icon {
+        color: black;
+    }
+}
+
+.pointLink {
+    color: var(--grey-63) !important;
+    text-decoration: underline;
+}
+
+@media screen and (min-width: 768px) {
+    .content {
+        width: 100%;
+        height: 475px;
+    }
+
+    .delete {
+        top: 16px;
+        right: 16px;
+    }
+
+    .pointsTitle {
+        font-weight: 400;
+        font-size: 25px;
+        line-height: 30px;
+    }
+
+    .point {
+        font-size: 20px !important;
+        line-height: 20px !important;
+
+        .icon {
+            height: 25px !important;
+            width: 25px !important;
+        }
+    }
+}

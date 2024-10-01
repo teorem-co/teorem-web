@@ -1,0 +1,19 @@
+.item {
+}
+
+.day > * {
+    font-weight: bold !important;
+    font-size: 15px !important;
+}
+
+.subItems {
+    margin-left: 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+@media screen and (min-width: 768px) {
+    .day > * {
+        font-size: 20px !important;
+    }
+}

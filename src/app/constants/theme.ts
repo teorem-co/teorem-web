@@ -28,17 +28,23 @@ const THEME = createTheme({
     },
     typography: {
         fontFamily: 'Lato',
+        fontSize: 14,
         button: {
             textTransform: 'none',
             fontWeight: 700,
             fontSize: '18px',
             lineHeight: '20px',
         },
+        body2: {
+            color: '#636363',
+        },
         h1: {
-            fontWeight: 600,
+            fontWeight: 700,
+            fontSize: '2.4em',
         },
         h2: {
-            fontWeight: 600,
+            fontSize: '2em',
+            fontWeight: 700,
         },
         h3: {
             fontWeight: 600,
@@ -89,6 +95,13 @@ const THEME = createTheme({
                 root: {
                     minHeight: '48px',
                 },
+                outlinedSecondary: {
+                    border: '1px solid var(--border-color)',
+                    ':hover': {
+                        border: '1px solid var(--color-text-primary)',
+                    },
+                    color: 'black',
+                },
             },
         },
         MuiButtonBase: {
@@ -105,6 +118,7 @@ const THEME = createTheme({
             styleOverrides: {
                 root: {
                     fontSize: '14px',
+                    lineHeight: '14px',
                     marginBottom: '8px',
                 },
             },
@@ -117,14 +131,19 @@ const THEME = createTheme({
                 },
             },
         },
-        MuiInputLabel: {
-        },
+
         MuiOutlinedInput: {
-            defaultProps: {
-            },
             styleOverrides: {
                 root: {
                     fontSize: '16px',
+                    lineHeight: '18px',
+                },
+            },
+        },
+        MuiSelect: {
+            styleOverrides: {
+                select: {
+                    minHeight: 'initial',
                 },
             },
         },

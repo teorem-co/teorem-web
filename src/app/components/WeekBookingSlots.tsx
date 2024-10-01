@@ -2,7 +2,7 @@ import { TimeZoneSelect } from './TimeZoneSelect';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useAppSelector } from '../store/hooks';
 import moment from 'moment-timezone';
-import { useLazyGetWeekPeriodsForTutorQuery } from '../features/my-bookings/services/bookingService';
+import { useLazyGetWeekPeriodsForTutorQuery } from '../store/services/bookingService';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 
 export interface TimeSlots {

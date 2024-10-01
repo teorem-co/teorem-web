@@ -1,0 +1,124 @@
+.layout {
+    min-height: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto auto;
+    background-color: white;
+}
+
+.headerContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 16px 24px;
+    height: 64px;
+    z-index: 2;
+}
+
+.logo {
+    height: 24px;
+    object-fit: contain;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.children {
+    padding-top: 64px;
+    padding-bottom: 78px;
+    min-height: 100%;
+    overflow-y: auto;
+}
+
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1000;
+    background-color: white;
+}
+
+.footerContainer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    z-index: 2;
+}
+
+.footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px;
+    height: 72px;
+}
+
+.back {
+    border: none;
+    background-color: transparent;
+    font-weight: 700;
+    text-decoration: underline;
+    font-size: 18px;
+    line-height: 20px;
+    color: black;
+    &:hover {
+        text-decoration: none;
+        cursor: pointer;
+    }
+}
+
+.actions {
+    min-width: 30%;
+    &.fullwidth {
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .headerContainer {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 30px;
+        height: 72px;
+    }
+
+    .logo {
+        height: 32px;
+        object-fit: contain;
+    }
+
+    .children {
+        min-height: 100%;
+        padding-top: 72px;
+        padding-bottom: 88px;
+    }
+
+    .footer {
+        padding: 20px 30px;
+        height: 88px;
+    }
+
+    .actions {
+        width: 15%;
+        min-width: 173px;
+        &.fullwidth {
+            width: 15%;
+        }
+    }
+}

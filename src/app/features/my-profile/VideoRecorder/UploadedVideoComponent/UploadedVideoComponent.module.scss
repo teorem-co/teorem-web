@@ -1,0 +1,54 @@
+.container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    &.loading {
+        border: 2px dotted black;
+        background-color: var(--grey-f7);
+        padding: 16px;
+        overflow: hidden;
+    }
+}
+
+.iframe {
+    border: none;
+    width: 100%;
+    height: 100%;
+}
+
+.icon {
+    height: 40px;
+    width: 40px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 400;
+}
+
+.delete {
+    position: absolute !important;
+    top: 4px;
+    right: 4px;
+    height: 42px;
+    width: 42px;
+    background-color: white !important;
+}
+
+@media screen and (min-width: 768px) {
+    .icon {
+        height: 60px;
+        width: 60px;
+        margin-bottom: 16px;
+    }
+
+    .delete {
+        top: 16px;
+        right: 16px;
+    }
+}

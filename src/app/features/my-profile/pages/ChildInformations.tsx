@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { IChild } from '../../../types/IChild';
@@ -12,12 +12,13 @@ import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import AddChildSidebar from '../components/AddChildSidebar';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
-import { setMyProfileProgress } from '../slices/myProfileSlice';
-import { userInfo } from 'os';
+import { setMyProfileProgress } from '../../../store/slices/myProfileSlice';
+import useMount from '../../../utils/useMount';
 
 const ChildInformations = () => {
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
-    const [getChildren, { data: childrenData, isLoading: childrenLoading, isUninitialized: childrenUninitialized }] = useLazyGetChildrenQuery();
+    const [getChildren, { data: childrenData, isLoading: childrenLoading, isUninitialized: childrenUninitialized }] =
+        useLazyGetChildrenQuery();
     const userId = useAppSelector((state) => state.auth.user?.id);
     const [addSidebarOpen, setAddSidebarOpen] = useState(false);
     const [childForEdit, setChildForEdit] = useState<IChild | null>(null);
@@ -33,7 +34,7 @@ const ChildInformations = () => {
 
     const fetchProgress = async () => {
         //If there is no state in redux for profileProgress fetch data and save result to redux
-        if (profileProgressState.percentage === 0) {
+        if (profileProgressState.step === 0) {
             const progressResponse = await getProfileProgress().unwrap();
             dispatch(setMyProfileProgress(progressResponse));
         }
@@ -63,10 +64,10 @@ const ChildInformations = () => {
         setAddSidebarOpen(true);
     };
 
-    useEffect(() => {
+    useMount(() => {
         fetchProgress();
         fetchData();
-    }, []);
+    });
 
     return (
         <MainWrapper>
@@ -74,21 +75,16 @@ const ChildInformations = () => {
                 {/* HEADER */}
                 <ProfileHeader className="mb-1" />
 
-                {/* PROGRESS */}
-                <ProfileCompletion
-                    generalAvailability={profileProgressState.generalAvailability}
-                    additionalInformation={profileProgressState.aboutMe}
-                    myTeachings={profileProgressState.myTeachings}
-                    percentage={profileProgressState.percentage}
-                    payment={profileProgressState.payment}
-                />
+                <ProfileCompletion />
 
                 {/* Children list */}
                 {(isLoading && <LoaderPrimary />) || (
                     <div className="card--profile__section">
                         <div>
                             <div className="mb-2 type--wgt--bold">{t('MY_PROFILE.GENERAL_AVAILABILITY.TITLE')}</div>
-                            <div className="type--color--tertiary w--200--max">{t('MY_PROFILE.GENERAL_AVAILABILITY.DESCRIPTION')}</div>
+                            <div className="type--color--tertiary w--200--max">
+                                {t('MY_PROFILE.GENERAL_AVAILABILITY.DESCRIPTION')}
+                            </div>
                         </div>
                         <div>
                             <div className="dash-wrapper dash-wrapper--adaptive">
@@ -102,7 +98,9 @@ const ChildInformations = () => {
                                         <div className="flex--primary cur--pointer">
                                             <div>
                                                 <div className="mb-1">{t('ADD_CHILD.TITLE')}</div>
-                                                <div className="type--color--secondary">{t('ADD_CHILD.DESCRIPTION')}</div>
+                                                <div className="type--color--secondary">
+                                                    {t('ADD_CHILD.DESCRIPTION')}
+                                                </div>
                                             </div>
                                             <i className="icon icon--base icon--plus icon--primary"></i>
                                         </div>
@@ -111,7 +109,11 @@ const ChildInformations = () => {
                                 {childrenData &&
                                     childrenData.map((x: IChild) => {
                                         return (
-                                            <div className="dash-wrapper__item" key={x.username} onClick={() => handleEditChild(x)}>
+                                            <div
+                                                className="dash-wrapper__item"
+                                                key={x.username}
+                                                onClick={() => handleEditChild(x)}
+                                            >
                                                 <div className="dash-wrapper__item__element">
                                                     <div className="flex--primary cur--pointer">
                                                         <div className="flex flex--center">
@@ -119,7 +121,9 @@ const ChildInformations = () => {
                                                             <div className="flex--grow ml-4">
                                                                 <div className="mb-1">{x.firstName}</div>
                                                                 <div className="type--color--secondary">
-                                                                    {moment(x.dateOfBirth).format(t('BIRTH_DATE_FORMAT'))}
+                                                                    {moment(x.dateOfBirth).format(
+                                                                        t('BIRTH_DATE_FORMAT')
+                                                                    )}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -134,7 +138,11 @@ const ChildInformations = () => {
                     </div>
                 )}
             </div>
-            <AddChildSidebar closeSidebar={closeAddCardSidebar} sideBarIsOpen={addSidebarOpen} childData={childForEdit} />
+            <AddChildSidebar
+                closeSidebar={closeAddCardSidebar}
+                sideBarIsOpen={addSidebarOpen}
+                childData={childForEdit}
+            />
         </MainWrapper>
     );
 };
