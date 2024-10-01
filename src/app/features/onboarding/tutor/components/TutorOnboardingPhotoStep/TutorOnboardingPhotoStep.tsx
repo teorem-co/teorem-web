@@ -115,7 +115,7 @@ export default function TutorOnboardingPhotoStep() {
             >
                 {formik.values.imageLink?.length ? (
                     <div className={styles.imgContainer}>
-                        <img src={formik.values.imageLink} alt="profile image" />
+                        <img className={styles.img} src={formik.values.imageLink} alt="profile image" />
                         <IconButton className={styles.delete} onClick={handleDelete}>
                             <Delete />
                         </IconButton>
