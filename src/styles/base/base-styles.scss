@@ -3,58 +3,63 @@
 */
 
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 html {
-  overflow-x: hidden !important;
-  overflow-y: scroll !important;
+    overflow-x: hidden !important;
+    min-height: 100%;
+}
+
+#root {
+    min-height: 100%;
 }
 
 body {
-  //fluid typography
-  //@include fluid-type($fluid-min-width, $fluid-max-width, $type-base - $fluid-type-modifier, $type-base);
+    //fluid typography
+    //@include fluid-type($fluid-min-width, $fluid-max-width, $type-base - $fluid-type-modifier, $type-base);
 
-  //fixed typography
-  font-size: $type-base;
+    //fixed typography
+    font-size: $type-base;
 
-  font-family: 'Lato', sans-serif;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    font-family: 'Lato', sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 
-  overflow-x: hidden !important;
-  overflow-y: scroll !important;
+    overflow-x: hidden !important;
+    overflow-y: scroll !important;
+    min-height: 100%;
 }
 
 .star {
-  &--1 {
-    path:nth-child(1) {
-      fill: black;
+    &--1 {
+        path:nth-child(1) {
+            fill: black;
+        }
     }
-  }
 
-  &--2 {
-    path:nth-child(-n + 2) {
-      fill: black;
+    &--2 {
+        path:nth-child(-n + 2) {
+            fill: black;
+        }
     }
-  }
 
-  &--3 {
-    path:nth-child(-n + 3) {
-      fill: black;
+    &--3 {
+        path:nth-child(-n + 3) {
+            fill: black;
+        }
     }
-  }
 
-  &--4 {
-    path:nth-child(-n + 4) {
-      fill: black;
+    &--4 {
+        path:nth-child(-n + 4) {
+            fill: black;
+        }
     }
-  }
 
-  &--5 {
-    path:nth-child(-n + 5) {
-      fill: black;
+    &--5 {
+        path:nth-child(-n + 5) {
+            fill: black;
+        }
     }
-  }
 }

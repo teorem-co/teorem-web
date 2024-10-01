@@ -4,25 +4,26 @@ import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { getUserId } from '../../../utils/getUserId';
 import { useTranslation } from 'react-i18next';
-import { setMyProfileProgress } from '../../my-profile/slices/myProfileSlice';
-import { ITutorSubject, setStepOne } from '../../../store/slices/onboardingSlice';
+import { setMyProfileProgress } from '../../../store/slices/myProfileSlice';
 import ITutorSubjectLevel from '../../../types/ITutorSubjectLevel';
 import { ICreateSubjectOnboarding, useCreateSubjectsOnboardingMutation } from '../../../store/services/subjectService';
-import { CreateSubjectCard } from '../../onboarding/tutorOnboardingNew/CreateSubjectCard';
+import { TutorSingleTeachingCard } from './TutorSingleTeachingCard';
 import toastService from '../../../store/services/toastService';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
+import { ITutorSubject } from '../../../types/ITutorSubject';
 
 const SubjectsPage = () => {
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
-    const [getProfileData, { data: myTeachingsData, isLoading: myTeachingsLoading, isUninitialized: myTeachingsUninitialized }] =
-        useLazyGetTutorByIdQuery();
+    const [
+        getProfileData,
+        { data: myTeachingsData, isLoading: myTeachingsLoading, isUninitialized: myTeachingsUninitialized },
+    ] = useLazyGetTutorByIdQuery();
 
-    const [createSubjectsOnboarding, { isError: creatingSubjectsError }] = useCreateSubjectsOnboardingMutation();
+    const [createSubjectsOnboarding] = useCreateSubjectsOnboardingMutation();
 
     const [btnDisabled, setBtnDisabled] = useState(true);
     const dispatch = useAppDispatch();
     const profileProgressState = useAppSelector((state) => state.myProfileProgress);
-    const [progressPercentage, setProgressPercentage] = useState(profileProgressState.percentage);
     const tutorId = getUserId();
     const [initialSubjects, setInitialSubjects] = useState<ITutorSubject[]>([]);
     const [oldSubjects, setOldSubjects] = useState<ITutorSubjectLevel[]>([]);
@@ -37,12 +38,9 @@ const SubjectsPage = () => {
         if (tutorId) {
             getProfileData(tutorId);
 
-            const progressResponse = await getProfileProgress().unwrap();
-            setProgressPercentage(progressResponse.percentage);
             //If there is no state in redux for profileProgress fetch data and save result to redux
-            if (profileProgressState.percentage === 0) {
+            if (profileProgressState.step === 0) {
                 const progressResponse = await getProfileProgress().unwrap();
-                setProgressPercentage(progressResponse.percentage);
                 dispatch(setMyProfileProgress(progressResponse));
             }
         }
@@ -81,12 +79,6 @@ const SubjectsPage = () => {
 
     async function handleSubmit() {
         if (tutorId) {
-            dispatch(
-                setStepOne({
-                    subjects: myTeachingsData?.TutorSubjects ? myTeachingsData.TutorSubjects : [],
-                })
-            );
-
             const oldAndNewSubjectsAreEqual = areArraysEqual(oldSubjects, forms);
             const mappedSubjects = mapToCreateSubject(forms);
             if (!oldAndNewSubjectsAreEqual) {
@@ -96,7 +88,8 @@ const SubjectsPage = () => {
                 }).then((res) => {
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-ignore
-                    if (res.error && res.error.status !== 409) toastService.success(t('MY_PROFILE.MY_TEACHINGS.UPDATED'));
+                    if (res.error && res.error.status !== 409)
+                        toastService.success(t('MY_PROFILE.MY_TEACHINGS.UPDATED'));
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     else {
                         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -117,12 +110,11 @@ const SubjectsPage = () => {
                     }
                 });
 
-                if (oldSubjects.length == 0) {
+                if (oldSubjects.length === 0) {
                     dispatch(
                         setMyProfileProgress({
                             ...profileProgressState,
                             myTeachings: true,
-                            // percentage: profileProgressState.percentage + 25,
                         })
                     );
                 }
@@ -172,12 +164,20 @@ const SubjectsPage = () => {
         return (
             arr1.every((obj1) =>
                 arr2.some(
-                    (obj2) => obj1.id === obj2.id && obj1.subjectId === obj2.subjectId && obj1.levelId === obj2.levelId && obj1.price === obj2.price
+                    (obj2) =>
+                        obj1.id === obj2.id &&
+                        obj1.subjectId === obj2.subjectId &&
+                        obj1.levelId === obj2.levelId &&
+                        obj1.price === obj2.price
                 )
             ) &&
             arr2.every((obj1) =>
                 arr1.some(
-                    (obj2) => obj1.id === obj2.id && obj1.subjectId === obj2.subjectId && obj1.levelId === obj2.levelId && obj1.price === obj2.price
+                    (obj2) =>
+                        obj1.id === obj2.id &&
+                        obj1.subjectId === obj2.subjectId &&
+                        obj1.levelId === obj2.levelId &&
+                        obj1.price === obj2.price
                 )
             )
         );
@@ -188,7 +188,9 @@ const SubjectsPage = () => {
     }, []);
 
     useEffect(() => {
-        const allValid = forms.every((form) => form.subjectId && form.levelId && form.price && +form.price >= 10 && Number.isInteger(+form.price));
+        const allValid = forms.every(
+            (form) => form.subjectId && form.levelId && form.price && +form.price >= 10 && Number.isInteger(+form.price)
+        );
         setBtnDisabled(!allValid);
     }, [forms]);
 
@@ -231,82 +233,79 @@ const SubjectsPage = () => {
         return arr1.every((subject1) => arr2.some((subject2) => areSubjectsEqual(subject1, subject2)));
     };
 
-    function handleCancel() {
-        setForms(initialSubjects);
-    }
-
     return (
-        <>
-            <div
-                style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flexDirection: 'column',
-                }}
-            >
-                {(isLoading && <LoaderPrimary />) || (
-                    <div
-                        className="flex--center"
-                        style={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            flexDirection: 'column',
-                        }}
-                    >
-                        <div>
-                            <div
-                                style={{
-                                    minWidth: '100px',
-                                    maxWidth: 'fit-content',
-                                    overflowY: 'unset',
-                                }}
-                                className=" dash-wrapper--adaptive flex--grow flex--col flex--jc--space-between"
-                            >
-                                <div>
-                                    {forms.map((subject) => (
-                                        <CreateSubjectCard
-                                            data={subject}
-                                            key={subject.id + subject.subjectId + subject.levelId}
-                                            isLastForm={isLastForm}
-                                            updateForm={updateForm}
-                                            id={subject.id}
-                                            removeItem={() => handleRemoveForm(subject.id)}
-                                            handleGetData={() => getProfileData(tutorId ? tutorId : '')}
-                                        />
-                                    ))}
-                                </div>
-                                <div className="dash-wrapper__item w--100">
-                                    <div className="dash-wrapper__item__element dash-border" onClick={() => handleAddForm()}>
-                                        <div className="flex--primary cur--pointer flex-gap-10">
-                                            <div className="type--wgt--bold">{t('MY_PROFILE.MY_TEACHINGS.ADD_NEW')}</div>
-                                            <i className="icon icon--base icon--plus icon--primary"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                {showButton && (
-                                    <div className="flex flex--col flex--ai--center flex--jc--center">
-                                        <ButtonPrimaryGradient
-                                            onClick={() => handleSubmit()}
-                                            disabled={btnDisabled}
-                                            className="btn btn--lg mt-4 mb-4"
-                                        >
-                                            {t('MY_PROFILE.MY_TEACHINGS.SAVE')}
-                                        </ButtonPrimaryGradient>
-
-                                        {/*<button*/}
-                                        {/*  onClick={() => handleCancel()}*/}
-                                        {/*  className='btn btn--sm mt-1 pr-4 pl-4 pt-2 pb-2 btn--ghost--error'>*/}
-                                        {/*  {t('MY_PROFILE.MY_TEACHINGS.CANCEL')}*/}
-                                        {/*</button>*/}
-                                    </div>
-                                )}
+        <div
+            style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexDirection: 'column',
+            }}
+        >
+            {(isLoading && <LoaderPrimary />) || (
+                <div
+                    className="flex--center"
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        flexDirection: 'column',
+                    }}
+                >
+                    <div>
+                        <div
+                            style={{
+                                minWidth: '100px',
+                                maxWidth: 'fit-content',
+                                overflowY: 'unset',
+                            }}
+                            className=" dash-wrapper--adaptive flex--grow flex--col flex--jc--space-between"
+                        >
+                            <div>
+                                {forms.map((subject) => (
+                                    <TutorSingleTeachingCard
+                                        data={subject}
+                                        key={subject.id + subject.subjectId + subject.levelId}
+                                        isLastForm={isLastForm}
+                                        updateForm={updateForm}
+                                        id={subject.id}
+                                        removeItem={() => handleRemoveForm(subject.id)}
+                                        handleGetData={() => getProfileData(tutorId ? tutorId : '')}
+                                    />
+                                ))}
                             </div>
+                            <div className="dash-wrapper__item w--100">
+                                <div
+                                    className="dash-wrapper__item__element dash-border"
+                                    onClick={() => handleAddForm()}
+                                >
+                                    <div className="flex--primary cur--pointer flex-gap-10">
+                                        <div className="type--wgt--bold">{t('MY_PROFILE.MY_TEACHINGS.ADD_NEW')}</div>
+                                        <i className="icon icon--base icon--plus icon--primary"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            {showButton && (
+                                <div className="flex flex--col flex--ai--center flex--jc--center">
+                                    <ButtonPrimaryGradient
+                                        onClick={() => handleSubmit()}
+                                        disabled={btnDisabled}
+                                        className="btn btn--lg mt-4 mb-4"
+                                    >
+                                        {t('MY_PROFILE.MY_TEACHINGS.SAVE')}
+                                    </ButtonPrimaryGradient>
+
+                                    {/*<button*/}
+                                    {/*  onClick={() => handleCancel()}*/}
+                                    {/*  className='btn btn--sm mt-1 pr-4 pl-4 pt-2 pb-2 btn--ghost--error'>*/}
+                                    {/*  {t('MY_PROFILE.MY_TEACHINGS.CANCEL')}*/}
+                                    {/*</button>*/}
+                                </div>
+                            )}
                         </div>
                     </div>
-                )}
-            </div>
-        </>
+                </div>
+            )}
+        </div>
     );
 };
 

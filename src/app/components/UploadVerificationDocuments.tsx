@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { IVerificationDocument, useUploadVerificationDocumentMutation } from '../features/my-profile/services/stripeService';
+import { IVerificationDocument, useUploadVerificationDocumentMutation } from '../store/services/stripeService';
 import { VerificationUploadInput } from './VerificationUploadInput';
 import { useAppSelector } from '../store/hooks';
 import moment from 'moment';

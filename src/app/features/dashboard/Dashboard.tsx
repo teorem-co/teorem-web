@@ -29,14 +29,14 @@ import { RoleOptions } from '../../store/slices/roleSlice';
 import { ISearchFiltersState, resetSearchFilters, setSearchFilters } from '../../store/slices/searchFiltesSlice';
 import { ButtonPrimaryGradient } from '../../components/ButtonPrimaryGradient';
 import CustomCheckbox from '../../components/form/CustomCheckbox';
-import MySelect, { OptionType } from '../../components/form/MySelectField';
+import MySelect from '../../components/form/MySelectField';
 import ImageCircle from '../../components/ImageCircle';
 import MainWrapper from '../../components/MainWrapper';
 import NotificationsSidebar from '../../components/NotificationsSidebar';
 import LoaderPrimary from '../../components/skeleton-loaders/LoaderPrimary';
 import { TutorialModal } from '../../components/TutorialModal';
 import { useAppSelector } from '../../store/hooks';
-import { PATHS, PROFILE_PATHS } from '../../routes';
+import { ONBOARDING_PATHS, PATHS, PROFILE_PATHS } from '../../routes';
 import { useLazyGetTutorTestingLinkQuery } from '../../store/services/hiLinkService';
 import toastService from '../../store/services/toastService';
 import { IChatRoom, ISendChatMessage, setActiveChatRoomById } from '../chat/slices/chatSlice';
@@ -46,18 +46,16 @@ import {
     useDeleteBookingMutation,
     useDenyRescheduleRequestMutation,
     useLazyGetPendingBookingsQuery,
-} from '../my-bookings/services/bookingService';
+} from '../../store/services/bookingService';
 import AddChildSidebar from '../my-profile/components/AddChildSidebar';
 import CircularProgress from '../my-profile/components/CircularProgress';
 import { HiLinkModalForTutorIntro } from '../my-profile/components/HiLinkModalForTutorIntro';
 import LearnCubeModal from '../my-profile/components/LearnCubeModal';
-import { setMyProfileProgress } from '../my-profile/slices/myProfileSlice';
+import { setMyProfileProgress } from '../../store/slices/myProfileSlice';
 import NotificationItem from '../notifications/components/NotificationItem';
-import IParams from '../notifications/interfaces/IParams';
-import { OnboardingTutor } from '../onboarding/tutorOnboardingNew/OnboardingTutor';
 import { IBookingModalInfo } from '../tutor-bookings/TutorBookings';
-import { RecommendedTutorCard } from './recommended-tutors/RecommendedTutorCard';
-import { RecommendedTutorCardMobile } from './recommended-tutors/RecommendedTutorCardMobile';
+import { RecommendedTutorCard } from './components/RecommendedTutorCard';
+import { RecommendedTutorCardMobile } from './components/RecommendedTutorCardMobile';
 import { BookingRequestItem } from './upcoming-lessons/BookingRequestItem';
 import { LessonRescheduleRequestItem } from './upcoming-lessons/LessonRescheduleRequestItem';
 import { NotAcceptedLesson } from './upcoming-lessons/NotAcceptedLesson';
@@ -70,6 +68,8 @@ import { setTutorialFinished } from '../../store/slices/tutorialSlice';
 import useMount from '../../utils/useMount';
 import TUTORIAL_REQUEST from '../tutorial/constants/tutorialRequest';
 import TUTORIAL_SCHEDULE from '../tutorial/constants/tutorialSchedule';
+import OptionType from '../../types/OptionType';
+import { Redirect } from 'react-router';
 
 export default function Dashboard() {
     const { subject, level, dayOfWeek, timeOfDay } = useAppSelector((state) => state.searchFilters);
@@ -130,14 +130,24 @@ export default function Dashboard() {
     const chatrooms = useAppSelector((state) => state.chat.chatRooms);
     const socket = useAppSelector((state) => state.chat.socket);
     const profileProgressState = useAppSelector((state) => state.myProfileProgress);
-    const dispatch = useDispatch();
+    const [getTestingRoomLink] = useLazyGetTutorTestingLinkQuery();
+    const [tutorialModalOpen, setTutorialModalOpen] = useState(false);
+    const [tutorialStepsOpen, setTutorialStepsOpen] = useState(false);
+    const [tutorialRoomLink, setTutorialRoomLink] = useState('');
 
-    const fetchProgress = () => {
-        //If there is no state in redux for profileProgress fetch data and save result to redux
-        getProfileProgress()
-            .unwrap()
-            .then((res) => dispatch(setMyProfileProgress(res)));
-    };
+    const [tutorHiLinkModalActive, setTutorHiLinkModalActive] = useState(false);
+    const [notificationSidebarOpen, setNotificationSidebarOpen] = useState(false);
+    const [paramsSearch, setParamsSearch] = useState<ISearchParams>({
+        rpp: 3,
+        page: 0,
+    });
+    const [resetKey, setResetKey] = useState(false);
+    const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
+    const [levelOptions, setLevelOptions] = useState<OptionType[]>([]);
+    const [getSubjects, { data: subjects, isLoading: isLoadingSubjects }] = useLazyGetSubjectsQuery();
+    const [getLevels, { data: levels, isLoading: isLoadingLevels }] = useLazyGetLevelsQuery();
+
+    const dispatch = useDispatch();
 
     const fetchData = async () => {
         try {
@@ -255,10 +265,12 @@ export default function Dashboard() {
 
     useMount(() => {
         fetchData();
-        fetchProgress();
         getLevels();
         getSubjects();
         getSubjectLevels();
+        getProfileProgress()
+            .unwrap()
+            .then((res) => dispatch(setMyProfileProgress(res)));
 
         socket.on('showNotification', (notification: ISocketNotification) => {
             if (userId && notification.userId === userId) {
@@ -440,23 +452,11 @@ export default function Dashboard() {
         },
     ];
 
-    const [getTestingRoomLink] = useLazyGetTutorTestingLinkQuery();
-    const [tutorialModalOpen, setTutorialModalOpen] = useState(false);
-    const [tutorialStepsOpen, setTutorialStepsOpen] = useState(false);
-    const [tutorialRoomLink, setTutorialRoomLink] = useState('');
-
-    const [tutorHiLinkModalActive, setTutorHiLinkModalActive] = useState(false);
-    const [notificationSidebarOpen, setNotificationSidebarOpen] = useState(false);
-    const [paramsSearch, setParamsSearch] = useState<ISearchParams>({
-        rpp: 3,
-        page: 0,
-    });
-
     useEffect(() => {
-        if (userRole === RoleOptions.Tutor && profileProgressState.percentage === 100) {
+        if (userRole === RoleOptions.Tutor && user?.onboardingCompleted) {
             setTutorialModalOpen(true);
         }
-    }, [profileProgressState.percentage, userRole]);
+    }, [user, userRole]);
 
     useEffect(() => {
         if (userRole === RoleOptions.Parent) {
@@ -716,12 +716,8 @@ export default function Dashboard() {
         },
     });
 
-    const [resetKey, setResetKey] = useState(false);
-    const [subjectOptions, setSubjectOptions] = useState<OptionType[]>([]);
-    const [levelOptions, setLevelOptions] = useState<OptionType[]>([]);
-    const [getSubjects, { data: subjects, isLoading: isLoadingSubjects }] = useLazyGetSubjectsQuery();
-    const [getLevels, { data: levels, isLoading: isLoadingLevels }] = useLazyGetLevelsQuery();
-    const [getSubjectLevels, { data: subjectLevels, isLoading: isLoadingSubjectLevels }] =
+
+     const [getSubjectLevels, { data: subjectLevels, isLoading: isLoadingSubjectLevels }] =
         useLazyGetSubjectLevelsQuery();
     const resetFilterDisabled =
         formik.values.level == '' &&
@@ -818,8 +814,8 @@ export default function Dashboard() {
         }
     };
 
-    if (userRole === RoleOptions.Tutor && profileProgressState.percentage !== 100) {
-        return <OnboardingTutor />;
+    if (userRole === RoleOptions.Tutor && !user?.onboardingCompleted) {
+        return <Redirect to={ONBOARDING_PATHS.TUTOR_ONBOARDING} />;
     }
 
     return (
@@ -964,130 +960,6 @@ export default function Dashboard() {
                 <MainWrapper>
                     <div className="layout--primary">
                         <div>
-                            {userRole == RoleOptions.Tutor &&
-                            profileProgressState.percentage &&
-                            profileProgressState.percentage < 100 ? (
-                                <div className="card--dashboard mb-6">
-                                    <div>
-                                        <div className="row">
-                                            <div className="col col-12 col-xl-6">
-                                                <div className="flex">
-                                                    <div className="flex flex--center flex--shrink">
-                                                        <CircularProgress
-                                                            progressNumber={
-                                                                profileProgressState.percentage
-                                                                    ? profileProgressState.percentage
-                                                                    : 0
-                                                            }
-                                                            size={80}
-                                                        />
-                                                    </div>
-                                                    <div className="flex flex--col flex--jc--center ml-6">
-                                                        <h4 className="type--md mb-2">
-                                                            {t(`COMPLETE_TUTOR_PROFILE_CARD.TITLE`)}
-                                                        </h4>
-                                                        <p>{t(`COMPLETE_TUTOR_PROFILE_CARD.DESCRIPTION`)}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="col col-12 col-xl-6">
-                                                <div
-                                                    className="flex flex--center flex--jc--space-between flex--wrap dashboard-complete-profile-btns"
-                                                    style={{ height: '100%', gap: 16 }}
-                                                >
-                                                    <NavLink
-                                                        exact
-                                                        to={PROFILE_PATHS.MY_PROFILE_INFO_AVAILABILITY}
-                                                        className="nav-link--profile"
-                                                        activeClassName="active"
-                                                    >
-                                                        <div className="flex flex--col flex--center">
-                                                            <div className="nav-link--profile__wrapper">
-                                                                <i
-                                                                    className={`icon icon--base icon--${
-                                                                        profileProgressState.generalAvailability
-                                                                            ? 'check'
-                                                                            : 'calendar'
-                                                                    } nav-link--profile__icon`}
-                                                                ></i>
-                                                            </div>
-                                                            <div className="nav-link--profile__label type--center mt-4 pl-2 pr-2">
-                                                                {t('COMPLETE_PROFILE.GENERAL_AVAILABILITY')}
-                                                            </div>
-                                                        </div>
-                                                    </NavLink>
-                                                    <NavLink
-                                                        exact
-                                                        to={PROFILE_PATHS.MY_PROFILE_INFO_TEACHINGS}
-                                                        className="nav-link--profile"
-                                                        activeClassName="active"
-                                                    >
-                                                        <div className="flex flex--col flex--center">
-                                                            <div className="nav-link--profile__wrapper">
-                                                                <i
-                                                                    className={`icon icon--base icon--${
-                                                                        profileProgressState.myTeachings
-                                                                            ? 'check'
-                                                                            : 'subject'
-                                                                    } nav-link--profile__icon`}
-                                                                ></i>
-                                                            </div>
-                                                            <div className="nav-link--profile__label type--center mt-4 pl-2 pr-2">
-                                                                {t('COMPLETE_PROFILE.MY_TEACHINGS')}
-                                                            </div>
-                                                        </div>
-                                                    </NavLink>
-                                                    <NavLink
-                                                        exact
-                                                        to={PROFILE_PATHS.MY_PROFILE_INFO_ADDITIONAL}
-                                                        className="nav-link--profile"
-                                                        activeClassName="active"
-                                                    >
-                                                        <div className="flex flex--col flex--center">
-                                                            <div className="nav-link--profile__wrapper">
-                                                                <i
-                                                                    className={`icon icon--base icon--${
-                                                                        profileProgressState.aboutMe
-                                                                            ? 'check'
-                                                                            : 'profile'
-                                                                    } nav-link--profile__icon`}
-                                                                ></i>
-                                                            </div>
-                                                            <div
-                                                                className="nav-link--profile__label type--center mt-4 pl-2 pr-2"
-                                                                style={{ whiteSpace: 'nowrap' }}
-                                                            >
-                                                                {t('COMPLETE_PROFILE.ABOUT_ME')}
-                                                            </div>
-                                                        </div>
-                                                    </NavLink>
-                                                    <NavLink
-                                                        exact
-                                                        to={PROFILE_PATHS.MY_PROFILE_ACCOUNT}
-                                                        className="nav-link--profile"
-                                                        activeClassName="active"
-                                                    >
-                                                        <div className="flex flex--col flex--center">
-                                                            <div className="nav-link--profile__wrapper">
-                                                                <i
-                                                                    className={`icon icon--base icon--${
-                                                                        profileProgressState.payment
-                                                                            ? 'check'
-                                                                            : 'pricing'
-                                                                    } nav-link--profile__icon`}
-                                                                ></i>
-                                                            </div>
-                                                            <div className="nav-link--profile__label type--center mt-4 pl-2 pr-2">
-                                                                {t('COMPLETE_PROFILE.EARNINGS')}
-                                                            </div>
-                                                        </div>
-                                                    </NavLink>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            ) : null}
                             <div className="card--secondary card--secondary--alt">
                                 <div className={`card--secondary__head flex--jc--space-between`}>
                                     <h2 className="type--wgt--bold type--lg">{t('DASHBOARD.TITLE')}</h2>
@@ -1151,7 +1023,7 @@ export default function Dashboard() {
                                                 </div>
                                             )}
                                         </div>
-                                    ) : userRole === RoleOptions.Student || userRole == RoleOptions.Parent ? (
+                                    ) : userRole === RoleOptions.Student || userRole === RoleOptions.Parent ? (
                                         <div>
                                             <div className="dashboard__requests tutor-intro-1">
                                                 <div className="type--color--tertiary mb-2">

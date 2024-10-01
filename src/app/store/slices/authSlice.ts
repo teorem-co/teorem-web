@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import IUser from '../../types/IUser';
-import { IVerificationDocumentResponse } from '../../features/my-profile/services/stripeService';
+import { IVerificationDocumentResponse } from '../services/stripeService';
 import deleteCookie from '../../utils/deleteCookie';
 
 interface ILoginPayload {
@@ -54,9 +54,19 @@ export const authSlice = createSlice({
             state.user!.stripeVerifiedStatus = action.payload.stripeVerifiedStatus;
             state.user!.stripeVerificationDocumentsUploaded = action.payload.stripeVerificationDocumentsUploaded;
         },
+        setUser(state, action: PayloadAction<IUser>) {
+            state.user = action.payload;
+        },
     },
 });
 
-export const { logout, addStripeId, connectStripe, setServerVersion, setToken, updateStateOfVerificationDocument } =
-    authSlice.actions;
+export const {
+    logout,
+    addStripeId,
+    connectStripe,
+    setServerVersion,
+    setToken,
+    updateStateOfVerificationDocument,
+    setUser,
+} = authSlice.actions;
 export default authSlice.reducer;

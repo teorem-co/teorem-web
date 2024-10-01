@@ -4,7 +4,7 @@ import { combineReducers } from 'redux';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
-import myProfileProgressReducer from '../features/my-profile/slices/myProfileSlice';
+import myProfileProgressReducer from './slices/myProfileSlice';
 import authReducer from './slices/authSlice';
 import childrenReducer from './slices/childrenSlice';
 import langReducer from './slices/langSlice';
@@ -27,6 +27,10 @@ import timeZoneReducer from './slices/timeZoneSlice';
 import countryMarketReducer from './slices/countryMarketSlice';
 import modalsSlice from './slices/modalsSlice';
 import tutorialSlice from './slices/tutorialSlice';
+import degreeSlice from './slices/degreeSlice';
+import universitySlice from './slices/universitySlice';
+import levelSlice from './slices/levelSlice';
+import subjectSlice from './slices/subjectSlice';
 
 const persistConfig = {
     key: 'root',
@@ -47,6 +51,10 @@ const persistConfig = {
         'timeZone',
         'countryMarket',
         'tutorial',
+        'degree',
+        'university',
+        'level',
+        'subject',
         //modals intentionally not persisted
     ],
 };
@@ -74,6 +82,10 @@ const appReducer = combineReducers({
     countryMarket: countryMarketReducer,
     modals: modalsSlice,
     tutorial: tutorialSlice,
+    degree: degreeSlice,
+    university: universitySlice,
+    level: levelSlice,
+    subject: subjectSlice,
 });
 
 const rootReducer = (state: any, action: any) => {

@@ -16,8 +16,8 @@ import {
     useCreateTutorAvailabilityMutation,
     useLazyGetTutorAvailabilityQuery,
     useUpdateTutorAvailabilityMutation,
-} from '../services/tutorAvailabilityService';
-import { setMyProfileProgress } from '../slices/myProfileSlice';
+} from '../../../store/services/tutorAvailabilityService';
+import { setMyProfileProgress } from '../../../store/slices/myProfileSlice';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { getUserId } from '../../../utils/getUserId';
 import { TimeZoneSelect } from '../../../components/TimeZoneSelect';
@@ -28,8 +28,10 @@ import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient
 const GeneralAvailability = () => {
     //const { data: profileProgress } = useGetProfileProgressQuery();
 
-    const [getTutorAvailability, { data: tutorAvailability, isUninitialized: availabilityUninitialized, isLoading: availabilityLoading }] =
-        useLazyGetTutorAvailabilityQuery();
+    const [
+        getTutorAvailability,
+        { data: tutorAvailability, isUninitialized: availabilityUninitialized, isLoading: availabilityLoading },
+    ] = useLazyGetTutorAvailabilityQuery();
     const [updateTutorAvailability] = useUpdateTutorAvailabilityMutation();
     const [createTutorAvailability] = useCreateTutorAvailabilityMutation();
     const [getProfileProgress] = useLazyGetProfileProgressQuery();
@@ -53,7 +55,9 @@ const GeneralAvailability = () => {
                     onClick={() => handleAvailabilityClick(availabilityIndex.column, availabilityIndex.row, column)}
                     key={availabilityIndex.column}
                 >
-                    <i className={`icon icon--${isMobile ? 'sm' : 'base'} ${column ? 'icon--check icon--primary' : 'icon--close icon--grey'} `}></i>
+                    <i
+                        className={`icon icon--${isMobile ? 'sm' : 'base'} ${column ? 'icon--check icon--primary' : 'icon--close icon--grey'} `}
+                    ></i>
                 </td>
             );
         } else if (column == '') {
@@ -156,7 +160,7 @@ const GeneralAvailability = () => {
             setCurrentAvailabilities(tutorAvailabilityResponse);
 
             //If there is no state in redux for profileProgress fetch data and save result to redux
-            if (profileProgressState.percentage === 0) {
+            if (profileProgressState.step === 0) {
                 const progressResponse = await getProfileProgress().unwrap();
                 dispatch(setMyProfileProgress(progressResponse));
             }
@@ -171,10 +175,15 @@ const GeneralAvailability = () => {
     }, []);
 
     useEffect(() => {
-        const isLoaded: boolean = tutorAvailability && tutorAvailability.length > 0 && currentAvailabilities.length > 0 ? true : false;
+        const isLoaded: boolean =
+            tutorAvailability && tutorAvailability.length > 0 && currentAvailabilities.length > 0 ? true : false;
 
         if (isLoaded) {
-            if (isEqual(tutorAvailability, currentAvailabilities) && defaultUserZone === selectedZone && isTimeZoneSuccess) {
+            if (
+                isEqual(tutorAvailability, currentAvailabilities) &&
+                defaultUserZone === selectedZone &&
+                isTimeZoneSuccess
+            ) {
                 setSaveBtnActive(false);
             } else {
                 setSaveBtnActive(true);
@@ -204,29 +213,34 @@ const GeneralAvailability = () => {
                 <ProfileHeader className="mb-1" />
 
                 {/* PROGRESS */}
-                <ProfileCompletion
-                    generalAvailability={profileProgressState.generalAvailability}
-                    additionalInformation={profileProgressState.aboutMe}
-                    myTeachings={profileProgressState.myTeachings}
-                    percentage={profileProgressState.percentage}
-                    payment={profileProgressState.payment}
-                />
+                <ProfileCompletion />
 
                 {/* AVAILABILITY */}
                 {(loading && <LoaderPrimary />) || (
                     <div>
                         {isTimeZoneSuccess && (
                             <div className="card--profile__section">
-                                <div className="mb-2 type--wgt--bold">{t('MY_PROFILE.GENERAL_AVAILABILITY.TIME_ZONE')}</div>
-                                <TimeZoneSelect defaultUserZone={defaultUserZone} selectedZone={selectedZone} setSelectedZone={setSelectedZone} />
+                                <div className="mb-2 type--wgt--bold">
+                                    {t('MY_PROFILE.GENERAL_AVAILABILITY.TIME_ZONE')}
+                                </div>
+                                <TimeZoneSelect
+                                    defaultUserZone={defaultUserZone}
+                                    selectedZone={selectedZone}
+                                    setSelectedZone={setSelectedZone}
+                                />
                             </div>
                         )}
                         <div className="card--profile__section">
                             <div>
                                 <div className="mb-2 type--wgt--bold">{t('MY_PROFILE.GENERAL_AVAILABILITY.TITLE')}</div>
-                                <div className="type--color--tertiary w--200--max">{t('MY_PROFILE.GENERAL_AVAILABILITY.DESCRIPTION')}</div>
+                                <div className="type--color--tertiary w--200--max">
+                                    {t('MY_PROFILE.GENERAL_AVAILABILITY.DESCRIPTION')}
+                                </div>
                                 {saveBtnActive ? (
-                                    <ButtonPrimaryGradient onClick={() => handleSubmit()} className="btn btn--base mt-4">
+                                    <ButtonPrimaryGradient
+                                        onClick={() => handleSubmit()}
+                                        className="btn btn--base mt-4"
+                                    >
                                         {t('MY_PROFILE.SUBMIT')}
                                     </ButtonPrimaryGradient>
                                 ) : (

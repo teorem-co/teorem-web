@@ -1,0 +1,32 @@
+.bar {
+    height: 6px;
+    display: grid;
+    position: relative;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 3px;
+}
+
+.step {
+    position: relative;
+    background-color: #dcdce5;
+    height: 100%;
+
+    &.filled {
+        background-color: black;
+    }
+}
+
+.progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0px;
+    height: 100%;
+    background-color: black;
+}
+
+@media screen and (min-width: 768px) {
+    .bar {
+        gap: 17px;
+    }
+}

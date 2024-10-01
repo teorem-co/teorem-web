@@ -27,7 +27,8 @@ export default function Modal({
         const html = document.getElementsByTagName('html')[0];
         if (html) {
             if (open) {
-                html.style.overflow = 'hidden';
+                // TODO: figure out how to prevent scrolling when modal is open
+                //   html.style.overflow = 'hidden';
             } else {
                 html.style.overflow = 'auto';
             }
@@ -38,6 +39,9 @@ export default function Modal({
         <MuiModal
             open={open}
             onClose={(e: any, reason: any) => {
+                const html = document.getElementsByTagName('html')[0];
+                if (html) html.style.overflow = 'auto';
+
                 if (reason === 'backdropClick' && !backdropClickDisabled) {
                     return onBackdropClick?.(e);
                 }
@@ -45,12 +49,14 @@ export default function Modal({
             }}
         >
             <div className={styles.container}>
-                {title ? (
+                {title || onClose ? (
                     <>
                         <div className={styles.header}>
-                            <Typography className={styles.title} variant="h5" component="h2" fontWeight="bold">
-                                {title}
-                            </Typography>
+                            {title ? (
+                                <Typography className={styles.title} variant="h5" component="h2" fontWeight="bold">
+                                    {title}
+                                </Typography>
+                            ) : null}
                             {onClose ? (
                                 <IconButton size="small" className={styles.close} onClick={(e: any) => onClose(e, '')}>
                                     <CloseIcon fontSize="small" />

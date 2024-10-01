@@ -30,14 +30,14 @@ const NotificationItem = (props: Props) => {
                 date = date?.slice(6, date.length - 1);
                 date
                     ? history.push({
-                          pathname: t(PATHS.MY_BOOKINGS),
+                          pathname: PATHS.MY_BOOKINGS,
                           state: { value: date },
                       })
-                    : history.push(t(PATHS.MY_BOOKINGS));
+                    : history.push(PATHS.MY_BOOKINGS);
                 break;
             }
             case NotificationType.CHAT_MISSED_CALL:
-                history.push(t(PATHS.CHAT));
+                history.push(PATHS.CHAT);
                 break;
         }
     };

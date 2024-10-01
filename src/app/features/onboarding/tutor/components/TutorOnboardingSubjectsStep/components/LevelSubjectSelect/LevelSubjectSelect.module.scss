@@ -1,0 +1,40 @@
+.levelSubjectSelect {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    width: 100%;
+    align-items: center;
+}
+
+.input > * {
+    min-height: initial !important;
+}
+
+.deleteIcon {
+    display: none !important;
+    width: 44px;
+    height: 44px;
+}
+
+.deleteText {
+    display: flex;
+    background-color: transparent;
+    flex-direction: row;
+    border: none;
+    text-decoration: underline;
+    color: black;
+}
+
+@media screen and (min-width: 768px) {
+    .levelSubjectSelect {
+        display: grid;
+        grid-template-columns: 1fr 1fr auto;
+        gap: 12px;
+    }
+    .deleteIcon {
+        display: initial !important;
+    }
+    .deleteText {
+        display: none;
+    }
+}

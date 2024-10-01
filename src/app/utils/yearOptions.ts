@@ -1,6 +1,5 @@
 import moment from 'moment';
-
-import { OptionType } from '../components/form/MySelectField';
+import OptionType from '../types/OptionType';
 
 export const calcYears = () => {
     const firstYear = 2022;

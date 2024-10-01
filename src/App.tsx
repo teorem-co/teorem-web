@@ -16,34 +16,42 @@ import {
     setMessagesAsRead,
     setUser,
 } from './app/features/chat/slices/chatSlice';
-import { useLazyGetCountriesQuery } from './app/features/onboarding/services/countryService';
+import { useLazyGetCountriesQuery } from './app/store/services/countryService';
 import { useAppSelector } from './app/store/hooks';
 import { Role } from './app/types/role';
-import ROUTES, { RenderRoutes } from './app/routes';
+import ROUTES, { Routes } from './app/routes';
 import toastService from './app/store/services/toastService';
-import { persistor } from './app/store/store';
 import useMount from './app/utils/useMount';
 import { NotificationType } from './app/types/notification/INotification';
 import ISocketNotification from './app/types/notification/ISocketNotification';
 import { useLazyGetServerVersionQuery } from './app/store/services/authService';
 import { useLazyGetTutorTimeZoneQuery } from './app/store/services/tutorService';
 import { useLazyGetUserQuery } from './app/store/services/userService';
-import { logout, setServerVersion } from './app/store/slices/authSlice';
 import { setCountries } from './app/store/slices/countryMarketSlice';
 import { setTimeZone } from './app/store/slices/timeZoneSlice';
-import { logoutUser } from './app/store/slices/userSlice';
 import LoginModal from './app/features/auth/components/LoginModal';
 import RegistrationModal from './app/features/auth/components/RegistrationModal';
 import ResetPasswordModal from './app/features/auth/components/ResetPasswordModal';
 import { useLazyGetTutorialStateQuery } from './app/store/services/tutorialService';
 import { setTutorialFinished } from './app/store/slices/tutorialSlice';
+import SEO from './app/components/Seo';
+import { useLazyGetDegreesQuery } from './app/store/services/degreeService';
+import { useLazyGetUniversitiesQuery } from './app/store/services/universityService';
+import { setDegrees } from './app/store/slices/degreeSlice';
+import { setUniversities } from './app/store/slices/universitySlice';
+import { useLazyGetSubjectLevelsQuery, useLazyGetSubjectsPureQuery } from './app/store/services/subjectService';
+import { useLazyGetLevelsPureQuery } from './app/store/services/levelService';
+import { setSubjectLevels, setSubjects } from './app/store/slices/subjectSlice';
+import { setLevels } from './app/store/slices/levelSlice';
+import { useLazyGetLanguagesQuery } from './app/store/services/langService';
+import { setLanguages } from './app/store/slices/langSlice';
 
-function App() {
+export default function App() {
     const { t } = useTranslation();
 
     const version = useAppSelector((state) => state.auth.serverVersion);
 
-    const [versionSame, setVersionSame] = useState<boolean>(false);
+    const [versionSame, setVersionSame] = useState<boolean>(true);
     const userId = useAppSelector((state) => state.auth.user?.id);
     const childIds = useAppSelector((state) => state.auth.user?.childIds);
     const chat = useAppSelector((state) => state.chat);
@@ -72,15 +80,64 @@ function App() {
     const dispatch = useDispatch();
 
     const [getCountries] = useLazyGetCountriesQuery();
+    const [getDegrees] = useLazyGetDegreesQuery();
+    const [getUniversities] = useLazyGetUniversitiesQuery();
     const [getTutorialState] = useLazyGetTutorialStateQuery();
+    const [getSubjects] = useLazyGetSubjectsPureQuery();
+    const [getLevels] = useLazyGetLevelsPureQuery();
+    const [getSubjectLevels] = useLazyGetSubjectLevelsQuery();
+    const [getLanguages] = useLazyGetLanguagesQuery();
 
-    useMount(() => {
+    useEffect(() => {
+        async function setUserTimeZone() {
+            if (!timeZoneState.timeZone) {
+                if (userData?.user?.Role.abrv == Role.Tutor) {
+                    //Send request to get timezone from tutor
+                    const response = await getTutorTimeZone(userData.user?.id);
+                    if (response.data) {
+                        dispatch(setTimeZone(response.data));
+                        moment.tz.setDefault(response.data);
+                    } else {
+                        dispatch(setTimeZone(moment.tz.guess()));
+                        moment.tz.setDefault(moment.tz.guess());
+                    }
+                } else {
+                    dispatch(setTimeZone(moment.tz.guess()));
+                    moment.tz.setDefault(moment.tz.guess());
+                }
+            }
+        }
+
         if (!timeZoneState.timeZone) {
             setUserTimeZone();
         }
         getCountries()
             .unwrap()
             .then((res) => dispatch(setCountries(res)))
+            .catch((e) => console.log(e));
+        getDegrees()
+            .unwrap()
+            .then((res) => dispatch(setDegrees(res)))
+            .catch((e) => console.log(e));
+        getUniversities()
+            .unwrap()
+            .then((res) => dispatch(setUniversities(res)))
+            .catch((e) => console.log(e));
+        getSubjects()
+            .unwrap()
+            .then((res) => dispatch(setSubjects(res)))
+            .catch((e) => console.log(e));
+        getLevels()
+            .unwrap()
+            .then((res) => dispatch(setLevels(res)))
+            .catch((e) => console.log(e));
+        getSubjectLevels()
+            .unwrap()
+            .then((res) => dispatch(setSubjectLevels(res)))
+            .catch((e) => console.log(e));
+        getLanguages()
+            .unwrap()
+            .then((res) => dispatch(setLanguages(res)))
             .catch((e) => console.log(e));
 
         if (userId) {
@@ -91,44 +148,42 @@ function App() {
                 })
                 .catch((e) => console.log(e));
         }
-    });
+    }, [
+        dispatch,
+        getCountries,
+        getDegrees,
+        getLanguages,
+        getLevels,
+        getSubjectLevels,
+        getSubjects,
+        getTutorTimeZone,
+        getTutorialState,
+        getUniversities,
+        timeZoneState.timeZone,
+        userData.user?.Role.abrv,
+        userData.user?.id,
+        userId,
+    ]);
 
-    async function setUserTimeZone() {
-        if (!timeZoneState.timeZone) {
-            if (userData?.user?.Role.abrv == Role.Tutor) {
-                //Send request to get timezone from tutor
-                const response = await getTutorTimeZone(userData.user?.id);
-                if (response.data) {
-                    dispatch(setTimeZone(response.data));
-                    moment.tz.setDefault(response.data);
-                } else {
-                    dispatch(setTimeZone(moment.tz.guess()));
-                    moment.tz.setDefault(moment.tz.guess());
-                }
-            } else {
-                dispatch(setTimeZone(moment.tz.guess()));
-                moment.tz.setDefault(moment.tz.guess());
-            }
-        }
-    }
+    // commenting this out untill we need it, hopefully never
 
-    useEffect(() => {
-        if (isSuccessServerVersion) {
-            if (version != serverVersion) {
-                if (userId && version?.length) {
-                    persistor.purge();
-                    dispatch(logout());
-                    dispatch(logoutUser());
-                    dispatch({ type: 'USER_LOGOUT' });
-                    setVersionSame(false);
-                }
+    // useEffect(() => {
+    //     if (isSuccessServerVersion) {
+    //         if (version != serverVersion) {
+    //             if (userId && version?.length) {
+    //                 persistor.purge();
+    //                 dispatch(logout());
+    //                 dispatch(logoutUser());
+    //                 dispatch({ type: 'USER_LOGOUT' });
+    //                 setVersionSame(false);
+    //             }
 
-                dispatch(setServerVersion(serverVersion || '0.0.0'));
+    //             dispatch(setServerVersion(serverVersion || '0.0.0'));
 
-                setVersionSame(true);
-            } else setVersionSame(true);
-        }
-    }, [version, isSuccessServerVersion, serverVersion, userId, dispatch]);
+    //             setVersionSame(true);
+    //         } else setVersionSame(true);
+    //     }
+    // }, [version, isSuccessServerVersion, serverVersion, userId, dispatch]);
 
     useEffect(() => {
         if (missedCall && missedCallBuffer) {
@@ -308,12 +363,11 @@ function App() {
 
     return versionSame ? (
         <>
-            <RenderRoutes routes={ROUTES} />
+            <Routes routes={ROUTES} />
+            <SEO />
             <LoginModal />
             <RegistrationModal />
             <ResetPasswordModal />
         </>
     ) : null;
 }
-
-export default App;

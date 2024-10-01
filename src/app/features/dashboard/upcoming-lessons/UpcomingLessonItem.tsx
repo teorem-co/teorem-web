@@ -6,7 +6,7 @@ import { ConfirmationModal } from '../../../components/ConfirmationModal';
 import UpdateBooking from '../../my-bookings/components/UpdateBooking';
 import { IconButton, Menu, MenuItem } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { useDeleteBookingMutation } from '../../my-bookings/services/bookingService';
+import { useDeleteBookingMutation } from '../../../store/services/bookingService';
 import { useAppSelector } from '../../../store/hooks';
 import { RoleOptions } from '../../../store/slices/roleSlice';
 import IBooking from '../../../types/IBooking';

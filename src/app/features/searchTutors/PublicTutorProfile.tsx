@@ -5,7 +5,7 @@ import { Link, useParams } from 'react-router-dom';
 import ITutorSubjectLevel from '../../types/ITutorSubjectLevel';
 import { useLazyGetTutorByTutorSlugQuery } from '../../store/services/tutorService';
 import LoaderTutorProfile from '../../components/skeleton-loaders/LoaderTutorProfile';
-import { useLazyGetTutorAvailabilityQuery } from '../my-profile/services/tutorAvailabilityService';
+import { useLazyGetTutorAvailabilityQuery } from '../../store/services/tutorAvailabilityService';
 import Ratings from '../myReviews/components/Ratings';
 import ReviewItem from '../myReviews/components/ReviewItem';
 import IMyReview from '../myReviews/interfaces/IMyReview';

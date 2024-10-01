@@ -1,5 +1,3 @@
-//import { OptionType } from '../components/form/MySelectField';
-
 export interface ILanguageOption {
     label: string;
     value: string;

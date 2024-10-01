@@ -1,0 +1,32 @@
+.point {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 12px;
+}
+
+.img svg {
+    height: 30px;
+    width: 30px;
+}
+
+.title {
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.description {
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--color-text-secondary);
+}
+
+@media screen and (min-width: 768px) {
+    .point {
+        gap: 20px;
+    }
+
+    .img svg {
+        height: 40px;
+        width: 40px;
+    }
+}

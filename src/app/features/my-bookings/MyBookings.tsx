@@ -23,9 +23,9 @@ import {
     useLazyGetBookingsQuery,
     useLazyGetNotificationForLessonsQuery,
     useLazyGetUpcomingLessonsQuery,
-} from './services/bookingService';
-import { useLazyGetUnavailableBookingsQuery } from './services/unavailabilityService';
-import { useLazyGetTutorAvailabilityQuery } from '../my-profile/services/tutorAvailabilityService';
+} from '../../store/services/bookingService';
+import { useLazyGetUnavailableBookingsQuery } from '../../store/services/unavailabilityService';
+import { useLazyGetTutorAvailabilityQuery } from '../../store/services/tutorAvailabilityService';
 import ParentEventModal from './components/ParentEventModal';
 import UpdateBooking from './components/UpdateBooking';
 import { InformationCard } from '../../components/InformationCard';

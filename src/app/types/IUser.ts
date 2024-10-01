@@ -11,6 +11,7 @@ export default interface IUser {
     email: string;
     roleId: string;
     countryId: string;
+    languageId?: string;
     dateOfBirth: string;
     phoneNumber: string;
     phonePrefix: string;
@@ -26,4 +27,5 @@ export default interface IUser {
     stripeVerifiedStatus?: string;
     stripeVerificationDeadline?: number;
     stripeVerificationDocumentsUploaded?: boolean;
+    onboardingCompleted?: boolean;
 }

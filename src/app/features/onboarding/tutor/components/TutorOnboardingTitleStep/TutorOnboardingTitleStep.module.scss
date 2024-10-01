@@ -1,0 +1,13 @@
+.textArea {
+    min-height: 200px;
+    width: 100%;
+    border: 2px solid black;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+@media screen and (min-width: 768px) {
+    .textArea {
+        font-size: 20px;
+    }
+}
