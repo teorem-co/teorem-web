@@ -247,8 +247,12 @@ export default function useTutorOnboardingFormik(onSubmit: (values: ITutorOnboar
                     )
                     .min(1, t('FORM_VALIDATION.MIN_ONE')),
             }),
-            profileTitle: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            profileDescription: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            profileTitle: Yup.string()
+                .required(t('FORM_VALIDATION.REQUIRED'))
+                .max(50, t('FORM_VALIDATION.MAX_LIMIT') + ' 50.'),
+            profileDescription: Yup.string()
+                .required(t('FORM_VALIDATION.REQUIRED'))
+                .max(300, t('FORM_VALIDATION.MAX_LIMIT') + ' 300.'),
             videoId: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
             price: Yup.number()
                 .transform((value) => (isNaN(parseFloat(value)) ? 0 : parseFloat(value)))
