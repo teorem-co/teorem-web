@@ -51,7 +51,13 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
     const [isLoading, setIsLoading] = useState(true);
 
     const isStripePendingOrVerified = useMemo(() => {
-        return user?.stripeVerifiedStatus === 'verified' || user?.stripeVerificationDocumentsUploaded || false;
+        return (
+            user?.stripeVerifiedStatus === 'verified' ||
+            user?.stripeVerificationDocumentsUploaded ||
+            user?.stripeConnected ||
+            user?.stripeAccountId ||
+            false
+        );
     }, [user]);
 
     const goToNextStep = useCallback(() => {

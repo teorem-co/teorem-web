@@ -91,7 +91,7 @@ export default function TutorOnboardingVideoStep() {
     });
 
     useEffect(() => {
-        setNextDisabled?.(!!formik.errors.videoId && false);
+        setNextDisabled?.(!!formik.errors.videoId);
     }, [setNextDisabled, formik.errors.videoId]);
 
     const demoLink = VIDEO_EXAMPLE[(languageAbrv as 'HR' | 'EN') ?? 'EN'];
