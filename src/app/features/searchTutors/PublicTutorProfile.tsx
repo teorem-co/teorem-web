@@ -238,7 +238,7 @@ export default function PublicTutorProfile() {
                                                 )}
                                             </div>
                                             <div className="type--color--brand type--base type--center type--break">
-                                                {tutorData.currentOccupation}
+                                                {tutorData.aboutTutor}
                                             </div>
                                         </div>
                                     </div>
@@ -293,14 +293,7 @@ export default function PublicTutorProfile() {
                                                 {tutorData.minimumPrice ? (
                                                     <span className="d--ib type--md type--wgt--extra-bold">
                                                         <CurrencySymbol />
-                                                        {tutorData.minimumPrice}{' '}
-                                                        {tutorData.minimumPrice !== tutorData.maximumPrice && (
-                                                            <>
-                                                                &nbsp;-&nbsp;
-                                                                <CurrencySymbol />
-                                                                {tutorData.maximumPrice}{' '}
-                                                            </>
-                                                        )}
+                                                        {tutorData.minimumPrice}
                                                     </span>
                                                 ) : (
                                                     <span className="d--ib">
@@ -617,25 +610,13 @@ export default function PublicTutorProfile() {
                                     </div>
                                     <div className="type--color--secondary type--break type--normal">
                                         {tutorData ? (
-                                            tutorData.aboutTutor
+                                            tutorData.aboutLessons
                                         ) : (
                                             <>{t('SEARCH_TUTORS.TUTOR_PROFILE.EMPTY_STATE_ABOUT')}</>
                                         )}
                                     </div>
                                 </div>
 
-                                <div className={`${isMobile ? '' : ''} mb-10`}>
-                                    <div className="type--wgt--bold mb-2 type--lg">
-                                        {t('SEARCH_TUTORS.TUTOR_PROFILE.ABOUT_TEACHINGS')}
-                                    </div>
-                                    <div className="type--color--secondary type--break type--normal">
-                                        {tutorData && tutorData.aboutLessons ? (
-                                            tutorData.aboutLessons
-                                        ) : (
-                                            <>{t('SEARCH_TUTORS.TUTOR_PROFILE.EMPTY_STATE_LESSON')}</>
-                                        )}
-                                    </div>
-                                </div>
                                 <div className={`${isMobile ? '' : 'flex flex--jc--space-between'} mb-10`}>
                                     <div className={`${isMobile ? 'mb-10' : 'w--100'}`}>
                                         <div className="type--wgt--bold mb-2 type--lg">
