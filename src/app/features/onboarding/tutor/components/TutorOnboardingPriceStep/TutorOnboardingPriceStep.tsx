@@ -110,7 +110,7 @@ export default function TutorOnboardingPriceStep() {
 
                                 const digits = e.target.value.replace(/\D/g, '');
 
-                                const value = parseFloat(digits || '0');
+                                const value = parseFloat(digits || '');
                                 // Check if the value is a number
                                 if (isNaN(value)) {
                                     return;

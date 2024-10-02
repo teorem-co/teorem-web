@@ -26,7 +26,7 @@ export default function useSyncLanguage() {
                 const urlLang = matchPath(location.pathname, {
                     path: match,
                 })?.params.lang;
-                const userLang = languages.find((l) => l.id === user?.languageId);
+                const userLang = languages?.find((l) => l.id === user?.languageId);
                 const resolvedLang = userLang?.abrv.toLowerCase() ?? urlLang;
 
                 // sets the lang in the document and in the store

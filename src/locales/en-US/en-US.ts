@@ -379,7 +379,6 @@ export const EN_US = {
         NO_VIDEO: 'Tutor did not upload a video yet',
         TUTOR_PROFILE: {
             ABOUT_ME: 'About me',
-            ABOUT_TEACHINGS: "Here's how I teach",
             EMPTY_STATE_ABOUT: 'This tutor has not filled out about me section',
             EMPTY_STATE_LESSON: 'This tutor has not filled out his profile about subjects',
             ADDITIONAL_INFORMATION_TITLE: 'About me',
