@@ -81,9 +81,14 @@ export default function RegistrationModal() {
                 formik.setFieldError('email', t('FORM_VALIDATION.EMAIL_EXISTS'));
                 return;
             }
+            const isHrUrl = window.location.pathname.includes('/hr');
 
-            const resolvedSelectedCountry = countries.find((c) => c.abrv === selectedCountry?.abrv);
-            const resolvedSelectedLanguage = languages.find((l) => l.abrv === selectedLanguage?.abrv);
+            const resolvedSelectedCountry = countries.find(
+                (c) => c.abrv === (selectedCountry?.abrv || (isHrUrl ? 'HR' : 'EN'))
+            );
+            const resolvedSelectedLanguage = languages.find(
+                (l) => l.abrv === (selectedLanguage?.abrv || (isHrUrl ? 'HR' : 'EN'))
+            );
 
             await registerUser({
                 firstName: values.firstName!,

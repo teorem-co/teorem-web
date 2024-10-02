@@ -383,7 +383,6 @@ export const HR_HR: typeof EN_US = {
         NUMBER_OF_REVIEWS: 'ocjena',
         TUTOR_PROFILE: {
             ABOUT_ME: 'O meni',
-            ABOUT_TEACHINGS: 'O mojim predavanjima',
             EMPTY_STATE_ABOUT: 'Ovaj instruktor nije ispunio odjeljak "O meni"',
             EMPTY_STATE_LESSON: 'Ovaj instruktor nije ispunio odjeljak "O predmetima"',
             ADDITIONAL_INFORMATION_TITLE: 'O meni',
