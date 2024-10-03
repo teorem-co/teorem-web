@@ -302,7 +302,7 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                                                     )}
                                                 </div>
                                                 <div className="type--color--brand type--base type--center type--break">
-                                                    {tutorData.aboutTutor}
+                                                    {tutorData.currentOccupation}
                                                 </div>
                                             </div>
                                         </div>
@@ -704,7 +704,7 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                                         </div>
                                         <div className="type--color--secondary type--break type--normal">
                                             {tutorData ? (
-                                                tutorData.aboutLessons
+                                                tutorData.aboutTutor
                                             ) : (
                                                 <>{t('SEARCH_TUTORS.TUTOR_PROFILE.EMPTY_STATE_ABOUT')}</>
                                             )}

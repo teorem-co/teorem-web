@@ -389,14 +389,7 @@ export const EN_US = {
             FORM: {
                 ABOUT_TUTOR_LABEL: 'Tell us more about yourself*',
                 ABOUT_TUTOR_PLACEHOLDER: 'What describes you best, what are your hobbies, approach...',
-                ABOUT_TUTOR_REQUEST: 'Minimum 50 words.',
                 ABOUT_TUTOR_TOOLTIP: 'In detail describe yourself, your interests, experience and hobbies.',
-                TOOLTIP_EFFECTIVE: 'Most visited profiles contain 100+ words in this category.',
-                ABOUT_LESSONS_LABEL: 'Tell us more about your lessons*',
-                ABOUT_LESSONS_PLACEHOLDER: 'Describe your lessons, approach, way of teaching...',
-                ABOUT_LESSONS_TOOLTIP: 'In detail describe how you work with students.',
-                ABOUT_LESSONS_TOOLTIP_2:
-                    'Describe which methods of tutoring to you use (visual, auditory, kinesthetic, etc.) ',
                 SUBMIT_BTN: 'Save',
             },
             NO_PRICE: 'There is no price',
