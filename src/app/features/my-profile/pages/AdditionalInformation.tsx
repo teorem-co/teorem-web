@@ -127,8 +127,7 @@ const AdditionalInformation = () => {
         validateOnChange: false,
         enableReinitialize: true,
         validationSchema: Yup.object().shape({
-            aboutTutor: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
-            aboutLessons: Yup.string().required(t('FORM_VALIDATION.REQUIRED')),
+            aboutTutor: Yup.string().required(t('FORM_VALIDATION.REQUIRED')).max(300, t('FORM_VALIDATION.TOO_LONG')),
             currentOccupation: Yup.string()
                 .min(2, t('FORM_VALIDATION.TOO_SHORT'))
                 .max(50, t('FORM_VALIDATION.TOO_LONG'))
@@ -232,7 +231,7 @@ const AdditionalInformation = () => {
                                                         style: { color: 'red' }, // Change the color of the helper text here
                                                     }}
                                                     inputProps={{
-                                                        maxLength: 75,
+                                                        maxLength: 50,
                                                     }}
                                                 />
                                             </div>
@@ -310,44 +309,9 @@ const AdditionalInformation = () => {
                                                         style: { color: 'red' }, // Change the color of the helper text here
                                                     }}
                                                     inputProps={{
-                                                        maxLength: 2500,
+                                                        maxLength: 300,
                                                     }}
                                                     label={t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_LABEL')}
-                                                    variant="outlined"
-                                                    color="secondary"
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="col col-12">
-                                            <div className="field align--center mb-5">
-                                                <Field
-                                                    as={TextField}
-                                                    name="aboutLessons"
-                                                    type="text"
-                                                    fullWidth
-                                                    multiline
-                                                    rows={5}
-                                                    error={formik.touched.aboutLessons && !!formik.errors.aboutLessons}
-                                                    helperText={
-                                                        formik.touched.aboutLessons && formik.errors.aboutLessons
-                                                    }
-                                                    InputProps={{
-                                                        style: {
-                                                            fontFamily: "'Lato', sans-serif",
-                                                            backgroundColor: 'white',
-                                                        },
-                                                    }}
-                                                    InputLabelProps={{
-                                                        style: { fontFamily: "'Lato', sans-serif" },
-                                                    }}
-                                                    FormHelperTextProps={{
-                                                        style: { color: 'red' }, // Change the color of the helper text here
-                                                    }}
-                                                    inputProps={{
-                                                        maxLength: 2500,
-                                                    }}
-                                                    id="aboutLessons"
-                                                    label={t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_LABEL')}
                                                     variant="outlined"
                                                     color="secondary"
                                                 />
