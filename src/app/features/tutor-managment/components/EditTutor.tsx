@@ -254,21 +254,6 @@ export function EditTutor({ tutorData, setRefetch }: any) {
                                                 />
                                             </div>
                                         </div>
-                                        <div className="col col-12">
-                                            <div className="field">
-                                                <label className="field__label" htmlFor="aboutLessons">
-                                                    {t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_LABEL')}
-                                                </label>
-                                                <MyTextArea
-                                                    maxLength={2500}
-                                                    name="aboutLessons"
-                                                    placeholder={t(
-                                                        'SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_LESSONS_PLACEHOLDER'
-                                                    )}
-                                                    id="aboutLessons"
-                                                />
-                                            </div>
-                                        </div>
                                     </div>
                                     <div className="flex">
                                         <ButtonPrimaryGradient type="submit" className="btn btn--base w--100">
