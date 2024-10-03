@@ -245,7 +245,7 @@ export function EditTutor({ tutorData, setRefetch }: any) {
                                                     {t('SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_LABEL')}
                                                 </label>
                                                 <MyTextArea
-                                                    maxLength={2500}
+                                                    maxLength={300}
                                                     name="aboutTutor"
                                                     placeholder={t(
                                                         'SEARCH_TUTORS.TUTOR_PROFILE.FORM.ABOUT_TUTOR_PLACEHOLDER'

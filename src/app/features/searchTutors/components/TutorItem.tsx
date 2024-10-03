@@ -60,7 +60,10 @@ const TutorItem: FC<Props> = (props: Props) => {
                 target="_blank" // Opens link in a new tab
                 rel="noopener noreferrer" // Security for opening new tabs
             >
-                <div style={{ height: '280px' }} className={`tutor-list__item m-0 cur--pointer ${currentlyActive ? 'outline-purple' : ''}`}>
+                <div
+                    style={{ height: '280px' }}
+                    className={`tutor-list__item m-0 cur--pointer ${currentlyActive ? 'outline-purple' : ''}`}
+                >
                     <div className="tutor-list__item__img">
                         {tutor.profileImage ? (
                             <img src={`${tutor.profileImage}`} alt="tutor-list" />
@@ -100,7 +103,7 @@ const TutorItem: FC<Props> = (props: Props) => {
                             )}
                         </div>
                         <div className="type--color--brand mb-2">
-                            {tutor.currentOccupation ? tutor.currentOccupation : t('SEARCH_TUTORS.NOT_FILLED')}{' '}
+                            {tutor.currentOccupation ? tutor.currentOccupation : t('SEARCH_TUTORS.NOT_FILLED')}
                         </div>
                         {tutor.completedLessons > 0 && (
                             <div className="flex flex--center mb-1">
@@ -126,7 +129,9 @@ const TutorItem: FC<Props> = (props: Props) => {
                                 <div className="flex flex--col flex--ai--center">
                                     <div className="flex flex--row flex--ai--center">
                                         <i className="icon icon--base icon--star"></i>
-                                        <span className={'type--md type--wgt--extra-bold'}>{tutor.averageGrade.toFixed(1)}</span>
+                                        <span className={'type--md type--wgt--extra-bold'}>
+                                            {tutor.averageGrade.toFixed(1)}
+                                        </span>
                                     </div>
                                     <span className={'type--sm'}>
                                         {tutor.numberOfGrades}&nbsp;{t('TUTOR_PROFILE.REVIEWS')}
@@ -157,7 +162,10 @@ const TutorItem: FC<Props> = (props: Props) => {
                         </div>
                         <div className="flex flex--col profile-btn-container flex--jc--center  w--250 ml-1">
                             <>
-                                <Link className="type--color--white" to={`${PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS.replace(':tutorSlug', tutor.slug)}`}>
+                                <Link
+                                    className="type--color--white"
+                                    to={`${PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS.replace(':tutorSlug', tutor.slug)}`}
+                                >
                                     <ButtonPrimaryGradient className="btn btn--xl type--center type--wgt--extra-bold w--100">
                                         <i className="icon icon--base icon--thunder icon--white mr-1"></i>
                                         {t('TUTOR_PROFILE.BOOK')}
@@ -194,7 +202,12 @@ const TutorItem: FC<Props> = (props: Props) => {
                             cursor: 'pointer', // If the icon is interactive
                         }}
                     />
-                    <img className={'image-border-radius'} src={thumbnailUrl} alt="tutor-list" style={{ zIndex: 1, height: '100%' }} />
+                    <img
+                        className={'image-border-radius'}
+                        src={thumbnailUrl}
+                        alt="tutor-list"
+                        style={{ zIndex: 1, height: '100%' }}
+                    />
                 </div>
             )}
             {showVideoPopup && tutor.videoUrl && (

@@ -167,7 +167,7 @@ export default function PublicTutorProfile() {
     useEffect(() => {
         if (tutorData) {
             getSubjectsInGenitive();
-            document.title = `${tutorData.User.firstName}, ${tutorData.currentOccupation} ${t('SEO_TITLE.TUTOR_PROFILE')} ${getSubjectsInGenitive()}`;
+            document.title = `${tutorData.User.firstName}, ${tutorData.currentOccupation ? `, ${tutorData.currentOccupation}` : ''} ${t('SEO_TITLE.TUTOR_PROFILE')} ${getSubjectsInGenitive()}`;
         } else {
             document.title = 'Teorem';
         }
@@ -238,7 +238,7 @@ export default function PublicTutorProfile() {
                                                 )}
                                             </div>
                                             <div className="type--color--brand type--base type--center type--break">
-                                                {tutorData.aboutTutor}
+                                                {tutorData.currentOccupation}
                                             </div>
                                         </div>
                                     </div>
@@ -610,7 +610,7 @@ export default function PublicTutorProfile() {
                                     </div>
                                     <div className="type--color--secondary type--break type--normal">
                                         {tutorData ? (
-                                            tutorData.aboutLessons
+                                            tutorData.aboutTutor
                                         ) : (
                                             <>{t('SEARCH_TUTORS.TUTOR_PROFILE.EMPTY_STATE_ABOUT')}</>
                                         )}

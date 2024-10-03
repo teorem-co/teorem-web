@@ -135,7 +135,11 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
         }
 
         const stripePendingOrVerified =
-            user?.stripeVerifiedStatus === 'verified' || user?.stripeVerificationDocumentsUploaded || false;
+            user?.stripeVerifiedStatus === 'verified' ||
+            user?.stripeVerificationDocumentsUploaded ||
+            user?.stripeConnected ||
+            user?.stripeAccountId ||
+            false;
 
         const res = await getOnboardingState({
             userId: user?.id,
@@ -176,8 +180,8 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
             const initValues = {
                 imageLink: user?.profileImage,
                 phoneNumber: user?.phoneNumber,
-                profileTitle: tutorRes?.aboutTutor,
-                profileDescription: tutorRes?.aboutLessons,
+                profileTitle: tutorRes?.currentOccupation,
+                profileDescription: tutorRes?.aboutTutor,
                 subjects: tutorRes?.TutorSubjects.map((ts) => ({
                     levelId: ts.levelId,
                     subjectId: ts.subjectId,
@@ -193,7 +197,7 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
                 ...initValues,
             });
         }
-    }, [formik, getOnboardingState, getTutor, history, step, user]);
+    }, [formik, getOnboardingState, getTutor, history, step, substep, user]);
 
     useMount(() => {
         init().finally(() => setIsLoading(false));
