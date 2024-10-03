@@ -261,7 +261,7 @@ const TutorProfile = () => {
                                         </div>
                                         <div className="type--color--secondary type--break">
                                             {tutorData ? (
-                                                tutorData.aboutLessons
+                                                tutorData.aboutTutor
                                             ) : (
                                                 <>{t('SEARCH_TUTORS.TUTOR_PROFILE.EMPTY_STATE_ABOUT')}</>
                                             )}
@@ -423,7 +423,6 @@ const TutorProfile = () => {
                                 <div className="type--color--brand type--center type--break">
                                     {tutorData.currentOccupation}
                                 </div>
-                                <div className="type--center type--break">{tutorData.aboutTutor}</div>
                                 <div className="mt-10 mb-10">
                                     <div className="flex--primary mb-3">
                                         <div>
