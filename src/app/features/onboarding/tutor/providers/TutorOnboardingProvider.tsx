@@ -158,7 +158,7 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
             } else {
                 setStep(res.step);
                 setMaxSubstep(MAX_STEPS_MAP[res.step as 1 | 2 | 3]);
-                if (step === 3 && substep >= 2 && stripePendingOrVerified) {
+                if (res.step === 3 && res.substep >= 2 && stripePendingOrVerified) {
                     setSubstep(MAX_STEPS_MAP[3]);
                 } else {
                     setSubstep(res.substep + 1);
@@ -197,7 +197,7 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
                 ...initValues,
             });
         }
-    }, [formik, getOnboardingState, getTutor, history, step, substep, user]);
+    }, [formik, getOnboardingState, getTutor, history, user]);
 
     useMount(() => {
         init().finally(() => setIsLoading(false));
