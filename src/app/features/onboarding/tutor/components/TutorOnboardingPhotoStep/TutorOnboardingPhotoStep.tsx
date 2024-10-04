@@ -66,8 +66,6 @@ export default function TutorOnboardingPhotoStep() {
                 })
                 .finally(() => {
                     setNextDisabled?.(false);
-                    // reloading to invalidate cache and refetch photo
-                    window.location.reload();
                 });
         },
         [formik, setNextDisabled, updateUserInformation]
@@ -116,7 +114,11 @@ export default function TutorOnboardingPhotoStep() {
             >
                 {formik.values.imageLink?.length ? (
                     <div className={styles.imgContainer}>
-                        <img className={styles.img} src={formik.values.imageLink} alt="profile image" />
+                        <img
+                            className={styles.img}
+                            src={`${formik.values.imageLink}?lastmod=${Math.random()}`}
+                            alt="profile image"
+                        />
                         <IconButton className={styles.delete} onClick={handleDelete}>
                             <Delete />
                         </IconButton>
