@@ -146,7 +146,7 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
         }).unwrap();
         const tutorRes = await getTutor(user?.id).unwrap();
 
-        if (res?.step && res?.substep) {
+        if (res?.step >= 2 || (res?.step && res?.substep)) {
             if (res.step === 3 && res.substep === MAX_STEPS_MAP[3]) {
                 setStep(3);
                 setSubstep(MAX_STEPS_MAP[3]);
