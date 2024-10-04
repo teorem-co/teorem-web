@@ -61,7 +61,6 @@ export default function TutorOnboardingPhotoStep() {
                     return updateUserInformation(toSend)
                         .unwrap()
                         .then((res) => {
-                            console.log({ res });
                             formik.setFieldValue('imageLink', res);
                         });
                 })
