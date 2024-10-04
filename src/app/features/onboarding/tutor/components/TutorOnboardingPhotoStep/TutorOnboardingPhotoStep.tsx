@@ -66,6 +66,8 @@ export default function TutorOnboardingPhotoStep() {
                 })
                 .finally(() => {
                     setNextDisabled?.(false);
+                    // reloading to invalidate cache and refetch photo
+                    window.location.reload();
                 });
         },
         [formik, setNextDisabled, updateUserInformation]
