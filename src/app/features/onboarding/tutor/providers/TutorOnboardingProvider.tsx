@@ -146,6 +146,8 @@ export default function TutorOnboardingProvider({ children }: Readonly<PropsWith
         }).unwrap();
         const tutorRes = await getTutor(user?.id).unwrap();
 
+        // if onboarding started already, probably could be done better
+        // will false negative if going back to step 1 substep 0, going forward and refreshing
         if (res?.step >= 2 || (res?.step && res?.substep)) {
             if (res.step === 3 && res.substep === MAX_STEPS_MAP[3]) {
                 setStep(3);
