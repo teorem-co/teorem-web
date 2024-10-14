@@ -1,0 +1,436 @@
+import CustomSubjectList from '../../features/searchTutors/components/CustomSubjectList';
+import React, { useEffect, useState } from 'react';
+import Divider from '../Divider';
+import { t } from 'i18next';
+import { RiVerifiedBadgeFill } from 'react-icons/ri';
+import { FaCalendarAlt } from 'react-icons/fa';
+import { Form, FormikProvider, useFormik } from 'formik';
+import MySelect from '../form/MySelectField';
+import { RoleOptions } from '../../store/slices/roleSlice';
+import moment from 'moment/moment';
+import { CurrencySymbol } from '../CurrencySymbol';
+import * as Yup from 'yup';
+import { useAppSelector } from '../../store/hooks';
+import OptionType from '../../types/OptionType';
+import { useGetTutorSubjectLevelPairsQuery } from '../../store/services/subjectService';
+import { useLazyGetChildQuery, useLazyGetCreditsQuery, useLazyGetUserQuery } from '../../store/services/userService';
+import { setCredits } from '../../store/slices/creditsSlice';
+import { useDispatch } from 'react-redux';
+import { StripePayment } from './StripePayment';
+import { loadStripe } from '@stripe/stripe-js';
+import {
+    BookingReserveResponse,
+    ICreateBookingDTO,
+    useCreatebookingMutation,
+} from '../../store/services/bookingService';
+import LoaderPrimary from '../skeleton-loaders/LoaderPrimary';
+import { useLazyGetTutorByIdQuery } from '../../store/services/tutorService';
+import ITutor from '../../types/ITutor';
+import { uniq } from 'lodash';
+import ImageCircle from '../ImageCircle';
+
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY!);
+
+interface Props {
+    className?: string;
+    startTime: string;
+    tutorId: string;
+}
+
+export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
+    const dispatch = useDispatch();
+    const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
+    const userId = useAppSelector((state) => state.auth.user?.id);
+    const timeZoneState = useAppSelector((state) => state.timeZone);
+
+    const [getUser2, { data: user }] = useLazyGetUserQuery();
+    const [getTutorProfileData, { data: tutorD }] = useLazyGetTutorByIdQuery();
+    const [getCredits] = useLazyGetCreditsQuery();
+    const [getChildOptions, { data: childOptions }] = useLazyGetChildQuery();
+    const { data: subjectLevelPairs, isSuccess: isSuccessSubjectsLevelPairs } =
+        useGetTutorSubjectLevelPairsQuery(tutorId);
+    const [createBooking, { isSuccess: createBookingSuccess }] = useCreatebookingMutation();
+
+    const [tutorLevelOptions, setTutorLevelOptions] = useState<OptionType[]>();
+    const [tutorSubjectOptions, setTutorSubjectOptions] = useState<OptionType[]>();
+    const [isCreateBookingLoading, setIsCreateBookingLoading] = useState<boolean>(false); // isLoading from Mutation is too slow;
+    const [userCredits, setUserCredits] = useState<number>(0);
+    const [cost, setCost] = useState<number | undefined>(undefined);
+    const [reserveResponse, setReserveResponse] = useState<BookingReserveResponse | undefined>();
+    const [loading, setLoading] = useState(false);
+    const initialValues = {
+        level: '',
+        subject: '',
+        child: '',
+        timeFrom: moment(startTime).format('HH:mm'),
+        useCredits: true,
+    };
+
+    const generateValidationSchema = () => {
+        const validationSchema: any = {
+            level: Yup.string().required(t('FORM_VALIDATION.LEVEL_REQUIRED')),
+            subject: Yup.string().required(t('FORM_VALIDATION.SUBJECT_REQUIRED')),
+        };
+
+        if (userRole === RoleOptions.Parent) {
+            validationSchema['child'] = Yup.string().required(t('FORM_VALIDATION.CHILD_REQUIRED'));
+            return validationSchema;
+        }
+
+        return validationSchema;
+    };
+
+    const formik = useFormik({
+        initialValues: initialValues,
+        onSubmit: (values) => handleSubmit(values),
+        validateOnBlur: true,
+        validateOnChange: false,
+        enableReinitialize: true,
+        validationSchema: Yup.object().shape(generateValidationSchema()),
+    });
+
+    function handleSubmit(values: any) {
+        console.log('submit');
+    }
+
+    function calculateTotalCost(cost: number) {
+        if (!formik.values.useCredits) {
+            return cost;
+        }
+
+        if (userCredits == undefined) return cost;
+
+        const totalCost = cost - userCredits;
+        return totalCost < 0 ? 0 : totalCost;
+    }
+
+    function filterSubjectsByLevelId(levelId: string) {
+        if (subjectLevelPairs) {
+            const subjectOptions: OptionType[] = subjectLevelPairs
+                .filter((item) => item.level.value === levelId)
+                .map((item) => item.subject);
+
+            setTutorSubjectOptions(subjectOptions);
+        }
+    }
+
+    useEffect(() => {
+        const res = getCredits().unwrap();
+
+        res.then((res) => {
+            dispatch(setCredits(res.credits));
+            setUserCredits(res.credits);
+        });
+    }, []);
+
+    useEffect(() => {
+        if (userRole === RoleOptions.Parent && userId) {
+            getChildOptions(userId);
+        }
+        getUser2(userId!).unwrap();
+    }, []);
+
+    const [tutorData, setTutorData] = useState<ITutor>();
+
+    async function getTutorData() {
+        const res = await getTutorProfileData(tutorId).unwrap();
+        setTutorData(res);
+    }
+
+    useEffect(() => {
+        getTutorData();
+    }, [tutorId]);
+
+    useEffect(() => {
+        if (subjectLevelPairs && isSuccessSubjectsLevelPairs) {
+            const seen = new Set<string>();
+            const levelOptions: OptionType[] = [];
+
+            subjectLevelPairs.forEach((pair) => {
+                if (!seen.has(pair.level.value)) {
+                    seen.add(pair.level.value);
+                    levelOptions.push(pair.level);
+                }
+            });
+
+            setTutorLevelOptions(levelOptions);
+        }
+    }, [subjectLevelPairs]);
+
+    useEffect(() => {
+        if (formik.values.level && formik.values.subject) {
+            const cost = subjectLevelPairs?.find(
+                (pair) => pair.level.value === formik.values.level && pair.subject.value === formik.values.subject
+            )?.cost;
+
+            setCost(cost);
+        }
+    }, [formik.values.subject]);
+
+    useEffect(() => {
+        if (subjectLevelPairs && isSuccessSubjectsLevelPairs) {
+            const seen = new Set<string>();
+            const levelOptions: OptionType[] = [];
+
+            subjectLevelPairs.forEach((pair) => {
+                if (!seen.has(pair.level.value)) {
+                    seen.add(pair.level.value);
+                    levelOptions.push(pair.level);
+                }
+            });
+
+            setTutorLevelOptions(levelOptions);
+        }
+    }, [subjectLevelPairs]);
+
+    useEffect(() => {
+        if (formik.values.subject) {
+            formik.setFieldValue('subject', '');
+        }
+        if (formik.values.level !== '') {
+            filterSubjectsByLevelId(formik.values.level);
+        }
+    }, [formik.values.level]);
+
+    async function initiateCreateBooking() {
+        const values = formik.values;
+        if (userRole === RoleOptions.Parent && !formik.values.child) return;
+        if (values.subject && values.level) {
+            const request: ICreateBookingDTO =
+                userRole === RoleOptions.Parent
+                    ? {
+                          requesterId: userId,
+                          startTime: moment(startTime).toISOString(),
+                          subjectId: values.subject,
+                          studentId: values.child,
+                          tutorId: tutorId,
+                          levelId: values.level,
+                          useCredits: true,
+                      }
+                    : {
+                          requesterId: userId,
+                          studentId: userId,
+                          startTime: moment(startTime).toISOString(),
+                          subjectId: values.subject,
+                          tutorId: tutorId,
+                          levelId: values.level,
+                          useCredits: true,
+                      };
+
+            setLoading(true);
+            const res: any = await createBooking(request);
+            const data = res.data as BookingReserveResponse;
+            setLoading(false);
+            console.log('setting client secret: ', data.clientSecret);
+            setReserveResponse(data);
+        }
+    }
+
+    useEffect(() => {
+        initiateCreateBooking();
+    }, [formik.values.level, formik.values.subject, formik.values.child]);
+
+    return tutorData ? (
+        <div className="flex flex--gap-10">
+            <div className={`${className} flex flex--col font-lato checkout-info-card flex--gap-10`}>
+                <div className="flex">
+                    {tutorData.User.profileImage ? (
+                        <div className="tutor-list__item__img w--unset mr-2" style={{ padding: 0 }}>
+                            <img
+                                style={{
+                                    width: '80px',
+                                    height: '80px',
+                                    border: 0,
+                                }}
+                                className="align--center d--b"
+                                src={tutorData.User.profileImage}
+                                alt="tutor-profile-pic"
+                            />
+                        </div>
+                    ) : (
+                        <ImageCircle
+                            className="align--center d--b mb-4"
+                            imageBig={true}
+                            initials={tutorData.User.firstName.charAt(0) + tutorData.User.lastName.charAt(0)}
+                        />
+                    )}
+                    <div className="flex flex--col flex--grow">
+                        <div className="flex flex--jc--space-between">
+                            <div className="flex">
+                                <span className="type--wgt--extra-bold type--lg">{`${tutorData.User.firstName} ${tutorData.User.lastName}`}</span>
+                                {tutorData.idVerified && (
+                                    <div
+                                        className={'flex flex--center'}
+                                        data-tooltip-id={'ID-tooltip'}
+                                        data-tooltip-html={t('TUTOR_PROFILE.TOOLTIP.ID_VERIFIED')}
+                                    >
+                                        <RiVerifiedBadgeFill size={20} />
+                                    </div>
+                                )}
+                            </div>
+                            <span className="flex flex--ai--center">
+                                {tutorData.averageGrade ? (
+                                    <>
+                                        <i className="icon icon--base icon--star"></i>
+                                        <span className="type--md type--wgt--extra-bold">{tutorData.averageGrade}</span>
+                                    </>
+                                ) : (
+                                    <span className="type--md type--wgt--extra-bold">{t('CHECKOUT.NEW_TUTOR')}</span>
+                                )}
+                            </span>
+                        </div>
+                        <div className="flex flex--jc--space-between type--sm">
+                            {tutorData.TutorSubjects.length > 0 ? (
+                                <CustomSubjectList
+                                    subjects={uniq(tutorData.TutorSubjects.map((subject) => subject.Subject.abrv))}
+                                />
+                            ) : (
+                                <></>
+                            )}
+
+                            {tutorData.numberOfGrades && tutorData.numberOfGrades > 0 ? (
+                                <div className="type--color--secondary">{tutorData.numberOfGrades}</div>
+                            ) : (
+                                <></>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
+                <Divider />
+                <span className="type--wgt--extra-bold">
+                    {moment(startTime).format('dddd, ' + t('DATE_FORMAT') + ', HH:mm')}
+                </span>
+                <span>{timeZoneState.timeZone}</span>
+                <FormikProvider value={formik}>
+                    <Form>
+                        <div className="field">
+                            <label htmlFor="level" className="field__label">
+                                {t('BOOK.FORM.LEVEL')}*
+                            </label>
+
+                            <MySelect
+                                field={formik.getFieldProps('level')}
+                                form={formik}
+                                meta={formik.getFieldMeta('level')}
+                                classNamePrefix="onboarding-select"
+                                isMulti={false}
+                                options={tutorLevelOptions ? tutorLevelOptions : []}
+                                placeholder={t('BOOK.FORM.LEVEL_PLACEHOLDER')}
+                                isDisabled={isCreateBookingLoading}
+                            />
+                        </div>
+                        <div className="field">
+                            <label htmlFor="subject" className="field__label">
+                                {t('BOOK.FORM.SUBJECT')}*
+                            </label>
+                            <MySelect
+                                key={formik.values.subject}
+                                field={formik.getFieldProps('subject')}
+                                form={formik}
+                                meta={formik.getFieldMeta('subject')}
+                                isMulti={false}
+                                options={tutorSubjectOptions}
+                                classNamePrefix="onboarding-select"
+                                noOptionsMessage={() => t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')}
+                                placeholder={t('SEARCH_TUTORS.PLACEHOLDER.SUBJECT')}
+                                isDisabled={isCreateBookingLoading}
+                                //|| !formik.values.level} include it later
+                            />
+                        </div>
+                        {userRole === RoleOptions.Parent ? (
+                            <div className="field">
+                                <label htmlFor="child" className="field__label">
+                                    {t('BOOK.FORM.CHILD')}*
+                                </label>
+
+                                <MySelect
+                                    field={formik.getFieldProps('child')}
+                                    form={formik}
+                                    meta={formik.getFieldMeta('child')}
+                                    classNamePrefix="onboarding-select"
+                                    isMulti={false}
+                                    options={childOptions ? childOptions : []}
+                                    noOptionsMessage={() => 'childless'}
+                                    placeholder={t('BOOK.FORM.CHILD_PLACEHOLDER')}
+                                    isDisabled={isCreateBookingLoading}
+                                />
+                            </div>
+                        ) : (
+                            <></>
+                        )}
+                    </Form>
+                </FormikProvider>
+
+                <Divider />
+
+                {/*{formik.values.level && formik.values.subject && cost && (*/}
+                <div className="flex flex--col flex--gap-10">
+                    <span className="type--lg type--wgt--extra-bold">{t('CHECKOUT.TITLE')}</span>
+                    <div className="flex flex--jc--space-between">
+                        <span>{t('CHECKOUT.LESSON_DURATION')}</span>
+                        <span className="type--wgt--extra-bold">
+                            <CurrencySymbol />
+                            {cost}
+                        </span>
+                    </div>
+
+                    {cost && (
+                        <div className="flex flex--jc--space-between">
+                            {/*<div className="discount-row">*/}
+                            <span>{t('CHECKOUT.CREDITS_BALANCE')} </span>
+                            <span className="type--wgt--extra-bold">
+                                &minus;&nbsp;
+                                <CurrencySymbol />
+                                {userCredits > cost ? cost : userCredits}
+                            </span>
+                        </div>
+                    )}
+
+                    <div className="separator-line"></div>
+                    <div className="total-row flex flex--jc--space-between type--wgt--extra-bold type--md">
+                        <span>{t('CHECKOUT.TOTAL')}</span>
+                        {cost && (
+                            <span>
+                                {calculateTotalCost(cost)}
+                                <CurrencySymbol />
+                            </span>
+                        )}
+                    </div>
+                </div>
+
+                <div className="flex flex--col bg__green pr-4 pl-4 pt-2 pb-2 flex--gap-5">
+                    <span className="flex flex--ai--center flex--gap-10 type--wgt--extra-bold">
+                        <FaCalendarAlt />
+                        {t('CHECKOUT.RESCHEDULE_TIP.TITLE')}
+                    </span>
+                    <p>{t('CHECKOUT.RESCHEDULE_TIP.DETAILS')}</p>
+                </div>
+            </div>
+            {reserveResponse &&
+                userId &&
+                cost &&
+                formik.values.subject &&
+                formik.values.level &&
+                (userRole === RoleOptions.Parent ? formik.values.child : true) && (
+                    <StripePayment
+                        clientSecret={reserveResponse.clientSecret}
+                        stripePromise={stripePromise}
+                        bookingInfo={{
+                            jobId: reserveResponse.confirmationJobId,
+                            tutorId: tutorId,
+                            requesterId: userId,
+                            studentId: userRole === RoleOptions.Student ? userId : formik.values.child,
+                            startTime: startTime,
+                            cost: calculateTotalCost(cost),
+                            subjectId: formik.values.subject,
+                            levelId: formik.values.level,
+                        }}
+                    />
+                )}
+            {loading && <LoaderPrimary />}
+        </div>
+    ) : (
+        <div>Loading...</div>
+    );
+}

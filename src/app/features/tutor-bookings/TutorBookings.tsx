@@ -1,6 +1,5 @@
 import i18n from 'i18next';
-import { uniqBy } from 'lodash';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import React, { useEffect, useRef, useState } from 'react';
 import { Calendar as BigCalendar, momentLocalizer, SlotInfo } from 'react-big-calendar';
 import Calendar from 'react-calendar';
@@ -9,7 +8,11 @@ import { useHistory } from 'react-router';
 import { useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
-import { useLazyGetTutorBookingsQuery, useLazyGetTutorByTutorSlugQuery } from '../../store/services/tutorService';
+import {
+    useLazyGetTutorBookingsQuery,
+    useLazyGetTutorByTutorSlugQuery,
+    useLazyGetTutorUnavalabilitesForCalendarQuery,
+} from '../../store/services/tutorService';
 import { addStripeId } from '../../store/slices/authSlice';
 import { RoleOptions } from '../../store/slices/roleSlice';
 import MainWrapper from '../../components/MainWrapper';
@@ -17,20 +20,35 @@ import LoaderSecondary from '../../components/skeleton-loaders/LoaderSecondary';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import toastService from '../../store/services/toastService';
 import { calcModalPosition } from '../../utils/calcModalPosition';
-import ParentCalendarSlots from '../my-bookings/components/ParentCalendarSlots';
 import ParentEventModal from '../my-bookings/components/ParentEventModal';
 import UpdateBooking from '../my-bookings/components/UpdateBooking';
-import { useLazyGetBookingByIdQuery } from '../../store/services/bookingService';
+import { useLazyGetBookingByIdQuery, useLazyGetBookingsWithTutorQuery } from '../../store/services/bookingService';
 import { useLazyGetUnavailableBookingsQuery } from '../../store/services/unavailabilityService';
 import LearnCubeModal from '../my-profile/components/LearnCubeModal';
-import { useAddCustomerMutation, useLazyGetCreditCardsQuery, useSetDefaultCreditCardMutation } from '../../store/services/stripeService';
+import {
+    useAddCustomerMutation,
+    useLazyGetCreditCardsQuery,
+    useSetDefaultCreditCardMutation,
+} from '../../store/services/stripeService';
 import { useLazyGetTutorAvailabilityQuery } from '../../store/services/tutorAvailabilityService';
 import { InformationCard } from '../../components/InformationCard';
 import { CustomToolbar } from '../my-bookings/CustomToolbar';
-import AddCreditCard from '../my-profile/components/AddCreditCard';
 import { loadStripe, StripeElementsOptions } from '@stripe/stripe-js';
-import { Elements } from '@stripe/react-stripe-js';
 import { BookingPopupForm } from '../../components/BookingPopupForm';
+import { TimeZoneSelect } from '../../components/TimeZoneSelect';
+import CheckoutPage from '../../components/checkout/checkout-page';
+
+export interface IBookingChatMessageInfo {
+    tutorId: string;
+    startTime: string;
+    subjectId: string;
+    levelId: string;
+}
+
+export interface IBookingModalInfo {
+    bookingId: string;
+    endTime: string;
+}
 
 export interface IBookingChatMessageInfo {
     tutorId: string;
@@ -53,19 +71,66 @@ interface ICoords {
     y: number;
 }
 
-export interface IBookingModalInfo {
-    bookingId: string;
-    endTime: string;
-}
-
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY!);
 
 const TutorBookings = () => {
+    const [getAllTutorUnavailabilites, { data: allTutorUnavailabilites }] =
+        useLazyGetTutorUnavalabilitesForCalendarQuery();
+    const [tutorId, setTutorId] = useState('');
+    const [value, onChange] = useState(new Date());
+    const [getBookingsWithTutor, { data: bookingsWithTutor }] = useLazyGetBookingsWithTutorQuery();
+    const [mergedPeriods, setMergedPeriods] = useState<IBookingTransformed[] | undefined>([]);
+    const [emptyBookings, setEmptyBookings] = useState<IBookingTransformed[]>([]);
+    const timeZoneState = useAppSelector((state) => state.timeZone);
+    const [selectedZone, setSelectedZone] = useState(
+        timeZoneState.timeZone ? timeZoneState.timeZone : moment.tz.guess()
+    );
+
+    useEffect(() => {
+        fetchD();
+    }, [tutorId, value]);
+
+    useEffect(() => {
+        if (timeZoneState.timeZone) setSelectedZone(timeZoneState.timeZone);
+    }, [timeZoneState]);
+
+    useEffect(() => {
+        fetchD();
+        if (selectedZone) moment.tz.setDefault(selectedZone);
+    }, [selectedZone]);
+
+    function fetchD() {
+        if (tutorId) {
+            getAllTutorUnavailabilites({
+                tutorId: tutorId,
+                startOfWeek: moment(value).startOf('isoWeek').format('YYYY-MM-DD'),
+                endOfWeek: moment(value).endOf('isoWeek').format('YYYY-MM-DD'),
+                timeZone: selectedZone ? selectedZone : moment.tz.guess(),
+            });
+
+            getBookingsWithTutor({
+                tutorId: tutorId,
+                dateFrom: moment().toISOString(),
+                dateTo: moment(value).endOf('isoWeek').toISOString(),
+            });
+        }
+    }
+
+    useEffect(() => {
+        if (allTutorUnavailabilites && bookingsWithTutor)
+            setMergedPeriods([...allTutorUnavailabilites, ...bookingsWithTutor, ...emptyBookings]);
+    }, [allTutorUnavailabilites, bookingsWithTutor, emptyBookings]);
+
+    const [unavailablePeriods, setUnavailablePeriods] = useState<IBookingTransformed[] | undefined>();
+
+    useEffect(() => {
+        setUnavailablePeriods(allTutorUnavailabilites);
+    }, [allTutorUnavailabilites]);
+
     const [bookingMessageInfo, setBookingMessageInfo] = useState<IBookingChatMessageInfo>();
     const [scrollTopOffset, setScrollTopOffset] = useState<number>(0);
-    const scrollState = useAppSelector((state) => state.scroll);
-    const { topOffset } = scrollState;
-    const [getTutorBookings, { data: tutorBookings, isLoading: isLoadingTutorBookings }] = useLazyGetTutorBookingsQuery();
+    const [getTutorBookings, { data: tutorBookings, isLoading: isLoadingTutorBookings }] =
+        useLazyGetTutorBookingsQuery();
     const [getTutorUnavailableBookings, { data: unavailableBookings, isLoading: isLoadingUnavailableBookings }] =
         useLazyGetUnavailableBookingsQuery();
     const [getTutorData, { data: tutorData }] = useLazyGetTutorByTutorSlugQuery({
@@ -79,29 +144,35 @@ const TutorBookings = () => {
             isLoading,
         }),
     });
-    const [getTutorAvailability, { data: tutorAvailability, isLoading: tutorAvailabilityLoading }] = useLazyGetTutorAvailabilityQuery();
+    const [getTutorAvailability, { data: tutorAvailability, isLoading: tutorAvailabilityLoading }] =
+        useLazyGetTutorAvailabilityQuery();
 
-    const [getBookingById, { data: booking, isLoading: bookingIsLoading, isFetching: bookingIsFetching }] = useLazyGetBookingByIdQuery();
-    const [addStripeCustomer, { data: dataStripeCustomer, isSuccess: isSuccessDataStripeCustomer, isError: isErrorDataStripeCustomer }] =
-        useAddCustomerMutation();
-    const [getCreditCards, { data: creditCards, isLoading: creditCardLoading, isUninitialized: creditCardUninitialized }] =
-        useLazyGetCreditCardsQuery();
+    const [getBookingById, { data: booking, isLoading: bookingIsLoading, isFetching: bookingIsFetching }] =
+        useLazyGetBookingByIdQuery();
+    const [
+        addStripeCustomer,
+        { data: dataStripeCustomer, isSuccess: isSuccessDataStripeCustomer, isError: isErrorDataStripeCustomer },
+    ] = useAddCustomerMutation();
+    const [
+        getCreditCards,
+        { data: creditCards, isLoading: creditCardLoading, isUninitialized: creditCardUninitialized },
+    ] = useLazyGetCreditCardsQuery();
     const [setDefaultCreditCard, { isSuccess: isSuccessSetDefaultCreditCard }] = useSetDefaultCreditCardMutation();
     const dispatch = useAppDispatch();
 
     const [selectedStart, setSelectedStart] = useState<string>('');
     const [selectedEnd, setSelectedEnd] = useState<string>('');
     const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
-    const [emptyBookings, setEmptyBookings] = useState<IBookingTransformed[]>([]);
     const [openSlot, setOpenSlot] = useState<boolean>(false);
     //const [eventDetails, setEventDetails] = useState<IEvent>();
     const [openEventDetails, setOpenEventDetails] = useState<boolean>(false);
     const [openUpdateModal, setOpenUpdateModal] = useState<boolean>(false);
     const [showBookingSuccessfulModal, setShowBookingSuccessfulModal] = useState<boolean>(false); //todo change
     const [calChange, setCalChange] = useState<boolean>(false);
-    const [value, onChange] = useState(new Date());
+
     const [learnCubeModal, setLearnCubeModal] = useState<boolean>(false);
-    const [currentlyActiveBooking, setCurrentlyActiveBooking] = useState<IBookingModalInfo>();
+    const [currentlyActiveBooking, setCurentlyActiveBooking] = useState<IBookingModalInfo>();
+
     const [highlightCoords, setHighlightCoords] = useState<ICoords>({
         x: 0,
         y: 0,
@@ -112,10 +183,8 @@ const TutorBookings = () => {
     const positionClass = moment(selectedStart).format('dddd');
     const userRole = useAppSelector((state) => state.auth.user?.Role?.abrv);
     const userId = useAppSelector((state) => state.auth.user?.id);
-    const stripeCustomerId = useAppSelector((state) => state.auth.user?.stripeCustomerId);
     const userInfo = useAppSelector((state) => state.auth.user);
 
-    const [tutorId, setTutorId] = useState('');
     const { tutorSlug } = useParams();
     const [minimumUnavailability, setminimumUnavailability] = useState<IBookingTransformed>();
     const [pastUnavailability, setPastUnavailability] = useState<IBookingTransformed>();
@@ -206,20 +275,14 @@ const TutorBookings = () => {
     const { t } = useTranslation();
     const defaultScrollTime = new Date(new Date().setHours(7, 45, 0));
     const highlightRef = useRef<HTMLDivElement>(null);
-    const allBookings =
-        tutorBookings &&
-        tutorBookings
-            .concat(emptyBookings, unavailableBookings ? unavailableBookings : [])
-            .concat(tutorAvailability ? arrayDataToUnavailabilityObjects(tutorAvailability, firstDayOfSelectedWeek) : [])
-            .concat(minimumUnavailability ? minimumUnavailability : []);
-    const [allBookings2, setAllBookings2] = useState<IBookingTransformed[]>(mergeOverlappingEvents(allBookings ? allBookings : []));
+
     const existingBookings =
         tutorBookings &&
         tutorBookings
             .concat(unavailableBookings ? unavailableBookings : [])
-            .concat(tutorAvailability ? arrayDataToUnavailabilityObjects(tutorAvailability, firstDayOfSelectedWeek) : []);
-    const totalBookings = allBookings2 && allBookings2.concat([]); //allBookings && allBookings.concat(bookings ? bookings : []) &&
-    const filteredBookings = uniqBy(totalBookings, 'id');
+            .concat(
+                tutorAvailability ? arrayDataToUnavailabilityObjects(tutorAvailability, firstDayOfSelectedWeek) : []
+            );
     const tileRef = useRef<HTMLDivElement>(null);
     const tileElement = tileRef.current as HTMLDivElement;
 
@@ -241,13 +304,19 @@ const TutorBookings = () => {
                 <>
                     {event.event.label !== 'unavailableHoursBefore' ? (
                         <div className="event--unavailable">
-                            <div className="type--color--primary type--wgt--extra-bold" style={{ fontSize: 'small', textAlign: 'center' }}>
+                            <div
+                                className="type--color--primary type--wgt--extra-bold"
+                                style={{ fontSize: 'small', textAlign: 'center' }}
+                            >
                                 {event.event.label === 'unavailableHoursBefore' ? t('BOOKING.CANT_BOOK_MESSAGE') : null}
                             </div>
                         </div>
                     ) : (
                         <div className="event--unavailable-min-time">
-                            <div className="type--color--primary type--wgt--extra-bold" style={{ fontSize: 'small', textAlign: 'center' }}>
+                            <div
+                                className="type--color--primary type--wgt--extra-bold"
+                                style={{ fontSize: 'small', textAlign: 'center' }}
+                            >
                                 {event.event.label === 'unavailableHoursBefore' ? t('BOOKING.CANT_BOOK_MESSAGE') : null}
                             </div>
                         </div>
@@ -288,7 +357,10 @@ const TutorBookings = () => {
         }
 
         const existingBooking =
-            existingBookings && existingBookings.filter((date) => moment(date.start).format('YYYY/MM/DD') === moment(e.start).format('YYYY/MM/DD'));
+            existingBookings &&
+            existingBookings.filter(
+                (date) => moment(date.start).format('YYYY/MM/DD') === moment(e.start).format('YYYY/MM/DD')
+            );
 
         let isAvailableBooking = false;
 
@@ -324,7 +396,9 @@ const TutorBookings = () => {
             const checkHours = !moment(e.start).isBefore(moment().add(3, 'hours'));
             existingBooking.forEach((booking) => {
                 const isBetweenStart = moment(e.start).isBetween(moment(booking.start), moment(booking.end));
-                const isBetweenEnd = moment(e.start).add(1, 'hours').isBetween(moment(booking.start), moment(booking.end));
+                const isBetweenEnd = moment(e.start)
+                    .add(1, 'hours')
+                    .isBetween(moment(booking.start), moment(booking.end));
 
                 const currentFlag = checkHours && isBetweenStart === false && isBetweenEnd === false;
                 if (currentFlag) {
@@ -367,7 +441,7 @@ const TutorBookings = () => {
     };
 
     const handleSelectedEvent = (e: IBookingTransformed) => {
-        setCurrentlyActiveBooking({
+        setCurentlyActiveBooking({
             bookingId: e.id,
             endTime: moment(e.end).toISOString(),
         });
@@ -518,70 +592,11 @@ const TutorBookings = () => {
         }
     }
 
-    function mergeOverlappingEvents(events: IBookingTransformed[]): IBookingTransformed[] {
-        events.sort((a, b) => a.start.getTime() - b.start.getTime());
-
-        const mergedEvents: IBookingTransformed[] = [];
-
-        let currentEvent = { ...events[0] }; // Create a new object rather than referencing the original one
-        for (let i = 1; i < events.length; i++) {
-            const nextEvent = { ...events[i] }; // Create a new object rather than referencing the original one
-            if (currentEvent.end.getTime() >= nextEvent.start.getTime() && currentEvent.label !== 'Book event' && nextEvent.label !== 'Book event') {
-                if (nextEvent.label === 'unavailableHoursBefore') {
-                    const nextNextEvent = { ...events[i + 1] };
-
-                    if (i == events.length - 1 && !(currentEvent.end.getTime() > nextEvent.start.getTime())) {
-                        mergedEvents.push(nextEvent);
-                        continue;
-                    }
-
-                    if (
-                        nextNextEvent &&
-                        (!moment(nextEvent.end).isSame(moment(nextNextEvent.start), 'day') ||
-                            moment(nextEvent.end).isBefore(moment(nextNextEvent.start))) &&
-                        !(currentEvent.end.getTime() > nextEvent.start.getTime())
-                    ) {
-                        mergedEvents.push(nextEvent);
-                        continue;
-                    }
-                }
-
-                currentEvent = {
-                    ...currentEvent,
-                    label: 'unavailable',
-                    end: new Date(Math.max(currentEvent.end.getTime(), nextEvent.end.getTime())),
-                };
-            } else {
-                mergedEvents.push(currentEvent);
-                currentEvent = nextEvent;
-            }
-        }
-
-        mergedEvents.push(currentEvent);
-
-        return mergedEvents;
-    }
-
     useEffect(() => {
         if (!hasRunThisMinute) {
             calculateAndSetMinimumUnavailability();
         }
     });
-
-    useEffect(() => {
-        const tutBookings =
-            tutorBookings &&
-            tutorBookings
-                .concat(emptyBookings, unavailableBookings ? unavailableBookings : [])
-                .concat(tutorAvailability ? arrayDataToUnavailabilityObjects(tutorAvailability, firstDayOfSelectedWeek) : [])
-                .concat(minimumUnavailability ? minimumUnavailability : [])
-                .concat(pastUnavailability ? pastUnavailability : []);
-        let transformedBookings;
-        if (tutBookings) {
-            transformedBookings = mergeOverlappingEvents(tutBookings);
-            setAllBookings2(transformedBookings ? transformedBookings : []);
-        }
-    }, [tutorBookings, minimumUnavailability, tutorAvailability, emptyBookings, pastUnavailability]);
 
     useEffect(() => {
         calcPosition();
@@ -614,7 +629,8 @@ const TutorBookings = () => {
     }, [value, tutorId]);
 
     const setSelectedDateFirstDayOfWeek = (date: Date) => {
-        if (calculateFirstDayOfWeek(firstDayOfSelectedWeek) != calculateFirstDayOfWeek(date)) setFirstDayOfSelectedWeek(date);
+        if (calculateFirstDayOfWeek(firstDayOfSelectedWeek) != calculateFirstDayOfWeek(date))
+            setFirstDayOfSelectedWeek(date);
     };
 
     const calculateFirstDayOfWeek = (date: Date): number => {
@@ -629,8 +645,9 @@ const TutorBookings = () => {
     }
 
     const options: StripeElementsOptions = {
-        mode: 'setup',
-        currency: 'eur',
+        clientSecret: 'dwa',
+        // mode: 'payment',
+        // currency: 'eur',
         appearance: {
             theme: 'stripe',
             variables: {
@@ -652,7 +669,8 @@ const TutorBookings = () => {
 
                 '.Tab--selected': {
                     borderColor: '#E0E6EB',
-                    boxShadow: '0px 1px 1px rgba(0, 0, 0, 0.03), 0px 3px 6px rgba(18, 42, 66, 0.02), 0 0 0 2px var(--colorPrimary)',
+                    boxShadow:
+                        '0px 1px 1px rgba(0, 0, 0, 0.03), 0px 3px 6px rgba(18, 42, 66, 0.02), 0 0 0 2px var(--colorPrimary)',
                 },
 
                 '.Input--invalid': {
@@ -661,6 +679,8 @@ const TutorBookings = () => {
             },
         },
     };
+
+    const [clientSecret, setClientSecret] = useState<string>();
 
     const [key, setKey] = useState(Math.random);
     useEffect(() => {
@@ -674,22 +694,35 @@ const TutorBookings = () => {
                 <ConditionalWrapper condition={!isMobile}>
                     {/* {(isLoading && <LoaderPrimary />) || ( */}
 
-                    <div className="flex flex--center p-6">
+                    <div
+                        className={`flex ${isMobile ? 'flex--col' : 'flex--row'} flex--jc--space-between flex--center p-6`}
+                    >
                         {/* <Link to={PATHS.SEARCH_TUTORS}>
                             <div>
                                 <i className="icon icon--base icon--arrow-left icon--black"></i>
                             </div>
                         </Link> */}
-                        <div onClick={() => history.goBack()}>
-                            <div>
-                                <i className="icon icon--base icon--arrow-left icon--black"></i>
+                        <div className={'flex flex--center'}>
+                            <div onClick={() => history.goBack()}>
+                                <div>
+                                    <i className="icon icon--base icon--arrow-left icon--black"></i>
+                                </div>
                             </div>
+                            <h2 className="type--lg  ml-6">
+                                {`${t('MY_BOOKINGS.TITLE')} - ${tutorData.firstName ? tutorData.firstName : ''} ${
+                                    tutorData.lastName ? tutorData.lastName : ''
+                                }`}
+                            </h2>
                         </div>
-                        <h2 className="type--lg  ml-6">
-                            {`${t('MY_BOOKINGS.TITLE')} - ${tutorData.firstName ? tutorData.firstName : ''} ${
-                                tutorData.lastName ? tutorData.lastName : ''
-                            }`}
-                        </h2>
+                        <div className={`flex ${isMobile ? 'flex--col' : 'flex--row'} flex--jc--center flex--center`}>
+                            <h1 className={'font__md mr-2'}>{t('MY_PROFILE.GENERAL_AVAILABILITY.TIME_ZONE')}</h1>
+                            <TimeZoneSelect
+                                className={'z-index-5'}
+                                defaultUserZone={timeZoneState.timeZone ? timeZoneState.timeZone : moment.tz.guess()}
+                                selectedZone={selectedZone}
+                                setSelectedZone={setSelectedZone}
+                            />
+                        </div>
                     </div>
                     <BigCalendar
                         key={key}
@@ -698,7 +731,7 @@ const TutorBookings = () => {
                         formats={{
                             timeGutterFormat: 'HH:mm',
                         }}
-                        events={filteredBookings ? filteredBookings : []}
+                        events={mergedPeriods}
                         toolbar={true}
                         date={value}
                         onSelecting={() => true}
@@ -711,7 +744,8 @@ const TutorBookings = () => {
                                 header: (date) => CustomHeader(date),
                             },
                             event: (event) => CustomEvent(event),
-                            toolbar: () => (isMobile ? <CustomToolbar value={value} onChangeDate={onChangeDate} /> : null),
+                            toolbar: () =>
+                                isMobile ? <CustomToolbar value={value} onChangeDate={onChangeDate} /> : null,
                         }}
                         //scrollToTime={defaultScrollTime}
                         showMultiDayTimes={true}
@@ -719,25 +753,50 @@ const TutorBookings = () => {
                         timeslots={4}
                         selectable={true}
                         longPressThreshold={50}
-                        onSelectSlot={(e) => (userRole === RoleOptions.Parent || userRole === RoleOptions.Student ? slotSelect(e) : null)}
-                        onSelectEvent={(e) => (userRole === RoleOptions.Parent || userRole === RoleOptions.Student ? handleSelectedEvent(e) : null)}
+                        onSelectSlot={(e) =>
+                            userRole === RoleOptions.Parent || userRole === RoleOptions.Student ? slotSelect(e) : null
+                        }
+                        onSelectEvent={(e) =>
+                            userRole === RoleOptions.Parent || userRole === RoleOptions.Student
+                                ? handleSelectedEvent(e)
+                                : null
+                        }
                     />
                     {openSlot ? (
                         //creating new booking
-                        <ParentCalendarSlots
-                            setBookingMessageInfo={setBookingMessageInfo}
-                            setShowLessonInfoPopup={setShowBookingSuccessfulModal}
-                            clearEmptyBookings={() => setEmptyBookings([])}
-                            setSidebarOpen={(e) => setSidebarOpen(e)}
+                        <CheckoutPage
+                            // setBookingMessageInfo={setBookingMessageInfo}
+                            // clearEmptyBookings={() => setEmptyBookings([])}
                             start={`${selectedStart}`}
                             end={`${selectedEnd}`}
-                            handleClose={(e) => setOpenSlot(e)}
-                            positionClass={calcModalPosition(positionClass)}
+                            // positionClass={calcModalPosition(positionClass)}
                             tutorId={tutorId}
-                            tutorDisabled={tutorData.disabled}
-                            topOffset={scrollTopOffset}
+                            // tutorDisabled={tutorData.disabled}
+                            // setClientSecret={setClientSecret}
+                            // topOffset={scrollTopOffset}
                         />
-                    ) : openEventDetails ? (
+                    ) : // <ParentCalendarSlots
+                    //     setBookingMessageInfo={setBookingMessageInfo}
+                    //     setShowLessonInfoPopup={setShowBookingSuccessfulModal}
+                    //     clearEmptyBookings={() => setEmptyBookings([])}
+                    //     setSidebarOpen={(e) => setSidebarOpen(e)}
+                    //     start={`${selectedStart}`}
+                    //     end={`${selectedEnd}`}
+                    //     handleClose={(e) => {
+                    //         setOpenSlot(e);
+                    //         getBookingsWithTutor({
+                    //             tutorId: tutorId,
+                    //             dateFrom: moment().toISOString(),
+                    //             dateTo: moment(value).endOf('isoWeek').toISOString(),
+                    //         });
+                    //     }}
+                    //     positionClass={calcModalPosition(positionClass)}
+                    //     tutorId={tutorId}
+                    //     tutorDisabled={tutorData.disabled}
+                    //     setClientSecret={setClientSecret}
+                    //     topOffset={scrollTopOffset}
+                    // />
+                    openEventDetails ? (
                         //opening booking details
                         !bookingIsLoading &&
                         !bookingIsFetching && (
@@ -745,7 +804,11 @@ const TutorBookings = () => {
                                 eventIsAccepted={booking ? booking.isAccepted : false}
                                 bookingStart={booking ? booking.startTime : ''}
                                 openEditModal={(isOpen) => handleUpdateModal(isOpen)}
-                                tutorName={tutorData.firstName && tutorData.lastName ? tutorData.firstName + ' ' + tutorData.lastName : ''}
+                                tutorName={
+                                    tutorData.firstName && tutorData.lastName
+                                        ? tutorData.firstName + ' ' + tutorData.lastName
+                                        : ''
+                                }
                                 event={booking ? booking : null}
                                 handleClose={(e) => setOpenEventDetails(e)}
                                 positionClass={calcModalPosition(positionClass)}
@@ -787,6 +850,9 @@ const TutorBookings = () => {
                                 hideShowHighlight(e.activeStartDate);
                             }}
                             onChange={(e: Date) => {
+                                // const momentDate = moment(e.getTime()).tz('UTC');
+                                // const newDate = momentDate.toDate();
+
                                 onChange(e);
                                 setCalChange(!calChange);
                             }}
@@ -805,20 +871,33 @@ const TutorBookings = () => {
                     </div>
                     <div className="upcoming-lessons">
                         <p className="upcoming-lessons__title">{t('MY_BOOKINGS.INFORMATION.TITLE')}</p>
-                        <InformationCard title={t('MY_BOOKINGS.INFORMATION.CARD1.TITLE')} desc={t('MY_BOOKINGS.INFORMATION.CARD1.DESC')} />
-                        <InformationCard title={t('MY_BOOKINGS.INFORMATION.CARD2.TITLE')} desc={t('MY_BOOKINGS.INFORMATION.CARD2.DESC')} />
+                        <InformationCard
+                            title={t('MY_BOOKINGS.INFORMATION.CARD1.TITLE')}
+                            desc={t('MY_BOOKINGS.INFORMATION.CARD1.DESC')}
+                        />
+                        <InformationCard
+                            title={t('MY_BOOKINGS.INFORMATION.CARD2.TITLE')}
+                            desc={t('MY_BOOKINGS.INFORMATION.CARD2.DESC')}
+                        />
                     </div>
 
                     {/* needs to be in this place because layout have nth-child selector */}
-                    {sidebarOpen ? (
-                        <Elements stripe={stripePromise} options={options}>
-                            <AddCreditCard sideBarIsOpen={sidebarOpen} closeSidebar={closeAddCardSidebar} />
-                        </Elements>
+                    {sidebarOpen && clientSecret ? (
+                        // <StripePayment
+                        //     clientSecret={clientSecret}
+                        //     stripePromise={stripePromise}
+                        //     sidebarOpen={sidebarOpen}
+                        //     closeAddCardSidebar={closeAddCardSidebar}
+                        // />
+                        <div>ALO JASAM TU ZAMNEAN ZA STRIPE PAJEMENT</div>
                     ) : (
                         <></>
                     )}
                     {learnCubeModal && currentlyActiveBooking && (
-                        <LearnCubeModal bookingInfo={currentlyActiveBooking} handleClose={() => setLearnCubeModal(false)} />
+                        <LearnCubeModal
+                            bookingInfo={currentlyActiveBooking}
+                            handleClose={() => setLearnCubeModal(false)}
+                        />
                     )}
                 </div>
             </div>

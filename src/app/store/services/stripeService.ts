@@ -59,7 +59,8 @@ export const stripeService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
-        addCustomer: builder.mutation<any, IAddCustomerPost>({ // remove candidate, possibly unused
+        addCustomer: builder.mutation<any, IAddCustomerPost>({
+            // remove candidate, possibly unused
             query: (body) => ({
                 url: `${URL}/add-customer/${body.userId}`,
                 method: HttpMethods.POST,
@@ -93,6 +94,17 @@ export const stripeService = baseService.injectEndpoints({
                 },
             }),
         }),
+
+        addPaymentMethod: builder.mutation<any, string>({
+            query: (paymentMethodId) => ({
+                url: `${URL}/add-payment-method`,
+                method: HttpMethods.PUT,
+                body: {
+                    paymentMethodId: paymentMethodId,
+                },
+            }),
+        }),
+
         uploadVerificationDocument: builder.mutation<IVerificationDocumentResponse, IVerificationDocument>({
             query: (document) => {
                 const formData = new FormData();
@@ -118,5 +130,6 @@ export const {
     useSetDefaultCreditCardMutation,
     useRemoveCreditCardMutation,
     useLazyGetCustomerByIdQuery,
+    useAddPaymentMethodMutation,
     useUploadVerificationDocumentMutation,
 } = stripeService;

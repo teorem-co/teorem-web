@@ -31,9 +31,7 @@ import {
 } from '../../../store/services/stripeService';
 import { setMyProfileProgress } from '../../../store/slices/myProfileSlice';
 import StripeConnectForm from '../components/StripeConnectForm';
-import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe, StripeElementsOptions } from '@stripe/stripe-js';
-import AddCreditCard from '../components/AddCreditCard';
 import { InputAdornment, TextField } from '@mui/material';
 import LanguageSelector from '../../../components/LanguageSelector';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
@@ -723,13 +721,13 @@ const ProfileAccount = () => {
                     closeSidebar={() => setStripeModalOpen(false)}
                 />
             </div>
-            <Elements stripe={stripePromise} options={options}>
-                <AddCreditCard
-                    closeSidebar={closeAddCardSidebar}
-                    sideBarIsOpen={addSidebarOpen}
-                    onSuccess={fetchData}
-                />
-            </Elements>
+            {/*<Elements stripe={stripePromise} options={options}>*/}
+            {/*    <AddCreditCard*/}
+            {/*        closeSidebar={closeAddCardSidebar}*/}
+            {/*        sideBarIsOpen={addSidebarOpen}*/}
+            {/*        onSuccess={fetchData}*/}
+            {/*    />*/}
+            {/*</Elements>*/}
         </MainWrapper>
     );
 };

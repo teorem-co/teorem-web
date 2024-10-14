@@ -1,9 +1,8 @@
 import { t } from 'i18next';
 import React from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 
 import Chat from './features/chat/pages/Chat';
-import CompletedLessons from './features/completedLessons/CompletedLessons';
 import Dashboard from './features/dashboard/Dashboard';
 import Earnings from './features/earnings/Earnings';
 import ResetPassword from './features/forgot-password/ResetPassword';
@@ -28,7 +27,7 @@ import StripeFail from './pages/StripeFail';
 import PermissionsGate from './components/PermissionGate';
 import { AdminTutorVideoPage } from './components/admin/tutor-video/AdminTutorVideoPage';
 import TokenNotValid from './pages/TokenNotValid';
-import TutorBookingsNew from './features/tutor-bookings/TutorBookingsNew';
+import TutorBookings from './features/tutor-bookings/TutorBookings';
 import { StudentManagement } from './features/student-management/StudentManagement';
 import { StudentProfile } from './features/student-management/StudentProfile';
 import { BookingManagement } from './features/booking-management/BookingManagement';
@@ -37,6 +36,7 @@ import TutorOnboarding from './features/onboarding/tutor';
 import TutorOnboardingProvider from './features/onboarding/tutor/providers/TutorOnboardingProvider';
 import useSyncLanguage from './utils/useSyncLanguage';
 import { useAppSelector } from './store/hooks';
+import CheckoutInfoCardWrapper from './components/checkout/ChecoutInfoCardWrapper';
 
 export const PATHS = {
     FORGOT_PASSWORD: t('PATHS.FORGOT_PASSWORD'),
@@ -63,6 +63,7 @@ export const PATHS = {
     STRIPE_CONNECTED: t('PATHS.STRIPE_CONNECTED'),
     STRIPE_FAIL: t('PATHS.STRIPE_FAIL'),
     TOKEN_NOT_VALID: t('PATHS.TOKEN_NOT_VALID'),
+    CHECKOUT_PAGE: t('PATHS.CHECKOUT_PAGE'),
 };
 
 export const LANDING_PATHS = {
@@ -241,7 +242,7 @@ const ROUTES: IRoute[] = [
         component: () => (
             <PermissionsGate roles={[Role.Parent, Role.Student, Role.SuperAdmin]}>
                 {/*<TutorBookings />*/}
-                <TutorBookingsNew />
+                <TutorBookings />
             </PermissionsGate>
         ),
     },
@@ -251,7 +252,25 @@ const ROUTES: IRoute[] = [
         exact: true,
         component: () => (
             <PermissionsGate roles={[Role.Parent, Role.Student, Role.SuperAdmin, Role.Child]}>
-                <CompletedLessons />
+                {/*<CompletedLessons />*/}
+                {/*<div className="flex flex--jc--center flex--ai--center flex--grow p-4">*/}
+                {/*    <CheckoutInfoCard*/}
+                {/*        className="w--400"*/}
+                {/*        startTime={'2024-10-12T08:00:00+02:00'}*/}
+                {/*        tutorId={'36a9c2e9-d298-4476-9dd5-b207105e9120'}*/}
+                {/*    />*/}
+                {/*</div>*/}
+            </PermissionsGate>
+        ),
+    },
+
+    {
+        path: PATHS.CHECKOUT_PAGE,
+        key: 'CHECKOUT_PAGE',
+        exact: true,
+        component: () => (
+            <PermissionsGate roles={[Role.Parent, Role.Student, Role.SuperAdmin]}>
+                <CheckoutInfoCardWrapper />
             </PermissionsGate>
         ),
     },
@@ -395,6 +414,7 @@ const ROUTES: IRoute[] = [
         component: () => <Redirect to={PATHS.DASHBOARD} />,
     },
 ];
+
 //handle subroutes by <RenderRoutes {...props} /> inside PermissionGate if needed
 
 function RouteWithSubRoutes(route: any) {
@@ -440,4 +460,5 @@ export function Routes({ routes }: IRoutesProps) {
         </Switch>
     );
 }
+
 export default ROUTES;

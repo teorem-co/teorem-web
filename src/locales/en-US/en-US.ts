@@ -4185,6 +4185,8 @@ export const EN_US = {
         STRIPE_FAIL: '/en/stripe-failed',
         RESEND_ACTIVATION_TOKEN: '/en/reset-token',
         TUTOR_VIDEOS: '/en/tutor-previews',
+        // CHECKOUT_PAGE: '/en/checkout?tutorId=:tutorId&startTime=:startTime',
+        CHECKOUT_PAGE: '/en/checkout',
     },
     SEO: {
         FALLBACK: {
@@ -4290,11 +4292,16 @@ export const EN_US = {
         DENIED: 'Modification denied',
     },
     CHECKOUT: {
-        PRICE: 'Price:',
-        DISCOUNT: 'Discount:',
+        NEW_TUTOR: 'New tutor',
+        TITLE: 'Your order',
+        LESSON_DURATION: '50-min less',
+        CREDITS_BALANCE: 'Credits balance',
         TOTAL: 'Total:',
-        AVAILABLE_CREDITS: 'Available credits:',
-        NEW_CREDITS_BALANCE: 'New credits balance:',
+        RESCHEDULE_TIP: {
+            TITLE: 'Free rescheduling or cancellation',
+            DETAILS:
+                'Make changes to your reservation or cancel for free up to 24 hours before your lesson date and time.',
+        },
     },
     ID_VERIFICATION: {
         ID_SECTION: 'Proof of identity',

@@ -113,6 +113,15 @@ interface WeekPeriodsParams {
     timeZone: string;
 }
 
+export interface BookingReserveResponse {
+    success: boolean;
+    anotherOneActive: boolean;
+    actionNeeded: boolean;
+    clientSecret: string;
+    confirmationJobId: string;
+    bookingId: string;
+}
+
 export const bookingService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         getBookings: builder.query<IBookingTransformed[], IDateRange>({
@@ -176,7 +185,7 @@ export const bookingService = baseService.injectEndpoints({
             }),
             providesTags: ['lessonCount'],
         }),
-        createbooking: builder.mutation<void, ICreateBookingDTO>({
+        createbooking: builder.mutation<BookingReserveResponse, ICreateBookingDTO>({
             query: (data) => ({
                 url: `${URL}?useCredits=${data.useCredits}`, // `${URL}/${data.tutorId}`
                 method: HttpMethods.POST,

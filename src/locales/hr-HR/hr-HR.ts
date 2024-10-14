@@ -4188,6 +4188,8 @@ export const HR_HR: typeof EN_US = {
         STRIPE_FAIL: '/hr/racun-pogreska',
         RESEND_ACTIVATION_TOKEN: '/hr/ponovna-aktivacija',
         TUTOR_VIDEOS: '/hr/tutor-video',
+        // CHECKOUT_PAGE: '/hr/placanje?tutorId=:tutorId&startTime=:startTime',
+        CHECKOUT_PAGE: '/hr/placanje',
     },
     SEO: {
         FALLBACK: {
@@ -4293,11 +4295,15 @@ export const HR_HR: typeof EN_US = {
         DENIED: 'Izmjena odbijena',
     },
     CHECKOUT: {
-        PRICE: 'Cijena:',
-        DISCOUNT: 'Popust:',
+        NEW_TUTOR: 'Novi instuktor',
+        TITLE: 'Vaša narudžba',
+        LESSON_DURATION: '50-min lekcija',
+        CREDITS_BALANCE: 'Stanje kredita',
         TOTAL: 'Ukupno za platiti:',
-        AVAILABLE_CREDITS: 'Dostupni krediti:',
-        NEW_CREDITS_BALANCE: 'Novo stanje kredita:',
+        RESCHEDULE_TIP: {
+            TITLE: 'Besplatna promjena termina ili otkazivanje',
+            DETAILS: 'Promijenite svoju rezervaciju ili besplatno otkažite do 24 sata prije datuma i vremena lekcije',
+        },
     },
 
     ID_VERIFICATION: {

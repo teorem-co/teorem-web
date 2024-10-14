@@ -8,7 +8,7 @@ import moment from 'moment';
 import React, { useCallback, useEffect, useState } from 'react';
 import { IoNotificationsOutline } from 'react-icons/io5';
 import { useDispatch } from 'react-redux';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Select, { components, MenuProps } from 'react-select';
 
 import logo from '../../../assets/images/teorem_logo_purple.png';
@@ -36,7 +36,7 @@ import NotificationsSidebar from '../../components/NotificationsSidebar';
 import LoaderPrimary from '../../components/skeleton-loaders/LoaderPrimary';
 import { TutorialModal } from '../../components/TutorialModal';
 import { useAppSelector } from '../../store/hooks';
-import { ONBOARDING_PATHS, PATHS, PROFILE_PATHS } from '../../routes';
+import { ONBOARDING_PATHS, PATHS } from '../../routes';
 import { useLazyGetTutorTestingLinkQuery } from '../../store/services/hiLinkService';
 import toastService from '../../store/services/toastService';
 import { IChatRoom, ISendChatMessage, setActiveChatRoomById } from '../chat/slices/chatSlice';
@@ -53,7 +53,6 @@ import { HiLinkModalForTutorIntro } from '../my-profile/components/HiLinkModalFo
 import LearnCubeModal from '../my-profile/components/LearnCubeModal';
 import { setMyProfileProgress } from '../../store/slices/myProfileSlice';
 import NotificationItem from '../notifications/components/NotificationItem';
-import { IBookingModalInfo } from '../tutor-bookings/TutorBookings';
 import { RecommendedTutorCard } from './components/RecommendedTutorCard';
 import { RecommendedTutorCardMobile } from './components/RecommendedTutorCardMobile';
 import { BookingRequestItem } from './upcoming-lessons/BookingRequestItem';
@@ -70,6 +69,7 @@ import TUTORIAL_REQUEST from '../tutorial/constants/tutorialRequest';
 import TUTORIAL_SCHEDULE from '../tutorial/constants/tutorialSchedule';
 import OptionType from '../../types/OptionType';
 import { Redirect } from 'react-router';
+import { IBookingModalInfo } from '../tutor-bookings/TutorBookings';
 
 export default function Dashboard() {
     const { subject, level, dayOfWeek, timeOfDay } = useAppSelector((state) => state.searchFilters);
@@ -716,8 +716,7 @@ export default function Dashboard() {
         },
     });
 
-
-     const [getSubjectLevels, { data: subjectLevels, isLoading: isLoadingSubjectLevels }] =
+    const [getSubjectLevels, { data: subjectLevels, isLoading: isLoadingSubjectLevels }] =
         useLazyGetSubjectLevelsQuery();
     const resetFilterDisabled =
         formik.values.level == '' &&
