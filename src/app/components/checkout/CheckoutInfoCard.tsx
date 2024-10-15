@@ -116,7 +116,7 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
     });
 
     function handleSubmit(values: any) {
-        console.log('submit');
+        console.log('Submitting...');
     }
 
     function calculateTotalCost(cost: number) {
@@ -220,7 +220,6 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
     }, [formik.values.level]);
 
     useEffect(() => {
-        console.log('CREDIT cards: ', creditCards);
         if (creditCards && creditCards.length > 0) {
             const seen = new Set<string>();
             const paymentOptions: OptionType[] = [];
@@ -240,7 +239,7 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
 
             paymentOptions.push({
                 value: NEW_PAYMENT_METHOD_VALUE,
-                label: 'Koristite novi nacin placanja',
+                label: t('CHECKOUT.USE_NEW_PAYMENT_METHOD_LABEL'),
                 icon: '',
             });
             setPaymentMethodOptions(paymentOptions);
@@ -278,7 +277,6 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
             const data = res.data as BookingReserveResponse;
             setLoading(false);
             setReserveResponse(data);
-            console.log('created new Payment intent');
         }
     }
 
@@ -290,10 +288,6 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
         )
             initiateCreateBooking();
     }, [formik.values.level, formik.values.subject, formik.values.child, formik2.values.paymentMethod]);
-
-    useEffect(() => {
-        console.log('PAYMENT METHOD: ', formik2.values.paymentMethod);
-    }, [formik2.values.paymentMethod]);
 
     async function makeBooking() {
         const values = formik.values;
@@ -335,15 +329,8 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
                 toastService.success('Uspjesno napravljena rezervacija');
                 history.push(PATHS.DASHBOARD);
             }
-            // setLoading(false);
-            // setReserveResponse(data);
-            // console.log('created new Payment intent');
         }
     }
-
-    useEffect(() => {
-        console.log('Payment method options: ', paymentMethodOptions);
-    }, [paymentMethodOptions]);
 
     const customSingleValue = (props: any) => {
         return (
@@ -562,7 +549,7 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
                                                 classNamePrefix="onboarding-select"
                                                 isMulti={false}
                                                 options={paymentMethodOptions ? paymentMethodOptions : []}
-                                                placeholder={'Odaberite nacin placanja'}
+                                                placeholder={t('CHECKOUT.HOW_TO_PAY')}
                                                 isDisabled={isCreateBookingLoading}
                                             />
                                         </div>
@@ -583,9 +570,12 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
                                         SingleValue: customSingleValue,
                                         // Option: customOptions,
                                     }}
-                                    name={'Platite sve koristeci kredite'}
-                                    value={{ label: 'Platite sve koristeci kredite', icon: 'dw' }}
-                                    placeholder={'Platite sve koristeci kredite'}
+                                    name={t('CHECKOUT.PAY_ALL_WITH_CREDITS_LABEL')}
+                                    value={{
+                                        label: t('CHECKOUT.PAY_ALL_WITH_CREDITS_LABEL'),
+                                        icon: 'i',
+                                    }}
+                                    placeholder={t('CHECKOUT.PAY_ALL_WITH_CREDITS_LABEL')}
                                     isDisabled={true}
                                 />
                             )}
@@ -607,18 +597,17 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
                                             makeBooking();
                                         }}
                                     >
-                                        <span>Confirm payment</span>
+                                        <span>{t('CHECKOUT.CONFIRM_PAYMENT')}</span>
                                         <GoDotFill />
                                         <CurrencySymbol />
                                         <span>{calculateTotalCost(cost)}</span>
                                     </button>
                                     <div className="flex flex--col flex--gap-10 mt-3">
-                                        <span className="type--color--secondary type--sm">
-                                            By clicking "Confirm payment" button, you agree to Teorem's Refund and
-                                            Payment Policy
+                                        <span className="type--color--secondary">
+                                            {t('CHECKOUT.PAYMENT_POLICY_PART_ONE')}
                                         </span>
-                                        <span className="type--color--secondary type--sm">
-                                            It's safe to pay on Teorem. All transactions are protected by SSL encryption
+                                        <span className="type--color--secondary">
+                                            {t('CHECKOUT.PAYMENT_POLICY_PART_TWO')}
                                         </span>
                                     </div>
                                 </div>
@@ -649,12 +638,8 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
                                             levelId: formik.values.level,
                                         }}
                                     />
-
-                                    {loading && <LoaderPrimary />}
                                 </>
                             )}
-
-                        {loading && <LoaderPrimary />}
                     </div>
                 )}
 
@@ -669,7 +654,9 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
                 paymentMethodOptions?.length === 0 &&
                 (userRole === RoleOptions.Parent ? formik.values.child : true) && (
                     <div className="flex flex--col w-100">
-                        <div className="type--wgt--extra-bold font__xlg text-align--center mb-3">Choose how to pay</div>
+                        <div className="type--wgt--extra-bold font__xlg text-align--center mb-3">
+                            {t('CHECKOUT.HOW_TO_PAY')}
+                        </div>
 
                         <Select
                             className={'form__type mb-4'}
@@ -677,9 +664,9 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
                             components={{
                                 SingleValue: customSingleValue,
                             }}
-                            name={'Novi nacin placanja'}
-                            value={'Novi nacin placanja'}
-                            placeholder={'Novi nacin placanja'}
+                            name={t('CHECKOUT.USE_NEW_PAYMENT_METHOD_LABEL')}
+                            value={t('CHECKOUT.USE_NEW_PAYMENT_METHOD_LABEL')}
+                            placeholder={t('CHECKOUT.USE_NEW_PAYMENT_METHOD_LABEL')}
                             isDisabled={true}
                         />
 
@@ -701,7 +688,7 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
                     </div>
                 )}
             {loading && (
-                <div className="flex flex--col w-100 flex--jc--center flex--grow">
+                <div className="flex flex--col w-550 flex--jc--center flex--grow">
                     <LoaderPrimary />
                 </div>
             )}

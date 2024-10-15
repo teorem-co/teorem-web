@@ -1,20 +1,15 @@
-import { useTranslation } from 'react-i18next';
 import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import React, { useState } from 'react';
 import { StripeError } from '@stripe/stripe-js';
 import { ScaleLoader } from 'react-spinners';
-import {
-    useAddPaymentIntentMutation,
-    useAddPaymentMethodMutation,
-    useLazyGetCustomerByIdQuery,
-} from '../../store/services/stripeService';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { useAppSelector } from '../../store/hooks';
 import { GoDotFill } from 'react-icons/go';
 import { CurrencySymbol } from '../CurrencySymbol';
 import { useHistory } from 'react-router';
 import toastService from '../../store/services/toastService';
 import { PATHS } from '../../routes';
 import { useConfirmCreateBookingMutation } from '../../store/services/bookingService';
+import { t } from 'i18next';
 
 export interface BookingInfo {
     tutorId: string;
@@ -35,7 +30,7 @@ interface Props {
 }
 
 const EnterCardAndPay = (props: Props) => {
-    const { onSuccess, bookingInfo, clientSecret } = props;
+    const { bookingInfo, clientSecret } = props;
     const history = useHistory();
     const stripe = useStripe();
     const elements = useElements();
@@ -45,14 +40,8 @@ const EnterCardAndPay = (props: Props) => {
     const checkFormCompletion = (event: any) => {
         setIsFormComplete(event.complete);
     };
-    const [confirmCreateBooking, { isSuccess: isCreateBookingSuccess }] = useConfirmCreateBookingMutation();
-    const [getStripeCustomerById, { data: stripeCustomer, isSuccess: stripeCustomerIsSuccess }] =
-        useLazyGetCustomerByIdQuery();
-    const [addPaymentIntent] = useAddPaymentIntentMutation();
+    const [confirmCreateBooking] = useConfirmCreateBookingMutation();
     const userInfo = useAppSelector((state) => state.auth.user);
-    const state = useAppSelector((state) => state.myProfileProgress);
-    const dispatch = useAppDispatch();
-    const [setPaymentMethod] = useAddPaymentMethodMutation();
 
     const handleError = (error: StripeError) => {
         setLoading(false);
@@ -101,7 +90,6 @@ const EnterCardAndPay = (props: Props) => {
                     confirmCreateBooking(data)
                         .unwrap()
                         .then((res) => {
-                            console.log(res);
                             toastService.success('Uspješno plaćovanje!!');
                             history.push(PATHS.DASHBOARD);
                             setLoading(false);
@@ -109,12 +97,6 @@ const EnterCardAndPay = (props: Props) => {
                 }
             });
     };
-
-    const { t } = useTranslation();
-
-    function handleCheckbox() {
-        console.log('dwao');
-    }
 
     // Handle checkbox change
     const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -130,26 +112,22 @@ const EnterCardAndPay = (props: Props) => {
 
             <label className={`flex flex--ai--center flex--gap-10 mt-4`}>
                 <input type="checkbox" checked={saveCard} onChange={handleCheckboxChange} />
-                Spremite karticu za ubuduca placanja
+                {t('CHECKOUT.SAVE_CARD')}
             </label>
             <button
                 className="mt-10 w--100 text-align--center font__lg flex--ai--center flex flex--grow flex--jc--center btn pt-3 pb-3 btn--primary type--wgt--bold"
                 onClick={() => sendToStripe()}
                 disabled={!isFormComplete || loading}
             >
-                <span>Confirm payment</span>
+                <span>{t('CHECKOUT.CONFIRM_PAYMENT')}</span>
                 <GoDotFill />
                 <CurrencySymbol />
                 <span>{bookingInfo.cost}</span>
             </button>
 
             <div className="flex flex--col flex--gap-10 mt-3 type--base">
-                <span className="type--color--secondary">
-                    By clicking "Confirm payment" button, you agree to Teorem's Refund and Payment Policy
-                </span>
-                <span className="type--color--secondary">
-                    It's safe to pay on Teorem. All transactions are protected by SSL encryption
-                </span>
+                <span className="type--color--secondary">{t('CHECKOUT.PAYMENT_POLICY_PART_ONE')}</span>
+                <span className="type--color--secondary">{t('CHECKOUT.PAYMENT_POLICY_PART_TWO')}</span>
             </div>
         </div>
     );

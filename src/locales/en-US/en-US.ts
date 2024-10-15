@@ -4185,7 +4185,6 @@ export const EN_US = {
         STRIPE_FAIL: '/en/stripe-failed',
         RESEND_ACTIVATION_TOKEN: '/en/reset-token',
         TUTOR_VIDEOS: '/en/tutor-previews',
-        // CHECKOUT_PAGE: '/en/checkout?tutorId=:tutorId&startTime=:startTime',
         CHECKOUT_PAGE: '/en/checkout',
     },
     SEO: {
@@ -4302,6 +4301,15 @@ export const EN_US = {
             DETAILS:
                 'Make changes to your reservation or cancel for free up to 24 hours before your lesson date and time.',
         },
+        HOW_TO_PAY: 'Choose how to pay',
+        SAVE_CARD: 'Save card for future payments',
+        CONFIRM_PAYMENT: 'Confirm payment',
+        PAYMENT_POLICY_PART_ONE:
+            'By clicking "Confirm payment" button, you agree to Teorem\'s Refund and Payment Policy',
+        PAYMENT_POLICY_PART_TWO: "It's safe to pay on Teorem. All transactions are protected by SSL encryption",
+        PAYMENT_METHOD_LABEL: 'Choose payment method',
+        USE_NEW_PAYMENT_METHOD_LABEL: 'Use new payment method',
+        PAY_ALL_WITH_CREDITS_LABEL: 'Payment with existing credits',
     },
     ID_VERIFICATION: {
         ID_SECTION: 'Proof of identity',

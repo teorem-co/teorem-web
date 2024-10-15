@@ -4188,8 +4188,7 @@ export const HR_HR: typeof EN_US = {
         STRIPE_FAIL: '/hr/racun-pogreska',
         RESEND_ACTIVATION_TOKEN: '/hr/ponovna-aktivacija',
         TUTOR_VIDEOS: '/hr/tutor-video',
-        // CHECKOUT_PAGE: '/hr/placanje?tutorId=:tutorId&startTime=:startTime',
-        CHECKOUT_PAGE: '/hr/placanje',
+        CHECKOUT_PAGE: '/hr/checkout',
     },
     SEO: {
         FALLBACK: {
@@ -4304,6 +4303,15 @@ export const HR_HR: typeof EN_US = {
             TITLE: 'Besplatna promjena termina ili otkazivanje',
             DETAILS: 'Promijenite svoju rezervaciju ili besplatno otkažite do 24 sata prije datuma i vremena lekcije',
         },
+        HOW_TO_PAY: 'Odaberite način plaćanja',
+        SAVE_CARD: 'Spremite karticu za buduća plaćanja',
+        CONFIRM_PAYMENT: 'Potvrdite plaćanje',
+        PAYMENT_POLICY_PART_ONE:
+            'Klikom na gumb "Potvrdi plaćanje", slažete se s Teoremovom politikom povrata novca i plaćanja',
+        PAYMENT_POLICY_PART_TWO: 'Sigurno je plaćati na Teoremu. Sve transakcije su zaštićene SSL enkripcijom',
+        PAYMENT_METHOD_LABEL: 'Odaberite način plaćanja',
+        USE_NEW_PAYMENT_METHOD_LABEL: 'Koristite novi način plaćanja',
+        PAY_ALL_WITH_CREDITS_LABEL: 'Plaćanje postojećim kreditima',
     },
 
     ID_VERIFICATION: {
