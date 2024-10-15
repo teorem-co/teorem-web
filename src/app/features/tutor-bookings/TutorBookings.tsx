@@ -36,7 +36,6 @@ import { CustomToolbar } from '../my-bookings/CustomToolbar';
 import { loadStripe, StripeElementsOptions } from '@stripe/stripe-js';
 import { BookingPopupForm } from '../../components/BookingPopupForm';
 import { TimeZoneSelect } from '../../components/TimeZoneSelect';
-import CheckoutPage from '../../components/checkout/checkout-page';
 
 export interface IBookingChatMessageInfo {
     tutorId: string;
@@ -764,17 +763,18 @@ const TutorBookings = () => {
                     />
                     {openSlot ? (
                         //creating new booking
-                        <CheckoutPage
-                            // setBookingMessageInfo={setBookingMessageInfo}
-                            // clearEmptyBookings={() => setEmptyBookings([])}
-                            start={`${selectedStart}`}
-                            end={`${selectedEnd}`}
-                            // positionClass={calcModalPosition(positionClass)}
-                            tutorId={tutorId}
-                            // tutorDisabled={tutorData.disabled}
-                            // setClientSecret={setClientSecret}
-                            // topOffset={scrollTopOffset}
-                        />
+                        // <CheckoutPage
+                        // setBookingMessageInfo={setBookingMessageInfo}
+                        // clearEmptyBookings={() => setEmptyBookings([])}
+                        // start={`${selectedStart}`}
+                        // end={`${selectedEnd}`}
+                        // positionClass={calcModalPosition(positionClass)}
+                        // tutorId={tutorId}
+                        // tutorDisabled={tutorData.disabled}
+                        // setClientSecret={setClientSecret}
+                        // topOffset={scrollTopOffset}
+                        // />
+                        <div>alow</div>
                     ) : // <ParentCalendarSlots
                     //     setBookingMessageInfo={setBookingMessageInfo}
                     //     setShowLessonInfoPopup={setShowBookingSuccessfulModal}

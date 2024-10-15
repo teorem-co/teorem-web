@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { StripeError } from '@stripe/stripe-js';
 import { ScaleLoader } from 'react-spinners';
 import {
@@ -11,7 +11,10 @@ import {
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { GoDotFill } from 'react-icons/go';
 import { CurrencySymbol } from '../CurrencySymbol';
-import CustomCheckbox from '../form/CustomCheckbox';
+import { useHistory } from 'react-router';
+import toastService from '../../store/services/toastService';
+import { PATHS } from '../../routes';
+import { useConfirmCreateBookingMutation } from '../../store/services/bookingService';
 
 export interface BookingInfo {
     tutorId: string;
@@ -27,19 +30,24 @@ export interface BookingInfo {
 interface Props {
     onSuccess?: () => void;
     bookingInfo: BookingInfo;
-    // clientSecret: string;
+    clientSecret: string;
     // jobId: string;
 }
 
 const EnterCardAndPay = (props: Props) => {
-    const { onSuccess, bookingInfo } = props;
-
+    const { onSuccess, bookingInfo, clientSecret } = props;
+    const history = useHistory();
     const stripe = useStripe();
     const elements = useElements();
-
+    const [saveCard, setSaveCard] = useState<boolean>(false);
+    const [loading, setLoading] = useState(false);
+    const [isFormComplete, setIsFormComplete] = useState(false);
+    const checkFormCompletion = (event: any) => {
+        setIsFormComplete(event.complete);
+    };
+    const [confirmCreateBooking, { isSuccess: isCreateBookingSuccess }] = useConfirmCreateBookingMutation();
     const [getStripeCustomerById, { data: stripeCustomer, isSuccess: stripeCustomerIsSuccess }] =
         useLazyGetCustomerByIdQuery();
-    const [loading, setLoading] = useState(false);
     const [addPaymentIntent] = useAddPaymentIntentMutation();
     const userInfo = useAppSelector((state) => state.auth.user);
     const state = useAppSelector((state) => state.myProfileProgress);
@@ -67,24 +75,18 @@ const EnterCardAndPay = (props: Props) => {
             return;
         }
 
-        elements.update({
-            mode: 'payment',
-        });
-
-        const clientSecret = 'secret';
-
         await stripe
             .confirmPayment({
                 elements,
                 clientSecret,
                 confirmParams: {
                     return_url: window.location.href,
-                    save_payment_method: true,
+                    save_payment_method: saveCard,
                 },
                 redirect: 'if_required',
             })
             .then((result) => {
-                console.log('PaymentIntentResult: ', result);
+                // console.log('PaymentIntentResult: ', result);
                 if (result.error) {
                     handleError(result.error);
                 } else if (result.paymentIntent.status === 'succeeded') {
@@ -95,40 +97,45 @@ const EnterCardAndPay = (props: Props) => {
                         paymentIntentId: result.paymentIntent.id,
                         confirmationJobId: bookingInfo.jobId,
                     };
-                    //TODO: send /confirm request
-                    const progress = { ...state, payment: true };
-                    // dispatch(setMyProfileProgress(progress));
 
-                    // setPaymentMethod(result.paymentIntent.payment_method as string);
+                    confirmCreateBooking(data)
+                        .unwrap()
+                        .then((res) => {
+                            console.log(res);
+                            toastService.success('Uspješno plaćovanje!!');
+                            history.push(PATHS.DASHBOARD);
+                            setLoading(false);
+                        });
                 }
             });
-
-        setLoading(false);
     };
 
     const { t } = useTranslation();
 
+    function handleCheckbox() {
+        console.log('dwao');
+    }
+
+    // Handle checkbox change
+    const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSaveCard(event.target.checked); // Update state based on checkbox status
+    };
+
     return (
-        <div className="bg__green w--550 font-lato">
-            <div className="flex flex--row">
-                <div className="type--wgt--extra-bold font__xlg text-align--center">Choose how to pay</div>
-            </div>
-            <div className="mt-10">
-                <form>
-                    <PaymentElement />
-                </form>
-            </div>
+        <div className="w--550 font-lato">
+            <form>
+                <PaymentElement onChange={checkFormCompletion} />
+            </form>
             <ScaleLoader color={'#7e6cf2'} loading={loading} style={{ margin: '0 auto' }} />
 
-            <CustomCheckbox
-                label={'Save this card for future payments'}
-                id={'id'}
-                customChecks={[]}
-                handleCustomCheck={() => console.log('alo alo')}
-            />
+            <label className={`flex flex--ai--center flex--gap-10 mt-4`}>
+                <input type="checkbox" checked={saveCard} onChange={handleCheckboxChange} />
+                Spremite karticu za ubuduca placanja
+            </label>
             <button
                 className="mt-10 w--100 text-align--center font__lg flex--ai--center flex flex--grow flex--jc--center btn pt-3 pb-3 btn--primary type--wgt--bold"
                 onClick={() => sendToStripe()}
+                disabled={!isFormComplete || loading}
             >
                 <span>Confirm payment</span>
                 <GoDotFill />
@@ -136,11 +143,11 @@ const EnterCardAndPay = (props: Props) => {
                 <span>{bookingInfo.cost}</span>
             </button>
 
-            <div className="flex flex--col flex--gap-10 mt-3">
-                <span className="type--color--secondary type--sm">
+            <div className="flex flex--col flex--gap-10 mt-3 type--base">
+                <span className="type--color--secondary">
                     By clicking "Confirm payment" button, you agree to Teorem's Refund and Payment Policy
                 </span>
-                <span className="type--color--secondary type--sm">
+                <span className="type--color--secondary">
                     It's safe to pay on Teorem. All transactions are protected by SSL encryption
                 </span>
             </div>

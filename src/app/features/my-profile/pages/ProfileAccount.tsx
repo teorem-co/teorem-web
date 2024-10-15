@@ -21,7 +21,6 @@ import TooltipPassword from '../../../components/TooltipPassword';
 import ProfileCompletion from '../components/ProfileCompletion';
 import ProfileHeader from '../components/ProfileHeader';
 import IChangePassword from '../interfaces/IChangePassword';
-import ICreditCard from '../interfaces/ICreditCard';
 import {
     useAddCustomerMutation,
     useLazyGetCreditCardsQuery,
@@ -35,6 +34,7 @@ import { loadStripe, StripeElementsOptions } from '@stripe/stripe-js';
 import { InputAdornment, TextField } from '@mui/material';
 import LanguageSelector from '../../../components/LanguageSelector';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
+import IPaymentMethod from '../interfaces/IPaymentMethod';
 
 interface Values {
     currentPassword: string;
@@ -595,7 +595,7 @@ const ProfileAccount = () => {
                                             ) : (
                                                 creditCards &&
                                                 Array.isArray(creditCards) &&
-                                                creditCards.map((item: ICreditCard) => {
+                                                creditCards.map((item: IPaymentMethod) => {
                                                     return (
                                                         <div
                                                             className="dash-wrapper__item"

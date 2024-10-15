@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Divider from '../Divider';
 import { t } from 'i18next';
 import { RiVerifiedBadgeFill } from 'react-icons/ri';
-import { FaCalendarAlt } from 'react-icons/fa';
+import { FaCalendarAlt, FaCoins } from 'react-icons/fa';
 import { Form, FormikProvider, useFormik } from 'formik';
 import MySelect from '../form/MySelectField';
 import { RoleOptions } from '../../store/slices/roleSlice';
@@ -23,11 +23,17 @@ import {
     ICreateBookingDTO,
     useCreatebookingMutation,
 } from '../../store/services/bookingService';
-import LoaderPrimary from '../skeleton-loaders/LoaderPrimary';
 import { useLazyGetTutorByIdQuery } from '../../store/services/tutorService';
 import ITutor from '../../types/ITutor';
 import { uniq } from 'lodash';
 import ImageCircle from '../ImageCircle';
+import { useLazyGetCreditCardsQuery } from '../../store/services/stripeService';
+import { GoDotFill } from 'react-icons/go';
+import LoaderPrimary from '../skeleton-loaders/LoaderPrimary';
+import toastService from '../../store/services/toastService';
+import { useHistory } from 'react-router';
+import { PATHS } from '../../routes';
+import Select, { components } from 'react-select';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY!);
 
@@ -37,12 +43,19 @@ interface Props {
     tutorId: string;
 }
 
+const NEW_PAYMENT_METHOD_VALUE = 'NEW_PAYMENT_METHOD';
+
 export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
     const dispatch = useDispatch();
+    const history = useHistory();
     const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
     const userId = useAppSelector((state) => state.auth.user?.id);
     const timeZoneState = useAppSelector((state) => state.timeZone);
 
+    const [
+        getCreditCards,
+        { data: creditCards, isLoading: creditCardLoading, isUninitialized: creditCardUninitialized },
+    ] = useLazyGetCreditCardsQuery();
     const [getUser2, { data: user }] = useLazyGetUserQuery();
     const [getTutorProfileData, { data: tutorD }] = useLazyGetTutorByIdQuery();
     const [getCredits] = useLazyGetCreditsQuery();
@@ -52,6 +65,7 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
     const [createBooking, { isSuccess: createBookingSuccess }] = useCreatebookingMutation();
 
     const [tutorLevelOptions, setTutorLevelOptions] = useState<OptionType[]>();
+    const [paymentMethodOptions, setPaymentMethodOptions] = useState<OptionType[]>([]);
     const [tutorSubjectOptions, setTutorSubjectOptions] = useState<OptionType[]>();
     const [isCreateBookingLoading, setIsCreateBookingLoading] = useState<boolean>(false); // isLoading from Mutation is too slow;
     const [userCredits, setUserCredits] = useState<number>(0);
@@ -64,6 +78,10 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
         child: '',
         timeFrom: moment(startTime).format('HH:mm'),
         useCredits: true,
+    };
+
+    const initialValues2 = {
+        paymentMethod: '',
     };
 
     const generateValidationSchema = () => {
@@ -87,6 +105,14 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
         validateOnChange: false,
         enableReinitialize: true,
         validationSchema: Yup.object().shape(generateValidationSchema()),
+    });
+
+    const formik2 = useFormik({
+        initialValues: initialValues2,
+        onSubmit: (values) => handleSubmit(values),
+        validateOnBlur: true,
+        validateOnChange: false,
+        enableReinitialize: true,
     });
 
     function handleSubmit(values: any) {
@@ -139,6 +165,7 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
 
     useEffect(() => {
         getTutorData();
+        if (userId) getCreditCards(userId);
     }, [tutorId]);
 
     useEffect(() => {
@@ -192,9 +219,38 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
         }
     }, [formik.values.level]);
 
+    useEffect(() => {
+        console.log('CREDIT cards: ', creditCards);
+        if (creditCards && creditCards.length > 0) {
+            const seen = new Set<string>();
+            const paymentOptions: OptionType[] = [];
+
+            creditCards.forEach((paymentMethod) => {
+                if (!seen.has(paymentMethod.id)) {
+                    seen.add(paymentMethod.id);
+                    const option: OptionType = {
+                        value: paymentMethod.id,
+                        label: '**** **** **** ' + paymentMethod.card.last4,
+                        icon: '/images/payment-icons/' + paymentMethod.card.brand + '.svg',
+                    };
+
+                    paymentOptions.push(option);
+                }
+            });
+
+            paymentOptions.push({
+                value: NEW_PAYMENT_METHOD_VALUE,
+                label: 'Koristite novi nacin placanja',
+                icon: '',
+            });
+            setPaymentMethodOptions(paymentOptions);
+        }
+    }, [creditCards]);
+
     async function initiateCreateBooking() {
         const values = formik.values;
         if (userRole === RoleOptions.Parent && !formik.values.child) return;
+        if (cost && calculateTotalCost(cost) === 0) return;
         if (values.subject && values.level) {
             const request: ICreateBookingDTO =
                 userRole === RoleOptions.Parent
@@ -221,14 +277,84 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
             const res: any = await createBooking(request);
             const data = res.data as BookingReserveResponse;
             setLoading(false);
-            console.log('setting client secret: ', data.clientSecret);
             setReserveResponse(data);
+            console.log('created new Payment intent');
         }
     }
 
     useEffect(() => {
-        initiateCreateBooking();
-    }, [formik.values.level, formik.values.subject, formik.values.child]);
+        if (
+            !paymentMethodOptions ||
+            paymentMethodOptions.length === 0 ||
+            formik2.values.paymentMethod === NEW_PAYMENT_METHOD_VALUE
+        )
+            initiateCreateBooking();
+    }, [formik.values.level, formik.values.subject, formik.values.child, formik2.values.paymentMethod]);
+
+    useEffect(() => {
+        console.log('PAYMENT METHOD: ', formik2.values.paymentMethod);
+    }, [formik2.values.paymentMethod]);
+
+    async function makeBooking() {
+        const values = formik.values;
+        if (userRole === RoleOptions.Parent && !formik.values.child) return;
+        if (values.subject && values.level) {
+            const request: ICreateBookingDTO =
+                userRole === RoleOptions.Parent
+                    ? {
+                          requesterId: userId,
+                          startTime: moment(startTime).toISOString(),
+                          subjectId: values.subject,
+                          studentId: values.child,
+                          tutorId: tutorId,
+                          levelId: values.level,
+                          useCredits: true,
+                      }
+                    : {
+                          requesterId: userId,
+                          studentId: userId,
+                          startTime: moment(startTime).toISOString(),
+                          subjectId: values.subject,
+                          tutorId: tutorId,
+                          levelId: values.level,
+                          useCredits: true,
+                      };
+
+            setLoading(true);
+            let res: any;
+            if (formik2.values.paymentMethod && formik2.values.paymentMethod !== NEW_PAYMENT_METHOD_VALUE) {
+                res = await createBooking({
+                    ...request,
+                    paymentMethodId: formik2.values.paymentMethod,
+                });
+            } else {
+                res = await createBooking(request);
+            }
+            const data = res.data as BookingReserveResponse;
+            if (data.success) {
+                toastService.success('Uspjesno napravljena rezervacija');
+                history.push(PATHS.DASHBOARD);
+            }
+            // setLoading(false);
+            // setReserveResponse(data);
+            // console.log('created new Payment intent');
+        }
+    }
+
+    useEffect(() => {
+        console.log('Payment method options: ', paymentMethodOptions);
+    }, [paymentMethodOptions]);
+
+    const customSingleValue = (props: any) => {
+        return (
+            <components.SingleValue {...props} className="input-select">
+                <div className="input-select__option flex flex--gap-10 flex--ai--center">
+                    <FaCoins />
+                    <span>{props.data.label}</span>
+                </div>
+            </components.SingleValue>
+        );
+    };
 
     return tutorData ? (
         <div className="flex flex--gap-10">
@@ -407,28 +533,178 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
                     <p>{t('CHECKOUT.RESCHEDULE_TIP.DETAILS')}</p>
                 </div>
             </div>
+
+            {userId &&
+                cost &&
+                formik.values.subject &&
+                formik.values.level &&
+                ((paymentMethodOptions && paymentMethodOptions?.length !== 0) || calculateTotalCost(cost) === 0) &&
+                (userRole === RoleOptions.Parent ? formik.values.child : true) && (
+                    <div className="w--550 font-lato">
+                        <div className="flex flex--row">
+                            <div className="type--wgt--extra-bold font__xlg text-align--center mb-3">
+                                Choose how to pay
+                            </div>
+                        </div>
+                        {userId &&
+                            cost &&
+                            calculateTotalCost(cost) !== 0 &&
+                            formik.values.subject &&
+                            formik.values.level &&
+                            (userRole === RoleOptions.Parent ? formik.values.child : true) && (
+                                <FormikProvider value={formik2}>
+                                    <Form>
+                                        <div className="field">
+                                            <MySelect
+                                                field={formik2.getFieldProps('paymentMethod')}
+                                                form={formik2}
+                                                meta={formik2.getFieldMeta('paymentMethod')}
+                                                classNamePrefix="onboarding-select"
+                                                isMulti={false}
+                                                options={paymentMethodOptions ? paymentMethodOptions : []}
+                                                placeholder={'Odaberite nacin placanja'}
+                                                isDisabled={isCreateBookingLoading}
+                                            />
+                                        </div>
+                                    </Form>
+                                </FormikProvider>
+                            )}
+
+                        {userId &&
+                            cost &&
+                            calculateTotalCost(cost) === 0 &&
+                            formik.values.subject &&
+                            formik.values.level &&
+                            (userRole === RoleOptions.Parent ? formik.values.child : true) && (
+                                <Select
+                                    className={'form__type mb-4'}
+                                    classNamePrefix="onboarding-select"
+                                    components={{
+                                        SingleValue: customSingleValue,
+                                        // Option: customOptions,
+                                    }}
+                                    name={'Platite sve koristeci kredite'}
+                                    value={{ label: 'Platite sve koristeci kredite', icon: 'dw' }}
+                                    placeholder={'Platite sve koristeci kredite'}
+                                    isDisabled={true}
+                                />
+                            )}
+
+                        {(userRole === RoleOptions.Parent ? formik.values.child : true) &&
+                            (formik2.values.paymentMethod !== NEW_PAYMENT_METHOD_VALUE ||
+                                calculateTotalCost(cost) === 0) && (
+                                <div className="flex flex--col">
+                                    <button
+                                        disabled={
+                                            !(
+                                                (!!formik2.values.paymentMethod &&
+                                                    formik2.values.paymentMethod !== NEW_PAYMENT_METHOD_VALUE) ||
+                                                calculateTotalCost(cost) === 0
+                                            )
+                                        }
+                                        className="mt-10 w--100 text-align--center font__lg flex--ai--center flex flex--grow flex--jc--center btn pt-3 pb-3 btn--primary type--wgt--bold"
+                                        onClick={() => {
+                                            makeBooking();
+                                        }}
+                                    >
+                                        <span>Confirm payment</span>
+                                        <GoDotFill />
+                                        <CurrencySymbol />
+                                        <span>{calculateTotalCost(cost)}</span>
+                                    </button>
+                                    <div className="flex flex--col flex--gap-10 mt-3">
+                                        <span className="type--color--secondary type--sm">
+                                            By clicking "Confirm payment" button, you agree to Teorem's Refund and
+                                            Payment Policy
+                                        </span>
+                                        <span className="type--color--secondary type--sm">
+                                            It's safe to pay on Teorem. All transactions are protected by SSL encryption
+                                        </span>
+                                    </div>
+                                </div>
+                            )}
+
+                        {reserveResponse &&
+                            reserveResponse.clientSecret &&
+                            userId &&
+                            cost &&
+                            formik.values.subject &&
+                            formik.values.level &&
+                            paymentMethodOptions?.length !== 0 &&
+                            formik2.values.paymentMethod === NEW_PAYMENT_METHOD_VALUE &&
+                            (userRole === RoleOptions.Parent ? formik.values.child : true) && (
+                                <>
+                                    <StripePayment
+                                        creditCards={creditCards ? creditCards : []}
+                                        clientSecret={reserveResponse.clientSecret}
+                                        stripePromise={stripePromise}
+                                        bookingInfo={{
+                                            jobId: reserveResponse.confirmationJobId,
+                                            tutorId: tutorId,
+                                            requesterId: userId,
+                                            studentId: userRole === RoleOptions.Student ? userId : formik.values.child,
+                                            startTime: startTime,
+                                            cost: calculateTotalCost(cost),
+                                            subjectId: formik.values.subject,
+                                            levelId: formik.values.level,
+                                        }}
+                                    />
+
+                                    {loading && <LoaderPrimary />}
+                                </>
+                            )}
+
+                        {loading && <LoaderPrimary />}
+                    </div>
+                )}
+
             {reserveResponse &&
+                reserveResponse.clientSecret &&
                 userId &&
                 cost &&
                 formik.values.subject &&
                 formik.values.level &&
+                paymentMethodOptions &&
+                !loading &&
+                paymentMethodOptions?.length === 0 &&
                 (userRole === RoleOptions.Parent ? formik.values.child : true) && (
-                    <StripePayment
-                        clientSecret={reserveResponse.clientSecret}
-                        stripePromise={stripePromise}
-                        bookingInfo={{
-                            jobId: reserveResponse.confirmationJobId,
-                            tutorId: tutorId,
-                            requesterId: userId,
-                            studentId: userRole === RoleOptions.Student ? userId : formik.values.child,
-                            startTime: startTime,
-                            cost: calculateTotalCost(cost),
-                            subjectId: formik.values.subject,
-                            levelId: formik.values.level,
-                        }}
-                    />
+                    <div className="flex flex--col w-100">
+                        <div className="type--wgt--extra-bold font__xlg text-align--center mb-3">Choose how to pay</div>
+
+                        <Select
+                            className={'form__type mb-4'}
+                            classNamePrefix="onboarding-select"
+                            components={{
+                                SingleValue: customSingleValue,
+                            }}
+                            name={'Novi nacin placanja'}
+                            value={'Novi nacin placanja'}
+                            placeholder={'Novi nacin placanja'}
+                            isDisabled={true}
+                        />
+
+                        <StripePayment
+                            creditCards={creditCards ? creditCards : []}
+                            clientSecret={reserveResponse.clientSecret}
+                            stripePromise={stripePromise}
+                            bookingInfo={{
+                                jobId: reserveResponse.confirmationJobId,
+                                tutorId: tutorId,
+                                requesterId: userId,
+                                studentId: userRole === RoleOptions.Student ? userId : formik.values.child,
+                                startTime: startTime,
+                                cost: calculateTotalCost(cost),
+                                subjectId: formik.values.subject,
+                                levelId: formik.values.level,
+                            }}
+                        />
+                    </div>
                 )}
-            {loading && <LoaderPrimary />}
+            {loading && (
+                <div className="flex flex--col w-100 flex--jc--center flex--grow">
+                    <LoaderPrimary />
+                </div>
+            )}
         </div>
     ) : (
         <div>Loading...</div>

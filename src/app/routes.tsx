@@ -37,6 +37,7 @@ import TutorOnboardingProvider from './features/onboarding/tutor/providers/Tutor
 import useSyncLanguage from './utils/useSyncLanguage';
 import { useAppSelector } from './store/hooks';
 import CheckoutInfoCardWrapper from './components/checkout/ChecoutInfoCardWrapper';
+import CompletedLessons from './features/completedLessons/CompletedLessons';
 
 export const PATHS = {
     FORGOT_PASSWORD: t('PATHS.FORGOT_PASSWORD'),
@@ -252,14 +253,7 @@ const ROUTES: IRoute[] = [
         exact: true,
         component: () => (
             <PermissionsGate roles={[Role.Parent, Role.Student, Role.SuperAdmin, Role.Child]}>
-                {/*<CompletedLessons />*/}
-                {/*<div className="flex flex--jc--center flex--ai--center flex--grow p-4">*/}
-                {/*    <CheckoutInfoCard*/}
-                {/*        className="w--400"*/}
-                {/*        startTime={'2024-10-12T08:00:00+02:00'}*/}
-                {/*        tutorId={'36a9c2e9-d298-4476-9dd5-b207105e9120'}*/}
-                {/*    />*/}
-                {/*</div>*/}
+                <CompletedLessons />
             </PermissionsGate>
         ),
     },

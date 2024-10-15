@@ -2,11 +2,13 @@ import { Elements } from '@stripe/react-stripe-js';
 import React from 'react';
 import { Stripe, StripeElementsOptions } from '@stripe/stripe-js';
 import EnterCardAndPay, { BookingInfo } from './EnterCardAndPay';
+import IPaymentMethod from '../../features/my-profile/interfaces/IPaymentMethod';
 
 interface Props {
     stripePromise: Promise<Stripe | null>;
     bookingInfo: BookingInfo;
     clientSecret: string;
+    creditCards: IPaymentMethod[];
 }
 
 export const StripePayment = ({ stripePromise, bookingInfo, clientSecret }: Props) => {
@@ -45,8 +47,10 @@ export const StripePayment = ({ stripePromise, bookingInfo, clientSecret }: Prop
     };
 
     return (
-        <Elements stripe={stripePromise} options={options}>
-            <EnterCardAndPay bookingInfo={bookingInfo} />
-        </Elements>
+        <>
+            <Elements stripe={stripePromise} options={options}>
+                <EnterCardAndPay bookingInfo={bookingInfo} clientSecret={clientSecret} />
+            </Elements>
+        </>
     );
 };

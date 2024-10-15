@@ -16,8 +16,8 @@ import toastService from '../../../store/services/toastService';
 import { useLazyGetCustomerByIdQuery } from '../../../store/services/stripeService';
 import {
     ICreateBookingDTO,
+    useConfirmCreateBookingMutation,
     useCreatebookingMutation,
-    useCreateBookingMutation,
 } from '../../../store/services/bookingService';
 import { loadStripe } from '@stripe/stripe-js';
 import { addStripeId } from '../../../store/slices/authSlice';
@@ -76,7 +76,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     const [getChildOptions, { data: childOptions }] = useLazyGetChildQuery();
     const [getUser] = useLazyGetCustomerByIdQuery();
     const [createBooking, { isSuccess: createBookingSuccess }] = useCreatebookingMutation();
-    const [createBookingMutation, { isSuccess: isCreateBookingSuccess }] = useCreateBookingMutation();
+    const [createBookingMutation, { isSuccess: isCreateBookingSuccess }] = useConfirmCreateBookingMutation();
     const [isCreateBookingLoading, setIsCreateBookingLoading] = useState<boolean>(false); // isLoading from Mutation is too slow;
 
     const [selectedTime, setSelectedTime] = useState<string>('');

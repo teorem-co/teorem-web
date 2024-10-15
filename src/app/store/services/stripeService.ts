@@ -2,7 +2,7 @@ import { HttpMethods } from '../../types/httpMethods';
 import { baseService } from '../baseService';
 import IAddCustomerPost from '../../features/my-profile/interfaces/IAddCustomerPost';
 import IDeleteCreditCard from '../../features/my-profile/interfaces/IDeleteCreditCard';
-import IGetCreditCards from '../../features/my-profile/interfaces/IGetCreditCards';
+import IPaymentMethod from '../../features/my-profile/interfaces/IPaymentMethod';
 import ISetDefaultCreditCard from '../../features/my-profile/interfaces/ISetDefaultCreditCard';
 import IStripeConnectAccount from '../../features/my-profile/interfaces/IStripeConnectAccount';
 
@@ -73,7 +73,7 @@ export const stripeService = baseService.injectEndpoints({
                 method: HttpMethods.POST,
             }),
         }),
-        getCreditCards: builder.query<IGetCreditCards, string>({
+        getCreditCards: builder.query<IPaymentMethod[], string>({
             query: (userId) => ({
                 url: `${URL}/customer-sources/${userId}`,
                 method: HttpMethods.GET,
