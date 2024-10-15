@@ -35,6 +35,10 @@ import { InputAdornment, TextField } from '@mui/material';
 import LanguageSelector from '../../../components/LanguageSelector';
 import { ButtonPrimaryGradient } from '../../../components/ButtonPrimaryGradient';
 import IPaymentMethod from '../interfaces/IPaymentMethod';
+import { Elements } from '@stripe/react-stripe-js';
+import AddCreditCard from '../components/AddCreditCard';
+import { useLazyGetCountryByIdQuery } from '../../../store/services/countryService';
+import ICountry from '../../../types/ICountry';
 
 interface Values {
     currentPassword: string;
@@ -61,6 +65,8 @@ const ProfileAccount = () => {
 
     const [deleteCreditCard] = useRemoveCreditCardMutation();
 
+    const [getCountryById] = useLazyGetCountryByIdQuery();
+
     const [addSidebarOpen, setAddSidebarOpen] = useState(false);
     const [saveBtnActive, setSaveBtnActive] = useState(false);
     const [passTooltip, setPassTooltip] = useState<boolean>(false);
@@ -76,6 +82,20 @@ const ProfileAccount = () => {
     const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
     const stripeCustomerId = useAppSelector((state) => state.auth.user?.stripeCustomerId);
     const userInfo = useAppSelector((state) => state.auth.user);
+    const currencyCode = 'eur';
+
+    const [userCountry, setUserCountry] = useState<ICountry>();
+
+    async function setUsersCountry() {
+        if (userInfo && userInfo.countryId) {
+            const res = await getCountryById(userInfo.countryId).unwrap();
+            setUserCountry(res);
+        }
+    }
+
+    useEffect(() => {
+        setUsersCountry();
+    }, [userInfo]);
     const dispatch = useAppDispatch();
     const initialValues: Values = {
         currentPassword: '',
@@ -288,7 +308,7 @@ const ProfileAccount = () => {
 
     const options: StripeElementsOptions = {
         mode: 'setup',
-        currency: 'eur',
+        currency: userCountry ? userCountry?.currencyCode.toLowerCase() : 'eur',
         appearance: {
             theme: 'stripe',
             variables: {
@@ -721,13 +741,13 @@ const ProfileAccount = () => {
                     closeSidebar={() => setStripeModalOpen(false)}
                 />
             </div>
-            {/*<Elements stripe={stripePromise} options={options}>*/}
-            {/*    <AddCreditCard*/}
-            {/*        closeSidebar={closeAddCardSidebar}*/}
-            {/*        sideBarIsOpen={addSidebarOpen}*/}
-            {/*        onSuccess={fetchData}*/}
-            {/*    />*/}
-            {/*</Elements>*/}
+            <Elements stripe={stripePromise} options={options}>
+                <AddCreditCard
+                    closeSidebar={closeAddCardSidebar}
+                    sideBarIsOpen={addSidebarOpen}
+                    onSuccess={fetchData}
+                />
+            </Elements>
         </MainWrapper>
     );
 };

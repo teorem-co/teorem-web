@@ -1,7 +1,10 @@
 import { useTranslation } from 'react-i18next';
 import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { useState } from 'react';
-import { useAddPaymentIntentMutation, useLazyGetCustomerByIdQuery } from '../../../store/services/stripeService';
+import {
+    useCreateSetupPaymentIntentMutation,
+    useLazyGetCustomerByIdQuery,
+} from '../../../store/services/stripeService';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { StripeError } from '@stripe/stripe-js';
 import { setMyProfileProgress } from '../../../store/slices/myProfileSlice';
@@ -12,11 +15,10 @@ interface Props {
     sideBarIsOpen: boolean;
     closeSidebar: () => void;
     onSuccess?: () => void;
-    clientSecret: string;
 }
 
 const AddCreditCard = (props: Props) => {
-    const { sideBarIsOpen, closeSidebar, onSuccess, clientSecret } = props;
+    const { sideBarIsOpen, closeSidebar, onSuccess } = props;
 
     const stripe = useStripe();
     const elements = useElements();
@@ -24,7 +26,7 @@ const AddCreditCard = (props: Props) => {
     const [getStripeCustomerById, { data: stripeCustomer, isSuccess: stripeCustomerIsSuccess }] =
         useLazyGetCustomerByIdQuery();
     const [loading, setLoading] = useState(false);
-    const [addPaymentIntent] = useAddPaymentIntentMutation();
+    const [createSetupPaymentIntent] = useCreateSetupPaymentIntentMutation();
     const userInfo = useAppSelector((state) => state.auth.user);
     const state = useAppSelector((state) => state.myProfileProgress);
     const dispatch = useAppDispatch();
@@ -54,10 +56,10 @@ const AddCreditCard = (props: Props) => {
             return;
         }
 
-        //const clientSecret = await addPaymentIntent(userInfo.id).unwrap();
+        const clientSecret = await createSetupPaymentIntent(userInfo.id).unwrap();
 
         await stripe
-            .confirmPayment({
+            .confirmSetup({
                 elements,
                 clientSecret,
                 confirmParams: {
@@ -66,7 +68,6 @@ const AddCreditCard = (props: Props) => {
                 redirect: 'if_required',
             })
             .then((result) => {
-                console.log('PaymentIntentResult: ', result);
                 if (result.error) {
                     handleError(result.error);
                 } else {

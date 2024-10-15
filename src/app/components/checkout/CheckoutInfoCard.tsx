@@ -140,13 +140,17 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
         }
     }
 
-    useEffect(() => {
-        const res = getCredits().unwrap();
+    async function getAndSetUserCredits() {
+        const res = await getCredits().unwrap();
 
-        res.then((res) => {
-            dispatch(setCredits(res.credits));
-            setUserCredits(res.credits);
-        });
+        // res.then((res) => {
+        dispatch(setCredits(res.credits));
+        setUserCredits(res.credits);
+        // });
+    }
+
+    useEffect(() => {
+        getAndSetUserCredits();
     }, []);
 
     useEffect(() => {
@@ -275,6 +279,7 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
             setLoading(true);
             const res: any = await createBooking(request);
             const data = res.data as BookingReserveResponse;
+            // getAndSetUserCredits();
             setLoading(false);
             setReserveResponse(data);
         }
@@ -530,7 +535,7 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
                     <div className="w--550 font-lato">
                         <div className="flex flex--row">
                             <div className="type--wgt--extra-bold font__xlg text-align--center mb-3">
-                                Choose how to pay
+                                {t('CHECKOUT.HOW_TO_PAY')}
                             </div>
                         </div>
                         {userId &&

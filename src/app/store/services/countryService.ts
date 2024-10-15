@@ -20,7 +20,21 @@ export const countryService = baseService.injectEndpoints({
                 return transformedCountries;
             },
         }),
+
+        getCountryById: builder.query<ICountry, string>({
+            query: (countryId) => ({
+                url: `${URL}/${countryId}`,
+                method: HttpMethods.GET,
+            }),
+            transformResponse: (response: ICountry) => {
+                const transformedCountry: ICountry = {
+                    ...response,
+                    name: t('COUNTRY.' + response.abrv.toUpperCase()),
+                };
+                return transformedCountry;
+            },
+        }),
     }),
 });
 
-export const { useLazyGetCountriesQuery } = countryService;
+export const { useLazyGetCountriesQuery, useLazyGetCountryByIdQuery } = countryService;
