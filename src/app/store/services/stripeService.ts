@@ -108,6 +108,15 @@ export const stripeService = baseService.injectEndpoints({
                 };
             },
         }),
+
+        deleteAllOngoingPayments: builder.mutation<void, void>({
+            query: () => {
+                return {
+                    url: `${URL}/delete-all-ongoing-payments`,
+                    method: HttpMethods.DELETE,
+                };
+            },
+        }),
     }),
 });
 
@@ -121,4 +130,5 @@ export const {
     useRemoveCreditCardMutation,
     useLazyGetCustomerByIdQuery,
     useUploadVerificationDocumentMutation,
+    useDeleteAllOngoingPaymentsMutation,
 } = stripeService;

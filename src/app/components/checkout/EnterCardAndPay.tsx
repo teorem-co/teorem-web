@@ -6,10 +6,10 @@ import { useAppSelector } from '../../store/hooks';
 import { GoDotFill } from 'react-icons/go';
 import { CurrencySymbol } from '../CurrencySymbol';
 import { useHistory } from 'react-router';
-import toastService from '../../store/services/toastService';
 import { PATHS } from '../../routes';
 import { useConfirmCreateBookingMutation } from '../../store/services/bookingService';
 import { t } from 'i18next';
+import toastService from '../../store/services/toastService';
 
 export interface BookingInfo {
     tutorId: string;
@@ -26,6 +26,7 @@ interface Props {
     onSuccess?: () => void;
     bookingInfo: BookingInfo;
     clientSecret: string;
+    setShowPopup: (arg0: boolean) => void;
     // jobId: string;
 }
 
@@ -42,9 +43,12 @@ const EnterCardAndPay = (props: Props) => {
     };
     const [confirmCreateBooking] = useConfirmCreateBookingMutation();
     const userInfo = useAppSelector((state) => state.auth.user);
+    // const [showPopup, setShowPopup] = useState(false);
 
     const handleError = (error: StripeError) => {
         setLoading(false);
+        toastService.error(error.message || t('CHECKOUT.ERROR'));
+        history.push(PATHS.DASHBOARD);
     };
 
     const sendToStripe = async () => {
@@ -64,38 +68,47 @@ const EnterCardAndPay = (props: Props) => {
             return;
         }
 
-        await stripe
-            .confirmPayment({
-                elements,
-                clientSecret,
-                confirmParams: {
-                    return_url: window.location.href,
-                    save_payment_method: saveCard,
-                },
-                redirect: 'if_required',
-            })
-            .then((result) => {
-                // console.log('PaymentIntentResult: ', result);
-                if (result.error) {
-                    handleError(result.error);
-                } else if (result.paymentIntent.status === 'succeeded') {
-                    //TODO: send request to create booking -> thing that job after 2 mins will do
-                    // when that is triggered, send emails that booking is made
+        try {
+            console.log('confirming payment');
+            await stripe
+                .confirmPayment({
+                    elements,
+                    clientSecret,
+                    confirmParams: {
+                        return_url: window.location.href,
+                        save_payment_method: saveCard,
+                    },
+                    redirect: 'if_required',
+                })
+                .then((result) => {
+                    console.log('PaymentIntentResult: ', result);
+                    if (result.error) {
+                        handleError(result.error);
+                    } else if (result.paymentIntent.status === 'succeeded') {
+                        //TODO: send request to create booking -> thing that job after 2 mins will do
+                        // when that is triggered, send emails that booking is made
 
-                    const data = {
-                        paymentIntentId: result.paymentIntent.id,
-                        confirmationJobId: bookingInfo.jobId,
-                    };
+                        const data = {
+                            paymentIntentId: result.paymentIntent.id,
+                            confirmationJobId: bookingInfo.jobId,
+                        };
 
-                    confirmCreateBooking(data)
-                        .unwrap()
-                        .then((res) => {
-                            toastService.success('Uspješno plaćovanje!!');
-                            history.push(PATHS.DASHBOARD);
-                            setLoading(false);
-                        });
-                }
-            });
+                        confirmCreateBooking(data)
+                            .unwrap()
+                            .then((res) => {
+                                setLoading(false);
+                                props.setShowPopup(true);
+                            });
+                    } else {
+                        alert('SOMETHING WENT WRONG');
+                    }
+                })
+                .catch((err) => {
+                    console.log('ERRORIJA: ', err);
+                });
+        } catch (err) {
+            console.log('ERRORIJA: ', err);
+        }
     };
 
     // Handle checkbox change
@@ -129,6 +142,16 @@ const EnterCardAndPay = (props: Props) => {
                 <span className="type--color--secondary">{t('CHECKOUT.PAYMENT_POLICY_PART_ONE')}</span>
                 <span className="type--color--secondary">{t('CHECKOUT.PAYMENT_POLICY_PART_TWO')}</span>
             </div>
+            {/*{showPopup && (*/}
+            {/*    <BookingPopupForm*/}
+            {/*        tutorId={bookingInfo.tutorId}*/}
+            {/*        levelId={bookingInfo.levelId}*/}
+            {/*        subjectId={bookingInfo.subjectId}*/}
+            {/*        startTime={bookingInfo.startTime}*/}
+            {/*        setShowPopup={props.setShowPopup}*/}
+            {/*        onClose={() => history.push(PATHS.DASHBOARD)}*/}
+            {/*    />*/}
+            {/*)}*/}
         </div>
     );
 };

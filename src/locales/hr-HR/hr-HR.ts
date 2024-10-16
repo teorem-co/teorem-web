@@ -4312,6 +4312,7 @@ export const HR_HR: typeof EN_US = {
         PAYMENT_METHOD_LABEL: 'Odaberite način plaćanja',
         USE_NEW_PAYMENT_METHOD_LABEL: 'Koristite novi način plaćanja',
         PAY_ALL_WITH_CREDITS_LABEL: 'Plaćanje postojećim kreditima',
+        ERROR: 'Došlo je do pogreške',
     },
 
     ID_VERIFICATION: {

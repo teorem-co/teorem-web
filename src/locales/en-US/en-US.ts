@@ -4310,6 +4310,7 @@ export const EN_US = {
         PAYMENT_METHOD_LABEL: 'Choose payment method',
         USE_NEW_PAYMENT_METHOD_LABEL: 'Use new payment method',
         PAY_ALL_WITH_CREDITS_LABEL: 'Payment with existing credits',
+        ERROR: 'Something went wrong',
     },
     ID_VERIFICATION: {
         ID_SECTION: 'Proof of identity',

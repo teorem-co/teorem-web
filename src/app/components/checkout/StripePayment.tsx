@@ -9,9 +9,10 @@ interface Props {
     bookingInfo: BookingInfo;
     clientSecret: string;
     creditCards: IPaymentMethod[];
+    setShowPopup: (arg0: boolean) => void;
 }
 
-export const StripePayment = ({ stripePromise, bookingInfo, clientSecret }: Props) => {
+export const StripePayment = ({ stripePromise, bookingInfo, clientSecret, setShowPopup }: Props) => {
     const options: StripeElementsOptions = {
         clientSecret: clientSecret,
         appearance: {
@@ -49,7 +50,7 @@ export const StripePayment = ({ stripePromise, bookingInfo, clientSecret }: Prop
     return (
         <>
             <Elements stripe={stripePromise} options={options}>
-                <EnterCardAndPay bookingInfo={bookingInfo} clientSecret={clientSecret} />
+                <EnterCardAndPay bookingInfo={bookingInfo} clientSecret={clientSecret} setShowPopup={setShowPopup} />
             </Elements>
         </>
     );

@@ -830,6 +830,7 @@ const TutorBookings = () => {
                         />
                     ) : showBookingSuccessfulModal && bookingMessageInfo ? (
                         <BookingPopupForm
+                            onClose={() => console.log('alow')}
                             setShowPopup={setShowBookingSuccessfulModal}
                             levelId={bookingMessageInfo.levelId}
                             subjectId={bookingMessageInfo.subjectId}

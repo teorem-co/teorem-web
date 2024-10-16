@@ -121,6 +121,7 @@ export interface BookingReserveResponse {
     clientSecret: string;
     confirmationJobId: string;
     bookingId: string;
+    paymentIntentId: string;
 }
 
 export const bookingService = baseService.injectEndpoints({
