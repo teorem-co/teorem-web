@@ -776,7 +776,7 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                                         const path = `${PATHS.CHECKOUT_PAGE}?tutorId=${tutorId}&startTime=${arg}`;
                                         console.log('PATH:', path);
 
-                                        history.push(path);
+                                        window.open(path, '_blank');
                                     }}
                                     tutorId={tutorId}
                                     className={`${isMobile ? 'w--100' : 'w--50'}`}

@@ -398,7 +398,7 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
     return tutorData ? (
         <>
             {!showPopup ? (
-                <div className="flex flex--gap-10 flex--wrap">
+                <div className="flex flex--gap-10">
                     <div className={`${className} flex flex--col font-lato checkout-info-card flex--gap-10`}>
                         <div className="flex">
                             {tutorData.User.profileImage ? (
@@ -770,7 +770,7 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
                         )}
 
                     {paymentMethodOptions?.length === 0 && loading && (
-                        <div className="w--100 flex flex--jc--center">
+                        <div className="w--550 flex flex--jc--center">
                             <ClipLoader loading={true} size={50} color={'#7e6cf2'} />
                         </div>
                     )}
