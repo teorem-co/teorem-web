@@ -109,7 +109,7 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
         const handleVisibilityChange = async () => {
             // if (document.visibilityState !== 'hidden' && document.visibilityState !== 'visible') {
             await deleteAllOngoingPayments().unwrap();
-            await wait(1000);
+            await wait(2000);
             // }
         };
 
