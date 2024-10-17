@@ -31,9 +31,11 @@ import { useDeleteAllOngoingPaymentsMutation, useLazyGetCreditCardsQuery } from 
 import { GoDotFill } from 'react-icons/go';
 import { useHistory } from 'react-router';
 import Select, { components } from 'react-select';
+import { useCheckMailMutation } from '../../store/services/authService';
 import { BookingPopupForm } from '../BookingPopupForm';
 import { PATHS } from '../../routes';
 import { ClipLoader, ScaleLoader } from 'react-spinners';
+import { ButtonPrimaryGradient } from '../ButtonPrimaryGradient';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY!);
 
@@ -45,7 +47,7 @@ interface Props {
 
 const NEW_PAYMENT_METHOD_VALUE = 'NEW_PAYMENT_METHOD';
 
-export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
+export function CheckoutInfoCardMobile({ className, startTime, tutorId }: Props) {
     const dispatch = useDispatch();
     const history = useHistory();
     const userRole = useAppSelector((state) => state.auth.user?.Role.abrv);
@@ -53,6 +55,7 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
     const timeZoneState = useAppSelector((state) => state.timeZone);
 
     const [deleteAllOngoingPayments] = useDeleteAllOngoingPaymentsMutation();
+    const [checkMail] = useCheckMailMutation();
 
     const [
         getCreditCards,
@@ -395,204 +398,228 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
         );
     };
 
+    const [showPaymentComponent, setShowPaymentComponent] = useState(false);
+
     return tutorData ? (
         <>
+            <img src="/logo.svg" alt="" className="align-self-start mb-4" style={{ height: '25px' }} />
+
             {!showPopup ? (
-                <div className="flex flex--gap-10 flex--wrap">
-                    <div className={`${className} flex flex--col font-lato checkout-info-card flex--gap-10`}>
-                        <div className="flex">
-                            {tutorData.User.profileImage ? (
-                                <div className="tutor-list__item__img w--unset mr-2" style={{ padding: 0 }}>
-                                    <img
-                                        style={{
-                                            width: '80px',
-                                            height: '80px',
-                                            border: 0,
-                                        }}
-                                        className="align--center d--b"
-                                        src={tutorData.User.profileImage}
-                                        alt="tutor-profile-pic"
-                                    />
-                                </div>
-                            ) : (
-                                <ImageCircle
-                                    className="align--center d--b mb-4"
-                                    imageBig={true}
-                                    initials={tutorData.User.firstName.charAt(0) + tutorData.User.lastName.charAt(0)}
-                                />
-                            )}
-                            <div className="flex flex--col flex--grow">
-                                <div className="flex flex--jc--space-between">
-                                    <div className="flex">
-                                        <span className="type--wgt--extra-bold type--lg">{`${tutorData.User.firstName} ${tutorData.User.lastName}`}</span>
-                                        {tutorData.idVerified && (
-                                            <div
-                                                className={'flex flex--center'}
-                                                data-tooltip-id={'ID-tooltip'}
-                                                data-tooltip-html={t('TUTOR_PROFILE.TOOLTIP.ID_VERIFIED')}
-                                            >
-                                                <RiVerifiedBadgeFill size={20} />
-                                            </div>
-                                        )}
-                                    </div>
-                                    <span className="flex flex--ai--center">
-                                        {tutorData.averageGrade ? (
-                                            <>
-                                                <i className="icon icon--base icon--star"></i>
-                                                <span className="type--md type--wgt--extra-bold">
-                                                    {tutorData.averageGrade}
-                                                </span>
-                                            </>
-                                        ) : (
-                                            <span className="type--md type--wgt--extra-bold">
-                                                {t('CHECKOUT.NEW_TUTOR')}
-                                            </span>
-                                        )}
-                                    </span>
-                                </div>
-                                <div className="flex flex--jc--space-between type--sm">
-                                    {tutorData.TutorSubjects.length > 0 ? (
-                                        <CustomSubjectList
-                                            subjects={uniq(
-                                                tutorData.TutorSubjects.map((subject) => subject.Subject.abrv)
-                                            )}
-                                        />
-                                    ) : (
-                                        <></>
-                                    )}
-
-                                    {tutorData.numberOfGrades && tutorData.numberOfGrades > 0 ? (
-                                        <div className="type--color--secondary">{tutorData.numberOfGrades}</div>
-                                    ) : (
-                                        <></>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-
-                        <Divider />
-                        <span className="type--wgt--extra-bold">
-                            {moment(startTime).format('dddd, ' + t('DATE_FORMAT') + ', HH:mm')}
-                        </span>
-                        <span>{timeZoneState.timeZone}</span>
-                        <FormikProvider value={formik}>
-                            <Form>
-                                <div className="field">
-                                    <label htmlFor="level" className="field__label">
-                                        {t('BOOK.FORM.LEVEL')}*
-                                    </label>
-
-                                    <MySelect
-                                        field={formik.getFieldProps('level')}
-                                        form={formik}
-                                        meta={formik.getFieldMeta('level')}
-                                        classNamePrefix="onboarding-select"
-                                        isMulti={false}
-                                        options={tutorLevelOptions ? tutorLevelOptions : []}
-                                        placeholder={t('BOOK.FORM.LEVEL_PLACEHOLDER')}
-                                        isDisabled={showConfirmPaymentLoading || loading}
-                                    />
-                                </div>
-                                <div className="field">
-                                    <label htmlFor="subject" className="field__label">
-                                        {t('BOOK.FORM.SUBJECT')}*
-                                    </label>
-                                    <MySelect
-                                        key={formik.values.subject}
-                                        field={formik.getFieldProps('subject')}
-                                        form={formik}
-                                        meta={formik.getFieldMeta('subject')}
-                                        isMulti={false}
-                                        options={tutorSubjectOptions}
-                                        classNamePrefix="onboarding-select"
-                                        noOptionsMessage={() => t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')}
-                                        placeholder={t('SEARCH_TUTORS.PLACEHOLDER.SUBJECT')}
-                                        isDisabled={showConfirmPaymentLoading || loading}
-                                        //|| !formik.values.level} include it later
-                                    />
-                                </div>
-                                {userRole === RoleOptions.Parent ? (
-                                    <div className="field">
-                                        <label htmlFor="child" className="field__label">
-                                            {t('BOOK.FORM.CHILD')}*
-                                        </label>
-
-                                        <MySelect
-                                            field={formik.getFieldProps('child')}
-                                            form={formik}
-                                            meta={formik.getFieldMeta('child')}
-                                            classNamePrefix="onboarding-select"
-                                            isMulti={false}
-                                            options={childOptions ? childOptions : []}
-                                            noOptionsMessage={() => 'childless'}
-                                            placeholder={t('BOOK.FORM.CHILD_PLACEHOLDER')}
-                                            isDisabled={showConfirmPaymentLoading || loading}
+                <div className="flex flex--gap-10">
+                    {!showPaymentComponent && (
+                        <div className={`${className} flex flex--col font-lato  flex--gap-10`}>
+                            <div className="flex">
+                                {tutorData.User.profileImage ? (
+                                    <div className="tutor-list__item__img w--unset mr-2" style={{ padding: 0 }}>
+                                        <img
+                                            style={{
+                                                width: '80px',
+                                                height: '80px',
+                                                border: 0,
+                                            }}
+                                            className="align--center d--b"
+                                            src={tutorData.User.profileImage}
+                                            alt="tutor-profile-pic"
                                         />
                                     </div>
                                 ) : (
-                                    <></>
+                                    <ImageCircle
+                                        className="align--center d--b mb-4"
+                                        imageBig={true}
+                                        initials={
+                                            tutorData.User.firstName.charAt(0) + tutorData.User.lastName.charAt(0)
+                                        }
+                                    />
                                 )}
-                            </Form>
-                        </FormikProvider>
+                                <div className="flex flex--col flex--grow">
+                                    <div className="flex flex--jc--space-between">
+                                        <div className="flex">
+                                            <span className="type--wgt--extra-bold type--lg">{`${tutorData.User.firstName} ${tutorData.User.lastName}`}</span>
+                                            {tutorData.idVerified && (
+                                                <div
+                                                    className={'flex flex--center'}
+                                                    data-tooltip-id={'ID-tooltip'}
+                                                    data-tooltip-html={t('TUTOR_PROFILE.TOOLTIP.ID_VERIFIED')}
+                                                >
+                                                    <RiVerifiedBadgeFill size={20} />
+                                                </div>
+                                            )}
+                                        </div>
+                                        <span className="flex flex--ai--center">
+                                            {tutorData.averageGrade ? (
+                                                <>
+                                                    <i className="icon icon--base icon--star"></i>
+                                                    <span className="type--md type--wgt--extra-bold">
+                                                        {tutorData.averageGrade}
+                                                    </span>
+                                                </>
+                                            ) : (
+                                                <span className="type--md type--wgt--extra-bold">
+                                                    {t('CHECKOUT.NEW_TUTOR')}
+                                                </span>
+                                            )}
+                                        </span>
+                                    </div>
+                                    <div className="flex flex--jc--space-between type--sm">
+                                        {tutorData.TutorSubjects.length > 0 ? (
+                                            <CustomSubjectList
+                                                subjects={uniq(
+                                                    tutorData.TutorSubjects.map((subject) => subject.Subject.abrv)
+                                                )}
+                                            />
+                                        ) : (
+                                            <></>
+                                        )}
 
-                        <Divider />
-
-                        {/*{formik.values.level && formik.values.subject && cost && (*/}
-                        <div className="flex flex--col flex--gap-10">
-                            <span className="type--lg type--wgt--extra-bold">{t('CHECKOUT.TITLE')}</span>
-                            <div className="flex flex--jc--space-between">
-                                <span>{t('CHECKOUT.LESSON_DURATION')}</span>
-                                <span className="type--wgt--extra-bold">
-                                    <CurrencySymbol />
-                                    {cost}
-                                </span>
+                                        {tutorData.numberOfGrades && tutorData.numberOfGrades > 0 ? (
+                                            <div className="type--color--secondary">{tutorData.numberOfGrades}</div>
+                                        ) : (
+                                            <></>
+                                        )}
+                                    </div>
+                                </div>
                             </div>
 
-                            {cost && (
+                            <Divider />
+                            <span className="type--wgt--extra-bold">
+                                {moment(startTime).format('dddd, ' + t('DATE_FORMAT') + ', HH:mm')}
+                            </span>
+                            <span>{timeZoneState.timeZone}</span>
+                            <FormikProvider value={formik}>
+                                <Form>
+                                    <div className="field">
+                                        <label htmlFor="level" className="field__label">
+                                            {t('BOOK.FORM.LEVEL')}*
+                                        </label>
+
+                                        <MySelect
+                                            field={formik.getFieldProps('level')}
+                                            form={formik}
+                                            meta={formik.getFieldMeta('level')}
+                                            classNamePrefix="onboarding-select"
+                                            isMulti={false}
+                                            options={tutorLevelOptions ? tutorLevelOptions : []}
+                                            placeholder={t('BOOK.FORM.LEVEL_PLACEHOLDER')}
+                                            isDisabled={showConfirmPaymentLoading || loading}
+                                        />
+                                    </div>
+                                    <div className="field">
+                                        <label htmlFor="subject" className="field__label">
+                                            {t('BOOK.FORM.SUBJECT')}*
+                                        </label>
+                                        <MySelect
+                                            key={formik.values.subject}
+                                            field={formik.getFieldProps('subject')}
+                                            form={formik}
+                                            meta={formik.getFieldMeta('subject')}
+                                            isMulti={false}
+                                            options={tutorSubjectOptions}
+                                            classNamePrefix="onboarding-select"
+                                            noOptionsMessage={() => t('SEARCH_TUTORS.NO_OPTIONS_MESSAGE')}
+                                            placeholder={t('SEARCH_TUTORS.PLACEHOLDER.SUBJECT')}
+                                            isDisabled={showConfirmPaymentLoading || loading}
+                                            //|| !formik.values.level} include it later
+                                        />
+                                    </div>
+                                    {userRole === RoleOptions.Parent ? (
+                                        <div className="field">
+                                            <label htmlFor="child" className="field__label">
+                                                {t('BOOK.FORM.CHILD')}*
+                                            </label>
+
+                                            <MySelect
+                                                field={formik.getFieldProps('child')}
+                                                form={formik}
+                                                meta={formik.getFieldMeta('child')}
+                                                classNamePrefix="onboarding-select"
+                                                isMulti={false}
+                                                options={childOptions ? childOptions : []}
+                                                noOptionsMessage={() => 'childless'}
+                                                placeholder={t('BOOK.FORM.CHILD_PLACEHOLDER')}
+                                                isDisabled={showConfirmPaymentLoading || loading}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <></>
+                                    )}
+                                </Form>
+                            </FormikProvider>
+
+                            <Divider />
+
+                            {/*{formik.values.level && formik.values.subject && cost && (*/}
+                            <div className="flex flex--col flex--gap-10">
+                                <span className="type--lg type--wgt--extra-bold">{t('CHECKOUT.TITLE')}</span>
                                 <div className="flex flex--jc--space-between">
-                                    {/*<div className="discount-row">*/}
-                                    <span>{t('CHECKOUT.CREDITS_BALANCE')} </span>
+                                    <span>{t('CHECKOUT.LESSON_DURATION')}</span>
                                     <span className="type--wgt--extra-bold">
-                                        &minus;&nbsp;
                                         <CurrencySymbol />
-                                        {userCredits > cost ? cost : userCredits}
+                                        {cost}
                                     </span>
                                 </div>
-                            )}
 
-                            <div className="separator-line"></div>
-                            <div className="total-row flex flex--jc--space-between type--wgt--extra-bold type--md">
-                                <span>{t('CHECKOUT.TOTAL')}</span>
                                 {cost && (
-                                    <span>
-                                        {calculateTotalCost(cost)}
-                                        <CurrencySymbol />
-                                    </span>
+                                    <div className="flex flex--jc--space-between">
+                                        {/*<div className="discount-row">*/}
+                                        <span>{t('CHECKOUT.CREDITS_BALANCE')} </span>
+                                        <span className="type--wgt--extra-bold">
+                                            &minus;&nbsp;
+                                            <CurrencySymbol />
+                                            {userCredits > cost ? cost : userCredits}
+                                        </span>
+                                    </div>
                                 )}
+
+                                <div className="separator-line"></div>
+                                <div className="total-row flex flex--jc--space-between type--wgt--extra-bold type--md">
+                                    <span>{t('CHECKOUT.TOTAL')}</span>
+                                    {cost && (
+                                        <span>
+                                            {calculateTotalCost(cost)}
+                                            <CurrencySymbol />
+                                        </span>
+                                    )}
+                                </div>
+                            </div>
+
+                            <ButtonPrimaryGradient
+                                disabled={
+                                    !(
+                                        formik.values.level &&
+                                        formik.values.subject &&
+                                        (userRole !== RoleOptions.Parent || formik.values.child)
+                                    )
+                                }
+                                className="btn btn--lg w--100 p-4 mt-2 mb-2 type--wgt--extra-bold font__md"
+                                onClick={() => setShowPaymentComponent(true)}
+                                // type={'submit'}
+                            >
+                                Proceed to payment
+                            </ButtonPrimaryGradient>
+
+                            <div className="flex flex--col bg__green pr-4 pl-4 pt-2 pb-2 flex--gap-5">
+                                <span className="flex flex--ai--center flex--gap-10 type--wgt--extra-bold">
+                                    <FaCalendarAlt />
+                                    {t('CHECKOUT.RESCHEDULE_TIP.TITLE')}
+                                </span>
+                                <p>{t('CHECKOUT.RESCHEDULE_TIP.DETAILS')}</p>
                             </div>
                         </div>
-
-                        <div className="flex flex--col bg__green pr-4 pl-4 pt-2 pb-2 flex--gap-5">
-                            <span className="flex flex--ai--center flex--gap-10 type--wgt--extra-bold">
-                                <FaCalendarAlt />
-                                {t('CHECKOUT.RESCHEDULE_TIP.TITLE')}
-                            </span>
-                            <p>{t('CHECKOUT.RESCHEDULE_TIP.DETAILS')}</p>
-                        </div>
-                    </div>
-
-                    {userId &&
+                    )}
+                    {showPaymentComponent &&
+                        userId &&
                         cost &&
                         formik.values.subject &&
                         formik.values.level &&
                         ((paymentMethodOptions && paymentMethodOptions?.length !== 0) ||
                             calculateTotalCost(cost) === 0) &&
                         (userRole === RoleOptions.Parent ? formik.values.child : true) && (
-                            <div className="w--550 font-lato">
-                                <div className="flex flex--row">
-                                    <div className="type--wgt--extra-bold font__xlg text-align--center mb-3">
-                                        {t('CHECKOUT.HOW_TO_PAY')}
-                                    </div>
+                            <div className="w--100 h--100dvh font-lato">
+                                <div className="type--wgt--extra-bold font__xlg text-align--start mb-3 flex flex--ai--center flex--jc--start">
+                                    <button className="btn btn--clear" onClick={() => setShowPaymentComponent(false)}>
+                                        <i className="icon icon--lg icon--arrow-left icon--black"></i>
+                                    </button>
+                                    <span>{t('CHECKOUT.HOW_TO_PAY')}</span>
                                 </div>
                                 {userId &&
                                     cost &&
@@ -618,6 +645,12 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
                                             </Form>
                                         </FormikProvider>
                                     )}
+
+                                {paymentMethodOptions?.length !== 0 && loading && (
+                                    <div className="flex flex--jc--center flex--ai--center flex--grow">
+                                        <ClipLoader color={'#7e6cf2'} loading={true} size={50} />
+                                    </div>
+                                )}
 
                                 {userId &&
                                     cost &&
@@ -649,10 +682,38 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
                                         </div>
                                     )}
 
+                                {reserveResponse &&
+                                    reserveResponse.clientSecret &&
+                                    userId &&
+                                    cost &&
+                                    formik.values.subject &&
+                                    formik.values.level &&
+                                    paymentMethodOptions?.length !== 0 &&
+                                    formik2.values.paymentMethod === NEW_PAYMENT_METHOD_VALUE &&
+                                    (userRole === RoleOptions.Parent ? formik.values.child : true) && (
+                                        <StripePayment
+                                            creditCards={creditCards ? creditCards : []}
+                                            clientSecret={reserveResponse.clientSecret}
+                                            stripePromise={stripePromise}
+                                            bookingInfo={{
+                                                jobId: reserveResponse.confirmationJobId,
+                                                tutorId: tutorId,
+                                                requesterId: userId,
+                                                studentId:
+                                                    userRole === RoleOptions.Student ? userId : formik.values.child,
+                                                startTime: startTime,
+                                                cost: calculateTotalCost(cost),
+                                                subjectId: formik.values.subject,
+                                                levelId: formik.values.level,
+                                            }}
+                                            setShowPopup={setShowPopup}
+                                        />
+                                    )}
+
                                 {(userRole === RoleOptions.Parent ? formik.values.child : true) &&
                                     (formik2.values.paymentMethod !== NEW_PAYMENT_METHOD_VALUE ||
                                         calculateTotalCost(cost) === 0) && (
-                                        <div className="flex flex--col">
+                                        <div className="flex flex--col align-self-end">
                                             <button
                                                 disabled={
                                                     !(
@@ -684,46 +745,11 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
                                             </div>
                                         </div>
                                     )}
-
-                                {reserveResponse &&
-                                    reserveResponse.clientSecret &&
-                                    userId &&
-                                    cost &&
-                                    formik.values.subject &&
-                                    formik.values.level &&
-                                    paymentMethodOptions?.length !== 0 &&
-                                    formik2.values.paymentMethod === NEW_PAYMENT_METHOD_VALUE &&
-                                    (userRole === RoleOptions.Parent ? formik.values.child : true) && (
-                                        <>
-                                            <StripePayment
-                                                creditCards={creditCards ? creditCards : []}
-                                                clientSecret={reserveResponse.clientSecret}
-                                                stripePromise={stripePromise}
-                                                bookingInfo={{
-                                                    jobId: reserveResponse.confirmationJobId,
-                                                    tutorId: tutorId,
-                                                    requesterId: userId,
-                                                    studentId:
-                                                        userRole === RoleOptions.Student ? userId : formik.values.child,
-                                                    startTime: startTime,
-                                                    cost: calculateTotalCost(cost),
-                                                    subjectId: formik.values.subject,
-                                                    levelId: formik.values.level,
-                                                }}
-                                                setShowPopup={setShowPopup}
-                                            />
-                                        </>
-                                    )}
-
-                                {paymentMethodOptions?.length !== 0 && loading && (
-                                    <div className="w--100 flex flex--jc--center">
-                                        <ClipLoader loading={true} size={50} color={'#7e6cf2'} />
-                                    </div>
-                                )}
                             </div>
                         )}
 
-                    {reserveResponse &&
+                    {showPaymentComponent &&
+                        reserveResponse &&
                         reserveResponse.clientSecret &&
                         userId &&
                         cost &&
@@ -733,7 +759,7 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
                         !loading &&
                         paymentMethodOptions?.length === 0 &&
                         (userRole === RoleOptions.Parent ? formik.values.child : true) && (
-                            <div className="flex flex--col w-100">
+                            <div className="flex flex--col w--100">
                                 <div className="type--wgt--extra-bold font__xlg text-align--center mb-3">
                                     {t('CHECKOUT.HOW_TO_PAY')}
                                 </div>
@@ -770,7 +796,7 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
                         )}
 
                     {paymentMethodOptions?.length === 0 && loading && (
-                        <div className="w--100 flex flex--jc--center">
+                        <div className="w--full h--100 ">
                             <ClipLoader loading={true} size={50} color={'#7e6cf2'} />
                         </div>
                     )}
@@ -791,8 +817,6 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
             )}
         </>
     ) : (
-        <div className="w--full h--100 flex flex--center">
-            <ClipLoader loading={true} size={50} color={'#7e6cf2'} />
-        </div>
+        <div>Loading...</div>
     );
 }

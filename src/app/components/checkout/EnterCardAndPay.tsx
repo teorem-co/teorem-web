@@ -117,16 +117,16 @@ const EnterCardAndPay = (props: Props) => {
     };
 
     return (
-        <div className="w--550 font-lato">
+        <div className="font-lato">
             <form>
                 <PaymentElement onChange={checkFormCompletion} />
             </form>
-            <ScaleLoader color={'#7e6cf2'} loading={loading} style={{ margin: '0 auto' }} />
 
             <label className={`flex flex--ai--center flex--gap-10 mt-4`}>
                 <input type="checkbox" checked={saveCard} onChange={handleCheckboxChange} />
                 {t('CHECKOUT.SAVE_CARD')}
             </label>
+            <ScaleLoader color={'#7e6cf2'} loading={loading} style={{ margin: '0 auto' }} />
             <button
                 className="mt-10 w--100 text-align--center font__lg flex--ai--center flex flex--grow flex--jc--center btn pt-3 pb-3 btn--primary type--wgt--bold"
                 onClick={() => sendToStripe()}
@@ -142,16 +142,6 @@ const EnterCardAndPay = (props: Props) => {
                 <span className="type--color--secondary">{t('CHECKOUT.PAYMENT_POLICY_PART_ONE')}</span>
                 <span className="type--color--secondary">{t('CHECKOUT.PAYMENT_POLICY_PART_TWO')}</span>
             </div>
-            {/*{showPopup && (*/}
-            {/*    <BookingPopupForm*/}
-            {/*        tutorId={bookingInfo.tutorId}*/}
-            {/*        levelId={bookingInfo.levelId}*/}
-            {/*        subjectId={bookingInfo.subjectId}*/}
-            {/*        startTime={bookingInfo.startTime}*/}
-            {/*        setShowPopup={props.setShowPopup}*/}
-            {/*        onClose={() => history.push(PATHS.DASHBOARD)}*/}
-            {/*    />*/}
-            {/*)}*/}
         </div>
     );
 };
