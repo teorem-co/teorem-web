@@ -70,7 +70,7 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
     const [tutorLevelOptions, setTutorLevelOptions] = useState<OptionType[]>();
     const [paymentMethodOptions, setPaymentMethodOptions] = useState<OptionType[]>([]);
     const [tutorSubjectOptions, setTutorSubjectOptions] = useState<OptionType[]>();
-    const [userCredits, setUserCredits] = useState<number>(0);
+    const [userCredits, setUserCredits] = useState<number | undefined>();
     const [cost, setCost] = useState<number | undefined>(undefined);
     const [reserveResponse, setReserveResponse] = useState<BookingReserveResponse | undefined>();
     const [loading, setLoading] = useState(false);
@@ -91,39 +91,6 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
     function wait(ms: number) {
         return new Promise((resolve) => setTimeout(resolve, ms));
     }
-
-    useEffect(() => {
-        const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-            // Show confirmation dialog for navigation away or close
-            event.preventDefault();
-            event.returnValue = '';
-        };
-
-        const handleUnload = async () => {
-            // Send request on unload (close or leave)
-            console.log('RESPONSE BEFORE SENDING (UNLOAD): ', reserveResponse);
-            await deleteAllOngoingPayments().unwrap();
-            await wait(1000);
-        };
-
-        const handleVisibilityChange = async () => {
-            // if (document.visibilityState !== 'hidden' && document.visibilityState !== 'visible') {
-            await deleteAllOngoingPayments().unwrap();
-            await wait(2000);
-            // }
-        };
-
-        window.addEventListener('beforeunload', handleBeforeUnload);
-        window.addEventListener('unload', handleUnload);
-        document.addEventListener('visibilitychange', handleVisibilityChange);
-
-        return () => {
-            window.removeEventListener('beforeunload', handleBeforeUnload);
-
-            window.removeEventListener('unload', handleUnload);
-            document.removeEventListener('visibilitychange', handleVisibilityChange);
-        };
-    }, []);
 
     const generateValidationSchema = () => {
         const validationSchema: any = {
@@ -182,14 +149,12 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
     }
 
     async function getAndSetUserCredits() {
-        await wait(5000);
+        await deleteAllOngoingPayments();
+        await wait(1000);
         const res = await getCredits().unwrap();
 
-        // res.then((res) => {
         dispatch(setCredits(res.credits));
-        console.log('SETTING CREDITS: ', res.credits);
         setUserCredits(res.credits);
-        // });
     }
 
     useEffect(() => {
@@ -395,7 +360,7 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
         );
     };
 
-    return tutorData ? (
+    return tutorData && userCredits !== undefined ? (
         <>
             {!showPopup ? (
                 <div className="flex flex--gap-10">

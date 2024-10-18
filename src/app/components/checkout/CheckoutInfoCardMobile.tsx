@@ -68,12 +68,11 @@ export function CheckoutInfoCardMobile({ className, startTime, tutorId }: Props)
     const { data: subjectLevelPairs, isSuccess: isSuccessSubjectsLevelPairs } =
         useGetTutorSubjectLevelPairsQuery(tutorId);
     const [createBooking, { isSuccess: createBookingSuccess }] = useCreatebookingMutation();
-
+    const [userCredits, setUserCredits] = useState<number | undefined>();
     const [showPopup, setShowPopup] = useState(false);
     const [tutorLevelOptions, setTutorLevelOptions] = useState<OptionType[]>();
     const [paymentMethodOptions, setPaymentMethodOptions] = useState<OptionType[]>([]);
     const [tutorSubjectOptions, setTutorSubjectOptions] = useState<OptionType[]>();
-    const [userCredits, setUserCredits] = useState<number>(0);
     const [cost, setCost] = useState<number | undefined>(undefined);
     const [reserveResponse, setReserveResponse] = useState<BookingReserveResponse | undefined>();
     const [loading, setLoading] = useState(false);
@@ -185,14 +184,12 @@ export function CheckoutInfoCardMobile({ className, startTime, tutorId }: Props)
     }
 
     async function getAndSetUserCredits() {
+        await deleteAllOngoingPayments();
         await wait(1000);
         const res = await getCredits().unwrap();
 
-        // res.then((res) => {
         dispatch(setCredits(res.credits));
-        console.log('SETTING CREDITS: ', res.credits);
         setUserCredits(res.credits);
-        // });
     }
 
     useEffect(() => {
@@ -400,7 +397,7 @@ export function CheckoutInfoCardMobile({ className, startTime, tutorId }: Props)
 
     const [showPaymentComponent, setShowPaymentComponent] = useState(false);
 
-    return tutorData ? (
+    return tutorData && userCredits !== undefined ? (
         <>
             <img src="/logo.svg" alt="" className="align-self-start mb-4" style={{ height: '25px' }} />
 
