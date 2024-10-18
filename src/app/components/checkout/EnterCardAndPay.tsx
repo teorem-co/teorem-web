@@ -10,6 +10,7 @@ import { PATHS } from '../../routes';
 import { useConfirmCreateBookingMutation } from '../../store/services/bookingService';
 import { t } from 'i18next';
 import toastService from '../../store/services/toastService';
+import Divider from '../Divider';
 
 export interface BookingInfo {
     tutorId: string;
@@ -138,8 +139,13 @@ const EnterCardAndPay = (props: Props) => {
                 <span>{bookingInfo.cost}</span>
             </button>
 
+            <Divider className="mt-3 mb-3" />
+
             <div className="flex flex--col flex--gap-10 mt-3 type--base">
-                <span className="type--color--secondary">{t('CHECKOUT.PAYMENT_POLICY_PART_ONE')}</span>
+                <span
+                    className="type--color--secondary"
+                    dangerouslySetInnerHTML={{ __html: t('CHECKOUT.PAYMENT_POLICY_PART_ONE') }}
+                ></span>
                 <span className="type--color--secondary">{t('CHECKOUT.PAYMENT_POLICY_PART_TWO')}</span>
             </div>
         </div>

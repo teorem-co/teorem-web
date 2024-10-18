@@ -361,17 +361,18 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
     };
 
     return tutorData && userCredits !== undefined ? (
-        <>
+        <div className="flex flex--col w--100 flex--ai--center">
+            <img src="/logo-purple-text.png" alt="" className="align-self-start mb-4" style={{ height: '25px' }} />
             {!showPopup ? (
-                <div className="flex flex--gap-10">
+                <div className="flex flex--gap-100">
                     <div className={`${className} flex flex--col font-lato checkout-info-card flex--gap-10`}>
                         <div className="flex">
                             {tutorData.User.profileImage ? (
                                 <div className="tutor-list__item__img w--unset mr-2" style={{ padding: 0 }}>
                                     <img
                                         style={{
-                                            width: '80px',
-                                            height: '80px',
+                                            width: '60px',
+                                            height: '60px',
                                             border: 0,
                                         }}
                                         className="align--center d--b"
@@ -409,7 +410,7 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
                                                 </span>
                                             </>
                                         ) : (
-                                            <span className="type--md type--wgt--extra-bold">
+                                            <span className="type--normal type--wgt--extra-bold">
                                                 {t('CHECKOUT.NEW_TUTOR')}
                                             </span>
                                         )}
@@ -418,6 +419,7 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
                                 <div className="flex flex--jc--space-between type--sm">
                                     {tutorData.TutorSubjects.length > 0 ? (
                                         <CustomSubjectList
+                                            numOfSubjectsShown={2}
                                             subjects={uniq(
                                                 tutorData.TutorSubjects.map((subject) => subject.Subject.abrv)
                                             )}
@@ -436,10 +438,12 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
                         </div>
 
                         <Divider />
-                        <span className="type--wgt--extra-bold">
-                            {moment(startTime).format('dddd, ' + t('DATE_FORMAT') + ', HH:mm')}
-                        </span>
-                        <span>{timeZoneState.timeZone}</span>
+                        <div className="flex flex--col">
+                            <span className="type--wgt--extra-bold">
+                                {moment(startTime).format('dddd, ' + t('DATE_FORMAT') + ', HH:mm')}
+                            </span>
+                            <span>{timeZoneState.timeZone}</span>
+                        </div>
                         <FormikProvider value={formik}>
                             <Form>
                                 <div className="field">
@@ -640,9 +644,12 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
                                                 <span>{calculateTotalCost(cost)}</span>
                                             </button>
                                             <div className="flex flex--col flex--gap-10 mt-3">
-                                                <span className="type--color--secondary">
-                                                    {t('CHECKOUT.PAYMENT_POLICY_PART_ONE')}
-                                                </span>
+                                                <span
+                                                    className="type--color--secondary"
+                                                    dangerouslySetInnerHTML={{
+                                                        __html: t('CHECKOUT.PAYMENT_POLICY_PART_ONE'),
+                                                    }}
+                                                ></span>
                                                 <span className="type--color--secondary">
                                                     {t('CHECKOUT.PAYMENT_POLICY_PART_TWO')}
                                                 </span>
@@ -754,10 +761,13 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
                     )}
                 </div>
             )}
-        </>
+        </div>
     ) : (
-        <div className="w--full h--100 flex flex--center">
-            <ClipLoader loading={true} size={50} color={'#7e6cf2'} />
+        <div className="flex flex--col flex--ai--center w--100">
+            <img src="/logo-purple-text.png" alt="" className="align-self-start mb-4" style={{ height: '25px' }} />
+            <div className="w--full h--100 flex flex--center">
+                <ClipLoader loading={true} size={50} color={'#7e6cf2'} />
+            </div>
         </div>
     );
 }

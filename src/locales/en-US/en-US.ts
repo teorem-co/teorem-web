@@ -4305,12 +4305,13 @@ export const EN_US = {
         SAVE_CARD: 'Save card for future payments',
         CONFIRM_PAYMENT: 'Confirm payment',
         PAYMENT_POLICY_PART_ONE:
-            'By clicking "Confirm payment" button, you agree to Teorem\'s Refund and Payment Policy',
+            'By clicking <strong>Confirm payment</strong> button, you agree to Teorem\'s <a href="https://teorem.co/refund-and-payment-policy" target="_blank"> Refund and Payment Policy </a>',
         PAYMENT_POLICY_PART_TWO: "It's safe to pay on Teorem. All transactions are protected by SSL encryption",
         PAYMENT_METHOD_LABEL: 'Choose payment method',
         USE_NEW_PAYMENT_METHOD_LABEL: 'Use new payment method',
         PAY_ALL_WITH_CREDITS_LABEL: 'Payment with existing credits',
         ERROR: 'Something went wrong',
+        PROCEED: 'Proceed to payment',
     },
     ID_VERIFICATION: {
         ID_SECTION: 'Proof of identity',

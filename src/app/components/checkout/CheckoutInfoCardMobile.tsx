@@ -94,38 +94,38 @@ export function CheckoutInfoCardMobile({ className, startTime, tutorId }: Props)
         return new Promise((resolve) => setTimeout(resolve, ms));
     }
 
-    useEffect(() => {
-        const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-            // Show confirmation dialog for navigation away or close
-            event.preventDefault();
-            event.returnValue = '';
-        };
-
-        const handleUnload = async () => {
-            // Send request on unload (close or leave)
-            console.log('RESPONSE BEFORE SENDING (UNLOAD): ', reserveResponse);
-            await deleteAllOngoingPayments().unwrap();
-            await wait(1000);
-        };
-
-        const handleVisibilityChange = async () => {
-            // if (document.visibilityState !== 'hidden' && document.visibilityState !== 'visible') {
-            await deleteAllOngoingPayments().unwrap();
-            await wait(1000);
-            // }
-        };
-
-        window.addEventListener('beforeunload', handleBeforeUnload);
-        window.addEventListener('unload', handleUnload);
-        document.addEventListener('visibilitychange', handleVisibilityChange);
-
-        return () => {
-            window.removeEventListener('beforeunload', handleBeforeUnload);
-
-            window.removeEventListener('unload', handleUnload);
-            document.removeEventListener('visibilitychange', handleVisibilityChange);
-        };
-    }, []);
+    // useEffect(() => {
+    //     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+    //         // Show confirmation dialog for navigation away or close
+    //         event.preventDefault();
+    //         event.returnValue = '';
+    //     };
+    //
+    //     const handleUnload = async () => {
+    //         // Send request on unload (close or leave)
+    //         console.log('RESPONSE BEFORE SENDING (UNLOAD): ', reserveResponse);
+    //         await deleteAllOngoingPayments().unwrap();
+    //         await wait(1000);
+    //     };
+    //
+    //     const handleVisibilityChange = async () => {
+    //         // if (document.visibilityState !== 'hidden' && document.visibilityState !== 'visible') {
+    //         await deleteAllOngoingPayments().unwrap();
+    //         await wait(1000);
+    //         // }
+    //     };
+    //
+    //     window.addEventListener('beforeunload', handleBeforeUnload);
+    //     window.addEventListener('unload', handleUnload);
+    //     document.addEventListener('visibilitychange', handleVisibilityChange);
+    //
+    //     return () => {
+    //         window.removeEventListener('beforeunload', handleBeforeUnload);
+    //
+    //         window.removeEventListener('unload', handleUnload);
+    //         document.removeEventListener('visibilitychange', handleVisibilityChange);
+    //     };
+    // }, []);
 
     const generateValidationSchema = () => {
         const validationSchema: any = {
@@ -460,6 +460,7 @@ export function CheckoutInfoCardMobile({ className, startTime, tutorId }: Props)
                                     <div className="flex flex--jc--space-between type--sm">
                                         {tutorData.TutorSubjects.length > 0 ? (
                                             <CustomSubjectList
+                                                numOfSubjectsShown={2}
                                                 subjects={uniq(
                                                     tutorData.TutorSubjects.map((subject) => subject.Subject.abrv)
                                                 )}
@@ -478,10 +479,12 @@ export function CheckoutInfoCardMobile({ className, startTime, tutorId }: Props)
                             </div>
 
                             <Divider />
-                            <span className="type--wgt--extra-bold">
-                                {moment(startTime).format('dddd, ' + t('DATE_FORMAT') + ', HH:mm')}
-                            </span>
-                            <span>{timeZoneState.timeZone}</span>
+                            <div className="flex flex--col">
+                                <span className="type--wgt--extra-bold">
+                                    {moment(startTime).format('dddd, ' + t('DATE_FORMAT') + ', HH:mm')}
+                                </span>
+                                <span>{timeZoneState.timeZone}</span>
+                            </div>
                             <FormikProvider value={formik}>
                                 <Form>
                                     <div className="field">
@@ -588,10 +591,13 @@ export function CheckoutInfoCardMobile({ className, startTime, tutorId }: Props)
                                     )
                                 }
                                 className="btn btn--lg w--100 p-4 mt-2 mb-2 type--wgt--extra-bold font__md"
-                                onClick={() => setShowPaymentComponent(true)}
+                                onClick={() => {
+                                    setShowPaymentComponent(true);
+                                    window.scrollTo(0, 0);
+                                }}
                                 // type={'submit'}
                             >
-                                Proceed to payment
+                                {t('CHECKOUT.PROCEED')}
                             </ButtonPrimaryGradient>
 
                             <div className="flex flex--col bg__green pr-4 pl-4 pt-2 pb-2 flex--gap-5">
@@ -732,10 +738,16 @@ export function CheckoutInfoCardMobile({ className, startTime, tutorId }: Props)
                                                 <CurrencySymbol />
                                                 <span>{calculateTotalCost(cost)}</span>
                                             </button>
-                                            <div className="flex flex--col flex--gap-10 mt-3">
-                                                <span className="type--color--secondary">
-                                                    {t('CHECKOUT.PAYMENT_POLICY_PART_ONE')}
-                                                </span>
+
+                                            <Divider className="mt-4 mb-4" />
+
+                                            <div className="flex flex--col flex--gap-10">
+                                                <span
+                                                    className="type--color--secondary"
+                                                    dangerouslySetInnerHTML={{
+                                                        __html: t('CHECKOUT.PAYMENT_POLICY_PART_ONE'),
+                                                    }}
+                                                ></span>
                                                 <span className="type--color--secondary">
                                                     {t('CHECKOUT.PAYMENT_POLICY_PART_TWO')}
                                                 </span>
@@ -814,6 +826,11 @@ export function CheckoutInfoCardMobile({ className, startTime, tutorId }: Props)
             )}
         </>
     ) : (
-        <div>Loading...</div>
+        <div className="flex flex--col flex--ai--center w--100">
+            <img src="/logo.png" alt="" className="align-self-start mb-4" style={{ height: '25px' }} />
+            <div className="w--full h--100 flex flex--center">
+                <ClipLoader loading={true} size={50} color={'#7e6cf2'} />
+            </div>
+        </div>
     );
 }

@@ -4307,12 +4307,13 @@ export const HR_HR: typeof EN_US = {
         SAVE_CARD: 'Spremite karticu za buduća plaćanja',
         CONFIRM_PAYMENT: 'Potvrdite plaćanje',
         PAYMENT_POLICY_PART_ONE:
-            'Klikom na gumb "Potvrdi plaćanje", slažete se s Teoremovom politikom povrata novca i plaćanja',
+            'Klikom na gumb <strong>Potvrdi plaćanje</strong>, slažete se s Teoremovom <a href="https://teorem.co/hr/politika-povrata-i-placanja" target="_blank">politikom povrata novca i plaćanja</a>',
         PAYMENT_POLICY_PART_TWO: 'Sigurno je plaćati na Teoremu. Sve transakcije su zaštićene SSL enkripcijom',
         PAYMENT_METHOD_LABEL: 'Odaberite način plaćanja',
         USE_NEW_PAYMENT_METHOD_LABEL: 'Koristite novi način plaćanja',
         PAY_ALL_WITH_CREDITS_LABEL: 'Plaćanje postojećim kreditima',
         ERROR: 'Došlo je do pogreške',
+        PROCEED: 'Nastavite na plaćanje',
     },
 
     ID_VERIFICATION: {
