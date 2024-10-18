@@ -48,7 +48,9 @@ export const TutorItemMobile = (props: Props) => {
                                 </div>
                             ) : (
                                 <span className="d--b flex flex--col flex--center">
-                                    <span className={'type--wgt--extra-bold type--normal'}>{t('SEARCH_TUTORS.NEW_TUTOR.PART_1')}</span>
+                                    <span className={'type--wgt--extra-bold type--normal'}>
+                                        {t('SEARCH_TUTORS.NEW_TUTOR.PART_1')}
+                                    </span>
                                     <span className={'type--sm'}>{t('SEARCH_TUTORS.NEW_TUTOR.PART_2')}</span>
                                 </span>
                             )}
@@ -108,7 +110,7 @@ export const TutorItemMobile = (props: Props) => {
                 </Link>
                 <Link
                     className="btn btn--normal btn--primary type--center type--wgt--extra-bold flex--grow"
-                    to={`${PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS.replace(':tutorSlug', tutor.slug)}`}
+                    to={`${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug)}?showPeriodsModal=true`}
                 >
                     {t('TUTOR_PROFILE.BOOK')}
                 </Link>

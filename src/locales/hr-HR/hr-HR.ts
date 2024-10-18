@@ -4315,6 +4315,11 @@ export const HR_HR: typeof EN_US = {
         ERROR: 'Došlo je do pogreške',
         PROCEED: 'Nastavite na plaćanje',
     },
+    WEEK_BOOKING: {
+        SHOW_MORE: 'Pogledajte cijeli raspored',
+        SHOW_LESS: 'Prikaži manje',
+        CLOSE: 'Zatvori',
+    },
 
     ID_VERIFICATION: {
         ID_SECTION: 'Dokaz o identitetu',

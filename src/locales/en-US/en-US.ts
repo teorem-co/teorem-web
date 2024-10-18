@@ -4313,6 +4313,11 @@ export const EN_US = {
         ERROR: 'Something went wrong',
         PROCEED: 'Proceed to payment',
     },
+    WEEK_BOOKING: {
+        SHOW_MORE: 'View full schedule',
+        SHOW_LESS: 'Show less',
+        CLOSE: 'Close',
+    },
     ID_VERIFICATION: {
         ID_SECTION: 'Proof of identity',
         ID_SECTION_DESCRIPTION:

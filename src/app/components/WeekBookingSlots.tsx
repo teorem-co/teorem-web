@@ -4,24 +4,21 @@ import { useAppSelector } from '../store/hooks';
 import moment from 'moment-timezone';
 import { useLazyGetWeekPeriodsForTutorQuery } from '../store/services/bookingService';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
+import { t } from 'i18next';
 
 export interface TimeSlots {
     [date: string]: string[];
-}
-
-interface Period {
-    startDate: string;
-    endDate: string;
 }
 
 interface Props {
     tutorId: string;
     className?: string;
     onClickPeriod?: (arg: string) => void;
+    onClose?: () => void;
 }
 
 export const WeekBookingSlots = (props: Props) => {
-    const { tutorId, className, onClickPeriod } = props;
+    const { tutorId, className, onClickPeriod, onClose } = props;
     const isMobile = window.innerWidth < 765;
 
     const timeZoneState = useAppSelector((state) => state.timeZone);
@@ -76,7 +73,14 @@ export const WeekBookingSlots = (props: Props) => {
     }, [selectedZone]);
 
     const fetchData = useCallback(
-        async (tutorId: string, selectedZone: string, period: { startDate: string; endDate: string }) => {
+        async (
+            tutorId: string,
+            selectedZone: string,
+            period: {
+                startDate: string;
+                endDate: string;
+            }
+        ) => {
             if (!period.startDate || !period.endDate) return;
 
             const res = await getTimeSlots({
@@ -172,6 +176,19 @@ export const WeekBookingSlots = (props: Props) => {
                             selectedZone={selectedZone}
                             setSelectedZone={setSelectedZone}
                         />
+                        {onClose && (
+                            <button
+                                className="btn btn--clear"
+                                onClick={onClose}
+                                style={{
+                                    position: 'absolute',
+                                    top: '5px',
+                                    right: '0',
+                                }}
+                            >
+                                <i className={'icon icon--md icon--close'}></i>
+                            </button>
+                        )}
                     </div>
                 )}
             </div>
@@ -213,8 +230,19 @@ export const WeekBookingSlots = (props: Props) => {
                 onClick={toggleExpand}
                 className={'btn btn--secondary  pt-2 pb-2 pr-6 pl-6 mt-4 w--25 align-self-center'}
             >
-                {isExpanded ? 'Show Less' : 'View full schedule'}
+                {isExpanded ? t('WEEK_BOOKING.SHOW_LESS') : t('WEEK_BOOKING.SHOW_MORE')}
             </button>
+
+            {onClose && (
+                <button
+                    onClick={onClose}
+                    className={
+                        'btn btn--base  pt-2 pb-2 pr-6 pl-6 mt-4 w--25 align-self-center btn--clear type--color--error'
+                    }
+                >
+                    {t('WEEK_BOOKING.CLOSE')}
+                </button>
+            )}
         </div>
     );
 };
