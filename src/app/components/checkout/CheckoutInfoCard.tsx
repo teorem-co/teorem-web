@@ -182,7 +182,7 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
     }
 
     async function getAndSetUserCredits() {
-        await wait(2000);
+        await wait(5000);
         const res = await getCredits().unwrap();
 
         // res.then((res) => {
