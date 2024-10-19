@@ -324,3 +324,12 @@ progress::-moz-progress-bar {
 
   }
 }
+
+.border-gray {
+  border: 1.5px solid lightgray;
+  border-radius: .35rem;
+}
+
+.border-fat {
+  border: 1.5px solid lightgray;
+}

@@ -34,6 +34,8 @@ import Select, { components } from 'react-select';
 import { BookingPopupForm } from '../BookingPopupForm';
 import { PATHS } from '../../routes';
 import { ClipLoader, ScaleLoader } from 'react-spinners';
+import { ICheckoutReview, useLazyGetReviewsForCheckoutQuery } from '../../features/myReviews/services/myReviewsService';
+import { CheckoutReviewCard } from './CheckoutReviewCard';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY!);
 
@@ -65,6 +67,7 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
     const { data: subjectLevelPairs, isSuccess: isSuccessSubjectsLevelPairs } =
         useGetTutorSubjectLevelPairsQuery(tutorId);
     const [createBooking, { isSuccess: createBookingSuccess }] = useCreatebookingMutation();
+    const [getReviews] = useLazyGetReviewsForCheckoutQuery();
 
     const [showPopup, setShowPopup] = useState(false);
     const [tutorLevelOptions, setTutorLevelOptions] = useState<OptionType[]>();
@@ -75,6 +78,7 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
     const [reserveResponse, setReserveResponse] = useState<BookingReserveResponse | undefined>();
     const [loading, setLoading] = useState(false);
     const [showConfirmPaymentLoading, setShowConfirmPaymentLoading] = useState(false);
+    const [reviews, setReviews] = useState<ICheckoutReview>();
 
     const initialValues = {
         level: '',
@@ -148,6 +152,12 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
         }
     }
 
+    async function getAndSetReviews() {
+        getReviews(tutorId)
+            .unwrap()
+            .then((res) => setReviews(res));
+    }
+
     async function getAndSetUserCredits() {
         await deleteAllOngoingPayments();
         await wait(1000);
@@ -156,6 +166,10 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
         dispatch(setCredits(res.credits));
         setUserCredits(res.credits);
     }
+
+    useEffect(() => {
+        getAndSetReviews();
+    }, []);
 
     useEffect(() => {
         getAndSetUserCredits();
@@ -288,9 +302,7 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
             setLoading(true);
             const res: any = await createBooking(request);
             const data = res.data as BookingReserveResponse;
-            // getAndSetUserCredits();
             setLoading(false);
-            console.log('PAYMENT RESPONSE: ', data);
             setReserveResponse(data);
         }
     }
@@ -364,8 +376,8 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
         <div className="flex flex--col w--100 flex--ai--center">
             <img src="/logo-purple-text.png" alt="" className="align-self-start mb-4" style={{ height: '25px' }} />
             {!showPopup ? (
-                <div className="flex flex--gap-100">
-                    <div className={`${className} flex flex--col font-lato checkout-info-card flex--gap-10`}>
+                <div className="flex flex--gap-100 ">
+                    <div className={`${className} flex flex--col font-lato checkout-info-card flex--gap-10 bg__white`}>
                         <div className="flex">
                             {tutorData.User.profileImage ? (
                                 <div className="tutor-list__item__img w--unset mr-2" style={{ padding: 0 }}>
@@ -654,6 +666,8 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
                                                     {t('CHECKOUT.PAYMENT_POLICY_PART_TWO')}
                                                 </span>
                                             </div>
+                                            <Divider className="mt-4 mb-4 border-fat" />
+                                            {reviews && <CheckoutReviewCard data={reviews} />}
                                         </div>
                                     )}
 
@@ -738,6 +752,8 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
                                     }}
                                     setShowPopup={setShowPopup}
                                 />
+                                <Divider className="mt-4 mb-4 border-fat" />
+                                {reviews && <CheckoutReviewCard data={reviews} />}
                             </div>
                         )}
 

@@ -36,8 +36,8 @@ import TutorOnboarding from './features/onboarding/tutor';
 import TutorOnboardingProvider from './features/onboarding/tutor/providers/TutorOnboardingProvider';
 import useSyncLanguage from './utils/useSyncLanguage';
 import { useAppSelector } from './store/hooks';
-import CheckoutInfoCardWrapper from './components/checkout/ChecoutInfoCardWrapper';
 import CompletedLessons from './features/completedLessons/CompletedLessons';
+import CheckoutInfoCardWrapper from './components/checkout/ChecoutInfoCardWrapper';
 
 export const PATHS = {
     FORGOT_PASSWORD: t('PATHS.FORGOT_PASSWORD'),

@@ -31,7 +31,6 @@ import { useDeleteAllOngoingPaymentsMutation, useLazyGetCreditCardsQuery } from 
 import { GoDotFill } from 'react-icons/go';
 import { useHistory } from 'react-router';
 import Select, { components } from 'react-select';
-import { useCheckMailMutation } from '../../store/services/authService';
 import { BookingPopupForm } from '../BookingPopupForm';
 import { PATHS } from '../../routes';
 import { ClipLoader, ScaleLoader } from 'react-spinners';
@@ -55,7 +54,6 @@ export function CheckoutInfoCardMobile({ className, startTime, tutorId }: Props)
     const timeZoneState = useAppSelector((state) => state.timeZone);
 
     const [deleteAllOngoingPayments] = useDeleteAllOngoingPaymentsMutation();
-    const [checkMail] = useCheckMailMutation();
 
     const [
         getCreditCards,
@@ -93,39 +91,6 @@ export function CheckoutInfoCardMobile({ className, startTime, tutorId }: Props)
     function wait(ms: number) {
         return new Promise((resolve) => setTimeout(resolve, ms));
     }
-
-    // useEffect(() => {
-    //     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-    //         // Show confirmation dialog for navigation away or close
-    //         event.preventDefault();
-    //         event.returnValue = '';
-    //     };
-    //
-    //     const handleUnload = async () => {
-    //         // Send request on unload (close or leave)
-    //         console.log('RESPONSE BEFORE SENDING (UNLOAD): ', reserveResponse);
-    //         await deleteAllOngoingPayments().unwrap();
-    //         await wait(1000);
-    //     };
-    //
-    //     const handleVisibilityChange = async () => {
-    //         // if (document.visibilityState !== 'hidden' && document.visibilityState !== 'visible') {
-    //         await deleteAllOngoingPayments().unwrap();
-    //         await wait(1000);
-    //         // }
-    //     };
-    //
-    //     window.addEventListener('beforeunload', handleBeforeUnload);
-    //     window.addEventListener('unload', handleUnload);
-    //     document.addEventListener('visibilitychange', handleVisibilityChange);
-    //
-    //     return () => {
-    //         window.removeEventListener('beforeunload', handleBeforeUnload);
-    //
-    //         window.removeEventListener('unload', handleUnload);
-    //         document.removeEventListener('visibilitychange', handleVisibilityChange);
-    //     };
-    // }, []);
 
     const generateValidationSchema = () => {
         const validationSchema: any = {

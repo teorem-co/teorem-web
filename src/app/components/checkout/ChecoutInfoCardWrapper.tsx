@@ -13,11 +13,11 @@ const CheckoutInfoCardWrapper: React.FC = () => {
 
     return tutorId && startTime ? (
         isMobile ? (
-            <div className="p-4 w--100">
+            <div className="p-4 w--100 h--100dvh bg__white">
                 <CheckoutInfoCardMobile startTime={startTime} tutorId={tutorId} />
             </div>
         ) : (
-            <div className="flex flex--jc--center flex--ai--center flex--grow p-4">
+            <div className="flex flex--jc--center  flex--grow p-4 h--100dvh bg__white">
                 <CheckoutInfoCard className="w--400" startTime={startTime} tutorId={tutorId} />
             </div>
         )
