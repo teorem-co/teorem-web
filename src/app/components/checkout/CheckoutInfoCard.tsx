@@ -78,7 +78,7 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
     const [reserveResponse, setReserveResponse] = useState<BookingReserveResponse | undefined>();
     const [loading, setLoading] = useState(false);
     const [showConfirmPaymentLoading, setShowConfirmPaymentLoading] = useState(false);
-    const [reviews, setReviews] = useState<ICheckoutReview>();
+    const [reviews, setReviews] = useState<ICheckoutReview | undefined>();
 
     const initialValues = {
         level: '',
@@ -155,7 +155,9 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
     async function getAndSetReviews() {
         getReviews(tutorId)
             .unwrap()
-            .then((res) => setReviews(res));
+            .then((res) => {
+                setReviews(res);
+            });
     }
 
     async function getAndSetUserCredits() {
@@ -666,8 +668,14 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
                                                     {t('CHECKOUT.PAYMENT_POLICY_PART_TWO')}
                                                 </span>
                                             </div>
-                                            <Divider className="mt-4 mb-4 border-fat" />
-                                            {reviews && <CheckoutReviewCard data={reviews} />}
+                                            {reviews?.numberOfReviews && reviews?.numberOfReviews > 0 ? (
+                                                <>
+                                                    <Divider className="mt-4 mb-4 border-fat" />
+                                                    <CheckoutReviewCard data={reviews} />
+                                                </>
+                                            ) : (
+                                                <></>
+                                            )}
                                         </div>
                                     )}
 
@@ -752,8 +760,14 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
                                     }}
                                     setShowPopup={setShowPopup}
                                 />
-                                <Divider className="mt-4 mb-4 border-fat" />
-                                {reviews && <CheckoutReviewCard data={reviews} />}
+                                {reviews?.numberOfReviews && reviews?.numberOfReviews > 0 ? (
+                                    <>
+                                        <Divider className="mt-4 mb-4 border-fat" />
+                                        <CheckoutReviewCard data={reviews} />
+                                    </>
+                                ) : (
+                                    <></>
+                                )}
                             </div>
                         )}
 
