@@ -288,9 +288,7 @@ export function CheckoutInfoCardMobile({ className, startTime, tutorId }: Props)
             setLoading(true);
             const res: any = await createBooking(request);
             const data = res.data as BookingReserveResponse;
-            // getAndSetUserCredits();
             setLoading(false);
-            console.log('PAYMENT RESPONSE: ', data);
             setReserveResponse(data);
         }
     }
@@ -329,7 +327,6 @@ export function CheckoutInfoCardMobile({ className, startTime, tutorId }: Props)
                           useCredits: true,
                       };
 
-            console.log('Setting show loader to true');
             setShowConfirmPaymentLoading(true);
             let res: any;
             if (formik2.values.paymentMethod && formik2.values.paymentMethod !== NEW_PAYMENT_METHOD_VALUE) {
@@ -342,7 +339,6 @@ export function CheckoutInfoCardMobile({ className, startTime, tutorId }: Props)
             }
             const data = res.data as BookingReserveResponse;
             if (data && data.success) {
-                // toastService.success('Uspjesno napravljena rezervacija');
                 setShowConfirmPaymentLoading(false);
                 setShowPopup(true);
             }
@@ -789,7 +785,6 @@ export function CheckoutInfoCardMobile({ className, startTime, tutorId }: Props)
                     )}
                 </div>
             )}
-            {/*  comment*/}
         </>
     ) : (
         <div className="flex flex--col flex--ai--center w--100">

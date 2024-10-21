@@ -70,7 +70,6 @@ const EnterCardAndPay = (props: Props) => {
         }
 
         try {
-            console.log('confirming payment');
             await stripe
                 .confirmPayment({
                     elements,
@@ -82,13 +81,9 @@ const EnterCardAndPay = (props: Props) => {
                     redirect: 'if_required',
                 })
                 .then((result) => {
-                    console.log('PaymentIntentResult: ', result);
                     if (result.error) {
                         handleError(result.error);
                     } else if (result.paymentIntent.status === 'succeeded') {
-                        //TODO: send request to create booking -> thing that job after 2 mins will do
-                        // when that is triggered, send emails that booking is made
-
                         const data = {
                             paymentIntentId: result.paymentIntent.id,
                             confirmationJobId: bookingInfo.jobId,
@@ -105,10 +100,10 @@ const EnterCardAndPay = (props: Props) => {
                     }
                 })
                 .catch((err) => {
-                    console.log('ERRORIJA: ', err);
+                    console.log('Error: ', err);
                 });
         } catch (err) {
-            console.log('ERRORIJA: ', err);
+            console.log('Error: ', err);
         }
     };
 

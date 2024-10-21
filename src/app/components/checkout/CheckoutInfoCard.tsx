@@ -343,7 +343,6 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
                           useCredits: true,
                       };
 
-            console.log('Setting show loader to true');
             setShowConfirmPaymentLoading(true);
             let res: any;
             if (formik2.values.paymentMethod && formik2.values.paymentMethod !== NEW_PAYMENT_METHOD_VALUE) {
@@ -356,7 +355,6 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
             }
             const data = res.data as BookingReserveResponse;
             if (data && data.success) {
-                // toastService.success('Uspjesno napravljena rezervacija');
                 setShowConfirmPaymentLoading(false);
                 setShowPopup(true);
             }

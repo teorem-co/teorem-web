@@ -117,8 +117,6 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     async function createRequest(values: any) {
         const splitString = values.timeFrom.split(':');
 
-        console.log('sending request...');
-        console.log('START TIME:', start);
         const request: ICreateBookingDTO =
             userRole === RoleOptions.Parent
                 ? {
@@ -147,7 +145,6 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                   };
 
         const response: any = await createBooking(request);
-        console.log('SECRET: ', response.data.clientSecret);
         setClientSecret(response.data.clientSecret);
         setSidebarOpen(true);
         setIsCreateBookingLoading(false);
@@ -159,7 +156,6 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
         setIsCreateBookingLoading(true);
         //if user didn't added credit card before adding a booking, show the message and redirect button
         if (stripeId) {
-            console.log('inside first conditioin');
             //if user has stripe account but don't have default payment method
             const res = await getUser(userId!).unwrap();
             const defaultSource = res.paymentMethods[0];
@@ -170,7 +166,6 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                 return;
             }
         } else {
-            console.log('inside second conditioin');
             createRequest(values);
             // setSidebarOpen(true);
             // setIsCreateBookingLoading(false);
