@@ -16,10 +16,11 @@ interface Props {
     className?: string;
     onClickPeriod?: (arg: string) => void;
     onClose?: () => void;
+    showTitle?: boolean;
 }
 
 export const WeekBookingSlots = (props: Props) => {
-    const { tutorId, className, onClickPeriod, onClose } = props;
+    const { tutorId, className, onClickPeriod, onClose, showTitle } = props;
     const isMobile = window.innerWidth < 765;
 
     const timeZoneState = useAppSelector((state) => state.timeZone);
@@ -103,6 +104,11 @@ export const WeekBookingSlots = (props: Props) => {
 
     return (
         <div className={`${className} w--800--max  flex flex--col booking-slots-container`}>
+            {showTitle && (
+                <span className="text-align--center type--wgt--extra-bold type--md mb-4">
+                    {t('WEEK_BOOKING.TITLE')}
+                </span>
+            )}
             <div>
                 {isMobile ? (
                     <div>

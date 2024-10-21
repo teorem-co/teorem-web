@@ -897,6 +897,7 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                     }}
                     tutorId={tutorId}
                     onClose={() => setSlotsModalOpen(false)}
+                    showTitle
                 />
             </Modal>
         </MainWrapper>

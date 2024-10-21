@@ -122,7 +122,9 @@ const EnterCardAndPay = (props: Props) => {
                 <input type="checkbox" checked={saveCard} onChange={handleCheckboxChange} />
                 {t('CHECKOUT.SAVE_CARD')}
             </label>
-            <ScaleLoader color={'#7e6cf2'} loading={loading} style={{ margin: '0 auto' }} />
+            <div className="flex flex--jc--center">
+                <ScaleLoader color={'#7e6cf2'} loading={loading} style={{ margin: '0 auto' }} />
+            </div>
             <button
                 className="mt-10 w--100 text-align--center font__lg flex--ai--center flex flex--grow flex--jc--center btn pt-3 pb-3 btn--primary type--wgt--bold"
                 onClick={() => sendToStripe()}

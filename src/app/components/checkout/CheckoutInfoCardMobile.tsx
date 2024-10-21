@@ -35,6 +35,7 @@ import { BookingPopupForm } from '../BookingPopupForm';
 import { PATHS } from '../../routes';
 import { ClipLoader, ScaleLoader } from 'react-spinners';
 import { ButtonPrimaryGradient } from '../ButtonPrimaryGradient';
+import { Tooltip } from 'react-tooltip';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY!);
 
@@ -408,7 +409,7 @@ export function CheckoutInfoCardMobile({ className, startTime, tutorId }: Props)
                                                 <>
                                                     <i className="icon icon--base icon--star"></i>
                                                     <span className="type--md type--wgt--extra-bold">
-                                                        {tutorData.averageGrade}
+                                                        {tutorData.averageGrade.toFixed(1)}
                                                     </span>
                                                 </>
                                             ) : (
@@ -431,7 +432,9 @@ export function CheckoutInfoCardMobile({ className, startTime, tutorId }: Props)
                                         )}
 
                                         {tutorData.numberOfGrades && tutorData.numberOfGrades > 0 ? (
-                                            <div className="type--color--secondary">{tutorData.numberOfGrades}</div>
+                                            <div className="type--color--secondary">
+                                                {tutorData.numberOfGrades}&nbsp;{t('TUTOR_PROFILE.REVIEWS')}
+                                            </div>
                                         ) : (
                                             <></>
                                         )}
@@ -521,8 +524,29 @@ export function CheckoutInfoCardMobile({ className, startTime, tutorId }: Props)
 
                                 {cost && (
                                     <div className="flex flex--jc--space-between">
-                                        {/*<div className="discount-row">*/}
-                                        <span>{t('CHECKOUT.CREDITS_BALANCE')} </span>
+                                        <Tooltip
+                                            id="ID-tooltip"
+                                            place={'bottom'}
+                                            positionStrategy={'absolute'}
+                                            float={false}
+                                            delayShow={500}
+                                            style={{
+                                                backgroundColor: 'rgba(70,70,70, 0.9)',
+                                                color: 'white',
+                                                fontSize: 'smaller',
+                                            }}
+                                        />
+
+                                        <div className="flex flex--ai--center">
+                                            <span>{t('CHECKOUT.CREDITS_BALANCE')}</span>
+                                            <div
+                                                className={'flex flex--center'}
+                                                data-tooltip-id={'ID-tooltip'}
+                                                data-tooltip-html={t('CHECKOUT.CREDITS_TOOLTIP')}
+                                            >
+                                                <i className="icon icon--sm icon--info"></i>
+                                            </div>
+                                        </div>
                                         <span className="type--wgt--extra-bold">
                                             &minus;&nbsp;
                                             <CurrencySymbol />

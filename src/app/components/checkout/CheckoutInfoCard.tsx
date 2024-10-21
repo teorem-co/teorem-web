@@ -36,6 +36,7 @@ import { PATHS } from '../../routes';
 import { ClipLoader, ScaleLoader } from 'react-spinners';
 import { ICheckoutReview, useLazyGetReviewsForCheckoutQuery } from '../../features/myReviews/services/myReviewsService';
 import { CheckoutReviewCard } from './CheckoutReviewCard';
+import { Tooltip } from 'react-tooltip';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY!);
 
@@ -374,7 +375,6 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
 
     return tutorData && userCredits !== undefined ? (
         <div className="flex flex--col w--100 flex--ai--center">
-            <img src="/logo-purple-text.png" alt="" className="align-self-start mb-4" style={{ height: '25px' }} />
             {!showPopup ? (
                 <div className="flex flex--gap-100 ">
                     <div className={`${className} flex flex--col font-lato checkout-info-card flex--gap-10 bg__white`}>
@@ -418,7 +418,7 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
                                             <>
                                                 <i className="icon icon--base icon--star"></i>
                                                 <span className="type--md type--wgt--extra-bold">
-                                                    {tutorData.averageGrade}
+                                                    {tutorData.averageGrade.toFixed(1)}
                                                 </span>
                                             </>
                                         ) : (
@@ -441,7 +441,9 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
                                     )}
 
                                     {tutorData.numberOfGrades && tutorData.numberOfGrades > 0 ? (
-                                        <div className="type--color--secondary">{tutorData.numberOfGrades}</div>
+                                        <div className="type--color--secondary">
+                                            {tutorData.numberOfGrades}&nbsp;{t('TUTOR_PROFILE.REVIEWS')}
+                                        </div>
                                     ) : (
                                         <></>
                                     )}
@@ -531,8 +533,30 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
 
                             {cost && (
                                 <div className="flex flex--jc--space-between">
-                                    {/*<div className="discount-row">*/}
-                                    <span>{t('CHECKOUT.CREDITS_BALANCE')} </span>
+                                    <Tooltip
+                                        id="ID-tooltip"
+                                        place={'bottom'}
+                                        positionStrategy={'absolute'}
+                                        float={false}
+                                        delayShow={500}
+                                        style={{
+                                            backgroundColor: 'rgba(70,70,70, 0.9)',
+                                            color: 'white',
+                                            fontSize: 'smaller',
+                                        }}
+                                    />
+
+                                    <div className="flex flex--ai--center">
+                                        <span>{t('CHECKOUT.CREDITS_BALANCE')}</span>
+                                        <div
+                                            className={'flex flex--center'}
+                                            data-tooltip-id={'ID-tooltip'}
+                                            data-tooltip-html={t('CHECKOUT.CREDITS_TOOLTIP')}
+                                        >
+                                            <i className="icon icon--sm icon--info"></i>
+                                        </div>
+                                    </div>
+
                                     <span className="type--wgt--extra-bold">
                                         &minus;&nbsp;
                                         <CurrencySymbol />
@@ -595,7 +619,13 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
                                                         // isDisabled={showConfirmPaymentLoading || loading}
                                                     />
                                                 </div>
-                                                <ScaleLoader color={'#7e6cf2'} loading={showConfirmPaymentLoading} />
+                                                <div className="flex flex--jc--center">
+                                                    <ScaleLoader
+                                                        className="align--center"
+                                                        color={'#7e6cf2'}
+                                                        loading={showConfirmPaymentLoading}
+                                                    />
+                                                </div>
                                             </Form>
                                         </FormikProvider>
                                     )}
@@ -623,7 +653,7 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
                                                 isDisabled={true}
                                             />
                                             <ScaleLoader
-                                                className="align-self-start"
+                                                className="align--center"
                                                 color={'#7e6cf2'}
                                                 loading={showConfirmPaymentLoading}
                                             />
@@ -705,12 +735,6 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
                                                 setShowPopup={setShowPopup}
                                             />
 
-                                            {paymentMethodOptions?.length !== 0 && loading && (
-                                                <div className="w--100 flex flex--jc--center">
-                                                    <ClipLoader loading={true} size={50} color={'#7e6cf2'} />
-                                                </div>
-                                            )}
-
                                             {reviews?.numberOfReviews && reviews?.numberOfReviews > 0 ? (
                                                 <>
                                                     <Divider className="mt-4 mb-4 border-fat" />
@@ -721,6 +745,12 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
                                             )}
                                         </>
                                     )}
+
+                                {paymentMethodOptions?.length !== 0 && loading && (
+                                    <div className="w--100 flex flex--jc--center">
+                                        <ClipLoader loading={true} size={50} color={'#7e6cf2'} />
+                                    </div>
+                                )}
                             </div>
                         )}
 
@@ -801,7 +831,6 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
         </div>
     ) : (
         <div className="flex flex--col flex--ai--center w--100">
-            <img src="/logo-purple-text.png" alt="" className="align-self-start mb-4" style={{ height: '25px' }} />
             <div className="w--full h--100 flex flex--center">
                 <ClipLoader loading={true} size={50} color={'#7e6cf2'} />
             </div>
