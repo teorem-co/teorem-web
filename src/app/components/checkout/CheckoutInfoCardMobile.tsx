@@ -531,7 +531,7 @@ export function CheckoutInfoCardMobile({ className, startTime, tutorId }: Props)
                                             float={false}
                                             delayShow={500}
                                             style={{
-                                                backgroundColor: 'rgba(70,70,70, 0.9)',
+                                                backgroundColor: 'rgba(70,70,70, 1)',
                                                 color: 'white',
                                                 fontSize: 'smaller',
                                             }}
