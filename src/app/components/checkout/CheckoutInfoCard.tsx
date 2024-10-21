@@ -704,14 +704,23 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
                                                 }}
                                                 setShowPopup={setShowPopup}
                                             />
+
+                                            {paymentMethodOptions?.length !== 0 && loading && (
+                                                <div className="w--100 flex flex--jc--center">
+                                                    <ClipLoader loading={true} size={50} color={'#7e6cf2'} />
+                                                </div>
+                                            )}
+
+                                            {reviews?.numberOfReviews && reviews?.numberOfReviews > 0 ? (
+                                                <>
+                                                    <Divider className="mt-4 mb-4 border-fat" />
+                                                    <CheckoutReviewCard data={reviews} />
+                                                </>
+                                            ) : (
+                                                <></>
+                                            )}
                                         </>
                                     )}
-
-                                {paymentMethodOptions?.length !== 0 && loading && (
-                                    <div className="w--100 flex flex--jc--center">
-                                        <ClipLoader loading={true} size={50} color={'#7e6cf2'} />
-                                    </div>
-                                )}
                             </div>
                         )}
 
@@ -725,7 +734,7 @@ export function CheckoutInfoCard({ className, startTime, tutorId }: Props) {
                         !loading &&
                         paymentMethodOptions?.length === 0 &&
                         (userRole === RoleOptions.Parent ? formik.values.child : true) && (
-                            <div className="flex flex--col w-100">
+                            <div className="flex flex--col w--550">
                                 <div className="type--wgt--extra-bold font__xlg text-align--center mb-3">
                                     {t('CHECKOUT.HOW_TO_PAY')}
                                 </div>

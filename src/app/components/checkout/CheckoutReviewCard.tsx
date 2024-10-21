@@ -22,7 +22,7 @@ export function CheckoutReviewCard(props: Props) {
 
     return (
         <>
-            <div className={`${className} flex flex--col w--100  flex--gap-10`}>
+            <div className={`${className} flex flex--col w--100 flex--gap-10`}>
                 <div className="flex flex--jc--space-between">
                     <div className="flex flex--ai--center flex--jc--space-between w--100">
                         <div className="flex flex--ai--center flex--gap-10">
