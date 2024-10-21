@@ -5,6 +5,7 @@ import moment from 'moment-timezone';
 import { useLazyGetWeekPeriodsForTutorQuery } from '../store/services/bookingService';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 import { t } from 'i18next';
+import { ClipLoader } from 'react-spinners';
 
 export interface TimeSlots {
     [date: string]: string[];
@@ -193,7 +194,7 @@ export const WeekBookingSlots = (props: Props) => {
                 )}
             </div>
             <div>
-                {timeSlots && (
+                {timeSlots ? (
                     <div className={'flex mt-4 flex-gap-1'}>
                         {Object.keys(timeSlots).map((date) => (
                             <div key={date} className={'w--50'}>
@@ -223,6 +224,10 @@ export const WeekBookingSlots = (props: Props) => {
                                 </div>
                             </div>
                         ))}
+                    </div>
+                ) : (
+                    <div className="w--100 flex flex--jc--center mt-10 mb-10">
+                        <ClipLoader loading={true} size={50} color={'#7e6cf2'} />
                     </div>
                 )}
             </div>

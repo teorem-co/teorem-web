@@ -769,11 +769,11 @@ export function CheckoutInfoCardMobile({ className, startTime, tutorId }: Props)
                             </div>
                         )}
 
-                    {paymentMethodOptions?.length === 0 && loading && (
-                        <div className="w--full h--100 ">
-                            <ClipLoader loading={true} size={50} color={'#7e6cf2'} />
-                        </div>
-                    )}
+                    {/*{paymentMethodOptions?.length === 0 && loading && (*/}
+                    {/*    <div className="w--full h--100 ">*/}
+                    {/*        <ClipLoader loading={true} size={50} color={'#7e6cf2'} />*/}
+                    {/*    </div>*/}
+                    {/*)}*/}
                 </div>
             ) : (
                 <div>
