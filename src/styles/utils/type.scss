@@ -53,6 +53,13 @@
     font-size: $type-lg;
   }
 
+  &--lgr {
+    //fluid
+    //@include fluid-type($fluid-min-width, $fluid-max-width, $type-lg - $fluid-type-modifier, $type-lg);
+    //static
+    font-size: $type-lgr;
+  }
+
   &--xl {
     //fluid
     //@include fluid-type($fluid-min-width, $fluid-max-width, $type-xl - $fluid-type-modifier, $type-xl);

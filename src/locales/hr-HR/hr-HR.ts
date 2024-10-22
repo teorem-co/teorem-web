@@ -4188,6 +4188,7 @@ export const HR_HR: typeof EN_US = {
         STRIPE_FAIL: '/hr/racun-pogreska',
         RESEND_ACTIVATION_TOKEN: '/hr/ponovna-aktivacija',
         TUTOR_VIDEOS: '/hr/tutor-video',
+        CHECKOUT_PAGE: '/hr/checkout',
     },
     SEO: {
         FALLBACK: {
@@ -4293,11 +4294,34 @@ export const HR_HR: typeof EN_US = {
         DENIED: 'Izmjena odbijena',
     },
     CHECKOUT: {
-        PRICE: 'Cijena:',
-        DISCOUNT: 'Popust:',
+        NEW_TUTOR: 'Novi instuktor',
+        TITLE: 'Vaša narudžba',
+        LESSON_DURATION: '50-min lekcija',
+        CREDITS_BALANCE: 'Stanje kredita',
         TOTAL: 'Ukupno za platiti:',
-        AVAILABLE_CREDITS: 'Dostupni krediti:',
-        NEW_CREDITS_BALANCE: 'Novo stanje kredita:',
+        RESCHEDULE_TIP: {
+            TITLE: 'Besplatna promjena termina ili otkazivanje',
+            DETAILS: 'Promijenite svoju rezervaciju ili besplatno otkažite do 24 sata prije datuma i vremena lekcije',
+        },
+        HOW_TO_PAY: 'Odaberite način plaćanja',
+        SAVE_CARD: 'Spremite karticu za buduća plaćanja',
+        CONFIRM_PAYMENT: 'Potvrdite plaćanje',
+        PAYMENT_POLICY_PART_ONE:
+            'Klikom na gumb <strong>"Potvrdi plaćanje"</strong>, slažete se s <a href="https://teorem.co/hr/politika-povrata-i-placanja" target="_blank">Teoremovom politikom povrata novca i plaćanja.</a>',
+        PAYMENT_POLICY_PART_TWO: 'Sigurno je plaćati na Teoremu. Sve transakcije su zaštićene SSL enkripcijom.',
+        PAYMENT_METHOD_LABEL: 'Odaberite način plaćanja',
+        USE_NEW_PAYMENT_METHOD_LABEL: 'Koristite novi način plaćanja',
+        PAY_ALL_WITH_CREDITS_LABEL: 'Plaćanje postojećim kreditima',
+        ERROR: 'Došlo je do pogreške',
+        PROCEED: 'Nastavite na plaćanje',
+        CREDITS_TOOLTIP:
+            'Stanje na vašem računu od prethodnih rezervacija ili otkazivanja bit će oduzeto od cijene i vaš iznos kredita smanjen.',
+    },
+    WEEK_BOOKING: {
+        TITLE: 'Odaberite termin za predavanje',
+        SHOW_MORE: 'Pogledajte cijeli raspored',
+        SHOW_LESS: 'Prikaži manje',
+        CLOSE: 'Zatvori',
     },
 
     ID_VERIFICATION: {

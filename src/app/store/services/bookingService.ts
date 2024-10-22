@@ -47,6 +47,7 @@ export interface ICreateBookingDTO {
     tutorId?: string;
     levelId: string;
     useCredits: boolean;
+    paymentMethodId?: string;
 }
 
 interface IUpdateBooking {
@@ -113,6 +114,16 @@ interface WeekPeriodsParams {
     timeZone: string;
 }
 
+export interface BookingReserveResponse {
+    success: boolean;
+    anotherOneActive: boolean;
+    actionNeeded: boolean;
+    clientSecret: string;
+    confirmationJobId: string;
+    bookingId: string;
+    paymentIntentId: string;
+}
+
 export const bookingService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         getBookings: builder.query<IBookingTransformed[], IDateRange>({
@@ -176,15 +187,15 @@ export const bookingService = baseService.injectEndpoints({
             }),
             providesTags: ['lessonCount'],
         }),
-        createbooking: builder.mutation<void, ICreateBookingDTO>({
+        createbooking: builder.mutation<BookingReserveResponse, ICreateBookingDTO>({
             query: (data) => ({
-                url: `${URL}?useCredits=${data.useCredits}`, // `${URL}/${data.tutorId}`
+                url: `${URL}${data.paymentMethodId ? `?paymentMethodId=${data.paymentMethodId}` : ''}`, // `${URL}/${data.tutorId}`
                 method: HttpMethods.POST,
                 body: data,
             }),
             invalidatesTags: ['tutorBookings'],
         }),
-        createBooking: builder.mutation<void, any>({
+        confirmCreateBooking: builder.mutation<void, any>({
             query: (data) => ({
                 url: `${URL}/confirm`, //`${URL}/create/${data.tutorId}`,
                 method: HttpMethods.POST,
@@ -327,7 +338,7 @@ export const {
     useLazyGetNotificationForLessonsQuery,
     useLazyGetBookingsByIdQuery,
     useCreatebookingMutation,
-    useCreateBookingMutation,
+    useConfirmCreateBookingMutation,
     useLazyGetBookingByIdQuery,
     useUpdateBookingMutation,
     useAcceptBookingMutation,

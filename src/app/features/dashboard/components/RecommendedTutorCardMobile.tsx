@@ -17,11 +17,14 @@ interface Props {
 
 export const RecommendedTutorCardMobile = (props: Props) => {
     const { tutor, onClick, className } = props;
-    const isMobile = window.innerWidth < 600;
 
     return (
         <>
-            <div style={{ width: '450px' }} className={`${className ? className : ''} flex flex--col  mt-2 tutor-card`} onClick={onClick}>
+            <div
+                style={{ width: '450px' }}
+                className={`${className ? className : ''} flex flex--col  mt-2 tutor-card`}
+                onClick={onClick}
+            >
                 <div className=" flex flex--col flex--ai--start ">
                     <div className="flex flex-row">
                         <div style={{}} className="tutor-list__item__img w--unset mr-2">
@@ -56,7 +59,9 @@ export const RecommendedTutorCardMobile = (props: Props) => {
 
                             <div className="flex flex--row flex--jc--space-between mt-2 type--sm">
                                 <span>
-                                    {tutor.currentOccupation.length > 30 ? tutor.currentOccupation.substring(0, 30) + '...' : tutor.currentOccupation}
+                                    {tutor.currentOccupation.length > 30
+                                        ? tutor.currentOccupation.substring(0, 30) + '...'
+                                        : tutor.currentOccupation}
                                 </span>
                                 <span></span>
                             </div>
@@ -81,7 +86,9 @@ export const RecommendedTutorCardMobile = (props: Props) => {
                             </div>
                         ) : (
                             <span className="d--b mt-2 mb-3">
-                                <span className={'type--wgt--extra-bold type--base'}>{t('SEARCH_TUTORS.NEW_TUTOR.PART_1')}</span>
+                                <span className={'type--wgt--extra-bold type--base'}>
+                                    {t('SEARCH_TUTORS.NEW_TUTOR.PART_1')}
+                                </span>
                                 &nbsp;{t('SEARCH_TUTORS.NEW_TUTOR.PART_2')}
                             </span>
                         )}
@@ -102,7 +109,10 @@ export const RecommendedTutorCardMobile = (props: Props) => {
                     >
                         {t('SEARCH_TUTORS.VIEW_PROFILE')}
                     </Link>
-                    <Link className="btn btn--primary btn--base" to={`${PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS.replace(':tutorSlug', tutor.slug)}`}>
+                    <Link
+                        className="btn btn--primary btn--base"
+                        to={`${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug)}?showPeriodsModal=true`}
+                    >
                         {t('SEARCH_TUTORS.BOOK_LESSON')}
                     </Link>
                 </div>

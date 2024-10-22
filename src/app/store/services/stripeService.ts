@@ -2,7 +2,7 @@ import { HttpMethods } from '../../types/httpMethods';
 import { baseService } from '../baseService';
 import IAddCustomerPost from '../../features/my-profile/interfaces/IAddCustomerPost';
 import IDeleteCreditCard from '../../features/my-profile/interfaces/IDeleteCreditCard';
-import IGetCreditCards from '../../features/my-profile/interfaces/IGetCreditCards';
+import IPaymentMethod from '../../features/my-profile/interfaces/IPaymentMethod';
 import ISetDefaultCreditCard from '../../features/my-profile/interfaces/ISetDefaultCreditCard';
 import IStripeConnectAccount from '../../features/my-profile/interfaces/IStripeConnectAccount';
 
@@ -59,20 +59,21 @@ export const stripeService = baseService.injectEndpoints({
                 method: HttpMethods.GET,
             }),
         }),
-        addCustomer: builder.mutation<any, IAddCustomerPost>({ // remove candidate, possibly unused
+        addCustomer: builder.mutation<any, IAddCustomerPost>({
+            // remove candidate, possibly unused
             query: (body) => ({
                 url: `${URL}/add-customer/${body.userId}`,
                 method: HttpMethods.POST,
                 body: body.customer,
             }),
         }),
-        addPaymentIntent: builder.mutation<string, string>({
+        createSetupPaymentIntent: builder.mutation<string, string>({
             query: (userId) => ({
-                url: `${URL}/create-payment-intent/${userId}`,
+                url: `${URL}/create-setup-payment-intent/${userId}`,
                 method: HttpMethods.POST,
             }),
         }),
-        getCreditCards: builder.query<IGetCreditCards, string>({
+        getCreditCards: builder.query<IPaymentMethod[], string>({
             query: (userId) => ({
                 url: `${URL}/customer-sources/${userId}`,
                 method: HttpMethods.GET,
@@ -93,6 +94,7 @@ export const stripeService = baseService.injectEndpoints({
                 },
             }),
         }),
+
         uploadVerificationDocument: builder.mutation<IVerificationDocumentResponse, IVerificationDocument>({
             query: (document) => {
                 const formData = new FormData();
@@ -106,6 +108,15 @@ export const stripeService = baseService.injectEndpoints({
                 };
             },
         }),
+
+        deleteAllOngoingPayments: builder.mutation<void, void>({
+            query: () => {
+                return {
+                    url: `${URL}/delete-all-ongoing-payments`,
+                    method: HttpMethods.DELETE,
+                };
+            },
+        }),
     }),
 });
 
@@ -113,10 +124,11 @@ export const {
     useConnectCompanyAccountMutation,
     useConnectAccountMutation,
     useAddCustomerMutation, // remove candidate
-    useAddPaymentIntentMutation,
+    useCreateSetupPaymentIntentMutation,
     useLazyGetCreditCardsQuery,
     useSetDefaultCreditCardMutation,
     useRemoveCreditCardMutation,
     useLazyGetCustomerByIdQuery,
     useUploadVerificationDocumentMutation,
+    useDeleteAllOngoingPaymentsMutation,
 } = stripeService;

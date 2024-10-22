@@ -354,3 +354,22 @@
     padding: calc(#{$unit} * 3) calc(#{$unit} * 4.5);
   }
 }
+
+
+.fullscreen-modal {
+  position: fixed; /* Ensures the modal stays in place even when scrolling */
+  top: 0; /* Aligns the modal with the top of the viewport */
+  left: 0; /* Aligns the modal with the left of the viewport */
+  width: 100vw; /* Full viewport width */
+  height: 100vh; /* Full viewport height */
+  background-color: white; /* Optional: Add a semi-transparent background */
+  z-index: 9999; /* Ensures the modal is on top of other content */
+  display: flex; /* Optional: Flexbox for centering content inside */
+  justify-content: center; /* Horizontally centers content */
+  align-items: center; /* Vertically centers content */
+}
+
+.border-solid-gray {
+  border: lightgray solid 1px;
+  border-radius: 10px;
+}
