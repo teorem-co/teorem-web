@@ -164,7 +164,7 @@ const TutorItem: FC<Props> = (props: Props) => {
                             <>
                                 <Link
                                     className="type--color--white"
-                                    to={`${PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS.replace(':tutorSlug', tutor.slug)}`}
+                                    to={`${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug)}?showPeriodsModal=true`}
                                 >
                                     <ButtonPrimaryGradient className="btn btn--xl type--center type--wgt--extra-bold w--100">
                                         <i className="icon icon--base icon--thunder icon--white mr-1"></i>

@@ -19,6 +19,7 @@ interface Props {
     startTime: string;
     subjectId: string;
     levelId: string;
+    onClose: () => void;
 }
 
 export const BookingPopupForm = (props: Props) => {
@@ -48,6 +49,7 @@ export const BookingPopupForm = (props: Props) => {
 
         sendBookingChatInfoMessage(toSend);
         props.setShowPopup(false);
+        props.onClose();
     }
 
     function handleSkip() {
@@ -61,6 +63,7 @@ export const BookingPopupForm = (props: Props) => {
 
         sendBookingChatInfoMessage(toSend);
         props.setShowPopup(false);
+        props.onClose();
     }
 
     const formik = useFormik({
@@ -236,7 +239,11 @@ export const BookingPopupForm = (props: Props) => {
                         />
 
                         <div className="div-3">
-                            <ButtonPrimaryGradient disabled={submitButtonDisabled} className="btn btn--lg w--100 p-2" type={'submit'}>
+                            <ButtonPrimaryGradient
+                                disabled={submitButtonDisabled}
+                                className="btn btn--lg w--100 p-2"
+                                type={'submit'}
+                            >
                                 {t('BOOKING_POPUP.BUTTON.COMPLETE')}
                             </ButtonPrimaryGradient>
                             <button className={'btn btn--sm btn--tertiary mb-1'} onClick={handleSkip} type={'button'}>

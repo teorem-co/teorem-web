@@ -25,6 +25,16 @@ export interface IReviewInfo {
     listOfSubjects: string[];
 }
 
+export interface ICheckoutReview {
+    averageGrade: number;
+    numberOfReviews: number;
+    reviews: {
+        name: string;
+        comment: string;
+        grade: number;
+    }[];
+}
+
 export const myReviewsService = baseService.injectEndpoints({
     endpoints: (builder) => ({
         getMyReviews: builder.query<IMyReviews, IGetMyReviews>({
@@ -35,6 +45,12 @@ export const myReviewsService = baseService.injectEndpoints({
             transformResponse: (response: IMyReviews) => {
                 return response;
             },
+        }),
+        getReviewsForCheckout: builder.query<ICheckoutReview, string>({
+            query: (tutorId) => ({
+                url: `${URL}/checkout/${tutorId}`,
+                method: HttpMethods.GET,
+            }),
         }),
         addReview: builder.mutation<void, IAddReview>({
             query: (body) => ({
@@ -70,6 +86,7 @@ export const myReviewsService = baseService.injectEndpoints({
 
 export const {
     useLazyGetMyReviewsQuery,
+    useLazyGetReviewsForCheckoutQuery,
     useLazyGetStatisticsQuery,
     useAddReviewMutation,
     useLazyGetReviewInfoQuery,

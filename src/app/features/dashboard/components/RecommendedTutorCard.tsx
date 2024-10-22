@@ -21,7 +21,11 @@ export const RecommendedTutorCard = (props: Props) => {
 
     return (
         <>
-            <div style={{ width: '450px' }} className={`${className ? className : ''} flex flex--col  mt-2 tutor-card`} onClick={onClick}>
+            <div
+                style={{ width: '450px' }}
+                className={`${className ? className : ''} flex flex--col  mt-2 tutor-card`}
+                onClick={onClick}
+            >
                 <div className=" flex flex--row flex--ai--start ">
                     <div className="tutor-list__item__img w--unset mr-2">
                         {tutor.profileImage ? (
@@ -51,7 +55,9 @@ export const RecommendedTutorCard = (props: Props) => {
 
                         <div className="flex flex--row flex--jc--space-between mb-2">
                             <span>
-                                {tutor.currentOccupation.length > 30 ? tutor.currentOccupation.substring(0, 30) + '...' : tutor.currentOccupation}
+                                {tutor.currentOccupation.length > 30
+                                    ? tutor.currentOccupation.substring(0, 30) + '...'
+                                    : tutor.currentOccupation}
                             </span>
                             <span></span>
                         </div>
@@ -75,7 +81,9 @@ export const RecommendedTutorCard = (props: Props) => {
                             </div>
                         ) : (
                             <span className="d--b mb-3">
-                                <span className={'type--wgt--extra-bold type--base'}>{t('SEARCH_TUTORS.NEW_TUTOR.PART_1')}</span>
+                                <span className={'type--wgt--extra-bold type--base'}>
+                                    {t('SEARCH_TUTORS.NEW_TUTOR.PART_1')}
+                                </span>
                                 &nbsp;{t('SEARCH_TUTORS.NEW_TUTOR.PART_2')}
                             </span>
                         )}
@@ -97,8 +105,13 @@ export const RecommendedTutorCard = (props: Props) => {
                     >
                         {t('SEARCH_TUTORS.VIEW_PROFILE')}
                     </Link>
-                    <Link className="type--color--white" to={`${PATHS.SEARCH_TUTORS_TUTOR_BOOKINGS.replace(':tutorSlug', tutor.slug)}`}>
-                        <ButtonPrimaryGradient className="btn--base pl-8 pr-8 pt-4 pb-4">{t('SEARCH_TUTORS.BOOK_LESSON')}</ButtonPrimaryGradient>
+                    <Link
+                        className="type--color--white"
+                        to={`${PATHS.SEARCH_TUTORS_TUTOR_PROFILE.replace(':tutorSlug', tutor.slug)}?showPeriodsModal=true`}
+                    >
+                        <ButtonPrimaryGradient className="btn--base pl-8 pr-8 pt-4 pb-4">
+                            {t('SEARCH_TUTORS.BOOK_LESSON')}
+                        </ButtonPrimaryGradient>
                     </Link>
                 </div>
             </div>

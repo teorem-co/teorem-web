@@ -112,7 +112,7 @@ const MySelect = ({
                 <components.Option {...innerProps} {...props}>
                     {' '}
                     <div className="input-select">
-                        <div className="input-select__option">
+                        <div className="input-select__option flex flex--ai--center">
                             <span className="input-select__icon">
                                 <img src={props.data.icon} alt="item icon" />
                             </span>

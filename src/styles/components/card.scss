@@ -491,8 +491,18 @@
 
 .total-row {
   font-weight: bold;
+  display: flex;
+  justify-content: space-between;
 }
 
 .separator-line {
   border-bottom: 1px solid #ddd;
+}
+
+
+.checkout-info-card {
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }

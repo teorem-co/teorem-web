@@ -14,7 +14,11 @@ import LoaderPrimary from '../../../components/skeleton-loaders/LoaderPrimary';
 import { useAppSelector } from '../../../store/hooks';
 import toastService from '../../../store/services/toastService';
 import { useLazyGetCustomerByIdQuery } from '../../../store/services/stripeService';
-import { ICreateBookingDTO, useCreatebookingMutation, useCreateBookingMutation } from '../../../store/services/bookingService';
+import {
+    ICreateBookingDTO,
+    useConfirmCreateBookingMutation,
+    useCreatebookingMutation,
+} from '../../../store/services/bookingService';
 import { loadStripe } from '@stripe/stripe-js';
 import { addStripeId } from '../../../store/slices/authSlice';
 import { useDispatch } from 'react-redux';
@@ -31,6 +35,7 @@ interface IProps {
     end?: string;
     handleClose?: (close: boolean) => void;
     setSidebarOpen: (isOpen: boolean) => void;
+    setClientSecret: (secret: string) => void;
     positionClass: string;
     clearEmptyBookings: () => void;
     tutorId: string;
@@ -49,8 +54,17 @@ interface Values {
 }
 
 const ParentCalendarSlots: React.FC<IProps> = (props) => {
-    const { topOffset, start, end, handleClose, positionClass, setSidebarOpen, tutorDisabled, setShowLessonInfoPopup } =
-        props;
+    const {
+        setClientSecret,
+        topOffset,
+        start,
+        end,
+        handleClose,
+        positionClass,
+        setSidebarOpen,
+        tutorDisabled,
+        setShowLessonInfoPopup,
+    } = props;
 
     const tutorId = props.tutorId;
     const dispatch = useDispatch();
@@ -62,7 +76,7 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
     const [getChildOptions, { data: childOptions }] = useLazyGetChildQuery();
     const [getUser] = useLazyGetCustomerByIdQuery();
     const [createBooking, { isSuccess: createBookingSuccess }] = useCreatebookingMutation();
-    const [createBookingMutation, { isSuccess: isCreateBookingSuccess }] = useCreateBookingMutation();
+    const [createBookingMutation, { isSuccess: isCreateBookingSuccess }] = useConfirmCreateBookingMutation();
     const [isCreateBookingLoading, setIsCreateBookingLoading] = useState<boolean>(false); // isLoading from Mutation is too slow;
 
     const [selectedTime, setSelectedTime] = useState<string>('');
@@ -100,6 +114,42 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
 
     const [getUser2, { data: user }] = useLazyGetUserQuery();
 
+    async function createRequest(values: any) {
+        const splitString = values.timeFrom.split(':');
+
+        const request: ICreateBookingDTO =
+            userRole === RoleOptions.Parent
+                ? {
+                      requesterId: userId,
+                      startTime: moment(start)
+                          .set('hours', Number(splitString[0]))
+                          .set('minutes', Number(splitString[1]))
+                          .toISOString(),
+                      subjectId: values.subject,
+                      studentId: values.child,
+                      tutorId: tutorId,
+                      levelId: values.level,
+                      useCredits: values.useCredits,
+                  }
+                : {
+                      requesterId: userId,
+                      studentId: userId,
+                      startTime: moment(start)
+                          .set('hours', Number(splitString[0]))
+                          .set('minutes', Number(splitString[1]))
+                          .toISOString(),
+                      subjectId: values.subject,
+                      tutorId: tutorId,
+                      levelId: values.level,
+                      useCredits: values.useCredits,
+                  };
+
+        const response: any = await createBooking(request);
+        setClientSecret(response.data.clientSecret);
+        setSidebarOpen(true);
+        setIsCreateBookingLoading(false);
+    }
+
     // let isCreateBookingSuccess = false;
 
     const handleSubmit = async (values: any) => {
@@ -116,8 +166,9 @@ const ParentCalendarSlots: React.FC<IProps> = (props) => {
                 return;
             }
         } else {
-            setSidebarOpen(true);
-            setIsCreateBookingLoading(false);
+            createRequest(values);
+            // setSidebarOpen(true);
+            // setIsCreateBookingLoading(false);
             //toastService.creditCard(t('ERROR_HANDLING.CREDIT_CARD_MISSING'));
             return;
         }

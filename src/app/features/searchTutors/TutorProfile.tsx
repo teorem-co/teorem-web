@@ -2,7 +2,7 @@ import { cloneDeep, debounce } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
 import { useLazyGetTutorByTutorSlugQuery } from '../../store/services/tutorService';
 import { RoleOptions } from '../../store/slices/roleSlice';
@@ -33,9 +33,17 @@ import playButton from '../../../assets/icons/play-button.svg';
 import { CurrencySymbol } from '../../components/CurrencySymbol';
 import { ButtonPrimaryGradient } from '../../components/ButtonPrimaryGradient';
 import { WeekBookingSlots } from '../../components/WeekBookingSlots';
+import Modal from '../../components/Modal';
 
 const TutorProfile = () => {
     const { t } = useTranslation();
+    const location = useLocation();
+
+    useEffect(() => {
+        const searchParams = new URLSearchParams(location.search);
+        const showModal = searchParams.get('showPeriodsModal') === 'true';
+        setSlotsModalOpen(showModal);
+    }, [location]);
 
     const [getTutorProfileData, { data: tutorData, isLoading: tutorDataLoading }] = useLazyGetTutorByTutorSlugQuery();
     const [showVideoPopup, setShowVideoPopup] = useState(false);
@@ -76,6 +84,7 @@ const TutorProfile = () => {
     const [getMyReviews, { data: myReviews }] = useLazyGetMyReviewsQuery();
     const [getStatistics, { data: tutorStatistics }] = useLazyGetStatisticsQuery();
     const [getTutorAvailability, { data: tutorAvailability }] = useLazyGetTutorAvailabilityQuery();
+    const [slotsModalOpen, setSlotsModalOpen] = useState<boolean>(false);
 
     useEffect(() => {
         if (tutorSlug?.length) {
@@ -392,14 +401,15 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                                                                 {t('TUTOR_PROFILE.TUTOR_DISABLED')}
                                                             </ButtonPrimaryGradient>
                                                         ) : (
-                                                            <Link className="type--color--white" to={tutorPath}>
-                                                                <ButtonPrimaryGradient
-                                                                    className={'btn btn--base  type--center w--100'}
-                                                                >
-                                                                    <i className="icon icon--base icon--thunder icon--white mr-1" />
-                                                                    {t('TUTOR_PROFILE.BOOK')}
-                                                                </ButtonPrimaryGradient>
-                                                            </Link>
+                                                            // <Link className="type--color--white" to={tutorPath}>
+                                                            <ButtonPrimaryGradient
+                                                                className={'btn btn--base  type--center w--100'}
+                                                                onClick={() => setSlotsModalOpen(true)}
+                                                            >
+                                                                <i className="icon icon--base icon--thunder icon--white mr-1" />
+                                                                {t('TUTOR_PROFILE.BOOK')}
+                                                            </ButtonPrimaryGradient>
+                                                            // </Link>
                                                         )}
 
                                                         <Link
@@ -582,19 +592,20 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                                                                             {t('TUTOR_PROFILE.TUTOR_DISABLED')}
                                                                         </ButtonPrimaryGradient>
                                                                     ) : (
-                                                                        <Link
-                                                                            className="type--color-white"
-                                                                            to={tutorPath}
+                                                                        // <Link
+                                                                        //     className="type--color-white"
+                                                                        //     to={tutorPath}
+                                                                        // >
+                                                                        <ButtonPrimaryGradient
+                                                                            className={
+                                                                                'btn btn--xl type--center type--wgt--extra-bold w--100'
+                                                                            }
+                                                                            onClick={() => setSlotsModalOpen(true)}
                                                                         >
-                                                                            <ButtonPrimaryGradient
-                                                                                className={
-                                                                                    'btn btn--xl type--center type--wgt--extra-bold w--100'
-                                                                                }
-                                                                            >
-                                                                                <i className="icon icon--base icon--thunder icon--white mr-1"></i>
-                                                                                {t('TUTOR_PROFILE.BOOK')}
-                                                                            </ButtonPrimaryGradient>
-                                                                        </Link>
+                                                                            <i className="icon icon--base icon--thunder icon--white mr-1"></i>
+                                                                            {t('TUTOR_PROFILE.BOOK')}
+                                                                        </ButtonPrimaryGradient>
+                                                                        // </Link>
                                                                     )}
 
                                                                     <Link
@@ -773,7 +784,8 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
 
                                 <WeekBookingSlots
                                     onClickPeriod={(arg) => {
-                                        history.push(tutorPath);
+                                        const path = `${PATHS.CHECKOUT_PAGE}?tutorId=${tutorId}&startTime=${arg}`;
+                                        history.push(path);
                                     }}
                                     tutorId={tutorId}
                                     className={`${isMobile ? 'w--100' : 'w--50'}`}
@@ -876,6 +888,18 @@ toastService.error(`can't create a chat with ${tutorUserName}, please contact a 
                     </div>
                 </div>
             </div>
+
+            <Modal open={slotsModalOpen}>
+                <WeekBookingSlots
+                    onClickPeriod={(arg) => {
+                        const path = `${PATHS.CHECKOUT_PAGE}?tutorId=${tutorId}&startTime=${arg}`;
+                        history.push(path);
+                    }}
+                    tutorId={tutorId}
+                    onClose={() => setSlotsModalOpen(false)}
+                    showTitle
+                />
+            </Modal>
         </MainWrapper>
     );
 };
